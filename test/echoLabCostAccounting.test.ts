@@ -27,9 +27,19 @@ test('Echo Lab tracks tuning spend independently of any character model', () => 
   const start = lab.createSession([echo]);
   const plus10 = lab.rollEchoTo(start, 0, 10, new ZeroRng());
 
-  assert.deepEqual(plus10.spent, { echoes: 0, tuners: 20, exp: 16500 });
+  assert.deepEqual(plus10.spent, {
+    echoes: 0,
+    tuners: 20,
+    exp: 16500,
+    shellCredits: 5650,
+  });
 
   const discard = lab.discard(plus10, 0);
-  assert.deepEqual(discard.recovered, { echoes: 0, tuners: 6, exp: 12375 });
+  assert.deepEqual(discard.recovered, {
+    echoes: 0,
+    tuners: 6,
+    exp: 12375,
+    shellCredits: 0,
+  });
   assert.equal(discard.session.echoes.length, 0);
 });

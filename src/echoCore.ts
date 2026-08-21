@@ -52,4 +52,5 @@ export {
   type EchoLabAcquisitionRequest,
   type EchoLabSession,
 } from './echoCoreLab.ts';
+export { createSeededRng, SeededRng, seedFromString } from './seededRng.ts';
 export { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';

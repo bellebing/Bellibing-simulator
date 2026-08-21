@@ -80,13 +80,20 @@ export const SUBSTAT_VALUE_PROBABILITIES: Readonly<Record<string, readonly numbe
   'Liberation DMG': genericEightProbabilities,
 };
 
+/**
+ * Rank-5 cumulative spend to reach each tuning checkpoint from +0.
+ *
+ * Shell Credits combine the 0.1 credit per Echo EXP point used plus 2,000
+ * credits per tuned substat/checkpoint. Shell Credits are spend-only and are
+ * not recovered when feeding/recycling the Echo.
+ */
 export const CHECKPOINT_CUMULATIVE_COST: Readonly<Record<EchoLevel, ResourceCost>> = {
-  0: { echoes: 0, tuners: 0, exp: 0 },
-  5: { echoes: 0, tuners: 10, exp: 4400 },
-  10: { echoes: 0, tuners: 20, exp: 16500 },
-  15: { echoes: 0, tuners: 30, exp: 39600 },
-  20: { echoes: 0, tuners: 40, exp: 79100 },
-  25: { echoes: 0, tuners: 50, exp: 142600 },
+  0: { echoes: 0, tuners: 0, exp: 0, shellCredits: 0 },
+  5: { echoes: 0, tuners: 10, exp: 4400, shellCredits: 2440 },
+  10: { echoes: 0, tuners: 20, exp: 16500, shellCredits: 5650 },
+  15: { echoes: 0, tuners: 30, exp: 39600, shellCredits: 9960 },
+  20: { echoes: 0, tuners: 40, exp: 79100, shellCredits: 15910 },
+  25: { echoes: 0, tuners: 50, exp: 142600, shellCredits: 24260 },
 };
 
 export const ECHO_EXP_RECOVERY_FRACTION = 0.75;
@@ -122,7 +129,7 @@ export const ECHO_RNG_PROVENANCE: Provenance<string> = {
 };
 
 export const ECHO_ECONOMY_PROVENANCE: Provenance<string> = {
-  value: 'Rank-5 Echo checkpoint EXP/Tuner costs and effective recycle/feed recovery',
+  value: 'Rank-5 Echo checkpoint EXP/Tuner/Shell Credit costs and effective recycle/feed recovery',
   status: 'VERIFIED_EXTERNAL',
   sources: [
     {
@@ -139,8 +146,8 @@ export const ECHO_ECONOMY_PROVENANCE: Provenance<string> = {
     },
   ],
   notes: [
-    'Current external source confirms +5/+10/+15/+20/+25 cumulative EXP and 10 Tuners per tuned slot, 75% Echo EXP recovery and 30% Tuner recovery.',
-    'Shell Credit spend is not yet part of ResourceCost because V9.15 upgrade economics tracked Echoes/Tuners/EXP.',
+    'Current external source confirms +5/+10/+15/+20/+25 cumulative EXP, 10 Tuners per tuned slot, 0.1 Shell Credit per EXP used and 2,000 Shell Credits per tune.',
+    '75% Echo EXP and 30% Tuners are effectively recovered when feeding/recycling; spent Shell Credits are not recovered.',
     'Direct conversion to EXP materials can round recovered EXP; current runtime models effective 75% feed/recycle value and records rounding as a later refinement.',
   ],
 };
@@ -163,6 +170,7 @@ export function checkpointIncrement(from: EchoLevel, to: EchoLevel): ResourceCos
     echoes: 0,
     tuners: b.tuners - a.tuners,
     exp: b.exp - a.exp,
+    shellCredits: (b.shellCredits ?? 0) - (a.shellCredits ?? 0),
   };
 }
 
@@ -172,6 +180,7 @@ export function effectiveRefundAtLevel(level: EchoLevel): ResourceCost {
     echoes: 0,
     tuners: gross.tuners * TUNER_RECOVERY_FRACTION,
     exp: gross.exp * ECHO_EXP_RECOVERY_FRACTION,
+    shellCredits: 0,
   };
 }
 

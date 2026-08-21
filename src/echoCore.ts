@@ -47,5 +47,9 @@ export {
   type Rank5SecondaryMainStatProfile,
 } from './echoMainStats.ts';
 
-export { EchoLab, type EchoLabSession } from './echoCoreLab.ts';
+export {
+  EchoLab,
+  type EchoLabAcquisitionRequest,
+  type EchoLabSession,
+} from './echoCoreLab.ts';
 export { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';

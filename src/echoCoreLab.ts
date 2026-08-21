@@ -11,6 +11,11 @@ export interface EchoLabSession {
   spent: ResourceCost;
 }
 
+export interface EchoLabAcquisitionRequest {
+  template: Echo;
+  count: number;
+}
+
 function addCost(a: ResourceCost, b: ResourceCost): ResourceCost {
   return {
     echoes: a.echoes + b.echoes,
@@ -52,6 +57,26 @@ export class EchoLab {
       const step = this.runtime.acquireFresh(template, rng);
       next.echoes.push({ ...step.echo, id: `${step.echo.id}:${session.echoes.length + i}` });
       next.spent = addCost(next.spent, step.cost);
+    }
+
+    return next;
+  }
+
+  /**
+   * Acquire any mixture of Echo templates without imposing character-loadout
+   * legality. This is intentionally useful for experiments such as four
+   * 4-cost Echoes or large farming batches.
+   */
+  acquirePlan(
+    session: EchoLabSession,
+    requests: readonly EchoLabAcquisitionRequest[],
+    rng: RandomSource,
+  ): EchoLabSession {
+    let next = this.createSession(session.echoes);
+    next.spent = { ...session.spent };
+
+    for (const request of requests) {
+      next = this.acquire(next, request.template, request.count, rng);
     }
 
     return next;

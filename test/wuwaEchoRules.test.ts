@@ -60,19 +60,54 @@ test('13 source-backed substat types are represented', () => {
   assert.equal(new Set(SUBSTAT_TYPES).size, 13);
 });
 
-test('checkpoint costs match current rank-5 Echo cumulative costs', () => {
-  assert.deepEqual(CHECKPOINT_CUMULATIVE_COST[25], { echoes: 0, tuners: 50, exp: 142600 });
-  assert.deepEqual(checkpointIncrement(0, 5), { echoes: 0, tuners: 10, exp: 4400 });
-  assert.deepEqual(checkpointIncrement(5, 10), { echoes: 0, tuners: 10, exp: 12100 });
-  assert.deepEqual(checkpointIncrement(10, 15), { echoes: 0, tuners: 10, exp: 23100 });
-  assert.deepEqual(checkpointIncrement(15, 20), { echoes: 0, tuners: 10, exp: 39500 });
-  assert.deepEqual(checkpointIncrement(20, 25), { echoes: 0, tuners: 10, exp: 63500 });
+test('checkpoint costs match current rank-5 Echo cumulative costs including Shell Credits', () => {
+  assert.deepEqual(CHECKPOINT_CUMULATIVE_COST[25], {
+    echoes: 0,
+    tuners: 50,
+    exp: 142600,
+    shellCredits: 24260,
+  });
+  assert.deepEqual(checkpointIncrement(0, 5), {
+    echoes: 0,
+    tuners: 10,
+    exp: 4400,
+    shellCredits: 2440,
+  });
+  assert.deepEqual(checkpointIncrement(5, 10), {
+    echoes: 0,
+    tuners: 10,
+    exp: 12100,
+    shellCredits: 3210,
+  });
+  assert.deepEqual(checkpointIncrement(10, 15), {
+    echoes: 0,
+    tuners: 10,
+    exp: 23100,
+    shellCredits: 4310,
+  });
+  assert.deepEqual(checkpointIncrement(15, 20), {
+    echoes: 0,
+    tuners: 10,
+    exp: 39500,
+    shellCredits: 5950,
+  });
+  assert.deepEqual(checkpointIncrement(20, 25), {
+    echoes: 0,
+    tuners: 10,
+    exp: 63500,
+    shellCredits: 8350,
+  });
 });
 
-test('effective recycle/feed recovery uses 75% EXP and 30% Tuners', () => {
+test('effective recycle/feed recovery uses 75% EXP, 30% Tuners and no Shell Credit refund', () => {
   approx(ECHO_EXP_RECOVERY_FRACTION, 0.75);
   approx(TUNER_RECOVERY_FRACTION, 0.3);
-  assert.deepEqual(effectiveRefundAtLevel(25), { echoes: 0, tuners: 15, exp: 106950 });
+  assert.deepEqual(effectiveRefundAtLevel(25), {
+    echoes: 0,
+    tuners: 15,
+    exp: 106950,
+    shellCredits: 0,
+  });
 });
 
 test('verified runtime advances one checkpoint and adds exactly one unique substat', () => {
@@ -90,5 +125,10 @@ test('verified runtime advances one checkpoint and adds exactly one unique subst
   assert.equal(step.echo.substats.length, 1);
   assert.equal(step.echo.substats[0]!.name, 'Flat HP');
   assert.equal(step.echo.substats[0]!.value, 320);
-  assert.deepEqual(step.cost, { echoes: 0, tuners: 10, exp: 4400 });
+  assert.deepEqual(step.cost, {
+    echoes: 0,
+    tuners: 10,
+    exp: 4400,
+    shellCredits: 2440,
+  });
 });

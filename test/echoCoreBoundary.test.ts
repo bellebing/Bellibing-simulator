@@ -11,8 +11,11 @@ import {
 
 class SequenceRng implements RandomSource {
   private index = 0;
+  private readonly values: readonly number[];
 
-  constructor(private readonly values: readonly number[]) {}
+  constructor(values: readonly number[]) {
+    this.values = values;
+  }
 
   next(): number {
     const value = this.values[this.index % this.values.length];

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-21",
+  "status": "VERIFIED_EXTERNAL",
+  "scope": "Echo substat type selection, substat value tiers, checkpoint EXP/Tuner costs and recycle rates",
+  "sources": [
+    {
+      "kind": "OFFICIAL",
+      "label": "Kuro Games Korean probability disclosure (dynamic page)",
+      "url": "https://wutheringwaves.kurogames.com/p/language_ko/product_info.html"
+    },
+    {
+      "kind": "OTHER",
+      "label": "Community transcription of Kuro probability disclosure",
+      "url": "https://docs.google.com/spreadsheets/d/146XGH50bYVe3MPzjVVpF5UPoSlAZffBJ1HarAeQzgb8/edit"
+    },
+    {
+      "kind": "GUIDE",
+      "label": "Prydwen Echo Stats",
+      "url": "https://www.prydwen.gg/wuthering-waves/guides/echo-stats"
+    },
+    {
+      "kind": "OTHER",
+      "label": "Wuthering Waves Wiki Echo Leveling",
+      "url": "https://wutheringwaves.fandom.com/wiki/Echo/Leveling"
+    }
+  ],
+  "notes": [
+    "Kuro's official page is dynamic; exact numeric value-tier probabilities below are taken from a public transcription explicitly sourced to that disclosure and cross-checked against current ranges.",
+    "Substat types do not repeat on one Echo. With equal base type probability, each remaining type is conditionally uniform after previously rolled types are removed.",
+    "EXP recycle is modeled as the 75% effective feed/recycle value. Direct materialization can introduce rounding; that distinction is intentionally not modeled yet.",
+    "Fresh-Echo acquisition/main-stat drop probability is outside this file and remains pending."
+  ],
+  "substatTypeProbability": {
+    "selection": "UNIFORM_WITHOUT_REPLACEMENT",
+    "initialProbabilityEach": 0.076923,
+    "types": [
+      "Flat HP",
+      "Flat ATK",
+      "Flat DEF",
+      "CRIT Rate",
+      "CRIT DMG",
+      "Energy Regen",
+      "HP%",
+      "ATK%",
+      "DEF%",
+      "Skill DMG",
+      "Basic Attack DMG",
+      "Heavy Attack DMG",
+      "Liberation DMG"
+    ]
+  },
+  "valueDistributions": {
+    "GENERIC_EIGHT": {
+      "probabilities": [0.067961, 0.077670, 0.203883, 0.242718, 0.174757, 0.145631, 0.058252, 0.029126]
+    },
+    "CRIT_EIGHT": {
+      "probabilities": [0.233333, 0.233333, 0.233333, 0.08, 0.08, 0.08, 0.03, 0.03]
+    },
+    "FLAT_ATK_FOUR": {
+      "probabilities": [0.067961, 0.524272, 0.378641, 0.029126]
+    },
+    "FLAT_DEF_FOUR": {
+      "probabilities": [0.145631, 0.446602, 0.320388, 0.087379]
+    }
+  },
+  "checkpointEconomy": {
+    "cumulative": {
+      "5": { "tuners": 10, "exp": 4400 },
+      "10": { "tuners": 20, "exp": 16500 },
+      "15": { "tuners": 30, "exp": 39600 },
+      "20": { "tuners": 40, "exp": 79100 },
+      "25": { "tuners": 50, "exp": 142600 }
+    },
+    "recovery": {
+      "tunersFraction": 0.30,
+      "expFraction": 0.75
+    }
+  }
+}

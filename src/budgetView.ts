@@ -4,6 +4,8 @@ export interface ResourceBudget {
   echoes: number | null;
   tuners: number | null;
   exp: number | null;
+  /** Optional during migration; Echo Lab can track it immediately. */
+  shellCredits?: number | null;
 }
 
 export type ResourceName = keyof ResourceCost;
@@ -29,10 +31,17 @@ export function calculateBudgetPressure(
   }
 
   const fractions: Partial<Record<ResourceName, number>> = {};
-  for (const resource of ['echoes', 'tuners', 'exp'] as const) {
+  for (const resource of ['echoes', 'tuners', 'exp', 'shellCredits'] as const) {
     const available = budget[resource];
-    if (available !== null && Number.isFinite(available) && available > 0) {
-      fractions[resource] = cost[resource] / available;
+    const required = resource === 'shellCredits' ? cost.shellCredits : cost[resource];
+    if (
+      available !== undefined &&
+      available !== null &&
+      required !== undefined &&
+      Number.isFinite(available) &&
+      available > 0
+    ) {
+      fractions[resource] = required / available;
     }
   }
 

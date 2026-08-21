@@ -16,6 +16,7 @@ function addCost(a: ResourceCost, b: ResourceCost): ResourceCost {
     echoes: a.echoes + b.echoes,
     tuners: a.tuners + b.tuners,
     exp: a.exp + b.exp,
+    shellCredits: (a.shellCredits ?? 0) + (b.shellCredits ?? 0),
   };
 }
 
@@ -35,7 +36,7 @@ export class EchoLab {
   createSession(echoes: readonly Echo[] = []): EchoLabSession {
     return {
       echoes: echoes.map((echo) => ({ ...echo, substats: [...echo.substats] })),
-      spent: { echoes: 0, tuners: 0, exp: 0 },
+      spent: { echoes: 0, tuners: 0, exp: 0, shellCredits: 0 },
     };
   }
 

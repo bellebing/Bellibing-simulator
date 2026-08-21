@@ -39,7 +39,12 @@ test('Echo Core can roll an Echo with no character/build/DPS input', () => {
   assert.ok(step);
   assert.equal(step.echo.level, 5);
   assert.equal(step.echo.substats.length, 1);
-  assert.deepEqual(step.cost, { echoes: 0, tuners: 10, exp: 4400 });
+  assert.deepEqual(step.cost, {
+    echoes: 0,
+    tuners: 10,
+    exp: 4400,
+    shellCredits: 2440,
+  });
 });
 
 test('Echo Lab may simulate four 4-cost Echoes without character validation', () => {
@@ -61,11 +66,12 @@ test('Echo Lab may simulate four 4-cost Echoes without character validation', ()
 
   assert.equal(session.echoes.length, 4);
   assert.equal(session.echoes.reduce((sum, echo) => sum + echo.cost, 0), 16);
-  assert.deepEqual(session.spent, { echoes: 4, tuners: 0, exp: 0 });
+  assert.deepEqual(session.spent, { echoes: 4, tuners: 0, exp: 0, shellCredits: 0 });
 
   const rolled = lab.rollEchoTo(session, 0, 10, new SequenceRng([0, 0.5, 0.2, 0.8]));
   assert.equal(rolled.echoes[0]?.level, 10);
   assert.equal(rolled.echoes[0]?.substats.length, 2);
+  assert.equal(rolled.spent.shellCredits, 5650);
 });
 
 test('Echo Core source cannot import character/combat/decision layers', () => {

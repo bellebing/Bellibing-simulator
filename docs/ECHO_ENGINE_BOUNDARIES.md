@@ -36,6 +36,8 @@ Uses Echo Core to provide character-free simulation:
 
 Echo Lab intentionally allows invalid character loadouts. Example: four 4-cost Echoes may be generated and rolled for experimentation even though that collection cannot be equipped as one legal character loadout.
 
+**UI exposure is optional.** Echo Lab is first an engine/service boundary, not a promise that every possible lab operation must be visible in the normal app. We may expose a small public lab, an advanced/hidden lab, or only character-facing workflows. In every case those workflows use the same completed Echo Lab/Core underneath rather than reimplementing Echo mechanics.
+
 ### 3. Loadout Validator
 A separate adapter validates whether a chosen collection can be equipped together.
 
@@ -82,13 +84,29 @@ No stat is globally hard-coded as good or bad. A stat is valuable only through t
 
 Keep the visible workflow simple even when the engine is complex.
 
-Character-free Echo Lab:
+If a standalone Echo Lab is exposed:
 `Choose cost / generate -> roll -> compare cost -> recycle / continue`
 
 Character-assisted mode:
 `Choose character -> defaults appear -> roll Echo -> CONTINUE / CONDITIONAL / STOP + short explanation`
 
-Advanced controls should be available but not required for normal use.
+Advanced controls should be available only when they add user value. Engine capability does not require UI clutter.
+
+## Failure isolation rule
+
+Echo Core is treated as a stable dependency once its rules are verified and regression-tested.
+
+A broken Augusta formula, new character passive, rotation rewrite or character UI change must not change Echo RNG, checkpoint costs, refund rules or standalone Echo simulation.
+
+Likewise, a future Echo rule update should be testable inside Echo Core before any character integration is touched.
+
+The dependency direction is one-way:
+
+`Echo Core / Echo Lab -> consumed by -> Loadout / Character / Roll Advisor`
+
+Never:
+
+`Character / DPS -> imported by -> Echo Core`
 
 ## Build order
 
@@ -103,6 +121,8 @@ Advanced controls should be available but not required for normal use.
 ## Architecture invariant
 
 `Echo Core` must be testable with zero character imports.
+
+`Echo Lab` may simulate collections that are illegal character loadouts.
 
 `Character DPS Engine` must be testable with prebuilt Echo/loadout inputs and zero RNG dependency.
 

@@ -75,6 +75,7 @@ test('Echo Core source cannot import character/combat/decision layers', () => {
     'src/echoCoreLab.ts',
     'src/echoCoreRules.ts',
     'src/echoCoreRuntime.ts',
+    'src/echoMainStats.ts',
   ];
 
   const forbidden = [

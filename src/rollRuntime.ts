@@ -1,34 +1,21 @@
 import type {
   BuildContext,
   DamageEvaluator,
-  Echo,
   EchoAnalysis,
-  EchoLevel,
-  ResourceCost,
 } from './domain.ts';
+import type {
+  Echo,
+  EchoLevel,
+  EchoRollRuntime,
+  RandomSource,
+  ResourceCost,
+  RollStep,
+} from './echoCoreDomain.ts';
 import { analyzeEchoCandidate } from './analysis.ts';
 
-export interface RandomSource {
-  next(): number;
-}
-
-export interface RollStep {
-  echo: Echo;
-  cost: ResourceCost;
-}
-
-/**
- * Adapter over source-backed Wuthering Waves Echo RNG/economy rules.
- * The decision engine deliberately knows nothing about roll odds or refund constants.
- */
-export interface EchoRollRuntime {
-  /** Create/acquire another Echo with the same slot constraints (cost/main-stat target). */
-  acquireFresh(template: Echo, rng: RandomSource): RollStep;
-  /** Roll exactly one new checkpoint/substat. Returns null at +25. */
-  rollNext(current: Echo, rng: RandomSource): RollStep | null;
-  /** Net resources recovered when abandoning this Echo at its current state. */
-  refundOnDiscard(current: Echo): ResourceCost;
-}
+// Compatibility exports for callers that used the old mixed runtime module.
+// New Echo-only code must import these from echoCore.ts / echoCoreDomain.ts.
+export type { EchoRollRuntime, RandomSource, RollStep } from './echoCoreDomain.ts';
 
 export type CheckpointDecision = 'CONTINUE' | 'DISCARD';
 
@@ -74,8 +61,9 @@ export function subtractCost(a: ResourceCost, b: ResourceCost): ResourceCost {
 }
 
 /**
- * Run one candidate from its present state until the policy discards it or +25 is reached.
- * At +25 the only acceptance rule is whole-build DPS + required combat gates.
+ * Character-aware integration layer. This is intentionally above Echo Core:
+ * it asks the pure Echo runtime for rolls/costs, then asks a damage evaluator
+ * whether the resulting Echo is an upgrade for a specific build.
  */
 export function runCandidateAttempt(
   build: BuildContext,

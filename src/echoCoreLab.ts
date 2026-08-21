@@ -111,6 +111,48 @@ export class EchoLab {
     return { echoes, spent };
   }
 
+  /**
+   * Tune a selected batch to at least one checkpoint. Echoes already above the
+   * requested checkpoint are left unchanged. Duplicate indices are rejected so
+   * one UI selection cannot accidentally spend twice on the same Echo.
+   */
+  rollEchoesTo(
+    session: EchoLabSession,
+    echoIndices: readonly number[],
+    targetLevel: EchoLevel,
+    rng: RandomSource,
+  ): EchoLabSession {
+    const unique = new Set<number>();
+    for (const index of echoIndices) {
+      if (!Number.isInteger(index)) throw new RangeError(`Echo index must be an integer, got ${index}.`);
+      if (index < 0 || index >= session.echoes.length) {
+        throw new RangeError(`Echo index ${index} is outside the lab session.`);
+      }
+      if (unique.has(index)) throw new RangeError(`Echo index ${index} was selected more than once.`);
+      unique.add(index);
+    }
+
+    let next = this.createSession(session.echoes);
+    next.spent = { ...session.spent };
+
+    for (const index of echoIndices) {
+      const echo = next.echoes[index]!;
+      if (echo.level >= targetLevel) continue;
+      next = this.rollEchoTo(next, index, targetLevel, rng);
+    }
+
+    return next;
+  }
+
+  rollAllTo(session: EchoLabSession, targetLevel: EchoLevel, rng: RandomSource): EchoLabSession {
+    return this.rollEchoesTo(
+      session,
+      session.echoes.map((_, index) => index),
+      targetLevel,
+      rng,
+    );
+  }
+
   discard(session: EchoLabSession, echoIndex: number): {
     session: EchoLabSession;
     recovered: ResourceCost;

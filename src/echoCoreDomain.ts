@@ -19,12 +19,19 @@ export interface StatRoll {
   value: number;
 }
 
+export type EchoCost = 1 | 3 | 4;
+export type EchoRank = 2 | 3 | 4 | 5;
 export type EchoLevel = 0 | 5 | 10 | 15 | 20 | 25;
 
 export interface Echo {
   id: string;
-  cost: 1 | 3 | 4;
+  cost: EchoCost;
+  /** Optional during legacy/parity migration; new Echo Core generation sets rank explicitly. */
+  rank?: EchoRank;
+  /** Current primary main-stat value at the Echo's modeled level. */
   mainStat: StatRoll;
+  /** Fixed second main stat: Flat HP on 1-cost, Flat ATK on 3/4-cost. */
+  secondaryMainStat?: StatRoll;
   level: EchoLevel;
   substats: StatRoll[];
 }

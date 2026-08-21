@@ -36,10 +36,18 @@ export interface Echo {
   substats: StatRoll[];
 }
 
+/**
+ * Resource dimensions tracked by Echo rolling/economics.
+ *
+ * `shellCredits` is optional for migration compatibility with older fixtures,
+ * but source-backed Echo Core runtime costs populate it. Consumers must treat
+ * an omitted value as zero rather than dropping a populated value upstream.
+ */
 export interface ResourceCost {
   echoes: number;
   tuners: number;
   exp: number;
+  shellCredits?: number;
 }
 
 export interface RandomSource {

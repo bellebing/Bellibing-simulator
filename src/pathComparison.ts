@@ -11,9 +11,14 @@ export interface PathComparison {
   reasons: string[];
 }
 
+function shellCredits(cost: NonNullable<UpgradeEconomics['expectedCostToSuccess']>): number {
+  return cost.shellCredits ?? 0;
+}
+
 /**
  * Pareto comparison only. It deliberately does not invent exchange rates between
- * Echoes, Tuners and EXP. A later policy/budget layer resolves genuine tradeoffs.
+ * Echoes, Tuners, EXP and Shell Credits. A later policy/budget layer resolves
+ * genuine tradeoffs.
  */
 export function compareContinueVsRestart(
   continuation: UpgradeEconomics,
@@ -43,6 +48,7 @@ export function compareContinueVsRestart(
     cc.echoes <= rc.echoes &&
     cc.tuners <= rc.tuners &&
     cc.exp <= rc.exp &&
+    shellCredits(cc) <= shellCredits(rc) &&
     cg >= rg;
 
   const restartBetterOrEqual =
@@ -50,6 +56,7 @@ export function compareContinueVsRestart(
     rc.echoes <= cc.echoes &&
     rc.tuners <= cc.tuners &&
     rc.exp <= cc.exp &&
+    shellCredits(rc) <= shellCredits(cc) &&
     rg >= cg;
 
   const continueStrict =
@@ -57,6 +64,7 @@ export function compareContinueVsRestart(
     cc.echoes < rc.echoes ||
     cc.tuners < rc.tuners ||
     cc.exp < rc.exp ||
+    shellCredits(cc) < shellCredits(rc) ||
     cg > rg;
 
   const restartStrict =
@@ -64,6 +72,7 @@ export function compareContinueVsRestart(
     rc.echoes < cc.echoes ||
     rc.tuners < cc.tuners ||
     rc.exp < cc.exp ||
+    shellCredits(rc) < shellCredits(cc) ||
     rg > cg;
 
   if (continueBetterOrEqual && continueStrict) {

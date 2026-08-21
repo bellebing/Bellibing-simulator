@@ -33,4 +33,5 @@ export {
   weightedIndex,
 } from './echoCoreRules.ts';
 
+export { EchoLab, type EchoLabSession } from './echoCoreLab.ts';
 export { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';

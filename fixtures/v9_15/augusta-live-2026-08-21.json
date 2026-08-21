@@ -1,0 +1,26 @@
+{
+  "fixtureType": "OBSERVED_LIVE_SHEET_REFERENCE",
+  "capturedAt": "2026-08-21",
+  "spreadsheetId": "1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0",
+  "notes": [
+    "This is a capture of the live sheet state, not a universal Augusta benchmark.",
+    "Expected state fails the live ER gate in this capture and is intentionally preserved as a regression case."
+  ],
+  "setup": {
+    "character": "Augusta",
+    "buildMode": "Recommended",
+    "weaponDisplay": "🟨 5★ Thunderflare Dominion R1 — 100% • CR 12,15% • SIGNATURE",
+    "maxSkills": true,
+    "contextId": "AUGUSTA_STD_V1"
+  },
+  "current": {
+    "personalRotationDps": 85896.92052214989,
+    "energyRegen": 1.184,
+    "erGate": "PASS"
+  },
+  "expected": {
+    "personalRotationDps": 60399.790265838375,
+    "energyRegen": 1.0737810000000005,
+    "erGate": "FAIL"
+  }
+}

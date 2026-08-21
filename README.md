@@ -21,6 +21,8 @@ The answer must use actual whole-build Personal Rotation DPS and resource econom
 - Upgrade Monte Carlo summary contract with failed-attempt cost included
 - Product contract and V9.15 migration map
 - Tests locking the first semantic invariants
+- Augusta V9.15 Personal Rotation DPS parity fixture
+- Five-Echo aggregation into the Augusta combat evaluator
 
 ## Run tests
 
@@ -28,4 +30,4 @@ The answer must use actual whole-build Personal Rotation DPS and resource econom
 npm test
 ```
 
-No Wuthering Waves character combat values are hardcoded in the foundation. Echo RNG/economy rules are source-versioned separately from character combat data. Fresh Echo/main-stat acquisition odds and character damage parity are still pending.
+No Wuthering Waves character combat values are guessed into the production path. Echo RNG/economy rules are source-versioned separately from character combat data. Augusta combat parity is proven for the current S0/R1 standard context. Fresh Echo/main-stat acquisition odds, broader roster coverage, checkpoint policy parity and production UI remain pending.

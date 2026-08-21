@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "status": "MIGRATION_RUNTIME_PARTIALLY_ACTIVE",
+  "source": {
+    "spreadsheetId": "1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0",
+    "sheets": [
+      "Build Simulator",
+      "Strategy Cache"
+    ],
+    "checkedAt": "2026-08-21"
+  },
+  "verified": {
+    "checkpoints": [5, 10, 15, 20, 25],
+    "tracksResources": ["Echoes", "Tuners", "EXP"],
+    "separatesCurrentAndExpected": true,
+    "tracksPerSlotSpend": true,
+    "tracksDiscardCheckpointCounts": true,
+    "supportsLockedIncumbents": true,
+    "acceptedReplacementRequiresWholeBuildDpsImprovement": true,
+    "acceptedReplacementRequiresCombatGates": true,
+    "checkpointTunerCosts": {"5": 10, "10": 20, "15": 30, "20": 40, "25": 50},
+    "checkpointExpCosts": {"5": 4400, "10": 16500, "15": 39600, "20": 79100, "25": 142600},
+    "expRecoveryFraction": 0.75,
+    "tunerRecoveryFraction": 0.3,
+    "substatSelection": "13 types, uniform without replacement",
+    "valueTierProbabilities": "migrated from July 2026 Kuro disclosure transcription"
+  },
+  "pendingRuntimeVerification": [
+    "fresh Echo/main-stat acquisition probabilities",
+    "exact Bellibing Budget checkpoint policy from current V1.2.13 runtime",
+    "direct dismantle EXP-material rounding vs effective feed-value distinction",
+    "Shell Credit economics if product decides to track it"
+  ],
+  "warning": "Current verified RNG/economy rules live in data/game-echo-rng-2026-07.json. The local V7 Apps Script remains historical corroboration only, never current authority."
+}

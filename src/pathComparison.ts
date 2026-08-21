@@ -11,10 +11,6 @@ export interface PathComparison {
   reasons: string[];
 }
 
-function comparable(a: number | null, b: number | null): a is number {
-  return a !== null && b !== null && Number.isFinite(a) && Number.isFinite(b);
-}
-
 /**
  * Pareto comparison only. It deliberately does not invent exchange rates between
  * Echoes, Tuners and EXP. A later policy/budget layer resolves genuine tradeoffs.
@@ -28,7 +24,14 @@ export function compareContinueVsRestart(
   const cg = continuation.expectedDpsGainOnSuccess;
   const rg = restart.expectedDpsGainOnSuccess;
 
-  if (!cc || !rc || !comparable(cg, rg)) {
+  if (
+    !cc ||
+    !rc ||
+    cg === null ||
+    rg === null ||
+    !Number.isFinite(cg) ||
+    !Number.isFinite(rg)
+  ) {
     return {
       decision: 'INSUFFICIENT_DATA',
       reasons: ['A successful-path cost/gain estimate is missing for one of the options.'],

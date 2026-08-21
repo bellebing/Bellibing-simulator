@@ -1,33 +1,16 @@
-export type StatName =
-  | 'CRIT Rate'
-  | 'CRIT DMG'
-  | 'ATK%'
-  | 'Flat ATK'
-  | 'Energy Regen'
-  | 'Basic Attack DMG'
-  | 'Heavy Attack DMG'
-  | 'Skill DMG'
-  | 'Liberation DMG'
-  | 'HP%'
-  | 'Flat HP'
-  | 'DEF%'
-  | 'Flat DEF'
-  | string;
+import type {
+  Echo,
+  ResourceCost,
+  StatRoll,
+} from './echoCoreDomain.ts';
 
-export interface StatRoll {
-  name: StatName;
-  value: number;
-}
-
-export type EchoLevel = 0 | 5 | 10 | 15 | 20 | 25;
-
-export interface Echo {
-  id: string;
-  cost: 1 | 3 | 4;
-  mainStat: StatRoll;
-  level: EchoLevel;
-  substats: StatRoll[];
-}
+export type {
+  Echo,
+  EchoLevel,
+  ResourceCost,
+  StatName,
+  StatRoll,
+} from './echoCoreDomain.ts';
 
 export interface WeaponSelection {
   id: string;
@@ -55,12 +38,6 @@ export interface DamageResult {
 
 export interface DamageEvaluator {
   evaluate(build: BuildContext): DamageResult;
-}
-
-export interface ResourceCost {
-  echoes: number;
-  tuners: number;
-  exp: number;
 }
 
 export interface UpgradeEconomics {

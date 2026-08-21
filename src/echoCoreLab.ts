@@ -26,7 +26,11 @@ function addCost(a: ResourceCost, b: ResourceCost): ResourceCost {
  * legal character loadout. Equip/loadout validation belongs to a higher layer.
  */
 export class EchoLab {
-  constructor(private readonly runtime: EchoRollRuntime) {}
+  private readonly runtime: EchoRollRuntime;
+
+  constructor(runtime: EchoRollRuntime) {
+    this.runtime = runtime;
+  }
 
   createSession(echoes: readonly Echo[] = []): EchoLabSession {
     return {
@@ -40,7 +44,7 @@ export class EchoLab {
       throw new RangeError(`Echo acquire count must be a non-negative integer, got ${count}.`);
     }
 
-    let next = this.createSession(session.echoes);
+    const next = this.createSession(session.echoes);
     next.spent = { ...session.spent };
 
     for (let i = 0; i < count; i += 1) {

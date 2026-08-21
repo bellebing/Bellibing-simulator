@@ -7,7 +7,9 @@
  */
 export type {
   Echo,
+  EchoCost,
   EchoLevel,
+  EchoRank,
   EchoRollRuntime,
   RandomSource,
   ResourceCost,
@@ -32,6 +34,18 @@ export {
   rollSubstatValue,
   weightedIndex,
 } from './echoCoreRules.ts';
+
+export {
+  ECHO_MAIN_STAT_PROVENANCE,
+  RANK5_PRIMARY_MAIN_STATS,
+  RANK5_SECONDARY_MAIN_STATS,
+  createRank5EchoAtLevel0,
+  isPrimaryMainStatAllowed,
+  primaryMainStatProfile,
+  type PrimaryMainStatName,
+  type Rank5MainStatProfile,
+  type Rank5SecondaryMainStatProfile,
+} from './echoMainStats.ts';
 
 export { EchoLab, type EchoLabSession } from './echoCoreLab.ts';
 export { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';

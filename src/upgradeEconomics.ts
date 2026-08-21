@@ -45,17 +45,24 @@ export function summarizeUpgradeTrials(trials: UpgradeTrial[]): UpgradeEconomics
     };
   }
 
-  const averageAttemptCost = {
+  const hasShellCredits = trials.some((trial) => trial.cost.shellCredits !== undefined);
+  const averageAttemptCost: ResourceCost = {
     echoes: avg(trials.map((t) => t.cost.echoes))!,
     tuners: avg(trials.map((t) => t.cost.tuners))!,
     exp: avg(trials.map((t) => t.cost.exp))!,
   };
+  if (hasShellCredits) {
+    averageAttemptCost.shellCredits = avg(trials.map((t) => t.cost.shellCredits ?? 0))!;
+  }
 
-  const expectedCostToSuccess = {
+  const expectedCostToSuccess: ResourceCost = {
     echoes: averageAttemptCost.echoes / p,
     tuners: averageAttemptCost.tuners / p,
     exp: averageAttemptCost.exp / p,
   };
+  if (hasShellCredits) {
+    expectedCostToSuccess.shellCredits = (averageAttemptCost.shellCredits ?? 0) / p;
+  }
 
   const expectedDpsGainOnSuccess = avg(
     successes.map((t) => t.dpsGainPct ?? 0),

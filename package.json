@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --experimental-strip-types --test test/*.test.ts"
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "build": "node scripts/build-web.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

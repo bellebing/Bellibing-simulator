@@ -8,6 +8,7 @@ import {
   recordCheckpoint,
   setUpgradeTarget,
   startCandidate,
+  type RollAssistantSession,
 } from '../src/rollAssistantSession.ts';
 
 function echo(id: string, level: EchoLevel, stats: Echo['substats'] = []): Echo {
@@ -20,6 +21,21 @@ function echo(id: string, level: EchoLevel, stats: Echo['substats'] = []): Echo 
     level,
     substats: stats,
   };
+}
+
+function advanceTo(
+  session: RollAssistantSession,
+  id: string,
+  target: Exclude<EchoLevel, 0>,
+  finalStats: Echo['substats'] = [],
+): RollAssistantSession {
+  for (const level of [5, 10, 15, 20, 25] as const) {
+    const stats = level === target ? finalStats : [];
+    session = recordCheckpoint(session, echo(id, level, stats));
+    if (level === target) return session;
+    session = applyCheckpointAssessment(session, { decision: 'ROLL' }).session;
+  }
+  throw new Error(`Unable to reach +${target}.`);
 }
 
 test('normal mode starts by telling the user only which Echo to start', () => {
@@ -39,6 +55,14 @@ test('an active +0 candidate produces the simple ROLL TO +5 instruction', () => 
     toLevel: 5,
     headline: 'ROLL TO +5',
   });
+});
+
+test('checkpoint entry cannot skip ahead of the instruction', () => {
+  const session = startCandidate(createRollAssistantSession(), 0, echo('candidate-a', 0));
+  assert.throws(
+    () => recordCheckpoint(session, echo('candidate-a', 15, [{ name: 'CRIT Rate', value: 0.075 }])),
+    /Expected checkpoint \+5, got \+15/,
+  );
 });
 
 test('DISCARD retries the same slot instead of moving the build forward', () => {
@@ -76,12 +100,12 @@ test('ROLL decision advances only the instruction, never invents a good/bad stat
 
 test('TEMPORARY means usable now and moves the assistant to the next empty slot', () => {
   let session = startCandidate(createRollAssistantSession(), 0, echo('temp-a', 0));
-  session = recordCheckpoint(session, echo('temp-a', 20, [
+  session = advanceTo(session, 'temp-a', 20, [
     { name: 'ATK%', value: 0.079 },
     { name: 'Heavy Attack DMG', value: 0.094 },
     { name: 'Flat DEF', value: 40 },
     { name: 'CRIT Rate', value: 0.063 },
-  ]));
+  ]);
 
   const result = applyCheckpointAssessment(session, { decision: 'TEMPORARY' });
   assert.equal(result.instruction.headline, 'USE FOR NOW');
@@ -99,10 +123,10 @@ test('five usable Echoes enter upgrade mode; upgrade target is supplied external
   for (let slot = 0; slot < 5; slot += 1) {
     const id = `echo-${slot}`;
     session = startCandidate(session, slot, echo(id, 0));
-    session = recordCheckpoint(session, echo(id, 25, [
+    session = advanceTo(session, id, 25, [
       { name: 'CRIT Rate', value: 0.075 },
       { name: 'CRIT DMG', value: 0.15 },
-    ]));
+    ]);
     session = applyCheckpointAssessment(session, {
       decision: slot === 4 ? 'KEEP' : 'TEMPORARY',
     }).session;
@@ -124,7 +148,7 @@ test('the whole-build evaluator can mark the build done without forcing another 
   for (let slot = 0; slot < 5; slot += 1) {
     const id = `kept-${slot}`;
     session = startCandidate(session, slot, echo(id, 0));
-    session = recordCheckpoint(session, echo(id, 25, [{ name: 'CRIT Rate', value: 0.093 }]));
+    session = advanceTo(session, id, 25, [{ name: 'CRIT Rate', value: 0.093 }]);
     session = applyCheckpointAssessment(session, { decision: 'KEEP' }).session;
   }
 

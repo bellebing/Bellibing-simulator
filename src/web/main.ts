@@ -19,8 +19,13 @@ import {
 } from '../characters/augustaEchoEvaluator.ts';
 import { analyzeOwnedEchoValue } from '../ownedEchoValue.ts';
 
-const app = document.querySelector<HTMLDivElement>('#app');
-if (!app) throw new Error('Missing #app root.');
+function requireAppRoot(): HTMLDivElement {
+  const root = document.querySelector<HTMLDivElement>('#app');
+  if (!root) throw new Error('Missing #app root.');
+  return root;
+}
+
+const app = requireAppRoot();
 
 type AppView = 'ECHO_LAB' | 'AUGUSTA';
 

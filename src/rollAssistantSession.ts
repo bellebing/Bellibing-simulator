@@ -118,11 +118,12 @@ export function recordCheckpoint(
   session: RollAssistantSession,
   echo: Echo,
 ): RollAssistantSession {
-  if (session.activeSlotIndex === null) throw new Error('No active Echo is waiting for a checkpoint result.');
+  const activeSlotIndex = session.activeSlotIndex;
+  if (activeSlotIndex === null) throw new Error('No active Echo is waiting for a checkpoint result.');
   if (echo.level === 0) throw new RangeError('A checkpoint result must be +5 or higher.');
 
   const next = cloneSession(session);
-  const slot = assertSlotIndex(next, next.activeSlotIndex);
+  const slot = assertSlotIndex(next, activeSlotIndex);
   if (!slot.echo) throw new Error('Active slot has no Echo candidate.');
   if (echo.id !== slot.echo.id) throw new Error('Checkpoint Echo id does not match the active candidate.');
 
@@ -144,9 +145,10 @@ export function applyCheckpointAssessment(
   session: RollAssistantSession,
   assessment: CheckpointAssessment,
 ): { session: RollAssistantSession; instruction: RollAssistantInstruction } {
-  if (session.activeSlotIndex === null) throw new Error('No active Echo to assess.');
+  const activeSlotIndex = session.activeSlotIndex;
+  if (activeSlotIndex === null) throw new Error('No active Echo to assess.');
   const next = cloneSession(session);
-  const slot = assertSlotIndex(next, next.activeSlotIndex);
+  const slot = assertSlotIndex(next, activeSlotIndex);
   if (!slot.echo || slot.echo.level === 0) throw new Error('Enter a checkpoint result before assessing the Echo.');
 
   if (assessment.decision === 'ROLL') {
@@ -176,24 +178,20 @@ export function applyCheckpointAssessment(
 
   slot.status = assessment.decision === 'KEEP' ? 'KEPT' : 'TEMPORARY';
   next.activeSlotIndex = null;
-
   if (!firstEmptySlot(next)) next.phase = 'UPGRADE';
 
-  return {
-    session: next,
-    instruction: {
-      action: assessment.decision,
-      slotIndex: slot.index,
-      headline: assessment.decision === 'KEEP' ? 'KEEP' : 'USE FOR NOW',
-      reason: assessment.reason,
-    },
-  };
+  const instruction: RollAssistantInstruction = assessment.decision === 'KEEP'
+    ? { action: 'KEEP', slotIndex: slot.index, headline: 'KEEP', reason: assessment.reason }
+    : { action: 'TEMPORARY', slotIndex: slot.index, headline: 'USE FOR NOW', reason: assessment.reason };
+
+  return { session: next, instruction };
 }
 
 /** The next visible instruction when no checkpoint verdict is currently on screen. */
 export function getNextInstruction(session: RollAssistantSession): RollAssistantInstruction {
-  if (session.activeSlotIndex !== null) {
-    const slot = assertSlotIndex(session, session.activeSlotIndex);
+  const activeSlotIndex = session.activeSlotIndex;
+  if (activeSlotIndex !== null) {
+    const slot = assertSlotIndex(session, activeSlotIndex);
     if (!slot.echo) throw new Error('Active slot has no Echo candidate.');
     const toLevel = nextCheckpoint(slot.echo.level);
     if (toLevel === null) throw new Error('Active +25 Echo needs a KEEP/TEMPORARY/DISCARD assessment.');

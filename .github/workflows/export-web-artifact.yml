@@ -1,6 +1,8 @@
 name: Export Bellibing Web Artifact
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:

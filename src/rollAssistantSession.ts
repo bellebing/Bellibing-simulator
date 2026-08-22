@@ -113,7 +113,7 @@ export function startCandidate(
   return next;
 }
 
-/** Replace the active candidate with the checkpoint state entered from the game. */
+/** Replace the active candidate with exactly the next checkpoint entered from the game. */
 export function recordCheckpoint(
   session: RollAssistantSession,
   echo: Echo,
@@ -125,7 +125,12 @@ export function recordCheckpoint(
   const slot = assertSlotIndex(next, next.activeSlotIndex);
   if (!slot.echo) throw new Error('Active slot has no Echo candidate.');
   if (echo.id !== slot.echo.id) throw new Error('Checkpoint Echo id does not match the active candidate.');
-  if (echo.level <= slot.echo.level) throw new RangeError('Checkpoint level must advance the active Echo.');
+
+  const expected = nextCheckpoint(slot.echo.level);
+  if (expected === null) throw new RangeError('A +25 Echo has no later checkpoint.');
+  if (echo.level !== expected) {
+    throw new RangeError(`Expected checkpoint +${expected}, got +${echo.level}.`);
+  }
 
   slot.echo = cloneEcho(echo);
   return next;

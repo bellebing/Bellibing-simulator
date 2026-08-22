@@ -1,80 +1,118 @@
-# Bellibing Simulator — Product Contract v0.1
+# Bellibing Simulator — Product Contract v0.2
 
 ## North star
 
-Bellibing is an Echo-building decision tool. Its primary job is not to show a theoretical DPS number; it is to tell the user what to do with the Echo in front of them and why.
+Bellibing is an Echo-building decision tool. Its primary job is not to show a theoretical DPS number; it is to tell the user what to do with the Echo in front of them.
 
 The core question is:
 
-> Given my character, sequence, weapon, team and current Echo build, should I keep rolling this Echo, stop and recycle it, equip it, replace something, or farm somewhere else?
+> Given my character, sequence, weapon, team, target build and current Echoes, what should I do next?
 
 ## Normal user input
 
 Keep normal-mode input minimal:
 
 - Character
-- Sequence
-- Weapon + rank
-- Team / supported standard team profile
+- Build target: Recommended / Strong / High-end / Custom
+- Sequence / weapon / team only when they differ from the supported default
 - Owned Echoes or the Echo currently being rolled
+- Resource budget when the user wants a cost estimate
 
 Default internally unless Advanced mode is opened:
 
-- Character level max
+- Character and weapon max level
 - Skill levels max
-- Weapon level max
 - Versioned standard rotation
 - Versioned enemy/context assumptions
 - Source-backed support behavior
+- Recommended Echo set, loadout and main stats
+- Character-specific stat valuation/ER requirements when verified
 
-## One continuous workflow, not two disconnected modes
+Normal users must not have to configure stat weights from zero before Bellibing becomes useful.
+
+## Information budget: one action at a time
+
+Normal mode is an assistant, not an analysis dashboard.
+
+The primary surface should normally show one short instruction/verdict:
+
+- **ROLL TO +5 / +10 / +15 / +20 / +25**
+- **DISCARD**
+- **USE FOR NOW** (Temporary)
+- **KEEP**
+- **UPGRADE THIS ECHO**
+- **BUILD DONE**
+
+Complex probabilities, DPS deltas, branch economics and Monte Carlo diagnostics remain available to the engine and tests but are not shown by default. A small **Why?** affordance may reveal the minimum explanation needed for a surprising decision.
+
+If one compact number answers the user's question, do not replace it with a distribution dashboard. For build-cost planning, prefer a concise average/expected cost unless more detail is explicitly requested.
+
+## One continuous workflow
 
 Building a new character and judging an Echo are the same loop:
 
-1. Select the character/build context.
-2. Bellibing explains what stats have real marginal value for this build.
-3. Enter or scan the Echo currently being rolled.
-4. At +5/+10/+15/+20/+25, Bellibing evaluates whether continuing has better expected value than stopping/restarting.
-5. Once a usable five-Echo build exists, Bellibing compares each slot by actual whole-build Personal Rotation DPS impact and upgrade economics.
-6. The tool estimates what a meaningful improvement is likely to cost.
+1. Select character and target quality.
+2. Bellibing loads the supported default build profile.
+3. Bellibing tells the user which Echo to build first and to roll it to +5.
+4. The user enters the real in-game roll.
+5. At each checkpoint Bellibing says only what to do next: roll again, discard, use temporarily, or keep.
+6. A Temporary Echo is good enough to move on but remains an upgrade candidate.
+7. Once five usable Echoes exist, Bellibing identifies the best next upgrade target from whole-build value and expected improvement cost.
+8. The user may stop when satisfied; otherwise the same loop continues in Upgrade Mode.
 
 ## Decision hierarchy
 
 The engine must keep these concepts separate:
 
 1. **Current Echo quality** — actual effect of the Echo currently owned.
-2. **Weakest Echo** — lowest current contribution / replacement vulnerability.
-3. **Best Upgrade Target** — slot with the best expected Personal Rotation DPS gain per resource.
-4. **Accepted Replacement** — candidate that is actually better than the incumbent under the locked combat context and passes mandatory gates such as ER.
-5. **Roll/Stop decision** — whether the next checkpoint has better expected value than abandoning the current candidate and starting a new attempt.
+2. **Temporary** — usable enough to progress the build but below the chosen final target.
+3. **Weakest Echo** — lowest current contribution / replacement vulnerability.
+4. **Best Upgrade Target** — slot with the best expected meaningful improvement per resource.
+5. **Accepted Replacement** — candidate actually better than the incumbent under the locked combat context and mandatory gates.
+6. **Roll/Stop decision** — whether another checkpoint remains economical given the current Echo, remaining rolls and whole-build target.
 
 Weakest Echo is not automatically Best Upgrade Target.
 
+## Checkpoint decisions are contextual
+
+A stat label is never globally hardcoded as good or bad.
+
+The same DEF roll can be a discard in one state and survivable in another. The same low Crit roll can be insufficient for a High-end target but acceptable for a Recommended target. The decision depends on:
+
+- exact values already rolled;
+- remaining possible rolls;
+- the selected build target;
+- what the other four Echoes already provide;
+- mandatory gates such as ER;
+- expected cost of continuing versus restarting;
+- actual whole-build DPS impact when the character model is verified.
+
+This means roll quality matters: a low and high roll of the same substat are not automatically equivalent.
+
 ## Actual build impact beats visual rankings
 
-No highlighted-stat list, guide label, Core/Useful/Filler classification or conventional "double crit" score may be the final judge.
+No highlighted-stat list, guide label, Core/Useful/Filler classification or conventional double-crit score may be the final judge for a DPS-integrated character.
 
 A Heavy Attack DMG, Basic Attack DMG, Skill DMG, Liberation DMG or Flat ATK roll can be valuable when the character's real rotation and current build make it valuable.
 
-The tool must be able to say:
-
-> This Echo looks weaker than it is. Heavy Attack DMG contributes materially to this character's standard rotation, so replacing it requires a genuinely better whole-build result.
+Guide profiles may be used as a clearly labeled fallback while a new character's DPS model is still pending. Once a verified Personal Rotation DPS model exists, actual build impact becomes the final judge.
 
 ## Roll checkpoints and resource economics
 
-The migration target preserves V9.15's sequential +5/+10/+15/+20/+25 concept, resource accounting and recycle economics, but the final policy becomes DPS-aware.
+Preserve V9.15's sequential +5/+10/+15/+20/+25 concept, resource accounting, discard refunds and Temporary/Kept lifecycle.
 
-At each checkpoint Bellibing should eventually expose:
+The engine may calculate internally:
 
-- Continue / Conditional Continue / Stop
-- Why
-- Which next-roll outcomes keep the Echo alive
-- Chance of becoming an accepted replacement
-- Expected Echoes / Tuners / EXP to reach a meaningful improvement
-- Expected Personal Rotation DPS gain if successful
-- Tuners per +1% DPS (or a successor efficiency metric)
+- future branch probabilities;
+- chance of reaching the selected build target;
+- continue-vs-restart economics;
+- expected Echo / Tuner / EXP / Shell Credit cost;
+- Personal Rotation DPS impact;
+- best upgrade target.
 
-The exact roll probabilities, resource costs and refunds must come from verified game data / validated V9.15 logic. They are not hardcoded in this contract.
+Those metrics support the verdict. They are not a requirement to clutter the normal UI.
+
+The exact roll probabilities, resource costs and refunds must come from verified game data / validated V9.15 logic.
 
 ## Current vs Expected
 
@@ -93,15 +131,17 @@ Normal users should not need to enter rotation details. The context may include 
 
 Mandatory gates such as ER can invalidate an otherwise higher raw-damage candidate.
 
-## Explanations are a product requirement
+## Explanations
 
-Every recommendation should be explainable in user language:
+Every recommendation must be explainable, but explanations are on demand rather than permanently displayed.
 
-- why a normally ignored stat matters here;
-- why an apparently strong crit Echo is not actually an upgrade;
-- why continuing from +10 is or is not economical;
-- why a slot is the best place to spend resources;
-- why an Echo is already strong enough that farming it is low-value.
+A useful Why? answer explains the deciding factor, for example:
+
+- the Echo still has enough viable future paths;
+- a low roll plus two misses made the selected target too expensive;
+- ER is still required;
+- an apparently odd stat contributes real rotation damage;
+- this slot is cheaper to improve than the visually weakest one.
 
 ## Proven V9.15 concepts to migrate
 
@@ -109,7 +149,7 @@ Every recommendation should be explainable in user language:
 - Current vs Expected separation
 - Sequential roll checkpoints
 - Echo/Tuner/EXP budgets and refunds
-- Temporary vs Kept lifecycle (concept, not necessarily labels)
+- Temporary vs Kept lifecycle
 - Per-slot cumulative spend
 - Lock incumbent / keep until genuinely better
 - Whole-build DPS replacement test
@@ -126,14 +166,4 @@ Every recommendation should be explainable in user language:
 - static profile score as final Echo quality
 - manual target-substat setup as a required normal-user workflow
 - UI complexity required only because Sheets needed cache/fingerprint controls
-
-## The checkpoint answer must be conditional, not a static tier list
-
-For a partially rolled Echo the tool should be able to say:
-
-- **Continue now** when the current branch already has better expected economics than restarting.
-- **If the next roll is X/Y/Z, continue** when those future branches dominate a restart.
-- **If the next roll is A/B, discard** when restarting dominates those branches.
-- **Tradeoff / pending** when the model cannot honestly choose yet.
-
-The labels X/Y/Z are never globally hardcoded as good stats. The same `HP%` roll can be a discard on one character and a continue on an HP-scaling character because the combat evaluator, not the stat name, decides its value.
+- probability/detail dashboards that do not change the user's next action

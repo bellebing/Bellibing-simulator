@@ -1,0 +1,38 @@
+name: Export Bellibing Web Artifact
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Tests
+        run: npm test
+
+      - name: Build web app
+        run: npm run build
+
+      - name: Upload compiled web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-web-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7

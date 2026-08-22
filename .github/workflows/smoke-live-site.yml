@@ -1,0 +1,33 @@
+name: Smoke Test Live Bellibing Site
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for live GitHub Pages site
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="https://bellebing.github.io/Bellibing-simulator/"
+          for attempt in $(seq 1 18); do
+            echo "Attempt $attempt: $url"
+            if html=$(curl -fsSL --max-time 20 "$url"); then
+              if grep -q "Bellibing Echo Lab" <<<"$html"; then
+                echo "Live Bellibing site verified."
+                exit 0
+              fi
+              echo "Site responded, but expected Bellibing title was not present yet."
+            else
+              echo "Site not reachable yet."
+            fi
+            sleep 5
+          done
+          echo "Bellibing Pages site did not become verifiable in time." >&2
+          exit 1

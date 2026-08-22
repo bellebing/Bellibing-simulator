@@ -10,3 +10,5 @@ if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 cpSync('web/index.html', 'dist/index.html');
 cpSync('web/styles.css', 'dist/styles.css');
 cpSync('web/echo-lab.css', 'dist/echo-lab.css');
+cpSync('web/START_BELLIBING_TEST.bat', 'dist/START_BELLIBING_TEST.bat');
+cpSync('web/serve.ps1', 'dist/serve.ps1');

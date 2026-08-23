@@ -17,7 +17,7 @@ export const TEAM_PROFILES: readonly TeamProfile[] = [
     members: [
       { characterId: 'augusta', role: 'DPS' },
       { characterId: 'iuno', role: 'SUB_DPS' },
-      { characterId: 'shorekeeper', role: 'SUPPORT' },
+      { characterId: 'the-shorekeeper', role: 'SUPPORT' },
     ],
   },
 ];

@@ -63,7 +63,7 @@ export interface CharacterIntrinsicStat {
  * - sequence/build baseline
  * - rotation or action assumptions
  *
- * Those are product/profile relationships, not facts about the character.
+ * Those live in profileDomain.ts as independent, composable relationship bases.
  */
 export interface CharacterGameData extends Omit<CharacterContent, 'element' | 'weaponType'> {
   element: Element | null;
@@ -128,16 +128,4 @@ export interface SonataGameData extends EchoSetContent {
   sourceId: number;
   activationPieces: readonly number[];
   rawPieceEffects: readonly SonataPieceEffectRaw[];
-}
-
-/**
- * Product defaults are pointers between independent data records.
- * Changing a recommendation must never mutate CharacterGameData itself.
- */
-export interface CharacterDefaultProfile {
-  characterId: string;
-  defaultWeaponId?: string;
-  recommendedEchoProfileId?: string;
-  defaultTeamProfileId?: string;
-  defaultRotationProfileId?: string;
 }

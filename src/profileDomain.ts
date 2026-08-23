@@ -1,0 +1,136 @@
+import type { ContentProvenance, VerificationStatus } from './contentRegistry.ts';
+import type { EchoCost } from './gameDataDomain.ts';
+import type { StatName } from './echoCore.ts';
+
+export type ProfileStatus = VerificationStatus;
+
+export interface ProfileBase {
+  id: string;
+  name: string;
+  verificationStatus: ProfileStatus;
+  provenance: ContentProvenance;
+}
+
+/**
+ * Character -> weapon recommendations are a relationship layer, not raw weapon
+ * or raw character data. The UI may pick the default and expose alternatives.
+ */
+export interface WeaponRecommendationOption {
+  weaponId: string;
+  rank: number;
+  label?: string;
+  relativePerformance?: number;
+}
+
+export interface WeaponRecommendationProfile extends ProfileBase {
+  kind: 'WEAPON_RECOMMENDATION';
+  characterId: string;
+  defaultWeaponId: string;
+  options: readonly WeaponRecommendationOption[];
+}
+
+export interface EchoSlotProfile {
+  cost: EchoCost;
+  primaryMainStat: string;
+}
+
+/**
+ * Which Echo shell a build wants. This owns layout/set/main-Echo assumptions,
+ * but deliberately does not own substat policy or Roll Assistant decisions.
+ */
+export interface EchoLoadoutProfile extends ProfileBase {
+  kind: 'ECHO_LOADOUT';
+  characterId: string;
+  slots: readonly EchoSlotProfile[];
+  sonataSetIds: readonly string[];
+  mainEchoId?: string;
+}
+
+export type TargetStatRole = 'CORE' | 'USEFUL' | 'EXTRA';
+
+export interface TargetStatRule {
+  stat: StatName;
+  role: TargetStatRole;
+  minimumRoll: number;
+}
+
+export interface StatGate {
+  stat: StatName | 'Energy Regen Total';
+  minimum: number;
+  preferred?: number;
+  notes?: string;
+}
+
+/**
+ * Roll/build targets are independent from the Echo shell. Changing a target
+ * must not require changing Character, Weapon, Echo or UI data.
+ */
+export interface StatTargetProfile extends ProfileBase {
+  kind: 'STAT_TARGET';
+  characterId: string;
+  targetRules: readonly TargetStatRule[];
+  requiredCoreHits: number;
+  requiredUsefulHits: number;
+  gates: readonly StatGate[];
+}
+
+export interface TeamMemberProfile {
+  characterId: string;
+  role: 'DPS' | 'SUB_DPS' | 'SUPPORT' | 'FLEX';
+}
+
+/** Team identity only. Detailed support gear/effects can be linked separately. */
+export interface TeamProfile extends ProfileBase {
+  kind: 'TEAM';
+  members: readonly TeamMemberProfile[];
+}
+
+/**
+ * Rotation metadata points at a separately implemented engine/combat model.
+ * A character may have multiple rotation profiles for different teams/modes.
+ */
+export interface RotationProfile extends ProfileBase {
+  kind: 'ROTATION';
+  characterId: string;
+  teamProfileId: string;
+  engineModelId: string;
+  rotationSeconds?: number;
+  variantKey: string;
+}
+
+/**
+ * This is the tiny composition layer the UI selects.
+ * It contains no game numbers; it only points at independent databases.
+ */
+export interface CharacterBuildPreset extends ProfileBase {
+  kind: 'CHARACTER_PRESET';
+  characterId: string;
+  modeKey: string;
+  displayLabel: string;
+  sequence: number;
+  isDefault: boolean;
+  uiSelectable: boolean;
+  weaponRecommendationProfileId: string;
+  echoLoadoutProfileId: string;
+  statTargetProfileId: string;
+  teamProfileId: string;
+  rotationProfileId: string;
+}
+
+export interface ProfileCatalogs {
+  weaponRecommendations: readonly WeaponRecommendationProfile[];
+  echoLoadouts: readonly EchoLoadoutProfile[];
+  statTargets: readonly StatTargetProfile[];
+  teams: readonly TeamProfile[];
+  rotations: readonly RotationProfile[];
+  presets: readonly CharacterBuildPreset[];
+}
+
+export interface ResolvedBuildPreset {
+  preset: CharacterBuildPreset;
+  weaponRecommendation: WeaponRecommendationProfile;
+  echoLoadout: EchoLoadoutProfile;
+  statTarget: StatTargetProfile;
+  team: TeamProfile;
+  rotation: RotationProfile;
+}

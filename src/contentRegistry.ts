@@ -15,6 +15,8 @@ export type IntegrationStatus =
 
 export interface ContentProvenance {
   sourceLabels: readonly string[];
+  /** Direct source URLs when the record was verified from web/raw data. */
+  sourceUrls?: readonly string[];
   checkedAt: string;
   notes?: readonly string[];
 }
@@ -40,17 +42,20 @@ export interface EchoSetContent extends ContentRecordBase {
 /**
  * Character data may exist before weapons, Echo defaults, rotations or advice
  * are connected. Those integrations live in higher layers.
+ *
+ * null means the field is intentionally unresolved in the raw data catalog;
+ * undefined remains valid for older/lightweight registry records.
  */
 export interface CharacterContent extends ContentRecordBase {
   kind: 'CHARACTER';
-  element?: string;
-  weaponType?: string;
+  element?: string | null;
+  weaponType?: string | null;
 }
 
 /** Weapon raw data is independent of character recommendation/integration. */
 export interface WeaponContent extends ContentRecordBase {
   kind: 'WEAPON';
-  weaponType?: string;
+  weaponType?: string | null;
   effectModelId?: string;
 }
 

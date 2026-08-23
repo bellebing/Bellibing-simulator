@@ -34,7 +34,7 @@ jobs:
       - name: Commit generated snapshot to feature branch
         shell: bash
         run: |
-          if git diff --quiet -- src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts; then
+          if [ -z "$(git status --porcelain -- src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts)" ]; then
             echo "No generated changes."
             exit 0
           fi

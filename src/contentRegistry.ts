@@ -31,6 +31,14 @@ export interface ContentRecordBase {
 }
 
 /**
+ * Raw Echo identity may exist before any character profile recommends it and
+ * before its active Echo Skill is combat-modeled.
+ */
+export interface EchoContent extends ContentRecordBase {
+  kind: 'ECHO';
+}
+
+/**
  * Echo-set data may exist before any character recommends or consumes it.
  * `effectModelId` is optional until the set effect is actually modeled.
  */
@@ -59,27 +67,30 @@ export interface WeaponContent extends ContentRecordBase {
   effectModelId?: string;
 }
 
-export type GameContent = EchoSetContent | CharacterContent | WeaponContent;
+export type GameContent = EchoContent | EchoSetContent | CharacterContent | WeaponContent;
 export type ContentKind = GameContent['kind'];
 
 export interface ContentRegistry {
+  echoes: ReadonlyMap<string, EchoContent>;
   echoSets: ReadonlyMap<string, EchoSetContent>;
   characters: ReadonlyMap<string, CharacterContent>;
   weapons: ReadonlyMap<string, WeaponContent>;
 }
 
 export function createContentRegistry(items: readonly GameContent[] = []): ContentRegistry {
+  const echoes = new Map<string, EchoContent>();
   const echoSets = new Map<string, EchoSetContent>();
   const characters = new Map<string, CharacterContent>();
   const weapons = new Map<string, WeaponContent>();
 
   for (const item of items) {
+    if (item.kind === 'ECHO') registerUnique(echoes, item);
     if (item.kind === 'ECHO_SET') registerUnique(echoSets, item);
     if (item.kind === 'CHARACTER') registerUnique(characters, item);
     if (item.kind === 'WEAPON') registerUnique(weapons, item);
   }
 
-  return { echoSets, characters, weapons };
+  return { echoes, echoSets, characters, weapons };
 }
 
 function registerUnique<T extends ContentRecordBase>(map: Map<string, T>, item: T): void {
@@ -89,6 +100,7 @@ function registerUnique<T extends ContentRecordBase>(map: Map<string, T>, item: 
 
 export function addContent(registry: ContentRegistry, item: GameContent): ContentRegistry {
   return createContentRegistry([
+    ...registry.echoes.values(),
     ...registry.echoSets.values(),
     ...registry.characters.values(),
     ...registry.weapons.values(),
@@ -101,6 +113,7 @@ export function getContent(
   kind: ContentKind,
   id: string,
 ): GameContent | null {
+  if (kind === 'ECHO') return registry.echoes.get(id) ?? null;
   if (kind === 'ECHO_SET') return registry.echoSets.get(id) ?? null;
   if (kind === 'CHARACTER') return registry.characters.get(id) ?? null;
   return registry.weapons.get(id) ?? null;

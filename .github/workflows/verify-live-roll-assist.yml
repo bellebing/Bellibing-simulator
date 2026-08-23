@@ -1,0 +1,15 @@
+name: Verify Live Roll Assist
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live Roll Assist
+        run: |
+          curl --fail --silent --show-error --retry 12 --retry-delay 3 \
+            https://bellebing.github.io/Bellibing-simulator/roll-assistant.html \
+            | grep -F "Bellibing Roll Assist"

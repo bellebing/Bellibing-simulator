@@ -19,7 +19,7 @@ export type WeaponType =
   | 'Sword';
 
 export type CharacterRarity = 4 | 5;
-export type WeaponRarity = 3 | 4 | 5;
+export type WeaponRarity = 1 | 2 | 3 | 4 | 5;
 
 export interface CharacterLevel90Stats {
   hp: number | null;

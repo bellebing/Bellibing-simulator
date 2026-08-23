@@ -1,25 +1,23 @@
 name: Sync Echo Catalog
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
     branches:
-      - data/echo-catalog-foundation
-    paths:
-      - scripts/sync-echo-game-data.mjs
-      - .github/workflows/sync-echo-catalog.yml
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   sync:
+    if: github.event_name == 'pull_request' && github.head_ref == 'data/echo-catalog-foundation'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout feature branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Setup Node
@@ -33,7 +31,7 @@ jobs:
       - name: Validate generated diff
         run: git diff --check
 
-      - name: Commit generated snapshot
+      - name: Commit generated snapshot to feature branch
         shell: bash
         run: |
           if git diff --quiet -- src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts; then
@@ -44,4 +42,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts
           git commit -m "data: sync Echo and Sonata snapshot"
-          git push origin HEAD:${{ github.ref_name }}
+          git push origin HEAD:${{ github.head_ref }}

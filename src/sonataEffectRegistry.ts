@@ -1,4 +1,5 @@
 import { SONATA_CATALOG } from './data/sonatas.ts';
+import type { SonataGameData } from './gameDataDomain.ts';
 import type { SonataEffectModel } from './sonataEffectDomain.ts';
 
 export interface SonataEffectRegistry {
@@ -9,7 +10,12 @@ export interface SonataEffectRegistry {
 export function createSonataEffectRegistry(
   effects: readonly SonataEffectModel[],
 ): SonataEffectRegistry {
-  const sonataById = new Map(SONATA_CATALOG.map((row) => [row.id, row] as const));
+  // The generated catalog intentionally preserves literal IDs/piece tuples.
+  // Widen only at this lookup boundary so arbitrary validated effect records can
+  // be checked without weakening the source catalog itself.
+  const sonataById: ReadonlyMap<string, SonataGameData> = new Map<string, SonataGameData>(
+    SONATA_CATALOG.map((row) => [row.id, row] as [string, SonataGameData]),
+  );
   const byId = new Map<string, SonataEffectModel>();
   const grouped = new Map<string, SonataEffectModel[]>();
 
@@ -17,7 +23,8 @@ export function createSonataEffectRegistry(
     if (byId.has(effect.effectId)) throw new Error(`Duplicate Sonata effect id: ${effect.effectId}`);
     const sonata = sonataById.get(effect.sonataSetId);
     if (!sonata) throw new Error(`Unknown Sonata id for ${effect.effectId}: ${effect.sonataSetId}`);
-    if (!sonata.activationPieces.includes(effect.pieces)) {
+    const activationPieces: readonly number[] = sonata.activationPieces;
+    if (!activationPieces.includes(effect.pieces)) {
       throw new Error(`${effect.effectId} uses ${effect.pieces}pc but ${sonata.name} does not support that activation`);
     }
     if (!Number.isFinite(effect.value) || effect.value < 0) {

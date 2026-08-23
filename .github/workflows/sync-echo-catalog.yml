@@ -1,0 +1,41 @@
+name: Sync Echo Catalog
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate candidate Echo snapshot
+        run: node scripts/sync-echo-game-data.mjs
+
+      - name: Validate generated diff
+        run: git diff --check
+
+      - name: Write sync summary
+        shell: bash
+        run: |
+          git status --short -- src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts
+          git diff --stat -- src/data/echoes.ts src/data/sonatas.ts src/data/echoCatalogMeta.ts
+
+      - name: Upload candidate snapshot for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-echo-catalog-candidate
+          path: |
+            src/data/echoes.ts
+            src/data/sonatas.ts
+            src/data/echoCatalogMeta.ts
+          retention-days: 7

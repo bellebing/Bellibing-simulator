@@ -6,6 +6,7 @@ import {
   createContentRegistry,
   getContent,
   type CharacterContent,
+  type EchoContent,
   type EchoSetContent,
   type WeaponContent,
 } from '../src/contentRegistry.ts';
@@ -28,8 +29,41 @@ test('a newly verified Echo set can be onboarded without any character integrati
 
   const registry = createContentRegistry([set]);
   assert.equal(registry.echoSets.size, 1);
+  assert.equal(registry.echoes.size, 0);
   assert.equal(registry.characters.size, 0);
   assert.equal(getContent(registry, 'ECHO_SET', 'test-set'), set);
+});
+
+test('Echo species and Sonata records onboard independently from character/weapon data', () => {
+  const echo: EchoContent = {
+    kind: 'ECHO',
+    id: 'test-echo',
+    name: 'Test Echo',
+    releaseStatus: 'RELEASED',
+    verificationStatus: 'VERIFIED',
+    integrationStatus: 'DATA_ONLY',
+    provenance: verifiedSource,
+  };
+  const set: EchoSetContent = {
+    kind: 'ECHO_SET',
+    id: 'test-sonata',
+    name: 'Test Sonata',
+    releaseStatus: 'RELEASED',
+    verificationStatus: 'VERIFIED',
+    integrationStatus: 'DATA_ONLY',
+    provenance: verifiedSource,
+  };
+
+  let registry = createContentRegistry([echo]);
+  assert.equal(registry.echoes.get(echo.id), echo);
+  assert.equal(registry.echoSets.size, 0);
+  assert.equal(registry.characters.size, 0);
+  assert.equal(registry.weapons.size, 0);
+  assert.equal(getContent(registry, 'ECHO', echo.id), echo);
+
+  registry = addContent(registry, set);
+  assert.equal(registry.echoes.size, 1);
+  assert.equal(registry.echoSets.get(set.id), set);
 });
 
 test('character, weapon and Echo-set onboarding do not require each other', () => {
@@ -64,6 +98,7 @@ test('character, weapon and Echo-set onboarding do not require each other', () =
   };
 
   let registry = createContentRegistry([character]);
+  assert.equal(registry.echoes.size, 0);
   assert.equal(registry.weapons.size, 0);
   assert.equal(registry.echoSets.size, 0);
 

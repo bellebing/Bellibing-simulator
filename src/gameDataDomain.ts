@@ -1,5 +1,7 @@
 import type {
   CharacterContent,
+  EchoContent,
+  EchoSetContent,
   WeaponContent,
 } from './contentRegistry.ts';
 
@@ -85,6 +87,47 @@ export interface WeaponGameData extends Omit<WeaponContent, 'weaponType'> {
   secondary: WeaponSecondaryStat | null;
   /** IDs into a separately modeled weapon-effect catalog. */
   effectIds: readonly string[];
+}
+
+export type EchoCost = 1 | 3 | 4;
+export type EchoThreatClass = 'COMMON' | 'ELITE' | 'OVERLORD' | 'CALAMITY';
+
+/**
+ * Raw Echo species identity only.
+ *
+ * It deliberately does not contain:
+ * - whether a character should equip the Echo
+ * - recommended main/substats
+ * - build slot position
+ * - modeled Echo Skill damage/buffs/triggers
+ *
+ * `threatClass` may remain null when the source proves COST 4 but does not
+ * safely distinguish Overlord from Calamity.
+ */
+export interface EchoGameData extends EchoContent {
+  /** Stable upstream 5-star item/entity id used to trace the raw record. */
+  sourceId: number;
+  cost: EchoCost;
+  threatClass: EchoThreatClass | null;
+  /** Independent Sonata records this species may roll on capture. */
+  sonataSetIds: readonly string[];
+  /** Pointer reserved for the separately modeled active Echo Skill layer. */
+  skillEffectId?: string;
+}
+
+export interface SonataPieceEffectRaw {
+  pieces: number;
+  description: string;
+}
+
+/**
+ * Raw Sonata identity + source text. Text is not equivalent to a combat model;
+ * triggers/stacks/uptime are interpreted later by a separate effect adapter.
+ */
+export interface SonataGameData extends EchoSetContent {
+  sourceId: number;
+  activationPieces: readonly number[];
+  rawPieceEffects: readonly SonataPieceEffectRaw[];
 }
 
 /**

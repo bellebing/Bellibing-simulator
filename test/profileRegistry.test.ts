@@ -33,7 +33,7 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
   ]);
   assert.equal(resolved.statTarget.requiredCoreHits, 2);
   assert.equal(resolved.statTarget.requiredUsefulHits, 2);
-  assert.deepEqual(resolved.team.members.map((member) => member.characterId), ['augusta', 'iuno', 'shorekeeper']);
+  assert.deepEqual(resolved.team.members.map((member) => member.characterId), ['augusta', 'iuno', 'the-shorekeeper']);
   assert.equal(resolved.rotation.engineModelId, 'AUGUSTA_STD_V1');
   assert.equal(resolved.rotation.rotationSeconds, 11.17);
 });

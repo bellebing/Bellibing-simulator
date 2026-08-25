@@ -84,11 +84,11 @@ function validateStatTarget(profile: StatTargetProfile): void {
   }
   const coreCount = profile.targetRules.filter((rule) => rule.role === 'CORE').length;
   const usefulCount = profile.targetRules.filter((rule) => rule.role === 'USEFUL').length;
-  if (profile.requiredCoreHits < 0 || profile.requiredCoreHits > coreCount) {
-    throw new Error(`${profile.id}: requiredCoreHits exceeds Core rules.`);
+  if (!Number.isInteger(profile.requiredCoreHits) || profile.requiredCoreHits < 0 || profile.requiredCoreHits > coreCount) {
+    throw new Error(`${profile.id}: requiredCoreHits must be an integer within available Core rules.`);
   }
-  if (profile.requiredUsefulHits < 0 || profile.requiredUsefulHits > usefulCount) {
-    throw new Error(`${profile.id}: requiredUsefulHits exceeds Useful rules.`);
+  if (!Number.isInteger(profile.requiredUsefulHits) || profile.requiredUsefulHits < 0 || profile.requiredUsefulHits > usefulCount) {
+    throw new Error(`${profile.id}: requiredUsefulHits must be an integer within available Useful rules.`);
   }
 }
 

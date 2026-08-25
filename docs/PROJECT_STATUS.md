@@ -166,18 +166,22 @@ Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon pa
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
-75 source-audited effect rows across 37 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 84 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+90 source-audited effect rows across 42 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 79 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
 
-Current completed slice:
+Current completed slices:
 
-- all 22 currently released Pistol weapons now have source-audited effect records;
+- all 22 currently released Pistol weapons have source-audited effect records;
+- the first five pending 5-star Rectifiers are audited: Boson Astrolabe, Cosmic Ripples, Firstlight's Herald, Luminous Hymn and Stellar Symphony;
+- all 13 currently released Rectifier characters were backward-impact screened for the new Rectifier facts; no production Rectifier Weapon Recommendation profiles currently exist;
 - event-triggered and stacking effects remain conditional/manual until rotation state proves activation, stack count and overlap;
-- `NEXT_RESONATOR`, target-facing debuffs, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
-- verified raw mechanics that still need executable cross-effect modeling remain explicit `VERIFIED_RAW_PENDING_MODEL` rather than being dropped.
+- `NEXT_RESONATOR`, target-facing debuffs/amplification, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
+- Firstlight's Herald retains verified HP, Concerto and team-ATK magnitude, while its conflicting Kingfisher vs Snow Taint/Ripples trigger-state semantics remain explicit `VERIFIED_RAW_PENDING_MODEL`;
+- verified raw mechanics that still need executable modeling remain explicit pending-model rather than being dropped or guessed.
 
 Before complete:
 
-- populate effects for the remaining 84 released weapons;
+- populate effects for the remaining 79 released weapons;
+- continue the remaining Rectifier source audit before declaring that weapon type complete;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
 - keep raw passive text as provenance/display input, not executable combat behavior;

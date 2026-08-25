@@ -8,6 +8,9 @@ import {
   createRank5EchoAtLevel0,
   primaryMainStatValueAtLevel,
   secondaryMainStatValueAtLevel,
+  type EchoCost,
+  type EchoLevel,
+  type PrimaryMainStatName,
 } from '../src/echoCore.ts';
 
 const template = createRank5EchoAtLevel0({
@@ -15,6 +18,16 @@ const template = createRank5EchoAtLevel0({
   cost: 1,
   primaryMainStat: 'ATK%',
 });
+
+const checkpoints: readonly EchoLevel[] = [0, 5, 10, 15, 20, 25];
+const representativeProgressionCases: readonly {
+  cost: EchoCost;
+  primaryMainStat: PrimaryMainStatName;
+}[] = [
+  { cost: 1, primaryMainStat: 'HP%' },
+  { cost: 3, primaryMainStat: 'Electro DMG' },
+  { cost: 4, primaryMainStat: 'DEF%' },
+];
 
 function runFiveToPlus10(seed: string) {
   const lab = new EchoLab(new VerifiedWuwaEchoRuntime());
@@ -42,6 +55,39 @@ test('different simulation seeds produce different rolled Echo paths', () => {
     a.echoes.map((echo) => echo.substats),
     b.echoes.map((echo) => echo.substats),
   );
+});
+
+test('Echo Lab preserves exact main-stat progression across representative costs and every checkpoint', () => {
+  for (const progressionCase of representativeProgressionCases) {
+    for (const checkpoint of checkpoints) {
+      const lab = new EchoLab(new VerifiedWuwaEchoRuntime());
+      const rng = new SeededRng(`lab-main-${progressionCase.cost}-${checkpoint}`);
+      const progressionTemplate = createRank5EchoAtLevel0({
+        id: `lab-main-${progressionCase.cost}-${checkpoint}`,
+        cost: progressionCase.cost,
+        primaryMainStat: progressionCase.primaryMainStat,
+      });
+      const acquired = lab.acquire(lab.createSession(), progressionTemplate, 1, rng);
+      const session = checkpoint === 0
+        ? acquired
+        : lab.rollEchoTo(acquired, 0, checkpoint, rng);
+      const echo = session.echoes[0]!;
+
+      assert.equal(echo.level, checkpoint);
+      assert.equal(
+        echo.mainStat.value,
+        primaryMainStatValueAtLevel(
+          progressionCase.cost,
+          progressionCase.primaryMainStat,
+          checkpoint,
+        ),
+      );
+      assert.equal(
+        echo.secondaryMainStat?.value,
+        secondaryMainStatValueAtLevel(progressionCase.cost, checkpoint),
+      );
+    }
+  }
 });
 
 test('rolling five acquired Echoes to +10 tracks the complete batch spend', () => {

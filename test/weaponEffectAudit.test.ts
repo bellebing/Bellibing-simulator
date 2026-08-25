@@ -9,7 +9,7 @@ import {
   auditWeaponEffectCoverage,
   getWeaponEffectCoverageStatus,
 } from '../src/data/weaponEffectAudit.ts';
-import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffects.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { WEAPON_RECOMMENDATION_PROFILES } from '../src/data/weaponRecommendations.ts';
 import { WEAPON_CATALOG, getWeaponGameData } from '../src/data/weapons.ts';
 
@@ -19,13 +19,13 @@ test('Version 3.6 released roster has explicit Weapon Effect coverage status for
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
   assert.equal(audit.releasedCount, 121);
-  assert.equal(audit.auditedEffectWeaponCount, 58);
+  assert.equal(audit.auditedEffectWeaponCount, 73);
   assert.equal(audit.verifiedNoCombatEffectCount, 0);
-  assert.equal(audit.pendingSourceAuditCount, 63);
+  assert.equal(audit.pendingSourceAuditCount, 48);
   assert.equal(audit.explicitCoverageCount, 121);
   assert.equal(audit.fullReleasedRosterComplete, false);
   assert.deepEqual(audit.issues, []);
-  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 63);
+  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 48);
 });
 
 test('future released weapon fails the effect coverage gate until its status is explicitly audited', () => {
@@ -55,12 +55,12 @@ test('adding audited effect data requires removing the weapon from the pending-s
   const syntheticEffect = {
     ...source,
     effectId: 'TEST-PENDING-OVERLAP',
-    weaponId: 'thunderflare-dominion',
+    weaponId: 'abyss-surges',
   };
   const audit = auditWeaponEffectCoverage(WEAPON_CATALOG, [...WEAPON_EFFECT_CATALOG, syntheticEffect]);
   const overlap = audit.issues.find((issue) => issue.code === 'PENDING_OVERLAPS_EFFECT_DATA');
 
-  assert.equal(overlap?.weaponId, 'thunderflare-dominion');
+  assert.equal(overlap?.weaponId, 'abyss-surges');
 });
 
 function releasedCharacterIds(weaponType: string): string[] {
@@ -113,6 +113,18 @@ const EXPECTED_RELEASED_RECTIFIER_CHARACTERS = [
   'verina',
   'yinlin',
   'zhezhi',
+] as const;
+
+const EXPECTED_RELEASED_BROADBLADE_CHARACTERS = [
+  'augusta',
+  'calcharo',
+  'chisa',
+  'jinhsi',
+  'jiyan',
+  'lumi',
+  'lupa',
+  'mornye',
+  'taoqi',
 ] as const;
 
 test('Pistol effect batch 1 has an exact roster-wide backward-impact review', () => {
@@ -295,6 +307,71 @@ test('Rectifier batches 3 and 4 close released Rectifier coverage with exact bac
   }
 });
 
+test('Broadblade completion closes all 23 released weapons and preserves Augusta profile relations', () => {
+  const review = WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36.find(
+    (row) => row.reviewId === 'WEAPON-EFFECT-BROADBLADES-2026-08-25-01',
+  );
+  assert.ok(review);
+
+  const releasedIds = releasedCharacterIds('Broadblade');
+  assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_BROADBLADE_CHARACTERS]);
+  assert.equal(releasedIds.length, 9);
+  assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);
+
+  const profileIds = currentProfileIds('Broadblade');
+  assert.deepEqual(profileIds, ['augusta-standard-weapons']);
+  assert.deepEqual([...review.existingWeaponRecommendationProfileIds].sort(), profileIds);
+  assert.equal(review.result, 'REVIEWED_NO_EXISTING_PROFILE_CHANGE');
+  assert.deepEqual(review.weaponIds, [
+    'radiance-cleaver',
+    'thunderflare-dominion',
+    'aureate-zenith',
+    'broadblade-41',
+    'dauntless-evernight',
+    'discord',
+    'meditations-on-mercy',
+    'waning-redshift',
+    'beguiling-melody',
+    'broadblade-of-night',
+    'broadblade-of-voyager',
+    'guardian-broadblade',
+    'originite-type-i',
+    'tyro-broadblade',
+    'training-broadblade',
+  ]);
+
+  const augustaProfile = WEAPON_RECOMMENDATION_PROFILES.find((profile) => profile.id === 'augusta-standard-weapons');
+  assert.ok(augustaProfile);
+  assert.deepEqual(
+    augustaProfile.options.map((option) => [option.weaponId, option.rank, option.relativePerformance]),
+    [
+      ['thunderflare-dominion', 1, 1],
+      ['verdant-summit', 1, .903],
+      ['ages-of-harvest', 1, .804],
+      ['wildfire-mark', 1, .773],
+      ['radiance-cleaver', 1, .773],
+      ['kumokiri', 1, .772],
+      ['lustrous-razor', 1, .743],
+      ['aureate-zenith', 5, .732],
+      ['autumntrace', 5, .71],
+      ['waning-redshift', 5, .665],
+      ['helios-cleaver', 5, .639],
+      ['meditations-on-mercy', 5, .607],
+    ],
+  );
+
+  const releasedWeapons = releasedWeaponIds('Broadblade');
+  assert.equal(releasedWeapons.length, 23);
+  for (const weaponId of releasedWeapons) {
+    assert.equal(getWeaponEffectCoverageStatus(weaponId), 'AUDITED_EFFECTS', weaponId);
+    assert.equal(
+      (WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 as readonly string[]).includes(weaponId),
+      false,
+      weaponId,
+    );
+  }
+});
+
 test('coverage lookup distinguishes audited, pending, upcoming and unknown weapons', () => {
   assert.equal(getWeaponEffectCoverageStatus('stringmaster'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('static-mist'), 'AUDITED_EFFECTS');
@@ -305,6 +382,8 @@ test('coverage lookup distinguishes audited, pending, upcoming and unknown weapo
   assert.equal(getWeaponEffectCoverageStatus('jinzhou-keeper'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('oceans-gift'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('training-rectifier'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('thunderflare-dominion'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('training-broadblade'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
   assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
   assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');

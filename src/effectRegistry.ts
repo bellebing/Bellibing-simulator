@@ -1,6 +1,6 @@
 import { auditWeaponEffectCoverage, getWeaponEffectCoverageStatus } from './data/weaponEffectAudit.ts';
 import { WEAPON_CATALOG } from './data/weapons.ts';
-import { WEAPON_EFFECT_CATALOG } from './data/weaponEffects.ts';
+import { WEAPON_EFFECT_CATALOG } from './data/weaponEffectCatalog.ts';
 import type { WeaponEffectData } from './effectDomain.ts';
 
 function validateEffect(effect: WeaponEffectData): void {

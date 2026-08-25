@@ -166,16 +166,22 @@ Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon pa
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
-36 audited effects across 16 weapons are modeled in the independent effect layer.
+75 source-audited effect rows across 37 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 84 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+
+Current completed slice:
+
+- all 22 currently released Pistol weapons now have source-audited effect records;
+- event-triggered and stacking effects remain conditional/manual until rotation state proves activation, stack count and overlap;
+- `NEXT_RESONATOR`, target-facing debuffs, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
+- verified raw mechanics that still need executable cross-effect modeling remain explicit `VERIFIED_RAW_PENDING_MODEL` rather than being dropped.
 
 Before complete:
 
-- populate effects for the full supported released Weapon catalog;
+- populate effects for the remaining 84 released weapons;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
-- make effect coverage auditable so a released weapon cannot silently have an empty effect list that is interpreted as zero;
 - keep raw passive text as provenance/display input, not executable combat behavior;
-- missing mechanics remain explicit pending/conditional rather than silently treated as zero;
+- resolve verified raw pending-model mechanics without inventing uptime or state transitions;
 - effect records must remain independent from character recommendations and rotation uptime.
 
 A newly modeled effect is a changed combat fact and must trigger a backward-impact review even when the weapon itself is old. A new weapon must also be screened against every existing compatible user of its weapon type rather than being hard-wired only to its signature owner.

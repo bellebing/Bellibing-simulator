@@ -194,7 +194,7 @@ function echoLabMarkup(): string {
         </div>
 
         <div class="scope-note">
-          <strong>What this test covers now:</strong> real substat type RNG, source-backed roll tiers, no duplicate substat type, checkpoint EXP/Tuners/Shell Credits and discard refunds.
+          <strong>What this test covers now:</strong> exact Rank-5 main-stat checkpoint scaling, real substat type RNG, source-backed roll tiers, no duplicate substat type, checkpoint EXP/Tuners/Shell Credits and discard refunds.
           <span>Fresh desired-main acquisition chance is deliberately not modeled yet.</span>
         </div>
       </section>
@@ -257,9 +257,9 @@ function echoLabMarkup(): string {
       </section>
 
       <section class="pending-note panel">
-        <div class="panel-label">VISIBLE PENDING RULE</div>
-        <strong>Main-stat progression between +0 and +25 is not wired into the runtime yet.</strong>
-        <p>The primary/secondary main values shown on these cards are therefore the engine's current +0 endpoint while you test the already-live tuning/RNG/resource system. This is intentionally visible instead of being faked.</p>
+        <div class="panel-label">VERIFIED MAIN-STAT RULE</div>
+        <strong>Primary and secondary main stats scale at every modeled checkpoint.</strong>
+        <p>Echo Core applies the source-backed Rank-5 GrowthValue curve at +0/+5/+10/+15/+20/+25. Fresh desired-main acquisition chance remains deliberately separate and pending.</p>
       </section>
     </main>`;
 }

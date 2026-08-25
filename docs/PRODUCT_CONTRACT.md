@@ -1,4 +1,4 @@
-# Bellibing Simulator — Product Contract v0.2
+# Bellibing Simulator — Product Contract v0.3
 
 ## North star
 
@@ -89,22 +89,23 @@ The same DEF roll can be a discard in one state and survivable in another. The s
 
 This means roll quality matters: a low and high roll of the same substat are not automatically equivalent.
 
-## Actual build impact beats visual rankings
+## Guide fallback vs DPS-integrated decision
 
 No highlighted-stat list, guide label, Core/Useful/Filler classification or conventional double-crit score may be the final judge for a DPS-integrated character.
 
-A Heavy Attack DMG, Basic Attack DMG, Skill DMG, Liberation DMG or Flat ATK roll can be valuable when the character's real rotation and current build make it valuable.
+A guide/profile checkpoint policy is allowed as a clearly labeled fallback before that character has a verified combat model. Its requirements are profile data and may differ by character, mode and target quality.
 
-Guide profiles may be used as a clearly labeled fallback while a new character's DPS model is still pending. Once a verified Personal Rotation DPS model exists, actual build impact becomes the final judge.
+Once a verified Personal Rotation DPS model exists, actual whole-build impact becomes the final judge. Heavy/Basic/Skill/Liberation/Flat ATK or any other stat may matter if the real rotation/build makes it valuable.
 
 ## Roll checkpoints and resource economics
 
-Preserve V9.15's sequential +5/+10/+15/+20/+25 concept, resource accounting, discard refunds and Temporary/Kept lifecycle.
+The tuning engine uses sequential +5/+10/+15/+20/+25 checkpoints, verified resource accounting, discard refunds and a Temporary/Kept lifecycle.
 
 The engine may calculate internally:
 
 - future branch probabilities;
 - chance of reaching the selected build target;
+- probability of beating the current build/slot when DPS-integrated;
 - continue-vs-restart economics;
 - expected Echo / Tuner / EXP / Shell Credit cost;
 - Personal Rotation DPS impact;
@@ -112,11 +113,9 @@ The engine may calculate internally:
 
 Those metrics support the verdict. They are not a requirement to clutter the normal UI.
 
-The exact roll probabilities, resource costs and refunds must come from verified game data / validated V9.15 logic.
+Exact roll probabilities, main-stat progression, resource costs and refunds must come from verified game data. Missing game mechanics stay pending rather than being inferred.
 
 ## Current vs Expected
-
-Preserve the existing V9.15 semantic split:
 
 - **Current** = the user's actual RNG outcome / owned build.
 - **Expected** = statistical/economic expectation under the chosen farming/rolling policy.
@@ -143,27 +142,34 @@ A useful Why? answer explains the deciding factor, for example:
 - an apparently odd stat contributes real rotation damage;
 - this slot is cheaper to improve than the visually weakest one.
 
-## Proven V9.15 concepts to migrate
+## Product invariants
 
-- Owned Echo routing
+The application must preserve these behaviors as first-class contracts:
+
+- Owned Echo input and effective five-Echo build composition
 - Current vs Expected separation
 - Sequential roll checkpoints
-- Echo/Tuner/EXP budgets and refunds
+- Echo/Tuner/EXP/Shell Credit economics and verified refunds
 - Temporary vs Kept lifecycle
 - Per-slot cumulative spend
-- Lock incumbent / keep until genuinely better
-- Whole-build DPS replacement test
-- ER-valid replacement gate
-- Weakest marker as a heuristic only
-- Monte Carlo upgrade economics
+- Keep incumbent until a genuinely better accepted replacement exists
+- Whole-build DPS replacement test for DPS-integrated characters
+- mandatory-gate-valid replacement semantics
+- Weakest as a heuristic only
+- upgrade Monte Carlo / expected-cost economics
 - Best Upgrade Target distinct from Weakest
-- Baseline/snapshot comparison
+- saved baseline/build comparison when exposed by product UX
 
-## Things explicitly not to migrate as final architecture
+## Things explicitly excluded from final architecture
 
-- Spreadsheet coordinates as contracts
+- spreadsheet coordinates as contracts
 - giant formula dependency chains
 - static profile score as final Echo quality
 - manual target-substat setup as a required normal-user workflow
-- UI complexity required only because Sheets needed cache/fingerprint controls
+- UI complexity required only by implementation internals
 - probability/detail dashboards that do not change the user's next action
+- hard-coded UI character lists or character-to-signature-weapon coupling
+
+## Completion gate
+
+The application does not begin broad character DPS expansion until the pre-DPS foundation in [`PROJECT_STATUS.md`](PROJECT_STATUS.md) is complete. Foundation code existing is not the same as full content coverage.

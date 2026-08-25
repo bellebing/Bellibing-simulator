@@ -1,6 +1,6 @@
 import type { WeaponGameData } from '../gameDataDomain.ts';
 import type { WeaponEffectData } from '../effectDomain.ts';
-import { WEAPON_EFFECT_CATALOG } from './weaponEffects.ts';
+import { WEAPON_EFFECT_CATALOG } from './weaponEffectCatalog.ts';
 import { WEAPON_CATALOG } from './weapons.ts';
 
 /**
@@ -12,8 +12,6 @@ import { WEAPON_CATALOG } from './weapons.ts';
  * added to an audited coverage class, otherwise the roster gate fails.
  */
 export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
-  'radiance-cleaver',
-  'thunderflare-dominion',
   'abyss-surges',
   'blazing-justice',
   'daybreakers-spine',
@@ -33,12 +31,6 @@ export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
   'red-spring',
   'unflickering-valor',
   'glint-of-clouds',
-  'aureate-zenith',
-  'broadblade-41',
-  'dauntless-evernight',
-  'discord',
-  'meditations-on-mercy',
-  'waning-redshift',
   'aether-strike',
   'amity-accord',
   'celestial-spiral',
@@ -56,11 +48,6 @@ export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
   'overture',
   'somnoire-anchor',
   'sword-18',
-  'beguiling-melody',
-  'broadblade-of-night',
-  'broadblade-of-voyager',
-  'guardian-broadblade',
-  'originite-type-i',
   'gauntlets-of-night',
   'gauntlets-of-voyager',
   'guardian-gauntlets',
@@ -69,10 +56,8 @@ export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
   'originite-type-ii',
   'sword-of-night',
   'sword-of-voyager',
-  'tyro-broadblade',
   'tyro-gauntlets',
   'tyro-sword',
-  'training-broadblade',
   'training-gauntlets',
   'training-sword',
 ] as const;
@@ -88,12 +73,13 @@ export const WEAPON_EFFECT_ROSTER_AUDIT_V36 = {
   checkedAt: '2026-08-25',
   expectedReleasedCount: 121,
   notes: [
-    '111 audited effect rows now cover 58 released weapons after closing released Rectifier coverage.',
-    '63 released weapons remain explicitly PENDING_SOURCE_AUDIT; this is not zero-effect data.',
-    'All 22 currently RELEASED Pistol weapons and all 27 currently RELEASED Rectifier weapons now have source-audited effect records.',
+    '135 audited effect rows now cover 73 released weapons after closing released Broadblade coverage.',
+    '48 released weapons remain explicitly PENDING_SOURCE_AUDIT; this is not zero-effect data.',
+    'All 22 currently RELEASED Pistol weapons, all 27 RELEASED Rectifier weapons and all 23 RELEASED Broadblade weapons now have source-audited effect records.',
+    'Aureate Zenith uses the current multi-source Heavy Attack DMG wording while a conflicting Wutheringlab Resonance Liberation DMG label remains explicit provenance evidence.',
+    'Broadblade of Night uses the current PlayAware/GameVika/Fandom Intro Skill trigger consensus while a lower-priority Slyraf Outro representation remains explicit provenance discrepancy evidence.',
+    'Broadblade#41 preserves rank-dependent HP thresholds for its healing branch instead of collapsing R1-R5 into one guessed threshold.',
     'Rectifier#25 preserves the literal below-60% healing and above-60% ATK source wording; exact 60% behavior is not guessed.',
-    'Rectifier of Night uses the current multi-source Intro Skill trigger consensus while the lower-priority Outro wording remains explicit provenance discrepancy evidence.',
-    'Comet Flare uses the current 3/3.75/4.5/5.25/6% Healing Bonus series; older 3/3.5/4/4.5/5% pages remain documented as a source conflict.',
     'Firstlight\'s Herald team-ATK magnitude remains raw-verified while its conflicting Kingfisher vs Snow Taint/Ripples trigger-state wording remains explicitly pending-model.',
     'Thousandfold Deliverance is CONFIRMED_UPCOMING and remains outside the released-roster effect gate until it goes live.',
   ],
@@ -250,6 +236,41 @@ export const WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 = [
       'Guardian Rectifier, Tyro Rectifier and Training Rectifier are unconditional low-rarity facts; Originite Type V and Rectifier of Voyager remain MANUAL event/resource facts.',
       'Rectifier of Night uses the Intro Skill trigger supported by current PlayAware, Fandom and Wuwa Wiki data. A lower-priority Slyraf list exposes Outro wording at R5; the discrepancy remains provenance evidence instead of silently overriding the current multi-source consensus.',
       'No production Rectifier Weapon Recommendation profile exists, so closing raw effect coverage does not invent recommendations or rankings.',
+    ],
+  },
+  {
+    reviewId: 'WEAPON-EFFECT-BROADBLADES-2026-08-25-01',
+    checkedAt: '2026-08-25',
+    weaponIds: [
+      'radiance-cleaver',
+      'thunderflare-dominion',
+      'aureate-zenith',
+      'broadblade-41',
+      'dauntless-evernight',
+      'discord',
+      'meditations-on-mercy',
+      'waning-redshift',
+      'beguiling-melody',
+      'broadblade-of-night',
+      'broadblade-of-voyager',
+      'guardian-broadblade',
+      'originite-type-i',
+      'tyro-broadblade',
+      'training-broadblade',
+    ],
+    weaponType: 'Broadblade',
+    reviewedReleasedCharacterIds: [
+      'augusta', 'calcharo', 'chisa', 'jinhsi', 'jiyan', 'lumi', 'lupa', 'mornye', 'taoqi',
+    ],
+    existingWeaponRecommendationProfileIds: ['augusta-standard-weapons'],
+    result: 'REVIEWED_NO_EXISTING_PROFILE_CHANGE',
+    notes: [
+      'This review closes source-audited Weapon Effect coverage for all 23 currently RELEASED Broadblades and screens all 9 currently RELEASED Broadblade users.',
+      'Unlike the completed Pistol and Rectifier slices, Broadblade already has a production Weapon Recommendation profile: augusta-standard-weapons. Its existing relations/ranks are regression-screened but are not recalculated or silently mutated merely because raw effect coverage became complete.',
+      'Thunderflare Dominion, Radiance Cleaver, Aureate Zenith, Waning Redshift and Meditations on Mercy already appear in Augusta’s production profile. Their newly source-audited effect facts remain independent from recommendation ranking data.',
+      'Aureate Zenith keeps the current multi-source Heavy Attack DMG wording while the conflicting Wutheringlab Resonance Liberation label remains provenance evidence; Broadblade of Night similarly keeps the current Intro Skill consensus while preserving the lower-priority Outro discrepancy.',
+      'All triggered, stacking, resource and HP-state effects remain MANUAL unless character/rotation/encounter state proves activation, stack count and overlap.',
+      'Low-rarity compatibility does not create new recommendation entries or profiles.',
     ],
   },
 ] as const satisfies readonly WeaponEffectBackwardImpactReview[];

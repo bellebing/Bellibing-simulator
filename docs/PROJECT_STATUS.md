@@ -35,16 +35,26 @@ Separate scope that must be resolved explicitly before full farm-cost claims:
 
 This acquisition gap does not make the eligible-candidate tuning runtime incomplete; it limits what Bellibing may claim about farming from fresh world drops.
 
-### Echo Lab — FOUNDATION
+### Echo Lab — COMPLETE FOR MECHANICAL ORACLE
 
-The mechanical lab can generate eligible Echo batches, roll through checkpoints, expose exact substat results, track resources/recovery and validate loadouts.
+The Echo Lab is the canonical validation surface for eligible Rank-5 tuning mechanics.
 
-Before it is considered the canonical Echo-mechanics validation surface:
+Implemented and regression-tested:
 
-- verify the browser display/runtime exposes the exact checkpoint-scaled primary and secondary main stats now provided by Echo Core;
-- add/retain browser-facing regression fixtures across representative COST/main-stat families and checkpoints rather than relying only on engine tests;
-- verify seeded reproduction, checkpoint spend, discard and recovery against the engine through the actual lab flow;
-- keep acquisition simulation separate from eligible-candidate tuning unless acquisition weights are verified.
+- eligible Echo batch generation from the shared Echo Core runtime;
+- exact checkpoint-scaled primary and secondary main-stat state at +0 / +5 / +10 / +15 / +20 / +25;
+- representative Lab-orchestration coverage across COST 1 / 3 / 4 at every checkpoint, on top of Echo Core's exhaustive main-stat-family tests;
+- source-exact primary main-stat browser display with two-decimal precision where one-decimal guide rounding would hide the internal value;
+- seeded exact reproduction for the same seed and action sequence;
+- selective/batch tuning through the real checkpoint path;
+- checkpoint EXP, Tuners and Shell Credits accounting;
+- discard recovery through the shared recovery rules;
+- separate loadout validation without preventing intentionally invalid Lab experiments;
+- built browser-artifact readback confirming the verified main-stat rule is what the exported app displays.
+
+PR #32 synchronized the browser surface with the verified runtime, PR #33 fixed mechanical-oracle display precision, and PR #34 locked representative COST/checkpoint integration coverage.
+
+Fresh desired-main acquisition probability remains deliberately outside Echo Lab's eligible-candidate tuning scope until source-verified acquisition weights exist. That pending acquisition model does not make the mechanical tuning oracle incomplete.
 
 ### Roll / stopping policy — FOUNDATION, NOT FINAL
 
@@ -176,8 +186,8 @@ UI polish is intentionally lower priority than completing the engine/data founda
 ## Order before broad Character DPS work
 
 1. **DONE — PR #30:** Complete Echo Core checkpoint main-stat progression.
-2. Harden Echo Lab as the mechanical oracle for Echo tuning.
-3. Generalize/profile-proof the non-DPS roll policy.
+2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
+3. **NEXT — BUG-004:** Generalize/profile-proof the non-DPS roll policy.
 4. Complete Character static/raw facts.
 5. Complete Weapon core roster + Weapon Effects coverage.
 6. Complete current Echo/Sonata raw audit.

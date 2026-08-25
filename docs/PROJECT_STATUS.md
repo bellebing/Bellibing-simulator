@@ -114,34 +114,57 @@ Important propagation examples:
 
 This contract prevents old Character↔Weapon, Echo/Sonata, Team, Rotation and DPS profiles from silently going stale as patches add new options.
 
-### Character raw database — FOUNDATION
+### Character raw/mechanics foundation — STATIC GATES COMPLETE, MECHANICS COVERAGE PARTIAL
 
 60 Character records exist and raw Character data is separated from weapons, Echo recommendations, teams and rotations.
 
-Not complete yet:
+PR #38 added an executable released-character Level-90/core completeness gate. For the 57 currently released Characters, a required raw field may only remain null when the exact Character + field is registered as a dated pending exception with a reason. Current unresolved core exceptions are limited to Max Energy semantics for Qingxiao, Rover (Electro) and Suisui; resolved fields may not keep stale pending exceptions.
 
-- every released Character must receive a full source audit for the static fields Bellibing needs;
-- unresolved/null core fields must be eliminated where current source data exists;
-- base stats, Max Energy, base CR/CD/ER and intrinsic/static stat nodes must be verified consistently;
-- raw skill/Forte/passive/sequence facts must live in separate character-fact catalogs before character DPS adapters are written.
+PR #39 moved static Minor-Forte stats into an independent raw catalog and requires explicit coverage for all 57 released Characters. The one current intrinsic conflict is Mornye DEF%, where current sources disagree; it remains explicit pending rather than being guessed.
 
-A record existing in the roster does not mean the character is fully modeled.
+PR #40 introduced the generic Character Mechanics Fact Layer plus executable support/preflight stages. Raw mechanics are separated from rotations so a rotation consumes canonical facts instead of becoming its own duplicate database.
 
-Current known released raw-data blockers include source-conflicted/null fields such as Qingxiao Max Energy, Rover (Electro) core fields and Suisui core fields. These must be resolved from current sources or remain explicitly pending; they must not be guessed.
+PR #41 uses Augusta only as the golden-reference mechanics fixture. It verifies the architecture for action facts, resources, passives, Outro, sequences, modeled-vs-assumed dependencies and reverse impact lookup without declaring the whole roster modeled.
 
-### Weapon raw database — CORE CATALOG FOUNDATION
+Still required before Character mechanics can be called complete:
 
-122 Weapon records exist with independent identity/core-stat data.
+- populate source-audited skill/Forte/passive/resource/Outro/sequence facts across the released roster;
+- expand action/multiplier coverage beyond the exact golden-reference subset where the supported product needs it;
+- keep verified raw facts, conditional mechanics and genuinely pending mechanics distinct;
+- make the Character preflight fail cleanly for every missing required fact rather than silently treating absence as zero;
+- do not begin broad Character DPS adapters until this roster-wide mechanics coverage is closed.
 
-Before Weapon data is complete:
+**Important:** moving temporarily to the Weapon workstream does not mark this Character mechanics blocker complete. It remains part of the Pre-DPS gate and must be closed before the project advances past the remaining foundation work.
 
-- audit the complete released roster against current patch data;
-- ensure every supported weapon has verified Level-90 core stats and secondary stat;
-- keep signature/BiS/recommendation outside raw Weapon data.
+### Weapon raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
-Every new weapon must also trigger the backward compatibility screen defined by the content-impact contract.
+PR #42 (`bde6851`) adds the executable Version 3.6 Weapon Core roster audit.
 
-### Weapon Effects — FOUNDATION / PARTIAL COVERAGE
+Current audited lifecycle on 2026-08-25:
+
+- 122 total catalog records;
+- 121 `RELEASED` weapons;
+- 1 `CONFIRMED_UPCOMING` weapon: Thousandfold Deliverance, scheduled for Version 3.6 phase 2;
+- 0 `UNRELEASED_WIP` weapon rows in the production catalog.
+
+The released core gate requires every live weapon to have:
+
+- `VERIFIED` raw status;
+- positive Level-90 Base ATK;
+- a valid Level-90 secondary stat/value;
+- cross-check provenance;
+- current lifecycle classification separate from passive/effect completeness.
+
+Version 3.6 lifecycle anchors are regression-locked:
+
+- Glint of Clouds is the live phase-1 Sword at 500 Base ATK / 36% CRIT Rate;
+- Thousandfold Deliverance is the confirmed phase-2 Broadblade at 413 Base ATK / 72.2% HP and remains `PARTIALLY_VERIFIED`/upcoming until it actually goes live.
+
+The frozen current-patch count is intentional: adding a 123rd row makes the audit fail until the patch snapshot is explicitly reviewed and updated. This prevents future content from inheriting a false green result merely because the raw-record helper has defaults.
+
+Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon passive/effect completeness remains the separate next workstream.
+
+### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
 36 audited effects across 16 weapons are modeled in the independent effect layer.
 
@@ -149,10 +172,13 @@ Before complete:
 
 - populate effects for the full supported released Weapon catalog;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
+- distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
+- make effect coverage auditable so a released weapon cannot silently have an empty effect list that is interpreted as zero;
+- keep raw passive text as provenance/display input, not executable combat behavior;
 - missing mechanics remain explicit pending/conditional rather than silently treated as zero;
 - effect records must remain independent from character recommendations and rotation uptime.
 
-A newly modeled effect is a changed combat fact and must trigger a backward-impact review even when the weapon itself is old.
+A newly modeled effect is a changed combat fact and must trigger a backward-impact review even when the weapon itself is old. A new weapon must also be screened against every existing compatible user of its weapon type rather than being hard-wired only to its signature owner.
 
 ### Echo raw database — CATALOG FOUNDATION
 
@@ -225,16 +251,17 @@ UI polish is intentionally lower priority than completing the engine/data founda
 2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
 3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
 4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
-5. **NEXT:** Complete Character static/raw facts and required character-fact catalogs.
-6. Complete Weapon core roster + Weapon Effects coverage.
-7. Complete current Echo/Sonata raw audit.
-8. Complete Sonata Effect coverage.
-9. Complete Echo skill/effect/attack fact coverage needed by supported content.
-10. Complete/populate composable default profiles.
-11. Freeze and regression-test all pre-DPS contracts and current-patch backward-impact state.
-12. Only then expand Character combat/DPS adapters character-by-character.
-13. As each character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that character.
-14. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
+5. **PARTIAL — PR #38/#39/#40/#41:** Character static/core + intrinsic gates and generic mechanics architecture are in place. **Roster-wide Character mechanics fact coverage remains an explicit Pre-DPS blocker.**
+6. **IN PROGRESS — PR #42:** Weapon Core roster is complete for the current Version 3.6 released roster. **NEXT: complete Weapon Effects coverage.**
+7. **RETURN CHECKPOINT:** After Weapon Effects, close any remaining roster-wide Character mechanics coverage before moving deeper into Echo/Sonata foundation work. This prevents the earlier Character blocker from being forgotten merely because another workstream was advanced.
+8. Complete current Echo/Sonata raw audit.
+9. Complete Sonata Effect coverage.
+10. Complete Echo skill/effect/attack fact coverage needed by supported content.
+11. Complete/populate composable default profiles.
+12. Freeze and regression-test all pre-DPS contracts and current-patch backward-impact state.
+13. Only then expand Character combat/DPS adapters character-by-character.
+14. As each character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that character.
+15. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
 
 ## Documentation rule
 

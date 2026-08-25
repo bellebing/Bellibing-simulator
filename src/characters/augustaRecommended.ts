@@ -13,6 +13,7 @@ export const AUGUSTA_RECOMMENDED_V915: CharacterRollProfile = {
   characterId: 'Augusta',
   targetMode: 'RECOMMENDED',
   firstCheckLevel: 5,
+  requiredCoreHits: 2,
   requiredUsefulHits: 1,
   targets: [
     { name: 'CRIT DMG', role: 'CORE', minimum: 0.21 },
@@ -38,5 +39,5 @@ export const AUGUSTA_RECOMMENDED_V915: CharacterRollProfile = {
     { cost: 1, primaryMain: 'ATK%' },
     { cost: 1, primaryMain: 'ATK%' },
   ],
-  provenance: 'Current V9.15 Build Simulator Recommended profile + V1.2.13 Bellibing Budget checkpoint policy, verified 2026-08-22.',
+  provenance: 'Current V9.15 Build Simulator Recommended profile (2 Core + Any 1 Useful) + V1.2.13 Bellibing Budget checkpoint policy, verified 2026-08-25.',
 };

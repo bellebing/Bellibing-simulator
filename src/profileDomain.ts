@@ -87,7 +87,12 @@ export interface TeamProfile extends ProfileBase {
 
 /**
  * Rotation metadata points at a separately implemented engine/combat model.
- * A character may have multiple rotation profiles for different teams/modes.
+ *
+ * `modeledMechanicFactIds` are facts the engine explicitly evaluates.
+ * `assumedMechanicFactIds` are source-verified facts required for the fixed
+ * rotation/context to be legal or coherent but whose lifecycle is not yet
+ * simulated generically. Keeping the two sets separate prevents a parity fixture
+ * from pretending every underlying trigger/resource system is fully modeled.
  */
 export interface RotationProfile extends ProfileBase {
   kind: 'ROTATION';
@@ -96,6 +101,8 @@ export interface RotationProfile extends ProfileBase {
   engineModelId: string;
   rotationSeconds?: number;
   variantKey: string;
+  modeledMechanicFactIds: readonly string[];
+  assumedMechanicFactIds: readonly string[];
 }
 
 /**

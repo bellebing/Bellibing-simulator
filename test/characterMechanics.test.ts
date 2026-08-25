@@ -8,15 +8,22 @@ import {
   CHARACTER_MECHANIC_FACT_BY_ID,
   getCharacterActionFact,
 } from '../src/data/characterMechanics.ts';
+import {
+  AUGUSTA_PASSIVE_FACTS,
+  AUGUSTA_RESOURCE_FACTS,
+  AUGUSTA_SEQUENCE_FACTS,
+} from '../src/data/characterMechanics/augustaRawFacts.ts';
 import { getCharacterPreflight } from '../src/data/characterPreflight.ts';
 import { ECHO_ATTACK_PROFILES } from '../src/data/echoAttacks.ts';
+import { ROTATION_PROFILES } from '../src/data/rotationProfiles.ts';
+import { auditRotationMechanicDependencies, findRotationsDependingOnMechanicFact } from '../src/data/rotationMechanicsAudit.ts';
 import { totalMotionValue } from '../src/echoAttackDomain.ts';
 import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 
-test('Augusta golden action facts are unique and own the canonical character motion values', () => {
+test('Augusta golden action facts are unique and preserve canonical Lv10 rotation values', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 12);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 12);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 12);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 28);
 
   const liberation = getCharacterActionFact('augusta-liberation-sword-of-eternal-oath');
   assert.ok(liberation);
@@ -24,6 +31,36 @@ test('Augusta golden action facts are unique and own the canonical character mot
   assert.equal(liberation.actionKind, 'LIBERATION');
   assert.equal(liberation.damageClass, 'HEAVY');
   assert.equal(liberation.motionValue, 10.9948);
+  assert.match(liberation.motionValueContext ?? '', /Lv90\/S0\/10-10-10-10-10/);
+});
+
+test('Augusta verified non-action raw facts cover resources, passives and all six sequences', () => {
+  assert.equal(AUGUSTA_RESOURCE_FACTS.length, 4);
+  assert.equal(AUGUSTA_PASSIVE_FACTS.length, 6);
+  assert.equal(AUGUSTA_SEQUENCE_FACTS.length, 6);
+  assert.deepEqual(AUGUSTA_SEQUENCE_FACTS.map((fact) => fact.sequence), [1, 2, 3, 4, 5, 6]);
+
+  const prowess = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-resource-prowess');
+  const ascendancy = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-resource-ascendancy');
+  const majesty = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-resource-majesty');
+  const crown = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-resource-crown-of-wills');
+  assert.ok(prowess?.kind === 'RESOURCE' && ascendancy?.kind === 'RESOURCE' && majesty?.kind === 'RESOURCE' && crown?.kind === 'RESOURCE');
+  assert.equal(prowess.maxValue, 100);
+  assert.equal(ascendancy.maxValue, 100);
+  assert.equal(majesty.maxValue, 2);
+  assert.equal(crown.maxValue, 1);
+
+  const outro = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-outro-battlesong-effect');
+  assert.ok(outro?.kind === 'PASSIVE');
+  assert.equal(outro.durationSeconds, 14);
+  assert.match(outro.effectSummary, /15% DMG Amplification/);
+  assert.match(outro.effectSummary, /casts Outro during the effect/);
+
+  const s6 = CHARACTER_MECHANIC_FACT_BY_ID.get('augusta-s6-engraved-in-radiant-light');
+  assert.ok(s6?.kind === 'SEQUENCE');
+  assert.match(s6.effectSummary, /two Electro-DMG instances/);
+  assert.match(s6.effectSummary, /100% ATK/);
+  assert.match(s6.effectSummary, /Heavy Attack DMG/);
 });
 
 test('Augusta rotation recipe reuses character facts instead of duplicating repeated action values', () => {
@@ -57,27 +94,46 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage audit makes unfinished released characters visible without hiding structural errors', () => {
+test('mechanics coverage reports Augusta remaining full-action ingestion instead of hiding it', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
   assert.equal(audit.profileCount, 1);
   assert.deepEqual(audit.verifiedCharacterIds, []);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
   assert.equal(audit.unstartedCharacterIds.length, 56);
-  assert.ok(audit.unstartedCharacterIds.includes('aalto'));
-  assert.ok(audit.unstartedCharacterIds.includes('zhezhi'));
   assert.deepEqual(audit.structuralIssues, []);
 });
 
-test('executable preflight reports actual Augusta raw-fact blocker rather than trusting its existing DPS adapter', () => {
-  const report = getCharacterPreflight('augusta', 'RAW_FACTS');
-  assert.ok(report);
-  assert.equal(report.ready, false);
-  assert.equal(report.checks.find((check) => check.area === 'RELEASE_STATUS')?.status, 'PASS');
-  assert.equal(report.checks.find((check) => check.area === 'IDENTITY_LEVEL90')?.status, 'PASS');
-  assert.equal(report.checks.find((check) => check.area === 'INTRINSIC_STATS')?.status, 'PASS');
-  assert.equal(report.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PENDING');
-  assert.deepEqual(report.blockers.map((check) => check.area), ['CHARACTER_MECHANICS']);
+test('Augusta rotation declares coherent modeled versus source-verified assumed mechanics', () => {
+  const rotation = ROTATION_PROFILES.find((profile) => profile.id === 'augusta-standard-iuno-shorekeeper');
+  assert.ok(rotation);
+  const audit = auditRotationMechanicDependencies(rotation);
+  assert.equal(audit.modeledFactCount, 12);
+  assert.equal(audit.assumedFactCount, 8);
+  assert.deepEqual(audit.issues, []);
+
+  assert.deepEqual(
+    findRotationsDependingOnMechanicFact('augusta-resource-majesty', ROTATION_PROFILES).map((profile) => profile.id),
+    ['augusta-standard-iuno-shorekeeper'],
+  );
+  assert.deepEqual(
+    findRotationsDependingOnMechanicFact('augusta-s6-engraved-in-radiant-light', ROTATION_PROFILES),
+    [],
+  );
+});
+
+test('executable preflight separates raw mechanics completeness from coherent existing combat model', () => {
+  const raw = getCharacterPreflight('augusta', 'RAW_FACTS');
+  const dps = getCharacterPreflight('augusta', 'DPS_MODEL');
+  assert.ok(raw && dps);
+  assert.equal(raw.ready, false);
+  assert.equal(raw.checks.find((check) => check.area === 'IDENTITY_LEVEL90')?.status, 'PASS');
+  assert.equal(raw.checks.find((check) => check.area === 'INTRINSIC_STATS')?.status, 'PASS');
+  assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PENDING');
+  assert.deepEqual(raw.blockers.map((check) => check.area), ['CHARACTER_MECHANICS']);
+
+  assert.equal(dps.checks.find((check) => check.area === 'COMBAT_MODEL')?.status, 'PASS');
+  assert.equal(dps.ready, false, 'full DPS onboarding remains blocked while the Character raw ACTIONS area is incomplete');
 });
 
 test('preflight preserves named raw pending fields for current released characters', () => {
@@ -101,6 +157,7 @@ test('preflight target levels add relationship/profile requirements only when ne
   assert.equal(build.blockers.some((check) => check.area === 'TEAM_PROFILE'), false);
   assert.ok(dps.blockers.some((check) => check.area === 'TEAM_PROFILE'));
   assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'));
+  assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'));
   assert.ok(dps.blockers.some((check) => check.area === 'BUILD_PRESET'));
 });
 

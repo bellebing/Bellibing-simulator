@@ -4,6 +4,7 @@ import { getCharacterGameData } from './characters.ts';
 import { getCharacterMechanicsProfile } from './characterMechanics.ts';
 import { RELEASED_CHARACTER_RAW_PENDING } from './characterRawAudit.ts';
 import { PROFILE_CATALOGS } from './profileCatalogs.ts';
+import { auditRotationMechanicDependencies } from './rotationMechanicsAudit.ts';
 
 export type CharacterPreflightTarget = 'RAW_FACTS' | 'BUILD_PROFILE' | 'DPS_MODEL';
 export type CharacterPreflightStatus = 'PASS' | 'PENDING' | 'MISSING' | 'NOT_APPLICABLE';
@@ -18,6 +19,7 @@ export type CharacterPreflightArea =
   | 'STAT_TARGET_PROFILE'
   | 'TEAM_PROFILE'
   | 'ROTATION_PROFILE'
+  | 'COMBAT_MODEL'
   | 'BUILD_PRESET';
 
 export interface CharacterPreflightCheck {
@@ -41,9 +43,7 @@ const BUILD_REQUIRED: readonly CharacterPreflightTarget[] = ['BUILD_PROFILE', 'D
 const DPS_REQUIRED: readonly CharacterPreflightTarget[] = ['DPS_MODEL'];
 
 function verificationStatusToPreflight(status: VerificationStatus): CharacterPreflightStatus {
-  if (status === 'VERIFIED') return 'PASS';
-  if (status === 'PARTIALLY_VERIFIED' || status === 'PENDING') return 'PENDING';
-  return 'PENDING';
+  return status === 'VERIFIED' ? 'PASS' : 'PENDING';
 }
 
 function rawLevel90Check(characterId: string): CharacterPreflightCheck {
@@ -131,7 +131,7 @@ function mechanicsCheck(characterId: string): CharacterPreflightCheck {
   return {
     area: 'CHARACTER_MECHANICS',
     status: verificationStatusToPreflight(profile.verificationStatus),
-    details: [`${profile.factIds.length} mechanic facts linked; all required mechanics areas are verified.`],
+    details: [`${profile.factIds.length} mechanic facts linked; all required raw mechanics areas are verified.`],
     requiredFor: RAW_REQUIRED,
   };
 }
@@ -149,10 +149,42 @@ function profileCheck(
   return { area, status: 'PENDING', details: [`${statuses.length} profile(s) exist but none is VERIFIED.`], requiredFor };
 }
 
+function combatModelCheck(characterId: string): CharacterPreflightCheck {
+  const rotations = PROFILE_CATALOGS.rotations.filter(
+    (profile) => profile.characterId === characterId && profile.verificationStatus === 'VERIFIED',
+  );
+  if (rotations.length === 0) {
+    return {
+      area: 'COMBAT_MODEL',
+      status: 'MISSING',
+      details: ['No VERIFIED rotation/combat profile exists to audit against mechanic facts.'],
+      requiredFor: DPS_REQUIRED,
+    };
+  }
+
+  const audits = rotations.map((rotation) => auditRotationMechanicDependencies(rotation));
+  const clean = audits.filter((audit) => audit.issues.length === 0);
+  if (clean.length > 0) {
+    return {
+      area: 'COMBAT_MODEL',
+      status: 'PASS',
+      details: clean.map((audit) => `${audit.rotationId}: ${audit.modeledFactCount} modeled + ${audit.assumedFactCount} verified-assumed mechanic dependencies are coherent.`),
+      requiredFor: DPS_REQUIRED,
+    };
+  }
+
+  return {
+    area: 'COMBAT_MODEL',
+    status: 'PENDING',
+    details: audits.flatMap((audit) => audit.issues.map((issue) => `${audit.rotationId} / ${issue.factId}: ${issue.issue}`)),
+    requiredFor: DPS_REQUIRED,
+  };
+}
+
 /**
  * Executable onboarding guide. It reads the current catalogs instead of relying
- * on a manually checked Markdown list, so resolved gaps disappear from the
- * report automatically and newly missing layers remain visible.
+ * on a manually checked Markdown list, so resolved gaps disappear automatically.
+ * Raw fact completeness and combat-model dependency coherence are separate gates.
  */
 export function getCharacterPreflight(
   characterId: string,
@@ -170,24 +202,12 @@ export function getCharacterPreflight(
         requiredFor: RAW_REQUIRED,
       };
 
-  const weaponStatuses = PROFILE_CATALOGS.weaponRecommendations
-    .filter((profile) => profile.characterId === characterId)
-    .map((profile) => profile.verificationStatus);
-  const echoStatuses = PROFILE_CATALOGS.echoLoadouts
-    .filter((profile) => profile.characterId === characterId)
-    .map((profile) => profile.verificationStatus);
-  const statStatuses = PROFILE_CATALOGS.statTargets
-    .filter((profile) => profile.characterId === characterId)
-    .map((profile) => profile.verificationStatus);
-  const teamStatuses = PROFILE_CATALOGS.teams
-    .filter((profile) => profile.members.some((member) => member.characterId === characterId))
-    .map((profile) => profile.verificationStatus);
-  const rotationStatuses = PROFILE_CATALOGS.rotations
-    .filter((profile) => profile.characterId === characterId)
-    .map((profile) => profile.verificationStatus);
-  const presetStatuses = PROFILE_CATALOGS.presets
-    .filter((profile) => profile.characterId === characterId)
-    .map((profile) => profile.verificationStatus);
+  const weaponStatuses = PROFILE_CATALOGS.weaponRecommendations.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
+  const echoStatuses = PROFILE_CATALOGS.echoLoadouts.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
+  const statStatuses = PROFILE_CATALOGS.statTargets.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
+  const teamStatuses = PROFILE_CATALOGS.teams.filter((profile) => profile.members.some((member) => member.characterId === characterId)).map((profile) => profile.verificationStatus);
+  const rotationStatuses = PROFILE_CATALOGS.rotations.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
+  const presetStatuses = PROFILE_CATALOGS.presets.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
 
   const checks: CharacterPreflightCheck[] = [
     releaseStatus,
@@ -199,16 +219,10 @@ export function getCharacterPreflight(
     profileCheck('STAT_TARGET_PROFILE', statStatuses, BUILD_REQUIRED, 'No verified target/gate profile exists.'),
     profileCheck('TEAM_PROFILE', teamStatuses, DPS_REQUIRED, 'No verified team profile currently includes this character.'),
     profileCheck('ROTATION_PROFILE', rotationStatuses, DPS_REQUIRED, 'No verified rotation profile exists for this character.'),
+    combatModelCheck(characterId),
     profileCheck('BUILD_PRESET', presetStatuses, DPS_REQUIRED, 'No verified composition/build preset exists for this character.'),
   ];
 
   const blockers = checks.filter((check) => check.requiredFor.includes(target) && check.status !== 'PASS');
-  return {
-    characterId,
-    characterName: character.name,
-    target,
-    checks,
-    ready: blockers.length === 0,
-    blockers,
-  };
+  return { characterId, characterName: character.name, target, checks, ready: blockers.length === 0, blockers };
 }

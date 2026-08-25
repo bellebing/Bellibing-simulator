@@ -37,11 +37,15 @@ export {
 
 export {
   ECHO_MAIN_STAT_PROVENANCE,
+  RANK5_MAIN_STAT_GROWTH,
   RANK5_PRIMARY_MAIN_STATS,
   RANK5_SECONDARY_MAIN_STATS,
   createRank5EchoAtLevel0,
   isPrimaryMainStatAllowed,
   primaryMainStatProfile,
+  primaryMainStatValueAtLevel,
+  secondaryMainStatValueAtLevel,
+  withRank5MainStatsAtLevel,
   type PrimaryMainStatName,
   type Rank5MainStatProfile,
   type Rank5SecondaryMainStatProfile,

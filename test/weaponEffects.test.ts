@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { getWeaponEffectCoverageStatus } from '../src/data/weaponEffectAudit.ts';
-import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffects.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import {
   WEAPON_EFFECT_CATALOG_META,
   getWeaponEffect,
@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 111);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 111);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 58);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 135);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 135);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 73);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 63);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 48);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 111);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 135);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -412,9 +412,9 @@ test('Rectifier completion preserves source semantics and low-rarity mechanics',
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {
-  assert.equal(getWeaponEffectCoverageStatus('thunderflare-dominion'), 'PENDING_SOURCE_AUDIT');
+  assert.equal(getWeaponEffectCoverageStatus('abyss-surges'), 'PENDING_SOURCE_AUDIT');
   assert.throws(
-    () => getWeaponEffects('thunderflare-dominion'),
+    () => getWeaponEffects('abyss-surges'),
     /PENDING_SOURCE_AUDIT.*must not be interpreted as zero effect/,
   );
   assert.equal(getWeaponEffect('DOES-NOT-EXIST'), null);

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { getWeaponEffectCoverageStatus } from '../src/data/weaponEffectAudit.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffects.ts';
 import {
   WEAPON_EFFECT_CATALOG_META,
@@ -8,11 +9,15 @@ import {
   getWeaponEffects,
 } from '../src/effectRegistry.ts';
 
-test('V9.15 weapon effect migration is explicit and partial', () => {
+test('V9.15 weapon effect migration remains partial while released coverage is explicit', () => {
   assert.equal(WEAPON_EFFECT_CATALOG.length, 36);
   assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 36);
   assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 16);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 105);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
   assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 36);
 });
@@ -67,7 +72,19 @@ test('conditional team effects remain conditional data rather than automatic upt
   assert.deepEqual(spectrum.rankValues, [.08, .10, .12, .14, .16]);
 });
 
-test('missing migrated effect data means pending migration, not a fabricated empty passive', () => {
-  assert.deepEqual(getWeaponEffects('thunderflare-dominion'), []);
+test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {
+  assert.equal(getWeaponEffectCoverageStatus('thunderflare-dominion'), 'PENDING_SOURCE_AUDIT');
+  assert.throws(
+    () => getWeaponEffects('thunderflare-dominion'),
+    /PENDING_SOURCE_AUDIT.*must not be interpreted as zero effect/,
+  );
   assert.equal(getWeaponEffect('DOES-NOT-EXIST'), null);
+});
+
+test('upcoming weapon effect coverage stays outside the released gate instead of reading as zero', () => {
+  assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
+  assert.throws(
+    () => getWeaponEffects('thousandfold-deliverance'),
+    /NOT_RELEASED.*must not be interpreted as zero effect/,
+  );
 });

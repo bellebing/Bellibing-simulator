@@ -31,6 +31,20 @@ Every combat-affecting value should be representable as one of:
 
 A missing value is not zero. A pending effect is not inactive by definition. A published recommendation is not automatically a quantified DPS result.
 
+## Character Level-90 stat convention
+
+Bellibing's `CharacterGameData.level90` is a source-backed **game-facing integer stat layer**, not a locally rounded copy of a decimal database.
+
+Rules:
+
+- prefer the current published Level-90 integer convention used by Bellibing's benchmark/profile source family, led by Prydwen when that character is present there;
+- use current structured/raw databases such as CYZED/Wuwa Wiki/Wutheringlab to cross-check the underlying stat family and identify source/presentation differences;
+- do not create a universal `round()`/`floor()` rule from decimal values — different public databases expose different integer presentations of the same underlying progression;
+- an adjacent `±1` database integer is not automatically a game-data conflict when a raw decimal source explains both displays and Bellibing's canonical published integer is source-backed;
+- true semantic conflicts remain pending. In particular, `Max Energy` is not inferred from Resonance Liberation `Resonance Cost` or from an ambiguously labelled `Energy` field.
+
+Released characters are additionally guarded by `characterRawAudit.ts`: a required raw field may be null only when the exact character+field is registered in `RELEASED_CHARACTER_RAW_PENDING` with a dated reason. CI fails on both unregistered missing fields and stale pending exceptions.
+
 ## Character ingestion
 
 A future generator may import raw character/weapon/action structures from a machine-readable source, but generated output is initially non-routable. The ingestion step should create:

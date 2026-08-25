@@ -71,9 +71,9 @@ function formatPercent(value: number, digits = 1): string {
   return `${(value * 100).toFixed(digits)}%`;
 }
 
-function formatStat(stat: StatRoll): string {
+function formatStat(stat: StatRoll, percentDigits = 1): string {
   const flat = stat.name.startsWith('Flat ');
-  return `${stat.name} ${flat ? Math.round(stat.value).toLocaleString('en-US') : formatPercent(stat.value)}`;
+  return `${stat.name} ${flat ? Math.round(stat.value).toLocaleString('en-US') : formatPercent(stat.value, percentDigits)}`;
 }
 
 function addResources(a: ResourceCost, b: ResourceCost): ResourceCost {
@@ -140,7 +140,7 @@ function labEchoMarkup(echo: Echo, index: number): string {
         <span class="level-chip">+${echo.level}</span>
       </div>
       <div class="lab-main-label">PRIMARY MAIN · ENGINE VALUE</div>
-      <div class="echo-card__main">${formatStat(echo.mainStat)}</div>
+      <div class="echo-card__main">${formatStat(echo.mainStat, 2)}</div>
       ${secondary}
       <ol class="lab-substats">${subs}</ol>
       <div class="selection-state">${selected ? 'SELECTED' : 'CLICK TO SELECT'}</div>

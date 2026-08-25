@@ -37,11 +37,14 @@ Bellibing's `CharacterGameData.level90` is a source-backed **game-facing integer
 
 Rules:
 
-- prefer the current published Level-90 integer convention used by Bellibing's benchmark/profile source family, led by Prydwen when that character is present there;
+- for Prydwen integer cross-checks, the dedicated Wuthering Waves **Stats** roster table is the canonical Prydwen raw-stat surface because it compares all Resonators under one Level-90 convention;
+- an individual Prydwen character profile is a secondary cross-check for raw integers when it disagrees with that roster table; it does not silently override the roster convention;
 - use current structured/raw databases such as CYZED/Wuwa Wiki/Wutheringlab to cross-check the underlying stat family and identify source/presentation differences;
 - do not create a universal `round()`/`floor()` rule from decimal values — different public databases expose different integer presentations of the same underlying progression;
 - an adjacent `±1` database integer is not automatically a game-data conflict when a raw decimal source explains both displays and Bellibing's canonical published integer is source-backed;
 - true semantic conflicts remain pending. In particular, `Max Energy` is not inferred from Resonance Liberation `Resonance Cost` or from an ambiguously labelled `Energy` field.
+
+This distinction matters because Prydwen's own aggregate Stats table and some current individual character profile cards can expose neighboring integer values for the same Level-90 DEF. Bellibing must not oscillate its raw roster whenever two presentation surfaces disagree.
 
 Released characters are additionally guarded by `characterRawAudit.ts`: a required raw field may be null only when the exact character+field is registered in `RELEASED_CHARACTER_RAW_PENDING` with a dated reason. CI fails on both unregistered missing fields and stale pending exceptions.
 

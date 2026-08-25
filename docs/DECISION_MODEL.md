@@ -1,4 +1,4 @@
-# Echo decision model v0.2
+# Echo decision model v0.3
 
 ## The user should experience one loop
 
@@ -29,7 +29,8 @@ It may use:
 
 - exact roll values;
 - remaining unique substat slots;
-- character-specific target requirements;
+- character/mode-specific Core and Useful target sets;
+- profile-owned `requiredCoreHits` and `requiredUsefulHits`;
 - ER/stat gates that are explicitly source-backed;
 - expected future resource cost.
 
@@ -109,13 +110,32 @@ At a DPS-integrated checkpoint, the combat evaluator can value the stats actuall
 
 ## New character workflow
 
-1. Raw Character data is already present and verified.
-2. Weapon, Echo/Sonata and effect data required by the supported profile are already present.
-3. Default Weapon / Echo Loadout / Stat Target / Team / Rotation / Character Preset records are linked by IDs.
-4. Before DPS integration, the profile can use a clearly labeled guide-target fallback.
-5. Build the character's verified combat facts and standard context.
-6. Add Personal Rotation DPS/gate evaluation.
-7. Replace guide fallback as final judge with whole-build DPS-aware evaluation for that character.
+1. Run the Character Preflight in [`CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md`](CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md).
+2. Raw Character data is present and verified for the intended support level.
+3. Weapon, Echo/Sonata and effect data required by the supported profile are already present.
+4. Default Weapon / Echo Loadout / Stat Target / Team / Rotation / Character Preset records are linked by IDs.
+5. Before DPS integration, the profile can use a clearly labeled guide-target fallback.
+6. Build the character's verified combat facts and standard context.
+7. Add Personal Rotation DPS/gate evaluation.
+8. Replace guide fallback as final judge with whole-build DPS-aware evaluation for that character.
+9. Run the character's mandatory **team-facing backward-impact audit** against existing supported characters before the patch integration is considered complete.
+
+A new support can change an old character's best Team/Rotation/DPS context without changing that old character's raw data.
+
+## New content can invalidate old decisions
+
+The active decision model must be refreshed when new compatible content changes a supported profile.
+
+Examples:
+
+- a new weapon can change an old character's weapon ranking, ER gate or rotation;
+- a new Sonata set can change loadout, main Echo, main stats or target substats;
+- a new Echo can change the preferred main Echo without changing the Sonata set;
+- a new support can change buffs, energy, timing, Personal DPS, Team DPS and therefore the value of old Echo substats.
+
+Those changes propagate through versioned profiles. Do not mutate raw Character/Weapon/Echo facts to represent recommendation changes.
+
+For every patch, plausible backward-impact candidates must be either rebenchmarked or explicitly recorded as reviewed with no impact.
 
 ## Runtime boundary
 
@@ -133,18 +153,21 @@ A stale or unavailable rule becomes pending, never a guessed constant.
 
 Implemented:
 
+- Rank-5 COST 1/3/4 main-stat families;
+- exact primary and secondary main-stat progression at +0/+5/+10/+15/+20/+25;
+- source-backed GrowthValue scaling with integer truncation;
 - 13 substat types sampled without replacement;
 - verified value-tier weighting including the distinct Crit distribution;
 - cumulative +5/+10/+15/+20/+25 EXP/Tuner/Shell Credit costs;
 - 75% effective EXP recovery and 30% Tuner recovery;
 - seeded reproducible runtime;
-- exact partial-Echo future-branch simulation.
+- exact partial-Echo future-branch simulation;
+- generalized fallback target requirements through profile-owned Core/Useful hit counts.
 
 Still unresolved or intentionally separate:
 
-- exact Rank-5 primary/secondary main-stat progression at +5/+10/+15/+20;
 - fresh Echo/main-stat acquisition probabilities for full world-drop cost claims;
-- final character-independent generalized target-requirement structure;
-- final whole-build DPS-aware stopping policy, which requires a verified character combat model.
+- final whole-build DPS-aware stopping policy, which requires a verified character combat model;
+- full Character/Weapon/Sonata/Echo effect coverage and production profile coverage required by the Pre-DPS gate.
 
 See [`PROJECT_STATUS.md`](PROJECT_STATUS.md) for the authoritative completion gate.

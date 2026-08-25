@@ -6,6 +6,8 @@ import {
   SeededRng,
   VerifiedWuwaEchoRuntime,
   createRank5EchoAtLevel0,
+  primaryMainStatValueAtLevel,
+  secondaryMainStatValueAtLevel,
 } from '../src/echoCore.ts';
 
 const template = createRank5EchoAtLevel0({
@@ -50,6 +52,8 @@ test('rolling five acquired Echoes to +10 tracks the complete batch spend', () =
     assert.equal(echo.level, 10);
     assert.equal(echo.substats.length, 2);
     assert.equal(new Set(echo.substats.map((stat) => stat.name)).size, 2);
+    assert.equal(echo.mainStat.value, primaryMainStatValueAtLevel(1, 'ATK%', 10));
+    assert.equal(echo.secondaryMainStat?.value, secondaryMainStatValueAtLevel(1, 10));
   }
   assert.deepEqual(result.spent, {
     echoes: 5,

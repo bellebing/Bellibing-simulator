@@ -111,7 +111,7 @@ export const WEAPON_EFFECT_ROSTER_AUDIT_V36 = {
   notes: [
     '75 audited effect rows now cover 37 released weapons after completing released Pistol coverage.',
     '84 released weapons remain explicitly PENDING_SOURCE_AUDIT; this is not zero-effect data.',
-    'All 21 currently RELEASED Pistol weapons have audited Weapon Effect records; Spectrum Blaster was part of the original audited subset and the remaining 20 were completed in PR #45/#46 and this batch.',
+    'All 22 currently RELEASED Pistol weapons have audited Weapon Effect records; Spectrum Blaster was part of the original audited subset and the remaining 21 were completed in PR #45/#46 and this batch.',
     'Thousandfold Deliverance is CONFIRMED_UPCOMING and remains outside the released-roster effect gate until it goes live.',
   ],
 } as const;

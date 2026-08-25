@@ -5,6 +5,7 @@ import type {
   WeaponEffectMechanicsStatus,
   WeaponEffectSimulatorMode,
   WeaponEffectType,
+  WeaponEffectValueUnit,
 } from '../effectDomain.ts';
 
 interface EffectRow {
@@ -12,33 +13,54 @@ interface EffectRow {
   weaponId: string;
   statOrEffect: string;
   rankValues: RankValues;
+  valueUnit?: WeaponEffectValueUnit;
   effectType: WeaponEffectType;
   trigger: string;
   durationSeconds: number | null;
+  triggerCooldownSeconds?: number | null;
   maxStacks: number;
   stackIntervalSeconds?: number;
   appliesTo: WeaponEffectAppliesTo;
+  conditions?: readonly string[];
   simulatorMode: WeaponEffectSimulatorMode;
+  sourceEffectText?: string | null;
   notes: string;
   mechanicsStatus?: WeaponEffectMechanicsStatus;
   conditionalAudit?: boolean;
+  sourceLabels?: readonly string[];
+  sourceUrls?: readonly string[];
+  checkedAt?: string;
+  provenanceNotes?: readonly string[];
 }
 
 function e(row: EffectRow): WeaponEffectData {
-  const conditional = row.conditionalAudit ?? false;
+  const {
+    conditionalAudit = false,
+    sourceLabels,
+    sourceUrls,
+    checkedAt,
+    provenanceNotes,
+    ...effect
+  } = row;
+
   return {
-    ...row,
-    stackIntervalSeconds: row.stackIntervalSeconds ?? 0,
-    mechanicsStatus: row.mechanicsStatus ?? (conditional ? 'VERIFIED_CONDITIONAL' : 'VERIFIED_MODELED'),
+    ...effect,
+    valueUnit: effect.valueUnit ?? 'DECIMAL_MULTIPLIER',
+    triggerCooldownSeconds: effect.triggerCooldownSeconds ?? null,
+    stackIntervalSeconds: effect.stackIntervalSeconds ?? 0,
+    conditions: effect.conditions ?? [],
+    sourceEffectText: effect.sourceEffectText ?? null,
+    mechanicsStatus: effect.mechanicsStatus
+      ?? (conditionalAudit ? 'VERIFIED_CONDITIONAL' : 'VERIFIED_MODELED'),
     provenance: {
-      sourceLabels: conditional
+      sourceLabels: sourceLabels ?? (conditionalAudit
         ? ['V9.15 Weapon Effects', 'Prydwen', 'Wutheringlab']
-        : ['V9.15 Weapon Effects', 'Maygi', 'Prydwen', 'Wutheringlab'],
-      sourceUrls: [
+        : ['V9.15 Weapon Effects', 'Maygi', 'Prydwen', 'Wutheringlab']),
+      sourceUrls: sourceUrls ?? [
         'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit',
       ],
-      checkedAt: conditional ? '2026-08-20' : '2026-07-18',
-      notes: [
+      checkedAt: checkedAt ?? (conditionalAudit ? '2026-08-20' : '2026-07-18'),
+      notes: provenanceNotes ?? [
         'Migrated from the V9.15 Weapon Effects audit. Trigger text is data, not an automatic uptime assumption.',
       ],
     },
@@ -49,11 +71,11 @@ const R_12_24 = [.12, .15, .18, .21, .24] as const;
 const R_24_48 = [.24, .30, .36, .42, .48] as const;
 
 /**
- * Current V9.15 modeled/conditional Weapon Effects only.
+ * Source-audited Weapon Effects only.
  *
- * This is intentionally a PARTIAL effect catalog: a weapon missing here means
- * its passive has not been migrated into this independent layer yet. It does
- * NOT mean the weapon has no passive.
+ * The catalog began with the V9.15 modeled/conditional subset and is now being
+ * completed against the full current released roster. A weapon missing here is
+ * tracked explicitly by weaponEffectAudit.ts; absence never means zero passive.
  */
 export const WEAPON_EFFECT_CATALOG: readonly WeaponEffectData[] = [
   e({ effectId: 'FF-ATK', weaponId: 'freeze-frame', statOrEffect: 'ATK%', rankValues: R_12_24, effectType: 'PERMANENT', trigger: 'Passive', durationSeconds: null, maxStacks: 1, appliesTo: 'SELF', simulatorMode: 'ALWAYS', notes: 'Permanent ATK increase.' }),
@@ -104,4 +126,128 @@ export const WEAPON_EFFECT_CATALOG: readonly WeaponEffectData[] = [
   e({ effectId: 'KUMO-TEAM', weaponId: 'kumokiri', statOrEffect: 'All Attribute DMG', rankValues: R_24_48, effectType: 'TRIGGERED', trigger: 'Weapon passive at 3 stacks; team Resonator inflicts Negative Status', durationSeconds: 15, maxStacks: 1, appliesTo: 'TEAM', simulatorMode: 'RECOMMENDED', notes: 'Conditional team bonus. Aemeath Fusion Burst qualifies after applying its Negative Status; exact activation point belongs to event-state modeling.', conditionalAudit: true }),
   e({ effectId: 'SB-TEAM', weaponId: 'spectrum-blaster', statOrEffect: 'All DMG', rankValues: [.08, .10, .12, .14, .16], effectType: 'STACKING', trigger: 'Wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks', durationSeconds: 30, maxStacks: 3, appliesTo: 'TEAM', simulatorMode: 'RECOMMENDED', notes: 'Value is per stack. R1 reaches up to +24% team All DMG at 3 stacks; exact stack count before Aemeath window remains event-state until timing is modeled.', conditionalAudit: true }),
   e({ effectId: 'SC-TEAM-CD', weaponId: 'starfield-calibrator', statOrEffect: 'CRIT DMG', rankValues: [.20, .25, .30, .35, .40], effectType: 'TRIGGERED', trigger: 'Wielder heals Resonators', durationSeconds: 4, maxStacks: 1, appliesTo: 'TEAM', simulatorMode: 'RECOMMENDED', notes: "Mornye S0R1 benchmark can provide +20% team CRIT DMG. Mornye heals repeatedly, but exact overlap with Aemeath's damage window remains timing-state until the team event adapter is proven.", conditionalAudit: true }),
+
+  // Current released-roster audit — Pistol batch 1 (2026-08-25).
+  e({
+    effectId: 'RJ-ENERGY',
+    weaponId: 'relativistic-jet',
+    statOrEffect: 'Resonance Energy',
+    rankValues: [6, 7, 8, 9, 10],
+    valueUnit: 'FLAT_AMOUNT',
+    effectType: 'INSTANT',
+    trigger: 'Cast Resonance Skill',
+    durationSeconds: null,
+    triggerCooldownSeconds: 20,
+    maxStacks: 1,
+    appliesTo: 'SELF',
+    simulatorMode: 'MANUAL',
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    sourceEffectText: 'Skill cast immediately grants Resonance Energy; the passive trigger can occur once every 20 seconds.',
+    notes: 'Instant resource gain is modeled separately from the paired 16s ATK buff. No automatic skill-cast timing is assumed.',
+    sourceLabels: ['Prydwen', 'Game8', 'Wuthering Waves Wiki'],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/weapons?search=Relativistic+Jet',
+      'https://game8.co/games/Wuthering-Waves/archives/474513',
+      'https://wutheringwaves.fandom.com/wiki/Relativistic_Jet',
+    ],
+    checkedAt: '2026-08-25',
+    provenanceNotes: ['R1-R5 Energy values, skill-cast trigger and 20s trigger cooldown agree across the current cross-check sources.'],
+  }),
+  e({
+    effectId: 'RJ-ATK',
+    weaponId: 'relativistic-jet',
+    statOrEffect: 'ATK%',
+    rankValues: [.10, .125, .15, .175, .20],
+    effectType: 'TRIGGERED',
+    trigger: 'Cast Resonance Skill',
+    durationSeconds: 16,
+    triggerCooldownSeconds: 20,
+    maxStacks: 1,
+    appliesTo: 'SELF',
+    simulatorMode: 'MANUAL',
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    sourceEffectText: 'Skill cast grants a timed ATK increase for 16 seconds; the passive trigger has a 20-second cooldown.',
+    notes: 'The rotation must decide whether the 16s ATK window overlaps a modeled action.',
+    sourceLabels: ['Prydwen', 'Game8', 'Wuthering Waves Wiki'],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/weapons?search=Relativistic+Jet',
+      'https://game8.co/games/Wuthering-Waves/archives/474513',
+      'https://wutheringwaves.fandom.com/wiki/Relativistic_Jet',
+    ],
+    checkedAt: '2026-08-25',
+    provenanceNotes: ['R1-R5 ATK values, 16s duration and 20s trigger cooldown agree across the current cross-check sources.'],
+  }),
+
+  e({
+    effectId: 'WA-ATK',
+    weaponId: 'woodland-aria',
+    statOrEffect: 'ATK%',
+    rankValues: R_12_24,
+    effectType: 'PERMANENT',
+    trigger: 'Passive',
+    durationSeconds: null,
+    maxStacks: 1,
+    appliesTo: 'SELF',
+    simulatorMode: 'ALWAYS',
+    sourceEffectText: 'Permanent ATK increase; Aero-Erosion interactions separately grant Aero DMG and reduce the affected target’s Aero RES.',
+    notes: 'Unconditional component of Lingering Summer Tune.',
+    sourceLabels: ['Prydwen', 'Game8', 'Wutheringlab', 'Wuthering Waves Wiki'],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/characters/ciaccona',
+      'https://game8.co/games/Wuthering-Waves/archives/514610',
+      'https://wutheringlab.com/weapon/woodland-aria/',
+      'https://wutheringwaves.fandom.com/wiki/Woodland_Aria',
+    ],
+    checkedAt: '2026-08-25',
+    provenanceNotes: ['R1-R5 ATK values agree across the current cross-check sources.'],
+  }),
+  e({
+    effectId: 'WA-AERO',
+    weaponId: 'woodland-aria',
+    statOrEffect: 'Aero DMG',
+    rankValues: [.24, .30, .36, .42, .48],
+    effectType: 'TRIGGERED',
+    trigger: 'Inflict Aero Erosion on target',
+    durationSeconds: 10,
+    maxStacks: 1,
+    appliesTo: 'SELF',
+    simulatorMode: 'MANUAL',
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    sourceEffectText: 'Inflicting Aero Erosion grants the wielder a 10-second Aero DMG bonus.',
+    notes: 'No uptime is assumed; the character/rotation must prove Aero Erosion application.',
+    sourceLabels: ['Prydwen', 'Game8', 'Wutheringlab', 'Wuthering Waves Wiki'],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/characters/ciaccona',
+      'https://game8.co/games/Wuthering-Waves/archives/514610',
+      'https://wutheringlab.com/weapon/woodland-aria/',
+      'https://wutheringwaves.fandom.com/wiki/Woodland_Aria',
+    ],
+    checkedAt: '2026-08-25',
+    provenanceNotes: ['R1-R5 Aero DMG values and 10s duration agree across the current cross-check sources.'],
+  }),
+  e({
+    effectId: 'WA-AERO-RES',
+    weaponId: 'woodland-aria',
+    statOrEffect: 'Aero RES Reduction',
+    rankValues: [.10, .115, .13, .145, .16],
+    effectType: 'TRIGGERED',
+    trigger: 'Hit target affected by Aero Erosion',
+    durationSeconds: 20,
+    maxStacks: 1,
+    appliesTo: 'TARGET',
+    conditions: ['Target is affected by Aero Erosion'],
+    simulatorMode: 'MANUAL',
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    sourceEffectText: 'Hitting an Aero-Eroded target reduces that target’s Aero RES for 20 seconds; same-name effects do not stack.',
+    notes: 'Positive rank values store reduction magnitude. TARGET scope prevents this enemy debuff from being misread as a SELF/TEAM stat.',
+    sourceLabels: ['Prydwen', 'Game8', 'Wutheringlab', 'Wuthering Waves Wiki'],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/characters/ciaccona',
+      'https://game8.co/games/Wuthering-Waves/archives/514610',
+      'https://wutheringlab.com/weapon/woodland-aria/',
+      'https://wutheringwaves.fandom.com/wiki/Woodland_Aria',
+    ],
+    checkedAt: '2026-08-25',
+    provenanceNotes: ['R1-R5 Aero RES-reduction magnitudes, 20s duration and same-name non-stacking agree across the current cross-check sources.'],
+  }),
 ];

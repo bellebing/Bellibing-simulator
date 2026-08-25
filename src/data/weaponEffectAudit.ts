@@ -28,7 +28,6 @@ export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
   'spectral-trigger',
   'static-mist',
   'the-last-dance',
-  'woodland-aria',
   'boson-astrolabe',
   'cosmic-ripples',
   'firstlights-herald',
@@ -62,7 +61,6 @@ export const WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 = [
   'cadenza',
   'novaburst',
   'pistols-26',
-  'relativistic-jet',
   'romance-in-farewell',
   'solar-flame',
   'thunderbolt',
@@ -130,11 +128,54 @@ export const WEAPON_EFFECT_ROSTER_AUDIT_V36 = {
   checkedAt: '2026-08-25',
   expectedReleasedCount: 121,
   notes: [
-    '36 existing audited effect rows cover 16 released weapons before the full-roster completion pass.',
-    '105 released weapons are explicitly PENDING_SOURCE_AUDIT at this checkpoint; this is not zero-effect data.',
+    '41 audited effect rows now cover 18 released weapons after Pistol audit batch 1.',
+    '103 released weapons remain explicitly PENDING_SOURCE_AUDIT; this is not zero-effect data.',
     'Thousandfold Deliverance is CONFIRMED_UPCOMING and remains outside the released-roster effect gate until it goes live.',
   ],
 } as const;
+
+export interface WeaponEffectBackwardImpactReview {
+  reviewId: string;
+  checkedAt: string;
+  weaponIds: readonly string[];
+  weaponType: string;
+  reviewedReleasedCharacterIds: readonly string[];
+  existingWeaponRecommendationProfileIds: readonly string[];
+  result: 'REVIEWED_NO_EXISTING_PROFILE_CHANGE' | 'IMPACT_FOUND';
+  notes: readonly string[];
+}
+
+/**
+ * Mandatory backward-impact evidence for effects added after the project-wide
+ * Content Preflight + Backward Impact contract was locked.
+ */
+export const WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 = [
+  {
+    reviewId: 'WEAPON-EFFECT-PISTOLS-2026-08-25-01',
+    checkedAt: '2026-08-25',
+    weaponIds: ['relativistic-jet', 'woodland-aria'],
+    weaponType: 'Pistols',
+    reviewedReleasedCharacterIds: [
+      'aalto',
+      'carlotta',
+      'chixia',
+      'ciaccona',
+      'galbrena',
+      'lucy',
+      'lynae',
+      'mortefi',
+      'rebecca',
+    ],
+    existingWeaponRecommendationProfileIds: [],
+    result: 'REVIEWED_NO_EXISTING_PROFILE_CHANGE',
+    notes: [
+      'All currently RELEASED Pistol users in the raw Character catalog were screened; the regression test locks this list to the roster rather than trusting the manual snapshot.',
+      'No current production Weapon Recommendation profile belongs to a Pistol character, so this batch changes no existing profile relation or ranking.',
+      'Published current sources identify Relativistic Jet as a viable Pistol option for multiple users and Woodland Aria as Ciaccona’s primary option; those observations are audit evidence only and are not promoted into recommendation data here.',
+      'Conditional Aero Erosion uptime remains character/rotation state. Woodland Aria effects are not assumed active merely because the weapon can be equipped.',
+    ],
+  },
+] as const satisfies readonly WeaponEffectBackwardImpactReview[];
 
 export type WeaponEffectCoverageStatus =
   | 'AUDITED_EFFECTS'

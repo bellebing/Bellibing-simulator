@@ -1,13 +1,16 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import {
+  WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36,
   WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36,
   WEAPON_EFFECT_ROSTER_AUDIT_V36,
   auditWeaponEffectCoverage,
   getWeaponEffectCoverageStatus,
 } from '../src/data/weaponEffectAudit.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffects.ts';
+import { WEAPON_RECOMMENDATION_PROFILES } from '../src/data/weaponRecommendations.ts';
 import { WEAPON_CATALOG, getWeaponGameData } from '../src/data/weapons.ts';
 
 test('Version 3.6 released roster has explicit Weapon Effect coverage status for all 121 weapons', () => {
@@ -16,13 +19,13 @@ test('Version 3.6 released roster has explicit Weapon Effect coverage status for
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
   assert.equal(audit.releasedCount, 121);
-  assert.equal(audit.auditedEffectWeaponCount, 16);
+  assert.equal(audit.auditedEffectWeaponCount, 18);
   assert.equal(audit.verifiedNoCombatEffectCount, 0);
-  assert.equal(audit.pendingSourceAuditCount, 105);
+  assert.equal(audit.pendingSourceAuditCount, 103);
   assert.equal(audit.explicitCoverageCount, 121);
   assert.equal(audit.fullReleasedRosterComplete, false);
   assert.deepEqual(audit.issues, []);
-  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 105);
+  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 103);
 });
 
 test('future released weapon fails the effect coverage gate until its status is explicitly audited', () => {
@@ -60,8 +63,51 @@ test('adding audited effect data requires removing the weapon from the pending-s
   assert.equal(overlap?.weaponId, 'thunderflare-dominion');
 });
 
+test('Pistol effect batch has an exact roster-wide backward-impact review', () => {
+  const review = WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36.find(
+    (row) => row.reviewId === 'WEAPON-EFFECT-PISTOLS-2026-08-25-01',
+  );
+  assert.ok(review);
+
+  const releasedPistolIds = CHARACTER_CATALOG
+    .filter((character) => character.releaseStatus === 'RELEASED' && character.weaponType === 'Pistols')
+    .map((character) => character.id)
+    .sort();
+  const reviewedIds = [...review.reviewedReleasedCharacterIds].sort();
+
+  assert.deepEqual(reviewedIds, releasedPistolIds);
+  assert.deepEqual(releasedPistolIds, [
+    'aalto',
+    'carlotta',
+    'chixia',
+    'ciaccona',
+    'galbrena',
+    'lucy',
+    'lynae',
+    'mortefi',
+    'rebecca',
+  ]);
+
+  const currentPistolProfileIds = WEAPON_RECOMMENDATION_PROFILES
+    .filter((profile) => {
+      const character = CHARACTER_CATALOG.find((row) => row.id === profile.characterId);
+      return character?.weaponType === 'Pistols';
+    })
+    .map((profile) => profile.id)
+    .sort();
+
+  assert.deepEqual(currentPistolProfileIds, []);
+  assert.deepEqual([...review.existingWeaponRecommendationProfileIds].sort(), currentPistolProfileIds);
+  assert.deepEqual(review.weaponIds, ['relativistic-jet', 'woodland-aria']);
+  assert.equal(review.result, 'REVIEWED_NO_EXISTING_PROFILE_CHANGE');
+  assert.equal(getWeaponEffectCoverageStatus('relativistic-jet'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('woodland-aria'), 'AUDITED_EFFECTS');
+});
+
 test('coverage lookup distinguishes audited, pending, upcoming and unknown weapons', () => {
   assert.equal(getWeaponEffectCoverageStatus('stringmaster'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('relativistic-jet'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('woodland-aria'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
   assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
   assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');

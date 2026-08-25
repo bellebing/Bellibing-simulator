@@ -166,15 +166,20 @@ Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon pa
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
-111 source-audited effect rows across 58 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 63 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+135 source-audited effect rows across 73 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 48 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
 
 Current completed slices:
 
 - all 22 currently released Pistol weapons have source-audited effect records;
-- all 27 currently released Rectifier weapons now have source-audited effect records across four controlled batches;
+- all 27 currently released Rectifier weapons have source-audited effect records;
+- all 23 currently released Broadblade weapons now have source-audited effect records;
+- all 9 currently released Broadblade characters were backward-impact screened, including the existing production `augusta-standard-weapons` profile; its recommendation relations/ranking remain unchanged because source-auditing raw effects does not itself recalculate recommendation data;
 - all 13 currently released Rectifier characters were backward-impact screened for every Rectifier batch; no production Rectifier Weapon Recommendation profiles currently exist;
 - event-triggered and stacking effects remain conditional/manual until rotation state proves activation, stack count and overlap;
 - `NEXT_RESONATOR`, target-facing debuffs/amplification, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
+- Aureate Zenith uses the current multi-source Heavy Attack DMG wording while a conflicting Wutheringlab Resonance Liberation DMG label remains explicit provenance evidence;
+- Broadblade of Night uses the current PlayAware/GameVika/Fandom Intro Skill trigger consensus while a lower-priority Slyraf Outro representation remains explicit provenance discrepancy evidence;
+- Broadblade#41 preserves its rank-dependent R1-R5 HP thresholds for the healing branch rather than collapsing them into one threshold;
 - Rectifier#25 preserves the literal source split between below-60% healing and above-60% ATK; exact 60% behavior remains unresolved source semantics rather than a guessed inequality;
 - Rectifier of Night uses the current multi-source Intro Skill trigger consensus while a lower-priority Outro representation remains explicit provenance discrepancy evidence;
 - Comet Flare uses the current 3/3.75/4.5/5.25/6% Healing Bonus series while the conflicting older 3/3.5/4/4.5/5% representation remains explicit provenance evidence;
@@ -183,7 +188,7 @@ Current completed slices:
 
 Before complete:
 
-- populate effects for the remaining 63 released weapons across the other weapon types;
+- populate effects for the remaining 48 released weapons across Gauntlets and Swords;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
 - keep raw passive text as provenance/display input, not executable combat behavior;

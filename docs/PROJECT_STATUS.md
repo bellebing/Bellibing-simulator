@@ -166,25 +166,24 @@ Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon pa
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
-97 source-audited effect rows across 47 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 74 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+111 source-audited effect rows across 58 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 63 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
 
 Current completed slices:
 
 - all 22 currently released Pistol weapons have source-audited effect records;
-- the first five pending 5-star Rectifiers are audited: Boson Astrolabe, Cosmic Ripples, Firstlight's Herald, Luminous Hymn and Stellar Symphony;
-- the next five 4-star Rectifiers are audited: Augment, Call of the Abyss, Comet Flare, Fusion Accretion and Jinzhou Keeper;
-- 11 released Rectifiers remain pending after the first two controlled Rectifier batches;
-- all 13 currently released Rectifier characters were backward-impact screened for both Rectifier batches; no production Rectifier Weapon Recommendation profiles currently exist;
+- all 27 currently released Rectifier weapons now have source-audited effect records across four controlled batches;
+- all 13 currently released Rectifier characters were backward-impact screened for every Rectifier batch; no production Rectifier Weapon Recommendation profiles currently exist;
 - event-triggered and stacking effects remain conditional/manual until rotation state proves activation, stack count and overlap;
 - `NEXT_RESONATOR`, target-facing debuffs/amplification, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
+- Rectifier#25 preserves the literal source split between below-60% healing and above-60% ATK; exact 60% behavior remains unresolved source semantics rather than a guessed inequality;
+- Rectifier of Night uses the current multi-source Intro Skill trigger consensus while a lower-priority Outro representation remains explicit provenance discrepancy evidence;
 - Comet Flare uses the current 3/3.75/4.5/5.25/6% Healing Bonus series while the conflicting older 3/3.5/4/4.5/5% representation remains explicit provenance evidence;
 - Firstlight's Herald retains verified HP, Concerto and team-ATK magnitude, while its conflicting Kingfisher vs Snow Taint/Ripples trigger-state semantics remain explicit `VERIFIED_RAW_PENDING_MODEL`;
 - verified raw mechanics that still need executable modeling remain explicit pending-model rather than being dropped or guessed.
 
 Before complete:
 
-- populate effects for the remaining 74 released weapons;
-- continue the remaining 11 Rectifier source audits before declaring that weapon type complete;
+- populate effects for the remaining 63 released weapons across the other weapon types;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
 - keep raw passive text as provenance/display input, not executable combat behavior;

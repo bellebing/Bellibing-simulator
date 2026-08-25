@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 97);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 97);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 47);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 111);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 111);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 58);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 74);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 63);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 97);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 111);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -333,6 +333,82 @@ test('Rectifier batch 2 preserves audited event and stack mechanics without inve
     assert.equal(effect.durationSeconds, 15);
     assert.equal(effect.simulatorMode, 'MANUAL');
   }
+});
+
+test('Rectifier completion preserves source semantics and low-rarity mechanics', () => {
+  const ocean = getWeaponEffects('oceans-gift');
+  assert.deepEqual(ocean.map((row) => row.effectId), ['OG-SPECTRO']);
+  assert.deepEqual(ocean[0]?.rankValues, [.06, .07, .08, .09, .10]);
+  assert.equal(ocean[0]?.effectType, 'STACKING');
+  assert.equal(ocean[0]?.durationSeconds, 6);
+  assert.equal(ocean[0]?.maxStacks, 4);
+  assert.equal(ocean[0]?.triggerCooldownSeconds, 1);
+  assert.equal(ocean[0]?.stackIntervalSeconds, 1);
+  assert.deepEqual(ocean[0]?.conditions, ['Damaged target is affected by Spectro Frazzle']);
+
+  const radiant = getWeaponEffects('radiant-dawn');
+  assert.deepEqual(radiant.map((row) => row.effectId), ['RD-ATK', 'RD-BASIC']);
+  for (const effect of radiant) {
+    assert.deepEqual(effect.rankValues, [.09, .139, .189, .238, .288]);
+    assert.equal(effect.durationSeconds, 10);
+    assert.equal(effect.simulatorMode, 'MANUAL');
+  }
+
+  const rectifier25 = getWeaponEffects('rectifier-25');
+  assert.deepEqual(rectifier25.map((row) => row.effectId), ['R25-HEAL', 'R25-ATK']);
+  assert.deepEqual(rectifier25[0]?.conditions, ['Wielder HP is below 60% when Resonance Skill is cast']);
+  assert.equal(rectifier25[0]?.triggerCooldownSeconds, 8);
+  assert.deepEqual(rectifier25[0]?.rankValues, [.05, .0625, .075, .0875, .10]);
+  assert.deepEqual(rectifier25[1]?.conditions, ['Wielder HP is above 60% when Resonance Skill is cast']);
+  assert.equal(rectifier25[1]?.triggerCooldownSeconds, null);
+  assert.deepEqual(rectifier25[1]?.rankValues, [.12, .15, .18, .21, .24]);
+  assert.match(rectifier25[1]?.notes ?? '', /exactly 60%.*unresolved/i);
+
+  const variation = getWeaponEffects('variation');
+  assert.deepEqual(variation.map((row) => row.effectId), ['VAR-CONCERTO']);
+  assert.equal(variation[0]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(variation[0]?.rankValues, [8, 10, 12, 14, 16]);
+  assert.equal(variation[0]?.triggerCooldownSeconds, 20);
+
+  const waltz = getWeaponEffects('waltz-in-masquerade');
+  assert.deepEqual(waltz.map((row) => row.effectId), ['WIM-ATK']);
+  assert.equal(waltz[0]?.effectType, 'STACKING');
+  assert.equal(waltz[0]?.durationSeconds, 10);
+  assert.equal(waltz[0]?.maxStacks, 4);
+  assert.equal(waltz[0]?.triggerCooldownSeconds, 1);
+  assert.equal(waltz[0]?.stackIntervalSeconds, 1);
+
+  const guardian = getWeaponEffects('guardian-rectifier');
+  assert.deepEqual(guardian.map((row) => row.effectId), ['GR-BASIC', 'GR-HEAVY']);
+  for (const effect of guardian) {
+    assert.deepEqual(effect.rankValues, [.12, .15, .18, .21, .24]);
+    assert.equal(effect.effectType, 'PERMANENT');
+    assert.equal(effect.simulatorMode, 'ALWAYS');
+  }
+
+  const originite = getWeaponEffects('originite-type-v');
+  assert.deepEqual(originite.map((row) => row.effectId), ['O5-HEAL']);
+  assert.deepEqual(originite[0]?.rankValues, [.05, .0625, .075, .0875, .10]);
+  assert.equal(originite[0]?.triggerCooldownSeconds, 20);
+
+  const night = getWeaponEffects('rectifier-of-night');
+  assert.deepEqual(night.map((row) => row.effectId), ['RON-ATK']);
+  assert.equal(night[0]?.trigger, 'Cast Intro Skill');
+  assert.deepEqual(night[0]?.rankValues, [.08, .10, .12, .14, .16]);
+  assert.equal(night[0]?.durationSeconds, 10);
+
+  const voyager = getWeaponEffects('rectifier-of-voyager');
+  assert.deepEqual(voyager.map((row) => row.effectId), ['ROV-ENERGY']);
+  assert.equal(voyager[0]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(voyager[0]?.rankValues, [8, 9, 10, 11, 12]);
+  assert.equal(voyager[0]?.triggerCooldownSeconds, 20);
+
+  const tyro = getWeaponEffects('tyro-rectifier');
+  const training = getWeaponEffects('training-rectifier');
+  assert.deepEqual(tyro[0]?.rankValues, [.05, .0625, .075, .0875, .10]);
+  assert.deepEqual(training[0]?.rankValues, [.04, .05, .06, .07, .08]);
+  assert.equal(tyro[0]?.effectType, 'PERMANENT');
+  assert.equal(training[0]?.effectType, 'PERMANENT');
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {

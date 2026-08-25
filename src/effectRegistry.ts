@@ -1,3 +1,4 @@
+import { auditWeaponEffectCoverage, getWeaponEffectCoverageStatus } from './data/weaponEffectAudit.ts';
 import { WEAPON_CATALOG } from './data/weapons.ts';
 import { WEAPON_EFFECT_CATALOG } from './data/weaponEffects.ts';
 import type { WeaponEffectData } from './effectDomain.ts';
@@ -45,15 +46,36 @@ export function getWeaponEffect(effectId: string): WeaponEffectData | null {
   return WEAPON_EFFECT_BY_ID.get(effectId) ?? null;
 }
 
+/**
+ * Returns source-audited effect rows only.
+ *
+ * Pending or missing coverage is an error, not an empty passive. An empty array
+ * is only valid after a weapon has been explicitly verified to have no
+ * combat-affecting effect.
+ */
 export function getWeaponEffects(weaponId: string): readonly WeaponEffectData[] {
-  return WEAPON_EFFECTS_BY_WEAPON.get(weaponId) ?? [];
+  const coverage = getWeaponEffectCoverageStatus(weaponId);
+  if (coverage === 'AUDITED_EFFECTS') {
+    return WEAPON_EFFECTS_BY_WEAPON.get(weaponId) ?? [];
+  }
+  if (coverage === 'VERIFIED_NO_COMBAT_EFFECT') return [];
+
+  throw new Error(
+    `${weaponId}: Weapon Effect coverage is ${coverage}; missing effect rows must not be interpreted as zero effect.`,
+  );
 }
+
+const coverageAudit = auditWeaponEffectCoverage();
 
 export const WEAPON_EFFECT_CATALOG_META = {
   migratedEffectCount: WEAPON_EFFECT_CATALOG.length,
   coveredWeaponCount: WEAPON_EFFECTS_BY_WEAPON.size,
   totalWeaponCount: WEAPON_CATALOG.length,
-  completeness: 'PARTIAL' as const,
-  source: 'V9.15 Weapon Effects',
-  checkedAt: '2026-08-23',
+  releasedWeaponCount: coverageAudit.releasedCount,
+  releasedExplicitCoverageCount: coverageAudit.explicitCoverageCount,
+  pendingSourceAuditCount: coverageAudit.pendingSourceAuditCount,
+  fullReleasedRosterComplete: coverageAudit.fullReleasedRosterComplete,
+  completeness: coverageAudit.fullReleasedRosterComplete ? 'COMPLETE' as const : 'PARTIAL' as const,
+  source: 'V9.15 Weapon Effects + Version 3.6 released-roster coverage audit',
+  checkedAt: '2026-08-25',
 };

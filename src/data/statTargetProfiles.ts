@@ -8,14 +8,15 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
     characterId: 'augusta',
     verificationStatus: 'VERIFIED',
     provenance: {
-      sourceLabels: ['V9.15 Build Simulator', 'V9.15 DPS Contexts'],
+      sourceLabels: ['V9.15 Build Simulator', 'V9.15 Strategy Cache', 'V9.15 DPS Contexts'],
       sourceUrls: [
         'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit',
       ],
-      checkedAt: '2026-08-23',
+      checkedAt: '2026-08-25',
       notes: [
-        'Current active V9.15 requirement is 2 Core + Any 2 Useful.',
-        'This supersedes the earlier app-port fixture that required only Any 1 Useful.',
+        'Current active V9.15 Build Simulator selection is 2 Core + Any 1 Useful.',
+        'The V9.15 Strategy Cache live/cached fingerprint is CURRENT for that same Any 1 requirement.',
+        '2 Core + Any 2 Useful and Any 3 Useful remain selectable stricter target options; they are not the active Augusta Recommended target.',
       ],
     },
     targetRules: [
@@ -26,7 +27,7 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
       { stat: 'Heavy Attack DMG', role: 'USEFUL', minimumRoll: 0.064 },
     ],
     requiredCoreHits: 2,
-    requiredUsefulHits: 2,
+    requiredUsefulHits: 1,
     gates: [
       {
         stat: 'Energy Regen Total',

@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 75);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 75);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 37);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 90);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 90);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 42);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 84);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 79);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 75);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 90);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -225,6 +225,73 @@ test('Romance in Farewell and Solar Flame retain stack timing without automatic 
     assert.equal(effect.stackIntervalSeconds, 1);
     assert.equal(effect.simulatorMode, 'MANUAL');
   }
+});
+
+test('Boson Astrolabe separates permanent ATK from its Tune Break windows', () => {
+  const rows = getWeaponEffects('boson-astrolabe');
+  assert.deepEqual(rows.map((row) => row.effectId), ['BOS-ATK', 'BOS-TUNE-ATK', 'BOS-TUNE-BASIC']);
+  assert.deepEqual(rows[0]?.rankValues, [.12, .15, .18, .21, .24]);
+  for (const effect of rows.slice(1)) {
+    assert.deepEqual(effect.rankValues, [.12, .135, .15, .165, .18]);
+    assert.equal(effect.durationSeconds, 14);
+    assert.equal(effect.simulatorMode, 'MANUAL');
+  }
+});
+
+test('Cosmic Ripples preserves the 0.5-second Basic stack trigger without assuming five stacks', () => {
+  const rows = getWeaponEffects('cosmic-ripples');
+  assert.deepEqual(rows.map((row) => row.effectId), ['COS-ER', 'COS-BASIC']);
+  assert.deepEqual(rows[0]?.rankValues, [.128, .16, .192, .224, .256]);
+  assert.deepEqual(rows[1]?.rankValues, [.032, .04, .048, .056, .064]);
+  assert.equal(rows[1]?.effectType, 'STACKING');
+  assert.equal(rows[1]?.maxStacks, 5);
+  assert.equal(rows[1]?.durationSeconds, 8);
+  assert.equal(rows[1]?.triggerCooldownSeconds, .5);
+  assert.equal(rows[1]?.stackIntervalSeconds, .5);
+  assert.equal(rows[1]?.simulatorMode, 'MANUAL');
+});
+
+test("Firstlight's Herald keeps verified values while conflicting team-state semantics stay pending-model", () => {
+  const rows = getWeaponEffects('firstlights-herald');
+  assert.deepEqual(rows.map((row) => row.effectId), ['FH-HP', 'FH-CONCERTO', 'FH-TEAM-ATK']);
+  assert.deepEqual(rows[0]?.rankValues, [.12, .15, .18, .21, .24]);
+  assert.equal(rows[1]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(rows[1]?.rankValues, [8, 10, 12, 14, 16]);
+  assert.equal(rows[1]?.triggerCooldownSeconds, 20);
+  assert.deepEqual(rows[2]?.rankValues, [.20, .25, .30, .35, .40]);
+  assert.equal(rows[2]?.effectType, 'STATE_CONDITIONAL');
+  assert.equal(rows[2]?.mechanicsStatus, 'VERIFIED_RAW_PENDING_MODEL');
+  assert.equal(rows[2]?.durationSeconds, null);
+  assert.equal(rows[2]?.appliesTo, 'TEAM');
+});
+
+test('Luminous Hymn separates self stacks from target-side Spectro Frazzle amplification', () => {
+  const rows = getWeaponEffects('luminous-hymn');
+  assert.deepEqual(rows.map((row) => row.effectId), ['LH-ATK', 'LH-BASIC', 'LH-HEAVY', 'LH-FRAZZLE-AMP']);
+  assert.deepEqual(rows[0]?.rankValues, [.12, .15, .18, .21, .24]);
+  for (const effect of rows.slice(1, 3)) {
+    assert.deepEqual(effect.rankValues, [.14, .175, .21, .245, .28]);
+    assert.equal(effect.effectType, 'STACKING');
+    assert.equal(effect.maxStacks, 3);
+    assert.equal(effect.durationSeconds, 6);
+  }
+  assert.deepEqual(rows[3]?.rankValues, [.30, .375, .45, .525, .60]);
+  assert.equal(rows[3]?.appliesTo, 'TARGET');
+  assert.equal(rows[3]?.durationSeconds, 30);
+  assert.equal(rows[3]?.simulatorMode, 'MANUAL');
+});
+
+test('Stellar Symphony separates HP, flat Concerto and conditional team ATK', () => {
+  const rows = getWeaponEffects('stellar-symphony');
+  assert.deepEqual(rows.map((row) => row.effectId), ['SSY-HP', 'SSY-CONCERTO', 'SSY-TEAM-ATK']);
+  assert.deepEqual(rows[0]?.rankValues, [.12, .15, .18, .21, .24]);
+  assert.equal(rows[1]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(rows[1]?.rankValues, [8, 10, 12, 14, 16]);
+  assert.equal(rows[1]?.triggerCooldownSeconds, 20);
+  assert.deepEqual(rows[2]?.rankValues, [.14, .175, .21, .245, .28]);
+  assert.equal(rows[2]?.appliesTo, 'TEAM');
+  assert.equal(rows[2]?.durationSeconds, 30);
+  assert.equal(rows[2]?.simulatorMode, 'MANUAL');
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {

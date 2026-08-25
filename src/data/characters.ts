@@ -1,11 +1,11 @@
 import type { VerificationStatus } from '../contentRegistry.ts';
 import type {
   CharacterGameData,
-  CharacterIntrinsicStat,
   CharacterRarity,
   Element,
   WeaponType,
 } from '../gameDataDomain.ts';
+import { getCharacterIntrinsicStats } from './characterIntrinsicStats.ts';
 
 type ReleaseStatus = CharacterGameData['releaseStatus'];
 
@@ -19,7 +19,6 @@ interface CharacterRow {
   atk: number | null;
   def: number | null;
   maxEnergy: number | null;
-  intrinsic?: readonly CharacterIntrinsicStat[];
   releaseStatus?: ReleaseStatus;
   verificationStatus?: VerificationStatus;
   sourceLabels?: readonly string[];
@@ -60,16 +59,17 @@ function row(input: CharacterRow): CharacterGameData {
     baseCombat: released
       ? { critRate: 0.05, critDamage: 1.5, energyRegen: 1 }
       : { critRate: null, critDamage: null, energyRegen: null },
-    intrinsicStats: input.intrinsic ?? [],
+    intrinsicStats: getCharacterIntrinsicStats(input.id) ?? [],
   };
 }
 
 /**
  * Character identity + raw level-90 data only.
  *
- * This catalog intentionally contains no signature weapons, recommended Echoes,
- * team defaults, sequence assumptions or rotations. Those belong to separate
- * relationship/profile layers.
+ * Static Minor-Forte totals are owned by `characterIntrinsicStats.ts`; this
+ * roster consumes that fact base rather than duplicating the same nodes inline.
+ * Signature/default weapons, Echo recommendations, teams and rotations remain
+ * separate relationship/profile layers.
  *
  * Level-90 integer convention:
  * - Bellibing stores the published game-facing integer convention used by its
@@ -85,14 +85,14 @@ function row(input: CharacterRow): CharacterGameData {
  * - V9.15 provides the baseline roster and raw values.
  * - Known stale release identities are patched from current sources.
  * - Source-conflicted numeric fields remain null instead of being guessed.
- * - Imported V9.15 rows stay PARTIALLY_VERIFIED until the new roster audit
- *   independently cross-checks them; Augusta is already a verified golden ref.
+ * - Imported V9.15 rows stay PARTIALLY_VERIFIED until the full Character base
+ *   audit is complete; Augusta remains the verified golden raw-data reference.
  */
 export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
-  row({ id: 'aalto', name: 'Aalto', rarity: 4, element: 'Aero', weaponType: 'Pistols', hp: 9850, atk: 263, def: 1075, maxEnergy: 150, intrinsic: [{ stat: 'Aero DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] }),
-  row({ id: 'aemeath', name: 'Aemeath', rarity: 5, element: 'Fusion', weaponType: 'Sword', hp: 11025, atk: 425, def: 1149, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }] }),
-  row({ id: 'augusta', name: 'Augusta', rarity: 5, element: 'Electro', weaponType: 'Broadblade', hp: 10300, atk: 463, def: 1112, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }], verificationStatus: 'VERIFIED', sourceLabels: ['V9.15 Characters', 'Prydwen', 'Augusta parity fixtures'], notes: ['Golden-reference character; exact app DPS parity is tracked separately from raw data.'] }),
-  row({ id: 'baizhi', name: 'Baizhi', rarity: 4, element: 'Glacio', weaponType: 'Rectifier', hp: 12813, atk: 213, def: 1002, maxEnergy: 175, intrinsic: [{ stat: 'HP%', value: 0.12 }, { stat: 'Healing Bonus', value: 0.12 }] }),
+  row({ id: 'aalto', name: 'Aalto', rarity: 4, element: 'Aero', weaponType: 'Pistols', hp: 9850, atk: 263, def: 1075, maxEnergy: 150 }),
+  row({ id: 'aemeath', name: 'Aemeath', rarity: 5, element: 'Fusion', weaponType: 'Sword', hp: 11025, atk: 425, def: 1149, maxEnergy: 125 }),
+  row({ id: 'augusta', name: 'Augusta', rarity: 5, element: 'Electro', weaponType: 'Broadblade', hp: 10300, atk: 463, def: 1112, maxEnergy: 125, verificationStatus: 'VERIFIED', sourceLabels: ['V9.15 Characters', 'Prydwen', 'Augusta parity fixtures'], notes: ['Golden-reference character; exact app DPS parity is tracked separately from raw data.'] }),
+  row({ id: 'baizhi', name: 'Baizhi', rarity: 4, element: 'Glacio', weaponType: 'Rectifier', hp: 12813, atk: 213, def: 1002, maxEnergy: 175 }),
   row({ id: 'brant', name: 'Brant', rarity: 5, element: 'Fusion', weaponType: 'Sword', hp: 11675, atk: 375, def: 1308, maxEnergy: 125 }),
   row({ id: 'buling', name: 'Buling', rarity: 4, element: 'Electro', weaponType: 'Rectifier', hp: 10625, atk: 225, def: 1259, maxEnergy: 125 }),
   row({ id: 'calcharo', name: 'Calcharo', rarity: 5, element: 'Electro', weaponType: 'Broadblade', hp: 10500, atk: 438, def: 1185, maxEnergy: 125 }),
@@ -105,7 +105,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'chixia', name: 'Chixia', rarity: 4, element: 'Fusion', weaponType: 'Pistols', hp: 9088, atk: 300, def: 953, maxEnergy: 150 }),
   row({ id: 'ciaccona', name: 'Ciaccona', rarity: 5, element: 'Aero', weaponType: 'Pistols', hp: 12238, atk: 375, def: 1198, maxEnergy: 125 }),
   row({ id: 'danjin', name: 'Danjin', rarity: 4, element: 'Havoc', weaponType: 'Sword', hp: 9438, atk: 263, def: 1149, maxEnergy: 100 }),
-  row({ id: 'denia', name: 'Denia', rarity: 5, element: 'Fusion', weaponType: 'Rectifier', hp: 11025, atk: 425, def: 1149, maxEnergy: 125, intrinsic: [{ stat: 'CRIT DMG', value: 0.16 }, { stat: 'ATK%', value: 0.12 }], sourceLabels: ['V9.15 Characters', 'Prydwen', 'Wutheringlab', 'Wuwa Wiki'], notes: ['V9.15 profile identity was live while core stats were blank; current source cross-check supplies the level-90 core stats.'] }),
+  row({ id: 'denia', name: 'Denia', rarity: 5, element: 'Fusion', weaponType: 'Rectifier', hp: 11025, atk: 425, def: 1149, maxEnergy: 125, sourceLabels: ['V9.15 Characters', 'Prydwen', 'Wutheringlab', 'Wuwa Wiki'], notes: ['V9.15 profile identity was live while core stats were blank; current source cross-check supplies the level-90 core stats.'] }),
   row({ id: 'encore', name: 'Encore', rarity: 5, element: 'Fusion', weaponType: 'Rectifier', hp: 10513, atk: 425, def: 1246, maxEnergy: 125 }),
   row({ id: 'galbrena', name: 'Galbrena', rarity: 5, element: 'Fusion', weaponType: 'Pistols', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
   row({ id: 'hiyuki', name: 'Hiyuki', rarity: 5, element: 'Glacio', weaponType: 'Sword', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
@@ -131,19 +131,19 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'rebecca', name: 'Rebecca', rarity: 5, element: 'Electro', weaponType: 'Pistols', hp: 11600, atk: 400, def: 1173, maxEnergy: 150 }),
   row({ id: 'roccia', name: 'Roccia', rarity: 5, element: 'Havoc', weaponType: 'Gauntlets', hp: 12250, atk: 375, def: 1198, maxEnergy: 125 }),
   row({ id: 'rover-aero', name: 'Rover (Aero)', rarity: 5, element: 'Aero', weaponType: 'Sword', hp: 10775, atk: 438, def: 1136, maxEnergy: 125 }),
-  row({ id: 'rover-electro', name: 'Rover (Electro)', rarity: 5, element: 'Electro', weaponType: 'Sword', hp: 10775, atk: 438, def: 1136, maxEnergy: null, intrinsic: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }], verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['CYZED', 'Wuthering.gg', 'Wutheringlab', 'Wuwa Wiki'], checkedAt: '2026-08-25', notes: ['Level-90 HP/ATK/DEF are now resolved. CYZED exposes 10775.00 / 437.50 / 1136.66, the same raw stat family used by released Prydwen/Bellibing characters represented as 10775 / 438 / 1136.', 'Max Energy remains null: current sources disagree between 125 and 140, and Wuthering.gg separately reports a 125 Resonance Liberation cost. Liberation cost is not treated as proof of Max Energy.'] }),
+  row({ id: 'rover-electro', name: 'Rover (Electro)', rarity: 5, element: 'Electro', weaponType: 'Sword', hp: 10775, atk: 438, def: 1136, maxEnergy: null, verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['CYZED', 'Wuthering.gg', 'Wutheringlab', 'Wuwa Wiki'], checkedAt: '2026-08-25', notes: ['Level-90 HP/ATK/DEF are now resolved. CYZED exposes 10775.00 / 437.50 / 1136.66, the same raw stat family used by released Prydwen/Bellibing characters represented as 10775 / 438 / 1136.', 'Max Energy remains null: current sources disagree between 125 and 140, and Wuthering.gg separately reports a 125 Resonance Liberation cost. Liberation cost is not treated as proof of Max Energy.'] }),
   row({ id: 'rover-havoc', name: 'Rover (Havoc)', rarity: 5, element: 'Havoc', weaponType: 'Sword', hp: 10825, atk: 413, def: 1259, maxEnergy: 125 }),
   row({ id: 'rover-spectro', name: 'Rover (Spectro)', rarity: 5, element: 'Spectro', weaponType: 'Sword', hp: 11400, atk: 375, def: 1369, maxEnergy: 125 }),
   row({ id: 'sanhua', name: 'Sanhua', rarity: 4, element: 'Glacio', weaponType: 'Sword', hp: 10063, atk: 275, def: 941, maxEnergy: 100 }),
   row({ id: 'sigrika', name: 'Sigrika', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 10775, atk: 438, def: 1136, maxEnergy: 125 }),
-  row({ id: 'suisui', name: 'Suisui', rarity: 5, element: 'Glacio', weaponType: 'Rectifier', hp: 16713, atk: 288, def: 1100, maxEnergy: null, intrinsic: [{ stat: 'Healing Bonus', value: 0.12 }, { stat: 'HP%', value: 0.12 }], verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Wuwa Wiki', 'Wutheringlab', 'Wuthering.gg', 'ArabWuwa'], checkedAt: '2026-08-25', notes: ['Level-90 HP/ATK/DEF are now resolved to Bellibing’s published integer convention: current Wuwa Wiki reports 16713 / 288 / 1100, while other raw/display sources differ by presentation on HP/ATK but support the same stat family.', 'Max Energy remains null. One current source explicitly labels 175 Max Energy and the Liberation costs 175, while other current databases expose 125 or 140 in energy-labelled fields; Bellibing will not equate those fields without a clean semantic source.'] }),
+  row({ id: 'suisui', name: 'Suisui', rarity: 5, element: 'Glacio', weaponType: 'Rectifier', hp: 16713, atk: 288, def: 1100, maxEnergy: null, verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Wuwa Wiki', 'Wutheringlab', 'Wuthering.gg', 'ArabWuwa'], checkedAt: '2026-08-25', notes: ['Level-90 HP/ATK/DEF are now resolved to Bellibing’s published integer convention: current Wuwa Wiki reports 16713 / 288 / 1100, while other raw/display sources differ by presentation on HP/ATK but support the same stat family.', 'Max Energy remains null. One current source explicitly labels 175 Max Energy and the Liberation costs 175, while other current databases expose 125 or 140 in energy-labelled fields; Bellibing will not equate those fields without a clean semantic source.'] }),
   row({ id: 'suoming', name: 'Suoming', rarity: 5, element: null, weaponType: null, hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'UNRELEASED_WIP', verificationStatus: 'PENDING', sourceLabels: ['V9.15 Characters', 'Prydwen'], notes: ['Future/WIP roster identity only. Element, weapon type and stats are intentionally not guessed.'] }),
   row({ id: 'taoqi', name: 'Taoqi', rarity: 4, element: 'Havoc', weaponType: 'Broadblade', hp: 8950, atk: 225, def: 1564, maxEnergy: 125 }),
   row({ id: 'the-shorekeeper', name: 'The Shorekeeper', rarity: 5, element: 'Spectro', weaponType: 'Rectifier', hp: 16713, atk: 288, def: 1100, maxEnergy: 125 }),
   row({ id: 'verina', name: 'Verina', rarity: 5, element: 'Spectro', weaponType: 'Rectifier', hp: 14238, atk: 338, def: 1100, maxEnergy: 175 }),
   row({ id: 'xiangli-yao', name: 'Xiangli Yao', rarity: 5, element: 'Electro', weaponType: 'Gauntlets', hp: 10625, atk: 425, def: 1222, maxEnergy: 125 }),
   row({ id: 'yangyang', name: 'Yangyang', rarity: 4, element: 'Aero', weaponType: 'Sword', hp: 10200, atk: 250, def: 1100, maxEnergy: 100 }),
-  row({ id: 'yangyang-xuanling', name: 'Yangyang: Xuanling', rarity: 5, element: 'Havoc', weaponType: 'Sword', hp: 11025, atk: 425, def: 1149, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }], sourceLabels: ['V9.15 Characters', 'Prydwen', 'Wutheringlab', 'Wuthering.gg'], notes: ['V9.15 profile identity was live while core stats were blank.', 'Bellibing retains the current Prydwen-family published integer convention for the verified profile; adjacent raw-database integers are tracked as presentation differences rather than silently replacing the benchmark value.'] }),
+  row({ id: 'yangyang-xuanling', name: 'Yangyang: Xuanling', rarity: 5, element: 'Havoc', weaponType: 'Sword', hp: 11025, atk: 425, def: 1149, maxEnergy: 125, sourceLabels: ['V9.15 Characters', 'Prydwen', 'Wutheringlab', 'Wuthering.gg'], notes: ['V9.15 profile identity was live while core stats were blank.', 'Bellibing retains the current Prydwen-family published integer convention for the verified profile; adjacent raw-database integers are tracked as presentation differences rather than silently replacing the benchmark value.'] }),
   row({ id: 'yinlin', name: 'Yinlin', rarity: 5, element: 'Electro', weaponType: 'Rectifier', hp: 11000, atk: 400, def: 1283, maxEnergy: 125 }),
   row({ id: 'youhu', name: 'Youhu', rarity: 4, element: 'Glacio', weaponType: 'Gauntlets', hp: 9975, atk: 263, def: 1051, maxEnergy: 125 }),
   row({ id: 'yuanwu', name: 'Yuanwu', rarity: 4, element: 'Electro', weaponType: 'Gauntlets', hp: 8525, atk: 225, def: 1637, maxEnergy: 125 }),

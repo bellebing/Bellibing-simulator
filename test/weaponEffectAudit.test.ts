@@ -19,13 +19,13 @@ test('Version 3.6 released roster has explicit Weapon Effect coverage status for
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
   assert.equal(audit.releasedCount, 121);
-  assert.equal(audit.auditedEffectWeaponCount, 42);
+  assert.equal(audit.auditedEffectWeaponCount, 47);
   assert.equal(audit.verifiedNoCombatEffectCount, 0);
-  assert.equal(audit.pendingSourceAuditCount, 79);
+  assert.equal(audit.pendingSourceAuditCount, 74);
   assert.equal(audit.explicitCoverageCount, 121);
   assert.equal(audit.fullReleasedRosterComplete, false);
   assert.deepEqual(audit.issues, []);
-  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 79);
+  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 74);
 });
 
 test('future released weapon fails the effect coverage gate until its status is explicitly audited', () => {
@@ -219,13 +219,45 @@ test('Rectifier effect batch 1 screens the exact released Rectifier roster witho
   }
 });
 
+test('Rectifier effect batch 2 repeats the exact released Rectifier backward-impact screen', () => {
+  const review = WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36.find(
+    (row) => row.reviewId === 'WEAPON-EFFECT-RECTIFIERS-2026-08-25-02',
+  );
+  assert.ok(review);
+
+  const releasedIds = releasedCharacterIds('Rectifier');
+  assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_RECTIFIER_CHARACTERS]);
+  assert.equal(releasedIds.length, 13);
+  assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);
+  assert.deepEqual(currentProfileIds('Rectifier'), []);
+  assert.deepEqual([...review.existingWeaponRecommendationProfileIds].sort(), []);
+  assert.deepEqual(review.weaponIds, [
+    'augment',
+    'call-of-the-abyss',
+    'comet-flare',
+    'fusion-accretion',
+    'jinzhou-keeper',
+  ]);
+  assert.equal(review.result, 'REVIEWED_NO_EXISTING_PROFILE_CHANGE');
+
+  for (const weaponId of review.weaponIds) {
+    assert.equal(getWeaponEffectCoverageStatus(weaponId), 'AUDITED_EFFECTS', weaponId);
+    assert.equal(
+      (WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 as readonly string[]).includes(weaponId),
+      false,
+      weaponId,
+    );
+  }
+});
+
 test('coverage lookup distinguishes audited, pending, upcoming and unknown weapons', () => {
   assert.equal(getWeaponEffectCoverageStatus('stringmaster'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('static-mist'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('solar-flame'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('boson-astrolabe'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('stellar-symphony'), 'AUDITED_EFFECTS');
-  assert.equal(getWeaponEffectCoverageStatus('augment'), 'PENDING_SOURCE_AUDIT');
+  assert.equal(getWeaponEffectCoverageStatus('augment'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('jinzhou-keeper'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
   assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
   assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');

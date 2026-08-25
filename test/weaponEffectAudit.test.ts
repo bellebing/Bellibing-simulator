@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import {
+  WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36,
+  WEAPON_EFFECT_ROSTER_AUDIT_V36,
+  auditWeaponEffectCoverage,
+  getWeaponEffectCoverageStatus,
+} from '../src/data/weaponEffectAudit.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffects.ts';
+import { WEAPON_CATALOG, getWeaponGameData } from '../src/data/weapons.ts';
+
+test('Version 3.6 released roster has explicit Weapon Effect coverage status for all 121 weapons', () => {
+  const audit = auditWeaponEffectCoverage();
+
+  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
+  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
+  assert.equal(audit.releasedCount, 121);
+  assert.equal(audit.auditedEffectWeaponCount, 16);
+  assert.equal(audit.verifiedNoCombatEffectCount, 0);
+  assert.equal(audit.pendingSourceAuditCount, 105);
+  assert.equal(audit.explicitCoverageCount, 121);
+  assert.equal(audit.fullReleasedRosterComplete, false);
+  assert.deepEqual(audit.issues, []);
+  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 105);
+});
+
+test('future released weapon fails the effect coverage gate until its status is explicitly audited', () => {
+  const glint = getWeaponGameData('glint-of-clouds');
+  assert.ok(glint);
+
+  const synthetic = {
+    ...glint,
+    id: 'test-only-future-effect-weapon',
+    name: 'TEST ONLY — future effect weapon',
+  };
+  const catalog = [...WEAPON_CATALOG, synthetic];
+  const audit = auditWeaponEffectCoverage(catalog, WEAPON_EFFECT_CATALOG);
+  const codes = new Set(audit.issues.map((issue) => issue.code));
+
+  assert.equal(getWeaponEffectCoverageStatus(synthetic.id, catalog, WEAPON_EFFECT_CATALOG), 'MISSING_COVERAGE_STATUS');
+  assert.equal(audit.releasedCount, 122);
+  assert.equal(audit.explicitCoverageCount, 121);
+  assert.ok(codes.has('RELEASED_COUNT_MISMATCH'));
+  assert.ok(codes.has('MISSING_COVERAGE_STATUS'));
+});
+
+test('adding audited effect data requires removing the weapon from the pending-source set', () => {
+  const source = WEAPON_EFFECT_CATALOG[0];
+  assert.ok(source);
+
+  const syntheticEffect = {
+    ...source,
+    effectId: 'TEST-PENDING-OVERLAP',
+    weaponId: 'thunderflare-dominion',
+  };
+  const audit = auditWeaponEffectCoverage(WEAPON_CATALOG, [...WEAPON_EFFECT_CATALOG, syntheticEffect]);
+  const overlap = audit.issues.find((issue) => issue.code === 'PENDING_OVERLAPS_EFFECT_DATA');
+
+  assert.equal(overlap?.weaponId, 'thunderflare-dominion');
+});
+
+test('coverage lookup distinguishes audited, pending, upcoming and unknown weapons', () => {
+  assert.equal(getWeaponEffectCoverageStatus('stringmaster'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
+  assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
+  assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');
+});

@@ -56,21 +56,25 @@ PR #32 synchronized the browser surface with the verified runtime, PR #33 fixed 
 
 Fresh desired-main acquisition probability remains deliberately outside Echo Lab's eligible-candidate tuning scope until source-verified acquisition weights exist. That pending acquisition model does not make the mechanical tuning oracle incomplete.
 
-### Roll / stopping policy — FOUNDATION, NOT FINAL
+### Roll / stopping policy — COMPLETE FOR GUIDE/PROFILE FALLBACK
 
-The current target checkpoint policy is an exact port of one legacy Budget rule family. It is profile-driven, but it still assumes exactly two Core targets plus a configurable number of Useful hits.
+PR #36 removed the universal exactly-two-Core assumption from the fallback requirement engine.
 
-It is therefore a **guide-target fallback policy**, not the universal Bellibing final decision rule.
+Implemented and regression-tested:
 
-Required before broad character integration:
+- each character/mode profile owns its Core target set;
+- each character/mode profile owns its Useful target set;
+- `requiredCoreHits` and `requiredUsefulHits` are explicit profile data;
+- final requirement and reachability math support more than two defined Core targets and subset requirements;
+- exact roll values and remaining unique substat slots remain part of feasibility;
+- the same +25 Echo is regression-tested to produce different verdicts under different profile requirements;
+- Augusta's active V9.15 Recommended parity remains 2 Core + Any 1 Useful;
+- the exact Augusta Strategy Cache distribution remains locked unchanged;
+- invalid requirement counts fail instead of silently becoming impossible.
 
-- target requirements must be character/profile data, never Augusta constants in UI/session code;
-- requirement structure must support different character/mode needs instead of requiring exactly two Core targets universally;
-- exact roll values and remaining unique substat slots must remain part of feasibility;
-- no policy may classify a stat globally as good/bad independently of the selected profile/build;
-- policy tests must prove two different character profiles can produce different decisions for the same partial Echo.
+The current Bellibing Budget behavior around Dead/Filler checkpoint routing remains a **guide-target fallback policy**, not the universal Bellibing final decision rule.
 
-The current exact probability distribution collapses target roll magnitude to pass/fail mass only because that legacy policy uses a minimum threshold. This is mathematically valid for that policy, but is not sufficient for the final DPS-aware Bellibing decision layer.
+The exact probability distribution collapses target roll magnitude to pass/fail mass only because this fallback policy uses a minimum threshold. That is mathematically valid for this policy but is not sufficient for final DPS-aware decisions.
 
 ### DPS-aware stopping policy — ENGINE HOOK EXISTS, FINAL POLICY PENDING DPS
 
@@ -87,7 +91,28 @@ For a DPS-integrated character, the final roll/stop decision must eventually use
 - future resource cost from the current checkpoint;
 - selected target quality / stopping objective.
 
-This layer cannot be truthfully finalized for a character until that character has a verified combat/DPS model. The generic simulation/evaluator interface should be complete before then; character-specific DPS values come later.
+This layer cannot be truthfully finalized for a character until that character has a verified combat/DPS model. The generic simulation/evaluator interface is available; character-specific DPS truth comes later.
+
+### Content Preflight + Backward Impact — COMPLETE AS PROJECT PROCESS CONTRACT
+
+The mandatory onboarding and patch-propagation contract is defined in [`CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md`](CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md).
+
+Every new/changed character, weapon, Sonata set, Echo or combat-affecting effect must now be handled as two jobs:
+
+1. verify/model the new content itself;
+2. screen compatible already-supported profiles for backward impact.
+
+A patch/content batch is not fully integrated while plausible old-profile candidates remain unreviewed. `Reviewed — no impact` is valid; silently skipping the review is not.
+
+Important propagation examples:
+
+- new weapon -> existing characters of that weapon type;
+- new Sonata set -> existing compatible loadouts/modes;
+- new Echo -> existing compatible main-Echo/loadout uses;
+- new character -> own build plus existing characters that may benefit from their team-facing effects;
+- newly modeled old passive -> every profile that consumes or plausibly benefits from that effect.
+
+This contract prevents old Character↔Weapon, Echo/Sonata, Team, Rotation and DPS profiles from silently going stale as patches add new options.
 
 ### Character raw database — FOUNDATION
 
@@ -102,6 +127,8 @@ Not complete yet:
 
 A record existing in the roster does not mean the character is fully modeled.
 
+Current known released raw-data blockers include source-conflicted/null fields such as Qingxiao Max Energy, Rover (Electro) core fields and Suisui core fields. These must be resolved from current sources or remain explicitly pending; they must not be guessed.
+
 ### Weapon raw database — CORE CATALOG FOUNDATION
 
 122 Weapon records exist with independent identity/core-stat data.
@@ -111,6 +138,8 @@ Before Weapon data is complete:
 - audit the complete released roster against current patch data;
 - ensure every supported weapon has verified Level-90 core stats and secondary stat;
 - keep signature/BiS/recommendation outside raw Weapon data.
+
+Every new weapon must also trigger the backward compatibility screen defined by the content-impact contract.
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE
 
@@ -122,6 +151,8 @@ Before complete:
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - missing mechanics remain explicit pending/conditional rather than silently treated as zero;
 - effect records must remain independent from character recommendations and rotation uptime.
+
+A newly modeled effect is a changed combat fact and must trigger a backward-impact review even when the weapon itself is old.
 
 ### Echo raw database — CATALOG FOUNDATION
 
@@ -144,6 +175,8 @@ Before complete:
 - trigger/uptime uncertainty remains conditional/pending rather than assumed;
 - the effect model must expose combat facts; the rotation decides whether a conditional effect is active.
 
+New or changed sets must be screened against existing compatible character modes.
+
 ### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE
 
 Current modeled coverage is intentionally small:
@@ -157,6 +190,8 @@ Before complete:
 - non-damage main-slot/team/conditional effects must be captured separately from active attack motion values;
 - character-restricted effects must carry explicit conditions;
 - no character recommendation or rotation uptime belongs in the Echo fact itself.
+
+New Echoes must be screened against compatible existing main-Echo/loadout modes.
 
 ### Composable defaults/profiles — FOUNDATION
 
@@ -175,7 +210,8 @@ Before complete:
 
 - populate supported profiles character-by-character and mode-by-mode;
 - no UI hard-coded character lists or direct signature-weapon coupling;
-- a UI selection should resolve a preset and receive the linked independent records.
+- a UI selection should resolve a preset and receive the linked independent records;
+- new compatible weapons/sets/Echoes/supports must trigger backward review of existing profile relations instead of relying only on forward onboarding.
 
 ### Roll Assistant UI — BLOCKED, NOT PART OF THE PRE-DPS DATA FOUNDATION
 
@@ -187,16 +223,18 @@ UI polish is intentionally lower priority than completing the engine/data founda
 
 1. **DONE — PR #30:** Complete Echo Core checkpoint main-stat progression.
 2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
-3. **NEXT — BUG-004:** Generalize/profile-proof the non-DPS roll policy.
-4. Complete Character static/raw facts.
-5. Complete Weapon core roster + Weapon Effects coverage.
-6. Complete current Echo/Sonata raw audit.
-7. Complete Sonata Effect coverage.
-8. Complete Echo skill/effect/attack fact coverage needed by supported content.
-9. Complete/populate composable default profiles.
-10. Freeze and regression-test all pre-DPS contracts.
-11. Only then expand Character combat/DPS adapters character-by-character.
-12. As each character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that character.
+3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
+4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
+5. **NEXT:** Complete Character static/raw facts and required character-fact catalogs.
+6. Complete Weapon core roster + Weapon Effects coverage.
+7. Complete current Echo/Sonata raw audit.
+8. Complete Sonata Effect coverage.
+9. Complete Echo skill/effect/attack fact coverage needed by supported content.
+10. Complete/populate composable default profiles.
+11. Freeze and regression-test all pre-DPS contracts and current-patch backward-impact state.
+12. Only then expand Character combat/DPS adapters character-by-character.
+13. As each character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that character.
+14. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
 
 ## Documentation rule
 

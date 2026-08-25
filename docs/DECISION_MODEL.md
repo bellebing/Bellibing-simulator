@@ -1,4 +1,4 @@
-# Echo decision model v0.1
+# Echo decision model v0.2
 
 ## The user should experience one loop
 
@@ -11,95 +11,140 @@ There is no hard separation between "build mode" and "Echo mode". A new characte
 A decision state contains:
 
 - selected character / sequence / weapon / team;
-- locked standard combat context;
+- selected target quality / profile mode;
+- locked standard combat context when that character has a verified combat model;
 - current five-Echo build (including empty/in-progress slots);
 - the candidate Echo being rolled;
 - checkpoint (+0/+5/+10/+15/+20/+25);
 - resources spent so far and, when provided, remaining resources;
 - verified roll/refund probability model.
 
+## Two evaluation levels
+
+### Guide/profile fallback
+
+Before a character has a verified combat model, Bellibing may use a source-backed Character/Profile target policy. This policy is character/mode data, not a universal Crit rule.
+
+It may use:
+
+- exact roll values;
+- remaining unique substat slots;
+- character-specific target requirements;
+- ER/stat gates that are explicitly source-backed;
+- expected future resource cost.
+
+A fallback policy must never be presented as actual DPS optimization.
+
+### DPS-integrated evaluation
+
+Once a character has a verified combat model, the final judge is the resulting whole build under the same locked context.
+
+A candidate or future RNG branch is useful only if it produces a result that satisfies mandatory gates and advances the selected whole-build objective.
+
 ## Acceptance at +25
 
-A candidate is not accepted because it looks good. It is accepted because replacing the incumbent produces a valid whole-build result.
+For a DPS-integrated character, a replacement is not accepted because it looks good.
 
 Minimum acceptance contract:
 
-1. Required build gates pass (for example ER when a hard gate exists).
-2. Personal Rotation DPS is higher than the incumbent under the identical locked context.
-3. Any future "meaningful improvement" floor is explicit and versioned; it may not be silently baked into a score.
+1. Required build gates pass, for example ER when a hard gate exists.
+2. The candidate satisfies the selected build/upgrade objective under the identical locked context.
+3. In Upgrade Mode, the incumbent remains equipped until an actually better accepted result exists.
+4. Any meaningful-improvement floor is explicit and versioned; it may not be silently baked into a score.
+
+For a character still on guide/profile fallback, +25 acceptance is defined by that profile's explicit requirement contract instead.
+
+## Partial-Echo future branches
+
+For an in-progress Echo, Bellibing must reason from the exact current state rather than from the stat names alone.
+
+`forecastCandidateViability` already provides the generic simulation boundary: it rolls the remaining unique substats using the verified runtime and injects a final evaluator.
+
+A DPS-aware final evaluator can therefore answer questions such as:
+
+- How many legal future branches beat the current slot/build?
+- How many preserve the ER gate?
+- How much Personal Rotation DPS do successful branches add?
+- What is the average future spend from this checkpoint?
+
+This generic branch engine is not itself the stopping rule.
 
 ## Continue vs restart
 
-For an in-progress Echo, simulate/solve two paths from the current checkpoint:
+For an in-progress Echo, compare two paths from the current checkpoint.
 
 ### Continue
 
-Spend only the future cost required to advance this exact Echo through later checkpoints, following the roll policy and stopping rules.
+Spend only the future cost required to advance this exact Echo through later checkpoints, following the active stopping policy.
 
 ### Restart
 
 Recycle/abandon according to verified rules and begin from a fresh eligible Echo of the required Cost/Main Stat pool.
 
-For both paths estimate:
+For both paths estimate as applicable:
 
-- probability of eventually producing an accepted replacement;
+- probability of eventually producing an accepted result;
 - expected Echoes consumed;
 - expected Tuners consumed net of verified refunds;
 - expected EXP consumed net of verified refunds;
-- expected Personal Rotation DPS gain when successful;
-- distribution, not only the mean, when it materially changes the decision.
+- expected Shell Credits;
+- expected Personal Rotation DPS gain when DPS-integrated;
+- distribution/risk information only when it materially changes the decision.
 
 ## Decision rule
 
-First use Pareto dominance. If continuing has at least as good upgrade probability and successful DPS gain while costing no more of every tracked resource, continue. If restart dominates the same way, stop/restart.
+First use hard constraints and dominance:
 
-If the resources conflict (for example continue costs fewer Echoes/EXP but more Tuners), do not hide that conflict inside an arbitrary universal score. Resolve it through a versioned budget policy, preferably using the user's actual resource constraints when available and a validated Bellibing default when not.
+1. A branch that can no longer satisfy a mandatory requirement may be discarded.
+2. If one path has at least as good success probability/value while costing no more of every tracked resource, it dominates the other path.
+3. If resources conflict, resolve the tradeoff through the selected budget/target policy rather than a universal hidden Echo score.
 
-This preserves the V9.15 idea that resources are real constraints while avoiding a fake one-number "Echo score".
+For DPS-integrated characters, success/value is measured against the actual whole-build objective. For guide-fallback characters, success is measured against the selected profile requirement.
 
 ## Why a strange Echo can survive
 
-At every checkpoint, the combat evaluator can value the substats actually present. A Heavy/Basic/Skill/Liberation/Flat ATK roll is therefore allowed to keep an Echo alive when it materially improves the modeled rotation, even when a guide would not visually highlight it.
+A stat is never globally dead merely because a generic guide does not highlight it. Heavy/Basic/Skill/Liberation/Flat ATK, DEF, HP or other stats may matter on a character whose real mechanics make them valuable.
 
-The explanation layer should identify those cases explicitly:
-
-> Continue. Heavy Attack DMG is carrying more value on this build than it looks like; a Crit roll next would put this Echo on a strong upgrade path.
+At a DPS-integrated checkpoint, the combat evaluator can value the stats actually present. At a guide-fallback checkpoint, the selected profile owns the target/filler/dead classification.
 
 ## New character workflow
 
-1. Choose character, sequence, weapon and team.
-2. Load the verified default rotation/context.
-3. Show a simple "what has value here" guide based on marginal DPS, not static labels.
-4. Start entering/scanning Echoes.
-5. At every checkpoint, return Continue / Conditional / Stop with explanation and economics.
-6. As the five slots fill, switch naturally from "make a usable build" toward "incumbent must stay until actually beaten".
-7. Once the build is mature, show where the next meaningful upgrade is cheapest and what it is expected to cost.
+1. Raw Character data is already present and verified.
+2. Weapon, Echo/Sonata and effect data required by the supported profile are already present.
+3. Default Weapon / Echo Loadout / Stat Target / Team / Rotation / Character Preset records are linked by IDs.
+4. Before DPS integration, the profile can use a clearly labeled guide-target fallback.
+5. Build the character's verified combat facts and standard context.
+6. Add Personal Rotation DPS/gate evaluation.
+7. Replace guide fallback as final judge with whole-build DPS-aware evaluation for that character.
 
 ## Runtime boundary
 
-The decision layer must not know Wuthering Waves RNG constants. `EchoRollRuntime` is an adapter supplied by verified game/economy data. This keeps three things separate:
+The decision layer must not own Wuthering Waves RNG constants. `EchoRollRuntime` is supplied by verified Echo Core data.
+
+Keep three truths separate:
 
 1. **Game RNG/economy truth** — how an Echo rolls and what it costs/refunds.
-2. **Combat truth** — what the resulting whole build does in Personal Rotation DPS and whether required gates pass.
-3. **Decision policy** — whether continuing the current partial Echo dominates discarding/restarting, or whether a real resource tradeoff remains.
+2. **Combat truth** — what the resulting whole build does and whether mandatory gates pass.
+3. **Decision policy** — whether continuing, discarding, keeping temporarily or replacing is worthwhile under the selected objective.
 
-A stale or unavailable runtime rule therefore becomes `pending`, not a guessed constant.
+A stale or unavailable rule becomes pending, never a guessed constant.
 
-## Verified Echo runtime checkpoint (2026-08-21)
+## Current Echo-runtime coverage
 
-The app now has a source-backed Rank-5 Echo tuning adapter for already-eligible Echo candidates:
+Implemented:
 
-- 13 substat types, sampled without replacement;
-- July 2026 disclosed value-tier weighting, including the distinct low-roll-heavy Crit distribution;
-- cumulative +5/+10/+15/+20/+25 EXP and Tuner costs;
-- 75% effective EXP recovery and 30% Tuner recovery.
+- 13 substat types sampled without replacement;
+- verified value-tier weighting including the distinct Crit distribution;
+- cumulative +5/+10/+15/+20/+25 EXP/Tuner/Shell Credit costs;
+- 75% effective EXP recovery and 30% Tuner recovery;
+- seeded reproducible runtime;
+- exact partial-Echo future-branch simulation.
 
-Still intentionally separate/pending:
+Still unresolved or intentionally separate:
 
-- Sonata/main-stat acquisition odds and overworld/Tacet acquisition rate;
-- direct dismantle material-rounding semantics versus effective feed value;
-- Frequency Tuner/reroll features;
-- Shell Credit economics;
-- the character combat evaluator required to judge whether a resulting Echo is actually an upgrade.
+- exact Rank-5 primary/secondary main-stat progression at +5/+10/+15/+20;
+- fresh Echo/main-stat acquisition probabilities for full world-drop cost claims;
+- final character-independent generalized target-requirement structure;
+- final whole-build DPS-aware stopping policy, which requires a verified character combat model.
 
-`expectedCostToSuccess` is defined as the expected cost of **all attempts until one accepted upgrade**, so failed Echo spend must be included. For stationary independent attempts this is `E[cost per attempt] / P(success)`, not the average cost of the successful attempts alone.
+See [`PROJECT_STATUS.md`](PROJECT_STATUS.md) for the authoritative completion gate.

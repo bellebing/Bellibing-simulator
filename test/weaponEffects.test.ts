@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 90);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 90);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 42);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 97);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 97);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 47);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 79);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 74);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 90);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 97);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -292,6 +292,47 @@ test('Stellar Symphony separates HP, flat Concerto and conditional team ATK', ()
   assert.equal(rows[2]?.appliesTo, 'TEAM');
   assert.equal(rows[2]?.durationSeconds, 30);
   assert.equal(rows[2]?.simulatorMode, 'MANUAL');
+});
+
+test('Rectifier batch 2 preserves audited event and stack mechanics without inventing uptime', () => {
+  const augment = getWeaponEffects('augment');
+  assert.deepEqual(augment.map((row) => row.effectId), ['AUG-ATK']);
+  assert.deepEqual(augment[0]?.rankValues, [.15, .2325, .315, .3975, .48]);
+  assert.equal(augment[0]?.durationSeconds, 15);
+  assert.equal(augment[0]?.simulatorMode, 'MANUAL');
+
+  const abyss = getWeaponEffects('call-of-the-abyss');
+  assert.deepEqual(abyss.map((row) => row.effectId), ['COA-HEAL']);
+  assert.deepEqual(abyss[0]?.rankValues, [.16, .20, .24, .28, .32]);
+  assert.equal(abyss[0]?.durationSeconds, 15);
+
+  const comet = getWeaponEffects('comet-flare');
+  assert.deepEqual(comet.map((row) => row.effectId), ['CF-HEAL']);
+  assert.deepEqual(comet[0]?.rankValues, [.03, .0375, .045, .0525, .06]);
+  assert.equal(comet[0]?.effectType, 'STACKING');
+  assert.equal(comet[0]?.maxStacks, 3);
+  assert.equal(comet[0]?.durationSeconds, 8);
+  assert.equal(comet[0]?.triggerCooldownSeconds, .6);
+  assert.equal(comet[0]?.stackIntervalSeconds, .6);
+  assert.equal(comet[0]?.simulatorMode, 'MANUAL');
+
+  const fusion = getWeaponEffects('fusion-accretion');
+  assert.deepEqual(fusion.map((row) => row.effectId), ['FA-ENERGY', 'FA-ATK']);
+  assert.equal(fusion[0]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(fusion[0]?.rankValues, [6, 7, 8, 9, 10]);
+  assert.equal(fusion[0]?.triggerCooldownSeconds, 20);
+  assert.deepEqual(fusion[1]?.rankValues, [.10, .125, .15, .175, .20]);
+  assert.equal(fusion[1]?.durationSeconds, 16);
+  assert.equal(fusion[1]?.triggerCooldownSeconds, 20);
+
+  const keeper = getWeaponEffects('jinzhou-keeper');
+  assert.deepEqual(keeper.map((row) => row.effectId), ['JK-ATK', 'JK-HP']);
+  assert.deepEqual(keeper[0]?.rankValues, [.08, .10, .12, .14, .16]);
+  assert.deepEqual(keeper[1]?.rankValues, [.10, .125, .15, .175, .20]);
+  for (const effect of keeper) {
+    assert.equal(effect.durationSeconds, 15);
+    assert.equal(effect.simulatorMode, 'MANUAL');
+  }
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {

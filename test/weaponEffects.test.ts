@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 51);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 51);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 28);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 75);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 75);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 37);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 93);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 84);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 51);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 75);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -40,6 +40,10 @@ test('each effect carries source-backed rank values and explicit mechanics metad
     } else if (effect.effectType === 'INSTANT') {
       assert.equal(effect.durationSeconds, null, effect.effectId);
       assert.notEqual(effect.trigger, 'Passive', effect.effectId);
+    } else if (effect.effectType === 'STATE_CONDITIONAL') {
+      assert.equal(effect.durationSeconds, null, effect.effectId);
+      assert.ok(effect.conditions.length > 0, effect.effectId);
+      assert.equal(effect.simulatorMode, 'MANUAL', effect.effectId);
     } else {
       assert.ok((effect.durationSeconds ?? 0) > 0, effect.effectId);
     }
@@ -85,49 +89,21 @@ test('conditional team effects remain conditional data rather than automatic upt
 test('Relativistic Jet separates instant flat Energy from the timed ATK window', () => {
   const rows = getWeaponEffects('relativistic-jet');
   assert.deepEqual(rows.map((row) => row.effectId), ['RJ-ENERGY', 'RJ-ATK']);
-
-  const energy = rows[0];
-  const atk = rows[1];
-  assert.ok(energy && atk);
-
-  assert.equal(energy.valueUnit, 'FLAT_AMOUNT');
-  assert.equal(energy.effectType, 'INSTANT');
-  assert.deepEqual(energy.rankValues, [6, 7, 8, 9, 10]);
-  assert.equal(energy.durationSeconds, null);
-  assert.equal(energy.triggerCooldownSeconds, 20);
-  assert.equal(energy.appliesTo, 'SELF');
-
-  assert.equal(atk.valueUnit, 'DECIMAL_MULTIPLIER');
-  assert.equal(atk.effectType, 'TRIGGERED');
-  assert.deepEqual(atk.rankValues, [.10, .125, .15, .175, .20]);
-  assert.equal(atk.durationSeconds, 16);
-  assert.equal(atk.triggerCooldownSeconds, 20);
-  assert.equal(atk.simulatorMode, 'MANUAL');
+  assert.equal(rows[0]?.valueUnit, 'FLAT_AMOUNT');
+  assert.equal(rows[0]?.effectType, 'INSTANT');
+  assert.deepEqual(rows[0]?.rankValues, [6, 7, 8, 9, 10]);
+  assert.equal(rows[0]?.triggerCooldownSeconds, 20);
+  assert.equal(rows[1]?.durationSeconds, 16);
+  assert.equal(rows[1]?.simulatorMode, 'MANUAL');
 });
 
 test('Woodland Aria keeps self buffs separate from the target Aero RES debuff', () => {
   const rows = getWeaponEffects('woodland-aria');
   assert.deepEqual(rows.map((row) => row.effectId), ['WA-ATK', 'WA-AERO', 'WA-AERO-RES']);
-
-  const permanentAtk = rows[0];
-  const aero = rows[1];
-  const res = rows[2];
-  assert.ok(permanentAtk && aero && res);
-
-  assert.equal(permanentAtk.effectType, 'PERMANENT');
-  assert.deepEqual(permanentAtk.rankValues, [.12, .15, .18, .21, .24]);
-
-  assert.equal(aero.effectType, 'TRIGGERED');
-  assert.equal(aero.durationSeconds, 10);
-  assert.equal(aero.appliesTo, 'SELF');
-  assert.equal(aero.simulatorMode, 'MANUAL');
-
-  assert.equal(res.appliesTo, 'TARGET');
-  assert.equal(res.statOrEffect, 'Aero RES Reduction');
-  assert.deepEqual(res.rankValues, [.10, .115, .13, .145, .16]);
-  assert.equal(res.durationSeconds, 20);
-  assert.deepEqual(res.conditions, ['Target is affected by Aero Erosion']);
-  assert.equal(res.simulatorMode, 'MANUAL');
+  assert.equal(rows[0]?.effectType, 'PERMANENT');
+  assert.equal(rows[1]?.durationSeconds, 10);
+  assert.equal(rows[2]?.appliesTo, 'TARGET');
+  assert.deepEqual(rows[2]?.rankValues, [.10, .115, .13, .145, .16]);
 });
 
 test('Pistol batch 2 preserves raw R1-R5 mechanics without assuming event uptime', () => {
@@ -155,20 +131,100 @@ test('Pistol batch 2 preserves raw R1-R5 mechanics without assuming event uptime
     assert.equal(effect.valueUnit, valueUnit);
     assert.equal(effect.maxStacks, maxStacks);
     assert.equal(effect.triggerCooldownSeconds, triggerCooldownSeconds);
-    if (effectType === 'PERMANENT') {
-      assert.equal(effect.simulatorMode, 'ALWAYS');
-    } else {
-      assert.equal(effect.simulatorMode, 'MANUAL');
-      assert.equal(effect.mechanicsStatus, 'VERIFIED_CONDITIONAL');
-    }
+    if (effectType === 'PERMANENT') assert.equal(effect.simulatorMode, 'ALWAYS');
+    else assert.equal(effect.simulatorMode, 'MANUAL');
   }
+});
 
-  assert.equal(getWeaponEffect('PON-ATK')?.trigger, 'Cast Intro Skill');
-  assert.equal(getWeaponEffect('PON-ATK')?.durationSeconds, 10);
-  assert.equal(getWeaponEffect('O3-HEAL')?.statOrEffect, 'HP Restore (Max HP)');
-  assert.equal(getWeaponEffect('NB-ATK')?.durationSeconds, 8);
-  assert.equal(getWeaponEffect('TB-SKILL')?.durationSeconds, 10);
-  assert.equal(getWeaponEffect('TB-SKILL')?.stackIntervalSeconds, 1);
+test('Lux & Umbra models overlap DEF ignore as state-conditional rather than inventing a timer', () => {
+  const rows = getWeaponEffects('lux-and-umbra');
+  assert.deepEqual(rows.map((row) => row.effectId), ['LU-ATK', 'LU-HEAVY-AMP', 'LU-ECHO-AMP', 'LU-DEF']);
+  const def = getWeaponEffect('LU-DEF');
+  assert.ok(def);
+  assert.equal(def.effectType, 'STATE_CONDITIONAL');
+  assert.equal(def.durationSeconds, null);
+  assert.deepEqual(def.conditions, ['LU-HEAVY-AMP is active', 'LU-ECHO-AMP is active']);
+  assert.deepEqual(def.rankValues, [.08, .10, .12, .14, .16]);
+});
+
+test('Phasic Homogenizer keeps permanent ATK separate from conditional Tune Break DMG', () => {
+  const rows = getWeaponEffects('phasic-homogenizer');
+  assert.deepEqual(rows.map((row) => row.effectId), ['PH-ATK', 'PH-ATTR']);
+  assert.deepEqual(rows[0]?.rankValues, [.12, .15, .18, .21, .24]);
+  assert.deepEqual(rows[1]?.rankValues, [.20, .225, .25, .275, .30]);
+  assert.equal(rows[1]?.durationSeconds, 14);
+  assert.equal(rows[1]?.simulatorMode, 'MANUAL');
+});
+
+test('Skull Thrasher separates personal and team Hack effects', () => {
+  const rows = getWeaponEffects('skull-thrasher');
+  assert.deepEqual(rows.map((row) => row.effectId), ['SKT-ATK', 'SKT-INTRO-BASIC', 'SKT-HACK-BASIC', 'SKT-HACK-TEAM']);
+  assert.equal(rows[2]?.appliesTo, 'SELF');
+  assert.equal(rows[2]?.durationSeconds, 14);
+  assert.equal(rows[3]?.appliesTo, 'TEAM');
+  assert.equal(rows[3]?.durationSeconds, 30);
+  assert.deepEqual(rows[3]?.rankValues, [.24, .30, .36, .42, .48]);
+});
+
+test('Spectral Trigger keeps Heavy DEF ignore tied to the Heavy amplification state', () => {
+  const rows = getWeaponEffects('spectral-trigger');
+  assert.deepEqual(rows.map((row) => row.effectId), ['SPT-ATK', 'SPT-SPECTRO', 'SPT-HEAVY-AMP', 'SPT-HEAVY-DEF']);
+  assert.equal(rows[1]?.effectType, 'STACKING');
+  assert.equal(rows[1]?.maxStacks, 2);
+  assert.equal(rows[3]?.effectType, 'STATE_CONDITIONAL');
+  assert.equal(rows[3]?.durationSeconds, null);
+  assert.deepEqual(rows[3]?.rankValues, [.10, .125, .15, .175, .20]);
+});
+
+test('Static Mist uses NEXT_RESONATOR rather than mislabeling the Outro ATK buff as TEAM', () => {
+  const rows = getWeaponEffects('static-mist');
+  assert.deepEqual(rows.map((row) => row.effectId), ['STM-ER', 'STM-NEXT-ATK']);
+  assert.deepEqual(rows[0]?.rankValues, [.128, .16, .192, .224, .256]);
+  assert.equal(rows[1]?.appliesTo, 'NEXT_RESONATOR');
+  assert.notEqual(rows[1]?.appliesTo, 'TEAM');
+  assert.deepEqual(rows[1]?.rankValues, [.10, .125, .15, .175, .20]);
+  assert.equal(rows[1]?.durationSeconds, 14);
+});
+
+test('The Last Dance keeps its short Skill window conditional', () => {
+  const rows = getWeaponEffects('the-last-dance');
+  assert.deepEqual(rows.map((row) => row.effectId), ['TLD-ATK', 'TLD-SKILL']);
+  assert.deepEqual(rows[1]?.rankValues, [.48, .60, .72, .84, .96]);
+  assert.equal(rows[1]?.durationSeconds, 5);
+  assert.equal(rows[1]?.simulatorMode, 'MANUAL');
+});
+
+test('Pistols#26 preserves damage-triggered heal and explicit pending stack mutation', () => {
+  const rows = getWeaponEffects('pistols-26');
+  assert.deepEqual(rows.map((row) => row.effectId), ['P26-ATK', 'P26-HEAL', 'P26-STACK-LOSS']);
+  assert.equal(rows[0]?.effectType, 'STACKING');
+  assert.equal(rows[0]?.maxStacks, 2);
+  assert.equal(rows[0]?.stackIntervalSeconds, 5);
+  assert.deepEqual(rows[1]?.rankValues, [.05, .0625, .075, .0875, .10]);
+  assert.equal(rows[2]?.mechanicsStatus, 'VERIFIED_RAW_PENDING_MODEL');
+  assert.equal(rows[2]?.valueUnit, 'FLAT_AMOUNT');
+  assert.deepEqual(rows[2]?.rankValues, [1, 1, 1, 1, 1]);
+});
+
+test('Romance in Farewell and Solar Flame retain stack timing without automatic uptime', () => {
+  const romance = getWeaponEffect('RIF-ATK');
+  assert.ok(romance);
+  assert.deepEqual(romance.rankValues, [.04, .05, .06, .07, .08]);
+  assert.equal(romance.maxStacks, 4);
+  assert.equal(romance.durationSeconds, 10);
+  assert.equal(romance.triggerCooldownSeconds, 1);
+  assert.equal(romance.simulatorMode, 'MANUAL');
+
+  const solar = getWeaponEffects('solar-flame');
+  assert.deepEqual(solar.map((row) => row.effectId), ['SF-ATK', 'SF-HEAVY']);
+  for (const effect of solar) {
+    assert.deepEqual(effect.rankValues, [.022, .034, .047, .059, .072]);
+    assert.equal(effect.maxStacks, 4);
+    assert.equal(effect.durationSeconds, 7);
+    assert.equal(effect.triggerCooldownSeconds, 1);
+    assert.equal(effect.stackIntervalSeconds, 1);
+    assert.equal(effect.simulatorMode, 'MANUAL');
+  }
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {

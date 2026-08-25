@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 41);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 41);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 18);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 51);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 51);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 28);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 103);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 93);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 41);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 51);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -128,6 +128,47 @@ test('Woodland Aria keeps self buffs separate from the target Aero RES debuff', 
   assert.equal(res.durationSeconds, 20);
   assert.deepEqual(res.conditions, ['Target is affected by Aero Erosion']);
   assert.equal(res.simulatorMode, 'MANUAL');
+});
+
+test('Pistol batch 2 preserves raw R1-R5 mechanics without assuming event uptime', () => {
+  const expected = [
+    ['cadenza', 'CAD-CONCERTO', [8, 10, 12, 14, 16], 'INSTANT', 'FLAT_AMOUNT', 1, 20],
+    ['pistols-of-voyager', 'POV-ENERGY', [8, 9, 10, 11, 12], 'INSTANT', 'FLAT_AMOUNT', 1, 20],
+    ['pistols-of-night', 'PON-ATK', [.08, .10, .12, .14, .16], 'TRIGGERED', 'DECIMAL_MULTIPLIER', 1, null],
+    ['guardian-pistols', 'GP-SKILL', [.12, .15, .18, .21, .24], 'PERMANENT', 'DECIMAL_MULTIPLIER', 1, null],
+    ['originite-type-iii', 'O3-HEAL', [.016, .02, .024, .028, .032], 'INSTANT', 'DECIMAL_MULTIPLIER', 1, 6],
+    ['tyro-pistols', 'TYRO-P-ATK', [.05, .0625, .075, .0875, .10], 'PERMANENT', 'DECIMAL_MULTIPLIER', 1, null],
+    ['training-pistols', 'TRAIN-P-ATK', [.04, .05, .06, .07, .08], 'PERMANENT', 'DECIMAL_MULTIPLIER', 1, null],
+    ['undying-flame', 'UF-SKILL', [.20, .25, .30, .35, .40], 'TRIGGERED', 'DECIMAL_MULTIPLIER', 1, null],
+    ['novaburst', 'NB-ATK', [.04, .05, .06, .07, .08], 'STACKING', 'DECIMAL_MULTIPLIER', 3, null],
+    ['thunderbolt', 'TB-SKILL', [.07, .11, .15, .19, .23], 'STACKING', 'DECIMAL_MULTIPLIER', 3, 1],
+  ] as const;
+
+  for (const [weaponId, effectId, rankValues, effectType, valueUnit, maxStacks, triggerCooldownSeconds] of expected) {
+    const rows = getWeaponEffects(weaponId);
+    assert.equal(rows.length, 1, weaponId);
+    const effect = rows[0];
+    assert.ok(effect);
+    assert.equal(effect.effectId, effectId);
+    assert.deepEqual(effect.rankValues, rankValues);
+    assert.equal(effect.effectType, effectType);
+    assert.equal(effect.valueUnit, valueUnit);
+    assert.equal(effect.maxStacks, maxStacks);
+    assert.equal(effect.triggerCooldownSeconds, triggerCooldownSeconds);
+    if (effectType === 'PERMANENT') {
+      assert.equal(effect.simulatorMode, 'ALWAYS');
+    } else {
+      assert.equal(effect.simulatorMode, 'MANUAL');
+      assert.equal(effect.mechanicsStatus, 'VERIFIED_CONDITIONAL');
+    }
+  }
+
+  assert.equal(getWeaponEffect('PON-ATK')?.trigger, 'Cast Intro Skill');
+  assert.equal(getWeaponEffect('PON-ATK')?.durationSeconds, 10);
+  assert.equal(getWeaponEffect('O3-HEAL')?.statOrEffect, 'HP Restore (Max HP)');
+  assert.equal(getWeaponEffect('NB-ATK')?.durationSeconds, 8);
+  assert.equal(getWeaponEffect('TB-SKILL')?.durationSeconds, 10);
+  assert.equal(getWeaponEffect('TB-SKILL')?.stackIntervalSeconds, 1);
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {

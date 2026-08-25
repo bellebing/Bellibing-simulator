@@ -1,7 +1,7 @@
 import type { ContentProvenance } from './contentRegistry.ts';
 
-export type WeaponEffectType = 'PERMANENT' | 'INSTANT' | 'TRIGGERED' | 'STACKING';
-export type WeaponEffectAppliesTo = 'SELF' | 'TEAM' | 'TARGET';
+export type WeaponEffectType = 'PERMANENT' | 'INSTANT' | 'TRIGGERED' | 'STACKING' | 'STATE_CONDITIONAL';
+export type WeaponEffectAppliesTo = 'SELF' | 'TEAM' | 'TARGET' | 'NEXT_RESONATOR';
 export type WeaponEffectValueUnit = 'DECIMAL_MULTIPLIER' | 'FLAT_AMOUNT';
 export type WeaponEffectSimulatorMode = 'ALWAYS' | 'RECOMMENDED' | 'MANUAL';
 export type WeaponEffectMechanicsStatus =
@@ -33,7 +33,7 @@ export interface WeaponEffectData {
   valueUnit: WeaponEffectValueUnit;
   effectType: WeaponEffectType;
   trigger: string;
-  /** null means the effect is not a timed buff/debuff (for example permanent or instant). */
+  /** null means the effect is not an independently timed buff/debuff (for example permanent, instant, or state-conditional). */
   durationSeconds: number | null;
   /** Minimum time before the passive trigger itself can fire again, when source-defined. */
   triggerCooldownSeconds: number | null;

@@ -31,6 +31,10 @@ function validateEffect(effect: WeaponEffectData): void {
   } else if (effect.effectType === 'INSTANT') {
     if (effect.durationSeconds !== null) throw new Error(`${effect.effectId}: instant effect cannot have duration.`);
     if (effect.trigger === 'Passive') throw new Error(`${effect.effectId}: instant effect requires an event trigger.`);
+  } else if (effect.effectType === 'STATE_CONDITIONAL') {
+    if (effect.durationSeconds !== null) throw new Error(`${effect.effectId}: state-conditional effect cannot invent an independent duration.`);
+    if (effect.conditions.length === 0) throw new Error(`${effect.effectId}: state-conditional effect requires explicit conditions.`);
+    if (effect.trigger === 'Passive') throw new Error(`${effect.effectId}: state-conditional effect requires an active state trigger.`);
   } else if (!(effect.durationSeconds !== null && effect.durationSeconds > 0)) {
     throw new Error(`${effect.effectId}: triggered/stacking effect requires positive duration.`);
   }

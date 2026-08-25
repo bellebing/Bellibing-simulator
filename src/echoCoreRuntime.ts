@@ -4,6 +4,7 @@ import type {
   RandomSource,
   RollStep,
 } from './echoCoreDomain.ts';
+import { withRank5MainStatsAtLevel } from './echoMainStats.ts';
 import {
   checkpointIncrement,
   effectiveRefundAtLevel,
@@ -20,21 +21,24 @@ import {
  * Still outside verified coverage:
  * - overworld/Tacet acquisition rate,
  * - Sonata/main-stat acquisition probability,
- * - Frequency Tuner rerolls,
- * - Shell Credit economics.
+ * - Frequency Tuner rerolls / other newer reroll systems until verified.
  *
  * `acquireFresh` currently means "another eligible +0 candidate is available",
  * not "the game guarantees the desired main stat on every drop".
  */
 export class VerifiedWuwaEchoRuntime implements EchoRollRuntime {
   acquireFresh(template: Echo, _rng: RandomSource): RollStep {
-    return {
-      echo: {
+    const fresh = withRank5MainStatsAtLevel(
+      {
         ...template,
         id: `${template.id}:fresh`,
-        level: 0,
         substats: [],
       },
+      0,
+    );
+
+    return {
+      echo: fresh,
       cost: { echoes: 1, tuners: 0, exp: 0 },
     };
   }
@@ -44,10 +48,10 @@ export class VerifiedWuwaEchoRuntime implements EchoRollRuntime {
     if (to === null) return null;
 
     const nextStat = rollNewSubstat(current.substats, rng);
+    const progressed = withRank5MainStatsAtLevel(current, to);
     return {
       echo: {
-        ...current,
-        level: to,
+        ...progressed,
         substats: [...current.substats, nextStat],
       },
       cost: checkpointIncrement(current.level, to),

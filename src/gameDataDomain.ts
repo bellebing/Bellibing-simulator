@@ -40,13 +40,20 @@ export interface CharacterBaseCombatStats {
   energyRegen: number | null;
 }
 
+/** Static Minor-Forte stat families only. Conditional passives live elsewhere. */
 export type CharacterIntrinsicStatName =
   | 'Aero DMG'
+  | 'Electro DMG'
+  | 'Fusion DMG'
+  | 'Glacio DMG'
+  | 'Havoc DMG'
+  | 'Spectro DMG'
   | 'ATK%'
+  | 'DEF%'
+  | 'HP%'
   | 'CRIT DMG'
   | 'CRIT Rate'
-  | 'Healing Bonus'
-  | 'HP%';
+  | 'Healing Bonus';
 
 export interface CharacterIntrinsicStat {
   stat: CharacterIntrinsicStatName;

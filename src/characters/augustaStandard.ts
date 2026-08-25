@@ -3,6 +3,11 @@ import {
   expectedDamage,
   resistanceMultiplier,
 } from '../combat/damageKernel.ts';
+import type { CharacterActionFact } from '../characterMechanicsDomain.ts';
+import { getCharacterActionFact } from '../data/characterMechanics.ts';
+import { ECHO_ATTACK_PROFILES } from '../data/echoAttacks.ts';
+import { totalMotionValue } from '../echoAttackDomain.ts';
+import { createEchoAttackRegistry } from '../echoAttackRegistry.ts';
 
 export type AugustaActionClass = 'HEAVY' | 'SKILL' | 'INTRO' | 'ECHO' | 'SETUP' | 'BOUNDARY';
 
@@ -14,6 +19,8 @@ export interface AugustaAction {
   actionClass: AugustaActionClass;
   included: boolean;
   crownActive: boolean;
+  /** Character mechanic fact id or Echo attack id that owns the raw action value. */
+  sourceFactId?: string;
 }
 
 export interface AugustaBuildInputs {
@@ -71,23 +78,90 @@ export interface AugustaRotationResult {
   erGate: 'PASS' | 'FAIL';
 }
 
+function augustaActionClass(fact: CharacterActionFact): AugustaActionClass {
+  switch (fact.damageClass) {
+    case 'HEAVY': return 'HEAVY';
+    case 'SKILL': return 'SKILL';
+    case 'INTRO': return 'INTRO';
+    case null:
+      if (fact.actionKind === 'STATE_CHANGE') return 'SETUP';
+      if (fact.actionKind === 'OUTRO') return 'BOUNDARY';
+      break;
+    case 'BASIC':
+    case 'LIBERATION':
+    case 'OUTRO':
+    case 'COORDINATED':
+    case 'OTHER':
+      break;
+  }
+  throw new Error(`Augusta Standard has no adapter for action fact ${fact.factId} (${String(fact.damageClass)})`);
+}
+
+function characterAction(
+  step: string,
+  factId: string,
+  included: boolean,
+  crownActive: boolean,
+): AugustaAction {
+  const fact = getCharacterActionFact(factId);
+  if (!fact) throw new Error(`Missing Augusta character action fact: ${factId}`);
+  if (fact.characterId !== 'augusta') throw new Error(`Augusta rotation cannot consume ${fact.characterId} fact ${factId}`);
+  if (included && fact.motionValue === null) throw new Error(`Included Augusta damage action has no motion value: ${factId}`);
+  return {
+    step,
+    actor: 'Augusta',
+    name: fact.name,
+    motionValue: fact.motionValue ?? 0,
+    actionClass: augustaActionClass(fact),
+    included,
+    crownActive,
+    sourceFactId: fact.factId,
+  };
+}
+
+const ECHO_ATTACK_REGISTRY = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
+
+function falseSovereignAction(
+  step: string,
+  attackId: string,
+  name: string,
+  crownActive: boolean,
+): AugustaAction {
+  const attack = ECHO_ATTACK_REGISTRY.attackById.get(attackId);
+  if (!attack) throw new Error(`Missing False Sovereign Echo attack fact: ${attackId}`);
+  return {
+    step,
+    actor: 'The False Sovereign',
+    name,
+    motionValue: totalMotionValue(attack),
+    actionClass: 'ECHO',
+    included: true,
+    crownActive,
+    sourceFactId: attack.attackId,
+  };
+}
+
+/**
+ * Rotation recipe only. Character/Echo motion values are owned by their raw
+ * fact catalogs and looked up here, so a patched fact has one canonical value.
+ */
 export const AUGUSTA_STANDARD_ACTIONS: AugustaAction[] = [
-  { step: '1', actor: 'Augusta', name: 'Intro Skill — Stride of Goldenflare', motionValue: 1.9882, actionClass: 'INTRO', included: true, crownActive: true },
-  { step: '1E', actor: 'The False Sovereign', name: 'Automatic Intro summon', motionValue: 4.05, actionClass: 'ECHO', included: true, crownActive: true },
-  { step: '2', actor: 'Augusta', name: 'Heavy Attack — Thunderoar: Backstep', motionValue: 0.5368, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '3', actor: 'Augusta', name: 'Heavy Attack — Thunderoar: Spinslash', motionValue: 4.2516, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '4', actor: 'Augusta', name: "Resonance Skill — Warrior's Blade", motionValue: 6.561, actionClass: 'SKILL', included: true, crownActive: true },
-  { step: '5', actor: 'Augusta', name: 'Heavy Attack — Thunderoar: Backstep', motionValue: 0.5368, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '6', actor: 'Augusta', name: 'Heavy Attack — Thunderoar: Spinslash', motionValue: 4.2516, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '7', actor: 'Augusta', name: 'Resonance Liberation — Sword of Eternal Oath', motionValue: 10.9948, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '8', actor: 'Augusta', name: 'Forte Skill — Undying Sunlight: Strike', motionValue: 2.7834, actionClass: 'SKILL', included: true, crownActive: true },
-  { step: '9', actor: 'Augusta', name: 'Forte Skill — Undying Sunlight: Leap', motionValue: 2.7835, actionClass: 'SKILL', included: true, crownActive: true },
-  { step: '10', actor: 'Augusta', name: 'Forte Skill — Undying Sunlight: Plunge', motionValue: 8.6583, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '11', actor: 'Augusta', name: 'Resonance Liberation — Sublime is the Sun', motionValue: 0, actionClass: 'SETUP', included: false, crownActive: false },
-  { step: '12', actor: 'Augusta', name: 'Sublime is the Sun — Sunborne', motionValue: 10.7361, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '13', actor: 'Augusta', name: 'Sublime is the Sun — Everbright Protector', motionValue: 11.9293, actionClass: 'HEAVY', included: true, crownActive: true },
-  { step: '14', actor: 'The False Sovereign', name: 'Active Echo cast — end of rotation', motionValue: 2.214, actionClass: 'ECHO', included: true, crownActive: false },
-  { step: '15', actor: 'Augusta', name: 'Outro — Battlesong of the Unyielding', motionValue: 0, actionClass: 'BOUNDARY', included: false, crownActive: false },
+  characterAction('1', 'augusta-intro-stride-of-goldenflare', true, true),
+  falseSovereignAction('1E', 'FALSE_SOV_INTRO_SUMMON', 'Automatic Intro summon', true),
+  characterAction('2', 'augusta-heavy-thunderoar-backstep', true, true),
+  characterAction('3', 'augusta-heavy-thunderoar-spinslash', true, true),
+  characterAction('4', 'augusta-skill-warriors-blade', true, true),
+  characterAction('5', 'augusta-heavy-thunderoar-backstep', true, true),
+  characterAction('6', 'augusta-heavy-thunderoar-spinslash', true, true),
+  characterAction('7', 'augusta-liberation-sword-of-eternal-oath', true, true),
+  characterAction('8', 'augusta-forte-undying-sunlight-strike', true, true),
+  characterAction('9', 'augusta-forte-undying-sunlight-leap', true, true),
+  characterAction('10', 'augusta-forte-undying-sunlight-plunge', true, true),
+  characterAction('11', 'augusta-liberation-sublime-is-the-sun-state', false, false),
+  characterAction('12', 'augusta-liberation-sunborne', true, true),
+  characterAction('13', 'augusta-liberation-everbright-protector', true, true),
+  falseSovereignAction('14', 'FALSE_SOV_ACTIVE_SPIN', 'Active Echo cast — end of rotation', false),
+  characterAction('15', 'augusta-outro-battlesong-of-the-unyielding', false, false),
 ];
 
 export const AUGUSTA_STD_V1: AugustaStandardContext = {

@@ -14,9 +14,23 @@ function validateEffect(effect: WeaponEffectData): void {
     throw new Error(`${effect.effectId}: maxStacks must be a positive integer.`);
   }
   if (!(effect.stackIntervalSeconds >= 0)) throw new Error(`${effect.effectId}: invalid stack interval.`);
+  if (effect.triggerCooldownSeconds !== null && !(effect.triggerCooldownSeconds > 0)) {
+    throw new Error(`${effect.effectId}: trigger cooldown must be positive when present.`);
+  }
+  if (effect.conditions.some((condition) => condition.trim().length === 0)) {
+    throw new Error(`${effect.effectId}: conditions cannot contain empty strings.`);
+  }
+  if (effect.sourceEffectText !== null && effect.sourceEffectText.trim().length === 0) {
+    throw new Error(`${effect.effectId}: sourceEffectText cannot be blank.`);
+  }
+
   if (effect.effectType === 'PERMANENT') {
     if (effect.durationSeconds !== null) throw new Error(`${effect.effectId}: permanent effect cannot have duration.`);
     if (effect.trigger !== 'Passive') throw new Error(`${effect.effectId}: permanent effect must use Passive trigger.`);
+    if (effect.triggerCooldownSeconds !== null) throw new Error(`${effect.effectId}: permanent effect cannot have trigger cooldown.`);
+  } else if (effect.effectType === 'INSTANT') {
+    if (effect.durationSeconds !== null) throw new Error(`${effect.effectId}: instant effect cannot have duration.`);
+    if (effect.trigger === 'Passive') throw new Error(`${effect.effectId}: instant effect requires an event trigger.`);
   } else if (!(effect.durationSeconds !== null && effect.durationSeconds > 0)) {
     throw new Error(`${effect.effectId}: triggered/stacking effect requires positive duration.`);
   }
@@ -76,6 +90,6 @@ export const WEAPON_EFFECT_CATALOG_META = {
   pendingSourceAuditCount: coverageAudit.pendingSourceAuditCount,
   fullReleasedRosterComplete: coverageAudit.fullReleasedRosterComplete,
   completeness: coverageAudit.fullReleasedRosterComplete ? 'COMPLETE' as const : 'PARTIAL' as const,
-  source: 'V9.15 Weapon Effects + Version 3.6 released-roster coverage audit',
+  source: 'V9.15 Weapon Effects + Version 3.6 released-roster source audits',
   checkedAt: '2026-08-25',
 };

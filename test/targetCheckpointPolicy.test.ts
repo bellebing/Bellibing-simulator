@@ -5,6 +5,7 @@ import { AUGUSTA_RECOMMENDED_V915 } from '../src/characters/augustaRecommended.t
 import {
   calculateExactTargetPolicyDistribution,
   evaluateTargetCheckpoint,
+  type CharacterRollProfile,
 } from '../src/targetCheckpointPolicy.ts';
 
 function echo(level: Exclude<EchoLevel, 0>, substats: StatRoll[]): Echo {
@@ -20,6 +21,8 @@ function echo(level: Exclude<EchoLevel, 0>, substats: StatRoll[]): Echo {
 }
 
 test('current Augusta Recommended profile preserves the V9.15 target/minimum contract', () => {
+  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredCoreHits, 2);
+  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredUsefulHits, 1);
   assert.deepEqual(AUGUSTA_RECOMMENDED_V915.targets, [
     { name: 'CRIT DMG', role: 'CORE', minimum: 0.21 },
     { name: 'CRIT Rate', role: 'CORE', minimum: 0.093 },
@@ -80,7 +83,7 @@ test('a strong Core opener can survive DEF at +10', () => {
   assert.equal(result.state.finalRequirementStillPossible, true);
 });
 
-test('three useful rolls can reach +20 without Core, then stop if both Core stats cannot still fit', () => {
+test('three useful rolls can reach +20 without Core, then stop if both required Core stats cannot still fit', () => {
   const at15 = evaluateTargetCheckpoint(
     AUGUSTA_RECOMMENDED_V915,
     echo(15, [
@@ -127,6 +130,79 @@ test('+25 final target is Kept; a Core-led miss can remain Temporary', () => {
 
   assert.equal(kept.assessment.decision, 'KEEP');
   assert.equal(temporary.assessment.decision, 'TEMPORARY');
+});
+
+test('the same partial Echo can receive a different final verdict under another character/mode requirement', () => {
+  const customMode: CharacterRollProfile = {
+    ...AUGUSTA_RECOMMENDED_V915,
+    id: 'TEST_ONLY_ONE_CORE_TWO_USEFUL',
+    targetMode: 'CUSTOM',
+    requiredCoreHits: 1,
+    requiredUsefulHits: 2,
+    provenance: 'Synthetic test-only profile proving requirement selection is data-driven; not game data.',
+  };
+  const candidate = echo(25, [
+    { name: 'CRIT Rate', value: 0.093 },
+    { name: 'ATK%', value: 0.079 },
+    { name: 'Energy Regen', value: 0.084 },
+    { name: 'Flat ATK', value: 40 },
+    { name: 'Flat DEF', value: 40 },
+  ]);
+
+  assert.equal(evaluateTargetCheckpoint(AUGUSTA_RECOMMENDED_V915, candidate).assessment.decision, 'TEMPORARY');
+  assert.equal(evaluateTargetCheckpoint(customMode, candidate).assessment.decision, 'KEEP');
+});
+
+test('profiles may define more than two Core targets and require only a subset of them', () => {
+  const threeCoreProfile: CharacterRollProfile = {
+    ...AUGUSTA_RECOMMENDED_V915,
+    id: 'TEST_ONLY_THREE_CORE_REQUIRE_TWO',
+    requiredCoreHits: 2,
+    requiredUsefulHits: 1,
+    targets: [
+      { name: 'CRIT DMG', role: 'CORE', minimum: 0.21 },
+      { name: 'CRIT Rate', role: 'CORE', minimum: 0.093 },
+      { name: 'ATK%', role: 'CORE', minimum: 0.064 },
+      { name: 'Energy Regen', role: 'USEFUL', minimum: 0.068 },
+      { name: 'Heavy Attack DMG', role: 'USEFUL', minimum: 0.064 },
+    ],
+    provenance: 'Synthetic test-only profile proving Core cardinality is profile data; not game data.',
+  };
+  const result = evaluateTargetCheckpoint(
+    threeCoreProfile,
+    echo(20, [
+      { name: 'CRIT Rate', value: 0.093 },
+      { name: 'ATK%', value: 0.079 },
+      { name: 'Energy Regen', value: 0.084 },
+      { name: 'Flat ATK', value: 40 },
+    ]),
+  );
+
+  assert.equal(result.state.finalRequirementSatisfied, true);
+  assert.equal(result.state.finalRequirementStillPossible, true);
+  assert.equal(result.assessment.decision, 'ROLL');
+});
+
+test('invalid requirement counts are rejected instead of silently becoming impossible', () => {
+  const tooManyCore: CharacterRollProfile = {
+    ...AUGUSTA_RECOMMENDED_V915,
+    id: 'TEST_ONLY_INVALID_CORE_COUNT',
+    requiredCoreHits: 3,
+  };
+  const tooManyUseful: CharacterRollProfile = {
+    ...AUGUSTA_RECOMMENDED_V915,
+    id: 'TEST_ONLY_INVALID_USEFUL_COUNT',
+    requiredUsefulHits: 4,
+  };
+
+  assert.throws(
+    () => evaluateTargetCheckpoint(tooManyCore, echo(5, [{ name: 'CRIT Rate', value: 0.093 }])),
+    /requires 3 Core hits but defines only 2 Core targets/,
+  );
+  assert.throws(
+    () => evaluateTargetCheckpoint(tooManyUseful, echo(5, [{ name: 'CRIT Rate', value: 0.093 }])),
+    /requires 4 Useful hits but defines only 3 Useful targets/,
+  );
 });
 
 test('exact dynamic distribution reproduces current V9.15 Augusta Strategy Cache', () => {

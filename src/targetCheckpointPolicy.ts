@@ -28,7 +28,9 @@ export interface CharacterRollProfile {
   characterId: string;
   targetMode: BuildTargetMode;
   firstCheckLevel: Exclude<EchoLevel, 0>;
-  /** Number of Useful target hits required after both Core targets pass. */
+  /** Number of passing Core targets required by this character/mode profile. */
+  requiredCoreHits: number;
+  /** Number of passing Useful targets required by this character/mode profile. */
   requiredUsefulHits: number;
   targets: readonly TargetStatRule[];
   nonTargetRoles: Readonly<Partial<Record<string, NonTargetStatRole>>>;
@@ -93,11 +95,32 @@ function countBits(mask: number): number {
   return count;
 }
 
+function countHits(indexes: readonly number[], hitMask: number): number {
+  return indexes.filter((index) => hasBit(hitMask, index)).length;
+}
+
 function requirementSatisfiedFromMask(profile: CharacterRollProfile, hitMask: number): boolean {
-  const cores = coreIndexes(profile);
-  if (cores.some((index) => !hasBit(hitMask, index))) return false;
-  const usefulHits = usefulIndexes(profile).filter((index) => hasBit(hitMask, index)).length;
+  const coreHits = countHits(coreIndexes(profile), hitMask);
+  if (coreHits < profile.requiredCoreHits) return false;
+  const usefulHits = countHits(usefulIndexes(profile), hitMask);
   return usefulHits >= profile.requiredUsefulHits;
+}
+
+function countUnseenEligibleTargets(input: {
+  profile: CharacterRollProfile;
+  indexes: readonly number[];
+  seenTypeMask: number;
+  hitMask: number;
+  typeIndex: ReadonlyMap<StatName, number>;
+}): number {
+  let unseen = 0;
+  for (const targetIndex of input.indexes) {
+    if (hasBit(input.hitMask, targetIndex)) continue;
+    const target = input.profile.targets[targetIndex]!;
+    const statTypeIndex = input.typeIndex.get(target.name);
+    if (statTypeIndex !== undefined && !hasBit(input.seenTypeMask, statTypeIndex)) unseen += 1;
+  }
+  return unseen;
 }
 
 function requirementStillPossibleFromMasks(input: {
@@ -107,31 +130,31 @@ function requirementStillPossibleFromMasks(input: {
   remainingRolls: number;
 }): boolean {
   const typeIndex = new Map(SUBSTAT_TYPES.map((name, index) => [name, index]));
-  let missingCores = 0;
-
-  for (const targetIndex of coreIndexes(input.profile)) {
-    if (hasBit(input.hitMask, targetIndex)) continue;
-    const target = input.profile.targets[targetIndex]!;
-    const statTypeIndex = typeIndex.get(target.name);
-    if (statTypeIndex === undefined) return false;
-    if (hasBit(input.seenTypeMask, statTypeIndex)) return false;
-    missingCores += 1;
-  }
+  const cores = coreIndexes(input.profile);
+  const coreHits = countHits(cores, input.hitMask);
+  const missingCoreHits = Math.max(0, input.profile.requiredCoreHits - coreHits);
+  const unseenCore = countUnseenEligibleTargets({
+    profile: input.profile,
+    indexes: cores,
+    seenTypeMask: input.seenTypeMask,
+    hitMask: input.hitMask,
+    typeIndex,
+  });
+  if (unseenCore < missingCoreHits) return false;
 
   const useful = usefulIndexes(input.profile);
-  const usefulHits = useful.filter((index) => hasBit(input.hitMask, index)).length;
+  const usefulHits = countHits(useful, input.hitMask);
   const missingUsefulHits = Math.max(0, input.profile.requiredUsefulHits - usefulHits);
-  let unseenUseful = 0;
-
-  for (const targetIndex of useful) {
-    if (hasBit(input.hitMask, targetIndex)) continue;
-    const target = input.profile.targets[targetIndex]!;
-    const statTypeIndex = typeIndex.get(target.name);
-    if (statTypeIndex !== undefined && !hasBit(input.seenTypeMask, statTypeIndex)) unseenUseful += 1;
-  }
-
+  const unseenUseful = countUnseenEligibleTargets({
+    profile: input.profile,
+    indexes: useful,
+    seenTypeMask: input.seenTypeMask,
+    hitMask: input.hitMask,
+    typeIndex,
+  });
   if (unseenUseful < missingUsefulHits) return false;
-  return missingCores + missingUsefulHits <= input.remainingRolls;
+
+  return missingCoreHits + missingUsefulHits <= input.remainingRolls;
 }
 
 function policyDecisionFromMasks(input: {
@@ -170,10 +193,9 @@ function policyDecisionFromMasks(input: {
 
   const targetHits = countBits(input.hitMask);
 
-  // Exact V9.15 Bellibing Budget policy:
-  // one Dead may survive, two do not; a Dead opener is recycled immediately;
-  // by +10 at least one passing Target must already exist; from +15 onward
-  // feasibility of the final Requirement owns the decision.
+  // Exact V9.15 Bellibing Budget checkpoint behavior around Dead/Filler openers
+  // remains the fallback policy. The final hit requirement itself is owned by
+  // the selected character/mode profile rather than a universal 2-Core rule.
   if (input.deadCount >= 2) return 'DISCARD';
   if (slotsRolled === 1 && input.deadCount >= 1 && targetHits === 0) return 'DISCARD';
   if (slotsRolled >= Math.max(firstCheckSlots, 2) && targetHits === 0) return 'DISCARD';
@@ -181,12 +203,39 @@ function policyDecisionFromMasks(input: {
   return 'ROLL';
 }
 
-function validateProfile(profile: CharacterRollProfile): void {
-  if (profile.targets.filter((target) => target.role === 'CORE').length !== 2) {
-    throw new Error(`${profile.id} must define exactly two Core targets.`);
+function validateRequiredHits(input: {
+  profileId: string;
+  label: 'Core' | 'Useful';
+  required: number;
+  available: number;
+}): void {
+  if (!Number.isInteger(input.required) || input.required < 0) {
+    throw new RangeError(`required${input.label}Hits must be a non-negative integer.`);
   }
-  if (profile.requiredUsefulHits < 0 || !Number.isInteger(profile.requiredUsefulHits)) {
-    throw new RangeError('requiredUsefulHits must be a non-negative integer.');
+  if (input.required > input.available) {
+    throw new RangeError(
+      `${input.profileId} requires ${input.required} ${input.label} hits but defines only ${input.available} ${input.label} targets.`,
+    );
+  }
+}
+
+function validateProfile(profile: CharacterRollProfile): void {
+  const coreCount = coreIndexes(profile).length;
+  const usefulCount = usefulIndexes(profile).length;
+  validateRequiredHits({
+    profileId: profile.id,
+    label: 'Core',
+    required: profile.requiredCoreHits,
+    available: coreCount,
+  });
+  validateRequiredHits({
+    profileId: profile.id,
+    label: 'Useful',
+    required: profile.requiredUsefulHits,
+    available: usefulCount,
+  });
+  if (profile.requiredCoreHits + profile.requiredUsefulHits > 5) {
+    throw new RangeError(`${profile.id} requires more than five passing substats on one Echo.`);
   }
   const names = profile.targets.map((target) => target.name);
   if (new Set(names).size !== names.length) throw new Error(`${profile.id} contains duplicate Target stats.`);
@@ -307,7 +356,7 @@ function normalizedPassingProbability(target: TargetStatRule): number {
 /**
  * Exact dynamic probability distribution for the V9.15 Budget checkpoint policy.
  * Roll magnitudes are collapsed to pass/fail mass for Target stats because the
- * legacy checkpoint decision only needs Minimum pass/fail at this layer.
+ * fallback checkpoint decision only needs Minimum pass/fail at this layer.
  */
 export function calculateExactTargetPolicyDistribution(
   profile: CharacterRollProfile,

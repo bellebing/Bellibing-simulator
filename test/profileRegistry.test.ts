@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { AUGUSTA_RECOMMENDED_V915 } from '../src/characters/augustaRecommended.ts';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { PROFILE_CATALOGS, PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
 import {
@@ -32,10 +33,24 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
     [1, 'ATK%'],
   ]);
   assert.equal(resolved.statTarget.requiredCoreHits, 2);
-  assert.equal(resolved.statTarget.requiredUsefulHits, 2);
+  assert.equal(resolved.statTarget.requiredUsefulHits, 1);
   assert.deepEqual(resolved.team.members.map((member) => member.characterId), ['augusta', 'iuno', 'the-shorekeeper']);
   assert.equal(resolved.rotation.engineModelId, 'AUGUSTA_STD_V1');
   assert.equal(resolved.rotation.rotationSeconds, 11.17);
+});
+
+test('Augusta parity fixture and composable Stat Target cannot drift on the active V9.15 requirement', () => {
+  const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, 'augusta');
+  assert.ok(resolved);
+
+  assert.equal(resolved.statTarget.requiredCoreHits, AUGUSTA_RECOMMENDED_V915.requiredCoreHits);
+  assert.equal(resolved.statTarget.requiredUsefulHits, AUGUSTA_RECOMMENDED_V915.requiredUsefulHits);
+  assert.deepEqual(
+    resolved.statTarget.targetRules
+      .filter((rule) => rule.role === 'CORE' || rule.role === 'USEFUL')
+      .map((rule) => ({ name: rule.stat, role: rule.role, minimum: rule.minimumRoll })),
+    AUGUSTA_RECOMMENDED_V915.targets,
+  );
 });
 
 test('raw Character data remains free of defaults/profile relationships', () => {

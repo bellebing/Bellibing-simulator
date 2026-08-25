@@ -5,7 +5,10 @@ import {
   auditWeaponCoreRoster,
   WEAPON_CORE_ROSTER_AUDIT_V36,
 } from '../src/data/weaponRawAudit.ts';
-import { getWeaponGameData } from '../src/data/weapons.ts';
+import {
+  WEAPON_CATALOG,
+  getWeaponGameData,
+} from '../src/data/weapons.ts';
 
 test('Version 3.6 weapon core roster passes the frozen released/upcoming completeness gate', () => {
   const audit = auditWeaponCoreRoster();
@@ -29,18 +32,17 @@ test('adding an unaudited released row cannot silently pass the current-patch sn
     id: 'test-only-future-weapon',
     name: 'TEST ONLY — future weapon',
   };
-  const audit = auditWeaponCoreRoster([
-    ...Array.from({ length: 0 }),
-    // Use the production catalog indirectly through a fresh audit fixture below.
-  ]);
+  const audit = auditWeaponCoreRoster([...WEAPON_CATALOG, synthetic]);
+  const codes = new Set(audit.issues.map((issue) => issue.code));
 
-  // Empty/custom catalogs are intentionally rejected by the frozen snapshot.
-  assert.ok(audit.issues.some((issue) => issue.code === 'CATALOG_COUNT_MISMATCH'));
-  assert.ok(audit.issues.some((issue) => issue.code === 'RELEASED_COUNT_MISMATCH'));
+  assert.equal(audit.catalogCount, 123);
+  assert.equal(audit.releasedCount, 122);
+  assert.ok(codes.has('CATALOG_COUNT_MISMATCH'));
+  assert.ok(codes.has('RELEASED_COUNT_MISMATCH'));
 
-  // The synthetic record itself is valid raw shape; adding it to the production
-  // roster would still change the frozen counts and therefore require an audit
-  // snapshot update rather than inheriting a green status from helper defaults.
+  // The synthetic record itself is valid raw shape; the failure is the point:
+  // a future addition must update the explicit patch audit rather than inherit
+  // a green result merely because the weapon helper supplied valid defaults.
   assert.equal(synthetic.releaseStatus, 'RELEASED');
   assert.equal(synthetic.verificationStatus, 'VERIFIED');
 });

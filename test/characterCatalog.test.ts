@@ -3,6 +3,10 @@ import test from 'node:test';
 
 import { createContentRegistry } from '../src/contentRegistry.ts';
 import {
+  auditReleasedCharacterRawCompleteness,
+  RELEASED_CHARACTER_RAW_PENDING,
+} from '../src/data/characterRawAudit.ts';
+import {
   CHARACTER_BY_ID,
   CHARACTER_CATALOG,
   getCharacterGameData,
@@ -32,6 +36,22 @@ test('current release classification is explicit instead of inheriting stale she
     assert.notEqual(character.element, null, `${character.id} released without element`);
     assert.notEqual(character.weaponType, null, `${character.id} released without weapon type`);
   }
+});
+
+test('released raw required fields can only be null through the explicit pending manifest', () => {
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.equal(audit.releasedCount, 57);
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+  assert.deepEqual(audit.unknownPendingCharacters, []);
+  assert.deepEqual(
+    RELEASED_CHARACTER_RAW_PENDING.map((entry) => [entry.characterId, [...entry.fields]]),
+    [
+      ['qingxiao', ['maxEnergy']],
+      ['rover-electro', ['maxEnergy']],
+      ['suisui', ['maxEnergy']],
+    ],
+  );
 });
 
 test('raw character data never embeds product defaults or recommendation relationships', () => {
@@ -76,7 +96,7 @@ test('Augusta remains the verified golden raw-data reference', () => {
   ]);
 });
 
-test('Qingxiao is current released Aero Sword data while disputed energy stays unresolved', () => {
+test('Qingxiao is current released Aero Sword data while disputed Max Energy stays unresolved', () => {
   const qingxiao = getCharacterGameData('qingxiao');
   assert.ok(qingxiao);
   assert.equal(qingxiao.releaseStatus, 'RELEASED');
@@ -89,10 +109,10 @@ test('Qingxiao is current released Aero Sword data while disputed energy stays u
     maxEnergy: null,
   });
   assert.equal(qingxiao.verificationStatus, 'PARTIALLY_VERIFIED');
-  assert.match(qingxiao.provenance.notes?.join(' ') ?? '', /Energy field is intentionally null/);
+  assert.match(qingxiao.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
 });
 
-test('known source conflicts remain visible instead of silently choosing a number', () => {
+test('Rover Electro and Suisui core Lv90 stats are resolved while only Max Energy remains pending', () => {
   const electroRover = getCharacterGameData('rover-electro');
   const suisui = getCharacterGameData('suisui');
   assert.ok(electroRover);
@@ -100,18 +120,18 @@ test('known source conflicts remain visible instead of silently choosing a numbe
 
   assert.deepEqual(electroRover.level90, {
     hp: 10775,
-    atk: null,
-    def: null,
+    atk: 438,
+    def: 1136,
     maxEnergy: null,
   });
   assert.deepEqual(suisui.level90, {
-    hp: null,
-    atk: null,
-    def: null,
+    hp: 16713,
+    atk: 288,
+    def: 1100,
     maxEnergy: null,
   });
-  assert.match(electroRover.provenance.notes?.join(' ') ?? '', /disagree/i);
-  assert.match(suisui.provenance.notes?.join(' ') ?? '', /disagree/i);
+  assert.match(electroRover.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
+  assert.match(suisui.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
 });
 
 test('future identities do not invent data and confirmed Jingran stays separate from WIP', () => {

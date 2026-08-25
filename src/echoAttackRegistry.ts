@@ -1,9 +1,11 @@
 import { ECHO_CATALOG } from './data/echoes.ts';
-import type { EchoAttackProfile } from './echoAttackDomain.ts';
+import type { EchoAttackFact, EchoAttackProfile } from './echoAttackDomain.ts';
 import type { EchoGameData } from './gameDataDomain.ts';
 
 export interface EchoAttackRegistry {
   byEchoId: ReadonlyMap<string, EchoAttackProfile>;
+  /** Canonical attack lookup for rotation/combat adapters. */
+  attackById: ReadonlyMap<string, EchoAttackFact>;
   attackIds: ReadonlySet<string>;
 }
 
@@ -14,6 +16,7 @@ export function createEchoAttackRegistry(
     ECHO_CATALOG.map((row) => [row.id, row] as [string, EchoGameData]),
   );
   const byEchoId = new Map<string, EchoAttackProfile>();
+  const attackById = new Map<string, EchoAttackFact>();
   const attackIds = new Set<string>();
 
   for (const profile of profiles) {
@@ -42,10 +45,11 @@ export function createEchoAttackRegistry(
         }
       }
       attackIds.add(attack.attackId);
+      attackById.set(attack.attackId, attack);
     }
 
     byEchoId.set(profile.echoId, profile);
   }
 
-  return { byEchoId, attackIds };
+  return { byEchoId, attackById, attackIds };
 }

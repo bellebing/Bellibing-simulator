@@ -1,6 +1,7 @@
 import type { WeaponEffectData } from '../effectDomain.ts';
 import { WEAPON_EFFECT_CATALOG as BASE_WEAPON_EFFECT_CATALOG } from './weaponEffects.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
+import { GAUNTLET_WEAPON_EFFECT_CATALOG } from './weaponEffectsGauntlet.ts';
 
 /**
  * Canonical executable/source-audited Weapon Effect catalog.
@@ -13,4 +14,5 @@ import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
 export const WEAPON_EFFECT_CATALOG: readonly WeaponEffectData[] = Object.freeze([
   ...BASE_WEAPON_EFFECT_CATALOG,
   ...BROADBLADE_WEAPON_EFFECT_CATALOG,
+  ...GAUNTLET_WEAPON_EFFECT_CATALOG,
 ]);

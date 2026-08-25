@@ -10,13 +10,15 @@ The project must pass the **Pre-DPS Completeness Gate** before broad character D
 
 ## Pre-DPS Completeness Gate
 
-### Echo Core — BLOCKED
+### Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING
 
-Already implemented and tested:
+Implemented and tested:
 
 - Rank-5 COST 1 / 3 / 4 main-stat pools.
 - fixed secondary main-stat class.
-- verified +0 and +25 main-stat endpoints.
+- exact Rank-5 primary and secondary main-stat progression at +0 / +5 / +10 / +15 / +20 / +25.
+- source-backed GrowthValue scaling with integer truncation rather than guide rounding.
+- regression coverage across all 19 Rank-5 primary main-stat families and all three secondary families at every checkpoint.
 - 13 unique substat types.
 - verified substat roll values and value probabilities.
 - sequential +5 / +10 / +15 / +20 / +25 tuning.
@@ -25,13 +27,13 @@ Already implemented and tested:
 - seeded reproducible runtime.
 - separate 5-Echo / COST-12 loadout validation.
 
-Blocking gap:
-
-- exact Rank-5 main-stat values/progression at +5 / +10 / +15 / +20 are not yet implemented. The current runtime preserves +0 main stats while tuning. This must be sourced and regression-tested rather than inferred.
+PR #30 (`3151378`) closed the intermediate-main-stat mechanics gap.
 
 Separate scope that must be resolved explicitly before full farm-cost claims:
 
 - fresh Echo acquisition/main-stat probability weights are not currently verified. Interactive Roll Assist can operate on an Echo the user already owns without these probabilities, but a full world-drop-to-finished-build cost model cannot claim them until verified.
+
+This acquisition gap does not make the eligible-candidate tuning runtime incomplete; it limits what Bellibing may claim about farming from fresh world drops.
 
 ### Echo Lab — FOUNDATION
 
@@ -39,8 +41,9 @@ The mechanical lab can generate eligible Echo batches, roll through checkpoints,
 
 Before it is considered the canonical Echo-mechanics validation surface:
 
-- wire verified intermediate main-stat progression into runtime/display;
-- add regression fixtures for each COST/main-stat family across all checkpoints;
+- verify the browser display/runtime exposes the exact checkpoint-scaled primary and secondary main stats now provided by Echo Core;
+- add/retain browser-facing regression fixtures across representative COST/main-stat families and checkpoints rather than relying only on engine tests;
+- verify seeded reproduction, checkpoint spend, discard and recovery against the engine through the actual lab flow;
 - keep acquisition simulation separate from eligible-candidate tuning unless acquisition weights are verified.
 
 ### Roll / stopping policy — FOUNDATION, NOT FINAL
@@ -172,7 +175,7 @@ UI polish is intentionally lower priority than completing the engine/data founda
 
 ## Order before broad Character DPS work
 
-1. Complete Echo Core checkpoint main-stat progression.
+1. **DONE — PR #30:** Complete Echo Core checkpoint main-stat progression.
 2. Harden Echo Lab as the mechanical oracle for Echo tuning.
 3. Generalize/profile-proof the non-DPS roll policy.
 4. Complete Character static/raw facts.

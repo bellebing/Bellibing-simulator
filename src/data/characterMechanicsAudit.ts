@@ -86,6 +86,7 @@ function auditVerifiedActions(
       if (
         fact.damageClass !== null
         || hasDamageMotionData
+        || components !== null
         || fact.hitCount !== null
         || fact.motionValueContext !== null
       ) {

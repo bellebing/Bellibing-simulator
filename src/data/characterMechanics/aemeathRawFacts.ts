@@ -14,6 +14,7 @@ const PRYDWEN = 'https://www.prydwen.gg/wuthering-waves/characters/aemeath';
 const WUTHERINGLAB = 'https://wutheringlab.com/character/aemeath-build/';
 const WUWA_BUILDS = 'https://wuwa.build/characters/1210';
 const FANDOM_COMBAT = 'https://wutheringwaves.fandom.com/wiki/Aemeath/Combat';
+const WUTHERINGDB = 'https://wutheringdb.com/zh/characters/aemeath';
 
 const AEMEATH_PROVENANCE = {
   sourceLabels: [
@@ -21,14 +22,16 @@ const AEMEATH_PROVENANCE = {
     'Wutheringlab — current Aemeath kit/multiplier tables',
     'WuWaBuilds — current Aemeath kit/multiplier tables',
     'Wuthering Waves Wiki/Fandom — current Aemeath combat tables',
+    'WutheringDB — current raw-data mirror',
   ],
-  sourceUrls: [PRYDWEN, WUTHERINGLAB, WUWA_BUILDS, FANDOM_COMBAT],
+  sourceUrls: [PRYDWEN, WUTHERINGLAB, WUWA_BUILDS, FANDOM_COMBAT, WUTHERINGDB],
   checkedAt: CHECKED_AT,
   notes: [
     'Current multi-source consensus is used for kit identity, resource rules and Lv1-Lv10 curves; source disagreements remain explicit rather than being silently normalized.',
     'WWPlus currently repeats several Lv2 Basic-table cells at Lv3 and has a malformed Starburst Lv6 cell. Bellibing uses the progressing current Fandom combat table, cross-checked against current endpoints, and records those WWPlus cells as source-display errors rather than game mechanics.',
     'Current Prydwen/Wutheringlab/WuWaBuilds/Game8 consensus restores 40 Synchronization Rate from Intro and 30 from Heavenfall Edict: Overdrive. Stale tooltip representations reversing those values are not adopted.',
     'Seraphic Duet labels conflict across current sources. Bellibing follows Fandom/WuWaBuilds/Wuthering.gg consensus: Encore is the 9%*4+18%*3+90% line and Overture is the 9%+7.5%*6+12%*3+30%*3 line; Wutheringlab/WWPlus currently display the labels reversed.',
+    'Aemeath S6 max-trail-limit combat-state wording conflicts across current secondary sources. WutheringDB raw-data mirror plus current WuWaBuilds, PlayAware and Wuthering.gg say in combat; Wutheringlab and WutheringTools say out of combat. Bellibing uses the current raw-data/multi-source in-combat consensus and retains the conflicting representation here as provenance evidence.',
     'Source-facing mixed damage expressions are stored as independent coefficient curves with explicit hit counts, never flattened into one raw total.',
   ],
 } as const;
@@ -349,8 +352,8 @@ export const AEMEATH_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
     section: 'RESONANCE_CHAIN',
     sequence: 1,
     conditional: true,
-    triggerSummary: 'Active at Sequence 1; multiple branches depend on Instant Response, Heavenfall Edict: Unbound and the Sealed Trail/Brilliance state conditions.',
-    effectSummary: 'Instant Response Heavy Attack — Aemeath and Heavy Attack — Mech gain 300% Crit DMG. The sequence adds its source-specified pull/Brilliance behavior, extra Synchronization Rate generation after the qualifying state duration, and Sealed Trail carryover for 10 seconds.',
+    triggerSummary: 'Active at Sequence 1. Instant Response modifies Heavy attacks; remaining out of combat and not performing Heavy Attack — Aemeath, Heavy Attack — Mech or Heavenfall Edict: Finale for over 4 seconds enters Instant Response — Brilliance. Trail-carryover branches depend on current Resonance Mode and defeated targets.',
+    effectSummary: 'In Instant Response, Heavy Attack — Aemeath and Heavy Attack — Mech gain 300% Crit DMG and continuously pull nearby targets while charging. Instant Response — Brilliance inherits Instant Response and persists outside Heavenfall Edict: Unbound; while in Brilliance but not Unbound, Charged II grants 100 Synchronization Rate. Defeating a target with Rupturous Trail/Fusion Trail enters the matching Sealed Trail for 10 seconds, records the highest defeated-target trail stack count, and the next directly damaging skill reapplies that recorded count up to the current maximum before ending Sealed Trail; Aemeath then cannot re-enter Sealed Trail for 1 second.',
   }),
   sequence({
     factId: 'aemeath-s2-downy-notes-snowfluff',
@@ -358,8 +361,8 @@ export const AEMEATH_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
     section: 'RESONANCE_CHAIN',
     sequence: 2,
     conditional: true,
-    triggerSummary: 'Active at Sequence 2; additional branches depend on current Resonance Mode and target trail/status state.',
-    effectSummary: 'Increases both Seraphic Duet multipliers by 100%. In Tune Rupture mode, each removed Rupturous Trail stack adds 20% to the response multiplier for 1 second, up to 5 stacks. In Fusion Burst mode, Stardust Resonance adds a 400% main-target multiplier branch and each Fusion Trail stack contributes 15%; defeating nearby targets can automatically trigger Fusion Burst under the source conditions.',
+    triggerSummary: 'Active at Sequence 2; additional branches depend on current Resonance Mode, Stardust Resonance and same-target Seraphic Duet response hits.',
+    effectSummary: 'Increases both Seraphic Duet Overture and Encore DMG Multipliers by 100%. In Tune Rupture mode, when the additional Tune Rupture instances from Seraphic Duet hit the same target, their DMG Multiplier against that target increases by 20% for 1 second, stacking up to 5 times. In Fusion Burst mode, Stardust Resonance raises the Seraphic Duet-triggered main-target Fusion Burst multiplier to 400%; each removed Fusion Trail stack adds 15% to the main-target Fusion Burst multiplier; defeating a nearby target in combat immediately triggers Fusion Burst based on that target’s current Fusion Burst stack limit.',
   }),
   sequence({
     factId: 'aemeath-s3-stellar-song-silent-cosmos',
@@ -367,8 +370,8 @@ export const AEMEATH_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
     section: 'RESONANCE_CHAIN',
     sequence: 3,
     conditional: true,
-    triggerSummary: 'Active at Sequence 3; status application and replacement Between the Stars behavior depend on current Resonance Mode.',
-    effectSummary: 'Increases Heavenfall Edict: Finale DMG Multiplier by 100% and Heavenfall Edict: Overdrive DMG Multiplier by 40%. Instant Response Heavy Attacks gain the source-specified mode-status application. Between the Stars is replaced by the S3 mode effect that grants 60% Crit DMG and 25% Finale DMG Amplification under its corresponding trigger conditions.',
+    triggerSummary: 'Active at Sequence 3; Instant Response status application and the replacement Between the Stars behavior depend on current Resonance Mode.',
+    effectSummary: 'Increases Heavenfall Edict: Finale DMG Multiplier by 100% and Heavenfall Edict: Overdrive DMG Multiplier by 40%. In Instant Response, Heavy Attack — Aemeath or Heavy Attack — Mech inflicts Tune Rupture — Shifting or Fusion Burst on nearby targets according to the current Resonance Mode. Between the Stars is replaced: the qualifying Tune Rupture or Fusion Burst team trigger grants 60% Crit DMG and 25% Finale DMG Amplification; joining the team or switching Resonance Mode resets the effect.',
   }),
   sequence({
     factId: 'aemeath-s4-ethereal-waltz-binary-tides',
@@ -385,8 +388,8 @@ export const AEMEATH_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
     section: 'RESONANCE_CHAIN',
     sequence: 5,
     conditional: true,
-    triggerSummary: 'Defeat a target or receive fatal damage while the sequence conditions permit the corresponding branch.',
-    effectSummary: 'Defeating a target resets Starflux to 100%. On fatal damage, the source-defined 2D ghost state lasts 5 seconds, grants the team a shield equal to 360% of Aemeath ATK for 5 seconds, then revives Aemeath at 100% HP and restores 30 Resonance Energy. The fatal-damage branch can trigger once every 10 minutes.',
+    triggerSummary: 'Defeat a target directly with Aemeath’s skills or receive fatal damage while the revival branch is available.',
+    effectSummary: 'Defeating a target directly with Aemeath’s skills resets Starflux to 100%. On fatal damage, Aemeath becomes 2D Digital Ghost for 5 seconds, grants the team a Shield equal to 360% of her ATK for 5 seconds, then revives at 100% Max HP and restores 30 Resonance Energy. The fatal-damage branch can trigger once every 10 minutes; reviving exits the ghost state and removes its Shield.',
   }),
   sequence({
     factId: 'aemeath-s6-beyond-limitless-horizon',
@@ -394,8 +397,9 @@ export const AEMEATH_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
     section: 'RESONANCE_CHAIN',
     sequence: 6,
     conditional: true,
-    triggerSummary: 'Active at Sequence 6; response and trail branches depend on current Resonance Mode and nearby target states.',
-    effectSummary: 'Targets take 40% more Resonance Liberation DMG from Aemeath. Tune Rupture DMG and Fusion Burst triggered near the active Resonator can critically hit with fixed 80% Crit Rate and 275% Crit DMG. Trail stacks inflicted are doubled, maximum trail stacks increase to 60, and Seraphic Duet inflicts 10 trail stacks for 30 seconds under the corresponding mode rules.',
+    triggerSummary: 'Active at Sequence 6; Crit and trail-limit branches depend on current Resonance Mode and combat state.',
+    effectSummary: 'Targets take 40% more Resonance Liberation DMG from Aemeath. Tune Rupture DMG can critically hit with fixed 80% Crit Rate and 275% Crit DMG in Tune Rupture mode; Fusion Burst DMG triggered near the active Resonator can do the same in Fusion Burst mode while in combat. Rupturous Trail/Fusion Trail stacks inflicted through To Sculpt the Silence are doubled. In the current raw-data/multi-source consensus, while in combat the nearby-target trail max increases to 60. Casting Seraphic Duet inflicts 10 matching trail stacks for 30 seconds.',
+    notes: ['WutheringDB raw-data mirror, WuWaBuilds, PlayAware and Wuthering.gg currently say the max-trail-limit branch applies in combat; Wutheringlab and WutheringTools currently render out of combat. The in-combat current consensus is used while the conflicting wording remains recorded in provenance.'],
   }),
 ] as const;
 

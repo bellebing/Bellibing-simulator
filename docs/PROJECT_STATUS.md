@@ -162,18 +162,20 @@ Version 3.6 lifecycle anchors are regression-locked:
 
 The frozen current-patch count is intentional: adding a 123rd row makes the audit fail until the patch snapshot is explicitly reviewed and updated. This prevents future content from inheriting a false green result merely because the raw-record helper has defaults.
 
-Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon passive/effect completeness remains the separate next workstream.
+Signature/BiS/recommendation relations remain outside raw Weapon data.
 
-### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
+### Weapon Effects — RELEASED SOURCE COVERAGE COMPLETE / EXECUTABLE MODELING PARTIAL
 
-180 source-audited effect rows across 95 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 26 remain `PENDING_SOURCE_AUDIT`, all of them Swords, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+236 source-audited effect rows across all 121 currently `RELEASED` weapons are modeled in the independent effect layer. The Version 3.6 released-roster source gate is now complete: 121/121 released weapons have audited effect coverage, `PENDING_SOURCE_AUDIT` is zero, and missing rows are still never interpreted as zero passives.
 
-Current completed slices:
+Completed source slices:
 
 - all 22 currently released Pistol weapons have source-audited effect records;
 - all 27 currently released Rectifier weapons have source-audited effect records;
 - all 23 currently released Broadblade weapons have source-audited effect records;
-- all 22 currently released Gauntlet weapons now have source-audited effect records;
+- all 22 currently released Gauntlet weapons have source-audited effect records;
+- all 27 currently released Sword weapons have source-audited effect records;
+- all 16 currently released Sword characters were backward-impact screened; no production Sword Weapon Recommendation profiles currently exist;
 - all 10 currently released Gauntlet characters were backward-impact screened; no production Gauntlet Weapon Recommendation profiles currently exist;
 - all 9 currently released Broadblade characters were backward-impact screened, including the existing production `augusta-standard-weapons` profile; its recommendation relations/ranking remain unchanged because source-auditing raw effects does not itself recalculate recommendation data;
 - all 13 currently released Rectifier characters were backward-impact screened for every Rectifier batch; no production Rectifier Weapon Recommendation profiles currently exist;
@@ -181,6 +183,11 @@ Current completed slices:
 - `NEXT_RESONATOR`, target-facing debuffs/amplification, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
 - Blazing Justice retains source-verified ATK, DEF-ignore, Spectro Frazzle amplification and 6-second state duration while the current Basic Attack vs Resonance Liberation trigger conflict remains explicit `VERIFIED_RAW_PENDING_MODEL` rather than guessed;
 - Moongazer's Sigil max-stack override, Verity's Handle duration extension and Hollow Mirage stack mutations remain explicit raw pending-model mechanics rather than fabricated executable state transitions;
+- Blazing Brilliance keeps the current multi-source 12-second max-stack cleanup wording while conflicting 10-second secondary representations remain provenance evidence;
+- Defier's Thorn keeps its verified HP, Tune Rupture/Frazzle amplification and 15-second state facts while exact executable timing semantics remain explicit pending-model;
+- Emerald Sentence keeps the current multi-source duration/reset interpretation while conflicting secondary wording remains provenance evidence rather than a silent override;
+- Everbright Polestar keeps the current multi-source 10/15/20/25/30% Fusion RES-ignore sequence while the conflicting lower rank series remains provenance evidence;
+- Glint of Clouds, Lunar Cutter and Somnoire Anchor retain explicit pending-model state/timing mechanics rather than guessed executable transitions;
 - Aureate Zenith uses the current multi-source Heavy Attack DMG wording while a conflicting Wutheringlab Resonance Liberation DMG label remains explicit provenance evidence;
 - Broadblade of Night uses the current PlayAware/GameVika/Fandom Intro Skill trigger consensus while a lower-priority Slyraf Outro representation remains explicit provenance discrepancy evidence;
 - Broadblade#41 preserves its rank-dependent R1-R5 HP thresholds for the healing branch rather than collapsing them into one threshold;
@@ -190,13 +197,11 @@ Current completed slices:
 - Firstlight's Herald retains verified HP, Concerto and team-ATK magnitude, while its conflicting Kingfisher vs Snow Taint/Ripples trigger-state semantics remain explicit `VERIFIED_RAW_PENDING_MODEL`;
 - verified raw mechanics that still need executable modeling remain explicit pending-model rather than being dropped or guessed.
 
-Before complete:
+Source coverage is therefore complete, but the Weapon Effect layer is **not** being relabeled fully executable/behavior-complete merely because the source backlog reached zero. Remaining work is semantic execution work, not missing released-weapon source coverage:
 
-- populate effects for the remaining 26 released Sword weapons;
-- store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
-- distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
+- resolve `VERIFIED_RAW_PENDING_MODEL` cross-effect/state-transition mechanics only when source or combat-state evidence is sufficient;
+- preserve MANUAL event/stack/resource uptime until rotation/encounter state proves activation and overlap;
 - keep raw passive text as provenance/display input, not executable combat behavior;
-- resolve verified raw pending-model mechanics without inventing uptime or state transitions;
 - effect records must remain independent from character recommendations and rotation uptime.
 
 A newly modeled effect is a changed combat fact and must trigger a backward-impact review even when the weapon itself is old. A new weapon must also be screened against every existing compatible user of its weapon type rather than being hard-wired only to its signature owner.
@@ -273,8 +278,8 @@ UI polish is intentionally lower priority than completing the engine/data founda
 3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
 4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
 5. **PARTIAL — PR #38/#39/#40/#41:** Character static/core + intrinsic gates and generic mechanics architecture are in place. **Roster-wide Character mechanics fact coverage remains an explicit Pre-DPS blocker.**
-6. **IN PROGRESS — PR #42:** Weapon Core roster is complete for the current Version 3.6 released roster. **NEXT: complete Weapon Effects coverage.**
-7. **RETURN CHECKPOINT:** After Weapon Effects, close any remaining roster-wide Character mechanics coverage before moving deeper into Echo/Sonata foundation work. This prevents the earlier Character blocker from being forgotten merely because another workstream was advanced.
+6. **SOURCE COVERAGE DONE — Weapon Core + Weapon Effects:** Version 3.6 released Weapon Core is complete and released Weapon Effect source coverage is 121/121 with zero source-audit backlog. Explicit `VERIFIED_RAW_PENDING_MODEL` mechanics remain separate semantic/execution work and are not silently promoted to modeled uptime.
+7. **CURRENT RETURN CHECKPOINT:** Close remaining roster-wide Character mechanics coverage before moving deeper into Echo/Sonata foundation work. This prevents the earlier Character blocker from being forgotten merely because the Weapon source workstream advanced to full released coverage.
 8. Complete current Echo/Sonata raw audit.
 9. Complete Sonata Effect coverage.
 10. Complete Echo skill/effect/attack fact coverage needed by supported content.

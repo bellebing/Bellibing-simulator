@@ -57,7 +57,7 @@ function validCurve(curve: CharacterMotionValueCurve | readonly number[]): boole
   return curve.length === 10 && curve.every((value) => Number.isFinite(value) && value >= 0);
 }
 
-function auditVerifiedActionCurves(
+function auditVerifiedActions(
   profile: CharacterMechanicsProfile,
   facts: readonly CharacterMechanicFact[],
   issues: CharacterMechanicsAuditIssue[],
@@ -74,14 +74,34 @@ function auditVerifiedActionCurves(
     const hasComponents = components !== null && components.length > 0;
     const hasDamageMotionData = fact.motionValue !== null || hasCurve || hasComponents;
 
-    if (fact.damageClass === null) {
-      if (hasDamageMotionData) {
+    if (fact.actionRole === 'UNKNOWN') {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} has UNKNOWN actionRole`,
+      });
+      continue;
+    }
+
+    if (fact.actionRole === 'NON_DAMAGE') {
+      if (
+        fact.damageClass !== null
+        || hasDamageMotionData
+        || fact.hitCount !== null
+        || fact.motionValueContext !== null
+      ) {
         issues.push({
           characterId: profile.characterId,
-          issue: `verified ACTIONS fact ${fact.factId} has damage motion-value data while damageClass is null`,
+          issue: `verified ACTIONS fact ${fact.factId} declares NON_DAMAGE but carries damage representation fields`,
         });
       }
       continue;
+    }
+
+    if (fact.damageClass === null) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified DAMAGE ACTION fact ${fact.factId} is missing damageClass`,
+      });
     }
 
     if (fact.scalingStat === 'UNKNOWN') {
@@ -197,7 +217,7 @@ function auditVerifiedAreaEvidence(
     }
   }
 
-  auditVerifiedActionCurves(profile, facts, issues);
+  auditVerifiedActions(profile, facts, issues);
 }
 
 function auditProfile(
@@ -281,16 +301,17 @@ function auditProfile(
  * A coverage area may only be marked VERIFIED when the profile links concrete,
  * source-VERIFIED facts that support that area. VERIFIED profiles may not hide
  * non-VERIFIED linked utility facts outside those coverage buckets. VERIFIED
- * ACTIONS additionally require a finite non-negative Lv1-Lv10 source
- * representation for every damaging action: either one coefficient curve plus
- * a positive integer action-level `hitCount`, or explicit mixed coefficient
- * components with their own positive integer hit counts and no action-level
- * `hitCount`. Damage motion-value data may not be hidden behind a null
- * `damageClass`; source-complete damaging actions also require explicit scaling
- * and source-level context, and may not mix a selected-level scalar with their
- * Lv1-Lv10 representation. This prevents status metadata, omitted multiplicity,
- * selected-level leakage or ambiguous double-counting from making a partially
- * ingested character look source-complete.
+ * ACTIONS must explicitly classify each action as DAMAGE or NON_DAMAGE; UNKNOWN
+ * roles cannot pass. DAMAGE actions require a finite non-negative Lv1-Lv10
+ * source representation: either one coefficient curve plus a positive integer
+ * action-level `hitCount`, or explicit mixed coefficient components with their
+ * own positive integer hit counts and no action-level `hitCount`. NON_DAMAGE
+ * actions must not carry damage classification/motion-value fields. Source-
+ * complete damaging actions also require explicit scaling and source-level
+ * context, and may not mix a selected-level scalar with their Lv1-Lv10
+ * representation. This prevents nullable-field inference, status metadata,
+ * omitted multiplicity, selected-level leakage or ambiguous double-counting
+ * from making a partially ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

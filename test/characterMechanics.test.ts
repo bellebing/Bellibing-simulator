@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { AUGUSTA_STANDARD_ACTIONS } from '../src/characters/augustaStandard.ts';
+import { AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID } from '../src/characters/augustaStandardMotionValues.ts';
+import type { CharacterActionFact } from '../src/characterMechanicsDomain.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 import {
   AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -21,18 +23,64 @@ import { auditRotationMechanicDependencies, findRotationsDependingOnMechanicFact
 import { totalMotionValue } from '../src/echoAttackDomain.ts';
 import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 
-test('Augusta golden action facts are unique and preserve canonical Lv10 rotation values', () => {
-  assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 12);
-  assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 12);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 99);
+function sourceMotionValueAt(fact: CharacterActionFact, levelIndex: number): number | null {
+  if (fact.actionRole !== 'DAMAGE') return null;
+  if (fact.motionValueCurve) {
+    assert.ok(fact.hitCount !== null);
+    return fact.motionValueCurve[levelIndex] * fact.hitCount;
+  }
+  assert.ok(fact.motionValueComponents);
+  return fact.motionValueComponents.reduce(
+    (sum, component) => sum + component.curve[levelIndex] * component.hitCount,
+    0,
+  );
+}
+
+function assertNear(actual: number | null, expected: number, epsilon = 1e-10): void {
+  assert.notEqual(actual, null);
+  assert.ok(Math.abs((actual ?? 0) - expected) <= epsilon, `${String(actual)} != ${expected}`);
+}
+
+test('Augusta current source action facts are full-kit, exact Lv1-Lv10 representations', () => {
+  assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
+  assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 111);
+
+  for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
+    if (fact.actionRole === 'NON_DAMAGE') {
+      assert.equal(fact.motionValue, null, fact.factId);
+      assert.equal(fact.motionValueCurve ?? null, null, fact.factId);
+      assert.equal(fact.motionValueComponents ?? null, null, fact.factId);
+      continue;
+    }
+    assert.equal(fact.motionValue, null, fact.factId);
+    assert.ok(fact.motionValueCurve || fact.motionValueComponents, fact.factId);
+  }
+
+  const warriorsBlade = getCharacterActionFact('augusta-skill-warriors-blade');
+  assert.ok(warriorsBlade);
+  assertNear(sourceMotionValueAt(warriorsBlade, 0), 3.3);
+  assertNear(sourceMotionValueAt(warriorsBlade, 9), 6.561);
 
   const liberation = getCharacterActionFact('augusta-liberation-sword-of-eternal-oath');
   assert.ok(liberation);
   assert.equal(liberation.section, 'RESONANCE_LIBERATION');
   assert.equal(liberation.actionKind, 'LIBERATION');
   assert.equal(liberation.damageClass, 'HEAVY');
-  assert.equal(liberation.motionValue, 10.9948);
-  assert.match(liberation.motionValueContext ?? '', /Lv90\/S0\/10-10-10-10-10/);
+  assert.equal(liberation.motionValue, null);
+  assert.equal(liberation.motionValueComponents?.length, 4);
+  assertNear(sourceMotionValueAt(liberation, 9), 10.9948);
+
+  const everbright = getCharacterActionFact('augusta-liberation-everbright-protector');
+  assert.ok(everbright);
+  assertNear(sourceMotionValueAt(everbright, 0), 6.0);
+  assertNear(sourceMotionValueAt(everbright, 9), 11.9293);
+
+  const plunge = getCharacterActionFact('augusta-forte-undying-sunlight-plunge');
+  assert.ok(plunge);
+  assert.equal(plunge.motionValueComponents?.length, 2);
+  assertNear(sourceMotionValueAt(plunge, 0), 4.355);
+  assertNear(sourceMotionValueAt(plunge, 9), 8.6583);
 });
 
 test('Augusta verified non-action raw facts cover resources, passives and all six sequences', () => {
@@ -64,18 +112,27 @@ test('Augusta verified non-action raw facts cover resources, passives and all si
   assert.match(s6.effectSummary, /Heavy Attack DMG/);
 });
 
-test('Augusta rotation recipe reuses character facts instead of duplicating repeated action values', () => {
+test('Augusta Standard keeps exact selected-level parity values separate from current raw source curves', () => {
   const step2 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '2');
   const step5 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '5');
   const step3 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '3');
   const step6 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '6');
-  assert.ok(step2 && step5 && step3 && step6);
+  const step12 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '12');
+  assert.ok(step2 && step5 && step3 && step6 && step12);
   assert.equal(step2.sourceFactId, 'augusta-heavy-thunderoar-backstep');
   assert.equal(step5.sourceFactId, step2.sourceFactId);
-  assert.equal(step2.motionValue, getCharacterActionFact(step2.sourceFactId)?.motionValue);
+  assert.equal(step2.motionValue, AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.get(step2.sourceFactId));
   assert.equal(step3.sourceFactId, 'augusta-heavy-thunderoar-spinslash');
   assert.equal(step6.sourceFactId, step3.sourceFactId);
-  assert.equal(step3.motionValue, getCharacterActionFact(step3.sourceFactId)?.motionValue);
+  assert.equal(step3.motionValue, AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.get(step3.sourceFactId));
+
+  const rawBackstep = getCharacterActionFact(step2.sourceFactId);
+  const rawSunborne = getCharacterActionFact(step12.sourceFactId ?? '');
+  assert.ok(rawBackstep && rawSunborne);
+  assert.equal(rawBackstep.motionValue, null);
+  assertNear(sourceMotionValueAt(rawBackstep, 9), .5368);
+  assertNear(sourceMotionValueAt(rawSunborne, 9), 1.1929);
+  assert.equal(step12.motionValue, 10.7361, 'V9.15 parity keeps the nine-cast Sunborne aggregate');
 });
 
 test('Augusta rotation consumes canonical False Sovereign Echo attack facts', () => {
@@ -95,12 +152,12 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports two verified source profiles while Augusta remains partial', () => {
+test('mechanics coverage reports Augusta source-complete alongside Aalto and Aemeath', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
   assert.equal(audit.profileCount, 3);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath']);
-  assert.deepEqual(audit.partialCharacterIds, ['augusta']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta']);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 54);
   assert.deepEqual(audit.structuralIssues, []);
 });
@@ -143,18 +200,17 @@ test('Augusta rotation declares coherent modeled versus source-verified assumed 
   );
 });
 
-test('executable preflight separates raw mechanics completeness from coherent existing combat model', () => {
+test('executable preflight recognizes Augusta raw mechanics as source-complete without changing the existing combat-model boundary', () => {
   const raw = getCharacterPreflight('augusta', 'RAW_FACTS');
   const dps = getCharacterPreflight('augusta', 'DPS_MODEL');
   assert.ok(raw && dps);
-  assert.equal(raw.ready, false);
+  assert.equal(raw.ready, true);
   assert.equal(raw.checks.find((check) => check.area === 'IDENTITY_LEVEL90')?.status, 'PASS');
   assert.equal(raw.checks.find((check) => check.area === 'INTRINSIC_STATS')?.status, 'PASS');
-  assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PENDING');
-  assert.deepEqual(raw.blockers.map((check) => check.area), ['CHARACTER_MECHANICS']);
+  assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
+  assert.deepEqual(raw.blockers, []);
 
   assert.equal(dps.checks.find((check) => check.area === 'COMBAT_MODEL')?.status, 'PASS');
-  assert.equal(dps.ready, false, 'full DPS onboarding remains blocked while the Character raw ACTIONS area is incomplete');
 });
 
 test('preflight preserves named raw pending fields for current released characters', () => {

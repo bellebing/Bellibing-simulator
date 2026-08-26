@@ -193,8 +193,12 @@ export function auditCharacterMechanicsCoverage(
       continue;
     }
     const allVerified = profile.coverage.every((entry) => entry.status === 'VERIFIED');
-    if (allVerified && profile.verificationStatus === 'VERIFIED') verifiedCharacterIds.push(character.id);
-    else partialCharacterIds.push(character.id);
+    const structurallyClean = !structuralIssues.some((issue) => issue.characterId === character.id);
+    if (allVerified && profile.verificationStatus === 'VERIFIED' && structurallyClean) {
+      verifiedCharacterIds.push(character.id);
+    } else {
+      partialCharacterIds.push(character.id);
+    }
   }
 
   return {

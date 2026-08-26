@@ -91,6 +91,7 @@ test('Aemeath Forte keeps current Duet label consensus and Tune AMP scaling expl
   assert.match(provenance, /WWPlus.*Lv3/i);
   assert.match(provenance, /malformed Starburst Lv6/i);
   assert.match(provenance, /Seraphic Duet labels conflict/i);
+  assert.match(provenance, /S6 max-trail-limit.*in combat.*out of combat/i);
 });
 
 test('Aemeath resource facts lock current 40 Intro / 30 Overdrive consensus and exact caps', () => {
@@ -140,9 +141,27 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(outro.effectSummary, /20% instead/);
 
   assert.deepEqual(AEMEATH_SEQUENCE_FACTS.map((fact) => fact.sequence), [1, 2, 3, 4, 5, 6]);
-  assert.match(AEMEATH_SEQUENCE_FACTS[3]?.effectSummary ?? '', /20% All-Attribute DMG Bonus.*30 seconds/);
-  assert.match(AEMEATH_SEQUENCE_FACTS[5]?.effectSummary ?? '', /40% more Resonance Liberation DMG/);
-  assert.match(AEMEATH_SEQUENCE_FACTS[5]?.effectSummary ?? '', /80% Crit Rate.*275% Crit DMG/);
+
+  const s1 = AEMEATH_SEQUENCE_FACTS[0];
+  assert.match(s1?.effectSummary ?? '', /300% Crit DMG/);
+  assert.match(s1?.effectSummary ?? '', /100 Synchronization Rate/);
+  assert.match(s1?.effectSummary ?? '', /highest defeated-target trail stack count/i);
+  assert.match(s1?.effectSummary ?? '', /cannot re-enter Sealed Trail for 1 second/i);
+
+  const s2 = AEMEATH_SEQUENCE_FACTS[1];
+  assert.match(s2?.effectSummary ?? '', /additional Tune Rupture instances.*same target.*20% for 1 second.*5 times/i);
+  assert.doesNotMatch(s2?.effectSummary ?? '', /removed Rupturous Trail stack adds 20%/i);
+  assert.match(s2?.effectSummary ?? '', /400%/);
+  assert.match(s2?.effectSummary ?? '', /15%/);
+
+  const s4 = AEMEATH_SEQUENCE_FACTS[3];
+  assert.match(s4?.effectSummary ?? '', /20% All-Attribute DMG Bonus.*30 seconds/);
+
+  const s6 = AEMEATH_SEQUENCE_FACTS[5];
+  assert.match(s6?.effectSummary ?? '', /40% more Resonance Liberation DMG/);
+  assert.match(s6?.effectSummary ?? '', /80% Crit Rate.*275% Crit DMG/);
+  assert.match(s6?.effectSummary ?? '', /while in combat.*trail max increases to 60/i);
+  assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
 test('fact-backed roster audit advances to Aalto+Aemeath verified, Augusta partial and 54 unstarted', () => {

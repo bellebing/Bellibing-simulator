@@ -166,17 +166,21 @@ Signature/BiS/recommendation relations remain outside raw Weapon data. Weapon pa
 
 ### Weapon Effects — FOUNDATION / PARTIAL COVERAGE — NEXT ACTIVE WORKSTREAM
 
-135 source-audited effect rows across 73 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 48 remain `PENDING_SOURCE_AUDIT`, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
+180 source-audited effect rows across 95 released weapons are modeled in the independent effect layer. The Version 3.6 released-roster gate has explicit coverage status for all 121 `RELEASED` weapons; 26 remain `PENDING_SOURCE_AUDIT`, all of them Swords, so Weapon Effects is still PARTIAL and missing rows are never interpreted as zero passives.
 
 Current completed slices:
 
 - all 22 currently released Pistol weapons have source-audited effect records;
 - all 27 currently released Rectifier weapons have source-audited effect records;
-- all 23 currently released Broadblade weapons now have source-audited effect records;
+- all 23 currently released Broadblade weapons have source-audited effect records;
+- all 22 currently released Gauntlet weapons now have source-audited effect records;
+- all 10 currently released Gauntlet characters were backward-impact screened; no production Gauntlet Weapon Recommendation profiles currently exist;
 - all 9 currently released Broadblade characters were backward-impact screened, including the existing production `augusta-standard-weapons` profile; its recommendation relations/ranking remain unchanged because source-auditing raw effects does not itself recalculate recommendation data;
 - all 13 currently released Rectifier characters were backward-impact screened for every Rectifier batch; no production Rectifier Weapon Recommendation profiles currently exist;
 - event-triggered and stacking effects remain conditional/manual until rotation state proves activation, stack count and overlap;
 - `NEXT_RESONATOR`, target-facing debuffs/amplification, flat resource gains and state-conditional effects are represented explicitly where real weapon mechanics require them;
+- Blazing Justice retains source-verified ATK, DEF-ignore, Spectro Frazzle amplification and 6-second state duration while the current Basic Attack vs Resonance Liberation trigger conflict remains explicit `VERIFIED_RAW_PENDING_MODEL` rather than guessed;
+- Moongazer's Sigil max-stack override, Verity's Handle duration extension and Hollow Mirage stack mutations remain explicit raw pending-model mechanics rather than fabricated executable state transitions;
 - Aureate Zenith uses the current multi-source Heavy Attack DMG wording while a conflicting Wutheringlab Resonance Liberation DMG label remains explicit provenance evidence;
 - Broadblade of Night uses the current PlayAware/GameVika/Fandom Intro Skill trigger consensus while a lower-priority Slyraf Outro representation remains explicit provenance discrepancy evidence;
 - Broadblade#41 preserves its rank-dependent R1-R5 HP thresholds for the healing branch rather than collapsing them into one threshold;
@@ -188,7 +192,7 @@ Current completed slices:
 
 Before complete:
 
-- populate effects for the remaining 48 released weapons across Gauntlets and Swords;
+- populate effects for the remaining 26 released Sword weapons;
 - store R1–R5 values, triggers, durations, stacks, scope and conditions where applicable;
 - distinguish weapons with no relevant combat effect from weapons whose mechanics are still pending;
 - keep raw passive text as provenance/display input, not executable combat behavior;

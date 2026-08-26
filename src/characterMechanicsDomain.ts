@@ -35,7 +35,7 @@ export type CharacterDamageClass =
   | 'COORDINATED'
   | 'OTHER';
 
-export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'FIXED' | 'MIXED' | 'UNKNOWN';
+export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'TUNE_AMP' | 'FIXED' | 'MIXED' | 'UNKNOWN';
 
 /** Exact source-facing skill levels 1 through 10, stored as decimal multipliers. */
 export type CharacterMotionValueCurve = readonly [

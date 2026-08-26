@@ -1,4 +1,5 @@
 import type {
+  CharacterMechanicFact,
   CharacterMechanicsCoverageArea,
   CharacterMechanicsProfile,
 } from '../characterMechanicsDomain.ts';
@@ -31,6 +32,69 @@ export interface CharacterMechanicsCoverageAudit {
   structuralIssues: readonly CharacterMechanicsAuditIssue[];
 }
 
+function supportsArea(
+  area: CharacterMechanicsCoverageArea,
+  fact: CharacterMechanicFact,
+): boolean {
+  switch (area) {
+    case 'ACTIONS':
+      return fact.kind === 'ACTION';
+    case 'FORTE_RULES':
+      return fact.section === 'FORTE_CIRCUIT' && fact.kind !== 'SEQUENCE';
+    case 'INHERENT_PASSIVES':
+      return fact.kind === 'PASSIVE' && fact.section === 'INHERENT_SKILL';
+    case 'OUTRO_EFFECT':
+      return fact.section === 'OUTRO_SKILL' && (fact.kind === 'PASSIVE' || fact.kind === 'ACTION');
+    case 'RESOURCE_RULES':
+      return fact.kind === 'RESOURCE';
+    case 'SEQUENCES':
+      return fact.kind === 'SEQUENCE';
+  }
+}
+
+function auditVerifiedAreaEvidence(
+  profile: CharacterMechanicsProfile,
+  facts: readonly CharacterMechanicFact[],
+  issues: CharacterMechanicsAuditIssue[],
+): void {
+  for (const areaState of profile.coverage) {
+    if (areaState.status !== 'VERIFIED') continue;
+
+    const supportingFacts = facts.filter((fact) => supportsArea(areaState.area, fact));
+    if (supportingFacts.length === 0) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified mechanics area ${areaState.area} has no supporting fact`,
+      });
+      continue;
+    }
+
+    const unverifiedFacts = supportingFacts.filter((fact) => fact.verificationStatus !== 'VERIFIED');
+    if (unverifiedFacts.length > 0) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified mechanics area ${areaState.area} includes non-VERIFIED facts: ${unverifiedFacts.map((fact) => fact.factId).join(', ')}`,
+      });
+    }
+
+    if (areaState.area === 'SEQUENCES') {
+      const sequences = supportingFacts
+        .filter((fact): fact is Extract<CharacterMechanicFact, { kind: 'SEQUENCE' }> => fact.kind === 'SEQUENCE')
+        .map((fact) => fact.sequence)
+        .sort((a, b) => a - b);
+      if (
+        sequences.length !== 6
+        || sequences.some((sequence, index) => sequence !== index + 1)
+      ) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified mechanics area SEQUENCES must include exact S1-S6 facts; found ${sequences.join(', ') || 'none'}`,
+        });
+      }
+    }
+  }
+}
+
 function auditProfile(
   profile: CharacterMechanicsProfile,
   issues: CharacterMechanicsAuditIssue[],
@@ -51,6 +115,7 @@ function auditProfile(
     }
   }
 
+  const linkedFacts: CharacterMechanicFact[] = [];
   for (const factId of profile.factIds) {
     const fact = CHARACTER_MECHANIC_FACT_BY_ID.get(factId);
     if (!fact) {
@@ -59,8 +124,22 @@ function auditProfile(
     }
     if (fact.characterId !== profile.characterId) {
       issues.push({ characterId: profile.characterId, issue: `mechanics fact ${factId} belongs to ${fact.characterId}` });
+      continue;
+    }
+    linkedFacts.push(fact);
+  }
+
+  const linkedIds = new Set(profile.factIds);
+  for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
+    if (fact.characterId === profile.characterId && !linkedIds.has(fact.factId)) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `mechanics fact ${fact.factId} is not linked by the character mechanics profile`,
+      });
     }
   }
+
+  auditVerifiedAreaEvidence(profile, linkedFacts, issues);
 
   const allVerified = profile.coverage.every((entry) => entry.status === 'VERIFIED');
   if (allVerified && profile.verificationStatus !== 'VERIFIED') {
@@ -78,6 +157,10 @@ function auditProfile(
  * than structural errors while the Pre-DPS foundation is being populated. A
  * character can never become DPS-ready through the preflight while it remains
  * in that set.
+ *
+ * A coverage area may only be marked VERIFIED when the profile links concrete,
+ * source-VERIFIED facts that support that area. This prevents status metadata
+ * from making an empty or partially ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

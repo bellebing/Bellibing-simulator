@@ -2,6 +2,10 @@ import type { VerificationStatus } from '../contentRegistry.ts';
 import { CHARACTER_INTRINSIC_BY_ID, RELEASED_CHARACTER_INTRINSIC_PENDING } from './characterIntrinsicStats.ts';
 import { getCharacterGameData } from './characters.ts';
 import { getCharacterMechanicsProfile } from './characterMechanics.ts';
+import {
+  auditCharacterMechanicsCoverage,
+  type CharacterMechanicsCoverageAudit,
+} from './characterMechanicsAudit.ts';
 import { RELEASED_CHARACTER_RAW_PENDING } from './characterRawAudit.ts';
 import { PROFILE_CATALOGS } from './profileCatalogs.ts';
 import { auditRotationMechanicDependencies } from './rotationMechanicsAudit.ts';
@@ -109,7 +113,10 @@ function intrinsicCheck(characterId: string): CharacterPreflightCheck {
   };
 }
 
-function mechanicsCheck(characterId: string): CharacterPreflightCheck {
+export function getCharacterMechanicsPreflightCheck(
+  characterId: string,
+  audit: CharacterMechanicsCoverageAudit = auditCharacterMechanicsCoverage(),
+): CharacterPreflightCheck {
   const profile = getCharacterMechanicsProfile(characterId);
   if (!profile) {
     return {
@@ -119,6 +126,17 @@ function mechanicsCheck(characterId: string): CharacterPreflightCheck {
       requiredFor: RAW_REQUIRED,
     };
   }
+
+  const structuralIssues = audit.structuralIssues.filter((issue) => issue.characterId === characterId);
+  if (structuralIssues.length > 0) {
+    return {
+      area: 'CHARACTER_MECHANICS',
+      status: 'PENDING',
+      details: structuralIssues.map((issue) => `Structural audit: ${issue.issue}`),
+      requiredFor: RAW_REQUIRED,
+    };
+  }
+
   const incomplete = profile.coverage.filter((row) => row.status !== 'VERIFIED');
   if (incomplete.length > 0) {
     return {
@@ -131,7 +149,7 @@ function mechanicsCheck(characterId: string): CharacterPreflightCheck {
   return {
     area: 'CHARACTER_MECHANICS',
     status: verificationStatusToPreflight(profile.verificationStatus),
-    details: [`${profile.factIds.length} mechanic facts linked; all required raw mechanics areas are verified.`],
+    details: [`${profile.factIds.length} mechanic facts linked; all required raw mechanics areas are verified and structurally clean.`],
     requiredFor: RAW_REQUIRED,
   };
 }
@@ -185,6 +203,8 @@ function combatModelCheck(characterId: string): CharacterPreflightCheck {
  * Executable onboarding guide. It reads the current catalogs instead of relying
  * on a manually checked Markdown list, so resolved gaps disappear automatically.
  * Raw fact completeness and combat-model dependency coherence are separate gates.
+ * Character Mechanics PASS also requires a clean structural audit so malformed
+ * VERIFIED metadata cannot bypass the source-completeness contract at runtime.
  */
 export function getCharacterPreflight(
   characterId: string,
@@ -213,7 +233,7 @@ export function getCharacterPreflight(
     releaseStatus,
     rawLevel90Check(characterId),
     intrinsicCheck(characterId),
-    mechanicsCheck(characterId),
+    getCharacterMechanicsPreflightCheck(characterId),
     profileCheck('WEAPON_PROFILE', weaponStatuses, BUILD_REQUIRED, 'No verified character↔weapon recommendation profile exists.'),
     profileCheck('ECHO_LOADOUT_PROFILE', echoStatuses, BUILD_REQUIRED, 'No verified Echo/Sonata loadout profile exists.'),
     profileCheck('STAT_TARGET_PROFILE', statStatuses, BUILD_REQUIRED, 'No verified target/gate profile exists.'),

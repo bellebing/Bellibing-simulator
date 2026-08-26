@@ -66,12 +66,44 @@ function auditVerifiedActionCurves(
   if (actionsState?.status !== 'VERIFIED') return;
 
   for (const fact of facts) {
-    if (fact.kind !== 'ACTION' || fact.damageClass === null) continue;
+    if (fact.kind !== 'ACTION') continue;
 
     const curve = fact.motionValueCurve ?? null;
     const components = fact.motionValueComponents ?? null;
     const hasCurve = curve !== null;
     const hasComponents = components !== null && components.length > 0;
+    const hasDamageMotionData = fact.motionValue !== null || hasCurve || hasComponents;
+
+    if (fact.damageClass === null) {
+      if (hasDamageMotionData) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has damage motion-value data while damageClass is null`,
+        });
+      }
+      continue;
+    }
+
+    if (fact.scalingStat === 'UNKNOWN') {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} has UNKNOWN damage scaling`,
+      });
+    }
+
+    if (fact.motionValueContext === null || fact.motionValueContext.trim().length === 0) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} is missing motion-value level/source context`,
+      });
+    }
+
+    if ((hasCurve || hasComponents) && fact.motionValue !== null) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with an Lv1-Lv10 source representation`,
+      });
+    }
 
     if (hasCurve && hasComponents) {
       issues.push({
@@ -89,14 +121,28 @@ function auditVerifiedActionCurves(
       continue;
     }
 
-    if (hasCurve && !validCurve(curve)) {
-      issues.push({
-        characterId: profile.characterId,
-        issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value curve`,
-      });
+    if (hasCurve) {
+      if (!validCurve(curve)) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value curve`,
+        });
+      }
+      if (!Number.isInteger(fact.hitCount) || (fact.hitCount ?? 0) <= 0) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid single-curve hitCount`,
+        });
+      }
     }
 
     if (hasComponents) {
+      if (fact.hitCount !== null) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} uses component curves and must not also define action-level hitCount`,
+        });
+      }
       for (const [index, component] of components.entries()) {
         if (!Number.isInteger(component.hitCount) || component.hitCount <= 0 || !validCurve(component.curve)) {
           issues.push({
@@ -157,6 +203,7 @@ function auditVerifiedAreaEvidence(
 function auditProfile(
   profile: CharacterMechanicsProfile,
   issues: CharacterMechanicsAuditIssue[],
+  factById: ReadonlyMap<string, CharacterMechanicFact>,
 ): void {
   const areaNames = profile.coverage.map((entry) => entry.area);
   if (new Set(areaNames).size !== areaNames.length) {
@@ -174,9 +221,13 @@ function auditProfile(
     }
   }
 
+  if (new Set(profile.factIds).size !== profile.factIds.length) {
+    issues.push({ characterId: profile.characterId, issue: 'duplicate mechanics fact link' });
+  }
+
   const linkedFacts: CharacterMechanicFact[] = [];
   for (const factId of profile.factIds) {
-    const fact = CHARACTER_MECHANIC_FACT_BY_ID.get(factId);
+    const fact = factById.get(factId);
     if (!fact) {
       issues.push({ characterId: profile.characterId, issue: `unknown mechanics fact ${factId}` });
       continue;
@@ -189,11 +240,21 @@ function auditProfile(
   }
 
   const linkedIds = new Set(profile.factIds);
-  for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
+  for (const fact of factById.values()) {
     if (fact.characterId === profile.characterId && !linkedIds.has(fact.factId)) {
       issues.push({
         characterId: profile.characterId,
         issue: `mechanics fact ${fact.factId} is not linked by the character mechanics profile`,
+      });
+    }
+  }
+
+  if (profile.verificationStatus === 'VERIFIED') {
+    const nonVerifiedLinkedFacts = linkedFacts.filter((fact) => fact.verificationStatus !== 'VERIFIED');
+    if (nonVerifiedLinkedFacts.length > 0) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `VERIFIED profile links non-VERIFIED facts: ${nonVerifiedLinkedFacts.map((fact) => fact.factId).join(', ')}`,
       });
     }
   }
@@ -218,14 +279,22 @@ function auditProfile(
  * in that set.
  *
  * A coverage area may only be marked VERIFIED when the profile links concrete,
- * source-VERIFIED facts that support that area. VERIFIED ACTIONS additionally
- * require a finite non-negative Lv1-Lv10 source representation for every
- * damaging action: either one coefficient curve plus `hitCount`, or explicit
- * mixed coefficient components. This prevents status metadata or flattened
- * mixed-hit math from making a partially ingested character look source-complete.
+ * source-VERIFIED facts that support that area. VERIFIED profiles may not hide
+ * non-VERIFIED linked utility facts outside those coverage buckets. VERIFIED
+ * ACTIONS additionally require a finite non-negative Lv1-Lv10 source
+ * representation for every damaging action: either one coefficient curve plus
+ * a positive integer action-level `hitCount`, or explicit mixed coefficient
+ * components with their own positive integer hit counts and no action-level
+ * `hitCount`. Damage motion-value data may not be hidden behind a null
+ * `damageClass`; source-complete damaging actions also require explicit scaling
+ * and source-level context, and may not mix a selected-level scalar with their
+ * Lv1-Lv10 representation. This prevents status metadata, omitted multiplicity,
+ * selected-level leakage or ambiguous double-counting from making a partially
+ * ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,
+  factById: ReadonlyMap<string, CharacterMechanicFact> = CHARACTER_MECHANIC_FACT_BY_ID,
 ): CharacterMechanicsCoverageAudit {
   const released = CHARACTER_CATALOG.filter((character) => character.releaseStatus === 'RELEASED');
   const releasedIds = new Set(released.map((character) => character.id));
@@ -241,7 +310,7 @@ export function auditCharacterMechanicsCoverage(
     if (!releasedIds.has(profile.characterId)) {
       structuralIssues.push({ characterId: profile.characterId, issue: 'mechanics profile exists for non-released/unknown character' });
     }
-    auditProfile(profile, structuralIssues);
+    auditProfile(profile, structuralIssues, factById);
   }
 
   const verifiedCharacterIds: string[] = [];

@@ -47,7 +47,7 @@ function component(curve: CharacterMotionValueCurve, hitCount = 1): CharacterMot
 function action(
   input: Omit<
     CharacterActionFact,
-    'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'
+    'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'
   > & { modelingStatus?: CharacterMechanicModelStatus },
 ): CharacterActionFact {
   const { modelingStatus = 'MODEL_READY', ...rest } = input;
@@ -55,6 +55,7 @@ function action(
     ...rest,
     characterId: 'aemeath',
     kind: 'ACTION',
+    actionRole: 'DAMAGE',
     verificationStatus: 'VERIFIED',
     modelingStatus,
     motionValue: null,

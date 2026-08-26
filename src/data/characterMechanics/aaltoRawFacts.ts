@@ -23,11 +23,12 @@ const AALTO_PROVENANCE = {
   ],
 } as const;
 
-function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
+function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
   return {
     ...input,
     characterId: 'aalto',
     kind: 'ACTION',
+    actionRole: 'DAMAGE',
     verificationStatus: 'VERIFIED',
     modelingStatus: 'MODEL_READY',
     motionValue: null,

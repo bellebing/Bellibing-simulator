@@ -71,7 +71,7 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
   const drops = AALTO_RESOURCE_FACTS[0];
   assert.equal(drops?.resourceName, 'Mist Drops');
   assert.equal(drops?.maxValue, 6);
-  assert.match(drops?.ruleSummary ?? '', /consumed.*Mistcloak Dash/i);
+  assert.match(drops?.ruleSummary ?? '', /Mistcloak Dash.*consumed/i);
   assert.match(drops?.ruleSummary ?? '', /Mist Missile/i);
 
   const gate = AALTO_PASSIVE_FACTS.find((fact) => fact.factId === 'aalto-liberation-gate-of-quandary');

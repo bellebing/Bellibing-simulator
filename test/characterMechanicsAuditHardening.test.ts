@@ -6,6 +6,7 @@ import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsA
 import {
   AALTO_CHARACTER_MECHANICS_PROFILE,
   AEMEATH_CHARACTER_MECHANICS_PROFILE,
+  AUGUSTA_CHARACTER_ACTION_FACTS,
   CHARACTER_MECHANIC_FACT_BY_ID,
 } from '../src/data/characterMechanics.ts';
 
@@ -33,6 +34,50 @@ test('current verified Character Mechanics profiles remain structurally clean un
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
   assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath']);
+});
+
+test('current action facts classify damage intent explicitly instead of inferring it from nullable fields', () => {
+  const nonDamageIds = new Set([
+    'augusta-liberation-sublime-is-the-sun-state',
+    'augusta-outro-battlesong-of-the-unyielding',
+  ]);
+
+  for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
+    assert.equal(fact.actionRole, nonDamageIds.has(fact.factId) ? 'NON_DAMAGE' : 'DAMAGE', fact.factId);
+  }
+
+  for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
+    if (fact.kind !== 'ACTION' || fact.characterId === 'augusta') continue;
+    assert.equal(fact.actionRole, 'DAMAGE', fact.factId);
+  }
+});
+
+test('VERIFIED ACTIONS cannot leave damage intent UNKNOWN', () => {
+  const factById = factMapWithOverride('aalto-basic-half-truths-1', (fact) => {
+    assert.equal(fact.kind, 'ACTION');
+    return { ...fact, actionRole: 'UNKNOWN' };
+  });
+
+  const audit = auditCharacterMechanicsCoverage([AALTO_CHARACTER_MECHANICS_PROFILE], factById);
+  assert.ok(issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById).includes(
+    'verified ACTIONS fact aalto-basic-half-truths-1 has UNKNOWN actionRole',
+  ));
+  assert.deepEqual(audit.verifiedCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['aalto']);
+});
+
+test('NON_DAMAGE ACTIONS cannot smuggle damage fields through the VERIFIED gate', () => {
+  const factById = factMapWithOverride('aalto-basic-half-truths-1', (fact) => {
+    assert.equal(fact.kind, 'ACTION');
+    return { ...fact, actionRole: 'NON_DAMAGE' };
+  });
+
+  const audit = auditCharacterMechanicsCoverage([AALTO_CHARACTER_MECHANICS_PROFILE], factById);
+  assert.ok(issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById).includes(
+    'verified ACTIONS fact aalto-basic-half-truths-1 declares NON_DAMAGE but carries damage representation fields',
+  ));
+  assert.deepEqual(audit.verifiedCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['aalto']);
 });
 
 test('VERIFIED single-curve ACTIONS require a positive integer action-level hitCount', () => {
@@ -63,7 +108,7 @@ test('mixed component ACTIONS cannot also define an action-level hitCount', () =
   assert.deepEqual(audit.partialCharacterIds, ['aemeath']);
 });
 
-test('damage motion-value data cannot bypass the VERIFIED ACTION gate through damageClass null', () => {
+test('DAMAGE ACTIONS cannot bypass the VERIFIED gate through damageClass null', () => {
   const factById = factMapWithOverride('aalto-basic-half-truths-1', (fact) => {
     assert.equal(fact.kind, 'ACTION');
     return { ...fact, damageClass: null };
@@ -71,7 +116,7 @@ test('damage motion-value data cannot bypass the VERIFIED ACTION gate through da
 
   const audit = auditCharacterMechanicsCoverage([AALTO_CHARACTER_MECHANICS_PROFILE], factById);
   assert.ok(issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById).includes(
-    'verified ACTIONS fact aalto-basic-half-truths-1 has damage motion-value data while damageClass is null',
+    'verified DAMAGE ACTION fact aalto-basic-half-truths-1 is missing damageClass',
   ));
   assert.deepEqual(audit.verifiedCharacterIds, []);
 });

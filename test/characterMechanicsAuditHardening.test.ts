@@ -80,6 +80,30 @@ test('NON_DAMAGE ACTIONS cannot smuggle damage fields through the VERIFIED gate'
   assert.deepEqual(audit.partialCharacterIds, ['aalto']);
 });
 
+test('NON_DAMAGE ACTIONS reject an explicitly present empty component field', () => {
+  const factById = factMapWithOverride('aalto-basic-half-truths-1', (fact) => {
+    assert.equal(fact.kind, 'ACTION');
+    return {
+      ...fact,
+      actionRole: 'NON_DAMAGE',
+      damageClass: null,
+      scalingStat: 'UNKNOWN',
+      motionValue: null,
+      motionValueCurve: null,
+      motionValueComponents: [],
+      hitCount: null,
+      motionValueContext: null,
+    };
+  });
+
+  const audit = auditCharacterMechanicsCoverage([AALTO_CHARACTER_MECHANICS_PROFILE], factById);
+  assert.ok(issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById).includes(
+    'verified ACTIONS fact aalto-basic-half-truths-1 declares NON_DAMAGE but carries damage representation fields',
+  ));
+  assert.deepEqual(audit.verifiedCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['aalto']);
+});
+
 test('VERIFIED single-curve ACTIONS require a positive integer action-level hitCount', () => {
   const factById = factMapWithOverride('aalto-basic-half-truths-1', (fact) => {
     assert.equal(fact.kind, 'ACTION');

@@ -37,6 +37,20 @@ export type CharacterDamageClass =
 
 export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'FIXED' | 'MIXED' | 'UNKNOWN';
 
+/** Exact source-facing skill levels 1 through 10, stored as decimal multipliers. */
+export type CharacterMotionValueCurve = readonly [
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+];
+
 /**
  * Raw-source verification and executable combat support are different questions.
  * A fact can be source-verified while still waiting for an adapter that knows how
@@ -77,10 +91,20 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
   actionKind: CharacterActionKind;
   damageClass: CharacterDamageClass | null;
   scalingStat: CharacterScalingStat;
-  /** null means a non-damaging/state action or an unresolved value; never implicit zero. */
+  /** null means a non-damaging/state action or an unresolved selected-level value; never implicit zero. */
   motionValue: number | null;
   /** Describes the source/value level convention. Avoids silently mixing talent levels. */
   motionValueContext: string | null;
+  /**
+   * Optional full source curve for skill levels 1-10. Values are the listed
+   * per-hit/source coefficient; `hitCount` stays separate when the source
+   * explicitly writes e.g. `24%*2` or `33.34%*3`.
+   *
+   * Existing exact-parity fixtures may keep this null until their source curve is
+   * independently ingested. A profile cannot mark ACTIONS VERIFIED without
+   * curves for every damaging action fact.
+   */
+  motionValueCurve?: CharacterMotionValueCurve | null;
   hitCount: number | null;
 }
 

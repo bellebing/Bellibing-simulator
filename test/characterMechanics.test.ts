@@ -24,7 +24,7 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 test('Augusta golden action facts are unique and preserve canonical Lv10 rotation values', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 12);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 12);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 28);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 54);
 
   const liberation = getCharacterActionFact('augusta-liberation-sword-of-eternal-oath');
   assert.ok(liberation);
@@ -95,13 +95,13 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports Augusta remaining full-action ingestion instead of hiding it', () => {
+test('mechanics coverage reports first verified source profile while Augusta remains partial', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 1);
-  assert.deepEqual(audit.verifiedCharacterIds, []);
+  assert.equal(audit.profileCount, 2);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto']);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
-  assert.equal(audit.unstartedCharacterIds.length, 56);
+  assert.equal(audit.unstartedCharacterIds.length, 55);
   assert.deepEqual(audit.structuralIssues, []);
 });
 
@@ -172,7 +172,8 @@ test('preflight target levels add relationship/profile requirements only when ne
   const dps = getCharacterPreflight('aalto', 'DPS_MODEL');
   assert.ok(raw && build && dps);
 
-  assert.ok(raw.blockers.some((check) => check.area === 'CHARACTER_MECHANICS'));
+  assert.equal(raw.ready, true);
+  assert.equal(raw.blockers.some((check) => check.area === 'CHARACTER_MECHANICS'), false);
   assert.equal(raw.blockers.some((check) => check.area === 'WEAPON_PROFILE'), false);
   assert.ok(build.blockers.some((check) => check.area === 'WEAPON_PROFILE'));
   assert.equal(build.blockers.some((check) => check.area === 'TEAM_PROFILE'), false);

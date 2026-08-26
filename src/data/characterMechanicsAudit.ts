@@ -52,6 +52,34 @@ function supportsArea(
   }
 }
 
+function auditVerifiedActionCurves(
+  profile: CharacterMechanicsProfile,
+  facts: readonly CharacterMechanicFact[],
+  issues: CharacterMechanicsAuditIssue[],
+): void {
+  const actionsState = profile.coverage.find((entry) => entry.area === 'ACTIONS');
+  if (actionsState?.status !== 'VERIFIED') return;
+
+  for (const fact of facts) {
+    if (fact.kind !== 'ACTION' || fact.damageClass === null) continue;
+
+    const curve = fact.motionValueCurve;
+    if (!curve || curve.length !== 10) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} is missing an exact Lv1-Lv10 motion-value curve`,
+      });
+      continue;
+    }
+    if (curve.some((value) => !Number.isFinite(value) || value < 0)) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value curve`,
+      });
+    }
+  }
+}
+
 function auditVerifiedAreaEvidence(
   profile: CharacterMechanicsProfile,
   facts: readonly CharacterMechanicFact[],
@@ -93,6 +121,8 @@ function auditVerifiedAreaEvidence(
       }
     }
   }
+
+  auditVerifiedActionCurves(profile, facts, issues);
 }
 
 function auditProfile(
@@ -159,8 +189,10 @@ function auditProfile(
  * in that set.
  *
  * A coverage area may only be marked VERIFIED when the profile links concrete,
- * source-VERIFIED facts that support that area. This prevents status metadata
- * from making an empty or partially ingested character look source-complete.
+ * source-VERIFIED facts that support that area. VERIFIED ACTIONS additionally
+ * require a finite non-negative Lv1-Lv10 motion-value curve for every damaging
+ * action fact. This prevents status metadata from making an empty or partially
+ * ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

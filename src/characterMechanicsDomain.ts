@@ -24,6 +24,9 @@ export type CharacterActionKind =
   | 'STATE_CHANGE'
   | 'OTHER';
 
+/** Whether the action itself owns damage motion-value data. Never infer this from nullable fields. */
+export type CharacterActionRole = 'DAMAGE' | 'NON_DAMAGE' | 'UNKNOWN';
+
 /** Which damage-bonus bucket the game treats the hit as. */
 export type CharacterDamageClass =
   | 'BASIC'
@@ -94,17 +97,20 @@ export interface CharacterMechanicFactBase {
 /**
  * Source-backed character action fact.
  *
- * `section` and `damageClass` are deliberately independent. A Resonance
- * Liberation action may, for example, be classified by the game as Heavy Attack
- * DMG. Rotation engines must consume the explicit damage class instead of
- * inferring it from the button/kit section.
+ * `actionRole`, `section` and `damageClass` are deliberately independent. A
+ * Resonance Liberation action may, for example, own damage but be classified by
+ * the game as Heavy Attack DMG. A state/setup action can be explicitly
+ * `NON_DAMAGE` without overloading `damageClass: null` as evidence. Rotation
+ * engines must consume the explicit fields instead of inferring semantics from
+ * nullable data.
  */
 export interface CharacterActionFact extends CharacterMechanicFactBase {
   kind: 'ACTION';
   actionKind: CharacterActionKind;
+  actionRole: CharacterActionRole;
   damageClass: CharacterDamageClass | null;
   scalingStat: CharacterScalingStat;
-  /** null means a non-damaging/state action or an unresolved selected-level value; never implicit zero. */
+  /** null means no selected-level damage scalar is stored; never implicit zero. */
   motionValue: number | null;
   /** Describes the source/value level convention. Avoids silently mixing talent levels. */
   motionValueContext: string | null;
@@ -117,7 +123,7 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
    * flattening the source expression into a total. Existing exact-parity
    * fixtures may keep both representations null until their source curve is
    * independently ingested. A profile cannot mark ACTIONS VERIFIED without one
-   * valid exact representation for every damaging action fact.
+   * valid exact representation for every `DAMAGE` action fact.
    */
   motionValueCurve?: CharacterMotionValueCurve | null;
   /** Exact mixed-coefficient source representation; mutually exclusive with `motionValueCurve`. */

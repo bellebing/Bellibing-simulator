@@ -84,6 +84,27 @@ function auditVerifiedActionCurves(
       continue;
     }
 
+    if (fact.scalingStat === 'UNKNOWN') {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} has UNKNOWN damage scaling`,
+      });
+    }
+
+    if (fact.motionValueContext === null || fact.motionValueContext.trim().length === 0) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} is missing motion-value level/source context`,
+      });
+    }
+
+    if ((hasCurve || hasComponents) && fact.motionValue !== null) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with an Lv1-Lv10 source representation`,
+      });
+    }
+
     if (hasCurve && hasComponents) {
       issues.push({
         characterId: profile.characterId,
@@ -265,9 +286,11 @@ function auditProfile(
  * a positive integer action-level `hitCount`, or explicit mixed coefficient
  * components with their own positive integer hit counts and no action-level
  * `hitCount`. Damage motion-value data may not be hidden behind a null
- * `damageClass`. This prevents status metadata, omitted multiplicity or
- * ambiguous double-counting from making a partially ingested character look
- * source-complete.
+ * `damageClass`; source-complete damaging actions also require explicit scaling
+ * and source-level context, and may not mix a selected-level scalar with their
+ * Lv1-Lv10 representation. This prevents status metadata, omitted multiplicity,
+ * selected-level leakage or ambiguous double-counting from making a partially
+ * ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

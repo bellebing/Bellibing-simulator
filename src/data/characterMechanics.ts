@@ -3,6 +3,7 @@ import type {
   CharacterMechanicFact,
   CharacterMechanicsProfile,
 } from '../characterMechanicsDomain.ts';
+import { AALTO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aaltoRawFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 
 const CHECKED_AT = '2026-08-25';
@@ -58,6 +59,7 @@ export const AUGUSTA_CHARACTER_ACTION_FACTS: readonly CharacterActionFact[] = [
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
   ...AUGUSTA_NON_ACTION_MECHANIC_FACTS,
+  ...AALTO_CHARACTER_MECHANIC_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -107,8 +109,36 @@ export const AUGUSTA_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   },
 };
 
+export const AALTO_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
+  characterId: 'aalto',
+  verificationStatus: 'VERIFIED',
+  coverage: [
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation and Intro damaging actions carry source-backed Lv1-Lv10 motion-value curves.' },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Mistcloak Dash, Mist Drop acquisition/consumption and Mist Missile generation are source-audited; executable dash cadence remains separate from raw coverage.' },
+    { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Perfect Performance and Mid-game Break are source-audited.' },
+    { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Dissolving Mist 23% Aero DMG Amplification / 14s / switch-out termination is source-audited.' },
+    { area: 'RESOURCE_RULES', status: 'VERIFIED', notes: 'Mist Drops max 6 and generation/consumption rules are source-audited.' },
+    { area: 'SEQUENCES', status: 'VERIFIED', notes: 'Exact S1-S6 raw mechanics are source-audited. Sequence execution remains a later sequence-aware combat concern.' },
+  ],
+  factIds: CHARACTER_MECHANIC_FACTS.filter((fact) => fact.characterId === 'aalto').map((fact) => fact.factId),
+  provenance: {
+    sourceLabels: ['Wuthering.wiki — Aalto raw skill data', 'Prydwen — current Aalto kit', 'Wutheringlab — current Aalto kit'],
+    sourceUrls: [
+      'https://wuthering.wiki/character_1403.html',
+      'https://www.prydwen.gg/wuthering-waves/characters/aalto',
+      'https://wutheringlab.com/character/aalto-build/',
+    ],
+    checkedAt: '2026-08-26',
+    notes: [
+      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas.',
+      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION statuses remain distinct from source verification; VERIFIED profile coverage does not claim an Aalto rotation/DPS adapter exists.',
+    ],
+  },
+};
+
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   AUGUSTA_CHARACTER_MECHANICS_PROFILE,
+  AALTO_CHARACTER_MECHANICS_PROFILE,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

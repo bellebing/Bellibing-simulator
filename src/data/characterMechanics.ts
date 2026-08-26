@@ -1,61 +1,13 @@
 import type {
-  CharacterActionFact,
   CharacterMechanicFact,
   CharacterMechanicsProfile,
 } from '../characterMechanicsDomain.ts';
 import { AALTO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aaltoRawFacts.ts';
 import { AEMEATH_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aemeathRawFacts.ts';
+import { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 
-const CHECKED_AT = '2026-08-25';
-const AUGUSTA_VALUE_CONTEXT = 'V9.15 Augusta Standard Lv90/S0/10-10-10-10-10 exact-parity fixture';
-
-function augustaAction(
-  input: Omit<
-    CharacterActionFact,
-    | 'characterId'
-    | 'kind'
-    | 'verificationStatus'
-    | 'modelingStatus'
-    | 'provenance'
-  >,
-): CharacterActionFact {
-  return {
-    ...input,
-    characterId: 'augusta',
-    kind: 'ACTION',
-    verificationStatus: 'VERIFIED',
-    modelingStatus: 'MODELED',
-    provenance: {
-      sourceLabels: ['V9.15 Augusta Standard', 'Bellibing exact Augusta parity regressions'],
-      checkedAt: CHECKED_AT,
-      notes: [
-        'Lv90/S0 with all five relevant skill levels at 10 is the active spreadsheet-oracle context.',
-        'These values are migrated from the exact-parity model; they are not inferred from a Lv1 public multiplier table.',
-      ],
-    },
-  };
-}
-
-/**
- * Exact S0 Standard-rotation action facts. Repeated rotation steps reuse these
- * records. Full-kit action/multiplier-curve ingestion is tracked separately by
- * the mechanics coverage profile below and must not be implied by this subset.
- */
-export const AUGUSTA_CHARACTER_ACTION_FACTS: readonly CharacterActionFact[] = [
-  augustaAction({ factId: 'augusta-intro-stride-of-goldenflare', name: 'Intro Skill — Stride of Goldenflare', section: 'INTRO_SKILL', actionKind: 'INTRO', actionRole: 'DAMAGE', damageClass: 'INTRO', scalingStat: 'ATK', motionValue: 1.9882, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-heavy-thunderoar-backstep', name: 'Heavy Attack — Thunderoar: Backstep', section: 'BASIC_ATTACK', actionKind: 'HEAVY', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 0.5368, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-heavy-thunderoar-spinslash', name: 'Heavy Attack — Thunderoar: Spinslash', section: 'BASIC_ATTACK', actionKind: 'HEAVY', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 4.2516, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-skill-warriors-blade', name: "Resonance Skill — Warrior's Blade", section: 'RESONANCE_SKILL', actionKind: 'SKILL', actionRole: 'DAMAGE', damageClass: 'SKILL', scalingStat: 'ATK', motionValue: 6.561, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-liberation-sword-of-eternal-oath', name: 'Resonance Liberation — Sword of Eternal Oath', section: 'RESONANCE_LIBERATION', actionKind: 'LIBERATION', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 10.9948, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false, notes: ['Kit section is Resonance Liberation while the game classifies its damage as Heavy Attack DMG.'] }),
-  augustaAction({ factId: 'augusta-forte-undying-sunlight-strike', name: 'Forte Skill — Undying Sunlight: Strike', section: 'FORTE_CIRCUIT', actionKind: 'FORTE', actionRole: 'DAMAGE', damageClass: 'SKILL', scalingStat: 'ATK', motionValue: 2.7834, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-forte-undying-sunlight-leap', name: 'Forte Skill — Undying Sunlight: Leap', section: 'FORTE_CIRCUIT', actionKind: 'FORTE', actionRole: 'DAMAGE', damageClass: 'SKILL', scalingStat: 'ATK', motionValue: 2.7835, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-forte-undying-sunlight-plunge', name: 'Forte Skill — Undying Sunlight: Plunge', section: 'FORTE_CIRCUIT', actionKind: 'FORTE', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 8.6583, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: false }),
-  augustaAction({ factId: 'augusta-liberation-sublime-is-the-sun-state', name: 'Resonance Liberation — Sublime is the Sun', section: 'RESONANCE_LIBERATION', actionKind: 'STATE_CHANGE', actionRole: 'NON_DAMAGE', damageClass: null, scalingStat: 'UNKNOWN', motionValue: null, motionValueContext: null, hitCount: null, conditional: false, notes: ['Non-damaging state/setup action in the exact-parity rotation.'] }),
-  augustaAction({ factId: 'augusta-liberation-sunborne', name: 'Sublime is the Sun — Sunborne', section: 'RESONANCE_LIBERATION', actionKind: 'LIBERATION', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 10.7361, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: true, notes: ['Available during Sworn Allegiance and classified as Heavy Attack DMG.'] }),
-  augustaAction({ factId: 'augusta-liberation-everbright-protector', name: 'Sublime is the Sun — Everbright Protector', section: 'RESONANCE_LIBERATION', actionKind: 'LIBERATION', actionRole: 'DAMAGE', damageClass: 'HEAVY', scalingStat: 'ATK', motionValue: 11.9293, motionValueContext: AUGUSTA_VALUE_CONTEXT, hitCount: null, conditional: true, notes: ['Available during Sworn Allegiance and classified as Heavy Attack DMG.'] }),
-  augustaAction({ factId: 'augusta-outro-battlesong-of-the-unyielding', name: 'Outro — Battlesong of the Unyielding', section: 'OUTRO_SKILL', actionKind: 'OUTRO', actionRole: 'NON_DAMAGE', damageClass: null, scalingStat: 'UNKNOWN', motionValue: null, motionValueContext: null, hitCount: null, conditional: false, notes: ['The team-facing Outro effect is owned by a separate verified passive fact.'] }),
-] as const;
+export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -77,22 +29,24 @@ export function getCharacterMechanicFact(factId: string): CharacterMechanicFact 
   return CHARACTER_MECHANIC_FACT_BY_ID.get(factId) ?? null;
 }
 
-export function getCharacterActionFact(factId: string): CharacterActionFact | null {
+export function getCharacterActionFact(factId: string) {
   const fact = getCharacterMechanicFact(factId);
   return fact?.kind === 'ACTION' ? fact : null;
 }
 
 /**
- * Raw mechanics coverage is intentionally independent from executable combat
- * coverage. Non-action S0/S1-S6 mechanics are now source-audited; full action
- * coverage still needs the remaining non-standard actions and source-level
- * multiplier curves before the Character Raw gate can call Augusta complete.
+ * Raw mechanics coverage is independent from executable combat coverage.
+ * Augusta's current live ACTION catalog is source-complete at Lv1-Lv10 while
+ * the existing V9.15 Standard engine keeps its selected-level aggregate values
+ * in a separate parity fixture. This prevents the historical combat oracle from
+ * being mistaken for raw source data or forcing selected-level scalars into the
+ * source-completeness audit.
  */
 export const AUGUSTA_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'augusta',
-  verificationStatus: 'PARTIALLY_VERIFIED',
+  verificationStatus: 'VERIFIED',
   coverage: [
-    { area: 'ACTIONS', status: 'PARTIAL', notes: 'Exact S0 Standard Lv10 action set is verified. Full-kit non-rotation actions and their skill-level multiplier curves are still pending raw ingestion.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Full current Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation and Intro action coverage carries exact Lv1-Lv10 source representations; non-damage state/Outro actions are explicit. The V9.15 Standard selected-level aggregates remain a separate parity fixture.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Prowess/Ascendancy/Majesty, Undying Sunlight gating and Sworn Allegiance rules are source-audited.' },
     { area: 'INHERENT_PASSIVES', status: 'VERIFIED' },
     { area: 'OUTRO_EFFECT', status: 'VERIFIED' },
@@ -101,13 +55,30 @@ export const AUGUSTA_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   ],
   factIds: CHARACTER_MECHANIC_FACTS.filter((fact) => fact.characterId === 'augusta').map((fact) => fact.factId),
   provenance: {
-    sourceLabels: ['V9.15 Augusta Standard', 'Prydwen — current Augusta kit', 'Wutheringlab — current Augusta kit'],
+    sourceLabels: [
+      'Wuthering Waves Wiki/Fandom — current Augusta combat tables',
+      'Wuthering.gg — current Augusta kit',
+      'Prydwen — current Augusta kit',
+      'Index Game Center — current Augusta Lv10 endpoints',
+      '鳴潮 Wiki* — current Augusta live endpoints',
+      'Wutheringlab — current page retained as discrepancy evidence',
+    ],
     sourceUrls: [
+      'https://wutheringwaves.fandom.com/wiki/Augusta/Combat',
+      'https://wuthering.gg/characters/augusta',
       'https://www.prydwen.gg/wuthering-waves/characters/augusta',
+      'https://www.indexgame.in.th/en/guide/wutheringwavesuid/augusta',
+      'https://wikiwiki.jp/w-w/%E3%82%AA%E3%83%BC%E3%82%AC%E3%82%B9%E3%82%BF',
       'https://wutheringlab.com/character/augusta-build/',
     ],
-    checkedAt: CHECKED_AT,
-    notes: ['Raw resource/passive/Outro/S1-S6 coverage is complete. ACTIONS remains partial until complete current skill-level multiplier coverage is ingested without mixing Lv1 public tables into the Lv10 parity fixture.'],
+    checkedAt: '2026-08-26',
+    notes: [
+      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas.',
+      'The current Fandom Everbright Protector Lv1 first-component cell conflicts with current Wuthering.gg/Japanese-wiki evidence; the independently corroborated 120.00% value is used and the conflicting 20.00% cell remains provenance evidence.',
+      "Current Warrior's Blade source consensus is 110.00%*3 at Lv1, 218.70%*3 at Lv10 and 15s cooldown; current Japanese-wiki/Wutheringlab conflicting older cells remain provenance evidence rather than overriding the live consensus.",
+      'Current Undying Sunlight: Plunge source structure is 43.55% + 391.95% at Lv1 through 86.59% + 779.24% at Lv10; stale split-component mirrors remain recorded rather than silently flattened into the same aggregate.',
+      'MODEL_READY/MODELED/PENDING_INTERPRETATION remain independent from source VERIFIED coverage. Augusta Standard remains the existing narrow exact-parity combat fixture; this profile does not authorize broad DPS expansion.',
+    ],
   },
 };
 

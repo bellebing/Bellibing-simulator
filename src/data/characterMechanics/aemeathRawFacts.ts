@@ -34,7 +34,7 @@ const AEMEATH_PROVENANCE = {
 } as const;
 
 function pct(values: CharacterMotionValueCurve): CharacterMotionValueCurve {
-  return values.map((value) => value / 100) as unknown as CharacterMotionValueCurve;
+  return values.map((value) => Number((value / 100).toFixed(6))) as unknown as CharacterMotionValueCurve;
 }
 
 function component(curve: CharacterMotionValueCurve, hitCount = 1): CharacterMotionValueComponent {

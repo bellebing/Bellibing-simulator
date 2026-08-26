@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 135);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 135);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 73);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 180);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 180);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 95);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 48);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 26);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 135);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 180);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -412,9 +412,9 @@ test('Rectifier completion preserves source semantics and low-rarity mechanics',
 });
 
 test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {
-  assert.equal(getWeaponEffectCoverageStatus('abyss-surges'), 'PENDING_SOURCE_AUDIT');
+  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
   assert.throws(
-    () => getWeaponEffects('abyss-surges'),
+    () => getWeaponEffects('glint-of-clouds'),
     /PENDING_SOURCE_AUDIT.*must not be interpreted as zero effect/,
   );
   assert.equal(getWeaponEffect('DOES-NOT-EXIST'), null);

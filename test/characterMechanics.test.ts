@@ -5,6 +5,7 @@ import { AUGUSTA_STANDARD_ACTIONS } from '../src/characters/augustaStandard.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 import {
   AUGUSTA_CHARACTER_ACTION_FACTS,
+  AUGUSTA_CHARACTER_MECHANICS_PROFILE,
   CHARACTER_MECHANIC_FACT_BY_ID,
   getCharacterActionFact,
 } from '../src/data/characterMechanics.ts';
@@ -102,6 +103,26 @@ test('mechanics coverage reports Augusta remaining full-action ingestion instead
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
   assert.equal(audit.unstartedCharacterIds.length, 56);
   assert.deepEqual(audit.structuralIssues, []);
+});
+
+test('VERIFIED mechanics coverage requires linked source-verified supporting facts', () => {
+  const invalidVerified = {
+    ...AUGUSTA_CHARACTER_MECHANICS_PROFILE,
+    verificationStatus: 'VERIFIED' as const,
+    coverage: AUGUSTA_CHARACTER_MECHANICS_PROFILE.coverage.map((area) => ({ ...area, status: 'VERIFIED' as const })),
+    factIds: ['augusta-s1-stained-in-scorched-earth'],
+  };
+  const audit = auditCharacterMechanicsCoverage([invalidVerified]);
+  const issues = audit.structuralIssues.filter((issue) => issue.characterId === 'augusta').map((issue) => issue.issue);
+
+  assert.ok(issues.includes('verified mechanics area ACTIONS has no supporting fact'));
+  assert.ok(issues.includes('verified mechanics area FORTE_RULES has no supporting fact'));
+  assert.ok(issues.includes('verified mechanics area INHERENT_PASSIVES has no supporting fact'));
+  assert.ok(issues.includes('verified mechanics area OUTRO_EFFECT has no supporting fact'));
+  assert.ok(issues.includes('verified mechanics area RESOURCE_RULES has no supporting fact'));
+  assert.ok(issues.includes('verified mechanics area SEQUENCES must include exact S1-S6 facts; found 1'));
+  assert.deepEqual(audit.verifiedCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['augusta']);
 });
 
 test('Augusta rotation declares coherent modeled versus source-verified assumed mechanics', () => {

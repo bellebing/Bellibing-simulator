@@ -95,5 +95,5 @@ export const WEAPON_EFFECT_CATALOG_META = {
   fullReleasedRosterComplete: coverageAudit.fullReleasedRosterComplete,
   completeness: coverageAudit.fullReleasedRosterComplete ? 'COMPLETE' as const : 'PARTIAL' as const,
   source: 'V9.15 Weapon Effects + Version 3.6 released-roster source audits',
-  checkedAt: '2026-08-25',
+  checkedAt: '2026-08-26',
 };

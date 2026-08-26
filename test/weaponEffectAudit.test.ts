@@ -13,19 +13,19 @@ import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { WEAPON_RECOMMENDATION_PROFILES } from '../src/data/weaponRecommendations.ts';
 import { WEAPON_CATALOG, getWeaponGameData } from '../src/data/weapons.ts';
 
-test('Version 3.6 released roster has explicit Weapon Effect coverage status for all 121 weapons', () => {
+test('Version 3.6 released roster has complete explicit Weapon Effect source coverage for all 121 weapons', () => {
   const audit = auditWeaponEffectCoverage();
 
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
-  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
+  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-26');
   assert.equal(audit.releasedCount, 121);
-  assert.equal(audit.auditedEffectWeaponCount, 95);
+  assert.equal(audit.auditedEffectWeaponCount, 121);
   assert.equal(audit.verifiedNoCombatEffectCount, 0);
-  assert.equal(audit.pendingSourceAuditCount, 26);
+  assert.equal(audit.pendingSourceAuditCount, 0);
   assert.equal(audit.explicitCoverageCount, 121);
-  assert.equal(audit.fullReleasedRosterComplete, false);
+  assert.equal(audit.fullReleasedRosterComplete, true);
   assert.deepEqual(audit.issues, []);
-  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 26);
+  assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 0);
 });
 
 test('future released weapon fails the effect coverage gate until its status is explicitly audited', () => {
@@ -48,19 +48,14 @@ test('future released weapon fails the effect coverage gate until its status is 
   assert.ok(codes.has('MISSING_COVERAGE_STATUS'));
 });
 
-test('adding audited effect data requires removing the weapon from the pending-source set', () => {
-  const source = WEAPON_EFFECT_CATALOG[0];
-  assert.ok(source);
+test('removing audited data from the completed roster reopens the missing-coverage gate', () => {
+  const effectsWithoutGlint = WEAPON_EFFECT_CATALOG.filter((effect) => effect.weaponId !== 'glint-of-clouds');
+  const audit = auditWeaponEffectCoverage(WEAPON_CATALOG, effectsWithoutGlint);
+  const missing = audit.issues.find((issue) => issue.code === 'MISSING_COVERAGE_STATUS');
 
-  const syntheticEffect = {
-    ...source,
-    effectId: 'TEST-PENDING-OVERLAP',
-    weaponId: 'glint-of-clouds',
-  };
-  const audit = auditWeaponEffectCoverage(WEAPON_CATALOG, [...WEAPON_EFFECT_CATALOG, syntheticEffect]);
-  const overlap = audit.issues.find((issue) => issue.code === 'PENDING_OVERLAPS_EFFECT_DATA');
-
-  assert.equal(overlap?.weaponId, 'glint-of-clouds');
+  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds', WEAPON_CATALOG, effectsWithoutGlint), 'MISSING_COVERAGE_STATUS');
+  assert.equal(missing?.weaponId, 'glint-of-clouds');
+  assert.equal(audit.fullReleasedRosterComplete, false);
 });
 
 function releasedCharacterIds(weaponType: string): string[] {
@@ -138,6 +133,25 @@ const EXPECTED_RELEASED_GAUNTLET_CHARACTERS = [
   'youhu',
   'yuanwu',
   'zani',
+] as const;
+
+const EXPECTED_RELEASED_SWORD_CHARACTERS = [
+  'aemeath',
+  'brant',
+  'camellya',
+  'cartethyia',
+  'changli',
+  'danjin',
+  'hiyuki',
+  'qingxiao',
+  'qiuyuan',
+  'rover-aero',
+  'rover-electro',
+  'rover-havoc',
+  'rover-spectro',
+  'sanhua',
+  'yangyang',
+  'yangyang-xuanling',
 ] as const;
 
 test('Pistol effect batch 1 has an exact roster-wide backward-impact review', () => {
@@ -435,7 +449,61 @@ test('Gauntlet completion closes all 22 released weapons and screens the exact 1
   }
 });
 
-test('coverage lookup distinguishes audited, pending, upcoming and unknown weapons', () => {
+test('Sword completion closes all 27 released weapons and screens the exact 16-character roster', () => {
+  const review = WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36.find(
+    (row) => row.reviewId === 'WEAPON-EFFECT-SWORDS-2026-08-26-01',
+  );
+  assert.ok(review);
+
+  const releasedIds = releasedCharacterIds('Sword');
+  assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_SWORD_CHARACTERS]);
+  assert.equal(releasedIds.length, 16);
+  assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);
+  assert.deepEqual(currentProfileIds('Sword'), []);
+  assert.deepEqual([...review.existingWeaponRecommendationProfileIds].sort(), []);
+  assert.equal(review.result, 'REVIEWED_NO_EXISTING_PROFILE_CHANGE');
+  assert.deepEqual(review.weaponIds, [
+    'blazing-brilliance',
+    'bloodpacts-pledge',
+    'defiers-thorn',
+    'emerald-sentence',
+    'emerald-of-genesis',
+    'everbright-polestar',
+    'frostburn',
+    'laser-shearer',
+    'red-spring',
+    'unflickering-valor',
+    'glint-of-clouds',
+    'commando-of-conviction',
+    'endless-collapse',
+    'fables-of-wisdom',
+    'feather-edge',
+    'lumingloss',
+    'lunar-cutter',
+    'overture',
+    'somnoire-anchor',
+    'sword-18',
+    'guardian-sword',
+    'originite-type-ii',
+    'sword-of-night',
+    'sword-of-voyager',
+    'tyro-sword',
+    'training-sword',
+  ]);
+
+  const releasedWeapons = releasedWeaponIds('Sword');
+  assert.equal(releasedWeapons.length, 27);
+  for (const weaponId of releasedWeapons) {
+    assert.equal(getWeaponEffectCoverageStatus(weaponId), 'AUDITED_EFFECTS', weaponId);
+    assert.equal(
+      (WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36 as readonly string[]).includes(weaponId),
+      false,
+      weaponId,
+    );
+  }
+});
+
+test('coverage lookup distinguishes audited, upcoming and unknown weapons after source completion', () => {
   assert.equal(getWeaponEffectCoverageStatus('stringmaster'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('static-mist'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('solar-flame'), 'AUDITED_EFFECTS');
@@ -449,7 +517,8 @@ test('coverage lookup distinguishes audited, pending, upcoming and unknown weapo
   assert.equal(getWeaponEffectCoverageStatus('training-broadblade'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('abyss-surges'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('training-gauntlets'), 'AUDITED_EFFECTS');
-  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
+  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'AUDITED_EFFECTS');
+  assert.equal(getWeaponEffectCoverageStatus('training-sword'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
   assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');
 });

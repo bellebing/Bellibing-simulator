@@ -9,17 +9,17 @@ import {
   getWeaponEffects,
 } from '../src/effectRegistry.ts';
 
-test('Weapon Effect roster completion remains partial while released coverage is explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 180);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 180);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 95);
+test('Weapon Effect released-roster source coverage is complete while pending-model mechanics remain explicit', () => {
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 236);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 236);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
   assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 26);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, false);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'PARTIAL');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 180);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 0);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, true);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'COMPLETE');
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 236);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -411,12 +411,11 @@ test('Rectifier completion preserves source semantics and low-rarity mechanics',
   assert.equal(training[0]?.effectType, 'PERMANENT');
 });
 
-test('pending effect audit is explicit and cannot be consumed as an empty passive', () => {
-  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'PENDING_SOURCE_AUDIT');
-  assert.throws(
-    () => getWeaponEffects('glint-of-clouds'),
-    /PENDING_SOURCE_AUDIT.*must not be interpreted as zero effect/,
-  );
+test('completed released source coverage returns Sword effects instead of an empty or pending passive', () => {
+  assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'AUDITED_EFFECTS');
+  assert.ok(getWeaponEffects('glint-of-clouds').length > 0);
+  assert.equal(getWeaponEffectCoverageStatus('training-sword'), 'AUDITED_EFFECTS');
+  assert.ok(getWeaponEffects('training-sword').length > 0);
   assert.equal(getWeaponEffect('DOES-NOT-EXIST'), null);
 });
 

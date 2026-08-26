@@ -128,35 +128,43 @@ PR #41 uses Augusta only as the golden-reference mechanics fixture. It verifies 
 
 PR #54 hardened the coverage contract before roster-wide ingestion. A mechanics area marked `VERIFIED` must now be backed by linked source-`VERIFIED` facts, `SEQUENCES` requires exact S1-S6 facts, orphan character-owned facts are structural errors, and structural errors block a character from appearing source-complete even if profile status metadata says `VERIFIED`.
 
-PR #55 starts real roster-wide source ingestion with Aalto and extends ACTION facts with optional exact Lv1-Lv10 motion-value curves. For an `ACTIONS` area to be `VERIFIED`, every damaging action fact now requires a finite non-negative ten-level source curve; exact-parity single-level fixtures such as Augusta's existing Lv10 subset are not falsely promoted to full source coverage.
+PR #55 starts real roster-wide source ingestion with Aalto and extends ACTION facts with optional exact Lv1-Lv10 motion-value curves. For an `ACTIONS` area to be `VERIFIED`, every damaging action fact requires an exact ten-level source representation; exact-parity single-level fixtures such as Augusta's existing Lv10 subset are not falsely promoted to full source coverage.
+
+PR #56 extends that raw action contract for Aemeath instead of flattening a more complex kit into the simpler Aalto shape. Mixed source expressions such as `a*3+b+c` can now be stored as independent coefficient components with explicit hit counts, `TUNE_AMP` is represented as a real Character scaling stat, and the verified-ACTIONS audit accepts either one exact ten-level coefficient curve or a validated mixed-component representation — never both on the same damaging fact.
 
 Current Character mechanics coverage:
 
 - 57 currently `RELEASED` characters are in the gate;
-- 2 characters have mechanics profiles;
+- 3 characters have mechanics profiles;
 - **Aalto: `VERIFIED` raw mechanics coverage** across ACTIONS, FORTE_RULES, INHERENT_PASSIVES, OUTRO_EFFECT, RESOURCE_RULES and SEQUENCES;
+- **Aemeath: `VERIFIED` raw mechanics coverage** across all six required areas, including 26 source-audited ACTION facts, three resource systems, raw Forte/state rules, both Inherent skills, Outro and S1-S6;
 - **Augusta: `PARTIAL`**, because her exact S0 Standard Lv10 golden action subset is still not a full current Lv1-Lv10 action-curve ingestion;
-- 55 released characters remain `UNSTARTED` for Character mechanics;
-- 54 canonical Character mechanic facts now exist: 26 Aalto facts plus the existing 28 Augusta facts;
-- Aalto `RAW_FACTS` preflight passes, while `BUILD_PROFILE` and `DPS_MODEL` remain blocked by their independent recommendation/team/rotation/combat-profile requirements.
+- 54 released characters remain `UNSTARTED` for Character mechanics;
+- 99 canonical Character mechanic facts now exist: 26 Aalto facts, 45 Aemeath facts and the existing 28 Augusta facts;
+- Aalto and Aemeath `RAW_FACTS` preflight pass, while their `BUILD_PROFILE` and `DPS_MODEL` stages remain blocked by independent recommendation/team/rotation/combat-profile requirements.
 
-The first Aalto slice also locks the raw/executable boundary rather than flattening source uncertainty:
+The Aalto/Aemeath source slices lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
 
-- source coefficients are stored as Lv1-Lv10 curves without silently choosing a talent level;
-- explicit source hit multipliers remain separate `hitCount` data rather than being multiplied into the raw coefficient curve;
-- the current Half Truths Basic Stage 3 Lv6 Fandom outlier remains provenance conflict evidence instead of overriding the structured current curve;
-- Gate of Quandary retains the verified raw 10% parameter while the current ATK-increase versus increased-DMG wording difference remains `PENDING_INTERPRETATION` for executable stat-bucket semantics;
-- Mistcloak timing/resource cadence and other conditional mechanics remain raw facts until a combat/rotation model supplies actual execution state.
+- source coefficients are stored as exact Lv1-Lv10 representations without silently choosing a talent level;
+- explicit source hit multipliers remain separate from coefficient curves, and mixed-hit Aemeath expressions keep each source coefficient as an independent component rather than being pre-summed;
+- Aemeath Tune Rupture Response — Starburst and the separate Seraphic Duet bonus coefficient are represented as `TUNE_AMP` scaling and remain `PENDING_INTERPRETATION` for executable encounter/status semantics;
+- Aemeath Synchronization Rate is source-audited at cap 200 with current multi-source Intro +40 / Heavenfall Edict: Overdrive +30 semantics; stale reversed tooltip representations remain provenance evidence;
+- Aemeath Seraphic Duet uses the current Fandom/WuWaBuilds/Wuthering.gg Overture/Encore label consensus while conflicting Wutheringlab/WWPlus labels remain provenance evidence;
+- Aemeath S6 uses the current WutheringDB raw-data mirror plus WuWaBuilds/PlayAware/Wuthering.gg **in-combat** max-trail-limit consensus, while current Wutheringlab/WutheringTools **out-of-combat** wording remains explicitly recorded rather than silently erased;
+- WWPlus repeated Lv2-as-Lv3 Basic-table cells and its malformed Starburst Lv6 cell remain source-display discrepancy evidence; Bellibing does not copy those cells into the canonical curve;
+- the current Half Truths Basic Stage 3 Lv6 Fandom outlier remains Aalto provenance conflict evidence instead of overriding the structured current curve;
+- Aalto Gate of Quandary retains the verified raw 10% parameter while the current ATK-increase versus increased-DMG wording difference remains `PENDING_INTERPRETATION` for executable stat-bucket semantics;
+- resource cadence, target trails, form/state transitions, stack timing, conditional sequence branches and other event mechanics remain raw facts until a combat/rotation model supplies actual execution state.
 
 Still required before Character mechanics can be called complete:
 
-- populate source-audited skill/Forte/passive/resource/Outro/sequence facts for the remaining 55 released characters;
+- populate source-audited skill/Forte/passive/resource/Outro/sequence facts for the remaining 54 released characters;
 - finish Augusta's full action/multiplier-curve ingestion without contaminating the existing exact-parity Lv10 fixture;
-- preserve full Lv1-Lv10 action curves and explicit hit-count semantics for future verified ACTIONS coverage;
-- keep verified raw facts, conditional mechanics and genuinely pending interpretation/modeling states distinct;
+- preserve exact Lv1-Lv10 action representations, mixed coefficient components and explicit hit-count semantics for future verified ACTIONS coverage;
+- keep verified raw facts, conditional mechanics, source conflicts and genuinely pending interpretation/modeling states distinct;
 - do not begin broad Character DPS adapters until this roster-wide mechanics coverage is closed.
 
-**Important:** one `VERIFIED` raw character does not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed.
+**Important:** two `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed.
 
 ### Weapon raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
@@ -299,9 +307,9 @@ UI polish is intentionally lower priority than completing the engine/data founda
 2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
 3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
 4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
-5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55:** Character static/core + intrinsic gates, generic mechanics architecture and fact-backed source-completeness gates are in place. Aalto is the first fully source-verified raw mechanics profile; Augusta remains partial and 55 released characters remain unstarted. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
+5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55/#56:** Character static/core + intrinsic gates, generic mechanics architecture and fact-backed source-completeness gates are in place. Aalto and Aemeath are fully source-verified raw mechanics profiles; Augusta remains partial and 54 released characters remain unstarted. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
 6. **SOURCE COVERAGE DONE — Weapon Core + Weapon Effects:** Version 3.6 released Weapon Core is complete and released Weapon Effect source coverage is 121/121 with zero source-audit backlog. Explicit `VERIFIED_RAW_PENDING_MODEL` mechanics remain separate semantic/execution work and are not silently promoted to modeled uptime.
-7. **CURRENT RETURN CHECKPOINT:** Continue controlled roster-wide Character mechanics source batches until required released coverage closes; do not jump to Echo/Sonata or broad DPS while 55 characters remain unstarted and Augusta ACTIONS remains partial.
+7. **CURRENT RETURN CHECKPOINT:** Continue controlled roster-wide Character mechanics source batches until required released coverage closes; do not jump to Echo/Sonata or broad DPS while 54 characters remain unstarted and Augusta ACTIONS remains partial.
 8. Complete current Echo/Sonata raw audit.
 9. Complete Sonata Effect coverage.
 10. Complete Echo skill/effect/attack fact coverage needed by supported content.

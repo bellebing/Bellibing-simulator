@@ -24,7 +24,7 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 test('Augusta golden action facts are unique and preserve canonical Lv10 rotation values', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 12);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 12);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 54);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 99);
 
   const liberation = getCharacterActionFact('augusta-liberation-sword-of-eternal-oath');
   assert.ok(liberation);
@@ -95,13 +95,13 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports first verified source profile while Augusta remains partial', () => {
+test('mechanics coverage reports two verified source profiles while Augusta remains partial', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 2);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto']);
+  assert.equal(audit.profileCount, 3);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath']);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
-  assert.equal(audit.unstartedCharacterIds.length, 55);
+  assert.equal(audit.unstartedCharacterIds.length, 54);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

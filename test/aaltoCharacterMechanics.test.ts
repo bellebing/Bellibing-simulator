@@ -93,17 +93,17 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
   assert.equal(AALTO_SEQUENCE_FACTS.every((fact) => fact.verificationStatus === 'VERIFIED'), true);
 });
 
-test('fact-backed coverage audit reports Aalto verified, Augusta partial and 55 released characters unstarted', () => {
+test('fact-backed coverage audit reports Aalto and Aemeath verified, Augusta partial and 54 released characters unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 2);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto']);
+  assert.equal(audit.profileCount, 3);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath']);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
-  assert.equal(audit.unstartedCharacterIds.length, 55);
+  assert.equal(audit.unstartedCharacterIds.length, 54);
   assert.deepEqual(audit.structuralIssues, []);
 });
 
-test('VERIFIED ACTIONS cannot pass on exact-parity values alone without full Lv1-Lv10 curves', () => {
+test('VERIFIED ACTIONS cannot pass on exact-parity values alone without full Lv1-Lv10 source representation', () => {
   const falseGreenAugusta = {
     ...AUGUSTA_CHARACTER_MECHANICS_PROFILE,
     verificationStatus: 'VERIFIED' as const,
@@ -115,7 +115,7 @@ test('VERIFIED ACTIONS cannot pass on exact-parity values alone without full Lv1
   const audit = auditCharacterMechanicsCoverage([falseGreenAugusta]);
   const issues = audit.structuralIssues.map((issue) => issue.issue);
 
-  assert.ok(issues.some((issue) => /augusta-intro-stride-of-goldenflare.*missing an exact Lv1-Lv10 motion-value curve/.test(issue)));
+  assert.ok(issues.some((issue) => /augusta-intro-stride-of-goldenflare.*missing an exact Lv1-Lv10 motion-value representation/.test(issue)));
   assert.deepEqual(audit.verifiedCharacterIds, []);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
 });

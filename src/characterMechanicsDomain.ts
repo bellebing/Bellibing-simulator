@@ -35,7 +35,7 @@ export type CharacterDamageClass =
   | 'COORDINATED'
   | 'OTHER';
 
-export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'FIXED' | 'MIXED' | 'UNKNOWN';
+export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'TUNE_AMP' | 'FIXED' | 'MIXED' | 'UNKNOWN';
 
 /** Exact source-facing skill levels 1 through 10, stored as decimal multipliers. */
 export type CharacterMotionValueCurve = readonly [
@@ -50,6 +50,19 @@ export type CharacterMotionValueCurve = readonly [
   number,
   number,
 ];
+
+/**
+ * One independently listed damage coefficient inside an action that has mixed
+ * hit values, for example `6.99% + 10.48% + 17.47%` or `4.69%*3 + 9.37% + 23.42%`.
+ * The curve stores the exact coefficient at Lv1-Lv10; `hitCount` stores only the
+ * explicit multiplier attached to that coefficient. Components are raw source
+ * structure and must not be collapsed into one total before a combat adapter
+ * chooses a skill level.
+ */
+export interface CharacterMotionValueComponent {
+  curve: CharacterMotionValueCurve;
+  hitCount: number;
+}
 
 /**
  * Raw-source verification and executable combat support are different questions.
@@ -96,15 +109,19 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
   /** Describes the source/value level convention. Avoids silently mixing talent levels. */
   motionValueContext: string | null;
   /**
-   * Optional full source curve for skill levels 1-10. Values are the listed
-   * per-hit/source coefficient; `hitCount` stays separate when the source
-   * explicitly writes e.g. `24%*2` or `33.34%*3`.
+   * Optional full source curve for skill levels 1-10 when the source action has
+   * one coefficient shape. Values are the listed per-hit/source coefficient;
+   * `hitCount` stays separate when the source explicitly writes e.g. `24%*2`.
    *
-   * Existing exact-parity fixtures may keep this null until their source curve is
-   * independently ingested. A profile cannot mark ACTIONS VERIFIED without
-   * curves for every damaging action fact.
+   * For mixed-coefficient actions use `motionValueComponents` instead of
+   * flattening the source expression into a total. Existing exact-parity
+   * fixtures may keep both representations null until their source curve is
+   * independently ingested. A profile cannot mark ACTIONS VERIFIED without one
+   * valid exact representation for every damaging action fact.
    */
   motionValueCurve?: CharacterMotionValueCurve | null;
+  /** Exact mixed-coefficient source representation; mutually exclusive with `motionValueCurve`. */
+  motionValueComponents?: readonly CharacterMotionValueComponent[] | null;
   hitCount: number | null;
 }
 

@@ -2,6 +2,7 @@ import type {
   CharacterMechanicFact,
   CharacterMechanicsCoverageArea,
   CharacterMechanicsProfile,
+  CharacterMotionValueCurve,
 } from '../characterMechanicsDomain.ts';
 import { CHARACTER_CATALOG } from './characters.ts';
 import {
@@ -52,6 +53,10 @@ function supportsArea(
   }
 }
 
+function validCurve(curve: CharacterMotionValueCurve | readonly number[]): boolean {
+  return curve.length === 10 && curve.every((value) => Number.isFinite(value) && value >= 0);
+}
+
 function auditVerifiedActionCurves(
   profile: CharacterMechanicsProfile,
   facts: readonly CharacterMechanicFact[],
@@ -63,19 +68,43 @@ function auditVerifiedActionCurves(
   for (const fact of facts) {
     if (fact.kind !== 'ACTION' || fact.damageClass === null) continue;
 
-    const curve = fact.motionValueCurve;
-    if (!curve || curve.length !== 10) {
+    const curve = fact.motionValueCurve ?? null;
+    const components = fact.motionValueComponents ?? null;
+    const hasCurve = curve !== null;
+    const hasComponents = components !== null && components.length > 0;
+
+    if (hasCurve && hasComponents) {
       issues.push({
         characterId: profile.characterId,
-        issue: `verified ACTIONS fact ${fact.factId} is missing an exact Lv1-Lv10 motion-value curve`,
+        issue: `verified ACTIONS fact ${fact.factId} mixes single-curve and component-curve representations`,
       });
       continue;
     }
-    if (curve.some((value) => !Number.isFinite(value) || value < 0)) {
+
+    if (!hasCurve && !hasComponents) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified ACTIONS fact ${fact.factId} is missing an exact Lv1-Lv10 motion-value representation`,
+      });
+      continue;
+    }
+
+    if (hasCurve && !validCurve(curve)) {
       issues.push({
         characterId: profile.characterId,
         issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value curve`,
       });
+    }
+
+    if (hasComponents) {
+      for (const [index, component] of components.entries()) {
+        if (!Number.isInteger(component.hitCount) || component.hitCount <= 0 || !validCurve(component.curve)) {
+          issues.push({
+            characterId: profile.characterId,
+            issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value component ${index + 1}`,
+          });
+        }
+      }
     }
   }
 }
@@ -190,9 +219,10 @@ function auditProfile(
  *
  * A coverage area may only be marked VERIFIED when the profile links concrete,
  * source-VERIFIED facts that support that area. VERIFIED ACTIONS additionally
- * require a finite non-negative Lv1-Lv10 motion-value curve for every damaging
- * action fact. This prevents status metadata from making an empty or partially
- * ingested character look source-complete.
+ * require a finite non-negative Lv1-Lv10 source representation for every
+ * damaging action: either one coefficient curve plus `hitCount`, or explicit
+ * mixed coefficient components. This prevents status metadata or flattened
+ * mixed-hit math from making a partially ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

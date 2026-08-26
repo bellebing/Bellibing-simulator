@@ -4,6 +4,7 @@ import type {
   CharacterMechanicsProfile,
 } from '../characterMechanicsDomain.ts';
 import { AALTO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aaltoRawFacts.ts';
+import { AEMEATH_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aemeathRawFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 
 const CHECKED_AT = '2026-08-25';
@@ -60,6 +61,7 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
   ...AUGUSTA_NON_ACTION_MECHANIC_FACTS,
   ...AALTO_CHARACTER_MECHANIC_FACTS,
+  ...AEMEATH_CHARACTER_MECHANIC_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -136,9 +138,47 @@ export const AALTO_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   },
 };
 
+export const AEMEATH_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
+  characterId: 'aemeath',
+  verificationStatus: 'VERIFIED',
+  coverage: [
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Aemeath/Mech Basic, Heavy, Mid-air, Dodge, Sync Strike, Liberation, Seraphic Duet, Tune-AMP response and Intro actions carry exact Lv1-Lv10 source representations. Mixed-hit expressions remain explicit components.' },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Seraphic Duo/Duet, Resonance Mode trails, Tune Rupture/Fusion Burst response state, Starflux and Tune-AMP coefficients are source-audited; encounter timing remains separate.' },
+    { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Before All Sounds and Between the Stars are source-audited without assuming state uptime or team triggers.' },
+    { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Silent Protection team amplification and 20-second duration are source-audited; qualifying 20% branch remains conditional.' },
+    { area: 'RESOURCE_RULES', status: 'VERIFIED', notes: 'Synchronization Rate 200, Resonance Rate 4 and Starflux 600 caps plus current gain/consumption rules are source-audited.' },
+    { area: 'SEQUENCES', status: 'VERIFIED', notes: 'S1-S6 raw mechanics are source-audited against the current raw-data/multi-source consensus; conflicting secondary wording remains provenance evidence rather than executable guesswork.' },
+  ],
+  factIds: CHARACTER_MECHANIC_FACTS.filter((fact) => fact.characterId === 'aemeath').map((fact) => fact.factId),
+  provenance: {
+    sourceLabels: [
+      'Prydwen — current Aemeath kit',
+      'Wutheringlab — current Aemeath kit/multiplier tables',
+      'WuWaBuilds — current Aemeath kit/multiplier tables',
+      'Wuthering Waves Wiki/Fandom — current Aemeath combat tables',
+      'WutheringDB — current raw-data mirror',
+    ],
+    sourceUrls: [
+      'https://www.prydwen.gg/wuthering-waves/characters/aemeath',
+      'https://wutheringlab.com/character/aemeath-build/',
+      'https://wuwa.build/characters/1210',
+      'https://wutheringwaves.fandom.com/wiki/Aemeath/Combat',
+      'https://wutheringdb.com/zh/characters/aemeath',
+    ],
+    checkedAt: '2026-08-26',
+    notes: [
+      'Source-level raw mechanics coverage is complete for all six required Character Mechanics areas.',
+      'WWPlus malformed/repeated table cells, stale Synchronization tooltip ordering and the current Seraphic Duet Overture/Encore label disagreement remain provenance discrepancies rather than guessed executable truth.',
+      'S6 max-trail-limit combat-state wording conflicts across current secondary sources; the current WutheringDB raw-data mirror plus WuWaBuilds/PlayAware/Wuthering.gg in-combat consensus is used while Wutheringlab/WutheringTools out-of-combat wording remains explicit provenance evidence.',
+      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION remain independent from source VERIFIED coverage; no Aemeath build, rotation or DPS adapter is implied by this profile.',
+    ],
+  },
+};
+
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   AUGUSTA_CHARACTER_MECHANICS_PROFILE,
   AALTO_CHARACTER_MECHANICS_PROFILE,
+  AEMEATH_CHARACTER_MECHANICS_PROFILE,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

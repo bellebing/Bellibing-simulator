@@ -164,13 +164,13 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
-test('fact-backed roster audit reports Aalto, Aemeath, Augusta, Baizhi and Brant verified with 52 unstarted', () => {
+test('fact-backed roster audit reports eight source-complete characters with 49 unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 5);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant']);
+  assert.equal(audit.profileCount, 8);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'chixia', 'mortefi', 'yangyang']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 52);
+  assert.equal(audit.unstartedCharacterIds.length, 49);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

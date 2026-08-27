@@ -8,6 +8,7 @@ import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { ECHO_ATTACK_PROFILES } from '../data/echoAttacks.ts';
 import { totalMotionValue } from '../echoAttackDomain.ts';
 import { createEchoAttackRegistry } from '../echoAttackRegistry.ts';
+import { AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID } from './augustaStandardMotionValues.ts';
 
 export type AugustaActionClass = 'HEAVY' | 'SKILL' | 'INTRO' | 'ECHO' | 'SETUP' | 'BOUNDARY';
 
@@ -19,7 +20,7 @@ export interface AugustaAction {
   actionClass: AugustaActionClass;
   included: boolean;
   crownActive: boolean;
-  /** Character mechanic fact id or Echo attack id that owns the raw action value. */
+  /** Canonical Character mechanic fact id or Echo attack id for dependency/provenance lookup. */
   sourceFactId?: string;
 }
 
@@ -106,12 +107,16 @@ function characterAction(
   const fact = getCharacterActionFact(factId);
   if (!fact) throw new Error(`Missing Augusta character action fact: ${factId}`);
   if (fact.characterId !== 'augusta') throw new Error(`Augusta rotation cannot consume ${fact.characterId} fact ${factId}`);
-  if (included && fact.motionValue === null) throw new Error(`Included Augusta damage action has no motion value: ${factId}`);
+  if (!AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.has(factId)) {
+    throw new Error(`Missing Augusta Standard parity motion value: ${factId}`);
+  }
+  const parityMotionValue = AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.get(factId) ?? null;
+  if (included && parityMotionValue === null) throw new Error(`Included Augusta damage action has no parity motion value: ${factId}`);
   return {
     step,
     actor: 'Augusta',
     name: fact.name,
-    motionValue: fact.motionValue ?? 0,
+    motionValue: parityMotionValue ?? 0,
     actionClass: augustaActionClass(fact),
     included,
     crownActive,
@@ -142,8 +147,10 @@ function falseSovereignAction(
 }
 
 /**
- * Rotation recipe only. Character/Echo motion values are owned by their raw
- * fact catalogs and looked up here, so a patched fact has one canonical value.
+ * Rotation recipe only. Canonical Character facts own source identity/damage
+ * classification, while the selected-level V9.15 aggregates used by this exact
+ * parity oracle are isolated in augustaStandardMotionValues.ts. Echo values
+ * continue to come from their canonical Echo attack facts.
  */
 export const AUGUSTA_STANDARD_ACTIONS: AugustaAction[] = [
   characterAction('1', 'augusta-intro-stride-of-goldenflare', true, true),

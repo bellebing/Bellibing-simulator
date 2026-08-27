@@ -5,6 +5,7 @@ import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsA
 import {
   AALTO_CHARACTER_MECHANICS_PROFILE,
   AUGUSTA_CHARACTER_MECHANICS_PROFILE,
+  CHARACTER_MECHANIC_FACT_BY_ID,
   getCharacterMechanicsProfile,
 } from '../src/data/characterMechanics.ts';
 import {
@@ -93,26 +94,30 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
   assert.equal(AALTO_SEQUENCE_FACTS.every((fact) => fact.verificationStatus === 'VERIFIED'), true);
 });
 
-test('fact-backed coverage audit reports Aalto and Aemeath verified, Augusta partial and 54 released characters unstarted', () => {
+test('fact-backed coverage audit reports Aalto, Aemeath and Augusta verified with 54 released characters unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
   assert.equal(audit.profileCount, 3);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath']);
-  assert.deepEqual(audit.partialCharacterIds, ['augusta']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta']);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 54);
   assert.deepEqual(audit.structuralIssues, []);
 });
 
-test('VERIFIED ACTIONS cannot pass on exact-parity values alone without full Lv1-Lv10 source representation', () => {
-  const falseGreenAugusta = {
-    ...AUGUSTA_CHARACTER_MECHANICS_PROFILE,
-    verificationStatus: 'VERIFIED' as const,
-    coverage: AUGUSTA_CHARACTER_MECHANICS_PROFILE.coverage.map((entry) => ({
-      ...entry,
-      status: 'VERIFIED' as const,
-    })),
-  };
-  const audit = auditCharacterMechanicsCoverage([falseGreenAugusta]);
+test('VERIFIED ACTIONS cannot regress from source curves to selected-level parity scalars', () => {
+  const factById = new Map(CHARACTER_MECHANIC_FACT_BY_ID);
+  const intro = factById.get('augusta-intro-stride-of-goldenflare');
+  assert.ok(intro?.kind === 'ACTION');
+  factById.set(intro.factId, {
+    ...intro,
+    motionValue: 1.9882,
+    motionValueCurve: null,
+    motionValueComponents: null,
+    motionValueContext: 'V9.15 selected-level parity scalar only',
+    hitCount: null,
+  });
+
+  const audit = auditCharacterMechanicsCoverage([AUGUSTA_CHARACTER_MECHANICS_PROFILE], factById);
   const issues = audit.structuralIssues.map((issue) => issue.issue);
 
   assert.ok(issues.some((issue) => /augusta-intro-stride-of-goldenflare.*missing an exact Lv1-Lv10 motion-value representation/.test(issue)));

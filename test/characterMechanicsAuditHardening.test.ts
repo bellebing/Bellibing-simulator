@@ -33,7 +33,7 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'jiyan', 'mortefi', 'yangyang']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'encore', 'jiyan', 'mortefi', 'taoqi', 'verina', 'yangyang']);
 });
 
 test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {
@@ -42,26 +42,13 @@ test('current action facts classify Character damage, shared-system Tune Break d
     'augusta-outro-battlesong-of-the-unyielding',
     'jiyan-liberation-emerald-storm-prelude',
   ]);
-  const tuneBreakIds = new Set([
-    'aalto-tune-break-pistols',
-    'aemeath-tune-break-unlanded-melody',
-    'augusta-tune-break-broadblade',
-    'baizhi-tune-break-rectifier',
-    'brant-tune-break-sword',
-    'changli-tune-break-sword',
-    'chixia-tune-break-pistols',
-    'jiyan-tune-break-broadblade',
-    'mortefi-tune-break-pistols',
-    'yangyang-tune-break-sword',
-  ]);
 
   for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
     if (fact.kind !== 'ACTION') continue;
     if (nonDamageIds.has(fact.factId)) {
       assert.equal(fact.actionRole, 'NON_DAMAGE', fact.factId);
-    } else if (tuneBreakIds.has(fact.factId)) {
+    } else if (fact.section === 'TUNE_BREAK') {
       assert.equal(fact.actionRole, 'SHARED_SYSTEM_DAMAGE', fact.factId);
-      assert.equal(fact.section, 'TUNE_BREAK', fact.factId);
       assert.equal(fact.actionKind, 'TUNE_BREAK', fact.factId);
       assert.equal(fact.scalingStat, 'SHARED_SYSTEM', fact.factId);
     } else {

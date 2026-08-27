@@ -29,6 +29,14 @@ function finiteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
 }
 
+function normalizedDecimal(value, digits = 12) {
+  return Number(value.toFixed(digits));
+}
+
+function percentToCoefficient(percent) {
+  return normalizedDecimal(percent / 100);
+}
+
 function parsePercentTerm(rawTerm) {
   const term = rawTerm.trim();
   const match = term.match(/^(-?\d+(?:\.\d+)?)\s*%\s*(?:\*\s*(\d+))?$/);
@@ -36,7 +44,7 @@ function parsePercentTerm(rawTerm) {
   const percent = Number(match[1]);
   const hitCount = match[2] ? Number(match[2]) : 1;
   if (!finiteNumber(percent) || !Number.isInteger(hitCount) || hitCount <= 0) return null;
-  return { coefficient: percent / 100, hitCount };
+  return { coefficient: percentToCoefficient(percent), hitCount };
 }
 
 export function parsePercentExpression(rawValue) {
@@ -55,10 +63,10 @@ export function parsePercentExpression(rawValue) {
 
   return {
     components,
-    aggregate: components.reduce(
+    aggregate: normalizedDecimal(components.reduce(
       (total, component) => total + component.coefficient * component.hitCount,
       0,
-    ),
+    )),
   };
 }
 
@@ -105,11 +113,11 @@ function parseFlatPlusPercentExpression(rawValue) {
   const normalized = rawValue.replaceAll('％', '%').replace(/\s+/g, '').trim();
   let match = normalized.match(/^(-?\d+(?:\.\d+)?)\+(-?\d+(?:\.\d+)?)%$/);
   if (match) {
-    return { flat: Number(match[1]), coefficient: Number(match[2]) / 100 };
+    return { flat: Number(match[1]), coefficient: percentToCoefficient(Number(match[2])) };
   }
   match = normalized.match(/^(-?\d+(?:\.\d+)?)%\+(-?\d+(?:\.\d+)?)$/);
   if (match) {
-    return { flat: Number(match[2]), coefficient: Number(match[1]) / 100 };
+    return { flat: Number(match[2]), coefficient: percentToCoefficient(Number(match[1])) };
   }
   return null;
 }

@@ -57,6 +57,10 @@ function validCurve(curve: CharacterMotionValueCurve | readonly number[]): boole
   return curve.length === 10 && curve.every((value) => Number.isFinite(value) && value >= 0);
 }
 
+function validFixedCoefficient(value: number): boolean {
+  return Number.isFinite(value) && value >= 0;
+}
+
 function auditVerifiedActions(
   profile: CharacterMechanicsProfile,
   facts: readonly CharacterMechanicFact[],
@@ -80,9 +84,14 @@ function auditVerifiedActions(
 
     const curve = fact.motionValueCurve ?? null;
     const components = fact.motionValueComponents ?? null;
+    const fixed = fact.sourceFixedMotionValue ?? null;
+    const fixedComponents = fact.sourceFixedMotionValueComponents ?? null;
     const hasCurve = curve !== null;
     const hasComponents = components !== null && components.length > 0;
-    const hasDamageMotionData = fact.motionValue !== null || hasCurve || hasComponents;
+    const hasFixed = fixed !== null;
+    const hasFixedComponents = fixedComponents !== null && fixedComponents.length > 0;
+    const hasSourceDamageRepresentation = hasCurve || hasComponents || hasFixed || hasFixedComponents;
+    const hasDamageMotionData = fact.motionValue !== null || hasSourceDamageRepresentation;
 
     if (fact.actionRole === 'UNKNOWN') {
       issues.push({
@@ -97,6 +106,7 @@ function auditVerifiedActions(
         fact.damageClass !== null
         || hasDamageMotionData
         || components !== null
+        || fixedComponents !== null
         || fact.hitCount !== null
         || fact.motionValueContext !== null
       ) {
@@ -123,6 +133,7 @@ function auditVerifiedActions(
       if (
         hasDamageMotionData
         || components !== null
+        || fixedComponents !== null
         || fact.hitCount !== null
       ) {
         issues.push({
@@ -166,19 +177,34 @@ function auditVerifiedActions(
         issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with an Lv1-Lv10 source representation`,
       });
     }
-
-    if (hasCurve && hasComponents) {
+    if ((hasFixed || hasFixedComponents) && fact.motionValue !== null) {
       issues.push({
         characterId: profile.characterId,
-        issue: `verified ACTIONS fact ${fact.factId} mixes single-curve and component-curve representations`,
+        issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with a source-fixed representation`,
       });
+    }
+
+    const representationCount = [hasCurve, hasComponents, hasFixed, hasFixedComponents]
+      .filter(Boolean).length;
+    if (representationCount > 1) {
+      if (hasCurve && hasComponents && !hasFixed && !hasFixedComponents) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} mixes single-curve and component-curve representations`,
+        });
+      } else {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} mixes multiple source damage representations`,
+        });
+      }
       continue;
     }
 
-    if (!hasCurve && !hasComponents) {
+    if (representationCount === 0) {
       issues.push({
         characterId: profile.characterId,
-        issue: `verified ACTIONS fact ${fact.factId} is missing an exact Lv1-Lv10 motion-value representation`,
+        issue: `verified ACTIONS fact ${fact.factId} is missing an exact source motion-value representation`,
       });
       continue;
     }
@@ -210,6 +236,38 @@ function auditVerifiedActions(
           issues.push({
             characterId: profile.characterId,
             issue: `verified ACTIONS fact ${fact.factId} has an invalid Lv1-Lv10 motion-value component ${index + 1}`,
+          });
+        }
+      }
+    }
+
+    if (hasFixed) {
+      if (!validFixedCoefficient(fixed)) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed motion value`,
+        });
+      }
+      if (!Number.isInteger(fact.hitCount) || (fact.hitCount ?? 0) <= 0) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed hitCount`,
+        });
+      }
+    }
+
+    if (hasFixedComponents) {
+      if (fact.hitCount !== null) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} uses source-fixed components and must not also define action-level hitCount`,
+        });
+      }
+      for (const [index, component] of fixedComponents.entries()) {
+        if (!Number.isInteger(component.hitCount) || component.hitCount <= 0 || !validFixedCoefficient(component.coefficient)) {
+          issues.push({
+            characterId: profile.characterId,
+            issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed motion-value component ${index + 1}`,
           });
         }
       }
@@ -344,12 +402,15 @@ function auditProfile(
  * source-VERIFIED facts that support that area. VERIFIED profiles may not hide
  * non-VERIFIED linked utility facts outside those coverage buckets. VERIFIED
  * ACTIONS require exactly one current Tune Break fact. Character-owned DAMAGE
- * actions require a finite non-negative Lv1-Lv10 source representation: either
- * one coefficient curve plus a positive integer action-level `hitCount`, or
- * explicit mixed coefficient components with their own positive integer hit
- * counts and no action-level `hitCount`. `SHARED_SYSTEM_DAMAGE` is the narrow
- * Tune Break escape hatch: the character fact must explicitly identify Tune
- * Break/system ownership and must not fabricate Character motion-value fields.
+ * actions require one exact source representation: either a finite non-negative
+ * Lv1-Lv10 coefficient curve plus a positive integer action-level `hitCount`,
+ * explicit mixed Lv1-Lv10 components with their own positive integer hit counts,
+ * a source-fixed coefficient plus a positive integer action-level `hitCount`, or
+ * explicit mixed source-fixed components when the source action has no skill-level
+ * table. Source-fixed coefficients are distinct from selected-level `motionValue`
+ * parity scalars and cannot be mixed with them or with level curves. `SHARED_SYSTEM_DAMAGE`
+ * is the narrow Tune Break escape hatch: the character fact must explicitly identify
+ * Tune Break/system ownership and must not fabricate Character motion-value fields.
  * NON_DAMAGE actions must not carry damage classification/motion-value fields.
  * UNKNOWN roles cannot pass. This prevents nullable-field inference, missing
  * current-system actions, selected-level leakage or ambiguous double-counting

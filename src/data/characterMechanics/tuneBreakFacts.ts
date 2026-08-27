@@ -12,7 +12,9 @@ const CHANGLI_SOURCE = 'https://wuthering.gg/characters/changli';
 const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
 const JIYAN_SOURCE = 'https://wuthering.gg/characters/jiyan';
 const MORTEFI_SOURCE = 'https://wuthering.gg/characters/mortefi';
+const ROCCIA_SOURCE = 'https://wuthering.gg/characters/roccia';
 const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
+const YINLIN_SOURCE = 'https://wuthering.gg/characters/yinlin';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
 
@@ -143,6 +145,15 @@ export const MORTEFI_TUNE_BREAK_FACT = tuneBreak({
   notes: ["When the target's Off-Tune Level is full, Mortefi may cast Tune Break on the target. No Mortefi-specific coefficient table is exposed."],
 });
 
+export const ROCCIA_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'roccia',
+  factId: 'roccia-tune-break-gauntlets',
+  name: 'Tune Break — Gauntlets',
+  sourceLabel: 'Wuthering.gg — current Roccia Tune Break entry',
+  sourceUrl: ROCCIA_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Roccia may cast Tune Break on the target. No Roccia-specific coefficient table is exposed."],
+});
+
 export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({
   characterId: 'yangyang',
   factId: 'yangyang-tune-break-sword',
@@ -150,6 +161,15 @@ export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({
   sourceLabel: 'Wuthering.gg — current Yangyang Tune Break entry',
   sourceUrl: YANGYANG_SOURCE,
   notes: ["When the target's Off-Tune Level is full, Yangyang may cast Tune Break on the target. No Yangyang-specific coefficient table is exposed."],
+});
+
+export const YINLIN_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'yinlin',
+  factId: 'yinlin-tune-break-rectifier',
+  name: 'Tune Break — Rectifier',
+  sourceLabel: 'Wuthering.gg — current Yinlin Tune Break entry',
+  sourceUrl: YINLIN_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Yinlin may cast Tune Break on the target. No Yinlin-specific coefficient table is exposed."],
 });
 
 export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
@@ -162,5 +182,7 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   CHIXIA_TUNE_BREAK_FACT,
   JIYAN_TUNE_BREAK_FACT,
   MORTEFI_TUNE_BREAK_FACT,
+  ROCCIA_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
+  YINLIN_TUNE_BREAK_FACT,
 ] as const;

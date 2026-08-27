@@ -19,6 +19,8 @@ The default sync reads the current `DommyMM/wuwabuild` `public/Data/Characters.j
 
 The exact upstream commit is written into every candidate snapshot. A later source audit may cross-check current live secondary sources when wording/classification is ambiguous or when two sources disagree.
 
+Source-name matching is also fail-closed. Bellibing tolerates punctuation/article presentation differences such as `The Shorekeeper` versus `Shorekeeper`. The normalized source exposes separate gender/source records for each Rover element; Bellibing keeps one mechanics profile per element, so the importer selects the source record with the richest mechanics payload deterministically and records every candidate source id plus the selected id in `sourceMatch`. Other duplicate matches remain ambiguous blockers.
+
 ## Run it
 
 Roster-wide:
@@ -55,11 +57,12 @@ For every Bellibing `RELEASED` character matched to the source roster, the candi
 - exact ten-level percentage coefficient rows when they are structurally unambiguous;
 - mixed coefficient components such as `a%*2+b%*3+c%` without pre-summing them;
 - stable source hit counts when the same component shape exists at all ten levels;
+- structurally obvious `flat + percent` ten-level rows as separate flat/coefficient curves, without assigning damage/healing/resource semantics;
 - S1-S6 raw sequence text and parameters;
 - skill-tree nodes;
 - upstream inherent-bonus candidates when available.
 
-A coefficient row is auto-parsed only if all ten levels parse and every level has the same number of components and the same hit-count shape. If that is not true, the raw row remains intact and goes to review.
+A coefficient row is auto-parsed only if all ten levels parse and every level has the same number of components and the same hit-count shape. `flat + percent` rows likewise require all ten levels to share that exact numeric shape. Anything else remains raw and goes to review.
 
 ## What is deliberately not inferred
 
@@ -71,7 +74,7 @@ The importer does **not** guess:
 - Forte/resource state-machine semantics;
 - trigger timing, uptime, stacks or conditional execution;
 - disputed source values;
-- whether a raw percentage row is actually a damage multiplier, a buff, healing, resource value or another percentage mechanic.
+- whether a parsed percentage or `flat + percent` row is actually damage, a buff, healing, resource value or another percentage mechanic.
 
 Those decisions belong in the audit/promotion step.
 
@@ -81,8 +84,8 @@ The intended roster workflow is now:
 
 1. Run the source import once for the current upstream commit.
 2. Read the compact summary first.
-3. Review unmatched/ambiguous roster entries and percentage-like rows that could not be parsed safely.
-4. Cross-check semantic classifications and source conflicts only where needed.
+3. Resolve only source-match/parser exceptions first.
+4. Cross-check semantic classifications and source conflicts where needed.
 5. Promote reviewed material into canonical Character Mechanics facts in controlled batches.
 6. Run the existing structural/source audits and tests.
 7. Mark a character `VERIFIED` only when all six required mechanics areas actually pass.

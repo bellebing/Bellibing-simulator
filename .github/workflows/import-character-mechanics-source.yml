@@ -71,11 +71,14 @@ jobs:
           if (review.summary.sequenceCandidates !== review.summary.characters * 6) {
             throw new Error(`Expected exact S1-S6 source candidates for every released character: ${JSON.stringify(review.summary)}`);
           }
+          if (review.summary.rawReviewRows !== 0) {
+            throw new Error(`Current source snapshot contains unstructured tabular rows that need an explicit parser/review path: ${JSON.stringify(review.summary)}`);
+          }
 
           console.log(`Matched ${counts.matchedCharacters}/${counts.requestedReleasedCharacters} released characters.`);
           console.log(`Parsed ${counts.parsedCoefficientRows} exact ten-level coefficient rows; ${counts.charactersNeedingReview} characters remain in parser review queue.`);
-          console.log(`Promotion package carries ${review.summary.actionCandidates} exact action candidates and ${review.summary.utilityFormulaCandidates} structured utility formulas without auto-verification.`);
-          console.log(`Only ${review.summary.rawReviewRows} raw source rows remain outside the structured numeric promotion package.`);
+          console.log(`Promotion package carries ${review.summary.actionCandidates} exact action candidates, ${review.summary.utilityFormulaCandidates} flat+percent formulas, ${review.summary.numericCurveCandidates} numeric curves and ${review.summary.twoTermNumericCandidates} two-term numeric curves without auto-verification.`);
+          console.log('All current tabular source rows are structurally represented; semantic interpretation remains review-only.');
           NODE
 
       - name: Upload candidate snapshot for source audit

@@ -10,8 +10,11 @@ const BAIZHI_SOURCE = 'https://wuthering.gg/characters/baizhi';
 const BRANT_SOURCE = 'https://wuthering.gg/characters/brant';
 const CHANGLI_SOURCE = 'https://wuthering.gg/characters/changli';
 const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
+const ENCORE_SOURCE = 'https://wuthering.gg/characters/encore';
 const JIYAN_SOURCE = 'https://wuthering.gg/characters/jiyan';
 const MORTEFI_SOURCE = 'https://wuthering.gg/characters/mortefi';
+const TAOQI_SOURCE = 'https://wuthering.gg/characters/taoqi';
+const VERINA_SOURCE = 'https://wuthering.gg/characters/verina';
 const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
@@ -125,6 +128,15 @@ export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({
   notes: ["When the target's Off-Tune Level is full, Chixia may cast Tune Break on the target. No Chixia-specific coefficient table is exposed."],
 });
 
+export const ENCORE_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'encore',
+  factId: 'encore-tune-break-rectifier',
+  name: 'Tune Break — Rectifier',
+  sourceLabel: 'Wuthering.gg — current Encore Tune Break entry',
+  sourceUrl: ENCORE_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Encore may cast Tune Break on the target. No Encore-specific coefficient table is exposed."],
+});
+
 export const JIYAN_TUNE_BREAK_FACT = tuneBreak({
   characterId: 'jiyan',
   factId: 'jiyan-tune-break-broadblade',
@@ -141,6 +153,24 @@ export const MORTEFI_TUNE_BREAK_FACT = tuneBreak({
   sourceLabel: 'Wuthering.gg — current Mortefi Tune Break entry',
   sourceUrl: MORTEFI_SOURCE,
   notes: ["When the target's Off-Tune Level is full, Mortefi may cast Tune Break on the target. No Mortefi-specific coefficient table is exposed."],
+});
+
+export const TAOQI_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'taoqi',
+  factId: 'taoqi-tune-break-broadblade',
+  name: 'Tune Break — Broadblade',
+  sourceLabel: 'Wuthering.gg — current Taoqi Tune Break entry',
+  sourceUrl: TAOQI_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Taoqi may cast Tune Break on the target. No Taoqi-specific coefficient table is exposed."],
+});
+
+export const VERINA_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'verina',
+  factId: 'verina-tune-break-rectifier',
+  name: 'Tune Break — Rectifier',
+  sourceLabel: 'Wuthering.gg — current Verina Tune Break entry',
+  sourceUrl: VERINA_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Verina may cast Tune Break on the target. No Verina-specific coefficient table is exposed."],
 });
 
 export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({
@@ -160,7 +190,10 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   BRANT_TUNE_BREAK_FACT,
   CHANGLI_TUNE_BREAK_FACT,
   CHIXIA_TUNE_BREAK_FACT,
+  ENCORE_TUNE_BREAK_FACT,
   JIYAN_TUNE_BREAK_FACT,
   MORTEFI_TUNE_BREAK_FACT,
+  TAOQI_TUNE_BREAK_FACT,
+  VERINA_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
 ] as const;

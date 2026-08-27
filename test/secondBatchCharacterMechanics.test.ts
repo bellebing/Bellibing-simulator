@@ -97,8 +97,8 @@ test('Changli preserves explicit Resonance Skill buckets and source state/resour
   const outro = CHANGLI_PASSIVE_FACTS.find((fact) => fact.factId === 'changli-outro-strategy-of-duality');
   assert.ok(outro);
   assert.equal(outro.durationSeconds, 10);
-  assert.match(outro.effectSummary, /20%.*Fusion DMG Amplified/i);
-  assert.match(outro.effectSummary, /25%.*Resonance Liberation DMG Amplified/i);
+  assert.match(outro.effectSummary, /Fusion DMG Amplified by 20%/i);
+  assert.match(outro.effectSummary, /Resonance Liberation DMG Amplified by 25%/i);
   assert.match(outro.effectSummary, /until switched out/i);
   assert.deepEqual(CHANGLI_SEQUENCE_FACTS.map((fact) => fact.sequence), [1, 2, 3, 4, 5, 6]);
 });

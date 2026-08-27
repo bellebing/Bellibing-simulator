@@ -205,14 +205,14 @@ test('Brant Tune Break is explicit shared-system damage without Character motion
   assert.equal(BRANT_TUNE_BREAK_FACT.hitCount, null);
 });
 
-test('Brant promotion advances canonical roster coverage without unlocking broad DPS', () => {
+test('starter roster batch advances canonical coverage without unlocking broad DPS', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 5);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant']);
+  assert.equal(audit.profileCount, 8);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'chixia', 'mortefi', 'yangyang']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 52);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 180);
+  assert.equal(audit.unstartedCharacterIds.length, 49);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 256);
   assert.deepEqual(audit.structuralIssues, []);
 
   const raw = getCharacterPreflight('brant', 'RAW_FACTS');

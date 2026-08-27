@@ -136,21 +136,30 @@ PR #57 hardens that verification boundary before the remaining roster is ingeste
 
 PR #58 removes nullable-field inference for action damage intent. Every Character ACTION now declares `DAMAGE`, `NON_DAMAGE` or `UNKNOWN`; VERIFIED ACTIONS reject `UNKNOWN`, preserve the existing exact DAMAGE requirements and reject damage-representation fields on `NON_DAMAGE`, including an explicitly present empty `motionValueComponents` list. Coverage counts and Wuthering Waves game data are unchanged.
 
+PR #60 completes Augusta's current source-facing ACTION coverage without contaminating the historical V9.15 exact-parity fixture. Augusta now has a full current source action catalog with exact Lv1-Lv10 curve/component representations and explicit hit counts where applicable; selected-level V9.15 Standard motion values live in a separate parity catalog keyed by the same canonical fact IDs. Current source-display conflicts around Everbright, Warrior's Blade and Plunge remain explicit provenance rather than guessed away.
+
+PR #61 adds the roster-wide Character Mechanics source-import/review pipeline. It pins the normalized `DommyMM/wuwabuild` Character snapshot to an exact upstream commit, fail-closes Bellibing released-roster matching, extracts moves/descriptions/Lv1-Lv10 rows/S1-S6/skill-tree data and structures only mechanically unambiguous numeric forms. The live merge-gate run matched all 57/57 released Bellibing characters and parsed 1,132 exact ten-level coefficient rows plus 40 structured flat+percent rows with zero parser exceptions. Generated data remains explicitly `CANDIDATE_ONLY` / `NOT_VERIFIED`; the importer cannot bypass canonical source review or the existing structural audit.
+
 Current Character mechanics coverage:
 
 - 57 currently `RELEASED` characters are in the gate;
 - 3 characters have mechanics profiles;
 - **Aalto: `VERIFIED` raw mechanics coverage** across ACTIONS, FORTE_RULES, INHERENT_PASSIVES, OUTRO_EFFECT, RESOURCE_RULES and SEQUENCES;
 - **Aemeath: `VERIFIED` raw mechanics coverage** across all six required areas, including 26 source-audited ACTION facts, three resource systems, raw Forte/state rules, both Inherent skills, Outro and S1-S6;
-- **Augusta: `PARTIAL`**, because her exact S0 Standard Lv10 golden action subset is still not a full current Lv1-Lv10 action-curve ingestion;
-- 54 released characters remain `UNSTARTED` for Character mechanics;
-- 99 canonical Character mechanic facts now exist: 26 Aalto facts, 45 Aemeath facts and the existing 28 Augusta facts;
-- Aalto and Aemeath `RAW_FACTS` preflight pass only when their canonical structural audit is clean, while their `BUILD_PROFILE` and `DPS_MODEL` stages remain blocked by independent recommendation/team/rotation/combat-profile requirements.
+- **Augusta: `VERIFIED` raw mechanics coverage** across all six required areas, with full current source-facing ACTION coverage kept separate from the selected-level V9.15 Standard parity fixture;
+- 54 released characters remain `UNSTARTED` for canonical Character mechanics promotion/source verification;
+- 111 canonical Character mechanic facts now exist: 26 Aalto facts, 45 Aemeath facts and 40 Augusta facts;
+- Aalto, Aemeath and Augusta `RAW_FACTS` preflight pass only when their canonical structural audit is clean, while independent build/team/rotation/combat-profile requirements continue to gate later stages.
 
-The Aalto/Aemeath source slices lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
+The Aalto/Aemeath/Augusta source slices and roster-wide import pipeline lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
 
 - source coefficients are stored as exact Lv1-Lv10 representations without silently choosing a talent level;
-- explicit source hit multipliers remain separate from coefficient curves, mixed-hit Aemeath expressions keep each source coefficient as an independent component rather than being pre-summed, and the audit rejects missing or ambiguous hit multiplicity before VERIFIED status can pass;
+- explicit source hit multipliers remain separate from coefficient curves, mixed-hit expressions keep each source coefficient as an independent component rather than being pre-summed, and the audit rejects missing or ambiguous hit multiplicity before VERIFIED status can pass;
+- Augusta's selected-level/executable V9.15 Standard aggregate motion values are isolated in `augustaStandardMotionValues.ts`; the canonical Augusta facts retain current source-level curves/components instead;
+- Augusta Everbright keeps the current 120% Lv1 component consensus while the conflicting current Fandom display remains provenance evidence; Warrior's Blade and Plunge likewise retain current source consensus while stale/conflicting representations remain recorded rather than silently copied;
+- the source importer treats Wuthering/Encore-normalized rows as review candidates, records the exact upstream commit and supports source-display/name variants without promoting any candidate to canonical `VERIFIED`;
+- Rover's duplicate gender/source records are collapsed only at the review-candidate matching layer, with all candidate source IDs and the deterministic selected source ID retained for audit;
+- structurally obvious flat+percent rows are separated into flat/coefficient curves without guessing whether the mechanic is damage, healing, resource gain or another effect;
 - Aemeath Tune Rupture Response — Starburst and the separate Seraphic Duet bonus coefficient are represented as `TUNE_AMP` scaling and remain `PENDING_INTERPRETATION` for executable encounter/status semantics;
 - Aemeath Synchronization Rate is source-audited at cap 200 with current multi-source Intro +40 / Heavenfall Edict: Overdrive +30 semantics; stale reversed tooltip representations remain provenance evidence;
 - Aemeath Seraphic Duet uses the current Fandom/WuWaBuilds/Wuthering.gg Overture/Encore label consensus while conflicting Wutheringlab/WWPlus labels remain provenance evidence;
@@ -162,13 +171,13 @@ The Aalto/Aemeath source slices lock the raw/executable boundary instead of conv
 
 Still required before Character mechanics can be called complete:
 
-- populate source-audited skill/Forte/passive/resource/Outro/sequence facts for the remaining 54 released characters;
-- finish Augusta's full action/multiplier-curve ingestion without contaminating the existing exact-parity Lv10 fixture;
+- audit and promote source-backed skill/Forte/passive/resource/Outro/sequence facts for the remaining 54 released characters using the roster-wide candidate import as the transcription layer rather than hand-entering source tables;
+- source-check semantic classifications, conditional rules and any cross-source conflicts before imported candidates become canonical facts;
 - preserve exact Lv1-Lv10 action representations, mixed coefficient components and explicit hit-count semantics for future verified ACTIONS coverage;
 - keep verified raw facts, conditional mechanics, source conflicts and genuinely pending interpretation/modeling states distinct;
 - do not begin broad Character DPS adapters until this roster-wide mechanics coverage is closed.
 
-**Important:** two `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed.
+**Important:** three `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed. PR #61 makes the remaining audit materially faster; it does not turn source candidates into verified facts.
 
 ### Weapon raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
@@ -311,9 +320,9 @@ UI polish is intentionally lower priority than completing the engine/data founda
 2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
 3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
 4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
-5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55/#56/#57/#58:** Character static/core + intrinsic gates, generic mechanics architecture, fact-backed source-completeness gates and structural/action-role preflight hardening are in place. Aalto and Aemeath are fully source-verified raw mechanics profiles; Augusta remains partial and 54 released characters remain unstarted. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
+5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55/#56/#57/#58/#60/#61:** Character static/core + intrinsic gates, generic mechanics architecture, fact-backed source-completeness gates, structural/action-role hardening, Augusta source completion and the roster-wide candidate import pipeline are in place. Aalto, Aemeath and Augusta are fully source-verified raw mechanics profiles; 54 released characters remain unstarted for canonical mechanics promotion. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
 6. **SOURCE COVERAGE DONE — Weapon Core + Weapon Effects:** Version 3.6 released Weapon Core is complete and released Weapon Effect source coverage is 121/121 with zero source-audit backlog. Explicit `VERIFIED_RAW_PENDING_MODEL` mechanics remain separate semantic/execution work and are not silently promoted to modeled uptime.
-7. **CURRENT RETURN CHECKPOINT:** Continue controlled roster-wide Character mechanics source batches until required released coverage closes; do not jump to Echo/Sonata or broad DPS while 54 characters remain unstarted and Augusta ACTIONS remains partial.
+7. **CURRENT RETURN CHECKPOINT:** Use the PR #61 candidate importer to audit/promote the remaining 54 Character mechanics profiles in controlled source-reviewed batches. Do not jump to Echo/Sonata or broad DPS while canonical released-roster Character Mechanics coverage remains open.
 8. Complete current Echo/Sonata raw audit.
 9. Complete Sonata Effect coverage.
 10. Complete Echo skill/effect/attack fact coverage needed by supported content.

@@ -44,7 +44,7 @@ function assertNear(actual: number | null, expected: number, epsilon = 1e-10): v
 test('Augusta current Character-owned source action facts are exact Lv1-Lv10 representations', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 140);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 180);
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     if (fact.actionRole === 'NON_DAMAGE') {
@@ -152,13 +152,13 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports Aalto, Aemeath, Augusta and Baizhi source-complete', () => {
+test('mechanics coverage reports Aalto, Aemeath, Augusta, Baizhi and Brant source-complete', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 4);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi']);
+  assert.equal(audit.profileCount, 5);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 53);
+  assert.equal(audit.unstartedCharacterIds.length, 52);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

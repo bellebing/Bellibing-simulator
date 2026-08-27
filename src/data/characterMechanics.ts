@@ -7,15 +7,18 @@ import { AEMEATH_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aemeathRa
 import { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 import { BAIZHI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/baizhiRawFacts.ts';
+import { BRANT_CHARACTER_MECHANIC_FACTS } from './characterMechanics/brantRawFacts.ts';
 import { CHARACTER_TUNE_BREAK_FACTS } from './characterMechanics/tuneBreakFacts.ts';
 
 export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 export { BAIZHI_ACTION_FACTS } from './characterMechanics/baizhiRawFacts.ts';
+export { BRANT_ACTION_FACTS } from './characterMechanics/brantRawFacts.ts';
 export {
   AALTO_TUNE_BREAK_FACT,
   AEMEATH_TUNE_BREAK_FACT,
   AUGUSTA_TUNE_BREAK_FACT,
   BAIZHI_TUNE_BREAK_FACT,
+  BRANT_TUNE_BREAK_FACT,
   CHARACTER_TUNE_BREAK_FACTS,
 } from './characterMechanics/tuneBreakFacts.ts';
 
@@ -25,6 +28,7 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AALTO_CHARACTER_MECHANIC_FACTS,
   ...AEMEATH_CHARACTER_MECHANIC_FACTS,
   ...BAIZHI_CHARACTER_MECHANIC_FACTS,
+  ...BRANT_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -200,11 +204,54 @@ export const BAIZHI_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   },
 };
 
+export const BRANT_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
+  characterId: 'brant',
+  verificationStatus: 'VERIFIED',
+  coverage: [
+    { area: 'ACTIONS', status: 'VERIFIED', notes: "Captain's Rhapsody Basic/Heavy/Mid-air/Dodge branches, Anchors Aweigh!, Plunging Attack, To the Horizon, Applaud for Me! and Returned from Ashes carry exact current Lv1-Lv10 source representations with explicit hit shapes and source damage buckets. Tune Break: Sword is explicit shared-system damage without a fabricated Character coefficient." },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Bravo max/gain/threshold/consume rules, Theatrical Moment, Aflame/My Moment replacement, Waves of Acclaims and Returned from Ashes shield/state semantics are source-audited; executable resource/state timing remains separate.' },
+    { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: "Voyager's Blaze and Trial by Fire and Tide are source-audited." },
+    { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'The Course is Set! 20% Fusion DMG Amplification + 25% Resonance Skill DMG Amplification / 14s / switch-out termination is source-audited.' },
+    { area: 'RESOURCE_RULES', status: 'VERIFIED', notes: 'Bravo max 100, hit-based gain families, 25/50/75/100 healing thresholds, Aflame gain-efficiency change and full-gauge Returned from Ashes consumption are source-audited.' },
+    { area: 'SEQUENCES', status: 'VERIFIED', notes: 'Exact current S1-S6 raw mechanics are source-audited. The current Wutheringlab S2 off-field wording conflict remains provenance evidence instead of overriding the raw-data/current multi-source consensus.' },
+  ],
+  factIds: CHARACTER_MECHANIC_FACTS.filter((fact) => fact.characterId === 'brant').map((fact) => fact.factId),
+  provenance: {
+    sourceLabels: [
+      'wuwabuild normalized Character snapshot — pinned source candidate',
+      'Wuthering.gg — current Brant kit',
+      'Prydwen — current Brant kit',
+      'Wuthering.wiki — full Brant tables/raw damage data',
+      'WutheringDB — current Brant kit/raw sequence text',
+      'Wutheringlab — current Brant kit and discrepancy evidence',
+    ],
+    sourceUrls: [
+      'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json',
+      'https://wuthering.gg/characters/brant',
+      'https://www.prydwen.gg/wuthering-waves/characters/brant',
+      'https://wuthering.wiki/character_1206.html',
+      'https://wuwa.incin.net/resonators/1206',
+      'https://wutheringlab.com/character/brant-build/',
+    ],
+    checkedAt: '2026-08-27',
+    notes: [
+      'PR #61 candidate extraction removed transcription work but did not count as verification; Brant was promoted only after current source/semantic review.',
+      'All Character-owned damage facts are ATK-scaling. Raw damage data confirms special source damage buckets including Anchors Aweigh! as Skill, Plunging Attack and Returned from Ashes as Basic, To the Horizon as Liberation and Applaud for Me! as Intro.',
+      'Healing/shield source tables use Energy Regen as their raw scaling attribute and remain utility facts instead of being forced into Character damage motion-value fields.',
+      'Current WutheringDB/Wuthering.gg/Prydwen plus the pinned source say S2 remains active when Brant is switched off field; current Wutheringlab says it ends early if Brant leaves the team. Bellibing retains the multi-source/raw-data consensus and the conflict provenance.',
+      'Current external profile headers disagree on Brant Max Energy (125 versus 140); To the Horizon Resonance Cost is separately 175. Static Character core data is outside this mechanics promotion and is not changed or inferred here.',
+      'Tune Break: Sword is source-verified as Character access to the shared Tune Break system; its shared damage formula remains outside Character mechanics motion values pending shared combat-system modeling.',
+      'Broad DPS remains blocked by the remaining released-roster Character Mechanics coverage.',
+    ],
+  },
+};
+
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   AUGUSTA_CHARACTER_MECHANICS_PROFILE,
   AALTO_CHARACTER_MECHANICS_PROFILE,
   AEMEATH_CHARACTER_MECHANICS_PROFILE,
   BAIZHI_CHARACTER_MECHANICS_PROFILE,
+  BRANT_CHARACTER_MECHANICS_PROFILE,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

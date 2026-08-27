@@ -8,6 +8,7 @@ export type CharacterMechanicSection =
   | 'RESONANCE_LIBERATION'
   | 'INTRO_SKILL'
   | 'OUTRO_SKILL'
+  | 'TUNE_BREAK'
   | 'INHERENT_SKILL'
   | 'RESONANCE_CHAIN';
 
@@ -21,11 +22,19 @@ export type CharacterActionKind =
   | 'LIBERATION'
   | 'INTRO'
   | 'OUTRO'
+  | 'TUNE_BREAK'
   | 'STATE_CHANGE'
   | 'OTHER';
 
-/** Whether the action itself owns damage motion-value data. Never infer this from nullable fields. */
-export type CharacterActionRole = 'DAMAGE' | 'NON_DAMAGE' | 'UNKNOWN';
+/**
+ * Whether the action owns Character motion-value data.
+ *
+ * `SHARED_SYSTEM_DAMAGE` is reserved for actions such as Tune Break whose
+ * character page grants/variants the action while the damage formula belongs to
+ * a shared combat system instead of a Character Lv1-Lv10 coefficient table.
+ * Never infer any role from nullable fields.
+ */
+export type CharacterActionRole = 'DAMAGE' | 'SHARED_SYSTEM_DAMAGE' | 'NON_DAMAGE' | 'UNKNOWN';
 
 /** Which damage-bonus bucket the game treats the hit as. */
 export type CharacterDamageClass =
@@ -38,7 +47,15 @@ export type CharacterDamageClass =
   | 'COORDINATED'
   | 'OTHER';
 
-export type CharacterScalingStat = 'ATK' | 'HP' | 'DEF' | 'TUNE_AMP' | 'FIXED' | 'MIXED' | 'UNKNOWN';
+export type CharacterScalingStat =
+  | 'ATK'
+  | 'HP'
+  | 'DEF'
+  | 'TUNE_AMP'
+  | 'FIXED'
+  | 'MIXED'
+  | 'SHARED_SYSTEM'
+  | 'UNKNOWN';
 
 /** Exact source-facing skill levels 1 through 10, stored as decimal multipliers. */
 export type CharacterMotionValueCurve = readonly [
@@ -99,10 +116,11 @@ export interface CharacterMechanicFactBase {
  *
  * `actionRole`, `section` and `damageClass` are deliberately independent. A
  * Resonance Liberation action may, for example, own damage but be classified by
- * the game as Heavy Attack DMG. A state/setup action can be explicitly
- * `NON_DAMAGE` without overloading `damageClass: null` as evidence. Rotation
- * engines must consume the explicit fields instead of inferring semantics from
- * nullable data.
+ * the game as Heavy Attack DMG. A Tune Break action can deal damage through the
+ * shared Tune Break combat system without owning a Character motion-value curve.
+ * A state/setup action can be explicitly `NON_DAMAGE` without overloading
+ * `damageClass: null` as evidence. Rotation engines must consume the explicit
+ * fields instead of inferring semantics from nullable data.
  */
 export interface CharacterActionFact extends CharacterMechanicFactBase {
   kind: 'ACTION';
@@ -112,7 +130,7 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
   scalingStat: CharacterScalingStat;
   /** null means no selected-level damage scalar is stored; never implicit zero. */
   motionValue: number | null;
-  /** Describes the source/value level convention. Avoids silently mixing talent levels. */
+  /** Describes the source/value level convention or, for shared-system damage, the ownership boundary. */
   motionValueContext: string | null;
   /**
    * Optional full source curve for skill levels 1-10 when the source action has
@@ -122,8 +140,9 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
    * For mixed-coefficient actions use `motionValueComponents` instead of
    * flattening the source expression into a total. Existing exact-parity
    * fixtures may keep both representations null until their source curve is
-   * independently ingested. A profile cannot mark ACTIONS VERIFIED without one
-   * valid exact representation for every `DAMAGE` action fact.
+   * independently ingested. `SHARED_SYSTEM_DAMAGE` intentionally has neither:
+   * the Character fact owns access/variant semantics while its damage formula
+   * remains in the shared combat-system layer.
    */
   motionValueCurve?: CharacterMotionValueCurve | null;
   /** Exact mixed-coefficient source representation; mutually exclusive with `motionValueCurve`. */

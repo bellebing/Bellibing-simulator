@@ -65,6 +65,16 @@ function auditVerifiedActions(
   const actionsState = profile.coverage.find((entry) => entry.area === 'ACTIONS');
   if (actionsState?.status !== 'VERIFIED') return;
 
+  const tuneBreakFacts = facts.filter(
+    (fact) => fact.kind === 'ACTION' && fact.section === 'TUNE_BREAK',
+  );
+  if (tuneBreakFacts.length !== 1) {
+    issues.push({
+      characterId: profile.characterId,
+      issue: `verified ACTIONS must include exactly one current Tune Break fact; found ${tuneBreakFacts.length}`,
+    });
+  }
+
   for (const fact of facts) {
     if (fact.kind !== 'ACTION') continue;
 
@@ -98,6 +108,37 @@ function auditVerifiedActions(
       continue;
     }
 
+    if (fact.actionRole === 'SHARED_SYSTEM_DAMAGE') {
+      if (
+        fact.section !== 'TUNE_BREAK'
+        || fact.actionKind !== 'TUNE_BREAK'
+        || fact.damageClass !== 'OTHER'
+        || fact.scalingStat !== 'SHARED_SYSTEM'
+      ) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified shared-system ACTION fact ${fact.factId} must use the explicit Tune Break/system classification`,
+        });
+      }
+      if (
+        hasDamageMotionData
+        || components !== null
+        || fact.hitCount !== null
+      ) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified shared-system ACTION fact ${fact.factId} must not carry Character motion-value fields`,
+        });
+      }
+      if (fact.motionValueContext === null || fact.motionValueContext.trim().length === 0) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified shared-system ACTION fact ${fact.factId} is missing source/system ownership context`,
+        });
+      }
+      continue;
+    }
+
     if (fact.damageClass === null) {
       issues.push({
         characterId: profile.characterId,
@@ -105,10 +146,10 @@ function auditVerifiedActions(
       });
     }
 
-    if (fact.scalingStat === 'UNKNOWN') {
+    if (fact.scalingStat === 'UNKNOWN' || fact.scalingStat === 'SHARED_SYSTEM') {
       issues.push({
         characterId: profile.characterId,
-        issue: `verified ACTIONS fact ${fact.factId} has UNKNOWN damage scaling`,
+        issue: `verified ACTIONS fact ${fact.factId} has invalid Character damage scaling`,
       });
     }
 
@@ -302,16 +343,16 @@ function auditProfile(
  * A coverage area may only be marked VERIFIED when the profile links concrete,
  * source-VERIFIED facts that support that area. VERIFIED profiles may not hide
  * non-VERIFIED linked utility facts outside those coverage buckets. VERIFIED
- * ACTIONS must explicitly classify each action as DAMAGE or NON_DAMAGE; UNKNOWN
- * roles cannot pass. DAMAGE actions require a finite non-negative Lv1-Lv10
- * source representation: either one coefficient curve plus a positive integer
- * action-level `hitCount`, or explicit mixed coefficient components with their
- * own positive integer hit counts and no action-level `hitCount`. NON_DAMAGE
- * actions must not carry damage classification/motion-value fields. Source-
- * complete damaging actions also require explicit scaling and source-level
- * context, and may not mix a selected-level scalar with their Lv1-Lv10
- * representation. This prevents nullable-field inference, status metadata,
- * omitted multiplicity, selected-level leakage or ambiguous double-counting
+ * ACTIONS require exactly one current Tune Break fact. Character-owned DAMAGE
+ * actions require a finite non-negative Lv1-Lv10 source representation: either
+ * one coefficient curve plus a positive integer action-level `hitCount`, or
+ * explicit mixed coefficient components with their own positive integer hit
+ * counts and no action-level `hitCount`. `SHARED_SYSTEM_DAMAGE` is the narrow
+ * Tune Break escape hatch: the character fact must explicitly identify Tune
+ * Break/system ownership and must not fabricate Character motion-value fields.
+ * NON_DAMAGE actions must not carry damage classification/motion-value fields.
+ * UNKNOWN roles cannot pass. This prevents nullable-field inference, missing
+ * current-system actions, selected-level leakage or ambiguous double-counting
  * from making a partially ingested character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(

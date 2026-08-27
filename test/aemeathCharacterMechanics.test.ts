@@ -21,7 +21,7 @@ function actionFact(factId: string) {
   return fact;
 }
 
-test('Aemeath source profile covers every required mechanics area with 45 linked verified facts', () => {
+test('Aemeath source profile covers every required mechanics area with linked verified facts plus explicit Tune Break', () => {
   const profile = getCharacterMechanicsProfile('aemeath');
   assert.equal(profile, AEMEATH_CHARACTER_MECHANICS_PROFILE);
   assert.equal(profile?.verificationStatus, 'VERIFIED');
@@ -41,7 +41,7 @@ test('Aemeath source profile covers every required mechanics area with 45 linked
   assert.equal(AEMEATH_PASSIVE_FACTS.length, 10);
   assert.equal(AEMEATH_SEQUENCE_FACTS.length, 6);
   assert.equal(AEMEATH_CHARACTER_MECHANIC_FACTS.length, 45);
-  assert.equal(profile?.factIds.length, 45);
+  assert.equal(profile?.factIds.length, 46);
   assert.equal(AEMEATH_CHARACTER_MECHANIC_FACTS.every((fact) => fact.verificationStatus === 'VERIFIED'), true);
 });
 
@@ -164,13 +164,13 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
-test('fact-backed roster audit reports Aalto, Aemeath and Augusta verified with 54 unstarted', () => {
+test('fact-backed roster audit reports Aalto, Aemeath, Augusta and Baizhi verified with 53 unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 3);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta']);
+  assert.equal(audit.profileCount, 4);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 54);
+  assert.equal(audit.unstartedCharacterIds.length, 53);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

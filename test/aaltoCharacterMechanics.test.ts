@@ -31,7 +31,7 @@ test('Aalto source profile covers every required mechanics area with linked veri
       ['SEQUENCES', 'VERIFIED'],
     ],
   );
-  assert.equal(profile?.factIds.length, 26);
+  assert.equal(profile?.factIds.length, 27);
 });
 
 test('Aalto damaging action facts carry exact Lv1-Lv10 source curves without selecting a talent level', () => {
@@ -94,13 +94,13 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
   assert.equal(AALTO_SEQUENCE_FACTS.every((fact) => fact.verificationStatus === 'VERIFIED'), true);
 });
 
-test('fact-backed coverage audit reports Aalto, Aemeath and Augusta verified with 54 released characters unstarted', () => {
+test('fact-backed coverage audit reports Aalto, Aemeath, Augusta and Baizhi verified with 53 released characters unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 3);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta']);
+  assert.equal(audit.profileCount, 4);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 54);
+  assert.equal(audit.unstartedCharacterIds.length, 53);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

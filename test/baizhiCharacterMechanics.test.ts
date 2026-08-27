@@ -88,7 +88,7 @@ test('Baizhi healing and Concentration remain raw utility semantics instead of d
   assert.match(concentrationHealing.effectSummary, /63\+0\.31%/);
   assert.match(concentrationHealing.effectSummary, /4 Concerto Energy/);
   assert.match(concentrationHealing.effectSummary, /8 Concerto Energy/);
-  assert.match(concentrationHealing.notes?.join(' ') ?? '', /per-consumed.*per-cast/i);
+  assert.match(concentrationHealing.notes?.join(' ') ?? '', /per consumed Concentration.*consuming cast/i);
 
   const provenance = emergencyHealing.provenance.notes?.join(' ') ?? '';
   assert.match(provenance, /5\.76%.*5\.77%/);
@@ -127,7 +127,7 @@ test('Baizhi Inherents, Outro and exact S1-S6 stay source-verified without execu
   assert.match(BAIZHI_SEQUENCE_FACTS[0]?.effectSummary ?? '', /2\.5 Resonance Energy.*every 1 Concentration/i);
   assert.match(BAIZHI_SEQUENCE_FACTS[3]?.effectSummary ?? '', /2 additional times.*20%.*1\.20%/i);
   assert.match(BAIZHI_SEQUENCE_FACTS[4]?.effectSummary ?? '', /100%.*10 minutes/i);
-  assert.match(BAIZHI_SEQUENCE_FACTS[5]?.effectSummary ?? '', /12% Glacio DMG Bonus.*20s/i);
+  assert.match(BAIZHI_SEQUENCE_FACTS[5]?.effectSummary ?? '', /Glacio DMG Bonus.*12%.*20s/i);
 });
 
 test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains incomplete', () => {

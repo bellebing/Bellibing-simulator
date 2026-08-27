@@ -6,6 +6,7 @@ const MOVE_SECTION_BY_TYPE = new Map([
   [5, 'INTRO_SKILL'],
   [6, 'FORTE_CIRCUIT'],
   [11, 'OUTRO_SKILL'],
+  [12, 'TUNE_BREAK'],
 ]);
 
 function english(value) {
@@ -15,11 +16,13 @@ function english(value) {
 }
 
 export function normalizeCharacterName(value) {
-  return String(value ?? '')
+  const normalizedWords = String(value ?? '')
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '');
+    .trim()
+    .replace(/^the[\s:_-]+/, '');
+  return normalizedWords.replace(/[^a-z0-9]+/g, '');
 }
 
 function finiteNumber(value) {
@@ -97,6 +100,31 @@ export function parseTenLevelCoefficientRow(rawValues) {
   };
 }
 
+function parseFlatPlusPercentExpression(rawValue) {
+  if (typeof rawValue !== 'string') return null;
+  const normalized = rawValue.replaceAll('％', '%').replace(/\s+/g, '').trim();
+  let match = normalized.match(/^(-?\d+(?:\.\d+)?)\+(-?\d+(?:\.\d+)?)%$/);
+  if (match) {
+    return { flat: Number(match[1]), coefficient: Number(match[2]) / 100 };
+  }
+  match = normalized.match(/^(-?\d+(?:\.\d+)?)%\+(-?\d+(?:\.\d+)?)$/);
+  if (match) {
+    return { flat: Number(match[2]), coefficient: Number(match[1]) / 100 };
+  }
+  return null;
+}
+
+export function parseTenLevelFlatPlusPercentRow(rawValues) {
+  if (!Array.isArray(rawValues) || rawValues.length !== 10) return null;
+  const expressions = rawValues.map(parseFlatPlusPercentExpression);
+  if (expressions.some((expression) => expression === null)) return null;
+  return {
+    representation: 'FLAT_PLUS_PERCENT',
+    flatCurve: expressions.map((expression) => expression.flat),
+    coefficientCurve: expressions.map((expression) => expression.coefficient),
+  };
+}
+
 function normalizeRawValue(value) {
   if (typeof value === 'string') return value.trim();
   if (value === null || value === undefined) return '';
@@ -107,20 +135,24 @@ function transformValueRow(row) {
   const rawValues = Array.isArray(row?.values)
     ? row.values.map(normalizeRawValue)
     : [];
-  const parsed = parseTenLevelCoefficientRow(rawValues);
+  const parsedCoefficient = parseTenLevelCoefficientRow(rawValues);
+  const parsedFormula = parsedCoefficient ? null : parseTenLevelFlatPlusPercentRow(rawValues);
   return {
     sourceValueId: row?.id ?? null,
     name: english(row?.name),
     rawValues,
-    parsedCoefficient: parsed,
-    reviewStatus: parsed ? 'PARSED_CANDIDATE' : 'RAW_ONLY',
+    parsedCoefficient,
+    parsedFormula,
+    reviewStatus: parsedCoefficient || parsedFormula ? 'PARSED_CANDIDATE' : 'RAW_ONLY',
   };
 }
 
 function transformMove(move) {
   const values = Array.isArray(move?.values) ? move.values.map(transformValueRow) : [];
   const percentLikeRawRows = values.filter(
-    (row) => row.parsedCoefficient === null && row.rawValues.some((value) => value.includes('%')),
+    (row) => row.parsedCoefficient === null
+      && row.parsedFormula === null
+      && row.rawValues.some((value) => value.includes('%')),
   );
   const issues = [];
   if (!MOVE_SECTION_BY_TYPE.has(move?.type)) issues.push('UNKNOWN_MOVE_TYPE');
@@ -196,7 +228,43 @@ function buildSourceIndex(sourceCharacters) {
   return index;
 }
 
-function transformCharacter(rosterCharacter, sourceCharacter) {
+function sourceRichness(sourceCharacter) {
+  return (Array.isArray(sourceCharacter?.moves) ? sourceCharacter.moves.length * 100 : 0)
+    + (Array.isArray(sourceCharacter?.chains) ? sourceCharacter.chains.length * 10 : 0)
+    + (Array.isArray(sourceCharacter?.skillTrees) ? sourceCharacter.skillTrees.length : 0);
+}
+
+function resolveSourceMatch(rosterCharacter, matches) {
+  if (matches.length === 1) {
+    return {
+      sourceCharacter: matches[0],
+      sourceMatch: { mode: 'NAME', candidateSourceIds: [matches[0]?.id ?? null] },
+    };
+  }
+
+  if (matches.length > 1 && normalizeCharacterName(rosterCharacter.name).startsWith('rover')) {
+    const ranked = [...matches].sort((left, right) => {
+      const richnessDelta = sourceRichness(right) - sourceRichness(left);
+      if (richnessDelta !== 0) return richnessDelta;
+      return Number(left?.id ?? Number.MAX_SAFE_INTEGER) - Number(right?.id ?? Number.MAX_SAFE_INTEGER);
+    });
+    return {
+      sourceCharacter: ranked[0],
+      sourceMatch: {
+        mode: 'ROVER_VARIANT_COLLAPSE',
+        candidateSourceIds: matches.map((match) => match?.id ?? null),
+        selectedSourceId: ranked[0]?.id ?? null,
+        notes: [
+          'Normalized upstream data exposes separate Rover gender/source records for the same element kit. Bellibing keeps one mechanics profile per element and selects the richest variant deterministically while retaining every candidate source id for audit.',
+        ],
+      },
+    };
+  }
+
+  return null;
+}
+
+function transformCharacter(rosterCharacter, sourceCharacter, sourceMatch) {
   const moves = Array.isArray(sourceCharacter?.moves)
     ? sourceCharacter.moves.map(transformMove)
     : [];
@@ -215,8 +283,14 @@ function transformCharacter(rosterCharacter, sourceCharacter) {
     (total, move) => total + move.values.filter((row) => row.parsedCoefficient !== null).length,
     0,
   );
+  const parsedFormulaRows = moves.reduce(
+    (total, move) => total + move.values.filter((row) => row.parsedFormula !== null).length,
+    0,
+  );
   const rawOnlyValueRows = moves.reduce(
-    (total, move) => total + move.values.filter((row) => row.parsedCoefficient === null).length,
+    (total, move) => total + move.values.filter(
+      (row) => row.parsedCoefficient === null && row.parsedFormula === null,
+    ).length,
     0,
   );
 
@@ -225,6 +299,7 @@ function transformCharacter(rosterCharacter, sourceCharacter) {
     bellibingName: rosterCharacter.name,
     sourceCharacterId: sourceCharacter?.id ?? null,
     sourceName: english(sourceCharacter?.name),
+    sourceMatch,
     importStatus: 'CANDIDATE_ONLY',
     verificationStatus: 'NOT_VERIFIED',
     moves,
@@ -238,6 +313,7 @@ function transformCharacter(rosterCharacter, sourceCharacter) {
       sequences: chains.length,
       skillTreeNodes: skillTrees.length,
       parsedCoefficientRows,
+      parsedFormulaRows,
       rawOnlyValueRows,
     },
     reviewStatus: issues.length === 0 ? 'READY_FOR_SOURCE_AUDIT' : 'NEEDS_REVIEW',
@@ -274,7 +350,8 @@ export function buildCharacterMechanicsCandidateImport({
       unmatched.push({ id: rosterCharacter.id, name: rosterCharacter.name });
       continue;
     }
-    if (matches.length > 1) {
+    const resolved = resolveSourceMatch(rosterCharacter, matches);
+    if (!resolved) {
       ambiguous.push({
         id: rosterCharacter.id,
         name: rosterCharacter.name,
@@ -282,7 +359,9 @@ export function buildCharacterMechanicsCandidateImport({
       });
       continue;
     }
-    importedCharacters.push(transformCharacter(rosterCharacter, matches[0]));
+    importedCharacters.push(
+      transformCharacter(rosterCharacter, resolved.sourceCharacter, resolved.sourceMatch),
+    );
   }
 
   const reviewReady = importedCharacters.filter(
@@ -291,6 +370,10 @@ export function buildCharacterMechanicsCandidateImport({
   const needsReview = importedCharacters.length - reviewReady;
   const parsedCoefficientRows = importedCharacters.reduce(
     (total, character) => total + character.counts.parsedCoefficientRows,
+    0,
+  );
+  const parsedFormulaRows = importedCharacters.reduce(
+    (total, character) => total + character.counts.parsedFormulaRows,
     0,
   );
   const rawOnlyValueRows = importedCharacters.reduce(
@@ -309,7 +392,7 @@ export function buildCharacterMechanicsCandidateImport({
       notes: [
         'This file is a machine-extracted review candidate, not canonical CharacterMechanicFact data.',
         'Bellibing never promotes imported rows to VERIFIED without the existing source/structural audit.',
-        'Percent expressions are parsed only when all ten levels share one unambiguous component/hit-count shape; everything else stays raw for review.',
+        'Percent expressions are parsed only when all ten levels share one unambiguous component/hit-count shape; flat+percent rows are structured separately; everything else stays raw for review.',
       ],
     },
     summary: {
@@ -320,6 +403,7 @@ export function buildCharacterMechanicsCandidateImport({
       reviewReadyCharacters: reviewReady,
       charactersNeedingReview: needsReview,
       parsedCoefficientRows,
+      parsedFormulaRows,
       rawOnlyValueRows,
     },
     unmatched,

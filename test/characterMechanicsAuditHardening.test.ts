@@ -33,23 +33,75 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi']);
 });
 
-test('current action facts classify damage intent explicitly instead of inferring it from nullable fields', () => {
+test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {
   const nonDamageIds = new Set([
     'augusta-liberation-sublime-is-the-sun-state',
     'augusta-outro-battlesong-of-the-unyielding',
   ]);
+  const tuneBreakIds = new Set([
+    'aalto-tune-break-pistols',
+    'aemeath-tune-break-unlanded-melody',
+    'augusta-tune-break-broadblade',
+    'baizhi-tune-break-rectifier',
+  ]);
+
+  for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
+    if (fact.kind !== 'ACTION') continue;
+    if (nonDamageIds.has(fact.factId)) {
+      assert.equal(fact.actionRole, 'NON_DAMAGE', fact.factId);
+    } else if (tuneBreakIds.has(fact.factId)) {
+      assert.equal(fact.actionRole, 'SHARED_SYSTEM_DAMAGE', fact.factId);
+      assert.equal(fact.section, 'TUNE_BREAK', fact.factId);
+      assert.equal(fact.actionKind, 'TUNE_BREAK', fact.factId);
+      assert.equal(fact.scalingStat, 'SHARED_SYSTEM', fact.factId);
+    } else {
+      assert.equal(fact.actionRole, 'DAMAGE', fact.factId);
+    }
+  }
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     assert.equal(fact.actionRole, nonDamageIds.has(fact.factId) ? 'NON_DAMAGE' : 'DAMAGE', fact.factId);
   }
+});
 
-  for (const fact of CHARACTER_MECHANIC_FACT_BY_ID.values()) {
-    if (fact.kind !== 'ACTION' || fact.characterId === 'augusta') continue;
-    assert.equal(fact.actionRole, 'DAMAGE', fact.factId);
-  }
+test('VERIFIED ACTIONS require exactly one current Tune Break fact', () => {
+  const withoutTuneBreak: CharacterMechanicsProfile = {
+    ...AALTO_CHARACTER_MECHANICS_PROFILE,
+    factIds: AALTO_CHARACTER_MECHANICS_PROFILE.factIds.filter((factId) => factId !== 'aalto-tune-break-pistols'),
+  };
+  const issues = issuesFor(withoutTuneBreak);
+  assert.ok(issues.includes('verified ACTIONS must include exactly one current Tune Break fact; found 0'));
+
+  const duplicatedTuneBreak: CharacterMechanicsProfile = {
+    ...AALTO_CHARACTER_MECHANICS_PROFILE,
+    factIds: [...AALTO_CHARACTER_MECHANICS_PROFILE.factIds, 'aalto-tune-break-pistols'],
+  };
+  const duplicatedIssues = issuesFor(duplicatedTuneBreak);
+  assert.ok(duplicatedIssues.includes('duplicate mechanics fact link'));
+  assert.ok(duplicatedIssues.includes('verified ACTIONS must include exactly one current Tune Break fact; found 2'));
+});
+
+test('shared-system Tune Break damage cannot smuggle Character motion values or classification', () => {
+  const factById = factMapWithOverride('aalto-tune-break-pistols', (fact) => {
+    assert.equal(fact.kind, 'ACTION');
+    return {
+      ...fact,
+      damageClass: 'BASIC',
+      scalingStat: 'ATK',
+      motionValue: .5,
+      hitCount: 1,
+    };
+  });
+  const issues = issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById);
+  assert.ok(issues.includes(
+    'verified shared-system ACTION fact aalto-tune-break-pistols must use the explicit Tune Break/system classification',
+  ));
+  assert.ok(issues.includes(
+    'verified shared-system ACTION fact aalto-tune-break-pistols must not carry Character motion-value fields',
+  ));
 });
 
 test('VERIFIED ACTIONS cannot leave damage intent UNKNOWN', () => {
@@ -157,7 +209,7 @@ test('VERIFIED damaging ACTIONS retain explicit source-level scaling and do not 
   });
 
   const issues = issuesFor(AALTO_CHARACTER_MECHANICS_PROFILE, factById);
-  assert.ok(issues.includes('verified ACTIONS fact aalto-basic-half-truths-1 has UNKNOWN damage scaling'));
+  assert.ok(issues.includes('verified ACTIONS fact aalto-basic-half-truths-1 has invalid Character damage scaling'));
   assert.ok(issues.includes('verified ACTIONS fact aalto-basic-half-truths-1 is missing motion-value level/source context'));
   assert.ok(issues.includes('verified ACTIONS fact aalto-basic-half-truths-1 mixes selected-level motionValue with an Lv1-Lv10 source representation'));
 

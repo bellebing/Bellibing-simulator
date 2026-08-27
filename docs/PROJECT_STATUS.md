@@ -23,7 +23,7 @@ Implemented and tested:
 - verified substat roll values and value probabilities.
 - sequential +5 / +10 / +15 / +20 / +25 tuning.
 - EXP, Tuners and Shell Credits.
-- 75% effective EXP recovery, 30% Tuner recovery, zero Shell Credit recovery.
+- 75% effective EXP recovery, 30% Tuners, zero Shell Credit recovery.
 - seeded reproducible runtime.
 - separate 5-Echo / COST-12 loadout validation.
 
@@ -140,21 +140,26 @@ PR #60 completes Augusta's current source-facing ACTION coverage without contami
 
 PR #61 adds the roster-wide Character Mechanics source-import/review pipeline. It pins the normalized `DommyMM/wuwabuild` Character snapshot to an exact upstream commit, fail-closes Bellibing released-roster matching, extracts moves/descriptions/Lv1-Lv10 rows/S1-S6/skill-tree data and structures only mechanically unambiguous numeric forms. The live merge-gate run matched all 57/57 released Bellibing characters and parsed 1,132 exact ten-level coefficient rows plus 40 structured flat+percent rows with zero parser exceptions. Generated data remains explicitly `CANDIDATE_ONLY` / `NOT_VERIFIED`; the importer cannot bypass canonical source review or the existing structural audit.
 
-PR #63 source-audits Baizhi and closes a Version 3.x completeness gap exposed by the importer. The candidate snapshot retained one current Tune Break entry for every 57/57 released Character, but the canonical Character Mechanics domain previously had no Tune Break section/action role, so a profile could pass `ACTIONS: VERIFIED` while omitting that current action. The domain now represents Tune Break as explicit `SHARED_SYSTEM_DAMAGE`: the Character fact owns source-verified access/variant semantics while the shared combat system owns its damage formula. VERIFIED ACTIONS require exactly one current Tune Break fact, and such facts may not fabricate Character motion-value fields. Aalto, Aemeath, Augusta and Baizhi now carry source-verified Tune Break facts under the hardened gate.
+PR #63 source-audits Baizhi and closes a Version 3.x completeness gap exposed by the importer. The candidate snapshot retained one current Tune Break entry for every 57/57 released Character, but the canonical Character Mechanics domain previously had no Tune Break section/action role, so a profile could pass `ACTIONS: VERIFIED` while omitting that current action. The domain now represents Tune Break as explicit `SHARED_SYSTEM_DAMAGE`: the Character fact owns source-verified access/variant semantics while the shared combat system owns its damage formula. VERIFIED ACTIONS require exactly one current Tune Break fact, and such facts may not fabricate Character motion-value fields. Aalto, Aemeath, Augusta and Baizhi carry source-verified Tune Break facts under the hardened gate.
+
+PR #65 source-audits Brant as the fifth fully verified raw Character Mechanics profile. Brant contributes 39 Character-owned facts plus Tune Break: Sword: exact current Lv1-Lv10 Character-owned action representations, Bravo/Forte/state rules, healing and shield utility semantics, both Inherents, Outro and S1-S6. Current source conflicts — including S2 off-field wording and external Max Energy disagreement — remain explicit provenance rather than being guessed into executable behavior.
+
+PR #66 removes the remaining bulk transcription step between the roster-wide source candidate and semantic review. The promotion-review generator now carries all current tabular source forms mechanically while remaining `NOT_VERIFIED`: 1,132 exact action candidates, 40 flat+percent formulas, 720 plain numeric curves, 4 two-term numeric curves, 342 S1-S6 candidates and 57 Tune Break candidates. The live merge-gate run matched 57/57 released Characters and left **zero unstructured tabular rows**. Action role/kind, damage class, scaling, conditions, resource/state meaning, utility scope/trigger and sequence execution semantics remain explicit review work; the generator cannot bypass canonical source review or structural verification.
 
 Current Character mechanics coverage:
 
 - 57 currently `RELEASED` characters are in the gate;
-- 4 characters have mechanics profiles;
+- 5 characters have mechanics profiles;
 - **Aalto: `VERIFIED` raw mechanics coverage** across ACTIONS, FORTE_RULES, INHERENT_PASSIVES, OUTRO_EFFECT, RESOURCE_RULES and SEQUENCES, including current Tune Break: Pistols access as shared-system damage;
 - **Aemeath: `VERIFIED` raw mechanics coverage** across all six required areas, including 26 Character-owned source-audited ACTION facts, three resource systems, raw Forte/state rules, both Inherent skills, Outro, S1-S6 and current Unlanded Melody Tune Break semantics;
 - **Augusta: `VERIFIED` raw mechanics coverage** across all six required areas, with full current source-facing Character-owned ACTION coverage kept separate from the selected-level V9.15 Standard parity fixture and current Tune Break: Broadblade represented at the shared-system boundary;
 - **Baizhi: `VERIFIED` raw mechanics coverage** across all six required areas, with exact current Character-owned damage curves/scaling, Concentration/Forte rules, healing utility semantics, Inherents, Outro, S1-S6 and Tune Break: Rectifier;
-- 53 released characters remain `UNSTARTED` for canonical Character mechanics promotion/source verification;
-- 140 canonical Character mechanic facts now exist: 27 Aalto facts, 46 Aemeath facts, 41 Augusta facts and 26 Baizhi facts, including one current Tune Break fact per verified profile;
-- Aalto, Aemeath, Augusta and Baizhi `RAW_FACTS` preflight pass only when their canonical structural audit is clean, while independent build/team/rotation/combat-profile requirements continue to gate later stages.
+- **Brant: `VERIFIED` raw mechanics coverage** across all six required areas, with 22 exact Character-owned ACTION facts, Bravo/resource and Forte/state rules, source-preserved healing/shield semantics, both Inherents, Outro, S1-S6 and Tune Break: Sword at the shared-system boundary;
+- 52 released characters remain `UNSTARTED` for canonical Character mechanics promotion/source verification;
+- 180 canonical Character mechanic facts now exist: 27 Aalto facts, 46 Aemeath facts, 41 Augusta facts, 26 Baizhi facts and 40 Brant facts, including one current Tune Break fact per verified profile;
+- Aalto, Aemeath, Augusta, Baizhi and Brant `RAW_FACTS` preflight pass only when their canonical structural audit is clean, while independent build/team/rotation/combat-profile requirements continue to gate later stages.
 
-The Aalto/Aemeath/Augusta/Baizhi source slices and roster-wide import pipeline lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
+The Aalto/Aemeath/Augusta/Baizhi/Brant source slices and roster-wide import/promotion-review pipeline lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
 
 - source coefficients are stored as exact Lv1-Lv10 representations without silently choosing a talent level;
 - explicit source hit multipliers remain separate from coefficient curves, mixed-hit expressions keep each source coefficient as an independent component rather than being pre-summed, and the audit rejects missing or ambiguous hit multiplicity before VERIFIED status can pass;
@@ -162,8 +167,11 @@ The Aalto/Aemeath/Augusta/Baizhi source slices and roster-wide import pipeline l
 - Augusta's selected-level/executable V9.15 Standard aggregate motion values are isolated in `augustaStandardMotionValues.ts`; the canonical Augusta facts retain current source-level curves/components instead;
 - Augusta Everbright keeps the current 120% Lv1 component consensus while the conflicting current Fandom display remains provenance evidence; Warrior's Blade and Plunge likewise retain current source consensus while stale/conflicting representations remain recorded rather than silently copied;
 - the source importer treats Wuthering/Encore-normalized rows as review candidates, records the exact upstream commit and supports source-display/name variants without promoting any candidate to canonical `VERIFIED`;
+- the promotion-review generator carries exact action curves/components, flat+percent formulas, plain numeric curves, two-term numeric curves, S1-S6 and Tune Break candidates without retyping or assigning unresolved semantics; the current live snapshot has zero unstructured tabular rows;
+- new upstream table shapes fail the import workflow if they cannot be structurally represented, so parser drift becomes an immediate review blocker instead of silently creating manual transcription debt;
 - Rover's duplicate gender/source records are collapsed only at the review-candidate matching layer, with all candidate source IDs and the deterministic selected source ID retained for audit;
 - structurally obvious flat+percent rows are separated into flat/coefficient curves without guessing whether the mechanic is damage, healing, resource gain or another effect;
+- Brant's S2 off-field wording conflict and external Max Energy disagreement remain provenance evidence; the Character Mechanics promotion does not silently choose unrelated static Character-core semantics;
 - Baizhi's current damage scaling remains source-explicit: Destined Promise/Overflowing Frost damage is ATK-scaling while Emergency Plan and Remnant Entities damage is HP-scaling; healing tables remain raw utility semantics instead of being forced into Character damage motion-value fields;
 - Baizhi's current display/backend 0.01-point healing-coefficient discrepancies remain provenance evidence rather than being silently reconciled, and unresolved Concentration recovery multiplication remains `PENDING_INTERPRETATION`;
 - Aemeath Tune Rupture Response — Starburst and the separate Seraphic Duet bonus coefficient are represented as `TUNE_AMP` scaling and remain `PENDING_INTERPRETATION` for executable encounter/status semantics;
@@ -177,13 +185,13 @@ The Aalto/Aemeath/Augusta/Baizhi source slices and roster-wide import pipeline l
 
 Still required before Character mechanics can be called complete:
 
-- audit and promote source-backed skill/Forte/passive/resource/Outro/sequence facts for the remaining 53 released characters using the roster-wide candidate import as the transcription layer rather than hand-entering source tables;
-- source-check semantic classifications, conditional rules, current Tune Break variants and any cross-source conflicts before imported candidates become canonical facts;
+- audit and promote source-backed skill/Forte/passive/resource/Outro/sequence semantics for the remaining 52 released characters using the promotion-review artifact rather than hand-entering source tables;
+- source-check semantic classifications, conditional rules, current Tune Break variants and any cross-source conflicts before generated candidates become canonical facts;
 - preserve exact Lv1-Lv10 Character-owned action representations, mixed coefficient components, explicit hit-count semantics and the separate shared-system Tune Break boundary for future verified ACTIONS coverage;
 - keep verified raw facts, conditional mechanics, source conflicts and genuinely pending interpretation/modeling states distinct;
 - do not begin broad Character DPS adapters until this roster-wide mechanics coverage is closed.
 
-**Important:** four `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed. PR #61 makes the remaining audit materially faster; PR #63 ensures current Tune Break actions cannot be omitted by a false-green profile.
+**Important:** five `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed. PR #66 removes current tabular transcription debt; the remaining work is semantic/source review and canonical promotion, not copying tables by hand.
 
 ### Weapon raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
@@ -326,9 +334,9 @@ UI polish is intentionally lower priority than completing the engine/data founda
 2. **DONE — PR #32/#33/#34:** Harden Echo Lab as the mechanical oracle for Echo tuning.
 3. **DONE — PR #36:** Generalize/profile-proof the non-DPS fallback roll policy.
 4. **DONE — PROCESS CONTRACT:** Lock Character Preflight + Backward Impact Audit for future content.
-5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55/#56/#57/#58/#60/#61/#63:** Character static/core + intrinsic gates, generic mechanics architecture, fact-backed source-completeness gates, structural/action-role hardening, Augusta source completion, the roster-wide candidate import pipeline, Baizhi source completion and the current Tune Break completeness gate are in place. Aalto, Aemeath, Augusta and Baizhi are fully source-verified raw mechanics profiles; 53 released characters remain unstarted for canonical mechanics promotion. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
+5. **IN PROGRESS — PR #38/#39/#40/#41/#54/#55/#56/#57/#58/#60/#61/#63/#65/#66:** Character static/core + intrinsic gates, generic mechanics architecture, fact-backed source-completeness gates, structural/action-role hardening, Augusta/Baizhi/Brant source completion, the roster-wide candidate importer, current Tune Break completeness and the promotion-review automation are in place. Aalto, Aemeath, Augusta, Baizhi and Brant are fully source-verified raw mechanics profiles; 52 released characters remain unstarted for canonical mechanics promotion. The current 57-character source snapshot has zero unstructured tabular rows; remaining work is semantic/source review. **Roster-wide Character mechanics fact coverage remains the active Pre-DPS blocker.**
 6. **SOURCE COVERAGE DONE — Weapon Core + Weapon Effects:** Version 3.6 released Weapon Core is complete and released Weapon Effect source coverage is 121/121 with zero source-audit backlog. Explicit `VERIFIED_RAW_PENDING_MODEL` mechanics remain separate semantic/execution work and are not silently promoted to modeled uptime.
-7. **CURRENT RETURN CHECKPOINT:** Use the PR #61 candidate importer to audit/promote the remaining 53 Character mechanics profiles in controlled source-reviewed batches. Every promoted ACTIONS profile must include its current source-verified Tune Break fact; do not jump to Echo/Sonata or broad DPS while canonical released-roster Character Mechanics coverage remains open.
+7. **CURRENT RETURN CHECKPOINT:** Use the PR #66 promotion-review artifact to audit/promote the remaining 52 Character mechanics profiles in controlled source-reviewed batches. Do not manually retype source tables already represented by the pipeline. Review semantic classifications, conditional/resource/state/utility/sequence rules, current Tune Break variants and source conflicts; canonical verification still requires the existing structural/source gate. Do not jump to Echo/Sonata or broad DPS while released-roster Character Mechanics coverage remains open.
 8. Complete current Echo/Sonata raw audit.
 9. Complete Sonata Effect coverage.
 10. Complete Echo skill/effect/attack fact coverage needed by supported content.

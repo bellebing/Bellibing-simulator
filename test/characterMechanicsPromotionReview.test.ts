@@ -83,6 +83,22 @@ function candidateFixture() {
                 parsedFormula: null,
                 reviewStatus: 'RAW_ONLY',
               },
+              {
+                sourceValueId: 105,
+                name: 'Concerto Regen',
+                rawValues: Array(10).fill('10'),
+                parsedCoefficient: null,
+                parsedFormula: null,
+                reviewStatus: 'RAW_ONLY',
+              },
+              {
+                sourceValueId: 106,
+                name: 'Composite STA Cost',
+                rawValues: Array(10).fill('5+25'),
+                parsedCoefficient: null,
+                parsedFormula: null,
+                reviewStatus: 'RAW_ONLY',
+              },
             ],
           },
           {
@@ -150,6 +166,34 @@ test('promotion review separates structured utility formulas from action damage 
   assert.equal(utility.semanticReview.scalingStat, 'PENDING_REVIEW');
 });
 
+test('promotion review structures plain numeric tables without assigning mechanic meaning', () => {
+  const review = buildCharacterMechanicsPromotionReview(candidateFixture());
+  const numeric = review.characters[0]?.numericCurveCandidates[0];
+  assert.ok(numeric);
+  assert.deepEqual(numeric.exactNumeric, {
+    representation: 'NUMERIC_CURVE',
+    values: Array(10).fill(10),
+    constantAcrossLevels: true,
+  });
+  assert.equal(numeric.sourceValueName, 'Concerto Regen');
+  assert.equal(numeric.semanticReview.mechanicKind, 'PENDING_REVIEW');
+  assert.equal(numeric.verificationStatus, 'NOT_VERIFIED');
+});
+
+test('promotion review structures two-term numeric tables without guessing component semantics', () => {
+  const review = buildCharacterMechanicsPromotionReview(candidateFixture());
+  const numeric = review.characters[0]?.twoTermNumericCandidates[0];
+  assert.ok(numeric);
+  assert.deepEqual(numeric.exactNumeric, {
+    representation: 'TWO_TERM_NUMERIC_CURVE',
+    leftCurve: Array(10).fill(5),
+    rightCurve: Array(10).fill(25),
+  });
+  assert.equal(numeric.sourceValueName, 'Composite STA Cost');
+  assert.equal(numeric.semanticReview.mechanicKind, 'PENDING_REVIEW');
+  assert.equal(numeric.verificationStatus, 'NOT_VERIFIED');
+});
+
 test('promotion review carries Tune Break to the safe shared-system boundary without fabricating motion values', () => {
   const review = buildCharacterMechanicsPromotionReview(candidateFixture());
   const tuneBreak = review.characters[0]?.tuneBreakCandidates[0];
@@ -195,6 +239,8 @@ test('promotion review summarizes machine work versus remaining review work', ()
     sourceReviewRequired: 0,
     actionCandidates: 2,
     utilityFormulaCandidates: 1,
+    numericCurveCandidates: 1,
+    twoTermNumericCandidates: 1,
     tuneBreakCandidates: 1,
     sequenceCandidates: 6,
     rawReviewRows: 1,

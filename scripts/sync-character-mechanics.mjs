@@ -97,6 +97,7 @@ function compactSummary(candidate) {
       bellibingName: character.bellibingName,
       sourceCharacterId: character.sourceCharacterId,
       sourceName: character.sourceName,
+      sourceMatch: character.sourceMatch,
       reviewStatus: character.reviewStatus,
       issues: character.issues,
       counts: character.counts,
@@ -108,7 +109,11 @@ function compactSummary(candidate) {
           sectionCandidate: move.sectionCandidate,
           issues: move.issues,
           rawOnlyRows: move.values
-            .filter((row) => row.parsedCoefficient === null && row.rawValues.some((value) => value.includes('%')))
+            .filter(
+              (row) => row.parsedCoefficient === null
+                && row.parsedFormula === null
+                && row.rawValues.some((value) => value.includes('%')),
+            )
             .map((row) => ({
               sourceValueId: row.sourceValueId,
               name: row.name,
@@ -153,8 +158,9 @@ async function main() {
   const counts = candidate.summary;
   console.log(
     `Character Mechanics candidate import: ${counts.matchedCharacters}/${counts.requestedReleasedCharacters} matched, ` +
-    `${counts.parsedCoefficientRows} exact ten-level coefficient rows parsed, ` +
-    `${counts.charactersNeedingReview} characters flagged for review.`,
+    `${counts.parsedCoefficientRows} exact ten-level coefficient rows + ` +
+    `${counts.parsedFormulaRows} structured flat+percent rows parsed, ` +
+    `${counts.charactersNeedingReview} characters flagged for parser review.`,
   );
   console.log(`Source: ${sourceRepository}@${sourceCommit}`);
   console.log(`Candidate: ${args.out}`);

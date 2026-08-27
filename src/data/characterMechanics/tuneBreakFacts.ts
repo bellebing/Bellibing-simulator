@@ -8,6 +8,9 @@ const AEMEATH_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/aemeat
 const AUGUSTA_SOURCE = 'https://wuwa.incin.net/resonators/1306';
 const BAIZHI_SOURCE = 'https://wuthering.gg/characters/baizhi';
 const BRANT_SOURCE = 'https://wuthering.gg/characters/brant';
+const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
+const MORTEFI_SOURCE = 'https://wuthering.gg/characters/mortefi';
+const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
 
@@ -102,10 +105,40 @@ export const BRANT_TUNE_BREAK_FACT = tuneBreak({
   notes: ["When the target's Off-Tune Level is full, Brant may cast Tune Break on the target. No Brant-specific coefficient table is exposed."],
 });
 
+export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'chixia',
+  factId: 'chixia-tune-break-pistols',
+  name: 'Tune Break — Pistols',
+  sourceLabel: 'Wuthering.gg — current Chixia Tune Break entry',
+  sourceUrl: CHIXIA_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Chixia may cast Tune Break on the target. No Chixia-specific coefficient table is exposed."],
+});
+
+export const MORTEFI_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'mortefi',
+  factId: 'mortefi-tune-break-pistols',
+  name: 'Tune Break — Pistols',
+  sourceLabel: 'Wuthering.gg — current Mortefi Tune Break entry',
+  sourceUrl: MORTEFI_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Mortefi may cast Tune Break on the target. No Mortefi-specific coefficient table is exposed."],
+});
+
+export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'yangyang',
+  factId: 'yangyang-tune-break-sword',
+  name: 'Tune Break — Sword',
+  sourceLabel: 'Wuthering.gg — current Yangyang Tune Break entry',
+  sourceUrl: YANGYANG_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Yangyang may cast Tune Break on the target. No Yangyang-specific coefficient table is exposed."],
+});
+
 export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   AALTO_TUNE_BREAK_FACT,
   AEMEATH_TUNE_BREAK_FACT,
   AUGUSTA_TUNE_BREAK_FACT,
   BAIZHI_TUNE_BREAK_FACT,
   BRANT_TUNE_BREAK_FACT,
+  CHIXIA_TUNE_BREAK_FACT,
+  MORTEFI_TUNE_BREAK_FACT,
+  YANGYANG_TUNE_BREAK_FACT,
 ] as const;

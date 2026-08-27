@@ -120,7 +120,7 @@ test('VERIFIED ACTIONS cannot regress from source curves to selected-level parit
   const audit = auditCharacterMechanicsCoverage([AUGUSTA_CHARACTER_MECHANICS_PROFILE], factById);
   const issues = audit.structuralIssues.map((issue) => issue.issue);
 
-  assert.ok(issues.some((issue) => /augusta-intro-stride-of-goldenflare.*missing an exact Lv1-Lv10 motion-value representation/.test(issue)));
+  assert.ok(issues.some((issue) => /augusta-intro-stride-of-goldenflare.*missing an exact source motion-value representation/.test(issue)));
   assert.deepEqual(audit.verifiedCharacterIds, []);
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
 });

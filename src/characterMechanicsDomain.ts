@@ -85,6 +85,18 @@ export interface CharacterMotionValueComponent {
 }
 
 /**
+ * One source-fixed damage coefficient that does not have a Lv1-Lv10 skill table,
+ * for example a fixed Outro coefficient declared directly in kit text.
+ * `coefficient` is stored as a decimal multiplier and `hitCount` preserves only
+ * an explicit source multiplier. Conditional follow-up coefficients should stay
+ * separate facts when their activation semantics differ instead of being summed.
+ */
+export interface CharacterFixedMotionValueComponent {
+  coefficient: number;
+  hitCount: number;
+}
+
+/**
  * Raw-source verification and executable combat support are different questions.
  * A fact can be source-verified while still waiting for an adapter that knows how
  * to apply its trigger/stack/uptime semantics.
@@ -145,8 +157,19 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
    * remains in the shared combat-system layer.
    */
   motionValueCurve?: CharacterMotionValueCurve | null;
-  /** Exact mixed-coefficient source representation; mutually exclusive with `motionValueCurve`. */
+  /** Exact mixed-coefficient Lv1-Lv10 source representation; mutually exclusive with `motionValueCurve`. */
   motionValueComponents?: readonly CharacterMotionValueComponent[] | null;
+  /**
+   * Exact source-fixed coefficient for Character damage that has no Lv1-Lv10
+   * table, stored as a decimal multiplier. This is not a selected talent-level
+   * scalar and must never be populated merely because one level was sampled.
+   */
+  sourceFixedMotionValue?: number | null;
+  /**
+   * Exact mixed source-fixed coefficients for a no-level-table damage expression.
+   * Mutually exclusive with all other source damage representations.
+   */
+  sourceFixedMotionValueComponents?: readonly CharacterFixedMotionValueComponent[] | null;
   hitCount: number | null;
 }
 

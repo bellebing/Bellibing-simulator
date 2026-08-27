@@ -5,11 +5,17 @@ on:
     paths:
       - 'scripts/sync-character-mechanics.mjs'
       - 'scripts/generate-character-mechanics-review.mjs'
+      - 'scripts/generate-character-mechanics-description-review.mjs'
       - 'scripts/lib/character-mechanics-import.mjs'
       - 'scripts/lib/character-mechanics-promotion-review.mjs'
+      - 'scripts/lib/character-mechanics-description-review.mjs'
+      - 'src/characterMechanicsDomain.ts'
+      - 'src/data/characterMechanicsAudit.ts'
       - 'src/data/characters.ts'
       - 'test/characterMechanicsImport.test.ts'
       - 'test/characterMechanicsPromotionReview.test.ts'
+      - 'test/characterMechanicsDescriptionReview.test.ts'
+      - 'test/characterMechanicsFixedSourceDamage.test.ts'
       - 'package.json'
       - '.github/workflows/import-character-mechanics-source.yml'
   workflow_dispatch:
@@ -41,6 +47,12 @@ jobs:
           npm run review:character-mechanics --
           --input artifacts/character-mechanics-candidates.json
           --out artifacts/character-mechanics-promotion-review.json
+
+      - name: Generate description parameter review package
+        run: >-
+          npm run review:character-mechanics-descriptions --
+          --input artifacts/character-mechanics-candidates.json
+          --out artifacts/character-mechanics-description-review.json
 
       - name: Validate fail-closed roster match and promotion boundary
         run: |
@@ -75,10 +87,25 @@ jobs:
             throw new Error(`Current source snapshot contains unstructured tabular rows that need an explicit parser/review path: ${JSON.stringify(review.summary)}`);
           }
 
+          const descriptions = JSON.parse(await readFile('artifacts/character-mechanics-description-review.json', 'utf8'));
+          if (descriptions.kind !== 'CHARACTER_MECHANICS_DESCRIPTION_REVIEW' || descriptions.promotionStatus !== 'REVIEW_REQUIRED' || descriptions.verificationStatus !== 'NOT_VERIFIED') {
+            throw new Error('Description review must remain review-only and must never auto-verify.');
+          }
+          if (descriptions.summary.characters !== counts.matchedCharacters) {
+            throw new Error(`Description review character count drift: ${JSON.stringify(descriptions.summary)}`);
+          }
+          if (descriptions.summary.parsedParameters <= 0) {
+            throw new Error('Description review unexpectedly contains no structured source parameters.');
+          }
+          if (descriptions.summary.rawParameters !== 0) {
+            throw new Error(`Current source snapshot contains description parameters that need an explicit parser/review path: ${JSON.stringify(descriptions.summary)}`);
+          }
+
           console.log(`Matched ${counts.matchedCharacters}/${counts.requestedReleasedCharacters} released characters.`);
           console.log(`Parsed ${counts.parsedCoefficientRows} exact ten-level coefficient rows; ${counts.charactersNeedingReview} characters remain in parser review queue.`);
           console.log(`Promotion package carries ${review.summary.actionCandidates} exact action candidates, ${review.summary.utilityFormulaCandidates} flat+percent formulas, ${review.summary.numericCurveCandidates} numeric curves and ${review.summary.twoTermNumericCandidates} two-term numeric curves without auto-verification.`);
-          console.log('All current tabular source rows are structurally represented; semantic interpretation remains review-only.');
+          console.log(`Description package carries ${descriptions.summary.parsedParameters} structured source parameters across ${descriptions.summary.movesWithParameters} moves without assigning mechanic meaning.`);
+          console.log('All current tabular rows and move description parameters are structurally represented; semantic interpretation remains review-only.');
           NODE
 
       - name: Upload candidate snapshot for source audit

@@ -179,14 +179,14 @@ test('starter-batch Tune Break facts stay at the shared-system boundary', () => 
   }
 });
 
-test('starter roster batch advances canonical coverage to 8 verified / 49 unstarted / 256 facts', () => {
+test('starter roster remains verified after the second Character Mechanics batch advances canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 8);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'chixia', 'mortefi', 'yangyang']);
+  assert.equal(audit.profileCount, 10);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'jiyan', 'mortefi', 'yangyang']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 49);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 256);
+  assert.equal(audit.unstartedCharacterIds.length, 47);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 319);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['chixia', 'mortefi', 'yangyang']) {

@@ -33,13 +33,14 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'chixia', 'mortefi', 'yangyang']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'jiyan', 'mortefi', 'yangyang']);
 });
 
 test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {
   const nonDamageIds = new Set([
     'augusta-liberation-sublime-is-the-sun-state',
     'augusta-outro-battlesong-of-the-unyielding',
+    'jiyan-liberation-emerald-storm-prelude',
   ]);
   const tuneBreakIds = new Set([
     'aalto-tune-break-pistols',
@@ -47,7 +48,9 @@ test('current action facts classify Character damage, shared-system Tune Break d
     'augusta-tune-break-broadblade',
     'baizhi-tune-break-rectifier',
     'brant-tune-break-sword',
+    'changli-tune-break-sword',
     'chixia-tune-break-pistols',
+    'jiyan-tune-break-broadblade',
     'mortefi-tune-break-pistols',
     'yangyang-tune-break-sword',
   ]);

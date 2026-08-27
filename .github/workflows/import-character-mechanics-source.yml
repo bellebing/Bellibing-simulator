@@ -4,9 +4,12 @@ on:
   pull_request:
     paths:
       - 'scripts/sync-character-mechanics.mjs'
+      - 'scripts/generate-character-mechanics-review.mjs'
       - 'scripts/lib/character-mechanics-import.mjs'
+      - 'scripts/lib/character-mechanics-promotion-review.mjs'
       - 'src/data/characters.ts'
       - 'test/characterMechanicsImport.test.ts'
+      - 'test/characterMechanicsPromotionReview.test.ts'
       - 'package.json'
       - '.github/workflows/import-character-mechanics-source.yml'
   workflow_dispatch:
@@ -33,7 +36,13 @@ jobs:
           --out artifacts/character-mechanics-candidates.json
           --summary-out artifacts/character-mechanics-candidates.summary.json
 
-      - name: Validate fail-closed roster match
+      - name: Generate promotion review package
+        run: >-
+          npm run review:character-mechanics --
+          --input artifacts/character-mechanics-candidates.json
+          --out artifacts/character-mechanics-promotion-review.json
+
+      - name: Validate fail-closed roster match and promotion boundary
         run: |
           node --input-type=module <<'NODE'
           import { readFile } from 'node:fs/promises';
@@ -45,8 +54,31 @@ jobs:
           if (counts.matchedCharacters !== counts.requestedReleasedCharacters || counts.unmatchedCharacters !== 0 || counts.ambiguousCharacters !== 0) {
             throw new Error(`Released roster source match incomplete: ${JSON.stringify(counts)}`);
           }
+
+          const review = JSON.parse(await readFile('artifacts/character-mechanics-promotion-review.json', 'utf8'));
+          if (review.kind !== 'CHARACTER_MECHANICS_PROMOTION_REVIEW' || review.promotionStatus !== 'REVIEW_REQUIRED' || review.verificationStatus !== 'NOT_VERIFIED') {
+            throw new Error('Promotion package must remain review-only and must never auto-verify.');
+          }
+          if (review.summary.characters !== counts.matchedCharacters) {
+            throw new Error(`Promotion character count drift: ${JSON.stringify(review.summary)}`);
+          }
+          if (review.summary.actionCandidates <= 0) {
+            throw new Error('Promotion review unexpectedly contains no exact action candidates.');
+          }
+          if (review.summary.tuneBreakCandidates !== review.summary.characters) {
+            throw new Error(`Expected one current Tune Break source candidate per released character: ${JSON.stringify(review.summary)}`);
+          }
+          if (review.summary.sequenceCandidates !== review.summary.characters * 6) {
+            throw new Error(`Expected exact S1-S6 source candidates for every released character: ${JSON.stringify(review.summary)}`);
+          }
+          if (review.summary.rawReviewRows !== 0) {
+            throw new Error(`Current source snapshot contains unstructured tabular rows that need an explicit parser/review path: ${JSON.stringify(review.summary)}`);
+          }
+
           console.log(`Matched ${counts.matchedCharacters}/${counts.requestedReleasedCharacters} released characters.`);
-          console.log(`Parsed ${counts.parsedCoefficientRows} exact ten-level coefficient rows; ${counts.charactersNeedingReview} characters remain in review queue.`);
+          console.log(`Parsed ${counts.parsedCoefficientRows} exact ten-level coefficient rows; ${counts.charactersNeedingReview} characters remain in parser review queue.`);
+          console.log(`Promotion package carries ${review.summary.actionCandidates} exact action candidates, ${review.summary.utilityFormulaCandidates} flat+percent formulas, ${review.summary.numericCurveCandidates} numeric curves and ${review.summary.twoTermNumericCandidates} two-term numeric curves without auto-verification.`);
+          console.log('All current tabular source rows are structurally represented; semantic interpretation remains review-only.');
           NODE
 
       - name: Upload candidate snapshot for source audit

@@ -30,14 +30,14 @@ jobs:
         run: >-
           npm run sync:character-mechanics --
           --allow-unmatched
-          --out .artifacts/character-mechanics-candidates.json
-          --summary-out .artifacts/character-mechanics-candidates.summary.json
+          --out artifacts/character-mechanics-candidates.json
+          --summary-out artifacts/character-mechanics-candidates.summary.json
 
       - name: Validate fail-closed roster match
         run: |
           node --input-type=module <<'NODE'
           import { readFile } from 'node:fs/promises';
-          const summary = JSON.parse(await readFile('.artifacts/character-mechanics-candidates.summary.json', 'utf8'));
+          const summary = JSON.parse(await readFile('artifacts/character-mechanics-candidates.summary.json', 'utf8'));
           if (summary.importStatus !== 'CANDIDATE_ONLY' || summary.verificationStatus !== 'NOT_VERIFIED') {
             throw new Error('Source import must remain candidate-only and must never auto-verify.');
           }
@@ -54,6 +54,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-character-mechanics-source-candidate
-          path: .artifacts/
+          path: artifacts/
           if-no-files-found: warn
           retention-days: 7

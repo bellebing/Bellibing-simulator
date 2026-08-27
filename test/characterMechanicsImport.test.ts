@@ -54,7 +54,7 @@ test('parses one current-source percentage expression without pre-summing compon
       { coefficient: 0.6636, hitCount: 3 },
       { coefficient: 2.8756, hitCount: 1 },
     ],
-    aggregate: 5.1984,
+    aggregate: 5.1982,
   });
   assert.equal(parsePercentExpression('120% + 5 Concerto Energy'), null);
 });

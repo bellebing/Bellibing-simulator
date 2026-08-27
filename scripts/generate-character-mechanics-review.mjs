@@ -50,9 +50,11 @@ async function main() {
   console.log(
     `Character Mechanics promotion review: ${counts.characters} characters, ` +
     `${counts.actionCandidates} exact action candidates, ` +
-    `${counts.utilityFormulaCandidates} structured utility formulas, ` +
+    `${counts.utilityFormulaCandidates} flat+percent formulas, ` +
+    `${counts.numericCurveCandidates} numeric curves, ` +
+    `${counts.twoTermNumericCandidates} two-term numeric curves, ` +
     `${counts.sequenceCandidates} sequence candidates, ` +
-    `${counts.rawReviewRows} raw rows left for review.`,
+    `${counts.rawReviewRows} unstructured rows left.`,
   );
   console.log(
     `Ready for semantic review: ${counts.readyForSemanticReview}; ` +

@@ -7,9 +7,17 @@ import { AEMEATH_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aemeathRa
 import { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 import { BAIZHI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/baizhiRawFacts.ts';
+import { CHARACTER_TUNE_BREAK_FACTS } from './characterMechanics/tuneBreakFacts.ts';
 
 export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 export { BAIZHI_ACTION_FACTS } from './characterMechanics/baizhiRawFacts.ts';
+export {
+  AALTO_TUNE_BREAK_FACT,
+  AEMEATH_TUNE_BREAK_FACT,
+  AUGUSTA_TUNE_BREAK_FACT,
+  BAIZHI_TUNE_BREAK_FACT,
+  CHARACTER_TUNE_BREAK_FACTS,
+} from './characterMechanics/tuneBreakFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -17,6 +25,7 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AALTO_CHARACTER_MECHANIC_FACTS,
   ...AEMEATH_CHARACTER_MECHANIC_FACTS,
   ...BAIZHI_CHARACTER_MECHANIC_FACTS,
+  ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -39,17 +48,17 @@ export function getCharacterActionFact(factId: string) {
 
 /**
  * Raw mechanics coverage is independent from executable combat coverage.
- * Augusta's current live ACTION catalog is source-complete at Lv1-Lv10 while
- * the existing V9.15 Standard engine keeps its selected-level aggregate values
- * in a separate parity fixture. This prevents the historical combat oracle from
- * being mistaken for raw source data or forcing selected-level scalars into the
- * source-completeness audit.
+ * Augusta's current live Character-owned ACTION catalog is source-complete at
+ * Lv1-Lv10 while shared-system Tune Break access is represented separately.
+ * The existing V9.15 Standard engine keeps its selected-level aggregate values
+ * in a separate parity fixture. This prevents either historical parity or the
+ * shared combat-system formula from being mistaken for Character source data.
  */
 export const AUGUSTA_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'augusta',
   verificationStatus: 'VERIFIED',
   coverage: [
-    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Full current Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation and Intro action coverage carries exact Lv1-Lv10 source representations; non-damage state/Outro actions are explicit. The V9.15 Standard selected-level aggregates remain a separate parity fixture.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Full current Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation, Intro and Tune Break coverage is explicit. Character-owned damage carries exact Lv1-Lv10 source representations; Tune Break is typed as shared-system damage without a fabricated Character coefficient. The V9.15 Standard selected-level aggregates remain a separate parity fixture.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Prowess/Ascendancy/Majesty, Undying Sunlight gating and Sworn Allegiance rules are source-audited.' },
     { area: 'INHERENT_PASSIVES', status: 'VERIFIED' },
     { area: 'OUTRO_EFFECT', status: 'VERIFIED' },
@@ -74,13 +83,13 @@ export const AUGUSTA_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
       'https://wikiwiki.jp/w-w/%E3%82%AA%E3%83%BC%E3%82%AC%E3%82%B9%E3%82%BF',
       'https://wutheringlab.com/character/augusta-build/',
     ],
-    checkedAt: '2026-08-26',
+    checkedAt: '2026-08-27',
     notes: [
-      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas.',
+      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas, including the current Tune Break entry whose own provenance is attached to its shared-system action fact.',
       'The current Fandom Everbright Protector Lv1 first-component cell conflicts with current Wuthering.gg/Japanese-wiki evidence; the independently corroborated 120.00% value is used and the conflicting 20.00% cell remains provenance evidence.',
       "Current Warrior's Blade source consensus is 110.00%*3 at Lv1, 218.70%*3 at Lv10 and 15s cooldown; current Japanese-wiki/Wutheringlab conflicting older cells remain provenance evidence rather than overriding the live consensus.",
       'Current Undying Sunlight: Plunge source structure is 43.55% + 391.95% at Lv1 through 86.59% + 779.24% at Lv10; stale split-component mirrors remain recorded rather than silently flattened into the same aggregate.',
-      'MODEL_READY/MODELED/PENDING_INTERPRETATION remain independent from source VERIFIED coverage. Augusta Standard remains the existing narrow exact-parity combat fixture; this profile does not authorize broad DPS expansion.',
+      'MODEL_READY/MODELED/PENDING_INTERPRETATION remain independent from source VERIFIED coverage. Augusta Standard remains the existing narrow exact-parity combat fixture; the shared Tune Break damage formula is also a separate combat-system modeling concern.',
     ],
   },
 };
@@ -89,7 +98,7 @@ export const AALTO_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'aalto',
   verificationStatus: 'VERIFIED',
   coverage: [
-    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation and Intro damaging actions carry source-backed Lv1-Lv10 motion-value curves.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Basic/Heavy/Mid-air/Dodge, Skill, Forte, Liberation and Intro damaging actions carry source-backed Lv1-Lv10 motion-value curves; current Tune Break: Pistols access is explicit shared-system damage without a fabricated Character coefficient.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Mistcloak Dash, Mist Drop acquisition/consumption and Mist Missile generation are source-audited; executable dash cadence remains separate from raw coverage.' },
     { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Perfect Performance and Mid-game Break are source-audited.' },
     { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Dissolving Mist 23% Aero DMG Amplification / 14s / switch-out termination is source-audited.' },
@@ -104,10 +113,10 @@ export const AALTO_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
       'https://www.prydwen.gg/wuthering-waves/characters/aalto',
       'https://wutheringlab.com/character/aalto-build/',
     ],
-    checkedAt: '2026-08-26',
+    checkedAt: '2026-08-27',
     notes: [
-      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas.',
-      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION statuses remain distinct from source verification; VERIFIED profile coverage does not claim an Aalto rotation/DPS adapter exists.',
+      'Source-level raw mechanics coverage is complete for the six required Character Mechanics areas, including the current Tune Break entry whose own provenance is attached to its shared-system action fact.',
+      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION statuses remain distinct from source verification; VERIFIED profile coverage does not claim an Aalto rotation/DPS adapter or shared Tune Break damage formula exists.',
     ],
   },
 };
@@ -116,7 +125,7 @@ export const AEMEATH_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'aemeath',
   verificationStatus: 'VERIFIED',
   coverage: [
-    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Aemeath/Mech Basic, Heavy, Mid-air, Dodge, Sync Strike, Liberation, Seraphic Duet, Tune-AMP response and Intro actions carry exact Lv1-Lv10 source representations. Mixed-hit expressions remain explicit components.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Aemeath/Mech Basic, Heavy, Mid-air, Dodge, Sync Strike, Liberation, Seraphic Duet, Tune-AMP response and Intro actions carry exact Lv1-Lv10 source representations. Mixed-hit expressions remain explicit components. Unlanded Melody is explicit shared-system Tune Break damage and keeps its Basic Stage 3 / Starburst transition semantics without duplicating Starburst motion values.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Seraphic Duo/Duet, Resonance Mode trails, Tune Rupture/Fusion Burst response state, Starflux and Tune-AMP coefficients are source-audited; encounter timing remains separate.' },
     { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Before All Sounds and Between the Stars are source-audited without assuming state uptime or team triggers.' },
     { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Silent Protection team amplification and 20-second duration are source-audited; qualifying 20% branch remains conditional.' },
@@ -139,12 +148,12 @@ export const AEMEATH_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
       'https://wutheringwaves.fandom.com/wiki/Aemeath/Combat',
       'https://wutheringdb.com/zh/characters/aemeath',
     ],
-    checkedAt: '2026-08-26',
+    checkedAt: '2026-08-27',
     notes: [
-      'Source-level raw mechanics coverage is complete for all six required Character Mechanics areas.',
+      'Source-level raw mechanics coverage is complete for all six required Character Mechanics areas, including the current Unlanded Melody Tune Break entry whose own provenance is attached to its shared-system action fact.',
       'WWPlus malformed/repeated table cells, stale Synchronization tooltip ordering and the current Seraphic Duet Overture/Encore label disagreement remain provenance discrepancies rather than guessed executable truth.',
       'S6 max-trail-limit combat-state wording conflicts across current secondary sources; the current WutheringDB raw-data mirror plus WuWaBuilds/PlayAware/Wuthering.gg in-combat consensus is used while Wutheringlab/WutheringTools out-of-combat wording remains explicit provenance evidence.',
-      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION remain independent from source VERIFIED coverage; no Aemeath build, rotation or DPS adapter is implied by this profile.',
+      'MODEL_READY/RAW_ONLY/PENDING_INTERPRETATION remain independent from source VERIFIED coverage; no Aemeath build, rotation, DPS adapter or shared Tune Break damage formula is implied by this profile.',
     ],
   },
 };
@@ -153,7 +162,7 @@ export const BAIZHI_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'baizhi',
   verificationStatus: 'VERIFIED',
   coverage: [
-    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Destined Promise Basic/Heavy/Mid-air/Dodge, Emergency Plan, Remnant Entities and Intro damage carry exact current Lv1-Lv10 source curves with source-backed scaling and hit counts.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Destined Promise Basic/Heavy/Mid-air/Dodge, Emergency Plan, Remnant Entities and Intro damage carry exact current Lv1-Lv10 source curves with source-backed scaling and hit counts. Tune Break: Rectifier is explicit shared-system damage without a fabricated Character coefficient.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: "You'tan shared-stat behavior, Concentration gain/max/consume rules, healing cadence and source-listed recovery values are audited; unresolved per-stack versus per-cast execution of the base recovery table remains PENDING_INTERPRETATION rather than guessed." },
     { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Harmonic Range/Euphonia and Stimulus Feedback are source-audited.' },
     { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Rejuvinating Flow 1.54% Max-HP healing every 3s for 30s plus 15% DMG Amplification for 6s is source-audited; refresh timing remains executable state.' },
@@ -184,7 +193,8 @@ export const BAIZHI_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
       'PR #61 candidate extraction removed transcription work but did not count as verification; this profile was promoted only after current source/semantic review.',
       'Emergency Plan and Remnant Entities are source-backed HP-scaling damage, while Destined Promise and Overflowing Frost damage are ATK-scaling. Remnant Entities is simultaneously a coordinated attack and raw Type=LIBERATION.',
       'Current displayed healing values and the raw damage-data mirror differ by 0.01 percentage point at several Lv10 backend/display cells (Emergency Plan 5.76 vs 5.77, Intro 0.75 vs 0.76, Concentration 0.31 vs 0.32). Bellibing keeps the current displayed multi-source values and records the backend precision discrepancy instead of guessing a silent correction.',
-      'Healing tables remain raw utility summaries because the current Character Mechanics domain has an exact typed Lv1-Lv10 contract for damage motion values but no fake reuse of damage fields for healing. This does not imply healing uptime or a healer combat adapter.',
+      'Healing tables remain raw utility summaries because the current Character Mechanics domain has an exact typed Lv1-Lv10 contract for Character-owned damage motion values but no fake reuse of damage fields for healing. This does not imply healing uptime or a healer combat adapter.',
+      'Tune Break: Rectifier is source-verified as Character access to the shared Tune Break damage system; the shared damage formula remains separate pending combat-system modeling.',
       'Broad DPS remains blocked by the rest of roster-wide Character Mechanics coverage.',
     ],
   },

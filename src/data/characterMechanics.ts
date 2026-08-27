@@ -6,14 +6,17 @@ import { AALTO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aaltoRawFac
 import { AEMEATH_CHARACTER_MECHANIC_FACTS } from './characterMechanics/aemeathRawFacts.ts';
 import { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
+import { BAIZHI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 
 export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
+export { BAIZHI_ACTION_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
   ...AUGUSTA_NON_ACTION_MECHANIC_FACTS,
   ...AALTO_CHARACTER_MECHANIC_FACTS,
   ...AEMEATH_CHARACTER_MECHANIC_FACTS,
+  ...BAIZHI_CHARACTER_MECHANIC_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -146,10 +149,52 @@ export const AEMEATH_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   },
 };
 
+export const BAIZHI_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
+  characterId: 'baizhi',
+  verificationStatus: 'VERIFIED',
+  coverage: [
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'Destined Promise Basic/Heavy/Mid-air/Dodge, Emergency Plan, Remnant Entities and Intro damage carry exact current Lv1-Lv10 source curves with source-backed scaling and hit counts.' },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: "You'tan shared-stat behavior, Concentration gain/max/consume rules, healing cadence and source-listed recovery values are audited; unresolved per-stack versus per-cast execution of the base recovery table remains PENDING_INTERPRETATION rather than guessed." },
+    { area: 'INHERENT_PASSIVES', status: 'VERIFIED', notes: 'Harmonic Range/Euphonia and Stimulus Feedback are source-audited.' },
+    { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes: 'Rejuvinating Flow 1.54% Max-HP healing every 3s for 30s plus 15% DMG Amplification for 6s is source-audited; refresh timing remains executable state.' },
+    { area: 'RESOURCE_RULES', status: 'VERIFIED', notes: 'Concentration max 4, +1 per Basic Attack hit and all-stack consumption by Heavy Attack/Emergency Plan are source-audited.' },
+    { area: 'SEQUENCES', status: 'VERIFIED', notes: 'Exact current S1-S6 raw mechanics are source-audited; sequence execution remains separate from raw coverage.' },
+  ],
+  factIds: CHARACTER_MECHANIC_FACTS.filter((fact) => fact.characterId === 'baizhi').map((fact) => fact.factId),
+  provenance: {
+    sourceLabels: [
+      'wuwabuild normalized Character snapshot — pinned source candidate',
+      'Wuthering.gg — current Baizhi kit',
+      'Prydwen — current Baizhi kit',
+      'Wuthering Waves Wiki/Fandom — current Baizhi skill tables/scaling',
+      '鸣潮WIKI/Bilibili — current Baizhi full skill tables',
+      'Wuthering.wiki — raw damage-data mirror for scaling/type/discrepancy evidence',
+    ],
+    sourceUrls: [
+      'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json',
+      'https://wuthering.gg/characters/baizhi',
+      'https://www.prydwen.gg/wuthering-waves/characters/baizhi',
+      'https://wutheringwaves.fandom.com/wiki/Emergency_Plan',
+      'https://wutheringwaves.fandom.com/wiki/Momentary_Union',
+      'https://wiki.biligame.com/wutheringwaves/%E5%85%B1%E9%B8%A3%E8%80%85/%E7%99%BD%E8%8A%B7',
+      'https://wuthering.wiki/character_1103.html',
+    ],
+    checkedAt: '2026-08-27',
+    notes: [
+      'PR #61 candidate extraction removed transcription work but did not count as verification; this profile was promoted only after current source/semantic review.',
+      'Emergency Plan and Remnant Entities are source-backed HP-scaling damage, while Destined Promise and Overflowing Frost damage are ATK-scaling. Remnant Entities is simultaneously a coordinated attack and raw Type=LIBERATION.',
+      'Current displayed healing values and the raw damage-data mirror differ by 0.01 percentage point at several Lv10 backend/display cells (Emergency Plan 5.76 vs 5.77, Intro 0.75 vs 0.76, Concentration 0.31 vs 0.32). Bellibing keeps the current displayed multi-source values and records the backend precision discrepancy instead of guessing a silent correction.',
+      'Healing tables remain raw utility summaries because the current Character Mechanics domain has an exact typed Lv1-Lv10 contract for damage motion values but no fake reuse of damage fields for healing. This does not imply healing uptime or a healer combat adapter.',
+      'Broad DPS remains blocked by the rest of roster-wide Character Mechanics coverage.',
+    ],
+  },
+};
+
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   AUGUSTA_CHARACTER_MECHANICS_PROFILE,
   AALTO_CHARACTER_MECHANICS_PROFILE,
   AEMEATH_CHARACTER_MECHANICS_PROFILE,
+  BAIZHI_CHARACTER_MECHANICS_PROFILE,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

@@ -8,7 +8,9 @@ const AEMEATH_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/aemeat
 const AUGUSTA_SOURCE = 'https://wuwa.incin.net/resonators/1306';
 const BAIZHI_SOURCE = 'https://wuthering.gg/characters/baizhi';
 const BRANT_SOURCE = 'https://wuthering.gg/characters/brant';
+const CHANGLI_SOURCE = 'https://wuthering.gg/characters/changli';
 const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
+const JIYAN_SOURCE = 'https://wuthering.gg/characters/jiyan';
 const MORTEFI_SOURCE = 'https://wuthering.gg/characters/mortefi';
 const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 
@@ -105,6 +107,15 @@ export const BRANT_TUNE_BREAK_FACT = tuneBreak({
   notes: ["When the target's Off-Tune Level is full, Brant may cast Tune Break on the target. No Brant-specific coefficient table is exposed."],
 });
 
+export const CHANGLI_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'changli',
+  factId: 'changli-tune-break-sword',
+  name: 'Tune Break — Sword',
+  sourceLabel: 'Wuthering.gg — current Changli Tune Break entry',
+  sourceUrl: CHANGLI_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Changli may cast Tune Break on the target. No Changli-specific coefficient table is exposed."],
+});
+
 export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({
   characterId: 'chixia',
   factId: 'chixia-tune-break-pistols',
@@ -112,6 +123,15 @@ export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({
   sourceLabel: 'Wuthering.gg — current Chixia Tune Break entry',
   sourceUrl: CHIXIA_SOURCE,
   notes: ["When the target's Off-Tune Level is full, Chixia may cast Tune Break on the target. No Chixia-specific coefficient table is exposed."],
+});
+
+export const JIYAN_TUNE_BREAK_FACT = tuneBreak({
+  characterId: 'jiyan',
+  factId: 'jiyan-tune-break-broadblade',
+  name: 'Tune Break — Broadblade',
+  sourceLabel: 'Wuthering.gg — current Jiyan Tune Break entry',
+  sourceUrl: JIYAN_SOURCE,
+  notes: ["When the target's Off-Tune Level is full, Jiyan may cast Tune Break on the target. No Jiyan-specific coefficient table is exposed."],
 });
 
 export const MORTEFI_TUNE_BREAK_FACT = tuneBreak({
@@ -138,7 +158,9 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   AUGUSTA_TUNE_BREAK_FACT,
   BAIZHI_TUNE_BREAK_FACT,
   BRANT_TUNE_BREAK_FACT,
+  CHANGLI_TUNE_BREAK_FACT,
   CHIXIA_TUNE_BREAK_FACT,
+  JIYAN_TUNE_BREAK_FACT,
   MORTEFI_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
 ] as const;

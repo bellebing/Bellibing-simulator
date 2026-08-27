@@ -119,6 +119,19 @@ function compactSummary(candidate) {
   };
 }
 
+function printMatchExceptions(candidate) {
+  if (candidate.unmatched.length > 0) {
+    console.log(`Unmatched released roster: ${candidate.unmatched.map((entry) => `${entry.id} (${entry.name})`).join(', ')}`);
+  }
+  if (candidate.ambiguous.length > 0) {
+    console.log(
+      `Ambiguous released roster: ${candidate.ambiguous
+        .map((entry) => `${entry.id} (${entry.name}) => [${entry.sourceIds.join(', ')}]`)
+        .join(', ')}`,
+    );
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const { sourcePayload, sourceCommit, sourceRepository } = await resolveSource(args.input);
@@ -146,6 +159,7 @@ async function main() {
   console.log(`Source: ${sourceRepository}@${sourceCommit}`);
   console.log(`Candidate: ${args.out}`);
   console.log(`Review summary: ${args.summaryOut}`);
+  printMatchExceptions(candidate);
 
   if (!args.allowUnmatched && (counts.unmatchedCharacters > 0 || counts.ambiguousCharacters > 0)) {
     const missing = candidate.unmatched.map((entry) => entry.id).join(', ') || 'none';

@@ -176,8 +176,8 @@ test('Brant Inherents, Outro and S1-S6 remain source-verified without automatic 
   assert.ok(outro);
   assert.equal(outro.scope, 'NEXT_CHARACTER');
   assert.equal(outro.durationSeconds, 14);
-  assert.match(outro.effectSummary, /20%.*Fusion DMG/);
-  assert.match(outro.effectSummary, /25%.*Resonance Skill DMG/);
+  assert.match(outro.effectSummary, /Fusion DMG.*20%/);
+  assert.match(outro.effectSummary, /Resonance Skill DMG.*25%/);
   assert.match(outro.effectSummary, /switched out/);
 
   assert.deepEqual(BRANT_SEQUENCE_FACTS.map((fact) => fact.sequence), [1, 2, 3, 4, 5, 6]);

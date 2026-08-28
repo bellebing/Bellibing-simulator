@@ -8,10 +8,13 @@ import { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActi
 import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaRawFacts.ts';
 import { BAIZHI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 import { BRANT_CHARACTER_MECHANIC_FACTS } from './characterMechanics/brantRawFacts.ts';
+import { CALCHARO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/calcharoRawFacts.ts';
 import { CHANGLI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/changliRawFacts.ts';
 import { CHIXIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 import { ENCORE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/encoreRawFacts.ts';
+import { FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/fourthBatchProfiles.ts';
 import { JIYAN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jiyanRawFacts.ts';
+import { LINGYANG_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lingyangRawFacts.ts';
 import { MORTEFI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 import { SECOND_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/secondBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
@@ -20,14 +23,23 @@ import { THIRD_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/t
 import { CHARACTER_TUNE_BREAK_FACTS } from './characterMechanics/tuneBreakFacts.ts';
 import { VERINA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/verinaRawFacts.ts';
 import { YANGYANG_CHARACTER_MECHANIC_FACTS } from './characterMechanics/yangyangRawFacts.ts';
+import { YINLIN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/yinlinRawFacts.ts';
 
 export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActionFacts.ts';
 export { BAIZHI_ACTION_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 export { BRANT_ACTION_FACTS } from './characterMechanics/brantRawFacts.ts';
+export { CALCHARO_ACTION_FACTS } from './characterMechanics/calcharoRawFacts.ts';
 export { CHANGLI_ACTION_FACTS } from './characterMechanics/changliRawFacts.ts';
 export { CHIXIA_ACTION_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 export { ENCORE_ACTION_FACTS } from './characterMechanics/encoreRawFacts.ts';
+export {
+  CALCHARO_CHARACTER_MECHANICS_PROFILE,
+  FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  LINGYANG_CHARACTER_MECHANICS_PROFILE,
+  YINLIN_CHARACTER_MECHANICS_PROFILE,
+} from './characterMechanics/fourthBatchProfiles.ts';
 export { JIYAN_ACTION_FACTS } from './characterMechanics/jiyanRawFacts.ts';
+export { LINGYANG_ACTION_FACTS } from './characterMechanics/lingyangRawFacts.ts';
 export { MORTEFI_ACTION_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
@@ -53,18 +65,22 @@ export {
   AUGUSTA_TUNE_BREAK_FACT,
   BAIZHI_TUNE_BREAK_FACT,
   BRANT_TUNE_BREAK_FACT,
+  CALCHARO_TUNE_BREAK_FACT,
   CHANGLI_TUNE_BREAK_FACT,
   CHARACTER_TUNE_BREAK_FACTS,
   CHIXIA_TUNE_BREAK_FACT,
   ENCORE_TUNE_BREAK_FACT,
   JIYAN_TUNE_BREAK_FACT,
+  LINGYANG_TUNE_BREAK_FACT,
   MORTEFI_TUNE_BREAK_FACT,
   TAOQI_TUNE_BREAK_FACT,
   VERINA_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
+  YINLIN_TUNE_BREAK_FACT,
 } from './characterMechanics/tuneBreakFacts.ts';
 export { VERINA_ACTION_FACTS } from './characterMechanics/verinaRawFacts.ts';
 export { YANGYANG_ACTION_FACTS } from './characterMechanics/yangyangRawFacts.ts';
+export { YINLIN_ACTION_FACTS } from './characterMechanics/yinlinRawFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -73,14 +89,17 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AEMEATH_CHARACTER_MECHANIC_FACTS,
   ...BAIZHI_CHARACTER_MECHANIC_FACTS,
   ...BRANT_CHARACTER_MECHANIC_FACTS,
+  ...CALCHARO_CHARACTER_MECHANIC_FACTS,
   ...CHANGLI_CHARACTER_MECHANIC_FACTS,
   ...CHIXIA_CHARACTER_MECHANIC_FACTS,
   ...ENCORE_CHARACTER_MECHANIC_FACTS,
   ...JIYAN_CHARACTER_MECHANIC_FACTS,
+  ...LINGYANG_CHARACTER_MECHANIC_FACTS,
   ...MORTEFI_CHARACTER_MECHANIC_FACTS,
   ...TAOQI_CHARACTER_MECHANIC_FACTS,
   ...VERINA_CHARACTER_MECHANIC_FACTS,
   ...YANGYANG_CHARACTER_MECHANIC_FACTS,
+  ...YINLIN_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -307,6 +326,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...STARTER_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...SECOND_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...THIRD_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

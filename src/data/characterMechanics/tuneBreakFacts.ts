@@ -1,6 +1,6 @@
 import type { CharacterActionFact } from '../../characterMechanicsDomain.ts';
 
-const CHECKED_AT = '2026-08-27';
+const CHECKED_AT = '2026-08-28';
 const SOURCE_SNAPSHOT = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json';
 const TUNE_BREAK_PATCH_NOTES = 'https://wutheringwaves.gg/patch-notes-for-version-3-0-we-who-see-the-stars/';
 const AALTO_SOURCE = 'https://wuthering.gg/characters/aalto';
@@ -19,6 +19,8 @@ const TAOQI_SOURCE = 'https://wuthering.gg/characters/taoqi';
 const VERINA_SOURCE = 'https://wuthering.gg/characters/verina';
 const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 const YINLIN_SOURCE = 'https://wuthering.gg/characters/yinlin';
+const YOUHU_SOURCE = 'https://wuthering.gg/characters/youhu';
+const YUANWU_SOURCE = 'https://wuthering.gg/characters/yuanwu';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
 
@@ -69,6 +71,8 @@ export const TAOQI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'taoqi', factId: '
 export const VERINA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'verina', factId: 'verina-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Verina Tune Break entry', sourceUrl: VERINA_SOURCE, notes: ["When the target's Off-Tune Level is full, Verina may cast Tune Break on the target. No Verina-specific coefficient table is exposed."] });
 export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yangyang', factId: 'yangyang-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Yangyang Tune Break entry', sourceUrl: YANGYANG_SOURCE, notes: ["When the target's Off-Tune Level is full, Yangyang may cast Tune Break on the target. No Yangyang-specific coefficient table is exposed."] });
 export const YINLIN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yinlin', factId: 'yinlin-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Yinlin Tune Break entry', sourceUrl: YINLIN_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Yinlin may cast Tune Break on the target. No Yinlin-specific coefficient table is exposed."] });
+export const YOUHU_TUNE_BREAK_FACT = tuneBreak({ characterId: 'youhu', factId: 'youhu-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Youhu Tune Break entry', sourceUrl: YOUHU_SOURCE, notes: ["When the target's Off-Tune Level is full, Youhu may cast Tune Break on the target. No Youhu-specific coefficient table is exposed."] });
+export const YUANWU_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yuanwu', factId: 'yuanwu-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Yuanwu Tune Break entry', sourceUrl: YUANWU_SOURCE, notes: ["When the target's Off-Tune Level is full, Yuanwu may cast Tune Break on the target. No Yuanwu-specific coefficient table is exposed."] });
 
 export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   AALTO_TUNE_BREAK_FACT,
@@ -87,4 +91,6 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   VERINA_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
   YINLIN_TUNE_BREAK_FACT,
+  YOUHU_TUNE_BREAK_FACT,
+  YUANWU_TUNE_BREAK_FACT,
 ] as const;

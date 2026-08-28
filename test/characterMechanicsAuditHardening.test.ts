@@ -33,7 +33,7 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'encore', 'jiyan', 'mortefi', 'taoqi', 'verina', 'yangyang']);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin']);
 });
 
 test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {

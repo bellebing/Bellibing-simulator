@@ -9,6 +9,8 @@ const AUGUSTA_SOURCE = 'https://wuwa.incin.net/resonators/1306';
 const BAIZHI_SOURCE = 'https://wuthering.gg/characters/baizhi';
 const BRANT_SOURCE = 'https://wuthering.gg/characters/brant';
 const CALCHARO_SOURCE = 'https://wuthering.gg/characters/calcharo';
+const CAMELLYA_SOURCE = 'https://wuthering.gg/characters/camellya';
+const CARLOTTA_SOURCE = 'https://wuthering.gg/characters/carlotta';
 const CHANGLI_SOURCE = 'https://wuthering.gg/characters/changli';
 const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
 const ENCORE_SOURCE = 'https://wuthering.gg/characters/encore';
@@ -63,6 +65,8 @@ export const AUGUSTA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'augusta', factI
 export const BAIZHI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'baizhi', factId: 'baizhi-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Baizhi Tune Break entry', sourceUrl: BAIZHI_SOURCE, notes: ["When the target's Off-Tune Level is full, Baizhi may cast Tune Break on the target. No Baizhi-specific coefficient table is exposed."] });
 export const BRANT_TUNE_BREAK_FACT = tuneBreak({ characterId: 'brant', factId: 'brant-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Brant Tune Break entry', sourceUrl: BRANT_SOURCE, notes: ["When the target's Off-Tune Level is full, Brant may cast Tune Break on the target. No Brant-specific coefficient table is exposed."] });
 export const CALCHARO_TUNE_BREAK_FACT = tuneBreak({ characterId: 'calcharo', factId: 'calcharo-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Wuthering.gg — current Calcharo Tune Break entry', sourceUrl: CALCHARO_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Calcharo may cast Tune Break on the target. No Calcharo-specific coefficient table is exposed."] });
+export const CAMELLYA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'camellya', factId: 'camellya-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Camellya Tune Break entry', sourceUrl: CAMELLYA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Camellya may cast Tune Break on the target. No Camellya-specific coefficient table is exposed."] });
+export const CARLOTTA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'carlotta', factId: 'carlotta-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.gg — current Carlotta Tune Break entry', sourceUrl: CARLOTTA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Carlotta may cast Tune Break on the target. No Carlotta-specific coefficient table is exposed."] });
 export const CHANGLI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'changli', factId: 'changli-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Changli Tune Break entry', sourceUrl: CHANGLI_SOURCE, notes: ["When the target's Off-Tune Level is full, Changli may cast Tune Break on the target. No Changli-specific coefficient table is exposed."] });
 export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'chixia', factId: 'chixia-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.gg — current Chixia Tune Break entry', sourceUrl: CHIXIA_SOURCE, notes: ["When the target's Off-Tune Level is full, Chixia may cast Tune Break on the target. No Chixia-specific coefficient table is exposed."] });
 export const ENCORE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'encore', factId: 'encore-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Encore Tune Break entry', sourceUrl: ENCORE_SOURCE, notes: ["When the target's Off-Tune Level is full, Encore may cast Tune Break on the target. No Encore-specific coefficient table is exposed."] });
@@ -85,6 +89,8 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   BAIZHI_TUNE_BREAK_FACT,
   BRANT_TUNE_BREAK_FACT,
   CALCHARO_TUNE_BREAK_FACT,
+  CAMELLYA_TUNE_BREAK_FACT,
+  CARLOTTA_TUNE_BREAK_FACT,
   CHANGLI_TUNE_BREAK_FACT,
   CHIXIA_TUNE_BREAK_FACT,
   ENCORE_TUNE_BREAK_FACT,

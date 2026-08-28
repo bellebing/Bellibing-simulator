@@ -164,13 +164,13 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
-test('fact-backed roster audit reports eighteen source-complete characters with 39 unstarted', () => {
+test('fact-backed roster audit reports twenty source-complete characters with 37 unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 18);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu']);
+  assert.equal(audit.profileCount, 20);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'roccia', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 39);
+  assert.equal(audit.unstartedCharacterIds.length, 37);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

@@ -178,7 +178,7 @@ test('Ciaccona preserves Heavy Downbeat, source resource caps and target-facing 
   const outro = passiveById('ciaccona-outro-windcalling-tune');
   assert.equal(outro.scope, 'TARGET');
   assert.equal(outro.durationSeconds, 30);
-  assert.match(outro.effectSummary, /100%.*Aero Erosion.*30s/i);
+  assert.match(outro.effectSummary, /Aero Erosion.*100%.*30s/i);
 });
 
 test('eighth-batch Tune Break facts stay at the shared-system boundary', () => {

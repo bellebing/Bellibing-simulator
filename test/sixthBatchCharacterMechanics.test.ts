@@ -85,7 +85,7 @@ test('Roccia preserves Liberation/Forte Heavy buckets, Imagination rules and ext
 
   assert.equal(ROCCIA_RESOURCE_FACTS[0]?.resourceName, 'Imagination');
   assert.equal(ROCCIA_RESOURCE_FACTS[0]?.maxValue, 300);
-  assert.match(ROCCIA_RESOURCE_FACTS[0]?.ruleSummary ?? '', /consum(?:e|es) 100/i);
+  assert.match(ROCCIA_RESOURCE_FACTS[0]?.ruleSummary ?? '', /100 is consumed/i);
 
   const magicBox = factById(ROCCIA_PASSIVE_FACTS, 'roccia-inherent-super-attractive-magic-box');
   assert.equal(magicBox.modelingStatus, 'PENDING_INTERPRETATION');
@@ -97,8 +97,8 @@ test('Roccia preserves Liberation/Forte Heavy buckets, Imagination rules and ext
   const outro = factById(ROCCIA_PASSIVE_FACTS, 'roccia-outro-applause-please');
   assert.equal(outro.scope, 'NEXT_CHARACTER');
   assert.equal(outro.durationSeconds, 14);
-  assert.match(outro.effectSummary, /20%.*Havoc/i);
-  assert.match(outro.effectSummary, /25%.*Basic Attack/i);
+  assert.match(outro.effectSummary, /Havoc.*20%/i);
+  assert.match(outro.effectSummary, /Basic Attack.*25%/i);
 
   const s6 = factById(ROCCIA_SEQUENCE_FACTS, 'roccia-s6-when-the-golden-wings-fly');
   assert.match(s6.effectSummary, /100% of Real Fantasy Stage 3 damage/i);
@@ -131,8 +131,8 @@ test('Zhezhi separates coordinated Inklit triggering from Basic damage and prese
   const outro = factById(ZHEZHI_PASSIVE_FACTS, 'zhezhi-outro-carve-and-draw');
   assert.equal(outro.scope, 'NEXT_CHARACTER');
   assert.equal(outro.durationSeconds, 14);
-  assert.match(outro.effectSummary, /20%.*Glacio/i);
-  assert.match(outro.effectSummary, /25%.*Resonance Skill/i);
+  assert.match(outro.effectSummary, /Glacio.*20%/i);
+  assert.match(outro.effectSummary, /Resonance Skill.*25%/i);
 
   const s5 = factById(ZHEZHI_SEQUENCE_FACTS, 'zhezhi-s5-composition-s-clue');
   assert.match(s5.effectSummary, /140%/);

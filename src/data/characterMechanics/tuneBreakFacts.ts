@@ -13,12 +13,18 @@ const CAMELLYA_SOURCE = 'https://wuthering.gg/characters/camellya';
 const CARLOTTA_SOURCE = 'https://wuthering.gg/characters/carlotta';
 const CHANGLI_SOURCE = 'https://wuthering.gg/characters/changli';
 const CHIXIA_SOURCE = 'https://wuthering.gg/characters/chixia';
+const CIACCONA_SOURCE = 'https://wuthering.wiki/character_1407.html';
 const ENCORE_SOURCE = 'https://wuthering.gg/characters/encore';
+const JIANXIN_SOURCE = 'https://wuthering.wiki/character_1405.html';
+const JINHSI_SOURCE = 'https://wuthering.wiki/character_1304.html';
 const JIYAN_SOURCE = 'https://wuthering.gg/characters/jiyan';
 const LINGYANG_SOURCE = 'https://wuthering.gg/characters/lingyang';
+const LUMI_SOURCE = 'https://wuthering.wiki/character_1504.html';
 const MORTEFI_SOURCE = 'https://wuthering.gg/characters/mortefi';
+const PHOEBE_SOURCE = 'https://wuthering.wiki/character_1506.html';
 const ROCCIA_SOURCE = 'https://wuthering.gg/characters/roccia';
 const TAOQI_SOURCE = 'https://wuthering.gg/characters/taoqi';
+const THE_SHOREKEEPER_SOURCE = 'https://wuthering.wiki/character_1505.html';
 const VERINA_SOURCE = 'https://wuthering.gg/characters/verina';
 const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 const YINLIN_SOURCE = 'https://wuthering.gg/characters/yinlin';
@@ -69,12 +75,18 @@ export const CAMELLYA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'camellya', fac
 export const CARLOTTA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'carlotta', factId: 'carlotta-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.gg — current Carlotta Tune Break entry', sourceUrl: CARLOTTA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Carlotta may cast Tune Break on the target. No Carlotta-specific coefficient table is exposed."] });
 export const CHANGLI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'changli', factId: 'changli-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Changli Tune Break entry', sourceUrl: CHANGLI_SOURCE, notes: ["When the target's Off-Tune Level is full, Changli may cast Tune Break on the target. No Changli-specific coefficient table is exposed."] });
 export const CHIXIA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'chixia', factId: 'chixia-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.gg — current Chixia Tune Break entry', sourceUrl: CHIXIA_SOURCE, notes: ["When the target's Off-Tune Level is full, Chixia may cast Tune Break on the target. No Chixia-specific coefficient table is exposed."] });
+export const CIACCONA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'ciaccona', factId: 'ciaccona-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.wiki — current Ciaccona Tune Break entry', sourceUrl: CIACCONA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Ciaccona may cast Tune Break on the target. No Ciaccona-specific coefficient table is exposed."] });
 export const ENCORE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'encore', factId: 'encore-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Encore Tune Break entry', sourceUrl: ENCORE_SOURCE, notes: ["When the target's Off-Tune Level is full, Encore may cast Tune Break on the target. No Encore-specific coefficient table is exposed."] });
+export const JIANXIN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'jianxin', factId: 'jianxin-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.wiki — current Jianxin Tune Break entry', sourceUrl: JIANXIN_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Jianxin may cast Tune Break on the target. No Jianxin-specific coefficient table is exposed."] });
+export const JINHSI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'jinhsi', factId: 'jinhsi-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Wuthering.wiki — current Jinhsi Tune Break entry', sourceUrl: JINHSI_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Jinhsi may cast Tune Break on the target. No Jinhsi-specific coefficient table is exposed."] });
 export const JIYAN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'jiyan', factId: 'jiyan-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Wuthering.gg — current Jiyan Tune Break entry', sourceUrl: JIYAN_SOURCE, notes: ["When the target's Off-Tune Level is full, Jiyan may cast Tune Break on the target. No Jiyan-specific coefficient table is exposed."] });
 export const LINGYANG_TUNE_BREAK_FACT = tuneBreak({ characterId: 'lingyang', factId: 'lingyang-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Lingyang Tune Break entry', sourceUrl: LINGYANG_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Lingyang may cast Tune Break on the target. No Lingyang-specific coefficient table is exposed."] });
+export const LUMI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'lumi', factId: 'lumi-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Wuthering.wiki — current Lumi Tune Break entry', sourceUrl: LUMI_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Lumi may cast Tune Break on the target. No Lumi-specific coefficient table is exposed."] });
 export const MORTEFI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'mortefi', factId: 'mortefi-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Wuthering.gg — current Mortefi Tune Break entry', sourceUrl: MORTEFI_SOURCE, notes: ["When the target's Off-Tune Level is full, Mortefi may cast Tune Break on the target. No Mortefi-specific coefficient table is exposed."] });
+export const PHOEBE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'phoebe', factId: 'phoebe-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.wiki — current Phoebe Tune Break entry', sourceUrl: PHOEBE_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Phoebe may cast Tune Break on the target. No Phoebe-specific coefficient table is exposed."] });
 export const ROCCIA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'roccia', factId: 'roccia-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Roccia Tune Break entry', sourceUrl: ROCCIA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Roccia may cast Tune Break on the target. No Roccia-specific coefficient table is exposed."] });
 export const TAOQI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'taoqi', factId: 'taoqi-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Wuthering.gg — current Taoqi Tune Break entry', sourceUrl: TAOQI_SOURCE, notes: ["When the target's Off-Tune Level is full, Taoqi may cast Tune Break on the target. No Taoqi-specific coefficient table is exposed."] });
+export const THE_SHOREKEEPER_TUNE_BREAK_FACT = tuneBreak({ characterId: 'the-shorekeeper', factId: 'the-shorekeeper-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.wiki — current The Shorekeeper Tune Break entry', sourceUrl: THE_SHOREKEEPER_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, The Shorekeeper may cast Tune Break on the target. No The Shorekeeper-specific coefficient table is exposed."] });
 export const VERINA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'verina', factId: 'verina-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Verina Tune Break entry', sourceUrl: VERINA_SOURCE, notes: ["When the target's Off-Tune Level is full, Verina may cast Tune Break on the target. No Verina-specific coefficient table is exposed."] });
 export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yangyang', factId: 'yangyang-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Wuthering.gg — current Yangyang Tune Break entry', sourceUrl: YANGYANG_SOURCE, notes: ["When the target's Off-Tune Level is full, Yangyang may cast Tune Break on the target. No Yangyang-specific coefficient table is exposed."] });
 export const YINLIN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yinlin', factId: 'yinlin-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Yinlin Tune Break entry', sourceUrl: YINLIN_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Yinlin may cast Tune Break on the target. No Yinlin-specific coefficient table is exposed."] });
@@ -93,12 +105,18 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   CARLOTTA_TUNE_BREAK_FACT,
   CHANGLI_TUNE_BREAK_FACT,
   CHIXIA_TUNE_BREAK_FACT,
+  CIACCONA_TUNE_BREAK_FACT,
   ENCORE_TUNE_BREAK_FACT,
+  JIANXIN_TUNE_BREAK_FACT,
+  JINHSI_TUNE_BREAK_FACT,
   JIYAN_TUNE_BREAK_FACT,
   LINGYANG_TUNE_BREAK_FACT,
+  LUMI_TUNE_BREAK_FACT,
   MORTEFI_TUNE_BREAK_FACT,
+  PHOEBE_TUNE_BREAK_FACT,
   ROCCIA_TUNE_BREAK_FACT,
   TAOQI_TUNE_BREAK_FACT,
+  THE_SHOREKEEPER_TUNE_BREAK_FACT,
   VERINA_TUNE_BREAK_FACT,
   YANGYANG_TUNE_BREAK_FACT,
   YINLIN_TUNE_BREAK_FACT,

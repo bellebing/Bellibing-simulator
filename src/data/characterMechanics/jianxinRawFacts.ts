@@ -1,0 +1,88 @@
+import type {
+  CharacterActionFact,
+  CharacterMechanicFact,
+  CharacterPassiveFact,
+  CharacterResourceFact,
+  CharacterSequenceFact,
+} from '../../characterMechanicsDomain.ts';
+
+const CHECKED_AT = "2026-08-28";
+const SOURCE_SNAPSHOT = "https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json";
+
+export const JIANXIN_PROVENANCE = {
+  sourceLabels: ["wuwabuild normalized Character snapshot — exact pinned upstream commit", "Prydwen — current Jianxin kit", "Wuthering.wiki — current Jianxin multiplier tables and damage data"],
+  sourceUrls: ["https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json", "https://www.prydwen.gg/wuthering-waves/characters/jianxin", "https://wuthering.wiki/character_1405.html"],
+  checkedAt: CHECKED_AT,
+  notes: [
+    "The pinned PR #66/#68 promotion-review pipeline supplies exact Lv1-Lv10 transcription structures and utility formulas; current Prydwen and Wuthering.wiki were used for semantic verification.",
+    "All canonical Jianxin damage is ATK-scaling. Current Wuthering.wiki raw Damage Data explicitly classifies the Forte Circuit Pushing Punch, Zhoutian continuous damage, all Shock variants and Yielding Pull as Heavy Attack DMG.",
+    "Chi, Parry Stance, Zhoutian Progress, shield/healing progressions, interruption resistance and Outro amplification remain raw source semantics without assumed charge duration, Chi gain amounts not stated in prose, or shield uptime.",
+    "S6 Special Chi Counter remains sequence-only raw semantics with its source-fixed 556.67% ATK Heavy Attack DMG wording; it is not injected into the base S0 action catalog.",
+    "Generated candidates remained CANDIDATE_ONLY / NOT_VERIFIED until this semantic/source review; no generated candidate status was promoted automatically.",
+  ],
+} as const;
+
+const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
+
+function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
+  return { ...input, characterId: "jianxin", kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: JIANXIN_PROVENANCE };
+}
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
+  return { ...rest, characterId: "jianxin", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: JIANXIN_PROVENANCE };
+}
+function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
+  return { ...input, characterId: "jianxin", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: JIANXIN_PROVENANCE };
+}
+function sequence(input: Omit<CharacterSequenceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterSequenceFact {
+  return { ...input, characterId: "jianxin", kind: 'SEQUENCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: JIANXIN_PROVENANCE };
+}
+
+export const JIANXIN_ACTION_FACTS: readonly CharacterActionFact[] = [
+  action({ factId: "jianxin-basic-attack-fengyiquan-stage-1-dmg", name: "Fengyiquan — Stage 1 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.3494, 0.378, 0.4067, 0.4468, 0.4754, 0.5084, 0.5542, 0.6001, 0.6459, 0.6946], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-stage-2-dmg", name: "Fengyiquan — Stage 2 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueComponents: [{ curve: [0.134, 0.145, 0.156, 0.1714, 0.1823, 0.195, 0.2126, 0.2301, 0.2477, 0.2664], hitCount: 2 }, { curve: [0.4019, 0.4349, 0.4678, 0.514, 0.5469, 0.5848, 0.6376, 0.6903, 0.743, 0.799], hitCount: 1 }], hitCount: null, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-stage-3-dmg", name: "Fengyiquan — Stage 3 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.21, 0.2272, 0.2444, 0.2685, 0.2857, 0.3055, 0.3331, 0.3606, 0.3882, 0.4175], hitCount: 4, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-stage-4-dmg", name: "Fengyiquan — Stage 4 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.5704, 0.6172, 0.6639, 0.7294, 0.7762, 0.83, 0.9048, 0.9796, 1.0545, 1.134], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-heavy-attack-dmg", name: "Fengyiquan — Heavy Attack DMG", section: "BASIC_ATTACK", actionKind: "HEAVY", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.6341, 0.6861, 0.7381, 0.8109, 0.8629, 0.9227, 1.0059, 1.0891, 1.1723, 1.2607], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-mid-air-attack-dmg", name: "Fengyiquan — Mid-air Attack DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.62, 0.6709, 0.7217, 0.7929, 0.8437, 0.9022, 0.9836, 1.0649, 1.1462, 1.2327], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-basic-attack-fengyiquan-dodge-counter-dmg", name: "Fengyiquan — Dodge Counter DMG", section: "BASIC_ATTACK", actionKind: "DODGE_COUNTER", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueComponents: [{ curve: [0.2054, 0.2222, 0.2391, 0.2626, 0.2795, 0.2988, 0.3258, 0.3527, 0.3796, 0.4083], hitCount: 2 }, { curve: [0.8214, 0.8887, 0.9561, 1.0504, 1.1177, 1.1952, 1.3029, 1.4107, 1.5184, 1.6329], hitCount: 1 }], hitCount: null, conditional: true }),
+  action({ factId: "jianxin-resonance-skill-calming-air-chi-counter-damage", name: "Calming Air — Chi Counter Damage", section: "RESONANCE_SKILL", actionKind: "SKILL", damageClass: "SKILL", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [1.683, 1.8211, 1.9591, 2.1523, 2.2903, 2.449, 2.6698, 2.8906, 3.1114, 3.346], hitCount: 1, conditional: true }),
+  action({ factId: "jianxin-resonance-skill-calming-air-chi-parry-damage", name: "Calming Air — Chi Parry Damage", section: "RESONANCE_SKILL", actionKind: "SKILL", damageClass: "SKILL", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [1.3014, 1.4081, 1.5148, 1.6642, 1.7709, 1.8936, 2.0644, 2.2351, 2.4059, 2.5873], hitCount: 1, conditional: true }),
+  action({ factId: "jianxin-resonance-liberation-purification-force-field-resonance-liberation-continuous-damage", name: "Purification Force Field — Resonance Liberation Continuous Damage", section: "RESONANCE_LIBERATION", actionKind: "LIBERATION", damageClass: "LIBERATION", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.15, 0.1623, 0.1746, 0.1919, 0.2042, 0.2183, 0.238, 0.2577, 0.2774, 0.2983], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-resonance-liberation-purification-force-field-resonance-liberation-explosion-damage", name: "Purification Force Field — Resonance Liberation Explosion Damage", section: "RESONANCE_LIBERATION", actionKind: "LIBERATION", damageClass: "LIBERATION", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [3.2, 3.4624, 3.7248, 4.0922, 4.3546, 4.6564, 5.0762, 5.496, 5.9159, 6.362], hitCount: 1, conditional: false }),
+  action({ factId: "jianxin-intro-skill-essence-of-tao-skill-dmg", name: "Essence of Tao — Skill DMG", section: "INTRO_SKILL", actionKind: "INTRO", damageClass: "INTRO", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueComponents: [{ curve: [0.17, 0.184, 0.1979, 0.2174, 0.2314, 0.2474, 0.2697, 0.292, 0.3143, 0.338], hitCount: 3 }, { curve: [0.34, 0.3679, 0.3958, 0.4348, 0.4627, 0.4948, 0.5394, 0.584, 0.6286, 0.676], hitCount: 1 }], hitCount: null, conditional: false }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-pushing-punch-damage", name: "Primordial Chi Spiral — Pushing Punch Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [1.25, 1.3525, 1.455, 1.5985, 1.701, 1.8189, 1.9829, 2.1469, 2.3109, 2.4852], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-zhoutian-progress-continuous-damage", name: "Primordial Chi Spiral — Zhoutian Progress Continuous Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.125, 0.1353, 0.1455, 0.1599, 0.1701, 0.1819, 0.1983, 0.2147, 0.2311, 0.2486], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-minor-zhoutian-shock-damage", name: "Primordial Chi Spiral — Minor Zhoutian Shock Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.7, 0.7574, 0.8148, 0.8952, 0.9526, 1.0186, 1.1105, 1.2023, 1.2941, 1.3917], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-major-zhoutian-inner-shock-damage", name: "Primordial Chi Spiral — Major Zhoutian: Inner Shock Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [1.9, 2.0558, 2.2116, 2.4298, 2.5856, 2.7647, 3.014, 3.2633, 3.5126, 3.7774], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-major-zhoutian-outer-shock-damage", name: "Primordial Chi Spiral — Major Zhoutian: Outer Shock Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [2.6, 2.8132, 3.0264, 3.3249, 3.5381, 3.7833, 4.1244, 4.4655, 4.8067, 5.1691], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+  action({ factId: "jianxin-forte-circuit-primordial-chi-spiral-yielding-pull-damage", name: "Primordial Chi Spiral — Yielding Pull Damage", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [1.1, 1.1902, 1.2804, 1.4067, 1.4969, 1.6007, 1.745, 1.8893, 2.0336, 2.187], hitCount: 1, conditional: true, notes: ["Current raw Damage Data classifies this Forte Circuit damage as Heavy Attack DMG."] }),
+] as const;
+
+export const JIANXIN_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
+  resource({ factId: "jianxin-resource-chi", name: "Chi", section: "FORTE_CIRCUIT", conditional: false, resourceName: "Chi", maxValue: 120, ruleSummary: "Jianxin can hold up to 120 Chi. Chi is obtained when Fengyiquan hits, Calming Air is cast, Chi Counter/Chi Parry hit, or Intro Skill Essence of Tao hits. At max Chi, holding Basic Attack starts Primordial Chi Spiral/Zhoutian Progress; releasing Basic Attack loses all Chi and consuming all Chi ends the progress." }),
+] as const;
+
+export const JIANXIN_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "jianxin-skill-parry-stance", name: "Calming Air — Parry Stance", section: "RESONANCE_SKILL", conditional: true, scope: "SELF", triggerSummary: "Hold Resonance Skill Calming Air.", effectSummary: "Enter Parry Stance. Being attacked prevents that damage and immediately performs Chi Counter; releasing the skill interrupts the stance and performs Chi Parry.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "jianxin-forte-zhoutian-shields", name: "Primordial Chi Spiral — Zhoutian Progress shields and healing", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "At max Chi, hold Basic Attack to start Zhoutian Progress.", effectSummary: "During Zhoutian Progress, interruption resistance is increased and damage taken is reduced by 50% while Chi is continuously consumed. The source defines four final shield progressions: Incomplete Minor 437+17.06%, 490+17.75%, 546+18.43%, 612+19.45%, 691+20.82%, 765+22.18%, 778+24.74%, 796+27.64%, 809+30.71%, 831+35.83%; Minor 875+34.13%, 980+35.49%, 1093+36.86%, 1225+38.9%, 1382+41.63%, 1531+44.36%, 1557+49.48%, 1592+55.28%, 1618+61.43%, 1662+71.66%; Major Inner 1750+68.25%, 1960+70.98%, 2187+73.71%, 2450+77.81%, 2765+83.27%, 3062+88.73%, 3115+98.96%, 3185+110.57%, 3237+122.85%, 3325+143.33%; Major Outer 2915+113.7%, 3265+118.25%, 3644+122.8%, 4081+129.62%, 4606+138.72%, 5102+147.82%, 5189+164.87%, 5306+184.2%, 5393+204.67%, 5539+238.78%. While the resulting shield persists, the active character is healed once every 6s with Lv1-Lv10 values 700+27.3%, 784+28.39%, 875+29.48%, 980+31.12%, 1106+33.31%, 1225+35.49%, 1246+39.59%, 1274+44.23%, 1295+49.14%, 1330+57.33%. Shield duration is 30s.", durationSeconds: 30, maxStacks: null }),
+  passive({ factId: "jianxin-inherent-formless-release", name: "Inherent Skill — Formless Release", section: "INHERENT_SKILL", conditional: false, scope: "SELF", triggerSummary: "Passive Inherent Skill.", effectSummary: "Increase Purification Force Field damage by 20%.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "jianxin-inherent-reflection", name: "Inherent Skill — Reflection", section: "INHERENT_SKILL", conditional: false, scope: "SELF", triggerSummary: "Passive Inherent Skill.", effectSummary: "Increase the Shield obtained from Heavy Attack Primordial Chi Spiral by 20%.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "jianxin-outro-transcendence", name: "Outro Skill — Transcendence", section: "OUTRO_SKILL", conditional: false, scope: "NEXT_CHARACTER", triggerSummary: "Jianxin casts Outro Skill Transcendence.", effectSummary: "The incoming Resonator has Resonance Liberation DMG Amplified by 38% for 14s or until switched out.", durationSeconds: 14, maxStacks: null }),
+] as const;
+
+export const JIANXIN_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
+  sequence({ factId: "jianxin-s1-verdant-branchlet", name: "S1 — Verdant Branchlet", section: 'RESONANCE_CHAIN', sequence: 1, conditional: true, triggerSummary: "Current S1 Resonance Chain condition.", effectSummary: "After casting Intro Skill Essence of Tao, Jianxin gains 100% extra Chi from Basic Attacks for 10s." }),
+  sequence({ factId: "jianxin-s2-tao-seeker-s-journey", name: "S2 — Tao Seeker's Journey", section: 'RESONANCE_CHAIN', sequence: 2, conditional: true, triggerSummary: "Current S2 Resonance Chain condition.", effectSummary: "Resonance Skill Calming Air can be used 1 more time." }),
+  sequence({ factId: "jianxin-s3-principles-of-wuwei", name: "S3 — Principles of Wuwei", section: 'RESONANCE_CHAIN', sequence: 3, conditional: true, triggerSummary: "Current S3 Resonance Chain condition.", effectSummary: "After staying in the Parry Stance of Resonance Skill Calming Air for 2.5s, Resonance Skill Chi Counter becomes immediately available." }),
+  sequence({ factId: "jianxin-s4-multitide-reflection", name: "S4 — Multitide Reflection", section: 'RESONANCE_CHAIN', sequence: 4, conditional: true, triggerSummary: "Current S4 Resonance Chain condition.", effectSummary: "When performing Forte Circuit Heavy Attack: Primordial Chi Spiral, Jianxin's Resonance Liberation Purification Force Field DMG is increased by 80% for 14s." }),
+  sequence({ factId: "jianxin-s5-mirroring-introspection", name: "S5 — Mirroring Introspection", section: 'RESONANCE_CHAIN', sequence: 5, conditional: true, triggerSummary: "Current S5 Resonance Chain condition.", effectSummary: "The range of Resonance Liberation Purification Force Field is increased by 33%." }),
+  sequence({ factId: "jianxin-s6-truth-from-within", name: "S6 — Truth from Within", section: 'RESONANCE_CHAIN', sequence: 6, conditional: true, triggerSummary: "Current S6 Resonance Chain condition.", effectSummary: "During Forte Circuit Heavy Attack: Primordial Qi Spiral, if Jianxin performs Pushing Punch, enhanced Resonance Skill Special Chi Counter can be used 1 time(s) in 5s. Special Chi Counter: Deals Aero DMG equal to 556.67% of Jianxin's ATK, considered as Heavy Attack DMG. Obtain a Zhoutian Progress 4 Shield (Benefits from Inherent Skill Reflection's bonus effect.)" }),
+] as const;
+
+export const JIANXIN_CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
+  ...JIANXIN_ACTION_FACTS,
+  ...JIANXIN_RESOURCE_FACTS,
+  ...JIANXIN_PASSIVE_FACTS,
+  ...JIANXIN_SEQUENCE_FACTS,
+] as const;

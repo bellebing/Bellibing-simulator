@@ -1,0 +1,85 @@
+import type {
+  CharacterActionFact,
+  CharacterMechanicFact,
+  CharacterPassiveFact,
+  CharacterResourceFact,
+  CharacterSequenceFact,
+} from '../../characterMechanicsDomain.ts';
+
+const CHECKED_AT = "2026-08-28";
+const SOURCE_SNAPSHOT = "https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json";
+
+export const THE_SHOREKEEPER_PROVENANCE = {
+  sourceLabels: ["wuwabuild normalized Character snapshot — exact pinned upstream commit", "Prydwen — current The Shorekeeper kit", "Wuthering.wiki — current The Shorekeeper multiplier tables and damage data"],
+  sourceUrls: ["https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json", "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper", "https://wuthering.wiki/character_1505.html"],
+  checkedAt: CHECKED_AT,
+  notes: [
+    "The pinned PR #66/#68 promotion-review pipeline supplies exact Lv1-Lv10 transcription structures and utility formulas; current Prydwen and Wuthering.wiki were used for semantic verification.",
+    "The Shorekeeper damage uses source-declared scaling: normal/skill/butterfly damage is ATK-scaling, while Intro Skill Discernment is HP-scaling. Enlightenment/Dim Star damage is Resonance Skill DMG and Discernment is Resonance Liberation DMG.",
+    "HP-based healing progressions remain exact raw utility summaries rather than fabricated damage actions. Stellarealm evolution, fatal protection, Collapsed Core/Empirical/Deductive Data and Butterfly conversion are kept RAW_ONLY without assumed field time or proc cadence beyond source text.",
+    "Generated candidates remained CANDIDATE_ONLY / NOT_VERIFIED until this semantic/source review; no generated candidate status was promoted automatically.",
+  ],
+} as const;
+
+const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
+
+function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
+  return { ...input, characterId: "the-shorekeeper", kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: THE_SHOREKEEPER_PROVENANCE };
+}
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
+  return { ...rest, characterId: "the-shorekeeper", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: THE_SHOREKEEPER_PROVENANCE };
+}
+function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
+  return { ...input, characterId: "the-shorekeeper", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: THE_SHOREKEEPER_PROVENANCE };
+}
+function sequence(input: Omit<CharacterSequenceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterSequenceFact {
+  return { ...input, characterId: "the-shorekeeper", kind: 'SEQUENCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: THE_SHOREKEEPER_PROVENANCE };
+}
+
+export const THE_SHOREKEEPER_ACTION_FACTS: readonly CharacterActionFact[] = [
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-stage-1-dmg", name: "Origin Calculus — Stage 1 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.1599, 0.173, 0.1861, 0.2045, 0.2176, 0.2326, 0.2536, 0.2746, 0.2955, 0.3178], hitCount: 1, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-stage-2-dmg", name: "Origin Calculus — Stage 2 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.12, 0.1299, 0.1397, 0.1535, 0.1633, 0.1747, 0.1904, 0.2061, 0.2219, 0.2386], hitCount: 2, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-stage-3-dmg", name: "Origin Calculus — Stage 3 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.1173, 0.1269, 0.1366, 0.15, 0.1596, 0.1707, 0.1861, 0.2015, 0.2169, 0.2332], hitCount: 3, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-stage-4-dmg", name: "Origin Calculus — Stage 4 DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.3658, 0.3958, 0.4258, 0.4678, 0.4978, 0.5323, 0.5803, 0.6282, 0.6762, 0.7272], hitCount: 1, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-heavy-attack-dmg", name: "Origin Calculus — Heavy Attack DMG", section: "BASIC_ATTACK", actionKind: "HEAVY", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.2304, 0.2493, 0.2682, 0.2947, 0.3136, 0.3353, 0.3655, 0.3958, 0.426, 0.4581], hitCount: 1, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-plunging-attack-dmg", name: "Origin Calculus — Plunging Attack DMG", section: "BASIC_ATTACK", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.372, 0.4026, 0.4331, 0.4758, 0.5063, 0.5413, 0.5902, 0.639, 0.6878, 0.7396], hitCount: 1, conditional: false }),
+  action({ factId: "the-shorekeeper-basic-attack-origin-calculus-dodge-counter-dmg", name: "Origin Calculus — Dodge Counter DMG", section: "BASIC_ATTACK", actionKind: "DODGE_COUNTER", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.44, 0.4761, 0.5122, 0.5627, 0.5988, 0.6403, 0.698, 0.7557, 0.8135, 0.8748], hitCount: 2, conditional: true }),
+  action({ factId: "the-shorekeeper-resonance-skill-chaos-theory-dim-star-butterfly-dmg", name: "Chaos Theory — Dim Star Butterfly DMG", section: "RESONANCE_SKILL", actionKind: "SKILL", damageClass: "SKILL", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.1575, 0.1704, 0.1833, 0.2014, 0.2143, 0.2291, 0.2498, 0.2705, 0.2911, 0.3131], hitCount: 1, conditional: false, notes: ["Dim Star Butterfly damage is explicitly considered Resonance Skill DMG."] }),
+  action({ factId: "the-shorekeeper-intro-skill-proof-of-existence-enlightenment-dmg", name: "Proof of Existence — Enlightenment DMG", section: "INTRO_SKILL", actionKind: "INTRO", damageClass: "SKILL", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.2279, 0.2466, 0.2653, 0.2914, 0.3101, 0.3316, 0.3615, 0.3914, 0.4213, 0.453], hitCount: 5, conditional: false, notes: ["Enlightenment is an Intro Skill whose butterfly damage is explicitly considered Resonance Skill DMG."] }),
+  action({ factId: "the-shorekeeper-intro-skill-proof-of-existence-discernment-dmg", name: "Proof of Existence — Discernment DMG", section: "INTRO_SKILL", actionKind: "INTRO", damageClass: "LIBERATION", scalingStat: "HP", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.0988, 0.1069, 0.115, 0.1264, 0.1345, 0.1438, 0.1567, 0.1697, 0.1826, 0.1964], hitCount: 3, conditional: true, notes: ["Discernment replaces the first Intro in Supernal Stellarealm, is guaranteed to crit and is explicitly Resonance Liberation DMG."] }),
+  action({ factId: "the-shorekeeper-forte-circuit-astral-chord-flare-star-butterfly-dmg", name: "Astral Chord — Flare Star Butterfly DMG", section: "FORTE_CIRCUIT", actionKind: "FORTE", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.1876, 0.2029, 0.2183, 0.2399, 0.2552, 0.2729, 0.2975, 0.3221, 0.3467, 0.3729], hitCount: 1, conditional: false, notes: ["Flare Star Butterfly damage is classified as Basic Attack DMG by current damage data."] }),
+  action({ factId: "the-shorekeeper-forte-circuit-astral-chord-illation-dmg", name: "Astral Chord — Illation DMG", section: "FORTE_CIRCUIT", actionKind: "HEAVY", damageClass: "HEAVY", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.0954, 0.1033, 0.1111, 0.122, 0.1299, 0.1389, 0.1514, 0.1639, 0.1764, 0.1897], hitCount: 5, conditional: true }),
+  action({ factId: "the-shorekeeper-forte-circuit-astral-chord-transmutation-dmg", name: "Astral Chord — Transmutation DMG", section: "FORTE_CIRCUIT", actionKind: "BASIC", damageClass: "BASIC", scalingStat: "ATK", motionValueContext: CURVE_CONTEXT, motionValueCurve: [0.372, 0.4026, 0.4331, 0.4758, 0.5063, 0.5413, 0.5902, 0.639, 0.6878, 0.7396], hitCount: 1, conditional: true }),
+] as const;
+
+export const THE_SHOREKEEPER_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
+  resource({ factId: "the-shorekeeper-resource-collapsed-core", name: "Collapsed Core", section: "FORTE_CIRCUIT", conditional: false, resourceName: "Collapsed Core", maxValue: 5, ruleSummary: "Normal Attack hits generate Collapsed Cores. A core transforms into a Flare Star Butterfly after 6s; when 5 cores already exist, the next Basic Attack hit instantly converts one core into a Flare Star Butterfly. Illation/Transmutation instantly convert all generated cores." }),
+  resource({ factId: "the-shorekeeper-resource-empirical-data", name: "Empirical Data", section: "FORTE_CIRCUIT", conditional: false, resourceName: "Empirical Data", maxValue: 5, ruleSummary: "Shorekeeper can hold up to 5 Empirical Data. Basic Attack Stages 1/2/4 grant 1 on hit, Stage 3 grants 2, Mid-air Attack grants 1 and Dodge Counter grants 1. At 5, Illation or Transmutation consumes all segments." }),
+  resource({ factId: "the-shorekeeper-resource-deductive-data", name: "Deductive Data", section: "BASIC_ATTACK", conditional: true, resourceName: "Deductive Data", maxValue: null, ruleSummary: "While Heavy Attack Unbound Form is held, generate 1 segment of Deductive Data every second. When Unbound Form ends, each accumulated segment converts into Empirical Data and generates a Collapsed Core. No numeric maximum is stated in the source." }),
+] as const;
+
+export const THE_SHOREKEEPER_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "the-shorekeeper-skill-chaos-theory-healing", name: "Chaos Theory healing", section: "RESONANCE_SKILL", conditional: false, scope: "TEAM", triggerSummary: "Cast Resonance Skill Chaos Theory.", effectSummary: "Restore HP for all nearby party members. Exact current Lv1-Lv10 HP-scaling healing values: 660+3%, 715+3.25%, 769+3.5%, 845+3.84%, 899+4.09%, 961+4.37%, 1047+4.76%, 1134+5.16%, 1221+5.55%, 1313+5.97%. The cast also summons 5 Dim Star Butterflies; their damage is a separate Skill-DMG action fact.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "the-shorekeeper-liberation-stellarealms", name: "Outer / Inner / Supernal Stellarealm", section: "RESONANCE_LIBERATION", conditional: true, scope: "TEAM", triggerSummary: "Cast End Loop, then party Intro Skills evolve the realm Outer → Inner → Supernal.", effectSummary: "Outer Stellarealm heals all party members in range once every 3s with exact current Lv1-Lv10 HP-scaling values: 220+1.2%, 239+1.3%, 257+1.4%, 282+1.54%, 300+1.64%, 321+1.75%, 349+1.91%, 378+2.07%, 407+2.22%, 438+2.39%. Inner converts Shorekeeper Energy Regen into party Crit Rate up to 12.5%; Supernal additionally converts Energy Regen into party Crit DMG up to 25%. Current realm duration is 30s.", durationSeconds: 30, maxStacks: null }),
+  passive({ factId: "the-shorekeeper-inherent-life-entwined", name: "Inherent Skill — Life Entwined", section: "INHERENT_SKILL", conditional: true, scope: "TEAM", triggerSummary: "A Resonator other than Shorekeeper would take a fatal blow.", effectSummary: "Prevent the knockout and heal that Resonator for 50% of Shorekeeper’s HP while Shorekeeper loses the same amount; Shorekeeper cannot fall below 1 HP from this effect. Can trigger once every 10 minutes.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "the-shorekeeper-inherent-self-gravitation", name: "Inherent Skill — Self Gravitation", section: "INHERENT_SKILL", conditional: true, scope: "TEAM", triggerSummary: "The on-field Resonator is within a Stellarealm.", effectSummary: "Increase Shorekeeper Energy Regen by 10%; if Rover is on the team, Rover Energy Regen is also increased by 10%.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "the-shorekeeper-intro-healing", name: "Proof of Existence healing", section: "INTRO_SKILL", conditional: true, scope: "TEAM", triggerSummary: "Cast Intro Skill Enlightenment or the Supernal replacement Discernment.", effectSummary: "Enlightenment exact Lv1-Lv10 HP-scaling healing: 130+0.6%, 141+0.65%, 152+0.7%, 167+0.77%, 177+0.82%, 190+0.88%, 207+0.96%, 224+1.04%, 241+1.11%, 259+1.2%. Discernment exact Lv1-Lv10 HP-scaling healing: 145+0.66%, 157+0.72%, 169+0.77%, 186+0.85%, 198+0.9%, 211+0.97%, 231+1.05%, 250+1.14%, 269+1.23%, 289+1.32%. Damage components remain separate action facts.", durationSeconds: null, maxStacks: null }),
+  passive({ factId: "the-shorekeeper-outro-binary-butterfly", name: "Outro Skill — Binary Butterfly", section: "OUTRO_SKILL", conditional: false, scope: "TEAM", triggerSummary: "Shorekeeper casts Outro Skill Binary Butterfly.", effectSummary: "Summon 1 Flare Star Butterfly and 1 Dim Star Butterfly around the on-field Resonator for up to 30s. Interruption recovery via Dodge can trigger up to 5 times. All nearby party members’ DMG is Amplified by 15%.", durationSeconds: 30, maxStacks: null }),
+] as const;
+
+export const THE_SHOREKEEPER_SEQUENCE_FACTS: readonly CharacterSequenceFact[] = [
+  sequence({ factId: "the-shorekeeper-s1-unspoken-conjecture", name: "S1 — Unspoken Conjecture", section: 'RESONANCE_CHAIN', sequence: 1, conditional: true, triggerSummary: "Current S1 Resonance Chain condition.", effectSummary: "The Stellarealms generated by Resonance Liberation End Loop gain the following enhancements:\n- The effective range of the healing and buffs is extended by 150%\n- The duration is extended by 10s.\n- Casting Intro Skill Discernment no longer ends the existing Stellarealm." }),
+  sequence({ factId: "the-shorekeeper-s2-night-s-gift-and-refusal", name: "S2 — Night's Gift and Refusal", section: 'RESONANCE_CHAIN', sequence: 2, conditional: true, triggerSummary: "Current S2 Resonance Chain condition.", effectSummary: "The Outer Stellarealm now increases the ATK of all nearby party members by 40%." }),
+  sequence({ factId: "the-shorekeeper-s3-infinity-awaits-me", name: "S3 — Infinity Awaits Me", section: 'RESONANCE_CHAIN', sequence: 3, conditional: true, triggerSummary: "Current S3 Resonance Chain condition.", effectSummary: "Casting Resonance Liberation End Loop grants Shorekeeper 20 Concerto Energy. This effect can be triggered once every 25s." }),
+  sequence({ factId: "the-shorekeeper-s4-overflowing-quietude", name: "S4 — Overflowing Quietude", section: 'RESONANCE_CHAIN', sequence: 4, conditional: true, triggerSummary: "Current S4 Resonance Chain condition.", effectSummary: "Gain 70% additional Healing Bonus when casting Resonance Skill Chaos Theory." }),
+  sequence({ factId: "the-shorekeeper-s5-echoes-in-silence", name: "S5 — Echoes in Silence", section: 'RESONANCE_CHAIN', sequence: 5, conditional: true, triggerSummary: "Current S5 Resonance Chain condition.", effectSummary: "Extend the ranges of the pulling effect of Basic Attack Stage 3 by 50% and Illation by 30%." }),
+  sequence({ factId: "the-shorekeeper-s6-to-the-new-world", name: "S6 — To the New World", section: 'RESONANCE_CHAIN', sequence: 6, conditional: true, triggerSummary: "Current S6 Resonance Chain condition.", effectSummary: "Increase the DMG Multiplier of Intro Skill Discernment by 42%. Casting Intro Skill Discernment increases Shorekeeper's Crit. DMG by 500%." }),
+] as const;
+
+export const THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
+  ...THE_SHOREKEEPER_ACTION_FACTS,
+  ...THE_SHOREKEEPER_RESOURCE_FACTS,
+  ...THE_SHOREKEEPER_PASSIVE_FACTS,
+  ...THE_SHOREKEEPER_SEQUENCE_FACTS,
+] as const;

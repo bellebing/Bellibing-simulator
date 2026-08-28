@@ -13,6 +13,12 @@ import { CAMELLYA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/camellya
 import { CARLOTTA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/carlottaRawFacts.ts';
 import { CHANGLI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/changliRawFacts.ts';
 import { CHIXIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chixiaRawFacts.ts';
+import { CIACCONA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/ciacconaRawFacts.ts';
+import { JIANXIN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jianxinRawFacts.ts';
+import { JINHSI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jinhsiRawFacts.ts';
+import { LUMI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lumiRawFacts.ts';
+import { PHOEBE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/phoebeRawFacts.ts';
+import { THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 import { ENCORE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/encoreRawFacts.ts';
 import { FIFTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/fifthBatchProfiles.ts';
 import { FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/fourthBatchProfiles.ts';
@@ -22,6 +28,7 @@ import { MORTEFI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/mortefiRa
 import { ROCCIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/rocciaRawFacts.ts';
 import { SECOND_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/secondBatchProfiles.ts';
 import { SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/seventhBatchProfiles.ts';
+import { EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/eighthBatchProfiles.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
 import { TAOQI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/taoqiRawFacts.ts';
@@ -42,6 +49,12 @@ export { CAMELLYA_ACTION_FACTS } from './characterMechanics/camellyaRawFacts.ts'
 export { CARLOTTA_ACTION_FACTS } from './characterMechanics/carlottaRawFacts.ts';
 export { CHANGLI_ACTION_FACTS } from './characterMechanics/changliRawFacts.ts';
 export { CHIXIA_ACTION_FACTS } from './characterMechanics/chixiaRawFacts.ts';
+export { CIACCONA_ACTION_FACTS } from './characterMechanics/ciacconaRawFacts.ts';
+export { JIANXIN_ACTION_FACTS } from './characterMechanics/jianxinRawFacts.ts';
+export { JINHSI_ACTION_FACTS } from './characterMechanics/jinhsiRawFacts.ts';
+export { LUMI_ACTION_FACTS } from './characterMechanics/lumiRawFacts.ts';
+export { PHOEBE_ACTION_FACTS } from './characterMechanics/phoebeRawFacts.ts';
+export { THE_SHOREKEEPER_ACTION_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 export { ENCORE_ACTION_FACTS } from './characterMechanics/encoreRawFacts.ts';
 export {
   FIFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
@@ -63,6 +76,15 @@ export {
   CARLOTTA_CHARACTER_MECHANICS_PROFILE,
   SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 } from './characterMechanics/seventhBatchProfiles.ts';
+export {
+  CIACCONA_CHARACTER_MECHANICS_PROFILE,
+  EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  JIANXIN_CHARACTER_MECHANICS_PROFILE,
+  JINHSI_CHARACTER_MECHANICS_PROFILE,
+  LUMI_CHARACTER_MECHANICS_PROFILE,
+  PHOEBE_CHARACTER_MECHANICS_PROFILE,
+  THE_SHOREKEEPER_CHARACTER_MECHANICS_PROFILE,
+} from './characterMechanics/eighthBatchProfiles.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -117,6 +139,14 @@ export { YINLIN_ACTION_FACTS } from './characterMechanics/yinlinRawFacts.ts';
 export { YOUHU_ACTION_FACTS } from './characterMechanics/youhuRawFacts.ts';
 export { YUANWU_ACTION_FACTS } from './characterMechanics/yuanwuRawFacts.ts';
 export { ZHEZHI_ACTION_FACTS } from './characterMechanics/zhezhiRawFacts.ts';
+export {
+  CIACCONA_TUNE_BREAK_FACT,
+  JIANXIN_TUNE_BREAK_FACT,
+  JINHSI_TUNE_BREAK_FACT,
+  LUMI_TUNE_BREAK_FACT,
+  PHOEBE_TUNE_BREAK_FACT,
+  THE_SHOREKEEPER_TUNE_BREAK_FACT,
+} from './characterMechanics/tuneBreakFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -142,6 +172,12 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...YOUHU_CHARACTER_MECHANIC_FACTS,
   ...YUANWU_CHARACTER_MECHANIC_FACTS,
   ...ZHEZHI_CHARACTER_MECHANIC_FACTS,
+  ...CIACCONA_CHARACTER_MECHANIC_FACTS,
+  ...JIANXIN_CHARACTER_MECHANIC_FACTS,
+  ...JINHSI_CHARACTER_MECHANIC_FACTS,
+  ...LUMI_CHARACTER_MECHANIC_FACTS,
+  ...PHOEBE_CHARACTER_MECHANIC_FACTS,
+  ...THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -372,6 +408,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...FIFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

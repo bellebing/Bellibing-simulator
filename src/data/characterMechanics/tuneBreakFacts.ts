@@ -30,6 +30,11 @@ const YANGYANG_SOURCE = 'https://wuthering.gg/characters/yangyang';
 const YINLIN_SOURCE = 'https://wuthering.gg/characters/yinlin';
 const YOUHU_SOURCE = 'https://wuthering.gg/characters/youhu';
 const YUANWU_SOURCE = 'https://wuthering.gg/characters/yuanwu';
+const CHISA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/chisa';
+const IUNO_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/iuno';
+const LUPA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/lupa';
+const ROVER_HAVOC_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/rover-havoc';
+const ROVER_SPECTRO_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/rover-spectro';
 const ZHEZHI_SOURCE = 'https://wuthering.gg/characters/zhezhi';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
@@ -92,6 +97,11 @@ export const YANGYANG_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yangyang', fac
 export const YINLIN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yinlin', factId: 'yinlin-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Yinlin Tune Break entry', sourceUrl: YINLIN_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Yinlin may cast Tune Break on the target. No Yinlin-specific coefficient table is exposed."] });
 export const YOUHU_TUNE_BREAK_FACT = tuneBreak({ characterId: 'youhu', factId: 'youhu-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Youhu Tune Break entry', sourceUrl: YOUHU_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Youhu may cast Tune Break on the target. No Youhu-specific coefficient table is exposed."] });
 export const YUANWU_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yuanwu', factId: 'yuanwu-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Wuthering.gg — current Yuanwu Tune Break entry', sourceUrl: YUANWU_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Yuanwu may cast Tune Break on the target. No Yuanwu-specific coefficient table is exposed."] });
+export const CHISA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'chisa', factId: 'chisa-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Prydwen — current Chisa Tune Break entry', sourceUrl: CHISA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Chisa may cast Tune Break on the target. No Chisa-specific coefficient table is exposed."] });
+export const IUNO_TUNE_BREAK_FACT = tuneBreak({ characterId: 'iuno', factId: 'iuno-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Prydwen — current Iuno Tune Break entry', sourceUrl: IUNO_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Iuno may cast Tune Break on the target. No Iuno-specific coefficient table is exposed."] });
+export const LUPA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'lupa', factId: 'lupa-tune-break-broadblade', name: 'Tune Break — Broadblade', sourceLabel: 'Prydwen — current Lupa Tune Break entry', sourceUrl: LUPA_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Lupa may cast Tune Break on the target. No Lupa-specific coefficient table is exposed."] });
+export const ROVER_HAVOC_TUNE_BREAK_FACT = tuneBreak({ characterId: 'rover-havoc', factId: 'rover-havoc-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Rover (Havoc) Tune Break entry', sourceUrl: ROVER_HAVOC_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Rover (Havoc) may cast Tune Break on the target. No Rover-specific coefficient table is exposed."] });
+export const ROVER_SPECTRO_TUNE_BREAK_FACT = tuneBreak({ characterId: 'rover-spectro', factId: 'rover-spectro-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Rover (Spectro) Tune Break entry', sourceUrl: ROVER_SPECTRO_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Rover (Spectro) may cast Tune Break on the target. No Rover-specific coefficient table is exposed."] });
 export const ZHEZHI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'zhezhi', factId: 'zhezhi-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Zhezhi Tune Break entry', sourceUrl: ZHEZHI_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Zhezhi may cast Tune Break on the target. No Zhezhi-specific coefficient table is exposed."] });
 
 export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
@@ -122,5 +132,10 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   YINLIN_TUNE_BREAK_FACT,
   YOUHU_TUNE_BREAK_FACT,
   YUANWU_TUNE_BREAK_FACT,
+  CHISA_TUNE_BREAK_FACT,
+  IUNO_TUNE_BREAK_FACT,
+  LUPA_TUNE_BREAK_FACT,
+  ROVER_HAVOC_TUNE_BREAK_FACT,
+  ROVER_SPECTRO_TUNE_BREAK_FACT,
   ZHEZHI_TUNE_BREAK_FACT,
 ] as const;

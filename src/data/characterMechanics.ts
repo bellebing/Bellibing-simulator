@@ -14,21 +14,27 @@ import { CARLOTTA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/carlotta
 import { CHANGLI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/changliRawFacts.ts';
 import { CHIXIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 import { CIACCONA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/ciacconaRawFacts.ts';
+import { CHISA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chisaRawFacts.ts';
 import { JIANXIN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jianxinRawFacts.ts';
 import { JINHSI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jinhsiRawFacts.ts';
 import { LUMI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lumiRawFacts.ts';
+import { LUPA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lupaRawFacts.ts';
 import { PHOEBE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/phoebeRawFacts.ts';
 import { THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 import { ENCORE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/encoreRawFacts.ts';
 import { FIFTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/fifthBatchProfiles.ts';
 import { FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/fourthBatchProfiles.ts';
 import { JIYAN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jiyanRawFacts.ts';
+import { IUNO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/iunoRawFacts.ts';
 import { LINGYANG_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lingyangRawFacts.ts';
 import { MORTEFI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 import { ROCCIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/rocciaRawFacts.ts';
+import { ROVER_HAVOC_CHARACTER_MECHANIC_FACTS } from './characterMechanics/roverHavocRawFacts.ts';
+import { ROVER_SPECTRO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/roverSpectroRawFacts.ts';
 import { SECOND_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/secondBatchProfiles.ts';
 import { SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/seventhBatchProfiles.ts';
 import { EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/eighthBatchProfiles.ts';
+import { NINTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/ninthBatchProfiles.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
 import { TAOQI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/taoqiRawFacts.ts';
@@ -50,9 +56,11 @@ export { CARLOTTA_ACTION_FACTS } from './characterMechanics/carlottaRawFacts.ts'
 export { CHANGLI_ACTION_FACTS } from './characterMechanics/changliRawFacts.ts';
 export { CHIXIA_ACTION_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 export { CIACCONA_ACTION_FACTS } from './characterMechanics/ciacconaRawFacts.ts';
+export { CHISA_ACTION_FACTS } from './characterMechanics/chisaRawFacts.ts';
 export { JIANXIN_ACTION_FACTS } from './characterMechanics/jianxinRawFacts.ts';
 export { JINHSI_ACTION_FACTS } from './characterMechanics/jinhsiRawFacts.ts';
 export { LUMI_ACTION_FACTS } from './characterMechanics/lumiRawFacts.ts';
+export { LUPA_ACTION_FACTS } from './characterMechanics/lupaRawFacts.ts';
 export { PHOEBE_ACTION_FACTS } from './characterMechanics/phoebeRawFacts.ts';
 export { THE_SHOREKEEPER_ACTION_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 export { ENCORE_ACTION_FACTS } from './characterMechanics/encoreRawFacts.ts';
@@ -68,9 +76,12 @@ export {
   YINLIN_CHARACTER_MECHANICS_PROFILE,
 } from './characterMechanics/fourthBatchProfiles.ts';
 export { JIYAN_ACTION_FACTS } from './characterMechanics/jiyanRawFacts.ts';
+export { IUNO_ACTION_FACTS } from './characterMechanics/iunoRawFacts.ts';
 export { LINGYANG_ACTION_FACTS } from './characterMechanics/lingyangRawFacts.ts';
 export { MORTEFI_ACTION_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 export { ROCCIA_ACTION_FACTS } from './characterMechanics/rocciaRawFacts.ts';
+export { ROVER_HAVOC_ACTION_FACTS } from './characterMechanics/roverHavocRawFacts.ts';
+export { ROVER_SPECTRO_ACTION_FACTS } from './characterMechanics/roverSpectroRawFacts.ts';
 export {
   CAMELLYA_CHARACTER_MECHANICS_PROFILE,
   CARLOTTA_CHARACTER_MECHANICS_PROFILE,
@@ -85,6 +96,14 @@ export {
   PHOEBE_CHARACTER_MECHANICS_PROFILE,
   THE_SHOREKEEPER_CHARACTER_MECHANICS_PROFILE,
 } from './characterMechanics/eighthBatchProfiles.ts';
+export {
+  CHISA_CHARACTER_MECHANICS_PROFILE,
+  IUNO_CHARACTER_MECHANICS_PROFILE,
+  LUPA_CHARACTER_MECHANICS_PROFILE,
+  NINTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ROVER_HAVOC_CHARACTER_MECHANICS_PROFILE,
+  ROVER_SPECTRO_CHARACTER_MECHANICS_PROFILE,
+} from './characterMechanics/ninthBatchProfiles.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -147,6 +166,13 @@ export {
   PHOEBE_TUNE_BREAK_FACT,
   THE_SHOREKEEPER_TUNE_BREAK_FACT,
 } from './characterMechanics/tuneBreakFacts.ts';
+export {
+  CHISA_TUNE_BREAK_FACT,
+  IUNO_TUNE_BREAK_FACT,
+  LUPA_TUNE_BREAK_FACT,
+  ROVER_HAVOC_TUNE_BREAK_FACT,
+  ROVER_SPECTRO_TUNE_BREAK_FACT,
+} from './characterMechanics/tuneBreakFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -178,6 +204,11 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...LUMI_CHARACTER_MECHANIC_FACTS,
   ...PHOEBE_CHARACTER_MECHANIC_FACTS,
   ...THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS,
+  ...CHISA_CHARACTER_MECHANIC_FACTS,
+  ...IUNO_CHARACTER_MECHANIC_FACTS,
+  ...LUPA_CHARACTER_MECHANIC_FACTS,
+  ...ROVER_HAVOC_CHARACTER_MECHANIC_FACTS,
+  ...ROVER_SPECTRO_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -409,6 +440,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...NINTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

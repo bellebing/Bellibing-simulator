@@ -162,10 +162,12 @@ PR #74 source-audits and canonically promotes Roccia and Zhezhi from the PR #66/
 
 PR #75 source-audits and canonically promotes Camellya and Carlotta from the PR #66/#68 review pipeline after explicit semantic/source review. Camellya keeps Seedbed's Pruning conversion plus Blossom-mode replacements and Ephemeral in the Basic Attack DMG bucket, preserves Crimson Pistils/Crimson Buds/Budding Mode as raw resource/state semantics, and represents Twining as separate source-fixed 329.24% ATK base plus conditional 459.02% ATK post-Ephemeral damage instead of inventing a skill-level curve. Carlotta keeps Silent Execution/Necessary Measures in Basic Attack DMG, ordinary Heavy/Containment Tactics in Heavy Attack DMG and Era of New Wave/Death Knell/Fatal Finale/Imminent Oblivion in the explicit Resonance Skill DMG bucket; Closing Remark is source-fixed 794.2% ATK while Substance/Moldable Crystal/Meta Vector/Twilight Tango/Deconstruction remain raw state semantics. Both retain current Tune Break access at the shared-system boundary.
 
+PR #76 source-audits and canonically promotes Ciaccona, Phoebe, The Shorekeeper, Jianxin, Lumi and Jinhsi as one six-character Character Mechanics batch. Exact PR #66/#68-generated numeric structures remain the transcription base while action role/kind, damage bucket, scaling, resources/states, passives, Outro, S1-S6 and Tune Break semantics were reviewed explicitly. Jinhsi keeps Incarnation Basic stages in Resonance Skill DMG while Incarnation Heavy Attack and Dodge Counter remain Basic Attack DMG; Incandescence's Stella Glamor multiplier stays a separate `PENDING_INTERPRETATION` modifier rather than fabricated standalone damage. Jianxin's Pushing Punch/Zhoutian/Shock/Yielding Pull Forte damage stays in the Heavy Attack DMG bucket. Phoebe keeps fixed Outro damage separate from state modifiers, The Shorekeeper preserves HP-scaling Discernment, Lumi preserves Basic Attack conversions, and Ciaccona preserves Heavy Downbeat/resource/target-facing Outro semantics. All six retain Tune Break at the shared-system boundary.
+
 Current Character mechanics coverage:
 
 - 57 currently `RELEASED` characters are in the gate;
-- 22 characters have fully `VERIFIED` mechanics profiles;
+- 28 characters have fully `VERIFIED` mechanics profiles;
 - **Aalto: `VERIFIED` raw mechanics coverage** across ACTIONS, FORTE_RULES, INHERENT_PASSIVES, OUTRO_EFFECT, RESOURCE_RULES and SEQUENCES, including current Tune Break: Pistols access as shared-system damage;
 - **Aemeath: `VERIFIED` raw mechanics coverage** across all six required areas, including 26 Character-owned source-audited ACTION facts, three resource systems, raw Forte/state rules, both Inherent skills, Outro, S1-S6 and current Unlanded Melody Tune Break semantics;
 - **Augusta: `VERIFIED` raw mechanics coverage** across all six required areas, with full current source-facing Character-owned ACTION coverage kept separate from the selected-level V9.15 Standard parity fixture and current Tune Break: Broadblade represented at the shared-system boundary;
@@ -232,20 +234,22 @@ The verified Character source slices and roster-wide import/promotion-review pip
 - Yuanwu keeps ordinary Leihuangquan ATK scaling separate from DEF-scaling Skill/Forte/Liberation damage, and Thunder Wedge coordinated triggering does not overwrite the explicit Skill damage bucket;
 - Roccia keeps the source-stated Heavy Attack DMG bucket on Commedia Improvviso! and Real Fantasy while preserving Imagination consumption/state timing as raw semantics; Super Attractive Magic Box remains an external Echo Skill/Utility DMG effect rather than a fabricated Character action coefficient;
 - Zhezhi keeps coordinated Inklit Spirit triggering separate from Basic Attack DMG classification, preserves Conjuration's Heavy bucket and Stroke/Creation Basic buckets, and does not convert source-proportional S5/S6 wording into invented Lv1-Lv10 action tables;
+- Ciaccona, Phoebe, The Shorekeeper, Jianxin, Lumi and Jinhsi are source-verified as the eighth promotion batch; Jinhsi Incarnation ownership stays separate from Basic-vs-Skill damage classification and Incandescence multiplier interpretation, while Jianxin Forte damage remains explicitly Heavy Attack DMG;
 - Danjin remains unpromoted because current-source Ruby Blossom full-power wording is internally inconsistent with the stated 120 maximum; no impossible threshold is normalized into canonical truth;
 - Xiangli Yao's Pivot-Impale classification remains explicitly pending and blocks canonical promotion until a current source states the damage bucket;
 - Sanhua S2 remains explicitly pending where current sources conflict between 5s and 10s duration;
+- Qiuyuan remains unpromoted because current sources explicitly classify part of his kit as Echo Skill DMG while the current Character Mechanics damage-class schema has no truthful `ECHO` bucket; Bellibing will not coerce that source fact into `OTHER` merely to advance coverage;
 - resource cadence, target trails, form/state transitions, stack timing, conditional sequence branches and other event mechanics remain raw facts until a combat/rotation model supplies actual execution state.
 
 Still required before Character mechanics can be called complete:
 
-- audit and promote source-backed skill/Forte/passive/resource/Outro/sequence semantics for the remaining 35 released characters using the promotion-review artifacts rather than hand-entering source tables or description numerics;
+- audit and promote source-backed skill/Forte/passive/resource/Outro/sequence semantics for the remaining 29 released characters using the promotion-review artifacts rather than hand-entering source tables or description numerics;
 - source-check semantic classifications, conditional rules, current Tune Break variants and any cross-source conflicts before generated candidates become canonical facts;
 - preserve exact Lv1-Lv10 Character-owned action representations, source-fixed damage, mixed coefficient components, explicit hit-count semantics and the separate shared-system Tune Break boundary for future verified ACTIONS coverage;
 - keep verified raw facts, conditional mechanics, source conflicts and genuinely pending interpretation/modeling states distinct;
 - do not begin broad Character DPS adapters until this roster-wide mechanics coverage is closed.
 
-**Important:** twenty-two `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed. PR #66/#68 remove current tabular and description-numeric transcription debt; the remaining work is semantic/source review and canonical promotion, not copying source numerics by hand.
+**Important:** twenty-eight `VERIFIED` raw characters do not make the roster complete. The Character mechanics layer remains an explicit Pre-DPS blocker until required released-roster coverage is actually closed. PR #66/#68 remove current tabular and description-numeric transcription debt; the remaining work is semantic/source review and canonical promotion, not copying source numerics by hand.
 
 ### Weapon raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 

@@ -9,6 +9,8 @@ import { AUGUSTA_NON_ACTION_MECHANIC_FACTS } from './characterMechanics/augustaR
 import { BAIZHI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 import { BRANT_CHARACTER_MECHANIC_FACTS } from './characterMechanics/brantRawFacts.ts';
 import { CALCHARO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/calcharoRawFacts.ts';
+import { CAMELLYA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/camellyaRawFacts.ts';
+import { CARLOTTA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/carlottaRawFacts.ts';
 import { CHANGLI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/changliRawFacts.ts';
 import { CHIXIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 import { ENCORE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/encoreRawFacts.ts';
@@ -19,6 +21,7 @@ import { LINGYANG_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lingyang
 import { MORTEFI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 import { ROCCIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/rocciaRawFacts.ts';
 import { SECOND_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/secondBatchProfiles.ts';
+import { SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/seventhBatchProfiles.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
 import { TAOQI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/taoqiRawFacts.ts';
@@ -35,6 +38,8 @@ export { AUGUSTA_CHARACTER_ACTION_FACTS } from './characterMechanics/augustaActi
 export { BAIZHI_ACTION_FACTS } from './characterMechanics/baizhiRawFacts.ts';
 export { BRANT_ACTION_FACTS } from './characterMechanics/brantRawFacts.ts';
 export { CALCHARO_ACTION_FACTS } from './characterMechanics/calcharoRawFacts.ts';
+export { CAMELLYA_ACTION_FACTS } from './characterMechanics/camellyaRawFacts.ts';
+export { CARLOTTA_ACTION_FACTS } from './characterMechanics/carlottaRawFacts.ts';
 export { CHANGLI_ACTION_FACTS } from './characterMechanics/changliRawFacts.ts';
 export { CHIXIA_ACTION_FACTS } from './characterMechanics/chixiaRawFacts.ts';
 export { ENCORE_ACTION_FACTS } from './characterMechanics/encoreRawFacts.ts';
@@ -53,6 +58,11 @@ export { JIYAN_ACTION_FACTS } from './characterMechanics/jiyanRawFacts.ts';
 export { LINGYANG_ACTION_FACTS } from './characterMechanics/lingyangRawFacts.ts';
 export { MORTEFI_ACTION_FACTS } from './characterMechanics/mortefiRawFacts.ts';
 export { ROCCIA_ACTION_FACTS } from './characterMechanics/rocciaRawFacts.ts';
+export {
+  CAMELLYA_CHARACTER_MECHANICS_PROFILE,
+  CARLOTTA_CHARACTER_MECHANICS_PROFILE,
+  SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+} from './characterMechanics/seventhBatchProfiles.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -83,6 +93,8 @@ export {
   BAIZHI_TUNE_BREAK_FACT,
   BRANT_TUNE_BREAK_FACT,
   CALCHARO_TUNE_BREAK_FACT,
+  CAMELLYA_TUNE_BREAK_FACT,
+  CARLOTTA_TUNE_BREAK_FACT,
   CHANGLI_TUNE_BREAK_FACT,
   CHARACTER_TUNE_BREAK_FACTS,
   CHIXIA_TUNE_BREAK_FACT,
@@ -114,6 +126,8 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...BAIZHI_CHARACTER_MECHANIC_FACTS,
   ...BRANT_CHARACTER_MECHANIC_FACTS,
   ...CALCHARO_CHARACTER_MECHANIC_FACTS,
+  ...CAMELLYA_CHARACTER_MECHANIC_FACTS,
+  ...CARLOTTA_CHARACTER_MECHANIC_FACTS,
   ...CHANGLI_CHARACTER_MECHANIC_FACTS,
   ...CHIXIA_CHARACTER_MECHANIC_FACTS,
   ...ENCORE_CHARACTER_MECHANIC_FACTS,
@@ -357,6 +371,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...FOURTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...FIFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

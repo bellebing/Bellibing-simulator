@@ -182,11 +182,11 @@ test('starter-batch Tune Break facts stay at the shared-system boundary', () => 
 test('starter roster remains verified after later Character Mechanics batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 16);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin']);
+  assert.equal(audit.profileCount, 18);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 41);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 507);
+  assert.equal(audit.unstartedCharacterIds.length, 39);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 573);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['chixia', 'mortefi', 'yangyang']) {

@@ -44,7 +44,7 @@ function assertNear(actual: number | null, expected: number, epsilon = 1e-10): v
 test('Augusta current Character-owned source action facts are exact Lv1-Lv10 representations', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 507);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 573);
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     if (fact.actionRole === 'NON_DAMAGE') {
@@ -152,13 +152,13 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports sixteen released characters source-complete', () => {
+test('mechanics coverage reports eighteen released characters source-complete', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 16);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin']);
+  assert.equal(audit.profileCount, 18);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 41);
+  assert.equal(audit.unstartedCharacterIds.length, 39);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

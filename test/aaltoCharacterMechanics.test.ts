@@ -94,13 +94,13 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
   assert.equal(AALTO_SEQUENCE_FACTS.every((fact) => fact.verificationStatus === 'VERIFIED'), true);
 });
 
-test('fact-backed coverage audit reports sixteen source-complete characters with 41 released characters unstarted', () => {
+test('fact-backed coverage audit reports eighteen source-complete characters with 39 released characters unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 16);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin']);
+  assert.equal(audit.profileCount, 18);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 41);
+  assert.equal(audit.unstartedCharacterIds.length, 39);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

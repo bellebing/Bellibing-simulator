@@ -1,0 +1,75 @@
+name: Temporary eighth-batch status updater
+
+on:
+  push:
+    branches:
+      - character-mechanics/eighth-batch-six
+
+permissions:
+  contents: write
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/eighth-batch-six
+          fetch-depth: 0
+      - name: Apply exact PROJECT_STATUS updates
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('docs/PROJECT_STATUS.md')
+          text = path.read_text()
+
+          marker = "PR #75 source-audits and canonically promotes Camellya and Carlotta from the PR #66/#68 review pipeline after explicit semantic/source review. Camellya keeps Seedbed's Pruning conversion plus Blossom-mode replacements and Ephemeral in the Basic Attack DMG bucket, preserves Crimson Pistils/Crimson Buds/Budding Mode as raw resource/state semantics, and represents Twining as separate source-fixed 329.24% ATK base plus conditional 459.02% ATK post-Ephemeral damage instead of inventing a skill-level curve. Carlotta keeps Silent Execution/Necessary Measures in Basic Attack DMG, ordinary Heavy/Containment Tactics in Heavy Attack DMG and Era of New Wave/Death Knell/Fatal Finale/Imminent Oblivion in the explicit Resonance Skill DMG bucket; Closing Remark is source-fixed 794.2% ATK while Substance/Moldable Crystal/Meta Vector/Twilight Tango/Deconstruction remain raw state semantics. Both retain current Tune Break access at the shared-system boundary.\n\n"
+          paragraph = (
+            "PR #76 source-audits and canonically promotes Ciaccona, Phoebe, The Shorekeeper, Jianxin, Lumi and Jinhsi as one six-character Character Mechanics batch. Exact PR #66/#68-generated numeric structures remain the transcription base while action role/kind, damage bucket, scaling, resources/states, passives, Outro, S1-S6 and Tune Break semantics were reviewed explicitly. Jinhsi keeps Incarnation Basic stages in Resonance Skill DMG while Incarnation Heavy Attack and Dodge Counter remain Basic Attack DMG; Incandescence's Stella Glamor multiplier stays a separate `PENDING_INTERPRETATION` modifier rather than fabricated standalone damage. Jianxin's Pushing Punch/Zhoutian/Shock/Yielding Pull Forte damage stays in the Heavy Attack DMG bucket. Phoebe keeps fixed Outro damage separate from state modifiers, The Shorekeeper preserves HP-scaling Discernment, Lumi preserves Basic Attack conversions, and Ciaccona preserves Heavy Downbeat/resource/target-facing Outro semantics. All six retain Tune Break at the shared-system boundary.\n\n"
+          )
+          if paragraph not in text:
+            assert marker in text, 'PR #75 insertion marker missing'
+            text = text.replace(marker, marker + paragraph, 1)
+
+          replacements = {
+            "- 22 characters have fully `VERIFIED` mechanics profiles;": "- 28 characters have fully `VERIFIED` mechanics profiles;",
+            "remaining 35 released characters": "remaining 29 released characters",
+            "**Important:** twenty-two `VERIFIED` raw characters do not make the roster complete.": "**Important:** twenty-eight `VERIFIED` raw characters do not make the roster complete.",
+          }
+          for old, new in replacements.items():
+            if old in text:
+              text = text.replace(old, new)
+
+          semantic_marker = "- Zhezhi keeps coordinated Inklit Spirit triggering separate from Basic Attack DMG classification, preserves Conjuration's Heavy bucket and Stroke/Creation Basic buckets, and does not convert source-proportional S5/S6 wording into invented Lv1-Lv10 action tables;\n"
+          semantic_line = "- Ciaccona, Phoebe, The Shorekeeper, Jianxin, Lumi and Jinhsi are source-verified as the eighth promotion batch; Jinhsi Incarnation ownership stays separate from Basic-vs-Skill damage classification and Incandescence multiplier interpretation, while Jianxin Forte damage remains explicitly Heavy Attack DMG;\n"
+          if semantic_line not in text:
+            assert semantic_marker in text, 'semantic insertion marker missing'
+            text = text.replace(semantic_marker, semantic_marker + semantic_line, 1)
+
+          sanhua = "- Sanhua S2 remains explicitly pending where current sources conflict between 5s and 10s duration;\n"
+          qiuyuan = "- Qiuyuan remains unpromoted because current sources explicitly classify part of his kit as Echo Skill DMG while the current Character Mechanics damage-class schema has no truthful `ECHO` bucket; Bellibing will not coerce that source fact into `OTHER` merely to advance coverage;\n"
+          if qiuyuan not in text:
+            assert sanhua in text, 'Sanhua pending marker missing'
+            text = text.replace(sanhua, sanhua + qiuyuan, 1)
+
+          stale = [
+            "- 22 characters have fully `VERIFIED` mechanics profiles;",
+            "remaining 35 released characters",
+            "**Important:** twenty-two `VERIFIED` raw characters do not make the roster complete.",
+          ]
+          assert not any(item in text for item in stale), 'stale Character Mechanics checkpoint remains'
+          assert paragraph in text and qiuyuan in text and semantic_line in text
+          path.write_text(text)
+          PY
+      - name: Commit status update if needed
+        run: |
+          if git diff --quiet -- docs/PROJECT_STATUS.md; then
+            echo "PROJECT_STATUS already current"
+            exit 0
+          fi
+          git config user.name "bellebing"
+          git config user.email "148565035+bellebing@users.noreply.github.com"
+          git add docs/PROJECT_STATUS.md
+          git commit -m "Update project status for eighth Character Mechanics batch"
+          git push origin HEAD:character-mechanics/eighth-batch-six

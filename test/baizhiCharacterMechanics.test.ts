@@ -138,7 +138,7 @@ test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains inc
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
 
   const audit = auditCharacterMechanicsCoverage();
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'roccia', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
-  assert.equal(audit.unstartedCharacterIds.length, 37);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'roccia', 'taoqi', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
+  assert.equal(audit.unstartedCharacterIds.length, 35);
   assert.deepEqual(audit.structuralIssues, []);
 });

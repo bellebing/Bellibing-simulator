@@ -1,0 +1,119 @@
+name: Temporary Character Mechanics registry collapse
+
+on:
+  push:
+    branches:
+      - character-mechanics/eighth-batch-six
+
+permissions:
+  contents: write
+
+jobs:
+  collapse-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/eighth-batch-six
+          fetch-depth: 0
+      - name: Restore single canonical registry architecture
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          base_path = Path('src/data/characterMechanicsBase.ts')
+          registry_path = Path('src/data/characterMechanics.ts')
+          assert base_path.exists(), 'characterMechanicsBase.ts missing'
+          text = base_path.read_text()
+
+          import_anchor = "import { CHIXIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/chixiaRawFacts.ts';\n"
+          new_imports = (
+            "import { CIACCONA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/ciacconaRawFacts.ts';\n"
+            "import { JIANXIN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jianxinRawFacts.ts';\n"
+            "import { JINHSI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/jinhsiRawFacts.ts';\n"
+            "import { LUMI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lumiRawFacts.ts';\n"
+            "import { PHOEBE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/phoebeRawFacts.ts';\n"
+            "import { THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';\n"
+          )
+          assert import_anchor in text
+          text = text.replace(import_anchor, import_anchor + new_imports, 1)
+
+          profile_import_anchor = "import { SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/seventhBatchProfiles.ts';\n"
+          eighth_profile_import = "import { EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/eighthBatchProfiles.ts';\n"
+          assert profile_import_anchor in text
+          text = text.replace(profile_import_anchor, profile_import_anchor + eighth_profile_import, 1)
+
+          action_export_anchor = "export { CHIXIA_ACTION_FACTS } from './characterMechanics/chixiaRawFacts.ts';\n"
+          action_exports = (
+            "export { CIACCONA_ACTION_FACTS } from './characterMechanics/ciacconaRawFacts.ts';\n"
+            "export { JIANXIN_ACTION_FACTS } from './characterMechanics/jianxinRawFacts.ts';\n"
+            "export { JINHSI_ACTION_FACTS } from './characterMechanics/jinhsiRawFacts.ts';\n"
+            "export { LUMI_ACTION_FACTS } from './characterMechanics/lumiRawFacts.ts';\n"
+            "export { PHOEBE_ACTION_FACTS } from './characterMechanics/phoebeRawFacts.ts';\n"
+            "export { THE_SHOREKEEPER_ACTION_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';\n"
+          )
+          assert action_export_anchor in text
+          text = text.replace(action_export_anchor, action_export_anchor + action_exports, 1)
+
+          profile_export_anchor = "export {\n  CAMELLYA_CHARACTER_MECHANICS_PROFILE,\n  CARLOTTA_CHARACTER_MECHANICS_PROFILE,\n  SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,\n} from './characterMechanics/seventhBatchProfiles.ts';\n"
+          profile_exports = (
+            "export {\n"
+            "  CIACCONA_CHARACTER_MECHANICS_PROFILE,\n"
+            "  EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,\n"
+            "  JIANXIN_CHARACTER_MECHANICS_PROFILE,\n"
+            "  JINHSI_CHARACTER_MECHANICS_PROFILE,\n"
+            "  LUMI_CHARACTER_MECHANICS_PROFILE,\n"
+            "  PHOEBE_CHARACTER_MECHANICS_PROFILE,\n"
+            "  THE_SHOREKEEPER_CHARACTER_MECHANICS_PROFILE,\n"
+            "} from './characterMechanics/eighthBatchProfiles.ts';\n"
+          )
+          assert profile_export_anchor in text
+          text = text.replace(profile_export_anchor, profile_export_anchor + profile_exports, 1)
+
+          tune_export_anchor = "export { ZHEZHI_ACTION_FACTS } from './characterMechanics/zhezhiRawFacts.ts';\n"
+          tune_exports = (
+            "export {\n"
+            "  CIACCONA_TUNE_BREAK_FACT,\n"
+            "  JIANXIN_TUNE_BREAK_FACT,\n"
+            "  JINHSI_TUNE_BREAK_FACT,\n"
+            "  LUMI_TUNE_BREAK_FACT,\n"
+            "  PHOEBE_TUNE_BREAK_FACT,\n"
+            "  THE_SHOREKEEPER_TUNE_BREAK_FACT,\n"
+            "} from './characterMechanics/tuneBreakFacts.ts';\n"
+          )
+          assert tune_export_anchor in text
+          text = text.replace(tune_export_anchor, tune_export_anchor + tune_exports, 1)
+
+          facts_anchor = "  ...ZHEZHI_CHARACTER_MECHANIC_FACTS,\n  ...CHARACTER_TUNE_BREAK_FACTS,\n"
+          new_facts = (
+            "  ...ZHEZHI_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...CIACCONA_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...JIANXIN_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...JINHSI_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...LUMI_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...PHOEBE_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...THE_SHOREKEEPER_CHARACTER_MECHANIC_FACTS,\n"
+            "  ...CHARACTER_TUNE_BREAK_FACTS,\n"
+          )
+          assert facts_anchor in text
+          text = text.replace(facts_anchor, new_facts, 1)
+
+          profiles_anchor = "  ...SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,\n] as const;"
+          profiles_with_eighth = "  ...SEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,\n  ...EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,\n] as const;"
+          assert profiles_anchor in text
+          text = text.replace(profiles_anchor, profiles_with_eighth, 1)
+
+          assert 'characterMechanicsBase' not in text
+          assert 'EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES' in text
+          for character in ['CIACCONA', 'JIANXIN', 'JINHSI', 'LUMI', 'PHOEBE', 'THE_SHOREKEEPER']:
+            assert f'{character}_CHARACTER_MECHANIC_FACTS' in text
+          registry_path.write_text(text)
+          base_path.unlink()
+          PY
+      - name: Commit canonical registry collapse
+        run: |
+          git config user.name "bellebing"
+          git config user.email "148565035+bellebing@users.noreply.github.com"
+          git add src/data/characterMechanics.ts src/data/characterMechanicsBase.ts
+          git commit -m "Keep Character Mechanics in the canonical registry"
+          git push origin HEAD:character-mechanics/eighth-batch-six

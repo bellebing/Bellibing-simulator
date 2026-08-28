@@ -178,6 +178,12 @@ Current Character mechanics coverage:
 - **Carlotta: `VERIFIED` raw mechanics coverage** across all six required areas, with explicit Basic/Heavy versus Skill damage-bucket boundaries, Substance/Moldable Crystal/Meta Vector and Twilight Tango/Deconstruction state rules, source-fixed Closing Remark Outro, Inherents, S1-S6 and Tune Break: Pistols;
 - **Changli: `VERIFIED` raw mechanics coverage** across all six required areas, with True Sight/Enflamement semantics, source-backed Resonance Skill damage buckets, Inherents, Strategy of Duality Outro, S1-S6 and Tune Break: Sword;
 - **Chixia: `VERIFIED` raw mechanics coverage** across all six required areas, including source-fixed Leaping Flames Outro damage and current Tune Break: Pistols access;
+- **Ciaccona: `VERIFIED` raw mechanics coverage** across all six required areas, with Heavy Attack classification on Quadruple Downbeat, explicit Musical Essence/Ensemble Sylph resource caps, target-facing Windcalling Tune Outro semantics, S1-S6 and Tune Break: Pistols;
+- **Jianxin: `VERIFIED` raw mechanics coverage** across all six required areas, with Chi/Forte state semantics and Pushing Punch/Zhoutian/Shock/Yielding Pull preserved in the Heavy Attack DMG bucket, plus Inherents, Outro, S1-S6 and Tune Break: Gauntlets;
+- **Jinhsi: `VERIFIED` raw mechanics coverage** across all six required areas, with Incarnation Basic stages kept as Resonance Skill DMG, Incarnation Heavy Attack/Dodge Counter kept as Basic Attack DMG, Incandescence's Stella Glamor multiplier retained separately as `PENDING_INTERPRETATION`, plus S1-S6 and Tune Break: Broadblade;
+- **Lumi: `VERIFIED` raw mechanics coverage** across all six required areas, with Red/Yellow Light Spark resource caps, source-preserved Basic Attack damage conversions, Inherents, Outro, S1-S6 and Tune Break: Broadblade;
+- **Phoebe: `VERIFIED` raw mechanics coverage** across all six required areas, with Prayer/Divine Voice state semantics, source-preserved damage buckets, source-fixed Attentive Heart Outro damage kept separate from conditional state modifiers, S1-S6 and Tune Break: Rectifier;
+- **The Shorekeeper: `VERIFIED` raw mechanics coverage** across all six required areas, with Collapsed Core/Empirical Data/Deductive Data state semantics, HP-scaling Discernment and its explicit Resonance Liberation DMG classification, Inherents, Outro, S1-S6 and Tune Break: Rectifier;
 - **Encore: `VERIFIED` raw mechanics coverage** across all six required areas, with Mayhem/Cosmos Rave semantics, source-preserved replacement damage buckets, source-fixed Thermal Field Outro, Inherents, S1-S6 and Tune Break: Rectifier;
 - **Jiyan: `VERIFIED` raw mechanics coverage** across all six required areas, with Resolve/Qingloong Mode semantics, explicit non-damaging Prelude, Heavy Attack Finale/Lance classification, source-fixed coordinated Outro and Tune Break: Broadblade;
 - **Lingyang: `VERIFIED` raw mechanics coverage** across all six required areas, with Lion's Spirit/Striding Lion semantics, source-preserved Forte damage buckets, Inherents, source-fixed Frosty Marks Outro, S1-S6 and Tune Break: Gauntlets;
@@ -190,9 +196,9 @@ Current Character mechanics coverage:
 - **Youhu: `VERIFIED` raw mechanics coverage** across all six required areas, with ATK-scaling action facts, Antique/Auspice/Frost state semantics, source-preserved Poetic Essence Skill classification, healing/utility facts, Outro, S1-S6 and Tune Break: Gauntlets;
 - **Yuanwu: `VERIFIED` raw mechanics coverage** across all six required areas, with explicit ATK/DEF scaling boundaries, Thunder Wedge coordinated-trigger versus Skill-damage separation, Readiness/Lightning Infused/Forte state semantics, utility facts, Outro, S1-S6 and Tune Break: Gauntlets;
 - **Zhezhi: `VERIFIED` raw mechanics coverage** across all six required areas, with Inklit coordinated-trigger versus Basic-damage separation, Afflatus/Painter's Delight/imprint state rules, Inherents, Carve and Draw Outro, S1-S6 and Tune Break: Rectifier;
-- 35 released characters remain `UNSTARTED` for canonical Character mechanics promotion/source verification;
-- 698 canonical Character mechanic facts now exist across the 22 verified profiles, including exactly one current Tune Break fact per verified profile;
-- all 22 verified profiles' `RAW_FACTS` preflight passes only when their canonical structural audit is clean, while independent build/team/rotation/combat-profile requirements continue to gate later stages.
+- 29 released characters remain `UNSTARTED` for canonical Character mechanics promotion/source verification;
+- 889 canonical Character mechanic facts now exist across the 28 verified profiles, including exactly one current Tune Break fact per verified profile;
+- all 28 verified profiles' `RAW_FACTS` preflight passes only when their canonical structural audit is clean, while independent build/team/rotation/combat-profile requirements continue to gate later stages.
 
 The verified Character source slices and roster-wide import/promotion-review pipeline lock the raw/executable boundary instead of converting source text into implicit combat assumptions:
 

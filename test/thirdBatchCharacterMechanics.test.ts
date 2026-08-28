@@ -179,14 +179,14 @@ test('third-batch Tune Break facts stay at the shared-system boundary', () => {
   }
 });
 
-test('third Character Mechanics batch advances canonical coverage to 13 verified / 44 unstarted / 413 facts', () => {
+test('third Character Mechanics batch remains valid inside the current roster registry', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 13);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'changli', 'chixia', 'encore', 'jiyan', 'mortefi', 'taoqi', 'verina', 'yangyang']);
+  assert.equal(audit.profileCount, 16);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'changli', 'chixia', 'encore', 'jiyan', 'lingyang', 'mortefi', 'taoqi', 'verina', 'yangyang', 'yinlin']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 44);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 413);
+  assert.equal(audit.unstartedCharacterIds.length, 41);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 507);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['taoqi', 'verina', 'encore']) {

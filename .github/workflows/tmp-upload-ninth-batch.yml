@@ -1,0 +1,47 @@
+name: Temporary ninth-batch uploader
+
+on:
+  push:
+    branches:
+      - character-mechanics/ninth-batch-five
+    paths:
+      - .github/workflows/tmp-upload-ninth-batch.yml
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/ninth-batch-five
+          fetch-depth: 0
+      - name: Restore generated ninth-batch files
+        run: |
+          cat .github/tmp/ninth-payload-{0,1,2,3,4}.txt > /tmp/ninth.b64
+          echo 'e459e2d78a3487c69b7db8b1a77c6c519e81004500faf0a6b408b6b6ccc344ef  /tmp/ninth.b64' | sha256sum -c -
+          base64 -d /tmp/ninth.b64 > /tmp/ninth.tar.xz
+          echo '9656bc2a31c1e1851dc7aea580ca9557c9ae4bfa5237a63e807b3087332cbf0b  /tmp/ninth.tar.xz' | sha256sum -c -
+          rm -rf /tmp/ninth && mkdir -p /tmp/ninth
+          tar -xJf /tmp/ninth.tar.xz -C /tmp/ninth
+          cp /tmp/ninth/chisaRawFacts.ts src/data/characterMechanics/chisaRawFacts.ts
+          cp /tmp/ninth/lupaRawFacts.ts src/data/characterMechanics/lupaRawFacts.ts
+          cp /tmp/ninth/iunoRawFacts.ts src/data/characterMechanics/iunoRawFacts.ts
+          cp /tmp/ninth/roverHavocRawFacts.ts src/data/characterMechanics/roverHavocRawFacts.ts
+          cp /tmp/ninth/roverSpectroRawFacts.ts src/data/characterMechanics/roverSpectroRawFacts.ts
+          cp /tmp/ninth/ninthBatchProfiles.ts src/data/characterMechanics/ninthBatchProfiles.ts
+          cp /tmp/ninth/ninthBatchCharacterMechanics.test.ts test/ninthBatchCharacterMechanics.test.ts
+          test "$(find /tmp/ninth -maxdepth 1 -type f | wc -l)" -eq 7
+      - name: Commit generated files
+        run: |
+          git config user.name "bellebing"
+          git config user.email "148565035+bellebing@users.noreply.github.com"
+          git add src/data/characterMechanics/chisaRawFacts.ts src/data/characterMechanics/lupaRawFacts.ts src/data/characterMechanics/iunoRawFacts.ts src/data/characterMechanics/roverHavocRawFacts.ts src/data/characterMechanics/roverSpectroRawFacts.ts src/data/characterMechanics/ninthBatchProfiles.ts test/ninthBatchCharacterMechanics.test.ts
+          if git diff --cached --quiet; then
+            echo 'Generated files already match'
+            exit 0
+          fi
+          git commit -m "Add ninth Character Mechanics batch source facts"
+          git push origin HEAD:character-mechanics/ninth-batch-five

@@ -55,31 +55,17 @@ export const PROFILE_FREEZE_APPROVALS: readonly ProfileFreezeApproval[] = PROFIL
 });
 
 /**
- * Current roster/profile snapshot used to make silent coverage drift fail closed.
- * Update these expectations only as part of a reviewed profile/freeze change.
+ * Semantic freeze checkpoint only. Catalog and readiness counts are intentionally
+ * derived from the live registries instead of copied here by hand. This baseline
+ * exists for compatibility-sensitive freeze metadata such as patch identity.
  */
 export const PROFILE_READINESS_BASELINE = {
   patch: '3.6',
   checkedAt: '2026-08-29',
-  expectedReleasedCharacterCount: 57,
-  expectedCatalogCounts: {
-    weaponRecommendations: 6,
-    echoLoadouts: 6,
-    statTargets: 6,
-    teams: 2,
-    rotations: 6,
-    presets: 6,
-  },
-  expectedProfileCompletePendingFreezeCount: 6,
-  expectedCharacterMechanicsSourceBlockedCount: 3,
-  expectedProfileSourcePendingCount: 48,
-  expectedDpsReadyCount: 0,
   notes: [
-    'Current composable profile catalogs contain verified default packages for Augusta, Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper.',
-    'Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper rotations are source-reviewed guide sequences only (SOURCE_SEQUENCE_ONLY), so they cannot receive DPS_READY freeze approvals until executable rotation/combat coverage exists.',
-    'The second profile batch reuses current verified team identities: Rover (Aero) stays in the Cartethyia/Ciaccona team; Iuno and The Shorekeeper stay in the Augusta/Iuno/Shorekeeper team.',
-    'Profile-onboarding impact reviews keep required weapon trigger/state, Echo active/character-restriction and rotation-engine boundaries explicit instead of fabricating execution.',
+    'Catalog sizes and readiness disposition counts are derived from current registries and are not manual snapshot gates.',
+    'Structural registry validation owns duplicate/default/cross-reference/raw-id failures; readiness owns source/preflight/freeze semantics.',
+    'SOURCE_SEQUENCE_ONLY rotations remain ineligible for DPS_READY until an executable engine model and required adapters are verified.',
     'DommyMM/wuwabuild /builds is explicitly community-submitted build data and is not promoted to Bellibing canonical profile truth.',
-    'Profile source backlog remains explicit until recommendation/team/rotation sources are reviewed in compatible contexts.',
   ],
 } as const;

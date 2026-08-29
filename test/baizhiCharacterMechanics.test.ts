@@ -138,7 +138,46 @@ test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains inc
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
 
   const audit = auditCharacterMechanicsCoverage();
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chisa', 'chixia', 'ciaccona', 'encore', 'iuno', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'lupa', 'mortefi', 'phoebe', 'roccia', 'rover-havoc', 'rover-spectro', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
-  assert.equal(audit.unstartedCharacterIds.length, 24);
+  assert.deepEqual(audit.verifiedCharacterIds, [
+    'aalto',
+    'aemeath',
+    'augusta',
+    'baizhi',
+    'brant',
+    'calcharo',
+    'camellya',
+    'carlotta',
+    'changli',
+    'chisa',
+    'chixia',
+    'ciaccona',
+    'denia',
+    'encore',
+    'hiyuki',
+    'iuno',
+    'jianxin',
+    'jinhsi',
+    'jiyan',
+    'lingyang',
+    'lumi',
+    'lupa',
+    'mortefi',
+    'phoebe',
+    'qingxiao',
+    'roccia',
+    'rover-aero',
+    'rover-havoc',
+    'rover-spectro',
+    'taoqi',
+    'the-shorekeeper',
+    'verina',
+    'yangyang',
+    'yangyang-xuanling',
+    'yinlin',
+    'youhu',
+    'yuanwu',
+    'zhezhi',
+  ]);
+  assert.equal(audit.unstartedCharacterIds.length, 19);
   assert.deepEqual(audit.structuralIssues, []);
 });

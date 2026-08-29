@@ -170,11 +170,50 @@ test('second-batch Tune Break facts stay at the shared-system boundary', () => {
 test('second Character Mechanics batch remains valid inside the current roster registry', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 33);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chisa', 'chixia', 'ciaccona', 'encore', 'iuno', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'lupa', 'mortefi', 'phoebe', 'roccia', 'rover-havoc', 'rover-spectro', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
+  assert.equal(audit.profileCount, 38);
+  assert.deepEqual(audit.verifiedCharacterIds, [
+    'aalto',
+    'aemeath',
+    'augusta',
+    'baizhi',
+    'brant',
+    'calcharo',
+    'camellya',
+    'carlotta',
+    'changli',
+    'chisa',
+    'chixia',
+    'ciaccona',
+    'denia',
+    'encore',
+    'hiyuki',
+    'iuno',
+    'jianxin',
+    'jinhsi',
+    'jiyan',
+    'lingyang',
+    'lumi',
+    'lupa',
+    'mortefi',
+    'phoebe',
+    'qingxiao',
+    'roccia',
+    'rover-aero',
+    'rover-havoc',
+    'rover-spectro',
+    'taoqi',
+    'the-shorekeeper',
+    'verina',
+    'yangyang',
+    'yangyang-xuanling',
+    'yinlin',
+    'youhu',
+    'yuanwu',
+    'zhezhi',
+  ]);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1068);
+  assert.equal(audit.unstartedCharacterIds.length, 19);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1261);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['changli', 'jiyan']) {

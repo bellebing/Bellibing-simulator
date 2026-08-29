@@ -33,7 +33,46 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chisa', 'chixia', 'ciaccona', 'encore', 'iuno', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'lupa', 'mortefi', 'phoebe', 'roccia', 'rover-havoc', 'rover-spectro', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
+  assert.deepEqual(audit.verifiedCharacterIds, [
+    'aalto',
+    'aemeath',
+    'augusta',
+    'baizhi',
+    'brant',
+    'calcharo',
+    'camellya',
+    'carlotta',
+    'changli',
+    'chisa',
+    'chixia',
+    'ciaccona',
+    'denia',
+    'encore',
+    'hiyuki',
+    'iuno',
+    'jianxin',
+    'jinhsi',
+    'jiyan',
+    'lingyang',
+    'lumi',
+    'lupa',
+    'mortefi',
+    'phoebe',
+    'qingxiao',
+    'roccia',
+    'rover-aero',
+    'rover-havoc',
+    'rover-spectro',
+    'taoqi',
+    'the-shorekeeper',
+    'verina',
+    'yangyang',
+    'yangyang-xuanling',
+    'yinlin',
+    'youhu',
+    'yuanwu',
+    'zhezhi',
+  ]);
 });
 
 test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {

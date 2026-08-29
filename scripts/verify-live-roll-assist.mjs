@@ -75,13 +75,33 @@ async function evaluate(send, expression) {
   return result.result?.value;
 }
 
+async function waitForLocation(send, expectedPrefix) {
+  const deadline = Date.now() + 15_000;
+  while (Date.now() < deadline) {
+    try {
+      const location = await evaluate(send, 'location.href');
+      if (String(location).startsWith(expectedPrefix)) return;
+    } catch {
+      // Execution context can be transient while navigation commits.
+    }
+    await sleep(100);
+  }
+  throw new Error(`Timed out waiting for navigation to ${expectedPrefix}.`);
+}
+
 async function navigate(send) {
+  await send('Page.navigate', { url: 'about:blank' });
+  await waitForLocation(send, 'about:blank');
   await send('Page.navigate', { url: LIVE_URL });
+  await waitForLocation(send, LIVE_URL);
+
   const result = await evaluate(send, `
     (async () => {
       const deadline = Date.now() + 15000;
       while (Date.now() < deadline) {
-        if (document.querySelector('#assist-stat') && document.querySelector('#assist-enter')) return true;
+        if (document.readyState === 'complete'
+          && document.querySelector('#assist-stat')
+          && document.querySelector('#assist-enter')) return true;
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
       throw new Error('Roll Assist controls did not become ready.');
@@ -111,7 +131,6 @@ async function enterRoll(send, statName, value) {
       return {
         command: document.querySelector('.assist-command')?.textContent?.trim() ?? null,
         error: document.body.textContent.includes('ROLL ASSIST ERROR'),
-        body: document.body.textContent,
       };
     })()
   `);

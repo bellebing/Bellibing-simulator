@@ -161,13 +161,18 @@ test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains inc
     'lingyang',
     'lumi',
     'lupa',
+    'mornye',
     'mortefi',
     'phoebe',
+    'phrolova',
     'qingxiao',
+    'qiuyuan',
     'roccia',
     'rover-aero',
     'rover-havoc',
     'rover-spectro',
+    'sanhua',
+    'sigrika',
     'taoqi',
     'the-shorekeeper',
     'verina',
@@ -178,6 +183,6 @@ test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains inc
     'yuanwu',
     'zhezhi',
   ]);
-  assert.equal(audit.unstartedCharacterIds.length, 19);
+  assert.equal(audit.unstartedCharacterIds.length, 14);
   assert.deepEqual(audit.structuralIssues, []);
 });

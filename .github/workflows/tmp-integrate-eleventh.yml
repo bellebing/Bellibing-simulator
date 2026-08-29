@@ -41,7 +41,7 @@ jobs:
         run: git diff --check
 
       - name: Focused eleventh-batch regression
-        run: node --import tsx --test test/eleventhBatchCharacterMechanics.test.ts
+        run: node --experimental-strip-types --test test/eleventhBatchCharacterMechanics.test.ts
 
       - name: Commit canonical batch and remove temporary transport
         shell: bash

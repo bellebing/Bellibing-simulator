@@ -70,6 +70,25 @@ function validateEchoLoadout(profile: EchoLoadoutProfile): void {
   if (profile.slots.length !== 5) throw new Error(`${profile.id}: a full Echo loadout must contain 5 slots.`);
   const totalCost = profile.slots.reduce((sum, slot) => sum + slot.cost, 0);
   if (totalCost > 12) throw new Error(`${profile.id}: Echo COST ${totalCost} exceeds 12.`);
+
+  for (const [index, slot] of profile.slots.entries()) {
+    if (slot.primaryMainStats.length === 0) throw new Error(`${profile.id}: slot ${index + 1} needs at least one primary main-stat option.`);
+    const seen = new Set<string>();
+    let priorPriority = 0;
+    for (const option of slot.primaryMainStats) {
+      if (!option.stat.trim()) throw new Error(`${profile.id}: slot ${index + 1} has a blank primary main stat.`);
+      if (seen.has(option.stat)) throw new Error(`${profile.id}: slot ${index + 1} duplicates primary main stat ${option.stat}.`);
+      seen.add(option.stat);
+      if (!Number.isInteger(option.priority) || option.priority < 1) {
+        throw new Error(`${profile.id}: slot ${index + 1} priority for ${option.stat} must be a positive integer.`);
+      }
+      if (option.priority < priorPriority) {
+        throw new Error(`${profile.id}: slot ${index + 1} main-stat options must be ordered from highest to lowest priority.`);
+      }
+      priorPriority = option.priority;
+    }
+  }
+
   for (const setId of profile.sonataSetIds) requireSonata(setId);
   if (profile.mainEchoId) requireEcho(profile.mainEchoId);
 }

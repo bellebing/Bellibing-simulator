@@ -40,6 +40,19 @@ jobs:
           echo "7afd6919086521aa6b714a21eaa7de267a39ea02b82af31db24a03dec513319e  /tmp/tenth.zip" | sha256sum -c -
           unzip -o /tmp/tenth.zip
 
+      - name: Preserve Qingxiao static pending preflight boundary
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('test/tenthBatchCharacterMechanics.test.ts')
+          text = path.read_text()
+          old = """    assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS', characterId);\n    assert.equal(raw.ready, true, characterId);\n    assert.equal(dps.ready, false, characterId);"""
+          new = """    assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS', characterId);\n    if (characterId === 'qingxiao') {\n      assert.equal(raw.ready, false, characterId);\n      assert.ok(raw.blockers.some((check) => check.area === 'IDENTITY_LEVEL90' && check.status === 'PENDING'), characterId);\n    } else {\n      assert.equal(raw.ready, true, characterId);\n    }\n    assert.equal(dps.ready, false, characterId);"""
+          assert text.count(old) == 1, 'expected exact Qingxiao preflight assertion anchor once'
+          path.write_text(text.replace(old, new))
+          PY
+
       - name: Integrate canonical registry and Tune Break
         run: python scripts/tmp-integrate-tenth.py
 

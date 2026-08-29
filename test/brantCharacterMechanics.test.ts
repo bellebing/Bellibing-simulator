@@ -208,7 +208,7 @@ test('Brant Tune Break is explicit shared-system damage without Character motion
 test('Brant remains verified while later Character Mechanics batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 38);
+  assert.equal(audit.profileCount, 43);
   assert.deepEqual(audit.verifiedCharacterIds, [
     'aalto',
     'aemeath',
@@ -232,13 +232,18 @@ test('Brant remains verified while later Character Mechanics batches advance can
     'lingyang',
     'lumi',
     'lupa',
+    'mornye',
     'mortefi',
     'phoebe',
+    'phrolova',
     'qingxiao',
+    'qiuyuan',
     'roccia',
     'rover-aero',
     'rover-havoc',
     'rover-spectro',
+    'sanhua',
+    'sigrika',
     'taoqi',
     'the-shorekeeper',
     'verina',
@@ -250,8 +255,8 @@ test('Brant remains verified while later Character Mechanics batches advance can
     'zhezhi',
   ]);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 19);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1261);
+  assert.equal(audit.unstartedCharacterIds.length, 14);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1420);
   assert.deepEqual(audit.structuralIssues, []);
 
   const raw = getCharacterPreflight('brant', 'RAW_FACTS');

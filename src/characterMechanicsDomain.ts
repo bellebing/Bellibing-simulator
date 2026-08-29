@@ -45,6 +45,8 @@ export type CharacterDamageClass =
   | 'INTRO'
   | 'OUTRO'
   | 'COORDINATED'
+  | 'ECHO'
+  | 'TUNE_RUPTURE'
   | 'OTHER';
 
 export type CharacterScalingStat =

@@ -40,6 +40,11 @@ const HIYUKI_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/hiyuki'
 const QINGXIAO_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/qingxiao';
 const ROVER_AERO_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/rover-aero';
 const YANGYANG_XUANLING_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling';
+const SANHUA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/sanhua';
+const QIUYUAN_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/qiuyuan';
+const SIGRIKA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/sigrika';
+const PHROLOVA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/phrolova';
+const MORNYE_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/mornye';
 const ZHEZHI_SOURCE = 'https://wuthering.gg/characters/zhezhi';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
@@ -112,6 +117,11 @@ export const HIYUKI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'hiyuki', factId:
 export const QINGXIAO_TUNE_BREAK_FACT = tuneBreak({ characterId: 'qingxiao', factId: 'qingxiao-tune-break-draw-and-sunder', name: 'Tune Break — Draw and Sunder', sourceLabel: 'Prydwen — current Qingxiao Tune Break entry', sourceUrl: QINGXIAO_SOURCE, checkedAt: '2026-08-29', notes: ["Draw and Sunder exposes Tune Strain Shifting/Interfered response semantics and current Tune Break access. These remain shared-system state/damage boundaries without fabricated Character coefficients."] });
 export const ROVER_AERO_TUNE_BREAK_FACT = tuneBreak({ characterId: 'rover-aero', factId: 'rover-aero-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Rover (Aero) Tune Break entry', sourceUrl: ROVER_AERO_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Rover (Aero) may cast Tune Break. No Rover-specific coefficient table is exposed."] });
 export const YANGYANG_XUANLING_TUNE_BREAK_FACT = tuneBreak({ characterId: 'yangyang-xuanling', factId: 'yangyang-xuanling-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Yangyang: Xuanling Tune Break entry', sourceUrl: YANGYANG_XUANLING_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Yangyang: Xuanling may cast Tune Break. No Xuanling-specific coefficient table is exposed."] });
+export const SANHUA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'sanhua', factId: 'sanhua-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Sanhua Tune Break entry', sourceUrl: SANHUA_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Sanhua may cast Tune Break. No Sanhua-specific coefficient table is exposed."] });
+export const QIUYUAN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'qiuyuan', factId: 'qiuyuan-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Qiuyuan Tune Break entry', sourceUrl: QIUYUAN_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Qiuyuan may cast Tune Break. Echo Skill DMG actions remain separate Character facts and are not duplicated here."] });
+export const SIGRIKA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'sigrika', factId: 'sigrika-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Prydwen — current Sigrika Tune Break entry', sourceUrl: SIGRIKA_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Sigrika may cast Tune Break. Echo Skill DMG actions remain separate Character facts and are not duplicated here."] });
+export const PHROLOVA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'phrolova', factId: 'phrolova-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Prydwen — current Phrolova Tune Break entry', sourceUrl: PHROLOVA_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Phrolova may cast Tune Break. Hecate Echo Skill DMG remains separate Character-owned raw damage."] });
+export const MORNYE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'mornye', factId: 'mornye-tune-break-decoupling', name: 'Decoupling', sourceLabel: 'Prydwen — current Mornye Tune Break entry', sourceUrl: MORNYE_SOURCE, checkedAt: '2026-08-29', notes: ["Mornye can perform Tune Break against full Off-Tune targets and respond to Tune Rupture/Tune Strain Interfered. Particle Jet owns its separate source-verified TUNE_RUPTURE Character damage fact; this shared Tune Break fact does not duplicate that coefficient."] });
 
 export const ZHEZHI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'zhezhi', factId: 'zhezhi-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Zhezhi Tune Break entry', sourceUrl: ZHEZHI_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Zhezhi may cast Tune Break on the target. No Zhezhi-specific coefficient table is exposed."] });
 
@@ -153,5 +163,10 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   QINGXIAO_TUNE_BREAK_FACT,
   ROVER_AERO_TUNE_BREAK_FACT,
   YANGYANG_XUANLING_TUNE_BREAK_FACT,
+  SANHUA_TUNE_BREAK_FACT,
+  QIUYUAN_TUNE_BREAK_FACT,
+  SIGRIKA_TUNE_BREAK_FACT,
+  PHROLOVA_TUNE_BREAK_FACT,
+  MORNYE_TUNE_BREAK_FACT,
   ZHEZHI_TUNE_BREAK_FACT,
 ] as const;

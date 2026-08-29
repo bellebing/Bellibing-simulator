@@ -125,7 +125,7 @@ test('VERIFIED ACTIONS cannot regress from source curves to selected-level parit
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
 });
 
-test('Aalto RAW_FACTS preflight becomes ready without claiming build or DPS readiness', () => {
+test('Aalto raw and build preflight are ready while executable DPS remains pending', () => {
   const raw = getCharacterPreflight('aalto', 'RAW_FACTS');
   const build = getCharacterPreflight('aalto', 'BUILD_PROFILE');
   const dps = getCharacterPreflight('aalto', 'DPS_MODEL');
@@ -135,8 +135,8 @@ test('Aalto RAW_FACTS preflight becomes ready without claiming build or DPS read
   assert.deepEqual(raw.blockers, []);
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
 
-  assert.equal(build.ready, false);
-  assert.ok(build.blockers.some((check) => check.area === 'WEAPON_PROFILE'));
+  assert.equal(build.ready, true);
+  assert.deepEqual(build.blockers, []);
   assert.equal(dps.ready, false);
   assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'));
   assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'));

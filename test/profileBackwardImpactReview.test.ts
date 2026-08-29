@@ -25,6 +25,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
     PROFILE_BACKWARD_IMPACT_REVIEWS_V36.map((row) => [row.characterId, row.presetId, row.checkedAt, row.result]),
     [
       ['augusta', 'augusta-standard', '2026-08-29', 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE'],
+      ['aalto', 'aalto-hybrid-jiyan', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['cartethyia', 'cartethyia-aero-erosion', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['rover-aero', 'rover-aero-cartethyia-ciaccona', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
@@ -50,6 +51,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
 test('profile onboarding reviews cover exactly the selected default weapon effect rows', () => {
   const expectedByProfile = new Map([
     ['augusta-standard-weapons', ['TFD-ATK', 'TFD-DEF', 'TFD-HEAVY']],
+    ['aalto-hybrid-jiyan-weapons', ['STM-ER', 'STM-NEXT-ATK']],
     ['cartethyia-aero-erosion-weapons', ['DT-AERO-AMP', 'DT-DEF', 'DT-HP']],
     ['ciaccona-cartethyia-aero-weapons', ['WA-AERO', 'WA-AERO-RES', 'WA-ATK']],
     ['rover-aero-cartethyia-ciaccona-weapons', ['BPP-SKILL', 'BPP-TEAM-AERO']],
@@ -96,14 +98,17 @@ test('Ciaccona review does not invent a Nightmare Kelpie active adapter for an u
   assert.equal(review.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
 });
 
-test('new support profiles retain their selected Echo-active execution boundaries', () => {
+test('support-oriented profiles retain their selected Echo-active execution boundaries', () => {
+  const aalto = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'aalto');
   const rover = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'rover-aero');
   const iuno = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'iuno');
   const shorekeeper = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'the-shorekeeper');
+  assert.ok(aalto);
   assert.ok(rover);
   assert.ok(iuno);
   assert.ok(shorekeeper);
 
+  assert.ok(aalto.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(rover.pendingExecutionIds.includes('echo:echo-60001065:active-skill-damage-adapter'));
   assert.ok(iuno.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(shorekeeper.pendingExecutionIds.includes('echo:echo-60000605:fallacy-active-skill-damage-adapter'));

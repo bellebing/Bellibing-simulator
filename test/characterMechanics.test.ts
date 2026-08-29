@@ -228,9 +228,9 @@ test('preflight preserves named raw pending fields for current released characte
 });
 
 test('preflight target levels add relationship/profile requirements only when needed', () => {
-  const raw = getCharacterPreflight('aalto', 'RAW_FACTS');
-  const build = getCharacterPreflight('aalto', 'BUILD_PROFILE');
-  const dps = getCharacterPreflight('aalto', 'DPS_MODEL');
+  const raw = getCharacterPreflight('baizhi', 'RAW_FACTS');
+  const build = getCharacterPreflight('baizhi', 'BUILD_PROFILE');
+  const dps = getCharacterPreflight('baizhi', 'DPS_MODEL');
   assert.ok(raw && build && dps);
 
   assert.equal(raw.ready, true);

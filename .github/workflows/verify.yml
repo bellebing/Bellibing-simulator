@@ -46,6 +46,21 @@ jobs:
       - name: Strict web build
         run: npm run build
 
+      - name: Browser Roll Assist verdict regression
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4173/roll-assistant.html >/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          google-chrome --version
+          BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
+            node scripts/verify-live-roll-assist.mjs
+
       - name: Diff whitespace check
         run: git diff --check HEAD^
 

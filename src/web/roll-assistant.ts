@@ -9,16 +9,14 @@ import {
   type StatRoll,
 } from '../echoCore.ts';
 import { AUGUSTA_RECOMMENDED_V915 } from '../characters/augustaRecommended.ts';
+import { evaluateRollAssistantCheckpoint } from '../rollAssistantCheckpoint.ts';
 import {
-  applyCheckpointAssessment,
   createRollAssistantSession,
   getNextInstruction,
-  recordCheckpoint,
   startCandidate,
   type RollAssistantInstruction,
   type RollAssistantSession,
 } from '../rollAssistantSession.ts';
-import { evaluateTargetCheckpoint } from '../targetCheckpointPolicy.ts';
 
 function requireAppRoot(): HTMLDivElement {
   const root = document.querySelector<HTMLDivElement>('#app');
@@ -31,6 +29,7 @@ const profile = AUGUSTA_RECOMMENDED_V915;
 let session: RollAssistantSession = createRollAssistantSession('RECOMMENDED');
 let candidateSerial = 0;
 let lastReason = '';
+let errorMessage = '';
 let verdict: RollAssistantInstruction | null = null;
 let whyOpen = false;
 let working = false;
@@ -80,6 +79,7 @@ function beginSlot(slotIndex: number): void {
   session = startCandidate(session, slotIndex, createCandidateForSlot(slotIndex));
   verdict = null;
   lastReason = '';
+  errorMessage = '';
   whyOpen = false;
 }
 
@@ -190,7 +190,19 @@ function verdictMarkup(instruction: RollAssistantInstruction): string {
   return '';
 }
 
+function errorMarkup(): string {
+  return `
+    <div class="assist-verdict assist-verdict--temp">
+      ${currentSlotMarkup()}
+      <div class="assist-kicker">INTEGRATION ERROR</div>
+      <div class="assist-command">ROLL ASSIST ERROR</div>
+      <div class="why-copy">${escapeHtml(errorMessage)}</div>
+      <button id="assist-error-retry" class="assist-next" type="button">TRY AGAIN</button>
+    </div>`;
+}
+
 function instructionMarkup(): string {
+  if (errorMessage) return errorMarkup();
   if (verdict) return verdictMarkup(verdict);
 
   if (session.phase === 'UPGRADE') {
@@ -291,19 +303,18 @@ function enterRoll(): void {
   };
 
   working = true;
+  errorMessage = '';
   render();
 
   window.setTimeout(() => {
     try {
-      session = recordCheckpoint(session, checkpointEcho);
-      const evaluation = evaluateTargetCheckpoint(profile, checkpointEcho);
-      const applied = applyCheckpointAssessment(session, evaluation.assessment);
-      session = applied.session;
-      lastReason = evaluation.assessment.reason ?? '';
-      verdict = applied.instruction.action === 'ROLL' ? null : applied.instruction;
+      const result = evaluateRollAssistantCheckpoint(session, profile, checkpointEcho);
+      session = result.session;
+      lastReason = result.evaluation.assessment.reason ?? '';
+      verdict = result.instruction.action === 'ROLL' ? null : result.instruction;
     } catch (error) {
-      lastReason = error instanceof Error ? error.message : 'Unknown Roll Assist error.';
-      verdict = { action: 'DISCARD', slotIndex: activeSlotIndex() ?? 0, headline: 'DISCARD', reason: lastReason };
+      errorMessage = error instanceof Error ? error.message : 'Unknown Roll Assist integration error.';
+      verdict = null;
     } finally {
       working = false;
       whyOpen = false;
@@ -315,6 +326,7 @@ function enterRoll(): void {
 function restartCurrentSlot(): void {
   verdict = null;
   lastReason = '';
+  errorMessage = '';
   whyOpen = false;
   const slotIndex = nextEmptySlotIndex();
   if (slotIndex !== null) beginSlot(slotIndex);
@@ -324,8 +336,16 @@ function restartCurrentSlot(): void {
 function advanceAfterUsable(): void {
   verdict = null;
   lastReason = '';
+  errorMessage = '';
   whyOpen = false;
   ensureActiveCandidate();
+  render();
+}
+
+function retryAfterError(): void {
+  errorMessage = '';
+  lastReason = '';
+  whyOpen = false;
   render();
 }
 
@@ -334,6 +354,7 @@ function bind(): void {
   document.querySelector<HTMLButtonElement>('#assist-enter')?.addEventListener('click', enterRoll);
   document.querySelector<HTMLButtonElement>('#assist-restart')?.addEventListener('click', restartCurrentSlot);
   document.querySelector<HTMLButtonElement>('#assist-next-slot')?.addEventListener('click', advanceAfterUsable);
+  document.querySelector<HTMLButtonElement>('#assist-error-retry')?.addEventListener('click', retryAfterError);
   document.querySelector<HTMLButtonElement>('#why-button')?.addEventListener('click', () => {
     whyOpen = !whyOpen;
     render();

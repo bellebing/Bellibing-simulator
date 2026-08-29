@@ -1,4 +1,5 @@
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
+import { ECHO_MAIN_SLOT_EFFECT_MODELS } from './echoMainSlotEffects.ts';
 
 const V915_URL = 'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit';
 const RAW_SNAPSHOT_URL = 'https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data';
@@ -13,11 +14,13 @@ function p(sourceLabels: readonly string[], sourceUrls: readonly string[]) {
 }
 
 /**
- * Partial audited Echo non-damage effect catalog.
+ * Source-backed Echo non-damage effect catalog.
  *
- * Reused effects such as Fallacy are stored once by Echo ID. Team/character
- * profiles decide whether that Echo is equipped; rotation state decides whether
- * a conditional transfer window is actually satisfied.
+ * Permanent main-slot effects come from the current roster-wide Echo skill
+ * review. Conditional transfer/cast effects below retain their independently
+ * audited trigger semantics. Missing source semantics remain in the separate
+ * Echo skill source-review pending-adapter register; absence here never means
+ * that an Echo has no effect.
  */
 export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
   {
@@ -55,82 +58,6 @@ export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
       [
         'https://wutheringwaves.fandom.com/wiki/Fallacy_of_No_Return/Echo',
         'https://wuthering.wiki/monster_330000070.html',
-      ],
-    ),
-  },
-  {
-    effectId: 'FALSE_SOV_ELECTRO',
-    echoId: 'echo-60001215',
-    statOrEffect: 'Electro DMG Bonus',
-    value: 0.12,
-    activation: 'MAIN_SLOT_PASSIVE',
-    trigger: 'The False Sovereign equipped in the main Echo slot',
-    durationSeconds: null,
-    appliesTo: 'WIELDER',
-    mechanicsStatus: 'ALREADY_MODELED_UPSTREAM',
-    notes: 'Verified permanent main-slot passive. Augusta parity already carries this upstream, so consumers must not add it twice.',
-    provenance: p(
-      ['Wutheringlab', 'Wuwa Wiki'],
-      [
-        'https://wutheringlab.com/echo/the-false-sovereign/',
-        'https://wuwa.wiki/en/codex/echoes/60001215',
-      ],
-    ),
-  },
-  {
-    effectId: 'FALSE_SOV_HEAVY',
-    echoId: 'echo-60001215',
-    statOrEffect: 'Heavy Attack DMG Bonus',
-    value: 0.12,
-    activation: 'MAIN_SLOT_PASSIVE',
-    trigger: 'The False Sovereign equipped in the main Echo slot',
-    durationSeconds: null,
-    appliesTo: 'WIELDER',
-    mechanicsStatus: 'ALREADY_MODELED_UPSTREAM',
-    notes: 'Verified permanent main-slot passive. Keep separate from Crown of Valor set effects and from active Echo damage.',
-    provenance: p(
-      ['Wutheringlab', 'Wuwa Wiki'],
-      [
-        'https://wutheringlab.com/echo/the-false-sovereign/',
-        'https://wuwa.wiki/en/codex/echoes/60001215',
-      ],
-    ),
-  },
-  {
-    effectId: 'TPP_HAVOC',
-    echoId: 'echo-60002185',
-    statOrEffect: 'Havoc DMG Bonus',
-    value: 0.12,
-    activation: 'MAIN_SLOT_PASSIVE',
-    trigger: 'Thousand-Puppet Pavilion equipped in the main Echo slot',
-    durationSeconds: null,
-    appliesTo: 'WIELDER',
-    mechanicsStatus: 'ALREADY_MODELED_UPSTREAM',
-    notes: 'V9.15 profile already stores this value; runtime migration needs one source of truth to avoid double counting.',
-    provenance: p(
-      ['Prydwen', 'Wuthering.gg'],
-      [
-        'https://www.prydwen.gg/wuthering-waves/echoes/',
-        'https://wuthering.gg/echos/thousand-puppet-pavilion',
-      ],
-    ),
-  },
-  {
-    effectId: 'TPP_HEAVY',
-    echoId: 'echo-60002185',
-    statOrEffect: 'Heavy Attack DMG Bonus',
-    value: 0.12,
-    activation: 'MAIN_SLOT_PASSIVE',
-    trigger: 'Thousand-Puppet Pavilion equipped in the main Echo slot',
-    durationSeconds: null,
-    appliesTo: 'WIELDER',
-    mechanicsStatus: 'ALREADY_MODELED_UPSTREAM',
-    notes: 'Main-Echo passive only. Song of Feathered Trace CR/Heavy bonuses remain in the separate Sonata Effect layer.',
-    provenance: p(
-      ['Prydwen', 'Wuthering.gg'],
-      [
-        'https://www.prydwen.gg/wuthering-waves/echoes/',
-        'https://wuthering.gg/echos/thousand-puppet-pavilion',
       ],
     ),
   },
@@ -176,4 +103,5 @@ export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
       ],
     ),
   },
+  ...ECHO_MAIN_SLOT_EFFECT_MODELS,
 ];

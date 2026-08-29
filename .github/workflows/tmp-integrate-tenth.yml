@@ -24,7 +24,7 @@ jobs:
           node-version: 22
 
       - name: Install
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Verify and unpack source-reviewed payload
         shell: bash

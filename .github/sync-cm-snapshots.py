@@ -72,3 +72,4 @@ for filename in FILES:
     changed.append(filename)
 
 print(f'Updated {len(changed)} current-roster snapshot regressions to 52/0/5/1787.')
+# Trigger touch: workflow now exists and will self-clean after the full suite passes.

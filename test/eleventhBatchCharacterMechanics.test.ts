@@ -179,13 +179,13 @@ test('eleventh-batch Tune Break facts remain shared-system damage and do not inh
   }
 });
 
-test('eleventh batch advances canonical Character Mechanics coverage to 43 verified / 14 unstarted / 1420 facts', () => {
+test('eleventh batch advances canonical Character Mechanics coverage to 48 verified / 9 unstarted / 1623 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 43);
+  assert.equal(audit.profileCount, 48);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 14);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1420);
+  assert.equal(audit.unstartedCharacterIds.length, 9);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1623);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['sanhua', 'qiuyuan', 'sigrika', 'phrolova', 'mornye']) {

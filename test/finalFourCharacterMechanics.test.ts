@@ -11,17 +11,15 @@ import {
 
 const FINAL_FOUR = ['lucy', 'luuk-herssen', 'rebecca', 'zani'] as const;
 
-test('final four source-reviewed profiles close cleanly while five real blockers remain unstarted', () => {
+test('final four source-reviewed profiles remain clean while three real blockers stay unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
-  assert.equal(audit.verifiedCharacterIds.length, 52);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
+  assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.unstartedCharacterIds, [
     'buling',
     'danjin',
-    'rover-electro',
-    'suisui',
     'xiangli-yao',
   ]);
   for (const characterId of FINAL_FOUR) {

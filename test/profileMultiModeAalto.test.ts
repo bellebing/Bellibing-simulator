@@ -55,17 +55,17 @@ test('Aalto Hybrid uses the Jiyan + Shorekeeper ER context instead of collapsing
   assert.match(resolved.preset.provenance.notes?.join(' ') ?? '', /Main DPS remains a separate unpromoted mode/);
 });
 
-test('Aalto moves to profile-complete pending freeze but not DPS-ready', () => {
+test('Aalto stays profile-complete pending freeze but not DPS-ready as other profiles are added', () => {
   const summary = auditProfileReadiness();
   assert.deepEqual(summary.issues, []);
-  assert.equal(summary.profileCompletePendingFreezeCount, 16);
-  assert.equal(summary.profileSourcePendingCount, 37);
   assert.equal(summary.dpsReadyCount, 1);
 
   const aalto = summary.characters.find((row) => row.characterId === 'aalto');
   assert.ok(aalto);
   assert.equal(aalto.disposition, 'PROFILE_COMPLETE_PENDING_FREEZE');
   assert.deepEqual(aalto.verifiedPresetIds, ['aalto-hybrid-jiyan']);
+  assert.ok(summary.profileCompletePendingFreezeIds.includes('aalto'));
+  assert.equal(summary.profileSourcePendingIds.includes('aalto'), false);
 
   const build = getCharacterPreflight('aalto', 'BUILD_PROFILE');
   const dps = getCharacterPreflight('aalto', 'DPS_MODEL');

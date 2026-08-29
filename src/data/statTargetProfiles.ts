@@ -99,4 +99,103 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
       },
     ],
   },
+  {
+    kind: 'STAT_TARGET',
+    id: 'rover-aero-cartethyia-ciaccona-build-stats',
+    name: 'Rover (Aero) — Cartethyia + Ciaccona Build Stats',
+    characterId: 'rover-aero',
+    verificationStatus: 'VERIFIED',
+    provenance: {
+      sourceLabels: ['Prydwen Rover (Aero) build'],
+      sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/rover-aero'],
+      checkedAt: '2026-08-29',
+      notes: [
+        'Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% > Resonance Skill DMG% > ATK.',
+        'The source ER band is 128%-138%; it places Cartethyia + Ciaccona at the higher end. The profile therefore records 138% for this exact team context instead of applying the lower band globally.',
+        'Bloodpact’s Pledge supplies enough source-listed ER that the guide does not require ER substats in this exact setup; this does not become a Roll Assistant rule.',
+      ],
+    },
+    targetRules: [
+      { stat: 'Energy Regen', priority: 1 },
+      { stat: 'CRIT Rate', priority: 2 },
+      { stat: 'CRIT DMG', priority: 2 },
+      { stat: 'ATK%', priority: 3 },
+      { stat: 'Skill DMG', priority: 4 },
+      { stat: 'Flat ATK', priority: 5 },
+    ],
+    gates: [
+      {
+        stat: 'Energy Regen Total',
+        minimum: 1.38,
+        notes: 'Current source gives 128%-138%; the reviewed Cartethyia + Ciaccona context uses the high end, 138%. Bloodpact’s Pledge supplies enough ER that source guidance does not require ER substats in this setup.',
+      },
+    ],
+  },
+  {
+    kind: 'STAT_TARGET',
+    id: 'iuno-augusta-hybrid-build-stats',
+    name: 'Iuno — Augusta Hybrid Build Stats',
+    characterId: 'iuno',
+    verificationStatus: 'VERIFIED',
+    provenance: {
+      sourceLabels: ['Prydwen Iuno build'],
+      sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/iuno'],
+      checkedAt: '2026-08-29',
+      notes: [
+        'Current Hybrid/Sub DPS source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > Resonance Liberation DMG% ≥ ATK% > ATK.',
+        'The source ≥ relation is preserved conservatively as Liberation DMG ahead of ATK%, not silently converted into an exact tie.',
+        'This is build-stat priority only; no Roll Assistant stopping thresholds are inferred.',
+      ],
+    },
+    targetRules: [
+      { stat: 'Energy Regen', priority: 1 },
+      { stat: 'CRIT Rate', priority: 2 },
+      { stat: 'CRIT DMG', priority: 2 },
+      { stat: 'Liberation DMG', priority: 3 },
+      { stat: 'ATK%', priority: 4 },
+      { stat: 'Flat ATK', priority: 5 },
+    ],
+    gates: [
+      {
+        stat: 'Energy Regen Total',
+        minimum: 1.2,
+        preferred: 1.3,
+        notes: 'Current Hybrid/Sub DPS source band is 120%-130%+ ER and is estimated in an Augusta team context.',
+      },
+    ],
+  },
+  {
+    kind: 'STAT_TARGET',
+    id: 'shorekeeper-augusta-iuno-build-stats',
+    name: 'The Shorekeeper — Augusta + Iuno Support Build Stats',
+    characterId: 'the-shorekeeper',
+    verificationStatus: 'VERIFIED',
+    provenance: {
+      sourceLabels: ['Prydwen The Shorekeeper build'],
+      sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper'],
+      checkedAt: '2026-08-29',
+      notes: [
+        'Current source priority: Energy Regen until 230% > CRIT DMG ≥ Resonance Liberation DMG% > HP% > CRIT Rate > HP > ATK% = ATK.',
+        'The source ≥ relation is preserved conservatively as CRIT DMG ahead of Liberation DMG, while ATK% = flat ATK remains an explicit tie.',
+        'The 230% target is explicitly before the +10% Fallacy of No Return Echo effect and Shorekeeper’s +10% passive contribution; the profile note preserves that source semantic instead of treating 230% as a post-buff universal threshold.',
+      ],
+    },
+    targetRules: [
+      { stat: 'Energy Regen', priority: 1 },
+      { stat: 'CRIT DMG', priority: 2 },
+      { stat: 'Liberation DMG', priority: 3 },
+      { stat: 'HP%', priority: 4 },
+      { stat: 'CRIT Rate', priority: 5 },
+      { stat: 'Flat HP', priority: 6 },
+      { stat: 'ATK%', priority: 7 },
+      { stat: 'Flat ATK', priority: 7 },
+    ],
+    gates: [
+      {
+        stat: 'Energy Regen Total',
+        minimum: 2.3,
+        notes: 'Current source target is 230% ER before the +10% Fallacy of No Return Echo effect and Shorekeeper’s +10% passive contribution.',
+      },
+    ],
+  },
 ];

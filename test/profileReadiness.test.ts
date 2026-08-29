@@ -15,15 +15,22 @@ test('current released roster is explicitly classified for profile/freeze readin
   const summary = assertProfileReadinessAudit();
 
   assert.equal(summary.releasedCharacterCount, 57);
-  assert.equal(summary.profileCompletePendingFreezeCount, 3);
+  assert.equal(summary.profileCompletePendingFreezeCount, 6);
   assert.equal(summary.characterMechanicsSourceBlockedCount, 3);
-  assert.equal(summary.profileSourcePendingCount, 51);
+  assert.equal(summary.profileSourcePendingCount, 48);
   assert.equal(summary.dpsReadyCount, 0);
   assert.equal(summary.preDpsFreezeReady, false);
 
-  assert.deepEqual(summary.profileCompletePendingFreezeIds, ['augusta', 'cartethyia', 'ciaccona']);
+  assert.deepEqual(summary.profileCompletePendingFreezeIds, [
+    'augusta',
+    'cartethyia',
+    'ciaccona',
+    'iuno',
+    'rover-aero',
+    'the-shorekeeper',
+  ]);
   assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(summary.profileSourcePendingIds.length, 51);
+  assert.equal(summary.profileSourcePendingIds.length, 48);
   assert.deepEqual(summary.dpsReadyIds, []);
   assert.equal(summary.issues.length, 0);
 });
@@ -48,6 +55,9 @@ test('verified source profile packages are not silently promoted to DPS-ready', 
     ['augusta', 'augusta-standard'],
     ['cartethyia', 'cartethyia-aero-erosion'],
     ['ciaccona', 'ciaccona-cartethyia-aero'],
+    ['rover-aero', 'rover-aero-cartethyia-ciaccona'],
+    ['iuno', 'iuno-augusta-hybrid'],
+    ['the-shorekeeper', 'shorekeeper-augusta-support'],
   ] as const) {
     const row = summary.characters.find((entry) => entry.characterId === characterId);
     assert.ok(row);

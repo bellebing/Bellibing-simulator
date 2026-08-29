@@ -20,12 +20,15 @@ test('historical weapon-effect reviews keep the profile snapshots that existed a
   }
 });
 
-test('new Cartethyia and Ciaccona profiles have fresh current-patch onboarding impact reviews', () => {
+test('current source-backed profile packages have fresh current-patch onboarding impact reviews', () => {
   assert.deepEqual(
     PROFILE_BACKWARD_IMPACT_REVIEWS_V36.map((row) => [row.characterId, row.presetId, row.checkedAt, row.result]),
     [
       ['cartethyia', 'cartethyia-aero-erosion', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['rover-aero', 'rover-aero-cartethyia-ciaccona', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['iuno', 'iuno-augusta-hybrid', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['the-shorekeeper', 'shorekeeper-augusta-support', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -43,9 +46,12 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
   const expectedByProfile = new Map([
     ['cartethyia-aero-erosion-weapons', ['DT-AERO-AMP', 'DT-DEF', 'DT-HP']],
     ['ciaccona-cartethyia-aero-weapons', ['WA-AERO', 'WA-AERO-RES', 'WA-ATK']],
+    ['rover-aero-cartethyia-ciaccona-weapons', ['BPP-SKILL', 'BPP-TEAM-AERO']],
+    ['iuno-augusta-hybrid-weapons', ['MGS-ATK', 'MGS-DEF', 'MGS-LIB', 'MGS-MAX-STACK']],
+    ['shorekeeper-augusta-iuno-weapons', ['SSY-CONCERTO', 'SSY-HP', 'SSY-TEAM-ATK']],
   ]);
 
-  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
+  for (const review of PROFILE_BACKWARD_IMACT_REVIEWS_FOR_TEST()) {
     const weaponProfile = PROFILE_CATALOGS.weaponRecommendations.find(
       (row) => row.id === review.weaponRecommendationProfileId,
     );
@@ -59,11 +65,17 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
   }
 });
 
-test('Cartethyia review preserves the existing Fleurdelys character-restriction adapter boundary', () => {
-  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'cartethyia');
-  assert.ok(review);
-  assert.deepEqual(review.reviewedEchoIds, ['echo-60001065']);
-  assert.ok(review.pendingExecutionIds.includes('echo:echo-60001065:fleurdelys-character-restriction-adapter'));
+function PROFILE_BACKWARD_IMACT_REVIEWS_FOR_TEST() {
+  return PROFILE_BACKWARD_IMPACT_REVIEWS_V36;
+}
+
+test('Cartethyia and Rover Aero reviews preserve the existing Fleurdelys character-restriction adapter boundary', () => {
+  for (const characterId of ['cartethyia', 'rover-aero'] as const) {
+    const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === characterId);
+    assert.ok(review);
+    assert.deepEqual(review.reviewedEchoIds, ['echo-60001065']);
+    assert.ok(review.pendingExecutionIds.includes('echo:echo-60001065:fleurdelys-character-restriction-adapter'));
+  }
 
   const pending = ECHO_SKILL_PENDING_ADAPTER_FACTS.find((row) => row.echoId === 'echo-60001065');
   assert.ok(pending);
@@ -76,4 +88,17 @@ test('Ciaccona review does not invent a Nightmare Kelpie active adapter for an u
   assert.ok(review);
   assert.deepEqual(review.reviewedEchoIds, ['echo-60001135']);
   assert.equal(review.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
+});
+
+test('new support profiles retain their selected Echo-active execution boundaries', () => {
+  const rover = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'rover-aero');
+  const iuno = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'iuno');
+  const shorekeeper = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'the-shorekeeper');
+  assert.ok(rover);
+  assert.ok(iuno);
+  assert.ok(shorekeeper);
+
+  assert.ok(rover.pendingExecutionIds.includes('echo:echo-60001065:active-skill-damage-adapter'));
+  assert.ok(iuno.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
+  assert.ok(shorekeeper.pendingExecutionIds.includes('echo:echo-60000605:fallacy-active-skill-damage-adapter'));
 });

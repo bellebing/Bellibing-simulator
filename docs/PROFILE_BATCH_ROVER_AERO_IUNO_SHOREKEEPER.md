@@ -1,6 +1,6 @@
 # Source-backed profile batch — Rover (Aero), Iuno, The Shorekeeper
 
-Checked: 2026-08-29  
+Checked: 2026-08-29
 Patch baseline: 3.6
 
 This note records the reviewed source context for the second composable profile population batch. It is profile/source evidence, not a DPS execution claim.

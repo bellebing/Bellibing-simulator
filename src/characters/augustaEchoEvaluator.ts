@@ -5,25 +5,25 @@ import {
 } from './augustaStandard.ts';
 
 const SUPPORTED = {
-  characterId: 'Augusta',
+  characterId: 'augusta',
   sequence: 0,
-  weaponId: 'Thunderflare Dominion',
+  weaponId: 'thunderflare-dominion',
   weaponRank: 1,
-  teamId: 'AUGUSTA_IUNO_SHOREKEEPER_STD',
+  teamId: 'augusta-iuno-shorekeeper',
   rotationProfileId: 'AUGUSTA_STD_V1',
 } as const;
 
 /**
  * Source-backed S0/R1 standard-context stats that do not come from the five Echo stat cards.
- * The active Echo/set assumptions are still locked to the V9.15 Augusta standard context.
+ * The active Echo/set assumptions are still locked to the reviewed Augusta standard context.
  */
 const AUGUSTA_STANDARD_NON_ECHO = {
   combinedBaseAtk: 1138,
   fixedAtkPct: 0.12,
   fixedCritRate: 0.2515, // 5% base + 12.15% weapon + 8% minor forte
   fixedCritDamage: 1.5,
-  fixedElectroDamage: 0.12, // standard main-Echo passive already owned upstream in V9.15
-  fixedHeavyDamage: 0.12, // standard main-Echo passive already owned upstream in V9.15
+  fixedElectroDamage: 0.12, // False Sovereign main-slot passive already modeled upstream
+  fixedHeavyDamage: 0.12, // False Sovereign main-slot passive already modeled upstream
   baseEnergyRegen: 1,
 } as const;
 
@@ -89,7 +89,7 @@ export const augustaStandardEchoDamageEvaluator: DamageEvaluator = {
         energyRegen: Number.NaN,
         erGate: 'PENDING',
         notes: [
-          'Only the verified Augusta S0 / Thunderflare Dominion R1 / Iuno + Shorekeeper / AUGUSTA_STD_V1 context is active in the app foundation.',
+          'Only the verified Augusta S0 / Thunderflare Dominion R1 / Iuno + Shorekeeper / AUGUSTA_STD_V1 profile context is active in the app foundation.',
         ],
       };
     }
@@ -99,7 +99,7 @@ export const augustaStandardEchoDamageEvaluator: DamageEvaluator = {
       personalRotationDps: result.personalRotationDps,
       energyRegen: result.energyRegen,
       erGate: result.erGate,
-      notes: ['Exact V9.15 action-event parity context.'],
+      notes: ['Exact V9.15 action-event parity context, selected through canonical profile IDs.'],
     };
   },
 };

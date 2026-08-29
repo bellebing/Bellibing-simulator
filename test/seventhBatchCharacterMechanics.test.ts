@@ -137,10 +137,10 @@ test('seventh-batch Tune Break facts stay at the shared-system boundary', () => 
   }
 });
 
-test('seventh Character Mechanics batch remains valid after ninth-batch coverage reaches 33 verified / 24 unstarted / 1068 facts', () => {
+test('seventh Character Mechanics batch remains valid after ninth-batch coverage reaches 38 verified / 19 unstarted / 1261 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 33);
+  assert.equal(audit.profileCount, 38);
   assert.deepEqual(audit.verifiedCharacterIds, [
     'aalto',
     'aemeath',
@@ -154,7 +154,9 @@ test('seventh Character Mechanics batch remains valid after ninth-batch coverage
     'chisa',
     'chixia',
     'ciaccona',
+    'denia',
     'encore',
+    'hiyuki',
     'iuno',
     'jianxin',
     'jinhsi',
@@ -164,21 +166,24 @@ test('seventh Character Mechanics batch remains valid after ninth-batch coverage
     'lupa',
     'mortefi',
     'phoebe',
+    'qingxiao',
     'roccia',
+    'rover-aero',
     'rover-havoc',
     'rover-spectro',
     'taoqi',
     'the-shorekeeper',
     'verina',
     'yangyang',
+    'yangyang-xuanling',
     'yinlin',
     'youhu',
     'yuanwu',
     'zhezhi',
   ]);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1068);
+  assert.equal(audit.unstartedCharacterIds.length, 19);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1261);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['camellya', 'carlotta']) {

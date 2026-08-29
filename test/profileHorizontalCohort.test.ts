@@ -41,6 +41,7 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
   assert.equal(cohort.verificationStatus, 'NOT_VERIFIED');
   assert.equal(cohort.canonicalWriteAllowed, false);
   assert.ok(cohort.parkedBlockerCount > 0);
+  assert.deepEqual(cohort.autoParkMissingSourcePhases, ['WEAPON']);
   assert.deepEqual(cohort.phaseCounts.MODE_TEAM_CONTEXT, {
     sourceFieldsPresent: 0,
     sourceFieldsMissing: 20,
@@ -48,8 +49,15 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
     blocked: 20,
     pendingReview: 0,
   });
+  assert.deepEqual(cohort.phaseCounts.WEAPON, {
+    sourceFieldsPresent: 0,
+    sourceFieldsMissing: 20,
+    reviewed: 0,
+    blocked: 20,
+    pendingReview: 0,
+  });
 
-  for (const phaseName of PROFILE_HORIZONTAL_PHASES.filter((phase) => phase !== 'MODE_TEAM_CONTEXT')) {
+  for (const phaseName of PROFILE_HORIZONTAL_PHASES.filter((phase) => !['MODE_TEAM_CONTEXT', 'WEAPON'].includes(phase))) {
     assert.equal(cohort.phaseCounts[phaseName].blocked, 0);
     assert.equal(cohort.phaseCounts[phaseName].reviewed, 0);
     assert.equal(cohort.phaseCounts[phaseName].pendingReview, 20);
@@ -64,10 +72,12 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
       assert.equal(mode.canonicalWriteAllowed, false);
       assert.deepEqual(Object.keys(mode.phases), PROFILE_HORIZONTAL_PHASES);
       assert.equal(mode.phases.MODE_TEAM_CONTEXT.reviewState, 'BLOCKED');
+      assert.equal(mode.phases.WEAPON.reviewState, 'BLOCKED');
+      assert.match(mode.phases.WEAPON.notes.join(' '), /Automatically parked.*not semantic approval/);
       assert.equal(mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate, null);
       assert.equal(mode.materializationCandidate.sourceData.defaultCandidate, null);
       assert.ok(PROFILE_HORIZONTAL_PHASES
-        .filter((phase) => phase !== 'MODE_TEAM_CONTEXT')
+        .filter((phase) => !['MODE_TEAM_CONTEXT', 'WEAPON'].includes(phase))
         .every((phase) => mode.phases[phase].reviewState === 'PENDING_REVIEW'));
       assert.equal(mode.phases.PROMOTION_FREEZE.data.verificationStatus, 'NOT_VERIFIED');
       assert.equal(mode.phases.PROMOTION_FREEZE.data.canonicalWriteAllowed, false);
@@ -105,8 +115,25 @@ test('mode/team/context review preserves roles where staged and parks exact miss
   assert.deepEqual(baizhi.modes[0]?.phases.MODE_TEAM_CONTEXT.blockers, ['role', 'team']);
   assert.equal(baizhi.modes[0]?.phases.MODE_TEAM_CONTEXT.reviewState, 'BLOCKED');
   assert.equal(baizhi.modes[0]?.phases.WEAPON.extractionState, 'SOURCE_FIELDS_MISSING');
+  assert.equal(baizhi.modes[0]?.phases.WEAPON.reviewState, 'BLOCKED');
   assert.equal(baizhi.modes[0]?.materializationCandidate.materializationStatus, 'BLOCKED_BY_MISSING_SOURCE_FIELDS');
   assert.equal(cohort.characterCount, 15);
+});
+
+test('source blocker auto-parking can only target extraction phases and never upgrades review state', async () => {
+  const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
+  const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
+  const candidateReview = buildProfileCandidateReview(sourceInput);
+  const readiness = auditProfileReadiness();
+
+  assert.throws(() => buildProfileHorizontalCohort(candidateReview, {
+    ...manifest,
+    autoParkMissingSourcePhases: ['EXECUTION_ADAPTERS'],
+  }, readiness.profileSourcePendingIds), /may only contain source extraction phases/);
+
+  const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
+  assert.equal(cohort.phaseCounts.WEAPON.reviewed, 0);
+  assert.equal(cohort.phaseCounts.WEAPON.blocked, 20);
 });
 
 test('cohort review cannot mark a phase REVIEWED while required source fields are missing', async () => {

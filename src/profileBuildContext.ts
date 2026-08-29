@@ -2,6 +2,8 @@ import type { BuildContext, Echo } from './domain.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
 import { resolveBuildPreset } from './profileRegistry.ts';
 
+export const PROFILE_BUILD_CONTEXT_ADAPTER_ID = 'profile-build-context-v1' as const;
+
 /**
  * Convert a composable, verified profile preset into the legacy BuildContext
  * shape consumed by current character evaluators. The user's actual Echo cards

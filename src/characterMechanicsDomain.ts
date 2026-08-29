@@ -195,6 +195,25 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
   hitCount: number | null;
 }
 
+/**
+ * Boundary for adapters that only understand one Character damage class.
+ * Multi-class source facts are intentionally rejected instead of coercing a
+ * primary class or silently selecting the first taxonomy entry.
+ */
+export function requireSingleCharacterDamageClass(fact: CharacterActionFact): CharacterDamageClass {
+  if (fact.actionRole !== 'DAMAGE') {
+    throw new Error(`Character action ${fact.factId} is not Character-owned DAMAGE.`);
+  }
+  const simultaneous = fact.damageClasses ?? null;
+  if (simultaneous !== null) {
+    throw new Error(`Character action ${fact.factId} has simultaneous source damage classes: ${simultaneous.join(', ') || 'none'}.`);
+  }
+  if (fact.damageClass === null) {
+    throw new Error(`Character action ${fact.factId} has no single source damage class.`);
+  }
+  return fact.damageClass;
+}
+
 export type CharacterEffectScope = 'SELF' | 'TEAM' | 'NEXT_CHARACTER' | 'TARGET' | 'OTHER';
 
 /** Raw passive text/meaning. Executable buff math belongs in a later effect adapter. */

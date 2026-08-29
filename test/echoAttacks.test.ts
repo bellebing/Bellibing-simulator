@@ -8,9 +8,21 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
-test('Echo attack foundation begins with the exact Augusta golden Echo only', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 1);
+test('Echo attack catalog contains only source-explicit executable profiles', () => {
+  assert.equal(ECHO_ATTACK_PROFILES.length, 2);
+  assert.equal(registry.attackById.size, 3);
+  assert.ok(registry.byEchoId.has('echo-60000375'));
   assert.ok(registry.byEchoId.has('echo-60001215'));
+});
+
+test('Bell-Borne Rank-5 protection blast is exact 145.92% DEF Glacio damage', () => {
+  const profile = registry.byEchoId.get('echo-60000375')!;
+  const attack = profile.attacks[0]!;
+  assert.equal(profile.cooldownSeconds, 20);
+  assert.equal(attack.attackId, 'BELL_BORNE_PROTECTION_BLAST');
+  assert.equal(attack.element, 'Glacio');
+  assert.equal(attack.scalingStat, 'DEF');
+  assert.equal(totalMotionValue(attack), 1.4592);
 });
 
 test('False Sovereign active Rank-5 cast is 55.35% x4 = exact Augusta 2.214 motion value', () => {
@@ -61,11 +73,10 @@ test('registry rejects dangling Echo IDs and invalid damage components', () => {
   assert.throws(
     () => createEchoAttackRegistry([{
       ...base,
-      echoId: 'echo-60001215',
       attacks: [{
         ...base.attacks[0]!,
         attackId: 'BROKEN_ATTACK',
-        components: [{ motionValuePerHit: 0, hits: 4 }],
+        components: [{ motionValuePerHit: 0, hits: 1 }],
       }],
     }]),
     /invalid motion value/,

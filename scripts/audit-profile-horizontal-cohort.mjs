@@ -28,6 +28,14 @@ if (cohort.materializationCandidates.some((candidate) => candidate.verificationS
   throw new Error('Horizontal materialization candidates must remain NOT_VERIFIED and non-canonical.');
 }
 
+const modeContext = cohort.phaseCounts.MODE_TEAM_CONTEXT;
+if (modeContext.pendingReview !== 0 || modeContext.reviewed !== 0 || modeContext.blocked !== cohort.modeCount) {
+  throw new Error(`Cohort 01 MODE_TEAM_CONTEXT must be dispositioned without false review approval: ${JSON.stringify(modeContext)}.`);
+}
+if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
+  throw new Error('Cohort 01 has no source-backed default decision yet; defaultCandidate must remain null for every staged mode.');
+}
+
 console.log(`Horizontal profile cohort: ${cohort.characterCount} Characters / ${cohort.modeCount} modes`);
 console.log(`Parked blockers: ${cohort.parkedBlockerCount}`);
 for (const [phase, counts] of Object.entries(cohort.phaseCounts)) {

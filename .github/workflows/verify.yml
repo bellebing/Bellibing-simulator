@@ -25,21 +25,14 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Generate Echo skill source inventory
-        run: node scripts/generate-echo-skill-source-inventory.mjs
-
-      - name: Publish Echo skill source inventory
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bellibing-Echo-Skill-Source-Inventory
-          path: .artifacts/echo-skill-source-inventory.json
-          if-no-files-found: error
-
       - name: Echo/Sonata raw coverage gate
         run: npm run audit:echo-raw
 
       - name: Sonata effect source coverage gate
         run: npm run audit:sonata-effects
+
+      - name: Echo skill source coverage gate
+        run: npm run audit:echo-skills
 
       - name: Tests
         run: npm test

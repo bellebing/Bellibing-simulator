@@ -4,7 +4,7 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
   {
     kind: 'STAT_TARGET',
     id: 'augusta-recommended-targets-v915-current',
-    name: 'Augusta — Recommended Targets',
+    name: 'Augusta — Recommended Build Stats',
     characterId: 'augusta',
     verificationStatus: 'VERIFIED',
     provenance: {
@@ -14,20 +14,17 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
       ],
       checkedAt: '2026-08-25',
       notes: [
-        'Current active V9.15 Build Simulator selection is 2 Core + Any 1 Useful.',
-        'The V9.15 Strategy Cache live/cached fingerprint is CURRENT for that same Any 1 requirement.',
-        '2 Core + Any 2 Useful and Any 3 Useful remain selectable stricter target options; they are not the active Augusta Recommended target.',
+        'Build-stat priority is kept here; Roll Assistant minimum-roll thresholds and 2 Core + Any 1 Useful stopping requirements live separately in AUGUSTA_RECOMMENDED_V915.',
+        'The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy.',
       ],
     },
     targetRules: [
-      { stat: 'CRIT DMG', role: 'CORE', minimumRoll: 0.21 },
-      { stat: 'CRIT Rate', role: 'CORE', minimumRoll: 0.093 },
-      { stat: 'ATK%', role: 'USEFUL', minimumRoll: 0.064 },
-      { stat: 'Energy Regen', role: 'USEFUL', minimumRoll: 0.068 },
-      { stat: 'Heavy Attack DMG', role: 'USEFUL', minimumRoll: 0.064 },
+      { stat: 'CRIT DMG', role: 'CORE' },
+      { stat: 'CRIT Rate', role: 'CORE' },
+      { stat: 'ATK%', role: 'USEFUL' },
+      { stat: 'Energy Regen', role: 'USEFUL' },
+      { stat: 'Heavy Attack DMG', role: 'USEFUL' },
     ],
-    requiredCoreHits: 2,
-    requiredUsefulHits: 1,
     gates: [
       {
         stat: 'Energy Regen Total',

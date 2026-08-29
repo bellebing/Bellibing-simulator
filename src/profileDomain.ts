@@ -29,14 +29,22 @@ export interface WeaponRecommendationProfile extends ProfileBase {
   options: readonly WeaponRecommendationOption[];
 }
 
+/** Priority 1 is preferred; equal values are source-explicit ties. */
+export interface EchoMainStatOption {
+  stat: string;
+  priority: number;
+  notes?: string;
+}
+
 export interface EchoSlotProfile {
   cost: EchoCost;
-  primaryMainStat: string;
+  primaryMainStats: readonly EchoMainStatOption[];
 }
 
 /**
  * Which Echo shell a build wants. This owns layout/set/main-Echo assumptions,
- * but deliberately does not own substat policy or Roll Assistant decisions.
+ * including source-backed main-stat alternatives, but deliberately does not own
+ * substat stopping policy or Roll Assistant decisions.
  */
 export interface EchoLoadoutProfile extends ProfileBase {
   kind: 'ECHO_LOADOUT';
@@ -46,19 +54,17 @@ export interface EchoLoadoutProfile extends ProfileBase {
   mainEchoId?: string;
 }
 
-export type TargetStatRole = 'CORE' | 'USEFUL' | 'EXTRA';
-
 /**
- * Source-backed build-stat priority only.
+ * Source-facing build-stat priority. Priority 1 is highest; equal numbers are
+ * explicit ties from the reviewed source/context.
  *
- * Roll-magnitude thresholds and required hit counts belong to CharacterRollProfile
- * in targetCheckpointPolicy.ts. Keeping them out of this relationship layer lets
- * guide/reference sources describe a verified build without fabricating a
- * Bellibing stopping policy they never specified.
+ * Core/Useful roll roles, minimum roll magnitudes and required hit counts belong
+ * to CharacterRollProfile in targetCheckpointPolicy.ts instead.
  */
 export interface TargetStatRule {
   stat: StatName;
-  role: TargetStatRole;
+  priority: number;
+  notes?: string;
 }
 
 export interface StatGate {
@@ -90,20 +96,27 @@ export interface TeamProfile extends ProfileBase {
   members: readonly TeamMemberProfile[];
 }
 
+export type RotationExecutionStatus = 'SOURCE_SEQUENCE_ONLY' | 'ENGINE_MODELED';
+
 /**
- * Rotation metadata points at a separately implemented engine/combat model.
+ * Rotation recommendation and execution are separate claims.
+ *
+ * A current guide can verify a sequence before Bellibing has an executable
+ * rotation adapter. `SOURCE_SEQUENCE_ONLY` preserves that source truth without
+ * inventing an engine model. `ENGINE_MODELED` requires an actual engineModelId.
  *
  * `modeledMechanicFactIds` are facts the engine explicitly evaluates.
  * `assumedMechanicFactIds` are source-verified facts required for the fixed
  * rotation/context to be legal or coherent but whose lifecycle is not yet
- * simulated generically. Keeping the two sets separate prevents a parity fixture
- * from pretending every underlying trigger/resource system is fully modeled.
+ * simulated generically.
  */
 export interface RotationProfile extends ProfileBase {
   kind: 'ROTATION';
   characterId: string;
   teamProfileId: string;
-  engineModelId: string;
+  executionStatus: RotationExecutionStatus;
+  sourceSequence: readonly string[];
+  engineModelId?: string;
   rotationSeconds?: number;
   variantKey: string;
   modeledMechanicFactIds: readonly string[];

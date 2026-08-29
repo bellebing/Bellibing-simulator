@@ -9,9 +9,9 @@ Bellibing keeps raw Wuthering Waves game data separate from product defaults and
 3. `echoes.ts` / `sonatas.ts` — raw Echo and Sonata identity.
 4. `weaponRecommendations.ts` — character-to-weapon recommendation relationships.
 5. `echoLoadoutProfiles.ts` — Echo layout, set, main Echo and main-stat shell.
-6. `statTargetProfiles.ts` — source-backed build-stat priorities and total-stat gates; **not** Roll Assistant stopping thresholds.
+6. `statTargetProfiles.ts` — source-backed build-stat priority/ties and total-stat gates; **not** Roll Assistant stopping thresholds.
 7. `teamProfiles.ts` — team membership.
-8. `rotationProfiles.ts` — team-specific/mode-specific rotation metadata pointing at an engine model.
+8. `rotationProfiles.ts` — team-specific/mode-specific source sequence plus an explicit execution boundary: `SOURCE_SEQUENCE_ONLY` or `ENGINE_MODELED`.
 9. `characterBuildPresets.ts` — tiny composition records used by future UI.
 10. `CharacterRollProfile` in `targetCheckpointPolicy.ts` — separate fallback Roll Assistant policy: minimum roll values, required Core/Useful hit counts, Dead/Filler treatment and first checkpoint.
 
@@ -40,10 +40,11 @@ Adding a new character should be data work, not UI work:
 3. Add new raw Weapons/Echoes/Sonatas only if the patch introduced them.
 4. Add the relevant independent recommendation/profile records.
 5. Add one or more `CharacterBuildPreset` composition records.
-6. Add a `CharacterRollProfile` only when Bellibing has separately verified stopping-policy evidence. A build guide's stat priority alone is not evidence for minimum roll thresholds or required hit counts.
-7. Run the required backward-impact audit for every new/changed weapon, set, Echo and team-facing character effect.
-8. Rebenchmark affected existing profiles under comparable contexts.
-9. Only then mark the intended user-facing integration complete.
+6. Preserve a source-reviewed rotation as `SOURCE_SEQUENCE_ONLY` until a real combat/rotation engine model exists; never invent `engineModelId` merely to complete a profile.
+7. Add a `CharacterRollProfile` only when Bellibing has separately verified stopping-policy evidence. A build guide's stat priority alone is not evidence for minimum roll thresholds or required hit counts.
+8. Run the required backward-impact audit for every new/changed weapon, set, Echo and team-facing character effect.
+9. Rebenchmark affected existing profiles under comparable contexts.
+10. Only then mark the intended user-facing integration complete.
 
 The UI discovers `uiSelectable` presets through the registry automatically.
 
@@ -54,6 +55,8 @@ Changing only a recommendation should touch only its owning base. For example, c
 Every profile carries provenance and verification status. A missing or disputed relation remains `PENDING`/`PARTIALLY_VERIFIED`; it must not be guessed simply to make a preset complete.
 
 Raw-data verification and profile/recommendation verification are separate claims. Build-stat verification and Roll Assistant policy verification are also separate claims: a current guide can prove that CRIT Rate or Energy Regen is important without proving that a specific in-game roll magnitude should pass or that an Echo must contain a fixed number of Core/Useful hits.
+
+Rotation source verification and rotation execution verification are likewise separate claims. `SOURCE_SEQUENCE_ONLY` may be fully source-verified as recommendation/profile data while remaining non-executable. `ENGINE_MODELED` is reserved for a rotation backed by an actual Bellibing engine model.
 
 New content also carries a third project-level obligation: compatible existing profiles must be screened for backward impact before the patch integration is considered complete.
 
@@ -66,7 +69,7 @@ New content also carries a third project-level obligation: compatible existing p
 - `CHARACTER_MECHANICS_SOURCE_BLOCKED` — canonical Character Mechanics is source-blocked and cannot receive a DPS adapter;
 - `DPS_READY` — an explicit current-patch freeze approval exists and all preflight gates pass.
 
-A fully VERIFIED preset is therefore **not** equivalent to `DPS_READY`. A future freeze approval must name the approved preset, preserve current-patch evidence, record backward-impact review and account for every specialized execution adapter required by that supported profile. Raw Character null fields, unresolved intrinsic stats and Character Mechanics source blockers remain independent DPS blockers.
+A fully VERIFIED preset is therefore **not** equivalent to `DPS_READY`. A source-verified `SOURCE_SEQUENCE_ONLY` rotation may complete the recommendation/profile package, but it cannot satisfy future DPS execution readiness until its required rotation/combat adapter is independently implemented, verified and represented by `ENGINE_MODELED`. A future freeze approval must name the approved preset, preserve current-patch evidence, record backward-impact review and account for every specialized execution adapter required by that supported profile. Raw Character null fields, unresolved intrinsic stats and Character Mechanics source blockers remain independent DPS blockers.
 
 Roll Assistant fallback-policy coverage is not used as a shortcut for DPS readiness. The final stopping policy becomes whole-build DPS-aware after verified Character DPS exists; until then a separately verified `CharacterRollProfile` may provide the guide/fallback checkpoint policy where available.
 
@@ -107,10 +110,10 @@ The first production fixture is `augusta-standard`, resolved from current V9.15 
 - default weapon: Thunderflare Dominion R1;
 - Echo shell: Crown of Valor + 2P Void Thunder, The False Sovereign main Echo;
 - current V9.15 main-stat shell: CRIT Rate / Electro / Electro / ATK% / ATK%;
-- source-backed build-stat profile: CRIT DMG, CRIT Rate, ATK%, Energy Regen and Heavy Attack DMG, with the verified ER total gate;
+- current source-backed build-stat priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG among the tracked stats, with the verified ER total gate;
 - separate current V9.15 Roll policy: **2 Core + Any 1 Useful** with the audited per-roll thresholds;
 - standard team: Augusta / Iuno / Shorekeeper;
-- rotation engine model: `AUGUSTA_STD_V1`, 11.17 seconds.
+- rotation execution: `ENGINE_MODELED` through `AUGUSTA_STD_V1`, 11.17 seconds.
 
 The active Any-1 Roll requirement is locked by parity against the current V9.15 Build Simulator and CURRENT Strategy Cache. Stricter Any-2/Any-3 Roll targets may exist as separate selectable target qualities; they are not the active Augusta Recommended fallback policy.
 

@@ -25,26 +25,33 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
   assert.equal(resolved.weaponRecommendation.defaultWeaponId, 'thunderflare-dominion');
   assert.equal(resolved.echoLoadout.mainEchoId, 'echo-60001215');
   assert.deepEqual(resolved.echoLoadout.sonataSetIds, ['sonata-20', 'sonata-3']);
-  assert.deepEqual(resolved.echoLoadout.slots.map((slot) => [slot.cost, slot.primaryMainStat]), [
-    [4, 'CRIT Rate'],
-    [3, 'Electro DMG'],
-    [3, 'Electro DMG'],
-    [1, 'ATK%'],
-    [1, 'ATK%'],
-  ]);
-  assert.deepEqual(resolved.statTarget.targetRules.map((rule) => [rule.stat, rule.role]), [
-    ['CRIT DMG', 'CORE'],
-    ['CRIT Rate', 'CORE'],
-    ['ATK%', 'USEFUL'],
-    ['Energy Regen', 'USEFUL'],
-    ['Heavy Attack DMG', 'USEFUL'],
+  assert.deepEqual(
+    resolved.echoLoadout.slots.map((slot) => [
+      slot.cost,
+      slot.primaryMainStats.map((option) => [option.stat, option.priority]),
+    ]),
+    [
+      [4, [['CRIT Rate', 1]]],
+      [3, [['Electro DMG', 1]]],
+      [3, [['Electro DMG', 1]]],
+      [1, [['ATK%', 1]]],
+      [1, [['ATK%', 1]]],
+    ],
+  );
+  assert.deepEqual(resolved.statTarget.targetRules.map((rule) => [rule.stat, rule.priority]), [
+    ['Energy Regen', 1],
+    ['CRIT Rate', 2],
+    ['CRIT DMG', 2],
+    ['ATK%', 3],
+    ['Heavy Attack DMG', 3],
   ]);
   assert.deepEqual(resolved.team.members.map((member) => member.characterId), ['augusta', 'iuno', 'the-shorekeeper']);
+  assert.equal(resolved.rotation.executionStatus, 'ENGINE_MODELED');
   assert.equal(resolved.rotation.engineModelId, 'AUGUSTA_STD_V1');
   assert.equal(resolved.rotation.rotationSeconds, 11.17);
 });
 
-test('composable build-stat profile does not duplicate Roll Assistant stopping thresholds', () => {
+test('composable build-stat profile does not duplicate Roll Assistant stopping policy', () => {
   const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, 'augusta');
   assert.ok(resolved);
 
@@ -52,6 +59,7 @@ test('composable build-stat profile does not duplicate Roll Assistant stopping t
   assert.equal(Object.hasOwn(resolved.statTarget, 'requiredUsefulHits'), false);
   for (const rule of resolved.statTarget.targetRules) {
     assert.equal(Object.hasOwn(rule, 'minimumRoll'), false);
+    assert.equal(Object.hasOwn(rule, 'role'), false);
   }
 
   assert.equal(AUGUSTA_RECOMMENDED_V915.requiredCoreHits, 2);
@@ -63,6 +71,111 @@ test('composable build-stat profile does not duplicate Roll Assistant stopping t
     { name: 'Energy Regen', role: 'USEFUL', minimum: 0.068 },
     { name: 'Heavy Attack DMG', role: 'USEFUL', minimum: 0.064 },
   ]);
+});
+
+test('Echo loadout slots preserve source-backed tied and fallback main-stat options', () => {
+  const alternativeEchoProfile = {
+    ...PROFILE_CATALOGS.echoLoadouts[0]!,
+    id: 'augusta-test-main-stat-options',
+    slots: [
+      {
+        cost: 4 as const,
+        primaryMainStats: [
+          { stat: 'CRIT Rate', priority: 1 },
+          { stat: 'CRIT DMG', priority: 1 },
+        ],
+      },
+      {
+        cost: 3 as const,
+        primaryMainStats: [
+          { stat: 'Electro DMG', priority: 1 },
+          { stat: 'ATK%', priority: 2 },
+        ],
+      },
+      ...PROFILE_CATALOGS.echoLoadouts[0]!.slots.slice(2),
+    ],
+  };
+  const alternativePreset = {
+    ...PROFILE_CATALOGS.presets[0]!,
+    id: 'augusta-test-main-stat-options-preset',
+    name: 'Augusta — Test Main Stat Options',
+    modeKey: 'main-stat-options',
+    displayLabel: 'Main stat options',
+    isDefault: false,
+    echoLoadoutProfileId: alternativeEchoProfile.id,
+    provenance: testSource,
+  };
+
+  const registry = createProfileRegistry({
+    ...PROFILE_CATALOGS,
+    echoLoadouts: [...PROFILE_CATALOGS.echoLoadouts, alternativeEchoProfile],
+    presets: [...PROFILE_CATALOGS.presets, alternativePreset],
+  });
+  const resolved = resolveBuildPreset(registry, alternativePreset.id);
+  assert.deepEqual(resolved.echoLoadout.slots[0]?.primaryMainStats, [
+    { stat: 'CRIT Rate', priority: 1 },
+    { stat: 'CRIT DMG', priority: 1 },
+  ]);
+  assert.deepEqual(resolved.echoLoadout.slots[1]?.primaryMainStats, [
+    { stat: 'Electro DMG', priority: 1 },
+    { stat: 'ATK%', priority: 2 },
+  ]);
+});
+
+test('source-only rotations can preserve a reviewed sequence without claiming an engine model', () => {
+  const sourceOnlyRotation = {
+    ...PROFILE_CATALOGS.rotations[0]!,
+    id: 'augusta-test-source-only',
+    name: 'Augusta — Test Source Sequence',
+    executionStatus: 'SOURCE_SEQUENCE_ONLY' as const,
+    sourceSequence: ['Intro', 'Heavy Attack'],
+    engineModelId: undefined,
+    rotationSeconds: undefined,
+    modeledMechanicFactIds: [],
+    assumedMechanicFactIds: [],
+    verificationStatus: 'VERIFIED' as const,
+    provenance: testSource,
+  };
+  const sourceOnlyPreset = {
+    ...PROFILE_CATALOGS.presets[0]!,
+    id: 'augusta-test-source-only-preset',
+    name: 'Augusta — Test Source Sequence Preset',
+    modeKey: 'source-only',
+    displayLabel: 'Source only',
+    isDefault: false,
+    rotationProfileId: sourceOnlyRotation.id,
+    verificationStatus: 'VERIFIED' as const,
+    provenance: testSource,
+  };
+
+  const registry = createProfileRegistry({
+    ...PROFILE_CATALOGS,
+    rotations: [...PROFILE_CATALOGS.rotations, sourceOnlyRotation],
+    presets: [...PROFILE_CATALOGS.presets, sourceOnlyPreset],
+  });
+  const resolved = resolveBuildPreset(registry, sourceOnlyPreset.id);
+  assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+  assert.deepEqual(resolved.rotation.sourceSequence, ['Intro', 'Heavy Attack']);
+  assert.equal(resolved.rotation.engineModelId, undefined);
+});
+
+test('source-only rotations fail closed if they claim executable engine coverage', () => {
+  const invalidRotation = {
+    ...PROFILE_CATALOGS.rotations[0]!,
+    id: 'augusta-invalid-source-only',
+    executionStatus: 'SOURCE_SEQUENCE_ONLY' as const,
+    sourceSequence: ['Intro'],
+    engineModelId: 'SHOULD_NOT_EXIST',
+    modeledMechanicFactIds: [],
+  };
+
+  assert.throws(
+    () => createProfileRegistry({
+      ...PROFILE_CATALOGS,
+      rotations: [...PROFILE_CATALOGS.rotations, invalidRotation],
+    }),
+    /SOURCE_SEQUENCE_ONLY rotation cannot claim engineModelId/,
+  );
 });
 
 test('raw Character data remains free of defaults/profile relationships', () => {

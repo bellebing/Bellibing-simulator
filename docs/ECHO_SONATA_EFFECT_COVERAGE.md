@@ -1,8 +1,8 @@
 # Echo / Sonata effect coverage inventory
 
-This document starts **after** the Version 3.6 raw Echo/Sonata roster audit. The raw catalog is current; executable combat-effect coverage is not.
+This document starts **after** the Version 3.6 raw Echo/Sonata roster audit. Raw identity/catalog coverage and combat-effect coverage remain separate layers.
 
-Do not read raw Sonata membership or raw Echo identity as proof that Bellibing knows the corresponding combat effect.
+Do not read raw Sonata membership or raw Echo identity as proof that Bellibing can execute the corresponding combat effect.
 
 ## Raw foundation
 
@@ -17,38 +17,49 @@ Current source-reviewed Version 3.6 raw coverage:
 
 `npm run audit:echo-raw` is the executable source-facing gate. Raw verification stops at this boundary.
 
-## Sonata Effects — current modeled slice
+## Sonata Effects — source review complete, execution intentionally partial
 
-`src/data/sonataEffects.ts` currently contains **10 audited effect records across 7 of 34 current Sonata sets**.
+The current pinned/current source checkpoint is DommyMM/wuwabuild commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f`. Upstream `main` was reverified at the same commit before this review.
 
-Sets with at least one modeled effect record:
+Current roster-wide Sonata effect coverage:
 
-| Sonata | Modeled rows | Current modeled semantics |
-| --- | ---: | --- |
-| Crown of Valor (`sonata-20`) | 2 | Shield-triggered self ATK; max-stack Crit DMG state. |
-| Rejuvenating Glow (`sonata-7`) | 1 | Healing-triggered team ATK window. |
-| Void Thunder (`sonata-3`) | 1 | Electro DMG state after Heavy/Skill damage. |
-| Song of Feathered Trace (`sonata-33`) | 2 | 3-piece split into a base stat effect plus a conditional team effect. |
-| Chromatic Foam (`sonata-28`) | 1 | Fusion Burst / Outro conditional Fusion DMG flow. |
-| Pact of Neonlight Leap (`sonata-24`) | 2 | Tune Break / team-facing conditional effects. |
-| Halo of Starry Radiance (`sonata-25`) | 1 | State/target-dependent Spectro-facing effect. |
+- **34 / 34 released Sonata sets source-reviewed.**
+- **62 / 62 released activation tuples source-reviewed**, including the current 1-piece activation shape.
+- **86 source-backed stat/effect rows** in `src/data/sonataEffects.ts`.
+- **58 activation tuples `MODELED`.**
+- **2 activation tuples `SOURCE_CONFLICT`.**
+- **1 activation tuple `MODELED_WITH_PENDING_DAMAGE_ADAPTER`.**
+- **1 activation tuple `MODELED_WITH_PENDING_STATE_ADAPTER`.**
+- **0 unreviewed released activation tuples.**
 
-The remaining **27 current Sonata sets have zero modeled rows in `src/data/sonataEffects.ts`**. The seven rows above are an audited partial slice; presence in this table does **not** automatically mean every activation branch for that Sonata is complete.
+`npm run audit:sonata-effects` is the fail-closed coverage gate. It validates every released raw activation against exactly one source-review disposition and checks the expected modeled-row count for that activation. The gate runs in Verify, Export and Deploy.
 
-The next Sonata workstream therefore has to source-review all 34 sets against their current activation shape and close every required 2pc / 3pc / 5pc (or other current) branch explicitly.
+### Explicit unresolved Sonata dispositions
 
-### Sonata semantic buckets required by the next audit
+| Sonata activation | Disposition | Source-backed boundary |
+| --- | --- | --- |
+| Freezing Frost 5pc (`sonata-1`) | `SOURCE_CONFLICT` | Rendered English says +10% Glacio DMG per Basic/Heavy trigger, max 3 stacks for 15s; `effectDescriptionParam` exposes `30%`, `15` without the same per-stack shape. No value/stack interpretation is guessed. |
+| Havoc Eclipse 5pc (`sonata-6`) | `SOURCE_CONFLICT` | Rendered English says +7.5% Havoc DMG per Basic/Heavy trigger, max 4 stacks for 15s; parameters say `6%`, `5`, `15`. No branch is promoted until source evidence resolves the contradiction. |
+| Midnight Veil 5pc (`sonata-12`) | `MODELED_WITH_PENDING_DAMAGE_ADAPTER` | Incoming +15% Havoc DMG for 15s is modeled. The same Outro activation also deals 480% Havoc DMG around the caster and classifies it as Outro Skill DMG; that exact damage event remains outside the stat-effect layer. |
+| Wishes of Quiet Snowfall 5pc (`sonata-30`) | `MODELED_WITH_PENDING_STATE_ADAPTER` | Source-explicit Glacio/CRIT/incoming bonuses are modeled. Snowfall removal arbitration and the Liberation CRIT-duration extension rule require a state adapter before execution. |
 
-For each current set, classify source-backed effects without guessing uptime:
+Two additional upstream discrepancies are documented without inventing semantics:
 
-- **Pure stat:** unconditional or activation-only stat modifier with no runtime trigger semantics beyond set activation.
-- **Triggered timed state:** event trigger + duration.
-- **Stacked state:** trigger, stack cap, refresh/independent-duration behavior where the source states it.
-- **Target-facing state:** debuff, RES/DEF interaction, marked-target or enemy-state requirement.
-- **Team/transfer state:** active Resonator, next Resonator or whole-team scope; do not collapse these into one scope.
-- **Resource/status gate:** Resonance Energy, Shield, healing, Tune Break, status stack or other explicit prerequisite.
-- **Cross-effect mutation:** a branch changes another branch's duration/value/state and cannot be represented as automatic uptime.
-- **SOURCE_CONFLICT / PENDING_MODEL:** preserve source disagreement or insufficient execution semantics explicitly.
+- Dream of the Lost 3pc (`sonata-19`): rendered effect text is character-agnostic while upstream `displayBonuses` carries separate `requires` metadata. Bellibing models the rendered effect literally and does not silently create a Character restriction.
+- Shadow of Shattered Dreams 1pc (`sonata-32`): rendered text/used placeholders give +35% Basic Attack DMG and +35% Heavy Attack DMG for 15s after Hack - Shifting; an unused 15% parameter is retained as discrepancy evidence, not assigned a made-up effect.
+
+### What “MODELED” means here
+
+A `SonataEffectModel` is a **source-audited fact record**, not an automatic uptime promise. It may contain:
+
+- pure permanent stats;
+- event trigger + duration;
+- stack cap / interval when explicitly stated;
+- self, team, active-Resonator or incoming-Resonator scope;
+- scaling input and cap;
+- state-bound conditions with no invented fixed duration.
+
+Rotation, trigger occurrence, stack acquisition, refresh timing, current target state and Character/team execution still belong to later adapters/profiles. A source-reviewed set therefore must not be treated as 100% active by default.
 
 ## Echo Effects — current modeled slice
 
@@ -66,9 +77,9 @@ These are deliberately separate from Echo active attack math and from Character 
 
 `src/data/echoAttacks.ts` currently has **The False Sovereign as the single exact Echo attack fixture**.
 
-It preserves the verified Rank-5 active-spin and Intro-summon attack facts plus cooldown/charge semantics used by the Augusta golden path. No other Echo is currently allowed to read as having a completed attack model merely because its raw catalog entry exists.
+It preserves the verified Rank-5 active-spin and Intro-summon attack facts plus cooldown/charge semantics used by the Augusta golden path. No other Echo is allowed to read as having a completed attack model merely because its raw catalog entry exists.
 
-## What the next Echo source audit must establish
+## Next Echo source audit
 
 A full current-roster Echo effect/attack audit must classify every supported active Echo Skill from source evidence. The current raw catalog does **not** contain enough semantic structure to infer these categories safely, so Bellibing must not auto-classify 181 Echoes from names or prose alone.
 
@@ -91,13 +102,13 @@ Only after that source inventory exists should Bellibing decide which facts need
 
 ## Pre-DPS sequencing
 
-The active order remains:
+The active order is now:
 
 1. **Echo/Sonata raw roster audit — complete for Version 3.6.**
-2. **Complete Sonata effect coverage — next.**
-3. Complete Echo active-skill/effect/attack facts required for supported content.
+2. **Sonata effect source coverage — complete with explicit source conflicts / specialized-adapter dispositions above.**
+3. **Complete Echo active-skill/effect/attack facts required for supported content — next after merge/status sync.**
 4. Complete/populate composable Character/build/team/rotation profiles.
-5. Freeze/preflight the full Pre-DPS foundation.
+5. Freeze/preflight the full Pre-DPS foundation, including unresolved specialized Sonata adapters required by supported DPS paths.
 6. Begin Character DPS character-by-character only after the above gates pass.
 
 Characters that remain source-blocked or fail later preflight remain excluded from Character DPS adapters.

@@ -58,16 +58,22 @@ function stageMode(character, mode, manifest) {
   const statsBlockers = missing.filter((field) => field === 'statPriority');
   const rotationBlockers = missing.filter((field) => field === 'rotation');
 
-  const phase = (name, staged) => ({
-    phase: name,
-    ...staged,
-    ...phaseReview(manifest, character.characterId, mode.key, name),
-  });
+  const phase = (name, staged) => {
+    const review = phaseReview(manifest, character.characterId, mode.key, name);
+    if (review.reviewState === 'REVIEWED' && staged.blockers.length > 0) {
+      fail(`${character.characterId}:${mode.key}:${name} cannot be REVIEWED while source fields are missing: ${staged.blockers.join(', ')}`);
+    }
+    return {
+      phase: name,
+      ...staged,
+      ...review,
+    };
+  };
 
   const phases = {
     MODE_TEAM_CONTEXT: phase('MODE_TEAM_CONTEXT', extraction(modeContextBlockers, {
       role: mode.role,
-      defaultCandidate: mode.defaultCandidate === true,
+      defaultCandidate: mode.defaultCandidate,
       team: mode.team,
     })),
     WEAPON: phase('WEAPON', extraction(weaponBlockers, mode.weapon)),
@@ -121,7 +127,7 @@ function stageMode(character, mode, manifest) {
       blockers: [...new Set(sourceFieldBlockers)],
       sourceData: {
         role: mode.role,
-        defaultCandidate: mode.defaultCandidate === true,
+        defaultCandidate: mode.defaultCandidate,
         weapon: mode.weapon,
         echo: mode.echo,
         stats: mode.stats,
@@ -212,6 +218,7 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
       'Automation may extract and materialize NOT_VERIFIED draft candidates but never marks semantic truth VERIFIED.',
       'SOURCE_SEQUENCE_ONLY remains non-executable until independently modeled execution/combat adapters exist.',
       'Missing or blocked fields stay parked per Character/mode so the rest of the cohort can continue.',
+      'Unspecified mode/default choice stays null rather than being normalized into a false default decision.',
     ],
   };
 }

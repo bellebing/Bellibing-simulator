@@ -144,21 +144,45 @@ Bellibing's pinned normalized snapshot remains `DommyMM/wuwabuild@0a2e49c649c857
 
 This raw completion does **not** promote Sonata combat effects or Echo active-skill semantics. See [`ECHO_DATA_PIPELINE.md`](ECHO_DATA_PIPELINE.md) and [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
 
-### Sonata Effects — FOUNDATION / PARTIAL COVERAGE — ACTIVE PRE-DPS WORKSTREAM
+### Sonata Effects — SOURCE REVIEW COMPLETE / EXECUTION PARTIAL
 
-10 audited effects across 7 Sonata sets are modeled. The remaining 27 current Sonata sets have zero modeled rows, and presence among the seven does not by itself prove all activation branches are complete.
+Roster-wide current Sonata effect source review is complete for the released Version 3.6 set catalog:
 
-The active workstream is now full current-set Sonata effect source coverage. Every required 2pc / 3pc / 5pc or other current activation branch must be classified from source truth. Pure stats remain distinct from trigger/state/stack/target/team/resource semantics; unresolved execution semantics stay explicit rather than receiving fabricated uptime.
+- **34 / 34 released Sonata sets source-reviewed**;
+- **62 / 62 released activation tuples source-reviewed**, including the current 1-piece activation shape;
+- **86 source-backed stat/effect rows**;
+- **58 activation tuples `MODELED`**;
+- **2 activation tuples `SOURCE_CONFLICT`**;
+- **1 activation tuple `MODELED_WITH_PENDING_DAMAGE_ADAPTER`**;
+- **1 activation tuple `MODELED_WITH_PENDING_STATE_ADAPTER`**;
+- **0 unreviewed released activation tuples**.
 
-### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE
+The two explicit source conflicts remain fail-closed rather than receiving guessed combat values:
 
-Current modeled coverage remains intentionally small: 8 audited non-damage effects across 5 Echoes, with The False Sovereign as the first exact Echo attack fixture.
+- **Freezing Frost 5pc** — rendered English says +10% Glacio DMG per Basic/Heavy trigger, max 3 stacks for 15s, while `effectDescriptionParam` exposes `30%`, `15` without the same per-stack shape;
+- **Havoc Eclipse 5pc** — rendered English says +7.5% Havoc DMG per Basic/Heavy trigger, max 4 stacks for 15s, while parameters say `6%`, `5`, `15`.
+
+Two reviewed activations deliberately preserve specialized execution boundaries:
+
+- **Midnight Veil 5pc** — the incoming +15% Havoc DMG / 15s branch is modeled; the same activation's source-explicit 480% Havoc damage event, classified as Outro Skill DMG, remains pending a dedicated damage adapter;
+- **Wishes of Quiet Snowfall 5pc** — source-explicit numeric bonus branches are modeled; Snowfall removal arbitration and Liberation CRIT-duration extension remain pending a dedicated state adapter.
+
+`npm run audit:sonata-effects` is the fail-closed source-review coverage gate. It requires exactly one disposition for every released raw activation tuple, validates the expected modeled-row count, forbids modeled rows on source-conflicted activations and runs in Verify, Export and Deploy.
+
+A `MODELED` Sonata effect row is a source-backed fact, **not** an automatic trigger-uptime promise. Rotation, stack acquisition, refresh timing, target state and Character/team execution remain later adapter/profile responsibilities. Full detail is recorded in [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+
+### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE — ACTIVE PRE-DPS WORKSTREAM
+
+Current modeled coverage remains intentionally small: **8 audited non-damage effects across 5 Echoes**, with **The False Sovereign as the single exact Echo attack fixture**.
+
+The active workstream is now current-roster Echo active-skill/effect/attack source coverage required for supported content. The audit must distinguish active damage, buffs/debuffs, healing/utility, Character/form restrictions and source conflicts before deciding which facts need executable combat/DPS adapters.
 
 Before complete:
 
 - raw active-skill parameters/facts must be available for the supported Echo catalog;
 - non-damage main-slot/team/conditional effects must remain separate from active attack motion values;
 - Character-restricted effects must carry explicit conditions;
+- source-conflicted or semantically incomplete attack/effect branches must remain explicit pending rather than receiving guessed classifications or hit semantics;
 - no Character recommendation or rotation uptime belongs in the raw Echo fact.
 
 ## Composable defaults/profiles — FOUNDATION
@@ -181,9 +205,9 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 2. **DONE:** profile-proof guide/fallback roll engine and Content Preflight + Backward Impact contract.
 3. **DONE — SOURCE REVIEW:** roster-wide Character Mechanics source review: 54 canonical VERIFIED + 3 explicit SOURCE_BLOCKED + 0 unreviewed. Source-blocked Characters remain non-DPS-ready.
 4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
-5. **ACTIVE PRE-DPS WORKSTREAM:** complete current Sonata Effect source coverage.
-6. Complete Echo skill/effect/attack fact coverage required by supported content.
-7. Complete/populate composable default profiles and freeze pre-DPS contracts/current-patch backward-impact state.
+5. **DONE — SONATA EFFECT SOURCE REVIEW:** 34 / 34 sets and 62 / 62 released activation tuples reviewed; 86 source-backed effect rows; 2 explicit source conflicts plus dedicated damage/state adapter boundaries remain fail-closed.
+6. **ACTIVE PRE-DPS WORKSTREAM:** complete Echo active-skill/effect/attack fact coverage required by supported content.
+7. Complete/populate composable default profiles and freeze pre-DPS contracts/current-patch backward-impact state, including specialized Sonata adapters required by supported DPS paths.
 8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
 9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
 10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
@@ -195,6 +219,8 @@ A Character Mechanics promotion is not complete because files exist. It must pas
 A `SOURCE_BLOCKED` disposition is not a promotion. It must correspond to a released Character without a canonical profile, carry a dated exact-source reason and evidence, and remain fail-closed for preflight/DPS. The source-review audit must reject duplicate/invalid dispositions and distinguishes explicit blockers from genuinely unreviewed released Characters.
 
 Echo/Sonata raw coverage is not complete because a catalog count exists. The source-facing projection audit must match current upstream for Bellibing-owned raw fields, pass lifecycle/required-field/membership/provenance invariants and preserve source conflicts explicitly rather than guessing them away.
+
+Sonata effect source coverage is not executable uptime coverage. Every released activation must have an explicit source-review disposition; source conflicts must remain unmodeled, and damage/state branches that need specialized execution must stay behind explicit adapter boundaries until those adapters are independently verified.
 
 UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
 

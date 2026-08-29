@@ -138,7 +138,7 @@ test('Baizhi RAW_FACTS preflight passes while broad roster mechanics remains inc
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
 
   const audit = auditCharacterMechanicsCoverage();
-  assert.equal(audit.verifiedCharacterIds.length, 52);
-  assert.equal(audit.unstartedCharacterIds.length, 5);
+  assert.equal(audit.verifiedCharacterIds.length, 54);
+  assert.equal(audit.unstartedCharacterIds.length, 3);
   assert.deepEqual(audit.structuralIssues, []);
 });

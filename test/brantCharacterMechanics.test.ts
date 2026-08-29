@@ -208,11 +208,11 @@ test('Brant Tune Break is explicit shared-system damage without Character motion
 test('Brant remains verified while later Character Mechanics batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 52);
-  assert.equal(audit.verifiedCharacterIds.length, 52);
+  assert.equal(audit.profileCount, 54);
+  assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 5);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
+  assert.equal(audit.unstartedCharacterIds.length, 3);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
   assert.deepEqual(audit.structuralIssues, []);
 
   const raw = getCharacterPreflight('brant', 'RAW_FACTS');

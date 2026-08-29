@@ -30,7 +30,7 @@ Fresh world-drop desired-main acquisition probabilities remain unverified. This 
 
 ### Echo Lab — COMPLETE FOR MECHANICAL ORACLE
 
-Echo Lab is the canonical validation surface for verified Rank-5 tuning mechanics. It uses the shared Echo Core runtime, exact checkpoint-scaled main stats, seeded reproduction, selective/batch tuning, exact resource accounting and shared discard-recovery rules. Browser-artifact regression confirms the exported app displays the verified runtime values.
+Echo Lab is the canonical validation surface for verified Rank-5 tuning mechanics. It consumes the shared Echo Core runtime, exact checkpoint-scaled main stats, seeded reproduction, selective/batch tuning, exact resource accounting and shared discard-recovery rules. Browser-artifact regression confirms the exported app displays the verified runtime values.
 
 ### Roll / stopping policy — COMPLETE FOR GUIDE/PROFILE FALLBACK
 
@@ -66,40 +66,34 @@ These remain explicit pending exceptions; no Liberation cost is substituted for 
 
 Every released Character has explicit Minor-Forte coverage. **Mornye DEF%** remains an intrinsic-source conflict and stays pending rather than being guessed.
 
-### Character Mechanics — PARTIAL / ACTIVE PRE-DPS BLOCKER
+### Character Mechanics source review — COMPLETE / CANONICAL COVERAGE 54 VERIFIED + 3 SOURCE_BLOCKED
 
-**Current measured checkpoint after PR #84 candidate verification:**
+Roster-wide Character Mechanics source review is complete for all 57 released Characters.
 
-- **54 VERIFIED**
-- **0 PARTIAL**
-- **3 UNSTARTED**
-- **1866 canonical Character Mechanic facts**
-- **0 structural issues**
-- exactly one current shared-system Tune Break fact per VERIFIED profile
+Current canonical coverage remains:
 
-PR #84 source-audits and canonically promotes **Rover (Electro)** and **Suisui**.
+- **54 VERIFIED profiles**;
+- **0 PARTIAL profiles**;
+- **3 released Characters without canonical profiles**;
+- **1866 canonical Character Mechanic facts**;
+- **0 structural issues**;
+- exactly one current shared-system Tune Break fact per VERIFIED profile.
 
-#### Rover (Electro) — VERIFIED
+The three missing profiles are now explicitly distinguished from unreviewed work. They have been fully re-reviewed against the exact pinned `DommyMM/wuwabuild` snapshot (`5fa70b11f1d84fb644e4dbed47873708da0fe66f`) and are `SOURCE_BLOCKED`:
 
-Rover (Electro) is independently reconstructed from current sources rather than trusting the corrupted/misaligned PR #66/#68 review slice. Canonical facts preserve exact current Lv1-Lv10 action representations, Electric Surge/Thunder Rage and cross-attribute state semantics, Inherents, Outro, S1-S6 and **Tune Break — Sword** at the shared-system boundary. `Thrum of All Sounds` cross-attribute forms remain raw source facts where execution semantics are not yet modeled; no cross-attribute combat behavior is invented.
+- **Buling** — Five Thunders Spell Array Continuous DMG has exact coefficients but no explicit current-source damage-bonus classification;
+- **Danjin** — current Ruby Blossom semantics simultaneously cap the resource at 120 and require `over 120` for the enhanced branch;
+- **Xiangli Yao** — Pivot - Impale has exact coefficients but no explicit current-source damage-bonus classification, while the same source explicitly classifies other enhanced actions when appropriate.
 
-Regression anchors include current Thunderclap, Ultimate Tactics and Thunder Bane curves and S6 affecting both Thrum of All Sounds and Thunder Bane.
+Full evidence and dispositions are recorded in [`CHARACTER_MECHANICS_SOURCE_REVIEW.md`](CHARACTER_MECHANICS_SOURCE_REVIEW.md) and enforced by `characterMechanicsSourceReview.ts` regression coverage.
 
-#### Suisui — VERIFIED
+This does **not** promote those three Characters. They remain without canonical Character Mechanics profiles, remain blocked by Character preflight and must not receive Character DPS adapters until future source data resolves their blockers and the normal canonical audit passes.
 
-Suisui uses current post-update source tables and current **Rectifier** identity. Stale normalized `Gauntlets` Tune Break data and pre-update multipliers remain discrepancy evidence only and are not canonicalized. Exact current Lv1-Lv10 damage facts preserve source-explicit ATK/HP scaling, Cloud Breath/Floral Epistle resources, utility/state semantics, Inherents, Outro, S1-S6 and **Tune Break — Rectifier** at the shared-system boundary.
+The project gate distinction is now explicit:
 
-Regression anchors include current Zephyr Mid-air `35.57% -> 70.72%` and source-explicit HP scaling on Awakening Spring and Tinkling Jade.
-
-#### Remaining Character Mechanics blockers — 3
-
-These remain `UNSTARTED` because current sources do not support a truthful canonical promotion:
-
-- **Buling** — Five Thunders Spell Array damage-bonus bucket is not explicitly confirmed by the current reviewed sources;
-- **Danjin** — Ruby Blossom full-power wording remains internally inconsistent with the stated 120 maximum; no impossible threshold is normalized into canonical truth;
-- **Xiangli Yao** — Pivot-Impale damage bucket is not explicitly current-source confirmed.
-
-The roster is therefore **not** Character-Mechanics-complete. Broad Character DPS remains blocked until these three are truthfully resolved or the project gate is explicitly changed with documented evidence.
+- **roster-wide Character Mechanics source review is complete** — 54 VERIFIED + 3 SOURCE_BLOCKED + 0 unreviewed;
+- **canonical Character Mechanics coverage is not 57/57** and must never be reported as such;
+- repeated source-review work on these same three blockers is no longer the active Pre-DPS workstream unless new evidence appears.
 
 ### Character Mechanics source/executable boundary
 
@@ -129,21 +123,35 @@ Current audited snapshot:
 
 All **121/121 released Weapons** have source-audited effect coverage: **236 effect rows**, zero `PENDING_SOURCE_AUDIT` backlog.
 
-Effects that require rotation/state/stack/trigger execution remain explicit `VERIFIED_RAW_PENDING_MODEL` or MANUAL rather than receiving fabricated uptime. New or newly modeled Weapon effects must trigger backward-impact review for compatible existing profiles.
+Effects requiring rotation/state/stack/trigger execution remain explicit `VERIFIED_RAW_PENDING_MODEL` or MANUAL rather than receiving fabricated uptime. New or newly modeled Weapon effects must trigger backward-impact review for compatible existing profiles.
 
 ## Echo / Sonata content coverage
 
-### Echo raw database — CATALOG FOUNDATION
+### Echo raw database — CATALOG FOUNDATION / CURRENT ACTIVE PRE-DPS WORKSTREAM
 
-181 Echo records and 34 Sonata records exist with stable IDs, COST and memberships. Current-patch raw Echo coverage still needs a complete source/roster audit before being called complete.
+181 Echo records and 34 Sonata records exist with stable IDs, COST and memberships.
+
+The next active workstream is a **current-patch Echo/Sonata raw source audit**. Before raw coverage is called complete:
+
+- verify current-patch Echo and Sonata roster coverage against current sources;
+- resolve known upstream coverage differences explicitly;
+- preserve the reviewed/read-only sync boundary;
+- do not infer active-skill/effect semantics from catalog membership alone.
 
 ### Sonata Effects — FOUNDATION / PARTIAL COVERAGE
 
-10 audited effects across 7 Sonata sets are modeled. Full supported-set effect coverage remains pending; triggers/uptime must stay conditional until combat/rotation state proves them.
+10 audited effects across 7 Sonata sets are modeled. Full supported-set effect coverage remains pending. Stat buffs, damage bonuses/amplification, CR/CD, ATK/HP/DEF, conditional windows, caps/stacks and target scope must be represented from source truth; trigger/uptime uncertainty remains conditional until combat/rotation state proves it.
 
 ### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE
 
-Current modeled coverage remains intentionally small: 8 audited non-damage effects across 5 Echoes, with The False Sovereign as the first exact Echo attack fixture. Full supported active-skill and non-damage effect coverage remains pending.
+Current modeled coverage remains intentionally small: 8 audited non-damage effects across 5 Echoes, with The False Sovereign as the first exact Echo attack fixture.
+
+Before complete:
+
+- raw active-skill parameters/facts must be available for the supported Echo catalog;
+- non-damage main-slot/team/conditional effects must remain separate from active attack motion values;
+- Character-restricted effects must carry explicit conditions;
+- no Character recommendation or rotation uptime belongs in the raw Echo fact.
 
 ## Composable defaults/profiles — FOUNDATION
 
@@ -163,18 +171,20 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 
 1. **DONE:** Echo Core checkpoint mechanics and Echo Lab mechanical oracle.
 2. **DONE:** profile-proof guide/fallback roll engine and Content Preflight + Backward Impact contract.
-3. **ACTIVE PRE-DPS BLOCKER:** resolve only the three remaining Character Mechanics blockers — **Buling, Danjin, Xiangli Yao** — from current source truth. Do not infer missing buckets/thresholds.
-4. Complete current Echo/Sonata raw audit.
+3. **DONE — SOURCE REVIEW:** roster-wide Character Mechanics source review: 54 canonical VERIFIED + 3 explicit SOURCE_BLOCKED + 0 unreviewed. Source-blocked Characters remain non-DPS-ready.
+4. **ACTIVE PRE-DPS WORKSTREAM:** complete current Echo/Sonata raw source audit.
 5. Complete Sonata Effect coverage.
 6. Complete Echo skill/effect/attack fact coverage required by supported content.
 7. Complete/populate composable default profiles and freeze pre-DPS contracts/current-patch backward-impact state.
-8. Only then expand Character combat/DPS adapters character-by-character.
+8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
 9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
 10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
 
 ## Verification contract
 
-A Character Mechanics promotion is not complete because files exist. It must pass the canonical structural/source audit and the repository verification workflow. PR #84 additionally regression-locks the exact **54 VERIFIED / 0 PARTIAL / 3 UNSTARTED / 1866 facts / 0 structural issues** checkpoint plus current Rover (Electro)/Suisui source-critical facts.
+A Character Mechanics promotion is not complete because files exist. It must pass the canonical structural/source audit and repository verification workflow.
+
+A `SOURCE_BLOCKED` disposition is not a promotion. It must correspond to a released Character without a canonical profile, carry a dated exact-source reason and evidence, and remain fail-closed for preflight/DPS. The source-review audit must reject duplicate/invalid dispositions and distinguishes explicit blockers from genuinely unreviewed released Characters.
 
 UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
 

@@ -11,6 +11,13 @@ export const PROFILE_HORIZONTAL_PHASES = Object.freeze([
   'PROMOTION_FREEZE',
 ]);
 
+const SOURCE_EXTRACTION_PHASES = new Set([
+  'MODE_TEAM_CONTEXT',
+  'WEAPON',
+  'ECHO_SONATA',
+  'STATS_ER',
+  'SOURCE_ROTATION',
+]);
 const REVIEW_STATES = new Set(['PENDING_REVIEW', 'REVIEWED', 'BLOCKED']);
 
 function fail(message) {
@@ -33,13 +40,13 @@ function uniqueStrings(value, label) {
 function phaseReview(manifest, characterId, modeKey, phase) {
   const key = `${characterId}:${modeKey}:${phase}`;
   const review = manifest.phaseReviews?.[key];
-  if (review == null) return { reviewState: 'PENDING_REVIEW', notes: [] };
+  if (review == null) return { reviewState: 'PENDING_REVIEW', notes: [], explicit: false };
   const reviewState = nonEmptyString(review.reviewState, `${key}.reviewState`);
   if (!REVIEW_STATES.has(reviewState)) fail(`${key}.reviewState must be PENDING_REVIEW, REVIEWED, or BLOCKED`);
   const notes = Array.isArray(review.notes)
     ? review.notes.map((entry, index) => nonEmptyString(entry, `${key}.notes[${index}]`))
     : [];
-  return { reviewState, notes };
+  return { reviewState, notes, explicit: true };
 }
 
 function extraction(blockers, data) {
@@ -59,14 +66,20 @@ function stageMode(character, mode, manifest) {
   const rotationBlockers = missing.filter((field) => field === 'rotation');
 
   const phase = (name, staged) => {
-    const review = phaseReview(manifest, character.characterId, mode.key, name);
-    if (review.reviewState === 'REVIEWED' && staged.blockers.length > 0) {
+    const requested = phaseReview(manifest, character.characterId, mode.key, name);
+    if (requested.reviewState === 'REVIEWED' && staged.blockers.length > 0) {
       fail(`${character.characterId}:${mode.key}:${name} cannot be REVIEWED while source fields are missing: ${staged.blockers.join(', ')}`);
     }
+    const autoPark = !requested.explicit
+      && staged.blockers.length > 0
+      && manifest.autoParkMissingSourcePhases.includes(name);
     return {
       phase: name,
       ...staged,
-      ...review,
+      reviewState: autoPark ? 'BLOCKED' : requested.reviewState,
+      notes: autoPark
+        ? [`Automatically parked because required source fields are absent in the existing checkpoint: ${staged.blockers.join(', ')}. This is not semantic approval.`]
+        : requested.notes,
     };
   };
 
@@ -177,6 +190,15 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
   if (characterIds.length < 10 || characterIds.length > 20) {
     fail(`characterIds must contain 10-20 Characters, found ${characterIds.length}`);
   }
+  const autoParkMissingSourcePhases = manifest.autoParkMissingSourcePhases == null
+    ? []
+    : uniqueStrings(manifest.autoParkMissingSourcePhases, 'autoParkMissingSourcePhases');
+  const invalidAutoParkPhases = autoParkMissingSourcePhases.filter((phase) => !SOURCE_EXTRACTION_PHASES.has(phase));
+  if (invalidAutoParkPhases.length > 0) {
+    fail(`autoParkMissingSourcePhases may only contain source extraction phases: ${invalidAutoParkPhases.join(', ')}`);
+  }
+  const normalizedManifest = { ...manifest, autoParkMissingSourcePhases };
+
   const sourcePendingIds = new Set(uniqueStrings(currentProfileSourcePendingIds, 'currentProfileSourcePendingIds'));
   const byId = new Map(candidateReview.characters.map((character) => [character.characterId, character]));
 
@@ -185,7 +207,7 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
   const noLongerPending = characterIds.filter((id) => !sourcePendingIds.has(id));
   if (noLongerPending.length > 0) fail(`cohort contains Characters no longer PROFILE_SOURCE_PENDING: ${noLongerPending.join(', ')}`);
 
-  const characters = characterIds.map((id) => stageCharacter(byId.get(id), manifest));
+  const characters = characterIds.map((id) => stageCharacter(byId.get(id), normalizedManifest));
   const modeCount = characters.reduce((sum, character) => sum + character.modes.length, 0);
   const phaseCounts = Object.fromEntries(PROFILE_HORIZONTAL_PHASES.map((phaseName) => {
     const phases = characters.flatMap((character) => character.modes.map((mode) => mode.phases[phaseName]));
@@ -205,6 +227,7 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
     cohortId: nonEmptyString(manifest.cohortId, 'cohortId'),
     sourceRoster: nonEmptyString(manifest.sourceRoster, 'sourceRoster'),
     sourceCheckpoint: manifest.sourceCheckpoint ?? candidateReview.sourceCheckpoint ?? null,
+    autoParkMissingSourcePhases,
     characterCount: characters.length,
     modeCount,
     phaseCounts,
@@ -216,6 +239,7 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
     notes: [
       'This cohort is horizontal staging/review data, not canonical profile truth.',
       'Automation may extract and materialize NOT_VERIFIED draft candidates but never marks semantic truth VERIFIED.',
+      'Configured source phases may mechanically auto-park missing required fields as BLOCKED; auto-parking can never produce REVIEWED or VERIFIED state.',
       'SOURCE_SEQUENCE_ONLY remains non-executable until independently modeled execution/combat adapters exist.',
       'Missing or blocked fields stay parked per Character/mode so the rest of the cohort can continue.',
       'Unspecified mode/default choice stays null rather than being normalized into a false default decision.',

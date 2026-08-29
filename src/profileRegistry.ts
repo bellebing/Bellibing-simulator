@@ -77,9 +77,17 @@ function validateEchoLoadout(profile: EchoLoadoutProfile): void {
 function validateStatTarget(profile: StatTargetProfile): void {
   requireCharacter(profile.characterId);
   const names = new Set<string>();
+  let priorPriority = 0;
   for (const rule of profile.targetRules) {
     if (names.has(rule.stat)) throw new Error(`${profile.id}: duplicate stat rule ${rule.stat}.`);
     names.add(rule.stat);
+    if (!Number.isInteger(rule.priority) || rule.priority < 1) {
+      throw new Error(`${profile.id}: priority for ${rule.stat} must be a positive integer.`);
+    }
+    if (rule.priority < priorPriority) {
+      throw new Error(`${profile.id}: stat target rules must be ordered from highest to lowest priority.`);
+    }
+    priorPriority = rule.priority;
   }
   for (const gate of profile.gates) {
     if (!(gate.minimum >= 0)) throw new Error(`${profile.id}: invalid minimum gate for ${gate.stat}.`);
@@ -106,8 +114,18 @@ function validateRotation(profile: RotationProfile, teams: ReadonlyMap<string, T
   if (!team.members.some((member) => member.characterId === profile.characterId)) {
     throw new Error(`${profile.id}: rotation character is not in team ${profile.teamProfileId}.`);
   }
-  if (!profile.engineModelId.trim()) throw new Error(`${profile.id}: engineModelId is required.`);
   if (!profile.variantKey.trim()) throw new Error(`${profile.id}: variantKey is required.`);
+  if (profile.sourceSequence.some((step) => !step.trim())) throw new Error(`${profile.id}: source rotation contains a blank step.`);
+
+  if (profile.executionStatus === 'ENGINE_MODELED') {
+    if (!profile.engineModelId?.trim()) throw new Error(`${profile.id}: ENGINE_MODELED rotation requires engineModelId.`);
+  } else {
+    if (profile.sourceSequence.length === 0) throw new Error(`${profile.id}: SOURCE_SEQUENCE_ONLY rotation requires sourceSequence.`);
+    if (profile.engineModelId !== undefined) throw new Error(`${profile.id}: SOURCE_SEQUENCE_ONLY rotation cannot claim engineModelId.`);
+    if (profile.modeledMechanicFactIds.length > 0) {
+      throw new Error(`${profile.id}: SOURCE_SEQUENCE_ONLY rotation cannot claim modeled mechanic facts.`);
+    }
+  }
 }
 
 export function createProfileRegistry(catalogs: ProfileCatalogs): ProfileRegistry {

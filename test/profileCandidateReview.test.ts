@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { buildProfileCandidateReview } from '../scripts/lib/profile-candidate-review.mjs';
 
 const source = [{
@@ -93,4 +94,46 @@ test('mechanical Echo layout validation fails closed', () => {
       modes: [{ ...completeMode, echo: { ...completeMode.echo, costLayout: [4, 4, 1, 1, 1] } }],
     }],
   }), /COST 12/);
+});
+
+test('roster-wide source inventory covers all 48 pending profiles with explicit dispositions', async () => {
+  const input = JSON.parse(await readFile(
+    new URL('../data/research/profile-source-roster-2026-08-29.json', import.meta.url),
+    'utf8',
+  ));
+  const review = buildProfileCandidateReview(input);
+
+  assert.equal(review.characters.length, 48);
+  assert.deepEqual(review.sourceDispositionCounts, {
+    READY_FOR_REVIEW: 10,
+    MULTI_MODE: 8,
+    MISSING_CONTEXT: 26,
+    SOURCE_CONFLICT: 0,
+    RAW_PREFLIGHT_BLOCKED: 4,
+  });
+  assert.deepEqual(
+    review.characters
+      .filter((character) => character.sourceDisposition === 'READY_FOR_REVIEW')
+      .map((character) => character.characterId),
+    [
+      'aemeath',
+      'camellya',
+      'galbrena',
+      'hiyuki',
+      'jinhsi',
+      'luuk-herssen',
+      'lynae',
+      'sigrika',
+      'yangyang-xuanling',
+      'zani',
+    ],
+  );
+  assert.deepEqual(
+    review.characters
+      .filter((character) => character.sourceDisposition === 'RAW_PREFLIGHT_BLOCKED')
+      .map((character) => character.characterId),
+    ['mornye', 'qingxiao', 'rover-electro', 'suisui'],
+  );
+  assert.ok(review.characters.every((character) => character.verificationStatus === 'NOT_VERIFIED'));
+  assert.equal(review.canonicalWriteAllowed, false);
 });

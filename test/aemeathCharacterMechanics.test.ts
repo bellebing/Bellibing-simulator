@@ -164,13 +164,13 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
-test('fact-backed roster audit reports fifty-two source-complete characters with 5 unstarted', () => {
+test('fact-backed roster audit reports fifty-four source-complete characters with 3 unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 52);
-  assert.equal(audit.verifiedCharacterIds.length, 52);
+  assert.equal(audit.profileCount, 54);
+  assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 5);
+  assert.equal(audit.unstartedCharacterIds.length, 3);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

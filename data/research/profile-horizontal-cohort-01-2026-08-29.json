@@ -1,0 +1,36 @@
+{
+  "kind": "PROFILE_HORIZONTAL_COHORT_INPUT",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "sourceRoster": "data/research/profile-source-roster-2026-08-29.json",
+  "sourceCheckpoint": {
+    "repoMain": "98990de57f1a2b7d4d8be0d60f8a3dbb6e9b5609",
+    "referenceProfileDate": "2026-08-20",
+    "inventoryCheckedAt": "2026-08-29"
+  },
+  "characterIds": [
+    "lucilla",
+    "lumi",
+    "rover-havoc",
+    "yangyang",
+    "yinlin",
+    "baizhi",
+    "brant",
+    "calcharo",
+    "cantarella",
+    "carlotta",
+    "changli",
+    "chisa",
+    "chixia",
+    "encore",
+    "jianxin"
+  ],
+  "phaseReviews": {},
+  "notes": [
+    "Cohort 01 intentionally works horizontally: mode/team/context first, then weapon, Echo/Sonata, stats/ER, source rotations, execution dependencies, and only then promotion/freeze review.",
+    "The five remaining source-checkpoint MULTI_MODE Characters are grouped with ten MISSING_CONTEXT Characters from the same reviewed roster checkpoint.",
+    "No phase review is auto-approved by extraction. Missing fields remain parked blockers and do not stop other Characters or phases.",
+    "This file is review-state input only and cannot authorize canonical writes or VERIFIED semantic truth."
+  ]
+}

@@ -1,0 +1,65 @@
+name: Temporary integrate tenth Character Mechanics batch
+
+on:
+  push:
+    branches:
+      - character-mechanics/tenth-batch-five
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/tenth-batch-five
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify and unpack source-reviewed payload
+        shell: bash
+        run: |
+          cat \
+            .github/tmp/tenth-prefix-00.txt \
+            .github/tmp/tenth-prefix-01.txt \
+            .github/tmp/tenth-prefix-02.txt \
+            .github/tmp/tenth-prefix-03.txt \
+            .github/tmp/tenth-payload-02.txt \
+            .github/tmp/tenth-payload-03.txt > /tmp/tenth.b64
+          base64 --decode /tmp/tenth.b64 > /tmp/tenth.zip
+          echo "7afd6919086521aa6b714a21eaa7de267a39ea02b82af31db24a03dec513319e  /tmp/tenth.zip" | sha256sum -c -
+          unzip -o /tmp/tenth.zip
+
+      - name: Integrate canonical registry and Tune Break
+        run: python scripts/tmp-integrate-tenth.py
+
+      - name: Diff sanity
+        run: git diff --check
+
+      - name: Focused tenth-batch regression
+        run: node --experimental-strip-types --test test/tenthBatchCharacterMechanics.test.ts
+
+      - name: Commit source-reviewed batch and remove transport
+        shell: bash
+        run: |
+          rm scripts/tmp-integrate-tenth.py
+          rm .github/workflows/tmp-integrate-tenth.yml
+          rm .github/tmp/tenth-prefix-*.txt
+          rm .github/tmp/tenth-payload-*.txt
+          git diff --check
+          git config user.name bellebing
+          git config user.email 148565035+bellebing@users.noreply.github.com
+          git add -A
+          git commit -m "Integrate tenth Character Mechanics batch"
+          git push origin HEAD:character-mechanics/tenth-batch-five

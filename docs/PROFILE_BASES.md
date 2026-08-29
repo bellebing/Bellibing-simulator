@@ -55,6 +55,31 @@ Raw-data verification and profile/recommendation verification are separate claim
 
 New content also carries a third project-level obligation: compatible existing profiles must be screened for backward impact before the patch integration is considered complete.
 
+## Profile readiness and Pre-DPS freeze
+
+`profileReadinessRegistry.ts` is the fail-closed bridge between composable profiles and future Character DPS adapters. It classifies every released Character exactly once:
+
+- `PROFILE_SOURCE_PENDING` — no fully VERIFIED default six-part profile package exists yet;
+- `PROFILE_COMPLETE_PENDING_FREEZE` — a fully VERIFIED default package exists, but final current-patch preflight/backward-impact/adapter freeze is not approved;
+- `CHARACTER_MECHANICS_SOURCE_BLOCKED` — canonical Character Mechanics is source-blocked and cannot receive a DPS adapter;
+- `DPS_READY` — an explicit current-patch freeze approval exists and all preflight gates pass.
+
+A fully VERIFIED preset is therefore **not** equivalent to `DPS_READY`. A future freeze approval must name the approved preset, preserve current-patch evidence, record backward-impact review and account for every specialized execution adapter required by that supported profile. Raw Character null fields, unresolved intrinsic stats and Character Mechanics source blockers remain independent DPS blockers.
+
+`npm run audit:profile-readiness` also snapshots the current catalog counts and rejects silent profile drift/orphan components. The audit runs in Verify, Export and Deploy. It is allowed to pass while the backlog is explicitly classified; `preDpsFreezeReady` remains false until that backlog/freeze work is genuinely closed.
+
+Current Version 3.6 baseline at 2026-08-29:
+
+- 57 released Characters classified;
+- 1 `PROFILE_COMPLETE_PENDING_FREEZE`: Augusta;
+- 3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`: Buling, Danjin, Xiangli Yao;
+- 53 `PROFILE_SOURCE_PENDING`;
+- 0 `DPS_READY`;
+- raw DPS-preflight blockers: Qingxiao, Rover (Electro), Suisui;
+- intrinsic DPS-preflight blocker: Mornye.
+
+The pinned `DommyMM/wuwabuild` `/builds` route was checked during this inventory and explicitly describes its records as community-submitted builds. Those observations may be useful research input, but they are not promoted wholesale into Bellibing canonical recommendation/team/rotation truth.
+
 ## Generalized Roll Advisor requirements
 
 Fallback roll profiles no longer assume that every character has exactly two Core targets.

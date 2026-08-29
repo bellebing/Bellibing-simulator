@@ -38,6 +38,9 @@ jobs:
       - name: Echo skill source coverage gate
         run: npm run audit:echo-skills
 
+      - name: Profile readiness / Pre-DPS freeze gate
+        run: npm run audit:profile-readiness
+
       - name: Tests
         run: npm test
 

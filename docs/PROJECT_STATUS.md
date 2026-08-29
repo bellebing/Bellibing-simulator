@@ -12,18 +12,18 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Current merged `main` baseline: `3fb45fb6016f49c09609e32ea528d7c1ac0ea559` — PR #106, Denia source-conditioned multi-mode profiles.
+The merged baseline entering the current Cohort 01 review is `36d32819a6d7d7b621e3f360f89178841aa99d05` — PR #107, horizontal profile cohort + Profile × Adapter dependency infrastructure.
 
-Post-merge workflows on that exact SHA passed Verify, Export and web deploy. Denia therefore belongs to the current canonical baseline, not to pending branch-only work.
+Post-merge workflows on that exact SHA passed Verify #499, Export #471 and web deploy #100. PR #107 promoted no canonical profiles.
 
-Live registry-derived readiness after Denia is:
+Live registry-derived readiness remains:
 
 - **18 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
 - **35 `PROFILE_SOURCE_PENDING`**;
 - **1 `DPS_READY`**.
 
-The horizontal cohort/adaptor infrastructure described below does **not** itself promote profiles and must not change those counts.
+Horizontal cohort staging/review does **not** itself promote profiles and must not change those counts.
 
 ## Echo Core / Echo Lab / Roll Assist
 
@@ -55,7 +55,7 @@ Integration errors propagate separately and render `ROLL ASSIST ERROR`. Real Chr
 - +5 CRIT Rate 9.3% → `ROLL TO +10`;
 - +10 CRIT Rate 9.3% + Flat DEF → `ROLL TO +15`.
 
-The browser regression remains a permanent Verify/Deploy guard.
+The browser regression remains a permanent Verify/Deploy guard and stayed green through PR #107/current merged baseline.
 
 ### BUG-002 — KNOWN GAP
 
@@ -139,10 +139,11 @@ Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target,
 The Profile Candidate Pipeline mirrors the Character Mechanics ingestion pattern:
 
 - generated/researched candidates are always `NOT_VERIFIED` / candidate-only;
-- automation may extract, stage, map dependencies and materialize draft candidates but cannot mark semantic truth `VERIFIED`;
+- automation may extract, stage, map dependencies, park missing-source blockers and materialize draft candidates but cannot mark semantic truth `VERIFIED`;
 - mechanical validation, source/context disposition and execution requirements stay separate;
 - `SOURCE_SEQUENCE_ONLY` remains non-executable and is never upgraded to `ENGINE_MODELED` by transcription;
-- readiness counts come from live registries rather than copied manual gates.
+- readiness counts come from live registries rather than copied manual gates;
+- omitted `defaultCandidate` is preserved as `null`, never silently normalized to `false`.
 
 The initial inventory covered the 48 Characters that were `PROFILE_SOURCE_PENDING` before the first throughput tranche:
 
@@ -166,7 +167,7 @@ The ten clean rows were promoted together. Aalto, Zhezhi and Denia have since be
 
 **Zhezhi** preserves two canonical source-conditioned presets rather than flattening them: Endgame 5★ — Empyrean and Fallback — Moonlit in the reviewed Carlotta + The Shorekeeper context. Their set-specific ER targets and Echo timing remain source-conditioned; both rotations remain `SOURCE_SEQUENCE_ONLY`.
 
-**Denia** now preserves two canonical source-conditioned presets:
+**Denia** preserves two canonical source-conditioned presets:
 
 - `denia-fusion-burst-aemeath` — **Fusion Burst — Aemeath**, default for the reviewed source context;
 - `denia-tune-strain-luuk` — **Tune Strain — Luuk**, alternate source context.
@@ -175,9 +176,7 @@ Both use the reviewed Forged Dwarf Star recommendation. Their Echo/Sonata choice
 
 ### Horizontal Profile Cohort Pipeline — Cohort 01
 
-The next throughput workstream is horizontal rather than Character-by-Character.
-
-Cohort 01 stages **15 current `PROFILE_SOURCE_PENDING` Characters** from the existing reviewed source checkpoint:
+Cohort 01 contains **15 current `PROFILE_SOURCE_PENDING` Characters / 20 staged modes** from the existing reviewed source checkpoint:
 
 - five remaining `MULTI_MODE`: Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin;
 - ten `MISSING_CONTEXT`: Baizhi, Brant, Calcharo, Cantarella, Carlotta, Changli, Chisa, Chixia, Encore, Jianxin.
@@ -192,7 +191,15 @@ The fixed review order is:
 6. `EXECUTION_ADAPTERS`;
 7. `PROMOTION_FREEZE`.
 
+Current Cohort 01 checkpoint disposition:
+
+- `MODE_TEAM_CONTEXT`: **20 / 20 BLOCKED**, 0 REVIEWED, 0 pending review. All 20 modes lack an exact staged three-member team; the ten `MISSING_CONTEXT` Characters also lack a staged role. Existing multi-mode roles/mode labels are preserved, but no team/default is inferred.
+- `WEAPON`: **20 / 20 BLOCKED**, 0 REVIEWED, 0 pending review. The existing checkpoint stages no weapon recommendation for these modes, so the missing source field is mechanically parked rather than re-researching the same source checkpoint or inventing a recommendation.
+- `ECHO_SONATA`, `STATS_ER`, `SOURCE_ROTATION`, `EXECUTION_ADAPTERS`, `PROMOTION_FREEZE`: still pending in phase order.
+
 The cohort representation deliberately separates **source-field extraction state** from **semantic review state**. A field being present in source data is not approval. Every generated materialization candidate remains `NOT_VERIFIED` with `canonicalWriteAllowed=false` until explicit semantic review and the normal canonical promotion path run.
+
+Configured source phases may mechanically auto-park missing required fields as `BLOCKED`. This automation can never produce `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY` state. Explicit review is also rejected if required source fields are still missing.
 
 Missing fields are parked per Character/mode instead of aborting the batch. This allows the rest of a 10–20 Character cohort to continue while preserving blockers exactly.
 
@@ -200,7 +207,7 @@ No Cohort 01 staging record invents numeric ER, mode/default choice, uptime, sca
 
 ### Profile × Adapter dependency matrix
 
-Execution work is now mapped from canonical backward-impact `pendingExecutionIds` into a machine-readable Profile × Adapter dependency matrix.
+Execution work is mapped from canonical backward-impact `pendingExecutionIds` into a machine-readable Profile × Adapter dependency matrix.
 
 Current canonical impact inventory contains:
 
@@ -249,12 +256,13 @@ A PR is not merge-ready because an earlier head passed.
 - PR #104 — Zhezhi source-conditioned multi-mode profiles.
 - PR #105 — appendable aggregate profile backward-impact readiness consumption.
 - PR #106 — Denia source-conditioned multi-mode profiles, squash-merged as `3fb45fb6016f49c09609e32ea528d7c1ac0ea559` after exact-head Verify/Export success; post-merge Verify/Export/deploy also passed.
+- PR #107 — horizontal cohort/review + Profile × Adapter dependency infrastructure, squash-merged as `36d32819a6d7d7b621e3f360f89178841aa99d05`; exact-head and post-merge Verify/Export plus current deploy passed.
 
 ## Next work
 
-1. Land the horizontal cohort/review and Profile × Adapter dependency infrastructure without changing canonical profile counts.
-2. Work Cohort 01 horizontally: mode/team/context across the cohort first, then weapon, Echo/Sonata, stats/ER, source rotations, execution dependencies and finally promotion/freeze.
-3. Reuse the existing reviewed source checkpoint; research only genuinely missing or stale fields.
+1. Continue Cohort 01 with `ECHO_SONATA` across all 20 modes; reuse the current checkpoint and mechanically park only genuinely absent fields.
+2. Continue the same cohort through `STATS_ER` and `SOURCE_ROTATION` before evaluating execution dependencies.
+3. Research only genuinely missing/stale source facts when a new source checkpoint is warranted; do not repeat the same Character/Weapon/Echo research against the same checkpoint.
 4. Park source blockers per Character/mode so one unresolved row does not stop the cohort.
 5. Prefer reusable execution primitives that unlock multiple verified profiles, but require semantic evidence before treating syntactically similar pending IDs as one implementation.
 6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI as separate layers.

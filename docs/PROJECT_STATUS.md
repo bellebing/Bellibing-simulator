@@ -127,20 +127,28 @@ Effects requiring rotation/state/stack/trigger execution remain explicit `VERIFI
 
 ## Echo / Sonata content coverage
 
-### Echo raw database — CATALOG FOUNDATION / CURRENT ACTIVE PRE-DPS WORKSTREAM
+### Echo raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
-181 Echo records and 34 Sonata records exist with stable IDs, COST and memberships.
+The Version 3.6 raw source audit is complete:
 
-The next active workstream is a **current-patch Echo/Sonata raw source audit**. Before raw coverage is called complete:
+- **181 / 181 released Echoes are VERIFIED CURRENT** for stable identity, COST and Sonata membership;
+- **34 / 34 released Sonata sets are VERIFIED CURRENT** for stable identity, activation thresholds and raw effect-description rows;
+- **0 STALE / WRONG** records;
+- **0 MISSING** records;
+- **0 SOURCE_CONFLICT** records;
+- **0 EXTRA / OBSOLETE** records.
 
-- verify current-patch Echo and Sonata roster coverage against current sources;
-- resolve known upstream coverage differences explicitly;
-- preserve the reviewed/read-only sync boundary;
-- do not infer active-skill/effect semantics from catalog membership alone.
+Bellibing's pinned normalized snapshot remains `DommyMM/wuwabuild@0a2e49c649c857c690be709577e6ce98832b2d43`. It was re-reviewed against current upstream head `5fa70b11f1d84fb644e4dbed47873708da0fe66f` and current release/source references. `Echoes.json` is unchanged; the later `Fetters.json` delta adds upstream `displayBonuses` metadata outside Bellibing's raw identity/activation/raw-description projection.
 
-### Sonata Effects — FOUNDATION / PARTIAL COVERAGE
+`npm run audit:echo-raw` is now a source-facing fail-closed gate. It resolves current upstream at runtime and rejects missing/stale/extra identities, COST or membership drift, invalid raw fields/lifecycle/provenance and unregistered source conflicts. The gate runs in Verify, Export and Deploy.
 
-10 audited effects across 7 Sonata sets are modeled. Full supported-set effect coverage remains pending. Stat buffs, damage bonuses/amplification, CR/CD, ATK/HP/DEF, conditional windows, caps/stacks and target scope must be represented from source truth; trigger/uptime uncertainty remains conditional until combat/rotation state proves it.
+This raw completion does **not** promote Sonata combat effects or Echo active-skill semantics. See [`ECHO_DATA_PIPELINE.md`](ECHO_DATA_PIPELINE.md) and [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+
+### Sonata Effects — FOUNDATION / PARTIAL COVERAGE — ACTIVE PRE-DPS WORKSTREAM
+
+10 audited effects across 7 Sonata sets are modeled. The remaining 27 current Sonata sets have zero modeled rows, and presence among the seven does not by itself prove all activation branches are complete.
+
+The active workstream is now full current-set Sonata effect source coverage. Every required 2pc / 3pc / 5pc or other current activation branch must be classified from source truth. Pure stats remain distinct from trigger/state/stack/target/team/resource semantics; unresolved execution semantics stay explicit rather than receiving fabricated uptime.
 
 ### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE
 
@@ -172,8 +180,8 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 1. **DONE:** Echo Core checkpoint mechanics and Echo Lab mechanical oracle.
 2. **DONE:** profile-proof guide/fallback roll engine and Content Preflight + Backward Impact contract.
 3. **DONE — SOURCE REVIEW:** roster-wide Character Mechanics source review: 54 canonical VERIFIED + 3 explicit SOURCE_BLOCKED + 0 unreviewed. Source-blocked Characters remain non-DPS-ready.
-4. **ACTIVE PRE-DPS WORKSTREAM:** complete current Echo/Sonata raw source audit.
-5. Complete Sonata Effect coverage.
+4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
+5. **ACTIVE PRE-DPS WORKSTREAM:** complete current Sonata Effect source coverage.
 6. Complete Echo skill/effect/attack fact coverage required by supported content.
 7. Complete/populate composable default profiles and freeze pre-DPS contracts/current-patch backward-impact state.
 8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
@@ -185,6 +193,8 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 A Character Mechanics promotion is not complete because files exist. It must pass the canonical structural/source audit and repository verification workflow.
 
 A `SOURCE_BLOCKED` disposition is not a promotion. It must correspond to a released Character without a canonical profile, carry a dated exact-source reason and evidence, and remain fail-closed for preflight/DPS. The source-review audit must reject duplicate/invalid dispositions and distinguishes explicit blockers from genuinely unreviewed released Characters.
+
+Echo/Sonata raw coverage is not complete because a catalog count exists. The source-facing projection audit must match current upstream for Bellibing-owned raw fields, pass lifecycle/required-field/membership/provenance invariants and preserve source conflicts explicitly rather than guessing them away.
 
 UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
 

@@ -25,13 +25,19 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
   assert.equal(resolved.weaponRecommendation.defaultWeaponId, 'thunderflare-dominion');
   assert.equal(resolved.echoLoadout.mainEchoId, 'echo-60001215');
   assert.deepEqual(resolved.echoLoadout.sonataSetIds, ['sonata-20', 'sonata-3']);
-  assert.deepEqual(resolved.echoLoadout.slots.map((slot) => [slot.cost, slot.primaryMainStat]), [
-    [4, 'CRIT Rate'],
-    [3, 'Electro DMG'],
-    [3, 'Electro DMG'],
-    [1, 'ATK%'],
-    [1, 'ATK%'],
-  ]);
+  assert.deepEqual(
+    resolved.echoLoadout.slots.map((slot) => [
+      slot.cost,
+      slot.primaryMainStats.map((option) => [option.stat, option.priority]),
+    ]),
+    [
+      [4, [['CRIT Rate', 1]]],
+      [3, [['Electro DMG', 1]]],
+      [3, [['Electro DMG', 1]]],
+      [1, [['ATK%', 1]]],
+      [1, [['ATK%', 1]]],
+    ],
+  );
   assert.deepEqual(resolved.statTarget.targetRules.map((rule) => [rule.stat, rule.priority]), [
     ['Energy Regen', 1],
     ['CRIT Rate', 2],
@@ -64,6 +70,55 @@ test('composable build-stat profile does not duplicate Roll Assistant stopping p
     { name: 'ATK%', role: 'USEFUL', minimum: 0.064 },
     { name: 'Energy Regen', role: 'USEFUL', minimum: 0.068 },
     { name: 'Heavy Attack DMG', role: 'USEFUL', minimum: 0.064 },
+  ]);
+});
+
+test('Echo loadout slots preserve source-backed tied and fallback main-stat options', () => {
+  const alternativeEchoProfile = {
+    ...PROFILE_CATALOGS.echoLoadouts[0]!,
+    id: 'augusta-test-main-stat-options',
+    slots: [
+      {
+        cost: 4 as const,
+        primaryMainStats: [
+          { stat: 'CRIT Rate', priority: 1 },
+          { stat: 'CRIT DMG', priority: 1 },
+        ],
+      },
+      {
+        cost: 3 as const,
+        primaryMainStats: [
+          { stat: 'Electro DMG', priority: 1 },
+          { stat: 'ATK%', priority: 2 },
+        ],
+      },
+      ...PROFILE_CATALOGS.echoLoadouts[0]!.slots.slice(2),
+    ],
+  };
+  const alternativePreset = {
+    ...PROFILE_CATALOGS.presets[0]!,
+    id: 'augusta-test-main-stat-options-preset',
+    name: 'Augusta — Test Main Stat Options',
+    modeKey: 'main-stat-options',
+    displayLabel: 'Main stat options',
+    isDefault: false,
+    echoLoadoutProfileId: alternativeEchoProfile.id,
+    provenance: testSource,
+  };
+
+  const registry = createProfileRegistry({
+    ...PROFILE_CATALOGS,
+    echoLoadouts: [...PROFILE_CATALOGS.echoLoadouts, alternativeEchoProfile],
+    presets: [...PROFILE_CATALOGS.presets, alternativePreset],
+  });
+  const resolved = resolveBuildPreset(registry, alternativePreset.id);
+  assert.deepEqual(resolved.echoLoadout.slots[0]?.primaryMainStats, [
+    { stat: 'CRIT Rate', priority: 1 },
+    { stat: 'CRIT DMG', priority: 1 },
+  ]);
+  assert.deepEqual(resolved.echoLoadout.slots[1]?.primaryMainStats, [
+    { stat: 'Electro DMG', priority: 1 },
+    { stat: 'ATK%', priority: 2 },
   ]);
 });
 

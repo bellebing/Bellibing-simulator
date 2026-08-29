@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../src/data/echoSkillSourceReview.ts';
-import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReview.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/weaponEffectAudit.ts';
@@ -31,6 +31,8 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['rover-aero', 'rover-aero-cartethyia-ciaccona', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['iuno', 'iuno-augusta-hybrid', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['the-shorekeeper', 'shorekeeper-augusta-support', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['zhezhi', 'zhezhi-empyrean-endgame', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['zhezhi', 'zhezhi-moonlit-fallback', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -57,9 +59,10 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     ['rover-aero-cartethyia-ciaccona-weapons', ['BPP-SKILL', 'BPP-TEAM-AERO']],
     ['iuno-augusta-hybrid-weapons', ['MGS-ATK', 'MGS-DEF', 'MGS-LIB', 'MGS-MAX-STACK']],
     ['shorekeeper-augusta-iuno-weapons', ['SSY-CONCERTO', 'SSY-HP', 'SSY-TEAM-ATK']],
+    ['zhezhi-carlotta-weapons', ['RDS-ATK', 'RDS-BASIC-STACK', 'RDS-OFFFIELD']],
   ]);
 
-  for (const review of PROFILE_BACKWARD_IMACT_REVIEWS_FOR_TEST()) {
+  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
     const weaponProfile = PROFILE_CATALOGS.weaponRecommendations.find(
       (row) => row.id === review.weaponRecommendationProfileId,
     );
@@ -72,10 +75,6 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     assert.deepEqual([...review.reviewedWeaponEffectIds].sort(), actualEffectIds);
   }
 });
-
-function PROFILE_BACKWARD_IMACT_REVIEWS_FOR_TEST() {
-  return PROFILE_BACKWARD_IMPACT_REVIEWS_V36;
-}
 
 test('Cartethyia and Rover Aero reviews preserve the existing Fleurdelys character-restriction adapter boundary', () => {
   for (const characterId of ['cartethyia', 'rover-aero'] as const) {
@@ -103,13 +102,14 @@ test('support-oriented profiles retain their selected Echo-active execution boun
   const rover = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'rover-aero');
   const iuno = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'iuno');
   const shorekeeper = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'the-shorekeeper');
-  assert.ok(aalto);
-  assert.ok(rover);
-  assert.ok(iuno);
-  assert.ok(shorekeeper);
+  const zhezhiMoonlit = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-moonlit-fallback');
+  const zhezhiEmpyrean = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-empyrean-endgame');
+  assert.ok(aalto && rover && iuno && shorekeeper && zhezhiMoonlit && zhezhiEmpyrean);
 
   assert.ok(aalto.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(rover.pendingExecutionIds.includes('echo:echo-60001065:active-skill-damage-adapter'));
   assert.ok(iuno.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(shorekeeper.pendingExecutionIds.includes('echo:echo-60000605:fallacy-active-skill-damage-adapter'));
+  assert.ok(zhezhiMoonlit.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
+  assert.ok(zhezhiEmpyrean.pendingExecutionIds.includes('echo:echo-60001055:nightmare-lampylumen-active-skill-damage-adapter'));
 });

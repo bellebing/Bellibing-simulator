@@ -6,6 +6,7 @@ import {
 import {
   auditCharacterMechanicsSourceReview,
 } from './data/characterMechanicsSourceReview.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './data/profileBackwardImpactReview.ts';
 import {
   PROFILE_FREEZE_APPROVALS,
   PROFILE_READINESS_BASELINE,
@@ -108,6 +109,12 @@ function validateFreezeApprovals(
   const byCharacter = new Map<string, ProfileFreezeApproval[]>();
   const approvalKeys = new Set<string>();
   const releasedIds = new Set(CHARACTER_CATALOG.filter((row) => row.releaseStatus === 'RELEASED').map((row) => row.id));
+  const impactReviewById = new Map<string, (typeof PROFILE_BACKWARD_IMPACT_REVIEWS_V36)[number]>();
+
+  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
+    if (impactReviewById.has(review.reviewId)) issues.push(`duplicate profile backward-impact review ${review.reviewId}`);
+    impactReviewById.set(review.reviewId, review);
+  }
 
   for (const approval of approvals) {
     const key = `${approval.characterId}:${approval.presetId}`;
@@ -122,6 +129,17 @@ function validateFreezeApprovals(
     if (approval.notes.length === 0 || approval.notes.some((row) => row.trim().length === 0)) issues.push(`${key}: missing freeze notes`);
     for (const adapterIssue of validateProfileFreezeAdapterClosure(approval)) {
       issues.push(`${key}: ${adapterIssue}`);
+    }
+
+    const impactReview = impactReviewById.get(approval.backwardImpactReview);
+    if (!impactReview) {
+      issues.push(`${key}: unknown backward-impact review ${approval.backwardImpactReview}`);
+    } else {
+      if (impactReview.characterId !== approval.characterId) issues.push(`${key}: backward-impact review belongs to ${impactReview.characterId}`);
+      if (impactReview.presetId !== approval.presetId) issues.push(`${key}: backward-impact review targets preset ${impactReview.presetId}`);
+      if (impactReview.patch !== approval.patch) issues.push(`${key}: backward-impact review patch ${impactReview.patch} does not match approval patch ${approval.patch}`);
+      if (impactReview.result !== 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE') issues.push(`${key}: backward-impact review still has pending execution`);
+      if (impactReview.pendingExecutionIds.length > 0) issues.push(`${key}: backward-impact review has ${impactReview.pendingExecutionIds.length} pending execution id(s)`);
     }
 
     const preset = PROFILE_REGISTRY.presets.get(approval.presetId);

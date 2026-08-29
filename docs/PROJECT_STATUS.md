@@ -111,7 +111,7 @@ Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target,
 
 ### Candidate throughput pipeline
 
-A fail-closed Profile Candidate Pipeline now mirrors the successful Character Mechanics ingestion pattern:
+A fail-closed Profile Candidate Pipeline mirrors the successful Character Mechanics ingestion pattern:
 
 - generated/researched candidates are always `NOT_VERIFIED` / `CANDIDATE_ONLY`;
 - automation cannot write canonical profile truth;
@@ -119,7 +119,7 @@ A fail-closed Profile Candidate Pipeline now mirrors the successful Character Me
 - `SOURCE_SEQUENCE_ONLY` remains non-executable;
 - readiness counts are derived from live registries instead of copied manual snapshot gates.
 
-The initial inventory covered the **48 Characters that were `PROFILE_SOURCE_PENDING` before this tranche**:
+The initial inventory covered the **48 Characters that were `PROFILE_SOURCE_PENDING` before the first throughput tranche**:
 
 - **10 `READY_FOR_REVIEW`**;
 - **8 `MULTI_MODE`**;
@@ -146,13 +146,38 @@ The ten clean source rows were promoted as one canonical profile batch:
 
 Their profile packages are source-backed and VERIFIED, but their reviewed rotations remain `SOURCE_SEQUENCE_ONLY`. This is recommendation/build completeness, **not executable DPS**.
 
+### MULTI_MODE resolution — Aalto
+
+Aalto is the first explicit `MULTI_MODE` inventory row resolved without collapsing legitimate source modes into one invented universal profile.
+
+Canonical supported profile:
+
+- preset: `aalto-hybrid-jiyan`;
+- display mode: **Hybrid — Jiyan**;
+- Sequence 6, matching the reviewed endgame 4-star source convention;
+- Static Mist R1;
+- Moonlit Clouds + Impermanence Heron;
+- Jiyan + Aalto + The Shorekeeper context;
+- exact profile ER gate: 160% for that team context;
+- source-reviewed Hybrid sequence remains `SOURCE_SEQUENCE_ONLY`.
+
+Aalto's legitimate Main DPS mode remains **unpromoted**, not deleted: the reviewed source inventory confirms that mode exists, but no sufficiently fixed source action sequence was established for canonical promotion. Bellibing does not reuse the Hybrid sequence or invent a DPS loop to fill that gap.
+
+Fresh backward-impact review `PROFILE-IMPACT-AALTO-HYBRID-2026-08-29-01` preserves three explicit execution gaps:
+
+- Static Mist Outro → next-Resonator transfer execution;
+- Impermanence Heron active/transfer execution;
+- Aalto Hybrid rotation engine model.
+
+This makes Aalto build-ready but **not DPS-ready**.
+
 ### Current readiness
 
 Live registry-derived readiness is now:
 
-- **15 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **16 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **38 `PROFILE_SOURCE_PENDING`**;
+- **37 `PROFILE_SOURCE_PENDING`**;
 - **1 `DPS_READY`**.
 
 Raw DPS blockers remain Qingxiao, Rover (Electro) and Suisui. Mornye remains intrinsic-DPS-blocked.
@@ -189,7 +214,6 @@ Integration errors propagate separately and the UI renders `ROLL ASSIST ERROR` i
 
 Verification evidence:
 
-- **452 / 452 Node tests pass**;
 - strict web build passes;
 - artifact-level headless Chrome regression passes;
 - integration-fault regression proves invalid checkpoint flow throws instead of becoming `DISCARD`;
@@ -205,14 +229,15 @@ The evidence proves the exception-masking defect was removed and the required po
 
 ## Completed tranche
 
-**PR #102 — `Scale profile ingestion and freeze first DPS-ready path`** was merged to `main` as `06e0f4fce18b5acca44d4a6f9194c09d93cc0cae`.
+**PR #103 — `Promote Aalto Hybrid multi-mode profile`** was squash-merged to `main` as `fb7e68e94e8ddafb4707c1b45383bc809ed2a9fa`.
 
-Its final PR head and post-merge `main` verification passed the Echo/Sonata audits, profile candidate inventory audit, profile readiness/freeze audit, full Node test suite, strict web build, browser Roll Assist regression, Export workflow and deployed Pages Chrome verdict smoke.
+Final PR-head verification passed profile audits, **455 / 455 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export. The tranche changes only profile composition, backward-impact review and the regression expectations made stale by Aalto becoming build-ready; no raw game data or broad DPS engine behavior changed.
 
 ## Next work
 
-1. Continue profile throughput from the inventory: clean source batches first, then explicitly resolved `MULTI_MODE` rows.
-2. Keep missing-context/raw-blocked rows parked instead of letting them block unrelated clean batches.
-3. Use [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) to close narrow profile execution gaps independently where source truth and current engines support it.
-4. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
-5. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.
+1. Continue explicit `MULTI_MODE` resolution from the remaining seven rows: Denia, Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin and Zhezhi.
+2. Prefer source-conditioned/defaultable modes; do not manufacture a universal default where the source actually describes context-dependent alternatives.
+3. Keep `MISSING_CONTEXT` and `RAW_PREFLIGHT_BLOCKED` rows parked instead of letting them block unrelated clean work.
+4. Add only profile-required Weapon/Sonata/Echo/rotation execution adapters, with fresh backward-impact review per supported path.
+5. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
+6. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.

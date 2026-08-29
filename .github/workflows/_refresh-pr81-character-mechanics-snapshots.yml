@@ -44,6 +44,8 @@ jobs:
       - name: Verify exact diff allowlist
         run: |
           expected=$(cat <<'EOF' | sort
+          .github/workflows/_refresh-pr81-character-mechanics-snapshots.yml
+          scripts/_refresh-pr81-character-mechanics-snapshots.mjs
           test/aaltoCharacterMechanics.test.ts
           test/aemeathCharacterMechanics.test.ts
           test/baizhiCharacterMechanics.test.ts
@@ -67,10 +69,10 @@ jobs:
           test "$actual" = "$expected"
           git diff --check
 
-      - name: Commit refreshed snapshots
+      - name: Commit refreshed snapshots and cleanup
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add test
+          git add -A
           git commit -m 'Refresh Character Mechanics coverage snapshots to 48 verified'
           git push origin HEAD:character-mechanics/twelfth-batch-five

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "build": "node scripts/build-web.mjs",
+    "audit:echo-raw": "node --experimental-strip-types scripts/audit-echo-raw.mjs",
     "sync:character-mechanics": "node --experimental-strip-types scripts/sync-character-mechanics.mjs",
     "review:character-mechanics": "node scripts/generate-character-mechanics-review.mjs",
     "review:character-mechanics-descriptions": "node scripts/generate-character-mechanics-description-review.mjs",

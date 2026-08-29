@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -23,11 +25,17 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
+      - name: Echo/Sonata raw coverage gate
+        run: npm run audit:echo-raw
+
       - name: Tests
         run: npm test
 
       - name: Strict web build
         run: npm run build
+
+      - name: Diff whitespace check
+        run: git diff --check HEAD^
 
       - name: Publish Windows test package
         uses: actions/upload-artifact@v4

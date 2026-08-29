@@ -7,9 +7,11 @@ import {
   auditProfileReadiness,
 } from '../src/profileReadinessRegistry.ts';
 import {
+  PROFILE_FREEZE_APPROVALS,
   validateProfileFreezeAdapterClosure,
   type ProfileFreezeApproval,
 } from '../src/data/profileFreezeReview.ts';
+import { PROFILE_BUILD_CONTEXT_ADAPTER_ID } from '../src/profileBuildContext.ts';
 
 const NEW_SOURCE_BATCH = [
   ['aemeath', 'aemeath-standard'],
@@ -22,6 +24,15 @@ const NEW_SOURCE_BATCH = [
   ['sigrika', 'sigrika-standard'],
   ['yangyang-xuanling', 'yangyang-xuanling-standard'],
   ['zani', 'zani-standard'],
+] as const;
+
+const STILL_PENDING_FREEZE = [
+  ['cartethyia', 'cartethyia-aero-erosion'],
+  ['ciaccona', 'ciaccona-cartethyia-aero'],
+  ['rover-aero', 'rover-aero-cartethyia-ciaccona'],
+  ['iuno', 'iuno-augusta-hybrid'],
+  ['the-shorekeeper', 'shorekeeper-augusta-support'],
+  ...NEW_SOURCE_BATCH,
 ] as const;
 
 test('released roster is structurally classified without a copied readiness-count snapshot', () => {
@@ -53,17 +64,25 @@ test('raw and intrinsic unresolved Character fields stay visible to DPS prefligh
   assert.equal(mornye.intrinsicDpsBlocked, true);
 });
 
-test('verified source profile packages are not silently promoted to DPS-ready', () => {
+test('Augusta is the first narrow DPS-ready profile and its adapter evidence is explicit', () => {
   const summary = assertProfileReadinessAudit();
-  for (const [characterId, presetId] of [
-    ['augusta', 'augusta-standard'],
-    ['cartethyia', 'cartethyia-aero-erosion'],
-    ['ciaccona', 'ciaccona-cartethyia-aero'],
-    ['rover-aero', 'rover-aero-cartethyia-ciaccona'],
-    ['iuno', 'iuno-augusta-hybrid'],
-    ['the-shorekeeper', 'shorekeeper-augusta-support'],
-    ...NEW_SOURCE_BATCH,
-  ] as const) {
+  assert.deepEqual(summary.dpsReadyIds, ['augusta']);
+
+  const augusta = assertCharacterDpsReady('augusta');
+  assert.equal(augusta.disposition, 'DPS_READY');
+  assert.deepEqual(augusta.presetIds, ['augusta-standard']);
+  assert.deepEqual(augusta.verifiedPresetIds, ['augusta-standard']);
+  assert.deepEqual(augusta.freezeApprovalPresetIds, ['augusta-standard']);
+
+  assert.equal(PROFILE_FREEZE_APPROVALS.length, 1);
+  assert.deepEqual(PROFILE_FREEZE_APPROVALS[0].requiredAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
+  assert.deepEqual(PROFILE_FREEZE_APPROVALS[0].verifiedAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
+  assert.equal(PROFILE_FREEZE_APPROVALS[0].backwardImpactReview, 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01');
+});
+
+test('other verified source profile packages are not silently promoted to DPS-ready', () => {
+  const summary = assertProfileReadinessAudit();
+  for (const [characterId, presetId] of STILL_PENDING_FREEZE) {
     const row = summary.characters.find((entry) => entry.characterId === characterId);
     assert.ok(row);
     assert.equal(row.disposition, 'PROFILE_COMPLETE_PENDING_FREEZE');
@@ -91,7 +110,7 @@ test('a SOURCE_SEQUENCE_ONLY profile cannot be freeze-approved for DPS', () => {
     status: 'DPS_READY',
     checkedAt: '2026-08-29',
     patch: '3.6',
-    backwardImpactReview: 'test-only',
+    backwardImpactReview: 'PROFILE-IMPACT-CARTETHYIA-2026-08-29-01',
     requiredAdapterIds: [],
     verifiedAdapterIds: [],
     notes: ['test-only invalid approval before executable rotation exists'],
@@ -99,6 +118,8 @@ test('a SOURCE_SEQUENCE_ONLY profile cannot be freeze-approved for DPS', () => {
 
   const summary = auditProfileReadiness([invalidApproval]);
   assert.ok(summary.issues.some((issue) => issue.includes('SOURCE_SEQUENCE_ONLY') && issue.includes('not executable for DPS freeze')));
+  assert.ok(summary.issues.some((issue) => issue.includes('backward-impact review still has pending execution')));
+  assert.ok(summary.issues.some((issue) => issue.includes('pending execution id(s)')));
 });
 
 test('a Character Mechanics source blocker cannot be freeze-approved for DPS', () => {
@@ -108,7 +129,7 @@ test('a Character Mechanics source blocker cannot be freeze-approved for DPS', (
     status: 'DPS_READY',
     checkedAt: '2026-08-29',
     patch: '3.6',
-    backwardImpactReview: 'test-only',
+    backwardImpactReview: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
     requiredAdapterIds: [],
     verifiedAdapterIds: [],
     notes: ['test-only invalid approval'],
@@ -117,6 +138,7 @@ test('a Character Mechanics source blocker cannot be freeze-approved for DPS', (
   const summary = auditProfileReadiness([invalidApproval]);
   assert.ok(summary.issues.some((issue) => issue.includes('Character Mechanics is source-blocked')));
   assert.ok(summary.issues.some((issue) => issue.includes('preset belongs to augusta')));
+  assert.ok(summary.issues.some((issue) => issue.includes('backward-impact review belongs to augusta')));
 });
 
 test('freeze approval adapter evidence is enforced inside readiness audit', () => {
@@ -126,7 +148,7 @@ test('freeze approval adapter evidence is enforced inside readiness audit', () =
     status: 'DPS_READY',
     checkedAt: '2026-08-29',
     patch: '3.6',
-    backwardImpactReview: 'test-only',
+    backwardImpactReview: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
     requiredAdapterIds: ['profile-engine-bridge'],
     verifiedAdapterIds: [],
     notes: ['test-only'],
@@ -137,4 +159,13 @@ test('freeze approval adapter evidence is enforced inside readiness audit', () =
     validateProfileFreezeAdapterClosure(invalidApproval),
     ['required adapter profile-engine-bridge is not verified'],
   );
+});
+
+test('freeze approval cannot cite an invented backward-impact review', () => {
+  const invalidApproval: ProfileFreezeApproval = {
+    ...PROFILE_FREEZE_APPROVALS[0],
+    backwardImpactReview: 'PROFILE-IMPACT-NOT-REAL',
+  };
+  const summary = auditProfileReadiness([invalidApproval]);
+  assert.ok(summary.issues.some((issue) => issue.includes('unknown backward-impact review PROFILE-IMPACT-NOT-REAL')));
 });

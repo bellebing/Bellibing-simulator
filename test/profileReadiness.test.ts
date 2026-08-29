@@ -6,7 +6,10 @@ import {
   assertProfileReadinessAudit,
   auditProfileReadiness,
 } from '../src/profileReadinessRegistry.ts';
-import type { ProfileFreezeApproval } from '../src/data/profileFreezeReview.ts';
+import {
+  validateProfileFreezeAdapterClosure,
+  type ProfileFreezeApproval,
+} from '../src/data/profileFreezeReview.ts';
 
 test('current released roster is explicitly classified for profile/freeze readiness', () => {
   const summary = assertProfileReadinessAudit();
@@ -66,4 +69,22 @@ test('a Character Mechanics source blocker cannot be freeze-approved for DPS', (
   const summary = auditProfileReadiness([invalidApproval]);
   assert.ok(summary.issues.some((issue) => issue.includes('Character Mechanics is source-blocked')));
   assert.ok(summary.issues.some((issue) => issue.includes('preset belongs to augusta')));
+});
+
+test('canonical freeze approval adapter evidence must close exactly', () => {
+  const approval: ProfileFreezeApproval = {
+    characterId: 'augusta',
+    presetId: 'augusta-standard',
+    status: 'DPS_READY',
+    checkedAt: '2026-08-29',
+    patch: '3.6',
+    backwardImpactReview: 'test-only',
+    requiredAdapterIds: ['sonata-midnight-veil-damage'],
+    verifiedAdapterIds: [],
+    notes: ['test-only'],
+  };
+  assert.deepEqual(
+    validateProfileFreezeAdapterClosure(approval),
+    ['required adapter sonata-midnight-veil-damage is not verified'],
+  );
 });

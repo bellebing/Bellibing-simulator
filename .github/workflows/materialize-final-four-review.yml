@@ -5,7 +5,7 @@ on:
     branches:
       - character-mechanics/final-nine-review
     paths:
-      - '.github/final-nine-payload.b64'
+      - '.github/final-nine-payload-*.b64'
 
 permissions:
   contents: write
@@ -23,15 +23,19 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import base64, gzip, json
+          import base64, gzip
 
-          payload = Path('.github/final-nine-payload.b64').read_text().strip()
-          files = json.loads(gzip.decompress(base64.b64decode(payload)).decode())
+          payloads = {
+              '.github/final-nine-payload-lucy.b64': 'lucyRawFacts.ts',
+              '.github/final-nine-payload-rebecca.b64': 'rebeccaRawFacts.ts',
+              '.github/final-nine-payload-zani.b64': 'zaniRawFacts.ts',
+              '.github/final-nine-payload-luuk.b64': 'luukHerssenRawFacts.ts',
+          }
           out = Path('src/data/characterMechanics')
-          for name, content in files.items():
-              if name not in {'lucyRawFacts.ts', 'rebeccaRawFacts.ts', 'zaniRawFacts.ts', 'luukHerssenRawFacts.ts'}:
-                  raise SystemExit(f'unexpected payload file: {name}')
-              (out / name).write_text(content)
+          for payload_path, output_name in payloads.items():
+              payload = Path(payload_path).read_text().strip()
+              content = gzip.decompress(base64.b64decode(payload)).decode()
+              (out / output_name).write_text(content)
           PY
 
       - name: Commit exact reviewed output

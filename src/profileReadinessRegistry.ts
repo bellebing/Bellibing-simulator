@@ -140,7 +140,12 @@ function validateFreezeApprovals(
     } else {
       if (preset.characterId !== approval.characterId) issues.push(`${key}: preset belongs to ${preset.characterId}`);
       if (!preset.uiSelectable) issues.push(`${key}: preset is not UI-selectable`);
-      if (!verifiedPackage(preset)) issues.push(`${key}: preset package is not fully VERIFIED`);
+      const resolved = verifiedPackage(preset);
+      if (!resolved) {
+        issues.push(`${key}: preset package is not fully VERIFIED`);
+      } else if (resolved.rotation.executionStatus !== 'ENGINE_MODELED') {
+        issues.push(`${key}: rotation ${resolved.rotation.id} is SOURCE_SEQUENCE_ONLY and not executable for DPS freeze`);
+      }
     }
 
     if (mechanicsBlockedIds.has(approval.characterId)) issues.push(`${key}: Character Mechanics is source-blocked`);

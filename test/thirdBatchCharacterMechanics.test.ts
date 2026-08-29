@@ -182,11 +182,11 @@ test('third-batch Tune Break facts stay at the shared-system boundary', () => {
 test('third Character Mechanics batch remains valid inside the current roster registry', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 28);
-  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chixia', 'ciaccona', 'encore', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'mortefi', 'phoebe', 'roccia', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
+  assert.equal(audit.profileCount, 33);
+  assert.deepEqual(audit.verifiedCharacterIds, ['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chisa', 'chixia', 'ciaccona', 'encore', 'iuno', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'lupa', 'mortefi', 'phoebe', 'roccia', 'rover-havoc', 'rover-spectro', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 29);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 889);
+  assert.equal(audit.unstartedCharacterIds.length, 24);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1068);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['taoqi', 'verina', 'encore']) {

@@ -163,7 +163,7 @@ test('sixth-batch Tune Break facts stay at the shared-system boundary', () => {
 test('sixth Character Mechanics batch remains valid after later batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 28);
+  assert.equal(audit.profileCount, 33);
   assert.deepEqual(audit.verifiedCharacterIds, [
     'aalto',
     'aemeath',
@@ -174,17 +174,22 @@ test('sixth Character Mechanics batch remains valid after later batches advance 
     'camellya',
     'carlotta',
     'changli',
+    'chisa',
     'chixia',
     'ciaccona',
     'encore',
+    'iuno',
     'jianxin',
     'jinhsi',
     'jiyan',
     'lingyang',
     'lumi',
+    'lupa',
     'mortefi',
     'phoebe',
     'roccia',
+    'rover-havoc',
+    'rover-spectro',
     'taoqi',
     'the-shorekeeper',
     'verina',
@@ -195,8 +200,8 @@ test('sixth Character Mechanics batch remains valid after later batches advance 
     'zhezhi',
   ]);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 29);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 889);
+  assert.equal(audit.unstartedCharacterIds.length, 24);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1068);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['roccia', 'zhezhi']) {

@@ -1,0 +1,56 @@
+import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.ts';
+
+export const PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS: readonly ProfileBackwardImpactReview[] = [
+  {
+    reviewId: 'PROFILE-IMPACT-DENIA-FUSION-2026-08-29-01',
+    characterId: 'denia',
+    presetId: 'denia-fusion-burst-aemeath',
+    weaponRecommendationProfileId: 'denia-multimode-weapons',
+    checkedAt: '2026-08-29',
+    patch: '3.6',
+    reviewedWeaponEffectIds: ['FDS-ATK', 'FDS-LIB', 'FDS-TEAM'],
+    reviewedSonataSetIds: ['sonata-28'],
+    reviewedEchoIds: ['echo-60002005'],
+    pendingExecutionIds: [
+      'weapon:forged-dwarf-star:FDS-LIB:resonance-mode-trigger-adapter',
+      'weapon:forged-dwarf-star:FDS-TEAM:resonance-mode-trigger-adapter',
+      'sonata:sonata-28:chromatic-foam-fusion-burst-outro-state-adapter',
+      'echo:echo-60002005:reminiscence-denia-active-skill-damage-adapter',
+      'echo:echo-60002005:reminiscence-denia-outro-transfer-adapter',
+      'rotation:denia-fusion-burst-aemeath-standard:engine-model',
+    ],
+    result: 'REVIEWED_WITH_PENDING_EXECUTION',
+    notes: [
+      'Forged Dwarf Star permanent ATK is source-audited; its Liberation and team-ATK windows still require the selected Resonance Mode/event path to prove activation and timing.',
+      'Chromatic Foam source rows are reviewed for Fusion Burst Denia, but Fusion-Burst application and the Outro transfer window remain event/rotation-state responsibilities rather than automatic uptime.',
+      'Reminiscence: Denia has a source-reviewed incoming Fusion transfer, but the selected source sequence only establishes that the Echo is cast at a flexible point; active damage and the exact transfer lifecycle remain explicit execution boundaries.',
+      'The selected Fusion Burst rotation is SOURCE_SEQUENCE_ONLY, so this preset is build truth and not DPS_READY.',
+    ],
+  },
+  {
+    reviewId: 'PROFILE-IMPACT-DENIA-TUNE-2026-08-29-01',
+    characterId: 'denia',
+    presetId: 'denia-tune-strain-luuk',
+    weaponRecommendationProfileId: 'denia-multimode-weapons',
+    checkedAt: '2026-08-29',
+    patch: '3.6',
+    reviewedWeaponEffectIds: ['FDS-ATK', 'FDS-LIB', 'FDS-TEAM'],
+    reviewedSonataSetIds: ['sonata-31'],
+    reviewedEchoIds: ['echo-60001985'],
+    pendingExecutionIds: [
+      'weapon:forged-dwarf-star:FDS-LIB:resonance-mode-trigger-adapter',
+      'weapon:forged-dwarf-star:FDS-TEAM:resonance-mode-trigger-adapter',
+      'sonata:sonata-31:reel-tune-strain-shifting-team-buff-adapter',
+      'echo:echo-60001985:voidwing-moth-active-skill-damage-adapter',
+      'echo:echo-60001985:voidwing-moth-outro-transfer-adapter',
+      'rotation:denia-tune-strain-luuk-standard:engine-model',
+    ],
+    result: 'REVIEWED_WITH_PENDING_EXECUTION',
+    notes: [
+      'Forged Dwarf Star uses the same source-audited weapon rows in Tune Strain; Bellibing does not infer its triggered windows merely from selecting the mode.',
+      'Reel of Spliced Memories 2-piece ATK is source-modeled and its 5-piece team Tune Break Boost is source-explicit after inflicting Tune Strain - Shifting; actual target/event-state activation remains pending.',
+      'Voidwing Moth is source-explicit immediately before Outro with a swap cancel and grants incoming ATK, but its active damage/transfer lifecycle is not yet an exact executable Echo path.',
+      'The selected Tune Strain rotation is SOURCE_SEQUENCE_ONLY, so this preset is build truth and not DPS_READY.',
+    ],
+  },
+];

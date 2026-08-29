@@ -33,6 +33,8 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['the-shorekeeper', 'shorekeeper-augusta-support', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['zhezhi', 'zhezhi-empyrean-endgame', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['zhezhi', 'zhezhi-moonlit-fallback', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['denia', 'denia-fusion-burst-aemeath', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['denia', 'denia-tune-strain-luuk', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -60,6 +62,7 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     ['iuno-augusta-hybrid-weapons', ['MGS-ATK', 'MGS-DEF', 'MGS-LIB', 'MGS-MAX-STACK']],
     ['shorekeeper-augusta-iuno-weapons', ['SSY-CONCERTO', 'SSY-HP', 'SSY-TEAM-ATK']],
     ['zhezhi-carlotta-weapons', ['RDS-ATK', 'RDS-BASIC-STACK', 'RDS-OFFFIELD']],
+    ['denia-multimode-weapons', ['FDS-ATK', 'FDS-LIB', 'FDS-TEAM']],
   ]);
 
   for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
@@ -104,7 +107,9 @@ test('support-oriented profiles retain their selected Echo-active execution boun
   const shorekeeper = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'the-shorekeeper');
   const zhezhiMoonlit = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-moonlit-fallback');
   const zhezhiEmpyrean = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-empyrean-endgame');
-  assert.ok(aalto && rover && iuno && shorekeeper && zhezhiMoonlit && zhezhiEmpyrean);
+  const deniaFusion = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'denia-fusion-burst-aemeath');
+  const deniaTune = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'denia-tune-strain-luuk');
+  assert.ok(aalto && rover && iuno && shorekeeper && zhezhiMoonlit && zhezhiEmpyrean && deniaFusion && deniaTune);
 
   assert.ok(aalto.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(rover.pendingExecutionIds.includes('echo:echo-60001065:active-skill-damage-adapter'));
@@ -112,4 +117,6 @@ test('support-oriented profiles retain their selected Echo-active execution boun
   assert.ok(shorekeeper.pendingExecutionIds.includes('echo:echo-60000605:fallacy-active-skill-damage-adapter'));
   assert.ok(zhezhiMoonlit.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(zhezhiEmpyrean.pendingExecutionIds.includes('echo:echo-60001055:nightmare-lampylumen-active-skill-damage-adapter'));
+  assert.ok(deniaFusion.pendingExecutionIds.includes('echo:echo-60002005:reminiscence-denia-outro-transfer-adapter'));
+  assert.ok(deniaTune.pendingExecutionIds.includes('echo:echo-60001985:voidwing-moth-outro-transfer-adapter'));
 });

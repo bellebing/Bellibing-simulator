@@ -1,4 +1,5 @@
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 as BASE_PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './profileBackwardImpactReview.ts';
+import { PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS } from './profileMultiModeDeniaImpact20260829.ts';
 import { PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS } from './profileMultiModeZhezhiImpact20260829.ts';
 import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.ts';
 
@@ -12,4 +13,5 @@ import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.
 export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpactReview[] = Object.freeze([
   ...BASE_PROFILE_BACKWARD_IMPACT_REVIEWS_V36,
   ...PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS,
+  ...PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS,
 ]);

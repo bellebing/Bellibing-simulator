@@ -36,7 +36,7 @@ export type CharacterActionKind =
  */
 export type CharacterActionRole = 'DAMAGE' | 'SHARED_SYSTEM_DAMAGE' | 'NON_DAMAGE' | 'UNKNOWN';
 
-/** Which damage-bonus bucket the game treats the hit as. */
+/** Which source-facing damage-bonus/taxonomy bucket the game treats the hit as. */
 export type CharacterDamageClass =
   | 'BASIC'
   | 'HEAVY'
@@ -48,6 +48,8 @@ export type CharacterDamageClass =
   | 'ECHO'
   | 'TUNE_RUPTURE'
   | 'AERO_EROSION'
+  | 'HACK'
+  | 'SPECTRO_FRAZZLE'
   | 'OTHER';
 
 export type CharacterScalingStat =
@@ -129,19 +131,29 @@ export interface CharacterMechanicFactBase {
 /**
  * Source-backed character action fact.
  *
- * `actionRole`, `section` and `damageClass` are deliberately independent. A
- * Resonance Liberation action may, for example, own damage but be classified by
- * the game as Heavy Attack DMG. A Tune Break action can deal damage through the
- * shared Tune Break combat system without owning a Character motion-value curve.
- * A state/setup action can be explicitly `NON_DAMAGE` without overloading
- * `damageClass: null` as evidence. Rotation engines must consume the explicit
- * fields instead of inferring semantics from nullable data.
+ * `actionRole`, `section` and damage classification are deliberately independent.
+ * A Resonance Liberation action may, for example, own damage but be classified by
+ * the game as Heavy Attack DMG. Rare source actions can simultaneously belong to
+ * multiple source taxonomies; those use `damageClass: null` plus `damageClasses`
+ * instead of inventing a primary class. Consumers that only support one class
+ * must fail closed on `damageClasses` rather than silently choosing one.
+ *
+ * A Tune Break action can deal damage through the shared Tune Break combat system
+ * without owning a Character motion-value curve. A state/setup action can be
+ * explicitly `NON_DAMAGE` without overloading nullable classification as evidence.
  */
 export interface CharacterActionFact extends CharacterMechanicFactBase {
   kind: 'ACTION';
   actionKind: CharacterActionKind;
   actionRole: CharacterActionRole;
+  /** Single source damage class. Must be null when `damageClasses` is used. */
   damageClass: CharacterDamageClass | null;
+  /**
+   * Simultaneous source damage classes for one hit. This is source taxonomy only,
+   * not an instruction to stack damage bonuses twice. VERIFIED data must contain
+   * at least two unique classes and must not also populate `damageClass`.
+   */
+  damageClasses?: readonly CharacterDamageClass[] | null;
   scalingStat: CharacterScalingStat;
   /** null means no selected-level damage scalar is stored; never implicit zero. */
   motionValue: number | null;
@@ -181,6 +193,25 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
    */
   sourceFixedFlatDamage?: number | null;
   hitCount: number | null;
+}
+
+/**
+ * Boundary for adapters that only understand one Character damage class.
+ * Multi-class source facts are intentionally rejected instead of coercing a
+ * primary class or silently selecting the first taxonomy entry.
+ */
+export function requireSingleCharacterDamageClass(fact: CharacterActionFact): CharacterDamageClass {
+  if (fact.actionRole !== 'DAMAGE') {
+    throw new Error(`Character action ${fact.factId} is not Character-owned DAMAGE.`);
+  }
+  const simultaneous = fact.damageClasses ?? null;
+  if (simultaneous !== null) {
+    throw new Error(`Character action ${fact.factId} has simultaneous source damage classes: ${simultaneous.join(', ') || 'none'}.`);
+  }
+  if (fact.damageClass === null) {
+    throw new Error(`Character action ${fact.factId} has no single source damage class.`);
+  }
+  return fact.damageClass;
 }
 
 export type CharacterEffectScope = 'SELF' | 'TEAM' | 'NEXT_CHARACTER' | 'TARGET' | 'OTHER';

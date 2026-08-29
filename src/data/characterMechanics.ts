@@ -52,6 +52,12 @@ import { LUCILLA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lucillaRa
 import { GALBRENA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/galbrenaRawFacts.ts';
 import { LYNAE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lynaeRawFacts.ts';
 import { TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/twelfthBatchProfiles.ts';
+import { FINAL_FOUR_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/finalFourProfiles.ts';
+import { FINAL_FOUR_TUNE_BREAK_FACTS } from './characterMechanics/finalFourTuneBreakFacts.ts';
+import { LUCY_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lucyRawFacts.ts';
+import { REBECCA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/rebeccaRawFacts.ts';
+import { ZANI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/zaniRawFacts.ts';
+import { LUUK_HERSSEN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/luukHerssenRawFacts.ts';
 import { YANGYANG_XUANLING_CHARACTER_MECHANIC_FACTS } from './characterMechanics/yangyangXuanlingRawFacts.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
@@ -161,6 +167,24 @@ export {
   LYNAE_CHARACTER_MECHANICS_PROFILE,
   TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 } from './characterMechanics/twelfthBatchProfiles.ts';
+export { LUCY_ACTION_FACTS } from './characterMechanics/lucyRawFacts.ts';
+export { REBECCA_ACTION_FACTS } from './characterMechanics/rebeccaRawFacts.ts';
+export { ZANI_ACTION_FACTS } from './characterMechanics/zaniRawFacts.ts';
+export { LUUK_HERSSEN_ACTION_FACTS } from './characterMechanics/luukHerssenRawFacts.ts';
+export {
+  FINAL_FOUR_CHARACTER_MECHANICS_PROFILES,
+  LUCY_CHARACTER_MECHANICS_PROFILE,
+  REBECCA_CHARACTER_MECHANICS_PROFILE,
+  ZANI_CHARACTER_MECHANICS_PROFILE,
+  LUUK_HERSSEN_CHARACTER_MECHANICS_PROFILE,
+} from './characterMechanics/finalFourProfiles.ts';
+export {
+  FINAL_FOUR_TUNE_BREAK_FACTS,
+  LUCY_TUNE_BREAK_FACT,
+  REBECCA_TUNE_BREAK_FACT,
+  ZANI_TUNE_BREAK_FACT,
+  LUUK_HERSSEN_TUNE_BREAK_FACT,
+} from './characterMechanics/finalFourTuneBreakFacts.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -300,7 +324,12 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...LUCILLA_CHARACTER_MECHANIC_FACTS,
   ...GALBRENA_CHARACTER_MECHANIC_FACTS,
   ...LYNAE_CHARACTER_MECHANIC_FACTS,
+  ...LUCY_CHARACTER_MECHANIC_FACTS,
+  ...REBECCA_CHARACTER_MECHANIC_FACTS,
+  ...ZANI_CHARACTER_MECHANIC_FACTS,
+  ...LUUK_HERSSEN_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
+  ...FINAL_FOUR_TUNE_BREAK_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -535,6 +564,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...TENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...FINAL_FOUR_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

@@ -24,6 +24,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
   assert.deepEqual(
     PROFILE_BACKWARD_IMPACT_REVIEWS_V36.map((row) => [row.characterId, row.presetId, row.checkedAt, row.result]),
     [
+      ['augusta', 'augusta-standard', '2026-08-29', 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE'],
       ['cartethyia', 'cartethyia-aero-erosion', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['rover-aero', 'rover-aero-cartethyia-ciaccona', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
@@ -38,12 +39,17 @@ test('current source-backed profile packages have fresh current-patch onboarding
     assert.equal(preset.characterId, review.characterId);
     assert.equal(preset.weaponRecommendationProfileId, review.weaponRecommendationProfileId);
     assert.equal(review.patch, '3.6');
-    assert.ok(review.pendingExecutionIds.length > 0);
+    if (review.result === 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE') {
+      assert.deepEqual(review.pendingExecutionIds, []);
+    } else {
+      assert.ok(review.pendingExecutionIds.length > 0);
+    }
   }
 });
 
 test('profile onboarding reviews cover exactly the selected default weapon effect rows', () => {
   const expectedByProfile = new Map([
+    ['augusta-standard-weapons', ['TFD-ATK', 'TFD-DEF', 'TFD-HEAVY']],
     ['cartethyia-aero-erosion-weapons', ['DT-AERO-AMP', 'DT-DEF', 'DT-HP']],
     ['ciaccona-cartethyia-aero-weapons', ['WA-AERO', 'WA-AERO-RES', 'WA-ATK']],
     ['rover-aero-cartethyia-ciaccona-weapons', ['BPP-SKILL', 'BPP-TEAM-AERO']],

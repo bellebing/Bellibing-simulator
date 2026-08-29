@@ -1,5 +1,13 @@
 import { CHARACTER_BUILD_PRESETS } from './characterBuildPresets.ts';
 import { ECHO_LOADOUT_PROFILES } from './echoLoadoutProfiles.ts';
+import {
+  PROFILE_SOURCE_BATCH_20260829_ECHOES,
+  PROFILE_SOURCE_BATCH_20260829_PRESETS,
+  PROFILE_SOURCE_BATCH_20260829_ROTATIONS,
+  PROFILE_SOURCE_BATCH_20260829_STATS,
+  PROFILE_SOURCE_BATCH_20260829_TEAMS,
+  PROFILE_SOURCE_BATCH_20260829_WEAPONS,
+} from './profileSourceBatch20260829.ts';
 import { ROTATION_PROFILES } from './rotationProfiles.ts';
 import { STAT_TARGET_PROFILES } from './statTargetProfiles.ts';
 import { TEAM_PROFILES } from './teamProfiles.ts';
@@ -8,12 +16,12 @@ import type { ProfileCatalogs } from '../profileDomain.ts';
 import { createProfileRegistry } from '../profileRegistry.ts';
 
 export const PROFILE_CATALOGS: ProfileCatalogs = {
-  weaponRecommendations: WEAPON_RECOMMENDATION_PROFILES,
-  echoLoadouts: ECHO_LOADOUT_PROFILES,
-  statTargets: STAT_TARGET_PROFILES,
-  teams: TEAM_PROFILES,
-  rotations: ROTATION_PROFILES,
-  presets: CHARACTER_BUILD_PRESETS,
+  weaponRecommendations: [...WEAPON_RECOMMENDATION_PROFILES, ...PROFILE_SOURCE_BATCH_20260829_WEAPONS],
+  echoLoadouts: [...ECHO_LOADOUT_PROFILES, ...PROFILE_SOURCE_BATCH_20260829_ECHOES],
+  statTargets: [...STAT_TARGET_PROFILES, ...PROFILE_SOURCE_BATCH_20260829_STATS],
+  teams: [...TEAM_PROFILES, ...PROFILE_SOURCE_BATCH_20260829_TEAMS],
+  rotations: [...ROTATION_PROFILES, ...PROFILE_SOURCE_BATCH_20260829_ROTATIONS],
+  presets: [...CHARACTER_BUILD_PRESETS, ...PROFILE_SOURCE_BATCH_20260829_PRESETS],
 };
 
 /** Canonical resolved profile registry consumed by future UI/engines. */

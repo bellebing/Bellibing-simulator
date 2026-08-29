@@ -6,7 +6,7 @@ import {
 import {
   auditCharacterMechanicsSourceReview,
 } from './data/characterMechanicsSourceReview.ts';
-import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './data/profileBackwardImpactReview.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './data/profileBackwardImpactReviewCatalog.ts';
 import {
   PROFILE_FREEZE_APPROVALS,
   PROFILE_READINESS_BASELINE,

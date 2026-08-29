@@ -87,6 +87,8 @@ function auditVerifiedActions(
     const fixed = fact.sourceFixedMotionValue ?? null;
     const fixedComponents = fact.sourceFixedMotionValueComponents ?? null;
     const flat = fact.sourceFixedFlatDamage ?? null;
+    const damageClasses = fact.damageClasses ?? null;
+    const hasDamageClasses = damageClasses !== null;
     const hasCurve = curve !== null;
     const hasComponents = components !== null && components.length > 0;
     const hasFixed = fixed !== null;
@@ -106,6 +108,7 @@ function auditVerifiedActions(
     if (fact.actionRole === 'NON_DAMAGE') {
       if (
         fact.damageClass !== null
+        || hasDamageClasses
         || hasDamageMotionData
         || components !== null
         || fixedComponents !== null
@@ -125,6 +128,7 @@ function auditVerifiedActions(
         fact.section !== 'TUNE_BREAK'
         || fact.actionKind !== 'TUNE_BREAK'
         || fact.damageClass !== 'OTHER'
+        || hasDamageClasses
         || fact.scalingStat !== 'SHARED_SYSTEM'
       ) {
         issues.push({
@@ -152,11 +156,35 @@ function auditVerifiedActions(
       continue;
     }
 
-    if (fact.damageClass === null) {
+    if (fact.damageClass !== null && hasDamageClasses) {
+      issues.push({
+        characterId: profile.characterId,
+        issue: `verified DAMAGE ACTION fact ${fact.factId} mixes single and simultaneous damage classification`,
+      });
+    } else if (fact.damageClass === null && !hasDamageClasses) {
       issues.push({
         characterId: profile.characterId,
         issue: `verified DAMAGE ACTION fact ${fact.factId} is missing damageClass`,
       });
+    } else if (damageClasses !== null) {
+      if (damageClasses.length < 2) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified DAMAGE ACTION fact ${fact.factId} simultaneous damageClasses must contain at least two classes`,
+        });
+      }
+      if (new Set(damageClasses).size !== damageClasses.length) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified DAMAGE ACTION fact ${fact.factId} simultaneous damageClasses contain duplicates`,
+        });
+      }
+      if (damageClasses.includes('OTHER')) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified DAMAGE ACTION fact ${fact.factId} simultaneous damageClasses must use explicit source classes instead of OTHER`,
+        });
+      }
     }
 
     if (fact.scalingStat === 'UNKNOWN' || fact.scalingStat === 'SHARED_SYSTEM') {
@@ -425,19 +453,25 @@ function auditProfile(
  * source-VERIFIED facts that support that area. VERIFIED profiles may not hide
  * non-VERIFIED linked utility facts outside those coverage buckets. VERIFIED
  * ACTIONS require exactly one current Tune Break fact. Character-owned DAMAGE
- * actions require one exact source representation: either a finite non-negative
- * Lv1-Lv10 coefficient curve plus a positive integer action-level `hitCount`,
- * explicit mixed Lv1-Lv10 components with their own positive integer hit counts,
- * a source-fixed coefficient plus a positive integer action-level `hitCount`, or
- * explicit mixed source-fixed components when the source action has no skill-level
- * table. Source-fixed coefficients are distinct from selected-level `motionValue`
- * parity scalars and cannot be mixed with them or with level curves. `SHARED_SYSTEM_DAMAGE`
- * is the narrow Tune Break escape hatch: the character fact must explicitly identify
- * Tune Break/system ownership and must not fabricate Character motion-value fields.
- * NON_DAMAGE actions must not carry damage classification/motion-value fields.
- * UNKNOWN roles cannot pass. This prevents nullable-field inference, missing
- * current-system actions, selected-level leakage or ambiguous double-counting
- * from making a partially ingested character look source-complete.
+ * actions require an explicit source damage classification: either one
+ * `damageClass`, or at least two unique simultaneous `damageClasses` with no
+ * fabricated primary class. Multi-class taxonomy is raw source data only;
+ * single-class consumers must fail closed rather than choosing one class or
+ * double-applying bonuses. Character-owned DAMAGE actions also require one exact
+ * source representation: either a finite non-negative Lv1-Lv10 coefficient curve
+ * plus a positive integer action-level `hitCount`, explicit mixed Lv1-Lv10
+ * components with their own positive integer hit counts, a source-fixed
+ * coefficient plus a positive integer action-level `hitCount`, explicit mixed
+ * source-fixed components, or literal source-fixed flat damage. Source-fixed
+ * coefficients are distinct from selected-level `motionValue` parity scalars and
+ * cannot be mixed with them or with level curves. `SHARED_SYSTEM_DAMAGE` is the
+ * narrow Tune Break escape hatch: the character fact must explicitly identify
+ * Tune Break/system ownership and must not fabricate Character motion-value or
+ * simultaneous Character-class fields. NON_DAMAGE actions must not carry damage
+ * classification/motion-value fields. UNKNOWN roles cannot pass. This prevents
+ * nullable-field inference, missing current-system actions, selected-level
+ * leakage or ambiguous double-counting from making a partially ingested
+ * character look source-complete.
  */
 export function auditCharacterMechanicsCoverage(
   profiles: readonly CharacterMechanicsProfile[] = CHARACTER_MECHANICS_PROFILES,

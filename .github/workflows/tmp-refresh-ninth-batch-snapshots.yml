@@ -1,0 +1,102 @@
+name: Temporary ninth-batch snapshot refresh
+
+on:
+  push:
+    branches:
+      - character-mechanics/ninth-batch-five
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/ninth-batch-five
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh only stale Character Mechanics coverage snapshots
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          files = [
+              'test/aaltoCharacterMechanics.test.ts',
+              'test/aemeathCharacterMechanics.test.ts',
+              'test/baizhiCharacterMechanics.test.ts',
+              'test/brantCharacterMechanics.test.ts',
+              'test/characterMechanics.test.ts',
+              'test/characterMechanicsAuditHardening.test.ts',
+              'test/eighthBatchCharacterMechanics.test.ts',
+              'test/fifthBatchCharacterMechanics.test.ts',
+              'test/fourthBatchCharacterMechanics.test.ts',
+              'test/secondBatchCharacterMechanics.test.ts',
+              'test/seventhBatchCharacterMechanics.test.ts',
+              'test/sixthBatchCharacterMechanics.test.ts',
+              'test/starterRosterCharacterMechanics.test.ts',
+              'test/thirdBatchCharacterMechanics.test.ts',
+          ]
+
+          old_ids = "['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chixia', 'ciaccona', 'encore', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'mortefi', 'phoebe', 'roccia', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']"
+          new_ids = "['aalto', 'aemeath', 'augusta', 'baizhi', 'brant', 'calcharo', 'camellya', 'carlotta', 'changli', 'chisa', 'chixia', 'ciaccona', 'encore', 'iuno', 'jianxin', 'jinhsi', 'jiyan', 'lingyang', 'lumi', 'lupa', 'mortefi', 'phoebe', 'roccia', 'rover-havoc', 'rover-spectro', 'taoqi', 'the-shorekeeper', 'verina', 'yangyang', 'yinlin', 'youhu', 'yuanwu', 'zhezhi']"
+
+          total_changes = 0
+          for name in files:
+              p = Path(name)
+              s = p.read_text()
+              before = s
+
+              # Exact current-registry ID snapshot.
+              s = s.replace(old_ids, new_ids)
+
+              # Named current-coverage assertions only; no blind numeric replacement.
+              s = re.sub(r'(audit\.profileCount\s*,\s*)28\b', r'\g<1>33', s)
+              s = re.sub(r'(audit\.verifiedCharacterIds\.length\s*,\s*)28\b', r'\g<1>33', s)
+              s = re.sub(r'(audit\.unstartedCharacterIds\.length\s*,\s*)29\b', r'\g<1>24', s)
+              s = re.sub(r'(CHARACTER_MECHANIC_FACTS\.length\s*,\s*)889\b', r'\g<1>1068', s)
+              s = re.sub(r'(coverage\.verifiedCharacterIds\.length\s*,\s*)28\b', r'\g<1>33', s)
+              s = re.sub(r'(coverage\.unstartedCharacterIds\.length\s*,\s*)29\b', r'\g<1>24', s)
+              s = re.sub(r'(coverage\.profileCount\s*,\s*)28\b', r'\g<1>33', s)
+              s = re.sub(r'(report\.verifiedCharacterIds\.length\s*,\s*)28\b', r'\g<1>33', s)
+              s = re.sub(r'(report\.unstartedCharacterIds\.length\s*,\s*)29\b', r'\g<1>24', s)
+              s = re.sub(r'(report\.profileCount\s*,\s*)28\b', r'\g<1>33', s)
+
+              # Human-readable names for current-registry snapshot tests.
+              s = s.replace('twenty-eight source-complete characters with 29 released characters unstarted', 'thirty-three source-complete characters with 24 released characters unstarted')
+              s = s.replace('twenty-eight source-complete characters with 29 unstarted', 'thirty-three source-complete characters with 24 unstarted')
+              s = s.replace('twenty-eight released characters source-complete', 'thirty-three released characters source-complete')
+              s = s.replace('eighth Character Mechanics batch advances canonical coverage to 28 verified / 29 unstarted / 889 facts', 'eighth Character Mechanics batch remains valid after ninth-batch coverage reaches 33 verified / 24 unstarted / 1068 facts')
+              s = s.replace('seventh Character Mechanics batch remains valid after eighth-batch coverage reaches 28 verified / 29 unstarted / 889 facts', 'seventh Character Mechanics batch remains valid after ninth-batch coverage reaches 33 verified / 24 unstarted / 1068 facts')
+
+              # Remaining explicit current-snapshot literals in the known failing files.
+              s = re.sub(r'(assert\.equal\([^\n]*(?:profileCount|verifiedCharacterIds\.length)[^\n]*,\s*)28(\s*\);)', r'\g<1>33\g<2>', s)
+              s = re.sub(r'(assert\.equal\([^\n]*unstartedCharacterIds\.length[^\n]*,\s*)29(\s*\);)', r'\g<1>24\g<2>', s)
+              s = re.sub(r'(assert\.equal\([^\n]*CHARACTER_MECHANIC_FACTS\.length[^\n]*,\s*)889(\s*\);)', r'\g<1>1068\g<2>', s)
+
+              if s != before:
+                  p.write_text(s)
+                  total_changes += 1
+
+          if total_changes != 14:
+              raise SystemExit(f'Expected all 14 known stale snapshot files to change, changed {total_changes}')
+
+          # Fail closed if the exact previous verified-roster snapshot survived anywhere in scope.
+          for name in files:
+              if old_ids in Path(name).read_text():
+                  raise SystemExit(f'Stale verified ID snapshot survived in {name}')
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Full tests before commit
+        run: npm test
+      - name: Commit refreshed snapshots
+        run: |
+          git config user.name bellebing
+          git config user.email 148565035+bellebing@users.noreply.github.com
+          git add test/*.test.ts
+          git diff --cached --quiet && exit 0
+          git commit -m "Refresh ninth-batch Character Mechanics snapshots"
+          git push origin HEAD:character-mechanics/ninth-batch-five

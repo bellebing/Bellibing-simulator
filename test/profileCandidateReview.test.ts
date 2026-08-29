@@ -43,6 +43,33 @@ test('complete candidate stays NOT_VERIFIED and review-only', () => {
   assert.equal(review.characters[0].sourceDisposition, 'READY_FOR_REVIEW');
   assert.equal(review.characters[0].verificationStatus, 'NOT_VERIFIED');
   assert.equal(review.characters[0].modes[0].rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+  assert.equal(review.characters[0].modes[0].defaultCandidate, null);
+});
+
+test('default candidate state is tri-state and never inferred from omission', () => {
+  const review = buildProfileCandidateReview({
+    kind: 'PROFILE_SOURCE_RESEARCH_INPUT',
+    importStatus: 'CANDIDATE_ONLY',
+    verificationStatus: 'NOT_VERIFIED',
+    characters: [{
+      characterId: 'defaults',
+      sources: source,
+      modes: [
+        completeMode,
+        { ...completeMode, key: 'explicit-default', defaultCandidate: true },
+        { ...completeMode, key: 'explicit-alternate', defaultCandidate: false },
+      ],
+    }],
+  });
+
+  assert.deepEqual(
+    review.characters[0].modes.map((mode) => [mode.key, mode.defaultCandidate]),
+    [
+      ['standard', null],
+      ['explicit-default', true],
+      ['explicit-alternate', false],
+    ],
+  );
 });
 
 test('multi-mode, missing context, raw blockers and adapters are explicit', () => {
@@ -135,5 +162,6 @@ test('roster-wide source inventory covers all 48 pending profiles with explicit 
     ['mornye', 'qingxiao', 'rover-electro', 'suisui'],
   );
   assert.ok(review.characters.every((character) => character.verificationStatus === 'NOT_VERIFIED'));
+  assert.ok(review.characters.flatMap((character) => character.modes).every((mode) => mode.defaultCandidate === null));
   assert.equal(review.canonicalWriteAllowed, false);
 });

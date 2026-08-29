@@ -33,7 +33,7 @@ function issuesFor(
 test('current verified Character Mechanics profiles remain structurally clean under the hardened audit', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.equal(audit.verifiedCharacterIds.length, 52);
+  assert.equal(audit.verifiedCharacterIds.length, 54);
 });
 
 test('current action facts classify Character damage, shared-system Tune Break damage and non-damage explicitly', () => {

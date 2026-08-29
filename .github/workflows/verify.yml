@@ -37,6 +37,12 @@ jobs:
       - name: Profile candidate inventory gate
         run: npm run audit:profile-candidates
 
+      - name: Horizontal profile cohort gate
+        run: npm run audit:profile-cohort
+
+      - name: Profile adapter dependency matrix gate
+        run: npm run audit:profile-adapters
+
       - name: Profile readiness / Pre-DPS freeze gate
         run: npm run audit:profile-readiness
 

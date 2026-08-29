@@ -47,6 +47,12 @@ jobs:
           new_ids_inline = '[' + ', '.join(repr(x) for x in new_ids) + ']'
           new_ids_multiline = '[\n' + ''.join(f"    {x!r},\n" for x in new_ids) + '  ]'
 
+          def replace_verified_fixture(match):
+              existing_ids = re.findall(r"'([^']+)'", match.group(2))
+              if existing_ids != old_ids:
+                  return match.group(0)
+              return f'assert.deepEqual({match.group(1)}, {new_ids_multiline});'
+
           total_changes = 0
           for name in files:
               p = Path(name)
@@ -56,10 +62,10 @@ jobs:
               # Inline current-registry roster snapshots.
               s = s.replace(old_ids_inline, new_ids_inline)
 
-              # Multiline current-registry roster snapshots. Target only verifiedCharacterIds assertions.
+              # Replace a multiline roster fixture only when its existing IDs exactly equal the old 28-ID roster.
               s = re.sub(
-                  r'assert\.deepEqual\(((?:audit|coverage|report)\.verifiedCharacterIds),\s*\[(?:.|\n)*?\]\);',
-                  lambda m: f'assert.deepEqual({m.group(1)}, {new_ids_multiline});',
+                  r'assert\.deepEqual\(((?:audit|coverage|report)\.verifiedCharacterIds),\s*(\[(?:.|\n)*?\])\);',
+                  replace_verified_fixture,
                   s,
               )
 
@@ -85,11 +91,14 @@ jobs:
           if total_changes != 14:
               raise SystemExit(f'Expected all 14 known stale snapshot files to change, changed {total_changes}')
 
-          # Fail closed on any old current-registry snapshots in this exact scope.
+          # Fail closed on old current-registry snapshots while preserving negative fixture semantics.
           for name in files:
               s = Path(name).read_text()
               if old_ids_inline in s:
                   raise SystemExit(f'Stale inline verified ID snapshot survived in {name}')
+              for m in re.finditer(r'assert\.deepEqual\(((?:audit|coverage|report)\.verifiedCharacterIds),\s*(\[(?:.|\n)*?\])\);', s):
+                  if re.findall(r"'([^']+)'", m.group(2)) == old_ids:
+                      raise SystemExit(f'Stale multiline verified ID snapshot survived in {name}')
               if re.search(r'CHARACTER_MECHANIC_FACT_BY_ID\.size\s*,\s*889\b', s):
                   raise SystemExit(f'Stale fact-map count survived in {name}')
               if re.search(r'(?:audit|coverage|report)\.profileCount\s*,\s*28\b', s):

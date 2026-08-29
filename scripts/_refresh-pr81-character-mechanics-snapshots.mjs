@@ -7,6 +7,7 @@ const FILES = [
   'test/brantCharacterMechanics.test.ts',
   'test/characterMechanics.test.ts',
   'test/eighthBatchCharacterMechanics.test.ts',
+  'test/eleventhBatchCharacterMechanics.test.ts',
   'test/fifthBatchCharacterMechanics.test.ts',
   'test/fourthBatchCharacterMechanics.test.ts',
   'test/ninthBatchCharacterMechanics.test.ts',

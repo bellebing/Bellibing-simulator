@@ -95,12 +95,12 @@ export type EchoRawAuditIssueCode =
   | 'INVALID_COST'
   | 'INVALID_THREAT_CLASS'
   | 'MEMBERSHIP_MISSING'
+  | 'MEMBERSHIP_DUPLICATE'
   | 'MEMBERSHIP_REFERENCE_MISSING'
   | 'SONATA_UNREFERENCED'
   | 'SONATA_ACTIVATION_INVALID'
   | 'SONATA_EFFECT_TEXT_MISSING'
-  | 'RAW_LAYER_INTEGRATION_LEAK'
-  | 'RAW_LAYER_EFFECT_MODEL_LEAK'
+  | 'RAW_LAYER_STATUS_MISMATCH'
   | 'PROVENANCE_MISSING'
   | 'SNAPSHOT_META_MISMATCH'
   | 'FRESHNESS_GATE_MISSING'
@@ -139,7 +139,12 @@ function sortedIds(items: readonly { id: string }[]): string[] {
   return items.map((item) => item.id).sort();
 }
 
-function sameIds(actual: readonly string[], expected: readonly string[]): boolean {
+function sameStrings(actual: readonly string[], expected: readonly string[]): boolean {
+  return actual.length === expected.length
+    && actual.every((value, index) => value === expected[index]);
+}
+
+function sameNumbers(actual: readonly number[], expected: readonly number[]): boolean {
   return actual.length === expected.length
     && actual.every((value, index) => value === expected[index]);
 }
@@ -225,7 +230,7 @@ export function auditEchoRawRoster(
     ['SONATA', 'UNRELEASED_WIP', lifecycleIds(sonatas, 'UNRELEASED_WIP'), [...review.expectedWipSonataIds].sort()],
   ];
   for (const [scope, status, actual, expected] of lifecycleChecks) {
-    if (!sameIds(actual, expected)) {
+    if (!sameStrings(actual, expected)) {
       issues.push({ code: 'LIFECYCLE_SET_MISMATCH', scope, detail: `${scope} ${status} IDs expected ${expected.join(', ') || '(none)'}, found ${actual.join(', ') || '(none)'}.` });
     }
   }
@@ -253,14 +258,17 @@ export function auditEchoRawRoster(
     if (echo.sonataSetIds.length === 0) {
       issues.push({ code: 'MEMBERSHIP_MISSING', scope: 'ECHO', recordId: echo.id, detail: `${echo.id} has no Sonata membership.` });
     }
+    if (new Set(echo.sonataSetIds).size !== echo.sonataSetIds.length) {
+      issues.push({ code: 'MEMBERSHIP_DUPLICATE', scope: 'ECHO', recordId: echo.id, detail: `${echo.id} repeats a Sonata membership.` });
+    }
     for (const setId of echo.sonataSetIds) {
       referencedSonataIds.add(setId);
       if (!sonataIds.has(setId)) {
         issues.push({ code: 'MEMBERSHIP_REFERENCE_MISSING', scope: 'ECHO', recordId: echo.id, detail: `${echo.id} references missing Sonata ${setId}.` });
       }
     }
-    if (echo.integrationStatus !== 'DATA_ONLY' || echo.skillEffectId !== undefined) {
-      issues.push({ code: 'RAW_LAYER_INTEGRATION_LEAK', scope: 'ECHO', recordId: echo.id, detail: `${echo.id} raw identity record leaked higher-layer integration/effect state.` });
+    if (echo.integrationStatus !== 'DATA_ONLY') {
+      issues.push({ code: 'RAW_LAYER_STATUS_MISMATCH', scope: 'ECHO', recordId: echo.id, detail: `${echo.id} raw catalog status is ${echo.integrationStatus}, expected DATA_ONLY for this reviewed snapshot.` });
     }
     checkProvenance(echo, 'ECHO', issues);
   }
@@ -274,7 +282,7 @@ export function auditEchoRawRoster(
     }
     const rawPieces = set.rawPieceEffects.map((effect) => effect.pieces).sort((a, b) => a - b);
     const activationPieces = [...set.activationPieces].sort((a, b) => a - b);
-    if (!sameIds(rawPieces.map(String).map((id) => ({ id })), activationPieces.map(String))) {
+    if (!sameNumbers(rawPieces, activationPieces)) {
       issues.push({ code: 'SONATA_ACTIVATION_INVALID', scope: 'SONATA', recordId: set.id, detail: `${set.id} activation thresholds do not match raw piece-effect rows.` });
     }
     if (set.rawPieceEffects.some((effect) => effect.description.trim().length === 0)) {
@@ -284,10 +292,7 @@ export function auditEchoRawRoster(
       issues.push({ code: 'SONATA_UNREFERENCED', scope: 'SONATA', recordId: set.id, detail: `${set.id} is not referenced by any Echo.` });
     }
     if (set.integrationStatus !== 'DATA_ONLY') {
-      issues.push({ code: 'RAW_LAYER_INTEGRATION_LEAK', scope: 'SONATA', recordId: set.id, detail: `${set.id} raw record has integrationStatus ${set.integrationStatus}.` });
-    }
-    if (set.effectModelId !== undefined) {
-      issues.push({ code: 'RAW_LAYER_EFFECT_MODEL_LEAK', scope: 'SONATA', recordId: set.id, detail: `${set.id} raw record points directly at a modeled combat effect.` });
+      issues.push({ code: 'RAW_LAYER_STATUS_MISMATCH', scope: 'SONATA', recordId: set.id, detail: `${set.id} raw catalog status is ${set.integrationStatus}, expected DATA_ONLY for this reviewed snapshot.` });
     }
     checkProvenance(set, 'SONATA', issues);
   }

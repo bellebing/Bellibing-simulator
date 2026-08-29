@@ -7,6 +7,8 @@ export interface ProfileFreezeApproval {
   readonly checkedAt: string;
   readonly patch: string;
   readonly backwardImpactReview: string;
+  readonly requiredAdapterIds: readonly string[];
+  readonly verifiedAdapterIds: readonly string[];
   readonly notes: readonly string[];
 }
 

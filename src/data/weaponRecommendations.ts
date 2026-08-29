@@ -29,6 +29,35 @@ const CIACCONA_SOURCES = {
   ],
 } as const;
 
+const ROVER_AERO_SOURCES = {
+  sourceLabels: ['Prydwen Rover (Aero) build'],
+  sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/rover-aero'],
+  checkedAt: '2026-08-29',
+  notes: [
+    "The reviewed Rover (Aero) context is Cartethyia + Ciaccona, where Bloodpact's Pledge is the source-recommended signature/reference weapon.",
+    'The weapon supplies a large Energy Regen secondary and a Rover-specific team Aero amplification trigger after Unbound Flow; trigger execution remains separate from recommendation truth.',
+  ],
+} as const;
+
+const IUNO_SOURCES = {
+  sourceLabels: ['Prydwen Iuno build'],
+  sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/iuno'],
+  checkedAt: '2026-08-29',
+  notes: [
+    "The reviewed mode is Iuno Hybrid/Sub DPS with Augusta, not Iuno Main DPS. Moongazer's Sigil R1 is the current 100% weapon reference for both Hybrid and DPS source calculations.",
+  ],
+} as const;
+
+const SHOREKEEPER_SOURCES = {
+  sourceLabels: ['Prydwen The Shorekeeper build'],
+  sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper'],
+  checkedAt: '2026-08-29',
+  notes: [
+    'Stellar Symphony R1 is the current best-source weapon for Shorekeeper; the page rates it above Variation R5 and documents its team ATK plus Concerto utility.',
+    'Only the source-best default is promoted here; no Bellibing roll/stopping weight is inferred from weapon ranking.',
+  ],
+} as const;
+
 export const WEAPON_RECOMMENDATION_PROFILES: readonly WeaponRecommendationProfile[] = [
   {
     kind: 'WEAPON_RECOMMENDATION',
@@ -75,6 +104,42 @@ export const WEAPON_RECOMMENDATION_PROFILES: readonly WeaponRecommendationProfil
     provenance: CIACCONA_SOURCES,
     options: [
       { weaponId: 'woodland-aria', rank: 1, label: 'Signature / current reference', relativePerformance: 1 },
+    ],
+  },
+  {
+    kind: 'WEAPON_RECOMMENDATION',
+    id: 'rover-aero-cartethyia-ciaccona-weapons',
+    name: 'Rover (Aero) — Cartethyia + Ciaccona Support Weapons',
+    characterId: 'rover-aero',
+    defaultWeaponId: 'bloodpacts-pledge',
+    verificationStatus: 'VERIFIED',
+    provenance: ROVER_AERO_SOURCES,
+    options: [
+      { weaponId: 'bloodpacts-pledge', rank: 1, label: 'Signature / reviewed support reference', relativePerformance: 1 },
+    ],
+  },
+  {
+    kind: 'WEAPON_RECOMMENDATION',
+    id: 'iuno-augusta-hybrid-weapons',
+    name: 'Iuno — Augusta Hybrid Weapons',
+    characterId: 'iuno',
+    defaultWeaponId: 'moongazers-sigil',
+    verificationStatus: 'VERIFIED',
+    provenance: IUNO_SOURCES,
+    options: [
+      { weaponId: 'moongazers-sigil', rank: 1, label: 'Signature / current reference', relativePerformance: 1 },
+    ],
+  },
+  {
+    kind: 'WEAPON_RECOMMENDATION',
+    id: 'shorekeeper-augusta-iuno-weapons',
+    name: 'The Shorekeeper — Augusta + Iuno Support Weapons',
+    characterId: 'the-shorekeeper',
+    defaultWeaponId: 'stellar-symphony',
+    verificationStatus: 'VERIFIED',
+    provenance: SHOREKEEPER_SOURCES,
+    options: [
+      { weaponId: 'stellar-symphony', rank: 1, label: 'Signature / current best source option', relativePerformance: 1 },
     ],
   },
 ];

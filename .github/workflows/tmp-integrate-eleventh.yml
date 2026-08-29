@@ -37,6 +37,14 @@ jobs:
       - name: Integrate domain registry and Tune Break facts
         run: python scripts/tmp-integrate-eleventh.py
 
+      - name: Correct focused Sanhua discrepancy evidence assertion
+        shell: bash
+        run: |
+          grep -F "assert.match(s2.notes?.join(' ') ?? '', /pinned.*5s|stale.*5s|discrepancy/i);" test/eleventhBatchCharacterMechanics.test.ts
+          sed -i "s/s2.notes?.join(' ') ?? ''/s2.effectSummary/" test/eleventhBatchCharacterMechanics.test.ts
+          grep -F "assert.match(s2.effectSummary, /pinned.*5s|stale.*5s|discrepancy/i);" test/eleventhBatchCharacterMechanics.test.ts
+          ! grep -F "s2.notes?.join(' ') ?? ''" test/eleventhBatchCharacterMechanics.test.ts
+
       - name: Diff sanity
         run: git diff --check
 

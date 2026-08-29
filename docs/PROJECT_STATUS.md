@@ -10,7 +10,22 @@ The accumulated pre-2026-08-29 history is preserved in [`PROJECT_STATUS_HISTORY_
 
 Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS expansion remains blocked; narrow verified vertical slices may be frozen individually when their exact execution gaps are closed.
 
-## Current checkpoint
+## Current baseline
+
+Current merged `main` baseline: `3fb45fb6016f49c09609e32ea528d7c1ac0ea559` — PR #106, Denia source-conditioned multi-mode profiles.
+
+Post-merge workflows on that exact SHA passed Verify, Export and web deploy. Denia therefore belongs to the current canonical baseline, not to pending branch-only work.
+
+Live registry-derived readiness after Denia is:
+
+- **18 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
+- **35 `PROFILE_SOURCE_PENDING`**;
+- **1 `DPS_READY`**.
+
+The horizontal cohort/adaptor infrastructure described below does **not** itself promote profiles and must not change those counts.
+
+## Echo Core / Echo Lab / Roll Assist
 
 ### Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING
 
@@ -26,7 +41,25 @@ Echo Lab consumes the shared Echo Core runtime and remains the canonical validat
 
 The fallback checkpoint policy is profile-driven. Profiles own Core/Useful targets and required hit counts; reachability uses exact remaining unique slots and roll magnitudes.
 
-This is not the final Bellibing decision rule. Whole-build DPS-aware stopping remains dependent on verified Character combat/DPS execution.
+Whole-build DPS-aware stopping remains dependent on verified Character combat/DPS execution.
+
+### BUG-001 — FIXED / DEPLOYED / LIVE VERIFIED
+
+The old Roll Assist integration path could transform a checkpoint/runtime exception into a normal `DISCARD`. The deterministic boundary is now:
+
+`recordCheckpoint → evaluateTargetCheckpoint → applyCheckpointAssessment`
+
+Integration errors propagate separately and render `ROLL ASSIST ERROR`. Real Chrome verification covered:
+
+- +5 CRIT Rate 6.3% → `DISCARD`;
+- +5 CRIT Rate 9.3% → `ROLL TO +10`;
+- +10 CRIT Rate 9.3% + Flat DEF → `ROLL TO +15`.
+
+The browser regression remains a permanent Verify/Deploy guard.
+
+### BUG-002 — KNOWN GAP
+
+The full +25 lifecycle remains an explicit known gap and is not treated as complete.
 
 ## Character foundation
 
@@ -56,13 +89,7 @@ Roster-wide source review is complete for all 57 released Characters:
 - **1866 canonical Character Mechanic facts**;
 - **0 structural issues**.
 
-The three source-blocked Characters remain:
-
-- **Buling** — exact Five Thunders Spell Array Continuous DMG coefficients exist, but current source does not explicitly establish the required damage-bonus classification;
-- **Danjin** — current Ruby Blossom semantics simultaneously cap the resource at 120 and require `over 120` for the enhanced branch;
-- **Xiangli Yao** — Pivot - Impale has exact coefficients but lacks an explicit current-source damage-bonus classification.
-
-They must not receive DPS adapters until new evidence resolves those blockers and normal canonical review passes.
+The three source-blocked Characters remain Buling, Danjin and Xiangli Yao. They must not receive DPS adapters until new evidence resolves their blockers and normal canonical review passes.
 
 ## Weapons
 
@@ -103,182 +130,132 @@ Freezing Frost 5pc and Havoc Eclipse 5pc remain explicit source conflicts. Midni
 
 All **181 / 181 released Echo skill records** are source-reviewed against the pinned current upstream source. Stable source-safe non-damage/main-slot effects are modeled where supported; most active damage text remains non-executable because scaling, hit shape, state, hold/press, summon or target semantics are not safely inferable.
 
-Current specialized pending Echo boundaries remain explicit and are consumed only when a supported profile actually requires them.
-
 ## Composable profiles — ACTIVE PRE-DPS WORKSTREAM
 
-Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. Raw game data remains separate from recommendation/profile composition.
+Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. Raw game data remains separate from recommendation/profile composition, which remains separate from execution/combat-DPS logic and UI.
 
-### Candidate throughput pipeline
+### Candidate pipeline — fail closed by design
 
-A fail-closed Profile Candidate Pipeline mirrors the successful Character Mechanics ingestion pattern:
+The Profile Candidate Pipeline mirrors the Character Mechanics ingestion pattern:
 
-- generated/researched candidates are always `NOT_VERIFIED` / `CANDIDATE_ONLY`;
-- automation cannot write canonical profile truth;
-- mechanical validation, source/context disposition and specialized execution requirements are separated;
-- `SOURCE_SEQUENCE_ONLY` remains non-executable;
-- readiness counts are derived from live registries instead of copied manual snapshot gates.
+- generated/researched candidates are always `NOT_VERIFIED` / candidate-only;
+- automation may extract, stage, map dependencies and materialize draft candidates but cannot mark semantic truth `VERIFIED`;
+- mechanical validation, source/context disposition and execution requirements stay separate;
+- `SOURCE_SEQUENCE_ONLY` remains non-executable and is never upgraded to `ENGINE_MODELED` by transcription;
+- readiness counts come from live registries rather than copied manual gates.
 
-The initial inventory covered the **48 Characters that were `PROFILE_SOURCE_PENDING` before the first throughput tranche**:
+The initial inventory covered the 48 Characters that were `PROFILE_SOURCE_PENDING` before the first throughput tranche:
 
-- **10 `READY_FOR_REVIEW`**;
-- **8 `MULTI_MODE`**;
-- **26 `MISSING_CONTEXT`**;
-- **0 `SOURCE_CONFLICT`**;
-- **4 `RAW_PREFLIGHT_BLOCKED`**.
+- 10 `READY_FOR_REVIEW`;
+- 8 `MULTI_MODE`;
+- 26 `MISSING_CONTEXT`;
+- 0 `SOURCE_CONFLICT`;
+- 4 `RAW_PREFLIGHT_BLOCKED`.
 
-Execution inventory for the same initial 48 rows: **38 `NO_KNOWN_SPECIALIZED_ADAPTER` / 10 `SPECIALIZED_ADAPTER_REQUIRED`**.
+The ten clean rows were promoted together. Aalto, Zhezhi and Denia have since been resolved from the original `MULTI_MODE` set. The five remaining source-checkpoint `MULTI_MODE` Characters are:
 
-Two of the eight original `MULTI_MODE` rows are now resolved canonically: **Aalto** and **Zhezhi**. The remaining six are Denia, Lucilla, Lumi, Rover (Havoc), Yangyang and Yinlin.
+- Lucilla;
+- Lumi;
+- Rover (Havoc);
+- Yangyang;
+- Yinlin.
 
-### First throughput promotion batch
+### Canonical multi-mode checkpoints
 
-The ten clean source rows were promoted as one canonical profile batch:
+**Aalto** preserves canonical Hybrid — Jiyan while the legitimate Main DPS mode remains unpromoted. The canonical source rotation remains `SOURCE_SEQUENCE_ONLY` and pending execution includes Static Mist transfer, Impermanence Heron active/transfer and an Aalto rotation engine model.
 
-- Aemeath;
-- Camellya;
-- Galbrena;
-- Hiyuki;
-- Jinhsi — standard opener context only;
-- Luuk Herssen;
-- Lynae;
-- Sigrika;
-- Yangyang (Xuanling);
-- Zani.
+**Zhezhi** preserves two canonical source-conditioned presets rather than flattening them: Endgame 5★ — Empyrean and Fallback — Moonlit in the reviewed Carlotta + The Shorekeeper context. Their set-specific ER targets and Echo timing remain source-conditioned; both rotations remain `SOURCE_SEQUENCE_ONLY`.
 
-Their profile packages are source-backed and VERIFIED, but their reviewed rotations remain `SOURCE_SEQUENCE_ONLY`. This is recommendation/build completeness, **not executable DPS**.
+**Denia** now preserves two canonical source-conditioned presets:
 
-### MULTI_MODE resolution — Aalto
+- `denia-fusion-burst-aemeath` — **Fusion Burst — Aemeath**, default for the reviewed source context;
+- `denia-tune-strain-luuk` — **Tune Strain — Luuk**, alternate source context.
 
-Aalto is the first explicit `MULTI_MODE` inventory row resolved without collapsing legitimate source modes into one invented universal profile.
+Both use the reviewed Forged Dwarf Star recommendation. Their Echo/Sonata choices remain mode-specific, Energy Regen remains a priority without fabricated numeric gates where the reviewed contexts do not support one, and both rotations remain `SOURCE_SEQUENCE_ONLY`. Denia is build-ready but not DPS-ready.
 
-Canonical supported profile:
+### Horizontal Profile Cohort Pipeline — Cohort 01
 
-- preset: `aalto-hybrid-jiyan`;
-- display mode: **Hybrid — Jiyan**;
-- Sequence 6, matching the reviewed endgame 4-star source convention;
-- Static Mist R1;
-- Moonlit Clouds + Impermanence Heron;
-- Jiyan + Aalto + The Shorekeeper context;
-- exact profile ER gate: 160% for that team context;
-- source-reviewed Hybrid sequence remains `SOURCE_SEQUENCE_ONLY`.
+The next throughput workstream is horizontal rather than Character-by-Character.
 
-Aalto's legitimate Main DPS mode remains **unpromoted**, not deleted: the reviewed source inventory confirms that mode exists, but no sufficiently fixed source action sequence was established for canonical promotion. Bellibing does not reuse the Hybrid sequence or invent a DPS loop to fill that gap.
+Cohort 01 stages **15 current `PROFILE_SOURCE_PENDING` Characters** from the existing reviewed source checkpoint:
 
-Fresh backward-impact review `PROFILE-IMPACT-AALTO-HYBRID-2026-08-29-01` preserves three explicit execution gaps:
+- five remaining `MULTI_MODE`: Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin;
+- ten `MISSING_CONTEXT`: Baizhi, Brant, Calcharo, Cantarella, Carlotta, Changli, Chisa, Chixia, Encore, Jianxin.
 
-- Static Mist Outro → next-Resonator transfer execution;
-- Impermanence Heron active/transfer execution;
-- Aalto Hybrid rotation engine model.
+The fixed review order is:
 
-This makes Aalto build-ready but **not DPS-ready**.
+1. `MODE_TEAM_CONTEXT`;
+2. `WEAPON`;
+3. `ECHO_SONATA`;
+4. `STATS_ER`;
+5. `SOURCE_ROTATION`;
+6. `EXECUTION_ADAPTERS`;
+7. `PROMOTION_FREEZE`.
 
-### MULTI_MODE resolution — Zhezhi
+The cohort representation deliberately separates **source-field extraction state** from **semantic review state**. A field being present in source data is not approval. Every generated materialization candidate remains `NOT_VERIFIED` with `canonicalWriteAllowed=false` until explicit semantic review and the normal canonical promotion path run.
 
-Zhezhi is the second resolved `MULTI_MODE` row. The reviewed current source provides a real conditional split rather than one universal winner, so Bellibing preserves **two canonical presets** in the same Carlotta + The Shorekeeper context.
+Missing fields are parked per Character/mode instead of aborting the batch. This allows the rest of a 10–20 Character cohort to continue while preserving blockers exactly.
 
-**Endgame 5★ — Empyrean** (`zhezhi-empyrean-endgame`) is the UI default only for the source-defined endgame condition:
+No Cohort 01 staging record invents numeric ER, mode/default choice, uptime, scaling or mechanics. Existing reviewed source data is reused instead of being researched repeatedly.
 
-- Rime-Draped Sprouts R1;
-- **9–10 CRIT substats total**;
-- Empyrean Anthem;
-- Nightmare: Lampylumen Myriad;
-- exact profile ER target: **128%** in the reviewed Carlotta + Shorekeeper context.
+### Profile × Adapter dependency matrix
 
-**Fallback — Moonlit** (`zhezhi-moonlit-fallback`) remains independently canonical when either endgame condition is not met:
+Execution work is now mapped from canonical backward-impact `pendingExecutionIds` into a machine-readable Profile × Adapter dependency matrix.
 
-- same Rime-Draped Sprouts R1 / Carlotta + Shorekeeper context;
-- Moonlit Clouds;
-- Impermanence Heron;
-- exact profile ER target: **116%** in that context.
+Current canonical impact inventory contains:
 
-Both source-reviewed rotations remain `SOURCE_SEQUENCE_ONLY` and preserve their set-specific Echo timing rather than being flattened into one sequence. Neither preset is DPS-ready.
+- **11 backward-impact reviews**;
+- **11 reviewed canonical profiles**;
+- **10 profiles with pending execution dependencies**;
+- **46 exact pending execution edges**.
 
-Fresh backward-impact reviews preserve the exact execution boundaries:
+The matrix ranks syntactically shared reusable primitive candidates by profile/Character fanout while preserving every exact pending ID. It explicitly excludes `rotation:*:engine-model` from generic reuse prioritization because a shared suffix does not make profile-specific rotations semantically identical.
 
-- `PROFILE-IMPACT-ZHEZHI-EMPYREAN-2026-08-29-01` — Rime-Draped Sprouts stack/off-field timing, Empyrean coordinated-CRIT active-resonator ATK branch, Nightmare: Lampylumen active damage and engine rotation;
-- `PROFILE-IMPACT-ZHEZHI-MOONLIT-2026-08-29-01` — Rime-Draped Sprouts stack/off-field timing, Moonlit incoming-ATK transfer, Impermanence Heron active/transfer execution and engine rotation.
+Current highest syntactic reuse candidates include:
 
-Profile backward-impact reviews now have an appendable aggregate catalog. The canonical readiness/freeze gate consumes that aggregate directly, and a regression proves sliced reviews are recognized while still failing closed on pending execution and `SOURCE_SEQUENCE_ONLY` rotations.
+- Impermanence Heron active/transfer adapter — 3 profiles / 3 Characters;
+- generic Weapon target-state adapter suffix — 2 profiles / 2 Characters.
 
-### Current readiness
+These groupings are prioritization hints only. They do **not** prove semantic equivalence, authorize an adapter implementation, close a backward-impact review, or mark anything `ENGINE_MODELED` / `DPS_READY`.
 
-Live registry-derived readiness is now:
+See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the detailed execution boundary.
 
-- **17 `PROFILE_COMPLETE_PENDING_FREEZE`**;
-- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **36 `PROFILE_SOURCE_PENDING`**;
-- **1 `DPS_READY`**.
-
-Raw DPS blockers remain Qingxiao, Rover (Electro) and Suisui. Mornye remains intrinsic-DPS-blocked.
+## DPS execution
 
 ### Augusta — first narrow DPS-ready vertical slice
 
-Augusta is the first profile with a closed narrow execution path:
+Augusta remains the single `DPS_READY` profile, only for the locked `augusta-standard` S0 / Thunderflare Dominion R1 / Iuno + The Shorekeeper personal-DPS context with `AUGUSTA_STD_V1`.
 
-- preset: `augusta-standard`;
-- S0;
-- Thunderflare Dominion R1;
-- Iuno + The Shorekeeper team context;
-- `AUGUSTA_STD_V1` executable rotation;
-- personal Augusta rotation DPS only;
-- current-patch backward-impact review `PROFILE-IMPACT-AUGUSTA-2026-08-29-01` is `REVIEWED_NO_BLOCKING_PROFILE_CHANGE` with zero pending execution IDs;
-- canonical verified-profile → `BuildContext` bridge is required and verified;
-- freeze approval is fail-closed against real backward-impact evidence and adapter closure.
+This does not claim generic Augusta execution, arbitrary team support, broad team DPS, arbitrary Sequence/Weapon contexts or roster-wide DPS readiness.
 
-This **does not** claim generic Augusta execution, arbitrary team support, broad team DPS, arbitrary Sequence/Weapon contexts or roster-wide DPS readiness.
+## Verification contract
 
-See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the exact remaining execution adapters for Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper.
+During iteration, scoped verification may be used. A final PR head intended for merge must still pass the repository’s full exact-head verification surface, including:
 
-## BUG-001 — Live Roll Assist
+- source/raw/profile audits;
+- horizontal cohort and Profile × Adapter audits where applicable;
+- full Node test suite;
+- strict web build;
+- real Chrome Roll Assist regression;
+- diff/whitespace checks;
+- Export artifact workflow;
+- other relevant workflows for the changed scope.
 
-Status: **FIXED / DEPLOYED / LIVE VERIFIED**.
+A PR is not merge-ready because an earlier head passed.
 
-A confirmed UI integration defect was fixed: the previous Roll Assist UI caught any checkpoint integration/runtime exception and transformed it into a normal `DISCARD` verdict. That made an integration failure capable of masquerading as a policy decision.
+## Completed latest tranche
 
-The implementation now has one deterministic checkpoint boundary:
-
-`recordCheckpoint → evaluateTargetCheckpoint → applyCheckpointAssessment`
-
-Integration errors propagate separately and the UI renders `ROLL ASSIST ERROR` instead of `DISCARD`.
-
-Verification evidence:
-
-- strict web build passes;
-- artifact-level headless Chrome regression passes;
-- integration-fault regression proves invalid checkpoint flow throws instead of becoming `DISCARD`;
-- post-merge Verify run **33275031575** passed on `main`;
-- post-merge Export run **33275031529** passed on `main`;
-- Deploy run **33275031589** passed on merge SHA `06e0f4fce18b5acca44d4a6f9194c09d93cc0cae`;
-- deployed GitHub Pages live-smoke job **99160220488** passed in Google Chrome and verified the real UI paths:
-  - **+5 CRIT Rate 6.3% → DISCARD**;
-  - **+5 CRIT Rate 9.3% → ROLL TO +10**;
-  - **+10 CRIT Rate 9.3% + Flat DEF → ROLL TO +15**.
-
-The same browser regression remains a permanent Verify/Deploy guard and continued to pass during the Aalto and Zhezhi profile tranches.
-
-The evidence proves the exception-masking defect was removed and the required post-fix live verdict paths are correct. It does **not** retroactively claim that the exact original pre-fix production report was independently reproduced if that evidence was unavailable.
-
-## Completed tranche
-
-**PR #103 — `Promote Aalto Hybrid multi-mode profile`** was squash-merged as `fb7e68e94e8ddafb4707c1b45383bc809ed2a9fa`.
-
-Its final PR head passed profile audits, **455 / 455 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export.
-
-**PR #104 — `Resolve Zhezhi source-conditioned multi-mode profiles`** was squash-merged as `92c374ef6c9b085ce7924e7d4b38b1f67ae1621e`.
-
-Its final PR head passed all source/profile gates, **459 / 459 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export. Registry-derived readiness was **17 / 3 / 36 / 1**.
-
-**PR #105 — `Use aggregate profile impact reviews in readiness`** was squash-merged as `474f36529fd6550a75bb0527e98382ddb772a723`.
-
-This two-file follow-up makes the canonical readiness/freeze validator consume the appendable backward-impact review aggregate and regression-locks that a sliced Zhezhi review is found while pending execution still blocks freeze. It changes no game data, profile selection or DPS behavior.
+- PR #103 — Aalto multi-mode promotion.
+- PR #104 — Zhezhi source-conditioned multi-mode profiles.
+- PR #105 — appendable aggregate profile backward-impact readiness consumption.
+- PR #106 — Denia source-conditioned multi-mode profiles, squash-merged as `3fb45fb6016f49c09609e32ea528d7c1ac0ea559` after exact-head Verify/Export success; post-merge Verify/Export/deploy also passed.
 
 ## Next work
 
-1. Continue explicit `MULTI_MODE` resolution from the remaining six rows: Denia, Lucilla, Lumi, Rover (Havoc), Yangyang and Yinlin.
-2. Prefer source-conditioned/defaultable modes; do not manufacture a universal default where the source actually describes context-dependent alternatives.
-3. Denia is the next researched candidate: Fusion Burst and Tune Strain contexts are explicit, but no canonical default may be chosen until current source evidence supports that choice.
-4. Keep `MISSING_CONTEXT` and `RAW_PREFLIGHT_BLOCKED` rows parked instead of letting them block unrelated clean work.
-5. Add only profile-required Weapon/Sonata/Echo/rotation execution adapters, with fresh backward-impact review per supported path.
-6. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
-7. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.
+1. Land the horizontal cohort/review and Profile × Adapter dependency infrastructure without changing canonical profile counts.
+2. Work Cohort 01 horizontally: mode/team/context across the cohort first, then weapon, Echo/Sonata, stats/ER, source rotations, execution dependencies and finally promotion/freeze.
+3. Reuse the existing reviewed source checkpoint; research only genuinely missing or stale fields.
+4. Park source blockers per Character/mode so one unresolved row does not stop the cohort.
+5. Prefer reusable execution primitives that unlock multiple verified profiles, but require semantic evidence before treating syntactically similar pending IDs as one implementation.
+6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI as separate layers.
+7. Do not start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.

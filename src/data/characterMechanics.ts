@@ -40,6 +40,12 @@ import { HIYUKI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/hiyukiRawF
 import { QINGXIAO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/qingxiaoRawFacts.ts';
 import { ROVER_AERO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/roverAeroRawFacts.ts';
 import { TENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/tenthBatchProfiles.ts';
+import { MORNYE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/mornyeRawFacts.ts';
+import { PHROLOVA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/phrolovaRawFacts.ts';
+import { QIUYUAN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/qiuyuanRawFacts.ts';
+import { SANHUA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/sanhuaRawFacts.ts';
+import { SIGRIKA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/sigrikaRawFacts.ts';
+import { ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/eleventhBatchProfiles.ts';
 import { YANGYANG_XUANLING_CHARACTER_MECHANIC_FACTS } from './characterMechanics/yangyangXuanlingRawFacts.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
@@ -115,6 +121,11 @@ export { HIYUKI_ACTION_FACTS } from './characterMechanics/hiyukiRawFacts.ts';
 export { QINGXIAO_ACTION_FACTS } from './characterMechanics/qingxiaoRawFacts.ts';
 export { ROVER_AERO_ACTION_FACTS } from './characterMechanics/roverAeroRawFacts.ts';
 export { YANGYANG_XUANLING_ACTION_FACTS } from './characterMechanics/yangyangXuanlingRawFacts.ts';
+export { MORNYE_ACTION_FACTS } from './characterMechanics/mornyeRawFacts.ts';
+export { PHROLOVA_ACTION_FACTS } from './characterMechanics/phrolovaRawFacts.ts';
+export { QIUYUAN_ACTION_FACTS } from './characterMechanics/qiuyuanRawFacts.ts';
+export { SANHUA_ACTION_FACTS } from './characterMechanics/sanhuaRawFacts.ts';
+export { SIGRIKA_ACTION_FACTS } from './characterMechanics/sigrikaRawFacts.ts';
 export {
   DENIA_CHARACTER_MECHANICS_PROFILE,
   HIYUKI_CHARACTER_MECHANICS_PROFILE,
@@ -123,6 +134,14 @@ export {
   TENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   YANGYANG_XUANLING_CHARACTER_MECHANICS_PROFILE,
 } from './characterMechanics/tenthBatchProfiles.ts';
+export {
+  ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  MORNYE_CHARACTER_MECHANICS_PROFILE,
+  PHROLOVA_CHARACTER_MECHANICS_PROFILE,
+  QIUYUAN_CHARACTER_MECHANICS_PROFILE,
+  SANHUA_CHARACTER_MECHANICS_PROFILE,
+  SIGRIKA_CHARACTER_MECHANICS_PROFILE,
+} from './characterMechanics/eleventhBatchProfiles.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -199,6 +218,13 @@ export {
   ROVER_AERO_TUNE_BREAK_FACT,
   YANGYANG_XUANLING_TUNE_BREAK_FACT,
 } from './characterMechanics/tuneBreakFacts.ts';
+export {
+  MORNYE_TUNE_BREAK_FACT,
+  PHROLOVA_TUNE_BREAK_FACT,
+  QIUYUAN_TUNE_BREAK_FACT,
+  SANHUA_TUNE_BREAK_FACT,
+  SIGRIKA_TUNE_BREAK_FACT,
+} from './characterMechanics/tuneBreakFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...AUGUSTA_CHARACTER_ACTION_FACTS,
@@ -240,6 +266,11 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...QINGXIAO_CHARACTER_MECHANIC_FACTS,
   ...ROVER_AERO_CHARACTER_MECHANIC_FACTS,
   ...YANGYANG_XUANLING_CHARACTER_MECHANIC_FACTS,
+  ...SANHUA_CHARACTER_MECHANIC_FACTS,
+  ...QIUYUAN_CHARACTER_MECHANIC_FACTS,
+  ...SIGRIKA_CHARACTER_MECHANIC_FACTS,
+  ...PHROLOVA_CHARACTER_MECHANIC_FACTS,
+  ...MORNYE_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -473,6 +504,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...EIGHTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...NINTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...TENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

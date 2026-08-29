@@ -31,6 +31,9 @@ jobs:
       - name: Sonata effect source coverage gate
         run: npm run audit:sonata-effects
 
+      - name: Echo skill source coverage gate
+        run: npm run audit:echo-skills
+
       - name: Tests
         run: npm test
 

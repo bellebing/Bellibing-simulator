@@ -61,54 +61,74 @@ A `SonataEffectModel` is a **source-audited fact record**, not an automatic upti
 
 Rotation, trigger occurrence, stack acquisition, refresh timing, current target state and Character/team execution still belong to later adapters/profiles. A source-reviewed set therefore must not be treated as 100% active by default.
 
-## Echo Effects — current modeled slice
+## Echo Skills — source review complete, execution intentionally partial
 
-`src/data/echoEffects.ts` currently contains **8 audited non-damage effect records across 5 Echoes**:
+The roster-wide Echo skill audit uses `DommyMM/wuwabuild/public/Data/Echoes.json` at exact commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f` / Git blob `cca1563ce0491a3de80ac7359344112631329224`.
 
-- Fallacy of No Return — 2 effect rows.
-- The False Sovereign — 2 effect rows.
-- Thousand-Puppet Pavilion — 2 effect rows.
-- Reminiscence: Denia — 1 effect row.
-- Hyvatia — 1 effect row.
+Current source coverage:
 
-These are deliberately separate from Echo active attack math and from Character recommendations.
+- **181 / 181 released Echo skill records source-reviewed.**
+- **181 / 181 have non-empty rendered English skill descriptions.**
+- **181 / 181 expose five rank parameter rows.**
+- **181 / 181 expose a rendered cooldown placeholder that resolves to an exact Rank-5 cooldown.**
+- Rank-5 cooldown distribution: **69 × 8s, 1 × 12s, 56 × 15s, 43 × 20s, 12 × 25s.**
+- **170** source descriptions contain damage text; **11** are no-damage utility/heal/control descriptions.
+- **36** rendered descriptions contain main-slot behavior.
+- Upstream structured `bonuses`: **35 Echoes / 58 rows**, including **3 character-condition rows**.
+- The upstream Echo skill object exposes **0 dedicated skill-name fields**. Bellibing therefore keeps the stable Echo/source identity and rendered source text instead of inventing a separate skill name.
+- **3 rendered/source-parameter discrepancies** are retained explicitly: Reactor Husk leaves rank parameters 2 and 3 unused; Dwarf Cassowary and Nightmare: Dwarf Cassowary each leave parameter 3 unused.
 
-## Echo Attacks — current modeled slice
+`npm run audit:echo-skills` is fail-closed. It fetches the exact pinned source, validates the Git blob SHA, cross-checks all 181 source IDs/names against the Bellibing raw catalog, verifies the source-structure counts above, validates the exact cooldown distribution and discrepancy list, and then validates the modeled/pending execution boundaries. The gate runs in Verify, Export and Deploy.
 
-`src/data/echoAttacks.ts` currently has **The False Sovereign as the single exact Echo attack fixture**.
+### Echo Effects — current executable/source-safe slice
 
-It preserves the verified Rank-5 active-spin and Intro-summon attack facts plus cooldown/charge semantics used by the Augusta golden path. No other Echo is allowed to read as having a completed attack model merely because its raw catalog entry exists.
+`src/data/echoEffects.ts` now contains **62 modeled non-damage effect rows across 37 Echoes**.
 
-## Next Echo source audit
+The expansion is deliberately conservative:
 
-A full current-roster Echo effect/attack audit must classify every supported active Echo Skill from source evidence. The current raw catalog does **not** contain enough semantic structure to infer these categories safely, so Bellibing must not auto-classify 181 Echoes from names or prose alone.
+- source-explicit permanent main-slot bonuses are modeled where their behavior is stable;
+- four clear permanent main-slot facts that exist only in rendered English skill text are also modeled: Hecate Coordinated Attack DMG +40%, Nameless Explorer Echo Skill DMG +20%, Nightmare: Hecate Echo Skill DMG +20%, and Nightmare: Lampylumen Myriad Coordinated Attack DMG +30%;
+- the existing Fallacy cast buffs and Denia/Hyvatia transfer-window effects remain trigger-aware and are not converted to automatic uptime;
+- The False Sovereign and Thousand-Puppet Pavilion retain `ALREADY_MODELED_UPSTREAM` protection so existing parity paths do not double count them.
 
-For each supported active Echo Skill, later source-backed facts may need:
+Source-explicit facts that the current effect domain cannot represent safely remain pending rather than being flattened:
 
-- stable Echo/source skill identity and skill name;
-- active variants / transform / summon / hold / press branches;
-- rank-scaled coefficients or exact fixed values;
-- damage components and source-explicit hit counts where available;
-- source-explicit damage element and damage-bonus classification where available;
-- cooldown, charges and cast/transform/summon duration;
-- buffs, debuffs, healing and utility effects;
-- trigger/state prerequisites;
-- stack cap and timer semantics;
-- effect target scope: self, active Resonator, next Resonator, team or enemy;
-- Character-restricted or form-restricted conditions;
-- source conflict / pending-model disposition when semantics cannot be proven.
+1. Reminiscence - Nightmare: Adam Smasher — Lucy/Rebecca-only +15% CRIT Rate.
+2. Reminiscence: Fleurdelys — extra +10% Aero DMG for Resonator: Aero or Cartethyia.
+3. Sigillum — Aemeath-only +25% Resonance Liberation DMG.
+4. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot.
+5. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting.
+6. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking.
+7. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope must not be guessed.
 
-Only after that source inventory exists should Bellibing decide which facts need executable combat/DPS adapters.
+Those seven facts live in `ECHO_SKILL_PENDING_ADAPTER_FACTS` with explicit adapter-boundary reasons.
+
+### Echo Attacks — exact executable facts only
+
+`src/data/echoAttacks.ts` now has **2 exact Rank-5 attack profiles / 3 attack facts**:
+
+- The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
+- Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
+
+Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
+
+The other damage descriptions are source-reviewed but are not automatically converted into `EchoAttackProfile` rows. In particular, most rendered source text gives a damage percentage without explicitly stating the scaling stat, and several Echoes have hold/press, counter, summon-duration, loadout, form, target-state or repeated-hit semantics. Bellibing does not silently assume ATK scaling or maximal hit counts.
+
+### What “source review complete” means for Echoes
+
+The roster-wide source inventory is complete. Executable combat modeling is not.
+
+This checkpoint proves that every current released Echo has been inspected against the same pinned source and that Bellibing knows which source structure is available. It does **not** claim that all 170 damage-text Echoes have executable DPS adapters. Profiles/preflight must request only facts that are actually modeled, and any supported path that needs a pending Echo mechanic must add and verify the specialized adapter first.
 
 ## Pre-DPS sequencing
 
 The active order is now:
 
 1. **Echo/Sonata raw roster audit — complete for Version 3.6.**
-2. **Sonata effect source coverage — complete with explicit source conflicts / specialized-adapter dispositions above.**
-3. **Complete Echo active-skill/effect/attack facts required for supported content — next after merge/status sync.**
-4. Complete/populate composable Character/build/team/rotation profiles.
-5. Freeze/preflight the full Pre-DPS foundation, including unresolved specialized Sonata adapters required by supported DPS paths.
+2. **Sonata effect source coverage — complete with explicit source conflicts / specialized-adapter dispositions.**
+3. **Echo active-skill/effect/attack source coverage — complete; execution intentionally partial with explicit pending-adapter boundaries.**
+4. **Complete/populate composable Character/build/team/rotation profiles — next after merge/status sync.**
+5. Freeze/preflight the full Pre-DPS foundation, adding any specialized Sonata/Echo adapters required by supported DPS paths.
 6. Begin Character DPS character-by-character only after the above gates pass.
 
 Characters that remain source-blocked or fail later preflight remain excluded from Character DPS adapters.

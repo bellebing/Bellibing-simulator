@@ -9,10 +9,10 @@ import {
 
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
-test('Echo effect foundation is an explicit audited partial slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 8);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 5);
-  assert.equal(registry.byId.size, 8);
+test('Echo effect catalog contains the source-safe modeled roster slice', () => {
+  assert.equal(ECHO_EFFECT_MODELS.length, 62);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
+  assert.equal(registry.byId.size, 62);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -43,6 +43,17 @@ test('Thousand-Puppet Pavilion keeps its main-slot bonuses separate from Sonata 
   assert.ok(effects.every((row) => row.activation === 'MAIN_SLOT_PASSIVE'));
 });
 
+test('source-safe rendered-text main-slot bonuses are modeled without trigger uptime', () => {
+  assert.deepEqual(
+    getEchoEffects(registry, 'echo-60000855').map((row) => [row.statOrEffect, row.value, row.durationSeconds]),
+    [['Coordinated Attack DMG Bonus', 0.40, null]],
+  );
+  assert.deepEqual(
+    getEchoEffects(registry, 'echo-60001925').map((row) => [row.statOrEffect, row.value]),
+    [['Aero DMG Bonus', 0.12], ['Echo Skill DMG Bonus', 0.20]],
+  );
+});
+
 test('Denia and Hyvatia preserve transfer-window conditions instead of automatic uptime', () => {
   const denia = registry.byId.get('REMINISCENCE_DENIA_INCOMING_FUSION');
   assert.equal(denia?.value, 0.12);
@@ -55,6 +66,13 @@ test('Denia and Hyvatia preserve transfer-window conditions instead of automatic
   assert.equal(hyvatia?.activationWindowSeconds, 15);
   assert.equal(hyvatia?.requiresIncomingIntro, true);
   assert.equal(hyvatia?.mechanicsStatus, 'VERIFIED_CONDITIONAL');
+});
+
+test('character-restricted and loadout-replaced bonuses are not flattened into unconditional rows', () => {
+  assert.deepEqual(getEchoEffects(registry, 'echo-60002015'), []); // Adam Smasher CR is Lucy/Rebecca-only.
+  assert.deepEqual(getEchoEffects(registry, 'echo-60001915'), []); // Sigillum Liberation bonus is Aemeath-only.
+  const collapsar = getEchoEffects(registry, 'echo-60001809');
+  assert.deepEqual(collapsar.map((row) => [row.statOrEffect, row.value]), [['Basic Attack DMG Bonus', 0.12]]);
 });
 
 test('Echo non-damage effects never embed active attack math or character recommendations', () => {
@@ -71,10 +89,6 @@ test('Echo non-damage effects never embed active attack math or character recomm
       assert.equal(Object.hasOwn(row, forbidden), false, `${row.effectId} leaked ${forbidden}`);
     }
   }
-});
-
-test('missing Echo effect data means pending migration, not a fabricated no-effect record', () => {
-  assert.deepEqual(getEchoEffects(registry, 'echo-60001915'), []); // Sigillum is not audited in V9.15 DPS Buffs yet.
 });
 
 test('registry rejects dangling Echo IDs and malformed transfer effects', () => {

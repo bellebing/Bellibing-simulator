@@ -9,6 +9,26 @@ const AUGUSTA_SOURCES = {
   checkedAt: '2026-08-23',
 } as const;
 
+const CARTETHYIA_SOURCES = {
+  sourceLabels: ['Prydwen Cartethyia build'],
+  sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/cartethyia'],
+  checkedAt: '2026-08-29',
+  notes: [
+    "Current Prydwen Cartethyia calculations use Ciaccona + Woodland Aria + Gusts of Welkin + Nightmare: Kelpie and Rover (Aero) + Bloodpact's Pledge + Windward Pilgrimage + Reminiscence: Fleurdelys.",
+    "Defier's Thorn R1 is the current 100% reference weapon in that context.",
+  ],
+} as const;
+
+const CIACCONA_SOURCES = {
+  sourceLabels: ['Prydwen Ciaccona build'],
+  sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/ciaccona'],
+  checkedAt: '2026-08-29',
+  notes: [
+    "Current Prydwen Ciaccona calculations use Cartethyia + Defier's Thorn + Windward Pilgrimage + Reminiscence: Fleurdelys and Rover (Aero) + Bloodpact's Pledge + Windward Pilgrimage + Reminiscence: Fleurdelys.",
+    'Woodland Aria R1 is the current 100% reference weapon and also provides team-facing Aero RES shred in Aero teams.',
+  ],
+} as const;
+
 export const WEAPON_RECOMMENDATION_PROFILES: readonly WeaponRecommendationProfile[] = [
   {
     kind: 'WEAPON_RECOMMENDATION',
@@ -31,6 +51,30 @@ export const WEAPON_RECOMMENDATION_PROFILES: readonly WeaponRecommendationProfil
       { weaponId: 'waning-redshift', rank: 5, label: 'Best non-BP 4-star', relativePerformance: 0.665 },
       { weaponId: 'helios-cleaver', rank: 5, label: '4-star alternative', relativePerformance: 0.639 },
       { weaponId: 'meditations-on-mercy', rank: 5, label: 'Craftable fallback', relativePerformance: 0.607 },
+    ],
+  },
+  {
+    kind: 'WEAPON_RECOMMENDATION',
+    id: 'cartethyia-aero-erosion-weapons',
+    name: 'Cartethyia — Aero Erosion Weapons',
+    characterId: 'cartethyia',
+    defaultWeaponId: 'defiers-thorn',
+    verificationStatus: 'VERIFIED',
+    provenance: CARTETHYIA_SOURCES,
+    options: [
+      { weaponId: 'defiers-thorn', rank: 1, label: 'Signature / current reference', relativePerformance: 1 },
+    ],
+  },
+  {
+    kind: 'WEAPON_RECOMMENDATION',
+    id: 'ciaccona-cartethyia-aero-weapons',
+    name: 'Ciaccona — Cartethyia Aero Weapons',
+    characterId: 'ciaccona',
+    defaultWeaponId: 'woodland-aria',
+    verificationStatus: 'VERIFIED',
+    provenance: CIACCONA_SOURCES,
+    options: [
+      { weaponId: 'woodland-aria', rank: 1, label: 'Signature / current reference', relativePerformance: 1 },
     ],
   },
 ];

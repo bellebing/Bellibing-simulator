@@ -1,0 +1,58 @@
+name: Temporary integrate eleventh Character Mechanics batch
+
+on:
+  push:
+    branches:
+      - character-mechanics/eleventh-batch-five
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/eleventh-batch-five
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Verify and unpack source-reviewed payload
+        shell: bash
+        run: |
+          cat .github/tmp/eleventh-payload-*.txt > /tmp/eleventh-payload.b64
+          base64 --decode /tmp/eleventh-payload.b64 > /tmp/eleventh.zip
+          echo '5dc2402cda8e46484cc0125fdfb9593fedf76f1ed53c1be360b58409e4428b26  /tmp/eleventh.zip' | sha256sum --check --strict
+          unzip -o /tmp/eleventh.zip
+
+      - name: Integrate domain registry and Tune Break facts
+        run: python scripts/tmp-integrate-eleventh.py
+
+      - name: Diff sanity
+        run: git diff --check
+
+      - name: Focused eleventh-batch regression
+        run: node --import tsx --test test/eleventhBatchCharacterMechanics.test.ts
+
+      - name: Commit canonical batch and remove temporary transport
+        shell: bash
+        run: |
+          rm -f package-lock.json
+          rm -f .github/tmp/eleventh-payload-*.txt
+          rm -f scripts/tmp-integrate-eleventh.py
+          rm -f .github/workflows/tmp-integrate-eleventh.yml
+          git diff --check
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m "Add eleventh Character Mechanics batch"
+          git push origin HEAD:character-mechanics/eleventh-batch-five

@@ -36,4 +36,67 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
       },
     ],
   },
+  {
+    kind: 'STAT_TARGET',
+    id: 'cartethyia-aero-erosion-build-stats',
+    name: 'Cartethyia — Aero Erosion Build Stats',
+    characterId: 'cartethyia',
+    verificationStatus: 'VERIFIED',
+    provenance: {
+      sourceLabels: ['Prydwen Cartethyia build'],
+      sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/cartethyia'],
+      checkedAt: '2026-08-29',
+      notes: [
+        'Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > HP% > Basic Attack DMG% = Liberation DMG% > HP.',
+        'This is build-stat priority only; no Bellibing Roll Assistant minimum-roll or required-hit policy is inferred from it.',
+      ],
+    },
+    targetRules: [
+      { stat: 'Energy Regen', priority: 1 },
+      { stat: 'CRIT Rate', priority: 2 },
+      { stat: 'CRIT DMG', priority: 2 },
+      { stat: 'HP%', priority: 3 },
+      { stat: 'Basic Attack DMG', priority: 4 },
+      { stat: 'Liberation DMG', priority: 4 },
+      { stat: 'Flat HP', priority: 5 },
+    ],
+    gates: [
+      {
+        stat: 'Energy Regen Total',
+        minimum: 1.1,
+        notes: 'Current Prydwen endgame target is 110%+ Energy Regen.',
+      },
+    ],
+  },
+  {
+    kind: 'STAT_TARGET',
+    id: 'ciaccona-cartethyia-aero-build-stats',
+    name: 'Ciaccona — Cartethyia Aero Build Stats',
+    characterId: 'ciaccona',
+    verificationStatus: 'VERIFIED',
+    provenance: {
+      sourceLabels: ['Prydwen Ciaccona build'],
+      sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/ciaccona'],
+      checkedAt: '2026-08-29',
+      notes: [
+        'Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% > ATK.',
+        'Bellibing maps source flat ATK substat wording to the existing Flat ATK StatName.',
+        'This is build-stat priority only; no Roll Assistant stopping thresholds are inferred.',
+      ],
+    },
+    targetRules: [
+      { stat: 'Energy Regen', priority: 1 },
+      { stat: 'CRIT Rate', priority: 2 },
+      { stat: 'CRIT DMG', priority: 2 },
+      { stat: 'ATK%', priority: 3 },
+      { stat: 'Flat ATK', priority: 4 },
+    ],
+    gates: [
+      {
+        stat: 'Energy Regen Total',
+        minimum: 1.15,
+        notes: 'Current Prydwen endgame target is 115%+ Energy Regen.',
+      },
+    ],
+  },
 ];

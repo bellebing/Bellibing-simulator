@@ -167,15 +167,67 @@ function profileCheck(
   return { area, status: 'PENDING', details: [`${statuses.length} profile(s) exist but none is VERIFIED.`], requiredFor };
 }
 
-function combatModelCheck(characterId: string): CharacterPreflightCheck {
-  const rotations = PROFILE_CATALOGS.rotations.filter(
-    (profile) => profile.characterId === characterId && profile.verificationStatus === 'VERIFIED',
-  );
+function rotationProfileCheck(characterId: string): CharacterPreflightCheck {
+  const rotations = PROFILE_CATALOGS.rotations.filter((profile) => profile.characterId === characterId);
   if (rotations.length === 0) {
     return {
-      area: 'COMBAT_MODEL',
+      area: 'ROTATION_PROFILE',
       status: 'MISSING',
-      details: ['No VERIFIED rotation/combat profile exists to audit against mechanic facts.'],
+      details: ['No verified rotation profile exists for this character.'],
+      requiredFor: DPS_REQUIRED,
+    };
+  }
+
+  const executable = rotations.filter(
+    (profile) => profile.verificationStatus === 'VERIFIED' && profile.executionStatus === 'ENGINE_MODELED',
+  );
+  if (executable.length > 0) {
+    return {
+      area: 'ROTATION_PROFILE',
+      status: 'PASS',
+      details: executable.map((profile) => `${profile.id}: VERIFIED ENGINE_MODELED rotation.`),
+      requiredFor: DPS_REQUIRED,
+    };
+  }
+
+  const sourceOnly = rotations.filter(
+    (profile) => profile.verificationStatus === 'VERIFIED' && profile.executionStatus === 'SOURCE_SEQUENCE_ONLY',
+  );
+  if (sourceOnly.length > 0) {
+    return {
+      area: 'ROTATION_PROFILE',
+      status: 'PENDING',
+      details: sourceOnly.map((profile) => `${profile.id}: source-reviewed sequence exists but has no executable engine model.`),
+      requiredFor: DPS_REQUIRED,
+    };
+  }
+
+  return {
+    area: 'ROTATION_PROFILE',
+    status: 'PENDING',
+    details: [`${rotations.length} rotation profile(s) exist but none is VERIFIED and ENGINE_MODELED.`],
+    requiredFor: DPS_REQUIRED,
+  };
+}
+
+function combatModelCheck(characterId: string): CharacterPreflightCheck {
+  const rotations = PROFILE_CATALOGS.rotations.filter(
+    (profile) => profile.characterId === characterId
+      && profile.verificationStatus === 'VERIFIED'
+      && profile.executionStatus === 'ENGINE_MODELED',
+  );
+  if (rotations.length === 0) {
+    const sourceOnly = PROFILE_CATALOGS.rotations.some(
+      (profile) => profile.characterId === characterId
+        && profile.verificationStatus === 'VERIFIED'
+        && profile.executionStatus === 'SOURCE_SEQUENCE_ONLY',
+    );
+    return {
+      area: 'COMBAT_MODEL',
+      status: sourceOnly ? 'PENDING' : 'MISSING',
+      details: [sourceOnly
+        ? 'A VERIFIED source rotation exists, but no ENGINE_MODELED rotation/combat profile exists yet.'
+        : 'No VERIFIED executable rotation/combat profile exists to audit against mechanic facts.'],
       requiredFor: DPS_REQUIRED,
     };
   }
@@ -226,7 +278,6 @@ export function getCharacterPreflight(
   const echoStatuses = PROFILE_CATALOGS.echoLoadouts.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
   const statStatuses = PROFILE_CATALOGS.statTargets.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
   const teamStatuses = PROFILE_CATALOGS.teams.filter((profile) => profile.members.some((member) => member.characterId === characterId)).map((profile) => profile.verificationStatus);
-  const rotationStatuses = PROFILE_CATALOGS.rotations.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
   const presetStatuses = PROFILE_CATALOGS.presets.filter((profile) => profile.characterId === characterId).map((profile) => profile.verificationStatus);
 
   const checks: CharacterPreflightCheck[] = [
@@ -238,7 +289,7 @@ export function getCharacterPreflight(
     profileCheck('ECHO_LOADOUT_PROFILE', echoStatuses, BUILD_REQUIRED, 'No verified Echo/Sonata loadout profile exists.'),
     profileCheck('STAT_TARGET_PROFILE', statStatuses, BUILD_REQUIRED, 'No verified target/gate profile exists.'),
     profileCheck('TEAM_PROFILE', teamStatuses, DPS_REQUIRED, 'No verified team profile currently includes this character.'),
-    profileCheck('ROTATION_PROFILE', rotationStatuses, DPS_REQUIRED, 'No verified rotation profile exists for this character.'),
+    rotationProfileCheck(characterId),
     combatModelCheck(characterId),
     profileCheck('BUILD_PRESET', presetStatuses, DPS_REQUIRED, 'No verified composition/build preset exists for this character.'),
   ];

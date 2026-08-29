@@ -1,0 +1,79 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../src/data/echoSkillSourceReview.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReview.ts';
+import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
+import { WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/weaponEffectAudit.ts';
+
+test('historical weapon-effect reviews keep the profile snapshots that existed at review time', () => {
+  for (const reviewId of [
+    'WEAPON-EFFECT-PISTOLS-2026-08-25-01',
+    'WEAPON-EFFECT-PISTOLS-2026-08-25-02',
+    'WEAPON-EFFECT-PISTOLS-2026-08-25-03',
+    'WEAPON-EFFECT-SWORDS-2026-08-26-01',
+  ]) {
+    const review = WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.reviewId === reviewId);
+    assert.ok(review, reviewId);
+    assert.deepEqual(review.existingWeaponRecommendationProfileIds, [], reviewId);
+  }
+});
+
+test('new Cartethyia and Ciaccona profiles have fresh current-patch onboarding impact reviews', () => {
+  assert.deepEqual(
+    PROFILE_BACKWARD_IMPACT_REVIEWS_V36.map((row) => [row.characterId, row.presetId, row.checkedAt, row.result]),
+    [
+      ['cartethyia', 'cartethyia-aero-erosion', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+    ],
+  );
+
+  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
+    const preset = PROFILE_CATALOGS.presets.find((row) => row.id === review.presetId);
+    assert.ok(preset, review.presetId);
+    assert.equal(preset.characterId, review.characterId);
+    assert.equal(preset.weaponRecommendationProfileId, review.weaponRecommendationProfileId);
+    assert.equal(review.patch, '3.6');
+    assert.ok(review.pendingExecutionIds.length > 0);
+  }
+});
+
+test('profile onboarding reviews cover exactly the selected default weapon effect rows', () => {
+  const expectedByProfile = new Map([
+    ['cartethyia-aero-erosion-weapons', ['DT-AERO-AMP', 'DT-DEF', 'DT-HP']],
+    ['ciaccona-cartethyia-aero-weapons', ['WA-AERO', 'WA-AERO-RES', 'WA-ATK']],
+  ]);
+
+  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
+    const weaponProfile = PROFILE_CATALOGS.weaponRecommendations.find(
+      (row) => row.id === review.weaponRecommendationProfileId,
+    );
+    assert.ok(weaponProfile, review.weaponRecommendationProfileId);
+    const actualEffectIds = WEAPON_EFFECT_CATALOG
+      .filter((effect) => effect.weaponId === weaponProfile.defaultWeaponId)
+      .map((effect) => effect.effectId)
+      .sort();
+    assert.deepEqual(actualEffectIds, expectedByProfile.get(review.weaponRecommendationProfileId));
+    assert.deepEqual([...review.reviewedWeaponEffectIds].sort(), actualEffectIds);
+  }
+});
+
+test('Cartethyia review preserves the existing Fleurdelys character-restriction adapter boundary', () => {
+  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'cartethyia');
+  assert.ok(review);
+  assert.deepEqual(review.reviewedEchoIds, ['echo-60001065']);
+  assert.ok(review.pendingExecutionIds.includes('echo:echo-60001065:fleurdelys-character-restriction-adapter'));
+
+  const pending = ECHO_SKILL_PENDING_ADAPTER_FACTS.find((row) => row.echoId === 'echo-60001065');
+  assert.ok(pending);
+  assert.equal(pending.kind, 'CHARACTER_RESTRICTION');
+  assert.match(pending.fact, /Additional 10% Aero DMG Bonus/);
+});
+
+test('Ciaccona review does not invent a Nightmare Kelpie active adapter for an unused transform', () => {
+  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'ciaccona');
+  assert.ok(review);
+  assert.deepEqual(review.reviewedEchoIds, ['echo-60001135']);
+  assert.equal(review.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
+});

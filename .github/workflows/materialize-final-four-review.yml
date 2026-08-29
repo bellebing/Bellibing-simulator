@@ -1,0 +1,47 @@
+name: Materialize Final Four Review
+
+on:
+  push:
+    branches:
+      - character-mechanics/final-nine-review
+    paths:
+      - '.github/final-nine-payload.b64'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: character-mechanics/final-nine-review
+          fetch-depth: 0
+
+      - name: Materialize reviewed raw facts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, gzip, json
+
+          payload = Path('.github/final-nine-payload.b64').read_text().strip()
+          files = json.loads(gzip.decompress(base64.b64decode(payload)).decode())
+          out = Path('src/data/characterMechanics')
+          for name, content in files.items():
+              if name not in {'lucyRawFacts.ts', 'rebeccaRawFacts.ts', 'zaniRawFacts.ts', 'luukHerssenRawFacts.ts'}:
+                  raise SystemExit(f'unexpected payload file: {name}')
+              (out / name).write_text(content)
+          PY
+
+      - name: Commit exact reviewed output
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add src/data/characterMechanics/lucyRawFacts.ts \
+                  src/data/characterMechanics/rebeccaRawFacts.ts \
+                  src/data/characterMechanics/zaniRawFacts.ts \
+                  src/data/characterMechanics/luukHerssenRawFacts.ts
+          git diff --cached --quiet && exit 0
+          git commit -m 'Materialize four reviewed Character Mechanics sources'
+          git push origin HEAD:character-mechanics/final-nine-review

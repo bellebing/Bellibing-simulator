@@ -121,13 +121,13 @@ test('coverage audit fails closed on missing reviews, row-count drift and imposs
     /expected 1 modeled effect rows but found 2/,
   );
 
-  const base = SONATA_EFFECT_MODELS[0]!;
+  const crown = SONATA_EFFECT_MODELS.find((row) => row.effectId === 'COV_ATK')!;
   assert.throws(
-    () => createSonataEffectRegistry([{ ...base, effectId: 'BROKEN_SET', sonataSetId: 'sonata-missing' }]),
+    () => createSonataEffectRegistry([{ ...crown, effectId: 'BROKEN_SET', sonataSetId: 'sonata-missing' }]),
     /Unknown Sonata id/,
   );
   assert.throws(
-    () => createSonataEffectRegistry([{ ...base, effectId: 'BROKEN_PIECES', pieces: 5 }]),
+    () => createSonataEffectRegistry([{ ...crown, effectId: 'BROKEN_PIECES', pieces: 5 }]),
     /does not support that activation/,
   );
 });

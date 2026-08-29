@@ -28,6 +28,9 @@ jobs:
       - name: Echo/Sonata raw coverage gate
         run: npm run audit:echo-raw
 
+      - name: Sonata effect source coverage gate
+        run: npm run audit:sonata-effects
+
       - name: Tests
         run: npm test
 

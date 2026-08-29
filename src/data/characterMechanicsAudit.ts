@@ -86,11 +86,13 @@ function auditVerifiedActions(
     const components = fact.motionValueComponents ?? null;
     const fixed = fact.sourceFixedMotionValue ?? null;
     const fixedComponents = fact.sourceFixedMotionValueComponents ?? null;
+    const flat = fact.sourceFixedFlatDamage ?? null;
     const hasCurve = curve !== null;
     const hasComponents = components !== null && components.length > 0;
     const hasFixed = fixed !== null;
     const hasFixedComponents = fixedComponents !== null && fixedComponents.length > 0;
-    const hasSourceDamageRepresentation = hasCurve || hasComponents || hasFixed || hasFixedComponents;
+    const hasFlat = flat !== null;
+    const hasSourceDamageRepresentation = hasCurve || hasComponents || hasFixed || hasFixedComponents || hasFlat;
     const hasDamageMotionData = fact.motionValue !== null || hasSourceDamageRepresentation;
 
     if (fact.actionRole === 'UNKNOWN') {
@@ -177,17 +179,17 @@ function auditVerifiedActions(
         issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with an Lv1-Lv10 source representation`,
       });
     }
-    if ((hasFixed || hasFixedComponents) && fact.motionValue !== null) {
+    if ((hasFixed || hasFixedComponents || hasFlat) && fact.motionValue !== null) {
       issues.push({
         characterId: profile.characterId,
         issue: `verified ACTIONS fact ${fact.factId} mixes selected-level motionValue with a source-fixed representation`,
       });
     }
 
-    const representationCount = [hasCurve, hasComponents, hasFixed, hasFixedComponents]
+    const representationCount = [hasCurve, hasComponents, hasFixed, hasFixedComponents, hasFlat]
       .filter(Boolean).length;
     if (representationCount > 1) {
-      if (hasCurve && hasComponents && !hasFixed && !hasFixedComponents) {
+      if (hasCurve && hasComponents && !hasFixed && !hasFixedComponents && !hasFlat) {
         issues.push({
           characterId: profile.characterId,
           issue: `verified ACTIONS fact ${fact.factId} mixes single-curve and component-curve representations`,
@@ -270,6 +272,27 @@ function auditVerifiedActions(
             issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed motion-value component ${index + 1}`,
           });
         }
+      }
+    }
+
+    if (hasFlat) {
+      if (!validFixedCoefficient(flat)) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed flat damage value`,
+        });
+      }
+      if (fact.scalingStat !== 'FIXED') {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} with source-fixed flat damage must use FIXED scaling`,
+        });
+      }
+      if (!Number.isInteger(fact.hitCount) || (fact.hitCount ?? 0) <= 0) {
+        issues.push({
+          characterId: profile.characterId,
+          issue: `verified ACTIONS fact ${fact.factId} has an invalid source-fixed flat-damage hitCount`,
+        });
       }
     }
   }

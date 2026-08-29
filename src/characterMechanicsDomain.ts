@@ -47,6 +47,7 @@ export type CharacterDamageClass =
   | 'COORDINATED'
   | 'ECHO'
   | 'TUNE_RUPTURE'
+  | 'AERO_EROSION'
   | 'OTHER';
 
 export type CharacterScalingStat =
@@ -172,6 +173,13 @@ export interface CharacterActionFact extends CharacterMechanicFactBase {
    * Mutually exclusive with all other source damage representations.
    */
   sourceFixedMotionValueComponents?: readonly CharacterFixedMotionValueComponent[] | null;
+  /**
+   * Literal source-declared flat Character damage with no stat coefficient, for
+   * example Galbrena Hellstride's fixed 666 damage. This is an absolute damage
+   * amount, not a multiplier, and is mutually exclusive with every coefficient
+   * curve/fixed-coefficient representation.
+   */
+  sourceFixedFlatDamage?: number | null;
   hitCount: number | null;
 }
 

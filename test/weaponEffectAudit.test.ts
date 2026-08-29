@@ -65,8 +65,14 @@ function releasedCharacterIds(weaponType: string): string[] {
     .sort();
 }
 
+/**
+ * Reconstruct the profile snapshot that actually existed when the roster-wide
+ * Weapon Effect audit closed on 2026-08-26. Later profile onboarding receives a
+ * new backward-impact review; it must not rewrite historical audit evidence.
+ */
 function currentProfileIds(weaponType: string): string[] {
   return WEAPON_RECOMMENDATION_PROFILES
+    .filter((profile) => profile.provenance.checkedAt <= WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt)
     .filter((profile) => {
       const character = CHARACTER_CATALOG.find((row) => row.id === profile.characterId);
       return character?.weaponType === weaponType;

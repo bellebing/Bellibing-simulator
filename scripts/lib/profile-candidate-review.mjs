@@ -28,6 +28,12 @@ function optionalString(value, label) {
   return nonEmptyString(value, label);
 }
 
+function optionalBoolean(value, label) {
+  if (value == null) return null;
+  if (typeof value !== 'boolean') fail(`${label} must be boolean when present`);
+  return value;
+}
+
 function stringArray(value, label) {
   if (value == null) return [];
   if (!Array.isArray(value)) fail(`${label} must be an array`);
@@ -133,7 +139,7 @@ function normalizeMode(mode, characterId, index) {
   return {
     key,
     role: optionalString(mode?.role, `${label}.role`),
-    defaultCandidate: mode?.defaultCandidate === true,
+    defaultCandidate: optionalBoolean(mode?.defaultCandidate, `${label}.defaultCandidate`),
     weapon: normalizedWeapon(mode?.weapon, `${label}.weapon`),
     echo: normalizedEcho(mode?.echo, `${label}.echo`),
     stats: normalizedStats(mode?.stats, `${label}.stats`),

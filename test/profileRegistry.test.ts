@@ -32,25 +32,37 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
     [1, 'ATK%'],
     [1, 'ATK%'],
   ]);
-  assert.equal(resolved.statTarget.requiredCoreHits, 2);
-  assert.equal(resolved.statTarget.requiredUsefulHits, 1);
+  assert.deepEqual(resolved.statTarget.targetRules.map((rule) => [rule.stat, rule.role]), [
+    ['CRIT DMG', 'CORE'],
+    ['CRIT Rate', 'CORE'],
+    ['ATK%', 'USEFUL'],
+    ['Energy Regen', 'USEFUL'],
+    ['Heavy Attack DMG', 'USEFUL'],
+  ]);
   assert.deepEqual(resolved.team.members.map((member) => member.characterId), ['augusta', 'iuno', 'the-shorekeeper']);
   assert.equal(resolved.rotation.engineModelId, 'AUGUSTA_STD_V1');
   assert.equal(resolved.rotation.rotationSeconds, 11.17);
 });
 
-test('Augusta parity fixture and composable Stat Target cannot drift on the active V9.15 requirement', () => {
+test('composable build-stat profile does not duplicate Roll Assistant stopping thresholds', () => {
   const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, 'augusta');
   assert.ok(resolved);
 
-  assert.equal(resolved.statTarget.requiredCoreHits, AUGUSTA_RECOMMENDED_V915.requiredCoreHits);
-  assert.equal(resolved.statTarget.requiredUsefulHits, AUGUSTA_RECOMMENDED_V915.requiredUsefulHits);
-  assert.deepEqual(
-    resolved.statTarget.targetRules
-      .filter((rule) => rule.role === 'CORE' || rule.role === 'USEFUL')
-      .map((rule) => ({ name: rule.stat, role: rule.role, minimum: rule.minimumRoll })),
-    AUGUSTA_RECOMMENDED_V915.targets,
-  );
+  assert.equal(Object.hasOwn(resolved.statTarget, 'requiredCoreHits'), false);
+  assert.equal(Object.hasOwn(resolved.statTarget, 'requiredUsefulHits'), false);
+  for (const rule of resolved.statTarget.targetRules) {
+    assert.equal(Object.hasOwn(rule, 'minimumRoll'), false);
+  }
+
+  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredCoreHits, 2);
+  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredUsefulHits, 1);
+  assert.deepEqual(AUGUSTA_RECOMMENDED_V915.targets, [
+    { name: 'CRIT DMG', role: 'CORE', minimum: 0.21 },
+    { name: 'CRIT Rate', role: 'CORE', minimum: 0.093 },
+    { name: 'ATK%', role: 'USEFUL', minimum: 0.064 },
+    { name: 'Energy Regen', role: 'USEFUL', minimum: 0.068 },
+    { name: 'Heavy Attack DMG', role: 'USEFUL', minimum: 0.064 },
+  ]);
 });
 
 test('raw Character data remains free of defaults/profile relationships', () => {

@@ -48,10 +48,17 @@ export interface EchoLoadoutProfile extends ProfileBase {
 
 export type TargetStatRole = 'CORE' | 'USEFUL' | 'EXTRA';
 
+/**
+ * Source-backed build-stat priority only.
+ *
+ * Roll-magnitude thresholds and required hit counts belong to CharacterRollProfile
+ * in targetCheckpointPolicy.ts. Keeping them out of this relationship layer lets
+ * guide/reference sources describe a verified build without fabricating a
+ * Bellibing stopping policy they never specified.
+ */
 export interface TargetStatRule {
   stat: StatName;
   role: TargetStatRole;
-  minimumRoll: number;
 }
 
 export interface StatGate {
@@ -62,15 +69,13 @@ export interface StatGate {
 }
 
 /**
- * Roll/build targets are independent from the Echo shell. Changing a target
- * must not require changing Character, Weapon, Echo or UI data.
+ * Build stat priorities and source-backed total-stat gates are independent from
+ * the Echo shell and from Roll Assistant checkpoint policy.
  */
 export interface StatTargetProfile extends ProfileBase {
   kind: 'STAT_TARGET';
   characterId: string;
   targetRules: readonly TargetStatRule[];
-  requiredCoreHits: number;
-  requiredUsefulHits: number;
   gates: readonly StatGate[];
 }
 

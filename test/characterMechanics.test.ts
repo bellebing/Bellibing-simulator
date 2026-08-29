@@ -44,7 +44,7 @@ function assertNear(actual: number | null, expected: number, epsilon = 1e-10): v
 test('Augusta current Character-owned source action facts are exact Lv1-Lv10 representations', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1623);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     if (fact.actionRole === 'NON_DAMAGE') {
@@ -152,62 +152,20 @@ test('Augusta rotation consumes canonical False Sovereign Echo attack facts', ()
   assert.equal(step14.motionValue, 2.214);
 });
 
-test('mechanics coverage reports forty-eight released characters source-complete', () => {
+test('mechanics coverage reports fifty-two released characters source-complete', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 48);
-  assert.deepEqual(audit.verifiedCharacterIds, [
-    'aalto',
-    'aemeath',
-    'augusta',
-    'baizhi',
-    'brant',
-    'calcharo',
-    'camellya',
-    'cantarella',
-    'carlotta',
-    'cartethyia',
-    'changli',
-    'chisa',
-    'chixia',
-    'ciaccona',
-    'denia',
-    'encore',
-    'galbrena',
-    'hiyuki',
-    'iuno',
-    'jianxin',
-    'jinhsi',
-    'jiyan',
-    'lingyang',
-    'lucilla',
-    'lumi',
-    'lupa',
-    'lynae',
-    'mornye',
-    'mortefi',
-    'phoebe',
-    'phrolova',
-    'qingxiao',
-    'qiuyuan',
-    'roccia',
-    'rover-aero',
-    'rover-havoc',
-    'rover-spectro',
-    'sanhua',
-    'sigrika',
-    'taoqi',
-    'the-shorekeeper',
-    'verina',
-    'yangyang',
-    'yangyang-xuanling',
-    'yinlin',
-    'youhu',
-    'yuanwu',
-    'zhezhi',
-  ]);
+  assert.equal(audit.profileCount, 52);
+  assert.equal(audit.verifiedCharacterIds.length, 52);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 9);
+  assert.deepEqual(audit.unstartedCharacterIds, [
+    'buling',
+    'danjin',
+    'rover-electro',
+    'suisui',
+    'xiangli-yao',
+  ]);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

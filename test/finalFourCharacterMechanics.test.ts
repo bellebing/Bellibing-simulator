@@ -14,6 +14,7 @@ const FINAL_FOUR = ['lucy', 'luuk-herssen', 'rebecca', 'zani'] as const;
 test('final four source-reviewed profiles close cleanly while five real blockers remain unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
   assert.equal(audit.verifiedCharacterIds.length, 52);
   assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.unstartedCharacterIds, [

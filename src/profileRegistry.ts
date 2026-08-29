@@ -80,15 +80,12 @@ function validateStatTarget(profile: StatTargetProfile): void {
   for (const rule of profile.targetRules) {
     if (names.has(rule.stat)) throw new Error(`${profile.id}: duplicate stat rule ${rule.stat}.`);
     names.add(rule.stat);
-    if (!(rule.minimumRoll >= 0)) throw new Error(`${profile.id}: invalid minimum roll for ${rule.stat}.`);
   }
-  const coreCount = profile.targetRules.filter((rule) => rule.role === 'CORE').length;
-  const usefulCount = profile.targetRules.filter((rule) => rule.role === 'USEFUL').length;
-  if (!Number.isInteger(profile.requiredCoreHits) || profile.requiredCoreHits < 0 || profile.requiredCoreHits > coreCount) {
-    throw new Error(`${profile.id}: requiredCoreHits must be an integer within available Core rules.`);
-  }
-  if (!Number.isInteger(profile.requiredUsefulHits) || profile.requiredUsefulHits < 0 || profile.requiredUsefulHits > usefulCount) {
-    throw new Error(`${profile.id}: requiredUsefulHits must be an integer within available Useful rules.`);
+  for (const gate of profile.gates) {
+    if (!(gate.minimum >= 0)) throw new Error(`${profile.id}: invalid minimum gate for ${gate.stat}.`);
+    if (gate.preferred !== undefined && gate.preferred < gate.minimum) {
+      throw new Error(`${profile.id}: preferred gate for ${gate.stat} cannot be below minimum.`);
+    }
   }
 }
 

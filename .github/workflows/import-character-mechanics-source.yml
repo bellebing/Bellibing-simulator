@@ -18,6 +18,8 @@ on:
       - 'test/characterMechanicsPromotionReview.test.ts'
       - 'test/characterMechanicsDescriptionReview.test.ts'
       - 'test/characterMechanicsFixedSourceDamage.test.ts'
+      - 'test/characterDamageTaxonomy.test.ts'
+      - 'test/finalFourCharacterMechanics.test.ts'
       - 'package.json'
       - '.github/workflows/import-character-mechanics-source.yml'
   workflow_dispatch:

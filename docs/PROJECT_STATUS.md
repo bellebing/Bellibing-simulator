@@ -127,7 +127,9 @@ The initial inventory covered the **48 Characters that were `PROFILE_SOURCE_PEND
 - **0 `SOURCE_CONFLICT`**;
 - **4 `RAW_PREFLIGHT_BLOCKED`**.
 
-Execution inventory for the same 48 rows: **38 `NO_KNOWN_SPECIALIZED_ADAPTER` / 10 `SPECIALIZED_ADAPTER_REQUIRED`**.
+Execution inventory for the same initial 48 rows: **38 `NO_KNOWN_SPECIALIZED_ADAPTER` / 10 `SPECIALIZED_ADAPTER_REQUIRED`**.
+
+Two of the eight original `MULTI_MODE` rows are now resolved canonically: **Aalto** and **Zhezhi**. The remaining six are Denia, Lucilla, Lumi, Rover (Havoc), Yangyang and Yinlin.
 
 ### First throughput promotion batch
 
@@ -171,13 +173,41 @@ Fresh backward-impact review `PROFILE-IMPACT-AALTO-HYBRID-2026-08-29-01` preserv
 
 This makes Aalto build-ready but **not DPS-ready**.
 
+### MULTI_MODE resolution — Zhezhi
+
+Zhezhi is the second resolved `MULTI_MODE` row. The reviewed current source provides a real conditional split rather than one universal winner, so Bellibing preserves **two canonical presets** in the same Carlotta + The Shorekeeper context.
+
+**Endgame 5★ — Empyrean** (`zhezhi-empyrean-endgame`) is the UI default only for the source-defined endgame condition:
+
+- Rime-Draped Sprouts R1;
+- **9–10 CRIT substats total**;
+- Empyrean Anthem;
+- Nightmare: Lampylumen Myriad;
+- exact profile ER target: **128%** in the reviewed Carlotta + Shorekeeper context.
+
+**Fallback — Moonlit** (`zhezhi-moonlit-fallback`) remains independently canonical when either endgame condition is not met:
+
+- same Rime-Draped Sprouts R1 / Carlotta + Shorekeeper context;
+- Moonlit Clouds;
+- Impermanence Heron;
+- exact profile ER target: **116%** in that context.
+
+Both source-reviewed rotations remain `SOURCE_SEQUENCE_ONLY` and preserve their set-specific Echo timing rather than being flattened into one sequence. Neither preset is DPS-ready.
+
+Fresh backward-impact reviews preserve the exact execution boundaries:
+
+- `PROFILE-IMPACT-ZHEZHI-EMPYREAN-2026-08-29-01` — Rime-Draped Sprouts stack/off-field timing, Empyrean coordinated-CRIT active-resonator ATK branch, Nightmare: Lampylumen active damage and engine rotation;
+- `PROFILE-IMPACT-ZHEZHI-MOONLIT-2026-08-29-01` — Rime-Draped Sprouts stack/off-field timing, Moonlit incoming-ATK transfer, Impermanence Heron active/transfer execution and engine rotation.
+
+Profile backward-impact reviews now have an appendable aggregate catalog. The canonical readiness/freeze gate consumes that aggregate directly, and a regression proves sliced reviews are recognized while still failing closed on pending execution and `SOURCE_SEQUENCE_ONLY` rotations.
+
 ### Current readiness
 
 Live registry-derived readiness is now:
 
-- **16 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **17 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **37 `PROFILE_SOURCE_PENDING`**;
+- **36 `PROFILE_SOURCE_PENDING`**;
 - **1 `DPS_READY`**.
 
 Raw DPS blockers remain Qingxiao, Rover (Electro) and Suisui. Mornye remains intrinsic-DPS-blocked.
@@ -225,19 +255,30 @@ Verification evidence:
   - **+5 CRIT Rate 9.3% → ROLL TO +10**;
   - **+10 CRIT Rate 9.3% + Flat DEF → ROLL TO +15**.
 
+The same browser regression remains a permanent Verify/Deploy guard and continued to pass during the Aalto and Zhezhi profile tranches.
+
 The evidence proves the exception-masking defect was removed and the required post-fix live verdict paths are correct. It does **not** retroactively claim that the exact original pre-fix production report was independently reproduced if that evidence was unavailable.
 
 ## Completed tranche
 
-**PR #103 — `Promote Aalto Hybrid multi-mode profile`** was squash-merged to `main` as `fb7e68e94e8ddafb4707c1b45383bc809ed2a9fa`.
+**PR #103 — `Promote Aalto Hybrid multi-mode profile`** was squash-merged as `fb7e68e94e8ddafb4707c1b45383bc809ed2a9fa`.
 
-Final PR-head verification passed profile audits, **455 / 455 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export. The tranche changes only profile composition, backward-impact review and the regression expectations made stale by Aalto becoming build-ready; no raw game data or broad DPS engine behavior changed.
+Its final PR head passed profile audits, **455 / 455 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export.
+
+**PR #104 — `Resolve Zhezhi source-conditioned multi-mode profiles`** was squash-merged as `92c374ef6c9b085ce7924e7d4b38b1f67ae1621e`.
+
+Its final PR head passed all source/profile gates, **459 / 459 Node tests**, strict web build, browser Roll Assist verdict regression, diff check and Export. Registry-derived readiness was **17 / 3 / 36 / 1**.
+
+**PR #105 — `Use aggregate profile impact reviews in readiness`** was squash-merged as `474f36529fd6550a75bb0527e98382ddb772a723`.
+
+This two-file follow-up makes the canonical readiness/freeze validator consume the appendable backward-impact review aggregate and regression-locks that a sliced Zhezhi review is found while pending execution still blocks freeze. It changes no game data, profile selection or DPS behavior.
 
 ## Next work
 
-1. Continue explicit `MULTI_MODE` resolution from the remaining seven rows: Denia, Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin and Zhezhi.
+1. Continue explicit `MULTI_MODE` resolution from the remaining six rows: Denia, Lucilla, Lumi, Rover (Havoc), Yangyang and Yinlin.
 2. Prefer source-conditioned/defaultable modes; do not manufacture a universal default where the source actually describes context-dependent alternatives.
-3. Keep `MISSING_CONTEXT` and `RAW_PREFLIGHT_BLOCKED` rows parked instead of letting them block unrelated clean work.
-4. Add only profile-required Weapon/Sonata/Echo/rotation execution adapters, with fresh backward-impact review per supported path.
-5. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
-6. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.
+3. Denia is the next researched candidate: Fusion Burst and Tune Strain contexts are explicit, but no canonical default may be chosen until current source evidence supports that choice.
+4. Keep `MISSING_CONTEXT` and `RAW_PREFLIGHT_BLOCKED` rows parked instead of letting them block unrelated clean work.
+5. Add only profile-required Weapon/Sonata/Echo/rotation execution adapters, with fresh backward-impact review per supported path.
+6. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
+7. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.

@@ -6,7 +6,6 @@ const FILES = [
   'test/baizhiCharacterMechanics.test.ts',
   'test/brantCharacterMechanics.test.ts',
   'test/characterMechanics.test.ts',
-  'test/characterMechanicsAuditHardening.test.ts',
   'test/eighthBatchCharacterMechanics.test.ts',
   'test/fifthBatchCharacterMechanics.test.ts',
   'test/fourthBatchCharacterMechanics.test.ts',

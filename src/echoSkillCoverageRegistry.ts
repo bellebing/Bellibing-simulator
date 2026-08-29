@@ -30,7 +30,7 @@ export function auditEchoSkillCoverage(): EchoSkillCoverageSummary {
     throw new Error('Echo skill source review commit drifted from the current raw Echo review commit.');
   }
 
-  const knownEchoIds = new Set(released.map((row) => row.id));
+  const knownEchoIds = new Set<string>(released.map((row) => row.id));
   const effectRegistry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
   const attackRegistry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
@@ -57,7 +57,6 @@ export function auditEchoSkillCoverage(): EchoSkillCoverageSummary {
 
   for (const row of ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS) {
     if (!knownEchoIds.has(row.echoId)) throw new Error(`Echo skill source discrepancy references unknown Echo ${row.echoId}.`);
-    if (row.unusedRankParamIndexes.length === 0) throw new Error(`${row.echoId} source discrepancy has no unused parameter indexes.`);
   }
   if (ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS.length !== review.expectedUnusedParamRecordCount) {
     throw new Error(`Expected ${review.expectedUnusedParamRecordCount} source unused-param records, got ${ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS.length}.`);

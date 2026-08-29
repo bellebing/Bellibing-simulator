@@ -25,6 +25,25 @@ export interface ProfileBackwardImpactReview {
  */
 export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpactReview[] = [
   {
+    reviewId: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
+    characterId: 'augusta',
+    presetId: 'augusta-standard',
+    weaponRecommendationProfileId: 'augusta-standard-weapons',
+    checkedAt: '2026-08-29',
+    patch: '3.6',
+    reviewedWeaponEffectIds: ['TFD-ATK', 'TFD-HEAVY', 'TFD-DEF'],
+    reviewedSonataSetIds: ['sonata-20', 'sonata-3'],
+    reviewedEchoIds: ['echo-60001215'],
+    pendingExecutionIds: [],
+    result: 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE',
+    notes: [
+      'The current composable profile resolves to S0 Augusta / Thunderflare Dominion R1 / Crown of Valor + 2P Void Thunder / The False Sovereign / Iuno + Shorekeeper / AUGUSTA_STD_V1.',
+      'AUGUSTA_STD_V1 already executes the locked current context: Thunderflare permanent ATK, Intro/Skill Heavy window, five verified shield-driven DEF-ignore stacks, Crown of Valor stack windows, Void Thunder 2P Electro bonus, False Sovereign passive plus explicit Echo hit events, and the locked Iuno/Shorekeeper team amplification/CRIT context.',
+      'The generic buildContextFromVerifiedPreset adapter now resolves the canonical profile IDs into the exact executable BuildContext; SOURCE_SEQUENCE_ONLY profiles are rejected by the same bridge.',
+      'Existing action-event parity fixtures continue to own the exact supported personal-DPS semantics. This review does not generalize the locked team/stack assumptions to other profiles.',
+    ],
+  },
+  {
     reviewId: 'PROFILE-IMPACT-CARTETHYIA-2026-08-29-01',
     characterId: 'cartethyia',
     presetId: 'cartethyia-aero-erosion',

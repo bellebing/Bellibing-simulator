@@ -171,25 +171,54 @@ Two reviewed activations deliberately preserve specialized execution boundaries:
 
 A `MODELED` Sonata effect row is a source-backed fact, **not** an automatic trigger-uptime promise. Rotation, stack acquisition, refresh timing, target state and Character/team execution remain later adapter/profile responsibilities. Full detail is recorded in [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
 
-### Echo effects and attacks — FOUNDATION / PARTIAL COVERAGE — ACTIVE PRE-DPS WORKSTREAM
+### Echo effects and attacks — SOURCE REVIEW COMPLETE / EXECUTION PARTIAL
 
-Current modeled coverage remains intentionally small: **8 audited non-damage effects across 5 Echoes**, with **The False Sovereign as the single exact Echo attack fixture**.
+Roster-wide Version 3.6 Echo active-skill/effect/attack source review is complete against exact current upstream `DommyMM/wuwabuild@5fa70b11f1d84fb644e4dbed47873708da0fe66f` / `public/Data/Echoes.json` (Git blob `cca1563ce0491a3de80ac7359344112631329224`).
 
-The active workstream is now current-roster Echo active-skill/effect/attack source coverage required for supported content. The audit must distinguish active damage, buffs/debuffs, healing/utility, Character/form restrictions and source conflicts before deciding which facts need executable combat/DPS adapters.
+Current source-review coverage:
 
-Before complete:
+- **181 / 181 released Echo skill records source-reviewed**;
+- **181 / 181** have non-empty rendered English skill descriptions;
+- **181 / 181** expose five rank parameter rows;
+- **181 / 181** expose a rendered cooldown placeholder that resolves to an exact Rank-5 cooldown;
+- Rank-5 cooldown distribution is **69 × 8s, 1 × 12s, 56 × 15s, 43 × 20s, 12 × 25s**;
+- **170** descriptions contain damage text and **11** are no-damage utility/heal/control descriptions;
+- **36** rendered descriptions contain main-slot behavior;
+- upstream structured `bonuses` cover **35 Echoes / 58 rows**, including **3 character-condition rows**;
+- the upstream Echo skill object exposes **0 dedicated skill-name fields**, so Bellibing does not invent one;
+- **3 source/rendered-parameter discrepancies** remain explicit rather than interpreted: Reactor Husk leaves Rank-5 params 2 and 3 unused; Dwarf Cassowary and Nightmare: Dwarf Cassowary each leave param 3 unused.
 
-- raw active-skill parameters/facts must be available for the supported Echo catalog;
-- non-damage main-slot/team/conditional effects must remain separate from active attack motion values;
-- Character-restricted effects must carry explicit conditions;
-- source-conflicted or semantically incomplete attack/effect branches must remain explicit pending rather than receiving guessed classifications or hit semantics;
-- no Character recommendation or rotation uptime belongs in the raw Echo fact.
+Current executable/source-safe modeling is deliberately narrower than source-review coverage:
 
-## Composable defaults/profiles — FOUNDATION
+- `src/data/echoEffects.ts` contains **62 modeled non-damage effect rows across 37 Echoes**;
+- stable permanent main-slot bonuses are modeled without fabricating trigger uptime;
+- existing Fallacy cast effects and Denia/Hyvatia transfer-window effects remain conditional rather than automatic;
+- The False Sovereign and Thousand-Puppet Pavilion retain `ALREADY_MODELED_UPSTREAM` protection so existing parity paths do not double count them;
+- `src/data/echoAttacks.ts` contains **2 exact Rank-5 attack profiles / 3 attack facts**: The False Sovereign's verified active spin + Intro auto-summon and Bell-Borne Geochelone's source-explicit **145.92% DEF-scaled Glacio protection blast**.
+
+Seven source-explicit specialized mechanics remain behind explicit adapter boundaries instead of being flattened into wrong generic effects:
+
+1. Reminiscence - Nightmare: Adam Smasher — Lucy/Rebecca-only +15% CRIT Rate;
+2. Reminiscence: Fleurdelys — extra +10% Aero DMG for Resonator: Aero or Cartethyia;
+3. Sigillum — Aemeath-only +25% Resonance Liberation DMG;
+4. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot;
+5. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting;
+6. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking;
+7. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope is not guessed.
+
+Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule likewise remain outside the attack layer until shield/state execution semantics are modeled.
+
+`npm run audit:echo-skills` is the fail-closed source-review gate. It verifies the exact upstream Git blob SHA, cross-checks all 181 source identities/names against the Bellibing raw catalog, validates source-shape counts/cooldown distribution/known discrepancies, and then validates the modeled and pending execution boundaries. The gate runs in Verify, Export and Deploy.
+
+**Source review complete does not mean all 170 damage-text Echoes are executable DPS coverage.** Most rendered damage text does not explicitly prove the scaling stat, and several Echoes have hold/press, counter, repeated-hit, summon-duration, loadout, form or target-state semantics. Bellibing does not default unknown scaling to ATK or invent maximal hit counts. Supported profiles/preflight may consume only modeled facts; any path that needs a pending Echo mechanic must add and verify its specialized adapter first. Full detail is recorded in [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+
+## Composable defaults/profiles — FOUNDATION / ACTIVE PRE-DPS WORKSTREAM
 
 Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. The resolver validates IDs and supports multiple modes for one raw Character.
 
-Coverage is not complete until supported profiles are populated character-by-character/mode-by-mode and new compatible content is backward-impact screened.
+This is now the active Pre-DPS workstream. Coverage is not complete until supported profiles are populated character-by-character/mode-by-mode, required pending Sonata/Echo execution adapters are added only where a supported profile needs them, and current compatible content is backward-impact screened.
+
+The freeze/preflight step must prove that each supported Character/profile path resolves only source-backed raw/effect/mechanics facts and fails closed when a required fact remains source-blocked, conflicted or pending an execution adapter.
 
 ## Roll Assistant UI — BLOCKED
 
@@ -206,8 +235,8 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 3. **DONE — SOURCE REVIEW:** roster-wide Character Mechanics source review: 54 canonical VERIFIED + 3 explicit SOURCE_BLOCKED + 0 unreviewed. Source-blocked Characters remain non-DPS-ready.
 4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
 5. **DONE — SONATA EFFECT SOURCE REVIEW:** 34 / 34 sets and 62 / 62 released activation tuples reviewed; 86 source-backed effect rows; 2 explicit source conflicts plus dedicated damage/state adapter boundaries remain fail-closed.
-6. **ACTIVE PRE-DPS WORKSTREAM:** complete Echo active-skill/effect/attack fact coverage required by supported content.
-7. Complete/populate composable default profiles and freeze pre-DPS contracts/current-patch backward-impact state, including specialized Sonata adapters required by supported DPS paths.
+6. **DONE — ECHO SKILL SOURCE REVIEW:** 181 / 181 released Echo active-skill records reviewed; 62 modeled effect rows across 37 Echoes; 2 exact attack profiles / 3 attack facts; 7 explicit specialized-adapter boundaries and 3 source/rendered-param discrepancies remain fail-closed.
+7. **ACTIVE PRE-DPS WORKSTREAM:** complete/populate composable Character/build/team/rotation profiles and freeze/preflight current-patch contracts/backward-impact state. Add specialized Sonata/Echo execution adapters only when required by a supported profile path.
 8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
 9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
 10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
@@ -221,6 +250,8 @@ A `SOURCE_BLOCKED` disposition is not a promotion. It must correspond to a relea
 Echo/Sonata raw coverage is not complete because a catalog count exists. The source-facing projection audit must match current upstream for Bellibing-owned raw fields, pass lifecycle/required-field/membership/provenance invariants and preserve source conflicts explicitly rather than guessing them away.
 
 Sonata effect source coverage is not executable uptime coverage. Every released activation must have an explicit source-review disposition; source conflicts must remain unmodeled, and damage/state branches that need specialized execution must stay behind explicit adapter boundaries until those adapters are independently verified.
+
+Echo skill source coverage is not executable DPS coverage. All released source records must match the pinned source contract, but damage prose without proven scaling/hit/state semantics must remain outside `EchoAttackProfile`; character/loadout/trigger/state-specific effects must remain behind explicit adapter boundaries until modeled and tested.
 
 UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
 

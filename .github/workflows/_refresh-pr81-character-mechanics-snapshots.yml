@@ -1,0 +1,76 @@
+name: Refresh PR81 Character Mechanics snapshots
+
+on:
+  push:
+    branches: [character-mechanics/twelfth-batch-five]
+    paths:
+      - '.github/workflows/_refresh-pr81-character-mechanics-snapshots.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: character-mechanics/twelfth-batch-five
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Refresh exact stale snapshots
+        run: node scripts/_refresh-pr81-character-mechanics-snapshots.mjs
+
+      - name: Full tests
+        run: npm test
+
+      - name: Strict web build
+        run: npm run build
+
+      - name: Remove temporary files
+        run: |
+          rm -f package-lock.json
+          git rm .github/workflows/_refresh-pr81-character-mechanics-snapshots.yml scripts/_refresh-pr81-character-mechanics-snapshots.mjs
+
+      - name: Verify exact diff allowlist
+        run: |
+          expected=$(cat <<'EOF' | sort
+          test/aaltoCharacterMechanics.test.ts
+          test/aemeathCharacterMechanics.test.ts
+          test/baizhiCharacterMechanics.test.ts
+          test/brantCharacterMechanics.test.ts
+          test/characterMechanics.test.ts
+          test/characterMechanicsAuditHardening.test.ts
+          test/eighthBatchCharacterMechanics.test.ts
+          test/fifthBatchCharacterMechanics.test.ts
+          test/fourthBatchCharacterMechanics.test.ts
+          test/ninthBatchCharacterMechanics.test.ts
+          test/secondBatchCharacterMechanics.test.ts
+          test/seventhBatchCharacterMechanics.test.ts
+          test/sixthBatchCharacterMechanics.test.ts
+          test/starterRosterCharacterMechanics.test.ts
+          test/tenthBatchCharacterMechanics.test.ts
+          test/thirdBatchCharacterMechanics.test.ts
+          EOF
+          )
+          actual=$(git diff --name-only HEAD | sort)
+          printf 'Expected:\n%s\nActual:\n%s\n' "$expected" "$actual"
+          test "$actual" = "$expected"
+          git diff --check
+
+      - name: Commit refreshed snapshots
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add test
+          git commit -m 'Refresh Character Mechanics coverage snapshots to 48 verified'
+          git push origin HEAD:character-mechanics/twelfth-batch-five

@@ -216,30 +216,36 @@ Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal 
 
 Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. The resolver validates IDs and supports multiple modes for one raw Character.
 
-Current readiness snapshot after the first source-backed population batch:
+Current readiness snapshot after the second source-backed population batch:
 
-- **3 `PROFILE_COMPLETE_PENDING_FREEZE`** — Augusta, Cartethyia and Ciaccona;
+- **6 `PROFILE_COMPLETE_PENDING_FREEZE`** — Augusta, Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`** — Buling, Danjin and Xiangli Yao;
-- **51 `PROFILE_SOURCE_PENDING`**;
+- **48 `PROFILE_SOURCE_PENDING`**;
 - **0 `DPS_READY`**.
 
 The current source-backed profile packages deliberately represent recommendation/build truth without pretending combat execution is already solved:
 
 - **Cartethyia default** — Defier's Thorn, 5pc Windward Pilgrimage, Reminiscence: Fleurdelys, source-backed 44111 HP-oriented shell, source stat priority and a 110% total ER gate;
 - **Ciaccona default** — Woodland Aria, 5pc Gusts of Welkin for the reviewed Aero Main DPS context, Nightmare: Kelpie, source-preserved CRIT Rate / CRIT DMG 4-cost alternatives, Aero DMG > ATK% 3-cost fallback, source stat priority and a 115% total ER gate;
-- both presets use the reviewed **Cartethyia / Ciaccona / Rover (Aero)** team context;
-- both reviewed Basic Rotations are stored as `SOURCE_SEQUENCE_ONLY`, not as executable engine rotations.
+- **Rover (Aero) default** — Bloodpact's Pledge, 5pc Windward Pilgrimage, Reminiscence: Fleurdelys, source-preserved CRIT Rate / CRIT DMG and Aero DMG > ATK% main-stat alternatives, and a context-specific **138% total ER** gate for the reviewed Cartethyia + Ciaccona team;
+- **Iuno Augusta Hybrid/Sub DPS default** — Moongazer's Sigil, 5pc Moonlit Clouds, Impermanence Heron, source-preserved CRIT and Aero/ATK alternatives, and the reviewed **120%-130%+ ER** band;
+- **The Shorekeeper Augusta support default** — Stellar Symphony, 5pc Rejuvenating Glow, Fallacy of No Return, source-preserved CRIT DMG / HP% and ER / Spectro alternatives, and a **230% ER target before Fallacy/passive contributions**;
+- Rover (Aero) reuses the reviewed **Cartethyia / Ciaccona / Rover (Aero)** team, while Iuno and The Shorekeeper reuse **Augusta / Iuno / Shorekeeper** rather than duplicating team truth;
+- Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper reviewed guide rotations are stored as `SOURCE_SEQUENCE_ONLY`, not as executable engine rotations.
 
 Source priority tiers may contain equal choices and main-stat slots may contain source-backed alternatives/fallbacks. These recommendation relations do **not** become Roll Assistant weights, minimum roll values or universal stat scores.
 
 `SOURCE_SEQUENCE_ONLY` is intentionally complete enough for profile/source coverage but remains fail-closed for DPS execution. Freeze approval rejects it until the rotation is `ENGINE_MODELED`, and Character preflight keeps `ROTATION_PROFILE` / `COMBAT_MODEL` pending instead of passing merely because a guide sequence is `VERIFIED`.
 
-The first profile-onboarding backward-impact review is explicit rather than retroactively rewriting older Weapon Effect audit snapshots:
+Profile-onboarding backward-impact review is explicit rather than retroactively rewriting older Weapon Effect audit snapshots:
 
 - Cartethyia keeps Defier's Thorn `DT-DEF` timing pending, `DT-AERO-AMP` behind target Aero-Erosion state, and the Fleurdelys extra Cartethyia/Aero bonus behind the existing character-restriction Echo adapter boundary;
-- Ciaccona keeps Woodland Aria `WA-AERO` trigger uptime and `WA-AERO-RES` target-state integration pending; Nightmare: Kelpie Transform Active is not used by the reviewed source rotation, so no active-Kelpie adapter is invented for this path.
+- Ciaccona keeps Woodland Aria `WA-AERO` trigger uptime and `WA-AERO-RES` target-state integration pending; Nightmare: Kelpie Transform Active is not used by the reviewed source rotation, so no active-Kelpie adapter is invented for this path;
+- Rover (Aero) keeps Bloodpact's Pledge healing/Unbound Flow team-amplification execution pending, plus Fleurdelys character-restriction and active-skill damage boundaries;
+- Iuno keeps Moongazer's Sigil Liberation/shield-stack/max-stack state execution and Impermanence Heron active-transfer lifecycle pending;
+- The Shorekeeper keeps Stellar Symphony Concerto/healing-qualified team-ATK events and Fallacy active damage pending. Fallacy's already-modeled non-damage cast effects remain conditional rather than automatic.
 
-Coverage is still incomplete. Continue source-backed profile population character-by-character/mode-by-mode, add specialized Sonata/Echo execution adapters only when a supported profile path actually requires them, then complete explicit freeze approvals/backward-impact. Broad Character DPS remains blocked.
+Coverage is still incomplete. Continue source-backed profile population character-by-character/mode-by-mode, add specialized Weapon/Sonata/Echo execution adapters only when a supported profile path actually requires them, then complete explicit freeze approvals/backward-impact. Broad Character DPS remains blocked.
 
 ## Roll Assistant UI — BLOCKED
 
@@ -257,7 +263,7 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
 5. **DONE — SONATA EFFECT SOURCE REVIEW:** 34 / 34 sets and 62 / 62 released activation tuples reviewed; 86 source-backed effect rows; 2 explicit source conflicts plus dedicated damage/state adapter boundaries remain fail-closed.
 6. **DONE — ECHO SKILL SOURCE REVIEW:** 181 / 181 released Echo active-skill records reviewed; 62 modeled effect rows across 37 Echoes; 2 exact attack profiles / 3 attack facts; 7 explicit specialized-adapter boundaries and 3 source/rendered-param discrepancies remain fail-closed.
-7. **ACTIVE PRE-DPS WORKSTREAM:** continue source-backed composable profile population beyond Augusta/Cartethyia/Ciaccona. Current readiness is 3 profile-complete-pending-freeze / 3 mechanics-blocked / 51 profile-source-pending / 0 DPS-ready. Add specialized Sonata/Echo execution adapters only when required by a supported profile path, then close current-patch backward-impact and freeze approvals.
+7. **ACTIVE PRE-DPS WORKSTREAM:** continue source-backed composable profile population beyond Augusta/Cartethyia/Ciaccona/Rover (Aero)/Iuno/The Shorekeeper. Current readiness is 6 profile-complete-pending-freeze / 3 mechanics-blocked / 48 profile-source-pending / 0 DPS-ready. Add specialized Weapon/Sonata/Echo execution adapters only when required by a supported profile path, then close current-patch backward-impact and freeze approvals.
 8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
 9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
 10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.

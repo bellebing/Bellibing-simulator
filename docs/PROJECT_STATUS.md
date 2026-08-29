@@ -216,9 +216,30 @@ Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal 
 
 Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. The resolver validates IDs and supports multiple modes for one raw Character.
 
-This is now the active Pre-DPS workstream. Coverage is not complete until supported profiles are populated character-by-character/mode-by-mode, required pending Sonata/Echo execution adapters are added only where a supported profile needs them, and current compatible content is backward-impact screened.
+Current readiness snapshot after the first source-backed population batch:
 
-The freeze/preflight step must prove that each supported Character/profile path resolves only source-backed raw/effect/mechanics facts and fails closed when a required fact remains source-blocked, conflicted or pending an execution adapter.
+- **3 `PROFILE_COMPLETE_PENDING_FREEZE`** — Augusta, Cartethyia and Ciaccona;
+- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`** — Buling, Danjin and Xiangli Yao;
+- **51 `PROFILE_SOURCE_PENDING`**;
+- **0 `DPS_READY`**.
+
+The current source-backed profile packages deliberately represent recommendation/build truth without pretending combat execution is already solved:
+
+- **Cartethyia default** — Defier's Thorn, 5pc Windward Pilgrimage, Reminiscence: Fleurdelys, source-backed 44111 HP-oriented shell, source stat priority and a 110% total ER gate;
+- **Ciaccona default** — Woodland Aria, 5pc Gusts of Welkin for the reviewed Aero Main DPS context, Nightmare: Kelpie, source-preserved CRIT Rate / CRIT DMG 4-cost alternatives, Aero DMG > ATK% 3-cost fallback, source stat priority and a 115% total ER gate;
+- both presets use the reviewed **Cartethyia / Ciaccona / Rover (Aero)** team context;
+- both reviewed Basic Rotations are stored as `SOURCE_SEQUENCE_ONLY`, not as executable engine rotations.
+
+Source priority tiers may contain equal choices and main-stat slots may contain source-backed alternatives/fallbacks. These recommendation relations do **not** become Roll Assistant weights, minimum roll values or universal stat scores.
+
+`SOURCE_SEQUENCE_ONLY` is intentionally complete enough for profile/source coverage but remains fail-closed for DPS execution. Freeze approval rejects it until the rotation is `ENGINE_MODELED`, and Character preflight keeps `ROTATION_PROFILE` / `COMBAT_MODEL` pending instead of passing merely because a guide sequence is `VERIFIED`.
+
+The first profile-onboarding backward-impact review is explicit rather than retroactively rewriting older Weapon Effect audit snapshots:
+
+- Cartethyia keeps Defier's Thorn `DT-DEF` timing pending, `DT-AERO-AMP` behind target Aero-Erosion state, and the Fleurdelys extra Cartethyia/Aero bonus behind the existing character-restriction Echo adapter boundary;
+- Ciaccona keeps Woodland Aria `WA-AERO` trigger uptime and `WA-AERO-RES` target-state integration pending; Nightmare: Kelpie Transform Active is not used by the reviewed source rotation, so no active-Kelpie adapter is invented for this path.
+
+Coverage is still incomplete. Continue source-backed profile population character-by-character/mode-by-mode, add specialized Sonata/Echo execution adapters only when a supported profile path actually requires them, then complete explicit freeze approvals/backward-impact. Broad Character DPS remains blocked.
 
 ## Roll Assistant UI — BLOCKED
 
@@ -236,7 +257,7 @@ A deploy/site route smoke test is **not** sufficient verification. BUG-001 is no
 4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
 5. **DONE — SONATA EFFECT SOURCE REVIEW:** 34 / 34 sets and 62 / 62 released activation tuples reviewed; 86 source-backed effect rows; 2 explicit source conflicts plus dedicated damage/state adapter boundaries remain fail-closed.
 6. **DONE — ECHO SKILL SOURCE REVIEW:** 181 / 181 released Echo active-skill records reviewed; 62 modeled effect rows across 37 Echoes; 2 exact attack profiles / 3 attack facts; 7 explicit specialized-adapter boundaries and 3 source/rendered-param discrepancies remain fail-closed.
-7. **ACTIVE PRE-DPS WORKSTREAM:** complete/populate composable Character/build/team/rotation profiles and freeze/preflight current-patch contracts/backward-impact state. Add specialized Sonata/Echo execution adapters only when required by a supported profile path.
+7. **ACTIVE PRE-DPS WORKSTREAM:** continue source-backed composable profile population beyond Augusta/Cartethyia/Ciaccona. Current readiness is 3 profile-complete-pending-freeze / 3 mechanics-blocked / 51 profile-source-pending / 0 DPS-ready. Add specialized Sonata/Echo execution adapters only when required by a supported profile path, then close current-patch backward-impact and freeze approvals.
 8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
 9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
 10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
@@ -252,6 +273,8 @@ Echo/Sonata raw coverage is not complete because a catalog count exists. The sou
 Sonata effect source coverage is not executable uptime coverage. Every released activation must have an explicit source-review disposition; source conflicts must remain unmodeled, and damage/state branches that need specialized execution must stay behind explicit adapter boundaries until those adapters are independently verified.
 
 Echo skill source coverage is not executable DPS coverage. All released source records must match the pinned source contract, but damage prose without proven scaling/hit/state semantics must remain outside `EchoAttackProfile`; character/loadout/trigger/state-specific effects must remain behind explicit adapter boundaries until modeled and tested.
+
+Profile source completeness is not DPS readiness. A fully source-backed preset may remain `PROFILE_COMPLETE_PENDING_FREEZE`; source-only rotations must remain non-executable, and freeze approval must require engine-modeled rotation execution plus exact closure of every specialized adapter the supported path requires.
 
 UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
 

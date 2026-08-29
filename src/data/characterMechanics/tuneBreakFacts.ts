@@ -45,6 +45,11 @@ const QIUYUAN_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/qiuyua
 const SIGRIKA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/sigrika';
 const PHROLOVA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/phrolova';
 const MORNYE_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/mornye';
+const CANTARELLA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/cantarella';
+const CARTETHYIA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/cartethyia';
+const LUCILLA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/lucilla';
+const GALBRENA_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/galbrena';
+const LYNAE_SOURCE = 'https://www.prydwen.gg/wuthering-waves/characters/lynae';
 const ZHEZHI_SOURCE = 'https://wuthering.gg/characters/zhezhi';
 
 const SYSTEM_CONTEXT = 'Current Version 3.x shared Tune Break combat-system damage. The Character source entry defines availability/variant semantics but exposes no Character Lv1-Lv10 motion-value table; the shared combat-system formula is intentionally not fabricated here.';
@@ -122,6 +127,11 @@ export const QIUYUAN_TUNE_BREAK_FACT = tuneBreak({ characterId: 'qiuyuan', factI
 export const SIGRIKA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'sigrika', factId: 'sigrika-tune-break-gauntlets', name: 'Tune Break — Gauntlets', sourceLabel: 'Prydwen — current Sigrika Tune Break entry', sourceUrl: SIGRIKA_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Sigrika may cast Tune Break. Echo Skill DMG actions remain separate Character facts and are not duplicated here."] });
 export const PHROLOVA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'phrolova', factId: 'phrolova-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Prydwen — current Phrolova Tune Break entry', sourceUrl: PHROLOVA_SOURCE, checkedAt: '2026-08-29', notes: ["When the target's Off-Tune Level is full, Phrolova may cast Tune Break. Hecate Echo Skill DMG remains separate Character-owned raw damage."] });
 export const MORNYE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'mornye', factId: 'mornye-tune-break-decoupling', name: 'Decoupling', sourceLabel: 'Prydwen — current Mornye Tune Break entry', sourceUrl: MORNYE_SOURCE, checkedAt: '2026-08-29', notes: ["Mornye can perform Tune Break against full Off-Tune targets and respond to Tune Rupture/Tune Strain Interfered. Particle Jet owns its separate source-verified TUNE_RUPTURE Character damage fact; this shared Tune Break fact does not duplicate that coefficient."] });
+export const CANTARELLA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'cantarella', factId: 'cantarella-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Prydwen — current Cantarella Tune Break entry', sourceUrl: CANTARELLA_SOURCE, checkedAt: '2026-08-29', notes: ["Cantarella's Echo-skill cast semantics and Character-owned damage facts remain separate from shared Tune Break damage."] });
+export const CARTETHYIA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'cartethyia', factId: 'cartethyia-tune-break-sword', name: 'Tune Break — Sword', sourceLabel: 'Prydwen — current Cartethyia Tune Break entry', sourceUrl: CARTETHYIA_SOURCE, checkedAt: '2026-08-29', notes: ["Cartethyia's Aero Erosion Character damage taxonomy is separate from shared Tune Break damage."] });
+export const LUCILLA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'lucilla', factId: 'lucilla-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Prydwen — current Lucilla Tune Break entry', sourceUrl: LUCILLA_SOURCE, checkedAt: '2026-08-29', notes: ["Lucilla's mode-dependent Basic/Echo damage facts remain separate from shared Tune Break damage."] });
+export const GALBRENA_TUNE_BREAK_FACT = tuneBreak({ characterId: 'galbrena', factId: 'galbrena-tune-break-pistols', name: 'Tune Break — Pistols', sourceLabel: 'Prydwen — current Galbrena Tune Break entry', sourceUrl: GALBRENA_SOURCE, checkedAt: '2026-08-29', notes: ["Hellstride's literal fixed damage remains Character-owned raw data and is not duplicated by shared Tune Break."] });
+export const LYNAE_TUNE_BREAK_FACT = tuneBreak({ characterId: 'lynae', factId: 'lynae-tune-break-spectral-analysis', name: 'Tune Break — Spectral Analysis', sourceLabel: 'Prydwen — current Lynae Tune Break entry', sourceUrl: LYNAE_SOURCE, checkedAt: '2026-08-29', notes: ["Spectral Analysis Tune Rupture Response owns the separate TUNE_AMP Character coefficient; this Tune Break fact carries no Character coefficient."] });
 
 export const ZHEZHI_TUNE_BREAK_FACT = tuneBreak({ characterId: 'zhezhi', factId: 'zhezhi-tune-break-rectifier', name: 'Tune Break — Rectifier', sourceLabel: 'Wuthering.gg — current Zhezhi Tune Break entry', sourceUrl: ZHEZHI_SOURCE, checkedAt: '2026-08-28', notes: ["When the target's Off-Tune Level is full, Zhezhi may cast Tune Break on the target. No Zhezhi-specific coefficient table is exposed."] });
 
@@ -168,5 +178,10 @@ export const CHARACTER_TUNE_BREAK_FACTS: readonly CharacterActionFact[] = [
   SIGRIKA_TUNE_BREAK_FACT,
   PHROLOVA_TUNE_BREAK_FACT,
   MORNYE_TUNE_BREAK_FACT,
+  CANTARELLA_TUNE_BREAK_FACT,
+  CARTETHYIA_TUNE_BREAK_FACT,
+  LUCILLA_TUNE_BREAK_FACT,
+  GALBRENA_TUNE_BREAK_FACT,
+  LYNAE_TUNE_BREAK_FACT,
   ZHEZHI_TUNE_BREAK_FACT,
 ] as const;

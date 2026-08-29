@@ -46,6 +46,12 @@ import { QIUYUAN_CHARACTER_MECHANIC_FACTS } from './characterMechanics/qiuyuanRa
 import { SANHUA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/sanhuaRawFacts.ts';
 import { SIGRIKA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/sigrikaRawFacts.ts';
 import { ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/eleventhBatchProfiles.ts';
+import { CANTARELLA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/cantarellaRawFacts.ts';
+import { CARTETHYIA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/cartethyiaRawFacts.ts';
+import { LUCILLA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lucillaRawFacts.ts';
+import { GALBRENA_CHARACTER_MECHANIC_FACTS } from './characterMechanics/galbrenaRawFacts.ts';
+import { LYNAE_CHARACTER_MECHANIC_FACTS } from './characterMechanics/lynaeRawFacts.ts';
+import { TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/twelfthBatchProfiles.ts';
 import { YANGYANG_XUANLING_CHARACTER_MECHANIC_FACTS } from './characterMechanics/yangyangXuanlingRawFacts.ts';
 import { SIXTH_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/sixthBatchProfiles.ts';
 import { STARTER_BATCH_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/starterBatchProfiles.ts';
@@ -126,6 +132,11 @@ export { PHROLOVA_ACTION_FACTS } from './characterMechanics/phrolovaRawFacts.ts'
 export { QIUYUAN_ACTION_FACTS } from './characterMechanics/qiuyuanRawFacts.ts';
 export { SANHUA_ACTION_FACTS } from './characterMechanics/sanhuaRawFacts.ts';
 export { SIGRIKA_ACTION_FACTS } from './characterMechanics/sigrikaRawFacts.ts';
+export { CANTARELLA_ACTION_FACTS } from './characterMechanics/cantarellaRawFacts.ts';
+export { CARTETHYIA_ACTION_FACTS } from './characterMechanics/cartethyiaRawFacts.ts';
+export { LUCILLA_ACTION_FACTS } from './characterMechanics/lucillaRawFacts.ts';
+export { GALBRENA_ACTION_FACTS } from './characterMechanics/galbrenaRawFacts.ts';
+export { LYNAE_ACTION_FACTS } from './characterMechanics/lynaeRawFacts.ts';
 export {
   DENIA_CHARACTER_MECHANICS_PROFILE,
   HIYUKI_CHARACTER_MECHANICS_PROFILE,
@@ -142,6 +153,14 @@ export {
   SANHUA_CHARACTER_MECHANICS_PROFILE,
   SIGRIKA_CHARACTER_MECHANICS_PROFILE,
 } from './characterMechanics/eleventhBatchProfiles.ts';
+export {
+  CANTARELLA_CHARACTER_MECHANICS_PROFILE,
+  CARTETHYIA_CHARACTER_MECHANICS_PROFILE,
+  GALBRENA_CHARACTER_MECHANICS_PROFILE,
+  LUCILLA_CHARACTER_MECHANICS_PROFILE,
+  LYNAE_CHARACTER_MECHANICS_PROFILE,
+  TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+} from './characterMechanics/twelfthBatchProfiles.ts';
 export { TAOQI_ACTION_FACTS } from './characterMechanics/taoqiRawFacts.ts';
 export {
   CHANGLI_CHARACTER_MECHANICS_PROFILE,
@@ -224,6 +243,11 @@ export {
   QIUYUAN_TUNE_BREAK_FACT,
   SANHUA_TUNE_BREAK_FACT,
   SIGRIKA_TUNE_BREAK_FACT,
+  CANTARELLA_TUNE_BREAK_FACT,
+  CARTETHYIA_TUNE_BREAK_FACT,
+  LUCILLA_TUNE_BREAK_FACT,
+  GALBRENA_TUNE_BREAK_FACT,
+  LYNAE_TUNE_BREAK_FACT,
 } from './characterMechanics/tuneBreakFacts.ts';
 
 export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
@@ -271,6 +295,11 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...SIGRIKA_CHARACTER_MECHANIC_FACTS,
   ...PHROLOVA_CHARACTER_MECHANIC_FACTS,
   ...MORNYE_CHARACTER_MECHANIC_FACTS,
+  ...CANTARELLA_CHARACTER_MECHANIC_FACTS,
+  ...CARTETHYIA_CHARACTER_MECHANIC_FACTS,
+  ...LUCILLA_CHARACTER_MECHANIC_FACTS,
+  ...GALBRENA_CHARACTER_MECHANIC_FACTS,
+  ...LYNAE_CHARACTER_MECHANIC_FACTS,
   ...CHARACTER_TUNE_BREAK_FACTS,
 ] as const;
 
@@ -505,6 +534,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...NINTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...TENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
   ...ELEVENTH_BATCH_CHARACTER_MECHANICS_PROFILES,
+  ...TWELFTH_BATCH_CHARACTER_MECHANICS_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

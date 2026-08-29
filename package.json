@@ -9,6 +9,7 @@
     "audit:echo-raw": "node --experimental-strip-types scripts/audit-echo-raw.mjs",
     "audit:sonata-effects": "node --experimental-strip-types scripts/audit-sonata-effects.mjs",
     "audit:echo-skills": "node --experimental-strip-types scripts/audit-echo-skills.mjs",
+    "audit:profile-readiness": "node --experimental-strip-types scripts/audit-profile-readiness.mjs",
     "review:echo-skills": "node scripts/generate-echo-skill-source-inventory.mjs",
     "sync:character-mechanics": "node --experimental-strip-types scripts/sync-character-mechanics.mjs",
     "review:character-mechanics": "node scripts/generate-character-mechanics-review.mjs",

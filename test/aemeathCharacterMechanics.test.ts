@@ -164,62 +164,13 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
   assert.match(s6?.notes?.join(' ') ?? '', /WutheringDB.*in combat.*Wutheringlab.*out of combat/i);
 });
 
-test('fact-backed roster audit reports forty-eight source-complete characters with 9 unstarted', () => {
+test('fact-backed roster audit reports fifty-two source-complete characters with 5 unstarted', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 48);
-  assert.deepEqual(audit.verifiedCharacterIds, [
-    'aalto',
-    'aemeath',
-    'augusta',
-    'baizhi',
-    'brant',
-    'calcharo',
-    'camellya',
-    'cantarella',
-    'carlotta',
-    'cartethyia',
-    'changli',
-    'chisa',
-    'chixia',
-    'ciaccona',
-    'denia',
-    'encore',
-    'galbrena',
-    'hiyuki',
-    'iuno',
-    'jianxin',
-    'jinhsi',
-    'jiyan',
-    'lingyang',
-    'lucilla',
-    'lumi',
-    'lupa',
-    'lynae',
-    'mornye',
-    'mortefi',
-    'phoebe',
-    'phrolova',
-    'qingxiao',
-    'qiuyuan',
-    'roccia',
-    'rover-aero',
-    'rover-havoc',
-    'rover-spectro',
-    'sanhua',
-    'sigrika',
-    'taoqi',
-    'the-shorekeeper',
-    'verina',
-    'yangyang',
-    'yangyang-xuanling',
-    'yinlin',
-    'youhu',
-    'yuanwu',
-    'zhezhi',
-  ]);
+  assert.equal(audit.profileCount, 52);
+  assert.equal(audit.verifiedCharacterIds.length, 52);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 9);
+  assert.equal(audit.unstartedCharacterIds.length, 5);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

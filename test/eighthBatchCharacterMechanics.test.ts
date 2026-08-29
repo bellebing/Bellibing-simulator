@@ -204,14 +204,14 @@ test('eighth-batch Tune Break facts stay at the shared-system boundary', () => {
   }
 });
 
-test('eighth Character Mechanics batch remains valid after ninth-batch coverage reaches 48 verified / 9 unstarted / 1623 facts', () => {
+test('eighth Character Mechanics batch remains valid after ninth-batch coverage reaches 52 verified / 5 unstarted / 1787 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
-  assert.equal(audit.profileCount, 48);
-  assert.equal(audit.verifiedCharacterIds.length, 48);
+  assert.equal(audit.profileCount, 52);
+  assert.equal(audit.verifiedCharacterIds.length, 52);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 9);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1623);
+  assert.equal(audit.unstartedCharacterIds.length, 5);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1787);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['ciaccona', 'phoebe', 'the-shorekeeper', 'jianxin', 'lumi', 'jinhsi']) {

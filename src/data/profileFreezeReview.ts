@@ -12,6 +12,31 @@ export interface ProfileFreezeApproval {
   readonly notes: readonly string[];
 }
 
+export function validateProfileFreezeAdapterClosure(approval: ProfileFreezeApproval): readonly string[] {
+  const issues: string[] = [];
+  const required = new Set<string>();
+  const verified = new Set<string>();
+
+  for (const id of approval.requiredAdapterIds) {
+    if (!id.trim()) issues.push('required adapter id is blank');
+    if (required.has(id)) issues.push(`duplicate required adapter id ${id}`);
+    required.add(id);
+  }
+  for (const id of approval.verifiedAdapterIds) {
+    if (!id.trim()) issues.push('verified adapter id is blank');
+    if (verified.has(id)) issues.push(`duplicate verified adapter id ${id}`);
+    verified.add(id);
+  }
+  for (const id of required) {
+    if (!verified.has(id)) issues.push(`required adapter ${id} is not verified`);
+  }
+  for (const id of verified) {
+    if (!required.has(id)) issues.push(`verified adapter ${id} is not declared required`);
+  }
+
+  return issues;
+}
+
 /**
  * Explicit final approvals only.
  *
@@ -19,7 +44,15 @@ export interface ProfileFreezeApproval {
  * belongs here only after the current-patch backward-impact review, required
  * specialized adapters and preflight blockers have all been closed.
  */
-export const PROFILE_FREEZE_APPROVALS: readonly ProfileFreezeApproval[] = [] as const;
+const PROFILE_FREEZE_APPROVAL_ROWS: readonly ProfileFreezeApproval[] = [] as const;
+
+export const PROFILE_FREEZE_APPROVALS: readonly ProfileFreezeApproval[] = PROFILE_FREEZE_APPROVAL_ROWS.map((approval) => {
+  const issues = validateProfileFreezeAdapterClosure(approval);
+  if (issues.length > 0) {
+    throw new Error(`Invalid profile freeze adapter closure for ${approval.characterId}:${approval.presetId}: ${issues.join('; ')}`);
+  }
+  return approval;
+});
 
 /**
  * Current roster/profile snapshot used to make silent coverage drift fail closed.

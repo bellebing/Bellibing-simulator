@@ -70,7 +70,7 @@ test('Denia reuses the standard source rotation while preserving mode-specific E
 
   assert.equal(fusion.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
   assert.equal(tune.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
-  assert.ok(fusion.rotation.sourceSequence.some((step) => /Reminiscence: Denia.*flexible timing/.test(step)));
+  assert.ok(fusion.rotation.sourceSequence.some((step) => /Reminiscence: Denia.*source timing is flexible/.test(step)));
   assert.ok(tune.rotation.sourceSequence.some((step) => /Voidwing Moth.*swap-cancel/.test(step)));
   assert.deepEqual(
     fusion.rotation.sourceSequence.filter((step) => !step.startsWith('Echo:') && !step.startsWith('Outro')),

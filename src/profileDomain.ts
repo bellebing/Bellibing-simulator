@@ -29,14 +29,22 @@ export interface WeaponRecommendationProfile extends ProfileBase {
   options: readonly WeaponRecommendationOption[];
 }
 
+/** Priority 1 is preferred; equal values are source-explicit ties. */
+export interface EchoMainStatOption {
+  stat: string;
+  priority: number;
+  notes?: string;
+}
+
 export interface EchoSlotProfile {
   cost: EchoCost;
-  primaryMainStat: string;
+  primaryMainStats: readonly EchoMainStatOption[];
 }
 
 /**
  * Which Echo shell a build wants. This owns layout/set/main-Echo assumptions,
- * but deliberately does not own substat policy or Roll Assistant decisions.
+ * including source-backed main-stat alternatives, but deliberately does not own
+ * substat stopping policy or Roll Assistant decisions.
  */
 export interface EchoLoadoutProfile extends ProfileBase {
   kind: 'ECHO_LOADOUT';

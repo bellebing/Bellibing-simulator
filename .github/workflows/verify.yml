@@ -23,11 +23,17 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
+      - name: Echo/Sonata raw coverage gate
+        run: npm run audit:echo-raw
+
       - name: Tests
         run: npm test
 
       - name: Strict web build
         run: npm run build
+
+      - name: Diff whitespace check
+        run: git diff --check origin/main...HEAD
 
       - name: Publish Windows test package
         uses: actions/upload-artifact@v4

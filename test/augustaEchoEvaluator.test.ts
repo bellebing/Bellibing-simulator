@@ -7,6 +7,7 @@ import {
   augustaInputsFromEchoes,
   augustaStandardEchoDamageEvaluator,
 } from '../src/characters/augustaEchoEvaluator.ts';
+import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
 
 const closeTo = (actual: number, expected: number, tolerance = 1e-8) => {
   assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} != ${expected}`);
@@ -23,8 +24,9 @@ test('owned Echo cards reconstruct the exact live Augusta upstream stats', () =>
   closeTo(stats.energyRegen, 1.184, 1e-12);
 });
 
-test('real Echo BuildContext reaches exact live Augusta Personal Rotation DPS', () => {
-  const result = augustaStandardEchoDamageEvaluator.evaluate(AUGUSTA_LIVE_CURRENT_BUILD_2026_08_21);
+test('canonical Augusta preset reaches exact live Personal Rotation DPS', () => {
+  const build = buildContextFromVerifiedPreset('augusta-standard', AUGUSTA_LIVE_CURRENT_ECHOES_2026_08_21);
+  const result = augustaStandardEchoDamageEvaluator.evaluate(build);
   closeTo(result.personalRotationDps, 85896.92052214989, 1e-8);
   assert.equal(result.erGate, 'PASS');
 });

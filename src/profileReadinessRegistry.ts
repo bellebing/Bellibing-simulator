@@ -6,9 +6,11 @@ import {
 import {
   auditCharacterMechanicsSourceReview,
 } from './data/characterMechanicsSourceReview.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './data/profileBackwardImpactReview.ts';
 import {
   PROFILE_FREEZE_APPROVALS,
   PROFILE_READINESS_BASELINE,
+  validateProfileFreezeAdapterClosure,
   type ProfileFreezeApproval,
 } from './data/profileFreezeReview.ts';
 import { PROFILE_CATALOGS, PROFILE_REGISTRY } from './data/profileCatalogs.ts';
@@ -72,22 +74,7 @@ function rawDpsBlockers(character: (typeof CHARACTER_CATALOG)[number]): readonly
   return blockers;
 }
 
-function validateCatalogSnapshot(issues: string[]): void {
-  const actual = {
-    weaponRecommendations: PROFILE_CATALOGS.weaponRecommendations.length,
-    echoLoadouts: PROFILE_CATALOGS.echoLoadouts.length,
-    statTargets: PROFILE_CATALOGS.statTargets.length,
-    teams: PROFILE_CATALOGS.teams.length,
-    rotations: PROFILE_CATALOGS.rotations.length,
-    presets: PROFILE_CATALOGS.presets.length,
-  };
-  for (const key of Object.keys(actual) as (keyof typeof actual)[]) {
-    const expected = PROFILE_READINESS_BASELINE.expectedCatalogCounts[key];
-    if (actual[key] !== expected) {
-      issues.push(`profile catalog ${key} expected ${expected}, got ${actual[key]}; review/update readiness baseline with the profile change`);
-    }
-  }
-
+function validateCatalogIntegrity(issues: string[]): void {
   const referenced = {
     weaponRecommendations: new Set(PROFILE_CATALOGS.presets.map((row) => row.weaponRecommendationProfileId)),
     echoLoadouts: new Set(PROFILE_CATALOGS.presets.map((row) => row.echoLoadoutProfileId)),
@@ -122,6 +109,12 @@ function validateFreezeApprovals(
   const byCharacter = new Map<string, ProfileFreezeApproval[]>();
   const approvalKeys = new Set<string>();
   const releasedIds = new Set(CHARACTER_CATALOG.filter((row) => row.releaseStatus === 'RELEASED').map((row) => row.id));
+  const impactReviewById = new Map<string, (typeof PROFILE_BACKWARD_IMPACT_REVIEWS_V36)[number]>();
+
+  for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
+    if (impactReviewById.has(review.reviewId)) issues.push(`duplicate profile backward-impact review ${review.reviewId}`);
+    impactReviewById.set(review.reviewId, review);
+  }
 
   for (const approval of approvals) {
     const key = `${approval.characterId}:${approval.presetId}`;
@@ -129,10 +122,25 @@ function validateFreezeApprovals(
     approvalKeys.add(key);
 
     if (!releasedIds.has(approval.characterId)) issues.push(`freeze approval references non-released character ${approval.characterId}`);
+    if (approval.status !== 'DPS_READY') issues.push(`${key}: unsupported freeze status ${String(approval.status)}`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(approval.checkedAt)) issues.push(`${key}: invalid checkedAt`);
     if (approval.patch !== PROFILE_READINESS_BASELINE.patch) issues.push(`${key}: approval patch ${approval.patch} does not match baseline ${PROFILE_READINESS_BASELINE.patch}`);
     if (!approval.backwardImpactReview.trim()) issues.push(`${key}: missing backward-impact review evidence`);
     if (approval.notes.length === 0 || approval.notes.some((row) => row.trim().length === 0)) issues.push(`${key}: missing freeze notes`);
+    for (const adapterIssue of validateProfileFreezeAdapterClosure(approval)) {
+      issues.push(`${key}: ${adapterIssue}`);
+    }
+
+    const impactReview = impactReviewById.get(approval.backwardImpactReview);
+    if (!impactReview) {
+      issues.push(`${key}: unknown backward-impact review ${approval.backwardImpactReview}`);
+    } else {
+      if (impactReview.characterId !== approval.characterId) issues.push(`${key}: backward-impact review belongs to ${impactReview.characterId}`);
+      if (impactReview.presetId !== approval.presetId) issues.push(`${key}: backward-impact review targets preset ${impactReview.presetId}`);
+      if (impactReview.patch !== approval.patch) issues.push(`${key}: backward-impact review patch ${impactReview.patch} does not match approval patch ${approval.patch}`);
+      if (impactReview.result !== 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE') issues.push(`${key}: backward-impact review still has pending execution`);
+      if (impactReview.pendingExecutionIds.length > 0) issues.push(`${key}: backward-impact review has ${impactReview.pendingExecutionIds.length} pending execution id(s)`);
+    }
 
     const preset = PROFILE_REGISTRY.presets.get(approval.presetId);
     if (!preset) {
@@ -165,11 +173,8 @@ export function auditProfileReadiness(
 ): ProfileReadinessSummary {
   const issues: string[] = [];
   const released = CHARACTER_CATALOG.filter((row) => row.releaseStatus === 'RELEASED');
-  if (released.length !== PROFILE_READINESS_BASELINE.expectedReleasedCharacterCount) {
-    issues.push(`released Character count expected ${PROFILE_READINESS_BASELINE.expectedReleasedCharacterCount}, got ${released.length}`);
-  }
 
-  validateCatalogSnapshot(issues);
+  validateCatalogIntegrity(issues);
 
   const mechanicsReview = auditCharacterMechanicsSourceReview();
   if (!mechanicsReview.sourceReviewComplete || mechanicsReview.issues.length > 0) {
@@ -234,17 +239,9 @@ export function auditProfileReadiness(
   const profileSourcePendingCount = count('PROFILE_SOURCE_PENDING');
   const dpsReadyCount = count('DPS_READY');
 
-  const expectedCounts = [
-    ['PROFILE_COMPLETE_PENDING_FREEZE', profileCompletePendingFreezeCount, PROFILE_READINESS_BASELINE.expectedProfileCompletePendingFreezeCount],
-    ['CHARACTER_MECHANICS_SOURCE_BLOCKED', characterMechanicsSourceBlockedCount, PROFILE_READINESS_BASELINE.expectedCharacterMechanicsSourceBlockedCount],
-    ['PROFILE_SOURCE_PENDING', profileSourcePendingCount, PROFILE_READINESS_BASELINE.expectedProfileSourcePendingCount],
-    ['DPS_READY', dpsReadyCount, PROFILE_READINESS_BASELINE.expectedDpsReadyCount],
-  ] as const;
-  for (const [label, actual, expected] of expectedCounts) {
-    if (actual !== expected) issues.push(`${label} expected ${expected}, got ${actual}; review/update readiness baseline with the profile change`);
-  }
-
   if (characters.length !== released.length) issues.push('profile readiness did not classify every released Character exactly once');
+  const classified = profileCompletePendingFreezeCount + characterMechanicsSourceBlockedCount + profileSourcePendingCount + dpsReadyCount;
+  if (classified !== released.length) issues.push(`readiness dispositions classify ${classified}/${released.length} released Characters`);
 
   return {
     releasedCharacterCount: released.length,

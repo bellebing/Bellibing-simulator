@@ -1,289 +1,232 @@
 # Bellibing Simulator — Current Project Status
 
-This document is the current implementation and roadmap state for Bellibing Simulator.
+This document is the current implementation and roadmap checkpoint for Bellibing Simulator.
 
-The pre-2026-08-29 accumulated status history is preserved byte-for-byte in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md). Use this file for the **current** checkpoint; use Git history and the archive for detailed PR chronology.
+The accumulated pre-2026-08-29 history is preserved in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md). Use this file for the **current** state; use Git history and the archive for detailed chronology.
 
 `FOUNDATION` means architecture exists and is tested but supported-content coverage is incomplete.  
 `COMPLETE` means the layer has the data/behavior required for its supported scope with no known blocking gap.  
 `BLOCKED` means a known gap prevents that layer from being called complete.
 
-Bellibing must pass the **Pre-DPS Completeness Gate** before broad Character DPS expansion.
+Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS expansion remains blocked; narrow verified vertical slices may be frozen individually when their exact execution gaps are closed.
 
-## Pre-DPS Completeness Gate
+## Current checkpoint
 
 ### Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING
 
-Implemented and regression-tested:
+Rank-5 COST 1/3/4 main-stat pools, exact checkpoint-scaled primary/secondary main stats, all 13 substat types, verified roll values/probabilities, sequential tuning, EXP/Tuner/Shell Credit costs, recycle/feed recovery, seeded reproduction and separate five-Echo/COST-12 loadout validation are implemented and regression-tested.
 
-- Rank-5 COST 1 / 3 / 4 main-stat pools;
-- exact Rank-5 primary/secondary main-stat progression at +0/+5/+10/+15/+20/+25;
-- source-backed GrowthValue scaling with integer truncation;
-- all 19 Rank-5 primary main-stat families and all secondary families at each checkpoint;
-- 13 unique substat types, verified roll values and probabilities;
-- sequential tuning, EXP, Tuners and Shell Credits;
-- 75% effective EXP recovery, 30% Tuner recovery, zero Shell Credit recovery;
-- seeded reproducible runtime;
-- separate 5-Echo / COST-12 loadout validation.
-
-Fresh world-drop desired-main acquisition probabilities remain unverified. This limits full world-drop-to-finished-build farming-cost claims, but does not block eligible-candidate tuning or interactive Roll Assist for an Echo the user already owns.
+Fresh world-drop desired-main acquisition probabilities remain outside the verified runtime. This does not block Roll Assist for an Echo the user already owns.
 
 ### Echo Lab — COMPLETE FOR MECHANICAL ORACLE
 
-Echo Lab is the canonical validation surface for verified Rank-5 tuning mechanics. It consumes the shared Echo Core runtime, exact checkpoint-scaled main stats, seeded reproduction, selective/batch tuning, exact resource accounting and shared discard-recovery rules. Browser-artifact regression confirms the exported app displays the verified runtime values.
+Echo Lab consumes the shared Echo Core runtime and remains the canonical validation surface for verified Rank-5 tuning mechanics, resource accounting and seeded reproduction.
 
-### Roll / stopping policy — COMPLETE FOR GUIDE/PROFILE FALLBACK
+### Roll / stopping policy — COMPLETE FOR PROFILE FALLBACK; FINAL DPS-AWARE POLICY PENDING
 
-The fallback engine is profile-driven rather than universally assuming exactly two Core stats. Profiles own Core/Useful target sets and explicit required hit counts; reachability uses exact remaining unique slots and roll values.
+The fallback checkpoint policy is profile-driven. Profiles own Core/Useful targets and required hit counts; reachability uses exact remaining unique slots and roll magnitudes.
 
-This remains a **guide/profile fallback**, not the final Bellibing decision rule. Final decisions must become whole-build DPS-aware once a Character has a verified combat/DPS model.
-
-### DPS-aware stopping policy — ENGINE HOOK EXISTS / FINAL POLICY PENDING DPS
-
-`forecastCandidateViability` can simulate exact future RNG branches and inject a final evaluator. Final Character-specific stop/roll decisions must eventually use the current five-Echo build, exact partial-Echo values, mandatory gates such as ER, future branch Personal Rotation DPS, improvement probability, remaining resource cost and the selected target/stopping objective.
-
-Broad final policy is intentionally pending verified Character combat/DPS truth.
-
-### Content Preflight + Backward Impact — COMPLETE AS PROCESS CONTRACT
-
-[`CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md`](CONTENT_PREFLIGHT_AND_IMPACT_AUDIT.md) is mandatory. New or changed Characters, Weapons, Sonata sets, Echoes and combat-affecting effects require both source/model verification and backward-impact screening of compatible existing profiles. `Reviewed — no impact` is valid; silently skipping review is not.
+This is not the final Bellibing decision rule. Whole-build DPS-aware stopping remains dependent on verified Character combat/DPS execution.
 
 ## Character foundation
 
 ### Character raw/core — STATIC GATE IMPLEMENTED / EXPLICIT PENDING FIELDS REMAIN
 
-60 Character records exist; 57 are currently `RELEASED` and covered by the executable raw gate.
+60 Character records exist; 57 are `RELEASED`.
 
-Current explicit released-character raw pending fields are:
+Current released raw DPS blockers:
 
-- **Qingxiao `maxEnergy`** — current sources conflict on Max Energy / energy-field semantics;
-- **Rover (Electro) `maxEnergy`** — current sources disagree between 125 and 140, while a 125 Liberation cost does not prove the cap;
-- **Suisui `maxEnergy`** — current databases expose incompatible 125/140/175 energy-labelled values.
+- **Qingxiao `maxEnergy`** — current sources conflict;
+- **Rover (Electro) `maxEnergy`** — current sources disagree;
+- **Suisui `maxEnergy`** — current sources expose incompatible energy-labelled values.
 
-These remain explicit pending exceptions; no Liberation cost is substituted for Max Energy.
+No Liberation cost is substituted for an unresolved Max Energy value.
 
 ### Character intrinsic stats — COMPLETE EXCEPT ONE EXPLICIT SOURCE CONFLICT
 
-Every released Character has explicit Minor-Forte coverage. **Mornye DEF%** remains an intrinsic-source conflict and stays pending rather than being guessed.
+All released Characters have explicit intrinsic coverage. **Mornye DEF%** remains source-conflicted and pending.
 
-### Character Mechanics source review — COMPLETE / CANONICAL COVERAGE 54 VERIFIED + 3 SOURCE_BLOCKED
+### Character Mechanics — SOURCE REVIEW COMPLETE / 54 VERIFIED + 3 SOURCE_BLOCKED
 
-Roster-wide Character Mechanics source review is complete for all 57 released Characters.
+Roster-wide source review is complete for all 57 released Characters:
 
-Current canonical coverage remains:
-
-- **54 VERIFIED profiles**;
-- **0 PARTIAL profiles**;
-- **3 released Characters without canonical profiles**;
+- **54 VERIFIED canonical Character Mechanics profiles**;
+- **0 PARTIAL**;
+- **3 SOURCE_BLOCKED without canonical profiles**;
 - **1866 canonical Character Mechanic facts**;
-- **0 structural issues**;
-- exactly one current shared-system Tune Break fact per VERIFIED profile.
+- **0 structural issues**.
 
-The three missing profiles are now explicitly distinguished from unreviewed work. They have been fully re-reviewed against the exact pinned `DommyMM/wuwabuild` snapshot (`5fa70b11f1d84fb644e4dbed47873708da0fe66f`) and are `SOURCE_BLOCKED`:
+The three source-blocked Characters remain:
 
-- **Buling** — Five Thunders Spell Array Continuous DMG has exact coefficients but no explicit current-source damage-bonus classification;
+- **Buling** — exact Five Thunders Spell Array Continuous DMG coefficients exist, but current source does not explicitly establish the required damage-bonus classification;
 - **Danjin** — current Ruby Blossom semantics simultaneously cap the resource at 120 and require `over 120` for the enhanced branch;
-- **Xiangli Yao** — Pivot - Impale has exact coefficients but no explicit current-source damage-bonus classification, while the same source explicitly classifies other enhanced actions when appropriate.
+- **Xiangli Yao** — Pivot - Impale has exact coefficients but lacks an explicit current-source damage-bonus classification.
 
-Full evidence and dispositions are recorded in [`CHARACTER_MECHANICS_SOURCE_REVIEW.md`](CHARACTER_MECHANICS_SOURCE_REVIEW.md) and enforced by `characterMechanicsSourceReview.ts` regression coverage.
-
-This does **not** promote those three Characters. They remain without canonical Character Mechanics profiles, remain blocked by Character preflight and must not receive Character DPS adapters until future source data resolves their blockers and the normal canonical audit passes.
-
-The project gate distinction is now explicit:
-
-- **roster-wide Character Mechanics source review is complete** — 54 VERIFIED + 3 SOURCE_BLOCKED + 0 unreviewed;
-- **canonical Character Mechanics coverage is not 57/57** and must never be reported as such;
-- repeated source-review work on these same three blockers is no longer the active Pre-DPS workstream unless new evidence appears.
-
-### Character Mechanics source/executable boundary
-
-The canonical layer remains fail-closed:
-
-- exact source coefficients are stored as Lv1-Lv10 representations without silently choosing a talent level;
-- mixed hit expressions preserve independent components and explicit hit counts;
-- fixed coefficients/flat damage use separate representations and cannot masquerade as curves;
-- source-facing `ECHO`, `TUNE_RUPTURE`, `AERO_EROSION`, `HACK`, `SPECTRO_FRAZZLE` and simultaneous `damageClasses` do not imply missing combat adapters;
-- VERIFIED ACTIONS reject unknown damage intent, missing classifications, malformed representations and ambiguous hit multiplicity;
-- Tune Break is explicit `SHARED_SYSTEM_DAMAGE`; Character facts own access/variant semantics while the shared combat system owns its damage formula;
-- generated source candidates remain review-only and cannot auto-promote to `VERIFIED`;
-- unresolved resource cadence, state transitions, trigger timing, target trails and conditional sequence execution remain raw facts until combat/rotation state exists.
+They must not receive DPS adapters until new evidence resolves those blockers and normal canonical review passes.
 
 ## Weapons
 
 ### Weapon Core — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
-Current audited snapshot:
-
-- 122 total catalog records;
-- 121 `RELEASED` Weapons;
-- 1 `CONFIRMED_UPCOMING` Weapon: Thousandfold Deliverance;
+- **122 total records**;
+- **121 RELEASED**;
+- **1 CONFIRMED_UPCOMING** — Thousandfold Deliverance;
 - released raw Weapon gate complete.
 
-### Weapon Effects — RELEASED SOURCE COVERAGE COMPLETE / EXECUTABLE MODELING PARTIAL
+### Weapon Effects — RELEASED SOURCE COVERAGE COMPLETE / EXECUTION PARTIAL
 
-All **121/121 released Weapons** have source-audited effect coverage: **236 effect rows**, zero `PENDING_SOURCE_AUDIT` backlog.
+All **121/121 released Weapons** have source-audited effect coverage across **236 effect rows**. Trigger/state/stack/target semantics that are not executable remain explicit conditional/pending-model data rather than receiving fabricated uptime.
 
-Effects requiring rotation/state/stack/trigger execution remain explicit `VERIFIED_RAW_PENDING_MODEL` or MANUAL rather than receiving fabricated uptime. New or newly modeled Weapon effects must trigger backward-impact review for compatible existing profiles.
+## Echo / Sonata content
 
-## Echo / Sonata content coverage
+### Raw Echo / Sonata — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
 
-### Echo raw database — COMPLETE FOR CURRENT VERSION 3.6 RELEASED ROSTER
-
-The Version 3.6 raw source audit is complete:
-
-- **181 / 181 released Echoes are VERIFIED CURRENT** for stable identity, COST and Sonata membership;
-- **34 / 34 released Sonata sets are VERIFIED CURRENT** for stable identity, activation thresholds and raw effect-description rows;
-- **0 STALE / WRONG** records;
-- **0 MISSING** records;
-- **0 SOURCE_CONFLICT** records;
-- **0 EXTRA / OBSOLETE** records.
-
-Bellibing's pinned normalized snapshot remains `DommyMM/wuwabuild@0a2e49c649c857c690be709577e6ce98832b2d43`. It was re-reviewed against current upstream head `5fa70b11f1d84fb644e4dbed47873708da0fe66f` and current release/source references. `Echoes.json` is unchanged; the later `Fetters.json` delta adds upstream `displayBonuses` metadata outside Bellibing's raw identity/activation/raw-description projection.
-
-`npm run audit:echo-raw` is now a source-facing fail-closed gate. It resolves current upstream at runtime and rejects missing/stale/extra identities, COST or membership drift, invalid raw fields/lifecycle/provenance and unregistered source conflicts. The gate runs in Verify, Export and Deploy.
-
-This raw completion does **not** promote Sonata combat effects or Echo active-skill semantics. See [`ECHO_DATA_PIPELINE.md`](ECHO_DATA_PIPELINE.md) and [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+- **181 / 181 released Echoes VERIFIED CURRENT** for stable identity, COST and Sonata membership;
+- **34 / 34 released Sonata sets VERIFIED CURRENT** for identity, activation thresholds and raw descriptions;
+- **0 stale / wrong / missing / source-conflict / extra raw records**.
 
 ### Sonata Effects — SOURCE REVIEW COMPLETE / EXECUTION PARTIAL
 
-Roster-wide current Sonata effect source review is complete for the released Version 3.6 set catalog:
+Current reviewed coverage:
 
-- **34 / 34 released Sonata sets source-reviewed**;
-- **62 / 62 released activation tuples source-reviewed**, including the current 1-piece activation shape;
+- **34 / 34 released sets**;
+- **62 / 62 activation tuples**;
 - **86 source-backed stat/effect rows**;
-- **58 activation tuples `MODELED`**;
-- **2 activation tuples `SOURCE_CONFLICT`**;
-- **1 activation tuple `MODELED_WITH_PENDING_DAMAGE_ADAPTER`**;
-- **1 activation tuple `MODELED_WITH_PENDING_STATE_ADAPTER`**;
-- **0 unreviewed released activation tuples**.
+- **58 MODELED** activations;
+- **2 SOURCE_CONFLICT** activations;
+- **1 MODELED_WITH_PENDING_DAMAGE_ADAPTER**;
+- **1 MODELED_WITH_PENDING_STATE_ADAPTER**.
 
-The two explicit source conflicts remain fail-closed rather than receiving guessed combat values:
+Freezing Frost 5pc and Havoc Eclipse 5pc remain explicit source conflicts. Midnight Veil damage execution and Wishes of Quiet Snowfall state arbitration remain specialized pending boundaries.
 
-- **Freezing Frost 5pc** — rendered English says +10% Glacio DMG per Basic/Heavy trigger, max 3 stacks for 15s, while `effectDescriptionParam` exposes `30%`, `15` without the same per-stack shape;
-- **Havoc Eclipse 5pc** — rendered English says +7.5% Havoc DMG per Basic/Heavy trigger, max 4 stacks for 15s, while parameters say `6%`, `5`, `15`.
+### Echo effects / attacks — SOURCE REVIEW COMPLETE / EXECUTION PARTIAL
 
-Two reviewed activations deliberately preserve specialized execution boundaries:
+All **181 / 181 released Echo skill records** are source-reviewed against the pinned current upstream source. Stable source-safe non-damage/main-slot effects are modeled where supported; most active damage text remains non-executable because scaling, hit shape, state, hold/press, summon or target semantics are not safely inferable.
 
-- **Midnight Veil 5pc** — the incoming +15% Havoc DMG / 15s branch is modeled; the same activation's source-explicit 480% Havoc damage event, classified as Outro Skill DMG, remains pending a dedicated damage adapter;
-- **Wishes of Quiet Snowfall 5pc** — source-explicit numeric bonus branches are modeled; Snowfall removal arbitration and Liberation CRIT-duration extension remain pending a dedicated state adapter.
+Current specialized pending Echo boundaries remain explicit and are consumed only when a supported profile actually requires them.
 
-`npm run audit:sonata-effects` is the fail-closed source-review coverage gate. It requires exactly one disposition for every released raw activation tuple, validates the expected modeled-row count, forbids modeled rows on source-conflicted activations and runs in Verify, Export and Deploy.
+## Composable profiles — ACTIVE PRE-DPS WORKSTREAM
 
-A `MODELED` Sonata effect row is a source-backed fact, **not** an automatic trigger-uptime promise. Rotation, stack acquisition, refresh timing, target state and Character/team execution remain later adapter/profile responsibilities. Full detail is recorded in [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. Raw game data remains separate from recommendation/profile composition.
 
-### Echo effects and attacks — SOURCE REVIEW COMPLETE / EXECUTION PARTIAL
+### Candidate throughput pipeline
 
-Roster-wide Version 3.6 Echo active-skill/effect/attack source review is complete against exact current upstream `DommyMM/wuwabuild@5fa70b11f1d84fb644e4dbed47873708da0fe66f` / `public/Data/Echoes.json` (Git blob `cca1563ce0491a3de80ac7359344112631329224`).
+A fail-closed Profile Candidate Pipeline now mirrors the successful Character Mechanics ingestion pattern:
 
-Current source-review coverage:
+- generated/researched candidates are always `NOT_VERIFIED` / `CANDIDATE_ONLY`;
+- automation cannot write canonical profile truth;
+- mechanical validation, source/context disposition and specialized execution requirements are separated;
+- `SOURCE_SEQUENCE_ONLY` remains non-executable;
+- readiness counts are derived from live registries instead of copied manual snapshot gates.
 
-- **181 / 181 released Echo skill records source-reviewed**;
-- **181 / 181** have non-empty rendered English skill descriptions;
-- **181 / 181** expose five rank parameter rows;
-- **181 / 181** expose a rendered cooldown placeholder that resolves to an exact Rank-5 cooldown;
-- Rank-5 cooldown distribution is **69 × 8s, 1 × 12s, 56 × 15s, 43 × 20s, 12 × 25s**;
-- **170** descriptions contain damage text and **11** are no-damage utility/heal/control descriptions;
-- **36** rendered descriptions contain main-slot behavior;
-- upstream structured `bonuses` cover **35 Echoes / 58 rows**, including **3 character-condition rows**;
-- the upstream Echo skill object exposes **0 dedicated skill-name fields**, so Bellibing does not invent one;
-- **3 source/rendered-parameter discrepancies** remain explicit rather than interpreted: Reactor Husk leaves Rank-5 params 2 and 3 unused; Dwarf Cassowary and Nightmare: Dwarf Cassowary each leave param 3 unused.
+The initial inventory covered the **48 Characters that were `PROFILE_SOURCE_PENDING` before this tranche**:
 
-Current executable/source-safe modeling is deliberately narrower than source-review coverage:
+- **10 `READY_FOR_REVIEW`**;
+- **8 `MULTI_MODE`**;
+- **26 `MISSING_CONTEXT`**;
+- **0 `SOURCE_CONFLICT`**;
+- **4 `RAW_PREFLIGHT_BLOCKED`**.
 
-- `src/data/echoEffects.ts` contains **62 modeled non-damage effect rows across 37 Echoes**;
-- stable permanent main-slot bonuses are modeled without fabricating trigger uptime;
-- existing Fallacy cast effects and Denia/Hyvatia transfer-window effects remain conditional rather than automatic;
-- The False Sovereign and Thousand-Puppet Pavilion retain `ALREADY_MODELED_UPSTREAM` protection so existing parity paths do not double count them;
-- `src/data/echoAttacks.ts` contains **2 exact Rank-5 attack profiles / 3 attack facts**: The False Sovereign's verified active spin + Intro auto-summon and Bell-Borne Geochelone's source-explicit **145.92% DEF-scaled Glacio protection blast**.
+Execution inventory for the same 48 rows: **38 `NO_KNOWN_SPECIALIZED_ADAPTER` / 10 `SPECIALIZED_ADAPTER_REQUIRED`**.
 
-Seven source-explicit specialized mechanics remain behind explicit adapter boundaries instead of being flattened into wrong generic effects:
+### First throughput promotion batch
 
-1. Reminiscence - Nightmare: Adam Smasher — Lucy/Rebecca-only +15% CRIT Rate;
-2. Reminiscence: Fleurdelys — extra +10% Aero DMG for Resonator: Aero or Cartethyia;
-3. Sigillum — Aemeath-only +25% Resonance Liberation DMG;
-4. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot;
-5. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting;
-6. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking;
-7. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope is not guessed.
+The ten clean source rows were promoted as one canonical profile batch:
 
-Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule likewise remain outside the attack layer until shield/state execution semantics are modeled.
+- Aemeath;
+- Camellya;
+- Galbrena;
+- Hiyuki;
+- Jinhsi — standard opener context only;
+- Luuk Herssen;
+- Lynae;
+- Sigrika;
+- Yangyang (Xuanling);
+- Zani.
 
-`npm run audit:echo-skills` is the fail-closed source-review gate. It verifies the exact upstream Git blob SHA, cross-checks all 181 source identities/names against the Bellibing raw catalog, validates source-shape counts/cooldown distribution/known discrepancies, and then validates the modeled and pending execution boundaries. The gate runs in Verify, Export and Deploy.
+Their profile packages are source-backed and VERIFIED, but their reviewed rotations remain `SOURCE_SEQUENCE_ONLY`. This is recommendation/build completeness, **not executable DPS**.
 
-**Source review complete does not mean all 170 damage-text Echoes are executable DPS coverage.** Most rendered damage text does not explicitly prove the scaling stat, and several Echoes have hold/press, counter, repeated-hit, summon-duration, loadout, form or target-state semantics. Bellibing does not default unknown scaling to ATK or invent maximal hit counts. Supported profiles/preflight may consume only modeled facts; any path that needs a pending Echo mechanic must add and verify its specialized adapter first. Full detail is recorded in [`ECHO_SONATA_EFFECT_COVERAGE.md`](ECHO_SONATA_EFFECT_COVERAGE.md).
+### Current readiness
 
-## Composable defaults/profiles — FOUNDATION / ACTIVE PRE-DPS WORKSTREAM
+Live registry-derived readiness is now:
 
-Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. The resolver validates IDs and supports multiple modes for one raw Character.
+- **15 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
+- **38 `PROFILE_SOURCE_PENDING`**;
+- **1 `DPS_READY`**.
 
-Current readiness snapshot after the second source-backed population batch:
+Raw DPS blockers remain Qingxiao, Rover (Electro) and Suisui. Mornye remains intrinsic-DPS-blocked.
 
-- **6 `PROFILE_COMPLETE_PENDING_FREEZE`** — Augusta, Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper;
-- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`** — Buling, Danjin and Xiangli Yao;
-- **48 `PROFILE_SOURCE_PENDING`**;
-- **0 `DPS_READY`**.
+### Augusta — first narrow DPS-ready vertical slice
 
-The current source-backed profile packages deliberately represent recommendation/build truth without pretending combat execution is already solved:
+Augusta is the first profile with a closed narrow execution path:
 
-- **Cartethyia default** — Defier's Thorn, 5pc Windward Pilgrimage, Reminiscence: Fleurdelys, source-backed 44111 HP-oriented shell, source stat priority and a 110% total ER gate;
-- **Ciaccona default** — Woodland Aria, 5pc Gusts of Welkin for the reviewed Aero Main DPS context, Nightmare: Kelpie, source-preserved CRIT Rate / CRIT DMG 4-cost alternatives, Aero DMG > ATK% 3-cost fallback, source stat priority and a 115% total ER gate;
-- **Rover (Aero) default** — Bloodpact's Pledge, 5pc Windward Pilgrimage, Reminiscence: Fleurdelys, source-preserved CRIT Rate / CRIT DMG and Aero DMG > ATK% main-stat alternatives, and a context-specific **138% total ER** gate for the reviewed Cartethyia + Ciaccona team;
-- **Iuno Augusta Hybrid/Sub DPS default** — Moongazer's Sigil, 5pc Moonlit Clouds, Impermanence Heron, source-preserved CRIT and Aero/ATK alternatives, and the reviewed **120%-130%+ ER** band;
-- **The Shorekeeper Augusta support default** — Stellar Symphony, 5pc Rejuvenating Glow, Fallacy of No Return, source-preserved CRIT DMG / HP% and ER / Spectro alternatives, and a **230% ER target before Fallacy/passive contributions**;
-- Rover (Aero) reuses the reviewed **Cartethyia / Ciaccona / Rover (Aero)** team, while Iuno and The Shorekeeper reuse **Augusta / Iuno / Shorekeeper** rather than duplicating team truth;
-- Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper reviewed guide rotations are stored as `SOURCE_SEQUENCE_ONLY`, not as executable engine rotations.
+- preset: `augusta-standard`;
+- S0;
+- Thunderflare Dominion R1;
+- Iuno + The Shorekeeper team context;
+- `AUGUSTA_STD_V1` executable rotation;
+- personal Augusta rotation DPS only;
+- current-patch backward-impact review `PROFILE-IMPACT-AUGUSTA-2026-08-29-01` is `REVIEWED_NO_BLOCKING_PROFILE_CHANGE` with zero pending execution IDs;
+- canonical verified-profile → `BuildContext` bridge is required and verified;
+- freeze approval is fail-closed against real backward-impact evidence and adapter closure.
 
-Source priority tiers may contain equal choices and main-stat slots may contain source-backed alternatives/fallbacks. These recommendation relations do **not** become Roll Assistant weights, minimum roll values or universal stat scores.
+This **does not** claim generic Augusta execution, arbitrary team support, broad team DPS, arbitrary Sequence/Weapon contexts or roster-wide DPS readiness.
 
-`SOURCE_SEQUENCE_ONLY` is intentionally complete enough for profile/source coverage but remains fail-closed for DPS execution. Freeze approval rejects it until the rotation is `ENGINE_MODELED`, and Character preflight keeps `ROTATION_PROFILE` / `COMBAT_MODEL` pending instead of passing merely because a guide sequence is `VERIFIED`.
+See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the exact remaining execution adapters for Cartethyia, Ciaccona, Rover (Aero), Iuno and The Shorekeeper.
 
-Profile-onboarding backward-impact review is explicit rather than retroactively rewriting older Weapon Effect audit snapshots:
+## BUG-001 — Live Roll Assist
 
-- Cartethyia keeps Defier's Thorn `DT-DEF` timing pending, `DT-AERO-AMP` behind target Aero-Erosion state, and the Fleurdelys extra Cartethyia/Aero bonus behind the existing character-restriction Echo adapter boundary;
-- Ciaccona keeps Woodland Aria `WA-AERO` trigger uptime and `WA-AERO-RES` target-state integration pending; Nightmare: Kelpie Transform Active is not used by the reviewed source rotation, so no active-Kelpie adapter is invented for this path;
-- Rover (Aero) keeps Bloodpact's Pledge healing/Unbound Flow team-amplification execution pending, plus Fleurdelys character-restriction and active-skill damage boundaries;
-- Iuno keeps Moongazer's Sigil Liberation/shield-stack/max-stack state execution and Impermanence Heron active-transfer lifecycle pending;
-- The Shorekeeper keeps Stellar Symphony Concerto/healing-qualified team-ATK events and Fallacy active damage pending. Fallacy's already-modeled non-damage cast effects remain conditional rather than automatic.
+Status: **OPEN / BLOCKER until deployed live-browser verification passes**.
 
-Coverage is still incomplete. Continue source-backed profile population character-by-character/mode-by-mode, add specialized Weapon/Sonata/Echo execution adapters only when a supported profile path actually requires them, then complete explicit freeze approvals/backward-impact. Broad Character DPS remains blocked.
+A confirmed UI integration defect was found: the previous Roll Assist UI caught any checkpoint integration/runtime exception and transformed it into a normal `DISCARD` verdict. That made an integration failure capable of masquerading as a policy decision.
 
-## Roll Assistant UI — BLOCKED
+The implementation now has one deterministic checkpoint boundary:
 
-`BUG-001 Live Roll Assist` remains **OPEN / BLOCKER**. The user reports that the live page returns `DISCARD` for every input path. Existing unit/regression behavior can distinguish relevant policy paths, so the blocker must be reproduced through the real live UI input mapping/candidate/evaluator path.
+`recordCheckpoint → evaluateTargetCheckpoint → applyCheckpointAssessment`
 
-A deploy/site route smoke test is **not** sufficient verification. BUG-001 is not fixed until regression tests pass and the known live verdict paths are genuinely verified in the live UI.
+Integration errors propagate separately and the UI renders `ROLL ASSIST ERROR` instead of `DISCARD`.
 
-`BUG-002 Roll Assist endgame` remains a known medium gap after BUG-001: final +25 Temporary/Keep equipment lifecycle is not yet fully source-identical to the V9.15 best-so-far lifecycle and eventually must be whole-build/DPS-aware.
+Regression evidence on the PR build artifact:
 
-## Current order before broad Character DPS work
+- **452 / 452 Node tests pass**;
+- strict web build passes;
+- real headless Chrome against the built artifact verifies:
+  - **+5 CRIT Rate 6.3% → DISCARD**;
+  - **+5 CRIT Rate 9.3% → ROLL TO +10**;
+  - **+10 CRIT Rate 9.3% + Flat DEF → ROLL TO +15**;
+- integration-fault regression proves invalid checkpoint flow throws instead of becoming `DISCARD`;
+- `git diff --check` passes.
 
-1. **DONE:** Echo Core checkpoint mechanics and Echo Lab mechanical oracle.
-2. **DONE:** profile-proof guide/fallback roll engine and Content Preflight + Backward Impact contract.
-3. **DONE — SOURCE REVIEW:** roster-wide Character Mechanics source review: 54 canonical VERIFIED + 3 explicit SOURCE_BLOCKED + 0 unreviewed. Source-blocked Characters remain non-DPS-ready.
-4. **DONE — VERSION 3.6 RAW SOURCE AUDIT:** 181 / 181 Echoes and 34 / 34 Sonata sets VERIFIED CURRENT with fail-closed source-facing gate and zero stale/missing/conflict/extra raw records.
-5. **DONE — SONATA EFFECT SOURCE REVIEW:** 34 / 34 sets and 62 / 62 released activation tuples reviewed; 86 source-backed effect rows; 2 explicit source conflicts plus dedicated damage/state adapter boundaries remain fail-closed.
-6. **DONE — ECHO SKILL SOURCE REVIEW:** 181 / 181 released Echo active-skill records reviewed; 62 modeled effect rows across 37 Echoes; 2 exact attack profiles / 3 attack facts; 7 explicit specialized-adapter boundaries and 3 source/rendered-param discrepancies remain fail-closed.
-7. **ACTIVE PRE-DPS WORKSTREAM:** continue source-backed composable profile population beyond Augusta/Cartethyia/Ciaccona/Rover (Aero)/Iuno/The Shorekeeper. Current readiness is 6 profile-complete-pending-freeze / 3 mechanics-blocked / 48 profile-source-pending / 0 DPS-ready. Add specialized Weapon/Sonata/Echo execution adapters only when required by a supported profile path, then close current-patch backward-impact and freeze approvals.
-8. Only then expand Character combat/DPS adapters character-by-character, excluding any Character still source-blocked or otherwise failing preflight.
-9. As each Character gains verified DPS, replace guide fallback stopping decisions with whole-build DPS-aware decisions for that Character.
-10. On every later patch, run Content Preflight + Backward Impact before declaring the patch integrated.
+Deploy smoke has been upgraded to run the same three verdict paths in real headless Chrome against the deployed GitHub Pages site. **BUG-001 must remain OPEN until that post-merge deployed smoke passes.**
 
-## Verification contract
+The fix proves a defect capable of generating false DISCARD behavior and proves the required paths after the fix. It does not retroactively claim that the exact pre-fix production report was independently reproduced if that evidence is unavailable.
 
-A Character Mechanics promotion is not complete because files exist. It must pass the canonical structural/source audit and repository verification workflow.
+## Active PR / verification
 
-A `SOURCE_BLOCKED` disposition is not a promotion. It must correspond to a released Character without a canonical profile, carry a dated exact-source reason and evidence, and remain fail-closed for preflight/DPS. The source-review audit must reject duplicate/invalid dispositions and distinguishes explicit blockers from genuinely unreviewed released Characters.
+Current implementation is in **PR #102 — `Scale profile ingestion and freeze first DPS-ready path`**.
 
-Echo/Sonata raw coverage is not complete because a catalog count exists. The source-facing projection audit must match current upstream for Bellibing-owned raw fields, pass lifecycle/required-field/membership/provenance invariants and preserve source conflicts explicitly rather than guessing them away.
+Before merge, the final PR head must pass:
 
-Sonata effect source coverage is not executable uptime coverage. Every released activation must have an explicit source-review disposition; source conflicts must remain unmodeled, and damage/state branches that need specialized execution must stay behind explicit adapter boundaries until those adapters are independently verified.
+- Echo/Sonata raw audit;
+- Sonata effect audit;
+- Echo skill audit;
+- Profile candidate inventory audit;
+- Profile readiness/freeze audit;
+- full Node test suite;
+- strict web build;
+- real-browser Roll Assist artifact regression;
+- `git diff --check`;
+- Export workflow;
+- Import Character Mechanics workflow.
 
-Echo skill source coverage is not executable DPS coverage. All released source records must match the pinned source contract, but damage prose without proven scaling/hit/state semantics must remain outside `EchoAttackProfile`; character/loadout/trigger/state-specific effects must remain behind explicit adapter boundaries until modeled and tested.
+After merge, Verify / Export / Deploy must pass on `main`, and deployed Chrome verdict smoke must pass before BUG-001 is closed.
 
-Profile source completeness is not DPS readiness. A fully source-backed preset may remain `PROFILE_COMPLETE_PENDING_FREEZE`; source-only rotations must remain non-executable, and freeze approval must require engine-modeled rotation execution plus exact closure of every specialized adapter the supported path requires.
+## Next work after this tranche
 
-UI bugs are not fixed by unit tests or deploy smoke alone; real UI/live verification is required where applicable.
-
-## Documentation rule
-
-Current project documentation describes the present Bellibing architecture, coverage and roadmap. Detailed historical status text is retained in `PROJECT_STATUS_HISTORY_2026-08-29.md` and Git history. Old spreadsheet behavior is not the current architecture; it may be used only as an explicitly verified historical oracle/parity reference.
+1. Merge PR #102 only after final CI/review is clean.
+2. Verify `main` post-merge workflows and deployed Roll Assist Chrome verdict paths.
+3. Close BUG-001 only with that deployed evidence and update the AI Handoff update log + bug register.
+4. Continue profile throughput from the inventory: clean source batches first, then explicitly resolved `MULTI_MODE` rows.
+5. Keep missing-context/raw-blocked rows parked instead of letting them block unrelated clean batches.
+6. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path; close each profile’s explicit execution matrix independently.

@@ -174,7 +174,7 @@ test('fact-backed roster audit reports fifty-four source-complete characters wit
   assert.deepEqual(audit.structuralIssues, []);
 });
 
-test('Aemeath RAW_FACTS preflight passes without claiming build or DPS readiness', () => {
+test('Aemeath preflight is raw/build ready while executable DPS remains pending', () => {
   const raw = getCharacterPreflight('aemeath', 'RAW_FACTS');
   const build = getCharacterPreflight('aemeath', 'BUILD_PROFILE');
   const dps = getCharacterPreflight('aemeath', 'DPS_MODEL');
@@ -184,8 +184,8 @@ test('Aemeath RAW_FACTS preflight passes without claiming build or DPS readiness
   assert.deepEqual(raw.blockers, []);
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
 
-  assert.equal(build.ready, false);
-  assert.ok(build.blockers.some((check) => check.area === 'WEAPON_PROFILE'));
+  assert.equal(build.ready, true);
+  assert.deepEqual(build.blockers, []);
   assert.equal(dps.ready, false);
   assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'));
   assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'));

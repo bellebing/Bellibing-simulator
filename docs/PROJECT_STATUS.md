@@ -177,9 +177,9 @@ See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the exact r
 
 ## BUG-001 — Live Roll Assist
 
-Status: **OPEN / BLOCKER until deployed live-browser verification passes**.
+Status: **FIXED / DEPLOYED / LIVE VERIFIED**.
 
-A confirmed UI integration defect was found: the previous Roll Assist UI caught any checkpoint integration/runtime exception and transformed it into a normal `DISCARD` verdict. That made an integration failure capable of masquerading as a policy decision.
+A confirmed UI integration defect was fixed: the previous Roll Assist UI caught any checkpoint integration/runtime exception and transformed it into a normal `DISCARD` verdict. That made an integration failure capable of masquerading as a policy decision.
 
 The implementation now has one deterministic checkpoint boundary:
 
@@ -187,46 +187,32 @@ The implementation now has one deterministic checkpoint boundary:
 
 Integration errors propagate separately and the UI renders `ROLL ASSIST ERROR` instead of `DISCARD`.
 
-Regression evidence on the PR build artifact:
+Verification evidence:
 
 - **452 / 452 Node tests pass**;
 - strict web build passes;
-- real headless Chrome against the built artifact verifies:
+- artifact-level headless Chrome regression passes;
+- integration-fault regression proves invalid checkpoint flow throws instead of becoming `DISCARD`;
+- post-merge Verify run **33275031575** passed on `main`;
+- post-merge Export run **33275031529** passed on `main`;
+- Deploy run **33275031589** passed on merge SHA `06e0f4fce18b5acca44d4a6f9194c09d93cc0cae`;
+- deployed GitHub Pages live-smoke job **99160220488** passed in Google Chrome and verified the real UI paths:
   - **+5 CRIT Rate 6.3% → DISCARD**;
   - **+5 CRIT Rate 9.3% → ROLL TO +10**;
-  - **+10 CRIT Rate 9.3% + Flat DEF → ROLL TO +15**;
-- integration-fault regression proves invalid checkpoint flow throws instead of becoming `DISCARD`;
-- `git diff --check` passes.
+  - **+10 CRIT Rate 9.3% + Flat DEF → ROLL TO +15**.
 
-Deploy smoke has been upgraded to run the same three verdict paths in real headless Chrome against the deployed GitHub Pages site. **BUG-001 must remain OPEN until that post-merge deployed smoke passes.**
+The evidence proves the exception-masking defect was removed and the required post-fix live verdict paths are correct. It does **not** retroactively claim that the exact original pre-fix production report was independently reproduced if that evidence was unavailable.
 
-The fix proves a defect capable of generating false DISCARD behavior and proves the required paths after the fix. It does not retroactively claim that the exact pre-fix production report was independently reproduced if that evidence is unavailable.
+## Completed tranche
 
-## Active PR / verification
+**PR #102 — `Scale profile ingestion and freeze first DPS-ready path`** was merged to `main` as `06e0f4fce18b5acca44d4a6f9194c09d93cc0cae`.
 
-Current implementation is in **PR #102 — `Scale profile ingestion and freeze first DPS-ready path`**.
+Its final PR head and post-merge `main` verification passed the Echo/Sonata audits, profile candidate inventory audit, profile readiness/freeze audit, full Node test suite, strict web build, browser Roll Assist regression, Export workflow and deployed Pages Chrome verdict smoke.
 
-Before merge, the final PR head must pass:
+## Next work
 
-- Echo/Sonata raw audit;
-- Sonata effect audit;
-- Echo skill audit;
-- Profile candidate inventory audit;
-- Profile readiness/freeze audit;
-- full Node test suite;
-- strict web build;
-- real-browser Roll Assist artifact regression;
-- `git diff --check`;
-- Export workflow;
-- Import Character Mechanics workflow.
-
-After merge, Verify / Export / Deploy must pass on `main`, and deployed Chrome verdict smoke must pass before BUG-001 is closed.
-
-## Next work after this tranche
-
-1. Merge PR #102 only after final CI/review is clean.
-2. Verify `main` post-merge workflows and deployed Roll Assist Chrome verdict paths.
-3. Close BUG-001 only with that deployed evidence and update the AI Handoff update log + bug register.
-4. Continue profile throughput from the inventory: clean source batches first, then explicitly resolved `MULTI_MODE` rows.
-5. Keep missing-context/raw-blocked rows parked instead of letting them block unrelated clean batches.
-6. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path; close each profile’s explicit execution matrix independently.
+1. Continue profile throughput from the inventory: clean source batches first, then explicitly resolved `MULTI_MODE` rows.
+2. Keep missing-context/raw-blocked rows parked instead of letting them block unrelated clean batches.
+3. Use [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) to close narrow profile execution gaps independently where source truth and current engines support it.
+4. Do **not** start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
+5. Keep Roll Assist regression/live-smoke coverage as a permanent guard against BUG-001 recurrence.

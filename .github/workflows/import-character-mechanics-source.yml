@@ -10,6 +10,8 @@ on:
       - 'scripts/lib/character-mechanics-promotion-review.mjs'
       - 'scripts/lib/character-mechanics-description-review.mjs'
       - 'src/characterMechanicsDomain.ts'
+      - 'src/data/characterMechanics.ts'
+      - 'src/data/characterMechanics/**'
       - 'src/data/characterMechanicsAudit.ts'
       - 'src/data/characters.ts'
       - 'test/characterMechanicsImport.test.ts'

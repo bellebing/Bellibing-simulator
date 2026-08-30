@@ -15,8 +15,12 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 18);
   assert.equal(matrix.profileCount, 18);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 78);
+  assert.equal(matrix.dependencyCount, 76);
   assert.equal(matrix.authorizesExecution, false);
+  assert.equal(
+    matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
+    false,
+  );
 });
 
 test('reusable adapter priority is fanout-based while rotation engine models stay profile-specific', () => {

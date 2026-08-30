@@ -12,9 +12,11 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-The merged baseline entering the current Cohort 01 review is `36d32819a6d7d7b621e3f360f89178841aa99d05` — PR #107, horizontal profile cohort + Profile × Adapter dependency infrastructure.
+Current merged `main` baseline: `959562968767d1fd6f4a37451b24d59e4ca41bda` — PR #108, Cohort 01 mode/team/context + weapon blocker staging.
 
-Post-merge workflows on that exact SHA passed Verify #499, Export #471 and web deploy #100. PR #107 promoted no canonical profiles.
+PR #108 exact head `fffd24e5c80d7539138030fd349660195bbb4750` passed Verify #500 and Export #472, including full audits/tests, strict web build, real Chrome Roll Assist regression, diff check and artifact publishing.
+
+Post-merge `main` passed Verify #501 and Export #473. Deploy #101 built and deployed successfully; its first live Chrome attempt hit a transient `Roll Assist controls did not become ready` condition after route checks had already passed. A same-SHA rerun, attempt 2, passed Echo Lab, Roll Assist route and live Roll Assist Chrome verification. No product regression reproduced.
 
 Live registry-derived readiness remains:
 
@@ -25,19 +27,32 @@ Live registry-derived readiness remains:
 
 Horizontal cohort staging/review does **not** itself promote profiles and must not change those counts.
 
+## Architecture boundary
+
+Preserve the current separation between:
+
+1. raw game/source data;
+2. Character Mechanics;
+3. Weapon/Echo/Sonata effects;
+4. composable profiles/recommendations;
+5. execution/combat-DPS logic;
+6. UI.
+
+The old V9.15 spreadsheet is a historical oracle only when explicitly needed; it is not the current architecture.
+
 ## Echo Core / Echo Lab / Roll Assist
 
 ### Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING
 
-Rank-5 COST 1/3/4 main-stat pools, exact checkpoint-scaled primary/secondary main stats, all 13 substat types, verified roll values/probabilities, sequential tuning, EXP/Tuner/Shell Credit costs, recycle/feed recovery, seeded reproduction and separate five-Echo/COST-12 loadout validation are implemented and regression-tested.
+Rank-5 COST 1/3/4 main-stat pools, checkpoint-scaled primary/secondary main stats, all 13 substat types, verified roll values/probabilities, sequential tuning, EXP/Tuner/Shell Credit costs, recycle/feed recovery, seeded reproduction and five-Echo/COST-12 loadout validation are implemented and regression-tested.
 
-Fresh world-drop desired-main acquisition probabilities remain outside the verified runtime. This does not block Roll Assist for an Echo the user already owns.
+Fresh world-drop desired-main acquisition probabilities remain outside the verified runtime.
 
 ### Echo Lab — COMPLETE FOR MECHANICAL ORACLE
 
 Echo Lab consumes the shared Echo Core runtime and remains the canonical validation surface for verified Rank-5 tuning mechanics, resource accounting and seeded reproduction.
 
-### Roll / stopping policy — COMPLETE FOR PROFILE FALLBACK; FINAL DPS-AWARE POLICY PENDING
+### Roll policy — COMPLETE FOR PROFILE FALLBACK; FINAL DPS-AWARE POLICY PENDING
 
 The fallback checkpoint policy is profile-driven. Profiles own Core/Useful targets and required hit counts; reachability uses exact remaining unique slots and roll magnitudes.
 
@@ -45,17 +60,17 @@ Whole-build DPS-aware stopping remains dependent on verified Character combat/DP
 
 ### BUG-001 — FIXED / DEPLOYED / LIVE VERIFIED
 
-The old Roll Assist integration path could transform a checkpoint/runtime exception into a normal `DISCARD`. The deterministic boundary is now:
+The old Roll Assist integration path could transform a checkpoint/runtime exception into a normal `DISCARD`. The deterministic boundary is:
 
 `recordCheckpoint → evaluateTargetCheckpoint → applyCheckpointAssessment`
 
-Integration errors propagate separately and render `ROLL ASSIST ERROR`. Real Chrome verification covered:
+Integration errors propagate separately and render `ROLL ASSIST ERROR`. Permanent browser verification covers:
 
 - +5 CRIT Rate 6.3% → `DISCARD`;
 - +5 CRIT Rate 9.3% → `ROLL TO +10`;
 - +10 CRIT Rate 9.3% + Flat DEF → `ROLL TO +15`.
 
-The browser regression remains a permanent Verify/Deploy guard and stayed green through PR #107/current merged baseline.
+The PR #108 exact-head Chrome regression passed, and Deploy #101 same-SHA rerun attempt 2 passed the live browser paths.
 
 ### BUG-002 — KNOWN GAP
 
@@ -69,11 +84,11 @@ The full +25 lifecycle remains an explicit known gap and is not treated as compl
 
 Current released raw DPS blockers:
 
-- **Qingxiao `maxEnergy`** — current sources conflict;
-- **Rover (Electro) `maxEnergy`** — current sources disagree;
-- **Suisui `maxEnergy`** — current sources expose incompatible energy-labelled values.
+- Qingxiao `maxEnergy` — current sources conflict;
+- Rover (Electro) `maxEnergy` — current sources disagree;
+- Suisui `maxEnergy` — current sources expose incompatible energy-labelled values.
 
-No Liberation cost is substituted for an unresolved Max Energy value.
+No Liberation cost is substituted for unresolved Max Energy.
 
 ### Character intrinsic stats — COMPLETE EXCEPT ONE EXPLICIT SOURCE CONFLICT
 
@@ -132,20 +147,21 @@ All **181 / 181 released Echo skill records** are source-reviewed against the pi
 
 ## Composable profiles — ACTIVE PRE-DPS WORKSTREAM
 
-Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset. Raw game data remains separate from recommendation/profile composition, which remains separate from execution/combat-DPS logic and UI.
+Independent catalogs exist for Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset.
 
 ### Candidate pipeline — fail closed by design
 
-The Profile Candidate Pipeline mirrors the Character Mechanics ingestion pattern:
+The Profile Candidate Pipeline follows these rules:
 
-- generated/researched candidates are always `NOT_VERIFIED` / candidate-only;
-- automation may extract, stage, map dependencies, park missing-source blockers and materialize draft candidates but cannot mark semantic truth `VERIFIED`;
-- mechanical validation, source/context disposition and execution requirements stay separate;
-- `SOURCE_SEQUENCE_ONLY` remains non-executable and is never upgraded to `ENGINE_MODELED` by transcription;
-- readiness counts come from live registries rather than copied manual gates;
-- omitted `defaultCandidate` is preserved as `null`, never silently normalized to `false`.
+- researched/generated candidates are always `NOT_VERIFIED` / candidate-only;
+- automation may extract, stage, map dependencies, park missing-source blockers and materialize drafts, but cannot mark semantic truth `VERIFIED`;
+- source-field extraction state and semantic review state are separate;
+- `SOURCE_SEQUENCE_ONLY` never implies executable timing, uptime or combat-state behavior and is never upgraded to `ENGINE_MODELED` by transcription;
+- readiness counts come from live registries;
+- omitted `defaultCandidate` remains `null`, never silently becomes `false`;
+- a phase cannot be marked `REVIEWED` while required source fields are missing.
 
-The initial inventory covered the 48 Characters that were `PROFILE_SOURCE_PENDING` before the first throughput tranche:
+The original 48-Character source inventory classified:
 
 - 10 `READY_FOR_REVIEW`;
 - 8 `MULTI_MODE`;
@@ -153,35 +169,29 @@ The initial inventory covered the 48 Characters that were `PROFILE_SOURCE_PENDIN
 - 0 `SOURCE_CONFLICT`;
 - 4 `RAW_PREFLIGHT_BLOCKED`.
 
-The ten clean rows were promoted together. Aalto, Zhezhi and Denia have since been resolved from the original `MULTI_MODE` set. The five remaining source-checkpoint `MULTI_MODE` Characters are:
-
-- Lucilla;
-- Lumi;
-- Rover (Havoc);
-- Yangyang;
-- Yinlin.
+The ten clean rows were promoted together. Aalto, Zhezhi and Denia were subsequently resolved from the original `MULTI_MODE` set.
 
 ### Canonical multi-mode checkpoints
 
-**Aalto** preserves canonical Hybrid — Jiyan while the legitimate Main DPS mode remains unpromoted. The canonical source rotation remains `SOURCE_SEQUENCE_ONLY` and pending execution includes Static Mist transfer, Impermanence Heron active/transfer and an Aalto rotation engine model.
+**Aalto** preserves canonical Hybrid — Jiyan while its legitimate Main DPS mode remains unpromoted. Its canonical rotation is still `SOURCE_SEQUENCE_ONLY`.
 
-**Zhezhi** preserves two canonical source-conditioned presets rather than flattening them: Endgame 5★ — Empyrean and Fallback — Moonlit in the reviewed Carlotta + The Shorekeeper context. Their set-specific ER targets and Echo timing remain source-conditioned; both rotations remain `SOURCE_SEQUENCE_ONLY`.
+**Zhezhi** preserves two canonical source-conditioned presets: Endgame 5★ — Empyrean and Fallback — Moonlit in the reviewed Carlotta + The Shorekeeper context. Both rotations remain `SOURCE_SEQUENCE_ONLY`.
 
 **Denia** preserves two canonical source-conditioned presets:
 
-- `denia-fusion-burst-aemeath` — **Fusion Burst — Aemeath**, default for the reviewed source context;
-- `denia-tune-strain-luuk` — **Tune Strain — Luuk**, alternate source context.
+- `denia-fusion-burst-aemeath` — Fusion Burst — Aemeath, default for the reviewed source context;
+- `denia-tune-strain-luuk` — Tune Strain — Luuk, alternate source context.
 
-Both use the reviewed Forged Dwarf Star recommendation. Their Echo/Sonata choices remain mode-specific, Energy Regen remains a priority without fabricated numeric gates where the reviewed contexts do not support one, and both rotations remain `SOURCE_SEQUENCE_ONLY`. Denia is build-ready but not DPS-ready.
+Both use the reviewed Forged Dwarf Star recommendation; both remain build-ready but not DPS-ready.
 
 ### Horizontal Profile Cohort Pipeline — Cohort 01
 
-Cohort 01 contains **15 current `PROFILE_SOURCE_PENDING` Characters / 20 staged modes** from the existing reviewed source checkpoint:
+Cohort 01 contains **15 current `PROFILE_SOURCE_PENDING` Characters / 20 staged modes**:
 
-- five remaining `MULTI_MODE`: Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin;
+- five remaining source-checkpoint `MULTI_MODE`: Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin;
 - ten `MISSING_CONTEXT`: Baizhi, Brant, Calcharo, Cantarella, Carlotta, Changli, Chisa, Chixia, Encore, Jianxin.
 
-The fixed review order is:
+Review order remains:
 
 1. `MODE_TEAM_CONTEXT`;
 2. `WEAPON`;
@@ -191,53 +201,57 @@ The fixed review order is:
 6. `EXECUTION_ADAPTERS`;
 7. `PROMOTION_FREEZE`.
 
-Current Cohort 01 checkpoint disposition:
+Current disposition against the existing reviewed 2026-08-29 checkpoint:
 
-- `MODE_TEAM_CONTEXT`: **20 / 20 BLOCKED**, 0 REVIEWED, 0 pending review. All 20 modes lack an exact staged three-member team; the ten `MISSING_CONTEXT` Characters also lack a staged role. Existing multi-mode roles/mode labels are preserved, but no team/default is inferred.
-- `WEAPON`: **20 / 20 BLOCKED**, 0 REVIEWED, 0 pending review. The existing checkpoint stages no weapon recommendation for these modes, so the missing source field is mechanically parked rather than re-researching the same source checkpoint or inventing a recommendation.
-- `ECHO_SONATA`, `STATS_ER`, `SOURCE_ROTATION`, `EXECUTION_ADAPTERS`, `PROMOTION_FREEZE`: still pending in phase order.
+| Phase | REVIEWED | BLOCKED | PENDING | Reason |
+| --- | ---: | ---: | ---: | --- |
+| `MODE_TEAM_CONTEXT` | 0 | 20 | 0 | exact three-member team missing for every mode; ten rows also lack staged role |
+| `WEAPON` | 0 | 20 | 0 | weapon recommendation absent from checkpoint |
+| `ECHO_SONATA` | 0 | 20 | 0 | required Echo/Sonata fields absent from checkpoint |
+| `STATS_ER` | 0 | 20 | 0 | stat priority absent; no ER number is inferred |
+| `SOURCE_ROTATION` | 0 | 20 | 0 | source sequence absent; no rotation is synthesized |
+| `EXECUTION_ADAPTERS` | 0 | 0 | 20 | intentionally not evaluated on incomplete source profiles |
+| `PROMOTION_FREEZE` | 0 | 0 | 20 | intentionally not evaluated before source/execution closure |
 
-The cohort representation deliberately separates **source-field extraction state** from **semantic review state**. A field being present in source data is not approval. Every generated materialization candidate remains `NOT_VERIFIED` with `canonicalWriteAllowed=false` until explicit semantic review and the normal canonical promotion path run.
+`WEAPON`, `ECHO_SONATA`, `STATS_ER` and `SOURCE_ROTATION` use declared mechanical auto-parking when required source fields are absent. Auto-parking only produces `BLOCKED`; it never produces `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY`.
 
-Configured source phases may mechanically auto-park missing required fields as `BLOCKED`. This automation can never produce `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY` state. Explicit review is also rejected if required source fields are still missing.
+All materialization candidates remain `NOT_VERIFIED` with `canonicalWriteAllowed=false`. No numeric ER target, universal default, uptime, damage scaling or mechanic has been invented.
 
-Missing fields are parked per Character/mode instead of aborting the batch. This allows the rest of a 10–20 Character cohort to continue while preserving blockers exactly.
-
-No Cohort 01 staging record invents numeric ER, mode/default choice, uptime, scaling or mechanics. Existing reviewed source data is reused instead of being researched repeatedly.
+The existing checkpoint has now been fully dispositioned for all source-extraction phases. Moving these profiles forward requires a **new structured source-review checkpoint for genuinely missing fields**, not another pass pretending the old checkpoint contains data it does not.
 
 ### Profile × Adapter dependency matrix
 
-Execution work is mapped from canonical backward-impact `pendingExecutionIds` into a machine-readable Profile × Adapter dependency matrix.
+Canonical backward-impact `pendingExecutionIds` are mapped into a machine-readable Profile × Adapter dependency matrix.
 
-Current canonical impact inventory contains:
+Current canonical impact inventory:
 
 - **11 backward-impact reviews**;
 - **11 reviewed canonical profiles**;
 - **10 profiles with pending execution dependencies**;
 - **46 exact pending execution edges**.
 
-The matrix ranks syntactically shared reusable primitive candidates by profile/Character fanout while preserving every exact pending ID. It explicitly excludes `rotation:*:engine-model` from generic reuse prioritization because a shared suffix does not make profile-specific rotations semantically identical.
+The matrix ranks syntactically shared reusable primitive candidates by profile/Character fanout while preserving every exact pending ID. `rotation:*:engine-model` is excluded from generic reuse prioritization because matching suffixes do not prove semantic equivalence.
 
-Current highest syntactic reuse candidates include:
+Highest current syntactic reuse candidates include:
 
 - Impermanence Heron active/transfer adapter — 3 profiles / 3 Characters;
 - generic Weapon target-state adapter suffix — 2 profiles / 2 Characters.
 
-These groupings are prioritization hints only. They do **not** prove semantic equivalence, authorize an adapter implementation, close a backward-impact review, or mark anything `ENGINE_MODELED` / `DPS_READY`.
+These are prioritization hints only; they do not authorize an adapter implementation or close any impact review.
 
-See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the detailed execution boundary.
+See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md).
 
 ## DPS execution
 
 ### Augusta — first narrow DPS-ready vertical slice
 
-Augusta remains the single `DPS_READY` profile, only for the locked `augusta-standard` S0 / Thunderflare Dominion R1 / Iuno + The Shorekeeper personal-DPS context with `AUGUSTA_STD_V1`.
+Augusta remains the single `DPS_READY` profile, only for locked `augusta-standard` S0 / Thunderflare Dominion R1 / Iuno + The Shorekeeper personal DPS with `AUGUSTA_STD_V1`.
 
-This does not claim generic Augusta execution, arbitrary team support, broad team DPS, arbitrary Sequence/Weapon contexts or roster-wide DPS readiness.
+This does not claim generic Augusta execution, arbitrary teams, broad team DPS or roster-wide DPS readiness.
 
 ## Verification contract
 
-During iteration, scoped verification may be used. A final PR head intended for merge must still pass the repository’s full exact-head verification surface, including:
+Scoped checks may be used during iteration. A final PR head intended for merge must pass the exact-head verification surface, including:
 
 - source/raw/profile audits;
 - horizontal cohort and Profile × Adapter audits where applicable;
@@ -255,15 +269,16 @@ A PR is not merge-ready because an earlier head passed.
 - PR #103 — Aalto multi-mode promotion.
 - PR #104 — Zhezhi source-conditioned multi-mode profiles.
 - PR #105 — appendable aggregate profile backward-impact readiness consumption.
-- PR #106 — Denia source-conditioned multi-mode profiles, squash-merged as `3fb45fb6016f49c09609e32ea528d7c1ac0ea559` after exact-head Verify/Export success; post-merge Verify/Export/deploy also passed.
-- PR #107 — horizontal cohort/review + Profile × Adapter dependency infrastructure, squash-merged as `36d32819a6d7d7b621e3f360f89178841aa99d05`; exact-head and post-merge Verify/Export plus current deploy passed.
+- PR #106 — Denia source-conditioned multi-mode profiles; merge `3fb45fb6016f49c09609e32ea528d7c1ac0ea559`.
+- PR #107 — horizontal cohort/review + Profile × Adapter dependency infrastructure; merge `36d32819a6d7d7b621e3f360f89178841aa99d05`.
+- PR #108 — Cohort 01 mode/team/context + weapon blocker staging, default tri-state and fail-closed source blocker auto-parking; merge `959562968767d1fd6f4a37451b24d59e4ca41bda`.
 
 ## Next work
 
-1. Continue Cohort 01 with `ECHO_SONATA` across all 20 modes; reuse the current checkpoint and mechanically park only genuinely absent fields.
-2. Continue the same cohort through `STATS_ER` and `SOURCE_ROTATION` before evaluating execution dependencies.
-3. Research only genuinely missing/stale source facts when a new source checkpoint is warranted; do not repeat the same Character/Weapon/Echo research against the same checkpoint.
-4. Park source blockers per Character/mode so one unresolved row does not stop the cohort.
-5. Prefer reusable execution primitives that unlock multiple verified profiles, but require semantic evidence before treating syntactically similar pending IDs as one implementation.
-6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI as separate layers.
+1. Land the completed Cohort 01 source-extraction blocker staging for `ECHO_SONATA`, `STATS_ER` and `SOURCE_ROTATION` with exact-head CI. This still promotes zero profiles.
+2. Start a new structured source-review checkpoint for Cohort 01, researching **only genuinely missing fields**. Work horizontally in the same phase order, beginning with mode/team/context across the cohort rather than re-reading already captured facts.
+3. Carry source-backed results forward to weapon, Echo/Sonata, stats/ER and source rotation for the same cohort. Preserve source-conditioned alternatives instead of forcing universal defaults.
+4. Only after a profile candidate is source-complete and semantically reviewed should execution dependencies be evaluated. Then prioritize generic primitives/adapters by verified profile fanout.
+5. Keep blockers parked per Character/mode so unresolved rows do not stop the rest of the cohort.
+6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI separate.
 7. Do not start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.

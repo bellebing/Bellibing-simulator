@@ -27,7 +27,10 @@
     "jianxin"
   ],
   "autoParkMissingSourcePhases": [
-    "WEAPON"
+    "WEAPON",
+    "ECHO_SONATA",
+    "STATS_ER",
+    "SOURCE_ROTATION"
   ],
   "phaseReviews": {
     "lucilla:glacio-chafe:MODE_TEAM_CONTEXT": {
@@ -115,9 +118,10 @@
     "Cohort 01 intentionally works horizontally: mode/team/context first, then weapon, Echo/Sonata, stats/ER, source rotations, execution dependencies, and only then promotion/freeze review.",
     "The five remaining source-checkpoint MULTI_MODE Characters are grouped with ten MISSING_CONTEXT Characters from the same reviewed roster checkpoint.",
     "MODE_TEAM_CONTEXT review is complete for all 20 staged modes at this checkpoint: every mode remains BLOCKED because exact team context is missing; the ten MISSING_CONTEXT Characters also lack a staged role.",
-    "WEAPON staging is also complete across all 20 modes at this checkpoint: every mode is mechanically auto-parked BLOCKED because no weapon recommendation was staged. Auto-parking is blocker management, not semantic approval.",
+    "WEAPON, ECHO_SONATA, STATS_ER, and SOURCE_ROTATION staging are complete across all 20 modes at this checkpoint and are mechanically auto-parked BLOCKED because the checkpoint does not contain the required source fields.",
+    "No numeric ER target is inferred from an absent stat target. No rotation sequence is synthesized; absent rotation data stays null and can never become ENGINE_MODELED through staging.",
     "Unspecified defaultCandidate remains null. No source absence is normalized into a false default decision.",
-    "No phase review is auto-approved by extraction. Missing fields remain parked blockers and do not stop other Characters or phases.",
-    "This file is review-state input only and cannot authorize canonical writes or VERIFIED semantic truth."
+    "Auto-parking is blocker management only. It never marks a phase REVIEWED and never authorizes canonical writes or VERIFIED semantic truth.",
+    "All source-extraction phases are now dispositioned for this checkpoint. Execution-adapter and promotion/freeze review remain pending because source-profile blockers are unresolved."
   ]
 }

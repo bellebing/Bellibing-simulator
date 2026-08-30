@@ -10,6 +10,21 @@ async function loadJson(relativePath: string) {
   return JSON.parse(await readFile(new URL(relativePath, import.meta.url), 'utf8'));
 }
 
+const BLOCKED_SOURCE_PHASES = [
+  'MODE_TEAM_CONTEXT',
+  'WEAPON',
+  'ECHO_SONATA',
+  'STATS_ER',
+  'SOURCE_ROTATION',
+];
+
+const AUTO_PARK_SOURCE_PHASES = [
+  'WEAPON',
+  'ECHO_SONATA',
+  'STATS_ER',
+  'SOURCE_ROTATION',
+];
+
 test('cohort 01 stages 15 current source-pending Characters horizontally without auto-verification', async () => {
   const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
@@ -41,23 +56,19 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
   assert.equal(cohort.verificationStatus, 'NOT_VERIFIED');
   assert.equal(cohort.canonicalWriteAllowed, false);
   assert.ok(cohort.parkedBlockerCount > 0);
-  assert.deepEqual(cohort.autoParkMissingSourcePhases, ['WEAPON']);
-  assert.deepEqual(cohort.phaseCounts.MODE_TEAM_CONTEXT, {
-    sourceFieldsPresent: 0,
-    sourceFieldsMissing: 20,
-    reviewed: 0,
-    blocked: 20,
-    pendingReview: 0,
-  });
-  assert.deepEqual(cohort.phaseCounts.WEAPON, {
-    sourceFieldsPresent: 0,
-    sourceFieldsMissing: 20,
-    reviewed: 0,
-    blocked: 20,
-    pendingReview: 0,
-  });
+  assert.deepEqual(cohort.autoParkMissingSourcePhases, AUTO_PARK_SOURCE_PHASES);
 
-  for (const phaseName of PROFILE_HORIZONTAL_PHASES.filter((phase) => !['MODE_TEAM_CONTEXT', 'WEAPON'].includes(phase))) {
+  for (const phaseName of BLOCKED_SOURCE_PHASES) {
+    assert.deepEqual(cohort.phaseCounts[phaseName], {
+      sourceFieldsPresent: 0,
+      sourceFieldsMissing: 20,
+      reviewed: 0,
+      blocked: 20,
+      pendingReview: 0,
+    });
+  }
+
+  for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
     assert.equal(cohort.phaseCounts[phaseName].blocked, 0);
     assert.equal(cohort.phaseCounts[phaseName].reviewed, 0);
     assert.equal(cohort.phaseCounts[phaseName].pendingReview, 20);
@@ -71,19 +82,17 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
       assert.equal(mode.verificationStatus, 'NOT_VERIFIED');
       assert.equal(mode.canonicalWriteAllowed, false);
       assert.deepEqual(Object.keys(mode.phases), PROFILE_HORIZONTAL_PHASES);
-      assert.equal(mode.phases.MODE_TEAM_CONTEXT.reviewState, 'BLOCKED');
-      assert.equal(mode.phases.WEAPON.reviewState, 'BLOCKED');
-      assert.match(mode.phases.WEAPON.notes.join(' '), /Automatically parked.*not semantic approval/);
+      assert.ok(BLOCKED_SOURCE_PHASES.every((phase) => mode.phases[phase].reviewState === 'BLOCKED'));
+      assert.ok(AUTO_PARK_SOURCE_PHASES.every((phase) => /Automatically parked.*not semantic approval/.test(mode.phases[phase].notes.join(' '))));
       assert.equal(mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate, null);
       assert.equal(mode.materializationCandidate.sourceData.defaultCandidate, null);
-      assert.ok(PROFILE_HORIZONTAL_PHASES
-        .filter((phase) => !['MODE_TEAM_CONTEXT', 'WEAPON'].includes(phase))
-        .every((phase) => mode.phases[phase].reviewState === 'PENDING_REVIEW'));
+      assert.equal(mode.phases.STATS_ER.data.erBand, null);
+      assert.equal(mode.phases.STATS_ER.data.numericErInvented, false);
+      assert.equal(mode.phases.SOURCE_ROTATION.data, null);
+      assert.equal(mode.phases.EXECUTION_ADAPTERS.reviewState, 'PENDING_REVIEW');
+      assert.equal(mode.phases.PROMOTION_FREEZE.reviewState, 'PENDING_REVIEW');
       assert.equal(mode.phases.PROMOTION_FREEZE.data.verificationStatus, 'NOT_VERIFIED');
       assert.equal(mode.phases.PROMOTION_FREEZE.data.canonicalWriteAllowed, false);
-      if (mode.phases.SOURCE_ROTATION.data) {
-        assert.equal(mode.phases.SOURCE_ROTATION.data.executionStatus, 'SOURCE_SEQUENCE_ONLY');
-      }
       assert.equal(mode.materializationCandidate.verificationStatus, 'NOT_VERIFIED');
       assert.equal(mode.materializationCandidate.canonicalWriteAllowed, false);
     }
@@ -132,8 +141,10 @@ test('source blocker auto-parking can only target extraction phases and never up
   }, readiness.profileSourcePendingIds), /may only contain source extraction phases/);
 
   const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
-  assert.equal(cohort.phaseCounts.WEAPON.reviewed, 0);
-  assert.equal(cohort.phaseCounts.WEAPON.blocked, 20);
+  for (const phaseName of AUTO_PARK_SOURCE_PHASES) {
+    assert.equal(cohort.phaseCounts[phaseName].reviewed, 0);
+    assert.equal(cohort.phaseCounts[phaseName].blocked, 20);
+  }
 });
 
 test('cohort review cannot mark a phase REVIEWED while required source fields are missing', async () => {

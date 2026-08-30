@@ -180,6 +180,14 @@ export function buildProfileSourceImportAccelerator({ readiness, candidateReview
     disposition,
     characters.filter((row) => row.primaryDisposition === disposition).map((row) => row.characterId),
   ]));
+  const blockerCounts = Object.fromEntries(PROFILE_SOURCE_IMPORT_DISPOSITIONS.map((disposition) => [
+    disposition,
+    characters.filter((row) => row.dispositions.includes(disposition)).length,
+  ]));
+  const blockerCharacterIds = Object.fromEntries(PROFILE_SOURCE_IMPORT_DISPOSITIONS.map((disposition) => [
+    disposition,
+    characters.filter((row) => row.dispositions.includes(disposition)).map((row) => row.characterId),
+  ]));
   const automaticFieldCoverage = characters.reduce((sum, row) => sum + row.coveredSourceFieldCount, 0);
   const possibleFieldCoverage = characters.length * COVERAGE_KEYS.length;
 
@@ -193,6 +201,8 @@ export function buildProfileSourceImportAccelerator({ readiness, candidateReview
     profileSourcePendingCount: readiness.profileSourcePendingIds.length,
     dispositionCounts,
     dispositionCharacterIds,
+    blockerCounts,
+    blockerCharacterIds,
     manualTranscription: {
       fieldKinds: [...COVERAGE_KEYS],
       automaticallyCoveredFieldCount: automaticFieldCoverage,
@@ -201,6 +211,7 @@ export function buildProfileSourceImportAccelerator({ readiness, candidateReview
     },
     characters,
     notes: [
+      'Primary disposition is a non-overlapping work-queue partition; blockerCounts/blockerCharacterIds preserve overlapping review blockers.',
       'Disposition is review workflow state only; it never promotes canonical profile truth.',
       'Role/mode, weapon, Sonata, Main Echo, main-stat, priority and endgame/ER values are source leads until explicitly reviewed.',
       'Numeric ER bands, teams, defaults, rotations, mechanics, trigger semantics, timestamps and uptime are never inferred by this accelerator.',

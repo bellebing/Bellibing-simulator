@@ -72,6 +72,28 @@ def failed_character(row: dict[str, Any], checked_at: str, warning: str) -> dict
     }
 
 
+def exact_echo_set_name(item: Any, source_rank: int, warnings: list[str]) -> tuple[str, str]:
+    """Use the reference API name, or exact DOM text when its rank stripping returns blank."""
+    api_name = safe_read(f"echo[{source_rank}].name", warnings, lambda: item.name, "").strip()
+    if api_name:
+        return api_name, "REFERENCE_API"
+
+    rank_text = safe_read(f"echo[{source_rank}].rankText", warnings, lambda: item.percentage, "").strip()
+
+    def raw_lines() -> list[str]:
+        locator = getattr(item, "_item", None)
+        if locator is None:
+            return []
+        return [line.strip() for line in locator.inner_text().splitlines() if line.strip()]
+
+    lines = safe_read(f"echo[{source_rank}].domText", warnings, raw_lines, [])
+    for line in lines:
+        if rank_text and line == rank_text:
+            continue
+        return line, "DOM_TEXT_FALLBACK"
+    return "", "UNRESOLVED"
+
+
 def exact_main_echo_alt_leads(item: Any, set_source_rank: int, warnings: list[str]) -> list[dict[str, Any]]:
     """Return exact non-generic image alt text from this set's information block.
 
@@ -103,6 +125,36 @@ def exact_main_echo_alt_leads(item: Any, set_source_rank: int, warnings: list[st
             "sourceField": "DOM_IMAGE_ALT",
         })
     return leads
+
+
+def exact_main_stats(build: Any, warnings: list[str]) -> list[dict[str, Any]]:
+    """Read the source main-stat boxes once instead of repeatedly rescanning them."""
+    echo_stats = getattr(build, "echo_stats", None)
+    container = getattr(echo_stats, "_container", None)
+    if container is None:
+        return []
+
+    def read_boxes() -> list[dict[str, Any]]:
+        locator = container.locator(".main-stats .box")
+        rows: list[dict[str, Any]] = []
+        source_index = 0
+        for index in range(locator.count()):
+            box = locator.nth(index)
+            raw_text = box.inner_text().strip()
+            if not raw_text:
+                continue
+            source_index += 1
+            strong = box.locator("strong")
+            cost = strong.inner_text().strip() if strong.count() > 0 else ""
+            stats = box.locator(".list-stats").inner_text().strip()
+            rows.append({
+                "sourceIndex": source_index,
+                "cost": cost,
+                "stats": stats,
+            })
+        return rows
+
+    return safe_read("mainStats", warnings, read_boxes, [])
 
 
 def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[str, Any]:
@@ -145,22 +197,17 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
 
         echo_items = safe_read("echoRecommendations", warnings, lambda: build.echo_recommendations.all, {})
         for index, item in echo_items.items():
+            set_name, name_source = exact_echo_set_name(item, index, warnings)
             echo_recommendations.append({
                 "sourceRank": index,
-                "name": safe_read(f"echo[{index}].name", warnings, lambda item=item: item.name, ""),
+                "name": set_name,
+                "nameSource": name_source,
                 "rankText": safe_read(f"echo[{index}].rankText", warnings, lambda item=item: item.percentage, ""),
                 "information": safe_read(f"echo[{index}].information", warnings, lambda item=item: item.information, ""),
             })
             main_echo_leads.extend(exact_main_echo_alt_leads(item, index, warnings))
 
-        stat_items = safe_read("mainStats", warnings, lambda: build.echo_stats.all, {})
-        for index, item in stat_items.items():
-            main_stats.append({
-                "sourceIndex": index,
-                "cost": safe_read(f"mainStats[{index}].cost", warnings, lambda item=item: item.cost, ""),
-                "stats": safe_read(f"mainStats[{index}].stats", warnings, lambda item=item: item.stats, ""),
-            })
-
+        main_stats = exact_main_stats(build, warnings)
         substat_priority = safe_read("substatPriority", warnings, lambda: build.echo_stats.substats, "")
         endgame_lines = safe_read("endgameStats", warnings, lambda: build.endgame_stats.lines, [])
 
@@ -284,6 +331,7 @@ def main() -> None:
         "notes": [
             "Automated source extraction is CANDIDATE_ONLY / NOT_VERIFIED.",
             "Role labels, ranked weapons, Sonata recommendations, exact DOM Main Echo name leads, main-stat text, substat priority and endgame/ER text are source leads only.",
+            "Echo-set names use the reference API when non-empty and exact DOM text as a fallback when the upstream rank-strip parser returns blank.",
             "Main Echo leads are exact non-generic image alt text from the corresponding Prydwen Echo-set information block; no prose parsing or default selection is performed.",
             "The current extractor does not provide Teams or Gameplay/Rotation; those arrays remain empty rather than being fabricated.",
             "No numeric ER band, canonical default, team, rotation, mechanic, trigger timing or uptime is inferred.",

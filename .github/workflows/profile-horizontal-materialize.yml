@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   actions: read
 
 jobs:
@@ -49,19 +49,8 @@ jobs:
       - name: Existing materializer regression tests
         run: node --experimental-strip-types --test test/profileCohortPromotionMaterializer.test.ts
 
-      - name: Commit exact generated canonical module
-        run: |
-          mkdir -p src/data
-          cp data/generated/profileHorizontalGreenLane20260830.ts src/data/profileHorizontalGreenLane20260830.ts
-          if [ -z "$(git status --porcelain -- src/data/profileHorizontalGreenLane20260830.ts)" ]; then
-            echo 'Canonical generated module already matches deterministic output.'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/data/profileHorizontalGreenLane20260830.ts
-          git commit -m 'data: materialize horizontal green lane'
-          git push origin HEAD:${GITHUB_REF_NAME}
+      - name: Verify committed canonical module matches deterministic output
+        run: cmp data/generated/profileHorizontalGreenLane20260830.ts src/data/profileHorizontalGreenLane20260830.ts
 
       - name: Upload deterministic materialization
         uses: actions/upload-artifact@v4

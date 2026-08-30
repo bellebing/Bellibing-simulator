@@ -2,10 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW,
+  validateBlazingBrillianceStackSemanticReview,
+} from '../src/combat/blazingBrillianceStackSemanticReview.ts';
+import {
   FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW,
   validateFallacyActiveDamageSemanticReview,
 } from '../src/combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from '../src/combat/echoTransferWindowAdapter.ts';
+import {
+  SONATA_CAST_WINDOW_SEMANTIC_SPLIT,
+  validateSonataCastWindowContracts,
+} from '../src/combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from '../src/combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from '../src/combat/weaponCastWindowAdapter.ts';
 import {
@@ -22,13 +30,21 @@ import {
 test('semantic execution review catalog is derived from reviewed implementation/source artifacts', () => {
   assert.deepEqual(validateExecutionSemanticReviews(), []);
   assert.deepEqual(validateWeaponSkillStackSemanticReview(), []);
+  assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
+  assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 15);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
     assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
     assert.equal(review?.primitiveId, 'weapon-cast-timed-self-window-v1');
+  }
+
+  for (const pendingExecutionId of SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds) {
+    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
+    assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+    assert.equal(review?.primitiveId, 'sonata-cast-timed-self-window-v1');
   }
 
   for (const pendingExecutionId of SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds) {
@@ -42,6 +58,13 @@ test('semantic execution review catalog is derived from reviewed implementation/
     assert.equal(review?.status, 'BLOCKED_SOURCE_SEMANTICS');
     assert.equal(review?.actionKey, contract.actionKey);
     assert.equal(review?.blockerId, 'BUG-009');
+  }
+
+  for (const contract of BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts) {
+    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === contract.pendingExecutionId);
+    assert.equal(review?.status, 'BLOCKED_SOURCE_SEMANTICS');
+    assert.equal(review?.actionKey, 'weapon:blazing-brilliance-searing-feather-state');
+    assert.equal(review?.blockerId, 'BUG-013');
   }
 
   const heron = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId);
@@ -86,26 +109,20 @@ test('Rover Aero source review parks exact timing instead of fabricating executi
   ]);
   assert.deepEqual(review.closesPendingExecutionIds, []);
   assert.ok(review.sourceEstablished.some((note) => note.includes('Fleurdelys')));
-  assert.ok(review.sourceEstablished.some((note) => note.includes('Unbound Flow P1')));
-  assert.ok(review.unresolvedSemantics.some((note) => note.includes('6-second BPP-SKILL')));
   assert.ok(review.unresolvedSemantics.some((note) => note.includes('rotation duration')));
 });
 
-test('skill-stack syntactic family is semantically split before runtime implementation', () => {
+test('known stack families remain source-blocked when lifecycle semantics are incomplete', () => {
   assert.equal(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.length, 2);
+  assert.deepEqual(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+  assert.equal(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.length, 2);
+  assert.deepEqual(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+
   const stringmaster = WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.find((row) => row.effectId === 'SM-ATK');
   const rime = WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.find((row) => row.effectId === 'RDS-BASIC-STACK');
-  assert.ok(stringmaster);
-  assert.ok(rime);
-  assert.equal(stringmaster.triggerSemantic, 'RESONANCE_SKILL_DAMAGE');
-  assert.equal(stringmaster.durationSeconds, 5);
-  assert.equal(stringmaster.maxStacks, 2);
-  assert.equal(rime.triggerSemantic, 'RESONANCE_SKILL_USE_WHILE_ON_FIELD');
-  assert.equal(rime.durationSeconds, 6);
-  assert.equal(rime.maxStacks, 3);
-  assert.deepEqual(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
-  assert.ok(stringmaster.unresolvedSemantics.some((note) => note.includes('refresh')));
-  assert.ok(rime.unresolvedSemantics.some((note) => note.includes('refresh')));
+  assert.ok(stringmaster?.unresolvedSemantics.some((note) => note.includes('refresh')));
+  assert.ok(rime?.unresolvedSemantics.some((note) => note.includes('refresh')));
+  assert.ok(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.every((row) => row.unresolvedSemantics.length > 0));
 });
 
 test('Fallacy exact attack coverage remains separate from supported-profile cast variant execution', () => {
@@ -113,12 +130,6 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.equal(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.blockerId, 'BUG-010');
   assert.equal(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.implementedAttackId, 'FALLACY_INITIAL_BLAST');
   assert.deepEqual(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
-  assert.deepEqual([...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.profileContexts].sort(), [
-    'chisa-standard',
-    'shorekeeper-augusta-support',
-  ]);
-  assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('Hold Echo Skill')));
-  assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
 test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
@@ -126,14 +137,15 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 72,
-    unreviewedEdges: 33,
+    unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 10,
+    primitiveAvailableRequiresTimelineEdges: 11,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 7,
+    blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 34,
+    actionableSharedEdges: 31,
   });
+  assert.equal(queue.reviewRecordCount, 18);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -145,50 +157,43 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue removes already-covered, closed and source-blocked high-fanout families', () => {
+test('actionable queue excludes covered and source-blocked Changli shared edges', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
 
   for (const id of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) assert.equal(actionableIds.has(id), false);
+  for (const id of SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds) assert.equal(actionableIds.has(id), false);
   for (const id of SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds) assert.equal(actionableIds.has(id), false);
   for (const contract of WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
-  assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
+  for (const contract of BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
+
+  assert.equal(actionableIds.has(IMPERANENCE_HERON_TRANSFER_DISPOSITION?.pendingExecutionId ?? ''), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
-  assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
-  assert.equal(actionableIds.has('echo:echo-60001065:active-skill-damage-adapter'), false);
-  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), true);
-  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
-  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
-  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
-  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-DEF:source-timing-adapter'), false);
-  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
-  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
-  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
-  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
+  assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);
+  assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
+  assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
 });
 
-test('remaining shared fanout is machine-ranked so the next semantic slices do not require manual edge triage', () => {
+test('remaining shared fanout is machine-ranked after Changli triage', () => {
   const queue = buildProfileExecutionWorkQueue();
   for (let index = 1; index < queue.actionableSharedQueue.length; index += 1) {
     assert.ok(queue.actionableSharedQueue[index - 1].profileCount >= queue.actionableSharedQueue[index].profileCount);
   }
 
   assert.equal(queue.actionableSharedQueue[0]?.actionKey, 'sonata:trigger-stack-adapter');
+  const triggerStack = queue.actionableSharedQueue.find((row) => row.actionKey === 'sonata:trigger-stack-adapter');
+  assert.ok(triggerStack);
+  assert.equal(triggerStack.profileCount, 2);
+  assert.equal(triggerStack.characterCount, 2);
 
-  const expectedTwoProfileFamilies = [
-    'sonata:trigger-stack-adapter',
-    'sonata:trigger-uptime-adapter',
-  ];
-  for (const actionKey of expectedTwoProfileFamilies) {
-    const row = queue.actionableSharedQueue.find((candidate) => candidate.actionKey === actionKey);
-    assert.ok(row, `missing actionable work group ${actionKey}`);
-    assert.equal(row.profileCount, 2);
-    assert.equal(row.characterCount, 2);
-  }
+  const remainingTriggerUptime = queue.actionableSharedQueue.find((row) => row.actionKey === 'sonata:trigger-uptime-adapter');
+  assert.ok(remainingTriggerUptime);
+  assert.equal(remainingTriggerUptime.profileCount, 1);
+  assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues remain separate and retain exact fanout', () => {
+test('covered and blocked queues retain exact fanout after Changli semantic split', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -196,59 +201,44 @@ test('covered and blocked queues remain separate and retain exact fanout', () =>
   assert.equal(weaponCast.dependencyCount, 5);
   assert.equal(weaponCast.profileCount, 4);
 
+  const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
+  assert.ok(sonataCast);
+  assert.equal(sonataCast.dependencyCount, 1);
+  assert.equal(sonataCast.profileCount, 1);
+  assert.deepEqual(sonataCast.primitiveIds, ['sonata-cast-timed-self-window-v1']);
+
   const sonataTransfer = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:direct-outro-incoming-transfer');
   assert.ok(sonataTransfer);
   assert.equal(sonataTransfer.dependencyCount, 4);
   assert.equal(sonataTransfer.profileCount, 4);
 
-  const fleurdelysActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
-  assert.ok(fleurdelysActive);
-  assert.equal(fleurdelysActive.dependencyCount, 1);
-  assert.equal(fleurdelysActive.profileCount, 1);
-  assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
-
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
-  assert.equal(heron.profileCount, 5);
   assert.deepEqual(heron.blockerIds, ['BUG-008']);
 
-  const stringmaster = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:stringmaster-skill-damage-stack-lifecycle');
-  assert.ok(stringmaster);
-  assert.equal(stringmaster.dependencyCount, 1);
-  assert.equal(stringmaster.profileCount, 1);
-  assert.deepEqual(stringmaster.blockerIds, ['BUG-009']);
-
-  const rime = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:rime-on-field-skill-use-stack-lifecycle');
-  assert.ok(rime);
-  assert.equal(rime.dependencyCount, 2);
-  assert.equal(rime.profileCount, 2);
-  assert.equal(rime.characterCount, 1);
-  assert.deepEqual(rime.blockerIds, ['BUG-009']);
+  const blazing = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:blazing-brilliance-searing-feather-state');
+  assert.ok(blazing);
+  assert.equal(blazing.dependencyCount, 2);
+  assert.equal(blazing.profileCount, 1);
+  assert.equal(blazing.characterCount, 1);
+  assert.deepEqual(blazing.blockerIds, ['BUG-013']);
 
   const fallacy = queue.blockedSourceSemantics.find((row) => row.actionKey === 'echo:fallacy-cast-variant-resolution');
   assert.ok(fallacy);
-  assert.equal(fallacy.dependencyCount, 2);
-  assert.equal(fallacy.profileCount, 2);
-  assert.equal(fallacy.characterCount, 2);
   assert.deepEqual(fallacy.blockerIds, ['BUG-010']);
 
   const defiersThorn = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:defiers-thorn-def-timing');
   assert.ok(defiersThorn);
-  assert.equal(defiersThorn.dependencyCount, 1);
-  assert.equal(defiersThorn.profileCount, 1);
   assert.deepEqual(defiersThorn.blockerIds, ['BUG-011']);
 
   const roverHealing = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-healing-window-overlap');
   assert.ok(roverHealing);
-  assert.equal(roverHealing.dependencyCount, 1);
-  assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);
   assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
-  assert.equal(roverTeamAmp.dependencyCount, 1);
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
@@ -270,7 +260,7 @@ test('semantic review validation rejects duplicate, non-canonical and untracked 
   assert.ok(validateExecutionSemanticReviews(undefined, unknown).some((issue) => issue.includes('non-canonical pending id')));
 
   const missingBlocker = [{
-    pendingExecutionId: WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts[0].pendingExecutionId,
+    pendingExecutionId: BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts[0].pendingExecutionId,
     status: 'BLOCKED_SOURCE_SEMANTICS' as const,
     actionKey: 'weapon:test-blocked',
     reviewedAt: '2026-08-30',

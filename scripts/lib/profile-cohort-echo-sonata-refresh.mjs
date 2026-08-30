@@ -1,5 +1,6 @@
 const INPUT_KIND = 'PROFILE_SOURCE_RESEARCH_INPUT';
 const REFRESH_KIND = 'PROFILE_COHORT_ECHO_SONATA_REFRESH';
+const MANIFEST_KIND = 'PROFILE_HORIZONTAL_COHORT_INPUT';
 const REVIEW_STATES = new Set(['REVIEWED', 'BLOCKED']);
 const VALID_COSTS = new Set([1, 3, 4]);
 
@@ -66,22 +67,26 @@ function normalizeEntry(entry, index) {
   };
 }
 
-export function applyProfileEchoSonataRefresh(baseInput, refresh) {
-  if (baseInput?.kind !== INPUT_KIND) fail(`base input kind must be ${INPUT_KIND}`);
-  if (baseInput?.verificationStatus !== 'NOT_VERIFIED' || baseInput?.importStatus !== 'CANDIDATE_ONLY') {
-    fail('base input must remain NOT_VERIFIED and CANDIDATE_ONLY');
-  }
+function normalizedEntries(refresh) {
   if (refresh?.kind !== REFRESH_KIND) fail(`refresh kind must be ${REFRESH_KIND}`);
   if (refresh?.verificationStatus !== 'NOT_VERIFIED' || refresh?.canonicalWriteAllowed !== false) {
     fail('refresh must remain NOT_VERIFIED with canonicalWriteAllowed=false');
   }
   if (!Array.isArray(refresh.entries) || refresh.entries.length === 0) fail('entries must be a non-empty array');
-
   const entries = refresh.entries.map(normalizeEntry);
   const duplicateKey = entries
     .map((entry) => `${entry.characterId}:${entry.modeKey}`)
     .find((key, index, all) => all.indexOf(key) !== index);
   if (duplicateKey) fail(`duplicate refresh entry ${duplicateKey}`);
+  return entries;
+}
+
+export function applyProfileEchoSonataRefresh(baseInput, refresh) {
+  if (baseInput?.kind !== INPUT_KIND) fail(`base input kind must be ${INPUT_KIND}`);
+  if (baseInput?.verificationStatus !== 'NOT_VERIFIED' || baseInput?.importStatus !== 'CANDIDATE_ONLY') {
+    fail('base input must remain NOT_VERIFIED and CANDIDATE_ONLY');
+  }
+  const entries = normalizedEntries(refresh);
 
   const output = structuredClone(baseInput);
   const characters = new Map(output.characters.map((character) => [character.characterId, character]));
@@ -127,4 +132,43 @@ export function applyProfileEchoSonataRefresh(baseInput, refresh) {
     verificationStatus: 'NOT_VERIFIED',
     canonicalWriteAllowed: false,
   };
+}
+
+export function buildEchoSonataCohortManifest(parentManifest, refresh, refreshPath) {
+  if (parentManifest?.kind !== MANIFEST_KIND) fail(`parent manifest kind must be ${MANIFEST_KIND}`);
+  if (parentManifest?.verificationStatus !== 'NOT_VERIFIED' || parentManifest?.canonicalWriteAllowed !== false) {
+    fail('parent manifest must remain NOT_VERIFIED with canonicalWriteAllowed=false');
+  }
+  if (!Array.isArray(parentManifest.autoParkMissingSourcePhases) || !parentManifest.autoParkMissingSourcePhases.includes('ECHO_SONATA')) {
+    fail('parent manifest must still auto-park ECHO_SONATA before this refresh is applied');
+  }
+  const entries = normalizedEntries(refresh);
+  const output = structuredClone(parentManifest);
+  output.echoSonataRefresh = nonEmptyString(refreshPath, 'refreshPath');
+  output.sourceCheckpoint = {
+    ...(output.sourceCheckpoint ?? {}),
+    repoMain: nonEmptyString(refresh.baseRepoMain, 'baseRepoMain'),
+    echoSonataCheckedAt: nonEmptyString(refresh.checkedAt, 'checkedAt'),
+  };
+  output.autoParkMissingSourcePhases = output.autoParkMissingSourcePhases.filter((phase) => phase !== 'ECHO_SONATA');
+  output.phaseReviews = {...(output.phaseReviews ?? {})};
+
+  for (const entry of entries) {
+    const reviewKey = `${entry.characterId}:${entry.modeKey}:ECHO_SONATA`;
+    if (output.phaseReviews[reviewKey] != null) fail(`parent manifest already contains ${reviewKey}`);
+    output.phaseReviews[reviewKey] = {
+      reviewState: entry.reviewState,
+      notes: [
+        `Reviewed from the 2026-08-30 Echo/Sonata refresh: ${entry.evidenceSummary.join(' ')}`.trim(),
+      ],
+    };
+  }
+
+  output.notes = [
+    ...(Array.isArray(output.notes) ? output.notes : []),
+    `ECHO_SONATA is manually reviewed across all ${entries.length} staged modes: ${entries.filter((entry) => entry.reviewState === 'REVIEWED').length} REVIEWED / ${entries.filter((entry) => entry.reviewState === 'BLOCKED').length} BLOCKED / 0 pending.`,
+    'STATS_ER and SOURCE_ROTATION remain mechanically parked until their own horizontal source-refresh passes.',
+    'Echo/Sonata source review does not authorize canonical writes, VERIFIED truth, effect execution, or DPS readiness.',
+  ];
+  return output;
 }

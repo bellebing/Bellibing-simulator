@@ -100,7 +100,9 @@ function renderModule(materialized) {
 const args = parseArgs(process.argv.slice(2));
 const snapshot = JSON.parse(await fs.readFile(path.resolve(ROOT, args.snapshot), 'utf8'));
 const review = JSON.parse(await fs.readFile(path.resolve(ROOT, args.review), 'utf8'));
-const staged = buildReviewedHorizontalProfileSourceInput(snapshot, review);
+const approvedSourceIds = approvedIds(review);
+const approvedSnapshot = {...snapshot, characters: snapshot.characters.filter((row) => approvedSourceIds.has(row.characterId))};
+const staged = buildReviewedHorizontalProfileSourceInput(approvedSnapshot, review);
 const rawMaterialized = materializeApprovedProfileModes(staged.input, staged.semanticReview, {
   characters: CHARACTER_CATALOG,
   weapons: WEAPON_CATALOG,

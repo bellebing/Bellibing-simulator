@@ -47,6 +47,24 @@ function candidateReview(character) {
   };
 }
 
+function snapshotCharacter(characterId, overrides = {}) {
+  return {
+    characterId,
+    sourceUrl: `https://example.com/${characterId}`,
+    checkedAt: '2026-08-30',
+    fetchStatus: 'FETCHED',
+    roleLeads: ['Main DPS'],
+    weapons: [{ name: 'Source Weapon' }],
+    echoRecommendations: [{ name: 'Source Sonata' }],
+    mainEchoLeads: [{ setSourceRank: 1, name: 'Source Echo', sourceField: 'DOM_IMAGE_ALT' }],
+    mainStats: [{ cost: '4 cost', stats: 'CRIT Rate / CRIT DMG' }],
+    substatPriorityText: 'CRIT > ATK',
+    endgameStatLines: ['Energy Regen: 120%'],
+    warnings: [],
+    ...overrides,
+  };
+}
+
 test('complete source-clean candidate is review-ready without canonical promotion', () => {
   const review = buildProfileSourceImportAccelerator({
     readiness: readiness(),
@@ -55,7 +73,7 @@ test('complete source-clean candidate is review-ready without canonical promotio
   const row = review.characters[0];
   assert.equal(row.primaryDisposition, 'AUTO_EXTRACTED_READY_FOR_REVIEW');
   assert.deepEqual(row.dispositions, ['AUTO_EXTRACTED_READY_FOR_REVIEW']);
-  assert.equal(row.coveredSourceFieldCount, 7);
+  assert.equal(row.coveredSourceFieldCount, 8);
   assert.equal(row.canonicalWriteAllowed, false);
   assert.equal(row.verificationStatus, 'NOT_VERIFIED');
   assert.equal(review.canonicalWriteAllowed, false);
@@ -80,19 +98,7 @@ test('source snapshot can eliminate build transcription while team/mode and rota
   const snapshot = {
     importStatus: 'CANDIDATE_ONLY',
     verificationStatus: 'NOT_VERIFIED',
-    characters: [{
-      characterId,
-      sourceUrl: `https://example.com/${characterId}`,
-      checkedAt: '2026-08-30',
-      fetchStatus: 'FETCHED',
-      roleLeads: ['Main DPS'],
-      weapons: [{ name: 'Source Weapon' }],
-      echoRecommendations: [{ name: 'Source Sonata' }],
-      mainStats: [{ cost: '4 cost', stats: 'CRIT Rate / CRIT DMG' }],
-      substatPriorityText: 'CRIT > ATK',
-      endgameStatLines: ['Energy Regen: 120%'],
-      warnings: [],
-    }],
+    characters: [snapshotCharacter(characterId)],
   };
   const review = buildProfileSourceImportAccelerator({
     readiness: readiness(characterId),
@@ -100,11 +106,43 @@ test('source snapshot can eliminate build transcription while team/mode and rota
     sourceSnapshot: snapshot,
   });
   const row = review.characters[0];
-  assert.equal(row.coveredSourceFieldCount, 7);
+  assert.equal(row.coveredSourceFieldCount, 8);
   assert.equal(row.primaryDisposition, 'MISSING_TEAM_MODE');
   assert.ok(row.dispositions.includes('MISSING_ROTATION'));
   assert.ok(row.dispositions.includes('NEEDS_SEMANTIC_REVIEW'));
   assert.deepEqual(row.missingBuildFields, []);
+});
+
+test('Sonata extraction alone never counts Main Echo as covered', () => {
+  const characterId = 'sonata-only-character';
+  const incomplete = {
+    ...completeCandidate(characterId),
+    sourceDisposition: 'MISSING_CONTEXT',
+    modes: [{
+      key: 'standard',
+      role: 'MAIN_DPS',
+      weapon: null,
+      echo: null,
+      stats: null,
+      team: null,
+      rotation: null,
+    }],
+  };
+  const snapshot = {
+    importStatus: 'CANDIDATE_ONLY',
+    verificationStatus: 'NOT_VERIFIED',
+    characters: [snapshotCharacter(characterId, { mainEchoLeads: [] })],
+  };
+  const review = buildProfileSourceImportAccelerator({
+    readiness: readiness(characterId),
+    candidateReview: candidateReview(incomplete),
+    sourceSnapshot: snapshot,
+  });
+  const row = review.characters[0];
+  assert.equal(row.sourceLeadCoverage.sonataSet, true);
+  assert.equal(row.sourceLeadCoverage.mainEcho, false);
+  assert.ok(row.missingBuildFields.includes('mainEcho'));
+  assert.equal(row.coveredSourceFieldCount, 7);
 });
 
 test('raw/preflight blockers take primary priority without blocking classification', () => {

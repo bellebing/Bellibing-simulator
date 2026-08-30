@@ -17,6 +17,7 @@ from typing import Any, Callable, TypeVar
 from urllib.parse import urlparse
 
 T = TypeVar("T")
+_GENERIC_IMAGE_ALTS = {"image", "set"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -60,6 +61,7 @@ def failed_character(row: dict[str, Any], checked_at: str, warning: str) -> dict
         "roleLeads": [],
         "weapons": [],
         "echoRecommendations": [],
+        "mainEchoLeads": [],
         "mainStats": [],
         "substatPriorityText": "",
         "endgameStatLines": [],
@@ -68,6 +70,39 @@ def failed_character(row: dict[str, Any], checked_at: str, warning: str) -> dict
         "rotationLeads": [],
         "warnings": [warning],
     }
+
+
+def exact_main_echo_alt_leads(item: Any, set_source_rank: int, warnings: list[str]) -> list[dict[str, Any]]:
+    """Return exact non-generic image alt text from this set's information block.
+
+    These values stay candidate-only. We do not parse prose or decide which option
+    is canonical; we only preserve names that Prydwen itself exposes as DOM alt text.
+    """
+    info = getattr(item, "_info", None)
+    if info is None:
+        return []
+
+    def read_alts() -> list[str]:
+        values: list[str] = []
+        for image in info.locator("img").all():
+            alt = (image.get_attribute("alt") or "").strip()
+            if alt and alt.lower() not in _GENERIC_IMAGE_ALTS:
+                values.append(alt)
+        return values
+
+    alts = safe_read(f"echo[{set_source_rank}].mainEchoAlts", warnings, read_alts, [])
+    seen: set[str] = set()
+    leads: list[dict[str, Any]] = []
+    for name in alts:
+        if name in seen:
+            continue
+        seen.add(name)
+        leads.append({
+            "setSourceRank": set_source_rank,
+            "name": name,
+            "sourceField": "DOM_IMAGE_ALT",
+        })
+    return leads
 
 
 def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[str, Any]:
@@ -87,6 +122,7 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
 
     weapons: list[dict[str, Any]] = []
     echo_recommendations: list[dict[str, Any]] = []
+    main_echo_leads: list[dict[str, Any]] = []
     main_stats: list[dict[str, Any]] = []
     substat_priority = ""
     endgame_lines: list[str] = []
@@ -115,6 +151,7 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
                 "rankText": safe_read(f"echo[{index}].rankText", warnings, lambda item=item: item.percentage, ""),
                 "information": safe_read(f"echo[{index}].information", warnings, lambda item=item: item.information, ""),
             })
+            main_echo_leads.extend(exact_main_echo_alt_leads(item, index, warnings))
 
         stat_items = safe_read("mainStats", warnings, lambda: build.echo_stats.all, {})
         for index, item in stat_items.items():
@@ -141,6 +178,7 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
         "roleLeads": role_leads,
         "weapons": weapons,
         "echoRecommendations": echo_recommendations,
+        "mainEchoLeads": main_echo_leads,
         "mainStats": main_stats,
         "substatPriorityText": substat_priority,
         "endgameStatLines": endgame_lines,
@@ -245,7 +283,8 @@ def main() -> None:
         "characters": characters,
         "notes": [
             "Automated source extraction is CANDIDATE_ONLY / NOT_VERIFIED.",
-            "Role labels, ranked weapons, Echo/Sonata recommendations, main-stat text, substat priority and endgame/ER text are source leads only.",
+            "Role labels, ranked weapons, Sonata recommendations, exact DOM Main Echo name leads, main-stat text, substat priority and endgame/ER text are source leads only.",
+            "Main Echo leads are exact non-generic image alt text from the corresponding Prydwen Echo-set information block; no prose parsing or default selection is performed.",
             "The current extractor does not provide Teams or Gameplay/Rotation; those arrays remain empty rather than being fabricated.",
             "No numeric ER band, canonical default, team, rotation, mechanic, trigger timing or uptime is inferred.",
             "Roster fetches are sharded across independent browser workers; output order remains registry-derived.",

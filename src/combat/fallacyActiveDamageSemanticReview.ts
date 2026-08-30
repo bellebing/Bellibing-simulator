@@ -57,7 +57,8 @@ export function validateFallacyActiveDamageSemanticReview(): readonly string[] {
   if (attack.scalingStat !== 'HP') issues.push('Fallacy initial blast scaling drift');
   if (attack.components.length !== 1 || attack.components[0]?.hits !== 1) issues.push('Fallacy initial blast must remain one exact hit');
   if (Math.abs(totalMotionValue(attack) - 0.1586) > 1e-12) issues.push('Fallacy initial blast motion value drift');
-  if (FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.length === 0) issues.push('Fallacy variant blocker must remain explicit');
+  const unresolvedSemantics: readonly string[] = FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics;
+  if (unresolvedSemantics.length === 0) issues.push('Fallacy variant blocker must remain explicit');
   return issues;
 }
 

@@ -12,10 +12,10 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   const matrixPendingIds = matrix.edges.map((edge) => `${edge.reviewId}|${edge.pendingExecutionId}`).sort();
 
   assert.deepEqual(matrixPendingIds, sourcePendingIds);
-  assert.equal(matrix.reviewCount, 11);
-  assert.equal(matrix.profileCount, 11);
-  assert.equal(matrix.pendingProfileCount, 10);
-  assert.equal(matrix.dependencyCount, 46);
+  assert.equal(matrix.reviewCount, 18);
+  assert.equal(matrix.profileCount, 18);
+  assert.equal(matrix.pendingProfileCount, 17);
+  assert.equal(matrix.dependencyCount, 78);
   assert.equal(matrix.authorizesExecution, false);
 });
 
@@ -24,21 +24,65 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   const rotation = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'rotation:engine-model');
   assert.ok(rotation);
   assert.equal(rotation.implementationScope, 'PROFILE_SPECIFIC_EXECUTION');
-  assert.equal(rotation.profileCount, 10);
+  assert.equal(rotation.profileCount, 17);
   assert.equal(matrix.reusablePriorityQueue.includes(rotation), false);
 
   const heron = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'echo:impermanence-heron-active-transfer-adapter');
   assert.ok(heron);
   assert.equal(heron.implementationScope, 'REUSABLE_PRIMITIVE_CANDIDATE');
-  assert.equal(heron.profileCount, 3);
-  assert.deepEqual(heron.characterIds, ['aalto', 'iuno', 'zhezhi']);
+  assert.equal(heron.profileCount, 5);
+  assert.deepEqual(heron.characterIds, ['aalto', 'iuno', 'lumi', 'yinlin', 'zhezhi']);
+
+  const weaponTrigger = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
+  assert.ok(weaponTrigger);
+  assert.equal(weaponTrigger.profileCount, 5);
+  assert.equal(weaponTrigger.dependencyCount, 6);
+  assert.deepEqual(weaponTrigger.characterIds, ['calcharo', 'carlotta', 'ciaccona', 'iuno', 'lumi']);
+
+  const outroTransfer = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'sonata:outro-transfer-adapter');
+  assert.ok(outroTransfer);
+  assert.equal(outroTransfer.profileCount, 4);
+  assert.deepEqual(outroTransfer.characterIds, ['cantarella', 'lumi', 'yinlin', 'zhezhi']);
 
   const targetState = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:target-state-adapter');
   assert.ok(targetState);
   assert.equal(targetState.profileCount, 2);
   assert.deepEqual(targetState.characterIds, ['cartethyia', 'ciaccona']);
 
-  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
+  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'weapon:trigger-uptime-adapter');
+  assert.equal(matrix.reusablePriorityQueue[1]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
+  assert.equal(matrix.reusablePriorityQueue[2]?.syntacticPrimitiveKey, 'sonata:outro-transfer-adapter');
+});
+
+test('new green-lane execution gaps stay grouped by generic mechanic where semantics actually match', () => {
+  const matrix = buildProfileAdapterDependencyMatrix();
+  const newPresetIds = new Set([
+    'lumi-hybrid',
+    'yinlin-moonlit',
+    'calcharo-standard',
+    'cantarella-standard',
+    'carlotta-standard',
+    'changli-standard',
+    'chisa-standard',
+  ]);
+  const newEdges = matrix.edges.filter((edge) => newPresetIds.has(edge.presetId));
+  assert.equal(newEdges.length, 32);
+
+  const byPrimitive = new Map<string, Set<string>>();
+  for (const edge of newEdges) {
+    const profiles = byPrimitive.get(edge.syntacticPrimitiveKey) ?? new Set<string>();
+    profiles.add(edge.presetId);
+    byPrimitive.set(edge.syntacticPrimitiveKey, profiles);
+  }
+
+  assert.equal(byPrimitive.get('weapon:trigger-uptime-adapter')?.size, 3);
+  assert.equal(byPrimitive.get('sonata:outro-transfer-adapter')?.size, 3);
+  assert.equal(byPrimitive.get('echo:impermanence-heron-active-transfer-adapter')?.size, 2);
+  assert.equal(byPrimitive.get('sonata:trigger-stack-adapter')?.size, 2);
+  assert.equal(byPrimitive.get('sonata:trigger-uptime-adapter')?.size, 2);
+
+  const changliEcho = newEdges.find((edge) => edge.presetId === 'changli-standard' && edge.layer === 'echo');
+  assert.equal(changliEcho, undefined, 'Changli source rotation does not cast Nightmare: Inferno Rider, so no active-Echo dependency is invented.');
 });
 
 test('syntactic reuse grouping never claims semantic execution closure', () => {

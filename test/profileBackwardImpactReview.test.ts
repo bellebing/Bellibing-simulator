@@ -35,6 +35,13 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['zhezhi', 'zhezhi-moonlit-fallback', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['denia', 'denia-fusion-burst-aemeath', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['denia', 'denia-tune-strain-luuk', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['lumi', 'lumi-hybrid', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['yinlin', 'yinlin-moonlit', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['calcharo', 'calcharo-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['cantarella', 'cantarella-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['carlotta', 'carlotta-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['changli', 'changli-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['chisa', 'chisa-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -53,7 +60,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
 });
 
 test('profile onboarding reviews cover exactly the selected default weapon effect rows', () => {
-  const expectedByProfile = new Map([
+  const expectedByProfile = new Map<string, readonly string[]>([
     ['augusta-standard-weapons', ['TFD-ATK', 'TFD-DEF', 'TFD-HEAVY']],
     ['aalto-hybrid-jiyan-weapons', ['STM-ER', 'STM-NEXT-ATK']],
     ['cartethyia-aero-erosion-weapons', ['DT-AERO-AMP', 'DT-DEF', 'DT-HP']],
@@ -63,6 +70,13 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     ['shorekeeper-augusta-iuno-weapons', ['SSY-CONCERTO', 'SSY-HP', 'SSY-TEAM-ATK']],
     ['zhezhi-carlotta-weapons', ['RDS-ATK', 'RDS-BASIC-STACK', 'RDS-OFFFIELD']],
     ['denia-multimode-weapons', ['FDS-ATK', 'FDS-LIB', 'FDS-TEAM']],
+    ['lumi-hybrid-weapons', ['AH-ATTR', 'AH-INTRO', 'AH-SKILL']],
+    ['yinlin-moonlit-weapons', ['SM-ATK', 'SM-ATTR']],
+    ['calcharo-standard-weapons', ['WM-ATK', 'WM-FUSION', 'WM-LIB']],
+    ['cantarella-standard-weapons', ['WS-ATK', 'WS-BASIC', 'WS-HAVOC-RES']],
+    ['carlotta-standard-weapons', ['TLD-ATK', 'TLD-SKILL']],
+    ['changli-standard-weapons', ['BBR-ATK', 'BBR-SKILL', 'BBR-SKILL-CAST-STACKS']],
+    ['chisa-standard-weapons', ['KUMO-TEAM']],
   ]);
 
   for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
@@ -93,23 +107,30 @@ test('Cartethyia and Rover Aero reviews preserve the existing Fleurdelys charact
   assert.match(pending.fact, /Additional 10% Aero DMG Bonus/);
 });
 
-test('Ciaccona review does not invent a Nightmare Kelpie active adapter for an unused transform', () => {
-  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'ciaccona');
-  assert.ok(review);
-  assert.deepEqual(review.reviewedEchoIds, ['echo-60001135']);
-  assert.equal(review.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
+test('unused active Echoes never receive fabricated execution dependencies', () => {
+  const ciaccona = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'ciaccona');
+  const changli = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'changli');
+  assert.ok(ciaccona && changli);
+  assert.deepEqual(ciaccona.reviewedEchoIds, ['echo-60001135']);
+  assert.equal(ciaccona.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
+  assert.deepEqual(changli.reviewedEchoIds, ['echo-60000915']);
+  assert.equal(changli.pendingExecutionIds.some((id) => id.startsWith('echo:')), false);
 });
 
 test('support-oriented profiles retain their selected Echo-active execution boundaries', () => {
-  const aalto = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'aalto');
-  const rover = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'rover-aero');
-  const iuno = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'iuno');
-  const shorekeeper = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'the-shorekeeper');
-  const zhezhiMoonlit = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-moonlit-fallback');
-  const zhezhiEmpyrean = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'zhezhi-empyrean-endgame');
-  const deniaFusion = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'denia-fusion-burst-aemeath');
-  const deniaTune = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'denia-tune-strain-luuk');
-  assert.ok(aalto && rover && iuno && shorekeeper && zhezhiMoonlit && zhezhiEmpyrean && deniaFusion && deniaTune);
+  const byPreset = (presetId: string) => PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === presetId);
+  const aalto = byPreset('aalto-hybrid-jiyan');
+  const rover = byPreset('rover-aero-cartethyia-ciaccona');
+  const iuno = byPreset('iuno-augusta-hybrid');
+  const shorekeeper = byPreset('shorekeeper-augusta-support');
+  const zhezhiMoonlit = byPreset('zhezhi-moonlit-fallback');
+  const zhezhiEmpyrean = byPreset('zhezhi-empyrean-endgame');
+  const deniaFusion = byPreset('denia-fusion-burst-aemeath');
+  const deniaTune = byPreset('denia-tune-strain-luuk');
+  const lumi = byPreset('lumi-hybrid');
+  const yinlin = byPreset('yinlin-moonlit');
+  const chisa = byPreset('chisa-standard');
+  assert.ok(aalto && rover && iuno && shorekeeper && zhezhiMoonlit && zhezhiEmpyrean && deniaFusion && deniaTune && lumi && yinlin && chisa);
 
   assert.ok(aalto.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
   assert.ok(rover.pendingExecutionIds.includes('echo:echo-60001065:active-skill-damage-adapter'));
@@ -119,4 +140,7 @@ test('support-oriented profiles retain their selected Echo-active execution boun
   assert.ok(zhezhiEmpyrean.pendingExecutionIds.includes('echo:echo-60001055:nightmare-lampylumen-active-skill-damage-adapter'));
   assert.ok(deniaFusion.pendingExecutionIds.includes('echo:echo-60002005:reminiscence-denia-outro-transfer-adapter'));
   assert.ok(deniaTune.pendingExecutionIds.includes('echo:echo-60001985:voidwing-moth-outro-transfer-adapter'));
+  assert.ok(lumi.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
+  assert.ok(yinlin.pendingExecutionIds.includes('echo:echo-60000525:impermanence-heron-active-transfer-adapter'));
+  assert.ok(chisa.pendingExecutionIds.includes('echo:echo-60000605:fallacy-active-skill-damage-adapter'));
 });

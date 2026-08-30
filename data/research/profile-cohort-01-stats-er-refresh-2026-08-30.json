@@ -1,0 +1,268 @@
+{
+  "kind": "PROFILE_COHORT_STATS_ER_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "4a1b11937db48a41ffb2fc1419c85fe72fb302f3",
+  "scope": "STATS_ER_ONLY_GREEN_LANE_FIRST",
+  "notes": [
+    "Deep Stats/ER review is intentionally concentrated on the ten modes whose MODE_TEAM_CONTEXT, WEAPON and ECHO_SONATA phases are already REVIEWED.",
+    "Numeric Energy Regen is staged only where the source ties a value to the selected mode/team/set context. A source-wide range is not copied into a different reviewed team merely to make the field non-null.",
+    "Rover (Havoc) Quick Swap and Cantarella keep null numeric ER because their reviewed exact teams differ from the source examples that anchor the published numeric estimates.",
+    "All non-green-lane modes preserve their existing upstream semantic blockers and receive no partial Stats/ER staging.",
+    "REVIEWED remains intermediate semantic source review only; this file cannot authorize canonical writes or VERIFIED status."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "stats": {
+        "priority": ["CRIT Rate", "CRIT DMG", "ATK%", "Basic Attack DMG", "Flat ATK"],
+        "relations": ["CRIT Rate = CRIT DMG", "In Glacio Chafe mode the source says Basic DMG is slightly more important than flat ATK after ATK%."],
+        "erBand": {"minimum": 1.0, "preferred": 1.0, "maximum": 1.0, "context": "Prydwen lists Lucilla at 100% Energy Regen and explicitly says she has no Energy requirements; this applies to the reviewed Glacio Chafe mode."},
+        "notes": ["Mode-specific priority preserves the source note that Basic DMG matters slightly more in Glacio Chafe than in Echo mode."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_STAT_NOTE_AND_ENDGAME_ER",
+      "evidenceSummary": ["Current source gives Lucilla's substat order, a Glacio-Chafe-specific Basic DMG note, and 100% ER with no Energy requirement."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "stats": {
+        "priority": ["CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum": 1.0, "preferred": 1.0, "maximum": 1.0, "context": "Prydwen lists Lucilla at 100% Energy Regen and explicitly says she has no Energy requirements; this applies to the reviewed Echo Skill mode."},
+        "notes": ["Basic DMG is intentionally omitted from the promoted Echo-mode priority because the source says it is almost completely useless there and to prioritize ATK instead."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_STAT_NOTE_AND_ENDGAME_ER",
+      "evidenceSummary": ["Current source gives Lucilla's substat order, explicitly downgrades Basic DMG in Echo mode, and gives 100% ER with no Energy requirement."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum": 1.42, "preferred": 1.42, "maximum": 1.42, "context": "Prydwen's 142%-150% range explicitly assigns the lower 142% estimate to Carlotta + The Shorekeeper, which is the reviewed Hybrid team. The 150% Phrolova-team estimate is not carried into this mode."},
+        "notes": ["Energy Regen remains first only until the reviewed source requirement is satisfied."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_LOWER_ER_ESTIMATE",
+      "evidenceSummary": ["Source gives ER-until-satisfied first and explicitly anchors 142% to the reviewed Carlotta + Shorekeeper team."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Main DPS exactTeamContext remains unresolved, so mode-specific Stats/ER research is intentionally not promoted ahead of that blocker."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK", "Basic Attack DMG", "Liberation DMG"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Prydwen publishes 140%+ examples for other named teams and separately notes non-burst-focused Dual DPS can need no ER. The reviewed Phrolova + Danjin quickswap trio is not one of the numeric examples, so no numeric ER is invented."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "STAT_PRIORITY_EXPLICIT_NUMERIC_ER_CONTEXT_MISMATCH",
+      "evidenceSummary": ["Stat priority is source-backed; numeric ER remains null because the reviewed quickswap trio does not match the source's numeric ER examples."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Hypercarry exactTeamContext remains unresolved; no Stats/ER data is promoted around that blocker."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext", "supportWeaponRecommendationNotSeparatedFromDamageRanking"],
+      "evidenceClass": "UPSTREAM_CONTEXT_AND_WEAPON_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Support team context and support-specific weapon selection remain unresolved; deep Stats/ER staging is skipped rather than flattening the support path."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Damage-mode exactTeamContext remains unresolved; Stats/ER is not promoted independently of the missing context."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK", "Resonance Skill DMG"],
+        "relations": ["CRIT Rate = CRIT DMG", "Flat ATK = Resonance Skill DMG after ATK%"],
+        "erBand": {"minimum": 1.28, "preferred": 1.28, "maximum": 1.28, "context": "Prydwen explicitly estimates 128%+ in Xiangli Yao + The Shorekeeper, exactly matching the reviewed Moonlit team context."},
+        "notes": ["Energy Regen is prioritized only until the reviewed requirement is satisfied."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_ER_ESTIMATE",
+      "evidenceSummary": ["Source explicitly ties the 128%+ ER estimate to Xiangli Yao + Shorekeeper and gives the reviewed stat order."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext", "setSelectionCondition"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Empyrean exact team and set-selection condition remain unresolved, so Stats/ER is not detached from those blockers."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Baizhi's source intentionally keeps team usage broad; exactTeamContext remains unresolved and Stats/ER is not forced into one fabricated team."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/baizhi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeSplitRequired", "conditionalTidebreaking250PercentErMustRemainModeBound"],
+      "evidenceClass": "UPSTREAM_ROLE_SPLIT_AND_CONDITIONAL_ER_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Brant's single standard mode still conflates DPS/Hybrid contexts. The source's 250%-280% ER/Tidebreaking guidance is conditional and is deliberately not staged as an unconditional standard-mode gate."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/brant", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK", "Liberation DMG"],
+        "relations": ["CRIT Rate = CRIT DMG", "Flat ATK = Liberation DMG after ATK%"],
+        "erBand": {"minimum": 1.2, "preferred": 1.2, "maximum": 1.2, "context": "Prydwen's 120%-160%+ range explicitly assigns the 120% lower estimate to Lynae + The Shorekeeper, exactly matching the reviewed team. The higher quickswap estimate is not carried over."},
+        "notes": ["S1 can reduce source ER requirements, but this S0/source baseline does not silently apply that dupe reduction."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_LOWER_ER_ESTIMATE",
+      "evidenceSummary": ["Source stat order is explicit and the 120% lower estimate is tied to the reviewed Lynae + Shorekeeper team."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/calcharo", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK", "Basic Attack DMG"],
+        "relations": ["CRIT Rate = CRIT DMG", "Flat ATK = Basic Attack DMG after ATK%"],
+        "erBand": null,
+        "notes": ["Prydwen's 120%-140% ER examples vary with Midnight/Havoc versus Moonlit/non-Havoc contexts, but the reviewed Phrolova + Qiuyuan team is not the exact numeric example. The conditional range is preserved in prose and not converted into a fabricated exact gate."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "STAT_PRIORITY_EXPLICIT_CONDITIONAL_ER_NOT_EXACT_TEAM",
+      "evidenceSummary": ["Source stat order is explicit; numeric ER remains null because the published 120%-140% anchors do not exactly match the reviewed Phrolova + Qiuyuan context."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/cantarella", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Resonance Skill DMG", "Flat ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum": 1.08, "preferred": 1.08, "maximum": 1.08, "context": "Prydwen's 108%-125%+ range explicitly assigns the lower 108% estimate to Zhezhi + The Shorekeeper, exactly matching the reviewed team."},
+        "notes": ["The higher Cantarella-team estimate is not carried into this reviewed Zhezhi team."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_LOWER_ER_ESTIMATE",
+      "evidenceSummary": ["Source gives the stat order and explicitly anchors 108% to Zhezhi + Shorekeeper."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/carlotta", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Flat ATK", "Resonance Skill DMG"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum": 1.08, "preferred": 1.08, "maximum": 1.08, "context": "Prydwen gives 108% as the lower Mono Fusion estimate. The reviewed Changli + Brant + Lupa team is explicitly a three-Fusion context, so the lower conditional estimate is retained only for this Mono Fusion mode."},
+        "notes": ["The 120% higher non-Mono-Fusion estimate is not promoted into this reviewed all-Fusion context."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "SOURCE_ARCHETYPE_ER_MATCHES_REVIEWED_TEAM",
+      "evidenceSummary": ["Source stat order is explicit and the reviewed Changli + Brant + Lupa team matches the source's lower Mono Fusion ER condition."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/changli", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen", "CRIT Rate", "CRIT DMG", "ATK%", "Liberation DMG", "Flat ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum": 1.25, "preferred": 1.25, "maximum": 1.25, "context": "Prydwen lists 125%+ ER and the page's calculations are explicitly performed with Aemeath + Denia, exactly matching the reviewed Support team context."},
+        "notes": ["Energy Regen remains first only until the source requirement is satisfied."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "ENDGAME_ER_IN_EXACT_CALCULATION_TEAM",
+      "evidenceSummary": ["Source gives the stat order and 125%+ ER in the same Aemeath + Denia calculation context selected for the profile."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chisa", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleMappingOrModeSplitRequired"],
+      "evidenceClass": "UPSTREAM_ROLE_SPLIT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Chixia's standard mode still conflates Main and Dual DPS source roles; Stats/ER is not promoted before the role/mode split is resolved."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chixia", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["playstyleModeSplitRequired", "exactTeamContext"],
+      "evidenceClass": "UPSTREAM_PLAYSTYLE_AND_TEAM_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Encore's 105%-130% ER is rotation-dependent across distinct Hyper Carry/Quick-Swap contexts; the standard mode remains too coarse and the conditional band is not flattened into one gate."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/encore", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeContextSplitRequired"],
+      "evidenceClass": "UPSTREAM_ROLE_CONTEXT_SPLIT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Jianxin still spans DPS, Hybrid and Support source contexts; one standard-mode Stats/ER package would flatten those distinctions, so no partial data is staged."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/jianxin", "checkedAt": "2026-08-30"}
+    }
+  ]
+}

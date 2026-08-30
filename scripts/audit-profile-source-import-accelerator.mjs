@@ -50,16 +50,41 @@ const classified = Object.values(review.dispositionCounts).reduce((sum, value) =
 if (classified !== review.profileSourcePendingCount) {
   throw new Error(`Primary disposition coverage mismatch: ${classified}/${review.profileSourcePendingCount}`);
 }
+
 if (sourceSnapshot) {
   const snapshotIds = sourceSnapshot.characters.map((row) => row.characterId).sort();
   if (JSON.stringify(snapshotIds) !== JSON.stringify(expectedIds)) {
     throw new Error(`Source snapshot backlog drift: expected ${expectedIds.length} exact pending IDs, got ${snapshotIds.length}.`);
   }
+  const blankEchoSetNames = sourceSnapshot.characters.flatMap((row) =>
+    (row.echoRecommendations ?? [])
+      .filter((echo) => typeof echo?.name !== 'string' || echo.name.trim().length === 0)
+      .map((echo) => `${row.characterId}#${echo.sourceRank ?? '?'}`),
+  );
+  if (blankEchoSetNames.length > 0) {
+    throw new Error(`Source snapshot contains unresolved Echo-set names: ${blankEchoSetNames.join(', ')}`);
+  }
 }
 
 console.log(`Profile source accelerator audit: ${review.profileSourcePendingCount} current PROFILE_SOURCE_PENDING rows classified.`);
+console.log('Primary work-queue partition:');
 for (const disposition of PROFILE_SOURCE_IMPORT_DISPOSITIONS) {
   const ids = review.dispositionCharacterIds[disposition];
   console.log(`${disposition}=${ids.length}${ids.length ? ` :: ${ids.join(', ')}` : ''}`);
+}
+console.log('Overlapping review blockers:');
+for (const disposition of PROFILE_SOURCE_IMPORT_DISPOSITIONS) {
+  const ids = review.blockerCharacterIds[disposition];
+  console.log(`${disposition}=${ids.length}${ids.length ? ` :: ${ids.join(', ')}` : ''}`);
+}
+if (sourceSnapshot) {
+  const fetchCounts = sourceSnapshot.characters.reduce((counts, row) => {
+    counts[row.fetchStatus] = (counts[row.fetchStatus] ?? 0) + 1;
+    return counts;
+  }, {});
+  console.log(`Live source fetch: ${Object.entries(fetchCounts).map(([key, value]) => `${key}=${value}`).join(', ')}.`);
+  for (const row of sourceSnapshot.characters.filter((entry) => (entry.warnings ?? []).length > 0)) {
+    console.log(`SOURCE_WARNING ${row.characterId}: ${row.warnings.join(' | ')}`);
+  }
 }
 console.log(`Automatic source-field coverage: ${review.manualTranscription.automaticallyCoveredFieldCount}/${review.manualTranscription.possibleFieldCount}; remaining=${review.manualTranscription.remainingFieldCount}.`);

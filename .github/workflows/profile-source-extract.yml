@@ -1,0 +1,74 @@
+name: Profile Source Extract
+
+on:
+  push:
+    branches:
+      - feat/profile-source-import-accelerator-20260830
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Derive current PROFILE_SOURCE_PENDING backlog
+        run: node --experimental-strip-types scripts/export-profile-source-backlog.mjs --output data/generated/profile-source-backlog.json
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install source extractor dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright playwright-stealth
+          python -m playwright install --with-deps chromium
+
+      - name: Fetch MIT Prydwen extractor reference
+        run: |
+          git clone --depth 1 https://github.com/theonuverse/ww_prydwen_api.git .vendor/ww_prydwen_api
+          echo "UPSTREAM_SHA=$(git -C .vendor/ww_prydwen_api rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Extract source-available build leads roster-wide
+        run: |
+          python scripts/export-prydwen-profile-source.py \
+            --input data/generated/profile-source-backlog.json \
+            --output data/generated/prydwen-profile-source-snapshot.json \
+            --vendor-parent .vendor \
+            --upstream-commit "$UPSTREAM_SHA"
+
+      - name: Generate review disposition
+        run: |
+          node --experimental-strip-types scripts/generate-profile-source-import-accelerator.mjs \
+            --snapshot data/generated/prydwen-profile-source-snapshot.json \
+            --output data/generated/profile-source-import-accelerator.json
+
+      - name: Audit review-only contract and print backlog disposition
+        run: |
+          node --experimental-strip-types scripts/audit-profile-source-import-accelerator.mjs \
+            --snapshot data/generated/prydwen-profile-source-snapshot.json
+
+      - name: Upload source-review artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: profile-source-import-accelerator
+          path: |
+            data/generated/profile-source-backlog.json
+            data/generated/prydwen-profile-source-snapshot.json
+            data/generated/profile-source-import-accelerator.json
+          if-no-files-found: error

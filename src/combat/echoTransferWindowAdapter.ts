@@ -112,6 +112,12 @@ export function activateEchoTransferWindow(params: {
   const { effectId, wielderId, armEvent, outroEvent, catalog = ECHO_EFFECT_MODELS } = params;
   const contract = ECHO_TRANSFER_WINDOW_CONTRACTS.find((row) => row.effectId === effectId);
   if (!contract) throw new Error(`No verified Echo transfer contract for ${effectId}`);
+  if (armEvent.kind !== 'ECHO_SKILL_SUMMON') {
+    throw new Error(`unsupported Echo transfer arm event kind: ${String(armEvent.kind)}`);
+  }
+  if (!armEvent.echoId.trim() || !armEvent.actorId.trim()) {
+    throw new Error('Echo transfer arm event ids must not be blank');
+  }
   if (!Number.isFinite(armEvent.atSeconds) || armEvent.atSeconds < 0) {
     throw new Error(`Echo transfer arm time must be a finite non-negative number: ${armEvent.atSeconds}`);
   }

@@ -48,6 +48,32 @@ test('generic incoming transfer core binds the window to the actual incoming Res
   assert.equal(isIncomingTransferWindowActive(window, 'aalto', 4), false);
 });
 
+test('generic transfer core fails closed on malformed runtime events and impossible self-transfer', () => {
+  const spec = {
+    adapterId: 'test-transfer',
+    sourceLayer: 'WEAPON' as const,
+    effectId: 'TEST',
+    sourceId: 'test-source',
+    sourceActorId: 'aalto',
+    statOrEffect: 'ATK%',
+    value: 0.10,
+    durationSeconds: 14,
+    requiresIncomingIntro: false,
+  };
+  const event = {
+    kind: 'OUTRO_SWITCH' as const,
+    actorId: 'aalto',
+    incomingResonatorId: 'jiyan',
+    incomingEntry: 'DIRECT_SWITCH' as const,
+    atSeconds: 3,
+  };
+
+  assert.throws(() => createIncomingTransferWindow(spec, { ...event, kind: 'FAKE_EVENT' as never }), /unsupported outgoing transfer event kind/);
+  assert.throws(() => createIncomingTransferWindow(spec, { ...event, incomingEntry: 'FAKE_ENTRY' as never }), /unsupported incoming entry kind/);
+  assert.throws(() => createIncomingTransferWindow({ ...spec, sourceLayer: 'FAKE_LAYER' as never }, event), /unsupported transfer source layer/);
+  assert.equal(createIncomingTransferWindow(spec, { ...event, incomingResonatorId: 'aalto' }), null);
+});
+
 test('generic transfer core fails closed on actor mismatch, missing paired arming fields and unmet Intro requirement', () => {
   const base = {
     adapterId: 'test-transfer',
@@ -107,6 +133,13 @@ test('Echo transfer contracts stay source-locked and execute Denia/Hyvatia prere
     outroEvent: { kind: 'OUTRO_SWITCH', actorId: 'aemeath', incomingResonatorId: 'changli', incomingEntry: 'DIRECT_SWITCH', atSeconds: 17.001 },
   });
   assert.equal(tooLate, null);
+
+  assert.throws(() => activateEchoTransferWindow({
+    effectId: 'REMINISCENCE_DENIA_INCOMING_FUSION',
+    wielderId: 'aemeath',
+    armEvent: { kind: 'FAKE_ARM' as never, echoId: 'echo-60002005', actorId: 'aemeath', atSeconds: 2 },
+    outroEvent: { kind: 'OUTRO_SWITCH', actorId: 'aemeath', incomingResonatorId: 'changli', incomingEntry: 'DIRECT_SWITCH', atSeconds: 10 },
+  }), /unsupported Echo transfer arm event kind/);
 
   assert.equal(activateEchoTransferWindow({
     effectId: 'HYVATIA_INCOMING_ALL_ATTRIBUTE',

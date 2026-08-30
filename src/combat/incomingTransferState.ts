@@ -67,6 +67,16 @@ export function createIncomingTransferWindow(
   nonBlank(event.incomingResonatorId, 'incoming Resonator id');
   finiteNonNegative(event.atSeconds, 'outgoing switch time');
 
+  if (event.kind !== 'OUTRO_SWITCH') throw new Error(`unsupported outgoing transfer event kind: ${String(event.kind)}`);
+  if (event.incomingEntry !== 'INTRO_SKILL' && event.incomingEntry !== 'DIRECT_SWITCH') {
+    throw new Error(`unsupported incoming entry kind: ${String(event.incomingEntry)}`);
+  }
+  if (spec.sourceLayer !== 'ECHO' && spec.sourceLayer !== 'SONATA' && spec.sourceLayer !== 'WEAPON') {
+    throw new Error(`unsupported transfer source layer: ${String(spec.sourceLayer)}`);
+  }
+  if (typeof spec.requiresIncomingIntro !== 'boolean') {
+    throw new Error('requiresIncomingIntro must be boolean');
+  }
   if (!Number.isFinite(spec.value)) throw new Error(`transfer value must be finite: ${spec.value}`);
   if (!Number.isFinite(spec.durationSeconds) || spec.durationSeconds <= 0) {
     throw new Error(`transfer duration must be a positive finite number: ${spec.durationSeconds}`);
@@ -84,6 +94,7 @@ export function createIncomingTransferWindow(
   }
 
   if (event.actorId !== spec.sourceActorId) return null;
+  if (event.incomingResonatorId === event.actorId) return null;
   if (spec.requiresIncomingIntro && event.incomingEntry !== 'INTRO_SKILL') return null;
 
   return {

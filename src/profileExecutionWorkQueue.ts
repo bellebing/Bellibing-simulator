@@ -1,3 +1,4 @@
+import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
@@ -142,6 +143,20 @@ const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [
   },
 ];
 
+const FALLACY_ACTIVE_DAMAGE_REVIEWS: readonly ExecutionSemanticReview[] = [
+  {
+    pendingExecutionId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'echo:fallacy-cast-variant-resolution',
+    reviewedAt: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.reviewedAt,
+    blockerId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      ...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics,
+      'The exact normal activation blast is now in the Echo attack catalog, but profile execution remains blocked until the supported source sequence resolves normal cast versus hold/release variant semantics.',
+    ],
+  },
+];
+
 /**
  * Semantic review records derived from implementation/source-review artifacts.
  *
@@ -155,6 +170,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...WEAPON_SKILL_STACK_REVIEWS,
   ...SONATA_TRANSFER_REVIEWS,
   ...HERON_REVIEWS,
+  ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(

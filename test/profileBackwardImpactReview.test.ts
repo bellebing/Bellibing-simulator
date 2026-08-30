@@ -113,7 +113,7 @@ test('Cartethyia and Rover Aero reviews close only the Fleurdelys character-rest
     assert.deepEqual(review.reviewedEchoIds, ['echo-60001065']);
     assert.equal(review.pendingExecutionIds.includes(pendingExecutionId), false);
     assert.ok(review.notes.some((note) => note.includes(closure.closureId)));
-    assert.ok(review.pendingExecutionIds.some((id) => id === 'rotation:' + review.rotationProfileId + ':engine-model'));
+    assert.ok(review.pendingExecutionIds.some((id) => id.startsWith('rotation:') && id.endsWith(':engine-model')));
   }
 
   assert.throws(

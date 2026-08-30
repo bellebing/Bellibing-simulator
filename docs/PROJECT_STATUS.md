@@ -61,7 +61,7 @@ The old V9.15 spreadsheet is a historical oracle only when explicitly needed. It
 - Freezing Frost 5pc and Havoc Eclipse 5pc remain explicit source conflicts.
 - **181 / 181 released Echo skills** are source-reviewed.
 - Echo non-damage effect coverage remains **63 modeled rows across 37 Echoes** with **6 specialized pending adapter facts**.
-- The exact Rank-5 Echo attack catalog remains **3 attack profiles / 4 attack facts**. Active damage stays partial where exact scaling/hit/state execution is not verified.
+- The exact Rank-5 Echo attack catalog is now **4 attack profiles / 5 attack facts**. Reminiscence: Fleurdelys is the new exact profile: pinned Rank-5 source proves `27.36% x8 + 136.80%` Aero damage. Active damage stays partial where exact scaling/hit/state execution is not verified.
 
 ## Composable profiles
 
@@ -86,6 +86,23 @@ The Profile × Adapter matrix is a prioritization tool only. Matching suffixes a
 ### Fleurdelys character restriction
 
 `echo-character-restriction-v1` remains the static source-safe Fleurdelys applicability closure for `cartethyia` and `rover-aero`. The exact Fleurdelys character-restriction dependency is closed for Cartethyia and Rover (Aero); active Echo damage remains a separate boundary.
+
+### Exact Echo active damage — current closure checkpoint
+
+`src/combat/echoActiveDamageAdapter.ts` now provides `echo-active-damage-v1`, a reusable fail-closed resolver from exact `EchoAttackFact` data to engine-ready active-cast damage facts.
+
+The primitive deliberately proves only:
+
+- the exact owning Echo and attack ID;
+- `ACTIVE_CAST` trigger identity;
+- element and scaling stat;
+- exact total motion value from verified attack components.
+
+It does **not** invent a cast timestamp, uptime, profile rotation, or cast variant. Automatic Intro summons are rejected as active casts.
+
+Reminiscence: Fleurdelys now has exact Rank-5 attack data from the already-pinned `wuwabuild` Echo snapshot: eight `27.36% ATK` Aero hits plus one `136.80% ATK` Aero hit, totaling `355.68% ATK` motion value with a 20-second cooldown.
+
+This is prerequisite execution coverage, not a profile closure. Rover (Aero)'s exact `echo:echo-60001065:active-skill-damage-adapter` dependency remains pending until its eventual executable rotation proves the source-listed Fleurdelys cast event. The work-queue disposition therefore remains unchanged at this checkpoint.
 
 ### Aero Erosion target state — implemented for the active closure tranche
 
@@ -228,13 +245,15 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 - PR #118 — Stringmaster/Rime skill-stack semantics parked as BUG-009.
 - PR #119 — exact Fallacy normal blast data while profile variant execution remains BUG-010.
 - PR #121 — source-safe Fleurdelys character restriction and first exact static dependency closure.
-- Current tranche — shared Aero Erosion target state, Ciaccona executable rotation, four exact dependency closures, Ciaccona freeze, Cartethyia reduced to two genuine source/execution blockers.
+- PR #123 — shared Aero Erosion target state, Ciaccona executable rotation, four exact dependency closures, Ciaccona freeze, Cartethyia reduced to two genuine source/execution blockers.
+- Current closure checkpoint — exact Fleurdelys Rank-5 damage coverage plus reusable `echo-active-damage-v1`; no profile dependency or readiness status is closed by this prerequisite step.
 
 ## Next work
 
 1. Keep Cartethyia `DT-DEF` blocked until timing semantics are explicitly resolved; do not infer a 15s delay/window lifecycle.
 2. Keep Cartethyia `SOURCE_SEQUENCE_ONLY` until the exact canonical sequence has a verified total duration or independently approved measured timing.
-3. Choose the next 2–4 build-ready canonical profiles by shortest remaining verified execution closure plus dependency overlap, not by adapter queue position alone.
-4. Keep BUG-008/009/010 source blockers parked until stronger evidence resolves them.
-5. Reuse existing primitives only when layer-specific semantics match; primitive availability alone does not close an event/timeline dependency.
-6. Broad roster DPS remains out of scope until narrow closures and source completeness justify expansion.
+3. Continue Rover (Aero) only if the exact canonical support sequence supplies enough execution evidence to place its healing-triggered 6s Bloodpact window, Unbound Flow team amplification and Fleurdelys cast without fabricated timestamps; otherwise park it and move to the next ranked green-lane profile.
+4. Choose the next 2–4 build-ready canonical profiles by shortest remaining verified execution closure plus dependency overlap, not by adapter queue position alone.
+5. Keep BUG-008/009/010 source blockers parked until stronger evidence resolves them.
+6. Reuse existing primitives only when layer-specific semantics match; primitive availability alone does not close an event/timeline dependency.
+7. Broad roster DPS remains out of scope until narrow closures and source completeness justify expansion.

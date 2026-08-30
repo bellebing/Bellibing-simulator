@@ -156,7 +156,23 @@ Bellibing does not choose hit-armed versus cast-armed behavior without stronger 
 
 Having a reusable primitive is not the same as closing a profile dependency. A canonical pending ID closes only when the exact supported profile has an executable event/state path using the verified adapter. `SOURCE_SEQUENCE_ONLY` profiles remain fail closed.
 
-See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the current dependency view.
+### Semantic execution work queue
+
+`src/profileExecutionWorkQueue.ts` turns the raw 78-edge dependency matrix into a machine-readable implementation queue without changing canonical truth.
+
+Current exact-edge disposition is regression-locked to:
+
+- **46 `UNREVIEWED`**;
+- **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`** — Woodland Aria Aero-Erosion application state;
+- **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`** — five Weapon cast-window edges plus four direct Sonata Outro-transfer edges;
+- **5 `BLOCKED_SOURCE_CONFLICT`** — Impermanence Heron / BUG-008 fanout;
+- **17 `PROFILE_SPECIFIC_EXECUTION`** — rotation engine models.
+
+That leaves **47 actionable shared edges**. The queue automatically excludes already-covered primitives, source-conflicted work and profile-specific rotations, then ranks the remaining shared work by current profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED`, so they surface automatically instead of silently inheriting old semantics.
+
+The existing `audit:profile-adapters` CI gate validates this semantic partition and prints the current actionable shortlist. The queue never removes `pendingExecutionIds` and never authorizes execution.
+
+See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the readable dependency view.
 
 ## DPS execution
 
@@ -193,12 +209,14 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 - PR #113 — Cohort 01 STATS_ER + SOURCE_ROTATION closure, seven canonical promotions and adapter-matrix expansion.
 - PR #114 — current-status synchronization after Cohort 01 merge.
 - PR #115 — first shared execution primitive: five source-verified Weapon cast windows, Woodland Aria semantic split, runtime hardening; no pending profile IDs closed.
+- PR #116 — shared incoming-transfer core with Denia/Hyvatia and direct Moonlit/Midnight wrappers; Impermanence Heron parked as BUG-008 source conflict; no pending profile IDs closed.
 
 ## Next work
 
-1. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
-2. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
-3. Reuse `incoming-transfer-state-v1` for other source-compatible transfers (for example Static Mist) only after layer-specific semantic review.
-4. Continue shared primitives by verified semantic fanout: action-driven Sonata stacks/windows and target-state/application events before Character-specific copies.
-5. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
-6. Keep broad roster DPS blocked until exact profile execution closure exists.
+1. Use the semantic execution work queue instead of manually re-triaging all 78 edges.
+2. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
+3. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
+4. Review/implement the highest actionable shared groups — currently including Sonata trigger stacks, Sonata trigger uptime and Weapon target state at two-profile fanout — before Character-specific copies.
+5. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close a profile dependency.
+6. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
+7. Keep broad roster DPS blocked until exact profile execution closure exists.

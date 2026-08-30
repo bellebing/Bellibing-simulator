@@ -11,7 +11,7 @@ import {
 } from '../src/combat/weaponCastWindowAdapter.ts';
 import { buildProfileAdapterDependencyMatrix } from '../src/profileAdapterDependencyMatrix.ts';
 
-test('weapon trigger-uptime fanout is semantically split into five cast-window edges plus Woodland Aria target-status state', () => {
+test('weapon trigger-uptime fanout retains five cast-window edges after Woodland Aria closes through target-state execution', () => {
   const matrix = buildProfileAdapterDependencyMatrix();
   const triggerEdges = matrix.edges.filter((edge) => edge.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   const canonicalPendingIds = [...new Set(triggerEdges.map((edge) => edge.pendingExecutionId))].sort();
@@ -20,12 +20,10 @@ test('weapon trigger-uptime fanout is semantically split into five cast-window e
     ...WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds,
   ].sort();
 
-  assert.equal(triggerEdges.length, 6);
+  assert.equal(triggerEdges.length, 5);
   assert.deepEqual(canonicalPendingIds, reviewedPendingIds);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.length, 5);
-  assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, [
-    'weapon:woodland-aria:WA-AERO:trigger-uptime-adapter',
-  ]);
+  assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, []);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.closesPendingExecutionIds, []);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);
 });

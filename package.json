@@ -11,6 +11,7 @@
     "audit:echo-skills": "node --experimental-strip-types scripts/audit-echo-skills.mjs",
     "audit:profile-candidates": "node scripts/audit-profile-candidates.mjs",
     "audit:profile-source-accelerator": "node --experimental-strip-types scripts/audit-profile-source-import-accelerator.mjs",
+    "audit:profile-horizontal-green-lane": "node --experimental-strip-types scripts/audit-profile-horizontal-green-lane.mjs",
     "audit:profile-cohort": "node --experimental-strip-types scripts/audit-profile-horizontal-cohort.mjs",
     "audit:profile-adapters": "node --experimental-strip-types scripts/audit-profile-adapter-matrix.mjs",
     "audit:profile-readiness": "node --experimental-strip-types scripts/audit-profile-readiness.mjs",

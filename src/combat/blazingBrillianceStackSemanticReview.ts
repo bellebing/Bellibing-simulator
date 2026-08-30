@@ -77,7 +77,8 @@ export function validateBlazingBrillianceStackSemanticReview(
   for (const contract of review.contracts) {
     if (pendingIds.has(contract.pendingExecutionId)) issues.push(`duplicate Blazing Brilliance pending id ${contract.pendingExecutionId}`);
     pendingIds.add(contract.pendingExecutionId);
-    if (contract.unresolvedSemantics.length === 0) issues.push(`${contract.effectId} must preserve unresolved lifecycle semantics`);
+    const unresolvedSemantics: readonly string[] = contract.unresolvedSemantics;
+    if (unresolvedSemantics.length === 0) issues.push(`${contract.effectId} must preserve unresolved lifecycle semantics`);
   }
 
   const stacking = uniqueEffect(catalog, 'BBR-SKILL');

@@ -18,24 +18,46 @@ Canonical dependency matrix:
 - **18 backward-impact reviews**;
 - **18 reviewed canonical profiles**;
 - **17 profiles with pending execution dependencies**;
-- **78 exact pending execution edges**.
+- **76 exact pending execution edges**.
 
 Augusta remains the one narrow `DPS_READY` profile. The seven Cohort 01 promoted profiles remain `SOURCE_SEQUENCE_ONLY`.
 
 ## Reuse queue: semantic status, not just suffix count
 
-`src/profileAdapterDependencyMatrix.ts` derives the exact pending-edge graph. Syntactic grouping is only a throughput hint; each high-fanout group receives manual semantic review before code is shared.
+`src/profileAdapterDependencyMatrix.ts` derives the current exact pending-edge graph. Syntactic grouping is only a throughput hint; each group receives manual semantic review before code is shared.
 
 | Syntactic candidate | Fanout | Current semantic disposition |
 | --- | ---: | --- |
-| `weapon:trigger-uptime-adapter` | 5 profiles / 5 Characters / 6 edges | **Split.** Five cast-event SELF windows use `weapon-cast-timed-self-window-v1`; Woodland Aria `WA-AERO` is a separate Aero-Erosion target/application event. 0 profile dependencies closed. |
-| `echo:impermanence-heron-active-transfer-adapter` | 5 profiles / 5 Characters / 5 edges | **BLOCKED SOURCE CONFLICT.** Pinned raw text and current usage guidance disagree on whether a hit is required to arm the transfer. No executable Heron contract exists. |
-| `sonata:outro-transfer-adapter` | 4 profiles / 4 Characters / 4 edges | **Shared low-level core implemented.** Moonlit `S08_5PC_INCOMING_ATK` and Midnight Veil `S12_5PC_INCOMING_HAVOC` use explicit direct-Outro wrappers over `incoming-transfer-state-v1`. 0 profile dependencies closed until executable timelines exist. |
-| `sonata:trigger-stack-adapter` | 2 profiles / 2 Characters | Pending semantic/implementation review for action-driven stack state. |
-| `sonata:trigger-uptime-adapter` | 2 profiles / 2 Characters | Pending semantic/implementation review for source-triggered Sonata windows. |
-| `weapon:target-state-adapter` | 2 profiles / 2 Characters | Pending target-state semantic review. |
+| `weapon:trigger-uptime-adapter` | 5 profiles / 5 Characters / 6 edges | **Split.** Five cast-event SELF windows use `weapon-cast-timed-self-window-v1`; Woodland Aria `WA-AERO` is a separate Aero-Erosion target/application event. No profile dependency closes from primitive availability alone. |
+| `echo:impermanence-heron-active-transfer-adapter` | 5 profiles / 5 Characters / 5 edges | **BLOCKED SOURCE CONFLICT.** Pinned raw text and current usage guidance disagree on whether a hit is required to arm the transfer. |
+| `sonata:outro-transfer-adapter` | 4 profiles / 4 Characters / 4 edges | **Shared low-level core implemented.** Moonlit `S08_5PC_INCOMING_ATK` and Midnight Veil `S12_5PC_INCOMING_HAVOC` use explicit direct-Outro wrappers over `incoming-transfer-state-v1`; profile timelines remain pending. |
+| `sonata:trigger-stack-adapter` | 2 profiles / 2 Characters / 2 edges | **Current highest actionable group.** Pending source/semantic review for action-driven stack state. |
+| `sonata:trigger-uptime-adapter` | 2 profiles / 2 Characters / 2 edges | Pending source-triggered Sonata window review. |
+| `weapon:target-state-adapter` | 2 profiles / 2 Characters / 2 edges | Pending target-state semantic review. |
 
 `rotation:*:engine-model` remains `PROFILE_SPECIFIC_EXECUTION`; shared suffixes do not make rotations generic.
+
+## Static dependency closure — Fleurdelys character restriction
+
+Reminiscence: Fleurdelys is the first canonical profile dependency that can close without a combat timeline because the missing behavior is a static main-slot applicability condition.
+
+Pinned current DommyMM/wuwabuild `Echoes.json` provides:
+
+- generic +10% Aero DMG while Fleurdelys is equipped in the main slot;
+- another +10% Aero DMG under source `characterCondition: ["Aero", "Cartethyia"]`;
+- multilingual rendered text that identifies the first condition as **Rover: Aero**, not a generic Aero-element Character class.
+
+Bellibing maps this only to canonical `rover-aero` and `cartethyia`. `src/echoEffectRegistry.ts` supports fail-closed `wielderCharacterIds` applicability and `src/profileEchoEffectResolver.ts` resolves permanent main-slot effects from the exact preset Character + main Echo.
+
+For the two supported profiles:
+
+- `cartethyia-aero-erosion` resolves +20% total Aero DMG from Fleurdelys main-slot rows;
+- `rover-aero-cartethyia-ciaccona` resolves +20% total Aero DMG;
+- unrelated wielders receive only the generic +10% row.
+
+`src/data/profileExecutionClosures20260830.ts` then removes only `echo:echo-60001065:fleurdelys-character-restriction-adapter` from those two exact presets. The closure is fail-closed: if the expected review/pending ID drifts or has already disappeared, validation throws instead of silently filtering data.
+
+This reduces the canonical graph from 78 to **76 exact pending edges**. It does **not** close Fleurdelys active damage, does not make either rotation executable, does not change readiness, and does not authorize DPS.
 
 ## Shared primitive 1 — Weapon cast timed SELF windows
 
@@ -50,6 +72,8 @@ Augusta remains the one narrow `DPS_READY` profile. The seven Cohort 01 promoted
 The adapter validates exact canonical source shape, uses explicit typed events, rejects malformed runtime inputs and does not parse human trigger text.
 
 Woodland Aria `WA-AERO` is deliberately excluded because it activates from `Inflict Aero Erosion on target`, not a cast event.
+
+These primitives do not remove their profile pending IDs because the affected profiles still lack executable timelines.
 
 ## Shared primitive 2 — Incoming transfer state
 
@@ -85,7 +109,7 @@ Current evidence conflict:
 - pinned current DommyMM/wuwabuild `Echoes.json` renders the transfer after the initial attack lands and restores 10 Resonance Energy;
 - current Prydwen Impermanence Heron guidance says the Echo can be cancelled before damage/Energy while the incoming-character buff still applies.
 
-Bellibing therefore records `BLOCKED_SOURCE_CONFLICT` instead of choosing hit-armed or cast-armed semantics. The five canonical Heron pending edges stay untouched.
+Bellibing therefore records `BLOCKED_SOURCE_CONFLICT` instead of choosing hit-armed or cast-armed semantics. The five canonical Heron pending edges stay untouched behind BUG-008.
 
 ### Sonata wrappers currently admitted
 
@@ -98,18 +122,27 @@ The same Midnight Veil activation also has a separate source-reviewed 480% Havoc
 
 Other Sonata `INCOMING_RESONATOR` rows remain excluded when they require extra Intro state, self-state, scaling input or state removal/arbitration.
 
-## Why implemented primitives do not reduce the 78-edge count yet
+## Dependency closure rule
 
-A primitive is a reusable executable building block. A profile dependency closes only when the exact supported profile has an executable timeline/state path that supplies the required event.
+Two cases must remain distinct:
 
-The affected profiles remain `SOURCE_SEQUENCE_ONLY`, so this work intentionally:
+1. **Static canonical applicability** may close an exact pending dependency when all required state is already present in canonical build/profile data and the closure is explicitly regression-locked. Fleurdelys is the first example.
+2. **Event/timeline mechanics** do not close merely because a reusable primitive exists. The exact supported profile must still provide an executable event/state path.
 
-- does not remove canonical `pendingExecutionIds`;
-- does not change a rotation to `ENGINE_MODELED`;
-- does not change readiness counts;
-- does not authorize freeze approval or `DPS_READY`.
+Therefore `SOURCE_SEQUENCE_ONLY` profiles remain fail closed unless their exact remaining dependencies independently close. A guide sequence never becomes simulator timing by implication.
 
-This separation prevents a guide sequence from silently becoming a combat-simulator timing assumption.
+## Current semantic partition
+
+The current 76-edge graph is regression-locked to:
+
+- **39 `UNREVIEWED`**;
+- **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
+- **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **5 `BLOCKED_SOURCE_CONFLICT`**;
+- **5 `BLOCKED_SOURCE_SEMANTICS`**;
+- **17 `PROFILE_SPECIFIC_EXECUTION`**.
+
+That leaves **40 actionable shared edges**. The current top actionable group is `sonata:trigger-stack-adapter` with 2 profiles / 2 Characters / 2 exact dependencies.
 
 ## Supported-profile examples
 
@@ -117,7 +150,8 @@ This separation prevents a guide sequence from silently becoming a combat-simula
 | --- | --- | --- |
 | Augusta — `augusta-standard` | `ENGINE_MODELED` | Narrow supported path has no pending execution IDs; only current `DPS_READY` fixture. |
 | Aalto — `aalto-hybrid-jiyan` | `SOURCE_SEQUENCE_ONLY` | Static Mist next-Resonator transfer, Impermanence Heron conflict, profile engine model. |
-| Cartethyia — `cartethyia-aero-erosion` | `SOURCE_SEQUENCE_ONLY` | Defier's Thorn timing/target state, Fleurdelys restriction, profile engine model. |
+| Cartethyia — `cartethyia-aero-erosion` | `SOURCE_SEQUENCE_ONLY` | Fleurdelys static restriction is closed; Defier's Thorn timing/target state, Fleurdelys active damage and profile engine model remain. |
+| Rover (Aero) — `rover-aero-cartethyia-ciaccona` | `SOURCE_SEQUENCE_ONLY` | Fleurdelys static restriction is closed; Fleurdelys active damage and profile engine model remain. |
 | Ciaccona — `ciaccona-cartethyia-aero` | `SOURCE_SEQUENCE_ONLY` | Woodland Aria Aero-Erosion application/target state, profile engine model. |
 | Iuno — `iuno-augusta-hybrid` | `SOURCE_SEQUENCE_ONLY` | Moongazer cast primitive exists; shield/cross-stack state, Heron conflict and profile engine model remain. |
 | Zhezhi — Moonlit | `SOURCE_SEQUENCE_ONLY` | Sonata direct transfer core exists; Heron conflict and exact profile timeline remain. |
@@ -142,4 +176,4 @@ Freeze approval for an exact supported profile requires:
 5. `ENGINE_MODELED` rotation where DPS is claimed;
 6. normal repository audits/tests/build/browser verification.
 
-No shared primitive bypasses this rule.
+No shared primitive or static closure bypasses this rule.

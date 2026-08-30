@@ -6,14 +6,14 @@ A source-backed build/profile may be complete while still being non-executable. 
 
 ## Current execution baseline
 
-Live readiness after merged PR #106 is:
+Registry-derived readiness on the current Cohort 01 green-lane merge candidate is guarded to be:
 
-- **18 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **25 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **35 `PROFILE_SOURCE_PENDING`**;
+- **28 `PROFILE_SOURCE_PENDING`**;
 - **1 `DPS_READY`**.
 
-Augusta remains the one narrow `DPS_READY` profile. Aalto, Zhezhi and Denia are build/profile-ready source-conditioned checkpoints whose reviewed rotations remain `SOURCE_SEQUENCE_ONLY`; they are not executable DPS models.
+Augusta remains the one narrow `DPS_READY` profile. The seven newly promoted Cohort 01 profiles are canonical build/profile truth only; their reviewed rotations remain `SOURCE_SEQUENCE_ONLY`.
 
 ## Profile × Adapter dependency matrix
 
@@ -21,10 +21,10 @@ Augusta remains the one narrow `DPS_READY` profile. Aalto, Zhezhi and Denia are 
 
 Current canonical impact coverage represented by the matrix:
 
-- **11 backward-impact reviews**;
-- **11 reviewed canonical profiles**;
-- **10 profiles with pending execution dependencies**;
-- **46 exact pending execution edges**.
+- **18 backward-impact reviews**;
+- **18 reviewed canonical profiles**;
+- **17 profiles with pending execution dependencies**;
+- **78 exact pending execution edges**.
 
 Every edge retains:
 
@@ -41,14 +41,18 @@ The audit `npm run audit:profile-adapters` fails if the matrix drops any canonic
 
 The matrix ranks reusable primitive **candidates** by profile fanout, then Character fanout, then dependency count.
 
-Current highest syntactic reuse candidates include:
+Current highest syntactic reuse candidates:
 
-| Primitive candidate | Current fanout | Meaning |
-| --- | ---: | --- |
-| `echo:impermanence-heron-active-transfer-adapter` | 3 profiles / 3 Characters | Shared pending Echo active/transfer shape across Aalto, Iuno and Zhezhi. Semantic compatibility still requires implementation review. |
-| `weapon:target-state-adapter` | 2 profiles / 2 Characters | Shared pending target-state suffix across Cartethyia and Ciaccona. The exact Weapon effects remain separate source truth. |
+| Primitive candidate | Current fanout | New Cohort 01 fanout | Meaning |
+| --- | ---: | ---: | --- |
+| `echo:impermanence-heron-active-transfer-adapter` | 5 profiles / 5 Characters | 2 profiles | Same Echo active/resource/transfer boundary across Aalto, Iuno, Zhezhi, Lumi and Yinlin. It still requires real Outro/incoming-Resonator event state. |
+| `weapon:trigger-uptime-adapter` | 4 profiles / 4 Characters / 5 edges | 3 profiles | Simple source-triggered Weapon windows across Lumi, Calcharo, Carlotta plus existing Ciaccona coverage. Matching suffix does not by itself prove one implementation handles every trigger. |
+| `sonata:outro-transfer-adapter` | 4 profiles / 4 Characters | 3 profiles | Incoming-resonator transfer timing across Zhezhi, Lumi, Yinlin and Cantarella. Requires actual Outro and switch target. |
+| `sonata:trigger-stack-adapter` | 2 profiles / 2 Characters | 2 profiles | Void Thunder / Frosty Resolve stack state driven by qualifying actions. Values/triggers remain separate source rows. |
+| `sonata:trigger-uptime-adapter` | 2 profiles / 2 Characters | 2 profiles | Simple source-triggered Sonata windows in Carlotta and Changli. |
+| `weapon:target-state-adapter` | 2 profiles / 2 Characters | 0 profiles | Existing shared target-state suffix across Cartethyia and Ciaccona. |
 
-`rotation:*:engine-model` is deliberately grouped only for reporting and is marked `PROFILE_SPECIFIC_EXECUTION`. It is excluded from the reusable priority queue. Ten profiles having a pending rotation engine model does not mean one generic rotation adapter can execute them.
+`rotation:*:engine-model` is deliberately grouped only for reporting and is marked `PROFILE_SPECIFIC_EXECUTION`. Seventeen profiles having a pending rotation engine model does not mean one generic rotation adapter can execute them.
 
 The syntactic grouping is a throughput hint, not semantic evidence. It never:
 
@@ -57,7 +61,46 @@ The syntactic grouping is a throughput hint, not semantic evidence. It never:
 - fabricates uptime, target state, scaling or mechanics;
 - authorizes `DPS_READY`.
 
-## Current first-slice execution examples
+## Newly promoted Cohort 01 execution groups
+
+Seven source/semantic-complete profiles entered the canonical registries in the current tranche. Their execution gaps are grouped below by shared mechanic, not by Character copy.
+
+### Event-triggered uptime / stack state
+
+- **Lumi** — Ages of Harvest Intro/Skill windows.
+- **Yinlin** — Stringmaster Skill-driven ATK stack timing.
+- **Calcharo** — Wildfire Mark Liberation window + Void Thunder action-driven stacks.
+- **Cantarella** — Whispers of Sirens Gentle Dream stack state.
+- **Carlotta** — The Last Dance Skill window + Frosty Resolve Skill/Liberation windows/stacks.
+- **Changli** — Molten Rift Skill-triggered uptime plus Blazing Brilliance Searing Feather lifetime/cross-effect stack mutation.
+- **Chisa** — Kumokiri Negative-Status/stack team activation + Rejuvenating Glow heal-triggered team window.
+
+These should be implemented as reusable event/state primitives where the semantics truly match. Do not create one Character-specific trigger evaluator per profile.
+
+### Incoming-resonator transfer
+
+- **Lumi** — Moonlit Clouds + Impermanence Heron.
+- **Yinlin** — Moonlit Clouds + Impermanence Heron.
+- **Cantarella** — Midnight Veil incoming Havoc branch.
+
+The shared requirement is executable Outro/switch-target state. Buff source rows stay distinct; the primitive should resolve the actual incoming Resonator rather than assume team-wide uptime.
+
+### Echo active execution
+
+- **Lumi / Yinlin** — Impermanence Heron active/resource/transfer lifecycle.
+- **Calcharo** — Nightmare: Thundering Mephis active attack lacks an exact executable Echo attack profile.
+- **Cantarella** — Lorelei active attack lacks an exact executable Echo attack profile.
+- **Carlotta** — Sentry Construct active attack lacks an exact executable Echo attack profile.
+- **Chisa** — Fallacy of No Return active damage remains pending; its conditional cast effects are already modeled.
+
+**Changli is intentionally absent from this group.** The reviewed Changli source sequence equips Nightmare: Inferno Rider but does not cast it, so no active-Echo dependency is invented for the supported path.
+
+### Specialized source-specific boundaries
+
+- **Cantarella Midnight Veil** — the 5-piece Outro also deals source-reviewed 480% Havoc Outro Skill DMG; this remains a dedicated damage-event adapter separate from the incoming Havoc transfer.
+- **Changli Blazing Brilliance** — Searing Feather has verified raw max-stack lifetime semantics plus a Skill-cast event that mutates that same effect stack. This should become a generic cross-effect stack primitive only if implementation review proves reuse; do not flatten it into normal independent stacks.
+
+## Current supported-profile examples
 
 | Character / preset | Rotation state | Current execution disposition | Representative remaining boundary |
 | --- | --- | --- | --- |
@@ -70,26 +113,15 @@ The syntactic grouping is a throughput hint, not semantic evidence. It never:
 | The Shorekeeper — `shorekeeper-augusta-support` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Stellar Symphony resource/team-uptime, Fallacy active damage, profile rotation engine model. |
 | Zhezhi — Empyrean / Moonlit presets | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Mode-specific Weapon/Sonata/Echo execution plus separate profile rotation engine models. Moonlit includes Impermanence Heron active/transfer. |
 | Denia — Fusion Burst / Tune Strain presets | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Mode-specific Sonata/Echo execution and separate source-conditioned rotation engine models. |
+| Lumi — `lumi-hybrid` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Weapon trigger windows, Moonlit transfer, Impermanence Heron lifecycle, rotation engine model. |
+| Yinlin — `yinlin-moonlit` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Stringmaster stack timing, Moonlit transfer, Impermanence Heron lifecycle, rotation engine model. |
+| Calcharo — `calcharo-standard` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Wildfire Mark uptime, Void Thunder stacks, Nightmare: Thundering Mephis active damage, rotation engine model. |
+| Cantarella — `cantarella-standard` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Gentle Dream stacks, Midnight Veil transfer/damage, Lorelei active damage, rotation engine model. |
+| Carlotta — `carlotta-standard` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | The Last Dance/Frosty Resolve trigger state, Sentry active damage, rotation engine model. |
+| Changli — `changli-standard` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Blazing Brilliance stack lifecycle/cross-effect mutation, Molten Rift uptime, rotation engine model. |
+| Chisa — `chisa-standard` | `SOURCE_SEQUENCE_ONLY` | `PROFILE_COMPLETE_PENDING_FREEZE` | Kumokiri/Rejuvenating Glow event state, Fallacy active damage, rotation engine model. |
 
 The exact authoritative pending IDs remain in the canonical backward-impact review catalog and are what the runtime matrix consumes; this table is intentionally a readable summary rather than a second hand-maintained truth source.
-
-## Horizontal profile throughput relation
-
-Profile-source work and execution work are separate pipelines.
-
-For horizontal Cohort 01, the order is:
-
-1. mode/team/context;
-2. weapon;
-3. Echo/Sonata;
-4. stats/ER;
-5. source rotation;
-6. execution adapters/dependencies;
-7. promotion/freeze.
-
-Source extraction can stage a `NOT_VERIFIED` materialization candidate, but canonical promotion is a later semantic review action. Blocked fields stay parked per Character/mode so the rest of the cohort continues.
-
-Once a profile path is canonically promoted, fresh backward-impact review adds its exact execution dependencies to this matrix. That lets generic primitives be prioritized by measured fanout without making Character-specific assumptions.
 
 ## Freeze rule
 

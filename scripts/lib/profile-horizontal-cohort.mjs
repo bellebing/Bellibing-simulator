@@ -37,6 +37,16 @@ function uniqueStrings(value, label) {
   return normalized;
 }
 
+export function assertLiveProfileHorizontalCohortEligibility(manifest, currentProfileSourcePendingIds) {
+  const characterIds = uniqueStrings(manifest?.characterIds, 'characterIds');
+  const sourcePendingIds = new Set(uniqueStrings(currentProfileSourcePendingIds, 'currentProfileSourcePendingIds'));
+  const noLongerPending = characterIds.filter((id) => !sourcePendingIds.has(id));
+  if (noLongerPending.length > 0) {
+    fail(`cohort contains Characters no longer PROFILE_SOURCE_PENDING: ${noLongerPending.join(', ')}`);
+  }
+  return true;
+}
+
 function phaseReview(manifest, characterId, modeKey, phase) {
   const key = `${characterId}:${modeKey}:${phase}`;
   const review = manifest.phaseReviews?.[key];
@@ -177,7 +187,7 @@ function stageCharacter(character, manifest) {
   };
 }
 
-export function buildProfileHorizontalCohort(candidateReview, manifest, currentProfileSourcePendingIds) {
+export function buildProfileHorizontalCohort(candidateReview, manifest) {
   if (manifest?.kind !== INPUT_KIND) fail(`kind must be ${INPUT_KIND}`);
   if (manifest?.verificationStatus !== 'NOT_VERIFIED') fail('verificationStatus must be NOT_VERIFIED');
   if (manifest?.canonicalWriteAllowed !== false) fail('canonicalWriteAllowed must be false');
@@ -199,13 +209,9 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
   }
   const normalizedManifest = { ...manifest, autoParkMissingSourcePhases };
 
-  const sourcePendingIds = new Set(uniqueStrings(currentProfileSourcePendingIds, 'currentProfileSourcePendingIds'));
   const byId = new Map(candidateReview.characters.map((character) => [character.characterId, character]));
-
   const missingCandidates = characterIds.filter((id) => !byId.has(id));
   if (missingCandidates.length > 0) fail(`unknown candidate Characters: ${missingCandidates.join(', ')}`);
-  const noLongerPending = characterIds.filter((id) => !sourcePendingIds.has(id));
-  if (noLongerPending.length > 0) fail(`cohort contains Characters no longer PROFILE_SOURCE_PENDING: ${noLongerPending.join(', ')}`);
 
   const characters = characterIds.map((id) => stageCharacter(byId.get(id), normalizedManifest));
   const modeCount = characters.reduce((sum, character) => sum + character.modes.length, 0);
@@ -238,6 +244,7 @@ export function buildProfileHorizontalCohort(candidateReview, manifest, currentP
     canonicalWriteAllowed: false,
     notes: [
       'This cohort is horizontal staging/review data, not canonical profile truth.',
+      'Cohort membership is replayed from the historical manifest snapshot; current PROFILE_SOURCE_PENDING eligibility is a separate live guard.',
       'Automation may extract and materialize NOT_VERIFIED draft candidates but never marks semantic truth VERIFIED.',
       'Configured source phases may mechanically auto-park missing required fields as BLOCKED; auto-parking can never produce REVIEWED or VERIFIED state.',
       'SOURCE_SEQUENCE_ONLY remains non-executable until independently modeled execution/combat adapters exist.',

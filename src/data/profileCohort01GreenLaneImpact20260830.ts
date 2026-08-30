@@ -120,6 +120,7 @@ export const PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS: readonly ProfileBackwa
     reviewedEchoIds: ['echo-60000835'],
     pendingExecutionIds: [
       'weapon:the-last-dance:TLD-SKILL:trigger-uptime-adapter',
+      'sonata:sonata-10:S10_5PC_GLACIO:trigger-uptime-adapter',
       'sonata:sonata-10:S10_5PC_SKILL_STACK:trigger-stack-adapter',
       'echo:echo-60000835:sentry-construct-active-skill-damage-adapter',
       'rotation:carlotta-standard-rotation:engine-model',
@@ -127,7 +128,7 @@ export const PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS: readonly ProfileBackwa
     result: 'REVIEWED_WITH_PENDING_EXECUTION',
     notes: [
       'The Last Dance permanent ATK is source-modeled; the 5-second Skill-DMG window after Intro/Liberation needs executed event overlap rather than assumed full uptime.',
-      'Frosty Resolve source rows are reviewed. The conditional Skill-DMG stack must follow actual qualifying actions; the unconditional branch remains ordinary modeled source truth.',
+      'Frosty Resolve source rows are reviewed. Its Skill-triggered Glacio window and Liberation-triggered Skill-DMG stack must follow actual qualifying actions rather than profile-selection uptime.',
       'Sentry Construct main-slot Glacio and Skill bonuses are modeled. The source sequence explicitly casts Sentry with a swap cancel, but its active attack lacks an exact Echo attack profile.',
       'The selected Carlotta burst preserves the source-defined starting Substance state as source context only; no resource timeline is fabricated.',
     ],
@@ -168,7 +169,7 @@ export const PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS: readonly ProfileBackwa
     reviewedEchoIds: ['echo-60000605'],
     pendingExecutionIds: [
       'weapon:kumokiri:KUMO-TEAM:negative-status-stack-team-adapter',
-      'sonata:sonata-7:S07_5PC_TEAM_ATK:healing-team-uptime-adapter',
+      'sonata:sonata-7:REJUV_ATK:healing-team-uptime-adapter',
       'echo:echo-60000605:fallacy-active-skill-damage-adapter',
       'rotation:chisa-standard-rotation:engine-model',
     ],

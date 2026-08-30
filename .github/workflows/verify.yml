@@ -37,6 +37,9 @@ jobs:
       - name: Profile candidate inventory gate
         run: npm run audit:profile-candidates
 
+      - name: Profile source accelerator gate
+        run: npm run audit:profile-source-accelerator
+
       - name: Horizontal profile cohort gate
         run: npm run audit:profile-cohort
 

@@ -1,0 +1,153 @@
+{
+  "kind": "PROFILE_COHORT_SEMANTIC_PROMOTION_REVIEW",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "checkedAt": "2026-08-30",
+  "reviewedAgainstRepoMain": "4a1b11937db48a41ffb2fc1419c85fe72fb302f3",
+  "semanticReviewRequired": true,
+  "automationMayApproveSemanticTruth": false,
+  "notes": [
+    "This file is the explicit semantic gate after MODE_TEAM_CONTEXT, WEAPON, ECHO_SONATA, STATS_ER and SOURCE_ROTATION source review. It is not generated from field presence alone.",
+    "APPROVED_FOR_CANONICAL_VERIFIED means the source/context package is semantically coherent enough to materialize as VERIFIED profile truth while its rotation remains SOURCE_SEQUENCE_ONLY.",
+    "A mode can be source-complete and still be blocked from canonical materialization when the current registry would require a default selection that the source review has not justified.",
+    "Lucilla and Havoc Rover are deliberately not defaulted merely to maximize throughput. Their source-complete packages stay staged for a later explicit default/context decision.",
+    "No row here authorizes ENGINE_MODELED, rotation duration, effect uptime, DPS_READY, or freeze approval."
+  ],
+  "summary": {
+    "sourceCompleteModeCount": 10,
+    "approvedModeCount": 7,
+    "promotionBlockedModeCount": 3,
+    "approvedCharacterCount": 7
+  },
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "sourceComplete": true,
+      "decision": "SOURCE_COMPLETE_PROMOTION_BLOCKED",
+      "isDefault": null,
+      "blockers": ["canonicalDefaultSelectionNotSemanticallyClosedAcrossLucillaModes"],
+      "rationale": [
+        "Glacio Chafe is fully source-complete and Hiyuki is described as Lucilla's best partner overall.",
+        "The reviewed MODE_TEAM_CONTEXT checkpoint explicitly declined to assert a universal default between Lucilla's Resonance Modes, and Echo mode is also fully source-backed.",
+        "Choosing one mode as canonical default now would exceed the closed semantic decision, so both Lucilla packages remain staged rather than fabricating a default."
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "sourceComplete": true,
+      "decision": "SOURCE_COMPLETE_PROMOTION_BLOCKED",
+      "isDefault": null,
+      "blockers": ["canonicalDefaultSelectionNotSemanticallyClosedAcrossLucillaModes"],
+      "rationale": [
+        "Echo Skill is fully source-complete in the reviewed Sigrika + Shorekeeper context.",
+        "The source presents Lucilla as intentionally flexible across Glacio Chafe and Echo archetypes and the prior mode review did not choose a universal default.",
+        "The package stays source-complete but unmaterialized until default semantics are explicitly closed."
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "Current source describes Hybrid as Lumi's primary practical use and separates dedicated Main DPS as a special/non-optimal path.",
+        "The reviewed Carlotta + Shorekeeper context resolves the lower 142% ER estimate and the Moonlit/Heron Hybrid shell.",
+        "This approval is scoped to the reviewed Hybrid context and does not promote the still-blocked Main DPS mode."
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "sourceComplete": true,
+      "decision": "SOURCE_COMPLETE_PROMOTION_BLOCKED",
+      "isDefault": null,
+      "blockers": ["canonicalDefaultSelectionNotSemanticallyClosedAcrossHavocRoverPlaystyles"],
+      "rationale": [
+        "The short burst quickswap sequence, Phrolova + Danjin team context, weapon and Echo shell are source-complete.",
+        "Current source presents Havoc Rover as viable across Main DPS and burst/Dual DPS playstyles rather than establishing Quick Swap as the universal default.",
+        "The Hypercarry mode remains source-blocked, so selecting Quick Swap as the one canonical default would turn incomplete comparison coverage into a false preference."
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "Current source explicitly says Hybrid Yinlin will nearly always use Moonlit Clouds in optimal sets and warns against treating her as Main DPS.",
+        "The Xiangli Yao + Shorekeeper context exactly supports the reviewed 128%+ ER target and Moonlit rotation timing.",
+        "Empyrean remains blocked because its exact selection condition/team context is unresolved, so Moonlit is the supported default for the reviewed Hybrid package."
+      ]
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "The source explicitly treats Calcharo as Main DPS and provides the exact Lynae + Shorekeeper lower-ER calculation context used by this package.",
+        "Weapon, Void Thunder shell, 120% context-bound ER and optimized burst/warmup sequences are mutually coherent.",
+        "No competing reviewed Calcharo mode in Cohort 01 requires a default comparison."
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "The source explicitly treats Cantarella as Hybrid and the reviewed Phrolova + Qiuyuan context resolves the Havoc-team Midnight Veil + Lorelei shell.",
+        "The numeric ER gate intentionally remains absent because the source's 120%-140% examples do not exactly match the selected trio; the conditional requirement is preserved in notes instead of fabricated.",
+        "The complete source sequence remains SOURCE_SEQUENCE_ONLY."
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "The source describes Carlotta as a Hyper Carry DPS, calls Frosty Resolve her best set bar none, and uses Zhezhi + Shorekeeper as the reviewed calculation context.",
+        "The exact lower 108% ER estimate, Sentry Construct shell, burst sequence and resource warmup all refer to the same reviewed context.",
+        "No competing reviewed Carlotta mode in Cohort 01 requires a default comparison."
+      ]
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "The source specifically highlights the standard rotation for the Changli + Brant + Lupa trio and the reviewed team is Mono Fusion, matching the source's lower ER condition.",
+        "Molten Rift, Nightmare: Inferno Rider, Blazing Brilliance and the source-explicit cancel sequence are coherent for this scoped context.",
+        "No alternative Changli mode is staged in Cohort 01."
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "sourceComplete": true,
+      "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+      "isDefault": true,
+      "blockers": [],
+      "rationale": [
+        "The source calculation context is explicitly Aemeath + Denia and matches the reviewed Support team.",
+        "The 125%+ ER target, Rejuvenating Glow/Fallacy timing, Kumokiri and source opener/loop sequences are all reviewed in that same context.",
+        "No competing reviewed Chisa mode in Cohort 01 requires a default comparison."
+      ]
+    }
+  ]
+}

@@ -76,15 +76,13 @@ export const WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT = {
     'weapon:the-last-dance:TLD-SKILL:trigger-uptime-adapter',
     'weapon:moongazers-sigil:MGS-LIB:trigger-uptime-adapter',
   ],
-  targetStatusPendingExecutionIds: [
-    'weapon:woodland-aria:WA-AERO:trigger-uptime-adapter',
-  ],
+  targetStatusPendingExecutionIds: [] as readonly string[],
   closesPendingExecutionIds: [] as readonly string[],
   requiresProfileEventTimeline: true,
   notes: [
     'Five canonical edges share an explicit cast-event -> timed SELF-window mechanic and are covered by the reusable primitive.',
-    'Woodland Aria WA-AERO is not a cast-window mechanic: it activates when Aero Erosion is inflicted on a target and remains a separate target-status event boundary.',
-    'Implementing the primitive does not close a profile dependency while its rotation is SOURCE_SEQUENCE_ONLY; an executable profile event timeline must supply the actual trigger event and timing.',
+    'Woodland Aria WA-AERO was semantically split from this cast-window family and is now closed by aero-erosion-weapon-target-state-v1 in the Ciaccona closure tranche; its implementation/source review remains owned by that adapter artifact.',
+    'Implementing the cast-window primitive does not close a profile dependency while its rotation is SOURCE_SEQUENCE_ONLY; an executable profile event timeline must supply the actual trigger event and timing.',
     'The primitive creates one source-backed activation window. It does not invent multi-trigger refresh/overlap policy beyond the event supplied by an executable caller.',
   ],
 } as const;

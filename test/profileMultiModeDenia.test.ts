@@ -94,7 +94,7 @@ test('Denia onboarding reviews preserve both mode-specific execution gaps', () =
 test('Denia becomes build-ready with two verified presets but remains non-executable for DPS', () => {
   const summary = auditProfileReadiness();
   assert.deepEqual(summary.issues, []);
-  assert.equal(summary.dpsReadyCount, 1);
+  assert.equal(summary.dpsReadyCount, 2);
 
   const denia = summary.characters.find((row) => row.characterId === 'denia');
   assert.ok(denia);

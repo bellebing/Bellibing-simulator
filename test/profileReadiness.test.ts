@@ -28,7 +28,6 @@ const NEW_SOURCE_BATCH = [
 
 const STILL_PENDING_FREEZE = [
   ['cartethyia', 'cartethyia-aero-erosion'],
-  ['ciaccona', 'ciaccona-cartethyia-aero'],
   ['rover-aero', 'rover-aero-cartethyia-ciaccona'],
   ['iuno', 'iuno-augusta-hybrid'],
   ['the-shorekeeper', 'shorekeeper-augusta-support'],
@@ -64,9 +63,9 @@ test('raw and intrinsic unresolved Character fields stay visible to DPS prefligh
   assert.equal(mornye.intrinsicDpsBlocked, true);
 });
 
-test('Augusta is the first narrow DPS-ready profile and its adapter evidence is explicit', () => {
+test('Augusta and Ciaccona are explicitly frozen DPS-ready profiles with adapter evidence', () => {
   const summary = assertProfileReadinessAudit();
-  assert.deepEqual(summary.dpsReadyIds, ['augusta']);
+  assert.deepEqual(summary.dpsReadyIds, ['augusta', 'ciaccona']);
 
   const augusta = assertCharacterDpsReady('augusta');
   assert.equal(augusta.disposition, 'DPS_READY');
@@ -74,10 +73,26 @@ test('Augusta is the first narrow DPS-ready profile and its adapter evidence is 
   assert.deepEqual(augusta.verifiedPresetIds, ['augusta-standard']);
   assert.deepEqual(augusta.freezeApprovalPresetIds, ['augusta-standard']);
 
-  assert.equal(PROFILE_FREEZE_APPROVALS.length, 1);
-  assert.deepEqual(PROFILE_FREEZE_APPROVALS[0].requiredAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
-  assert.deepEqual(PROFILE_FREEZE_APPROVALS[0].verifiedAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
-  assert.equal(PROFILE_FREEZE_APPROVALS[0].backwardImpactReview, 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01');
+  const ciaccona = assertCharacterDpsReady('ciaccona');
+  assert.equal(ciaccona.disposition, 'DPS_READY');
+  assert.deepEqual(ciaccona.presetIds, ['ciaccona-cartethyia-aero']);
+  assert.deepEqual(ciaccona.verifiedPresetIds, ['ciaccona-cartethyia-aero']);
+  assert.deepEqual(ciaccona.freezeApprovalPresetIds, ['ciaccona-cartethyia-aero']);
+
+  assert.equal(PROFILE_FREEZE_APPROVALS.length, 2);
+  const augustaApproval = PROFILE_FREEZE_APPROVALS.find((row) => row.presetId === 'augusta-standard');
+  const ciacconaApproval = PROFILE_FREEZE_APPROVALS.find((row) => row.presetId === 'ciaccona-cartethyia-aero');
+  assert.ok(augustaApproval && ciacconaApproval);
+  assert.deepEqual(augustaApproval.requiredAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
+  assert.deepEqual(augustaApproval.verifiedAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
+  assert.equal(augustaApproval.backwardImpactReview, 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01');
+  assert.deepEqual(ciacconaApproval.requiredAdapterIds, [
+    PROFILE_BUILD_CONTEXT_ADAPTER_ID,
+    'aero-erosion-weapon-target-state-v1',
+    'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
+  ]);
+  assert.deepEqual(ciacconaApproval.verifiedAdapterIds, ciacconaApproval.requiredAdapterIds);
+  assert.equal(ciacconaApproval.backwardImpactReview, 'PROFILE-IMPACT-CIACCONA-2026-08-29-01');
 });
 
 test('other verified source profile packages are not silently promoted to DPS-ready', () => {
@@ -108,7 +123,7 @@ test('a SOURCE_SEQUENCE_ONLY profile cannot be freeze-approved for DPS', () => {
     characterId: 'cartethyia',
     presetId: 'cartethyia-aero-erosion',
     status: 'DPS_READY',
-    checkedAt: '2026-08-29',
+    checkedAt: '2026-08-30',
     patch: '3.6',
     backwardImpactReview: 'PROFILE-IMPACT-CARTETHYIA-2026-08-29-01',
     requiredAdapterIds: [],
@@ -127,7 +142,7 @@ test('a Character Mechanics source blocker cannot be freeze-approved for DPS', (
     characterId: 'buling',
     presetId: 'augusta-standard',
     status: 'DPS_READY',
-    checkedAt: '2026-08-29',
+    checkedAt: '2026-08-30',
     patch: '3.6',
     backwardImpactReview: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
     requiredAdapterIds: [],
@@ -146,7 +161,7 @@ test('freeze approval adapter evidence is enforced inside readiness audit', () =
     characterId: 'augusta',
     presetId: 'augusta-standard',
     status: 'DPS_READY',
-    checkedAt: '2026-08-29',
+    checkedAt: '2026-08-30',
     patch: '3.6',
     backwardImpactReview: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
     requiredAdapterIds: ['profile-engine-bridge'],

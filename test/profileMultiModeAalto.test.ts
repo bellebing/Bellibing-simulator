@@ -58,7 +58,7 @@ test('Aalto Hybrid uses the Jiyan + Shorekeeper ER context instead of collapsing
 test('Aalto stays profile-complete pending freeze but not DPS-ready as other profiles are added', () => {
   const summary = auditProfileReadiness();
   assert.deepEqual(summary.issues, []);
-  assert.equal(summary.dpsReadyCount, 1);
+  assert.equal(summary.dpsReadyCount, 2);
 
   const aalto = summary.characters.find((row) => row.characterId === 'aalto');
   assert.ok(aalto);

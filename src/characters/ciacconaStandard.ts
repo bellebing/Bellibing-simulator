@@ -164,8 +164,15 @@ function motionValueAtLevel(fact: CharacterActionFact, skillLevel: number): numb
   if (fact.motionValueComponents) {
     return fact.motionValueComponents.reduce((sum, component) => sum + component.curve[index] * component.hitCount, 0);
   }
-  if (fact.fixedMotionValueComponents) {
-    return fact.fixedMotionValueComponents.reduce((sum, component) => sum + component.coefficient * component.hitCount, 0);
+  if (fact.sourceFixedMotionValue !== null && fact.sourceFixedMotionValue !== undefined) {
+    if (fact.hitCount === null) throw new Error(`${fact.factId}: sourceFixedMotionValue requires explicit hitCount.`);
+    return fact.sourceFixedMotionValue * fact.hitCount;
+  }
+  if (fact.sourceFixedMotionValueComponents) {
+    return fact.sourceFixedMotionValueComponents.reduce(
+      (sum, component) => sum + component.coefficient * component.hitCount,
+      0,
+    );
   }
   if (fact.motionValue !== null) return fact.motionValue;
   throw new Error(`${fact.factId}: no executable motion value for skill level ${skillLevel}.`);
@@ -229,6 +236,8 @@ export function evaluateCiacconaBasicRotation(build: CiacconaBuildInputs): Ciacc
     const damageClass = fact.damageClass as CharacterDamageClass;
     const before = woodland.snapshot();
     const musicalEssenceBefore = musicalEssence;
+    const gustsAeroBefore = gustsAeroActive;
+    const soloConcertBefore = soloConcertActive;
 
     if (recipe.requiresMusicalEssence !== undefined && musicalEssence < recipe.requiresMusicalEssence) {
       throw new Error(`${fact.factId}: requires ${recipe.requiresMusicalEssence} Musical Essence, has ${musicalEssence}.`);
@@ -278,10 +287,8 @@ export function evaluateCiacconaBasicRotation(build: CiacconaBuildInputs): Ciacc
       aeroErosionBefore: before.target.affected,
       woodlandAeroBefore: before.aeroDamageBonusActive,
       woodlandResReductionBefore: before.targetAeroResReductionActive,
-      gustsAeroBefore: gustsAeroActive && recipe.aeroErosionStacksAfter === undefined
-        ? true
-        : before.target.affected && eventIndex > 0,
-      soloConcertBefore: soloConcertActive && !recipe.activatesSoloConcertAfter,
+      gustsAeroBefore,
+      soloConcertBefore,
       musicalEssenceBefore,
       musicalEssenceAfter: musicalEssence,
       damage,

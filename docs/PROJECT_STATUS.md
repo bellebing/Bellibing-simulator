@@ -271,8 +271,8 @@ Current canonical impact inventory on this merge candidate:
 
 Top reusable syntactic primitive candidates are currently:
 
-1. `echo:impermanence-heron-active-transfer-adapter` — **5 profiles / 5 Characters**;
-2. `weapon:trigger-uptime-adapter` — **4 profiles / 4 Characters / 5 dependencies**;
+1. `weapon:trigger-uptime-adapter` — **5 profiles / 5 Characters / 6 dependencies**;
+2. `echo:impermanence-heron-active-transfer-adapter` — **5 profiles / 5 Characters**;
 3. `sonata:outro-transfer-adapter` — **4 profiles / 4 Characters**.
 
 Within the seven newly promoted profiles, `weapon:trigger-uptime-adapter` and `sonata:outro-transfer-adapter` each touch three profiles; Impermanence Heron touches Lumi and Yinlin and also reuses the same boundary already present for Aalto, Iuno and Zhezhi.
@@ -321,7 +321,7 @@ A PR is not merge-ready because an earlier head passed.
 
 1. Exact-head verify and merge the current Cohort 01 green-lane tranche. Do not count the seven promotions as landed until full Verify/Export/build/browser/audits pass on the exact PR head and post-merge state is rechecked.
 2. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until canonical default semantics are explicitly closed; do not fabricate defaults.
-3. Use the Profile × Adapter matrix to attack shared execution primitives before character-specific copies. The highest fanout candidate is Impermanence Heron active-transfer, while generic trigger-uptime/outro-transfer touch the most newly promoted profiles.
+3. Use the Profile × Adapter matrix to attack shared execution primitives before character-specific copies. Weapon trigger-uptime and Impermanence Heron are tied at five-profile fanout; the matrix ranks Weapon trigger-uptime first by dependency-count tie-break, while Outro transfer touches three of the seven newly promoted profiles.
 4. Do not implement an adapter merely because suffixes group syntactically; verify the shared semantic primitive and its required event-state first.
 5. Continue preserving explicit source blockers, including Brant's conditional 250% Tidebreaking branch/fallback and missing exact Echo attack data.
 6. Do not start broad roster-wide Character DPS. Augusta remains the only frozen DPS-ready vertical slice.

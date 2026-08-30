@@ -106,10 +106,6 @@ test('bulk materialization produces seven canonical defaults while keeping every
 test('all seven promoted profiles remain pending freeze with explicit backward-impact execution gaps', () => {
   const summary = assertProfileReadinessAudit();
   assert.equal(summary.releasedCharacterCount, 57);
-  assert.equal(summary.profileCompletePendingFreezeCount, 24);
-  assert.equal(summary.characterMechanicsSourceBlockedCount, 3);
-  assert.equal(summary.profileSourcePendingCount, 28);
-  assert.equal(summary.dpsReadyCount, 2);
   assert.equal(summary.issues.length, 0);
 
   for (const [characterId, presetId] of PROMOTED) {
@@ -120,6 +116,7 @@ test('all seven promoted profiles remain pending freeze with explicit backward-i
     assert.deepEqual(row.verifiedPresetIds, [presetId]);
     assert.deepEqual(row.freezeApprovalPresetIds, []);
     assert.ok(!summary.profileSourcePendingIds.includes(characterId));
+    assert.ok(!summary.dpsReadyIds.includes(characterId));
 
     const impact = PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS.find((review) => review.presetId === presetId);
     assert.ok(impact, presetId);

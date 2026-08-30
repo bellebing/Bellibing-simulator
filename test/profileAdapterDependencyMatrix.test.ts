@@ -15,7 +15,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 18);
   assert.equal(matrix.profileCount, 18);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 77);
+  assert.equal(matrix.dependencyCount, 78);
   assert.equal(matrix.authorizesExecution, false);
 });
 
@@ -66,7 +66,7 @@ test('new green-lane execution gaps stay grouped by generic mechanic where seman
     'chisa-standard',
   ]);
   const newEdges = matrix.edges.filter((edge) => newPresetIds.has(edge.presetId));
-  assert.equal(newEdges.length, 31);
+  assert.equal(newEdges.length, 32);
 
   const byPrimitive = new Map<string, Set<string>>();
   for (const edge of newEdges) {
@@ -79,6 +79,7 @@ test('new green-lane execution gaps stay grouped by generic mechanic where seman
   assert.equal(byPrimitive.get('sonata:outro-transfer-adapter')?.size, 3);
   assert.equal(byPrimitive.get('echo:impermanence-heron-active-transfer-adapter')?.size, 2);
   assert.equal(byPrimitive.get('sonata:trigger-stack-adapter')?.size, 2);
+  assert.equal(byPrimitive.get('sonata:trigger-uptime-adapter')?.size, 2);
 
   const changliEcho = newEdges.find((edge) => edge.presetId === 'changli-standard' && edge.layer === 'echo');
   assert.equal(changliEcho, undefined, 'Changli source rotation does not cast Nightmare: Inferno Rider, so no active-Echo dependency is invented.');

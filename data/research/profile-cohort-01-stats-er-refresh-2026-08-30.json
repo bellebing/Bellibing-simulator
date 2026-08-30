@@ -1,0 +1,312 @@
+{
+  "kind": "PROFILE_COHORT_STATS_ER_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "4a1b11937db48a41ffb2fc1419c85fe72fb302f3",
+  "scope": "STATS_ER_ONLY",
+  "notes": [
+    "This refresh consumes the already reviewed MODE_TEAM_CONTEXT, WEAPON and ECHO_SONATA overlays and researches only missing stat priority and source-backed Energy Regen conditions.",
+    "A source-backed priority can be REVIEWED while erBand remains null when the numeric ER recommendation is tied to a different unresolved team, set or mode context.",
+    "Numeric ER values are stored as ratios and only when the current staged context safely supports the source condition.",
+    "REVIEWED here is intermediate source review only. No entry becomes canonical, VERIFIED, frozen, or executable."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "stats": {
+        "priority": ["CRIT Rate = CRIT DMG", "ATK%", "Basic DMG%", "ATK"],
+        "relations": ["Basic DMG% is only slightly more important than ATK in Chafe mode."],
+        "erBand": {"minimum":1.0,"preferred":1.0,"maximum":1.0,"context":"Source endgame target is 100% Energy Regen; Lucilla does not prioritize ER substats."},
+        "notes": ["Mode-specific source note keeps Basic DMG slightly ahead of ATK for Chafe rather than reusing Echo-mode priority."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_SPECIFIC_PRIORITY_AND_ER",
+      "evidenceSummary": ["Chafe priority preserves the source's Basic-DMG-over-ATK note; source endgame Energy Regen target is 100%."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lucilla","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "stats": {
+        "priority": ["CRIT Rate = CRIT DMG", "ATK%", "ATK"],
+        "relations": ["Basic DMG% is almost completely useless in Echo mode; prioritize ATK instead."],
+        "erBand": {"minimum":1.0,"preferred":1.0,"maximum":1.0,"context":"Source endgame target is 100% Energy Regen; Lucilla does not prioritize ER substats."},
+        "notes": ["Basic DMG is intentionally omitted from the staged Echo-mode priority because the source explicitly calls it almost completely useless in this mode."]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_SPECIFIC_PRIORITY_AND_ER",
+      "evidenceSummary": ["Echo-mode priority explicitly favors ATK over Basic DMG; source endgame Energy Regen target is 100%."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lucilla","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.42,"preferred":1.42,"maximum":1.42,"context":"Source lower-end 142% estimate is explicitly for Carlotta + The Shorekeeper, matching the reviewed Hybrid team context."},
+        "notes": ["The source-wide 142%-150% range is narrowed only because the reviewed Hybrid context exactly matches the stated 142% team." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_RESOLVES_SOURCE_ER_RANGE",
+      "evidenceSummary": ["Hybrid Lumi keeps the source priority and uses the explicit 142% lower-end estimate for Carlotta + The Shorekeeper."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lumi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Source gives a 142%-150% team-dependent range for the standard Lumi rotation, but the staged Main DPS mode has no exact reviewed team/rotation context; no numeric endpoint is inherited." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_ER_CONTEXT_UNRESOLVED",
+      "evidenceSummary": ["Main DPS Lumi receives the source stat priority but no numeric ER target because the source range is team-dependent and this mode's exact context is unresolved."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lumi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Basic DMG%", "Liberation DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Source states 140%+ across Phrolova+Cantarella, Danjin+Shorekeeper and Roccia+Shorekeeper. The reviewed Quick Swap team is Phrolova+Danjin, so 140% is not silently promoted into an exact current-context target." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_TEAM_MISMATCH",
+      "evidenceSummary": ["Quick Swap keeps the source priority; 140% is not copied because the exact staged Phrolova + Danjin team is not one of the source's listed ER contexts."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/rover-havoc","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Basic DMG%", "Liberation DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Source states 140%+ across several named teams, but the staged Hyper Carry exact three-member team is still unresolved; retain priority without fabricating a numeric current-context target." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_TEAM_UNRESOLVED",
+      "evidenceSummary": ["Hyper Carry keeps the source priority while numeric ER remains null until its exact team context is resolved."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/rover-havoc","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Liberation DMG%", "Basic DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Source 107%+ is explicitly estimated in Xiangli Yao + The Shorekeeper using Moonlit Clouds. Support uses Moonlit, but its exact staged team remains unresolved, so the number is retained only as source evidence and not written as the current-mode ER band." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_TEAM_UNRESOLVED",
+      "evidenceSummary": ["Support Yangyang keeps the source priority; 107% is not written because the exact source team is not the staged unresolved Support context."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yangyang","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Liberation DMG%", "Basic DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": null,
+        "notes": ["Source 107%+ was estimated with Moonlit Clouds, while this reviewed damage mode uses Sierra Gale. The Moonlit ER estimate is intentionally not carried across the set change." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_SET_MISMATCH",
+      "evidenceSummary": ["Damage Yangyang keeps the source priority but no numeric ER target because the published 107% estimate is explicitly Moonlit-based and this mode uses Sierra Gale."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yangyang","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK = Resonance Skill DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG", "ATK = Resonance Skill DMG%"],
+        "erBand": {"minimum":1.28,"preferred":1.28,"maximum":1.28,"context":"Source 128%+ estimate is explicitly for Xiangli Yao + The Shorekeeper, matching the reviewed Moonlit team context."},
+        "notes": []
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_RESOLVES_SOURCE_ER_TARGET",
+      "evidenceSummary": ["Moonlit Yinlin uses the source priority and 128% target in the exact reviewed Xiangli Yao + The Shorekeeper context."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yinlin","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK = Resonance Skill DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG", "ATK = Resonance Skill DMG%"],
+        "erBand": null,
+        "notes": ["Source 128%+ is estimated in Xiangli Yao + The Shorekeeper, while the staged Empyrean exact team/selection condition remains unresolved and the set differs from Moonlit. Numeric ER is therefore not copied across modes." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "PRIORITY_REVIEWED_NUMERIC_MODE_CONTEXT_UNRESOLVED",
+      "evidenceSummary": ["Empyrean Yinlin keeps the source priority, but the Moonlit-team 128% estimate is not promoted into this unresolved set/team context."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yinlin","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "HP%", "Flat HP"],
+        "relations": [],
+        "erBand": {"minimum":2.20,"preferred":null,"maximum":2.30,"context":"Source endgame recommendation is 220%-230% Energy Regen for Baizhi; ER is explicitly the most important stat."},
+        "notes": ["Personal damage investment is explicitly optional/negligible for the Support build." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SUPPORT_PRIORITY_AND_ER_RANGE",
+      "evidenceSummary": ["Baizhi source priority is ER > HP% > Flat HP with an explicit 220%-230% ER range."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/baizhi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until 250%)", "CRIT Rate = CRIT DMG", "Energy Regen (Above 250%)", "Basic Attack DMG%", "ATK%", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG", "250% Energy Regen is the Tidebreaking Courage eligibility threshold staged by the Echo review."],
+        "erBand": {"minimum":2.50,"preferred":null,"maximum":2.80,"context":"Source endgame recommendation is 250%-280%; ER is prioritized to 250%, then CRIT, with additional ER still valuable above 250%."},
+        "notes": ["This source-backed ER condition does not itself choose Tidebreaking Courage or remove the Molten Rift fallback; Echo selection remains separately blocked until the conditional profile representation is resolved." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_THRESHOLD_PRIORITY_AND_ER_RANGE",
+      "evidenceSummary": ["Brant stages the exact ER-to-250% priority, 250%-280% source range and the 250% Tidebreaking threshold as a first-class condition."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/brant","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK = Liberation DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG", "ATK = Liberation DMG%"],
+        "erBand": {"minimum":1.20,"preferred":1.20,"maximum":1.20,"context":"Source lower-end 120% estimate is explicitly for Lynae + The Shorekeeper, matching the reviewed team context."},
+        "notes": ["Source upper 160% estimate belongs to Xiangli Yao + The Shorekeeper quickswap and is not applied to the reviewed Lynae context." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_RESOLVES_SOURCE_ER_RANGE",
+      "evidenceSummary": ["Calcharo uses the source priority and the explicit 120% Lynae + The Shorekeeper lower-end target."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/calcharo","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK = Basic ATK DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG", "ATK = Basic ATK DMG%"],
+        "erBand": {"minimum":1.20,"preferred":null,"maximum":1.40,"context":"Source range is 120%-140%: lower end with Midnight Veil in Phrolova + Roccia, higher end with Moonlit Clouds in Carlotta + The Shorekeeper. Current staged mode is Midnight/Havoc with Phrolova + Qiuyuan, so the source range is preserved without selecting an endpoint."},
+        "notes": []
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SET_TEAM_DEPENDENT_ER_RANGE",
+      "evidenceSummary": ["Cantarella preserves the published 120%-140% set/team-dependent range instead of pretending the current Phrolova + Qiuyuan Midnight context equals the published lower-end team."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/cantarella","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "Resonance Skill DMG", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.08,"preferred":1.08,"maximum":1.08,"context":"Source lower-end 108% estimate is explicitly for Zhezhi + The Shorekeeper, matching the reviewed team context."},
+        "notes": ["Source higher 125% estimate belongs to Cantarella + The Shorekeeper and is not applied to the reviewed Zhezhi context." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXACT_TEAM_RESOLVES_SOURCE_ER_RANGE",
+      "evidenceSummary": ["Carlotta uses the explicit 108% Zhezhi + The Shorekeeper source endpoint for the reviewed team."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/carlotta","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Resonance Skill DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.08,"preferred":null,"maximum":1.20,"context":"Source range is 108%-120%: lower in Mono Fusion and higher with Brant + The Shorekeeper. Reviewed team is Brant + Lupa, so the range is preserved without selecting the Shorekeeper endpoint."},
+        "notes": []
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_TEAM_DEPENDENT_ER_RANGE",
+      "evidenceSummary": ["Changli preserves the 108%-120% team-dependent source range; Brant + Lupa is not silently equated to Brant + Shorekeeper."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/changli","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "Liberation DMG%", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.25,"preferred":1.25,"maximum":null,"context":"Source endgame recommendation is 125%+ Energy Regen."},
+        "notes": []
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_PRIORITY_AND_ER_MINIMUM",
+      "evidenceSummary": ["Chisa source priority is ER > CRIT > ATK% > Liberation DMG% > ATK with 125%+ ER."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/chisa","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.15,"preferred":1.15,"maximum":null,"context":"Source endgame recommendation is 115%+ Energy Regen."},
+        "notes": []
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_PRIORITY_AND_ER_MINIMUM",
+      "evidenceSummary": ["Chixia source priority is ER > CRIT > ATK% > ATK with 115%+ ER."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/chixia","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "stats": {
+        "priority": ["Energy Regen (Until Satisfied)", "CRIT Rate = CRIT DMG", "ATK%", "ATK", "Basic DMG%", "Skill DMG%"],
+        "relations": ["CRIT Rate = CRIT DMG"],
+        "erBand": {"minimum":1.05,"preferred":null,"maximum":1.30,"context":"Source range is 105%-130%; lower end is estimated with the optimized rotation and higher end with the simple rotation. No endpoint is selected before SOURCE_ROTATION review."},
+        "notes": ["The numeric range is source-backed but remains explicitly rotation-conditioned; it does not resolve Encore's separate Echo-mode blocker." ]
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROTATION_DEPENDENT_ER_RANGE",
+      "evidenceSummary": ["Encore preserves the published 105%-130% rotation-dependent ER range without choosing an endpoint before rotation review."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/encore","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "stats": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleDependentStatPriorityCannotFitStandardMode"],
+      "evidenceClass": "ROLE_DEPENDENT_PRIORITY_CONFLICT",
+      "evidenceSummary": ["General Jianxin build lists ER > CRIT > ATK% > ATK > damage stats, while the source explicitly says Energy Regen is the only necessary stat for low-investment Support Jianxin. The old standard mode still spans DPS/Hybrid/Support, so one priority array would flatten incompatible source contexts."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/jianxin","checkedAt":"2026-08-30"}
+    }
+  ]
+}

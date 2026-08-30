@@ -6,9 +6,9 @@ This document is a readable view of the current supported-profile execution boun
 
 Readiness:
 
-- **24 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **37 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **28 `PROFILE_SOURCE_PENDING`**;
+- **15 `PROFILE_SOURCE_PENDING`**;
 - **2 `DPS_READY`** — Augusta and Ciaccona.
 
 Canonical dependency matrix:
@@ -18,20 +18,20 @@ Canonical dependency matrix:
 - **16 profiles with pending execution dependencies**;
 - **72 exact pending execution edges**.
 
-The previous 25/3/28/1 and 76-edge values were stale pre-PR #123 documentation. Ciaccona's four closed dependencies are already absent from the live matrix.
+PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2 without changing the supported execution graph. The earlier 24/3/28/2 readiness values in this readable document were stale after that profile closure tranche. Ciaccona's four closed dependencies remain absent from the live 72-edge matrix.
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` currently partitions the 72 exact edges as:
+`src/profileExecutionWorkQueue.ts` currently partitions the 72 exact edges after the Changli semantic review as:
 
-- **33 `UNREVIEWED`**;
+- **30 `UNREVIEWED`**;
 - **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **10 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **11 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **5 `BLOCKED_SOURCE_CONFLICT`**;
-- **7 `BLOCKED_SOURCE_SEMANTICS`**;
+- **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **16 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **34 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **31 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
 
@@ -44,6 +44,12 @@ The previous 25/3/28/1 and 76-edge values were stale pre-PR #123 documentation. 
 `echo-active-damage-v1` resolves exact verified `ACTIVE_CAST` Echo attack facts without inventing cast time, uptime or rotation state. Reminiscence: Fleurdelys has exact Rank-5 `27.36% x8 + 136.80%` Aero damage, totaling `355.68% ATK`.
 
 Primitive availability does **not** close a profile dependency until that profile has an executable source-proven cast path.
+
+### Molten Rift cast window
+
+`sonata-cast-timed-self-window-v1` is an explicit source-locked primitive for Molten Rift 5-piece. An executed Resonance Skill cast by the set owner starts a **15-second SELF +30% Fusion DMG** window. The adapter validates the canonical Sonata row and requires a caller timestamp; it does not infer uptime from the set being equipped or parse arbitrary trigger prose.
+
+Changli's exact Molten Rift pending edge remains open as `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` until an executable profile timeline supplies the Skill-cast event.
 
 ### Aero Erosion target state
 
@@ -62,6 +68,8 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 | BUG-010 | Fallacy profile active-damage variant | `BLOCKED_SOURCE_SEMANTICS`: supported sequences do not identify normal/tap versus hold/release. |
 | BUG-011 | Defier's Thorn `DT-DEF` | `BLOCKED_SOURCE_SEMANTICS`: source does not establish a safe executable 15-second timing lifecycle. |
 | BUG-012 | Rover (Aero) Standard Rotation / Bloodpact healing overlap | `BLOCKED_SOURCE_SEMANTICS`: source proves healing, Unbound Flow and Fleurdelys cast events but not exact total rotation duration or the 6-second BPP-SKILL overlap; Skyfall Severance is also optional. |
+| BUG-013 | Blazing Brilliance Searing Feather at-cap lifecycle | `BLOCKED_SOURCE_SEMANTICS`: current sources do not define whether qualifying +1/+5 grants while already at 14 stacks restart, preserve or otherwise mutate the 12-second removal timer. |
+| BUG-014 | Changli Standard Rotation denominator | `BLOCKED_SOURCE_SEMANTICS`: current source gives a precise 1.37-second no-swap variant delta but no exact total duration for the fixed Standard Rotation. |
 
 ## Rover (Aero) exact remaining graph
 
@@ -74,6 +82,17 @@ After the already-applied Fleurdelys character-restriction closure, `rover-aero-
 
 No Rover pending ID closes in this tranche. The correct action is to park BUG-012 rather than fabricate timestamps or blanket uptime.
 
+## Changli exact remaining graph
+
+`changli-standard` has exactly four pending execution IDs in its current backward-impact review:
+
+1. `weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter` — **BUG-013 / BLOCKED_SOURCE_SEMANTICS**. Source fixes the +1 damage-event grant, 0.5-second grant interval, 14-stack cap and 12-second removal clause after reaching max, but not the timer behavior of later qualifying events while already capped.
+2. `weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter` — **BUG-013 / BLOCKED_SOURCE_SEMANTICS**. Resonance Skill casts source-explicitly grant +5 to the same Searing Feather state; at-cap mutation/timer behavior remains unresolved.
+3. `sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter` — **PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE** via `sonata-cast-timed-self-window-v1`. The event contract is resolved, but an executable Changli timeline must supply the actual Resonance Skill cast timestamp.
+4. `rotation:changli-standard-rotation:engine-model` — **PROFILE_SPECIFIC_EXECUTION / BUG-014**. Current Prydwen source preserves the fixed Standard Rotation and states that letting the final Heavy occur without swapping extends the rotation by 1.37 seconds, but it does not publish the exact total duration of the canonical path.
+
+No Changli pending ID closes in this checkpoint. The two shared Blazing Brilliance edges are now explicitly source-blocked instead of unreviewed, Molten Rift is primitive-covered but timeline-dependent, and the rotation remains source-only because a relative 1.37-second delta is not a DPS denominator.
+
 ## Representative supported-profile state
 
 | Character / preset | Rotation | Remaining boundary |
@@ -82,6 +101,7 @@ No Rover pending ID closes in this tranche. The correct action is to park BUG-01
 | Ciaccona — `ciaccona-cartethyia-aero` | `ENGINE_MODELED` | Zero pending IDs; `DPS_READY`. |
 | Cartethyia — `cartethyia-aero-erosion` | `SOURCE_SEQUENCE_ONLY` | `DT-DEF` / BUG-011 + exact rotation duration/engine model. |
 | Rover (Aero) — `rover-aero-cartethyia-ciaccona` | `SOURCE_SEQUENCE_ONLY` | Four exact IDs above; BUG-012 prevents truthful freeze. |
+| Changli — `changli-standard` | `SOURCE_SEQUENCE_ONLY` | Four exact IDs above; BUG-013 blocks Searing Feather state and BUG-014 blocks the DPS denominator. |
 | Iuno — `iuno-augusta-hybrid` | `SOURCE_SEQUENCE_ONLY` | Moongazer timing/state, Heron conflict and profile execution remain. |
 | Shorekeeper — `shorekeeper-augusta-support` | `SOURCE_SEQUENCE_ONLY` | Stellar Symphony event state, Fallacy variant and profile execution remain. |
 

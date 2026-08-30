@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir -p src/data
           cp data/generated/profileHorizontalGreenLane20260830.ts src/data/profileHorizontalGreenLane20260830.ts
-          if git diff --quiet -- src/data/profileHorizontalGreenLane20260830.ts; then
+          if [ -z "$(git status --porcelain -- src/data/profileHorizontalGreenLane20260830.ts)" ]; then
             echo 'Canonical generated module already matches deterministic output.'
             exit 0
           fi

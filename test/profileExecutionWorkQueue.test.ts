@@ -22,7 +22,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateExecutionSemanticReviews(), []);
   assert.deepEqual(validateWeaponSkillStackSemanticReview(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 11);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 12);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -54,6 +54,11 @@ test('semantic execution review catalog is derived from reviewed implementation/
 
   const woodland = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:woodland-aria:WA-AERO:trigger-uptime-adapter');
   assert.equal(woodland, undefined, 'closed Woodland Aria edge must not remain in the pending semantic-review catalog');
+
+  const defiersThorn = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:defiers-thorn:DT-DEF:source-timing-adapter');
+  assert.equal(defiersThorn?.status, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(defiersThorn?.actionKey, 'weapon:defiers-thorn-def-timing');
+  assert.equal(defiersThorn?.blockerId, 'BUG-011');
 });
 
 test('skill-stack syntactic family is semantically split before runtime implementation', () => {
@@ -91,13 +96,13 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 72,
-    unreviewedEdges: 37,
+    unreviewedEdges: 36,
     semanticallyReviewedImplementationPendingEdges: 0,
     primitiveAvailableRequiresTimelineEdges: 9,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 5,
+    blockedSourceSemanticsEdges: 6,
     profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 37,
+    actionableSharedEdges: 36,
   });
   assert.equal(
     queue.summary.unreviewedEdges
@@ -123,6 +128,7 @@ test('actionable queue removes already-covered, closed and source-blocked high-f
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
+  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-DEF:source-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
@@ -187,6 +193,12 @@ test('covered and blocked queues remain separate and retain exact fanout', () =>
   assert.equal(fallacy.profileCount, 2);
   assert.equal(fallacy.characterCount, 2);
   assert.deepEqual(fallacy.blockerIds, ['BUG-010']);
+
+  const defiersThorn = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:defiers-thorn-def-timing');
+  assert.ok(defiersThorn);
+  assert.equal(defiersThorn.dependencyCount, 1);
+  assert.equal(defiersThorn.profileCount, 1);
+  assert.deepEqual(defiersThorn.blockerIds, ['BUG-011']);
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');

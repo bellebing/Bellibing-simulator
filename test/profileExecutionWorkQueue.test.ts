@@ -22,7 +22,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateExecutionSemanticReviews(), []);
   assert.deepEqual(validateWeaponSkillStackSemanticReview(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 12);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 11);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -53,8 +53,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(fallacy?.blockerId, 'BUG-010');
 
   const woodland = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:woodland-aria:WA-AERO:trigger-uptime-adapter');
-  assert.equal(woodland?.status, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
-  assert.equal(woodland?.actionKey, 'weapon:aero-erosion-application-state');
+  assert.equal(woodland, undefined, 'closed Woodland Aria edge must not remain in the pending semantic-review catalog');
 });
 
 test('skill-stack syntactic family is semantically split before runtime implementation', () => {
@@ -87,18 +86,18 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 76-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 76,
-    unreviewedEdges: 39,
-    semanticallyReviewedImplementationPendingEdges: 1,
+    totalEdges: 72,
+    unreviewedEdges: 37,
+    semanticallyReviewedImplementationPendingEdges: 0,
     primitiveAvailableRequiresTimelineEdges: 9,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 5,
-    profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 40,
+    profileSpecificExecutionEdges: 16,
+    actionableSharedEdges: 37,
   });
   assert.equal(
     queue.summary.unreviewedEdges
@@ -121,18 +120,16 @@ test('actionable queue removes already-covered, closed and source-blocked high-f
   assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
   assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
+  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
+  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
+  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
-
-  const woodland = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:aero-erosion-application-state');
-  assert.ok(woodland);
-  assert.equal(woodland.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
-  assert.equal(woodland.profileCount, 1);
-  assert.equal(woodland.dependencyCount, 1);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
 });
 
-test('remaining shared fanout is machine-ranked so the next semantic slices do not require manual 76-edge triage', () => {
+test('remaining shared fanout is machine-ranked so the next semantic slices do not require manual edge triage', () => {
   const queue = buildProfileExecutionWorkQueue();
   for (let index = 1; index < queue.actionableSharedQueue.length; index += 1) {
     assert.ok(queue.actionableSharedQueue[index - 1].profileCount >= queue.actionableSharedQueue[index].profileCount);
@@ -143,7 +140,6 @@ test('remaining shared fanout is machine-ranked so the next semantic slices do n
   const expectedTwoProfileFamilies = [
     'sonata:trigger-stack-adapter',
     'sonata:trigger-uptime-adapter',
-    'weapon:target-state-adapter',
   ];
   for (const actionKey of expectedTwoProfileFamilies) {
     const row = queue.actionableSharedQueue.find((candidate) => candidate.actionKey === actionKey);
@@ -194,8 +190,8 @@ test('covered and blocked queues remain separate and retain exact fanout', () =>
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

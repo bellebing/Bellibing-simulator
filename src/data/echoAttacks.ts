@@ -70,6 +70,35 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60001065',
+    rank: 5,
+    cooldownSeconds: 20,
+    attacks: [
+      {
+        attackId: 'FLEURDELYS_WINDCLEAVER_SUMMON',
+        name: 'Reminiscence: Fleurdelys — Windcleaver summon',
+        trigger: 'ACTIVE_CAST',
+        element: 'Aero',
+        scalingStat: 'ATK',
+        components: [
+          { motionValuePerHit: 0.2736, hits: 8 },
+          { motionValuePerHit: 1.368, hits: 1 },
+        ],
+      },
+    ],
+    provenance: {
+      sourceLabels: ['wuwabuild Echo skill rendered English text + exact pinned Rank-5 params'],
+      sourceUrls: [ECHO_SKILL_SOURCE_URL],
+      checkedAt: '2026-08-30',
+      notes: [
+        'The pinned source explicitly defines one summon: 27.36% Aero DMG x8 plus one 136.80% Aero hit at Rank 5, totaling 355.68% ATK motion value.',
+        'The fifth source params row is Rank 5, matching the established Echo attack ingestion convention used by Bell-Borne and other exact attack facts.',
+        'Fleurdelys main-slot Aero bonuses and the Rover (Aero)/Cartethyia character restriction remain in the Echo effect/applicability layer and are not duplicated here.',
+        'This attack fact proves damage mechanics only. A profile rotation must still emit the exact Echo cast before the damage dependency can close.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60001215',
     rank: 5,
     cooldownSeconds: 8,

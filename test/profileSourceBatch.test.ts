@@ -50,7 +50,7 @@ test('Cartethyia Aero Erosion default resolves the reviewed source context', () 
   assert.equal(resolved.rotation.sourceSequence.at(-1), 'Outro');
 });
 
-test('Ciaccona Cartethyia Aero default preserves source main-stat alternatives and source-only rotation', () => {
+test('Ciaccona Cartethyia Aero default preserves source main-stat alternatives and executable reviewed rotation', () => {
   const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, 'ciaccona');
   assert.ok(resolved);
 
@@ -78,8 +78,8 @@ test('Ciaccona Cartethyia Aero default preserves source main-stat alternatives a
     minimum: 1.15,
     notes: 'Current Prydwen endgame target is 115%+ Energy Regen.',
   }]);
-  assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
-  assert.equal(resolved.rotation.engineModelId, undefined);
+  assert.equal(resolved.rotation.executionStatus, 'ENGINE_MODELED');
+  assert.equal(resolved.rotation.engineModelId, 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1');
   assert.ok(resolved.rotation.sourceSequence.includes('Forte: Heavy Attack: Quadruple Downbeat'));
   assert.equal(resolved.rotation.sourceSequence.at(-1), 'Outro');
   assert.equal(resolved.rotation.sourceSequence.some((step) => step.includes('Symphonic Poem: Tonic')), false);

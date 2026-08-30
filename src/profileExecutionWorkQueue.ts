@@ -3,7 +3,10 @@ import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWi
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
-import { DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830 } from './data/profileExecutionSemanticReview20260830.ts';
+import {
+  DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
+  ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830,
+} from './data/profileExecutionSemanticReview20260830.ts';
 import {
   PROFILE_ADAPTER_DEPENDENCY_MATRIX,
   type ProfileAdapterDependencyEdge,
@@ -166,6 +169,44 @@ const DEFIERS_THORN_DEF_REVIEWS: readonly ExecutionSemanticReview[] = [{
   ],
 }];
 
+const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
+  {
+    pendingExecutionId: 'weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter',
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'weapon:bloodpacts-pledge-healing-window-overlap',
+    reviewedAt: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.checkedAt,
+    blockerId: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.blockerId,
+    notes: [
+      ...ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.sourceEstablished,
+      ...ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.unresolvedSemantics,
+      'Healing events and the 6-second weapon duration are source-proven; exact overlap is not. This edge stays parked instead of receiving blanket uptime.',
+    ],
+  },
+  {
+    pendingExecutionId: 'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter',
+    status: 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING',
+    actionKey: 'weapon:bloodpacts-pledge-unbound-flow-team-amplify',
+    reviewedAt: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.checkedAt,
+    notes: [
+      'The weapon trigger is exact: Rover (Aero) casting Unbound Flow grants nearby on-field Resonators Aero DMG Amplification for 30 seconds.',
+      'The canonical source sequence explicitly contains Unbound Flow P1 before the swap, so trigger identity is semantically resolved.',
+      'No profile dependency closes until an executable Rover rotation owns the event and team state.',
+    ],
+  },
+  {
+    pendingExecutionId: 'echo:echo-60001065:active-skill-damage-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'echo:active-cast-exact-damage',
+    reviewedAt: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.checkedAt,
+    primitiveId: 'echo-active-damage-v1',
+    notes: [
+      'Prydwen Echo Usage explicitly places Reminiscence: Fleurdelys after Unbound Flow P1 and before switching out, so the cast event is source-proven for this profile sequence.',
+      'echo-active-damage-v1 already resolves the exact Rank-5 Fleurdelys ACTIVE_CAST attack data.',
+      'The dependency remains pending because the Rover profile is still SOURCE_SEQUENCE_ONLY; primitive availability does not manufacture an executable rotation.',
+    ],
+  },
+];
+
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
@@ -175,6 +216,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,
+  ...ROVER_AERO_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(

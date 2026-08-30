@@ -109,19 +109,29 @@ test('Rover Aero source review parks exact timing instead of fabricating executi
   ]);
   assert.deepEqual(review.closesPendingExecutionIds, []);
   assert.ok(review.sourceEstablished.some((note) => note.includes('Fleurdelys')));
+  assert.ok(review.sourceEstablished.some((note) => note.includes('Unbound Flow P1')));
+  assert.ok(review.unresolvedSemantics.some((note) => note.includes('6-second BPP-SKILL')));
   assert.ok(review.unresolvedSemantics.some((note) => note.includes('rotation duration')));
 });
 
 test('known stack families remain source-blocked when lifecycle semantics are incomplete', () => {
   assert.equal(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.length, 2);
-  assert.deepEqual(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
-  assert.equal(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.length, 2);
-  assert.deepEqual(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
-
   const stringmaster = WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.find((row) => row.effectId === 'SM-ATK');
   const rime = WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.find((row) => row.effectId === 'RDS-BASIC-STACK');
-  assert.ok(stringmaster?.unresolvedSemantics.some((note) => note.includes('refresh')));
-  assert.ok(rime?.unresolvedSemantics.some((note) => note.includes('refresh')));
+  assert.ok(stringmaster);
+  assert.ok(rime);
+  assert.equal(stringmaster.triggerSemantic, 'RESONANCE_SKILL_DAMAGE');
+  assert.equal(stringmaster.durationSeconds, 5);
+  assert.equal(stringmaster.maxStacks, 2);
+  assert.equal(rime.triggerSemantic, 'RESONANCE_SKILL_USE_WHILE_ON_FIELD');
+  assert.equal(rime.durationSeconds, 6);
+  assert.equal(rime.maxStacks, 3);
+  assert.deepEqual(WEAPON_SKILL_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+  assert.ok(stringmaster.unresolvedSemantics.some((note) => note.includes('refresh')));
+  assert.ok(rime.unresolvedSemantics.some((note) => note.includes('refresh')));
+
+  assert.equal(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.length, 2);
+  assert.deepEqual(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
   assert.ok(BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.every((row) => row.unresolvedSemantics.length > 0));
 });
 
@@ -130,6 +140,12 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.equal(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.blockerId, 'BUG-010');
   assert.equal(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.implementedAttackId, 'FALLACY_INITIAL_BLAST');
   assert.deepEqual(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+  assert.deepEqual([...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.profileContexts].sort(), [
+    'chisa-standard',
+    'shorekeeper-augusta-support',
+  ]);
+  assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('Hold Echo Skill')));
+  assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
 test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
@@ -157,7 +173,7 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue excludes covered and source-blocked Changli shared edges', () => {
+test('actionable queue removes already-covered, closed and source-blocked families including Changli split', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
 
@@ -169,10 +185,21 @@ test('actionable queue excludes covered and source-blocked Changli shared edges'
 
   assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
+  assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
+  assert.equal(actionableIds.has('echo:echo-60001065:active-skill-damage-adapter'), false);
+  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), true);
+  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
+  assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
+  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
+  assert.equal(actionableIds.has('weapon:defiers-thorn:DT-DEF:source-timing-adapter'), false);
   assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
 });
 
 test('remaining shared fanout is machine-ranked after Changli triage', () => {
@@ -212,10 +239,30 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(sonataTransfer.dependencyCount, 4);
   assert.equal(sonataTransfer.profileCount, 4);
 
+  const fleurdelysActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
+  assert.ok(fleurdelysActive);
+  assert.equal(fleurdelysActive.dependencyCount, 1);
+  assert.equal(fleurdelysActive.profileCount, 1);
+  assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
+
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
+  assert.equal(heron.profileCount, 5);
   assert.deepEqual(heron.blockerIds, ['BUG-008']);
+
+  const stringmaster = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:stringmaster-skill-damage-stack-lifecycle');
+  assert.ok(stringmaster);
+  assert.equal(stringmaster.dependencyCount, 1);
+  assert.equal(stringmaster.profileCount, 1);
+  assert.deepEqual(stringmaster.blockerIds, ['BUG-009']);
+
+  const rime = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:rime-on-field-skill-use-stack-lifecycle');
+  assert.ok(rime);
+  assert.equal(rime.dependencyCount, 2);
+  assert.equal(rime.profileCount, 2);
+  assert.equal(rime.characterCount, 1);
+  assert.deepEqual(rime.blockerIds, ['BUG-009']);
 
   const blazing = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:blazing-brilliance-searing-feather-state');
   assert.ok(blazing);
@@ -226,19 +273,27 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   const fallacy = queue.blockedSourceSemantics.find((row) => row.actionKey === 'echo:fallacy-cast-variant-resolution');
   assert.ok(fallacy);
+  assert.equal(fallacy.dependencyCount, 2);
+  assert.equal(fallacy.profileCount, 2);
+  assert.equal(fallacy.characterCount, 2);
   assert.deepEqual(fallacy.blockerIds, ['BUG-010']);
 
   const defiersThorn = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:defiers-thorn-def-timing');
   assert.ok(defiersThorn);
+  assert.equal(defiersThorn.dependencyCount, 1);
+  assert.equal(defiersThorn.profileCount, 1);
   assert.deepEqual(defiersThorn.blockerIds, ['BUG-011']);
 
   const roverHealing = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-healing-window-overlap');
   assert.ok(roverHealing);
+  assert.equal(roverHealing.dependencyCount, 1);
+  assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);
   assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  assert.equal(roverTeamAmp.dependencyCount, 1);
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');

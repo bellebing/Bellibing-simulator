@@ -1,5 +1,7 @@
+import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrillianceStackSemanticReview.ts';
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
+import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
@@ -123,6 +125,33 @@ const WEAPON_SKILL_STACK_REVIEWS: readonly ExecutionSemanticReview[] =
     ],
   }));
 
+const BLAZING_BRILLIANCE_STACK_REVIEWS: readonly ExecutionSemanticReview[] =
+  BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts.map((contract) => ({
+    pendingExecutionId: contract.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: contract.actionKey,
+    reviewedAt: BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.reviewedAt,
+    blockerId: BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      `Source-reviewed trigger semantic: ${contract.triggerSemantic}.`,
+      ...contract.unresolvedSemantics,
+      'The raw Searing Feather values remain verified, but no executable at-cap timer policy is authorized.',
+    ],
+  }));
+
+const SONATA_CAST_WINDOW_REVIEWS: readonly ExecutionSemanticReview[] =
+  SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:cast-timed-self-window',
+    reviewedAt: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.reviewedAt,
+    primitiveId: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.adapterId,
+    notes: [
+      'Manual semantic review proved Molten Rift 5-piece is an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
+      'The exact Changli dependency remains pending until an executable profile timeline supplies the Skill-cast timestamp.',
+    ],
+  }));
+
 const SONATA_TRANSFER_REVIEWS: readonly ExecutionSemanticReview[] =
   SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds.map((pendingExecutionId) => ({
     pendingExecutionId,
@@ -212,6 +241,8 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...WEAPON_CAST_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
   ...WEAPON_SKILL_STACK_REVIEWS,
+  ...BLAZING_BRILLIANCE_STACK_REVIEWS,
+  ...SONATA_CAST_WINDOW_REVIEWS,
   ...SONATA_TRANSFER_REVIEWS,
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,

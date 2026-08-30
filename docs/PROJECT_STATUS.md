@@ -152,6 +152,19 @@ Current evidence conflicts on the arm condition:
 
 Bellibing does not choose hit-armed versus cast-armed behavior without stronger evidence. All `echo:echo-60000525:impermanence-heron-active-transfer-adapter` dependencies remain pending.
 
+### Weapon skill-stack timing — BLOCKED SOURCE SEMANTICS
+
+The previous top actionable queue group, `weapon:skill-stack-timing-adapter`, has now been manually split into its actual source event contracts:
+
+- **Stringmaster `SM-ATK`** — dealing Resonance Skill DMG grants an ATK stack; max 2; source duration 5s;
+- **Rime-Draped Sprouts `RDS-BASIC-STACK`** — using Resonance Skill while the wielder is on field grants a Basic Attack DMG stack; max 3; source duration 6s.
+
+The Rime three-stack Outro consume/off-field branch remains a separate pending adapter family.
+
+Current pinned upstream and independent current weapon pages do not define the stack lifetime behavior needed by runtime: whether a later stack refreshes one shared duration or whether stacks retain independent expiration timers. `src/combat/weaponSkillStackSemanticReview.ts` records the exact split and parks both exact pending IDs behind **BUG-009** as `BLOCKED_SOURCE_SEMANTICS`. The Rime ID fans out to two Zhezhi profiles, so this removes three exact edges from actionable implementation without closing any canonical dependency.
+
+Bellibing does not create a generic timed-stack engine until that lifetime policy is independently resolved.
+
 ### Important execution rule
 
 Having a reusable primitive is not the same as closing a profile dependency. A canonical pending ID closes only when the exact supported profile has an executable event/state path using the verified adapter. `SOURCE_SEQUENCE_ONLY` profiles remain fail closed.
@@ -162,13 +175,14 @@ Having a reusable primitive is not the same as closing a profile dependency. A c
 
 Current exact-edge disposition is regression-locked to:
 
-- **46 `UNREVIEWED`**;
+- **43 `UNREVIEWED`**;
 - **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`** — Woodland Aria Aero-Erosion application state;
 - **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`** — five Weapon cast-window edges plus four direct Sonata Outro-transfer edges;
 - **5 `BLOCKED_SOURCE_CONFLICT`** — Impermanence Heron / BUG-008 fanout;
+- **3 `BLOCKED_SOURCE_SEMANTICS`** — Stringmaster/Rime stack-lifetime fanout / BUG-009;
 - **17 `PROFILE_SPECIFIC_EXECUTION`** — rotation engine models.
 
-That leaves **47 actionable shared edges**. The queue automatically excludes already-covered primitives, source-conflicted work and profile-specific rotations, then ranks the remaining shared work by current profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED`, so they surface automatically instead of silently inheriting old semantics.
+That leaves **44 actionable shared edges**. The queue automatically excludes already-covered primitives, source-conflicted work, source-semantics blockers and profile-specific rotations, then ranks the remaining shared work by current profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED`, so they surface automatically instead of silently inheriting old semantics.
 
 The existing `audit:profile-adapters` CI gate validates this semantic partition and prints the current actionable shortlist. The queue never removes `pendingExecutionIds` and never authorizes execution.
 
@@ -210,13 +224,15 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 - PR #114 — current-status synchronization after Cohort 01 merge.
 - PR #115 — first shared execution primitive: five source-verified Weapon cast windows, Woodland Aria semantic split, runtime hardening; no pending profile IDs closed.
 - PR #116 — shared incoming-transfer core with Denia/Hyvatia and direct Moonlit/Midnight wrappers; Impermanence Heron parked as BUG-008 source conflict; no pending profile IDs closed.
+- PR #117 — machine-readable semantic execution work queue; current work is ranked from exact canonical edge disposition instead of manual 78-edge triage.
 
 ## Next work
 
 1. Use the semantic execution work queue instead of manually re-triaging all 78 edges.
-2. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
-3. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
-4. Review/implement the highest actionable shared groups — currently including Sonata trigger stacks, Sonata trigger uptime and Weapon target state at two-profile fanout — before Character-specific copies.
-5. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close a profile dependency.
-6. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
-7. Keep broad roster DPS blocked until exact profile execution closure exists.
+2. Keep Stringmaster/Rime skill-stack lifecycle blocked until stack refresh/expiration semantics are explicitly sourced; do not infer a generic stack timer.
+3. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
+4. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
+5. Continue with the next highest actionable shared group produced by the queue; semantic review may implement, split or park it depending on source evidence.
+6. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close a profile dependency.
+7. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
+8. Keep broad roster DPS blocked until exact profile execution closure exists.

@@ -1,0 +1,65 @@
+{
+  "kind": "PROFILE_HORIZONTAL_COHORT_INPUT",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "sourceRoster": "data/research/profile-source-roster-2026-08-29.json",
+  "sourceRefresh": "data/research/profile-cohort-01-mode-context-refresh-2026-08-30.json",
+  "sourceCheckpoint": {
+    "repoMain": "ca1b5058c750fe58968af155d60eaca615c98b0f",
+    "referenceProfileDate": "2026-08-20",
+    "modeTeamContextCheckedAt": "2026-08-30"
+  },
+  "characterIds": [
+    "lucilla",
+    "lumi",
+    "rover-havoc",
+    "yangyang",
+    "yinlin",
+    "baizhi",
+    "brant",
+    "calcharo",
+    "cantarella",
+    "carlotta",
+    "changli",
+    "chisa",
+    "chixia",
+    "encore",
+    "jianxin"
+  ],
+  "autoParkMissingSourcePhases": [
+    "WEAPON",
+    "ECHO_SONATA",
+    "STATS_ER",
+    "SOURCE_ROTATION"
+  ],
+  "phaseReviews": {
+    "lucilla:glacio-chafe:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed from the 2026-08-30 mode/context refresh: Hiyuki + Chisa calculation context for Glacio Chafe."]},
+    "lucilla:echo-skill:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed from the 2026-08-30 mode/context refresh: Sigrika + The Shorekeeper calculation/synergy context for Echo Skill."]},
+    "lumi:hybrid:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed from the 2026-08-30 mode/context refresh: Carlotta + The Shorekeeper calculation/stat context for Hybrid Lumi."]},
+    "lumi:main-dps:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Main DPS role is source-backed, but no exact three-member Main DPS team context was textually exposed; do not compose one from generic synergies."]},
+    "rover-havoc:quickswap:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed source example context: Phrolova quickswap team with Danjin as the explicitly described third teammate."]},
+    "rover-havoc:hypercarry:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Hypercarry/sole-DPS archetype and Roccia synergy are source-backed, but no exact three-member team is locked by the reviewed text extraction."]},
+    "yangyang:support:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Support role is preserved, but current source text does not bind one exact three-member roster specifically to this mode."]},
+    "yangyang:damage:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Damage-focused Hybrid path is preserved, but current source text does not bind one exact three-member roster specifically to this mode."]},
+    "yinlin:moonlit:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Hybrid Moonlit context with Xiangli Yao + The Shorekeeper; no universal default is selected."]},
+    "yinlin:empyrean:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Empyrean is source-backed, but the exact team/selection condition relative to Moonlit remains unresolved and is not inferred."]},
+    "baizhi:standard:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Support role is source-backed; source intentionally presents Baizhi as a flexible Support rather than prescribing one exact three-member team."]},
+    "brant:standard:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Lupa + Galbrena calculation context is staged, but source explicitly supports both DPS and Hybrid Brant; the old standard mode requires role/mode split review."]},
+    "calcharo:standard:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Main DPS context with Lynae + The Shorekeeper from the source's explicit current calculation/stat context."]},
+    "cantarella:standard:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Hybrid context with Phrolova + Qiuyuan from current source calculations."]},
+    "carlotta:standard:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Main DPS/Hyper Carry context with Zhezhi + The Shorekeeper from current source calculations."]},
+    "changli:standard:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Hybrid/quickswap context with Brant + Lupa from current source calculations."]},
+    "chisa:standard:MODE_TEAM_CONTEXT": {"reviewState": "REVIEWED", "notes": ["Reviewed Support context with Aemeath + Denia from current source calculations."]},
+    "chixia:standard:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Lupa + Brant best-team archetype is staged, but the source distinguishes Main and Dual DPS; project role/mode mapping must be reviewed explicitly."]},
+    "encore:standard:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Broad DPS role is source-backed, but Hyper Carry and Quick-Swap are explicit distinct playstyles; the old standard mode requires split/team review."]},
+    "jianxin:standard:MODE_TEAM_CONTEXT": {"reviewState": "BLOCKED", "notes": ["Iuno + The Shorekeeper calculation context is staged, but source explicitly supports DPS/Hybrid/Support contexts; old standard role cannot be selected safely."]}
+  },
+  "notes": [
+    "This manifest consumes the structured 2026-08-30 mode/team/context refresh overlay; it does not rewrite the original 2026-08-29 source roster.",
+    "MODE_TEAM_CONTEXT is manually reviewed horizontally across all 20 modes: 10 REVIEWED and 10 BLOCKED.",
+    "Every defaultCandidate remains null. No universal default has been inferred.",
+    "Later source phases remain mechanically parked against the old checkpoint until their own horizontal refresh pass begins.",
+    "All candidates remain NOT_VERIFIED and noncanonical."
+  ]
+}

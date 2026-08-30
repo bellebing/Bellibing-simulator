@@ -12,6 +12,7 @@ import {
   validateWeaponSkillStackSemanticReview,
   WEAPON_SKILL_STACK_SEMANTIC_REVIEW,
 } from '../src/combat/weaponSkillStackSemanticReview.ts';
+import { ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830 } from '../src/data/profileExecutionSemanticReview20260830.ts';
 import {
   buildProfileExecutionWorkQueue,
   EXECUTION_SEMANTIC_REVIEWS,
@@ -22,7 +23,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateExecutionSemanticReviews(), []);
   assert.deepEqual(validateWeaponSkillStackSemanticReview(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 12);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 15);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -59,6 +60,35 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(defiersThorn?.status, 'BLOCKED_SOURCE_SEMANTICS');
   assert.equal(defiersThorn?.actionKey, 'weapon:defiers-thorn-def-timing');
   assert.equal(defiersThorn?.blockerId, 'BUG-011');
+
+  const roverHealing = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter');
+  assert.equal(roverHealing?.status, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(roverHealing?.blockerId, 'BUG-012');
+
+  const roverTeamAmp = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter');
+  assert.equal(roverTeamAmp?.status, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+
+  const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
+  assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+});
+
+test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
+  const review = ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830;
+  assert.equal(review.disposition, 'SOURCE_SEMANTICS_BLOCKED');
+  assert.equal(review.blockerId, 'BUG-012');
+  assert.equal(review.rotationSeconds, null);
+  assert.deepEqual(review.reviewedPendingExecutionIds, [
+    'weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter',
+    'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter',
+    'echo:echo-60001065:active-skill-damage-adapter',
+    'rotation:rover-aero-cartethyia-ciaccona-standard:engine-model',
+  ]);
+  assert.deepEqual(review.closesPendingExecutionIds, []);
+  assert.ok(review.sourceEstablished.some((note) => note.includes('Fleurdelys')));
+  assert.ok(review.sourceEstablished.some((note) => note.includes('Unbound Flow P1')));
+  assert.ok(review.unresolvedSemantics.some((note) => note.includes('6-second BPP-SKILL')));
+  assert.ok(review.unresolvedSemantics.some((note) => note.includes('rotation duration')));
 });
 
 test('skill-stack syntactic family is semantically split before runtime implementation', () => {
@@ -96,13 +126,13 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 72,
-    unreviewedEdges: 36,
-    semanticallyReviewedImplementationPendingEdges: 0,
-    primitiveAvailableRequiresTimelineEdges: 9,
+    unreviewedEdges: 33,
+    semanticallyReviewedImplementationPendingEdges: 1,
+    primitiveAvailableRequiresTimelineEdges: 10,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 6,
+    blockedSourceSemanticsEdges: 7,
     profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 36,
+    actionableSharedEdges: 34,
   });
   assert.equal(
     queue.summary.unreviewedEdges
@@ -125,6 +155,9 @@ test('actionable queue removes already-covered, closed and source-blocked high-f
   assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
   assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
+  assert.equal(actionableIds.has('echo:echo-60001065:active-skill-damage-adapter'), false);
+  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter'), false);
+  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), true);
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
@@ -168,6 +201,12 @@ test('covered and blocked queues remain separate and retain exact fanout', () =>
   assert.equal(sonataTransfer.dependencyCount, 4);
   assert.equal(sonataTransfer.profileCount, 4);
 
+  const fleurdelysActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
+  assert.ok(fleurdelysActive);
+  assert.equal(fleurdelysActive.dependencyCount, 1);
+  assert.equal(fleurdelysActive.profileCount, 1);
+  assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
+
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
@@ -199,6 +238,17 @@ test('covered and blocked queues remain separate and retain exact fanout', () =>
   assert.equal(defiersThorn.dependencyCount, 1);
   assert.equal(defiersThorn.profileCount, 1);
   assert.deepEqual(defiersThorn.blockerIds, ['BUG-011']);
+
+  const roverHealing = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-healing-window-overlap');
+  assert.ok(roverHealing);
+  assert.equal(roverHealing.dependencyCount, 1);
+  assert.equal(roverHealing.profileCount, 1);
+  assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
+
+  const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
+  assert.ok(roverTeamAmp);
+  assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  assert.equal(roverTeamAmp.dependencyCount, 1);
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');

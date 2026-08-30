@@ -1,6 +1,7 @@
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
+import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   PROFILE_ADAPTER_DEPENDENCY_MATRIX,
   type ProfileAdapterDependencyEdge,
@@ -12,6 +13,7 @@ export type ExecutionSemanticStatus =
   | 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING'
   | 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'
   | 'BLOCKED_SOURCE_CONFLICT'
+  | 'BLOCKED_SOURCE_SEMANTICS'
   | 'PROFILE_SPECIFIC_EXECUTION';
 
 export interface ExecutionSemanticReview {
@@ -19,7 +21,8 @@ export interface ExecutionSemanticReview {
   readonly status:
     | 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING'
     | 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'
-    | 'BLOCKED_SOURCE_CONFLICT';
+    | 'BLOCKED_SOURCE_CONFLICT'
+    | 'BLOCKED_SOURCE_SEMANTICS';
   readonly actionKey: string;
   readonly reviewedAt: string;
   readonly primitiveId?: string;
@@ -54,6 +57,7 @@ export interface ProfileExecutionWorkSummary {
   readonly semanticallyReviewedImplementationPendingEdges: number;
   readonly primitiveAvailableRequiresTimelineEdges: number;
   readonly blockedSourceConflictEdges: number;
+  readonly blockedSourceSemanticsEdges: number;
   readonly profileSpecificExecutionEdges: number;
   readonly actionableSharedEdges: number;
 }
@@ -65,6 +69,7 @@ export interface ProfileExecutionWorkQueue {
   readonly actionableSharedQueue: readonly ProfileExecutionWorkGroup[];
   readonly primitiveAvailableRequiresTimeline: readonly ProfileExecutionWorkGroup[];
   readonly blockedSourceConflicts: readonly ProfileExecutionWorkGroup[];
+  readonly blockedSourceSemantics: readonly ProfileExecutionWorkGroup[];
   readonly profileSpecificExecution: readonly ProfileExecutionWorkGroup[];
   readonly authorizesExecution: false;
   readonly notes: readonly string[];
@@ -96,6 +101,20 @@ const WEAPON_TARGET_APPLICATION_REVIEWS: readonly ExecutionSemanticReview[] =
     notes: [
       'Woodland Aria WA-AERO was split from cast-window semantics: its source event is applying Aero Erosion to a target.',
       'A target/application-state execution primitive is still required.',
+    ],
+  }));
+
+const WEAPON_SKILL_STACK_REVIEWS: readonly ExecutionSemanticReview[] =
+  WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts.map((contract) => ({
+    pendingExecutionId: contract.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: contract.actionKey,
+    reviewedAt: WEAPON_SKILL_STACK_SEMANTIC_REVIEW.reviewedAt,
+    blockerId: WEAPON_SKILL_STACK_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      `Source-reviewed trigger semantic: ${contract.triggerSemantic}.`,
+      ...contract.unresolvedSemantics,
+      'No stack lifecycle runtime is authorized until the duration/refresh policy is independently resolved.',
     ],
   }));
 
@@ -133,6 +152,7 @@ const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
+  ...WEAPON_SKILL_STACK_REVIEWS,
   ...SONATA_TRANSFER_REVIEWS,
   ...HERON_REVIEWS,
 ]);
@@ -162,7 +182,7 @@ export function validateExecutionSemanticReviews(
     if (review.status === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE' && !review.primitiveId?.trim()) {
       issues.push(`semantic review ${review.pendingExecutionId} requires primitiveId`);
     }
-    if (review.status === 'BLOCKED_SOURCE_CONFLICT' && !review.blockerId?.trim()) {
+    if ((review.status === 'BLOCKED_SOURCE_CONFLICT' || review.status === 'BLOCKED_SOURCE_SEMANTICS') && !review.blockerId?.trim()) {
       issues.push(`semantic review ${review.pendingExecutionId} requires blockerId`);
     }
   }
@@ -259,6 +279,7 @@ export function buildProfileExecutionWorkQueue(
   const semanticallyReviewedImplementationPendingEdges = count('SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
   const primitiveAvailableRequiresTimelineEdges = count('PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   const blockedSourceConflictEdges = count('BLOCKED_SOURCE_CONFLICT');
+  const blockedSourceSemanticsEdges = count('BLOCKED_SOURCE_SEMANTICS');
   const profileSpecificExecutionEdges = count('PROFILE_SPECIFIC_EXECUTION');
 
   const actionableEdges = edges.filter((edge) =>
@@ -272,6 +293,7 @@ export function buildProfileExecutionWorkQueue(
       semanticallyReviewedImplementationPendingEdges,
       primitiveAvailableRequiresTimelineEdges,
       blockedSourceConflictEdges,
+      blockedSourceSemanticsEdges,
       profileSpecificExecutionEdges,
       actionableSharedEdges: actionableEdges.length,
     },
@@ -280,12 +302,14 @@ export function buildProfileExecutionWorkQueue(
     actionableSharedQueue: [...groupEdges(actionableEdges)].sort(actionableSort),
     primitiveAvailableRequiresTimeline: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'))].sort(generalSort),
     blockedSourceConflicts: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_CONFLICT'))].sort(generalSort),
+    blockedSourceSemantics: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS'))].sort(generalSort),
     profileSpecificExecution: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION'))].sort(generalSort),
     authorizesExecution: false,
     notes: [
       'The work queue classifies exact canonical pending edges; it never removes or closes pendingExecutionIds.',
       'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE means reusable mechanics exist but the exact profile still lacks an executable event timeline.',
       'BLOCKED_SOURCE_CONFLICT items are excluded from actionable implementation work until their evidence conflict is resolved.',
+      'BLOCKED_SOURCE_SEMANTICS items are excluded when current evidence identifies the mechanic but does not define enough runtime semantics to implement it safely.',
       'PROFILE_SPECIFIC_EXECUTION remains separate from shared-primitive prioritization.',
       'Unlisted new pending IDs become UNREVIEWED automatically and therefore surface in the actionable queue.',
     ],

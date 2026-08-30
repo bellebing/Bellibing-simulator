@@ -39,6 +39,7 @@ const classifiedTotal = workQueue.summary.unreviewedEdges
   + workQueue.summary.semanticallyReviewedImplementationPendingEdges
   + workQueue.summary.primitiveAvailableRequiresTimelineEdges
   + workQueue.summary.blockedSourceConflictEdges
+  + workQueue.summary.blockedSourceSemanticsEdges
   + workQueue.summary.profileSpecificExecutionEdges;
 if (classifiedTotal !== matrix.dependencyCount) {
   throw new Error(`Execution semantic disposition mismatch: ${classifiedTotal}/${matrix.dependencyCount}.`);
@@ -51,7 +52,7 @@ if (workQueue.actionableSharedQueue.some((row) =>
 
 console.log(`Profile adapter dependency matrix: ${matrix.profileCount} profiles / ${matrix.dependencyCount} pending dependencies`);
 console.log(`Pending profiles: ${matrix.pendingProfileCount}`);
-console.log(`Semantic edge disposition: actionable=${workQueue.summary.actionableSharedEdges}, primitive-needs-timeline=${workQueue.summary.primitiveAvailableRequiresTimelineEdges}, source-blocked=${workQueue.summary.blockedSourceConflictEdges}, profile-specific=${workQueue.summary.profileSpecificExecutionEdges}`);
+console.log(`Semantic edge disposition: actionable=${workQueue.summary.actionableSharedEdges}, primitive-needs-timeline=${workQueue.summary.primitiveAvailableRequiresTimelineEdges}, source-conflict=${workQueue.summary.blockedSourceConflictEdges}, source-semantics=${workQueue.summary.blockedSourceSemanticsEdges}, profile-specific=${workQueue.summary.profileSpecificExecutionEdges}`);
 console.log('Top actionable shared execution work:');
 for (const row of workQueue.actionableSharedQueue.slice(0, 10)) {
   console.log(`- ${row.actionKey}: status=${row.semanticStatus}, profiles=${row.profileCount}, characters=${row.characterCount}, dependencies=${row.dependencyCount}`);

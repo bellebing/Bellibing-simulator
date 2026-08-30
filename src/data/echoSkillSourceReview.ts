@@ -14,7 +14,7 @@ export interface EchoSkillPendingAdapterFact {
 
 export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   patch: '3.6',
-  checkedAt: '2026-08-29',
+  checkedAt: '2026-08-30',
   sourceRepository: 'DommyMM/wuwabuild',
   sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
   sourceBlobSha: 'cca1563ce0491a3de80ac7359344112631329224',
@@ -33,15 +33,17 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedUnusedParamRecordCount: 3,
   expectedModeledEffectRowCount: 63,
   expectedModeledEffectEchoCount: 37,
-  expectedAttackProfileCount: 3,
-  expectedAttackFactCount: 4,
+  expectedAttackProfileCount: 4,
+  expectedAttackFactCount: 5,
   notes: [
     'The upstream Echo record has no dedicated skill-name field. Bellibing therefore keeps the Echo identity plus source skill description and never invents a separate skill name.',
     'All 181 released Version 3.6 Echo records have English active-skill text, five rank parameter rows, and a source-explicit cooldown placeholder that resolves at Rank 5.',
     'Source review completeness does not imply executable combat coverage. Damage prose is not promoted to an attack profile when scaling, hit decomposition, variants, or state semantics cannot be proven in the current attack domain.',
     'Fallacy of No Return normal activation is a partial safe exception: Rank-5 source proves one 15.86% max-HP Spectro blast, while its hold/release variant remains explicitly outside exact execution coverage.',
+    'Reminiscence: Fleurdelys is now an exact safe attack-profile case: the pinned Rank-5 row proves 27.36% ATK Aero DMG x8 plus one 136.80% ATK Aero hit, with no active-cast variant ambiguity in the source record.',
     'Structured upstream bonuses are used only where their main-slot behavior is stable. Character-restricted or loadout-replaced rows remain pending until the corresponding adapter exists.',
     'Reminiscence: Fleurdelys is the first character-restricted structured bonus promoted: the pinned record and multilingual text resolve source token Aero to Rover (Aero), while Cartethyia is named directly. The extra +10% Aero bonus is not generalized to other Aero Resonators.',
+    'Exact Fleurdelys attack data does not close any profile active-damage dependency by itself; an executable rotation must still prove the exact Echo cast event.',
   ],
 } as const;
 

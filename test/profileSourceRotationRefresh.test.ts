@@ -83,14 +83,12 @@ test('Cohort 01 Source Rotation refresh closes source extraction for the ten gre
 
 test('Source Rotation refresh never stages executable timing or engine ownership', async () => {
   const {appliedRotation} = await buildAppliedRotationRefresh();
-  for (const character of appliedRotation.input.characters) {
-    for (const mode of character.modes) {
-      if (!mode.rotation) continue;
-      assert.equal(mode.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
-      assert.equal(mode.rotation.rotationSeconds, undefined);
-      assert.equal(mode.rotation.uptime, undefined);
-      assert.equal(mode.rotation.engineModelId, undefined);
-    }
+  for (const entry of appliedRotation.entries) {
+    if (!entry.rotation) continue;
+    assert.equal(entry.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+    assert.equal(entry.rotation.rotationSeconds, undefined);
+    assert.equal(entry.rotation.uptime, undefined);
+    assert.equal(entry.rotation.engineModelId, undefined);
   }
 });
 

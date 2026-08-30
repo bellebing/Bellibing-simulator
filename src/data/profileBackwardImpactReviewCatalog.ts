@@ -1,4 +1,5 @@
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 as BASE_PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './profileBackwardImpactReview.ts';
+import { PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS } from './profileCohort01GreenLaneImpact20260830.ts';
 import { PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS } from './profileMultiModeDeniaImpact20260829.ts';
 import { PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS } from './profileMultiModeZhezhiImpact20260829.ts';
 import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.ts';
@@ -14,4 +15,5 @@ export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpact
   ...BASE_PROFILE_BACKWARD_IMPACT_REVIEWS_V36,
   ...PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS,
   ...PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS,
+  ...PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS,
 ]);

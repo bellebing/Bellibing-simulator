@@ -1,4 +1,5 @@
 import type { RotationProfile } from '../profileDomain.ts';
+import { CIACCONA_BASIC_ROTATION_EXECUTION_REVIEW_20260830 } from './profileExecutionSemanticReview20260830.ts';
 
 export const ROTATION_PROFILES: readonly RotationProfile[] = [
   {
@@ -91,6 +92,7 @@ export const ROTATION_PROFILES: readonly RotationProfile[] = [
       notes: [
         'Source-reviewed guide sequence only; no Bellibing combat engine execution is claimed.',
         'Prydwen documents a slightly higher-DPS Mid-Air 1+2 variant when Ciaccona keeps Aero Erosion at maximum stacks, but also calls it mostly impractical and HP-threshold dependent. The stable Basic Rotation is the default profile sequence.',
+        '2026-08-30 execution review found no exact source-backed duration for this exact sequence; the source statement that it works with 14-second Outro buffs is not promoted into rotationSeconds.',
       ],
     },
   },
@@ -100,7 +102,7 @@ export const ROTATION_PROFILES: readonly RotationProfile[] = [
     name: 'Ciaccona — Basic Rotation with Cartethyia + Rover (Aero)',
     characterId: 'ciaccona',
     teamProfileId: 'cartethyia-ciaccona-rover-aero',
-    executionStatus: 'SOURCE_SEQUENCE_ONLY',
+    executionStatus: 'ENGINE_MODELED',
     sourceSequence: [
       'Intro',
       'Basic P3',
@@ -114,17 +116,34 @@ export const ROTATION_PROFILES: readonly RotationProfile[] = [
       'Ultimate: Improv Symphonic Poem (Cancel Forte Heavy when it hits the enemy)',
       'Outro',
     ],
+    engineModelId: 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
+    rotationSeconds: CIACCONA_BASIC_ROTATION_EXECUTION_REVIEW_20260830.rotationSeconds,
     variantKey: 'basic-cartethyia-aero-rover',
-    modeledMechanicFactIds: [],
+    modeledMechanicFactIds: [
+      'ciaccona-intro-skill-roaming-with-the-wind-skill-dmg',
+      'ciaccona-basic-attack-quadruple-time-steps-stage-3-dmg',
+      'ciaccona-basic-attack-quadruple-time-steps-stage-4-dmg',
+      'ciaccona-basic-attack-quadruple-time-steps-mid-air-attack-stage-1-dmg',
+      'ciaccona-basic-attack-quadruple-time-steps-mid-air-attack-stage-2-dmg',
+      'ciaccona-resonance-skill-harmonic-allegro-skill-dmg',
+      'ciaccona-forte-circuit-symphony-of-wind-and-verse-quadruple-downbeat-dmg',
+      'ciaccona-resonance-liberation-singer-s-triple-cadenza-improvised-symphonic-poem-skill-dmg',
+      'ciaccona-resource-musical-essence',
+      'ciaccona-resource-ensemble-sylph',
+      'ciaccona-basic-solo-concert',
+      'ciaccona-inherent-winds-of-rinascita',
+    ],
     assumedMechanicFactIds: [],
     verificationStatus: 'VERIFIED',
     provenance: {
-      sourceLabels: ['Prydwen Ciaccona Basic Rotation'],
+      sourceLabels: ['Prydwen Ciaccona Basic Rotation', 'Bellibing execution semantic review 2026-08-30'],
       sourceUrls: ['https://www.prydwen.gg/wuthering-waves/characters/ciaccona'],
-      checkedAt: '2026-08-29',
+      checkedAt: '2026-08-30',
       notes: [
-        'Source-reviewed guide sequence only; no Bellibing combat engine execution is claimed.',
-        'The source optional Symphonic Poem: Tonic branch switches to Spectro Frazzle if needed. It is omitted from this Aero Erosion default context rather than treated as mandatory.',
+        'The fixed fast source sequence is executed by CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1 with source-backed total duration 4.5s.',
+        'The engine uses ordered events rather than fabricated per-action timestamps. It explicitly executes Musical Essence, source-proven Aero Erosion applications, Woodland Aria target state, Gusts of Welkin trigger state and the first P4 Jump-cancel Solo Concert path.',
+        'Newly-triggered buffs/debuffs apply only to later damage events because source text does not prove same-hit resolution ordering.',
+        'The source optional/periodic Symphonic Poem: Tonic branch is omitted from this fixed default sequence and no Tonic count is invented.',
         'Nightmare: Kelpie Transform Active is explicitly not used in Ciaccona rotations in the reviewed source.',
       ],
     },

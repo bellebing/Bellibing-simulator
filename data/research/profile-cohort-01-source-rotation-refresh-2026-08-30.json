@@ -1,0 +1,441 @@
+{
+  "kind": "PROFILE_COHORT_SOURCE_ROTATION_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "4a1b11937db48a41ffb2fc1419c85fe72fb302f3",
+  "scope": "SOURCE_ROTATION_ONLY_GREEN_LANE_FIRST",
+  "notes": [
+    "Deep rotation review is concentrated on the ten modes whose preceding source phases are REVIEWED.",
+    "All reviewed sequences remain SOURCE_SEQUENCE_ONLY. Source-explicit Intro/Outro, swaps, Echo placement and cancels are preserved, but no durations, frame counts, uptime, engineModelId or combat timing are inferred.",
+    "Alternative source sequences are retained where they materially describe warmup/opening variants instead of being collapsed into one fake executable script.",
+    "The ten non-green-lane modes preserve their prior semantic blockers and receive no partial rotation staging.",
+    "REVIEWED here closes source extraction only; canonical promotion still requires an explicit semantic review."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Skill: Spotlight (Perfect Release)",
+          "Ultimate: Clear As Day",
+          "Hold Basic / Heavy: Tracing Forms 1",
+          "Heavy: Tracing Forms 2",
+          "Heavy: Tracing Forms 3",
+          "Letting It Go",
+          "Echo: Glommoth (Summon; source allows any point in the Glacio Chafe rotation)",
+          "Outro"
+        ],
+        "alternatives": [],
+        "context": "Standard Lucilla Glacio Chafe source rotation for the reviewed Hiyuki + Chisa team context. Glommoth is a summon Echo and the source explicitly allows it at any point in the rotation.",
+        "notes": ["The source gives a visual perfect-release cue for Spotlight, but no executable timing value is transcribed into this profile."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_STANDARD_SEQUENCE_PLUS_MODE_ECHO_TIMING",
+      "evidenceSummary": ["Source publishes Lucilla's standard Intro-to-Outro sequence and explicitly says Glacio Chafe's summon Echo is usable anywhere in the rotation."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Skill: Spotlight (Perfect Release)",
+          "Ultimate: Clear As Day",
+          "Hold Basic / Heavy: Tracing Forms 1",
+          "Heavy: Tracing Forms 2",
+          "Heavy: Tracing Forms 3",
+          "Letting It Go",
+          "Echo: Impermanence Heron (after Letting It Go; switch cancel)",
+          "Outro"
+        ],
+        "alternatives": [],
+        "context": "Standard Lucilla Echo Skill source rotation for the reviewed Sigrika + Shorekeeper team context. The source places Impermanence Heron after Letting It Go and before Outro.",
+        "notes": ["The source gives a visual perfect-release cue for Spotlight, but no executable timing value is transcribed into this profile."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_STANDARD_SEQUENCE_PLUS_ECHO_END_PLACEMENT",
+      "evidenceSummary": ["Source publishes the same core Lucilla sequence for Echo mode and explicitly places Impermanence Heron after Letting It Go before Outro with a switch cancel."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Ultimate",
+          "Skill: Energized Pounce (optional swap cancel and return)",
+          "Red Spotlight: Basic 1",
+          "Red Spotlight: Basic 2",
+          "Red Spotlight: Basic 3 (optional swap cancel and return)",
+          "Skill: Energized Rebound",
+          "Yellow Light: Basic",
+          "Channelled Dash: Glare x6",
+          "Skill: Energized Pounce",
+          "Echo: Impermanence Heron (swap cancel)",
+          "Outro"
+        ],
+        "alternatives": [],
+        "context": "Prydwen Hybrid rotation transcribed for the reviewed Carlotta + Shorekeeper team. Optional source-explicit swap cancels remain optional sequence semantics rather than modeled timing.",
+        "notes": ["No duration or return timing is inferred for the optional swap cancels."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_HYBRID_SEQUENCE_WITH_SWAP_CANCELS",
+      "evidenceSummary": ["Source gives Lumi's complete Hybrid sequence, optional Pounce/Basic-3 swap cancels, and an end-of-rotation Impermanence Heron swap cancel before Outro."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Main DPS exactTeamContext remains unresolved; a sequence is not promoted independently of that missing context."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Skill",
+          "Heavy Attack: Devastation",
+          "Skill: Umbra - Lifetaker (optional swap cancel)",
+          "Ultimate",
+          "Echo: Dreamless (swap cancel)",
+          "Outro"
+        ],
+        "alternatives": [
+          {
+            "label": "Warmup",
+            "sequence": ["Skill when available", "Basic attacks as available to maintain the source-described Havoc Eclipse setup"],
+            "context": "Source warmup guidance before the short-burst quickswap combo. It is not assigned a duration or repeat count."
+          }
+        ],
+        "context": "Prydwen Short Burst Combo, explicitly described as primarily suitable for quickswap teams, applied to the reviewed Rover + Phrolova + Danjin context.",
+        "notes": ["Dreamless and Umbra - Lifetaker preserve only source-explicit swap-cancel semantics; no cancel frame is modeled."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_QUICKSWAP_SHORT_BURST_SEQUENCE",
+      "evidenceSummary": ["Source labels the short-burst combo as quickswap-oriented and includes optional Lifetaker swap cancel plus Dreamless swap cancel before Outro."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Hypercarry exactTeamContext remains unresolved, so the longer sole-DPS rotations stay unpromoted."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext", "supportWeaponRecommendationNotSeparatedFromDamageRanking"],
+      "evidenceClass": "UPSTREAM_CONTEXT_AND_WEAPON_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Support context and support-specific weapon selection remain unresolved; no support rotation is detached from those blockers."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Damage-mode exactTeamContext remains unresolved; the source's expert quickswap statements are not converted into a fabricated fixed team sequence."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Basic 4 (optional swap cancel)",
+          "Skill: Magnetic Roar",
+          "Heavy Attack",
+          "Skill: Lightning Execution (cancel Heavy Attack endlag)",
+          "Ultimate",
+          "Basic 1",
+          "Forte Heavy: Chameleon Cipher",
+          "Echo: Impermanence Heron (swap cancel)",
+          "Outro"
+        ],
+        "alternatives": [],
+        "context": "Prydwen standard Yinlin sequence for the reviewed Xiangli Yao + Shorekeeper Moonlit context; Impermanence Heron is placed after Chameleon Cipher before Outro.",
+        "notes": ["The Heavy-to-Lightning-Execution cancel and Echo swap cancel are source-explicit; no animation timing is added."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_STANDARD_SEQUENCE_WITH_ENDLAG_AND_ECHO_CANCELS",
+      "evidenceSummary": ["Source gives the full Yinlin standard sequence, explicitly calls out Heavy endlag cancellation with Lightning Execution, and places Impermanence Heron after Chameleon Cipher before Outro."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext", "setSelectionCondition"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Empyrean context and set-selection condition are unresolved; Moonlit Echo timing is not copied into the Empyrean mode."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "UPSTREAM_MODE_CONTEXT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Baizhi exact team context remains intentionally unresolved; no team-specific rotation is fabricated."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/baizhi", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeSplitRequired", "conditionalTidebreaking250PercentErMustRemainModeBound"],
+      "evidenceClass": "UPSTREAM_ROLE_SPLIT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Brant's DPS/Hybrid split is still unresolved, and the 250% Tidebreaking condition remains mode-bound; no single standard rotation is promoted."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/brant", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "rotation": {
+        "sequence": [
+          "Echo: Nightmare - Thundering Mephis (before burst; swap cancel)",
+          "Intro",
+          "Ultimate",
+          "Heavy: Death Messenger (optional swap cancel)",
+          "Basic: Hounds Roar 1",
+          "Basic: Hounds Roar 2 (Dash Cancel)",
+          "Basic: Hounds Roar 1",
+          "Basic: Hounds Roar 2 (Dash Cancel)",
+          "Basic: Hounds Roar 1",
+          "Heavy: Death Messenger (optional swap cancel)",
+          "Basic: Hounds Roar 1",
+          "Basic: Hounds Roar 2 (Dash Cancel)",
+          "Basic: Hounds Roar 1",
+          "Basic: Hounds Roar 2 (Dash Cancel)",
+          "Basic: Hounds Roar 1",
+          "Heavy: Death Messenger",
+          "Outro"
+        ],
+        "alternatives": [
+          {
+            "label": "Warmup option 1",
+            "sequence": ["Basic 1", "Skill: Extermination Order 1", "Basic 2", "Skill: Extermination Order 2", "Basic 3", "Basic 4", "Skill: Extermination Order 3 (cancel the weaker Basic-4 portion)", "Heavy: Mercy (swap cancel if available)"],
+            "context": "Source warmup option before optimized burst; kept as a separate non-timed sequence."
+          },
+          {
+            "label": "Warmup option 2",
+            "sequence": ["Skill: Extermination Order 1", "Skill: Extermination Order 2", "Skill: Extermination Order 3", "Heavy: Mercy (swap cancel if available)"],
+            "context": "Shorter source warmup alternative; no timing or damage equivalence is inferred."
+          }
+        ],
+        "context": "Prydwen optimized Calcharo burst plus source warmup alternatives, used for the reviewed Lynae + Shorekeeper Main DPS context.",
+        "notes": ["Dash/swap cancels remain textual source semantics only; no cancel windows are modeled."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_OPTIMIZED_BURST_WITH_WARMUP_ALTERNATIVES",
+      "evidenceSummary": ["Source publishes Calcharo warmup options and an optimized burst sequence with explicit Dash and optional swap cancels."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/calcharo", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "rotation": {
+        "sequence": [
+          "Intro Skill: Ripple",
+          "Basic 3",
+          "Skill: Graceful Step",
+          "Ultimate: Flowing Suffocation",
+          "Heavy Attack: Delusive Dive",
+          "Skill: Flickering Reverie",
+          "Forte: Phantom String 1",
+          "Forte: Phantom String 2",
+          "Forte: Phantom String 3",
+          "Forte Skill: Perception Drain",
+          "Echo: Lorelei (end of rotation; swap cancel)",
+          "Outro"
+        ],
+        "alternatives": [],
+        "context": "Prydwen standard Cantarella rotation for the reviewed Phrolova + Qiuyuan Midnight Veil context. Lorelei is kept at the source-described end placement before Outro.",
+        "notes": ["The source notes Lorelei Transform can be used before the end and swap-cancelled; no active duration or uptime is modeled."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_STANDARD_SEQUENCE_PLUS_LORELEI_SWAP_CANCEL",
+      "evidenceSummary": ["Source gives Cantarella's complete standard sequence and source-explicit Lorelei end placement/swap-cancel behavior."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/cantarella", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "rotation": {
+        "sequence": [
+          "Start burst with source-defined Substance state",
+          "Intro: Wintertime Aria",
+          "Skill: Art of Violence",
+          "Skill: Chromatic Splendor",
+          "Mid-Air Attack",
+          "Forte Heavy: Imminent Oblivion",
+          "Ultimate: Era of New Wave",
+          "Death Knell 1",
+          "Death Knell 2",
+          "Death Knell 3",
+          "Death Knell 4",
+          "Fatal Finale",
+          "Skill: Art of Violence",
+          "Skill: Chromatic Splendor",
+          "Echo: Sentry Construct (swap cancel)",
+          "Outro"
+        ],
+        "alternatives": [
+          {
+            "label": "Initial warmup from zero Substance",
+            "sequence": ["Skill: Art of Violence", "Skill: Chromatic Splendor"],
+            "context": "Source warmup needed before the burst when starting from zero Substance; no duration is assigned."
+          }
+        ],
+        "context": "Prydwen Carlotta burst for the reviewed Zhezhi + Shorekeeper team. The source-defined starting resource state is preserved as a prerequisite, not fabricated into engine state.",
+        "notes": ["Sentry Construct is explicitly swap-cancelled at the end. Source also allows out-of-burst uses when available; no cooldown scheduling is inferred."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_BURST_WITH_RESOURCE_PREREQUISITE_AND_ECHO_CANCEL",
+      "evidenceSummary": ["Source publishes Carlotta's burst, the zero-Substance warmup, and end-of-rotation Sentry Construct swap cancel."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/carlotta", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Basic: True Sight - Charge",
+          "Skill",
+          "Heavy Attack",
+          "Basic: True Sight - Charge",
+          "Basic Mid-Air (interrupt via Dash)",
+          "Dash",
+          "Basic Mid-Air 4",
+          "Basic: True Sight - Charge",
+          "Skill",
+          "Basic: True Sight - Conquest",
+          "Heavy: Flaming Sacrifice",
+          "Ultimate",
+          "Heavy: Flaming Sacrifice (Swap)",
+          "Outro"
+        ],
+        "alternatives": [
+          {
+            "label": "Optional opener",
+            "sequence": ["Ultimate", "Heavy: Flaming Sacrifice (Swap)"],
+            "context": "Source-listed opener alternative before the standard loop; no timing is inferred."
+          }
+        ],
+        "context": "Prydwen standard rotation explicitly highlighted as useful for the reviewed Changli + Brant + Lupa Fusion trio.",
+        "notes": ["The Mid-Air Dash interruption and Flaming Sacrifice swap are source-explicit cancels only; no executable window is added."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_TEAM_MATCHED_STANDARD_SEQUENCE",
+      "evidenceSummary": ["Source specifically calls the standard sequence useful for Changli + Brant + Lupa and includes the Mid-Air Dash interruption and final Flaming Sacrifice swap."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/changli", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "rotation": {
+        "sequence": [
+          "Intro",
+          "Basic 2",
+          "Basic: Rending Lunge",
+          "Basic: Death Snip (partial animation interruption via Ultimate)",
+          "Ultimate",
+          "Skill: Serrated Loop",
+          "Basic: Sawring Blitz 2",
+          "Basic: Sawring Blitz 3",
+          "Echo: Fallacy of No Return (before Outro for Rejuvenating Glow support timing)",
+          "Basic: Eradication (Swap)",
+          "Outro"
+        ],
+        "alternatives": [
+          {
+            "label": "Opener",
+            "sequence": ["Basic 1", "Basic 2 (cancel endlag via Skill)", "Skill: Eye of Unraveling", "Basic: Rending Lunge", "Basic: Death Snip (full)", "Basic: Thread Withdrawn (cancel on cast via Ultimate)", "Ultimate", "Basic 2 (cancel endlag via Skill)", "Skill: Serrated Loop", "Basic: Sawring Blitz 2", "Basic: Sawring Blitz 3", "Echo: Fallacy of No Return (before Outro)", "Basic: Eradication (Swap)", "Outro"],
+            "context": "Source opener before subsequent loop rotations; exact cancel timing is intentionally not transcribed."
+          }
+        ],
+        "context": "Prydwen loop rotation for the reviewed Aemeath + Denia Support team, with Rejuvenating Glow/Fallacy timing preserved before Outro.",
+        "notes": ["Source-specific cancel relationships are retained without frame/timestamp claims."],
+        "executionStatus": "SOURCE_SEQUENCE_ONLY"
+      },
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_LOOP_AND_OPENER_WITH_SUPPORT_ECHO_TIMING",
+      "evidenceSummary": ["Source calculations and rotation context match Aemeath + Denia; source publishes both opener and loop, plus Rejuvenating Glow/Fallacy timing before Outro and explicit cancels."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chisa", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleMappingOrModeSplitRequired"],
+      "evidenceClass": "UPSTREAM_ROLE_SPLIT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Chixia's Main-vs-Dual-DPS mode mapping remains unresolved; no rotation is assigned to the coarse standard mode."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chixia", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["playstyleModeSplitRequired", "exactTeamContext"],
+      "evidenceClass": "UPSTREAM_PLAYSTYLE_AND_TEAM_BLOCKERS_PRESERVED",
+      "evidenceSummary": ["Encore's Hyper Carry and Quick-Swap rotations are source-distinct; the old standard mode remains too coarse and receives no fabricated sequence."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/encore", "checkedAt": "2026-08-30"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "rotation": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeContextSplitRequired"],
+      "evidenceClass": "UPSTREAM_ROLE_CONTEXT_SPLIT_BLOCKER_PRESERVED",
+      "evidenceSummary": ["Jianxin's DPS/Hybrid/Support contexts remain distinct; no single standard rotation is promoted."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/jianxin", "checkedAt": "2026-08-30"}
+    }
+  ]
+}

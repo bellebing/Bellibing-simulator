@@ -247,7 +247,7 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 - PR #117 — machine-readable semantic execution work queue; current work is ranked from exact canonical edge disposition instead of manual triage.
 - PR #118 — Stringmaster/Rime skill-stack family split and parked behind BUG-009 because stack lifetime/refresh semantics are not explicit; no pending profile IDs closed.
 - PR #119 — exact Fallacy Rank-5 initial blast added while Shorekeeper/Chisa cast-variant execution remains parked behind BUG-010; no pending profile IDs closed.
-- PR #120 — source-safe Fleurdelys wielder restriction and first explicit static profile dependency closure; two exact profile edges close while readiness remains unchanged.
+- PR #121 — source-safe Fleurdelys wielder restriction and first explicit static profile dependency closure; two exact profile edges close while readiness remains unchanged. PR #120 was closed unmerged as the draft-to-ready connector workaround.
 
 ## Next work
 

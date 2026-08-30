@@ -26,6 +26,16 @@ const PROMOTED = [
   ['chisa', 'chisa-standard'],
 ] as const;
 
+const PROMOTED_SEMANTIC_MODES = [
+  ['lumi', 'hybrid'],
+  ['yinlin', 'moonlit'],
+  ['calcharo', 'standard'],
+  ['cantarella', 'standard'],
+  ['carlotta', 'standard'],
+  ['changli', 'standard'],
+  ['chisa', 'standard'],
+] as const;
+
 const SOURCE_COMPLETE_NOT_PROMOTED = [
   ['lucilla', 'glacio-chafe'],
   ['lucilla', 'echo-skill'],
@@ -42,7 +52,7 @@ test('semantic gate approves seven of ten source-complete modes and preserves th
   });
   assert.equal(review.automationMayApproveSemanticTruth, false);
 
-  for (const [characterId, modeKey] of PROMOTED) {
+  for (const [characterId, modeKey] of PROMOTED_SEMANTIC_MODES) {
     const row = review.entries.find((entry) => entry.characterId === characterId && entry.modeKey === modeKey);
     assert.ok(row, `${characterId}:${modeKey}`);
     assert.equal(row.sourceComplete, true);

@@ -28,6 +28,43 @@ export const CARTETHYIA_BASIC_ROTATION_EXECUTION_REVIEW_20260830 = {
   ],
 } as const;
 
+export const ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830 = {
+  reviewId: 'ROTATION-EXECUTION-ROVER-AERO-2026-08-30-01',
+  rotationId: 'rover-aero-cartethyia-ciaccona-standard',
+  checkedAt: '2026-08-30',
+  disposition: 'SOURCE_SEMANTICS_BLOCKED',
+  blockerId: 'BUG-012',
+  rotationSeconds: null,
+  reviewedPendingExecutionIds: [
+    'weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter',
+    'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter',
+    'echo:echo-60001065:active-skill-damage-adapter',
+    'rotation:rover-aero-cartethyia-ciaccona-standard:engine-model',
+  ],
+  sourceLabels: [
+    'Prydwen — Rover (Aero) kit/gameplay',
+    'Wutheringlab — Bloodpact’s Pledge',
+  ],
+  sourceUrls: [
+    'https://www.prydwen.gg/wuthering-waves/characters/rover-aero',
+    'https://wutheringlab.com/weapon/bloodpacts-pledge/',
+  ],
+  sourceEstablished: [
+    'Cloudburst Dance and Omega Storm provide healing to nearby/all nearby team Resonators, so the canonical Standard Rotation contains source-proven healing events that can trigger Bloodpact’s Pledge BPP-SKILL.',
+    'Bloodpact’s Pledge BPP-SKILL is a 6-second SELF Resonance Skill DMG window after Providing Healing.',
+    'The canonical Standard Rotation explicitly casts Unbound Flow P1 before switching out, proving the source event required by BPP-TEAM-AERO; the weapon grants nearby on-field Resonators Aero DMG Amplification for 30 seconds after Rover (Aero) casts Unbound Flow.',
+    'Prydwen Echo Usage explicitly places Reminiscence: Fleurdelys right after Unbound Flow P1 and before switching out, so the source cast event required by echo-active-damage-v1 is proven for this profile sequence.',
+    'Unbound Flow P2 occurs automatically off-field after switching out.',
+  ],
+  unresolvedSemantics: [
+    'No exact source-backed total duration for this exact Standard Rotation was found. The source describes Rover (Aero) rotation time as lengthy but does not publish rotationSeconds for the fixed sequence.',
+    'Without exact execution timing, Bellibing cannot prove which later Resonance Skill damage events overlap the 6-second BPP-SKILL healing window and must not invent per-action timestamps or blanket uptime.',
+    'The source sequence retains Skyfall Severance as optional, so a fixed engine path must not silently execute or omit that branch without an explicit supported variant rule.',
+    'Because the exact rotation duration remains unresolved, the profile cannot supply a verified DPS denominator and must remain SOURCE_SEQUENCE_ONLY even though the Unbound Flow and Fleurdelys cast events themselves are source-proven.',
+  ],
+  closesPendingExecutionIds: [],
+} as const;
+
 export const DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830 = {
   reviewId: 'WEAPON-EXECUTION-DEFIERS-THORN-DEF-2026-08-30-01',
   effectId: 'DT-DEF',

@@ -1,0 +1,24 @@
+{
+  "kind": "PROFILE_HORIZONTAL_CANONICAL_MAPPINGS",
+  "checkedAt": "2026-08-30",
+  "reviewedAgainstRepoMain": "e3f668a6f26fc500c3cc371d8a3f278527c62282",
+  "automationMayInferMappings": false,
+  "notes": [
+    "Mappings exist only for reviewer-confirmed source-name drift where exact source identity is independently matched to an existing canonical catalog row.",
+    "The materializer must fail if candidateId or sourceName drifts. No fuzzy matching, normalization, or best-effort aliasing is authorized."
+  ],
+  "sonataMappings": [
+    {
+      "characterId": "lingyang",
+      "candidateId": "lingyang:sonata:1",
+      "sourceName": "Endless Resonance",
+      "canonicalName": "Lingering Tunes",
+      "canonicalId": "sonata-9",
+      "evidence": [
+        "Current Prydwen labels the reviewed set Endless Resonance.",
+        "Bellibing canonical sonata-9 is named Lingering Tunes and has the same reviewed effect identity: 2-piece ATK +10%; 5-piece on-field ATK +5% every 1.5s up to 4 stacks; Outro Skill DMG +60%.",
+        "This is treated as source-name drift only; no effect or trigger semantics are changed by the mapping."
+      ]
+    }
+  ]
+}

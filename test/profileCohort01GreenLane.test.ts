@@ -9,6 +9,7 @@ import {
 } from '../src/data/profileCohort01GreenLane20260830.ts';
 import { PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS } from '../src/data/profileCohort01GreenLaneImpact20260830.ts';
 import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
+import { resolveBuildPreset } from '../src/profileRegistry.ts';
 import { assertProfileReadinessAudit } from '../src/profileReadinessRegistry.ts';
 
 async function loadJson(relativePath: string) {
@@ -81,7 +82,7 @@ test('bulk materialization produces seven canonical defaults while keeping every
     assert.equal(preset.isDefault, true);
     assert.equal(preset.uiSelectable, true);
 
-    const resolved = PROFILE_REGISTRY.getResolvedPreset(presetId);
+    const resolved = resolveBuildPreset(PROFILE_REGISTRY, presetId);
     assert.equal(resolved.preset.id, presetId);
     assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
     assert.equal(resolved.rotation.verificationStatus, 'VERIFIED');

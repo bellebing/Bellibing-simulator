@@ -183,7 +183,7 @@ export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpact
     notes: [
       'Stellar Symphony permanent HP component is executable source truth; Liberation Concerto restoration and healing-qualified Skill team ATK remain event/rotation-state responsibilities.',
       'Rejuvenating Glow is source-reviewed for the selected support shell. Healing-trigger uptime must come from actual character/rotation execution.',
-      'Fallacy of No Return team ATK and wielder ER cast effects are already modeled as conditional Echo effects and the selected source sequence explicitly casts Fallacy. Its active damage is still outside the current exact Echo attack catalog and is retained as pending rather than guessed.',
+      'Fallacy of No Return team ATK and wielder ER cast effects are already modeled as conditional Echo effects. Its exact Rank-5 normal activation blast is now present in the Echo attack catalog, but the selected source sequence still does not encode normal/tap versus hold/release execution, so the shared profile damage dependency remains pending behind BUG-010 rather than assuming the normal blast fires.',
       'The selected Shorekeeper rotation is SOURCE_SEQUENCE_ONLY, so this review cannot promote the preset to DPS_READY.',
     ],
   },

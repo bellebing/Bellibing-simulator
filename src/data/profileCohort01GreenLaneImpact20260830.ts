@@ -177,7 +177,7 @@ export const PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS: readonly ProfileBackwa
     notes: [
       'Kumokiri team All-Attribute DMG is source-audited but requires the weapon stack condition plus an actual team Negative-Status event; the Aemeath context does not authorize automatic uptime.',
       'Rejuvenating Glow 2-piece Healing Bonus is source-modeled; the 5-piece team ATK window still requires an actual heal event.',
-      'Fallacy of No Return conditional cast effects are already modeled and the source rotation explicitly casts it before Outro. Its active damage remains behind the same exact Echo attack gap already tracked for Shorekeeper.',
+      'Fallacy of No Return conditional cast effects are already modeled and the source rotation explicitly uses it before Outro. Its exact Rank-5 normal activation blast is now present in the Echo attack catalog, but the generic source-sequence cast does not lock normal/tap versus hold/release execution, so the shared active-damage dependency remains pending behind BUG-010 rather than assuming the normal blast fires.',
       'Chisa remains SOURCE_SEQUENCE_ONLY; the partial animation interruption and swap text do not supply executable timing.',
     ],
   },

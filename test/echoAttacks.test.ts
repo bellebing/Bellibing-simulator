@@ -9,9 +9,10 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 2);
-  assert.equal(registry.attackById.size, 3);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 3);
+  assert.equal(registry.attackById.size, 4);
   assert.ok(registry.byEchoId.has('echo-60000375'));
+  assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60001215'));
 });
 
@@ -23,6 +24,21 @@ test('Bell-Borne Rank-5 protection blast is exact 145.92% DEF Glacio damage', ()
   assert.equal(attack.element, 'Glacio');
   assert.equal(attack.scalingStat, 'DEF');
   assert.equal(totalMotionValue(attack), 1.4592);
+});
+
+test('Fallacy Rank-5 normal activation is exact one-hit 15.86% max-HP Spectro damage', () => {
+  const profile = registry.byEchoId.get('echo-60000605')!;
+  const attack = profile.attacks[0]!;
+  assert.equal(profile.cooldownSeconds, 20);
+  assert.equal(profile.attacks.length, 1);
+  assert.equal(attack.attackId, 'FALLACY_INITIAL_BLAST');
+  assert.equal(attack.trigger, 'ACTIVE_CAST');
+  assert.equal(attack.element, 'Spectro');
+  assert.equal(attack.scalingStat, 'HP');
+  assert.equal(attack.components.length, 1);
+  assert.equal(attack.components[0]?.hits, 1);
+  assert.ok(Math.abs(totalMotionValue(attack) - 0.1586) < 1e-12);
+  assert.equal(profile.attacks.some((row) => row.attackId.includes('HOLD') || row.attackId.includes('RELEASE')), false);
 });
 
 test('False Sovereign active Rank-5 cast is 55.35% x4 = exact Augusta 2.214 motion value', () => {

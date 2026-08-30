@@ -36,6 +36,40 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60000605',
+    rank: 5,
+    cooldownSeconds: 20,
+    attacks: [
+      {
+        attackId: 'FALLACY_INITIAL_BLAST',
+        name: 'Fallacy of No Return — initial blast',
+        trigger: 'ACTIVE_CAST',
+        element: 'Spectro',
+        scalingStat: 'HP',
+        components: [{ motionValuePerHit: 0.1586, hits: 1 }],
+      },
+    ],
+    provenance: {
+      sourceLabels: [
+        'wuwabuild Echo skill rendered text + Rank-5 params',
+        'Wutheringlab Fallacy of No Return',
+        'Prydwen current Fallacy usage',
+      ],
+      sourceUrls: [
+        ECHO_SKILL_SOURCE_URL,
+        'https://wutheringlab.com/echo/fallacy-of-no-return/',
+        'https://www.prydwen.gg/wuthering-waves/echoes/',
+      ],
+      checkedAt: '2026-08-30',
+      notes: [
+        'Rank-5 source explicitly resolves the normal activation blast to one Spectro hit equal to 15.86% of max HP.',
+        'The Hold Echo Skill flurry is not included because the source gives 1.58% max-HP damage per hit but does not define one fixed executable hit count for an arbitrary hold duration.',
+        'The 19.82% max-HP release finisher is also excluded because it belongs to the hold/release variant rather than the normal activation blast represented by this attack fact.',
+        'The wielder 10% Energy Regen and team 10% ATK effects remain in EchoEffectModel and are not duplicated in the attack layer.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60001215',
     rank: 5,
     cooldownSeconds: 8,

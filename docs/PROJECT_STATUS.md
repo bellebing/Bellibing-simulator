@@ -70,7 +70,7 @@ Fresh world-drop desired-main acquisition probabilities remain outside the verif
 - Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
 - Freezing Frost 5pc and Havoc Eclipse 5pc remain explicit source conflicts.
 - Midnight Veil's separate 480% Havoc Outro damage branch and Wishes of Quiet Snowfall arbitration remain specialized pending boundaries.
-- **181 / 181 released Echo skills** are source-reviewed. Active damage remains partial where exact scaling/hit/state execution is not verified.
+- **181 / 181 released Echo skills** are source-reviewed. The exact Rank-5 Echo attack catalog currently contains **3 attack profiles / 4 attack facts**: Bell-Borne Geochelone protection blast, Fallacy of No Return initial blast, and The False Sovereign active + Intro attacks. Active damage remains partial where exact scaling/hit/state execution is not verified.
 
 ## Composable profiles
 
@@ -165,6 +165,14 @@ Current pinned upstream and independent current weapon pages do not define the s
 
 Bellibing does not create a generic timed-stack engine until that lifetime policy is independently resolved.
 
+### Fallacy of No Return — partial exact attack coverage / BLOCKED SOURCE SEMANTICS
+
+Pinned current Echo source explicitly separates normal activation from **Hold Echo Skill**. At Rank 5 the normal activation is exact: one Spectro blast equal to **15.86% of max HP**, with a 20s cooldown. `src/data/echoAttacks.ts` therefore contains only `FALLACY_INITIAL_BLAST` for this Echo.
+
+The same source gives the hold branch as **1.58% max HP per flurry hit** plus a **19.82% max-HP release finisher**, but it does not define one fixed flurry hit count for arbitrary hold duration. The supported Shorekeeper and Chisa source sequences both say to use Fallacy but do not encode a typed normal/tap versus hold/release event.
+
+`src/combat/fallacyActiveDamageSemanticReview.ts` therefore parks `echo:echo-60000605:fallacy-active-skill-damage-adapter` behind **BUG-010** as `BLOCKED_SOURCE_SEMANTICS`. The same pending ID fans out to Shorekeeper and Chisa. Exact attack-data coverage increases, but **zero canonical profile dependencies close** and no profile is authorized to execute the normal blast merely because its source sequence contains a generic Fallacy cast.
+
 ### Important execution rule
 
 Having a reusable primitive is not the same as closing a profile dependency. A canonical pending ID closes only when the exact supported profile has an executable event/state path using the verified adapter. `SOURCE_SEQUENCE_ONLY` profiles remain fail closed.
@@ -175,14 +183,14 @@ Having a reusable primitive is not the same as closing a profile dependency. A c
 
 Current exact-edge disposition is regression-locked to:
 
-- **43 `UNREVIEWED`**;
+- **41 `UNREVIEWED`**;
 - **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`** — Woodland Aria Aero-Erosion application state;
 - **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`** — five Weapon cast-window edges plus four direct Sonata Outro-transfer edges;
 - **5 `BLOCKED_SOURCE_CONFLICT`** — Impermanence Heron / BUG-008 fanout;
-- **3 `BLOCKED_SOURCE_SEMANTICS`** — Stringmaster/Rime stack-lifetime fanout / BUG-009;
+- **5 `BLOCKED_SOURCE_SEMANTICS`** — Stringmaster/Rime stack-lifetime fanout / BUG-009 plus Fallacy cast-variant fanout / BUG-010;
 - **17 `PROFILE_SPECIFIC_EXECUTION`** — rotation engine models.
 
-That leaves **44 actionable shared edges**. The queue automatically excludes already-covered primitives, source-conflicted work, source-semantics blockers and profile-specific rotations, then ranks the remaining shared work by current profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED`, so they surface automatically instead of silently inheriting old semantics.
+That leaves **42 actionable shared edges**. The queue automatically excludes already-covered primitives, source-conflicted work, source-semantics blockers and profile-specific rotations, then ranks the remaining shared work by current profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED`, so they surface automatically instead of silently inheriting old semantics.
 
 The existing `audit:profile-adapters` CI gate validates this semantic partition and prints the current actionable shortlist. The queue never removes `pendingExecutionIds` and never authorizes execution.
 
@@ -225,14 +233,16 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 - PR #115 — first shared execution primitive: five source-verified Weapon cast windows, Woodland Aria semantic split, runtime hardening; no pending profile IDs closed.
 - PR #116 — shared incoming-transfer core with Denia/Hyvatia and direct Moonlit/Midnight wrappers; Impermanence Heron parked as BUG-008 source conflict; no pending profile IDs closed.
 - PR #117 — machine-readable semantic execution work queue; current work is ranked from exact canonical edge disposition instead of manual 78-edge triage.
+- PR #118 — Stringmaster/Rime skill-stack syntactic family manually split and parked behind BUG-009 because source lifetime/refresh semantics are not explicit; no pending profile IDs closed.
 
 ## Next work
 
 1. Use the semantic execution work queue instead of manually re-triaging all 78 edges.
 2. Keep Stringmaster/Rime skill-stack lifecycle blocked until stack refresh/expiration semantics are explicitly sourced; do not infer a generic stack timer.
-3. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
-4. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
-5. Continue with the next highest actionable shared group produced by the queue; semantic review may implement, split or park it depending on source evidence.
-6. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close a profile dependency.
-7. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
-8. Keep broad roster DPS blocked until exact profile execution closure exists.
+3. Keep Fallacy profile execution blocked until the supported profile source explicitly resolves normal/tap versus hold/release semantics; exact initial-blast data coverage alone does not close the profile edge.
+4. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
+5. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
+6. Continue with the next highest actionable shared group produced by the queue; semantic review may implement, split or park it depending on source evidence.
+7. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close a profile dependency.
+8. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
+9. Keep broad roster DPS blocked until exact profile execution closure exists.

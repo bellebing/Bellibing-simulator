@@ -31,7 +31,7 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedStructuredBonusRowCount: 58,
   expectedCharacterConditionBonusRowCount: 3,
   expectedUnusedParamRecordCount: 3,
-  expectedModeledEffectRowCount: 62,
+  expectedModeledEffectRowCount: 63,
   expectedModeledEffectEchoCount: 37,
   expectedAttackProfileCount: 3,
   expectedAttackFactCount: 4,
@@ -41,6 +41,7 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
     'Source review completeness does not imply executable combat coverage. Damage prose is not promoted to an attack profile when scaling, hit decomposition, variants, or state semantics cannot be proven in the current attack domain.',
     'Fallacy of No Return normal activation is a partial safe exception: Rank-5 source proves one 15.86% max-HP Spectro blast, while its hold/release variant remains explicitly outside exact execution coverage.',
     'Structured upstream bonuses are used only where their main-slot behavior is stable. Character-restricted or loadout-replaced rows remain pending until the corresponding adapter exists.',
+    'Reminiscence: Fleurdelys is the first character-restricted structured bonus promoted: the pinned record and multilingual text resolve source token Aero to Rover (Aero), while Cartethyia is named directly. The extra +10% Aero bonus is not generalized to other Aero Resonators.',
   ],
 } as const;
 
@@ -70,19 +71,13 @@ export const ECHO_SKILL_PENDING_ADAPTER_FACTS: readonly EchoSkillPendingAdapterF
     echoId: 'echo-60002015',
     fact: '15% CRIT Rate when Reminiscence - Nightmare: Adam Smasher is main-slot equipped by Lucy or Rebecca',
     kind: 'CHARACTER_RESTRICTION',
-    reason: 'The current Echo effect layer has no source-safe character-restriction key for this cross-character Echo behavior.',
-  },
-  {
-    echoId: 'echo-60001065',
-    fact: 'Additional 10% Aero DMG Bonus for Resonator: Aero or Cartethyia with Reminiscence: Fleurdelys equipped',
-    kind: 'CHARACTER_RESTRICTION',
-    reason: 'The source condition mixes a form label and a named Resonator; do not guess internal character IDs in the generic Echo effect layer.',
+    reason: 'The current Echo effect layer has not yet migrated this character-restricted row onto the verified wielder-identity applicability primitive.',
   },
   {
     echoId: 'echo-60001915',
     fact: '25% Resonance Liberation DMG Bonus when Sigillum is main-slot equipped by Aemeath',
     kind: 'CHARACTER_RESTRICTION',
-    reason: 'The effect is source-explicit but requires a character-restriction adapter before it can be executable generically.',
+    reason: 'The effect is source-explicit but has not yet been migrated onto the verified wielder-identity applicability primitive.',
   },
   {
     echoId: 'echo-60001809',

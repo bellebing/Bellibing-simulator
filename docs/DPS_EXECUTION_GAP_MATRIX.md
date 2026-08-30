@@ -45,8 +45,8 @@ Current highest syntactic reuse candidates:
 
 | Primitive candidate | Current fanout | New Cohort 01 fanout | Meaning |
 | --- | ---: | ---: | --- |
+| `weapon:trigger-uptime-adapter` | 5 profiles / 5 Characters / 6 edges | 3 profiles | Source-triggered Weapon windows across Iuno, Ciaccona, Lumi, Calcharo and Carlotta. Matching suffix does not by itself prove one implementation handles every trigger. |
 | `echo:impermanence-heron-active-transfer-adapter` | 5 profiles / 5 Characters | 2 profiles | Same Echo active/resource/transfer boundary across Aalto, Iuno, Zhezhi, Lumi and Yinlin. It still requires real Outro/incoming-Resonator event state. |
-| `weapon:trigger-uptime-adapter` | 4 profiles / 4 Characters / 5 edges | 3 profiles | Simple source-triggered Weapon windows across Lumi, Calcharo, Carlotta plus existing Ciaccona coverage. Matching suffix does not by itself prove one implementation handles every trigger. |
 | `sonata:outro-transfer-adapter` | 4 profiles / 4 Characters | 3 profiles | Incoming-resonator transfer timing across Zhezhi, Lumi, Yinlin and Cantarella. Requires actual Outro and switch target. |
 | `sonata:trigger-stack-adapter` | 2 profiles / 2 Characters | 2 profiles | Void Thunder / Frosty Resolve stack state driven by qualifying actions. Values/triggers remain separate source rows. |
 | `sonata:trigger-uptime-adapter` | 2 profiles / 2 Characters | 2 profiles | Simple source-triggered Sonata windows in Carlotta and Changli. |

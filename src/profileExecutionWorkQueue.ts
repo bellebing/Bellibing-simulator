@@ -1,0 +1,295 @@
+import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
+import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
+import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
+import {
+  PROFILE_ADAPTER_DEPENDENCY_MATRIX,
+  type ProfileAdapterDependencyEdge,
+  type ProfileAdapterDependencyMatrix,
+} from './profileAdapterDependencyMatrix.ts';
+
+export type ExecutionSemanticStatus =
+  | 'UNREVIEWED'
+  | 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING'
+  | 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'
+  | 'BLOCKED_SOURCE_CONFLICT'
+  | 'PROFILE_SPECIFIC_EXECUTION';
+
+export interface ExecutionSemanticReview {
+  readonly pendingExecutionId: string;
+  readonly status:
+    | 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING'
+    | 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'
+    | 'BLOCKED_SOURCE_CONFLICT';
+  readonly actionKey: string;
+  readonly reviewedAt: string;
+  readonly primitiveId?: string;
+  readonly blockerId?: string;
+  readonly notes: readonly string[];
+}
+
+export interface ProfileExecutionDispositionEdge extends ProfileAdapterDependencyEdge {
+  readonly semanticStatus: ExecutionSemanticStatus;
+  readonly actionKey: string;
+  readonly primitiveId: string | null;
+  readonly blockerId: string | null;
+}
+
+export interface ProfileExecutionWorkGroup {
+  readonly actionKey: string;
+  readonly semanticStatus: ExecutionSemanticStatus;
+  readonly dependencyCount: number;
+  readonly profileCount: number;
+  readonly characterCount: number;
+  readonly syntacticPrimitiveKeys: readonly string[];
+  readonly pendingExecutionIds: readonly string[];
+  readonly presetIds: readonly string[];
+  readonly characterIds: readonly string[];
+  readonly primitiveIds: readonly string[];
+  readonly blockerIds: readonly string[];
+}
+
+export interface ProfileExecutionWorkSummary {
+  readonly totalEdges: number;
+  readonly unreviewedEdges: number;
+  readonly semanticallyReviewedImplementationPendingEdges: number;
+  readonly primitiveAvailableRequiresTimelineEdges: number;
+  readonly blockedSourceConflictEdges: number;
+  readonly profileSpecificExecutionEdges: number;
+  readonly actionableSharedEdges: number;
+}
+
+export interface ProfileExecutionWorkQueue {
+  readonly summary: ProfileExecutionWorkSummary;
+  readonly reviewRecordCount: number;
+  readonly edges: readonly ProfileExecutionDispositionEdge[];
+  readonly actionableSharedQueue: readonly ProfileExecutionWorkGroup[];
+  readonly primitiveAvailableRequiresTimeline: readonly ProfileExecutionWorkGroup[];
+  readonly blockedSourceConflicts: readonly ProfileExecutionWorkGroup[];
+  readonly profileSpecificExecution: readonly ProfileExecutionWorkGroup[];
+  readonly authorizesExecution: false;
+  readonly notes: readonly string[];
+}
+
+function uniqueSorted(values: readonly string[]): readonly string[] {
+  return [...new Set(values)].sort();
+}
+
+const WEAPON_CAST_REVIEWS: readonly ExecutionSemanticReview[] =
+  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:cast-timed-self-window',
+    reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
+    primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
+    notes: [
+      'Manual semantic review proved this edge belongs to the explicit cast-event -> timed SELF-window primitive.',
+      'The exact profile edge remains pending until an executable timeline supplies the source event and timing.',
+    ],
+  }));
+
+const WEAPON_TARGET_APPLICATION_REVIEWS: readonly ExecutionSemanticReview[] =
+  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING',
+    actionKey: 'weapon:aero-erosion-application-state',
+    reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
+    notes: [
+      'Woodland Aria WA-AERO was split from cast-window semantics: its source event is applying Aero Erosion to a target.',
+      'A target/application-state execution primitive is still required.',
+    ],
+  }));
+
+const SONATA_TRANSFER_REVIEWS: readonly ExecutionSemanticReview[] =
+  SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:direct-outro-incoming-transfer',
+    reviewedAt: SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.reviewedAt,
+    primitiveId: SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.adapterId,
+    notes: [
+      'Manual semantic review proved this direct Outro transfer can use incoming-transfer-state-v1 through the Sonata wrapper.',
+      'The profile dependency remains pending until the exact rotation supplies outgoing actor, incoming Resonator and timing.',
+    ],
+  }));
+
+const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [
+  {
+    pendingExecutionId: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_CONFLICT',
+    actionKey: 'echo:impermanence-heron-transfer',
+    reviewedAt: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.reviewedAt,
+    blockerId: 'BUG-008',
+    notes: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.notes,
+  },
+];
+
+/**
+ * Semantic review records derived from implementation/source-review artifacts.
+ *
+ * This is intentionally not a second list of all pending work. Unlisted exact
+ * pending IDs remain UNREVIEWED automatically, so new canonical dependencies
+ * surface in the actionable queue instead of silently inheriting old semantics.
+ */
+export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  ...WEAPON_CAST_REVIEWS,
+  ...WEAPON_TARGET_APPLICATION_REVIEWS,
+  ...SONATA_TRANSFER_REVIEWS,
+  ...HERON_REVIEWS,
+]);
+
+export function validateExecutionSemanticReviews(
+  matrix: ProfileAdapterDependencyMatrix = PROFILE_ADAPTER_DEPENDENCY_MATRIX,
+  reviews: readonly ExecutionSemanticReview[] = EXECUTION_SEMANTIC_REVIEWS,
+): readonly string[] {
+  const issues: string[] = [];
+  const canonicalIds = new Set(matrix.edges.map((edge) => edge.pendingExecutionId));
+  const profileSpecificIds = new Set(
+    matrix.edges
+      .filter((edge) => edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION')
+      .map((edge) => edge.pendingExecutionId),
+  );
+  const seen = new Set<string>();
+
+  for (const review of reviews) {
+    if (!review.pendingExecutionId.trim()) issues.push('semantic review pendingExecutionId is blank');
+    if (seen.has(review.pendingExecutionId)) issues.push(`duplicate semantic review ${review.pendingExecutionId}`);
+    seen.add(review.pendingExecutionId);
+    if (!canonicalIds.has(review.pendingExecutionId)) issues.push(`semantic review targets non-canonical pending id ${review.pendingExecutionId}`);
+    if (profileSpecificIds.has(review.pendingExecutionId)) issues.push(`profile-specific execution id must not use reusable semantic review ${review.pendingExecutionId}`);
+    if (!review.actionKey.trim()) issues.push(`semantic review ${review.pendingExecutionId} has blank actionKey`);
+    if (!review.reviewedAt.trim()) issues.push(`semantic review ${review.pendingExecutionId} has blank reviewedAt`);
+    if (review.notes.length === 0) issues.push(`semantic review ${review.pendingExecutionId} has no notes`);
+    if (review.status === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE' && !review.primitiveId?.trim()) {
+      issues.push(`semantic review ${review.pendingExecutionId} requires primitiveId`);
+    }
+    if (review.status === 'BLOCKED_SOURCE_CONFLICT' && !review.blockerId?.trim()) {
+      issues.push(`semantic review ${review.pendingExecutionId} requires blockerId`);
+    }
+  }
+
+  return issues;
+}
+
+function dispositionForEdge(
+  edge: ProfileAdapterDependencyEdge,
+  reviewById: ReadonlyMap<string, ExecutionSemanticReview>,
+): ProfileExecutionDispositionEdge {
+  if (edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION') {
+    return {
+      ...edge,
+      semanticStatus: 'PROFILE_SPECIFIC_EXECUTION',
+      actionKey: edge.syntacticPrimitiveKey,
+      primitiveId: null,
+      blockerId: null,
+    };
+  }
+
+  const review = reviewById.get(edge.pendingExecutionId);
+  if (!review) {
+    return {
+      ...edge,
+      semanticStatus: 'UNREVIEWED',
+      actionKey: edge.syntacticPrimitiveKey,
+      primitiveId: null,
+      blockerId: null,
+    };
+  }
+
+  return {
+    ...edge,
+    semanticStatus: review.status,
+    actionKey: review.actionKey,
+    primitiveId: review.primitiveId ?? null,
+    blockerId: review.blockerId ?? null,
+  };
+}
+
+function groupEdges(edges: readonly ProfileExecutionDispositionEdge[]): readonly ProfileExecutionWorkGroup[] {
+  const keys = uniqueSorted(edges.map((edge) => edge.actionKey));
+  return keys.map((actionKey) => {
+    const matching = edges.filter((edge) => edge.actionKey === actionKey);
+    const statuses = uniqueSorted(matching.map((edge) => edge.semanticStatus));
+    if (statuses.length !== 1) {
+      throw new Error(`Execution action ${actionKey} mixes semantic statuses: ${statuses.join(', ')}`);
+    }
+    return {
+      actionKey,
+      semanticStatus: matching[0]?.semanticStatus ?? 'UNREVIEWED',
+      dependencyCount: matching.length,
+      profileCount: new Set(matching.map((edge) => edge.presetId)).size,
+      characterCount: new Set(matching.map((edge) => edge.characterId)).size,
+      syntacticPrimitiveKeys: uniqueSorted(matching.map((edge) => edge.syntacticPrimitiveKey)),
+      pendingExecutionIds: uniqueSorted(matching.map((edge) => edge.pendingExecutionId)),
+      presetIds: uniqueSorted(matching.map((edge) => edge.presetId)),
+      characterIds: uniqueSorted(matching.map((edge) => edge.characterId)),
+      primitiveIds: uniqueSorted(matching.flatMap((edge) => edge.primitiveId ? [edge.primitiveId] : [])),
+      blockerIds: uniqueSorted(matching.flatMap((edge) => edge.blockerId ? [edge.blockerId] : [])),
+    };
+  });
+}
+
+function actionableSort(left: ProfileExecutionWorkGroup, right: ProfileExecutionWorkGroup): number {
+  const leftReviewed = left.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING' ? 1 : 0;
+  const rightReviewed = right.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING' ? 1 : 0;
+  return right.profileCount - left.profileCount
+    || right.characterCount - left.characterCount
+    || right.dependencyCount - left.dependencyCount
+    || rightReviewed - leftReviewed
+    || left.actionKey.localeCompare(right.actionKey);
+}
+
+function generalSort(left: ProfileExecutionWorkGroup, right: ProfileExecutionWorkGroup): number {
+  return right.profileCount - left.profileCount
+    || right.characterCount - left.characterCount
+    || right.dependencyCount - left.dependencyCount
+    || left.actionKey.localeCompare(right.actionKey);
+}
+
+export function buildProfileExecutionWorkQueue(
+  matrix: ProfileAdapterDependencyMatrix = PROFILE_ADAPTER_DEPENDENCY_MATRIX,
+  reviews: readonly ExecutionSemanticReview[] = EXECUTION_SEMANTIC_REVIEWS,
+): ProfileExecutionWorkQueue {
+  const issues = validateExecutionSemanticReviews(matrix, reviews);
+  if (issues.length > 0) throw new Error(`Invalid execution semantic review catalog: ${issues.join('; ')}`);
+
+  const reviewById = new Map(reviews.map((review) => [review.pendingExecutionId, review] as const));
+  const edges = matrix.edges.map((edge) => dispositionForEdge(edge, reviewById));
+  const count = (status: ExecutionSemanticStatus) => edges.filter((edge) => edge.semanticStatus === status).length;
+  const unreviewedEdges = count('UNREVIEWED');
+  const semanticallyReviewedImplementationPendingEdges = count('SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  const primitiveAvailableRequiresTimelineEdges = count('PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  const blockedSourceConflictEdges = count('BLOCKED_SOURCE_CONFLICT');
+  const profileSpecificExecutionEdges = count('PROFILE_SPECIFIC_EXECUTION');
+
+  const actionableEdges = edges.filter((edge) =>
+    edge.semanticStatus === 'UNREVIEWED'
+    || edge.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+
+  return {
+    summary: {
+      totalEdges: edges.length,
+      unreviewedEdges,
+      semanticallyReviewedImplementationPendingEdges,
+      primitiveAvailableRequiresTimelineEdges,
+      blockedSourceConflictEdges,
+      profileSpecificExecutionEdges,
+      actionableSharedEdges: actionableEdges.length,
+    },
+    reviewRecordCount: reviews.length,
+    edges,
+    actionableSharedQueue: [...groupEdges(actionableEdges)].sort(actionableSort),
+    primitiveAvailableRequiresTimeline: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE'))].sort(generalSort),
+    blockedSourceConflicts: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_CONFLICT'))].sort(generalSort),
+    profileSpecificExecution: [...groupEdges(edges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION'))].sort(generalSort),
+    authorizesExecution: false,
+    notes: [
+      'The work queue classifies exact canonical pending edges; it never removes or closes pendingExecutionIds.',
+      'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE means reusable mechanics exist but the exact profile still lacks an executable event timeline.',
+      'BLOCKED_SOURCE_CONFLICT items are excluded from actionable implementation work until their evidence conflict is resolved.',
+      'PROFILE_SPECIFIC_EXECUTION remains separate from shared-primitive prioritization.',
+      'Unlisted new pending IDs become UNREVIEWED automatically and therefore surface in the actionable queue.',
+    ],
+  };
+}
+
+export const PROFILE_EXECUTION_WORK_QUEUE = buildProfileExecutionWorkQueue();

@@ -89,8 +89,15 @@ export const WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT = {
   ],
 } as const;
 
-function effectById(catalog: readonly WeaponEffectData[], effectId: string): WeaponEffectData | null {
-  return catalog.find((effect) => effect.effectId === effectId) ?? null;
+function effectsById(catalog: readonly WeaponEffectData[], effectId: string): readonly WeaponEffectData[] {
+  return catalog.filter((effect) => effect.effectId === effectId);
+}
+
+function uniqueEffectById(catalog: readonly WeaponEffectData[], effectId: string): WeaponEffectData | null {
+  const matches = effectsById(catalog, effectId);
+  if (matches.length === 0) return null;
+  if (matches.length > 1) throw new Error(`Duplicate weapon effect id ${effectId}`);
+  return matches[0];
 }
 
 export function validateWeaponCastWindowContracts(
@@ -103,11 +110,16 @@ export function validateWeaponCastWindowContracts(
     if (seen.has(contract.effectId)) issues.push(`duplicate cast-window contract ${contract.effectId}`);
     seen.add(contract.effectId);
 
-    const effect = effectById(catalog, contract.effectId);
-    if (!effect) {
+    const matches = effectsById(catalog, contract.effectId);
+    if (matches.length === 0) {
       issues.push(`missing weapon effect ${contract.effectId}`);
       continue;
     }
+    if (matches.length > 1) {
+      issues.push(`duplicate weapon effect id ${contract.effectId}`);
+      continue;
+    }
+    const effect = matches[0];
     if (effect.trigger !== contract.expectedSourceTrigger) {
       issues.push(`${contract.effectId} trigger drift: expected "${contract.expectedSourceTrigger}", got "${effect.trigger}"`);
     }
@@ -147,18 +159,25 @@ export function activateWeaponCastWindow(params: {
   const { effectId, rank, wielderId, event, catalog = WEAPON_EFFECT_CATALOG } = params;
   const contract = WEAPON_CAST_WINDOW_CONTRACTS.find((row) => row.effectId === effectId);
   if (!contract) throw new Error(`No verified cast-window contract for weapon effect ${effectId}`);
+  if (!Number.isInteger(rank) || rank < 1 || rank > 5) {
+    throw new Error(`Weapon rank must be an integer from 1 through 5: ${rank}`);
+  }
+  if (!wielderId.trim()) throw new Error('Weapon cast-window wielderId must be non-blank');
+  if (!event.actorId.trim()) throw new Error('Weapon cast event actorId must be non-blank');
   if (!Number.isFinite(event.atSeconds) || event.atSeconds < 0) {
     throw new Error(`Weapon cast event time must be a finite non-negative number: ${event.atSeconds}`);
   }
   if (event.actorId !== wielderId) return null;
   if (!contract.triggerEvents.includes(event.kind)) return null;
 
-  const effect = effectById(catalog, effectId);
+  const effect = uniqueEffectById(catalog, effectId);
   if (!effect) throw new Error(`Missing weapon effect ${effectId}`);
   const durationSeconds = effect.durationSeconds;
   if (durationSeconds === null || durationSeconds <= 0) {
     throw new Error(`Weapon effect ${effectId} has no executable cast-window duration`);
   }
+  const value = effect.rankValues[rank - 1];
+  if (!Number.isFinite(value)) throw new Error(`Weapon effect ${effectId} has no finite R${rank} value`);
 
   return {
     adapterId: 'weapon-cast-timed-self-window-v1',
@@ -166,7 +185,7 @@ export function activateWeaponCastWindow(params: {
     weaponId: effect.weaponId,
     actorId: wielderId,
     statOrEffect: effect.statOrEffect,
-    value: effect.rankValues[rank - 1],
+    value,
     valueUnit: effect.valueUnit,
     startedAtSeconds: event.atSeconds,
     expiresAtSeconds: event.atSeconds + durationSeconds,

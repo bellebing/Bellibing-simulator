@@ -12,20 +12,18 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Current merged `main` baseline: `219b35d256702f8d06ab164ac0d9227b5e58d9f9` — PR #111, fresh Cohort 01 `WEAPON` source review.
+Merge-base before the current Cohort 01 green-lane tranche: `4a1b11937db48a41ffb2fc1419c85fe72fb302f3` — PR #112, merged Cohort 01 `ECHO_SONATA` source review.
 
-PR #111 exact head `6ccca0d282e2f49b6b7854a8b3d577fc03e9256b` passed Verify #506 and Export #478, including horizontal refresh/profile/readiness gates, full tests, strict web build, real Chrome Roll Assist regression, diff check and artifact publishing.
+PR #112 completed the third horizontal source phase without canonical promotion. The current functional tranche continues on one branch through `STATS_ER`, `SOURCE_ROTATION`, semantic source-completeness review and bulk canonical promotion.
 
-Post-merge `main` passed Verify #507, Export #479 and Deploy #104 on the exact merge SHA.
+Registry-derived readiness on the current merge candidate is guarded to be:
 
-Live registry-derived readiness remains:
-
-- **18 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **25 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **35 `PROFILE_SOURCE_PENDING`**;
+- **28 `PROFILE_SOURCE_PENDING`**;
 - **1 `DPS_READY`**.
 
-Horizontal source research/staging does **not** itself promote profiles and must not change those counts.
+The change from the #112 baseline is exactly seven source/semantic profile promotions. No new profile is freeze-approved or DPS-ready.
 
 ## Architecture boundary
 
@@ -69,8 +67,6 @@ Integration errors propagate separately and render `ROLL ASSIST ERROR`. Permanen
 - +5 CRIT Rate 6.3% → `DISCARD`;
 - +5 CRIT Rate 9.3% → `ROLL TO +10`;
 - +10 CRIT Rate 9.3% + Flat DEF → `ROLL TO +15`.
-
-PR #111 exact-head Chrome verification passed and post-merge Deploy #104 passed the live Roll Assist browser checks.
 
 ### BUG-002 — KNOWN GAP
 
@@ -178,143 +174,110 @@ Both use the reviewed Forged Dwarf Star recommendation; both remain build-ready 
 
 ### Horizontal Profile Cohort Pipeline — Cohort 01
 
-Cohort 01 contains **15 current `PROFILE_SOURCE_PENDING` Characters / 20 staged modes**:
+The historical Cohort 01 source snapshot contains **15 Characters / 20 staged modes**. Historical cohort replay is now deliberately separated from current `PROFILE_SOURCE_PENDING` eligibility: old review checkpoints stay reproducible after profiles are promoted, while a separate live guard rejects carrying already-promoted Characters into a new active cohort.
 
-- five remaining source-checkpoint `MULTI_MODE`: Lucilla, Lumi, Rover (Havoc), Yangyang, Yinlin;
-- ten previously `MISSING_CONTEXT`: Baizhi, Brant, Calcharo, Cantarella, Carlotta, Changli, Chisa, Chixia, Encore, Jianxin.
-
-Review order remains:
+Review order:
 
 1. `MODE_TEAM_CONTEXT`;
 2. `WEAPON`;
 3. `ECHO_SONATA`;
 4. `STATS_ER`;
 5. `SOURCE_ROTATION`;
-6. `EXECUTION_ADAPTERS`;
-7. `PROMOTION_FREEZE`.
+6. semantic promotion review;
+7. `EXECUTION_ADAPTERS` / freeze only after canonical promotion.
 
-#### Exhausted 2026-08-29 checkpoint
-
-The original reviewed checkpoint remains fully dispositioned and immutable as historical review input:
+#### Completed horizontal source phases
 
 | Phase | REVIEWED | BLOCKED | PENDING |
 | --- | ---: | ---: | ---: |
-| `MODE_TEAM_CONTEXT` | 0 | 20 | 0 |
-| `WEAPON` | 0 | 20 | 0 |
-| `ECHO_SONATA` | 0 | 20 | 0 |
-| `STATS_ER` | 0 | 20 | 0 |
-| `SOURCE_ROTATION` | 0 | 20 | 0 |
-| `EXECUTION_ADAPTERS` | 0 | 0 | 20 |
-| `PROMOTION_FREEZE` | 0 | 0 | 20 |
+| `MODE_TEAM_CONTEXT` | 10 | 10 | 0 |
+| `WEAPON` | 18 | 2 | 0 |
+| `ECHO_SONATA` | 17 | 3 | 0 |
+| `STATS_ER` | 10 | 10 | 0 |
+| `SOURCE_ROTATION` | 10 | 10 | 0 |
 
-Mechanical auto-parking only produces `BLOCKED`; it never produces `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY`. PR #109 also locks that missing stats do not invent ER and missing rotations stay `null`.
+`MODE_TEAM_CONTEXT`, `WEAPON` and `ECHO_SONATA` were merged through PRs #110, #111 and #112. The current tranche adds `STATS_ER` and `SOURCE_ROTATION` on the same branch instead of opening one PR per phase.
 
-#### 2026-08-30 MODE_TEAM_CONTEXT refresh — MERGED
+The ten green-lane source-complete modes are:
 
-PR #110 introduced the first fresh overlay. Result across all 20 modes:
+- Lucilla — Glacio Chafe;
+- Lucilla — Echo Skill;
+- Lumi — Hybrid;
+- Rover (Havoc) — Quick Swap;
+- Yinlin — Moonlit;
+- Calcharo — standard;
+- Cantarella — standard;
+- Carlotta — standard;
+- Changli — standard;
+- Chisa — standard.
 
-- **10 REVIEWED / 10 BLOCKED / 0 pending**;
-- **0 defaults** — every `defaultCandidate` remains `null`.
+All other Cohort 01 modes retain their existing explicit blockers; one blocked mode never stops the others.
 
-Reviewed contexts are Lucilla Chafe, Lucilla Echo, Lumi Hybrid, Rover Havoc Quick Swap, Yinlin Moonlit, Calcharo, Cantarella, Carlotta, Changli and Chisa. The remaining ten modes preserve genuine team/context or role/mode-split blockers.
+#### `STATS_ER` source review
 
-#### 2026-08-30 WEAPON refresh — MERGED
+Exactly ten green-lane modes are REVIEWED and ten remain BLOCKED from earlier source/context gaps.
 
-PR #111 consumes the merged mode/context overlay and researches only Weapon recommendation/context fields.
+- eight green-lane modes have exact source-backed numeric ER bands;
+- Rover (Havoc) Quick Swap and Cantarella intentionally retain `erBand=null` because their reviewed contexts do not support an exact numeric target;
+- no numeric ER is inferred from generic guidance;
+- Brant remains blocked with the source-explicit Tidebreaking Courage condition at **250%+ Energy Regen** plus Molten Rift fallback. The 250% branch is never made unconditional.
 
-Result across the same 20 modes:
+#### `SOURCE_ROTATION` source review
 
-- **18 `WEAPON` REVIEWED**;
-- **2 `WEAPON` BLOCKED**;
-- **0 pending**.
+Exactly ten green-lane modes are REVIEWED and ten remain BLOCKED.
 
-Reviewed recommendations:
+Source sequences preserve explicit Intro/Outro order, swaps, Echo timing and named cancels where supported. They never add rotation duration, frame timing, uptime or engine ownership.
 
-- Lucilla Chafe / Echo — Freeze Frame R1;
-- Lumi Hybrid / Main DPS — Ages of Harvest R1;
-- Rover Havoc Quick Swap / Hyper Carry — Red Spring R1;
-- Yangyang damage — Blazing Brilliance R1;
-- Yinlin Moonlit / Empyrean — Stringmaster R1;
-- Baizhi — Stellar Symphony R1;
-- Brant — Unflickering Valor R1;
-- Calcharo — Wildfire Mark R1;
-- Cantarella — Whispers of Sirens R1;
-- Carlotta — The Last Dance R1;
-- Changli — Blazing Brilliance R1;
-- Chisa — Kumokiri R1;
-- Chixia — The Last Dance R1;
-- Encore — Stringmaster R1.
+Every reviewed rotation remains `SOURCE_SEQUENCE_ONLY`.
 
-Weapon blockers:
+#### Semantic source-completeness / canonical promotion
 
-- **Yangyang Support** — current weapon ranking is damage-oriented and does not safely provide one Support recommendation;
-- **Jianxin standard** — source explicitly separates Support `Originite: Type IV` from damage `Verity's Handle` while the old mode still spans DPS/Hybrid/Support.
+Source completeness produced **10 complete modes**. Manual semantic review approved **7** for canonical VERIFIED build truth and retained **3** as source-complete but promotion-blocked.
 
-The merged weapon overlay preserves MODE_TEAM_CONTEXT exactly 10/10, does not select defaults, and leaves later phases untouched.
+Promoted canonical defaults:
 
-#### 2026-08-30 ECHO_SONATA refresh — ACTIVE / NOT MERGED
+- `lumi-hybrid`;
+- `yinlin-moonlit`;
+- `calcharo-standard`;
+- `cantarella-standard`;
+- `carlotta-standard`;
+- `changli-standard`;
+- `chisa-standard`.
 
-The active refresh branch consumes the merged mode/context + weapon overlays and researches only `sonataSet`, `mainEcho`, five-Echo COST-12 layout and slot main-stat recommendations. It does **not** re-evaluate Weapon/Team truth and it does not execute Echo/Sonata effects.
+Source-complete but not promoted:
 
-Current staged source-review result across all 20 modes:
+- Lucilla Glacio Chafe;
+- Lucilla Echo Skill;
+- Rover (Havoc) Quick Swap.
 
-- **17 `ECHO_SONATA` REVIEWED**;
-- **3 `ECHO_SONATA` BLOCKED**;
-- **0 pending**;
-- every reviewed row has five Echo slots, valid COST 1/3/4 entries totaling COST 12, and five source-backed slot main-stat recommendations.
+Lucilla remains blocked because both reviewed Resonance Modes are legitimate and the source review did not justify one universal Character default. Havoc Rover remains blocked because Quick Swap is source-complete while the broader playstyle comparison is not semantically closed. Neither Character receives a fabricated default merely to increase throughput.
 
-Mode-conditioned recommendations are preserved explicitly:
+The seven approved profiles are bulk-materialized atomically from one reviewed spec per mode into Weapon / Echo / Stats / Team / Rotation / Preset catalogs. Automation structures the approved truth but does not make the semantic approval decision.
 
-- Lucilla Chafe — Wishes of Quiet Snowfall + Glommoth;
-- Lucilla Echo — Moonlit Clouds + Impermanence Heron; the Phrolova-only Dream of the Lost path is not flattened into the reviewed Sigrika context;
-- Lumi Hybrid — Moonlit Clouds + Impermanence Heron;
-- Lumi Main DPS — Void Thunder + Nightmare: Thundering Mephis;
-- Rover Havoc Quick Swap / Hyper Carry — Havoc Eclipse + Dreamless;
-- Yangyang Support — Moonlit Clouds + Impermanence Heron;
-- Yangyang damage — Sierra Gale + Nightmare: Feilian Beringal;
-- Yinlin Moonlit — Moonlit Clouds + Impermanence Heron;
-- Yinlin Empyrean — Empyrean Anthem + Nightmare: Tempest Mephis;
-- Baizhi — Rejuvenating Glow + Fallacy of No Return;
-- Calcharo — Void Thunder + Nightmare: Thundering Mephis;
-- Cantarella — Midnight Veil + Lorelei in the reviewed Phrolova Havoc-team context;
-- Carlotta — Frosty Resolve + Sentry Construct;
-- Changli — Molten Rift + Nightmare: Inferno Rider;
-- Chisa — Rejuvenating Glow + Fallacy of No Return in the reviewed Aemeath + Denia third-slot Support context;
-- Chixia — Molten Rift + Nightmare: Inferno Rider.
-
-Echo/Sonata blockers:
-
-- **Brant standard** — source requires both Tidebreaking Courage + Dragon of Dirge at 250%+ Energy Regen **and** Molten Rift + Nightmare: Inferno Rider fallback when ER cannot be reached. One unconditional Echo object would erase the required fallback; this stays blocked until the later stat/ER condition can be represented safely.
-- **Encore standard** — source distinguishes standard Molten Rift from team-dependent Flaming Clawprint + Lioness of Glory in Dual DPS Changli/Brant teams. The old single standard mode is too coarse.
-- **Jianxin standard** — general build lists Moonlit Clouds + Impermanence Heron, while Support Jianxin explicitly uses Originite: Type IV to maintain 5P Rejuvenating Glow. The unresolved DPS/Hybrid/Support mode cannot safely select one set.
-
-The Echo/Sonata overlay is fail-closed:
-
-- it only fills currently missing Echo fields on existing Character + mode keys;
-- `REVIEWED` requires complete set/main-Echo/COST/main-stat data and zero blockers;
-- `BLOCKED` requires explicit blockers and stages no partial Echo object;
-- five-Echo layouts accept only COST 1/3/4 and must total COST 12;
-- the accumulated cohort manifest is derived deterministically from the merged weapon manifest plus the Echo review, avoiding duplicated prior-phase review state;
-- it cannot authorize canonical writes, `VERIFIED` truth, effect execution, `ENGINE_MODELED`, freeze or DPS readiness.
-
-After this staged refresh, MODE_TEAM_CONTEXT must remain exactly 10/10 and WEAPON exactly 18/2. `STATS_ER` and `SOURCE_ROTATION` remain mechanically parked at 20 BLOCKED each. `EXECUTION_ADAPTERS` and `PROMOTION_FREEZE` remain 20 pending each.
-
-All materialization candidates remain `NOT_VERIFIED` with `canonicalWriteAllowed=false`. No numeric ER target, universal default, uptime, damage scaling, Echo active behavior or combat mechanic has been invented.
+All seven canonical rotations remain `SOURCE_SEQUENCE_ONLY`; promotion is build/profile truth only, not execution/DPS truth.
 
 ### Profile × Adapter dependency matrix
 
 Canonical backward-impact `pendingExecutionIds` are mapped into a machine-readable Profile × Adapter dependency matrix.
 
-Current canonical impact inventory:
+Current canonical impact inventory on this merge candidate:
 
-- **11 backward-impact reviews**;
-- **11 reviewed canonical profiles**;
-- **10 profiles with pending execution dependencies**;
-- **46 exact pending execution edges**.
+- **18 backward-impact reviews**;
+- **18 reviewed canonical profiles**;
+- **17 profiles with pending execution dependencies**;
+- **78 exact pending execution edges**.
 
-The matrix ranks syntactically shared reusable primitive candidates by profile/Character fanout while preserving every exact pending ID. `rotation:*:engine-model` is excluded from generic reuse prioritization because matching suffixes do not prove semantic equivalence.
+`rotation:*:engine-model` remains profile-specific and excluded from generic reuse prioritization.
 
-Highest current syntactic reuse candidates include Impermanence Heron active/transfer — 3 profiles / 3 Characters — and the generic Weapon target-state suffix — 2 profiles / 2 Characters. These are prioritization hints only; they do not authorize an adapter implementation or close any impact review.
+Top reusable syntactic primitive candidates are currently:
+
+1. `echo:impermanence-heron-active-transfer-adapter` — **5 profiles / 5 Characters**;
+2. `weapon:trigger-uptime-adapter` — **4 profiles / 4 Characters / 5 dependencies**;
+3. `sonata:outro-transfer-adapter` — **4 profiles / 4 Characters**.
+
+Within the seven newly promoted profiles, `weapon:trigger-uptime-adapter` and `sonata:outro-transfer-adapter` each touch three profiles; Impermanence Heron touches Lumi and Yinlin and also reuses the same boundary already present for Aalto, Iuno and Zhezhi.
+
+These rows are prioritization hints, not semantic proof that all grouped effects share one implementation. In particular, Impermanence Heron cannot close profile execution until an actual Outro/incoming-Resonator event path exists, and generic trigger uptime still depends on executable action/rotation events.
 
 See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md).
 
@@ -351,14 +314,14 @@ A PR is not merge-ready because an earlier head passed.
 - PR #108 — initial Cohort 01 blocker staging; merge `959562968767d1fd6f4a37451b24d59e4ca41bda`.
 - PR #109 — completed old-checkpoint source blocker staging; merge `ca1b5058c750fe58968af155d60eaca615c98b0f`.
 - PR #110 — fresh MODE_TEAM_CONTEXT source overlay, 10 reviewed / 10 blocked / 0 defaults; merge `c66a98f774c44f568aefc3718650502d8da13e10`.
-- PR #111 — fresh WEAPON source overlay, 18 reviewed / 2 blocked; merge `219b35d256702f8d06ab164ac0d9227b5e58d9f9`; post-merge Verify #507 / Export #479 / Deploy #104 passed.
+- PR #111 — fresh WEAPON source overlay, 18 reviewed / 2 blocked; merge `219b35d256702f8d06ab164ac0d9227b5e58d9f9`.
+- PR #112 — fresh ECHO_SONATA source overlay, 17 reviewed / 3 blocked; merge `4a1b11937db48a41ffb2fc1419c85fe72fb302f3`.
 
 ## Next work
 
-1. Land the Cohort 01 `ECHO_SONATA` refresh only after exact-head CI verifies the 17 REVIEWED / 3 BLOCKED split, preserves MODE_TEAM_CONTEXT 10/10 and WEAPON 18/2, and keeps all candidates fail-closed. This still promotes zero canonical profiles.
-2. Continue horizontally with `STATS_ER` for the same 20 modes, researching only missing stat priority and source-backed ER conditions. Brant's 250% Tidebreaking threshold/fallback must be preserved rather than turning into an unconditional Echo choice.
-3. Then continue the same cohort through `SOURCE_ROTATION`, preserving source-conditioned alternatives and explicit blockers.
-4. Only after a profile candidate is source-complete and semantically reviewed should `EXECUTION_ADAPTERS` be evaluated. Then prioritize generic primitives/adapters by verified profile fanout.
-5. Keep blockers parked per Character/mode so unresolved rows do not stop the rest of the cohort.
-6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI separate.
-7. Do not start broad roster-wide Character DPS merely because Augusta has one narrow frozen execution path.
+1. Exact-head verify and merge the current Cohort 01 green-lane tranche. Do not count the seven promotions as landed until full Verify/Export/build/browser/audits pass on the exact PR head and post-merge state is rechecked.
+2. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until canonical default semantics are explicitly closed; do not fabricate defaults.
+3. Use the Profile × Adapter matrix to attack shared execution primitives before character-specific copies. The highest fanout candidate is Impermanence Heron active-transfer, while generic trigger-uptime/outro-transfer touch the most newly promoted profiles.
+4. Do not implement an adapter merely because suffixes group syntactically; verify the shared semantic primitive and its required event-state first.
+5. Continue preserving explicit source blockers, including Brant's conditional 250% Tidebreaking branch/fallback and missing exact Echo attack data.
+6. Do not start broad roster-wide Character DPS. Augusta remains the only frozen DPS-ready vertical slice.

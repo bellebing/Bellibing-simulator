@@ -1,4 +1,8 @@
 import type { RotationProfile } from '../profileDomain.ts';
+import {
+  engineModelsMechanicFact,
+  getRotationEngineRegistration,
+} from '../rotationEngineRegistry.ts';
 import { CHARACTER_MECHANIC_FACT_BY_ID } from './characterMechanics.ts';
 
 export interface RotationMechanicsAuditIssue {
@@ -15,9 +19,11 @@ export interface RotationMechanicsDependencyAudit {
 
 /**
  * Validates the boundary between a verified rotation and the raw mechanic facts
- * it depends on. A modeled dependency must actually be MODELED; an assumed
- * dependency must at least be source VERIFIED. This gives future patch impact a
- * reverse-indexable dependency surface instead of relying on prose.
+ * it depends on. A modeled dependency must either already be globally MODELED
+ * or be explicitly executed by this concrete engine registration; an assumed
+ * dependency must at least be source VERIFIED. This preserves raw-source status
+ * instead of mutating MODEL_READY facts just because one profile engine supports
+ * them.
  */
 export function auditRotationMechanicDependencies(
   rotation: RotationProfile,
@@ -31,6 +37,17 @@ export function auditRotationMechanicDependencies(
   }
   if (assumed.size !== rotation.assumedMechanicFactIds.length) {
     issues.push({ factId: '*', issue: 'duplicate assumed mechanic dependency' });
+  }
+
+  const engine = getRotationEngineRegistration(rotation.engineModelId);
+  if (rotation.executionStatus === 'ENGINE_MODELED') {
+    if (!engine) {
+      issues.push({ factId: '*', issue: `unknown engine model ${String(rotation.engineModelId)}` });
+    } else if (engine.characterId !== rotation.characterId) {
+      issues.push({ factId: '*', issue: `engine model belongs to ${engine.characterId}` });
+    }
+  } else if (rotation.engineModelId !== null) {
+    issues.push({ factId: '*', issue: 'SOURCE_SEQUENCE_ONLY rotation cannot declare engineModelId' });
   }
 
   for (const factId of modeled) {
@@ -48,8 +65,11 @@ export function auditRotationMechanicDependencies(
     if (fact.verificationStatus !== 'VERIFIED') {
       issues.push({ factId, issue: `modeled fact is ${fact.verificationStatus}, not VERIFIED` });
     }
-    if (fact.modelingStatus !== 'MODELED') {
-      issues.push({ factId, issue: `declared modeled but fact modelingStatus is ${fact.modelingStatus}` });
+    if (fact.modelingStatus !== 'MODELED' && !engineModelsMechanicFact(rotation.engineModelId, factId)) {
+      issues.push({
+        factId,
+        issue: `declared modeled but fact modelingStatus is ${fact.modelingStatus} and engine ${String(rotation.engineModelId)} does not register coverage`,
+      });
     }
   }
 

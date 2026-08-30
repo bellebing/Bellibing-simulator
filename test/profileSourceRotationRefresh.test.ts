@@ -64,10 +64,10 @@ test('Cohort 01 Source Rotation refresh closes source extraction for the ten gre
         assert.equal(mode.phases.SOURCE_ROTATION.reviewState, 'REVIEWED');
         assert.equal(mode.phases.SOURCE_ROTATION.data.executionStatus, 'SOURCE_SEQUENCE_ONLY');
         assert.ok(mode.phases.SOURCE_ROTATION.data.sequence.length > 0);
-        assert.equal(mode.materializationCandidate.status, 'DRAFT_READY_FOR_SEMANTIC_REVIEW');
+        assert.equal(mode.materializationCandidate.materializationStatus, 'DRAFT_READY_FOR_SEMANTIC_REVIEW');
       } else {
         assert.equal(mode.phases.SOURCE_ROTATION.reviewState, 'BLOCKED');
-        assert.equal(mode.materializationCandidate.status, 'BLOCKED_BY_SOURCE_GAPS');
+        assert.equal(mode.materializationCandidate.materializationStatus, 'BLOCKED_BY_MISSING_SOURCE_FIELDS');
       }
     }
   }

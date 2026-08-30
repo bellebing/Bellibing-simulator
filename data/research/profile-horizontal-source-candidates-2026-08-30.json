@@ -1,0 +1,1510 @@
+{
+  "kind": "PRYDWEN_PROFILE_SOURCE_SNAPSHOT",
+  "importStatus": "CANDIDATE_ONLY",
+  "verificationStatus": "NOT_VERIFIED",
+  "checkedAt": "2026-08-30",
+  "sourceCheckpoint": {
+    "source": "Prydwen Wuthering Waves Character Build pages",
+    "extractorReferenceRepository": "theonuverse/ww_prydwen_api",
+    "extractorReferenceCommit": "96585d530be9f30c262eac69a4932b861b856adc",
+    "extractorReferenceLicense": "MIT",
+    "backlogRegistrySource": "src/profileReadinessRegistry.ts",
+    "backlogGeneratedAt": "2026-08-30T18:15:42.319Z",
+    "workerCount": 3,
+    "exactWorkflowRunId": 33327547829,
+    "exactWorkflowHeadSha": "dd13cbdbd4e1010179b2004b0d4baf650651ea6e",
+    "exactArtifactId": 9736802750,
+    "exactArtifactDigest": "sha256:04663fefac62141f6b0d82b15d28d32a3e77aedfad4d89d7cc46830ca8ef365b",
+    "subsetPolicy": "APPROVED_CHARACTER_ROWS_VERBATIM_REQUIRED_FIELDS_ONLY"
+  },
+  "characters": [
+    {
+      "characterId": "jiyan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Jiyan",
+      "roleLeads": [
+        "DPS"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Verdant Summit (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Thunderflare Dominion (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Ages of Harvest (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Kumokiri (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Wildfire Mark (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Radiance Cleaver (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Aureate Zenith (R5)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Lustrous Razor (R1)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Autumntrace (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Meditations on Mercy (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Windward Pilgrimage",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Sierra Gale",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Nightmare: Kelpie",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Nightmare: Feilian Beringal",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Feilian Beringal",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Aero DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "ATK% ≥ Aero DMG"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK = Heavy DMG%",
+      "endgameStatLines": [
+        "HP: 15000+",
+        "DEF: 1150+",
+        "ATK: 1900-2700+",
+        "CRIT Rate: 65-80%+",
+        "CRIT DMG: 215-260%+",
+        "Energy Regen: 115-125%+",
+        "A Iuno+Ciaccona team requires around 117% Energy Regen, but in Shorekeeper/Verina teams more Energy Regen will be required.",
+        "Aero DMG Bonus: 20-80%+",
+        "Aero ATK is technically optimal, but Aero Aero still works as a 3 cost option which may cause this stat to vary significantly."
+      ],
+      "energyRegenText": [
+        "Energy Regen: 115-125%+",
+        "A Iuno+Ciaccona team requires around 117% Energy Regen, but in Shorekeeper/Verina teams more Energy Regen will be required."
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "lingyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Lingyang",
+      "roleLeads": [
+        "DPS"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Moongazer's Sigil (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Blazing Justice (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Verity's Handle (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Tragicomedy (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Abyss Surges (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Aether Strike (R5)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Celestial Spiral (R5)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Hollow Mirage (R5)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Stonard (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Legend of Drunken Hero (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Endless Resonance",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Frosty Resolve",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Freezing Frost",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Mech Abomination",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Sentry Construct",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 3,
+          "name": "Lampylumen Myriad",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Glacio DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Glacio DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+      "endgameStatLines": [
+        "HP: 15000+",
+        "DEF: 1150+",
+        "ATK: 2100-2500+",
+        "CRIT Rate: 60-80%+",
+        "CRIT DMG: 215-260%+",
+        "Energy Regen: 120-125%+",
+        "Estimated in a Zhezhi+Shorekeeper team.",
+        "Glacio DMG Bonus: 40-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 120-125%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "lucy",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Lucy",
+      "roleLeads": [
+        "DPS"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Spectral Trigger (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Lux & Umbra (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Skull Thrasher (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Phasic Homogenizer (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "The Last Dance (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Spectrum Blaster (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Static Mist (R1)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Woodland Aria (R1)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Solar Flame (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Relativistic Jet (R5)"
+        },
+        {
+          "sourceRank": 11,
+          "name": "Pistols#26 (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Shadow of Shattered Dreams",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Reminiscence - Nightmare: Adam Smasher",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Spectro DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Spectro DMG ≥ ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > Heavy DMG% > ATK",
+      "endgameStatLines": [
+        "HP: 15500+",
+        "DEF: 1100+",
+        "ATK: 2100-2200+",
+        "CRIT Rate: 65%+ (Before Adam Smasher)",
+        "CRIT DMG: 210%+",
+        "Energy Regen: 125%",
+        "Suitable for Mornye, Shorekeeper and Verina team variants. With Mornye, Lucy can get away with 121%, but Lucy will be short on Energy if some attacks miss.",
+        "Spectro DMG Bonus: 40-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 125%"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "lupa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lupa",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Lupa",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Wildfire Mark (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Ages of Harvest (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Kumokiri (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Verdant Summit (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Thunderflare Dominion (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Radiance Cleaver (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Lustrous Razor (R1)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Waning Redshift (R5)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Aureate Zenith (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Autumntrace (R5)"
+        },
+        {
+          "sourceRank": 11,
+          "name": "Helios Cleaver (R5)"
+        },
+        {
+          "sourceRank": 12,
+          "name": "Meditations on Mercy (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Flaming Clawprint",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Lioness of Glory",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Fusion DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Fusion DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Liberation ATK DMG%",
+      "endgameStatLines": [
+        "HP: 16000+",
+        "DEF: 1100+",
+        "ATK: 1800-2500+",
+        "CRIT Rate: 65-80%+",
+        "CRIT DMG: 215-260%+",
+        "Energy Regen: 115-130%+",
+        "Lower end was estimated in a team with Changli+Brant, higher end was estimated in a team with Encore+Shorekeeper.",
+        "Fusion DMG Bonus: 50-80%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 115-130%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "mortefi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mortefi",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Mortefi",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Static Mist (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "The Last Dance (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Relativistic Jet (R5)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Novaburst (R5)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Thunderbolt (R5)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Pistols#26 (R5)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Undying Flame (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Empyrean Anthem",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Hecate",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Fusion DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Fusion DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+      "endgameStatLines": [
+        "HP: 15000+",
+        "DEF: 1100+",
+        "ATK: 1900-2200+",
+        "CRIT Rate: 60%-80%",
+        "CRIT DMG: 215-260%+",
+        "Energy Regen: 115%-130%+",
+        "At S2, Mortefi’s requirement will be 120% in most teams with 113% using Augusta due to her rotation extension, without S2 this will increase by ~11%.",
+        "Fusion DMG Bonus: 40-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 115%-130%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Phrolova",
+      "roleLeads": [
+        "DPS"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Lethean Elegy (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Stringmaster (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Whispers of Sirens (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Rime-Draped Sprouts (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Luminous Hymn (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Cosmic Ripples (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Radiant Dawn (R5)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Augment (R5)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Fusion Accretion (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Jinzhou Keeper (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Dream of the Lost",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Nightmare: Hecate",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Havoc DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Havoc DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: CRIT RATE = CRIT DMG > ATK% > Skill DMG% > ATK",
+      "endgameStatLines": [
+        "HP: 15000+",
+        "DEF: 1100+",
+        "ATK: 2000-2500+",
+        "CRIT Rate: 60%+ (before Echo set bonuses)",
+        "CRIT DMG: 215-260%+ (before any Aftersound stacks)",
+        "Energy Regen 100%",
+        "Avoid any Energy Regen substats on Phrolova as her Ultimate does not cost any Energy.",
+        "Havoc DMG Bonus: 30-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen 100%",
+        "Avoid any Energy Regen substats on Phrolova as her Ultimate does not cost any Energy."
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "qiuyuan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qiuyuan",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Qiuyuan",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Emerald Sentence (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Red Spring (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Blazing Brilliance (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Emerald of Genesis (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Feather Edge (R5)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Commando of Conviction (R5)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Bloodpact's Pledge (R1)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Law of Harmony",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Reminiscence: Fenrico",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 1,
+          "name": "Bell-Borne Geochelone",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Aero DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Aero DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > Heavy Attack DMG% > ATK",
+      "endgameStatLines": [
+        "HP: 16500+",
+        "DEF: 1150+",
+        "ATK: 1600-2400+",
+        "CRIT Rate: 65-80%+",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 115-130%+",
+        "The lower end was estimated by a team with Galbrena+Shorekeeper; the higher end was estimated by a team with Phrolova+Cantarella.",
+        "Aero DMG Bonus: 40-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 115-130%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "rebecca",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rebecca",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Rebecca",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Skull Thrasher (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Spectrum Blaster (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Static Mist (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Phasic Homogenizer (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Woodland Aria (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "The Last Dance (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Spectral Trigger (R1)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Lux & Umbra (R1)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Solar Flame (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Relativistic Jet (R5)"
+        },
+        {
+          "sourceRank": 11,
+          "name": "Pistols#26 (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Shadow of Shattered Dreams",
+          "nameSource": "REFERENCE_API"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Pact of Neonlight Leap",
+          "nameSource": "REFERENCE_API"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Bell-Borne Geochelone",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 1,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Reminiscence - Nightmare: Adam Smasher",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 3,
+          "name": "Hyvatia",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Electro DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Electro DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > Basic DMG% > ATK% > ATK",
+      "endgameStatLines": [
+        "HP: 16000+",
+        "DEF: 1150+",
+        "ATK: 2000-2300+",
+        "CRIT Rate: 65-80%+",
+        "CRIT DMG: 210-280%+ (Before Huntress Buff)",
+        "Energy Regen: 117-118%+",
+        "Generally suitable for all Rebecca teams.",
+        "Electro DMG Bonus: 30-60%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 117-118%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "roccia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Roccia",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Tragicomedy (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Solsworn Ciphers (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Blazing Justice (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Verity's Handle (R1)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Pulsation Bracer (R1)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Moongazer's Sigil (R1)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Abyss Surges (R1)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Aether Strike (R5)"
+        },
+        {
+          "sourceRank": 9,
+          "name": "Celestial Spiral (R5)"
+        },
+        {
+          "sourceRank": 10,
+          "name": "Stonard (R5)"
+        },
+        {
+          "sourceRank": 11,
+          "name": "Hollow Mirage (R5)"
+        },
+        {
+          "sourceRank": 12,
+          "name": "Legend of Drunken Hero (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Midnight Veil",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Nightmare: Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Havoc DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Havoc DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate > CRIT DMG > ATK% > Heavy ATK DMG% > ATK",
+      "endgameStatLines": [
+        "HP: 16500+",
+        "DEF: 1150+",
+        "ATK: 1900-2600+",
+        "CRIT Rate: 70%+",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 120-130%+",
+        "Lower end was estimated in a team with Phrolova+Cantarella, higher end was estimated in a team with Camellya+Shorekeeper.",
+        "Havoc DMG Bonus: 40-70%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 120-130%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "rover-spectro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Rover (Spectro)",
+      "roleLeads": [
+        "Support"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Blazing Brilliance (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Emerald of Genesis (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Lunar Cutter (R5)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Endless Collapse (R5)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Commando of Conviction (R5)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Lumingloss (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Rejuvenating Glow",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Eternal Radiance",
+          "nameSource": "REFERENCE_API"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Fallacy of No Return",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Bell-Borne Geochelone",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 3,
+          "name": "Nightmare: Mourning Aix",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Spectro DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Spectro DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Skill DMG% > Liberation DMG%",
+      "endgameStatLines": [
+        "HP: 15500+",
+        "DEF: 1350+",
+        "ATK: 1800-2200+",
+        "CRIT Rate: 60-75%+ (Before S1)",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 120%-123%+",
+        "Lower end estimated using Phoebe+Lynae, Higher end estimated using Zani+Phoebe.",
+        "Spectro DMG Bonus: 40-80%+",
+        "Spectro Rover gains 20% Spectro Damage Bonus on S2"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 120%-123%+"
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "sanhua",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sanhua",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Sanhua",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Blazing Brilliance (R1)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Red Spring (R1)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Emerald of Genesis (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Commando of Conviction (R5)"
+        },
+        {
+          "sourceRank": 5,
+          "name": "Endless Collapse (R5)"
+        },
+        {
+          "sourceRank": 6,
+          "name": "Lunar Cutter (R5)"
+        },
+        {
+          "sourceRank": 7,
+          "name": "Lumingloss (R5)"
+        },
+        {
+          "sourceRank": 8,
+          "name": "Somnoire Anchor (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Moonlit Clouds",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Glacio DMG"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Glacio DMG > ATK%"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+      "endgameStatLines": [
+        "HP: 15000+",
+        "DEF: 1150+",
+        "ATK: 1800-2200+",
+        "CRIT Rate: 60-80%+",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 100%",
+        "On Moonlit Clouds, her only meta set which also gives a lot of extra Energy, Sanhua requires no additional Energy Regen.",
+        "Glacio DMG Bonus: 30-60%+"
+      ],
+      "energyRegenText": [
+        "Energy Regen: 100%",
+        "On Moonlit Clouds, her only meta set which also gives a lot of extra Energy, Sanhua requires no additional Energy Regen."
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "taoqi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Taoqi",
+      "roleLeads": [
+        "Hybrid"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Discord (R5)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Dauntless Evernight (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Rejuvenating Glow",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Moonlit Clouds",
+          "nameSource": "REFERENCE_API"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Fallacy of No Return",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 1,
+          "name": "Bell-Borne Geochelone",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "DEF%"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Energy Regen / Havoc DMG%"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Energy Regen / Havoc DMG"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "DEF%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "DEF%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > DEF% > DEF",
+      "endgameStatLines": [
+        "Keep in mind that even when optimized, Taoqi deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+        "HP: 15000+",
+        "DEF: 1150+",
+        "ATK: 1800-2200+",
+        "CRIT Rate: 60-80%+",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 100%-126%+",
+        "On Moonlit Clouds Taoqi requires no Energy Regen at S5, Before S5 the estimate is 126% in a Carlotta+Shorekeeper team.",
+        "Havoc DMG Bonus: 30-60%+"
+      ],
+      "energyRegenText": [
+        "Keep in mind that even when optimized, Taoqi deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+        "Energy Regen: 100%-126%+",
+        "On Moonlit Clouds Taoqi requires no Energy Regen at S5, Before S5 the estimate is 126% in a Carlotta+Shorekeeper team."
+      ],
+      "warnings": []
+    },
+    {
+      "characterId": "youhu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu",
+      "checkedAt": "2026-08-30",
+      "fetchStatus": "FETCHED",
+      "displayName": "Youhu",
+      "roleLeads": [
+        "Support"
+      ],
+      "weapons": [
+        {
+          "sourceRank": 1,
+          "name": "Marcato (R5)"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Gauntlets#21D (R5)"
+        },
+        {
+          "sourceRank": 3,
+          "name": "Abyss Surges (R1)"
+        },
+        {
+          "sourceRank": 4,
+          "name": "Celestial Spiral (R5)"
+        }
+      ],
+      "echoRecommendations": [
+        {
+          "sourceRank": 1,
+          "name": "Rejuvenating Glow",
+          "nameSource": "DOM_TEXT_FALLBACK"
+        },
+        {
+          "sourceRank": 2,
+          "name": "Moonlit Clouds",
+          "nameSource": "REFERENCE_API"
+        }
+      ],
+      "mainEchoLeads": [
+        {
+          "setSourceRank": 1,
+          "name": "Fallacy of No Return",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 1,
+          "name": "Bell-Borne Geochelone",
+          "sourceField": "DOM_IMAGE_ALT"
+        },
+        {
+          "setSourceRank": 2,
+          "name": "Impermanence Heron",
+          "sourceField": "DOM_IMAGE_ALT"
+        }
+      ],
+      "mainStats": [
+        {
+          "sourceIndex": 1,
+          "cost": "4 cost",
+          "stats": "CRIT Rate / CRIT DMG"
+        },
+        {
+          "sourceIndex": 2,
+          "cost": "3 cost",
+          "stats": "Energy Regen / Glacio DMG%"
+        },
+        {
+          "sourceIndex": 3,
+          "cost": "3 cost",
+          "stats": "Energy Regen / Glacio DMG"
+        },
+        {
+          "sourceIndex": 4,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        },
+        {
+          "sourceIndex": 5,
+          "cost": "1 cost",
+          "stats": "ATK%"
+        }
+      ],
+      "substatPriorityText": "Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Skill DMG%",
+      "endgameStatLines": [
+        "Keep in mind Youhu is a Support who deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+        "HP: 15000+",
+        "DEF: 1050+",
+        "ATK: 1300+",
+        "CRIT Rate: 60%-80%+",
+        "CRIT DMG: 210-260%+",
+        "Energy Regen: 100%",
+        "Glacio DMG Bonus: 0-60%+"
+      ],
+      "energyRegenText": [
+        "Keep in mind Youhu is a Support who deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+        "Energy Regen: 100%"
+      ],
+      "warnings": []
+    }
+  ],
+  "notes": [
+    "Generated deterministically from the exact green Profile Source Extract artifact pinned by the semantic review.",
+    "Weapon/Echo/Stats source values are copied from that snapshot; no source page is re-fetched and no build field is manually transcribed.",
+    "This file remains CANDIDATE_ONLY / NOT_VERIFIED. Semantic approval lives only in the separate horizontal review."
+  ]
+}

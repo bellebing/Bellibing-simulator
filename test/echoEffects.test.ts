@@ -122,12 +122,13 @@ test('registry rejects dangling IDs, malformed restrictions and malformed transf
     /Unknown Echo id/,
   );
 
+  const wielderBase = ECHO_EFFECT_MODELS.find((row) => row.appliesTo === 'WIELDER')!;
   assert.throws(
-    () => createEchoEffectRegistry([{ ...base, effectId: 'BROKEN_CHARACTER', wielderCharacterIds: ['not-a-character'] }]),
+    () => createEchoEffectRegistry([{ ...wielderBase, effectId: 'BROKEN_CHARACTER', wielderCharacterIds: ['not-a-character'] }]),
     /unknown wielder character/,
   );
   assert.throws(
-    () => createEchoEffectRegistry([{ ...base, effectId: 'DUPLICATE_CHARACTER', wielderCharacterIds: ['cartethyia', 'cartethyia'] }]),
+    () => createEchoEffectRegistry([{ ...wielderBase, effectId: 'DUPLICATE_CHARACTER', wielderCharacterIds: ['cartethyia', 'cartethyia'] }]),
     /duplicates wielder character/,
   );
 

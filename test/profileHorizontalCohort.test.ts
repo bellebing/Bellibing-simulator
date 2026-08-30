@@ -3,7 +3,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 import { buildProfileCandidateReview } from '../scripts/lib/profile-candidate-review.mjs';
-import { buildProfileHorizontalCohort, PROFILE_HORIZONTAL_PHASES } from '../scripts/lib/profile-horizontal-cohort.mjs';
+import {
+  assertLiveProfileHorizontalCohortEligibility,
+  buildProfileHorizontalCohort,
+  PROFILE_HORIZONTAL_PHASES,
+} from '../scripts/lib/profile-horizontal-cohort.mjs';
 import { auditProfileReadiness } from '../src/profileReadinessRegistry.ts';
 
 async function loadJson(relativePath: string) {
@@ -25,12 +29,11 @@ const AUTO_PARK_SOURCE_PHASES = [
   'SOURCE_ROTATION',
 ];
 
-test('cohort 01 stages 15 current source-pending Characters horizontally without auto-verification', async () => {
+test('cohort 01 replays its fixed 15-Character historical snapshot without auto-verification', async () => {
   const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
   const candidateReview = buildProfileCandidateReview(sourceInput);
-  const readiness = auditProfileReadiness();
-  const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
+  const cohort = buildProfileHorizontalCohort(candidateReview, manifest);
 
   assert.equal(cohort.characterCount, 15);
   assert.equal(cohort.modeCount, 20);
@@ -57,6 +60,7 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
   assert.equal(cohort.canonicalWriteAllowed, false);
   assert.ok(cohort.parkedBlockerCount > 0);
   assert.deepEqual(cohort.autoParkMissingSourcePhases, AUTO_PARK_SOURCE_PHASES);
+  assert.ok(cohort.notes.some((note) => note.includes('historical manifest snapshot')));
 
   for (const phaseName of BLOCKED_SOURCE_PHASES) {
     assert.deepEqual(cohort.phaseCounts[phaseName], {
@@ -75,7 +79,6 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
   }
 
   for (const character of cohort.characters) {
-    assert.ok(readiness.profileSourcePendingIds.includes(character.characterId));
     assert.equal(character.verificationStatus, 'NOT_VERIFIED');
     assert.equal(character.canonicalWriteAllowed, false);
     for (const mode of character.modes) {
@@ -102,9 +105,7 @@ test('cohort 01 stages 15 current source-pending Characters horizontally without
 test('mode/team/context review preserves roles where staged and parks exact missing fields', async () => {
   const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
-  const candidateReview = buildProfileCandidateReview(sourceInput);
-  const readiness = auditProfileReadiness();
-  const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
+  const cohort = buildProfileHorizontalCohort(buildProfileCandidateReview(sourceInput), manifest);
 
   const lucilla = cohort.characters.find((row) => row.characterId === 'lucilla');
   const baizhi = cohort.characters.find((row) => row.characterId === 'baizhi');
@@ -126,21 +127,19 @@ test('mode/team/context review preserves roles where staged and parks exact miss
   assert.equal(baizhi.modes[0]?.phases.WEAPON.extractionState, 'SOURCE_FIELDS_MISSING');
   assert.equal(baizhi.modes[0]?.phases.WEAPON.reviewState, 'BLOCKED');
   assert.equal(baizhi.modes[0]?.materializationCandidate.materializationStatus, 'BLOCKED_BY_MISSING_SOURCE_FIELDS');
-  assert.equal(cohort.characterCount, 15);
 });
 
 test('source blocker auto-parking can only target extraction phases and never upgrades review state', async () => {
   const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
   const candidateReview = buildProfileCandidateReview(sourceInput);
-  const readiness = auditProfileReadiness();
 
   assert.throws(() => buildProfileHorizontalCohort(candidateReview, {
     ...manifest,
     autoParkMissingSourcePhases: ['EXECUTION_ADAPTERS'],
-  }, readiness.profileSourcePendingIds), /may only contain source extraction phases/);
+  }), /may only contain source extraction phases/);
 
-  const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
+  const cohort = buildProfileHorizontalCohort(candidateReview, manifest);
   for (const phaseName of AUTO_PARK_SOURCE_PHASES) {
     assert.equal(cohort.phaseCounts[phaseName].reviewed, 0);
     assert.equal(cohort.phaseCounts[phaseName].blocked, 20);
@@ -151,7 +150,6 @@ test('cohort review cannot mark a phase REVIEWED while required source fields ar
   const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
   const candidateReview = buildProfileCandidateReview(sourceInput);
-  const readiness = auditProfileReadiness();
 
   assert.throws(() => buildProfileHorizontalCohort(candidateReview, {
     ...manifest,
@@ -162,17 +160,18 @@ test('cohort review cannot mark a phase REVIEWED while required source fields ar
         notes: ['This must fail because team is still missing.'],
       },
     },
-  }, readiness.profileSourcePendingIds), /cannot be REVIEWED while source fields are missing: team/);
+  }), /cannot be REVIEWED while source fields are missing: team/);
 });
 
-test('cohort input fails closed if a promoted Character is accidentally carried forward', async () => {
-  const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
+test('live eligibility is a separate guard and rejects historical Cohort 01 after real promotions', async () => {
   const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
-  const candidateReview = buildProfileCandidateReview(sourceInput);
   const readiness = auditProfileReadiness();
 
-  assert.throws(() => buildProfileHorizontalCohort(candidateReview, {
-    ...manifest,
-    characterIds: ['denia', ...manifest.characterIds.slice(1)],
-  }, readiness.profileSourcePendingIds), /no longer PROFILE_SOURCE_PENDING/);
+  for (const promoted of ['lumi', 'yinlin', 'calcharo', 'cantarella', 'carlotta', 'changli', 'chisa']) {
+    assert.ok(!readiness.profileSourcePendingIds.includes(promoted));
+  }
+  assert.throws(
+    () => assertLiveProfileHorizontalCohortEligibility(manifest, readiness.profileSourcePendingIds),
+    /no longer PROFILE_SOURCE_PENDING/,
+  );
 });

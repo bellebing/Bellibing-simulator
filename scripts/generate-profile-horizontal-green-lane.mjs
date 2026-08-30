@@ -11,19 +11,32 @@ import {materializeApprovedProfileModes} from './lib/profile-cohort-promotion-ma
 import {buildReviewedHorizontalProfileSourceInput} from './lib/profile-horizontal-source-materializer.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const CANONICAL_MAPPING_KIND = 'PROFILE_HORIZONTAL_CANONICAL_MAPPINGS';
 
 function parseArgs(argv) {
-  const args = {snapshot: null, review: 'data/research/profile-horizontal-semantic-review-2026-08-30.json', output: null, candidateSnapshotOutput: null};
+  const args = {
+    snapshot: null,
+    review: 'data/research/profile-horizontal-semantic-review-2026-08-30.json',
+    canonicalMappings: 'data/research/profile-horizontal-canonical-mappings-2026-08-30.json',
+    output: null,
+    candidateSnapshotOutput: null,
+  };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === '--snapshot') args.snapshot = argv[++index] ?? null;
     else if (arg === '--review') args.review = argv[++index] ?? args.review;
+    else if (arg === '--canonical-mappings') args.canonicalMappings = argv[++index] ?? args.canonicalMappings;
     else if (arg === '--output') args.output = argv[++index] ?? null;
     else if (arg === '--candidate-snapshot-output') args.candidateSnapshotOutput = argv[++index] ?? null;
     else throw new Error(`Unknown argument: ${arg}`);
   }
   if (!args.snapshot || !args.output) throw new Error('--snapshot and --output are required');
   return args;
+}
+
+function nonEmpty(value, label) {
+  if (typeof value !== 'string' || value.trim().length === 0) throw new Error(`${label} must be a non-empty string`);
+  return value.trim();
 }
 
 function weaponRankNumber(value, label) {
@@ -49,6 +62,45 @@ function applyReviewedWeaponRanks(materialized, stagedInput) {
 
 function approvedIds(review) {
   return new Set(review.entries.filter((entry) => entry.decision === 'APPROVED_FOR_CANONICAL_VERIFIED').map((entry) => entry.characterId));
+}
+
+function applyReviewedCanonicalMappings(stagedInput, mappings) {
+  if (mappings?.kind !== CANONICAL_MAPPING_KIND) throw new Error(`canonical mapping kind must be ${CANONICAL_MAPPING_KIND}`);
+  if (mappings?.automationMayInferMappings !== false) throw new Error('canonical mappings must explicitly forbid automation inference');
+  if (!Array.isArray(mappings.sonataMappings)) throw new Error('sonataMappings must be an array');
+
+  const byCharacter = new Map(stagedInput.characters.map((character) => [character.characterId, character]));
+  const canonicalByName = new Map(SONATA_CATALOG.map((sonata) => [sonata.name, sonata]));
+  const seen = new Set();
+
+  for (const mapping of mappings.sonataMappings) {
+    const characterId = nonEmpty(mapping.characterId, 'mapping.characterId');
+    if (seen.has(characterId)) throw new Error(`duplicate Sonata mapping for ${characterId}`);
+    seen.add(characterId);
+
+    const character = byCharacter.get(characterId);
+    if (!character) throw new Error(`Sonata mapping references non-approved Character ${characterId}`);
+    const mode = character.modes?.[0];
+    if (!mode?.echo) throw new Error(`${characterId} has no staged Echo data for Sonata mapping`);
+
+    const candidateId = nonEmpty(mapping.candidateId, `${characterId}.candidateId`);
+    const sourceName = nonEmpty(mapping.sourceName, `${characterId}.sourceName`);
+    const canonicalName = nonEmpty(mapping.canonicalName, `${characterId}.canonicalName`);
+    const canonicalId = nonEmpty(mapping.canonicalId, `${characterId}.canonicalId`);
+    const evidence = Array.isArray(mapping.evidence) ? mapping.evidence.map((row, index) => nonEmpty(row, `${characterId}.evidence[${index}]`)) : [];
+    if (evidence.length === 0) throw new Error(`${characterId} canonical mapping requires reviewer evidence`);
+
+    if (!mode.echo.sourceCandidateIds?.includes(candidateId)) throw new Error(`${characterId} canonical mapping candidate ${candidateId} is not selected by the semantic review`);
+    if (mode.echo.sonataSet !== sourceName) throw new Error(`${characterId} Sonata source-name drift: expected ${sourceName}, got ${mode.echo.sonataSet}`);
+
+    const canonical = canonicalByName.get(canonicalName);
+    if (!canonical || canonical.id !== canonicalId) throw new Error(`${characterId} canonical Sonata mapping ${canonicalName}/${canonicalId} does not resolve exactly`);
+
+    mode.echo.sonataSet = canonicalName;
+    mode.echo.context = `${mode.echo.context} Reviewer-confirmed source-name mapping ${sourceName} -> ${canonicalName} (${canonicalId}); ${evidence.join(' ')}`;
+  }
+
+  return stagedInput;
 }
 
 function pinnedCandidateSnapshot(snapshot, review) {
@@ -100,9 +152,11 @@ function renderModule(materialized) {
 const args = parseArgs(process.argv.slice(2));
 const snapshot = JSON.parse(await fs.readFile(path.resolve(ROOT, args.snapshot), 'utf8'));
 const review = JSON.parse(await fs.readFile(path.resolve(ROOT, args.review), 'utf8'));
+const canonicalMappings = JSON.parse(await fs.readFile(path.resolve(ROOT, args.canonicalMappings), 'utf8'));
 const approvedSourceIds = approvedIds(review);
 const approvedSnapshot = {...snapshot, characters: snapshot.characters.filter((row) => approvedSourceIds.has(row.characterId))};
 const staged = buildReviewedHorizontalProfileSourceInput(approvedSnapshot, review);
+applyReviewedCanonicalMappings(staged.input, canonicalMappings);
 const rawMaterialized = materializeApprovedProfileModes(staged.input, staged.semanticReview, {
   characters: CHARACTER_CATALOG,
   weapons: WEAPON_CATALOG,
@@ -129,6 +183,7 @@ if (args.candidateSnapshotOutput) {
 }
 
 console.log(`Horizontal profile materialization: approved=${staged.approvedCharacterIds.length} parked=${staged.parkedCharacterIds.length}.`);
+console.log(`Canonical source-name mappings: ${canonicalMappings.sonataMappings.length}.`);
 console.log(`Weapon ranks: ${materialized.weaponRecommendations.map((row) => `${row.characterId}=R${row.options[0].rank}`).join(', ')}.`);
 console.log('All materialized rotations remain SOURCE_SEQUENCE_ONLY; numeric ER gates remain absent in this tranche.');
 console.log(`Wrote ${path.relative(ROOT, outputPath)}`);

@@ -1,16 +1,15 @@
 import { readFile } from 'node:fs/promises';
 import { buildProfileCandidateReview } from './lib/profile-candidate-review.mjs';
+import { applyProfileModeContextRefresh } from './lib/profile-cohort-mode-context-refresh.mjs';
 import { buildProfileHorizontalCohort } from './lib/profile-horizontal-cohort.mjs';
 import { auditProfileReadiness } from '../src/profileReadinessRegistry.ts';
 
-const sourceInput = JSON.parse(await readFile(
-  new URL('../data/research/profile-source-roster-2026-08-29.json', import.meta.url),
-  'utf8',
-));
-const manifest = JSON.parse(await readFile(
-  new URL('../data/research/profile-horizontal-cohort-01-2026-08-29.json', import.meta.url),
-  'utf8',
-));
+async function loadJson(relativePath) {
+  return JSON.parse(await readFile(new URL(relativePath, import.meta.url), 'utf8'));
+}
+
+const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
+const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
 const candidateReview = buildProfileCandidateReview(sourceInput);
 const readiness = auditProfileReadiness();
 const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
@@ -62,8 +61,51 @@ if (cohort.characters.some((character) => character.modes.some((mode) => mode.ph
   throw new Error('Cohort 01 SOURCE_ROTATION must stay null when the checkpoint contains no source sequence.');
 }
 
-console.log(`Horizontal profile cohort: ${cohort.characterCount} Characters / ${cohort.modeCount} modes`);
-console.log(`Parked blockers: ${cohort.parkedBlockerCount}`);
-for (const [phase, counts] of Object.entries(cohort.phaseCounts)) {
-  console.log(`${phase}: present=${counts.sourceFieldsPresent}, missing=${counts.sourceFieldsMissing}, reviewed=${counts.reviewed}, blocked=${counts.blocked}, pending=${counts.pendingReview}`);
+const refresh = await loadJson('../data/research/profile-cohort-01-mode-context-refresh-2026-08-30.json');
+const refreshManifest = await loadJson('../data/research/profile-horizontal-cohort-01-mode-context-refresh-2026-08-30.json');
+const appliedRefresh = applyProfileModeContextRefresh(sourceInput, refresh);
+const refreshedCandidateReview = buildProfileCandidateReview(appliedRefresh.input);
+const refreshedCohort = buildProfileHorizontalCohort(refreshedCandidateReview, refreshManifest, readiness.profileSourcePendingIds);
+
+if (JSON.stringify(appliedRefresh.summary) !== JSON.stringify({ entryCount: 20, reviewed: 10, blocked: 10, defaultSelections: 0 })) {
+  throw new Error(`Cohort 01 mode/context refresh summary mismatch: ${JSON.stringify(appliedRefresh.summary)}.`);
 }
+const refreshedModeContext = refreshedCohort.phaseCounts.MODE_TEAM_CONTEXT;
+if (
+  refreshedModeContext.sourceFieldsPresent !== 10
+  || refreshedModeContext.sourceFieldsMissing !== 10
+  || refreshedModeContext.reviewed !== 10
+  || refreshedModeContext.blocked !== 10
+  || refreshedModeContext.pendingReview !== 0
+) {
+  throw new Error(`Cohort 01 refreshed MODE_TEAM_CONTEXT must be 10 reviewed / 10 blocked: ${JSON.stringify(refreshedModeContext)}.`);
+}
+if (refreshedCohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
+  throw new Error('Cohort 01 mode/context refresh must not select a universal default for any mode.');
+}
+if (refreshedCohort.verificationStatus !== 'NOT_VERIFIED' || refreshedCohort.canonicalWriteAllowed !== false) {
+  throw new Error('Refreshed Cohort 01 must remain NOT_VERIFIED and non-canonical.');
+}
+if (refreshedCohort.materializationCandidates.some((candidate) => candidate.canonicalWriteAllowed !== false || candidate.verificationStatus !== 'NOT_VERIFIED')) {
+  throw new Error('Refreshed Cohort 01 materialization candidates must remain fail-closed.');
+}
+for (const phaseName of expectedAutoPark) {
+  const counts = refreshedCohort.phaseCounts[phaseName];
+  if (counts.blocked !== 20 || counts.reviewed !== 0 || counts.pendingReview !== 0) {
+    throw new Error(`Refreshed Cohort 01 ${phaseName} must remain mechanically parked pending its own source refresh: ${JSON.stringify(counts)}.`);
+  }
+}
+for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
+  const counts = refreshedCohort.phaseCounts[phaseName];
+  if (counts.pendingReview !== 20 || counts.reviewed !== 0 || counts.blocked !== 0) {
+    throw new Error(`Refreshed Cohort 01 ${phaseName} must remain pending: ${JSON.stringify(counts)}.`);
+  }
+}
+
+console.log(`Horizontal profile cohort base checkpoint: ${cohort.characterCount} Characters / ${cohort.modeCount} modes`);
+console.log(`Base parked blockers: ${cohort.parkedBlockerCount}`);
+for (const [phase, counts] of Object.entries(cohort.phaseCounts)) {
+  console.log(`BASE ${phase}: present=${counts.sourceFieldsPresent}, missing=${counts.sourceFieldsMissing}, reviewed=${counts.reviewed}, blocked=${counts.blocked}, pending=${counts.pendingReview}`);
+}
+console.log(`Mode/context refresh: reviewed=${appliedRefresh.summary.reviewed}, blocked=${appliedRefresh.summary.blocked}`);
+console.log(`REFRESH MODE_TEAM_CONTEXT: present=${refreshedModeContext.sourceFieldsPresent}, missing=${refreshedModeContext.sourceFieldsMissing}, reviewed=${refreshedModeContext.reviewed}, blocked=${refreshedModeContext.blocked}, pending=${refreshedModeContext.pendingReview}`);

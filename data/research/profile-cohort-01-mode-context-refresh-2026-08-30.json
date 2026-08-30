@@ -1,0 +1,362 @@
+{
+  "kind": "PROFILE_COHORT_MODE_CONTEXT_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "ca1b5058c750fe58968af155d60eaca615c98b0f",
+  "scope": "MODE_TEAM_CONTEXT_ONLY",
+  "notes": [
+    "This refresh only fills genuinely missing mode/team/context fields from the already selected current Prydwen character-guide sources.",
+    "Previously captured mode keys and non-null roles are preserved; the overlay fails if a refresh attempts to rewrite them.",
+    "No default mode is selected in this checkpoint. Every defaultCandidate remains null.",
+    "REVIEWED here means the MODE_TEAM_CONTEXT source evidence was manually reviewed for this intermediate checkpoint. It does not mean the profile is canonical, VERIFIED, frozen, or executable.",
+    "Blocked entries remain parked so the rest of the cohort can proceed."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "role": "HYBRID",
+      "team": {
+        "members": ["lucilla", "hiyuki", "chisa"],
+        "context": "Prydwen Glacio Chafe calculation context. Hiyuki is explicitly Lucilla's only Glacio Chafe partner at the reviewed source checkpoint; Chisa is the calculation-context third slot."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "CALCULATION_TEAM_PLUS_EXPLICIT_MODE_SYNERGY",
+      "evidenceSummary": [
+        "Source calculations list Hiyuki and Chisa as the Glacio Chafe teammates.",
+        "Source review calls Hiyuki Lucilla's only Glacio Chafe partner and best partner overall.",
+        "No universal default between Lucilla's Resonance Modes is asserted."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "role": "HYBRID",
+      "team": {
+        "members": ["lucilla", "sigrika", "the-shorekeeper"],
+        "context": "Prydwen Echo calculation and explicit synergy context for Lucilla's Echo Resonance Mode."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "CALCULATION_TEAM_PLUS_EXPLICIT_MODE_SYNERGY",
+      "evidenceSummary": [
+        "Source calculations list Sigrika and The Shorekeeper as Echo-mode teammates.",
+        "Source review explicitly says Lucilla is perfectly suited to Sigrika + Shorekeeper in Echo Skill teams.",
+        "Other Echo teams remain alternatives and do not create a universal default."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "role": "HYBRID",
+      "team": {
+        "members": ["lumi", "carlotta", "the-shorekeeper"],
+        "context": "Prydwen Hybrid calculation/stat context: the lower end of Lumi's ER range is explicitly estimated with Carlotta + The Shorekeeper."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_CALCULATION_CONTEXT",
+      "evidenceSummary": [
+        "Source review says Lumi is primarily utilized as a Hybrid buffer.",
+        "Source endgame-stat context explicitly names Carlotta + The Shorekeeper as a team used for the lower ER estimate.",
+        "This locks one reviewed Hybrid context only; it does not claim a universal best/default team."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "role": "MAIN_DPS",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "ROLE_CONFIRMED_TEAM_UNRESOLVED",
+      "evidenceSummary": [
+        "Source explicitly says Lumi can be played as a dedicated/Main DPS but calls that path non-optimal.",
+        "The reviewed page does not expose an exact three-member team tied specifically to the Main DPS path in text, so no team is invented."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "role": "MAIN_DPS",
+      "team": {
+        "members": ["rover-havoc", "phrolova", "danjin"],
+        "context": "Prydwen Phrolova quickswap example-team context; the source explicitly describes team order when Danjin is the third teammate."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_EXAMPLE_TEAM_CONTEXT",
+      "evidenceSummary": [
+        "Source defines the short burst combo as primarily suitable for quickswap teams with another damage dealer.",
+        "The Phrolova example-team section explicitly describes the Danjin third-slot ordering, supporting Rover + Phrolova + Danjin as a concrete quickswap context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "role": "MAIN_DPS",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "ROLE_AND_ARCHETYPE_CONFIRMED_TEAM_UNRESOLVED",
+      "evidenceSummary": [
+        "Source defines longer rotations for teams where Havoc Rover is the sole damage dealer with two supportive characters and identifies Roccia as the best buffer.",
+        "The text extraction does not expose one exact three-member Hyper Carry roster without composing separate synergy statements, so the team remains parked."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "role": "SUPPORT",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "ROLE_CONFIRMED_TEAM_UNRESOLVED",
+      "evidenceSummary": [
+        "Source explicitly distinguishes Support Echo usage from damage-focused Echo usage and lists several DPS synergies.",
+        "No exact three-member roster is textually tied to the Support mode in the reviewed source extraction."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "role": "HYBRID",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "ROLE_CONFIRMED_TEAM_UNRESOLVED",
+      "evidenceSummary": [
+        "Source explicitly describes a greater-damage-focus build and expert quickswap synergies with Changli/Xiangli Yao.",
+        "No single exact three-member roster is textually tied to the damage-focused mode, so it remains parked."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "role": "HYBRID",
+      "team": {
+        "members": ["yinlin", "xiangli-yao", "the-shorekeeper"],
+        "context": "Prydwen current Hybrid context: Moonlit Clouds is described as nearly always optimal, and the ER target is explicitly estimated in a Xiangli Yao + The Shorekeeper team."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SET_GUIDANCE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source says Yinlin as a Hybrid will nearly always use Moonlit Clouds in optimal sets.",
+        "Source estimates the current ER target in a Xiangli Yao + The Shorekeeper team, providing an exact reviewed team context.",
+        "Empyrean remains a listed top-level set choice, so no universal default is asserted."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "role": "HYBRID",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext", "setSelectionCondition"],
+      "evidenceClass": "SET_CONFIRMED_CONTEXT_CONDITION_UNRESOLVED",
+      "evidenceSummary": [
+        "Source lists Empyrean Anthem alongside Moonlit Clouds at 100% and explains its coordinated-damage/personal-support tradeoff.",
+        "The reviewed text does not give an exact team/context condition that selects Empyrean over Moonlit, so the mode is not defaulted or assigned a fabricated team."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "role": "SUPPORT",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["exactTeamContext"],
+      "evidenceClass": "ROLE_CONFIRMED_CONTEXT_INTENTIONALLY_GENERIC",
+      "evidenceSummary": [
+        "Source explicitly identifies Baizhi as a Support and says she is flexible enough for most teams.",
+        "Source also explicitly notes incompatibility with Coordinated Attack Hybrids.",
+        "Because the source intentionally does not prescribe one exact three-member team, canonical team context remains unresolved rather than invented."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/baizhi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "role": null,
+      "team": {
+        "members": ["brant", "lupa", "galbrena"],
+        "context": "Prydwen current calculation context for Brant, using Lupa and Galbrena buffs."
+      },
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeSplitRequired"],
+      "evidenceClass": "CALCULATION_TEAM_WITH_MULTI_ROLE_SOURCE",
+      "evidenceSummary": [
+        "Source rates and discusses Brant as both DPS and Hybrid and explicitly says he can be a Solo DPS or multi-DPS unit.",
+        "Source calculations provide an exact Lupa + Galbrena context, but the old single standard mode cannot safely choose one role without a mode/context split."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/brant", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "role": "MAIN_DPS",
+      "team": {
+        "members": ["calcharo", "lynae", "the-shorekeeper"],
+        "context": "Prydwen Main DPS calculation/stat context: lower ER is explicitly estimated in a Lynae + The Shorekeeper team."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROLE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source explicitly describes Calcharo as a Main DPS and Lynae as his best overall buffer.",
+        "Source current endgame-stat context explicitly names Lynae + The Shorekeeper as a team used for the lower ER estimate."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/calcharo", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "role": "HYBRID",
+      "team": {
+        "members": ["cantarella", "phrolova", "qiuyuan"],
+        "context": "Prydwen current calculation context using Phrolova and Qiuyuan buffs."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROLE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source explicitly describes Cantarella as a Havoc Rectifier Hybrid.",
+        "Source calculations list Phrolova and Qiuyuan as the teammate context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/cantarella", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "role": "MAIN_DPS",
+      "team": {
+        "members": ["carlotta", "zhezhi", "the-shorekeeper"],
+        "context": "Prydwen current Carlotta calculation context using Zhezhi and The Shorekeeper buffs."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROLE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source explicitly describes Carlotta as a Hyper Carry DPS.",
+        "Source calculations list Zhezhi and The Shorekeeper as the teammate context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/carlotta", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "role": "HYBRID",
+      "team": {
+        "members": ["changli", "brant", "lupa"],
+        "context": "Prydwen current Changli calculation context using Brant and Lupa buffs."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROLE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source currently rates Changli as Hybrid and emphasizes her Dual DPS/quickswap role.",
+        "Source calculations list Brant and Lupa as the teammate context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/changli", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "role": "SUPPORT",
+      "team": {
+        "members": ["chisa", "aemeath", "denia"],
+        "context": "Prydwen current Negative Status Support calculation context using Aemeath and Denia buffs."
+      },
+      "defaultCandidate": null,
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_ROLE_PLUS_CALCULATION_TEAM",
+      "evidenceSummary": [
+        "Source explicitly identifies Chisa as a Negative Status-oriented Support.",
+        "Source calculations list Aemeath and Denia as the teammate context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chisa", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "role": null,
+      "team": {
+        "members": ["chixia", "lupa", "brant"],
+        "context": "Prydwen source-described newest best team archetype: Chixia with Lupa and ideally Brant as the final Fusion DPS."
+      },
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleMappingOrModeSplitRequired"],
+      "evidenceClass": "EXPLICIT_TEAM_ARCHETYPE_WITH_MULTI_ROLE_SOURCE",
+      "evidenceSummary": [
+        "Source rates Chixia as DPS, says she can be Main or Dual DPS, and calls Dual DPS her true meta role.",
+        "Source describes Chixia + Lupa + ideally Brant as the newest best team archetype, but the project role mapping must not silently collapse Main DPS versus Dual DPS into one role."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chixia", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "role": "MAIN_DPS",
+      "team": null,
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["playstyleModeSplitRequired", "exactTeamContext"],
+      "evidenceClass": "DPS_ROLE_CONFIRMED_MULTIPLE_PLAYSTYLES",
+      "evidenceSummary": [
+        "Source rates Encore as DPS and states she is always a damage dealer, supporting MAIN_DPS as the broad role mapping.",
+        "Source explicitly distinguishes Hyper Carry and Quick-Swap double-DPS playstyles with different priorities, so the old single standard mode is too coarse for a canonical team context."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/encore", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "role": null,
+      "team": {
+        "members": ["jianxin", "iuno", "the-shorekeeper"],
+        "context": "Prydwen current endgame-stat calculation context: lower ER is explicitly estimated in an Iuno + The Shorekeeper team."
+      },
+      "defaultCandidate": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeContextSplitRequired"],
+      "evidenceClass": "CALCULATION_TEAM_WITH_EXPLICIT_MULTI_ROLE_SOURCE",
+      "evidenceSummary": [
+        "Source explicitly says Jianxin can fill DPS, Hybrid, and Support, while her practical meta niche leans Support and her overworld comfort role leans Hybrid.",
+        "The Iuno + The Shorekeeper calculation context is exact, but choosing one role for the old standard mode would flatten source-distinct contexts."
+      ],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/jianxin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    }
+  ]
+}

@@ -84,7 +84,11 @@ test('Cohort 01 Stats/ER refresh advances exactly the ten green-lane modes', asy
   assert.equal(mode('chisa', 'standard')?.phases.STATS_ER.data.erBand.minimum, 1.25);
   assert.equal(mode('rover-havoc', 'quickswap')?.phases.STATS_ER.data.erBand, null);
   assert.equal(mode('cantarella', 'standard')?.phases.STATS_ER.data.erBand, null);
-  assert.equal(mode('brant', 'standard')?.phases.STATS_ER.data, null);
+  assert.deepEqual(mode('brant', 'standard')?.phases.STATS_ER.data, {
+    stats: null,
+    erBand: null,
+    numericErInvented: false,
+  });
 
   for (const character of cohort.characters) {
     for (const stagedMode of character.modes) {

@@ -10,21 +10,21 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Live registry-derived readiness is:
+Live registry-derived readiness on this tranche head is:
 
-- **25 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **24 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
 - **28 `PROFILE_SOURCE_PENDING`**;
-- **1 `DPS_READY`**.
+- **2 `DPS_READY`** — Augusta and Ciaccona.
 
 Canonical backward-impact / execution inventory is:
 
 - **18 backward-impact reviews**;
 - **18 reviewed canonical profiles**;
-- **17 profiles with pending execution dependencies**;
-- **76 exact pending execution edges**.
+- **16 profiles with pending execution dependencies**;
+- **72 exact pending execution edges**.
 
-Augusta remains the only narrow `DPS_READY` profile. The seven Cohort 01 promotions are verified build/profile truth but their rotations remain `SOURCE_SEQUENCE_ONLY`.
+The Ciaccona closure removes four exact edges from the previous 76-edge matrix: Woodland Aria `WA-AERO`, Woodland Aria `WA-AERO-RES`, Cartethyia Defier's Thorn `DT-AERO-AMP`, and the Ciaccona rotation engine-model dependency. Cartethyia remains pending on exactly two dependencies: Defier's Thorn `DT-DEF` source timing semantics and its profile-specific rotation engine model.
 
 ## Architecture boundary
 
@@ -37,19 +37,9 @@ Preserve the separation between:
 5. execution/combat-DPS logic;
 6. UI.
 
-The old V9.15 spreadsheet is a historical oracle only when explicitly needed. It is not the current architecture.
+The old V9.15 spreadsheet is a historical oracle only when explicitly needed. It is not the current architecture. `SOURCE_SEQUENCE_ONLY` never becomes executable by assumption, and profile-specific execution coverage does not mutate raw Character Mechanics source status.
 
-## Echo Core / Echo Lab / Roll Assist
-
-- **Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING.** Rank-5 COST/main-stat pools, +0/+5/+10/+15/+20/+25 main-stat progression, 13 substats, roll distributions, tuning costs, recovery, seeded reproduction and COST-12 loadout validation are implemented and tested.
-- **Echo Lab — COMPLETE FOR MECHANICAL ORACLE.** It consumes the shared Echo Core runtime.
-- **Roll policy — FOUNDATION.** Profile-driven Core/Useful checkpoint logic is implemented. Whole-build DPS-aware stopping remains later DPS scope.
-- **BUG-001 — FIXED / LIVE VERIFIED.** Real Chrome regression permanently checks the supported Roll Assist verdict paths.
-- **BUG-002 — KNOWN GAP.** Full +25 best-so-far/equipment lifecycle remains pending.
-
-Fresh world-drop desired-main acquisition probabilities remain outside the verified runtime.
-
-## Current source coverage
+## Source coverage
 
 ### Characters
 
@@ -69,150 +59,128 @@ Fresh world-drop desired-main acquisition probabilities remain outside the verif
 - **34 / 34 released Sonata sets** verified current.
 - Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
 - Freezing Frost 5pc and Havoc Eclipse 5pc remain explicit source conflicts.
-- Midnight Veil's separate 480% Havoc Outro damage branch and Wishes of Quiet Snowfall arbitration remain specialized pending boundaries.
 - **181 / 181 released Echo skills** are source-reviewed.
-- Echo non-damage effect coverage is **63 modeled rows across 37 Echoes** with **6 specialized pending adapter facts**.
-- The exact Rank-5 Echo attack catalog contains **3 attack profiles / 4 attack facts**: Bell-Borne Geochelone protection blast, Fallacy of No Return initial blast, and The False Sovereign active + Intro attacks. Active damage remains partial where exact scaling/hit/state execution is not verified.
+- Echo non-damage effect coverage remains **63 modeled rows across 37 Echoes** with **6 specialized pending adapter facts**.
+- The exact Rank-5 Echo attack catalog remains **3 attack profiles / 4 attack facts**. Active damage stays partial where exact scaling/hit/state execution is not verified.
 
 ## Composable profiles
 
 Independent Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset catalogs are live and cross-validated.
 
-The candidate pipeline remains fail closed:
+The candidate/profile pipeline remains fail closed:
 
-- automation may extract/stage/materialize reviewed data but cannot approve semantic truth;
-- source extraction state and semantic review state are separate;
-- `SOURCE_SEQUENCE_ONLY` never means executable timing/uptime;
+- extraction/staging cannot approve semantic truth;
+- source extraction and semantic review remain separate;
+- `SOURCE_SEQUENCE_ONLY` never implies timing or uptime;
 - readiness is derived from live registries;
-- missing/ambiguous source truth stays blocked instead of receiving defaults.
+- ambiguous source truth remains pending instead of receiving defaults.
 
-### Cohort 01 source closure
-
-Historical Cohort 01 contains 15 Characters / 20 staged modes. Source phases closed at:
-
-| Phase | REVIEWED | BLOCKED | PENDING |
-| --- | ---: | ---: | ---: |
-| `MODE_TEAM_CONTEXT` | 10 | 10 | 0 |
-| `WEAPON` | 18 | 2 | 0 |
-| `ECHO_SONATA` | 17 | 3 | 0 |
-| `STATS_ER` | 10 | 10 | 0 |
-| `SOURCE_ROTATION` | 10 | 10 | 0 |
-
-Seven canonical defaults passed manual semantic review and were promoted:
-
-- `lumi-hybrid`;
-- `yinlin-moonlit`;
-- `calcharo-standard`;
-- `cantarella-standard`;
-- `carlotta-standard`;
-- `changli-standard`;
-- `chisa-standard`.
-
-Lucilla Glacio Chafe, Lucilla Echo Skill and Rover (Havoc) Quick Swap are source-complete but deliberately default-blocked. No universal default is fabricated from ambiguous mode semantics.
+Historical Cohort 01 source closure and its seven promoted canonical defaults remain unchanged. Lucilla Glacio Chafe, Lucilla Echo Skill and Rover (Havoc) Quick Swap remain deliberately default-blocked rather than receiving fabricated mode semantics.
 
 ## Shared execution primitives and exact dependency closure
 
-The Profile × Adapter matrix is a prioritization tool only. Matching suffixes are **not** semantic proof and never authorize `ENGINE_MODELED`, freeze approval or `DPS_READY`.
+The Profile × Adapter matrix is a prioritization tool only. Matching suffixes are not semantic proof and never authorize `ENGINE_MODELED`, freeze approval or `DPS_READY`.
 
-A reusable event/timeline primitive does not by itself close a profile dependency. However, a dependency that is fully resolved by static canonical state may close through an explicit, regression-tested, fail-closed closure record. `src/data/profileExecutionClosures20260830.ts` is the first such layer: it validates that the exact expected pending ID still exists on the exact expected presets before removing it. Drift fails instead of silently disappearing.
+`src/data/profileExecutionClosures20260830.ts` applies fail-closed closures only when the exact expected pending ID still exists on the exact expected preset. Reapplying or drifting a closure throws instead of silently hiding work.
 
-### Fleurdelys character restriction — static closure
+### Fleurdelys character restriction
 
-Pinned current DommyMM/wuwabuild Echo source stores Reminiscence: Fleurdelys with a generic +10% Aero DMG main-slot bonus plus an additional +10% character-conditioned Aero DMG bonus. The English text says `Resonator: Aero or Cartethyia`; the same pinned record in multiple other locales explicitly identifies that first identity as **Rover: Aero**, and Bellibing's canonical Character IDs are `rover-aero` and `cartethyia`.
+`echo-character-restriction-v1` remains the static source-safe Fleurdelys applicability closure for `cartethyia` and `rover-aero`. The exact Fleurdelys character-restriction dependency is closed for Cartethyia and Rover (Aero); active Echo damage remains a separate boundary.
 
-Bellibing therefore models `echo-character-restriction-v1` as static Echo-effect applicability rather than interpreting `Aero` as every Aero-element Character:
+### Aero Erosion target state — implemented for the active closure tranche
 
-- `rover-aero` + Fleurdelys main slot: +20% total Aero DMG from the two source rows;
-- `cartethyia` + Fleurdelys main slot: +20% total Aero DMG;
-- unrelated Characters receive only the generic +10% row.
+`src/combat/aeroErosionTargetState.ts` now owns a shared ordered Aero Erosion target/application state for the Cartethyia + Ciaccona closure tranche.
 
-The exact pending ID `echo:echo-60001065:fleurdelys-character-restriction-adapter` is closed for `cartethyia-aero-erosion` and `rover-aero-cartethyia-ciaccona`, reducing the canonical matrix from 78 to **76 edges**. Active Fleurdelys damage and both profile rotations remain separate pending execution concerns. Readiness therefore remains unchanged.
+The primitive deliberately does **not** fabricate:
 
-### Weapon cast windows — implemented primitive
+- generic Aero Erosion tick damage;
+- stack damage scaling;
+- refresh cadence;
+- arbitrary per-stack expiration behavior;
+- profile-independent default uptime.
 
-`src/combat/weaponCastWindowAdapter.ts` provides `weapon-cast-timed-self-window-v1` after manual semantic review of the six `weapon:trigger-uptime-adapter` edges.
+It records only source-proven application state and conservative persistence needed by the supported short rotation.
 
-Five edges share an explicit cast-event → timed SELF-window mechanic:
+`src/combat/aeroErosionWeaponAdapter.ts` uses that shared state for:
 
-- Ages of Harvest `AH-INTRO`;
-- Ages of Harvest `AH-SKILL`;
-- Wildfire Mark `WM-LIB`;
-- The Last Dance `TLD-SKILL`;
-- Moongazer's Sigil `MGS-LIB`.
+- Woodland Aria `WA-AERO` self Aero DMG after a proven Aero Erosion application;
+- Woodland Aria `WA-AERO-RES` target Aero RES reduction after a later hit on a target already affected by Aero Erosion;
+- Defier's Thorn `DT-AERO-AMP` target-state amplification when the target is proven Aero-Eroded.
 
-Woodland Aria `WA-AERO` is deliberately separate because its event is applying Aero Erosion to a target, not a cast event.
+The adapter intentionally gives no same-hit benefit where source ordering is not explicit.
 
-The primitive is source-locked, runtime fail-closed and regression-tested. **Zero canonical pending IDs are removed** by the primitive itself because the affected rotations still lack executable timelines.
+### Ciaccona engine model — closed
 
-### Incoming transfer state — shared core
+`CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1` executes the reviewed fast Ciaccona sequence:
 
-`src/combat/incomingTransferState.ts` is the low-level outgoing → actual incoming Resonator state primitive. Layer-specific adapters provide source semantics; the core never parses trigger prose.
+`Intro -> Basic P3 -> Basic P4 -> Jump cancel -> Mid-air P1 -> Mid-air P2 -> Basic P4 -> Skill cancel -> Quadruple Downbeat -> Ultimate -> Outro`.
 
-Current source-safe wrappers are:
+The current source review supplies **4.5 seconds** for this fixed calculation rotation. Bellibing uses 4.5 only as total rotation duration and does not invent per-action timestamps.
 
-- Echo `REMINISCENCE_DENIA_INCOMING_FUSION` — explicit Echo summon arms a 15s Outro window, then a 15s incoming Fusion DMG window;
-- Echo `HYVATIA_INCOMING_ALL_ATTRIBUTE` — same armed-window shape plus required incoming Intro;
-- Sonata `S08_5PC_INCOMING_ATK` — direct Outro → incoming Resonator 15s ATK window;
-- Sonata `S12_5PC_INCOMING_HAVOC` — direct Outro → incoming Resonator 15s Havoc window.
+The engine executes source-backed direct-hit mechanics and state needed by this exact path:
 
-Other incoming-resonator Sonata effects are **not** admitted automatically; extra Intro/self-state/scaling/state-removal prerequisites remain separate contracts.
+- canonical Lv1-Lv10 Character motion-value structures;
+- Musical Essence generation, requirement and consumption;
+- the P4 Jump-cancel / Ensemble Sylph / Solo Concert path;
+- Aero Erosion application state;
+- Woodland Aria Aero bonus and target Aero RES reduction;
+- Gusts of Welkin Aero windows;
+- Winds of Rinascita's Quadruple Downbeat bonus.
 
-### Impermanence Heron — BLOCKED SOURCE CONFLICT
+Periodic/optional Symphonic Poem: Tonic events are outside the fixed sequence and are not fabricated.
 
-Impermanence Heron remains unimplemented in execution despite five-profile fanout.
+The Ciaccona backward-impact review now has **zero pending execution IDs**. Its canonical rotation is `ENGINE_MODELED`, BuildContext resolves to `CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1`, and the explicit freeze row makes `ciaccona-cartethyia-aero` the second narrow `DPS_READY` profile.
 
-Current evidence conflicts on the arm condition:
+Supported freeze scope is S0 Ciaccona / Woodland Aria R1 / Gusts of Welkin + Nightmare: Kelpie / Cartethyia + Rover (Aero) / the fixed 4.5s personal direct-hit rotation. This does not imply broad team DPS, arbitrary rotations, Kelpie active damage, or generic Aero Erosion system-DMG execution.
 
-- pinned current DommyMM/wuwabuild `Echoes.json` renders the transfer after the initial attack lands and restores 10 Resonance Energy;
-- current Prydwen usage guidance states the Echo can be cancelled before damage/Energy while still applying the incoming-character buff.
+### Cartethyia closure state — source-blocked, not guessed
 
-Bellibing does not choose hit-armed versus cast-armed behavior without stronger evidence. All `echo:echo-60000525:impermanence-heron-active-transfer-adapter` dependencies remain pending behind **BUG-008**.
+Cartethyia concretely moved closer to freeze but does **not** become DPS-ready.
 
-### Weapon skill-stack timing — BLOCKED SOURCE SEMANTICS
+Closed in this tranche:
 
-The former `weapon:skill-stack-timing-adapter` family has been manually split into its actual source event contracts:
+- Fleurdelys character restriction — previously closed;
+- Defier's Thorn `DT-AERO-AMP` — now backed by shared Aero Erosion target state.
 
-- **Stringmaster `SM-ATK`** — dealing Resonance Skill DMG grants an ATK stack; max 2; source duration 5s;
-- **Rime-Draped Sprouts `RDS-BASIC-STACK`** — using Resonance Skill while the wielder is on field grants a Basic Attack DMG stack; max 3; source duration 6s.
+Still pending:
 
-The Rime three-stack Outro consume/off-field branch remains a separate pending adapter family.
+1. `weapon:defiers-thorn:DT-DEF:source-timing-adapter` — **BLOCKED_SOURCE_SEMANTICS / BUG-011**. Current sources preserve the clause “15s after casting Intro Skill or Basic Attacks” without unambiguously defining delay versus active-window semantics. Bellibing does not manufacture duration/uptime.
+2. `rotation:cartethyia-basic-ciaccona-rover-aero:engine-model` — the exact source sequence is verified, but no exact source-backed total duration for that sequence is established. The statement that the rotation works with 14-second Outro buffs is an upper compatibility bound, not proof of a 14.0s rotation.
 
-Current pinned upstream and independent current weapon pages do not define whether a later stack refreshes one shared duration or whether stacks retain independent expiration timers. `src/combat/weaponSkillStackSemanticReview.ts` therefore parks both unique pending IDs behind **BUG-009** as `BLOCKED_SOURCE_SEMANTICS`. The Rime ID fans out to two Zhezhi profiles, producing three blocked exact edges.
+The Cartethyia rotation therefore remains `SOURCE_SEQUENCE_ONLY`.
 
-### Fallacy of No Return — partial exact attack coverage / BLOCKED SOURCE SEMANTICS
+### Existing execution blockers
 
-Pinned current Echo source explicitly separates normal activation from **Hold Echo Skill**. At Rank 5 the normal activation is exact: one Spectro blast equal to **15.86% of max HP**, with a 20s cooldown. `src/data/echoAttacks.ts` therefore contains `FALLACY_INITIAL_BLAST`.
+- **BUG-008 — Impermanence Heron transfer:** `BLOCKED_SOURCE_CONFLICT`; hit-armed versus cancel/cast-armed evidence remains conflicting.
+- **BUG-009 — Stringmaster / Rime-Draped Sprouts skill-stack lifetime:** `BLOCKED_SOURCE_SEMANTICS`; refresh/shared-duration versus independent stack expiry remains unspecified.
+- **BUG-010 — Fallacy profile cast variant:** `BLOCKED_SOURCE_SEMANTICS`; supported rotations do not identify normal/tap versus hold/release execution.
+- **BUG-011 — Defier's Thorn `DT-DEF`:** `BLOCKED_SOURCE_SEMANTICS`; timing grammar remains ambiguous.
 
-The same source gives the hold branch as **1.58% max HP per flurry hit** plus a **19.82% max-HP release finisher**, but does not define one fixed flurry hit count for arbitrary hold duration. The supported Shorekeeper and Chisa source sequences say to use Fallacy but do not encode a typed normal/tap versus hold/release event.
+No blocked dependency is implemented by assumption.
 
-`src/combat/fallacyActiveDamageSemanticReview.ts` therefore parks `echo:echo-60000605:fallacy-active-skill-damage-adapter` behind **BUG-010** as `BLOCKED_SOURCE_SEMANTICS`. Exact attack-data coverage increases, but no Fallacy profile dependency closes and no generic Fallacy cast is allowed to imply the normal blast.
+## Semantic execution work queue
 
-### Semantic execution work queue
+`src/profileExecutionWorkQueue.ts` classifies the current exact pending edges without authorizing execution.
 
-`src/profileExecutionWorkQueue.ts` turns the current canonical dependency matrix into a machine-readable implementation queue without authorizing execution.
+Current regression target after this tranche is:
 
-Current exact-edge disposition is regression-locked to:
+- **36 `UNREVIEWED`**;
+- **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
+- **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **5 `BLOCKED_SOURCE_CONFLICT`** — BUG-008 fanout;
+- **6 `BLOCKED_SOURCE_SEMANTICS`** — BUG-009, BUG-010 and BUG-011 fanout;
+- **16 `PROFILE_SPECIFIC_EXECUTION`** — remaining rotation engine models.
 
-- **39 `UNREVIEWED`**;
-- **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`** — Woodland Aria Aero-Erosion application state;
-- **9 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`** — five Weapon cast-window edges plus four direct Sonata Outro-transfer edges;
-- **5 `BLOCKED_SOURCE_CONFLICT`** — Impermanence Heron / BUG-008 fanout;
-- **5 `BLOCKED_SOURCE_SEMANTICS`** — Stringmaster/Rime stack-lifetime fanout / BUG-009 plus Fallacy cast-variant fanout / BUG-010;
-- **17 `PROFILE_SPECIFIC_EXECUTION`** — rotation engine models.
+That leaves **36 actionable shared edges** out of **72 exact pending edges**. The current highest actionable shared group remains `sonata:trigger-stack-adapter` at 2 profiles / 2 Characters / 2 exact dependencies, but future work should optimize for shortest verified DPS-ready closure and dependency overlap rather than blindly consuming this queue in order.
 
-That leaves **40 actionable shared edges** out of **76 exact pending edges**. The queue excludes already-covered primitives, source-conflicted work, source-semantics blockers and profile-specific rotations, then ranks remaining shared work by profile/Character/dependency fanout. New canonical pending IDs default to `UNREVIEWED` so they surface automatically.
-
-The current highest actionable shared group is **`sonata:trigger-stack-adapter`** at 2 profiles / 2 Characters / 2 exact dependencies. It must receive manual semantic/source review before any shared implementation is admitted.
-
-`audit:profile-adapters` validates the current partition and prints the actionable shortlist. The queue itself never removes pending IDs; validated static closures are applied explicitly upstream through the closure layer.
-
-See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the readable dependency view.
+See [`DPS_EXECUTION_GAP_MATRIX.md`](DPS_EXECUTION_GAP_MATRIX.md) for the readable dependency view; it is descriptive and does not authorize execution.
 
 ## DPS execution
 
-Augusta is the one narrow `DPS_READY` fixture, limited to the locked `augusta-standard` S0 / Thunderflare Dominion R1 / Iuno + The Shorekeeper personal-DPS context through `AUGUSTA_STD_V1`.
+There are now two narrow freeze-approved execution fixtures on this tranche head:
 
-This does not imply arbitrary teams, teammate DPS or generic roster execution.
+- **Augusta — `augusta-standard` / `AUGUSTA_STD_V1`**;
+- **Ciaccona — `ciaccona-cartethyia-aero` / `CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1`**.
 
 Freeze approval requires the exact supported path to have:
 
@@ -221,7 +189,18 @@ Freeze approval requires the exact supported path to have:
 3. zero unresolved pending execution IDs;
 4. independently implemented and tested execution adapters;
 5. an `ENGINE_MODELED` rotation where DPS is claimed;
-6. normal repository audits/tests/build/browser verification.
+6. a verified BuildContext bridge;
+7. normal repository audits/tests/build/browser verification.
+
+This does not imply arbitrary teams, teammate DPS or broad roster execution.
+
+## Echo Core / Echo Lab / Roll Assist
+
+- **Echo Core — COMPLETE FOR ELIGIBLE-CANDIDATE TUNING.** Rank-5 pools, progression, substats, roll distributions, tuning costs, recovery, seeded reproduction and COST-12 validation remain implemented and tested.
+- **Echo Lab — COMPLETE FOR MECHANICAL ORACLE.** It consumes the shared Echo Core runtime.
+- **Roll policy — FOUNDATION.** Profile-driven Core/Useful checkpoint logic is implemented; whole-build DPS-aware stopping remains later DPS scope.
+- **BUG-001 — FIXED / LIVE VERIFIED.** Permanent real-Chrome regression remains required.
+- **BUG-002 — KNOWN GAP.** Full +25 best-so-far/equipment lifecycle remains pending.
 
 ## Verification contract
 
@@ -229,10 +208,12 @@ A final PR head intended for merge must pass the exact-head verification surface
 
 - source/raw/profile audits;
 - horizontal cohort and Profile × Adapter audits where applicable;
+- profile readiness audit;
 - full Node test suite;
 - strict web build;
 - real Chrome Roll Assist regression;
 - diff/whitespace checks;
+- Verify workflow artifact packaging;
 - Export artifact workflow;
 - other relevant workflows for the changed scope.
 
@@ -240,23 +221,20 @@ Post-merge main is rechecked for functional tranches. UI/live claims require rea
 
 ## Recent completed checkpoints
 
-- PR #113 — Cohort 01 STATS_ER + SOURCE_ROTATION closure, seven canonical promotions and adapter-matrix expansion.
-- PR #114 — current-status synchronization after Cohort 01 merge.
-- PR #115 — first shared execution primitive: five source-verified Weapon cast windows, Woodland Aria semantic split, runtime hardening; no pending profile IDs closed.
-- PR #116 — shared incoming-transfer core with Denia/Hyvatia and direct Moonlit/Midnight wrappers; Impermanence Heron parked as BUG-008 source conflict; no pending profile IDs closed.
-- PR #117 — machine-readable semantic execution work queue; current work is ranked from exact canonical edge disposition instead of manual triage.
-- PR #118 — Stringmaster/Rime skill-stack family split and parked behind BUG-009 because stack lifetime/refresh semantics are not explicit; no pending profile IDs closed.
-- PR #119 — exact Fallacy Rank-5 initial blast added while Shorekeeper/Chisa cast-variant execution remains parked behind BUG-010; no pending profile IDs closed.
-- PR #121 — source-safe Fleurdelys wielder restriction and first explicit static profile dependency closure; two exact profile edges close while readiness remains unchanged. PR #120 was closed unmerged as the draft-to-ready connector workaround.
+- PR #113 — Cohort 01 source closure and seven canonical promotions.
+- PR #115 — source-reviewed Weapon cast-window primitive; no profile closure.
+- PR #116 — incoming-transfer core; Impermanence Heron parked as BUG-008.
+- PR #117 — machine-readable execution work queue.
+- PR #118 — Stringmaster/Rime skill-stack semantics parked as BUG-009.
+- PR #119 — exact Fallacy normal blast data while profile variant execution remains BUG-010.
+- PR #121 — source-safe Fleurdelys character restriction and first exact static dependency closure.
+- Current tranche — shared Aero Erosion target state, Ciaccona executable rotation, four exact dependency closures, Ciaccona freeze, Cartethyia reduced to two genuine source/execution blockers.
 
 ## Next work
 
-1. Source-review the current queue leader `sonata:trigger-stack-adapter` from its exact backward-impact IDs before implementing anything shared.
-2. Keep Stringmaster/Rime skill-stack lifecycle blocked until stack refresh/expiration semantics are explicitly sourced; do not infer a generic stack timer.
-3. Keep Fallacy profile execution blocked until supported profile source explicitly resolves normal/tap versus hold/release semantics.
-4. Keep Lucilla's two source-complete modes and Havoc Rover Quick Swap parked until default semantics are explicitly closed.
-5. Resolve the Impermanence Heron hit-vs-cancel source conflict before implementing its transfer wrapper.
-6. Reuse existing primitives only after layer-specific semantic review; primitive availability alone does not close an event/timeline dependency.
-7. Close statically proven dependencies only through explicit fail-closed closure records tied to exact presets and pending IDs.
-8. Close execution gaps incrementally with backward-impact regressions; do not bulk-promote `SOURCE_SEQUENCE_ONLY` rotations.
-9. Keep broad roster DPS blocked until exact profile execution closure exists.
+1. Keep Cartethyia `DT-DEF` blocked until timing semantics are explicitly resolved; do not infer a 15s delay/window lifecycle.
+2. Keep Cartethyia `SOURCE_SEQUENCE_ONLY` until the exact canonical sequence has a verified total duration or independently approved measured timing.
+3. Choose the next 2–4 build-ready canonical profiles by shortest remaining verified execution closure plus dependency overlap, not by adapter queue position alone.
+4. Keep BUG-008/009/010 source blockers parked until stronger evidence resolves them.
+5. Reuse existing primitives only when layer-specific semantics match; primitive availability alone does not close an event/timeline dependency.
+6. Broad roster DPS remains out of scope until narrow closures and source completeness justify expansion.

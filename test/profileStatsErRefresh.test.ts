@@ -86,8 +86,8 @@ test('Cohort 01 stats/ER refresh advances 19 of 20 modes while preserving prior 
   assert.ok(lucillaChafe && lucillaEcho && lumiHybrid && lumiMain && roverQuick && yangyangSupport && yangyangDamage && yinlinMoonlit && yinlinEmpyrean && brant && encore && jianxin);
 
   assert.deepEqual(lucillaChafe.phases.STATS_ER.data.erBand, {minimum:1,preferred:1,maximum:1,context:'Source endgame target is 100% Energy Regen; Lucilla does not prioritize ER substats.'});
-  assert.ok(lucillaChafe.phases.STATS_ER.data.priority.includes('Basic DMG%'));
-  assert.ok(!lucillaEcho.phases.STATS_ER.data.priority.includes('Basic DMG%'));
+  assert.ok(lucillaChafe.phases.STATS_ER.data.stats.priority.includes('Basic DMG%'));
+  assert.ok(!lucillaEcho.phases.STATS_ER.data.stats.priority.includes('Basic DMG%'));
   assert.equal(lumiHybrid.phases.STATS_ER.data.erBand?.minimum, 1.42);
   assert.equal(lumiMain.phases.STATS_ER.data.erBand, null);
   assert.equal(roverQuick.phases.STATS_ER.data.erBand, null);
@@ -96,10 +96,12 @@ test('Cohort 01 stats/ER refresh advances 19 of 20 modes while preserving prior 
   assert.equal(yinlinMoonlit.phases.STATS_ER.data.erBand?.minimum, 1.28);
   assert.equal(yinlinEmpyrean.phases.STATS_ER.data.erBand, null);
   assert.deepEqual(brant.phases.STATS_ER.data.erBand, {minimum:2.5,preferred:null,maximum:2.8,context:'Source endgame recommendation is 250%-280%; ER is prioritized to 250%, then CRIT, with additional ER still valuable above 250%.'});
-  assert.match(brant.phases.STATS_ER.data.notes.join(' '), /does not itself choose Tidebreaking Courage/);
+  assert.match(brant.phases.STATS_ER.data.stats.notes.join(' '), /does not itself choose Tidebreaking Courage/);
   assert.equal(encore.phases.STATS_ER.data.erBand?.minimum, 1.05);
   assert.equal(encore.phases.STATS_ER.data.erBand?.maximum, 1.3);
-  assert.equal(jianxin.phases.STATS_ER.data, null);
+  assert.equal(jianxin.phases.STATS_ER.data.stats, null);
+  assert.equal(jianxin.phases.STATS_ER.data.erBand, null);
+  assert.equal(jianxin.phases.STATS_ER.data.numericErInvented, false);
   assert.equal(jianxin.phases.STATS_ER.reviewState, 'BLOCKED');
 
   let numericEr = 0;
@@ -108,9 +110,9 @@ test('Cohort 01 stats/ER refresh advances 19 of 20 modes while preserving prior 
     for (const stagedMode of character.modes) {
       assert.equal(stagedMode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate, null);
       assert.equal(stagedMode.materializationCandidate.sourceData.defaultCandidate, null);
-      assert.equal(stagedMode.phases.STATS_ER.data?.numericErInvented, false);
+      assert.equal(stagedMode.phases.STATS_ER.data.numericErInvented, false);
       if (stagedMode.phases.STATS_ER.reviewState === 'REVIEWED') {
-        assert.ok(stagedMode.phases.STATS_ER.data.priority.length > 0);
+        assert.ok(stagedMode.phases.STATS_ER.data.stats.priority.length > 0);
         if (stagedMode.phases.STATS_ER.data.erBand == null) intentionallyNullEr += 1;
         else numericEr += 1;
       }

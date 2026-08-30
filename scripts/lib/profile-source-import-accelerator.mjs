@@ -10,7 +10,8 @@ export const PROFILE_SOURCE_IMPORT_DISPOSITIONS = Object.freeze([
 const COVERAGE_KEYS = Object.freeze([
   'roleMode',
   'weapons',
-  'echoSonata',
+  'sonataSet',
+  'mainEcho',
   'mainStats',
   'statPriority',
   'endgameErText',
@@ -39,7 +40,8 @@ function candidateCoverage(candidate) {
   return {
     roleMode: modes.some((mode) => nonEmpty(mode?.role)),
     weapons: modes.some((mode) => nonEmpty(mode?.weapon?.name)),
-    echoSonata: modes.some((mode) => nonEmpty(mode?.echo?.sonataSet) || nonEmpty(mode?.echo?.mainEcho)),
+    sonataSet: modes.some((mode) => nonEmpty(mode?.echo?.sonataSet)),
+    mainEcho: modes.some((mode) => nonEmpty(mode?.echo?.mainEcho)),
     mainStats: modes.some((mode) => Array.isArray(mode?.echo?.mainStats) && mode.echo.mainStats.length > 0),
     statPriority: modes.some((mode) => Array.isArray(mode?.stats?.priority) && mode.stats.priority.length > 0),
     endgameErText: modes.some((mode) => mode?.stats?.erBand != null) || notes.some((note) => /energy regen|\bER\b/i.test(note)),
@@ -53,7 +55,8 @@ function snapshotCoverage(snapshotRow) {
   return {
     roleMode: Array.isArray(snapshotRow.roleLeads) && snapshotRow.roleLeads.some(nonEmpty),
     weapons: Array.isArray(snapshotRow.weapons) && snapshotRow.weapons.some((weapon) => nonEmpty(weapon?.name)),
-    echoSonata: Array.isArray(snapshotRow.echoRecommendations) && snapshotRow.echoRecommendations.some((echo) => nonEmpty(echo?.name)),
+    sonataSet: Array.isArray(snapshotRow.echoRecommendations) && snapshotRow.echoRecommendations.some((echo) => nonEmpty(echo?.name)),
+    mainEcho: Array.isArray(snapshotRow.mainEchoLeads) && snapshotRow.mainEchoLeads.some((echo) => nonEmpty(echo?.name)),
     mainStats: Array.isArray(snapshotRow.mainStats) && snapshotRow.mainStats.some((row) => nonEmpty(row?.stats)),
     statPriority: nonEmpty(snapshotRow.substatPriorityText),
     endgameErText: Array.isArray(snapshotRow.endgameStatLines) && snapshotRow.endgameStatLines.some(nonEmpty),
@@ -72,11 +75,14 @@ function sourceLeadSnapshot(candidate, snapshotRow) {
   return {
     roleModeLeads: snapshotRow?.roleLeads ?? modes.flatMap((mode) => mode?.role ? [{ key: mode.key, role: mode.role }] : []),
     weapons: snapshotRow?.weapons ?? modes.flatMap((mode) => mode?.weapon ? [mode.weapon] : []),
-    echoSonata: snapshotRow?.echoRecommendations ?? modes.flatMap((mode) => mode?.echo ? [{
+    sonataSets: snapshotRow?.echoRecommendations ?? modes.flatMap((mode) => nonEmpty(mode?.echo?.sonataSet) ? [{
       modeKey: mode.key,
-      sonataSet: mode.echo.sonataSet,
-      mainEcho: mode.echo.mainEcho,
+      name: mode.echo.sonataSet,
       alternatives: mode.echo.alternatives,
+    }] : []),
+    mainEchoes: snapshotRow?.mainEchoLeads ?? modes.flatMap((mode) => nonEmpty(mode?.echo?.mainEcho) ? [{
+      modeKey: mode.key,
+      name: mode.echo.mainEcho,
     }] : []),
     mainStats: snapshotRow?.mainStats ?? modes.flatMap((mode) => mode?.echo?.mainStats ?? []),
     statPriorityText: snapshotRow?.substatPriorityText ?? modes.flatMap((mode) => mode?.stats?.priority ?? []),
@@ -196,7 +202,7 @@ export function buildProfileSourceImportAccelerator({ readiness, candidateReview
     characters,
     notes: [
       'Disposition is review workflow state only; it never promotes canonical profile truth.',
-      'Role/mode, weapon, Echo/Sonata, main-stat, priority and endgame/ER values are source leads until explicitly reviewed.',
+      'Role/mode, weapon, Sonata, Main Echo, main-stat, priority and endgame/ER values are source leads until explicitly reviewed.',
       'Numeric ER bands, teams, defaults, rotations, mechanics, trigger semantics, timestamps and uptime are never inferred by this accelerator.',
       'A blocked Character is classified independently and never prevents the remaining backlog from being extracted or reviewed.',
     ],

@@ -49,6 +49,9 @@ test('cast-window contracts stay locked to the exact canonical source-backed Wea
     ? { ...effect, conditions: ['Future source prerequisite'] }
     : effect);
   assert.ok(validateWeaponCastWindowContracts(conditional).some((issue) => issue.includes('TLD-SKILL has additional source conditions')));
+
+  const duplicate = [...WEAPON_EFFECT_CATALOG, WEAPON_EFFECT_CATALOG.find((effect) => effect.effectId === 'MGS-LIB')!];
+  assert.ok(validateWeaponCastWindowContracts(duplicate).some((issue) => issue.includes('duplicate weapon effect id MGS-LIB')));
 });
 
 test('cast-window primitive activates only from an explicitly matching wielder cast event', () => {
@@ -133,6 +136,27 @@ test('active-window boundary is deterministic and does not extend itself without
   assert.equal(isWeaponCastWindowActive(window, 16.999), true);
   assert.equal(isWeaponCastWindowActive(window, 17), false);
   assert.throws(() => isWeaponCastWindowActive(window, -1), /finite non-negative/);
+});
+
+test('cast-window runtime rejects invalid rank, identity and timestamp input instead of returning malformed windows', () => {
+  assert.throws(() => activateWeaponCastWindow({
+    effectId: 'AH-SKILL',
+    rank: 6 as 1,
+    wielderId: 'lumi',
+    event: { kind: 'RESONANCE_SKILL_CAST', actorId: 'lumi', atSeconds: 5 },
+  }), /integer from 1 through 5/);
+  assert.throws(() => activateWeaponCastWindow({
+    effectId: 'AH-SKILL',
+    rank: 1,
+    wielderId: ' ',
+    event: { kind: 'RESONANCE_SKILL_CAST', actorId: 'lumi', atSeconds: 5 },
+  }), /wielderId must be non-blank/);
+  assert.throws(() => activateWeaponCastWindow({
+    effectId: 'AH-SKILL',
+    rank: 1,
+    wielderId: 'lumi',
+    event: { kind: 'RESONANCE_SKILL_CAST', actorId: 'lumi', atSeconds: Number.NaN },
+  }), /finite non-negative/);
 });
 
 test('Woodland Aria cannot enter the cast-window primitive through syntactic trigger-uptime similarity', () => {

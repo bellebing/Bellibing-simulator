@@ -3,6 +3,7 @@ import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWi
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
+import { DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830 } from './data/profileExecutionSemanticReview20260830.ts';
 import {
   PROFILE_ADAPTER_DEPENDENCY_MATRIX,
   type ProfileAdapterDependencyEdge,
@@ -100,8 +101,8 @@ const WEAPON_TARGET_APPLICATION_REVIEWS: readonly ExecutionSemanticReview[] =
     actionKey: 'weapon:aero-erosion-application-state',
     reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
     notes: [
-      'Woodland Aria WA-AERO was split from cast-window semantics: its source event is applying Aero Erosion to a target.',
-      'A target/application-state execution primitive is still required.',
+      'The target/application-state boundary was manually split from cast-window semantics.',
+      'Only still-canonical pending target/application edges belong in this list.',
     ],
   }));
 
@@ -132,38 +133,40 @@ const SONATA_TRANSFER_REVIEWS: readonly ExecutionSemanticReview[] =
     ],
   }));
 
-const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [
-  {
-    pendingExecutionId: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId,
-    status: 'BLOCKED_SOURCE_CONFLICT',
-    actionKey: 'echo:impermanence-heron-transfer',
-    reviewedAt: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.reviewedAt,
-    blockerId: 'BUG-008',
-    notes: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.notes,
-  },
-];
+const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId,
+  status: 'BLOCKED_SOURCE_CONFLICT',
+  actionKey: 'echo:impermanence-heron-transfer',
+  reviewedAt: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.reviewedAt,
+  blockerId: 'BUG-008',
+  notes: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.notes,
+}];
 
-const FALLACY_ACTIVE_DAMAGE_REVIEWS: readonly ExecutionSemanticReview[] = [
-  {
-    pendingExecutionId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId,
-    status: 'BLOCKED_SOURCE_SEMANTICS',
-    actionKey: 'echo:fallacy-cast-variant-resolution',
-    reviewedAt: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.reviewedAt,
-    blockerId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.blockerId,
-    notes: [
-      ...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics,
-      'The exact normal activation blast is now in the Echo attack catalog, but profile execution remains blocked until the supported source sequence resolves normal cast versus hold/release variant semantics.',
-    ],
-  },
-];
+const FALLACY_ACTIVE_DAMAGE_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId,
+  status: 'BLOCKED_SOURCE_SEMANTICS',
+  actionKey: 'echo:fallacy-cast-variant-resolution',
+  reviewedAt: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.reviewedAt,
+  blockerId: FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.blockerId,
+  notes: [
+    ...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics,
+    'The exact normal activation blast is attack data only; profile execution remains blocked until the source sequence resolves normal cast versus hold/release.',
+  ],
+}];
 
-/**
- * Semantic review records derived from implementation/source-review artifacts.
- *
- * This is intentionally not a second list of all pending work. Unlisted exact
- * pending IDs remain UNREVIEWED automatically, so new canonical dependencies
- * surface in the actionable queue instead of silently inheriting old semantics.
- */
+const DEFIERS_THORN_DEF_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: 'weapon:defiers-thorn:DT-DEF:source-timing-adapter',
+  status: 'BLOCKED_SOURCE_SEMANTICS',
+  actionKey: 'weapon:defiers-thorn-def-timing',
+  reviewedAt: DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830.checkedAt,
+  blockerId: 'BUG-011',
+  notes: [
+    ...DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830.notes,
+    'This exact Cartethyia dependency stays parked; the closure tranche does not infer a delay/window lifecycle from ambiguous prose.',
+  ],
+}];
+
+/** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
@@ -171,6 +174,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...SONATA_TRANSFER_REVIEWS,
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
+  ...DEFIERS_THORN_DEF_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(
@@ -202,7 +206,6 @@ export function validateExecutionSemanticReviews(
       issues.push(`semantic review ${review.pendingExecutionId} requires blockerId`);
     }
   }
-
   return issues;
 }
 
@@ -211,43 +214,18 @@ function dispositionForEdge(
   reviewById: ReadonlyMap<string, ExecutionSemanticReview>,
 ): ProfileExecutionDispositionEdge {
   if (edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION') {
-    return {
-      ...edge,
-      semanticStatus: 'PROFILE_SPECIFIC_EXECUTION',
-      actionKey: edge.syntacticPrimitiveKey,
-      primitiveId: null,
-      blockerId: null,
-    };
+    return { ...edge, semanticStatus: 'PROFILE_SPECIFIC_EXECUTION', actionKey: edge.syntacticPrimitiveKey, primitiveId: null, blockerId: null };
   }
-
   const review = reviewById.get(edge.pendingExecutionId);
-  if (!review) {
-    return {
-      ...edge,
-      semanticStatus: 'UNREVIEWED',
-      actionKey: edge.syntacticPrimitiveKey,
-      primitiveId: null,
-      blockerId: null,
-    };
-  }
-
-  return {
-    ...edge,
-    semanticStatus: review.status,
-    actionKey: review.actionKey,
-    primitiveId: review.primitiveId ?? null,
-    blockerId: review.blockerId ?? null,
-  };
+  if (!review) return { ...edge, semanticStatus: 'UNREVIEWED', actionKey: edge.syntacticPrimitiveKey, primitiveId: null, blockerId: null };
+  return { ...edge, semanticStatus: review.status, actionKey: review.actionKey, primitiveId: review.primitiveId ?? null, blockerId: review.blockerId ?? null };
 }
 
 function groupEdges(edges: readonly ProfileExecutionDispositionEdge[]): readonly ProfileExecutionWorkGroup[] {
-  const keys = uniqueSorted(edges.map((edge) => edge.actionKey));
-  return keys.map((actionKey) => {
+  return uniqueSorted(edges.map((edge) => edge.actionKey)).map((actionKey) => {
     const matching = edges.filter((edge) => edge.actionKey === actionKey);
     const statuses = uniqueSorted(matching.map((edge) => edge.semanticStatus));
-    if (statuses.length !== 1) {
-      throw new Error(`Execution action ${actionKey} mixes semantic statuses: ${statuses.join(', ')}`);
-    }
+    if (statuses.length !== 1) throw new Error(`Execution action ${actionKey} mixes semantic statuses: ${statuses.join(', ')}`);
     return {
       actionKey,
       semanticStatus: matching[0]?.semanticStatus ?? 'UNREVIEWED',
@@ -297,10 +275,7 @@ export function buildProfileExecutionWorkQueue(
   const blockedSourceConflictEdges = count('BLOCKED_SOURCE_CONFLICT');
   const blockedSourceSemanticsEdges = count('BLOCKED_SOURCE_SEMANTICS');
   const profileSpecificExecutionEdges = count('PROFILE_SPECIFIC_EXECUTION');
-
-  const actionableEdges = edges.filter((edge) =>
-    edge.semanticStatus === 'UNREVIEWED'
-    || edge.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  const actionableEdges = edges.filter((edge) => edge.semanticStatus === 'UNREVIEWED' || edge.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
 
   return {
     summary: {
@@ -324,10 +299,9 @@ export function buildProfileExecutionWorkQueue(
     notes: [
       'The work queue classifies exact canonical pending edges; it never removes or closes pendingExecutionIds.',
       'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE means reusable mechanics exist but the exact profile still lacks an executable event timeline.',
-      'BLOCKED_SOURCE_CONFLICT items are excluded from actionable implementation work until their evidence conflict is resolved.',
-      'BLOCKED_SOURCE_SEMANTICS items are excluded when current evidence identifies the mechanic but does not define enough runtime semantics to implement it safely.',
+      'BLOCKED_SOURCE_CONFLICT and BLOCKED_SOURCE_SEMANTICS stay excluded until their evidence gaps are resolved.',
       'PROFILE_SPECIFIC_EXECUTION remains separate from shared-primitive prioritization.',
-      'Unlisted new pending IDs become UNREVIEWED automatically and therefore surface in the actionable queue.',
+      'Unlisted new pending IDs become UNREVIEWED automatically and surface in the actionable queue.',
     ],
   };
 }

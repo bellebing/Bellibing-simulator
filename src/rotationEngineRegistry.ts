@@ -41,16 +41,24 @@ const BY_ID: ReadonlyMap<string, RotationEngineRegistration> = (() => {
   return map;
 })();
 
-export function getRotationEngineRegistration(engineModelId: string | null): RotationEngineRegistration | null {
+export function getRotationEngineRegistration(
+  engineModelId: string | null | undefined,
+): RotationEngineRegistration | null {
   if (!engineModelId) return null;
   return BY_ID.get(engineModelId) ?? null;
 }
 
-export function hasRotationEngineModel(engineModelId: string | null, characterId?: string): boolean {
+export function hasRotationEngineModel(
+  engineModelId: string | null | undefined,
+  characterId?: string,
+): boolean {
   const registration = getRotationEngineRegistration(engineModelId);
   return registration !== null && (characterId === undefined || registration.characterId === characterId);
 }
 
-export function engineModelsMechanicFact(engineModelId: string | null, factId: string): boolean {
+export function engineModelsMechanicFact(
+  engineModelId: string | null | undefined,
+  factId: string,
+): boolean {
   return getRotationEngineRegistration(engineModelId)?.modeledMechanicFactIds.includes(factId) ?? false;
 }

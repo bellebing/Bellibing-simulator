@@ -12,11 +12,11 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Current merged `main` baseline: `ca1b5058c750fe58968af155d60eaca615c98b0f` — PR #109, completion of Cohort 01 source-extraction blocker staging against the existing 2026-08-29 source checkpoint.
+Current merged `main` baseline: `c66a98f774c44f568aefc3718650502d8da13e10` — PR #110, fresh Cohort 01 `MODE_TEAM_CONTEXT` source review.
 
-PR #109 exact head `92ed9262dfdad580739cd2e4cb11d9293fae9f7e` passed Verify #502 and Export #474, including profile/cohort/readiness gates, full tests, strict web build, real Chrome Roll Assist regression, diff check and artifact publishing.
+PR #110 exact head `30cfb4d78821bf7dfff6c2699b01a674cb431926` passed Verify #504 and Export #476, including horizontal refresh/profile/readiness gates, full tests, strict web build, real Chrome Roll Assist regression, diff check and artifact publishing.
 
-Post-merge `main` passed Verify #503, Export #475 and Deploy #102 on the exact merge SHA.
+Post-merge `main` passed Verify #505, Export #477 and Deploy #103 on the exact merge SHA.
 
 Live registry-derived readiness remains:
 
@@ -70,7 +70,7 @@ Integration errors propagate separately and render `ROLL ASSIST ERROR`. Permanen
 - +5 CRIT Rate 9.3% → `ROLL TO +10`;
 - +10 CRIT Rate 9.3% + Flat DEF → `ROLL TO +15`.
 
-PR #109 exact-head Chrome verification passed and post-merge Deploy #102 passed the live Roll Assist browser checks on the first attempt.
+PR #110 exact-head Chrome verification passed and post-merge Deploy #103 passed the live Roll Assist browser checks.
 
 ### BUG-002 — KNOWN GAP
 
@@ -203,67 +203,90 @@ Review order remains:
 
 #### Exhausted 2026-08-29 checkpoint
 
-The existing reviewed checkpoint is fully dispositioned:
+The original reviewed checkpoint is fully dispositioned:
 
-| Phase | REVIEWED | BLOCKED | PENDING | Reason |
-| --- | ---: | ---: | ---: | --- |
-| `MODE_TEAM_CONTEXT` | 0 | 20 | 0 | exact three-member team missing for every mode; ten rows also lacked staged role |
-| `WEAPON` | 0 | 20 | 0 | weapon recommendation absent from checkpoint |
-| `ECHO_SONATA` | 0 | 20 | 0 | required Echo/Sonata fields absent from checkpoint |
-| `STATS_ER` | 0 | 20 | 0 | stat priority absent; no ER number inferred |
-| `SOURCE_ROTATION` | 0 | 20 | 0 | source sequence absent; no rotation synthesized |
-| `EXECUTION_ADAPTERS` | 0 | 0 | 20 | intentionally not evaluated on incomplete source profiles |
-| `PROMOTION_FREEZE` | 0 | 0 | 20 | intentionally not evaluated before source/execution closure |
+| Phase | REVIEWED | BLOCKED | PENDING |
+| --- | ---: | ---: | ---: |
+| `MODE_TEAM_CONTEXT` | 0 | 20 | 0 |
+| `WEAPON` | 0 | 20 | 0 |
+| `ECHO_SONATA` | 0 | 20 | 0 |
+| `STATS_ER` | 0 | 20 | 0 |
+| `SOURCE_ROTATION` | 0 | 20 | 0 |
+| `EXECUTION_ADAPTERS` | 0 | 0 | 20 |
+| `PROMOTION_FREEZE` | 0 | 0 | 20 |
 
-`WEAPON`, `ECHO_SONATA`, `STATS_ER` and `SOURCE_ROTATION` use declared mechanical auto-parking when required source fields are absent. Auto-parking only produces `BLOCKED`; it never produces `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY`.
+Mechanical auto-parking only produces `BLOCKED`; it never produces `REVIEWED`, `VERIFIED`, `ENGINE_MODELED` or `DPS_READY`. PR #109 also locks that missing stats do not invent ER and missing rotations stay `null`.
 
-PR #109 locked regressions that `STATS_ER` leaves `erBand=null` / `numericErInvented=false` and that absent source rotations remain `null` rather than receiving a synthesized sequence.
+#### 2026-08-30 MODE_TEAM_CONTEXT refresh — MERGED
 
-#### 2026-08-30 MODE_TEAM_CONTEXT refresh
+PR #110 introduced a structured source-refresh overlay that researches only the genuinely missing mode/team/context fields while preserving the original roster and already-captured non-null roles.
 
-A new structured source-refresh overlay now researches only the genuinely missing mode/team/context fields while preserving the original source roster and already-captured non-null roles.
+Result across all 20 modes:
 
-The refresh has **20 explicit entries** and is still `NOT_VERIFIED` / noncanonical:
-
-- **10 `MODE_TEAM_CONTEXT` REVIEWED** — exact role + source-backed three-member team context are staged;
+- **10 `MODE_TEAM_CONTEXT` REVIEWED** — exact role + source-backed three-member team context staged;
 - **10 `MODE_TEAM_CONTEXT` BLOCKED** — genuine team/context or mode/role-split ambiguity remains;
-- **0 default selections** — every `defaultCandidate` remains `null`.
+- **0 defaults** — every `defaultCandidate` remains `null`.
 
-The 10 reviewed mode contexts are:
+Reviewed contexts:
 
-- Lucilla — Glacio Chafe: Hiyuki + Chisa;
-- Lucilla — Echo Skill: Sigrika + The Shorekeeper;
-- Lumi — Hybrid: Carlotta + The Shorekeeper calculation context;
-- Rover (Havoc) — Quick Swap: Phrolova + Danjin example-team context;
-- Yinlin — Moonlit: Xiangli Yao + The Shorekeeper calculation context;
-- Calcharo — Main DPS: Lynae + The Shorekeeper;
-- Cantarella — Hybrid: Phrolova + Qiuyuan;
-- Carlotta — Main DPS/Hyper Carry: Zhezhi + The Shorekeeper;
-- Changli — Hybrid/quickswap: Brant + Lupa;
-- Chisa — Support: Aemeath + Denia.
+- Lucilla Glacio Chafe — Hiyuki + Chisa;
+- Lucilla Echo Skill — Sigrika + The Shorekeeper;
+- Lumi Hybrid — Carlotta + The Shorekeeper calculation context;
+- Rover (Havoc) Quick Swap — Phrolova + Danjin example-team context;
+- Yinlin Moonlit — Xiangli Yao + The Shorekeeper calculation context;
+- Calcharo — Lynae + The Shorekeeper;
+- Cantarella — Phrolova + Qiuyuan;
+- Carlotta — Zhezhi + The Shorekeeper;
+- Changli — Brant + Lupa;
+- Chisa — Aemeath + Denia.
 
-The 10 parked modes are:
+Parked mode/context rows remain Lumi Main DPS, Rover Havoc Hyper Carry, both Yangyang modes, Yinlin Empyrean, Baizhi, Brant, Chixia, Encore and Jianxin. Their blockers are preserved rather than flattened.
 
-- Lumi Main DPS — role is source-backed, exact three-member Main DPS context still unresolved;
-- Rover (Havoc) Hyper Carry — archetype is source-backed, exact three-member context still unresolved;
-- Yangyang Support — exact mode-specific team unresolved;
-- Yangyang damage-focused Hybrid — exact mode-specific team unresolved;
-- Yinlin Empyrean — exact team/selection condition relative to Moonlit unresolved;
-- Baizhi standard — Support role is source-backed, but source intentionally presents broad team flexibility rather than one canonical team;
-- Brant standard — source supports both DPS and Hybrid; role/mode split required even though Lupa + Galbrena calculation context is staged;
-- Chixia standard — source distinguishes Main and Dual DPS; project role/mode mapping must be reviewed even though Lupa + Brant team context is staged;
-- Encore standard — source distinguishes Hyper Carry and Quick-Swap playstyles; old single mode is too coarse;
-- Jianxin standard — source explicitly supports DPS/Hybrid/Support contexts; old single role would flatten source distinctions even though Iuno + The Shorekeeper calculation context is staged.
+#### 2026-08-30 WEAPON refresh
 
-The overlay is fail-closed:
+A second overlay consumes the merged mode/context refresh and researches only the missing Weapon recommendation/context fields. It does not re-read or rewrite mode/team truth.
+
+Current staged result across the same 20 modes:
+
+- **18 `WEAPON` REVIEWED** — an exact source-backed weapon recommendation and rank are staged;
+- **2 `WEAPON` BLOCKED** — the source requires a role/mode distinction before one recommendation is safe;
+- **0 pending**.
+
+Reviewed recommendations:
+
+- Lucilla Glacio Chafe — Freeze Frame R1;
+- Lucilla Echo Skill — Freeze Frame R1;
+- Lumi Hybrid — Ages of Harvest R1;
+- Lumi Main DPS — Ages of Harvest R1;
+- Rover (Havoc) Quick Swap — Red Spring R1;
+- Rover (Havoc) Hyper Carry — Red Spring R1;
+- Yangyang damage — Blazing Brilliance R1;
+- Yinlin Moonlit — Stringmaster R1;
+- Yinlin Empyrean — Stringmaster R1;
+- Baizhi — Stellar Symphony R1;
+- Brant — Unflickering Valor R1;
+- Calcharo — Wildfire Mark R1;
+- Cantarella — Whispers of Sirens R1;
+- Carlotta — The Last Dance R1;
+- Changli — Blazing Brilliance R1;
+- Chisa — Kumokiri R1;
+- Chixia — The Last Dance R1;
+- Encore — Stringmaster R1.
+
+Weapon blockers:
+
+- **Yangyang Support** — the current Best Weapons ranking is damage-oriented while the source separately defines a Support rotation and notes that optimized Support play may waste weapon effects; no Support-specific weapon is forced from the damage table.
+- **Jianxin standard** — the source explicitly separates Support `Originite: Type IV` from damage `Verity's Handle`; the unresolved DPS/Hybrid/Support mode split must be resolved before one weapon can become the profile recommendation.
+
+The weapon overlay is fail-closed:
 
 - it can only target existing Character + mode keys;
-- it cannot rewrite an already captured non-null role to a different role;
-- `REVIEWED` requires a role plus exactly three unique team members including the Character and zero blockers;
-- it cannot select a default in this checkpoint;
+- it refuses to overwrite any already populated weapon field;
+- `REVIEWED` requires an exact weapon name/rank/context and zero blockers;
+- `BLOCKED` requires explicit blockers;
 - it cannot authorize canonical writes or `VERIFIED` truth.
 
-Later source phases remain parked against the old checkpoint until their own horizontal refresh pass. `EXECUTION_ADAPTERS` and `PROMOTION_FREEZE` remain pending for all 20 modes.
+`MODE_TEAM_CONTEXT` must remain exactly 10 REVIEWED / 10 BLOCKED after the weapon overlay. `ECHO_SONATA`, `STATS_ER` and `SOURCE_ROTATION` remain mechanically parked at 20 BLOCKED each until their own fresh review. `EXECUTION_ADAPTERS` and `PROMOTION_FREEZE` remain 20 pending each.
 
 All materialization candidates remain `NOT_VERIFIED` with `canonicalWriteAllowed=false`. No numeric ER target, universal default, uptime, damage scaling or mechanic has been invented.
 
@@ -321,12 +344,13 @@ A PR is not merge-ready because an earlier head passed.
 - PR #107 — horizontal cohort/review + Profile × Adapter dependency infrastructure; merge `36d32819a6d7d7b621e3f360f89178841aa99d05`.
 - PR #108 — Cohort 01 mode/team/context + weapon blocker staging, default tri-state and fail-closed source blocker auto-parking; merge `959562968767d1fd6f4a37451b24d59e4ca41bda`.
 - PR #109 — completed old-checkpoint blocker staging for Echo/Sonata, stats/ER and source rotation; merge `ca1b5058c750fe58968af155d60eaca615c98b0f`.
+- PR #110 — fresh MODE_TEAM_CONTEXT source overlay, 10 reviewed / 10 blocked / 0 defaults; merge `c66a98f774c44f568aefc3718650502d8da13e10`.
 
 ## Next work
 
-1. Land the Cohort 01 `MODE_TEAM_CONTEXT` source refresh only after exact-head CI verifies the 10 REVIEWED / 10 BLOCKED split and all fail-closed overlay rules. This still promotes zero canonical profiles.
-2. Continue horizontally with a **WEAPON refresh for the same 20 modes**, researching only the genuinely missing recommendation/context fields instead of re-reading already reviewed mode/team facts.
-3. Then continue the same cohort through `ECHO_SONATA`, `STATS_ER` and `SOURCE_ROTATION`, preserving source-conditioned alternatives and explicit blockers.
+1. Land the Cohort 01 WEAPON refresh only after exact-head CI verifies the 18 REVIEWED / 2 BLOCKED split, preserves MODE_TEAM_CONTEXT 10/10, and keeps all candidates fail-closed. This still promotes zero canonical profiles.
+2. Continue horizontally with `ECHO_SONATA` for the same 20 modes, researching only the genuinely missing set/main-Echo/layout/stat context rather than re-reading mode/team/weapon facts.
+3. Then continue the same cohort through `STATS_ER` and `SOURCE_ROTATION`, preserving source-conditioned alternatives and explicit blockers.
 4. Only after a profile candidate is source-complete and semantically reviewed should `EXECUTION_ADAPTERS` be evaluated. Then prioritize generic primitives/adapters by verified profile fanout.
 5. Keep blockers parked per Character/mode so unresolved rows do not stop the rest of the cohort.
 6. Keep raw data, Character Mechanics, effects, profiles, execution/combat-DPS and UI separate.

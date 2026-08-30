@@ -1,0 +1,217 @@
+{
+  "kind": "PROFILE_COHORT_WEAPON_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "c66a98f774c44f568aefc3718650502d8da13e10",
+  "scope": "WEAPON_ONLY",
+  "notes": [
+    "This refresh consumes the already reviewed MODE_TEAM_CONTEXT overlay and researches only missing weapon recommendation/context fields.",
+    "A character-wide top weapon is reused across multiple staged modes only when the current source presents one shared Best Weapons ranking without a conflicting mode-specific recommendation.",
+    "Support/damage weapon ambiguity is parked instead of forcing a damage-ranking weapon into a support profile.",
+    "REVIEWED here is intermediate source review only. No entry becomes canonical, VERIFIED, frozen, or executable."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "weapon": {"name": "Freeze Frame", "rank": "R1", "context": "Prydwen's two-mode weapon table ranks Freeze Frame at 100% in Glacio Chafe mode; Lucilla's signature also provides the team-wide ATK buff."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_COLUMN_TOP_WEAPON",
+      "evidenceSummary": ["Freeze Frame is 100% in the Glacio Chafe weapon column and is explicitly described as Lucilla's signature/team-buffing weapon."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "weapon": {"name": "Freeze Frame", "rank": "R1", "context": "Prydwen's two-mode weapon table ranks Freeze Frame at 100% in Echo Skill mode; Lethean Elegy is a near-signature alternative but not the top recommendation."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_COLUMN_TOP_WEAPON",
+      "evidenceSummary": ["Freeze Frame is 100% in the Echo weapon column; Lethean Elegy reaches 99% but remains an alternative."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lucilla", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "weapon": {"name": "Ages of Harvest", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Ages of Harvest first at 108.33%; the page's primary reviewed role is Hybrid and no separate Hybrid weapon ranking conflicts with it."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_CHARACTER_WEAPON_SHARED_ACROSS_MODES",
+      "evidenceSummary": ["Ages of Harvest is the current top-ranked weapon and the source does not provide a conflicting mode-specific Hybrid weapon choice."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "weapon": {"name": "Ages of Harvest", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Ages of Harvest first at 108.33%; its description explicitly emphasizes Lumi's damage and Skill DMG benefit, which applies to the dedicated damage path."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_CHARACTER_DAMAGE_WEAPON",
+      "evidenceSummary": ["Ages of Harvest is the page's highest-ranked current damage weapon for Lumi."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/lumi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "weapon": {"name": "Red Spring", "rank": "R1", "context": "Current Prydwen character-wide Best Weapons ranking places Red Spring first at 104.84%; no separate Quick Swap weapon ranking is provided."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_CHARACTER_WEAPON_SHARED_ACROSS_PLAYSTYLES",
+      "evidenceSummary": ["Red Spring is the current top-ranked weapon on the same source page that explicitly covers Main and Dual/Quick Swap Havoc Rover playstyles."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "weapon": {"name": "Red Spring", "rank": "R1", "context": "Current Prydwen character-wide Best Weapons ranking places Red Spring first at 104.84%; no separate Hyper Carry weapon ranking is provided."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_CHARACTER_WEAPON_SHARED_ACROSS_PLAYSTYLES",
+      "evidenceSummary": ["Red Spring is the current top-ranked weapon on the same source page that explicitly covers Main and Dual/Quick Swap Havoc Rover playstyles."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "weapon": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["supportWeaponRecommendationNotSeparatedFromDamageRanking"],
+      "evidenceClass": "SUPPORT_MODE_WEAPON_AMBIGUITY",
+      "evidenceSummary": ["The current Best Weapons list is damage-ranked and starts with Blazing Brilliance, while the gameplay section explicitly describes a Support mode and notes that optimized Support rotation can waste some weapon effects. No exact Support-specific weapon recommendation is selected."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "weapon": {"name": "Blazing Brilliance", "rank": "R1", "context": "Current Prydwen Best Weapons damage ranking places Blazing Brilliance first at 102.39%, fitting the explicitly damage-focused Yangyang path."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_DAMAGE_WEAPON_FOR_DAMAGE_MODE",
+      "evidenceSummary": ["Blazing Brilliance is the page's current top damage-ranked weapon and this mode is explicitly the greater-damage-focus path."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yangyang", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "weapon": {"name": "Stringmaster", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Stringmaster first at 100% and calls it Yinlin's best in slot; the ranking is shared across her Echo-set choices."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_BEST_IN_SLOT_SHARED_ACROSS_SETS",
+      "evidenceSummary": ["Stringmaster is explicitly called Yinlin's best in slot and no Moonlit-specific weapon exception is given."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "weapon": {"name": "Stringmaster", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Stringmaster first at 100% and calls it Yinlin's best in slot; the ranking is shared across her Echo-set choices."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_BEST_IN_SLOT_SHARED_ACROSS_SETS",
+      "evidenceSummary": ["Stringmaster is explicitly called Yinlin's best in slot and no Empyrean-specific weapon exception is given."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/yinlin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "weapon": {"name": "Stellar Symphony", "rank": "R1", "context": "Prydwen's Support-oriented Best Weapons list ranks Stellar Symphony #1 and describes its Energy Regen, Concerto generation and team ATK buff as support value."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SUPPORT_WEAPON_RANK_1",
+      "evidenceSummary": ["Stellar Symphony is ranked #1 specifically in Baizhi's support weapon list."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/baizhi", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "weapon": {"name": "Unflickering Valor", "rank": "R1", "context": "Prydwen ranks Brant's signature at 100% and calls it by far his best weapon; the review says the weapon is key to his strict build requirements across his multi-purpose damage role."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SIGNATURE_BY_FAR_BEST",
+      "evidenceSummary": ["Unflickering Valor is explicitly described as Brant's signature and by far best weapon, despite the separate unresolved DPS-vs-Hybrid mode split."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/brant", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "weapon": {"name": "Wildfire Mark", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Wildfire Mark first at 100.72%, narrowly above Lustrous Razor at 100%."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_CURRENT_WEAPON_RANKING",
+      "evidenceSummary": ["Wildfire Mark is the current highest-ranked Calcharo weapon; the source explicitly notes the advantage over Lustrous Razor is small."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/calcharo", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "weapon": {"name": "Whispers of Sirens", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Cantarella's signature Whispers of Sirens first at 100%."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SIGNATURE_TOP_WEAPON",
+      "evidenceSummary": ["Whispers of Sirens is the current 100% top-ranked weapon and its passive is described as naturally matching Cantarella's rotation."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/cantarella", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "weapon": {"name": "The Last Dance", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places The Last Dance first at 100% in the reviewed Zhezhi + The Shorekeeper calculation context."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_TOP_WEAPON_IN_REVIEWED_TEAM_CONTEXT",
+      "evidenceSummary": ["The Last Dance is the current 100% top-ranked Carlotta weapon in the same calculation context staged for MODE_TEAM_CONTEXT."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/carlotta", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "weapon": {"name": "Blazing Brilliance", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Changli's signature Blazing Brilliance first at 100%, narrowly ahead of permanent alternatives."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SIGNATURE_TOP_WEAPON",
+      "evidenceSummary": ["Blazing Brilliance is the current top-ranked Changli weapon and is described as her best by a small amount."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/changli", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "weapon": {"name": "Kumokiri", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Kumokiri first at 100% in the Aemeath + Denia calculation context."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SIGNATURE_TOP_WEAPON",
+      "evidenceSummary": ["Kumokiri is Chisa's current 100% top-ranked weapon and its Negative Status team effect matches the reviewed support context."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chisa", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "weapon": {"name": "The Last Dance", "rank": "R1", "context": "Current Prydwen damage weapon ranking places The Last Dance first at 108.35%; Chixia remains a damage dealer in both Main and Dual DPS source contexts."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TOP_DAMAGE_WEAPON_SHARED_ACROSS_DPS_CONTEXTS",
+      "evidenceSummary": ["The Last Dance is the current top-ranked Chixia damage weapon; the unresolved Main-vs-Dual DPS role mapping does not create a conflicting weapon recommendation in the source."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/chixia", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "weapon": {"name": "Stringmaster", "rank": "R1", "context": "Current Prydwen Best Weapons ranking places Stringmaster first at 110% and calls it the overall best weapon for Encore."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_TOP_DAMAGE_WEAPON",
+      "evidenceSummary": ["Stringmaster is the current highest-ranked Encore weapon; the source's Hyper Carry/Quick-Swap split does not provide a conflicting weapon recommendation."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/encore", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "weapon": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleModeWeaponSplitRequired"],
+      "evidenceClass": "EXPLICIT_SUPPORT_VS_DAMAGE_WEAPON_SPLIT",
+      "evidenceSummary": ["The current damage ranking places Verity's Handle first, while the same source explicitly instructs Support Jianxin to use Originite: Type IV to enable Rejuvenating Glow. Because the old standard mode still spans DPS/Hybrid/Support contexts, no single weapon is selected."],
+      "source": {"label": "Prydwen current character build/profile", "url": "https://www.prydwen.gg/wuthering-waves/characters/jianxin", "checkedAt": "2026-08-30", "profileUpdatedAt": "2026-08-20"}
+    }
+  ]
+}

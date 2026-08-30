@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../src/data/echoSkillSourceReview.ts';
+import { FLEURDELYS_CHARACTER_RESTRICTION_REVIEW } from '../src/data/echoCharacterRestrictedEffects.ts';
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
+import {
+  applyProfileExecutionDependencyClosures,
+  PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260830,
+} from '../src/data/profileExecutionClosures20260830.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/weaponEffectAudit.ts';
 
@@ -93,18 +97,30 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
   }
 });
 
-test('Cartethyia and Rover Aero reviews preserve the existing Fleurdelys character-restriction adapter boundary', () => {
+test('Cartethyia and Rover Aero reviews close only the Fleurdelys character-restriction dependency', () => {
+  const pendingExecutionId = FLEURDELYS_CHARACTER_RESTRICTION_REVIEW.closesPendingExecutionId;
+  const closure = PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260830[0];
+  assert.ok(closure);
+  assert.equal(closure.pendingExecutionId, pendingExecutionId);
+  assert.deepEqual([...closure.presetIds].sort(), [
+    'cartethyia-aero-erosion',
+    'rover-aero-cartethyia-ciaccona',
+  ]);
+
   for (const characterId of ['cartethyia', 'rover-aero'] as const) {
     const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === characterId);
     assert.ok(review);
     assert.deepEqual(review.reviewedEchoIds, ['echo-60001065']);
-    assert.ok(review.pendingExecutionIds.includes('echo:echo-60001065:fleurdelys-character-restriction-adapter'));
+    assert.equal(review.pendingExecutionIds.includes(pendingExecutionId), false);
+    assert.ok(review.notes.some((note) => note.includes(closure.closureId)));
+    assert.ok(review.pendingExecutionIds.some((id) => id.startsWith('rotation:') && id.endsWith(':engine-model')));
   }
 
-  const pending = ECHO_SKILL_PENDING_ADAPTER_FACTS.find((row) => row.echoId === 'echo-60001065');
-  assert.ok(pending);
-  assert.equal(pending.kind, 'CHARACTER_RESTRICTION');
-  assert.match(pending.fact, /Additional 10% Aero DMG Bonus/);
+  assert.throws(
+    () => applyProfileExecutionDependencyClosures(PROFILE_BACKWARD_IMPACT_REVIEWS_V36),
+    /no longer contains echo:echo-60001065:fleurdelys-character-restriction-adapter/,
+    'reapplying the exact closure must fail instead of silently hiding drift',
+  );
 });
 
 test('unused active Echoes never receive fabricated execution dependencies', () => {

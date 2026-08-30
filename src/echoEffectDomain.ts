@@ -30,6 +30,13 @@ export interface EchoEffectModel {
   /** null means permanent while the equip condition remains true. */
   durationSeconds: number | null;
   appliesTo: EchoEffectAppliesTo;
+  /**
+   * Optional source-verified wielder identity restriction.
+   *
+   * This is effect applicability, not a recommendation. When present, the
+   * effect must fail closed for every canonical character outside this list.
+   */
+  wielderCharacterIds?: readonly string[];
   requiresIncomingIntro?: boolean;
   mechanicsStatus: EchoEffectMechanicsStatus;
   notes: string;

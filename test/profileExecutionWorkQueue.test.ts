@@ -87,18 +87,18 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 78-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 76-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 78,
-    unreviewedEdges: 41,
+    totalEdges: 76,
+    unreviewedEdges: 39,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 9,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 5,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 42,
+    actionableSharedEdges: 40,
   });
   assert.equal(
     queue.summary.unreviewedEdges
@@ -111,7 +111,7 @@ test('current 78-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue removes already-covered and source-blocked high-fanout families', () => {
+test('actionable queue removes already-covered, closed and source-blocked high-fanout families', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
 
@@ -120,8 +120,10 @@ test('actionable queue removes already-covered and source-blocked high-fanout fa
   for (const contract of WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
   assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
+  assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
+  assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
 
   const woodland = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:aero-erosion-application-state');
   assert.ok(woodland);
@@ -130,13 +132,13 @@ test('actionable queue removes already-covered and source-blocked high-fanout fa
   assert.equal(woodland.dependencyCount, 1);
 });
 
-test('remaining shared fanout is machine-ranked so the next semantic slices do not require manual 78-edge triage', () => {
+test('remaining shared fanout is machine-ranked so the next semantic slices do not require manual 76-edge triage', () => {
   const queue = buildProfileExecutionWorkQueue();
   for (let index = 1; index < queue.actionableSharedQueue.length; index += 1) {
     assert.ok(queue.actionableSharedQueue[index - 1].profileCount >= queue.actionableSharedQueue[index].profileCount);
   }
 
-  assert.equal(queue.actionableSharedQueue[0]?.actionKey, 'echo:fleurdelys-character-restriction-adapter');
+  assert.equal(queue.actionableSharedQueue[0]?.actionKey, 'sonata:trigger-stack-adapter');
 
   const expectedTwoProfileFamilies = [
     'sonata:trigger-stack-adapter',

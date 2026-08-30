@@ -214,7 +214,7 @@ test('eighth Character Mechanics batch remains valid after later coverage reache
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
   assert.deepEqual(audit.structuralIssues, []);
 
-  for (const characterId of ['ciaccona', 'phoebe', 'the-shorekeeper', 'jianxin', 'lumi', 'jinhsi']) {
+  for (const characterId of ['phoebe', 'the-shorekeeper', 'jianxin', 'lumi', 'jinhsi']) {
     assert.ok(audit.verifiedCharacterIds.includes(characterId), characterId);
     const raw = getCharacterPreflight(characterId, 'RAW_FACTS');
     const dps = getCharacterPreflight(characterId, 'DPS_MODEL');
@@ -225,4 +225,12 @@ test('eighth Character Mechanics batch remains valid after later coverage reache
     assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'), characterId);
     assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'), characterId);
   }
+
+  const ciacconaRaw = getCharacterPreflight('ciaccona', 'RAW_FACTS');
+  const ciacconaDps = getCharacterPreflight('ciaccona', 'DPS_MODEL');
+  assert.ok(ciacconaRaw && ciacconaDps);
+  assert.equal(ciacconaRaw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
+  assert.equal(ciacconaRaw.ready, true);
+  assert.equal(ciacconaDps.ready, true);
+  assert.deepEqual(ciacconaDps.blockers, []);
 });

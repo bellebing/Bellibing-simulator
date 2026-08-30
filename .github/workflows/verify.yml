@@ -40,6 +40,9 @@ jobs:
       - name: Profile source accelerator gate
         run: npm run audit:profile-source-accelerator
 
+      - name: Horizontal green-lane deterministic gate
+        run: npm run audit:profile-horizontal-green-lane
+
       - name: Horizontal profile cohort gate
         run: npm run audit:profile-cohort
 

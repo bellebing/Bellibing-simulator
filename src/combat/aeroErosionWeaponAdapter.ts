@@ -53,13 +53,14 @@ export interface WoodlandAriaExecutionSnapshot {
  * shorter than the source duration.
  */
 export class WoodlandAriaAeroExecutionState {
+  readonly target: AeroErosionTargetState;
+  readonly rank: number;
   private aeroDamageBonusActive = false;
   private targetAeroResReductionActive = false;
 
-  constructor(
-    readonly target: AeroErosionTargetState,
-    readonly rank = 1,
-  ) {
+  constructor(target: AeroErosionTargetState, rank = 1) {
+    this.target = target;
+    this.rank = rank;
     rankValue(WA_AERO, rank);
     rankValue(WA_AERO_RES, rank);
     if (!timedEffectCoversRemainingShortRotation(target.rotationSeconds, WA_AERO.durationSeconds)) {

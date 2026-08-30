@@ -167,7 +167,7 @@ test('actionable queue excludes covered and source-blocked Changli shared edges'
   for (const contract of WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
   for (const contract of BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
 
-  assert.equal(actionableIds.has(IMPERANENCE_HERON_TRANSFER_DISPOSITION?.pendingExecutionId ?? ''), false);
+  assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
   assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), true);
   assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);

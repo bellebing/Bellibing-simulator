@@ -1,0 +1,217 @@
+{
+  "kind": "PROFILE_COHORT_ECHO_SONATA_REFRESH",
+  "cohortId": "PROFILE-COHORT-01-2026-08-29",
+  "verificationStatus": "NOT_VERIFIED",
+  "canonicalWriteAllowed": false,
+  "checkedAt": "2026-08-30",
+  "baseRepoMain": "219b35d256702f8d06ab164ac0d9227b5e58d9f9",
+  "scope": "ECHO_SONATA_ONLY",
+  "notes": [
+    "This refresh consumes the already reviewed MODE_TEAM_CONTEXT and WEAPON overlays and researches only missing sonataSet/mainEcho/costLayout/mainStats fields.",
+    "Mode- or team-conditioned Echo sets are preserved instead of flattening them into a character-wide recommendation.",
+    "A REVIEWED entry stages one exact source-supported composition; any unresolved conditional fallback that cannot fit one mode is parked BLOCKED.",
+    "REVIEWED here is intermediate source review only. No entry becomes canonical, VERIFIED, frozen, or executable."
+  ],
+  "entries": [
+    {
+      "characterId": "lucilla",
+      "modeKey": "glacio-chafe",
+      "echo": {"sonataSet":"Wishes of Quiet Snowfall","mainEcho":"Glommoth","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Glacio DMG","Glacio DMG > ATK%","ATK%","ATK%"],"context":"Glacio Chafe mode in the reviewed Hiyuki + Chisa context; source explicitly pairs Wishes of Quiet Snowfall with Glommoth for this mode."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_SPECIFIC_SET_AND_MAIN_ECHO",
+      "evidenceSummary": ["Glacio Chafe uses 5P Wishes of Quiet Snowfall + Glommoth; Echo stats are CRIT, Glacio, Glacio > ATK, ATK, ATK."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lucilla","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lucilla",
+      "modeKey": "echo-skill",
+      "echo": {"sonataSet":"Moonlit Clouds","mainEcho":"Impermanence Heron","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Glacio DMG","Glacio DMG > ATK%","ATK%","ATK%"],"context":"Echo Skill mode in the reviewed Sigrika + The Shorekeeper context; source says most Echo teams use Moonlit Clouds + Impermanence Heron, while the Dream of the Lost variant is specifically Phrolova-only."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MODE_AND_TEAM_CONDITIONED_SET",
+      "evidenceSummary": ["Sigrika Echo mode uses the normal 5P Moonlit Clouds + Impermanence Heron path; the Phrolova-only Dream of the Lost alternative is not applied to this staged team."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lucilla","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "hybrid",
+      "echo": {"sonataSet":"Moonlit Clouds","mainEcho":"Impermanence Heron","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Electro DMG","Electro DMG > Energy Regen","ATK%","ATK%"],"context":"Source default Hybrid build uses Moonlit Clouds + Impermanence Heron."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_DEFAULT_HYBRID_SET",
+      "evidenceSummary": ["Hybrid Lumi uses Moonlit Clouds + Impermanence Heron; source separately labels Void Thunder as the Main DPS special set."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lumi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "lumi",
+      "modeKey": "main-dps",
+      "echo": {"sonataSet":"Void Thunder","mainEcho":"Nightmare: Thundering Mephis","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Electro DMG","Electro DMG > Energy Regen","ATK%","ATK%"],"context":"Source explicitly marks Void Thunder + Nightmare: Thundering Mephis as Lumi's special Main DPS Echo path."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_MAIN_DPS_SPECIAL_SET",
+      "evidenceSummary": ["Main DPS Lumi is explicitly separated from Hybrid and uses Void Thunder + Nightmare: Thundering Mephis."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/lumi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "quickswap",
+      "echo": {"sonataSet":"Havoc Eclipse","mainEcho":"Dreamless","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Havoc DMG","Havoc DMG > ATK%","ATK%","ATK%"],"context":"Current source presents Havoc Eclipse + Dreamless as the character build without a conflicting Quick Swap Echo recommendation."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "SHARED_SET_WITHOUT_PLAYSTYLE_CONFLICT",
+      "evidenceSummary": ["Havoc Eclipse + Dreamless is the current source build and no Quick Swap-specific Echo exception is given."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/rover-havoc","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "rover-havoc",
+      "modeKey": "hypercarry",
+      "echo": {"sonataSet":"Havoc Eclipse","mainEcho":"Dreamless","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Havoc DMG","Havoc DMG > ATK%","ATK%","ATK%"],"context":"Current source presents Havoc Eclipse + Dreamless as the character build without a conflicting Hyper Carry Echo recommendation."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "SHARED_SET_WITHOUT_PLAYSTYLE_CONFLICT",
+      "evidenceSummary": ["Havoc Eclipse + Dreamless is the current source build and no Hyper Carry-specific Echo exception is given."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/rover-havoc","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "support",
+      "echo": {"sonataSet":"Moonlit Clouds","mainEcho":"Impermanence Heron","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Aero DMG","Aero DMG > ATK%","ATK%","ATK%"],"context":"Support path uses the source's normal Moonlit Clouds + Impermanence Heron build."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SUPPORTIVE_DEFAULT_SET",
+      "evidenceSummary": ["Moonlit Clouds + Impermanence Heron is the source's supportive default; Sierra Gale is separately presented as the damage special set."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yangyang","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yangyang",
+      "modeKey": "damage",
+      "echo": {"sonataSet":"Sierra Gale","mainEcho":"Nightmare: Feilian Beringal","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Aero DMG","Aero DMG > ATK%","ATK%","ATK%"],"context":"Damage-focused path uses the source's special Sierra Gale set with Nightmare: Feilian Beringal as the first listed main Echo option."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_DAMAGE_SPECIAL_SET",
+      "evidenceSummary": ["Damage Yangyang uses Sierra Gale + Nightmare: Feilian Beringal; this remains separate from Support Moonlit."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yangyang","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "moonlit",
+      "echo": {"sonataSet":"Moonlit Clouds","mainEcho":"Impermanence Heron","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Electro DMG","Electro DMG > ATK%","ATK%","ATK%"],"context":"Moonlit source mode uses Moonlit Clouds + Impermanence Heron for higher single-character buffing."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SOURCE_SET_MODE",
+      "evidenceSummary": ["Moonlit mode is explicitly represented by Moonlit Clouds + Impermanence Heron."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yinlin","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "yinlin",
+      "modeKey": "empyrean",
+      "echo": {"sonataSet":"Empyrean Anthem","mainEcho":"Nightmare: Tempest Mephis","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Electro DMG","Electro DMG > ATK%","ATK%","ATK%"],"context":"Empyrean source mode uses Empyrean Anthem + Nightmare: Tempest Mephis for coordinated damage and on-field buffing."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SOURCE_SET_MODE",
+      "evidenceSummary": ["Empyrean mode is explicitly represented by Empyrean Anthem + Nightmare: Tempest Mephis."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/yinlin","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "baizhi",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Rejuvenating Glow","mainEcho":"Fallacy of No Return","costLayout":[4,3,3,1,1],"mainStats":["HP% / CRIT Rate","Energy Regen","Energy Regen","HP%","HP%"],"context":"Standard Support build uses Rejuvenating Glow + Fallacy of No Return; Moonlit is presented only as a special alternative."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_SUPPORT_DEFAULT_SET",
+      "evidenceSummary": ["Rejuvenating Glow + Fallacy of No Return is the source's primary Baizhi Support build."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/baizhi","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "brant",
+      "modeKey": "standard",
+      "echo": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["erGatedEchoSetFallbackMustBePreserved"],
+      "evidenceClass": "CONDITIONAL_SET_WITH_REQUIRED_FALLBACK",
+      "evidenceSummary": ["Tidebreaking Courage + Dragon of Dirge is explicitly Brant's best set only at 250%+ Energy Regen; Molten Rift + Nightmare: Inferno Rider is explicitly the fallback when ER requirements cannot be reached. One unconditional standard Echo object would flatten this source condition."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/brant","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "calcharo",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Void Thunder","mainEcho":"Nightmare: Thundering Mephis","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Electro DMG","Electro DMG > ATK%","ATK%","ATK%"],"context":"Current source primary build uses Void Thunder with Nightmare: Thundering Mephis as the first main Echo option."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_PRIMARY_SET_AND_MAIN_ECHO",
+      "evidenceSummary": ["Void Thunder + Nightmare: Thundering Mephis is the current primary Calcharo build."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/calcharo","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "cantarella",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Midnight Veil","mainEcho":"Lorelei","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Havoc DMG","Havoc DMG > Energy Regen","ATK%","ATK%"],"context":"Reviewed team context includes Phrolova, so the source's Havoc-team-specific Midnight Veil + Lorelei path applies; Moonlit remains the non-Havoc alternative."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "TEAM_CONDITION_RESOLVES_SOURCE_SET_SPLIT",
+      "evidenceSummary": ["Midnight Veil is explicitly best in all Havoc teams and Lorelei is Cantarella's best main Echo; the reviewed Phrolova context resolves the prior Havoc-vs-non-Havoc ambiguity."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/cantarella","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "carlotta",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Frosty Resolve","mainEcho":"Sentry Construct","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Glacio DMG","Glacio DMG ≥ ATK%","ATK%","ATK%"],"context":"Current source calls Frosty Resolve Carlotta's best set bar none and Sentry Construct its best main Echo."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_BEST_SET_AND_MAIN_ECHO",
+      "evidenceSummary": ["Frosty Resolve + Sentry Construct is explicitly the primary Carlotta build."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/carlotta","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "changli",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Molten Rift","mainEcho":"Nightmare: Inferno Rider","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Fusion DMG","ATK% ≥ Fusion DMG","ATK%","ATK%"],"context":"Current source primary build uses Molten Rift + Nightmare: Inferno Rider."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_PRIMARY_SET_AND_MAIN_ECHO",
+      "evidenceSummary": ["Molten Rift + Nightmare: Inferno Rider is the source primary Changli composition."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/changli","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "chisa",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Rejuvenating Glow","mainEcho":"Fallacy of No Return","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Havoc DMG","Havoc DMG ≥ ATK%","ATK%","ATK%"],"context":"Reviewed Aemeath + Denia team places Chisa in the third-slot Support use case; source says to leave her on Rejuvenating Glow as a third-slot Support, with Fallacy of No Return as its usual main Echo."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "EXPLICIT_TEAM_SLOT_SET_GUIDANCE",
+      "evidenceSummary": ["For the Aemeath Fusion Burst context Chisa is the third-slot Support; source guidance keeps third-slot Chisa on Rejuvenating Glow + Fallacy of No Return."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/chisa","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "chixia",
+      "modeKey": "standard",
+      "echo": {"sonataSet":"Molten Rift","mainEcho":"Nightmare: Inferno Rider","costLayout":[4,3,3,1,1],"mainStats":["CRIT Rate / CRIT DMG","Fusion DMG","Fusion DMG > ATK%","ATK%","ATK%"],"context":"Current source primary build uses Molten Rift + Nightmare: Inferno Rider; no Main-vs-Dual DPS set conflict is specified on Chixia's page."},
+      "reviewState": "REVIEWED",
+      "blockers": [],
+      "evidenceClass": "SHARED_SET_WITHOUT_MODE_CONFLICT",
+      "evidenceSummary": ["Molten Rift + Nightmare: Inferno Rider is the primary Chixia build despite the separate unresolved role/team mapping."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/chixia","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "encore",
+      "modeKey": "standard",
+      "echo": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["teamDependentEchoSetRequiresModeSplit"],
+      "evidenceClass": "TEAM_DEPENDENT_SET_SPLIT",
+      "evidenceSummary": ["Molten Rift is the standard Encore build, while Flaming Clawprint + Lioness of Glory is specifically recommended in Dual DPS teams with Changli or Brant and changes the required Forte usage. The old single standard mode does not resolve that playstyle/team split."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/encore","checkedAt":"2026-08-30"}
+    },
+    {
+      "characterId": "jianxin",
+      "modeKey": "standard",
+      "echo": null,
+      "reviewState": "BLOCKED",
+      "blockers": ["roleDependentMoonlitVsRejuvenatingSet"],
+      "evidenceClass": "ROLE_DEPENDENT_SET_SPLIT",
+      "evidenceSummary": ["The general build lists Moonlit Clouds + Impermanence Heron, but Support Jianxin explicitly uses Originite: Type IV to trigger 5P Rejuvenating Glow and the Support rotation requires keeping Rejuvenating active. The unresolved DPS/Hybrid/Support standard mode cannot safely choose one set."],
+      "source": {"label":"Prydwen current character build/profile","url":"https://www.prydwen.gg/wuthering-waves/characters/jianxin","checkedAt":"2026-08-30"}
+    }
+  ]
+}

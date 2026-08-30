@@ -36,13 +36,17 @@ export interface AeroErosionTargetSnapshot {
  * each action, so the model must not fabricate per-action timing.
  */
 export class AeroErosionTargetState {
+  readonly rotationSeconds: number;
+  readonly minimumPersistenceSeconds: number;
   private observedStacks = 0;
   private readonly applications: AeroErosionApplication[] = [];
 
   constructor(
-    readonly rotationSeconds: number,
-    readonly minimumPersistenceSeconds = AERO_EROSION_EXECUTION_REVIEW_20260830.minimumStackPersistenceSeconds,
+    rotationSeconds: number,
+    minimumPersistenceSeconds = AERO_EROSION_EXECUTION_REVIEW_20260830.minimumStackPersistenceSeconds,
   ) {
+    this.rotationSeconds = rotationSeconds;
+    this.minimumPersistenceSeconds = minimumPersistenceSeconds;
     if (!Number.isFinite(rotationSeconds) || rotationSeconds <= 0) {
       throw new Error(`Aero Erosion target state requires a positive finite rotation duration, got ${rotationSeconds}.`);
     }

@@ -35,9 +35,9 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
 
   const weaponTrigger = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   assert.ok(weaponTrigger);
-  assert.equal(weaponTrigger.profileCount, 4);
-  assert.equal(weaponTrigger.dependencyCount, 5);
-  assert.deepEqual(weaponTrigger.characterIds, ['carlotta', 'calcharo', 'ciaccona', 'lumi']);
+  assert.equal(weaponTrigger.profileCount, 5);
+  assert.equal(weaponTrigger.dependencyCount, 6);
+  assert.deepEqual(weaponTrigger.characterIds, ['calcharo', 'carlotta', 'ciaccona', 'iuno', 'lumi']);
 
   const outroTransfer = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'sonata:outro-transfer-adapter');
   assert.ok(outroTransfer);
@@ -49,8 +49,8 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   assert.equal(targetState.profileCount, 2);
   assert.deepEqual(targetState.characterIds, ['cartethyia', 'ciaccona']);
 
-  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
-  assert.equal(matrix.reusablePriorityQueue[1]?.syntacticPrimitiveKey, 'weapon:trigger-uptime-adapter');
+  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'weapon:trigger-uptime-adapter');
+  assert.equal(matrix.reusablePriorityQueue[1]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
   assert.equal(matrix.reusablePriorityQueue[2]?.syntacticPrimitiveKey, 'sonata:outro-transfer-adapter');
 });
 

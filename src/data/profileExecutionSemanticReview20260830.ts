@@ -33,6 +33,7 @@ export const DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830 = {
   effectId: 'DT-DEF',
   checkedAt: '2026-08-30',
   disposition: 'SOURCE_SEMANTICS_BLOCKED',
+  blockerId: 'BUG-011',
   sourceLabels: ['Wuthering Waves Wiki', 'Wutheringlab'],
   sourceUrls: [
     'https://wutheringwaves.fandom.com/wiki/Defier%27s_Thorn',

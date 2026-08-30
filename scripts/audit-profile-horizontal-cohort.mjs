@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { buildProfileCandidateReview } from './lib/profile-candidate-review.mjs';
 import { applyProfileModeContextRefresh } from './lib/profile-cohort-mode-context-refresh.mjs';
 import { applyProfileWeaponRefresh } from './lib/profile-cohort-weapon-refresh.mjs';
+import { applyProfileEchoSonataRefresh, buildEchoSonataCohortManifest } from './lib/profile-cohort-echo-sonata-refresh.mjs';
 import { buildProfileHorizontalCohort } from './lib/profile-horizontal-cohort.mjs';
 import { auditProfileReadiness } from '../src/profileReadinessRegistry.ts';
 
@@ -9,151 +10,134 @@ async function loadJson(relativePath) {
   return JSON.parse(await readFile(new URL(relativePath, import.meta.url), 'utf8'));
 }
 
+function exactCounts(present, missing, reviewed, blocked, pendingReview) {
+  return {sourceFieldsPresent: present, sourceFieldsMissing: missing, reviewed, blocked, pendingReview};
+}
+
+function assertPhase(cohort, phaseName, expected, label) {
+  const actual = cohort.phaseCounts[phaseName];
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+    throw new Error(`${label} ${phaseName} mismatch: expected ${JSON.stringify(expected)}, found ${JSON.stringify(actual)}.`);
+  }
+}
+
+function assertFailClosed(cohort, readiness, label) {
+  if (cohort.characterCount < 10 || cohort.characterCount > 20 || cohort.modeCount !== 20) {
+    throw new Error(`${label} must contain the fixed 15-Character / 20-mode horizontal cohort.`);
+  }
+  if (cohort.verificationStatus !== 'NOT_VERIFIED' || cohort.canonicalWriteAllowed !== false) {
+    throw new Error(`${label} must remain NOT_VERIFIED and fail-closed for canonical writes.`);
+  }
+  if (cohort.characters.some((character) => !readiness.profileSourcePendingIds.includes(character.characterId))) {
+    throw new Error(`${label} contains a Character that is no longer PROFILE_SOURCE_PENDING.`);
+  }
+  if (cohort.materializationCandidates.some((candidate) => candidate.verificationStatus !== 'NOT_VERIFIED' || candidate.canonicalWriteAllowed !== false)) {
+    throw new Error(`${label} materialization candidates must remain NOT_VERIFIED and non-canonical.`);
+  }
+  if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
+    throw new Error(`${label} must not introduce a defaultCandidate selection.`);
+  }
+  if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.STATS_ER.data.erBand !== null || mode.phases.STATS_ER.data.numericErInvented !== false))) {
+    throw new Error(`${label} STATS_ER must not infer numeric ER before its fresh review.`);
+  }
+  if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.SOURCE_ROTATION.data !== null))) {
+    throw new Error(`${label} SOURCE_ROTATION must remain null before its fresh review.`);
+  }
+  for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
+    assertPhase(cohort, phaseName, exactCounts(20, 0, 0, 0, 20), label);
+  }
+}
+
+function buildCohort(input, manifest, readiness) {
+  const candidateReview = buildProfileCandidateReview(input);
+  return buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
+}
+
 const sourceInput = await loadJson('../data/research/profile-source-roster-2026-08-29.json');
-const manifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
-const candidateReview = buildProfileCandidateReview(sourceInput);
-const readiness = auditProfileReadiness();
-const cohort = buildProfileHorizontalCohort(candidateReview, manifest, readiness.profileSourcePendingIds);
-
-if (cohort.characterCount < 10 || cohort.characterCount > 20) {
-  throw new Error(`Horizontal cohort must contain 10-20 Characters, found ${cohort.characterCount}.`);
-}
-if (cohort.verificationStatus !== 'NOT_VERIFIED' || cohort.canonicalWriteAllowed !== false) {
-  throw new Error('Horizontal cohort must remain NOT_VERIFIED and fail-closed for canonical writes.');
-}
-if (cohort.characters.some((character) => !readiness.profileSourcePendingIds.includes(character.characterId))) {
-  throw new Error('Horizontal cohort contains a Character that is no longer PROFILE_SOURCE_PENDING.');
-}
-if (cohort.materializationCandidates.some((candidate) => candidate.verificationStatus !== 'NOT_VERIFIED' || candidate.canonicalWriteAllowed !== false)) {
-  throw new Error('Horizontal materialization candidates must remain NOT_VERIFIED and non-canonical.');
-}
-
-const blockedSourcePhases = [
-  'MODE_TEAM_CONTEXT',
-  'WEAPON',
-  'ECHO_SONATA',
-  'STATS_ER',
-  'SOURCE_ROTATION',
-];
-for (const phaseName of blockedSourcePhases) {
-  const counts = cohort.phaseCounts[phaseName];
-  if (counts.pendingReview !== 0 || counts.reviewed !== 0 || counts.blocked !== cohort.modeCount || counts.sourceFieldsMissing !== cohort.modeCount) {
-    throw new Error(`Cohort 01 ${phaseName} must park missing checkpoint data without false review approval: ${JSON.stringify(counts)}.`);
-  }
-}
-
-const expectedAutoPark = ['WEAPON', 'ECHO_SONATA', 'STATS_ER', 'SOURCE_ROTATION'];
-if (JSON.stringify(cohort.autoParkMissingSourcePhases) !== JSON.stringify(expectedAutoPark)) {
-  throw new Error(`Cohort 01 autoParkMissingSourcePhases mismatch: ${JSON.stringify(cohort.autoParkMissingSourcePhases)}.`);
-}
-for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
-  const counts = cohort.phaseCounts[phaseName];
-  if (counts.pendingReview !== cohort.modeCount || counts.reviewed !== 0 || counts.blocked !== 0) {
-    throw new Error(`Cohort 01 ${phaseName} must remain pending until source-profile blockers are resolved: ${JSON.stringify(counts)}.`);
-  }
-}
-if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
-  throw new Error('Cohort 01 has no source-backed default decision yet; defaultCandidate must remain null for every staged mode.');
-}
-if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.STATS_ER.data.erBand !== null || mode.phases.STATS_ER.data.numericErInvented !== false))) {
-  throw new Error('Cohort 01 STATS_ER must not infer a numeric ER target from absent checkpoint data.');
-}
-if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.SOURCE_ROTATION.data !== null))) {
-  throw new Error('Cohort 01 SOURCE_ROTATION must stay null when the checkpoint contains no source sequence.');
-}
-
+const baseManifest = await loadJson('../data/research/profile-horizontal-cohort-01-2026-08-29.json');
 const modeRefresh = await loadJson('../data/research/profile-cohort-01-mode-context-refresh-2026-08-30.json');
-const modeRefreshManifest = await loadJson('../data/research/profile-horizontal-cohort-01-mode-context-refresh-2026-08-30.json');
-const appliedModeRefresh = applyProfileModeContextRefresh(sourceInput, modeRefresh);
-const modeRefreshedCandidateReview = buildProfileCandidateReview(appliedModeRefresh.input);
-const modeRefreshedCohort = buildProfileHorizontalCohort(modeRefreshedCandidateReview, modeRefreshManifest, readiness.profileSourcePendingIds);
-
-if (JSON.stringify(appliedModeRefresh.summary) !== JSON.stringify({ entryCount: 20, reviewed: 10, blocked: 10, defaultSelections: 0 })) {
-  throw new Error(`Cohort 01 mode/context refresh summary mismatch: ${JSON.stringify(appliedModeRefresh.summary)}.`);
-}
-const refreshedModeContext = modeRefreshedCohort.phaseCounts.MODE_TEAM_CONTEXT;
-if (
-  refreshedModeContext.sourceFieldsPresent !== 10
-  || refreshedModeContext.sourceFieldsMissing !== 10
-  || refreshedModeContext.reviewed !== 10
-  || refreshedModeContext.blocked !== 10
-  || refreshedModeContext.pendingReview !== 0
-) {
-  throw new Error(`Cohort 01 refreshed MODE_TEAM_CONTEXT must be 10 reviewed / 10 blocked: ${JSON.stringify(refreshedModeContext)}.`);
-}
-if (modeRefreshedCohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
-  throw new Error('Cohort 01 mode/context refresh must not select a universal default for any mode.');
-}
-if (modeRefreshedCohort.verificationStatus !== 'NOT_VERIFIED' || modeRefreshedCohort.canonicalWriteAllowed !== false) {
-  throw new Error('Mode-refreshed Cohort 01 must remain NOT_VERIFIED and non-canonical.');
-}
-if (modeRefreshedCohort.materializationCandidates.some((candidate) => candidate.canonicalWriteAllowed !== false || candidate.verificationStatus !== 'NOT_VERIFIED')) {
-  throw new Error('Mode-refreshed Cohort 01 materialization candidates must remain fail-closed.');
-}
-for (const phaseName of expectedAutoPark) {
-  const counts = modeRefreshedCohort.phaseCounts[phaseName];
-  if (counts.blocked !== 20 || counts.reviewed !== 0 || counts.pendingReview !== 0) {
-    throw new Error(`Mode-refreshed Cohort 01 ${phaseName} must remain mechanically parked pending its own source refresh: ${JSON.stringify(counts)}.`);
-  }
-}
-for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
-  const counts = modeRefreshedCohort.phaseCounts[phaseName];
-  if (counts.pendingReview !== 20 || counts.reviewed !== 0 || counts.blocked !== 0) {
-    throw new Error(`Mode-refreshed Cohort 01 ${phaseName} must remain pending: ${JSON.stringify(counts)}.`);
-  }
-}
-
+const modeManifest = await loadJson('../data/research/profile-horizontal-cohort-01-mode-context-refresh-2026-08-30.json');
 const weaponRefresh = await loadJson('../data/research/profile-cohort-01-weapon-refresh-2026-08-30.json');
-const weaponRefreshManifest = await loadJson('../data/research/profile-horizontal-cohort-01-weapon-refresh-2026-08-30.json');
-const appliedWeaponRefresh = applyProfileWeaponRefresh(appliedModeRefresh.input, weaponRefresh);
-const weaponRefreshedCandidateReview = buildProfileCandidateReview(appliedWeaponRefresh.input);
-const weaponRefreshedCohort = buildProfileHorizontalCohort(weaponRefreshedCandidateReview, weaponRefreshManifest, readiness.profileSourcePendingIds);
+const weaponManifest = await loadJson('../data/research/profile-horizontal-cohort-01-weapon-refresh-2026-08-30.json');
+const echoRefresh = await loadJson('../data/research/profile-cohort-01-echo-sonata-refresh-2026-08-30.json');
+const readiness = auditProfileReadiness();
 
-if (JSON.stringify(appliedWeaponRefresh.summary) !== JSON.stringify({ entryCount: 20, reviewed: 18, blocked: 2, stagedWeapons: 18 })) {
-  throw new Error(`Cohort 01 weapon refresh summary mismatch: ${JSON.stringify(appliedWeaponRefresh.summary)}.`);
+const baseCohort = buildCohort(sourceInput, baseManifest, readiness);
+assertFailClosed(baseCohort, readiness, 'Base Cohort 01');
+for (const phaseName of ['MODE_TEAM_CONTEXT', 'WEAPON', 'ECHO_SONATA', 'STATS_ER', 'SOURCE_ROTATION']) {
+  assertPhase(baseCohort, phaseName, exactCounts(0, 20, 0, 20, 0), 'Base Cohort 01');
 }
-const weaponModeContext = weaponRefreshedCohort.phaseCounts.MODE_TEAM_CONTEXT;
-if (JSON.stringify(weaponModeContext) !== JSON.stringify(refreshedModeContext)) {
-  throw new Error(`WEAPON refresh changed MODE_TEAM_CONTEXT state: ${JSON.stringify(weaponModeContext)}.`);
+if (JSON.stringify(baseCohort.autoParkMissingSourcePhases) !== JSON.stringify(['WEAPON', 'ECHO_SONATA', 'STATS_ER', 'SOURCE_ROTATION'])) {
+  throw new Error(`Base Cohort 01 autoParkMissingSourcePhases mismatch: ${JSON.stringify(baseCohort.autoParkMissingSourcePhases)}.`);
 }
-const refreshedWeapon = weaponRefreshedCohort.phaseCounts.WEAPON;
-if (
-  refreshedWeapon.sourceFieldsPresent !== 18
-  || refreshedWeapon.sourceFieldsMissing !== 2
-  || refreshedWeapon.reviewed !== 18
-  || refreshedWeapon.blocked !== 2
-  || refreshedWeapon.pendingReview !== 0
-) {
-  throw new Error(`Cohort 01 refreshed WEAPON must be 18 reviewed / 2 blocked: ${JSON.stringify(refreshedWeapon)}.`);
+
+const appliedMode = applyProfileModeContextRefresh(sourceInput, modeRefresh);
+if (JSON.stringify(appliedMode.summary) !== JSON.stringify({entryCount: 20, reviewed: 10, blocked: 10, defaultSelections: 0})) {
+  throw new Error(`Cohort 01 mode/context refresh summary mismatch: ${JSON.stringify(appliedMode.summary)}.`);
 }
-if (weaponRefreshedCohort.verificationStatus !== 'NOT_VERIFIED' || weaponRefreshedCohort.canonicalWriteAllowed !== false) {
-  throw new Error('Weapon-refreshed Cohort 01 must remain NOT_VERIFIED and non-canonical.');
+const modeCohort = buildCohort(appliedMode.input, modeManifest, readiness);
+assertFailClosed(modeCohort, readiness, 'Mode-refreshed Cohort 01');
+assertPhase(modeCohort, 'MODE_TEAM_CONTEXT', exactCounts(10, 10, 10, 10, 0), 'Mode-refreshed Cohort 01');
+for (const phaseName of ['WEAPON', 'ECHO_SONATA', 'STATS_ER', 'SOURCE_ROTATION']) {
+  assertPhase(modeCohort, phaseName, exactCounts(0, 20, 0, 20, 0), 'Mode-refreshed Cohort 01');
 }
-if (weaponRefreshedCohort.materializationCandidates.some((candidate) => candidate.canonicalWriteAllowed !== false || candidate.verificationStatus !== 'NOT_VERIFIED')) {
-  throw new Error('Weapon-refreshed Cohort 01 materialization candidates must remain fail-closed.');
+
+const appliedWeapon = applyProfileWeaponRefresh(appliedMode.input, weaponRefresh);
+if (JSON.stringify(appliedWeapon.summary) !== JSON.stringify({entryCount: 20, reviewed: 18, blocked: 2, stagedWeapons: 18})) {
+  throw new Error(`Cohort 01 weapon refresh summary mismatch: ${JSON.stringify(appliedWeapon.summary)}.`);
 }
-if (weaponRefreshedCohort.characters.some((character) => character.modes.some((mode) => mode.phases.MODE_TEAM_CONTEXT.data.defaultCandidate !== null))) {
-  throw new Error('WEAPON refresh must not introduce a mode/default selection.');
-}
+const weaponCohort = buildCohort(appliedWeapon.input, weaponManifest, readiness);
+assertFailClosed(weaponCohort, readiness, 'Weapon-refreshed Cohort 01');
+assertPhase(weaponCohort, 'MODE_TEAM_CONTEXT', exactCounts(10, 10, 10, 10, 0), 'Weapon-refreshed Cohort 01');
+assertPhase(weaponCohort, 'WEAPON', exactCounts(18, 2, 18, 2, 0), 'Weapon-refreshed Cohort 01');
 for (const phaseName of ['ECHO_SONATA', 'STATS_ER', 'SOURCE_ROTATION']) {
-  const counts = weaponRefreshedCohort.phaseCounts[phaseName];
-  if (counts.blocked !== 20 || counts.reviewed !== 0 || counts.pendingReview !== 0) {
-    throw new Error(`Weapon-refreshed Cohort 01 ${phaseName} must remain mechanically parked: ${JSON.stringify(counts)}.`);
-  }
+  assertPhase(weaponCohort, phaseName, exactCounts(0, 20, 0, 20, 0), 'Weapon-refreshed Cohort 01');
 }
-for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
-  const counts = weaponRefreshedCohort.phaseCounts[phaseName];
-  if (counts.pendingReview !== 20 || counts.reviewed !== 0 || counts.blocked !== 0) {
-    throw new Error(`Weapon-refreshed Cohort 01 ${phaseName} must remain pending: ${JSON.stringify(counts)}.`);
+
+const appliedEcho = applyProfileEchoSonataRefresh(appliedWeapon.input, echoRefresh);
+if (JSON.stringify(appliedEcho.summary) !== JSON.stringify({entryCount: 20, reviewed: 17, blocked: 3, stagedEchoes: 17})) {
+  throw new Error(`Cohort 01 Echo/Sonata refresh summary mismatch: ${JSON.stringify(appliedEcho.summary)}.`);
+}
+const echoManifest = buildEchoSonataCohortManifest(
+  weaponManifest,
+  echoRefresh,
+  'data/research/profile-cohort-01-echo-sonata-refresh-2026-08-30.json',
+);
+if (JSON.stringify(echoManifest.autoParkMissingSourcePhases) !== JSON.stringify(['STATS_ER', 'SOURCE_ROTATION'])) {
+  throw new Error(`Echo/Sonata manifest must only leave STATS_ER and SOURCE_ROTATION auto-parked: ${JSON.stringify(echoManifest.autoParkMissingSourcePhases)}.`);
+}
+const echoCohort = buildCohort(appliedEcho.input, echoManifest, readiness);
+assertFailClosed(echoCohort, readiness, 'Echo-refreshed Cohort 01');
+assertPhase(echoCohort, 'MODE_TEAM_CONTEXT', exactCounts(10, 10, 10, 10, 0), 'Echo-refreshed Cohort 01');
+assertPhase(echoCohort, 'WEAPON', exactCounts(18, 2, 18, 2, 0), 'Echo-refreshed Cohort 01');
+assertPhase(echoCohort, 'ECHO_SONATA', exactCounts(17, 3, 17, 3, 0), 'Echo-refreshed Cohort 01');
+for (const phaseName of ['STATS_ER', 'SOURCE_ROTATION']) {
+  assertPhase(echoCohort, phaseName, exactCounts(0, 20, 0, 20, 0), 'Echo-refreshed Cohort 01');
+}
+
+const blockedEchoKeys = new Set(['brant:standard', 'encore:standard', 'jianxin:standard']);
+for (const character of echoCohort.characters) {
+  for (const mode of character.modes) {
+    const key = `${character.characterId}:${mode.modeKey}`;
+    const echo = mode.phases.ECHO_SONATA.data;
+    if (blockedEchoKeys.has(key)) {
+      if (mode.phases.ECHO_SONATA.reviewState !== 'BLOCKED' || echo !== null) {
+        throw new Error(`${key} must remain Echo/Sonata BLOCKED with null data.`);
+      }
+      continue;
+    }
+    if (mode.phases.ECHO_SONATA.reviewState !== 'REVIEWED' || echo == null) {
+      throw new Error(`${key} must have reviewed Echo/Sonata data.`);
+    }
+    if (echo.costLayout.length !== 5 || echo.costLayout.reduce((sum, value) => sum + value, 0) !== 12 || echo.mainStats.length !== 5) {
+      throw new Error(`${key} has an invalid staged five-Echo COST-12 recommendation.`);
+    }
   }
 }
 
-console.log(`Horizontal profile cohort base checkpoint: ${cohort.characterCount} Characters / ${cohort.modeCount} modes`);
-console.log(`Base parked blockers: ${cohort.parkedBlockerCount}`);
-for (const [phase, counts] of Object.entries(cohort.phaseCounts)) {
-  console.log(`BASE ${phase}: present=${counts.sourceFieldsPresent}, missing=${counts.sourceFieldsMissing}, reviewed=${counts.reviewed}, blocked=${counts.blocked}, pending=${counts.pendingReview}`);
-}
-console.log(`Mode/context refresh: reviewed=${appliedModeRefresh.summary.reviewed}, blocked=${appliedModeRefresh.summary.blocked}`);
-console.log(`REFRESH MODE_TEAM_CONTEXT: present=${refreshedModeContext.sourceFieldsPresent}, missing=${refreshedModeContext.sourceFieldsMissing}, reviewed=${refreshedModeContext.reviewed}, blocked=${refreshedModeContext.blocked}, pending=${refreshedModeContext.pendingReview}`);
-console.log(`Weapon refresh: reviewed=${appliedWeaponRefresh.summary.reviewed}, blocked=${appliedWeaponRefresh.summary.blocked}`);
-console.log(`REFRESH WEAPON: present=${refreshedWeapon.sourceFieldsPresent}, missing=${refreshedWeapon.sourceFieldsMissing}, reviewed=${refreshedWeapon.reviewed}, blocked=${refreshedWeapon.blocked}, pending=${refreshedWeapon.pendingReview}`);
+console.log(`Horizontal profile cohort: ${echoCohort.characterCount} Characters / ${echoCohort.modeCount} modes`);
+console.log(`MODE_TEAM_CONTEXT refresh: reviewed=${echoCohort.phaseCounts.MODE_TEAM_CONTEXT.reviewed}, blocked=${echoCohort.phaseCounts.MODE_TEAM_CONTEXT.blocked}`);
+console.log(`WEAPON refresh: reviewed=${echoCohort.phaseCounts.WEAPON.reviewed}, blocked=${echoCohort.phaseCounts.WEAPON.blocked}`);
+console.log(`ECHO_SONATA refresh: reviewed=${echoCohort.phaseCounts.ECHO_SONATA.reviewed}, blocked=${echoCohort.phaseCounts.ECHO_SONATA.blocked}`);
+console.log(`STATS_ER parked: ${echoCohort.phaseCounts.STATS_ER.blocked}`);
+console.log(`SOURCE_ROTATION parked: ${echoCohort.phaseCounts.SOURCE_ROTATION.blocked}`);

@@ -8,12 +8,14 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Live registry-derived readiness on this tranche head is:
+Live registry-derived readiness on `main` after PR #126 is:
 
-- **24 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **37 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **28 `PROFILE_SOURCE_PENDING`**;
+- **15 `PROFILE_SOURCE_PENDING`**;
 - **2 `DPS_READY`** — Augusta and Ciaccona.
+
+PR #126 deterministically materialized 13 reviewer-approved profile packages from the exact green Profile Source Extract checkpoint. The semantic review covered all 24 then-non-raw-blocked `PROFILE_SOURCE_PENDING` Characters: **13 were approved** and **11 were explicitly parked** rather than receiving invented team/mode/default/rotation truth. Four additional current profile-source rows remain blocked by raw/intrinsic preflight: Mornye, Qingxiao, Rover (Electro) and Suisui.
 
 Canonical backward-impact / execution inventory is:
 
@@ -54,6 +56,8 @@ Preserve the separation between raw game/source data, Character Mechanics, Weapo
 ## Composable profiles
 
 Independent Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset catalogs are live and cross-validated. The candidate/profile pipeline remains fail closed: extraction/staging cannot approve semantic truth, `SOURCE_SEQUENCE_ONLY` never implies timing or uptime, readiness is registry-derived, and ambiguous source truth stays pending instead of receiving defaults.
+
+The Profile Source Import Accelerator has now completed its first roster-wide throughput pass and the approved horizontal subset is permanently reproducible in-repo. `data/research/profile-horizontal-source-candidates-2026-08-30.json` remains `CANDIDATE_ONLY / NOT_VERIFIED`, the separate 24-row semantic review owns approval decisions, and `audit:profile-horizontal-green-lane` regenerates the approved subset plus canonical TypeScript and requires byte-identical output. The original source checkpoint is pinned to workflow run `33327547829`, head `dd13cbdbd4e1010179b2004b0d4baf650651ea6e`, artifact `9736802750`, SHA256 `04663fefac62141f6b0d82b15d28d32a3e77aedfad4d89d7cc46830ca8ef365b`.
 
 ## Shared execution primitives and exact dependency closure
 
@@ -154,11 +158,13 @@ A final PR head intended for merge must pass source/raw/profile audits, Profile 
 - PR #121 — source-safe Fleurdelys character restriction.
 - PR #123 — shared Aero Erosion state, Ciaccona executable rotation/freeze, Cartethyia reduced to two genuine blockers.
 - PR #124 tranche — exact Fleurdelys Rank-5 attack data, reusable `echo-active-damage-v1`, Rover source-only closure review and registry-derived execution-doc sync. Rover is intentionally not promoted.
+- PR #125 — Profile Source Import Accelerator exact green extraction checkpoint: 28/28 then-pending Characters fetched into `CANDIDATE_ONLY / NOT_VERIFIED` source data with provenance; automation did not approve semantic truth.
+- PR #126 — horizontal semantic closure over all 24 non-raw-blocked pending profiles: 13 canonical VERIFIED packages materialized deterministically, 11 genuine ambiguities parked, readiness moved from 24→37 `PROFILE_COMPLETE_PENDING_FREEZE` and 28→15 `PROFILE_SOURCE_PENDING`; `DPS_READY` remains 2.
 
 ## Next work
 
-1. Merge this closure tranche once the exact final head passes the full Verify/Export/test/build/browser/diff surface.
+1. Resolve the remaining **15 `PROFILE_SOURCE_PENDING`** rows horizontally: 11 semantic team/mode/default/rotation ambiguities plus four raw/intrinsic preflight blockers (Mornye, Qingxiao, Rover (Electro), Suisui).
 2. Keep BUG-008/009/010/011/012 parked until stronger source or an explicitly approved measurement method resolves them.
-3. Start the **Profile Source Import Accelerator** on a new post-merge branch: automate roster-wide CANDIDATE_ONLY / NOT_VERIFIED extraction of source-available build fields and provenance so manual work focuses on ambiguity rather than transcription.
-4. In parallel, choose further build-ready DPS closures by shortest verified dependency path plus reuse overlap.
+3. For the 11 semantic rows, create explicit mode/team/default review decisions instead of broad generic defaults; use the deterministic candidate pipeline for build fields and preserve ambiguous rows as pending.
+4. In parallel, choose the next build-ready DPS closures from the **37 `PROFILE_COMPLETE_PENDING_FREEZE`** profiles by shortest verified dependency path plus reusable execution overlap.
 5. Never fabricate teams, defaults, ER requirements, rotations, mechanics, trigger uptime or timestamps.

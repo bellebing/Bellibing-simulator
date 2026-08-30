@@ -219,9 +219,12 @@ export function evaluateCiacconaBasicRotation(build: CiacconaBuildInputs): Ciacc
   const rotationSeconds = CIACCONA_BASIC_ROTATION_EXECUTION_REVIEW_20260830.rotationSeconds;
   const target = new AeroErosionTargetState(rotationSeconds);
   const woodland = new WoodlandAriaAeroExecutionState(target, build.weaponRank);
+  const gustsTeamAero = GUSTS_TEAM_AERO;
+  const gustsSelfAero = GUSTS_SELF_AERO;
+  if (!gustsTeamAero || !gustsSelfAero) throw new Error('Missing Gusts of Welkin Aero effects.');
 
-  if (!timedEffectCoversRemainingShortRotation(rotationSeconds, GUSTS_TEAM_AERO.durationSeconds)
-      || !timedEffectCoversRemainingShortRotation(rotationSeconds, GUSTS_SELF_AERO.durationSeconds)) {
+  if (!timedEffectCoversRemainingShortRotation(rotationSeconds, gustsTeamAero.durationSeconds)
+      || !timedEffectCoversRemainingShortRotation(rotationSeconds, gustsSelfAero.durationSeconds)) {
     throw new Error('Gusts of Welkin 5-piece windows do not prove full Ciaccona short-rotation coverage.');
   }
 

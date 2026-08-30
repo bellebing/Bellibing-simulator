@@ -11,6 +11,7 @@ import argparse
 import json
 import pathlib
 import sys
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import date
 from typing import Any, Callable, TypeVar
 from urllib.parse import urlparse
@@ -25,7 +26,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--vendor-parent", default=".vendor")
     parser.add_argument("--upstream-commit", required=True)
     parser.add_argument("--checked-at", default=date.today().isoformat())
-    return parser.parse_args()
+    parser.add_argument("--workers", type=int, default=3)
+    args = parser.parse_args()
+    if args.workers < 1 or args.workers > 4:
+        parser.error("--workers must be between 1 and 4")
+    return args
 
 
 def slug_from_url(url: str, fallback: str) -> str:
@@ -45,6 +50,26 @@ def dict_values(value: Any) -> list[Any]:
     return list(value.values()) if isinstance(value, dict) else []
 
 
+def failed_character(row: dict[str, Any], checked_at: str, warning: str) -> dict[str, Any]:
+    return {
+        "characterId": row["characterId"],
+        "sourceUrl": row["sourceUrl"],
+        "checkedAt": checked_at,
+        "fetchStatus": "SOURCE_FETCH_FAILED",
+        "displayName": None,
+        "roleLeads": [],
+        "weapons": [],
+        "echoRecommendations": [],
+        "mainStats": [],
+        "substatPriorityText": "",
+        "endgameStatLines": [],
+        "energyRegenText": [],
+        "teamLeads": [],
+        "rotationLeads": [],
+        "warnings": [warning],
+    }
+
+
 def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[str, Any]:
     character_id = row["characterId"]
     source_url = row["sourceUrl"]
@@ -54,23 +79,7 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
     try:
         char = chars.get(slug)
     except Exception as exc:
-        return {
-            "characterId": character_id,
-            "sourceUrl": source_url,
-            "checkedAt": checked_at,
-            "fetchStatus": "SOURCE_FETCH_FAILED",
-            "displayName": None,
-            "roleLeads": [],
-            "weapons": [],
-            "echoRecommendations": [],
-            "mainStats": [],
-            "substatPriorityText": "",
-            "endgameStatLines": [],
-            "energyRegenText": [],
-            "teamLeads": [],
-            "rotationLeads": [],
-            "warnings": [f"page: {type(exc).__name__}: {exc}"],
-        }
+        return failed_character(row, checked_at, f"page: {type(exc).__name__}: {exc}")
 
     display_name = safe_read("displayName", warnings, lambda: char.name, None)
     role_leads = safe_read("roles", warnings, lambda: dict_values(char.role.all), [])
@@ -142,26 +151,82 @@ def extract_character(chars: Any, row: dict[str, Any], checked_at: str) -> dict[
     }
 
 
+def extract_chunk(
+    rows: list[dict[str, Any]],
+    checked_at: str,
+    vendor_parent: str,
+) -> list[dict[str, Any]]:
+    if vendor_parent not in sys.path:
+        sys.path.insert(0, vendor_parent)
+    from ww_prydwen_api import Characters  # type: ignore
+
+    extracted: list[dict[str, Any]] = []
+    with Characters() as chars:
+        for row in rows:
+            result = extract_character(chars, row, checked_at)
+            extracted.append(result)
+            print(f"{row['characterId']}: {result['fetchStatus']}", flush=True)
+    return extracted
+
+
+def partition_rows(rows: list[dict[str, Any]], worker_count: int) -> list[list[dict[str, Any]]]:
+    return [rows[index::worker_count] for index in range(worker_count)]
+
+
+def extract_roster(
+    rows: list[dict[str, Any]],
+    checked_at: str,
+    vendor_parent: pathlib.Path,
+    workers: int,
+) -> list[dict[str, Any]]:
+    if not rows:
+        return []
+
+    worker_count = min(workers, len(rows))
+    if worker_count == 1:
+        return extract_chunk(rows, checked_at, str(vendor_parent))
+
+    chunks = partition_rows(rows, worker_count)
+    by_character: dict[str, dict[str, Any]] = {}
+    with ProcessPoolExecutor(max_workers=worker_count) as pool:
+        future_to_chunk = {
+            pool.submit(extract_chunk, chunk, checked_at, str(vendor_parent)): chunk
+            for chunk in chunks
+        }
+        for future in as_completed(future_to_chunk):
+            chunk = future_to_chunk[future]
+            try:
+                results = future.result()
+            except Exception as exc:
+                warning = f"worker: {type(exc).__name__}: {exc}"
+                results = [failed_character(row, checked_at, warning) for row in chunk]
+                for row in results:
+                    print(f"{row['characterId']}: SOURCE_FETCH_FAILED ({warning})", flush=True)
+            for result in results:
+                by_character[result["characterId"]] = result
+
+    return [
+        by_character.get(
+            row["characterId"],
+            failed_character(row, checked_at, "worker: result missing after extraction"),
+        )
+        for row in rows
+    ]
+
+
 def main() -> None:
     args = parse_args()
     root = pathlib.Path(__file__).resolve().parents[1]
     input_path = (root / args.input).resolve()
     output_path = (root / args.output).resolve()
     vendor_parent = (root / args.vendor_parent).resolve()
-    sys.path.insert(0, str(vendor_parent))
-
-    from ww_prydwen_api import Characters  # type: ignore  # vendored at workflow runtime
 
     backlog = json.loads(input_path.read_text(encoding="utf-8"))
     if backlog.get("kind") != "PROFILE_SOURCE_BACKLOG":
         raise ValueError("input must be PROFILE_SOURCE_BACKLOG")
 
-    characters: list[dict[str, Any]] = []
-    with Characters() as chars:
-        for row in backlog["characters"]:
-            characters.append(extract_character(chars, row, args.checked_at))
-            status = characters[-1]["fetchStatus"]
-            print(f"{row['characterId']}: {status}", flush=True)
+    rows = backlog["characters"]
+    characters = extract_roster(rows, args.checked_at, vendor_parent, args.workers)
 
     snapshot = {
         "kind": "PRYDWEN_PROFILE_SOURCE_SNAPSHOT",
@@ -175,6 +240,7 @@ def main() -> None:
             "extractorReferenceLicense": "MIT",
             "backlogRegistrySource": backlog.get("registrySource"),
             "backlogGeneratedAt": backlog.get("generatedAt"),
+            "workerCount": min(args.workers, len(rows)),
         },
         "characters": characters,
         "notes": [
@@ -182,6 +248,7 @@ def main() -> None:
             "Role labels, ranked weapons, Echo/Sonata recommendations, main-stat text, substat priority and endgame/ER text are source leads only.",
             "The current extractor does not provide Teams or Gameplay/Rotation; those arrays remain empty rather than being fabricated.",
             "No numeric ER band, canonical default, team, rotation, mechanic, trigger timing or uptime is inferred.",
+            "Roster fetches are sharded across independent browser workers; output order remains registry-derived.",
         ],
     }
 

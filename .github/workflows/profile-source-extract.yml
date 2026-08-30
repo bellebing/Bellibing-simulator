@@ -50,7 +50,8 @@ jobs:
             --input data/generated/profile-source-backlog.json \
             --output data/generated/prydwen-profile-source-snapshot.json \
             --vendor-parent .vendor \
-            --upstream-commit "$UPSTREAM_SHA"
+            --upstream-commit "$UPSTREAM_SHA" \
+            --workers 3
 
       - name: Generate review disposition
         run: |

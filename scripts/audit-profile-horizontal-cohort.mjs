@@ -43,9 +43,8 @@ function assertFailClosed(cohort, readiness, label) {
   if (cohort.characters.some((character) => character.modes.some((mode) => mode.phases.SOURCE_ROTATION.data !== null))) {
     throw new Error(`${label} SOURCE_ROTATION must remain null before its fresh review.`);
   }
-  for (const phaseName of ['EXECUTION_ADAPTERS', 'PROMOTION_FREEZE']) {
-    assertPhase(cohort, phaseName, exactCounts(20, 0, 0, 0, 20), label);
-  }
+  assertPhase(cohort, 'EXECUTION_ADAPTERS', exactCounts(20, 0, 0, 0, 20), label);
+  assertPhase(cohort, 'PROMOTION_FREEZE', exactCounts(0, 0, 0, 0, 20), label);
 }
 
 function buildCohort(input, manifest, readiness) {

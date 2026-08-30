@@ -31,7 +31,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['augusta', 'augusta-standard', '2026-08-29', 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE'],
       ['aalto', 'aalto-hybrid-jiyan', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['cartethyia', 'cartethyia-aero-erosion', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
-      ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['ciaccona', 'ciaccona-cartethyia-aero', '2026-08-29', 'REVIEWED_NO_BLOCKING_PROFILE_CHANGE'],
       ['rover-aero', 'rover-aero-cartethyia-ciaccona', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['iuno', 'iuno-augusta-hybrid', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['the-shorekeeper', 'shorekeeper-augusta-support', '2026-08-29', 'REVIEWED_WITH_PENDING_EXECUTION'],

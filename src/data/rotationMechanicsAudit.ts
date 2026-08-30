@@ -46,7 +46,7 @@ export function auditRotationMechanicDependencies(
     } else if (engine.characterId !== rotation.characterId) {
       issues.push({ factId: '*', issue: `engine model belongs to ${engine.characterId}` });
     }
-  } else if (rotation.engineModelId !== null) {
+  } else if (rotation.engineModelId != null) {
     issues.push({ factId: '*', issue: 'SOURCE_SEQUENCE_ONLY rotation cannot declare engineModelId' });
   }
 

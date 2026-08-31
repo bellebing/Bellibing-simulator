@@ -11,9 +11,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 63);
+  assert.equal(ECHO_EFFECT_MODELS.length, 64);
   assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
-  assert.equal(registry.byId.size, 63);
+  assert.equal(registry.byId.size, 64);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -33,6 +33,16 @@ test('Augusta main Echo passives are isolated from Crown of Valor and active dam
   ]);
   assert.ok(effects.every((row) => row.activation === 'MAIN_SLOT_PASSIVE'));
   assert.ok(effects.every((row) => row.mechanicsStatus === 'ALREADY_MODELED_UPSTREAM'));
+});
+
+test('Corrosaurus main-slot keeps exact Fusion and Echo Skill bonuses as separate Echo effects', () => {
+  const effects = getEchoEffects(registry, 'echo-60001205');
+  assert.deepEqual(effects.map((row) => [row.effectId, row.statOrEffect, row.value]), [
+    ['ECHO_60001205_ECHO_SKILL_DMG', 'Echo Skill DMG Bonus', 0.20],
+    ['ECHO_60001205_FUSION_DMG', 'Fusion DMG Bonus', 0.12],
+  ]);
+  assert.ok(effects.every((row) => row.activation === 'MAIN_SLOT_PASSIVE'));
+  assert.ok(effects.every((row) => row.appliesTo === 'WIELDER'));
 });
 
 test('Thousand-Puppet Pavilion keeps its main-slot bonuses separate from Sonata bonuses', () => {

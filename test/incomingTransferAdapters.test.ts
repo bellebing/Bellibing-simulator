@@ -240,6 +240,6 @@ test('canonical Sonata outro-transfer fanout is fully reviewed without admitting
 test('canonical Impermanence Heron fanout remains pending despite the shared transfer core', () => {
   const matrix = buildProfileAdapterDependencyMatrix();
   const edges = matrix.edges.filter((edge) => edge.syntacticPrimitiveKey === 'echo:impermanence-heron-active-transfer-adapter');
-  assert.equal(edges.length, 5);
+  assert.equal(edges.length, 6);
   assert.ok(edges.every((edge) => edge.pendingExecutionId === IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId));
 });

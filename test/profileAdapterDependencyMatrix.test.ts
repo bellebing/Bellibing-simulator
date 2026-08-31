@@ -12,10 +12,10 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   const matrixPendingIds = matrix.edges.map((edge) => `${edge.reviewId}|${edge.pendingExecutionId}`).sort();
 
   assert.deepEqual(matrixPendingIds, sourcePendingIds);
-  assert.equal(matrix.reviewCount, 18);
-  assert.equal(matrix.profileCount, 18);
-  assert.equal(matrix.pendingProfileCount, 16);
-  assert.equal(matrix.dependencyCount, 72);
+  assert.equal(matrix.reviewCount, 19);
+  assert.equal(matrix.profileCount, 19);
+  assert.equal(matrix.pendingProfileCount, 17);
+  assert.equal(matrix.dependencyCount, 89);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -36,14 +36,14 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   const rotation = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'rotation:engine-model');
   assert.ok(rotation);
   assert.equal(rotation.implementationScope, 'PROFILE_SPECIFIC_EXECUTION');
-  assert.equal(rotation.profileCount, 16);
+  assert.equal(rotation.profileCount, 17);
   assert.equal(matrix.reusablePriorityQueue.includes(rotation), false);
 
   const heron = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'echo:impermanence-heron-active-transfer-adapter');
   assert.ok(heron);
   assert.equal(heron.implementationScope, 'REUSABLE_PRIMITIVE_CANDIDATE');
-  assert.equal(heron.profileCount, 5);
-  assert.deepEqual(heron.characterIds, ['aalto', 'iuno', 'lumi', 'yinlin', 'zhezhi']);
+  assert.equal(heron.profileCount, 6);
+  assert.deepEqual(heron.characterIds, ['aalto', 'galbrena', 'iuno', 'lumi', 'yinlin', 'zhezhi']);
 
   const weaponTrigger = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   assert.ok(weaponTrigger);

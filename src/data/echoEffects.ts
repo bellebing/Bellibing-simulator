@@ -1,4 +1,5 @@
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
+import { CORROSAURUS_EFFECT_MODELS_20260831 } from './corrosaurusCombatCoverage20260831.ts';
 import { ECHO_CHARACTER_RESTRICTED_EFFECTS } from './echoCharacterRestrictedEffects.ts';
 import { ECHO_MAIN_SLOT_EFFECT_MODELS } from './echoMainSlotEffects.ts';
 
@@ -104,6 +105,7 @@ export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
       ],
     ),
   },
+  ...CORROSAURUS_EFFECT_MODELS_20260831,
   ...ECHO_CHARACTER_RESTRICTED_EFFECTS,
   ...ECHO_MAIN_SLOT_EFFECT_MODELS,
 ];

@@ -1,4 +1,5 @@
 import type { EchoAttackProfile } from '../echoAttackDomain.ts';
+import { CORROSAURUS_ATTACK_PROFILES_20260831 } from './corrosaurusCombatCoverage20260831.ts';
 
 const ECHO_SKILL_SOURCE_URL = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Echoes.json';
 
@@ -179,4 +180,5 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
       ],
     },
   },
+  ...CORROSAURUS_ATTACK_PROFILES_20260831,
 ];

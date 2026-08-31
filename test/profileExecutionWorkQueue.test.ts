@@ -148,18 +148,18 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 89-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
-    unreviewedEdges: 30,
+    totalEdges: 89,
+    unreviewedEdges: 45,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 11,
-    blockedSourceConflictEdges: 5,
+    blockedSourceConflictEdges: 6,
     blockedSourceSemanticsEdges: 9,
-    profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 31,
+    profileSpecificExecutionEdges: 17,
+    actionableSharedEdges: 46,
   });
   assert.equal(queue.reviewRecordCount, 18);
   assert.equal(
@@ -247,8 +247,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
-  assert.equal(heron.dependencyCount, 5);
-  assert.equal(heron.profileCount, 5);
+  assert.equal(heron.dependencyCount, 6);
+  assert.equal(heron.profileCount, 6);
   assert.deepEqual(heron.blockerIds, ['BUG-008']);
 
   const stringmaster = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:stringmaster-skill-damage-stack-lifecycle');
@@ -297,8 +297,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

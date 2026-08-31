@@ -103,6 +103,40 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60000915',
+    rank: 5,
+    cooldownSeconds: 25,
+    attacks: [
+      {
+        attackId: 'NIGHTMARE_INFERNO_RIDER_ACTIVE_STRIKE',
+        name: 'Nightmare: Inferno Rider — active strike',
+        trigger: 'ACTIVE_CAST',
+        element: 'Fusion',
+        scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+    ],
+    provenance: {
+      sourceLabels: [
+        'Arab Wuwa — Nightmare: Inferno Rider Rank-5 Echo skill',
+        'current raw damage mirror — Nightmare: Inferno Rider Echo attack',
+        'wuwabuild Echo skill source identity',
+      ],
+      sourceUrls: [
+        'https://arabwuwa.com/echoes/nightmare-inferno-rider/',
+        'https://wiki.bittopup.com/vi/wuthering/monsters/330000190',
+        ECHO_SKILL_SOURCE_URL,
+      ],
+      checkedAt: '2026-08-31',
+      notes: [
+        'Current Rank-5 skill text gives one normal activation jump attack at 405% Fusion DMG with a 25-second cooldown, and the raw damage table identifies ATK as the base attribute for that Echo damage row.',
+        'Hold Echo Skill is a distinct Riding Mode variant whose exit deals 283.50% Fusion DMG; that hold/release branch is intentionally not flattened into the normal ACTIVE_CAST attack fact.',
+        'Nightmare: Inferno Rider main-slot Fusion and Resonance Skill bonuses remain in the Echo effect layer and are not duplicated here.',
+        'This exact attack fact authorizes damage resolution only after profile execution resolves the normal activation variant; a generic source step named Echo is not enough by itself.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60001065',
     rank: 5,
     cooldownSeconds: 20,

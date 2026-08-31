@@ -8,12 +8,12 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Current fully verified deployed baseline entering this checkpoint: `df9e239920bbcf6e8c4a07a3a4ba1cd4c1c11172` after PR #136.
+Current fully verified deployed product-code baseline: `bae1b694b0d0df887bf73018429e8c90c86eec86` after PR #139.
 
-- **Verify #630 SUCCESS**;
-- **Export #602 SUCCESS**;
-- **Deploy #128 SUCCESS**;
-- deployed Alpha still passes the permanent real-Chrome Augusta owned-build + Roll Assist smoke paths.
+- **Verify #656 SUCCESS**;
+- **Export #628 SUCCESS**;
+- **Deploy #130 SUCCESS**;
+- deployed Alpha passes the permanent real-Chrome Alpha/Roll Assist paths, Augusta owned-build/upgrade loop, and Ciaccona +25 owned-build/whole-build comparison path.
 
 Live registry-derived readiness is unchanged:
 
@@ -51,6 +51,8 @@ Owned-Echo product input has two distinct fail-closed boundaries:
 `DPS_READY` alone does not authorize either Roll Assist or owned-build stat assembly. Exact owned-build Echo validation is shared across evaluators: Rank 5, +25, canonical slot COST/main-stat, exact COST-bound secondary main, and five unique verified Rank-5 substat rolls.
 
 Candidate-vs-incumbent upgrade analysis is layered above that same whole-build boundary. It may only evaluate a profile with a registered owned-build DPS adapter, changes exactly one Echo slot, preserves the locked Character/sequence/Weapon/Team/rotation/evaluator context, and never substitutes a universal desired-stat score for whole-build DPS plus mandatory gates.
+
+Optional leave-one-substat contribution diagnostics are not allowed to weaken exact whole-build validation. PR #139 made that diagnostic fail-soft for strict evaluators: incumbent and candidate whole-build evaluations remain strict, while an intentionally invalid temporary four-substat probe yields a null optional contribution instead of erasing a valid comparison decision.
 
 ## Source coverage
 
@@ -107,7 +109,9 @@ Augusta has a source-backed `augustaStandardEchoDamageEvaluator` that assembles 
 
 Ciaccona has an independently reviewed static owned-build assembly boundary for the exact S0 / Woodland Aria R1 / Gusts of Welkin + Nightmare: Kelpie profile. It derives Character raw stats, Minor Fortes, Woodland Aria static stats/permanent ATK, Gusts 2-piece, Kelpie main-slot Aero bonus, exact owned Echo stats and the canonical 115% ER gate from current registries. Woodland Aria trigger state, Gusts 5-piece, Solo Concert and Winds of Rinascita remain owned by the existing 4.5-second execution engine and are not duplicated statically.
 
-Ciaccona owned-build DPS is **still fail-closed in Alpha**. The DPS freeze authorizes explicit caller-provided combat/enemy context, but Bellibing does not yet have one independently verified, versioned Alpha default for `enemyDefense`, `enemyAeroResistance` and exact team buff/amplification values/uptime. The explicit-context evaluator exists only behind that boundary and is deliberately not registered in `ownedBuildAnalysis`.
+PR #139 adds the independently reviewed, versioned Ciaccona owned-build product combat context and registers `ciaccona-cartethyia-aero` behind current-profile drift validation. The locked benchmark is **Tactical Hologram Lorelei VI, Lv100, DEF 1592, Aero RES 10%, pre-180s/no-dodge state**. The canonical Cartethyia / Ciaccona / Rover (Aero) handoff applies only the independently source-backed **Bloodpact's Pledge R1 Unbound Flow 10% Aero DMG Amplification for 30s**. Cartethyia Outro, teammate ATK/CRIT/ER, Hologram dodge/180s modifiers and Augusta defaults are not inferred.
+
+This product context does **not** close BUG-012. It relies only on the independently source-proven Unbound Flow handoff event and its 30-second team-Aero window, which covers Ciaccona's already-fixed 4.5-second personal rotation. Rover (Aero)'s full rotation duration, Bloodpact skill-window overlap and optional-branch timing remain unresolved.
 
 ## Existing execution blockers
 
@@ -117,7 +121,7 @@ Keep these fail-closed until stronger source or an explicitly approved measureme
 - **BUG-009 — Stringmaster / Rime-Draped Sprouts skill-stack lifetime:** `BLOCKED_SOURCE_SEMANTICS`; stack refresh/expiry policy unresolved.
 - **BUG-010 — Fallacy profile cast variant:** `BLOCKED_SOURCE_SEMANTICS`; supported rotations do not identify normal/tap versus hold/release.
 - **BUG-011 — Defier's Thorn `DT-DEF`:** `BLOCKED_SOURCE_SEMANTICS`; timing grammar ambiguous. Cartethyia remains non-DPS-ready.
-- **BUG-012 — Rover (Aero) exact support execution:** `BLOCKED_SOURCE_SEMANTICS`; exact total duration/BPP-SKILL overlap/fixed optional branch unresolved.
+- **BUG-012 — Rover (Aero) exact support execution:** `BLOCKED_SOURCE_SEMANTICS`; exact total duration/BPP-SKILL overlap/fixed optional branch unresolved. PR #139 does not close it.
 - **BUG-013 — Blazing Brilliance Searing Feather at-cap lifecycle:** `BLOCKED_SOURCE_SEMANTICS`; qualifying events at 14 stacks do not have a source-proven removal-timer rule.
 - **BUG-014 — Changli Standard Rotation denominator:** `BLOCKED_SOURCE_SEMANTICS`; source gives only a 1.37-second relative variant delta, not total duration.
 
@@ -130,41 +134,35 @@ Carlotta remains parked as a quick closure candidate: her canonical review has f
 - Echo Core: complete for eligible-candidate tuning.
 - Public root: registry-driven **Alpha** shell.
 - Alpha sequence remains **Character → mode → recommended starting build → Echoes → Analyze**.
-- PR #133 added fail-closed profile-aware Roll Assist routing. The only binding is `augusta-standard` → `AUGUSTA_RECOMMENDED_V915`, validated against canonical 4/3/3/1/1 CRIT/Electro/Electro/ATK/ATK layout.
+- PR #133 added fail-closed profile-aware Roll Assist routing. The only checkpoint-policy binding remains `augusta-standard` → `AUGUSTA_RECOMMENDED_V915`, validated against canonical 4/3/3/1/1 CRIT/Electro/Electro/ATK/ATK layout.
 - PR #134 added first owned-Echo checkpoint input: +5/+10/+15/+20/+25, one exact verified Rank-5 substat roll at a time, evaluated by the existing profile-specific checkpoint policy. It is live verified.
 - PR #135 extended only the already-supported Augusta path from one Echo to a real five-Echo +25 loadout. Each saved card comes from the same validated owned-Echo input, is checked against canonical slot COST/main-stat layout, then flows through `buildContextFromVerifiedPreset` and `augustaStandardEchoDamageEvaluator`. It is live verified.
 - PR #136 added the source-backed Ciaccona static owned-build assembly boundary while deliberately leaving its Alpha DPS binding unregistered pending versioned combat context.
-- PR #137 adds Augusta candidate-vs-incumbent whole-build decisions on top of the same validated five-Echo input. A completed +25 candidate changes one slot and reports current/candidate Personal Rotation DPS, DPS delta, ER gates and `BETTER` / `DO NOT REPLACE`.
-- PR #137 also forecasts exact +5/+10/+15/+20 candidates through legal future Rank-5 roll branches. Every completed branch reaches the same Augusta whole-build evaluator. Continue-vs-Restart economics track Echoes, Tuners, EXP and Shell Credits, verified discard recovery, and a one-time recycle-now credit without inventing cross-resource exchange rates. The action is therefore only `ROLL`, `STOP / RECYCLE`, `RESOURCE TRADEOFF` or fail-closed `PENDING`.
+- PR #137 added Augusta candidate-vs-incumbent whole-build decisions and partial future-roll/economics forecasting on top of the same validated five-Echo input.
+- PR #139 closes the Ciaccona **whole-build +25 product-input** blocker without inventing a Roll Assist policy: canonical +25 Echo cards are constructed independently from checkpoint stopping policy, five exact Echoes can be saved, and Personal Rotation DPS + ER are evaluated through the registered Ciaccona owned-build adapter and locked Lorelei benchmark context.
+- PR #139 also enables the completed +25 whole-build candidate comparison path for Ciaccona. The permanent Chrome contract verifies `DO_NOT_REPLACE` on a completed candidate; no claim is made that partial Ciaccona checkpoint/stopping policy exists.
 - Whole-build output remains **Personal Rotation DPS + ER gate**. ER failure must stay visible and cannot be hidden by raw damage.
-- Ciaccona is `DPS_READY`; its static owned-build assembly is source-backed, but it still has neither a Roll Assist checkpoint binding nor a verified versioned Alpha combat-context default. Both product paths remain unavailable until independently verified.
+- Ciaccona still has **no Roll Assist checkpoint/stopping-policy binding**. Alpha keeps `POLICY PENDING`; the new +25 whole-build input capability is intentionally separate.
 - Unsupported profile-aware URLs/analysis paths fail closed and never silently reuse Augusta behavior.
 - Echo Lab remains the mechanical/debug oracle at `/echo-lab.html`.
 - BUG-001 remains fixed/live-verified with permanent Chrome regression.
-- BUG-002 remains open for accepted +25 replacement/equipment lifecycle. PR #137 supplies the verified candidate decision but does not silently mutate the saved incumbent build after `BETTER`.
+- BUG-002 remains open for accepted `BETTER` replacement/equipment lifecycle. PR #139 live-verifies Ciaccona `DO_NOT_REPLACE`; it does not provide the missing accepted-`BETTER` lifecycle regression required to close BUG-002.
 
 ## Alpha product direction
 
 The product is no longer dashboard-first. The normal path asks one decision at a time.
 
-PR #134 closed the first owned-Echo checkpoint-input gap. PR #135 closed Augusta's real five-Echo whole-build gap. PR #137 uses that exact owned build as the incumbent for the next user question: **is this Echo actually better for this build, or should I keep rolling/recycle?** No generic Echo Score, desired-stat label list or made-up resource conversion was introduced.
+PR #134 closed the first owned-Echo checkpoint-input gap. PR #135 closed Augusta's real five-Echo whole-build gap. PR #137 uses that exact owned build as the incumbent for candidate decisions and future-roll/economics modeling. PR #139 reuses the shared whole-build boundary for Ciaccona instead of adding parallel Augusta-shaped logic.
 
-Five saved +25 Augusta Echoes unlock `COMPARE AN ECHO` in the existing owned-Echo panel rather than opening a second editor. Finished candidates compare exact DPS/gates; partial candidates surface modeled chance to beat the current Echo plus tracked future resources and Continue-vs-Restart Pareto outcomes.
+Five saved +25 Augusta Echoes unlock `COMPARE AN ECHO` in the existing owned-Echo panel. Five saved +25 Ciaccona Echoes now also reach the shared whole-build Personal Rotation DPS + ER analysis and completed-candidate comparison path under the locked Lorelei benchmark. Ciaccona checkpoint Roll Assist remains unavailable because no independently verified stopping policy is bound.
 
-The Ciaccona checkpoint remains intentionally narrower: static Echo→`CiacconaBuildInputs` assembly is explicit and source-backed, while the unresolved versioned enemy/team context remains a separate fail-closed product dependency. PR #137 does not broaden Ciaccona by borrowing Augusta assumptions.
-
-Next Alpha work should prioritize:
-
-1. independently source/review one versioned Ciaccona enemy/team combat context before registering owned-build DPS in Alpha;
-2. once that context exists, bind Ciaccona through the existing owned-build and candidate-upgrade boundaries rather than adding parallel logic;
-3. close BUG-002 only when an accepted `BETTER` candidate has a verified incumbent replacement/equipment lifecycle;
-4. preserve the one-question/one-decision UX rather than adding a statistics dashboard.
+No new product workstream is selected by this closeout. Remaining gaps stay parked until explicitly selected.
 
 ## Verification contract
 
-A final PR head intended for merge must pass source/raw/profile audits, Profile × Adapter/readiness audits, full Node tests, strict web build, real Chrome Alpha + Roll Assist + Augusta upgrade-loop regression, diff/whitespace checks, artifact packaging and Export. Post-merge main is rechecked; UI/live claims require deployed real-Chrome verification.
+A final PR head intended for merge must pass source/raw/profile audits, Profile × Adapter/readiness audits, full Node tests, strict web build, real Chrome Alpha + Roll Assist + owned-build regressions, diff/whitespace checks, artifact packaging and Export. Post-merge main is rechecked; UI/live claims require deployed real-Chrome verification.
 
-PR #137 extends the deploy smoke contract so `scripts/verify-alpha-upgrade.mjs` runs against the deployed GitHub Pages Alpha URL after Pages deployment, in addition to the permanent live Alpha/Roll Assist regression. The PR must not be called live-complete until that post-merge Chrome job passes.
+PR #139 extends both local Verify and post-deploy smoke with `scripts/verify-alpha-ciaccona-owned-build.mjs`. The path must prove Ciaccona exact +25 owned-build input, Personal Rotation DPS + ER, completed candidate comparison, and continued `POLICY PENDING` Roll Assist separation.
 
 Recent exact live checkpoints:
 
@@ -172,6 +170,7 @@ Recent exact live checkpoints:
 - PR #134 head `afc7ee18bd7fa8a1d84d1a7f8b648f4520b19a7a`: Verify #616 + Export #588 SUCCESS; merged main `95fab320ab223b855dfba567d3bab976ddf9c62b` passed Verify #617 + Export #589 + Deploy #126. Deploy live job verified Alpha owned +5 CRIT Rate 9.3% → `ROLL TO +10` plus permanent Roll Assist paths.
 - PR #135 head `0ca7cf18`: Verify #619 + Export #591 SUCCESS; merged main `4bdc3e405cec23ab5b00ed8a6d7e44c20952d408` passed Verify #620 + Export #592 + Deploy #127. Live Chrome entered 25 exact rolls over five +25 Augusta Echoes and verified Personal Rotation DPS + ER PASS.
 - PR #136 merged main `df9e239920bbcf6e8c4a07a3a4ba1cd4c1c11172` passed Verify #630 + Export #602 + Deploy #128. Ciaccona static owned-build assembly is source-backed while Alpha product DPS remains fail-closed pending combat context.
+- PR #139 head `a6f55eddadb81e34e27a409984b48e62a1607c78` passed **Verify #655 + Export #627** including 584/584 Node tests, strict web build, diff/whitespace and local real-Chrome Ciaccona owned-build regression. Merged main `bae1b694b0d0df887bf73018429e8c90c86eec86` passed **Verify #656 + Export #628 + Deploy #130**, including deployed real-Chrome Ciaccona exact +25 owned-build / Personal Rotation DPS + ER / `DO_NOT_REPLACE` and continued Roll Assist `POLICY PENDING`.
 
 ## Recent completed checkpoints
 
@@ -187,14 +186,19 @@ Recent exact live checkpoints:
 - PR #134 — owned-Echo checkpoint analysis live on Alpha using exact verified Rank-5 roll values.
 - PR #135 — five actual +25 Augusta Echoes live through canonical whole-build Personal Rotation DPS + ER.
 - PR #136 — source-backed Ciaccona static owned-build assembly; product DPS kept fail-closed pending combat context.
-- **PR #137 — Augusta whole-build candidate decision + partial future-roll/economics loop, with permanent local and post-deploy real-Chrome regression.**
+- PR #137 — Augusta whole-build candidate decision + partial future-roll/economics loop, with permanent local and post-deploy real-Chrome regression.
+- **PR #139 — versioned Ciaccona Lorelei combat context, registered owned-build DPS, policy-independent exact +25 input, completed-candidate comparison, strict-evaluator diagnostic fix, and permanent local/deployed real-Chrome regression.**
 
-## Next work
+## Parked / awaiting explicit selection
 
-1. Keep Ciaccona owned-build Alpha binding fail-closed until one independently verified, versioned enemy/team combat context exists; do not copy Augusta defaults or infer Rover (Aero) uptime.
-2. Close BUG-002 only with verified accepted-candidate replacement/equipment lifecycle; `BETTER` alone is not an equipment mutation.
-3. Work from the exact **9-row `PROFILE_SOURCE_PENDING`** backlog, never the old 15.
-4. Do not re-research Baizhi, Brant, Jianxin, Phoebe, Verina or Yuanwu without new evidence.
-5. Inspect Qingxiao, Rover (Electro) and Suisui `maxEnergy` horizontally; close only with stronger current evidence.
-6. Do not force Carlotta, Calcharo or BUG-008/009/010/011/012/013/014 closures.
-7. Never fabricate teams, defaults, ER requirements, rotations, mechanics, trigger uptime, stack-refresh policy, roll policies, timestamps or Character stat assembly.
+No next workstream is selected by this checkpoint.
+
+Known remaining blockers/gaps include:
+
+1. Ciaccona Roll Assist checkpoint/stopping policy remains unbound; do not infer one from whole-build +25 support.
+2. BUG-002 remains open until accepted `BETTER` replacement/equipment lifecycle is explicitly regression-verified.
+3. The exact **9-row `PROFILE_SOURCE_PENDING`** backlog remains unchanged: Baizhi, Brant, Jianxin, Phoebe, Verina, Yuanwu, Qingxiao, Rover (Electro), Suisui.
+4. BUG-008/009/010/011/012/013/014 remain parked at their existing evidence boundaries; PR #139 does not close BUG-012.
+5. Broad roster-wide DPS remains blocked until the full Pre-DPS Completeness Gate passes.
+
+Do not begin any of these merely because they are listed here; selection is external to this status document.

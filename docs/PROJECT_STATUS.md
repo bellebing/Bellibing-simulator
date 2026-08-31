@@ -8,12 +8,12 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Last fully verified deployed main before this branch: `95fab320ab223b855dfba567d3bab976ddf9c62b` after PR #134.
+Current fully verified deployed baseline entering this checkpoint: `4bdc3e405cec23ab5b00ed8a6d7e44c20952d408` after PR #135.
 
-- **Verify #617 SUCCESS**;
-- **Export #589 SUCCESS**;
-- **Deploy #126 SUCCESS**;
-- live Chrome verified registry Alpha, owned-Echo checkpoint analysis, profile-aware Augusta Roll Assist and the permanent Roll Assist verdict paths.
+- **Verify #620 SUCCESS**;
+- **Export #592 SUCCESS**;
+- **Deploy #127 SUCCESS**;
+- live Chrome entered 25 exact rolls across five +25 Augusta Echoes, saved all five, and verified **Personal Rotation DPS + ER PASS** plus the permanent Roll Assist regression paths.
 
 Live registry-derived readiness is unchanged:
 
@@ -48,7 +48,7 @@ Owned-Echo product input has two distinct fail-closed boundaries:
 1. checkpoint analysis requires an independently verified Roll Assist policy bound to the canonical profile;
 2. whole-build DPS additionally requires a verified `ENGINE_MODELED` profile **and** an explicit source-backed Echo→`DamageEvaluator` adapter for that exact profile.
 
-`DPS_READY` alone does not authorize either Roll Assist or owned-build stat assembly.
+`DPS_READY` alone does not authorize either Roll Assist or owned-build stat assembly. Exact owned-build Echo validation is shared across evaluators: Rank 5, +25, canonical slot COST/main-stat, exact COST-bound secondary main, and five unique verified Rank-5 substat rolls.
 
 ## Source coverage
 
@@ -103,7 +103,9 @@ Current narrow `DPS_READY` fixtures:
 
 Augusta has a source-backed `augustaStandardEchoDamageEvaluator` that assembles actual five-Echo cards into the locked S0 / Thunderflare Dominion R1 / Iuno + Shorekeeper / `AUGUSTA_STD_V1` context.
 
-Ciaccona has a verified executable rotation engine, but current production code still consumes explicit `CiacconaBuildInputs`; no independently reviewed Echo→Ciaccona build-input aggregator exists yet. The Alpha must therefore keep Ciaccona owned-build DPS fail-closed instead of reusing Augusta assembly.
+Ciaccona now has an independently reviewed static owned-build assembly boundary for the exact S0 / Woodland Aria R1 / Gusts of Welkin + Nightmare: Kelpie profile. It derives Character raw stats, Minor Fortes, Woodland Aria static stats/permanent ATK, Gusts 2-piece, Kelpie main-slot Aero bonus, exact owned Echo stats and the canonical 115% ER gate from current registries. Woodland Aria trigger state, Gusts 5-piece, Solo Concert and Winds of Rinascita remain owned by the existing 4.5-second execution engine and are not duplicated statically.
+
+Ciaccona owned-build DPS is **still fail-closed in Alpha**. The DPS freeze authorizes explicit caller-provided combat/enemy context, but Bellibing does not yet have one independently verified, versioned Alpha default for `enemyDefense`, `enemyAeroResistance` and exact team buff/amplification values/uptime. The explicit-context evaluator exists only behind that boundary and is deliberately not registered in `ownedBuildAnalysis`.
 
 ## Existing execution blockers
 
@@ -127,10 +129,10 @@ Carlotta remains parked as a quick closure candidate: her canonical review has f
 - Public root: registry-driven **Alpha** shell.
 - Alpha sequence remains **Character → mode → recommended starting build → Echoes → Analyze**.
 - PR #133 added fail-closed profile-aware Roll Assist routing. The only binding is `augusta-standard` → `AUGUSTA_RECOMMENDED_V915`, validated against canonical 4/3/3/1/1 CRIT/Electro/Electro/ATK/ATK layout.
-- PR #134 added first owned-Echo checkpoint input: +5/+10/+15/+20/+25, one exact verified Rank-5 substat roll at a time, evaluated by the existing profile-specific checkpoint policy. It is live verified on main `95fab320`.
-- Current PR #135 extends only the already-supported Augusta path from one Echo to a real five-Echo +25 loadout. Each saved card comes from the same validated owned-Echo input, is checked against canonical slot COST/main-stat layout, then flows through `buildContextFromVerifiedPreset` and `augustaStandardEchoDamageEvaluator`.
+- PR #134 added first owned-Echo checkpoint input: +5/+10/+15/+20/+25, one exact verified Rank-5 substat roll at a time, evaluated by the existing profile-specific checkpoint policy. It is live verified.
+- PR #135 extended only the already-supported Augusta path from one Echo to a real five-Echo +25 loadout. Each saved card comes from the same validated owned-Echo input, is checked against canonical slot COST/main-stat layout, then flows through `buildContextFromVerifiedPreset` and `augustaStandardEchoDamageEvaluator`. It is live verified on main `4bdc3e40`.
 - Whole-build output is **Personal Rotation DPS + ER gate**. ER failure must stay visible and cannot be hidden by raw damage.
-- Ciaccona is `DPS_READY` but has neither Roll Assist checkpoint binding nor owned-build Echo aggregation; both stay unavailable until independently verified.
+- Ciaccona is `DPS_READY`; its static owned-build assembly is source-backed, but it still has neither a Roll Assist checkpoint binding nor a verified versioned Alpha combat-context default. Both product paths remain unavailable until independently verified.
 - Unsupported profile-aware URLs/analysis paths fail closed and never silently reuse Augusta behavior.
 - Echo Lab remains the mechanical/debug oracle at `/echo-lab.html`.
 - BUG-001 remains fixed/live-verified with permanent Chrome regression.
@@ -140,11 +142,13 @@ Carlotta remains parked as a quick closure candidate: her canonical review has f
 
 The product is no longer dashboard-first. The normal path asks one decision at a time.
 
-PR #134 closed the first owned-Echo checkpoint-input gap. PR #135 targets the next concrete product gap: when Augusta users have five actual +25 Echoes, Step 5 should evaluate that real loadout instead of displaying a placeholder. No generic score is introduced.
+PR #134 closed the first owned-Echo checkpoint-input gap. PR #135 closed Augusta's real five-Echo whole-build gap: five actual +25 Echoes now reach Personal Rotation DPS + ER instead of a placeholder. No generic score was introduced.
 
-After this slice is verified, next Alpha work should prioritize:
+The current Ciaccona checkpoint narrows its owned-build gap without inventing combat truth: static Echo→`CiacconaBuildInputs` assembly is now explicit and source-backed, while the unresolved versioned enemy/team context remains a separate fail-closed product dependency.
 
-1. independently source/review an Echo→Ciaccona build-input aggregator before exposing Ciaccona owned-build DPS;
+Next Alpha work should prioritize:
+
+1. independently source/review one versioned Ciaccona enemy/team combat context before registering owned-build DPS in Alpha;
 2. then use the existing whole-build analysis boundary for candidate-vs-incumbent upgrade decisions where the exact profile evaluator exists;
 3. preserve the one-question/one-decision UX rather than adding a statistics dashboard.
 
@@ -156,6 +160,7 @@ Recent exact live checkpoints:
 
 - PR #133 head `82d52346d7f76ef202b2f6cff9e3f76ec039152c`: Verify #614 + Export #586 SUCCESS; merged main `8e0b2f55` passed Verify #615 + Export #587 + Deploy #125 including live Alpha→Augusta Roll Assist.
 - PR #134 head `afc7ee18bd7fa8a1d84d1a7f8b648f4520b19a7a`: Verify #616 + Export #588 SUCCESS; merged main `95fab320ab223b855dfba567d3bab976ddf9c62b` passed Verify #617 + Export #589 + Deploy #126. Deploy live job verified Alpha owned +5 CRIT Rate 9.3% → `ROLL TO +10` plus permanent Roll Assist paths.
+- PR #135 head `0ca7cf18`: Verify #619 + Export #591 SUCCESS; merged main `4bdc3e405cec23ab5b00ed8a6d7e44c20952d408` passed Verify #620 + Export #592 + Deploy #127. Live Chrome entered 25 exact rolls over five +25 Augusta Echoes and verified Personal Rotation DPS + ER PASS.
 
 ## Recent completed checkpoints
 
@@ -168,14 +173,15 @@ Recent exact live checkpoints:
 - PR #131 — registry-driven Alpha root and Echo Lab debug-route split.
 - PR #132 — deployed root/live-smoke contract aligned and verified.
 - PR #133 — canonical profile→Roll Assist policy binding; Augusta live route verified.
-- **PR #134 — owned-Echo checkpoint analysis live on Alpha using exact verified Rank-5 roll values.**
+- PR #134 — owned-Echo checkpoint analysis live on Alpha using exact verified Rank-5 roll values.
+- **PR #135 — five actual +25 Augusta Echoes live through canonical whole-build Personal Rotation DPS + ER.**
 
 ## Next work
 
-1. Finish and live-verify PR #135 without changing readiness/game-data semantics.
+1. Keep Ciaccona owned-build Alpha binding fail-closed until one independently verified, versioned enemy/team combat context exists; do not copy Augusta defaults or infer Rover (Aero) uptime.
 2. Work from the exact **9-row `PROFILE_SOURCE_PENDING`** backlog, never the old 15.
 3. Do not re-research Baizhi, Brant, Jianxin, Phoebe, Verina or Yuanwu without new evidence.
 4. Inspect Qingxiao, Rover (Electro) and Suisui `maxEnergy` horizontally; close only with stronger current evidence.
 5. Do not force Carlotta, Calcharo or BUG-008/009/010/011/012/013/014 closures.
-6. After Augusta owned-build DPS is live, review Ciaccona Echo-stat assembly from current canonical Character/Weapon/profile/effect truth before writing an adapter. If any required non-Echo/static input is not source-proven, keep Ciaccona owned-build analysis pending.
+6. Once a Ciaccona combat-context default is independently verified, register it through the existing owned-build boundary and then live-verify the Alpha path; until then the explicit-context evaluator remains non-product.
 7. Never fabricate teams, defaults, ER requirements, rotations, mechanics, trigger uptime, stack-refresh policy, roll policies, timestamps or Character stat assembly.

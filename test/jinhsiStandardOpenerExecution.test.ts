@@ -20,7 +20,9 @@ test('Jinhsi canonical profile remains Standard Opener source sequence only', ()
   assert.deepEqual(resolved.echoLoadout.sonataSetIds, ['sonata-5']);
   assert.equal(resolved.team.id, 'jinhsi-zhezhi-verina');
   assert.equal(resolved.rotation.id, 'jinhsi-standard-opener-source-sequence');
-  assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+  if (resolved.rotation.executionStatus !== 'SOURCE_SEQUENCE_ONLY') {
+    assert.fail(`expected SOURCE_SEQUENCE_ONLY, got ${resolved.rotation.executionStatus}`);
+  }
   assert.equal(resolved.rotation.engineModelId, undefined);
   assert.deepEqual(
     resolved.rotation.sourceSequence,

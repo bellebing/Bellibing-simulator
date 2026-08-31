@@ -9,9 +9,10 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 5);
-  assert.equal(registry.attackById.size, 6);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 6);
+  assert.equal(registry.attackById.size, 8);
   assert.ok(registry.byEchoId.has('echo-60000375'));
+  assert.ok(registry.byEchoId.has('echo-60000485'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60000885'));
   assert.ok(registry.byEchoId.has('echo-60001065'));
@@ -26,6 +27,23 @@ test('Bell-Borne Rank-5 protection blast is exact 145.92% DEF Glacio damage', ()
   assert.equal(attack.element, 'Glacio');
   assert.equal(attack.scalingStat, 'DEF');
   assert.equal(totalMotionValue(attack), 1.4592);
+});
+
+test('Mech Abomination Rank-5 attack facts preserve direct and Outro-classified Waste damage', () => {
+  const profile = registry.byEchoId.get('echo-60000485')!;
+  const direct = profile.attacks.find((row) => row.attackId === 'MECH_ABOMINATION_FRONT_STRIKE')!;
+  const waste = profile.attacks.find((row) => row.attackId === 'MECH_ABOMINATION_WASTE')!;
+  assert.equal(profile.cooldownSeconds, 20);
+  assert.equal(profile.attacks.length, 2);
+  assert.equal(direct.element, 'Electro');
+  assert.equal(direct.scalingStat, 'ATK');
+  assert.equal(totalMotionValue(direct), 0.4864);
+  assert.equal(waste.sourceDamageClass, 'OUTRO');
+  assert.deepEqual(waste.components, [
+    { motionValuePerHit: 3.2, hits: 1 },
+    { motionValuePerHit: 1.6, hits: 1 },
+  ]);
+  assert.equal(totalMotionValue(waste), 4.8);
 });
 
 test('Fallacy Rank-5 normal activation is exact one-hit 15.86% max-HP Spectro damage', () => {

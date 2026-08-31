@@ -1,4 +1,8 @@
-import { primaryMainStatValueAtLevel, type Echo } from './echoCore.ts';
+import {
+  primaryMainStatValueAtLevel,
+  secondaryMainStatValueAtLevel,
+  type Echo,
+} from './echoCore.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
 import { assertExactOwnedEchoRoll } from './ownedEchoCheckpointAnalysis.ts';
 import { resolveBuildPreset } from './profileRegistry.ts';
@@ -27,6 +31,16 @@ export function validateOwnedBuildEchoSlot(input: {
   if (expectedMain === null || Math.abs(input.echo.mainStat.value - expectedMain) > EPSILON) {
     throw new Error(`${input.presetId}: Echo ${input.slotIndex + 1} primary main-stat value is not the exact Rank-5 +25 value.`);
   }
+
+  if (input.echo.secondaryMainStat) {
+    const expectedSecondaryName = input.echo.cost === 1 ? 'Flat HP' : 'Flat ATK';
+    const expectedSecondaryValue = secondaryMainStatValueAtLevel(input.echo.cost, 25);
+    if (input.echo.secondaryMainStat.name !== expectedSecondaryName
+        || Math.abs(input.echo.secondaryMainStat.value - expectedSecondaryValue) > EPSILON) {
+      throw new Error(`${input.presetId}: Echo ${input.slotIndex + 1} secondary main stat is not the exact COST-bound Rank-5 +25 value.`);
+    }
+  }
+
   if (input.echo.substats.length !== 5) {
     throw new Error(`${input.presetId}: Echo ${input.slotIndex + 1} must contain exactly five +25 substats.`);
   }

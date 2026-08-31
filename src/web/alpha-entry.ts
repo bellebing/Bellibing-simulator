@@ -1,4 +1,12 @@
-import { listAlphaCharacterOptions, resolveAlphaSelection } from '../alphaEntryModel.ts';
+import { listAlphaCharacterOptions, resolveAlphaSelection, type AlphaResolvedSelection } from '../alphaEntryModel.ts';
+import {
+  OWNED_ECHO_CHECKPOINT_LEVELS,
+  analyzeOwnedEchoCheckpoint,
+  listOwnedEchoRollOptions,
+  type OwnedEchoCheckpointLevel,
+  type OwnedEchoCheckpointResult,
+} from '../ownedEchoCheckpointAnalysis.ts';
+import type { StatName, StatRoll } from '../echoCore.ts';
 
 function requireAppRoot(): HTMLDivElement {
   const root = document.querySelector<HTMLDivElement>('#app');
@@ -8,12 +16,21 @@ function requireAppRoot(): HTMLDivElement {
 
 const app = requireAppRoot();
 const characters = listAlphaCharacterOptions();
+const ownedRollOptions = listOwnedEchoRollOptions();
 if (characters.length === 0) throw new Error('Alpha entry has no selectable registry profiles.');
+if (ownedRollOptions.length === 0) throw new Error('Owned Echo analysis has no verified roll options.');
 
 let selectedCharacterId = characters.find((row) => row.readinessDisposition === 'DPS_READY')?.characterId
   ?? characters[0]!.characterId;
 let selectedPresetId: string | undefined;
 let analysisMessage = '';
+let ownedEchoOpen = false;
+let ownedEchoSlotIndex = 0;
+let ownedEchoLevel: OwnedEchoCheckpointLevel = 5;
+let ownedEchoRolls: StatRoll[] = [];
+let ownedEchoResult: OwnedEchoCheckpointResult | null = null;
+let ownedEchoError = '';
+let ownedEchoPendingStatName: StatName = ownedRollOptions[0]!.name;
 
 function escapeHtml(value: string): string {
   return value
@@ -31,9 +48,109 @@ function statusLabel(disposition: string): string {
   return 'PROFILE SOURCE PENDING';
 }
 
+function resetOwnedEcho(close = false): void {
+  if (close) ownedEchoOpen = false;
+  ownedEchoSlotIndex = 0;
+  ownedEchoLevel = 5;
+  ownedEchoRolls = [];
+  ownedEchoResult = null;
+  ownedEchoError = '';
+  ownedEchoPendingStatName = ownedRollOptions[0]!.name;
+}
+
+function formatRoll(name: StatName, value: number): string {
+  return name.startsWith('Flat ')
+    ? Math.round(value).toLocaleString('en-US')
+    : `${(value * 100).toFixed(1)}%`;
+}
+
+function ownedEchoVerdictClass(result: OwnedEchoCheckpointResult): string {
+  if (result.decision === 'DISCARD') return 'alpha-owned-verdict--discard';
+  if (result.decision === 'KEEP') return 'alpha-owned-verdict--keep';
+  if (result.decision === 'TEMPORARY') return 'alpha-owned-verdict--temporary';
+  return 'alpha-owned-verdict--roll';
+}
+
+function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
+  if (!selection.rollAssist.supported || !ownedEchoOpen) return '';
+
+  const expectedRolls = ownedEchoLevel / 5;
+  const usedNames = new Set(ownedEchoRolls.map((roll) => roll.name));
+  const available = ownedRollOptions.filter((option) => !usedNames.has(option.name));
+  const selectedOption = available.find((option) => option.name === ownedEchoPendingStatName) ?? available[0] ?? null;
+
+  const resultMarkup = ownedEchoResult
+    ? `<div class="alpha-owned-verdict ${ownedEchoVerdictClass(ownedEchoResult)}" data-decision="${ownedEchoResult.decision}">
+        <span>CHECKPOINT VERDICT</span>
+        <strong>${escapeHtml(ownedEchoResult.headline)}</strong>
+        <small>${escapeHtml(ownedEchoResult.reason)}</small>
+        <small>Target hits: ${ownedEchoResult.targetHits.length > 0 ? ownedEchoResult.targetHits.map(escapeHtml).join(' · ') : 'none'} · Dead rolls: ${ownedEchoResult.deadCount}</small>
+      </div>`
+    : ownedEchoError
+      ? `<div class="alpha-owned-verdict alpha-owned-verdict--discard"><span>INPUT ERROR</span><strong>CHECK THE ECHO</strong><small>${escapeHtml(ownedEchoError)}</small></div>`
+      : '';
+
+  const entryMarkup = ownedEchoResult
+    ? '<button id="alpha-owned-reset" class="alpha-owned-reset" type="button">CHECK ANOTHER ECHO</button>'
+    : `<div class="alpha-owned-entry">
+        <div>
+          <span>ROLL ${ownedEchoRolls.length + 1} OF ${expectedRolls}</span>
+          <strong>What substat did it roll?</strong>
+        </div>
+        <div class="alpha-owned-entry-row">
+          <select id="alpha-owned-stat" aria-label="Owned Echo substat">
+            ${available.map((option) => `<option value="${escapeHtml(option.name)}" ${option.name === selectedOption?.name ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
+          </select>
+          <select id="alpha-owned-value" aria-label="Owned Echo roll value">
+            ${(selectedOption?.values ?? []).map((value) => `<option value="${value}">${formatRoll(selectedOption!.name, value)}</option>`).join('')}
+          </select>
+          <button id="alpha-owned-add" type="button">ADD ROLL</button>
+        </div>
+      </div>`;
+
+  return `<div class="alpha-owned-panel">
+    <div class="alpha-owned-header">
+      <div><span>OWNED ECHO</span><strong>Check the Echo you already have.</strong></div>
+      <button id="alpha-owned-close" type="button">CLOSE</button>
+    </div>
+    <div class="alpha-owned-context">
+      <label><span>Which build slot?</span><select id="alpha-owned-slot">
+        ${selection.rollAssist.slots.map((slot, index) => `<option value="${index}" ${index === ownedEchoSlotIndex ? 'selected' : ''}>Echo ${index + 1} · COST ${slot.cost} · ${escapeHtml(slot.primaryMain)}</option>`).join('')}
+      </select></label>
+      <label><span>Current level?</span><select id="alpha-owned-level">
+        ${OWNED_ECHO_CHECKPOINT_LEVELS.map((level) => `<option value="${level}" ${level === ownedEchoLevel ? 'selected' : ''}>+${level}</option>`).join('')}
+      </select></label>
+    </div>
+    <div class="alpha-owned-roll-list">
+      ${ownedEchoRolls.length > 0
+        ? ownedEchoRolls.map((roll, index) => `<div><span>${index + 1}</span><strong>${escapeHtml(roll.name)}</strong><b>${formatRoll(roll.name, roll.value)}</b></div>`).join('')
+        : '<small>No rolls entered yet.</small>'}
+    </div>
+    ${resultMarkup}
+    ${entryMarkup}
+  </div>`;
+}
+
+function rollAssistMarkup(selection: AlphaResolvedSelection): string {
+  return `<div class="alpha-roll-assist ${selection.rollAssist.supported ? 'alpha-roll-assist--ready' : ''}">
+    <div>
+      <span>ROLL ASSIST</span>
+      <strong>${selection.rollAssist.supported ? 'Verified checkpoint policy available.' : 'Checkpoint policy pending.'}</strong>
+      <small>${escapeHtml(selection.rollAssist.reason)}${selection.rollAssist.policyId ? ` Policy: ${escapeHtml(selection.rollAssist.policyId)}.` : ''}</small>
+    </div>
+    ${selection.rollAssist.supported && selection.rollAssist.href
+      ? `<div class="alpha-roll-assist-actions">
+          <a id="alpha-roll-assist" href="${escapeHtml(selection.rollAssist.href)}">ROLL NEW ECHOES</a>
+          <button id="alpha-owned-toggle" type="button">CHECK AN ECHO I OWN</button>
+        </div>`
+      : '<span class="alpha-roll-assist-disabled">POLICY PENDING</span>'}
+  </div>${ownedEchoMarkup(selection)}`;
+}
+
 function render(): void {
   const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
   selectedPresetId = selection.preset.id;
+  if (!selection.rollAssist.supported && ownedEchoOpen) resetOwnedEcho(true);
   const readinessClass = selection.analysisReady ? 'alpha-status--ready' : 'alpha-status--pending';
 
   app.innerHTML = `
@@ -108,16 +225,7 @@ function render(): void {
               <strong>${slot.mainStats.map(escapeHtml).join(' / ')}</strong>
             </article>`).join('')}
         </div>
-        <div class="alpha-roll-assist ${selection.rollAssist.supported ? 'alpha-roll-assist--ready' : ''}">
-          <div>
-            <span>ROLL ASSIST</span>
-            <strong>${selection.rollAssist.supported ? 'Verified checkpoint policy available.' : 'Checkpoint policy pending.'}</strong>
-            <small>${escapeHtml(selection.rollAssist.reason)}${selection.rollAssist.policyId ? ` Policy: ${escapeHtml(selection.rollAssist.policyId)}.` : ''}</small>
-          </div>
-          ${selection.rollAssist.supported && selection.rollAssist.href
-            ? `<a id="alpha-roll-assist" href="${escapeHtml(selection.rollAssist.href)}">ROLL THESE ECHOES</a>`
-            : '<span class="alpha-roll-assist-disabled">POLICY PENDING</span>'}
-        </div>
+        ${rollAssistMarkup(selection)}
       </section>
 
       <section class="alpha-step alpha-analyze">
@@ -146,6 +254,7 @@ function bind(): void {
     selectedCharacterId = (event.currentTarget as HTMLSelectElement).value;
     selectedPresetId = undefined;
     analysisMessage = '';
+    resetOwnedEcho(true);
     render();
   });
 
@@ -153,14 +262,73 @@ function bind(): void {
     button.addEventListener('click', () => {
       selectedPresetId = button.dataset.preset;
       analysisMessage = '';
+      resetOwnedEcho(true);
       render();
     });
+  });
+
+  document.querySelector<HTMLButtonElement>('#alpha-owned-toggle')?.addEventListener('click', () => {
+    ownedEchoOpen = !ownedEchoOpen;
+    if (ownedEchoOpen) resetOwnedEcho(false);
+    render();
+  });
+  document.querySelector<HTMLButtonElement>('#alpha-owned-close')?.addEventListener('click', () => {
+    resetOwnedEcho(true);
+    render();
+  });
+  document.querySelector<HTMLSelectElement>('#alpha-owned-slot')?.addEventListener('change', (event) => {
+    ownedEchoSlotIndex = Number((event.currentTarget as HTMLSelectElement).value);
+    ownedEchoRolls = [];
+    ownedEchoResult = null;
+    ownedEchoError = '';
+    render();
+  });
+  document.querySelector<HTMLSelectElement>('#alpha-owned-level')?.addEventListener('change', (event) => {
+    ownedEchoLevel = Number((event.currentTarget as HTMLSelectElement).value) as OwnedEchoCheckpointLevel;
+    ownedEchoRolls = [];
+    ownedEchoResult = null;
+    ownedEchoError = '';
+    render();
+  });
+  document.querySelector<HTMLSelectElement>('#alpha-owned-stat')?.addEventListener('change', (event) => {
+    ownedEchoPendingStatName = (event.currentTarget as HTMLSelectElement).value;
+    render();
+  });
+  document.querySelector<HTMLButtonElement>('#alpha-owned-add')?.addEventListener('click', () => {
+    const stat = document.querySelector<HTMLSelectElement>('#alpha-owned-stat')?.value;
+    const rawValue = document.querySelector<HTMLSelectElement>('#alpha-owned-value')?.value;
+    if (!stat || rawValue === undefined) return;
+
+    const nextRolls = [...ownedEchoRolls, { name: stat, value: Number(rawValue) }];
+    ownedEchoRolls = nextRolls;
+    ownedEchoError = '';
+    const expectedRolls = ownedEchoLevel / 5;
+    if (nextRolls.length === expectedRolls && selectedPresetId) {
+      try {
+        ownedEchoResult = analyzeOwnedEchoCheckpoint({
+          presetId: selectedPresetId,
+          slotIndex: ownedEchoSlotIndex,
+          level: ownedEchoLevel,
+          substats: nextRolls,
+        });
+      } catch (error) {
+        ownedEchoResult = null;
+        ownedEchoError = error instanceof Error ? error.message : 'Unknown owned Echo analysis error.';
+      }
+    }
+    render();
+  });
+  document.querySelector<HTMLButtonElement>('#alpha-owned-reset')?.addEventListener('click', () => {
+    ownedEchoRolls = [];
+    ownedEchoResult = null;
+    ownedEchoError = '';
+    render();
   });
 
   document.querySelector<HTMLButtonElement>('#alpha-analyze')?.addEventListener('click', () => {
     const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
     analysisMessage = selection.analysisReady
-      ? 'READY: this profile has a verified executable rotation. No owned Echo values were entered on this shell, so Bellibing does not fabricate a damage verdict.'
+      ? 'READY: this profile has a verified executable rotation. No full owned five-Echo build has been entered on this shell, so Bellibing does not fabricate a damage verdict.'
       : `BLOCKED: ${statusLabel(selection.character.readinessDisposition)}. The recommended build remains usable as source-backed guidance, but DPS analysis stays fail-closed.`;
     render();
   });

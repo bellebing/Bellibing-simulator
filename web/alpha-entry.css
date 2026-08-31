@@ -31,7 +31,7 @@ h2 { margin: 8px 0 0; font-size: 24px; letter-spacing: -.025em; }
 .alpha-step--first { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: end; }
 .alpha-step-label { grid-column: 1 / -1; }
 .alpha-select-wrap { display: grid; gap: 8px; }
-.alpha-select-wrap span, .alpha-build-grid span, .alpha-echo-summary span, .alpha-echo-grid span, .alpha-roll-assist span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.alpha-select-wrap span, .alpha-build-grid span, .alpha-echo-summary span, .alpha-echo-grid span, .alpha-roll-assist span, .alpha-owned-panel span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
 select { width: min(100%, 520px); color: #fff; background: #0d0f13; border: 1px solid #393e48; border-radius: 12px; padding: 13px 14px; }
 .alpha-status { align-self: center; padding: 10px 12px; border: 1px solid #54472d; color: #d8b86f; border-radius: 999px; font-size: 10px; font-weight: 850; letter-spacing: .1em; white-space: nowrap; }
 .alpha-status--ready { border-color: #315d49; color: var(--green); }
@@ -56,9 +56,39 @@ select { width: min(100%, 520px); color: #fff; background: #0d0f13; border: 1px 
 .alpha-roll-assist strong { margin-top: 6px; }
 .alpha-roll-assist small { color: #707681; margin-top: 6px; line-height: 1.4; }
 .alpha-roll-assist--ready { border-color: #315d49; }
-#alpha-roll-assist { flex: 0 0 auto; border: 1px solid #4c8468; background: rgba(54,97,78,.2); color: #b8ebd2; font-size: 11px; font-weight: 900; letter-spacing: .08em; padding: 12px 14px; border-radius: 10px; }
-#alpha-roll-assist:hover { color: #e8fff4; border-color: #78d7a7; }
+.alpha-roll-assist-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+#alpha-roll-assist, #alpha-owned-toggle { border: 1px solid #4c8468; background: rgba(54,97,78,.2); color: #b8ebd2; font-size: 11px; font-weight: 900; letter-spacing: .08em; padding: 12px 14px; border-radius: 10px; cursor: pointer; }
+#alpha-roll-assist:hover, #alpha-owned-toggle:hover { color: #e8fff4; border-color: #78d7a7; }
+#alpha-owned-toggle { border-color: #65583e; background: rgba(111,85,39,.14); color: #e0c58b; }
 .alpha-roll-assist-disabled { flex: 0 0 auto; border: 1px solid #4a3d42; color: #9b858a !important; padding: 11px 13px; border-radius: 10px; font-weight: 800; }
+
+.alpha-owned-panel { margin-top: 8px; border: 1px solid #65583e; background: linear-gradient(145deg, rgba(33,29,22,.78), rgba(13,15,19,.98)); border-radius: 14px; padding: 16px; }
+.alpha-owned-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.alpha-owned-header strong, .alpha-owned-header span { display: block; }
+.alpha-owned-header strong { margin-top: 5px; }
+#alpha-owned-close, .alpha-owned-reset { border: 1px solid #3f444e; background: #111319; color: #b8bdc7; border-radius: 9px; padding: 9px 11px; cursor: pointer; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+.alpha-owned-context { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.alpha-owned-context label { display: grid; gap: 6px; }
+.alpha-owned-context select { width: 100%; }
+.alpha-owned-roll-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; min-height: 32px; align-items: center; }
+.alpha-owned-roll-list > div { display: grid; grid-template-columns: auto auto auto; gap: 8px; align-items: center; border: 1px solid #343944; background: #0d0f13; border-radius: 999px; padding: 7px 10px; font-size: 11px; }
+.alpha-owned-roll-list > div span { color: #626975; }
+.alpha-owned-roll-list > div b { color: #e7c982; }
+.alpha-owned-roll-list small { color: #6f7580; }
+.alpha-owned-entry { display: grid; gap: 10px; margin-top: 14px; border-top: 1px solid #302c24; padding-top: 14px; }
+.alpha-owned-entry strong { display: block; margin-top: 5px; }
+.alpha-owned-entry-row { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 8px; }
+.alpha-owned-entry-row select { width: 100%; }
+#alpha-owned-add { border: 1px solid #8f743d; background: #c79c47; color: #17120b; border-radius: 10px; padding: 0 14px; cursor: pointer; font-weight: 900; font-size: 11px; letter-spacing: .06em; }
+.alpha-owned-verdict { display: grid; gap: 5px; margin-top: 14px; border: 1px solid #4f724f; background: rgba(53,93,69,.12); border-radius: 12px; padding: 13px; }
+.alpha-owned-verdict strong { font-size: 22px; letter-spacing: -.02em; }
+.alpha-owned-verdict small { color: #89908f; line-height: 1.4; }
+.alpha-owned-verdict--discard { border-color: #72464a; background: rgba(111,50,55,.13); }
+.alpha-owned-verdict--discard strong { color: #f0a7aa; }
+.alpha-owned-verdict--keep strong { color: #9de0be; }
+.alpha-owned-verdict--temporary { border-color: #766337; }
+.alpha-owned-verdict--temporary strong, .alpha-owned-verdict--roll strong { color: #e7c982; }
+.alpha-owned-reset { margin-top: 10px; }
 
 .alpha-analyze { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
 .alpha-analyze p { color: var(--muted); margin: 8px 0 0; font-size: 13px; line-height: 1.5; max-width: 760px; }
@@ -73,14 +103,18 @@ footer { color: #666d78; text-align: center; font-size: 11px; margin-top: 22px; 
   .alpha-build-grid { grid-template-columns: 1fr; }
   .alpha-echo-grid { grid-template-columns: repeat(2, 1fr); }
   .alpha-echo-grid article:first-child { grid-column: 1 / -1; }
+  .alpha-roll-assist { align-items: stretch; flex-direction: column; }
+  .alpha-roll-assist-actions { width: 100%; }
+  #alpha-roll-assist, #alpha-owned-toggle { flex: 1 1 0; text-align: center; }
 }
 
 @media (max-width: 600px) {
   .alpha-shell { width: min(100% - 20px, 1120px); padding-top: 24px; }
-  .alpha-step--first, .alpha-echo-summary { grid-template-columns: 1fr; }
+  .alpha-step--first, .alpha-echo-summary, .alpha-owned-context { grid-template-columns: 1fr; }
   .alpha-status { justify-self: start; }
-  .alpha-roll-assist { align-items: stretch; flex-direction: column; }
-  #alpha-roll-assist, .alpha-roll-assist-disabled { width: 100%; text-align: center; }
+  .alpha-roll-assist-actions, .alpha-owned-entry-row { grid-template-columns: 1fr; display: grid; }
+  #alpha-roll-assist, #alpha-owned-toggle, .alpha-roll-assist-disabled { width: 100%; text-align: center; }
+  #alpha-owned-add { padding: 12px 14px; }
   .alpha-analyze { align-items: stretch; flex-direction: column; }
   #alpha-analyze { width: 100%; }
 }

@@ -120,8 +120,27 @@ async function verifyAlphaEntry(send) {
 
       const analyze = document.querySelector('#alpha-analyze');
       const rollAssist = document.querySelector('#alpha-roll-assist');
+      const ownedToggle = document.querySelector('#alpha-owned-toggle');
       if (!analyze) throw new Error('Alpha Analyze control disappeared after Augusta selection.');
       if (!rollAssist) throw new Error('Augusta profile-aware Roll Assist CTA is missing.');
+      if (!ownedToggle) throw new Error('Augusta owned Echo analysis CTA is missing.');
+
+      ownedToggle.click();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      let stat = document.querySelector('#alpha-owned-stat');
+      if (!stat) throw new Error('Owned Echo stat input did not open.');
+      stat.value = 'CRIT Rate';
+      stat.dispatchEvent(new Event('change', { bubbles: true }));
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      const value = document.querySelector('#alpha-owned-value');
+      const add = document.querySelector('#alpha-owned-add');
+      if (!value || !add) throw new Error('Owned Echo exact roll controls are missing.');
+      value.value = '0.093';
+      if (value.value !== '0.093') throw new Error('Owned Echo exact CRIT Rate 9.3% value is missing.');
+      add.click();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      const ownedDecision = document.querySelector('.alpha-owned-verdict strong')?.textContent?.trim() ?? null;
+
       analyze.click();
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -133,6 +152,7 @@ async function verifyAlphaEntry(send) {
         hasResult: Boolean(document.querySelector('.alpha-result')),
         echoLabHref: document.querySelector('a[href$="echo-lab.html"]')?.getAttribute('href') ?? null,
         rollAssistHref: document.querySelector('#alpha-roll-assist')?.getAttribute('href') ?? null,
+        ownedDecision,
       };
     })()
   `);
@@ -145,6 +165,9 @@ async function verifyAlphaEntry(send) {
   if (result.echoLabHref !== './echo-lab.html') throw new Error(`Alpha Echo Lab route mismatch: ${JSON.stringify(result.echoLabHref)}.`);
   if (result.rollAssistHref !== './roll-assistant.html?character=augusta&preset=augusta-standard') {
     throw new Error(`Alpha profile-aware Roll Assist route mismatch: ${JSON.stringify(result.rollAssistHref)}.`);
+  }
+  if (result.ownedDecision !== 'ROLL TO +10') {
+    throw new Error(`Alpha owned Echo verdict mismatch: ${JSON.stringify(result.ownedDecision)}.`);
   }
 }
 
@@ -239,7 +262,7 @@ try {
     await send('Runtime.enable');
 
     await verifyAlphaEntry(send);
-    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, Analyze, Augusta profile-aware Roll Assist route.');
+    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, owned +5 exact-roll verdict, Analyze, Augusta profile-aware Roll Assist route.');
 
     await navigate(send, PROFILED_ROLL_ASSIST_URL);
     await verifyProfileContext(send);
@@ -258,6 +281,7 @@ try {
     if (directHeading !== 'Augusta') throw new Error(`Direct Roll Assist backward compatibility failed: ${JSON.stringify(directHeading)}.`);
 
     console.log('Live profile-aware Roll Assist verdict paths verified:');
+    console.log('- Alpha owned +5 CRIT Rate 9.3% => ROLL TO +10');
     console.log('- Augusta canonical route -> AUGUSTA_RECOMMENDED_V915');
     console.log('- +5 CRIT Rate 6.3% => DISCARD');
     console.log('- +5 CRIT Rate 9.3% => ROLL TO +10');

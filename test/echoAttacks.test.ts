@@ -43,7 +43,7 @@ test('Mech Abomination Rank-5 attack facts preserve direct and Outro-classified 
     { motionValuePerHit: 3.2, hits: 1 },
     { motionValuePerHit: 1.6, hits: 1 },
   ]);
-  assert.equal(totalMotionValue(waste), 4.8);
+  assert.ok(Math.abs(totalMotionValue(waste) - 4.8) < 1e-12);
 });
 
 test('Fallacy Rank-5 normal activation is exact one-hit 15.86% max-HP Spectro damage', () => {

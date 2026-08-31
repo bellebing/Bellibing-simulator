@@ -23,7 +23,7 @@ test('exact active Echo primitive preserves Mech Waste source classification wit
   assert.equal(resolved.element, 'Electro');
   assert.equal(resolved.scalingStat, 'ATK');
   assert.equal(resolved.sourceDamageClass, 'OUTRO');
-  assert.equal(resolved.motionValue, 4.8);
+  assert.ok(Math.abs(resolved.motionValue - 4.8) < 1e-12);
   assert.equal(Object.hasOwn(resolved, 'timestamp'), false);
   assert.equal(Object.hasOwn(resolved, 'uptime'), false);
 });

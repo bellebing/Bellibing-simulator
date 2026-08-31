@@ -36,6 +36,40 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60000535',
+    rank: 5,
+    cooldownSeconds: 20,
+    attacks: [
+      {
+        attackId: 'DREAMLESS_SIX_STRIKE_COMBO',
+        name: 'Dreamless — six-strike combo',
+        trigger: 'ACTIVE_CAST',
+        element: 'Havoc',
+        scalingStat: 'ATK',
+        components: [
+          { motionValuePerHit: 0.5408, hits: 5 },
+          { motionValuePerHit: 2.704, hits: 1 },
+        ],
+      },
+    ],
+    provenance: {
+      sourceLabels: [
+        'wuwabuild Echo skill source identity',
+        'Wuthering.gg current Dreamless Rank-5 skill',
+      ],
+      sourceUrls: [
+        ECHO_SKILL_SOURCE_URL,
+        'https://wuthering.gg/echos/dreamless',
+      ],
+      checkedAt: '2026-08-31',
+      notes: [
+        'Current Rank-5 source resolves Dreamless to five 54.08% ATK Havoc hits plus one 270.40% ATK Havoc hit, totaling 540.8% ATK motion value over six strikes.',
+        'The source also gives Dreamless +50% Echo Skill DMG during the first 5 seconds after Rover (Havoc) casts Deadening Abyss. That conditional remains an execution/window concern and is not flattened into this attack magnitude.',
+        'The source-proven Dreamless swap cancel in the Rover profile does not provide attack timestamps or total rotation duration.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60000605',
     rank: 5,
     cooldownSeconds: 20,

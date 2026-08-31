@@ -1,4 +1,5 @@
 import type { EchoAttackProfile } from '../echoAttackDomain.ts';
+import { MECH_ABOMINATION_ATTACK_PROFILE } from './echoAttacksMechAbomination20260831.ts';
 
 const ECHO_SKILL_SOURCE_URL = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Echoes.json';
 
@@ -35,6 +36,7 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
       ],
     },
   },
+  MECH_ABOMINATION_ATTACK_PROFILE,
   {
     echoId: 'echo-60000605',
     rank: 5,

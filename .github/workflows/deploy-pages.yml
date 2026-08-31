@@ -107,3 +107,8 @@ jobs:
         run: |
           google-chrome --version
           node scripts/verify-live-roll-assist.mjs
+
+      - name: Verify live Augusta upgrade loop in Chrome
+        env:
+          BELLIBING_ALPHA_URL: https://bellebing.github.io/Bellibing-simulator/
+        run: node scripts/verify-alpha-upgrade.mjs

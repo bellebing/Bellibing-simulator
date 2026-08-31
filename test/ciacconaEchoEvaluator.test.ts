@@ -56,13 +56,20 @@ const CANONICAL_SHELL: Echo[] = [
   },
 ];
 
+function assertClose(actual: number, expected: number): void {
+  assert.ok(
+    Math.abs(actual - expected) < 1e-12,
+    `Expected ${actual} to be within 1e-12 of ${expected}.`,
+  );
+}
+
 test('Ciaccona static owned-build assembly derives canonical Character/Weapon/Echo/Sonata stats without runtime buffs', () => {
   const assembled = ciacconaInputsFromEchoes(CANONICAL_SHELL, ZERO_CONTEXT);
 
   assert.equal(assembled.inputs.totalAttack, 1750);
-  assert.equal(assembled.inputs.critRate, 0.63);
-  assert.equal(assembled.inputs.critDamage, 1.66);
-  assert.equal(assembled.inputs.aeroDamageBonus, 0.82);
+  assertClose(assembled.inputs.critRate, 0.63);
+  assertClose(assembled.inputs.critDamage, 1.66);
+  assertClose(assembled.inputs.aeroDamageBonus, 0.82);
   assert.equal(assembled.inputs.basicAttackDamageBonus, 0);
   assert.equal(assembled.inputs.heavyAttackDamageBonus, 0);
   assert.equal(assembled.inputs.resonanceSkillDamageBonus, 0);
@@ -73,9 +80,9 @@ test('Ciaccona static owned-build assembly derives canonical Character/Weapon/Ec
   assert.equal(assembled.inputs.skillLevel, 10);
   assert.equal(assembled.inputs.weaponRank, 1);
   assert.equal(assembled.inputs.enemyDefense, 0);
-  assert.equal(assembled.inputs.enemyAeroResistance, 0.2);
+  assertClose(assembled.inputs.enemyAeroResistance, 0.2);
   assert.equal(assembled.energyRegen, 1);
-  assert.equal(assembled.erMinimum, 1.15);
+  assertClose(assembled.erMinimum, 1.15);
   assert.equal(assembled.erGate, 'FAIL');
 
   assert.equal(CIACCONA_OWNED_BUILD_STATIC_REVIEW_20260831.disposition, 'STATIC_ASSEMBLY_VERIFIED_CONTEXT_PENDING');
@@ -124,17 +131,17 @@ test('Ciaccona owned-build assembly adds exact Echo rolls and explicit external 
   };
   const assembled = ciacconaInputsFromEchoes(echoes, context);
 
-  assert.equal(assembled.inputs.totalAttack, 875 * (1 + 0.24 + 0.36 + 0.079 + 0.10) + 350 + 30 + 25);
-  assert.equal(assembled.inputs.critRate, 0.68);
-  assert.equal(assembled.inputs.critDamage, 1.934);
-  assert.equal(assembled.inputs.aeroDamageBonus, 0.90);
-  assert.equal(assembled.inputs.basicAttackDamageBonus, 0.03);
-  assert.equal(assembled.inputs.heavyAttackDamageBonus, 0.04);
-  assert.equal(assembled.inputs.resonanceSkillDamageBonus, 0.129);
-  assert.equal(assembled.inputs.resonanceLiberationDamageBonus, 0.06);
-  assert.equal(assembled.inputs.introSkillDamageBonus, 0.07);
-  assert.equal(assembled.inputs.allDamageAmplification, 0.09);
-  assert.equal(assembled.energyRegen, 1.152);
+  assertClose(assembled.inputs.totalAttack, 1961.625);
+  assertClose(assembled.inputs.critRate, 0.68);
+  assertClose(assembled.inputs.critDamage, 1.934);
+  assertClose(assembled.inputs.aeroDamageBonus, 0.90);
+  assertClose(assembled.inputs.basicAttackDamageBonus, 0.03);
+  assertClose(assembled.inputs.heavyAttackDamageBonus, 0.04);
+  assertClose(assembled.inputs.resonanceSkillDamageBonus, 0.129);
+  assertClose(assembled.inputs.resonanceLiberationDamageBonus, 0.06);
+  assertClose(assembled.inputs.introSkillDamageBonus, 0.07);
+  assertClose(assembled.inputs.allDamageAmplification, 0.09);
+  assertClose(assembled.energyRegen, 1.152);
   assert.equal(assembled.erGate, 'PASS');
 });
 

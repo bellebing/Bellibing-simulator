@@ -14,7 +14,7 @@ export interface EchoSkillPendingAdapterFact {
 
 export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   patch: '3.6',
-  checkedAt: '2026-08-31',
+  checkedAt: '2026-09-01',
   sourceRepository: 'DommyMM/wuwabuild',
   sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
   sourceBlobSha: 'cca1563ce0491a3de80ac7359344112631329224',
@@ -31,8 +31,8 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedStructuredBonusRowCount: 58,
   expectedCharacterConditionBonusRowCount: 3,
   expectedUnusedParamRecordCount: 3,
-  expectedModeledEffectRowCount: 63,
-  expectedModeledEffectEchoCount: 37,
+  expectedModeledEffectRowCount: 64,
+  expectedModeledEffectEchoCount: 38,
   expectedAttackProfileCount: 5,
   expectedAttackFactCount: 6,
   notes: [
@@ -44,6 +44,8 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
     'Reminiscence: Fleurdelys is now an exact safe attack-profile case: the pinned Rank-5 row proves 27.36% ATK Aero DMG x8 plus one 136.80% ATK Aero hit, with no active-cast variant ambiguity in the source record.',
     'Structured upstream bonuses are used only where their main-slot behavior is stable. Character-restricted or loadout-replaced rows remain pending until the corresponding adapter exists.',
     'Reminiscence: Fleurdelys is the first character-restricted structured bonus promoted: the pinned record and multilingual text resolve source token Aero to Rover (Aero), while Cartethyia is named directly. The extra +10% Aero bonus is not generalized to other Aero Resonators.',
+    'Sigillum 25% Resonance Liberation DMG main-slot passive is now promoted through the same identity-restriction primitive and applies only to Aemeath.',
+    'Sigillum Rank-5 active values 68.40% + 205.20% Fusion DMG and 20s cooldown are source-explicit, but the reviewed text does not identify the scaling stat required by EchoAttackProfile. No ATK scaling is guessed and the active attack therefore remains outside the exact attack catalog.',
     'Exact Echo attack data does not close any profile active-damage dependency by itself; an executable rotation must still prove the exact Echo cast event.',
   ],
 } as const;
@@ -75,12 +77,6 @@ export const ECHO_SKILL_PENDING_ADAPTER_FACTS: readonly EchoSkillPendingAdapterF
     fact: '15% CRIT Rate when Reminiscence - Nightmare: Adam Smasher is main-slot equipped by Lucy or Rebecca',
     kind: 'CHARACTER_RESTRICTION',
     reason: 'The current Echo effect layer has not yet migrated this character-restricted row onto the verified wielder-identity applicability primitive.',
-  },
-  {
-    echoId: 'echo-60001915',
-    fact: '25% Resonance Liberation DMG Bonus when Sigillum is main-slot equipped by Aemeath',
-    kind: 'CHARACTER_RESTRICTION',
-    reason: 'The effect is source-explicit but has not yet been migrated onto the verified wielder-identity applicability primitive.',
   },
   {
     echoId: 'echo-60001809',

@@ -34,6 +34,13 @@ test('Alpha default selection resolves real profile relationships without phanto
     } else {
       assert.ok(selection.rotation.engineModelId);
     }
+    if (selection.rollAssist.supported) {
+      assert.ok(selection.rollAssist.policyId);
+      assert.ok(selection.rollAssist.href?.startsWith('./roll-assistant.html?'));
+    } else {
+      assert.equal(selection.rollAssist.policyId, null);
+      assert.equal(selection.rollAssist.href, null);
+    }
   }
 });
 
@@ -54,4 +61,20 @@ test('current Alpha surface exposes both DPS-ready and source-only truth', () =>
   const selections = options.map((option) => resolveAlphaSelection(option.characterId));
   assert.ok(selections.some((selection) => selection.analysisReady));
   assert.ok(selections.some((selection) => !selection.analysisReady));
+});
+
+test('Alpha exposes Roll Assist only where an independently verified policy binding exists', () => {
+  const augusta = resolveAlphaSelection('augusta', 'augusta-standard');
+  assert.equal(augusta.analysisReady, true);
+  assert.equal(augusta.rollAssist.supported, true);
+  assert.equal(augusta.rollAssist.policyId, 'AUGUSTA_RECOMMENDED_V915');
+  assert.equal(augusta.rollAssist.href, './roll-assistant.html?character=augusta&preset=augusta-standard');
+
+  const ciaccona = resolveAlphaSelection('ciaccona', 'ciaccona-cartethyia-aero');
+  assert.equal(ciaccona.analysisReady, true);
+  assert.equal(ciaccona.rollAssist.supported, false, 'DPS_READY must not imply a roll checkpoint policy.');
+
+  const carlotta = resolveAlphaSelection('carlotta', 'carlotta-standard');
+  assert.equal(carlotta.analysisReady, false);
+  assert.equal(carlotta.rollAssist.supported, false);
 });

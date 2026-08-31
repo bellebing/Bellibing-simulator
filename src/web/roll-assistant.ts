@@ -8,7 +8,6 @@ import {
   type StatName,
   type StatRoll,
 } from '../echoCore.ts';
-import { AUGUSTA_RECOMMENDED_V915 } from '../characters/augustaRecommended.ts';
 import { evaluateRollAssistantCheckpoint } from '../rollAssistantCheckpoint.ts';
 import {
   createRollAssistantSession,
@@ -17,6 +16,11 @@ import {
   type RollAssistantInstruction,
   type RollAssistantSession,
 } from '../rollAssistantSession.ts';
+import {
+  getDefaultRollAssistProfileBinding,
+  resolveRollAssistProfileBinding,
+  type RollAssistProfileBinding,
+} from '../rollAssistProfileRegistry.ts';
 
 function requireAppRoot(): HTMLDivElement {
   const root = document.querySelector<HTMLDivElement>('#app');
@@ -24,8 +28,37 @@ function requireAppRoot(): HTMLDivElement {
   return root;
 }
 
+function resolveRouteBinding(): { readonly binding: RollAssistProfileBinding; readonly error: string | null } {
+  const fallback = getDefaultRollAssistProfileBinding();
+  const params = new URLSearchParams(window.location.search);
+  const requestedPresetId = params.get('preset');
+  const requestedCharacterId = params.get('character');
+
+  if (!requestedPresetId && !requestedCharacterId) return { binding: fallback, error: null };
+  if (!requestedPresetId) {
+    return { binding: fallback, error: 'Profile-aware Roll Assist requires a canonical preset id.' };
+  }
+
+  const binding = resolveRollAssistProfileBinding(requestedPresetId);
+  if (!binding) {
+    return {
+      binding: fallback,
+      error: `No verified Roll Assist checkpoint policy is bound to canonical preset ${requestedPresetId}.`,
+    };
+  }
+  if (requestedCharacterId && requestedCharacterId !== binding.characterId) {
+    return {
+      binding: fallback,
+      error: `Roll Assist route mismatch: ${requestedCharacterId} does not own preset ${requestedPresetId}.`,
+    };
+  }
+  return { binding, error: null };
+}
+
 const app = requireAppRoot();
-const profile = AUGUSTA_RECOMMENDED_V915;
+const route = resolveRouteBinding();
+const binding = route.binding;
+const profile = binding.policy;
 let session: RollAssistantSession = createRollAssistantSession('RECOMMENDED');
 let candidateSerial = 0;
 let lastReason = '';
@@ -69,7 +102,7 @@ function createCandidateForSlot(slotIndex: number): Echo {
   if (!slot) throw new Error(`Missing Recommended Echo slot ${slotIndex + 1}.`);
   candidateSerial += 1;
   return createRank5EchoAtLevel0({
-    id: `augusta-assist-${slotIndex + 1}-${candidateSerial}`,
+    id: `${binding.characterId}-assist-${slotIndex + 1}-${candidateSerial}`,
     cost: slot.cost,
     primaryMainStat: slot.primaryMain as PrimaryMainStatName,
   });
@@ -230,30 +263,60 @@ function instructionMarkup(): string {
 }
 
 function targetPeekMarkup(): string {
+  const core = profile.targets
+    .filter((target) => target.role === 'CORE')
+    .map((target) => `${target.name} ${formatRoll(target.name, target.minimum)}`);
+  const useful = profile.targets
+    .filter((target) => target.role === 'USEFUL')
+    .map((target) => target.name);
   return `
     <details class="assist-target">
       <summary>Recommended target</summary>
       <div class="assist-target-body">
-        <strong>2 Core + any 1 Useful</strong>
-        <span>Core: CRIT DMG 21% · CRIT Rate 9.3%</span>
-        <span>Useful: ATK% · Energy Regen · Heavy Attack DMG</span>
+        <strong>${profile.requiredCoreHits} Core + any ${profile.requiredUsefulHits} Useful</strong>
+        <span>Core: ${core.map(escapeHtml).join(' · ') || 'None'}</span>
+        <span>Useful: ${useful.map(escapeHtml).join(' · ') || 'None'}</span>
       </div>
     </details>`;
+}
+
+function unsupportedRouteMarkup(): string {
+  return `
+    <main class="assist-shell">
+      <header class="assist-header">
+        <a class="assist-back" href="./">← Alpha</a>
+        <div class="assist-brand">BELLIBING</div>
+        <div class="assist-live"><i></i> FAIL CLOSED</div>
+      </header>
+      <section class="assist-title">
+        <div class="assist-eyebrow">ROLL ASSIST</div>
+        <h1>Policy unavailable</h1>
+        <div class="assist-mode">CANONICAL PROFILE REQUIRED</div>
+      </section>
+      <section class="assist-stage">
+        <div class="assist-verdict assist-verdict--temp">
+          <div class="assist-command">ROLL ASSIST BLOCKED</div>
+          <div class="why-copy">${escapeHtml(route.error ?? 'Unsupported Roll Assist route.')}</div>
+          <a class="assist-next" href="./">BACK TO ALPHA</a>
+        </div>
+      </section>
+      <footer class="assist-footer">No fallback policy was applied to the requested profile.</footer>
+    </main>`;
 }
 
 function pageMarkup(): string {
   return `
     <main class="assist-shell">
       <header class="assist-header">
-        <a class="assist-back" href="./">← Echo Lab</a>
+        <a class="assist-back" href="./">← Alpha</a>
         <div class="assist-brand">BELLIBING</div>
         <div class="assist-live"><i></i> LIVE</div>
       </header>
 
       <section class="assist-title">
         <div class="assist-eyebrow">ROLL ASSIST</div>
-        <h1>Augusta</h1>
-        <div class="assist-mode">RECOMMENDED</div>
+        <h1>${escapeHtml(binding.characterName)}</h1>
+        <div class="assist-mode">${escapeHtml(profile.targetMode)}</div>
       </section>
 
       <section class="assist-progress">${slotProgressMarkup()}</section>
@@ -264,13 +327,13 @@ function pageMarkup(): string {
 
       ${targetPeekMarkup()}
 
-      <footer class="assist-footer">V9.15 policy parity · exact roll values · character DPS upgrade logic comes next</footer>
+      <footer class="assist-footer">${escapeHtml(profile.id)} · canonical ${escapeHtml(binding.presetId)} · exact roll values</footer>
     </main>`;
 }
 
 function render(): void {
-  ensureActiveCandidate();
-  app.innerHTML = pageMarkup();
+  if (!route.error) ensureActiveCandidate();
+  app.innerHTML = route.error ? unsupportedRouteMarkup() : pageMarkup();
   bind();
 }
 
@@ -287,7 +350,7 @@ function updateValueSelect(): void {
 
 function enterRoll(): void {
   const echo = activeEcho();
-  if (!echo) return;
+  if (!echo || route.error) return;
   const instruction = getNextInstruction(session);
   if (instruction.action !== 'ROLL') return;
   const name = selectedStatName();

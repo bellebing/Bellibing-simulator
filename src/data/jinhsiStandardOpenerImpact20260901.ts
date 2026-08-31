@@ -5,7 +5,7 @@ export const JINHSI_STANDARD_OPENER_IMPACT_REVIEWS_20260901: readonly ProfileBac
     reviewId: 'PROFILE-IMPACT-JINHSI-OPENER-2026-09-01-01',
     characterId: 'jinhsi',
     presetId: 'jinhsi-standard-opener',
-    weaponRecommendationProfileId: 'jinhsi-ages-of-harvest-weapons',
+    weaponRecommendationProfileId: 'jinhsi-standard-weapons',
     checkedAt: '2026-09-01',
     patch: '3.6',
     reviewedWeaponEffectIds: ['AH-ATTR', 'AH-INTRO', 'AH-SKILL'],

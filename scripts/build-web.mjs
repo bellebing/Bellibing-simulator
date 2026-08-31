@@ -8,6 +8,8 @@ const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', sh
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 
 cpSync('web/index.html', 'dist/index.html');
+cpSync('web/alpha-entry.css', 'dist/alpha-entry.css');
+cpSync('web/echo-lab.html', 'dist/echo-lab.html');
 cpSync('web/styles.css', 'dist/styles.css');
 cpSync('web/echo-lab.css', 'dist/echo-lab.css');
 cpSync('web/roll-assistant.html', 'dist/roll-assistant.html');

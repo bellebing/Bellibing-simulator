@@ -49,7 +49,7 @@ function normalizeStat(value) {
   if (upper === 'CRIT DMG') return 'CRIT DMG';
   if (upper === 'ATK') return 'Flat ATK';
   if (upper === 'DEF') return 'Flat DEF';
-  if (upper === 'ENERGY REGEN (UNTIL SATISFIED)') return 'Energy Regen';
+  if (/^ENERGY REGEN(?: \(UNTIL .+\))?$/i.test(source)) return 'Energy Regen';
   if (/^HEAVY (?:ATK )?DMG%$/i.test(source)) return 'Heavy Attack DMG';
   if (/^BASIC (?:ATK )?DMG%$/i.test(source)) return 'Basic Attack DMG';
   if (/^SKILL DMG%$/i.test(source)) return 'Skill DMG';

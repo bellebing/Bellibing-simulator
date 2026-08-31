@@ -7,7 +7,7 @@ import {
   createCiacconaOwnedEchoDamageEvaluator,
   type CiacconaOwnedBuildCombatContext,
 } from '../src/characters/ciacconaEchoEvaluator.ts';
-import type { Echo } from '../src/domain.ts';
+import type { Echo, StatRoll } from '../src/domain.ts';
 import { analyzeOwnedBuild, resolveOwnedBuildDpsBinding } from '../src/ownedBuildAnalysis.ts';
 import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
 
@@ -28,33 +28,54 @@ const ZERO_CONTEXT: CiacconaOwnedBuildCombatContext = {
   energyRegen: 0,
 };
 
+const LOW_IMPACT_EXACT_SUBSTATS: readonly StatRoll[] = [
+  { name: 'Flat HP', value: 470 },
+  { name: 'Flat DEF', value: 40 },
+  { name: 'HP%', value: 0.086 },
+  { name: 'DEF%', value: 0.109 },
+  { name: 'Basic Attack DMG', value: 0.064 },
+] as const;
+
+function exactSubstats(): StatRoll[] {
+  return LOW_IMPACT_EXACT_SUBSTATS.map((roll) => ({ ...roll }));
+}
+
 const CANONICAL_SHELL: Echo[] = [
   {
     id: 'CIACCONA_1', rank: 5, cost: 4, level: 25,
     mainStat: { name: 'CRIT Rate', value: 0.22 },
-    substats: [],
+    substats: exactSubstats(),
   },
   {
     id: 'CIACCONA_2', rank: 5, cost: 3, level: 25,
     mainStat: { name: 'Aero DMG', value: 0.30 },
-    substats: [],
+    substats: exactSubstats(),
   },
   {
     id: 'CIACCONA_3', rank: 5, cost: 3, level: 25,
     mainStat: { name: 'Aero DMG', value: 0.30 },
-    substats: [],
+    substats: exactSubstats(),
   },
   {
     id: 'CIACCONA_4', rank: 5, cost: 1, level: 25,
     mainStat: { name: 'ATK%', value: 0.18 },
-    substats: [],
+    substats: exactSubstats(),
   },
   {
     id: 'CIACCONA_5', rank: 5, cost: 1, level: 25,
     mainStat: { name: 'ATK%', value: 0.18 },
-    substats: [],
+    substats: exactSubstats(),
   },
 ];
+
+function cloneShell(): Echo[] {
+  return CANONICAL_SHELL.map((echo) => ({
+    ...echo,
+    mainStat: { ...echo.mainStat },
+    secondaryMainStat: echo.secondaryMainStat ? { ...echo.secondaryMainStat } : undefined,
+    substats: echo.substats.map((roll) => ({ ...roll })),
+  }));
+}
 
 function assertClose(actual: number, expected: number): void {
   assert.ok(
@@ -70,7 +91,7 @@ test('Ciaccona static owned-build assembly derives canonical Character/Weapon/Ec
   assertClose(assembled.inputs.critRate, 0.63);
   assertClose(assembled.inputs.critDamage, 1.66);
   assertClose(assembled.inputs.aeroDamageBonus, 0.82);
-  assert.equal(assembled.inputs.basicAttackDamageBonus, 0);
+  assertClose(assembled.inputs.basicAttackDamageBonus, 0.32);
   assert.equal(assembled.inputs.heavyAttackDamageBonus, 0);
   assert.equal(assembled.inputs.resonanceSkillDamageBonus, 0);
   assert.equal(assembled.inputs.resonanceLiberationDamageBonus, 0);
@@ -98,19 +119,27 @@ test('Ciaccona static owned-build assembly derives canonical Character/Weapon/Ec
 });
 
 test('Ciaccona owned-build assembly adds exact Echo rolls and explicit external context only once', () => {
-  const echoes: Echo[] = CANONICAL_SHELL.map((echo) => ({
-    ...echo,
-    mainStat: { ...echo.mainStat },
-    substats: [...echo.substats],
-  }));
+  const echoes = cloneShell();
   echoes[0]!.substats = [
     { name: 'CRIT DMG', value: 0.174 },
     { name: 'Energy Regen', value: 0.092 },
+    { name: 'Flat HP', value: 470 },
+    { name: 'Flat DEF', value: 40 },
+    { name: 'HP%', value: 0.086 },
   ];
-  echoes[1]!.substats = [{ name: 'Flat ATK', value: 30 }];
+  echoes[1]!.substats = [
+    { name: 'Flat ATK', value: 30 },
+    { name: 'Flat HP', value: 470 },
+    { name: 'Flat DEF', value: 40 },
+    { name: 'HP%', value: 0.086 },
+    { name: 'DEF%', value: 0.109 },
+  ];
   echoes[3]!.substats = [
     { name: 'ATK%', value: 0.079 },
     { name: 'Skill DMG', value: 0.079 },
+    { name: 'Flat HP', value: 470 },
+    { name: 'Flat DEF', value: 40 },
+    { name: 'HP%', value: 0.086 },
   ];
 
   const context: CiacconaOwnedBuildCombatContext = {
@@ -135,7 +164,7 @@ test('Ciaccona owned-build assembly adds exact Echo rolls and explicit external 
   assertClose(assembled.inputs.critRate, 0.68);
   assertClose(assembled.inputs.critDamage, 1.934);
   assertClose(assembled.inputs.aeroDamageBonus, 0.90);
-  assertClose(assembled.inputs.basicAttackDamageBonus, 0.03);
+  assertClose(assembled.inputs.basicAttackDamageBonus, 0.158);
   assertClose(assembled.inputs.heavyAttackDamageBonus, 0.04);
   assertClose(assembled.inputs.resonanceSkillDamageBonus, 0.129);
   assertClose(assembled.inputs.resonanceLiberationDamageBonus, 0.06);
@@ -162,11 +191,19 @@ test('explicit-context Ciaccona evaluator executes finite DPS but remains unregi
   );
 });
 
-test('Ciaccona assembly rejects missing loadout or non-finite unresolved context instead of inventing defaults', () => {
+test('Ciaccona assembly rejects invalid owned loadouts or non-finite unresolved context instead of inventing defaults', () => {
   assert.throws(
     () => ciacconaInputsFromEchoes(CANONICAL_SHELL.slice(0, 4), ZERO_CONTEXT),
     /requires exactly five Echoes/,
   );
+
+  const wrongRank = cloneShell();
+  wrongRank[0] = { ...wrongRank[0]!, rank: 4 };
+  assert.throws(
+    () => ciacconaInputsFromEchoes(wrongRank, ZERO_CONTEXT),
+    /requires Rank-5 Echoes/,
+  );
+
   assert.throws(
     () => ciacconaInputsFromEchoes(CANONICAL_SHELL, { ...ZERO_CONTEXT, enemyDefense: Number.NaN }),
     /enemyDefense must be finite and non-negative/,

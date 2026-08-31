@@ -8,9 +8,9 @@ Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wi
 
 ## Current baseline
 
-Current main: `d66d7bb790a75991c9af7f9f18025e6daa16dbe0` after merged PR #129.
+Current implementation merge: `37b2b8dd954ec2ea6ac65a8598d3db16d679a6eb` after merged PR #131. PR #132 aligns the GitHub Pages live-smoke contract with the new Alpha root without changing product/data/readiness semantics.
 
-Live registry-derived readiness is:
+Live registry-derived readiness remains:
 
 - **43 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
@@ -19,7 +19,9 @@ Live registry-derived readiness is:
 
 PR #129 integrated the reviewer-approved 2026-08-31 horizontal tranche into the canonical profile registries. Six canonical VERIFIED packages were added for **Chixia, Encore, Lucilla, Rover (Havoc), Yangyang and Mornye**. All six rotations remain `SOURCE_SEQUENCE_ONLY`; no execution timing, uptime or DPS freeze was inferred.
 
-The same tranche keeps **Baizhi, Brant, Jianxin, Phoebe, Verina and Yuanwu** parked on their previously reviewed explicit semantic blockers. Do not re-research these six without new evidence. Mornye's separately reviewed node-level intrinsic DEF resolution is now canonical at **15.20%**, so there is no remaining released intrinsic DPS blocker.
+PR #131 then changed the public product entry without changing readiness: the root is now a registry-driven Alpha shell built from canonical profile truth. It also added one exact Rank-5 Nightmare: Thundering Mephis active Echo attack fact. Calcharo was explicitly **not** promoted: the unresolved Void Thunder stack semantics remain fail-closed.
+
+The same source tranche keeps **Baizhi, Brant, Jianxin, Phoebe, Verina and Yuanwu** parked on their previously reviewed explicit semantic blockers. Do not re-research these six without new evidence. Mornye's separately reviewed node-level intrinsic DEF resolution is canonical at **15.20%**, so there is no remaining released intrinsic DPS blocker.
 
 The current `PROFILE_SOURCE_PENDING` queue is exactly:
 
@@ -38,6 +40,8 @@ The semantic execution partition remains **30 UNREVIEWED / 1 SEMANTICALLY_REVIEW
 ## Architecture boundary
 
 Preserve the separation between raw game/source data, Character Mechanics, Weapon/Echo/Sonata effects, composable profiles/recommendations, execution/combat-DPS logic and UI. The old V9.15 spreadsheet is a historical oracle only when explicitly needed. `SOURCE_SEQUENCE_ONLY` never becomes executable by assumption.
+
+The Alpha UI is a projection of canonical registries, not a second profile database. Frontend selection must never invent a Character, mode, team, weapon, Echo shell, timing or DPS claim that the underlying registry does not support.
 
 ## Source coverage
 
@@ -61,13 +65,13 @@ Preserve the separation between raw game/source data, Character Mechanics, Weapo
 - Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
 - **181 / 181 released Echo skills** are source-reviewed.
 - Echo non-damage effect coverage remains **63 modeled rows across 37 Echoes** with specialized adapter boundaries explicit.
-- Exact Rank-5 Echo attack catalog: **4 attack profiles / 5 attack facts**.
+- Exact Rank-5 Echo attack catalog: **5 attack profiles / 6 attack facts**. Nightmare: Thundering Mephis is exact at Rank 5 as one 405% ATK Electro active hit with 25-second cooldown; storing that attack fact does not imply a Calcharo rotation closure.
 
 ## Composable profiles
 
 Independent Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset catalogs are live and cross-validated. The candidate/profile pipeline remains fail closed: extraction/staging cannot approve semantic truth, `SOURCE_SEQUENCE_ONLY` never implies timing or uptime, readiness is registry-derived, and ambiguous source truth stays pending instead of receiving defaults.
 
-Two deterministic horizontal tranches are now reproducible in-repo:
+Two deterministic horizontal tranches are reproducible in-repo:
 
 - 2026-08-30: 13 reviewer-approved canonical packages, 11 parked rows;
 - 2026-08-31: 6 reviewer-approved canonical packages, 6 parked rows, materialized as deterministic split modules.
@@ -106,29 +110,31 @@ Keep these fail-closed until stronger source or an explicitly approved measureme
 - **BUG-013 — Blazing Brilliance Searing Feather at-cap lifecycle:** `BLOCKED_SOURCE_SEMANTICS`; source does not define what qualifying +1/+5 events at 14 stacks do to the 12-second removal timer.
 - **BUG-014 — Changli Standard Rotation denominator:** `BLOCKED_SOURCE_SEMANTICS`; source gives a 1.37-second variant delta but no exact total duration.
 
-No blocked dependency is implemented by assumption.
+Calcharo is additionally parked as a current execution candidate rather than receiving a new false closure: the source-facing Void Thunder 5-piece text does not currently prove enough stack-family semantics to authorize an executable peak-stack model. No blocked dependency is implemented by assumption.
 
-## Echo Core / Echo Lab / Roll Assist
+## Echo Core / Alpha / Echo Lab / Roll Assist
 
 - Echo Core: complete for eligible-candidate tuning.
-- Echo Lab: complete for mechanical oracle.
+- Public root: registry-driven **Alpha** shell.
+- Alpha flow currently exposes **Character → mode → recommended starting build → Echoes → Analyze** from canonical registry truth.
+- `analysisReady` is fail-closed: only `DPS_READY` + `ENGINE_MODELED` profiles can claim executable analysis. `SOURCE_SEQUENCE_ONLY` profiles can expose source-backed build guidance but not fabricated timing or DPS.
+- Echo Lab remains the mechanical/debug oracle at `/echo-lab.html`.
+- Roll Assist remains at `/roll-assistant.html`.
 - Roll policy: foundation; whole-build DPS-aware stopping remains later scope.
 - BUG-001 remains fixed/live-verified with permanent Chrome regression.
 - BUG-002 remains the known +25 best-so-far/equipment lifecycle gap.
 
-## Alpha UX direction
+## Alpha product direction
 
-The Alpha start flow should expose actual supported truth instead of a simulator dashboard:
+The product is no longer dashboard-first. The current root establishes the first registry-driven Alpha shell; next iterations should deepen the same path rather than reintroduce a simulator dashboard.
 
-**Character → mode → recommended starting build → Echoes → Analyze**.
-
-The UI should ask one question / present one choice at a time. It must not create a phantom build. Initial Alpha UX should start from profiles that actually exist in the canonical registry and clearly distinguish build-ready/source-only profiles from the two `DPS_READY` profiles. DPS claims require a genuinely executable profile.
+The UI should continue asking one question / presenting one decision at a time. Owned-Echo input and Roll Assist/Analyze routing should consume the selected canonical profile rather than create a phantom build. DPS claims continue to require genuinely executable profile truth.
 
 ## Verification contract
 
-A final PR head intended for merge must pass source/raw/profile audits, Profile × Adapter/readiness audits, full Node tests, strict web build, real Chrome Roll Assist regression, diff/whitespace checks, Verify artifact packaging and Export artifact workflow. Post-merge main is rechecked; UI/live claims require real browser/live verification.
+A final PR head intended for merge must pass source/raw/profile audits, Profile × Adapter/readiness audits, full Node tests, strict web build, real Chrome Alpha + Roll Assist regression, diff/whitespace checks, Verify artifact packaging and Export artifact workflow. Post-merge main is rechecked; UI/live claims require real browser/live verification.
 
-PR #129 final exact head `0b972086b81e61837e08cfb8874190e406e5068b` passed **Verify #594** and **Export #566**. Squash-merged main `d66d7bb790a75991c9af7f9f18025e6daa16dbe0` then passed **Verify #595**, **Export #567** and **Deploy #121**, including live Echo Lab, Roll Assist route and real Roll Assist verdict paths in Chrome.
+PR #131 final exact head `934044a7ece9df65718056de5fad0e1fb78118e5` passed **Verify #608** and **Export #580**, including **556 tests**, strict web build and real Chrome Alpha + Roll Assist regression. Merge main `37b2b8dd954ec2ea6ac65a8598d3db16d679a6eb` passed **Verify #610** and **Export #582**. Pages publishing itself succeeded on Deploy #123 attempt 2, but its legacy root cURL smoke still expected `Bellibing Echo Lab` at `/` after the root intentionally became Alpha. PR #132 changes that live-smoke contract to verify Alpha at `/`, Echo Lab at `/echo-lab.html`, Roll Assist at `/roll-assistant.html`, then the existing real-Chrome Alpha + Roll Assist paths. The live Alpha checkpoint is not considered closed until that post-merge Deploy smoke passes.
 
 ## Recent completed checkpoints
 
@@ -138,13 +144,14 @@ PR #129 final exact head `0b972086b81e61837e08cfb8874190e406e5068b` passed **Ver
 - PR #125 — Profile Source Import Accelerator exact green extraction checkpoint.
 - PR #126 — 13 canonical horizontal VERIFIED packages; 11 genuine ambiguities parked; readiness moved to 37/3/15/2.
 - PR #128 — Changli semantic checkpoint; Molten Rift primitive added, BUG-013/014 parked, no false closure.
-- **PR #129 — six additional canonical VERIFIED horizontal packages integrated; six semantic rows remain parked; Mornye intrinsic DEF blocker closed; readiness moved to 43/3/9/2.**
+- PR #129 — six additional canonical VERIFIED horizontal packages integrated; six semantic rows remain parked; Mornye intrinsic DEF blocker closed; readiness moved to 43/3/9/2.
+- **PR #131 — registry-driven Alpha root, Echo Lab split to debug route, exact Nightmare: Thundering Mephis attack fact, real-Chrome Alpha regression; readiness unchanged at 43/3/9/2 and Calcharo deliberately remains non-DPS-ready.**
 
 ## Next work
 
-1. Work from the **new 9-row `PROFILE_SOURCE_PENDING` backlog**, never the old 15.
+1. Work from the **9-row `PROFILE_SOURCE_PENDING` backlog**, never the old 15.
 2. Do **not** re-research Baizhi, Brant, Jianxin, Phoebe, Verina or Yuanwu without new evidence. Keep their explicit semantic blockers intact.
 3. Inspect the three real raw/static blockers — Qingxiao, Rover (Electro), Suisui `maxEnergy` — horizontally. Close only if stronger current evidence resolves the source truth; otherwise keep them pending explicitly.
-4. From the **43 `PROFILE_COMPLETE_PENDING_FREEZE`** rows, select the next **2–4 shortest non-blocked `DPS_READY` closure candidates** using actual registry/dependency data. Skip any candidate whose source semantics or DPS denominator are unresolved.
-5. Start/continue Bellibing Alpha UX on actual registry profiles with the flow **Character → mode → recommended starting build → Echoes → Analyze**. One choice at a time; no phantom build and no dashboard-first start.
+4. Continue the shortest non-blocked `DPS_READY` search from the **43 `PROFILE_COMPLETE_PENDING_FREEZE`** rows. Calcharo is parked on unresolved Void Thunder stack semantics. Carlotta is the next candidate to inspect from current dependency data, with five exact pending edges; close nothing until each edge and the DPS denominator are independently source-safe.
+5. Iterate the now-live Alpha shell toward owned-Echo input and profile-aware Roll Assist/Analyze routing. Keep one choice at a time; no phantom build and no dashboard-first regression.
 6. Keep BUG-008/009/010/011/012/013/014 parked until evidence changes them. Never fabricate teams, defaults, ER requirements, rotations, mechanics, trigger uptime, stack-refresh policy or timestamps.

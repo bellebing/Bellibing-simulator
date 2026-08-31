@@ -202,7 +202,7 @@ function assertExecutableAnalysis(analysis: EchoAnalysis, presetId: string): voi
   if (analysis.incumbent.erGate === 'PENDING' || analysis.candidate.erGate === 'PENDING') {
     throw new Error(`${presetId}: registered candidate evaluator returned PENDING_MODEL.`);
   }
-  if (analysis.dpsDeltaAbsolute === null || analysis.dpsDeltaPct === null) {
+  if (analysis.dpsDelta === null || analysis.dpsDeltaPct === null) {
     throw new Error(`${presetId}: registered candidate evaluator did not return a DPS delta.`);
   }
 }
@@ -228,7 +228,7 @@ export function analyzeFinishedOwnedBuildCandidate(input: {
 
   const candidateErGate = analysis.candidate.erGate as 'PASS' | 'FAIL';
   const currentErGate = analysis.incumbent.erGate as 'PASS' | 'FAIL';
-  const rawImprovement = analysis.dpsDeltaAbsolute! > 0;
+  const rawImprovement = analysis.dpsDelta! > 0;
   const decision: FinishedCandidateDecision = analysis.verdict === 'UPGRADE' ? 'BETTER' : 'DO_NOT_REPLACE';
   let reason: string;
   if (candidateErGate === 'FAIL') {
@@ -246,7 +246,7 @@ export function analyzeFinishedOwnedBuildCandidate(input: {
     slotIndex: input.slotIndex,
     currentDps: analysis.incumbent.personalRotationDps,
     candidateDps: analysis.candidate.personalRotationDps,
-    absoluteDpsDelta: analysis.dpsDeltaAbsolute!,
+    absoluteDpsDelta: analysis.dpsDelta!,
     percentageDpsDelta: analysis.dpsDeltaPct,
     currentErGate,
     candidateErGate,
@@ -307,7 +307,7 @@ function forecastPath(input: {
         accumulator.rejectedCount += 1;
         netCost = subtractNonNegativeCost(grossSpend, increase, `${input.presetId}: rejected candidate`);
       } else {
-        accumulator.successfulAbsoluteGainTotal += analysis.dpsDeltaAbsolute!;
+        accumulator.successfulAbsoluteGainTotal += analysis.dpsDelta!;
       }
 
       accumulator.trials.push({

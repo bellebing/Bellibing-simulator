@@ -45,7 +45,7 @@ function parseCost(value) {
 function normalizeStat(value) {
   const source = text(value, 'stat').replace(/\s+/g, ' ').trim();
   const upper = source.toUpperCase();
-  if (upper === 'CRIT RATE') return 'CRIT Rate';
+  if (/^CRIT RATE(?: \(UNTIL .+\))?$/i.test(source)) return 'CRIT Rate';
   if (upper === 'CRIT DMG') return 'CRIT DMG';
   if (upper === 'ATK') return 'Flat ATK';
   if (upper === 'DEF') return 'Flat DEF';

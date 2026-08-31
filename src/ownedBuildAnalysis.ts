@@ -1,5 +1,8 @@
 import { augustaStandardEchoDamageEvaluator } from './characters/augustaEchoEvaluator.ts';
-import { ciacconaProductOwnedBuildDamageEvaluator } from './characters/ciacconaProductOwnedBuildEvaluator.ts';
+import {
+  CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_LABEL,
+  ciacconaProductOwnedBuildDamageEvaluator,
+} from './characters/ciacconaProductOwnedBuildEvaluator.ts';
 import type { Echo } from './echoCore.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
 import type { DamageEvaluator } from './domain.ts';
@@ -12,6 +15,7 @@ export interface OwnedBuildDpsBinding {
   readonly presetId: string;
   readonly characterId: string;
   readonly engineModelId: string;
+  readonly contextLabel?: string;
   readonly evaluator: DamageEvaluator;
 }
 
@@ -19,6 +23,7 @@ export interface OwnedBuildAnalysisResult {
   readonly presetId: string;
   readonly characterId: string;
   readonly engineModelId: string;
+  readonly contextLabel?: string;
   readonly personalRotationDps: number;
   readonly energyRegen: number;
   readonly erGate: 'PASS' | 'FAIL';
@@ -39,6 +44,7 @@ const BINDING_SPECS: readonly BindingSpec[] = [
     presetId: 'ciaccona-cartethyia-aero',
     characterId: 'ciaccona',
     engineModelId: 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
+    contextLabel: CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_LABEL,
     evaluator: ciacconaProductOwnedBuildDamageEvaluator,
   },
 ] as const;
@@ -105,6 +111,7 @@ export function analyzeOwnedBuild(input: {
     presetId: binding.presetId,
     characterId: binding.characterId,
     engineModelId: binding.engineModelId,
+    contextLabel: binding.contextLabel,
     personalRotationDps: result.personalRotationDps,
     energyRegen: result.energyRegen,
     erGate: result.erGate,

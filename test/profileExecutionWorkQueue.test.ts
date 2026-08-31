@@ -22,6 +22,11 @@ import {
 } from '../src/combat/weaponSkillStackSemanticReview.ts';
 import { ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830 } from '../src/data/profileExecutionSemanticReview20260830.ts';
 import {
+  ROVER_HAVOC_EXECUTION_PREFLIGHT_20260831,
+  ROVER_HAVOC_EXECUTION_SOURCE_BLOCKER_ID,
+  ROVER_HAVOC_PENDING_EXECUTION_IDS,
+} from '../src/data/roverHavocExecutionPreflight20260831.ts';
+import {
   buildProfileExecutionWorkQueue,
   EXECUTION_SEMANTIC_REVIEWS,
   validateExecutionSemanticReviews,
@@ -33,7 +38,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 24);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -94,6 +99,25 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+
+  const dreamlessActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === ROVER_HAVOC_PENDING_EXECUTION_IDS[3]);
+  assert.equal(dreamlessActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(dreamlessActive?.primitiveId, 'echo-active-damage-v1');
+
+  const havocEclipse = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === ROVER_HAVOC_PENDING_EXECUTION_IDS[2]);
+  assert.equal(havocEclipse?.status, 'BLOCKED_SOURCE_CONFLICT');
+  assert.equal(havocEclipse?.blockerId, ROVER_HAVOC_EXECUTION_SOURCE_BLOCKER_ID);
+
+  for (const pendingExecutionId of [
+    ROVER_HAVOC_PENDING_EXECUTION_IDS[0],
+    ROVER_HAVOC_PENDING_EXECUTION_IDS[1],
+    ROVER_HAVOC_PENDING_EXECUTION_IDS[4],
+    ROVER_HAVOC_PENDING_EXECUTION_IDS[5],
+  ]) {
+    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
+    assert.equal(review?.status, 'BLOCKED_SOURCE_SEMANTICS');
+    assert.equal(review?.blockerId, ROVER_HAVOC_EXECUTION_SOURCE_BLOCKER_ID);
+  }
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -112,6 +136,24 @@ test('Rover Aero source review parks exact timing instead of fabricating executi
   assert.ok(review.sourceEstablished.some((note) => note.includes('Unbound Flow P1')));
   assert.ok(review.unresolvedSemantics.some((note) => note.includes('6-second BPP-SKILL')));
   assert.ok(review.unresolvedSemantics.some((note) => note.includes('rotation duration')));
+});
+
+test('Rover Havoc preflight parks exact execution without inheriting Rover Aero BUG-012', () => {
+  const review = ROVER_HAVOC_EXECUTION_PREFLIGHT_20260831;
+  assert.equal(review.disposition, 'SOURCE_SEMANTICS_BLOCKED');
+  assert.equal(review.sequence, 0);
+  assert.equal(review.exactRotationDurationSeconds, null);
+  assert.equal(review.exactEnergyRegenGate, null);
+  assert.equal(review.sourceBackedEnergyRegenContext, 1.4);
+  assert.equal(review.partialRollAssistPolicy, 'POLICY PENDING');
+  assert.equal(review.dpsReadyCandidate, false);
+  assert.equal(review.ownedBuildExecutable, false);
+  assert.equal(review.alphaBindingAllowed, false);
+  assert.deepEqual(review.pendingExecutionIds, ROVER_HAVOC_PENDING_EXECUTION_IDS);
+  assert.equal(review.exactBlockers.some((note) => note.includes('BUG-012')), false);
+  assert.ok(review.exactBlockers.some((note) => note.includes('total duration')));
+  assert.ok(review.exactBlockers.some((note) => note.includes('140%+ ER')));
+  assert.ok(review.sourceEstablished.some((note) => note.includes('Dreamless Rank-5')));
 });
 
 test('known stack families remain source-blocked when lifecycle semantics are incomplete', () => {
@@ -148,20 +190,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 79-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
+    totalEdges: 79,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 11,
-    blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 9,
-    profileSpecificExecutionEdges: 16,
+    primitiveAvailableRequiresTimelineEdges: 12,
+    blockedSourceConflictEdges: 6,
+    blockedSourceSemanticsEdges: 13,
+    profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 18);
+  assert.equal(queue.reviewRecordCount, 24);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -173,7 +215,7 @@ test('current 72-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue removes already-covered, closed and source-blocked families including Changli split', () => {
+test('actionable queue removes already-covered, closed and source-blocked families including Rover Havoc', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
 
@@ -182,6 +224,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   for (const id of SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds) assert.equal(actionableIds.has(id), false);
   for (const contract of WEAPON_SKILL_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
   for (const contract of BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW.contracts) assert.equal(actionableIds.has(contract.pendingExecutionId), false);
+  for (const id of ROVER_HAVOC_PENDING_EXECUTION_IDS.slice(0, -1)) assert.equal(actionableIds.has(id), false);
 
   assert.equal(actionableIds.has(IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId), false);
   assert.equal(actionableIds.has(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.pendingExecutionId), false);
@@ -220,7 +263,7 @@ test('remaining shared fanout is machine-ranked after Changli triage', () => {
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Changli semantic split', () => {
+test('covered and blocked queues retain exact fanout after Rover Havoc semantic review', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -245,11 +288,22 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(fleurdelysActive.profileCount, 1);
   assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
 
+  const dreamlessActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:dreamless-active-cast-exact-damage');
+  assert.ok(dreamlessActive);
+  assert.equal(dreamlessActive.dependencyCount, 1);
+  assert.equal(dreamlessActive.profileCount, 1);
+  assert.deepEqual(dreamlessActive.primitiveIds, ['echo-active-damage-v1']);
+
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
   assert.equal(heron.profileCount, 5);
   assert.deepEqual(heron.blockerIds, ['BUG-008']);
+
+  const havocEclipse = queue.blockedSourceConflicts.find((row) => row.actionKey === 'sonata:havoc-eclipse-five-piece-stack-state');
+  assert.ok(havocEclipse);
+  assert.equal(havocEclipse.dependencyCount, 1);
+  assert.deepEqual(havocEclipse.blockerIds, [ROVER_HAVOC_EXECUTION_SOURCE_BLOCKER_ID]);
 
   const stringmaster = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:stringmaster-skill-damage-stack-lifecycle');
   assert.ok(stringmaster);
@@ -290,6 +344,11 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
 
+  const roverHavocTeam = queue.blockedSourceSemantics.find((row) => row.actionKey === 'team:rover-havoc-roccia-shorekeeper-uptime');
+  assert.ok(roverHavocTeam);
+  assert.equal(roverHavocTeam.dependencyCount, 1);
+  assert.deepEqual(roverHavocTeam.blockerIds, [ROVER_HAVOC_EXECUTION_SOURCE_BLOCKER_ID]);
+
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);
   assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
@@ -297,8 +356,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

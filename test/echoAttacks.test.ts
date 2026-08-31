@@ -9,10 +9,11 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 4);
-  assert.equal(registry.attackById.size, 5);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 5);
+  assert.equal(registry.attackById.size, 6);
   assert.ok(registry.byEchoId.has('echo-60000375'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
+  assert.ok(registry.byEchoId.has('echo-60000885'));
   assert.ok(registry.byEchoId.has('echo-60001065'));
   assert.ok(registry.byEchoId.has('echo-60001215'));
 });
@@ -40,6 +41,19 @@ test('Fallacy Rank-5 normal activation is exact one-hit 15.86% max-HP Spectro da
   assert.equal(attack.components[0]?.hits, 1);
   assert.ok(Math.abs(totalMotionValue(attack) - 0.1586) < 1e-12);
   assert.equal(profile.attacks.some((row) => row.attackId.includes('HOLD') || row.attackId.includes('RELEASE')), false);
+});
+
+test('Nightmare Thundering Mephis Rank-5 active strike is exact one-hit 405% ATK Electro damage', () => {
+  const profile = registry.byEchoId.get('echo-60000885')!;
+  const attack = profile.attacks[0]!;
+  assert.equal(profile.cooldownSeconds, 25);
+  assert.equal(profile.attacks.length, 1);
+  assert.equal(attack.attackId, 'NIGHTMARE_THUNDERING_MEPHIS_ACTIVE_STRIKE');
+  assert.equal(attack.trigger, 'ACTIVE_CAST');
+  assert.equal(attack.element, 'Electro');
+  assert.equal(attack.scalingStat, 'ATK');
+  assert.deepEqual(attack.components, [{ motionValuePerHit: 4.05, hits: 1 }]);
+  assert.equal(totalMotionValue(attack), 4.05);
 });
 
 test('Fleurdelys Rank-5 summon is exact 27.36% x8 + 136.80% ATK Aero damage', () => {

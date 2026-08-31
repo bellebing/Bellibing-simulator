@@ -11,9 +11,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 63);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
-  assert.equal(registry.byId.size, 63);
+  assert.equal(ECHO_EFFECT_MODELS.length, 64);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 38);
+  assert.equal(registry.byId.size, 64);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -78,6 +78,18 @@ test('Fleurdelys extra Aero bonus applies only to Rover Aero and Cartethyia', ()
   );
 });
 
+test('Sigillum main-slot Liberation bonus applies only to Aemeath', () => {
+  const allSigillum = getEchoEffects(registry, 'echo-60001915');
+  assert.deepEqual(allSigillum.map((row) => [row.effectId, row.statOrEffect, row.value]), [
+    ['ECHO_60001915_RESONANCE_LIBERATION_DMG_AEMEATH', 'Resonance Liberation DMG Bonus', 0.25],
+  ]);
+  assert.deepEqual(
+    getEchoEffectsForWielder(registry, 'echo-60001915', 'aemeath').map((row) => [row.statOrEffect, row.value]),
+    [['Resonance Liberation DMG Bonus', 0.25]],
+  );
+  assert.deepEqual(getEchoEffectsForWielder(registry, 'echo-60001915', 'changli'), []);
+});
+
 test('Denia and Hyvatia preserve transfer-window conditions instead of automatic uptime', () => {
   const denia = registry.byId.get('REMINISCENCE_DENIA_INCOMING_FUSION');
   assert.equal(denia?.value, 0.12);
@@ -92,9 +104,8 @@ test('Denia and Hyvatia preserve transfer-window conditions instead of automatic
   assert.equal(hyvatia?.mechanicsStatus, 'VERIFIED_CONDITIONAL');
 });
 
-test('other character-restricted and loadout-replaced bonuses are not flattened into unconditional rows', () => {
-  assert.deepEqual(getEchoEffects(registry, 'echo-60002015'), []); // Adam Smasher CR is Lucy/Rebecca-only.
-  assert.deepEqual(getEchoEffects(registry, 'echo-60001915'), []); // Sigillum Liberation bonus is Aemeath-only.
+test('other unresolved character-restricted and loadout-replaced bonuses are not flattened into unconditional rows', () => {
+  assert.deepEqual(getEchoEffects(registry, 'echo-60002015'), []); // Adam Smasher CR is Lucy/Rebecca-only and still pending.
   const collapsar = getEchoEffects(registry, 'echo-60001809');
   assert.deepEqual(collapsar.map((row) => [row.statOrEffect, row.value]), [['Basic Attack DMG Bonus', 0.12]]);
 });

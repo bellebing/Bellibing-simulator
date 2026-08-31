@@ -1,0 +1,147 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
+import { PROFILE_ADAPTER_DEPENDENCY_MATRIX } from '../src/profileAdapterDependencyMatrix.ts';
+import { PROFILE_EXECUTION_WORK_QUEUE } from '../src/profileExecutionWorkQueue.ts';
+import { resolveRollAssistProfileBinding } from '../src/rollAssistProfileRegistry.ts';
+import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
+import { PROFILE_FREEZE_APPROVALS } from '../src/data/profileFreezeReview.ts';
+import {
+  SIGRIKA_ACTION_FACTS,
+  SIGRIKA_PASSIVE_FACTS,
+  SIGRIKA_RESOURCE_FACTS,
+} from '../src/data/characterMechanics/sigrikaRawFacts.ts';
+import { ECHO_MAIN_SLOT_EFFECT_MODELS } from '../src/data/echoMainSlotEffects.ts';
+import { SONATA_EFFECT_MODELS } from '../src/data/sonataEffects.ts';
+import {
+  SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW,
+  SIGRIKA_STANDARD_EXECUTION_PREFLIGHT,
+  SIGRIKA_STANDARD_PENDING_EXECUTION_IDS,
+} from '../src/data/sigrikaExecutionPreflight20260901.ts';
+import { GAUNTLET_WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectsGauntlet.ts';
+
+test('sigrika-standard canonical package and source sequence remain exact and SOURCE_SEQUENCE_ONLY', () => {
+  const resolved = {
+    preset: PROFILE_REGISTRY.presets.get('sigrika-standard'),
+    weapon: PROFILE_REGISTRY.weaponRecommendations.get('sigrika-standard-weapons'),
+    echoes: PROFILE_REGISTRY.echoLoadouts.get('sigrika-standard-echoes'),
+    team: PROFILE_REGISTRY.teams.get('sigrika-qiuyuan-ciaccona'),
+    rotation: PROFILE_REGISTRY.rotations.get('sigrika-standard-source-sequence'),
+  };
+
+  assert.equal(resolved.preset?.verificationStatus, 'VERIFIED');
+  assert.equal(resolved.weapon?.defaultWeaponId, 'solsworn-ciphers');
+  assert.equal(resolved.weapon?.options.find((row) => row.weaponId === 'solsworn-ciphers')?.rank, 1);
+  assert.deepEqual(resolved.echoes?.sonataSetIds, ['sonata-29']);
+  assert.equal(resolved.echoes?.mainEchoId, 'echo-60001925');
+  assert.deepEqual(resolved.team?.characterIds, ['sigrika', 'qiuyuan', 'ciaccona']);
+  assert.equal(resolved.rotation?.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+  assert.equal(resolved.rotation?.engineModelId, null);
+  assert.deepEqual(resolved.rotation?.sourceSequence, SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.canonicalSourceSequence);
+  assert.equal(resolved.rotation?.sourceSequence.some((step) => /Double Outburst/i.test(step)), false);
+});
+
+test('Sigrika raw state stays decomposed and no full Rune lifecycle is fabricated', () => {
+  const rune = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-rune');
+  const fullStop = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-full-stop');
+  const innateGift = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-innate-gift');
+  const decipher = SIGRIKA_PASSIVE_FACTS.find((row) => row.factId === 'sigrika-basic-decipher');
+  const convergent = SIGRIKA_PASSIVE_FACTS.find((row) => row.factId === 'sigrika-inherent-true-names-invoked');
+  const blessing = SIGRIKA_PASSIVE_FACTS.find((row) => row.factId === 'sigrika-inherent-true-names-aligned');
+
+  assert.equal(rune?.maxValue, 4);
+  assert.match(rune?.ruleSummary ?? '', /Trust/);
+  assert.match(rune?.ruleSummary ?? '', /Answer/);
+  assert.match(rune?.ruleSummary ?? '', /leftmost Rune/);
+  assert.equal(fullStop?.maxValue, 100);
+  assert.equal(innateGift?.maxValue, 2);
+  assert.equal(decipher?.durationSeconds, 5);
+  assert.equal(decipher?.modelingStatus, 'RAW_ONLY');
+  assert.equal(convergent?.durationSeconds, 20);
+  assert.equal(convergent?.modelingStatus, 'RAW_ONLY');
+  assert.equal(blessing?.maxStacks, 6);
+  assert.equal(blessing?.durationSeconds, null);
+  assert.equal(blessing?.modelingStatus, 'RAW_ONLY');
+
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.duration, 'BLOCKED_NOT_SOURCE_COMPLETE');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.consume, 'BLOCKED_NOT_SOURCE_COMPLETE');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.actionEligibility, 'BLOCKED_NOT_EXECUTABLE');
+});
+
+test('canonical Sigrika action data exists while branch/cancel timing remains outside execution', () => {
+  const factIds = new Set(SIGRIKA_ACTION_FACTS.map((row) => row.factId));
+  assert.equal(factIds.has('sigrika-basic-attack-one-two-three-basic-attack-elucidated-dmg'), true);
+  assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-runic-chain-whip-dmg'), true);
+  assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-runic-outburst-dmg'), true);
+  assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-forte-circuit-learn-my-true-name-dmg'), true);
+  assert.equal(factIds.has('sigrika-resonance-liberation-where-trust-leads-me-skill-dmg'), true);
+
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactActionTimestamps, null);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactRotationSeconds, null);
+  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.cancelPolicy, /Do not infer frames/);
+});
+
+test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus event-driven semantics', () => {
+  const solsworn = GAUNTLET_WEAPON_EFFECT_CATALOG.filter((row) => row.weaponId === 'solsworn-ciphers');
+  const byWeaponEffectId = new Map(solsworn.map((row) => [row.effectId, row]));
+  assert.equal(byWeaponEffectId.get('SCIP-ATK')?.rankValues[0], 0.12);
+  assert.equal(byWeaponEffectId.get('SCIP-ATK')?.simulatorMode, 'ALWAYS');
+  assert.equal(byWeaponEffectId.get('SCIP-ECHO-AMP')?.rankValues[0], 0.32);
+  assert.equal(byWeaponEffectId.get('SCIP-ECHO-AMP')?.durationSeconds, 15);
+  assert.equal(byWeaponEffectId.get('SCIP-ECHO-AMP')?.trigger, 'Cast Intro Skill or Echo Skill');
+  assert.equal(byWeaponEffectId.get('SCIP-AERO-DEF')?.rankValues[0], 0.10);
+  assert.equal(byWeaponEffectId.get('SCIP-AERO-DEF')?.durationSeconds, 6);
+  assert.equal(byWeaponEffectId.get('SCIP-AERO-DEF')?.trigger, 'Deal Echo Skill DMG');
+
+  const sound = SONATA_EFFECT_MODELS.filter((row) => row.sonataSetId === 'sonata-29');
+  const bySonataEffectId = new Map(sound.map((row) => [row.effectId, row]));
+  assert.equal(bySonataEffectId.get('S29_5PC_ECHO_CR')?.value, 0.20);
+  assert.equal(bySonataEffectId.get('S29_5PC_ECHO_CR')?.durationSeconds, 5);
+  assert.equal(bySonataEffectId.get('S29_5PC_AERO')?.value, 0.15);
+  assert.equal(bySonataEffectId.get('S29_5PC_AERO')?.durationSeconds, 5);
+
+  const nameless = ECHO_MAIN_SLOT_EFFECT_MODELS.filter((row) => row.echoId === 'echo-60001925');
+  const namelessByEffectId = new Map(nameless.map((row) => [row.effectId, row]));
+  assert.equal(namelessByEffectId.get('ECHO_60001925_AERO_DMG')?.value, 0.12);
+  assert.equal(namelessByEffectId.get('ECHO_60001925_ECHO_SKILL_DMG')?.value, 0.20);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.canonicalActiveCastRequired, false);
+  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /BLOCKED_SOURCE_CONFLICT/);
+});
+
+test('Sigrika backward-impact review contributes exactly 15 still-pending dependencies', () => {
+  const canonical = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.reviewId === SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.reviewId);
+  assert.ok(canonical);
+  assert.equal(canonical.result, 'REVIEWED_WITH_PENDING_EXECUTION');
+  assert.deepEqual(canonical.pendingExecutionIds, SIGRIKA_STANDARD_PENDING_EXECUTION_IDS);
+
+  const edges = PROFILE_ADAPTER_DEPENDENCY_MATRIX.edges.filter((row) => row.presetId === 'sigrika-standard');
+  assert.equal(edges.length, 15);
+  assert.deepEqual(edges.map((row) => row.pendingExecutionId), [...SIGRIKA_STANDARD_PENDING_EXECUTION_IDS]);
+
+  const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
+  assert.equal(queueEdges.length, 15);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 8);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 6);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
+  assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 8);
+});
+
+test('ER, BuildContext, freeze and product routes remain fail-closed', () => {
+  assert.deepEqual(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.energyRegen, {
+    sourceMinimum: 1.09,
+    sourcePreferred: 1.19,
+    status: 'SOURCE_GUIDANCE_ONLY',
+    hardGate: null,
+    reason: 'The 109%-119% requirement is team-dependent and the exact Sigrika/Qiuyuan/Ciaccona predecessor/energy timeline is not executable, so no single minimum is promoted.',
+  });
+  assert.throws(
+    () => buildContextFromVerifiedPreset('sigrika-standard', []),
+    /rotation sigrika-standard-source-sequence is not ENGINE_MODELED/,
+  );
+  assert.equal(PROFILE_FREEZE_APPROVALS.some((row) => row.presetId === 'sigrika-standard'), false);
+  assert.equal(resolveRollAssistProfileBinding('sigrika-standard'), null);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.dpsReady, false);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.productSupported, false);
+});

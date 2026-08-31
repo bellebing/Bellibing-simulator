@@ -132,6 +132,39 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60001135',
+    rank: 5,
+    cooldownSeconds: 25,
+    attacks: [
+      {
+        attackId: 'NIGHTMARE_KELPIE_ACTIVE_STRIKE',
+        name: 'Nightmare: Kelpie — active strike',
+        trigger: 'ACTIVE_CAST',
+        element: 'Glacio',
+        scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+      {
+        attackId: 'NIGHTMARE_KELPIE_OUTRO_SUMMON',
+        name: 'Nightmare: Kelpie — automatic Outro summon',
+        trigger: 'OUTRO_AUTO_SUMMON',
+        element: 'Aero',
+        scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+    ],
+    provenance: {
+      sourceLabels: ['wuwabuild Echo skill rendered English text + exact pinned Rank-5 params'],
+      sourceUrls: [ECHO_SKILL_SOURCE_URL],
+      checkedAt: '2026-08-31',
+      notes: [
+        'Pinned Rank-5 source explicitly resolves the active transform to one 405% ATK Glacio hit and the Outro-switch auto summon to one 405% ATK Aero hit, with a 25-second cooldown.',
+        'Nightmare: Kelpie main-slot 12% Glacio and 12% Aero bonuses remain in the Echo effect layer and are not duplicated here.',
+        'These attack facts prove damage mechanics only. They do not prove that jiyan-standard uses the active transform, nor establish an Outro timestamp or rotation uptime.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60001215',
     rank: 5,
     cooldownSeconds: 8,

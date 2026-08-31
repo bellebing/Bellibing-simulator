@@ -9,12 +9,13 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 5);
-  assert.equal(registry.attackById.size, 6);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 6);
+  assert.equal(registry.attackById.size, 8);
   assert.ok(registry.byEchoId.has('echo-60000375'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60000885'));
   assert.ok(registry.byEchoId.has('echo-60001065'));
+  assert.ok(registry.byEchoId.has('echo-60001135'));
   assert.ok(registry.byEchoId.has('echo-60001215'));
 });
 
@@ -70,6 +71,23 @@ test('Fleurdelys Rank-5 summon is exact 27.36% x8 + 136.80% ATK Aero damage', ()
     { motionValuePerHit: 1.368, hits: 1 },
   ]);
   assert.ok(Math.abs(totalMotionValue(attack) - 3.5568) < 1e-12);
+});
+
+test('Nightmare Kelpie Rank-5 active and Outro attacks stay distinct exact facts', () => {
+  const profile = registry.byEchoId.get('echo-60001135')!;
+  const active = profile.attacks.find((row) => row.attackId === 'NIGHTMARE_KELPIE_ACTIVE_STRIKE')!;
+  const outro = profile.attacks.find((row) => row.attackId === 'NIGHTMARE_KELPIE_OUTRO_SUMMON')!;
+
+  assert.equal(profile.cooldownSeconds, 25);
+  assert.equal(profile.attacks.length, 2);
+  assert.equal(active.trigger, 'ACTIVE_CAST');
+  assert.equal(active.element, 'Glacio');
+  assert.equal(active.scalingStat, 'ATK');
+  assert.equal(totalMotionValue(active), 4.05);
+  assert.equal(outro.trigger, 'OUTRO_AUTO_SUMMON');
+  assert.equal(outro.element, 'Aero');
+  assert.equal(outro.scalingStat, 'ATK');
+  assert.equal(totalMotionValue(outro), 4.05);
 });
 
 test('False Sovereign active Rank-5 cast is 55.35% x4 = exact Augusta 2.214 motion value', () => {

@@ -1,12 +1,18 @@
 import { listAlphaCharacterOptions, resolveAlphaSelection, type AlphaResolvedSelection } from '../alphaEntryModel.ts';
 import {
+  analyzeOwnedBuild,
+  resolveOwnedBuildDpsBinding,
+  type OwnedBuildAnalysisResult,
+} from '../ownedBuildAnalysis.ts';
+import {
   OWNED_ECHO_CHECKPOINT_LEVELS,
   analyzeOwnedEchoCheckpoint,
+  buildOwnedEchoFromCheckpointInput,
   listOwnedEchoRollOptions,
   type OwnedEchoCheckpointLevel,
   type OwnedEchoCheckpointResult,
 } from '../ownedEchoCheckpointAnalysis.ts';
-import type { StatName, StatRoll } from '../echoCore.ts';
+import type { Echo, StatName, StatRoll } from '../echoCore.ts';
 
 function requireAppRoot(): HTMLDivElement {
   const root = document.querySelector<HTMLDivElement>('#app');
@@ -31,6 +37,9 @@ let ownedEchoRolls: StatRoll[] = [];
 let ownedEchoResult: OwnedEchoCheckpointResult | null = null;
 let ownedEchoError = '';
 let ownedEchoPendingStatName: StatName = ownedRollOptions[0]!.name;
+let ownedBuildEchoes: Array<Echo | null> = Array.from({ length: 5 }, () => null);
+let ownedBuildAnalysis: OwnedBuildAnalysisResult | null = null;
+let ownedBuildError = '';
 
 function escapeHtml(value: string): string {
   return value
@@ -58,6 +67,12 @@ function resetOwnedEcho(close = false): void {
   ownedEchoPendingStatName = ownedRollOptions[0]!.name;
 }
 
+function resetOwnedBuild(): void {
+  ownedBuildEchoes = Array.from({ length: 5 }, () => null);
+  ownedBuildAnalysis = null;
+  ownedBuildError = '';
+}
+
 function formatRoll(name: StatName, value: number): string {
   return name.startsWith('Flat ')
     ? Math.round(value).toLocaleString('en-US')
@@ -71,6 +86,29 @@ function ownedEchoVerdictClass(result: OwnedEchoCheckpointResult): string {
   return 'alpha-owned-verdict--roll';
 }
 
+function ownedBuildSavedCount(): number {
+  return ownedBuildEchoes.filter((echo) => echo !== null).length;
+}
+
+function ownedBuildProgressMarkup(selection: AlphaResolvedSelection): string {
+  if (!selection.analysisReady) return '';
+  const binding = resolveOwnedBuildDpsBinding(selection.preset.id);
+  if (!binding) {
+    return `<div class="alpha-owned-build-progress alpha-owned-build-progress--pending">
+      <span>OWNED BUILD DPS</span>
+      <strong>Echo → DPS adapter pending for this executable profile.</strong>
+      <small>Bellibing will not reuse Augusta stat assembly for ${escapeHtml(selection.character.name)}.</small>
+    </div>`;
+  }
+
+  const saved = ownedBuildSavedCount();
+  return `<div class="alpha-owned-build-progress ${saved === 5 ? 'alpha-owned-build-progress--ready' : ''}">
+    <span>OWNED BUILD · ${escapeHtml(binding.engineModelId)}</span>
+    <strong>${saved === 5 ? 'Five +25 Echoes ready.' : `${saved} / 5 +25 Echoes saved.`}</strong>
+    <small>${saved === 5 ? 'Analyze can now run the verified Personal Rotation DPS evaluator.' : 'Use CHECK AN ECHO I OWN, choose +25, enter its five exact rolls, then save it to the build.'}</small>
+  </div>`;
+}
+
 function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
   if (!selection.rollAssist.supported || !ownedEchoOpen) return '';
 
@@ -78,6 +116,9 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
   const usedNames = new Set(ownedEchoRolls.map((roll) => roll.name));
   const available = ownedRollOptions.filter((option) => !usedNames.has(option.name));
   const selectedOption = available.find((option) => option.name === ownedEchoPendingStatName) ?? available[0] ?? null;
+  const ownedBuildBinding = resolveOwnedBuildDpsBinding(selection.preset.id);
+  const canSaveToBuild = ownedEchoResult !== null && ownedEchoLevel === 25 && ownedBuildBinding !== null;
+  const alreadySaved = ownedBuildEchoes[ownedEchoSlotIndex] !== null;
 
   const resultMarkup = ownedEchoResult
     ? `<div class="alpha-owned-verdict ${ownedEchoVerdictClass(ownedEchoResult)}" data-decision="${ownedEchoResult.decision}">
@@ -91,7 +132,10 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
       : '';
 
   const entryMarkup = ownedEchoResult
-    ? '<button id="alpha-owned-reset" class="alpha-owned-reset" type="button">CHECK ANOTHER ECHO</button>'
+    ? `<div class="alpha-owned-finished-actions">
+        ${canSaveToBuild ? `<button id="alpha-owned-save" type="button">${alreadySaved ? 'REPLACE' : 'SAVE'} +25 ECHO IN BUILD</button>` : ''}
+        <button id="alpha-owned-reset" class="alpha-owned-reset" type="button">CHECK ANOTHER ECHO</button>
+      </div>`
     : `<div class="alpha-owned-entry">
         <div>
           <span>ROLL ${ownedEchoRolls.length + 1} OF ${expectedRolls}</span>
@@ -115,7 +159,7 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
     </div>
     <div class="alpha-owned-context">
       <label><span>Which build slot?</span><select id="alpha-owned-slot">
-        ${selection.rollAssist.slots.map((slot, index) => `<option value="${index}" ${index === ownedEchoSlotIndex ? 'selected' : ''}>Echo ${index + 1} · COST ${slot.cost} · ${escapeHtml(slot.primaryMain)}</option>`).join('')}
+        ${selection.rollAssist.slots.map((slot, index) => `<option value="${index}" ${index === ownedEchoSlotIndex ? 'selected' : ''}>Echo ${index + 1} · COST ${slot.cost} · ${escapeHtml(slot.primaryMain)}${ownedBuildEchoes[index] ? ' · SAVED' : ''}</option>`).join('')}
       </select></label>
       <label><span>Current level?</span><select id="alpha-owned-level">
         ${OWNED_ECHO_CHECKPOINT_LEVELS.map((level) => `<option value="${level}" ${level === ownedEchoLevel ? 'selected' : ''}>+${level}</option>`).join('')}
@@ -147,11 +191,20 @@ function rollAssistMarkup(selection: AlphaResolvedSelection): string {
   </div>${ownedEchoMarkup(selection)}`;
 }
 
+function analyzeHeading(selection: AlphaResolvedSelection): string {
+  if (!selection.analysisReady) return 'Source truth is loaded. DPS is not executable yet.';
+  const binding = resolveOwnedBuildDpsBinding(selection.preset.id);
+  if (!binding) return 'Executable rotation verified. Owned-build DPS adapter pending.';
+  const saved = ownedBuildSavedCount();
+  return saved === 5 ? 'Your five-Echo build is ready to analyze.' : `Enter your five +25 Echoes (${saved}/5).`;
+}
+
 function render(): void {
   const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
   selectedPresetId = selection.preset.id;
   if (!selection.rollAssist.supported && ownedEchoOpen) resetOwnedEcho(true);
   const readinessClass = selection.analysisReady ? 'alpha-status--ready' : 'alpha-status--pending';
+  const resultReady = ownedBuildAnalysis?.erGate === 'PASS';
 
   app.innerHTML = `
     <main class="alpha-shell">
@@ -220,8 +273,8 @@ function render(): void {
         </div>
         <div class="alpha-echo-grid">
           ${selection.echoes.slots.map((slot, index) => `
-            <article>
-              <span>ECHO ${index + 1} · COST ${slot.cost}</span>
+            <article class="${ownedBuildEchoes[index] ? 'alpha-echo-slot--saved' : ''}">
+              <span>ECHO ${index + 1} · COST ${slot.cost}${ownedBuildEchoes[index] ? ' · SAVED' : ''}</span>
               <strong>${slot.mainStats.map(escapeHtml).join(' / ')}</strong>
             </article>`).join('')}
         </div>
@@ -231,15 +284,16 @@ function render(): void {
       <section class="alpha-step alpha-analyze">
         <div>
           <div class="alpha-step-label">5 · ANALYZE</div>
-          <h2>${selection.analysisReady ? 'Executable DPS profile verified.' : 'Source truth is loaded. DPS is not executable yet.'}</h2>
+          <h2>${escapeHtml(analyzeHeading(selection))}</h2>
           <p>${selection.rotation.executionStatus === 'ENGINE_MODELED'
             ? `Rotation model ${escapeHtml(selection.rotation.engineModelId ?? 'missing')} · ${selection.rotation.rotationSeconds ?? 'duration pending'}s.`
             : 'Rotation is SOURCE_SEQUENCE_ONLY. Bellibing will not invent timing, uptime or a DPS denominator.'}</p>
+          ${ownedBuildProgressMarkup(selection)}
         </div>
         <button id="alpha-analyze" type="button">ANALYZE</button>
       </section>
 
-      ${analysisMessage ? `<section class="alpha-result ${selection.analysisReady ? 'alpha-result--ready' : ''}">${escapeHtml(analysisMessage)}</section>` : ''}
+      ${analysisMessage ? `<section class="alpha-result ${resultReady ? 'alpha-result--ready' : ''}">${escapeHtml(analysisMessage)}</section>` : ''}
 
       <footer>
         Registry-driven Alpha shell. Debug/oracle surfaces stay separate from the normal start flow.
@@ -255,6 +309,7 @@ function bind(): void {
     selectedPresetId = undefined;
     analysisMessage = '';
     resetOwnedEcho(true);
+    resetOwnedBuild();
     render();
   });
 
@@ -263,6 +318,7 @@ function bind(): void {
       selectedPresetId = button.dataset.preset;
       analysisMessage = '';
       resetOwnedEcho(true);
+      resetOwnedBuild();
       render();
     });
   });
@@ -318,6 +374,35 @@ function bind(): void {
     }
     render();
   });
+  document.querySelector<HTMLButtonElement>('#alpha-owned-save')?.addEventListener('click', () => {
+    if (!selectedPresetId || ownedEchoLevel !== 25 || ownedEchoRolls.length !== 5) return;
+    try {
+      const echo = buildOwnedEchoFromCheckpointInput({
+        presetId: selectedPresetId,
+        slotIndex: ownedEchoSlotIndex,
+        level: 25,
+        substats: ownedEchoRolls,
+      });
+      ownedBuildEchoes[ownedEchoSlotIndex] = echo;
+      ownedBuildAnalysis = null;
+      ownedBuildError = '';
+      analysisMessage = '';
+
+      const nextMissing = ownedBuildEchoes.findIndex((row) => row === null);
+      if (nextMissing >= 0) {
+        ownedEchoSlotIndex = nextMissing;
+        ownedEchoLevel = 25;
+        ownedEchoRolls = [];
+        ownedEchoResult = null;
+        ownedEchoError = '';
+      } else {
+        resetOwnedEcho(true);
+      }
+    } catch (error) {
+      ownedBuildError = error instanceof Error ? error.message : 'Unknown owned-build save error.';
+    }
+    render();
+  });
   document.querySelector<HTMLButtonElement>('#alpha-owned-reset')?.addEventListener('click', () => {
     ownedEchoRolls = [];
     ownedEchoResult = null;
@@ -327,9 +412,43 @@ function bind(): void {
 
   document.querySelector<HTMLButtonElement>('#alpha-analyze')?.addEventListener('click', () => {
     const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
-    analysisMessage = selection.analysisReady
-      ? 'READY: this profile has a verified executable rotation. No full owned five-Echo build has been entered on this shell, so Bellibing does not fabricate a damage verdict.'
-      : `BLOCKED: ${statusLabel(selection.character.readinessDisposition)}. The recommended build remains usable as source-backed guidance, but DPS analysis stays fail-closed.`;
+    ownedBuildAnalysis = null;
+    ownedBuildError = '';
+
+    if (!selection.analysisReady) {
+      analysisMessage = `BLOCKED: ${statusLabel(selection.character.readinessDisposition)}. The recommended build remains usable as source-backed guidance, but DPS analysis stays fail-closed.`;
+      render();
+      return;
+    }
+
+    const binding = resolveOwnedBuildDpsBinding(selection.preset.id);
+    if (!binding) {
+      analysisMessage = `BLOCKED: ${selection.character.name} has an executable rotation, but Bellibing does not yet have a verified owned-Echo stat assembly adapter for ${selection.preset.label}.`;
+      render();
+      return;
+    }
+
+    if (ownedBuildSavedCount() !== 5 || ownedBuildEchoes.some((echo) => echo === null)) {
+      analysisMessage = `NEED OWNED BUILD: ${ownedBuildSavedCount()} / 5 +25 Echoes entered. Bellibing will not calculate whole-build DPS from a partial or phantom loadout.`;
+      render();
+      return;
+    }
+
+    try {
+      ownedBuildAnalysis = analyzeOwnedBuild({
+        presetId: selection.preset.id,
+        echoes: ownedBuildEchoes as Echo[],
+      });
+      const dps = Math.round(ownedBuildAnalysis.personalRotationDps).toLocaleString('en-US');
+      const er = `${(ownedBuildAnalysis.energyRegen * 100).toFixed(1)}%`;
+      analysisMessage = ownedBuildAnalysis.erGate === 'PASS'
+        ? `${ownedBuildAnalysis.headline}: ${dps} · ER ${er} PASS · ${ownedBuildAnalysis.engineModelId}.`
+        : `${ownedBuildAnalysis.headline}: ER ${er}. Raw modeled DPS is ${dps}, but the locked rotation is invalid until the ER gate passes.`;
+    } catch (error) {
+      ownedBuildAnalysis = null;
+      ownedBuildError = error instanceof Error ? error.message : 'Unknown owned-build analysis error.';
+      analysisMessage = `ANALYSIS ERROR: ${ownedBuildError}`;
+    }
     render();
   });
 }

@@ -156,7 +156,9 @@ function validateCandidateCheckpoint(input: {
   const resolved = resolveBuildPreset(PROFILE_REGISTRY, input.presetId);
   const canonical = resolved.echoLoadout.slots[input.slotIndex];
   if (!canonical) throw new RangeError(`${input.presetId}: invalid candidate Echo slot ${input.slotIndex + 1}.`);
-  if (input.candidate.rank !== 5) throw new Error(`${input.presetId}: candidate comparison requires a Rank-5 Echo.`);
+  if (input.candidate.rank !== undefined && input.candidate.rank !== 5) {
+    throw new Error(`${input.presetId}: candidate comparison requires a Rank-5 Echo.`);
+  }
   if (![5, 10, 15, 20, 25].includes(input.candidate.level)) {
     throw new Error(`${input.presetId}: candidate checkpoint must be +5/+10/+15/+20/+25.`);
   }

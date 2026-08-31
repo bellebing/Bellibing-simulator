@@ -12,6 +12,7 @@ import {
   analyzeFinishedOwnedBuildCandidate,
   forecastPartialOwnedBuildCandidate,
 } from '../src/ownedBuildUpgradeAnalysis.ts';
+import { buildOwnedEchoFromCheckpointInput } from '../src/ownedEchoCheckpointAnalysis.ts';
 
 function cloneEcho(echo: Echo): Echo {
   return {
@@ -23,7 +24,12 @@ function cloneEcho(echo: Echo): Echo {
 }
 
 function currentBuild(): Echo[] {
-  return AUGUSTA_LIVE_CURRENT_ECHOES_2026_08_21.map(cloneEcho);
+  return AUGUSTA_LIVE_CURRENT_ECHOES_2026_08_21.map((echo, slotIndex) => buildOwnedEchoFromCheckpointInput({
+    presetId: 'augusta-standard',
+    slotIndex,
+    level: 25,
+    substats: echo.substats.map((roll) => ({ ...roll })),
+  }));
 }
 
 test('finished Augusta candidate changes only one slot and reports real whole-build DPS delta', () => {

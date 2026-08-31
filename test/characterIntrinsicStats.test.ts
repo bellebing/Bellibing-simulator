@@ -15,20 +15,18 @@ test('all 57 released characters have explicit intrinsic coverage', () => {
   assert.deepEqual(audit.issues, []);
 });
 
-test('Mornye DEF is the only unresolved released intrinsic category', () => {
-  assert.deepEqual(RELEASED_CHARACTER_INTRINSIC_PENDING, [
-    {
-      characterId: 'mornye',
-      stat: 'DEF%',
-      checkedAt: '2026-08-25',
-      reason: 'Current Prydwen reports DEF% +11%; current Wutheringlab reports DEF% +15%. Do not choose either value until the discrepancy is resolved.',
-    },
-  ]);
+test('Mornye DEF node-level review closes the last released intrinsic blocker', () => {
+  assert.deepEqual(RELEASED_CHARACTER_INTRINSIC_PENDING, []);
 
   const mornye = CHARACTER_INTRINSIC_BY_ID.get('mornye');
   assert.ok(mornye);
-  assert.equal(mornye.verificationStatus, 'PARTIALLY_VERIFIED');
-  assert.deepEqual(mornye.stats, [{ stat: 'Healing Bonus', value: 0.10 }]);
+  assert.equal(mornye.verificationStatus, 'VERIFIED');
+  assert.deepEqual(mornye.stats, [
+    { stat: 'Healing Bonus', value: 0.10 },
+    { stat: 'DEF%', value: 0.152 },
+  ]);
+  assert.ok(mornye.provenance.sourceLabels.some((label) => label.includes('Wutheringlab')));
+  assert.equal(mornye.provenance.checkedAt, '2026-08-31');
 });
 
 test('representative non-ATK intrinsic families are preserved exactly', () => {

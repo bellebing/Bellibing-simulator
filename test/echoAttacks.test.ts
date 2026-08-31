@@ -9,11 +9,12 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 5);
-  assert.equal(registry.attackById.size, 6);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 6);
+  assert.equal(registry.attackById.size, 7);
   assert.ok(registry.byEchoId.has('echo-60000375'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60000885'));
+  assert.ok(registry.byEchoId.has('echo-60000915'));
   assert.ok(registry.byEchoId.has('echo-60001065'));
   assert.ok(registry.byEchoId.has('echo-60001215'));
 });
@@ -54,6 +55,20 @@ test('Nightmare Thundering Mephis Rank-5 active strike is exact one-hit 405% ATK
   assert.equal(attack.scalingStat, 'ATK');
   assert.deepEqual(attack.components, [{ motionValuePerHit: 4.05, hits: 1 }]);
   assert.equal(totalMotionValue(attack), 4.05);
+});
+
+test('Nightmare Inferno Rider Rank-5 normal active strike is exact one-hit 405% ATK Fusion damage', () => {
+  const profile = registry.byEchoId.get('echo-60000915')!;
+  const attack = profile.attacks[0]!;
+  assert.equal(profile.cooldownSeconds, 25);
+  assert.equal(profile.attacks.length, 1);
+  assert.equal(attack.attackId, 'NIGHTMARE_INFERNO_RIDER_ACTIVE_STRIKE');
+  assert.equal(attack.trigger, 'ACTIVE_CAST');
+  assert.equal(attack.element, 'Fusion');
+  assert.equal(attack.scalingStat, 'ATK');
+  assert.deepEqual(attack.components, [{ motionValuePerHit: 4.05, hits: 1 }]);
+  assert.equal(totalMotionValue(attack), 4.05);
+  assert.equal(profile.attacks.some((row) => row.attackId.includes('RIDE') || row.attackId.includes('HOLD')), false);
 });
 
 test('Fleurdelys Rank-5 summon is exact 27.36% x8 + 136.80% ATK Aero damage', () => {

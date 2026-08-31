@@ -56,6 +56,7 @@ export interface PartialOwnedBuildCandidateForecast {
   /** Extra refund earned by further investment, conditional on finishing and then rejecting the Echo. */
   readonly expectedAdditionalRefundOnRejectedBranch: Required<ResourceCost> | null;
   readonly continueEconomics: UpgradeEconomics;
+  /** Restart economics from the current decision point, after the one-time recycle-now refund. */
   readonly restartEconomics: UpgradeEconomics;
   readonly pathComparison: PathComparison;
   readonly action: PartialCandidateAction;
@@ -132,6 +133,32 @@ function refundIncrease(from: ResourceCost, to: ResourceCost): Required<Resource
     tuners: Math.max(0, end.tuners - start.tuners),
     exp: Math.max(0, end.exp - start.exp),
     shellCredits: Math.max(0, end.shellCredits - start.shellCredits),
+  };
+}
+
+/**
+ * Restarting abandons the current partial Echo exactly once. Apply that verified
+ * recycle credit after trial summarization so it is not incorrectly multiplied by
+ * 1 / P(success) as though every future fresh attempt recycled the same sunk Echo.
+ * A negative dimension is a real net resource recovery from the current decision point.
+ */
+function applyOneTimeCredit(economics: UpgradeEconomics, credit: ResourceCost): UpgradeEconomics {
+  if (!economics.expectedCostToSuccess) return economics;
+  const cost = normalizeCost(economics.expectedCostToSuccess);
+  const refund = normalizeCost(credit);
+  const expectedCostToSuccess: Required<ResourceCost> = {
+    echoes: cost.echoes - refund.echoes,
+    tuners: cost.tuners - refund.tuners,
+    exp: cost.exp - refund.exp,
+    shellCredits: cost.shellCredits - refund.shellCredits,
+  };
+  const gain = economics.expectedDpsGainOnSuccess;
+  return {
+    ...economics,
+    expectedCostToSuccess,
+    tunersPerOnePercentDps: gain !== null && gain > 0
+      ? expectedCostToSuccess.tuners / (gain * 100)
+      : null,
   };
 }
 
@@ -386,7 +413,9 @@ export function forecastPartialOwnedBuildCandidate(input: {
     evaluator: binding.evaluator,
   });
 
-  const pathComparison = compareContinueVsRestart(continuation.economics, restart.economics);
+  const recycleNowRefund = normalizeCost(input.runtime.refundOnDiscard(input.candidate));
+  const restartEconomics = applyOneTimeCredit(restart.economics, recycleNowRefund);
+  const pathComparison = compareContinueVsRestart(continuation.economics, restartEconomics);
   const action = actionFromComparison(pathComparison);
   const nextCheckpoint = (input.candidate.level + 5) as EchoLevel;
   const expectedAbsoluteDpsGainOnSuccessfulUpgrade = continuation.viability.kept > 0
@@ -397,10 +426,10 @@ export function forecastPartialOwnedBuildCandidate(input: {
   let reason: string;
   if (action === 'ROLL') {
     headline = `ROLL TO +${nextCheckpoint}`;
-    reason = 'Continuing Pareto-dominates restarting across the tracked success, DPS and resource dimensions.';
+    reason = 'Continuing Pareto-dominates restarting after the verified recycle-now refund is applied to the restart path.';
   } else if (action === 'STOP_RECYCLE') {
     headline = 'STOP / RECYCLE';
-    reason = 'Restarting Pareto-dominates continuing across the tracked success, DPS and resource dimensions.';
+    reason = 'Restarting Pareto-dominates continuing after the verified recycle-now refund is applied.';
   } else if (action === 'TRADEOFF') {
     headline = 'RESOURCE TRADEOFF';
     reason = 'Neither path dominates without inventing a universal exchange rate between Tuners, EXP, Shell Credits and upgrade chance.';
@@ -420,10 +449,10 @@ export function forecastPartialOwnedBuildCandidate(input: {
     expectedDpsGainOnSuccessfulUpgrade: continuation.economics.expectedDpsGainOnSuccess,
     expectedAbsoluteDpsGainOnSuccessfulUpgrade,
     expectedRemainingCost: continuation.viability.averageFutureSpend,
-    recycleNowRefund: normalizeCost(input.runtime.refundOnDiscard(input.candidate)),
+    recycleNowRefund,
     expectedAdditionalRefundOnRejectedBranch: continuation.expectedAdditionalRefundOnRejectedBranch,
     continueEconomics: continuation.economics,
-    restartEconomics: restart.economics,
+    restartEconomics,
     pathComparison,
     action,
     headline,

@@ -7,6 +7,11 @@ import {
   createCiacconaOwnedEchoDamageEvaluator,
   type CiacconaOwnedBuildCombatContext,
 } from '../src/characters/ciacconaEchoEvaluator.ts';
+import {
+  CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_20260831,
+  CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_LABEL,
+} from '../src/characters/ciacconaProductOwnedBuildEvaluator.ts';
+import { CIACCONA_OWNED_BUILD_COMBAT_CONTEXT_REVIEW_20260831 } from '../src/data/ciacconaOwnedBuildCombatContext20260831.ts';
 import type { Echo, StatRoll } from '../src/domain.ts';
 import { analyzeOwnedBuild, resolveOwnedBuildDpsBinding } from '../src/ownedBuildAnalysis.ts';
 import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
@@ -174,21 +179,54 @@ test('Ciaccona owned-build assembly adds exact Echo rolls and explicit external 
   assert.equal(assembled.erGate, 'PASS');
 });
 
-test('explicit-context Ciaccona evaluator executes finite DPS but remains unregistered for Alpha owned-build analysis', () => {
-  const evaluator = createCiacconaOwnedEchoDamageEvaluator(ZERO_CONTEXT);
+test('reviewed Ciaccona product context locks Lorelei VI plus Rover Bloodpact R1 and registers owned-build DPS', () => {
+  const review = CIACCONA_OWNED_BUILD_COMBAT_CONTEXT_REVIEW_20260831;
+  assert.equal(review.disposition, 'VERIFIED_PRODUCT_BENCHMARK_CONTEXT');
+  assert.equal(review.target.level, 100);
+  assert.equal(review.target.enemyDefense, 1592);
+  assertClose(review.target.enemyAeroResistance, 0.10);
+  assert.equal(review.team.predecessorWeaponId, 'bloodpacts-pledge');
+  assert.equal(review.team.predecessorWeaponRank, 1);
+  assertClose(review.team.aeroDamageAmplification, 0.10);
+  assert.equal(review.team.durationSeconds, 30);
+  assert.equal(review.rotationSeconds, 4.5);
+  assert.match(CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_LABEL, /Lorelei VI/);
+
+  assert.deepEqual(CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_20260831, {
+    enemyDefense: 1592,
+    enemyAeroResistance: 0.10,
+    attackPercent: 0,
+    flatAttack: 0,
+    critRate: 0,
+    critDamage: 0,
+    aeroDamageBonus: 0,
+    basicAttackDamageBonus: 0,
+    heavyAttackDamageBonus: 0,
+    resonanceSkillDamageBonus: 0,
+    resonanceLiberationDamageBonus: 0,
+    introSkillDamageBonus: 0,
+    allDamageAmplification: 0.10,
+    energyRegen: 0,
+  });
+
+  const evaluator = createCiacconaOwnedEchoDamageEvaluator(CIACCONA_OWNED_BUILD_PRODUCT_CONTEXT_20260831);
   const build = buildContextFromVerifiedPreset('ciaccona-cartethyia-aero', CANONICAL_SHELL);
-  const result = evaluator.evaluate(build);
+  const direct = evaluator.evaluate(build);
+  assert.ok(Number.isFinite(direct.personalRotationDps));
+  assert.ok(direct.personalRotationDps > 0);
+  assert.equal(direct.energyRegen, 1);
+  assert.equal(direct.erGate, 'FAIL');
 
-  assert.ok(Number.isFinite(result.personalRotationDps));
-  assert.ok(result.personalRotationDps > 0);
-  assert.equal(result.energyRegen, 1);
-  assert.equal(result.erGate, 'FAIL');
+  const binding = resolveOwnedBuildDpsBinding('ciaccona-cartethyia-aero');
+  assert.equal(binding?.characterId, 'ciaccona');
+  assert.equal(binding?.engineModelId, 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1');
 
-  assert.equal(resolveOwnedBuildDpsBinding('ciaccona-cartethyia-aero'), null);
-  assert.throws(
-    () => analyzeOwnedBuild({ presetId: 'ciaccona-cartethyia-aero', echoes: CANONICAL_SHELL }),
-    /no verified owned-build DPS adapter is registered/,
-  );
+  const product = analyzeOwnedBuild({ presetId: 'ciaccona-cartethyia-aero', echoes: CANONICAL_SHELL });
+  assert.ok(Number.isFinite(product.personalRotationDps));
+  assert.ok(product.personalRotationDps > 0);
+  assertClose(product.personalRotationDps, direct.personalRotationDps);
+  assert.equal(product.energyRegen, 1);
+  assert.equal(product.erGate, 'FAIL');
 });
 
 test('Ciaccona assembly rejects invalid owned loadouts or non-finite unresolved context instead of inventing defaults', () => {

@@ -102,13 +102,14 @@ async function verifyAlphaEntry(send) {
 
   const result = await evaluate(send, `
     (async () => {
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       const deadline = Date.now() + 15000;
       while (Date.now() < deadline) {
         if (document.readyState === 'complete'
           && document.querySelector('#alpha-character')
           && document.querySelector('[data-preset]')
           && document.querySelector('#alpha-analyze')) break;
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await wait(100);
       }
 
       const character = document.querySelector('#alpha-character');
@@ -116,43 +117,101 @@ async function verifyAlphaEntry(send) {
       character.value = 'augusta';
       if (character.value !== 'augusta') throw new Error('Augusta is missing from Alpha registry choices.');
       character.dispatchEvent(new Event('change', { bubbles: true }));
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await wait(100);
 
-      const analyze = document.querySelector('#alpha-analyze');
       const rollAssist = document.querySelector('#alpha-roll-assist');
       const ownedToggle = document.querySelector('#alpha-owned-toggle');
-      if (!analyze) throw new Error('Alpha Analyze control disappeared after Augusta selection.');
+      if (!document.querySelector('#alpha-analyze')) throw new Error('Alpha Analyze control disappeared after Augusta selection.');
       if (!rollAssist) throw new Error('Augusta profile-aware Roll Assist CTA is missing.');
       if (!ownedToggle) throw new Error('Augusta owned Echo analysis CTA is missing.');
 
       ownedToggle.click();
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await wait(50);
       let stat = document.querySelector('#alpha-owned-stat');
       if (!stat) throw new Error('Owned Echo stat input did not open.');
       stat.value = 'CRIT Rate';
       stat.dispatchEvent(new Event('change', { bubbles: true }));
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await wait(50);
       const value = document.querySelector('#alpha-owned-value');
       const add = document.querySelector('#alpha-owned-add');
       if (!value || !add) throw new Error('Owned Echo exact roll controls are missing.');
       value.value = '0.093';
       if (value.value !== '0.093') throw new Error('Owned Echo exact CRIT Rate 9.3% value is missing.');
       add.click();
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await wait(50);
       const ownedDecision = document.querySelector('.alpha-owned-verdict strong')?.textContent?.trim() ?? null;
 
+      document.querySelector('#alpha-owned-reset')?.click();
+      await wait(30);
+      const level = document.querySelector('#alpha-owned-level');
+      if (!level) throw new Error('Owned Echo level selector disappeared.');
+      level.value = '25';
+      level.dispatchEvent(new Event('change', { bubbles: true }));
+      await wait(30);
+
+      const fullRolls = [
+        ['CRIT Rate', '0.093'],
+        ['CRIT DMG', '0.21'],
+        ['ATK%', '0.116'],
+        ['Energy Regen', '0.124'],
+        ['Heavy Attack DMG', '0.116'],
+      ];
+
+      async function addOwnedRoll(name, rollValue) {
+        const statSelect = document.querySelector('#alpha-owned-stat');
+        if (!statSelect) throw new Error('Owned Echo stat selector missing while entering full build.');
+        statSelect.value = name;
+        if (statSelect.value !== name) throw new Error('Requested full-build substat is not available.');
+        statSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        await wait(20);
+        const valueSelect = document.querySelector('#alpha-owned-value');
+        const addButton = document.querySelector('#alpha-owned-add');
+        if (!valueSelect || !addButton) throw new Error('Owned Echo roll controls disappeared while entering full build.');
+        valueSelect.value = rollValue;
+        if (valueSelect.value !== rollValue) throw new Error('Requested full-build roll magnitude is not available.');
+        addButton.click();
+        await wait(25);
+      }
+
+      for (let slotIndex = 0; slotIndex < 5; slotIndex += 1) {
+        const slot = document.querySelector('#alpha-owned-slot');
+        if (!slot) throw new Error('Owned Echo slot selector missing while entering full build.');
+        slot.value = String(slotIndex);
+        slot.dispatchEvent(new Event('change', { bubbles: true }));
+        await wait(20);
+        const currentLevel = document.querySelector('#alpha-owned-level');
+        if (!currentLevel) throw new Error('Owned Echo level selector missing while entering full build.');
+        if (currentLevel.value !== '25') {
+          currentLevel.value = '25';
+          currentLevel.dispatchEvent(new Event('change', { bubbles: true }));
+          await wait(20);
+        }
+        for (const [name, rollValue] of fullRolls) await addOwnedRoll(name, rollValue);
+        const save = document.querySelector('#alpha-owned-save');
+        if (!save) throw new Error('Full +25 Echo did not expose SAVE +25 ECHO IN BUILD.');
+        save.click();
+        await wait(35);
+      }
+
+      const buildProgress = document.querySelector('.alpha-owned-build-progress')?.textContent?.replace(/\\s+/g, ' ').trim() ?? '';
+      const analyze = document.querySelector('#alpha-analyze');
+      if (!analyze) throw new Error('Alpha Analyze control disappeared after full build entry.');
       analyze.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await wait(100);
+      const ownedBuildResult = document.querySelector('.alpha-result')?.textContent?.replace(/\\s+/g, ' ').trim() ?? '';
 
       return {
         heading: document.querySelector('h1')?.textContent?.replace(/\\s+/g, ' ').trim() ?? '',
         characterCount: document.querySelector('#alpha-character')?.options.length ?? 0,
         modeCount: document.querySelectorAll('[data-preset]').length,
         echoSlotCount: document.querySelectorAll('.alpha-echo-grid article').length,
+        savedEchoSlotCount: document.querySelectorAll('.alpha-echo-slot--saved').length,
         hasResult: Boolean(document.querySelector('.alpha-result')),
         echoLabHref: document.querySelector('a[href$="echo-lab.html"]')?.getAttribute('href') ?? null,
         rollAssistHref: document.querySelector('#alpha-roll-assist')?.getAttribute('href') ?? null,
         ownedDecision,
+        buildProgress,
+        ownedBuildResult,
       };
     })()
   `);
@@ -161,13 +220,20 @@ async function verifyAlphaEntry(send) {
   if (!(result.characterCount > 0)) throw new Error('Alpha character selector has no registry profiles.');
   if (!(result.modeCount > 0)) throw new Error('Alpha mode selector has no presets.');
   if (result.echoSlotCount !== 5) throw new Error(`Alpha expected 5 Echo slots, got ${result.echoSlotCount}.`);
-  if (!result.hasResult) throw new Error('Alpha Analyze did not render a fail-closed/result state.');
+  if (result.savedEchoSlotCount !== 5) throw new Error(`Alpha expected 5 saved owned Echo slots, got ${result.savedEchoSlotCount}.`);
+  if (!result.hasResult) throw new Error('Alpha Analyze did not render a result state.');
   if (result.echoLabHref !== './echo-lab.html') throw new Error(`Alpha Echo Lab route mismatch: ${JSON.stringify(result.echoLabHref)}.`);
   if (result.rollAssistHref !== './roll-assistant.html?character=augusta&preset=augusta-standard') {
     throw new Error(`Alpha profile-aware Roll Assist route mismatch: ${JSON.stringify(result.rollAssistHref)}.`);
   }
   if (result.ownedDecision !== 'ROLL TO +10') {
     throw new Error(`Alpha owned Echo verdict mismatch: ${JSON.stringify(result.ownedDecision)}.`);
+  }
+  if (!result.buildProgress.includes('Five +25 Echoes ready.')) {
+    throw new Error(`Alpha owned-build progress mismatch: ${JSON.stringify(result.buildProgress)}.`);
+  }
+  if (!result.ownedBuildResult.includes('PERSONAL ROTATION DPS') || !result.ownedBuildResult.includes('ER') || !result.ownedBuildResult.includes('PASS')) {
+    throw new Error(`Alpha owned-build DPS result mismatch: ${JSON.stringify(result.ownedBuildResult)}.`);
   }
 }
 
@@ -262,7 +328,7 @@ try {
     await send('Runtime.enable');
 
     await verifyAlphaEntry(send);
-    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, owned +5 exact-roll verdict, Analyze, Augusta profile-aware Roll Assist route.');
+    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, owned checkpoint verdict, five saved +25 Augusta Echoes, Personal Rotation DPS + ER gate, and profile-aware Roll Assist route.');
 
     await navigate(send, PROFILED_ROLL_ASSIST_URL);
     await verifyProfileContext(send);
@@ -280,8 +346,9 @@ try {
     const directHeading = await evaluate(send, `document.querySelector('.assist-title h1')?.textContent?.trim() ?? ''`);
     if (directHeading !== 'Augusta') throw new Error(`Direct Roll Assist backward compatibility failed: ${JSON.stringify(directHeading)}.`);
 
-    console.log('Live profile-aware Roll Assist verdict paths verified:');
+    console.log('Live profile-aware Alpha + Roll Assist paths verified:');
     console.log('- Alpha owned +5 CRIT Rate 9.3% => ROLL TO +10');
+    console.log('- Alpha five exact +25 Augusta Echoes => Personal Rotation DPS with ER PASS');
     console.log('- Augusta canonical route -> AUGUSTA_RECOMMENDED_V915');
     console.log('- +5 CRIT Rate 6.3% => DISCARD');
     console.log('- +5 CRIT Rate 9.3% => ROLL TO +10');

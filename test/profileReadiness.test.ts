@@ -31,6 +31,7 @@ const STILL_PENDING_FREEZE = [
   ['rover-aero', 'rover-aero-cartethyia-ciaccona'],
   ['iuno', 'iuno-augusta-hybrid'],
   ['the-shorekeeper', 'shorekeeper-augusta-support'],
+  ['jiyan', 'jiyan-standard'],
   ...NEW_SOURCE_BATCH,
 ] as const;
 

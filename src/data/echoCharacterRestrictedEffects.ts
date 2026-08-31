@@ -23,6 +23,23 @@ export const FLEURDELYS_CHARACTER_RESTRICTION_REVIEW = {
   ],
 } as const;
 
+export const SIGILLUM_CHARACTER_RESTRICTION_REVIEW = {
+  reviewedAt: '2026-09-01',
+  echoId: 'echo-60001915',
+  effectId: 'ECHO_60001915_RESONANCE_LIBERATION_DMG_AEMEATH',
+  primitiveId: 'echo-character-restriction-v1',
+  closesPendingExecutionId: 'echo:echo-60001915:sigillum-character-restriction-adapter',
+  canonicalWielderCharacterIds: ['aemeath'],
+  sourceEvidence: [
+    'Pinned Echo skill text explicitly grants 25% Resonance Liberation DMG Bonus when Sigillum is equipped in the main slot by Aemeath.',
+    'Aemeath is named directly by the source condition; no element-wide or team-wide interpretation is required.',
+  ],
+  notes: [
+    'This static main-slot restriction is separate from Sigillum active attack damage and its 20-second cooldown.',
+    'The canonical aemeath-standard source sequence contains no Echo cast; modeling this passive does not insert an Echo action or authorize active damage.',
+  ],
+} as const;
+
 export const ECHO_CHARACTER_RESTRICTED_EFFECTS: readonly EchoEffectModel[] = [
   {
     effectId: FLEURDELYS_CHARACTER_RESTRICTION_REVIEW.effectId,
@@ -43,6 +60,28 @@ export const ECHO_CHARACTER_RESTRICTED_EFFECTS: readonly EchoEffectModel[] = [
       notes: [
         `Pinned upstream source commit ${SOURCE_COMMIT}.`,
         'Structured characterCondition tokens are ["Aero", "Cartethyia"]; multilingual text independently identifies the first token as Rover: Aero.',
+      ],
+    },
+  },
+  {
+    effectId: SIGILLUM_CHARACTER_RESTRICTION_REVIEW.effectId,
+    echoId: SIGILLUM_CHARACTER_RESTRICTION_REVIEW.echoId,
+    statOrEffect: 'Resonance Liberation DMG Bonus',
+    value: 0.25,
+    activation: 'MAIN_SLOT_PASSIVE',
+    trigger: 'Sigillum equipped in the main Echo slot by Aemeath',
+    durationSeconds: null,
+    appliesTo: 'WIELDER',
+    wielderCharacterIds: SIGILLUM_CHARACTER_RESTRICTION_REVIEW.canonicalWielderCharacterIds,
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    notes: 'Source-explicit permanent main-slot bonus. Identity-restricted to Aemeath; no active Echo cast or uptime assumption is required for this passive.',
+    provenance: {
+      sourceLabels: ['wuwabuild Echo skill rendered English text'],
+      sourceUrls: [SOURCE_URL],
+      checkedAt: SIGILLUM_CHARACTER_RESTRICTION_REVIEW.reviewedAt,
+      notes: [
+        `Pinned upstream source commit ${SOURCE_COMMIT}.`,
+        'Rendered source text names Aemeath directly and grants 25% Resonance Liberation DMG Bonus only when Sigillum is equipped in the main slot by Aemeath.',
       ],
     },
   },

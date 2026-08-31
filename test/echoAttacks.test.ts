@@ -9,9 +9,10 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 5);
-  assert.equal(registry.attackById.size, 6);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 6);
+  assert.equal(registry.attackById.size, 7);
   assert.ok(registry.byEchoId.has('echo-60000375'));
+  assert.ok(registry.byEchoId.has('echo-60000535'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60000885'));
   assert.ok(registry.byEchoId.has('echo-60001065'));
@@ -26,6 +27,22 @@ test('Bell-Borne Rank-5 protection blast is exact 145.92% DEF Glacio damage', ()
   assert.equal(attack.element, 'Glacio');
   assert.equal(attack.scalingStat, 'DEF');
   assert.equal(totalMotionValue(attack), 1.4592);
+});
+
+test('Dreamless Rank-5 active combo is exact 54.08% x5 + 270.40% ATK Havoc damage', () => {
+  const profile = registry.byEchoId.get('echo-60000535')!;
+  const attack = profile.attacks[0]!;
+  assert.equal(profile.cooldownSeconds, 20);
+  assert.equal(profile.attacks.length, 1);
+  assert.equal(attack.attackId, 'DREAMLESS_SIX_STRIKE_COMBO');
+  assert.equal(attack.trigger, 'ACTIVE_CAST');
+  assert.equal(attack.element, 'Havoc');
+  assert.equal(attack.scalingStat, 'ATK');
+  assert.deepEqual(attack.components, [
+    { motionValuePerHit: 0.5408, hits: 5 },
+    { motionValuePerHit: 2.704, hits: 1 },
+  ]);
+  assert.ok(Math.abs(totalMotionValue(attack) - 5.408) < 1e-12);
 });
 
 test('Fallacy Rank-5 normal activation is exact one-hit 15.86% max-HP Spectro damage', () => {

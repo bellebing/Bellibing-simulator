@@ -1,7 +1,7 @@
 import type { ContentProvenance } from './contentRegistry.ts';
 import type { Element } from './gameDataDomain.ts';
 
-export type EchoAttackTrigger = 'ACTIVE_CAST' | 'INTRO_AUTO_SUMMON';
+export type EchoAttackTrigger = 'ACTIVE_CAST' | 'INTRO_AUTO_SUMMON' | 'OUTRO_AUTO_SUMMON';
 export type EchoAttackScalingStat = 'ATK' | 'HP' | 'DEF';
 
 export interface EchoAttackComponent {

@@ -18,8 +18,8 @@ test('Version 3.6 Echo skill source review is roster-wide and execution-explicit
   assert.equal(review.expectedDamageTextRecordCount, 170);
   assert.equal(review.expectedNoDamageTextRecordCount, 11);
   assert.equal(review.expectedModeledEffectRowCount, 63);
-  assert.equal(review.expectedAttackProfileCount, 5);
-  assert.equal(review.expectedAttackFactCount, 6);
+  assert.equal(review.expectedAttackProfileCount, 6);
+  assert.equal(review.expectedAttackFactCount, 8);
 });
 
 test('Echo skill coverage audit fails closed around modeled and pending boundaries', () => {
@@ -28,8 +28,8 @@ test('Echo skill coverage audit fails closed around modeled and pending boundari
     releasedEchoCount: 181,
     modeledEffectRowCount: 63,
     modeledEffectEchoCount: 37,
-    attackProfileCount: 5,
-    attackFactCount: 6,
+    attackProfileCount: 6,
+    attackFactCount: 8,
     pendingAdapterFactCount: 6,
     sourceUnusedParamRecordCount: 3,
   });

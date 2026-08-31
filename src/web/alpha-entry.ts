@@ -5,6 +5,12 @@ import {
   type OwnedBuildAnalysisResult,
 } from '../ownedBuildAnalysis.ts';
 import {
+  analyzeFinishedOwnedBuildCandidate,
+  forecastPartialOwnedBuildCandidate,
+  type FinishedOwnedBuildCandidateResult,
+  type PartialOwnedBuildCandidateForecast,
+} from '../ownedBuildUpgradeAnalysis.ts';
+import {
   OWNED_ECHO_CHECKPOINT_LEVELS,
   analyzeOwnedEchoCheckpoint,
   buildOwnedEchoFromCheckpointInput,
@@ -12,7 +18,13 @@ import {
   type OwnedEchoCheckpointLevel,
   type OwnedEchoCheckpointResult,
 } from '../ownedEchoCheckpointAnalysis.ts';
-import type { Echo, StatName, StatRoll } from '../echoCore.ts';
+import {
+  VerifiedWuwaEchoRuntime,
+  createSeededRng,
+  type Echo,
+  type StatName,
+  type StatRoll,
+} from '../echoCore.ts';
 
 function requireAppRoot(): HTMLDivElement {
   const root = document.querySelector<HTMLDivElement>('#app');
@@ -26,15 +38,21 @@ const ownedRollOptions = listOwnedEchoRollOptions();
 if (characters.length === 0) throw new Error('Alpha entry has no selectable registry profiles.');
 if (ownedRollOptions.length === 0) throw new Error('Owned Echo analysis has no verified roll options.');
 
+const UPGRADE_FORECAST_TRIALS = 2000;
+type OwnedEchoMode = 'CHECKPOINT' | 'COMPARE';
+type OwnedUpgradeResult = FinishedOwnedBuildCandidateResult | PartialOwnedBuildCandidateForecast;
+
 let selectedCharacterId = characters.find((row) => row.readinessDisposition === 'DPS_READY')?.characterId
   ?? characters[0]!.characterId;
 let selectedPresetId: string | undefined;
 let analysisMessage = '';
 let ownedEchoOpen = false;
+let ownedEchoMode: OwnedEchoMode = 'CHECKPOINT';
 let ownedEchoSlotIndex = 0;
 let ownedEchoLevel: OwnedEchoCheckpointLevel = 5;
 let ownedEchoRolls: StatRoll[] = [];
 let ownedEchoResult: OwnedEchoCheckpointResult | null = null;
+let ownedUpgradeResult: OwnedUpgradeResult | null = null;
 let ownedEchoError = '';
 let ownedEchoPendingStatName: StatName = ownedRollOptions[0]!.name;
 let ownedBuildEchoes: Array<Echo | null> = Array.from({ length: 5 }, () => null);
@@ -57,14 +75,28 @@ function statusLabel(disposition: string): string {
   return 'PROFILE SOURCE PENDING';
 }
 
-function resetOwnedEcho(close = false): void {
-  if (close) ownedEchoOpen = false;
-  ownedEchoSlotIndex = 0;
-  ownedEchoLevel = 5;
+function clearOwnedEchoEntry(): void {
   ownedEchoRolls = [];
   ownedEchoResult = null;
+  ownedUpgradeResult = null;
   ownedEchoError = '';
   ownedEchoPendingStatName = ownedRollOptions[0]!.name;
+}
+
+function resetOwnedEcho(close = false): void {
+  if (close) ownedEchoOpen = false;
+  ownedEchoMode = 'CHECKPOINT';
+  ownedEchoSlotIndex = 0;
+  ownedEchoLevel = 5;
+  clearOwnedEchoEntry();
+}
+
+function openOwnedEcho(mode: OwnedEchoMode): void {
+  ownedEchoOpen = true;
+  ownedEchoMode = mode;
+  ownedEchoSlotIndex = 0;
+  ownedEchoLevel = mode === 'COMPARE' ? 25 : 5;
+  clearOwnedEchoEntry();
 }
 
 function resetOwnedBuild(): void {
@@ -79,6 +111,16 @@ function formatRoll(name: StatName, value: number): string {
     : `${(value * 100).toFixed(1)}%`;
 }
 
+function formatDps(value: number): string {
+  return Math.round(value).toLocaleString('en-US');
+}
+
+function formatPercent(value: number | null, digits = 2): string {
+  if (value === null || !Number.isFinite(value)) return 'pending';
+  const sign = value > 0 ? '+' : '';
+  return `${sign}${(value * 100).toFixed(digits)}%`;
+}
+
 function ownedEchoVerdictClass(result: OwnedEchoCheckpointResult): string {
   if (result.decision === 'DISCARD') return 'alpha-owned-verdict--discard';
   if (result.decision === 'KEEP') return 'alpha-owned-verdict--keep';
@@ -86,8 +128,21 @@ function ownedEchoVerdictClass(result: OwnedEchoCheckpointResult): string {
   return 'alpha-owned-verdict--roll';
 }
 
+function ownedUpgradeVerdictClass(result: OwnedUpgradeResult): string {
+  if ('decision' in result) return result.decision === 'BETTER' ? 'alpha-owned-verdict--keep' : 'alpha-owned-verdict--discard';
+  if (result.action === 'ROLL') return 'alpha-owned-verdict--roll';
+  if (result.action === 'STOP_RECYCLE') return 'alpha-owned-verdict--discard';
+  return 'alpha-owned-verdict--temporary';
+}
+
 function ownedBuildSavedCount(): number {
   return ownedBuildEchoes.filter((echo) => echo !== null).length;
+}
+
+function comparisonAvailable(selection: AlphaResolvedSelection): boolean {
+  return selection.analysisReady
+    && ownedBuildSavedCount() === 5
+    && resolveOwnedBuildDpsBinding(selection.preset.id) !== null;
 }
 
 function ownedBuildProgressMarkup(selection: AlphaResolvedSelection): string {
@@ -105,7 +160,29 @@ function ownedBuildProgressMarkup(selection: AlphaResolvedSelection): string {
   return `<div class="alpha-owned-build-progress ${saved === 5 ? 'alpha-owned-build-progress--ready' : ''}">
     <span>OWNED BUILD · ${escapeHtml(binding.engineModelId)}</span>
     <strong>${saved === 5 ? 'Five +25 Echoes ready.' : `${saved} / 5 +25 Echoes saved.`}</strong>
-    <small>${saved === 5 ? 'Analyze can now run the verified Personal Rotation DPS evaluator.' : 'Use CHECK AN ECHO I OWN, choose +25, enter its five exact rolls, then save it to the build.'}</small>
+    <small>${saved === 5
+      ? 'Analyze current DPS, or use COMPARE AN ECHO to measure one candidate against this exact build.'
+      : 'Use CHECK AN ECHO I OWN, choose +25, enter its five exact rolls, then save it to the build.'}</small>
+  </div>`;
+}
+
+function upgradeResultMarkup(result: OwnedUpgradeResult): string {
+  if ('decision' in result) {
+    return `<div class="alpha-owned-verdict ${ownedUpgradeVerdictClass(result)}" data-upgrade-decision="${result.decision}">
+      <span>WHOLE-BUILD DECISION</span>
+      <strong>${escapeHtml(result.headline)}</strong>
+      <small>CURRENT ${formatDps(result.currentDps)} DPS · WITH THIS ECHO ${formatDps(result.candidateDps)} DPS · ${formatPercent(result.percentageDpsDelta)}</small>
+      <small>ER gate: ${result.candidateErGate} · ${escapeHtml(result.reason)}</small>
+    </div>`;
+  }
+
+  const cost = result.expectedRemainingCost;
+  return `<div class="alpha-owned-verdict ${ownedUpgradeVerdictClass(result)}" data-upgrade-action="${result.action}">
+    <span>WHOLE-BUILD FUTURE ROLL FORECAST · ${result.trials.toLocaleString('en-US')} BRANCHES</span>
+    <strong>${escapeHtml(result.headline)}</strong>
+    <small>Chance to beat current Echo: ${(result.probabilityBeatsIncumbent * 100).toFixed(1)}% · Mandatory gates pass: ${(result.probabilityMandatoryGatesPass * 100).toFixed(1)}%</small>
+    <small>Expected successful gain: ${formatPercent(result.expectedDpsGainOnSuccessfulUpgrade)} DPS · Remaining: ${cost.tuners.toFixed(0)} Tuners · ${cost.exp.toFixed(0)} EXP · ${cost.shellCredits.toFixed(0)} Shell Credits</small>
+    <small>${escapeHtml(result.reason)}</small>
   </div>`;
 }
 
@@ -117,24 +194,32 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
   const available = ownedRollOptions.filter((option) => !usedNames.has(option.name));
   const selectedOption = available.find((option) => option.name === ownedEchoPendingStatName) ?? available[0] ?? null;
   const ownedBuildBinding = resolveOwnedBuildDpsBinding(selection.preset.id);
-  const canSaveToBuild = ownedEchoResult !== null && ownedEchoLevel === 25 && ownedBuildBinding !== null;
+  const finishedUpgrade = ownedUpgradeResult && 'decision' in ownedUpgradeResult ? ownedUpgradeResult : null;
+  const canSaveCheckpoint = ownedEchoMode === 'CHECKPOINT' && ownedEchoResult !== null && ownedEchoLevel === 25 && ownedBuildBinding !== null;
+  const canReplaceUpgrade = ownedEchoMode === 'COMPARE'
+    && ownedEchoLevel === 25
+    && finishedUpgrade?.decision === 'BETTER';
+  const canSaveToBuild = canSaveCheckpoint || canReplaceUpgrade;
   const alreadySaved = ownedBuildEchoes[ownedEchoSlotIndex] !== null;
 
-  const resultMarkup = ownedEchoResult
-    ? `<div class="alpha-owned-verdict ${ownedEchoVerdictClass(ownedEchoResult)}" data-decision="${ownedEchoResult.decision}">
-        <span>CHECKPOINT VERDICT</span>
-        <strong>${escapeHtml(ownedEchoResult.headline)}</strong>
-        <small>${escapeHtml(ownedEchoResult.reason)}</small>
-        <small>Target hits: ${ownedEchoResult.targetHits.length > 0 ? ownedEchoResult.targetHits.map(escapeHtml).join(' · ') : 'none'} · Dead rolls: ${ownedEchoResult.deadCount}</small>
-      </div>`
-    : ownedEchoError
-      ? `<div class="alpha-owned-verdict alpha-owned-verdict--discard"><span>INPUT ERROR</span><strong>CHECK THE ECHO</strong><small>${escapeHtml(ownedEchoError)}</small></div>`
-      : '';
+  const resultMarkup = ownedUpgradeResult
+    ? upgradeResultMarkup(ownedUpgradeResult)
+    : ownedEchoResult
+      ? `<div class="alpha-owned-verdict ${ownedEchoVerdictClass(ownedEchoResult)}" data-decision="${ownedEchoResult.decision}">
+          <span>CHECKPOINT VERDICT</span>
+          <strong>${escapeHtml(ownedEchoResult.headline)}</strong>
+          <small>${escapeHtml(ownedEchoResult.reason)}</small>
+          <small>Target hits: ${ownedEchoResult.targetHits.length > 0 ? ownedEchoResult.targetHits.map(escapeHtml).join(' · ') : 'none'} · Dead rolls: ${ownedEchoResult.deadCount}</small>
+        </div>`
+      : ownedEchoError
+        ? `<div class="alpha-owned-verdict alpha-owned-verdict--discard"><span>INPUT ERROR</span><strong>CHECK THE ECHO</strong><small>${escapeHtml(ownedEchoError)}</small></div>`
+        : '';
 
-  const entryMarkup = ownedEchoResult
+  const hasResult = ownedEchoResult !== null || ownedUpgradeResult !== null;
+  const entryMarkup = hasResult
     ? `<div class="alpha-owned-finished-actions">
-        ${canSaveToBuild ? `<button id="alpha-owned-save" type="button">${alreadySaved ? 'REPLACE' : 'SAVE'} +25 ECHO IN BUILD</button>` : ''}
-        <button id="alpha-owned-reset" class="alpha-owned-reset" type="button">CHECK ANOTHER ECHO</button>
+        ${canSaveToBuild ? `<button id="alpha-owned-save" type="button">${ownedEchoMode === 'COMPARE' ? 'REPLACE CURRENT ECHO' : `${alreadySaved ? 'REPLACE' : 'SAVE'} +25 ECHO IN BUILD`}</button>` : ''}
+        <button id="alpha-owned-reset" class="alpha-owned-reset" type="button">${ownedEchoMode === 'COMPARE' ? 'COMPARE ANOTHER ECHO' : 'CHECK ANOTHER ECHO'}</button>
       </div>`
     : `<div class="alpha-owned-entry">
         <div>
@@ -152,16 +237,17 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
         </div>
       </div>`;
 
-  return `<div class="alpha-owned-panel">
+  const compareMode = ownedEchoMode === 'COMPARE';
+  return `<div class="alpha-owned-panel" data-owned-mode="${ownedEchoMode}">
     <div class="alpha-owned-header">
-      <div><span>OWNED ECHO</span><strong>Check the Echo you already have.</strong></div>
+      <div><span>${compareMode ? 'ECHO COMPARISON' : 'OWNED ECHO'}</span><strong>${compareMode ? 'Is this Echo actually better for your build?' : 'Check the Echo you already have.'}</strong></div>
       <button id="alpha-owned-close" type="button">CLOSE</button>
     </div>
     <div class="alpha-owned-context">
-      <label><span>Which build slot?</span><select id="alpha-owned-slot">
+      <label><span>${compareMode ? 'Which current Echo are you challenging?' : 'Which build slot?'}</span><select id="alpha-owned-slot">
         ${selection.rollAssist.slots.map((slot, index) => `<option value="${index}" ${index === ownedEchoSlotIndex ? 'selected' : ''}>Echo ${index + 1} · COST ${slot.cost} · ${escapeHtml(slot.primaryMain)}${ownedBuildEchoes[index] ? ' · SAVED' : ''}</option>`).join('')}
       </select></label>
-      <label><span>Current level?</span><select id="alpha-owned-level">
+      <label><span>${compareMode ? 'Candidate level?' : 'Current level?'}</span><select id="alpha-owned-level">
         ${OWNED_ECHO_CHECKPOINT_LEVELS.map((level) => `<option value="${level}" ${level === ownedEchoLevel ? 'selected' : ''}>+${level}</option>`).join('')}
       </select></label>
     </div>
@@ -176,16 +262,19 @@ function ownedEchoMarkup(selection: AlphaResolvedSelection): string {
 }
 
 function rollAssistMarkup(selection: AlphaResolvedSelection): string {
+  const compareReady = comparisonAvailable(selection);
   return `<div class="alpha-roll-assist ${selection.rollAssist.supported ? 'alpha-roll-assist--ready' : ''}">
     <div>
-      <span>ROLL ASSIST</span>
-      <strong>${selection.rollAssist.supported ? 'Verified checkpoint policy available.' : 'Checkpoint policy pending.'}</strong>
-      <small>${escapeHtml(selection.rollAssist.reason)}${selection.rollAssist.policyId ? ` Policy: ${escapeHtml(selection.rollAssist.policyId)}.` : ''}</small>
+      <span>${compareReady ? 'BUILD DECISION' : 'ROLL ASSIST'}</span>
+      <strong>${compareReady ? 'Your current build is locked. Test one candidate.' : selection.rollAssist.supported ? 'Verified checkpoint policy available.' : 'Checkpoint policy pending.'}</strong>
+      <small>${compareReady
+        ? 'Only the selected Echo slot changes. Character, Weapon, Team, rotation, enemy context and gates stay identical.'
+        : `${escapeHtml(selection.rollAssist.reason)}${selection.rollAssist.policyId ? ` Policy: ${escapeHtml(selection.rollAssist.policyId)}.` : ''}`}</small>
     </div>
     ${selection.rollAssist.supported && selection.rollAssist.href
       ? `<div class="alpha-roll-assist-actions">
           <a id="alpha-roll-assist" href="${escapeHtml(selection.rollAssist.href)}">ROLL NEW ECHOES</a>
-          <button id="alpha-owned-toggle" type="button">CHECK AN ECHO I OWN</button>
+          <button id="alpha-owned-toggle" type="button">${compareReady ? 'COMPARE AN ECHO' : 'CHECK AN ECHO I OWN'}</button>
         </div>`
       : '<span class="alpha-roll-assist-disabled">POLICY PENDING</span>'}
   </div>${ownedEchoMarkup(selection)}`;
@@ -196,7 +285,7 @@ function analyzeHeading(selection: AlphaResolvedSelection): string {
   const binding = resolveOwnedBuildDpsBinding(selection.preset.id);
   if (!binding) return 'Executable rotation verified. Owned-build DPS adapter pending.';
   const saved = ownedBuildSavedCount();
-  return saved === 5 ? 'Your five-Echo build is ready to analyze.' : `Enter your five +25 Echoes (${saved}/5).`;
+  return saved === 5 ? 'Your current build is ready. Analyze it or compare one Echo.' : `Enter your five +25 Echoes (${saved}/5).`;
 }
 
 function render(): void {
@@ -303,6 +392,60 @@ function render(): void {
   bind();
 }
 
+function exactCandidateSeed(presetId: string, slotIndex: number, level: OwnedEchoCheckpointLevel, rolls: readonly StatRoll[]): string {
+  const rollKey = [...rolls]
+    .sort((a, b) => String(a.name).localeCompare(String(b.name)))
+    .map((roll) => `${roll.name}:${roll.value}`)
+    .join('|');
+  return `${presetId}|slot:${slotIndex}|level:${level}|${rollKey}`;
+}
+
+function analyzeEnteredEcho(selection: AlphaResolvedSelection, nextRolls: StatRoll[]): void {
+  if (ownedEchoMode === 'CHECKPOINT') {
+    ownedEchoResult = analyzeOwnedEchoCheckpoint({
+      presetId: selection.preset.id,
+      slotIndex: ownedEchoSlotIndex,
+      level: ownedEchoLevel,
+      substats: nextRolls,
+    });
+    ownedUpgradeResult = null;
+    return;
+  }
+
+  if (!comparisonAvailable(selection) || ownedBuildEchoes.some((echo) => echo === null)) {
+    throw new Error('Whole-build comparison requires five saved +25 Echoes and a verified owned-build DPS binding.');
+  }
+
+  const candidate = buildOwnedEchoFromCheckpointInput({
+    presetId: selection.preset.id,
+    slotIndex: ownedEchoSlotIndex,
+    level: ownedEchoLevel,
+    substats: nextRolls,
+  });
+
+  if (ownedEchoLevel === 25) {
+    ownedUpgradeResult = analyzeFinishedOwnedBuildCandidate({
+      presetId: selection.preset.id,
+      currentEchoes: ownedBuildEchoes as Echo[],
+      slotIndex: ownedEchoSlotIndex,
+      candidate,
+    });
+  } else {
+    const seed = exactCandidateSeed(selection.preset.id, ownedEchoSlotIndex, ownedEchoLevel, nextRolls);
+    ownedUpgradeResult = forecastPartialOwnedBuildCandidate({
+      presetId: selection.preset.id,
+      currentEchoes: ownedBuildEchoes as Echo[],
+      slotIndex: ownedEchoSlotIndex,
+      candidate,
+      trials: UPGRADE_FORECAST_TRIALS,
+      runtime: new VerifiedWuwaEchoRuntime(),
+      continueRng: createSeededRng(`${seed}|continue-v1`),
+      restartRng: createSeededRng(`${seed}|restart-v1`),
+    });
+  }
+  ownedEchoResult = null;
+}
+
 function bind(): void {
   document.querySelector<HTMLSelectElement>('#alpha-character')?.addEventListener('change', (event) => {
     selectedCharacterId = (event.currentTarget as HTMLSelectElement).value;
@@ -324,8 +467,9 @@ function bind(): void {
   });
 
   document.querySelector<HTMLButtonElement>('#alpha-owned-toggle')?.addEventListener('click', () => {
-    ownedEchoOpen = !ownedEchoOpen;
-    if (ownedEchoOpen) resetOwnedEcho(false);
+    const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
+    if (ownedEchoOpen) resetOwnedEcho(true);
+    else openOwnedEcho(comparisonAvailable(selection) ? 'COMPARE' : 'CHECKPOINT');
     render();
   });
   document.querySelector<HTMLButtonElement>('#alpha-owned-close')?.addEventListener('click', () => {
@@ -334,16 +478,12 @@ function bind(): void {
   });
   document.querySelector<HTMLSelectElement>('#alpha-owned-slot')?.addEventListener('change', (event) => {
     ownedEchoSlotIndex = Number((event.currentTarget as HTMLSelectElement).value);
-    ownedEchoRolls = [];
-    ownedEchoResult = null;
-    ownedEchoError = '';
+    clearOwnedEchoEntry();
     render();
   });
   document.querySelector<HTMLSelectElement>('#alpha-owned-level')?.addEventListener('change', (event) => {
     ownedEchoLevel = Number((event.currentTarget as HTMLSelectElement).value) as OwnedEchoCheckpointLevel;
-    ownedEchoRolls = [];
-    ownedEchoResult = null;
-    ownedEchoError = '';
+    clearOwnedEchoEntry();
     render();
   });
   document.querySelector<HTMLSelectElement>('#alpha-owned-stat')?.addEventListener('change', (event) => {
@@ -359,16 +499,13 @@ function bind(): void {
     ownedEchoRolls = nextRolls;
     ownedEchoError = '';
     const expectedRolls = ownedEchoLevel / 5;
-    if (nextRolls.length === expectedRolls && selectedPresetId) {
+    if (nextRolls.length === expectedRolls) {
       try {
-        ownedEchoResult = analyzeOwnedEchoCheckpoint({
-          presetId: selectedPresetId,
-          slotIndex: ownedEchoSlotIndex,
-          level: ownedEchoLevel,
-          substats: nextRolls,
-        });
+        const selection = resolveAlphaSelection(selectedCharacterId, selectedPresetId);
+        analyzeEnteredEcho(selection, nextRolls);
       } catch (error) {
         ownedEchoResult = null;
+        ownedUpgradeResult = null;
         ownedEchoError = error instanceof Error ? error.message : 'Unknown owned Echo analysis error.';
       }
     }
@@ -386,17 +523,21 @@ function bind(): void {
       ownedBuildEchoes[ownedEchoSlotIndex] = echo;
       ownedBuildAnalysis = null;
       ownedBuildError = '';
-      analysisMessage = '';
+      analysisMessage = ownedEchoMode === 'COMPARE'
+        ? `CURRENT BUILD UPDATED: Echo ${ownedEchoSlotIndex + 1} replaced with the verified better candidate.`
+        : '';
 
-      const nextMissing = ownedBuildEchoes.findIndex((row) => row === null);
-      if (nextMissing >= 0) {
-        ownedEchoSlotIndex = nextMissing;
-        ownedEchoLevel = 25;
-        ownedEchoRolls = [];
-        ownedEchoResult = null;
-        ownedEchoError = '';
-      } else {
+      if (ownedEchoMode === 'COMPARE') {
         resetOwnedEcho(true);
+      } else {
+        const nextMissing = ownedBuildEchoes.findIndex((row) => row === null);
+        if (nextMissing >= 0) {
+          ownedEchoSlotIndex = nextMissing;
+          ownedEchoLevel = 25;
+          clearOwnedEchoEntry();
+        } else {
+          resetOwnedEcho(true);
+        }
       }
     } catch (error) {
       ownedBuildError = error instanceof Error ? error.message : 'Unknown owned-build save error.';
@@ -404,9 +545,7 @@ function bind(): void {
     render();
   });
   document.querySelector<HTMLButtonElement>('#alpha-owned-reset')?.addEventListener('click', () => {
-    ownedEchoRolls = [];
-    ownedEchoResult = null;
-    ownedEchoError = '';
+    clearOwnedEchoEntry();
     render();
   });
 
@@ -439,7 +578,7 @@ function bind(): void {
         presetId: selection.preset.id,
         echoes: ownedBuildEchoes as Echo[],
       });
-      const dps = Math.round(ownedBuildAnalysis.personalRotationDps).toLocaleString('en-US');
+      const dps = formatDps(ownedBuildAnalysis.personalRotationDps);
       const er = `${(ownedBuildAnalysis.energyRegen * 100).toFixed(1)}%`;
       analysisMessage = ownedBuildAnalysis.erGate === 'PASS'
         ? `${ownedBuildAnalysis.headline}: ${dps} · ER ${er} PASS · ${ownedBuildAnalysis.engineModelId}.`

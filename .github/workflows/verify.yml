@@ -72,13 +72,8 @@ jobs:
           google-chrome --version
           BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
             node scripts/verify-live-roll-assist.mjs
+          BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
+            node scripts/verify-alpha-upgrade.mjs
 
       - name: Diff whitespace check
         run: git diff --check HEAD^
-
-      - name: Publish Windows test package
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bellibing-Echo-Lab-Windows-Test
-          path: dist/
-          if-no-files-found: error

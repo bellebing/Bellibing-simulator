@@ -58,10 +58,16 @@ function augustaOwnedEchoes(): Echo[] {
   }));
 }
 
-test('owned-build DPS binding is explicit and does not follow DPS_READY automatically', () => {
-  assert.deepEqual(listOwnedBuildDpsBindings().map((row) => row.presetId), ['augusta-standard']);
+test('owned-build DPS binding remains explicit even when more than one DPS_READY profile has a reviewed product context', () => {
+  assert.deepEqual(
+    listOwnedBuildDpsBindings().map((row) => row.presetId),
+    ['augusta-standard', 'ciaccona-cartethyia-aero'],
+  );
   assert.equal(resolveOwnedBuildDpsBinding('augusta-standard')?.engineModelId, 'AUGUSTA_STD_V1');
-  assert.equal(resolveOwnedBuildDpsBinding('ciaccona-cartethyia-aero'), null);
+  const ciaccona = resolveOwnedBuildDpsBinding('ciaccona-cartethyia-aero');
+  assert.equal(ciaccona?.engineModelId, 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1');
+  assert.match(ciaccona?.contextLabel ?? '', /Lorelei VI/);
+  assert.equal(resolveOwnedBuildDpsBinding('cartethyia-aero-erosion'), null);
 });
 
 test('five exact +25 Augusta Echo cards evaluate through the existing verified DamageEvaluator', () => {
@@ -70,6 +76,7 @@ test('five exact +25 Augusta Echo cards evaluate through the existing verified D
   const result = analyzeOwnedBuild({ presetId: 'augusta-standard', echoes });
 
   assert.equal(result.engineModelId, 'AUGUSTA_STD_V1');
+  assert.equal(result.contextLabel, undefined);
   assert.equal(result.erGate, 'PASS');
   assert.equal(result.headline, 'PERSONAL ROTATION DPS');
   assert.equal(result.energyRegen, direct.energyRegen);
@@ -92,6 +99,11 @@ test('owned-build DPS rejects incomplete or non-canonical loadouts instead of in
 
   assert.throws(() => analyzeOwnedBuild({
     presetId: 'ciaccona-cartethyia-aero',
+    echoes,
+  }), /outside the canonical slot recommendation/);
+
+  assert.throws(() => analyzeOwnedBuild({
+    presetId: 'cartethyia-aero-erosion',
     echoes,
   }), /no verified owned-build DPS adapter/);
 });

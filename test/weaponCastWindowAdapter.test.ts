@@ -11,7 +11,7 @@ import {
 } from '../src/combat/weaponCastWindowAdapter.ts';
 import { buildProfileAdapterDependencyMatrix } from '../src/profileAdapterDependencyMatrix.ts';
 
-test('weapon trigger-uptime fanout retains five cast-window edges after Woodland Aria closes through target-state execution', () => {
+test('weapon trigger-uptime fanout retains six profile edges across five cast-window contracts after Lingyang review', () => {
   const matrix = buildProfileAdapterDependencyMatrix();
   const triggerEdges = matrix.edges.filter((edge) => edge.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   const canonicalPendingIds = [...new Set(triggerEdges.map((edge) => edge.pendingExecutionId))].sort();
@@ -19,10 +19,18 @@ test('weapon trigger-uptime fanout retains five cast-window edges after Woodland
     ...WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds,
     ...WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds,
   ].sort();
+  const moongazerEdges = triggerEdges
+    .filter((edge) => edge.pendingExecutionId === 'weapon:moongazers-sigil:MGS-LIB:trigger-uptime-adapter')
+    .map((edge) => [edge.characterId, edge.presetId])
+    .sort((left, right) => `${left[0]}|${left[1]}`.localeCompare(`${right[0]}|${right[1]}`));
 
-  assert.equal(triggerEdges.length, 5);
+  assert.equal(triggerEdges.length, 6);
   assert.deepEqual(canonicalPendingIds, reviewedPendingIds);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.length, 5);
+  assert.deepEqual(moongazerEdges, [
+    ['iuno', 'iuno-augusta-hybrid'],
+    ['lingyang', 'lingyang-standard'],
+  ]);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, []);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.closesPendingExecutionIds, []);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);

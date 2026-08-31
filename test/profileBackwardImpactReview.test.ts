@@ -46,6 +46,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['carlotta', 'carlotta-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['changli', 'changli-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['chisa', 'chisa-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['chixia', 'chixia-standard', '2026-08-31', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -81,6 +82,7 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     ['carlotta-standard-weapons', ['TLD-ATK', 'TLD-SKILL']],
     ['changli-standard-weapons', ['BBR-ATK', 'BBR-SKILL', 'BBR-SKILL-CAST-STACKS']],
     ['chisa-standard-weapons', ['KUMO-TEAM']],
+    ['chixia-standard-weapons', ['TLD-ATK', 'TLD-SKILL']],
   ]);
 
   for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {

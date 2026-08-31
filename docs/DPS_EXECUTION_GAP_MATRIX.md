@@ -6,9 +6,9 @@ This document is a readable view of the current supported-profile execution boun
 
 Readiness:
 
-- **37 `PROFILE_COMPLETE_PENDING_FREEZE`**;
+- **43 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **15 `PROFILE_SOURCE_PENDING`**;
+- **9 `PROFILE_SOURCE_PENDING`**;
 - **2 `DPS_READY`** — Augusta and Ciaccona.
 
 Canonical dependency matrix:
@@ -18,7 +18,7 @@ Canonical dependency matrix:
 - **16 profiles with pending execution dependencies**;
 - **72 exact pending execution edges**.
 
-PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2 without changing the supported execution graph. The earlier 24/3/28/2 readiness values in this readable document were stale after that profile closure tranche. Ciaccona's four closed dependencies remain absent from the live 72-edge matrix.
+PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then moved it to the current 43/3/9/2 by integrating six additional canonical source-complete profiles. Neither profile-source tranche changed the supported execution graph; Ciaccona's four closed dependencies remain absent from the live 72-edge matrix.
 
 ## Current semantic partition
 
@@ -71,6 +71,10 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 | BUG-013 | Blazing Brilliance Searing Feather at-cap lifecycle | `BLOCKED_SOURCE_SEMANTICS`: current sources do not define whether qualifying +1/+5 grants while already at 14 stacks restart, preserve or otherwise mutate the 12-second removal timer. |
 | BUG-014 | Changli Standard Rotation denominator | `BLOCKED_SOURCE_SEMANTICS`: current source gives a precise 1.37-second no-swap variant delta but no exact total duration for the fixed Standard Rotation. |
 
+## Carlotta current no-go
+
+`carlotta-standard` still has five canonical pending IDs. The Last Dance window can reuse the existing cast-timed weapon primitive once a profile timeline exists, but the current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve trigger/stack execution and the rotation therefore remain open; no Carlotta dependency is closed by inference.
+
 ## Rover (Aero) exact remaining graph
 
 After the already-applied Fleurdelys character-restriction closure, `rover-aero-cartethyia-ciaccona` has exactly four effective pending IDs:
@@ -100,6 +104,7 @@ No Changli pending ID closes in this checkpoint. The two shared Blazing Brillian
 | Augusta — `augusta-standard` | `ENGINE_MODELED` | Zero pending IDs; `DPS_READY`. |
 | Ciaccona — `ciaccona-cartethyia-aero` | `ENGINE_MODELED` | Zero pending IDs; `DPS_READY`. |
 | Cartethyia — `cartethyia-aero-erosion` | `SOURCE_SEQUENCE_ONLY` | `DT-DEF` / BUG-011 + exact rotation duration/engine model. |
+| Carlotta — `carlotta-standard` | `SOURCE_SEQUENCE_ONLY` | Five canonical IDs; exact denominator and Sentry active attack remain absent. |
 | Rover (Aero) — `rover-aero-cartethyia-ciaccona` | `SOURCE_SEQUENCE_ONLY` | Four exact IDs above; BUG-012 prevents truthful freeze. |
 | Changli — `changli-standard` | `SOURCE_SEQUENCE_ONLY` | Four exact IDs above; BUG-013 blocks Searing Feather state and BUG-014 blocks the DPS denominator. |
 | Iuno — `iuno-augusta-hybrid` | `SOURCE_SEQUENCE_ONLY` | Moongazer timing/state, Heron conflict and profile execution remain. |

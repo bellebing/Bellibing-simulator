@@ -8,6 +8,7 @@ import {
   type CharacterProfileReadinessDisposition,
 } from './profileReadinessRegistry.ts';
 import { listCharacterPresets, resolveBuildPreset } from './profileRegistry.ts';
+import { buildRollAssistHref, resolveRollAssistProfileBinding } from './rollAssistProfileRegistry.ts';
 
 export interface AlphaPresetOption {
   readonly id: string;
@@ -50,6 +51,12 @@ export interface AlphaResolvedSelection {
     readonly engineModelId: string | null;
     readonly rotationSeconds: number | null;
     readonly sourceSequence: readonly string[];
+  };
+  readonly rollAssist: {
+    readonly supported: boolean;
+    readonly policyId: string | null;
+    readonly href: string | null;
+    readonly reason: string;
   };
   readonly analysisReady: boolean;
 }
@@ -114,6 +121,7 @@ export function resolveAlphaSelection(characterId: string, presetId?: string): A
   const analysisReady = readinessRow.disposition === 'DPS_READY'
     && resolved.rotation.executionStatus === 'ENGINE_MODELED'
     && Boolean(resolved.rotation.engineModelId);
+  const rollAssistBinding = resolveRollAssistProfileBinding(preset.id);
 
   return {
     character,
@@ -147,6 +155,19 @@ export function resolveAlphaSelection(characterId: string, presetId?: string): A
       rotationSeconds: resolved.rotation.rotationSeconds ?? null,
       sourceSequence: resolved.rotation.sourceSequence,
     },
+    rollAssist: rollAssistBinding
+      ? {
+        supported: true,
+        policyId: rollAssistBinding.policy.id,
+        href: buildRollAssistHref(rollAssistBinding),
+        reason: 'Verified Roll Assist policy matches this canonical Echo slot layout.',
+      }
+      : {
+        supported: false,
+        policyId: null,
+        href: null,
+        reason: 'No verified Roll Assist checkpoint policy is bound to this canonical profile.',
+      },
     analysisReady,
   };
 }

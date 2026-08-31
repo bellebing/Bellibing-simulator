@@ -3,6 +3,10 @@ import { spawn } from 'node:child_process';
 const LIVE_URL = process.env.BELLIBING_LIVE_ROLL_ASSIST_URL
   ?? 'https://bellebing.github.io/Bellibing-simulator/roll-assistant.html';
 const ALPHA_URL = new URL('.', LIVE_URL).href;
+const PROFILED_ROLL_ASSIST_URL = new URL(
+  'roll-assistant.html?character=augusta&preset=augusta-standard',
+  ALPHA_URL,
+).href;
 const DEBUG_PORT = Number(process.env.CHROME_DEBUG_PORT ?? 9222);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -108,19 +112,27 @@ async function verifyAlphaEntry(send) {
       }
 
       const character = document.querySelector('#alpha-character');
+      if (!character) throw new Error('Alpha character control did not become ready.');
+      character.value = 'augusta';
+      if (character.value !== 'augusta') throw new Error('Augusta is missing from Alpha registry choices.');
+      character.dispatchEvent(new Event('change', { bubbles: true }));
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       const analyze = document.querySelector('#alpha-analyze');
-      if (!character || !analyze) throw new Error('Alpha controls did not become ready.');
+      const rollAssist = document.querySelector('#alpha-roll-assist');
+      if (!analyze) throw new Error('Alpha Analyze control disappeared after Augusta selection.');
+      if (!rollAssist) throw new Error('Augusta profile-aware Roll Assist CTA is missing.');
       analyze.click();
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       return {
         heading: document.querySelector('h1')?.textContent?.replace(/\\s+/g, ' ').trim() ?? '',
-        characterCount: character.options.length,
+        characterCount: document.querySelector('#alpha-character')?.options.length ?? 0,
         modeCount: document.querySelectorAll('[data-preset]').length,
         echoSlotCount: document.querySelectorAll('.alpha-echo-grid article').length,
         hasResult: Boolean(document.querySelector('.alpha-result')),
         echoLabHref: document.querySelector('a[href$="echo-lab.html"]')?.getAttribute('href') ?? null,
-        rollAssistHref: document.querySelector('a[href$="roll-assistant.html"]')?.getAttribute('href') ?? null,
+        rollAssistHref: document.querySelector('#alpha-roll-assist')?.getAttribute('href') ?? null,
       };
     })()
   `);
@@ -131,14 +143,16 @@ async function verifyAlphaEntry(send) {
   if (result.echoSlotCount !== 5) throw new Error(`Alpha expected 5 Echo slots, got ${result.echoSlotCount}.`);
   if (!result.hasResult) throw new Error('Alpha Analyze did not render a fail-closed/result state.');
   if (result.echoLabHref !== './echo-lab.html') throw new Error(`Alpha Echo Lab route mismatch: ${JSON.stringify(result.echoLabHref)}.`);
-  if (result.rollAssistHref !== './roll-assistant.html') throw new Error(`Alpha Roll Assist route mismatch: ${JSON.stringify(result.rollAssistHref)}.`);
+  if (result.rollAssistHref !== './roll-assistant.html?character=augusta&preset=augusta-standard') {
+    throw new Error(`Alpha profile-aware Roll Assist route mismatch: ${JSON.stringify(result.rollAssistHref)}.`);
+  }
 }
 
-async function navigate(send) {
+async function navigate(send, url) {
   await send('Page.navigate', { url: 'about:blank' });
   await waitForLocation(send, 'about:blank');
-  await send('Page.navigate', { url: LIVE_URL });
-  await waitForLocation(send, LIVE_URL);
+  await send('Page.navigate', { url });
+  await waitForLocation(send, url);
 
   const result = await evaluate(send, `
     (async () => {
@@ -153,6 +167,19 @@ async function navigate(send) {
     })()
   `);
   if (result !== true) throw new Error('Roll Assist controls did not become ready.');
+}
+
+async function verifyProfileContext(send) {
+  const result = await evaluate(send, `({
+    heading: document.querySelector('.assist-title h1')?.textContent?.trim() ?? '',
+    footer: document.querySelector('.assist-footer')?.textContent?.trim() ?? '',
+    back: document.querySelector('.assist-back')?.textContent?.trim() ?? '',
+  })`);
+  if (result?.heading !== 'Augusta') throw new Error(`Profile-aware Roll Assist heading mismatch: ${JSON.stringify(result?.heading)}.`);
+  if (!result?.footer.includes('AUGUSTA_RECOMMENDED_V915') || !result.footer.includes('augusta-standard')) {
+    throw new Error(`Profile-aware Roll Assist policy context missing: ${JSON.stringify(result?.footer)}.`);
+  }
+  if (result?.back !== '← Alpha') throw new Error(`Roll Assist back label mismatch: ${JSON.stringify(result?.back)}.`);
 }
 
 async function enterRoll(send, statName, value) {
@@ -212,23 +239,30 @@ try {
     await send('Runtime.enable');
 
     await verifyAlphaEntry(send);
-    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, Analyze, debug routes.');
+    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, Analyze, Augusta profile-aware Roll Assist route.');
 
-    await navigate(send);
+    await navigate(send, PROFILED_ROLL_ASSIST_URL);
+    await verifyProfileContext(send);
     const lowCrit = await enterRoll(send, 'CRIT Rate', 0.063);
     assertCommand(lowCrit, 'DISCARD', '+5 CRIT Rate 6.3%');
 
-    await navigate(send);
+    await navigate(send, PROFILED_ROLL_ASSIST_URL);
     const highCrit = await enterRoll(send, 'CRIT Rate', 0.093);
     assertCommand(highCrit, 'ROLL TO +10', '+5 CRIT Rate 9.3%');
 
     const highCritPlusDef = await enterRoll(send, 'Flat DEF', 40);
     assertCommand(highCritPlusDef, 'ROLL TO +15', '+10 CRIT Rate 9.3% + Flat DEF');
 
-    console.log('Live Roll Assist verdict paths verified:');
+    await navigate(send, LIVE_URL);
+    const directHeading = await evaluate(send, `document.querySelector('.assist-title h1')?.textContent?.trim() ?? ''`);
+    if (directHeading !== 'Augusta') throw new Error(`Direct Roll Assist backward compatibility failed: ${JSON.stringify(directHeading)}.`);
+
+    console.log('Live profile-aware Roll Assist verdict paths verified:');
+    console.log('- Augusta canonical route -> AUGUSTA_RECOMMENDED_V915');
     console.log('- +5 CRIT Rate 6.3% => DISCARD');
     console.log('- +5 CRIT Rate 9.3% => ROLL TO +10');
     console.log('- +10 CRIT Rate 9.3% + Flat DEF => ROLL TO +15');
+    console.log('- direct /roll-assistant.html remains Augusta-compatible');
   } finally {
     socket.close();
   }

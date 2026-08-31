@@ -46,7 +46,6 @@ function render(): void {
         <div class="alpha-tools">
           <span class="alpha-live"><i></i> REGISTRY LIVE</span>
           <a href="./echo-lab.html">Echo Lab</a>
-          <a href="./roll-assistant.html">Roll Assist demo</a>
         </div>
       </header>
 
@@ -108,6 +107,16 @@ function render(): void {
               <span>ECHO ${index + 1} · COST ${slot.cost}</span>
               <strong>${slot.mainStats.map(escapeHtml).join(' / ')}</strong>
             </article>`).join('')}
+        </div>
+        <div class="alpha-roll-assist ${selection.rollAssist.supported ? 'alpha-roll-assist--ready' : ''}">
+          <div>
+            <span>ROLL ASSIST</span>
+            <strong>${selection.rollAssist.supported ? 'Verified checkpoint policy available.' : 'Checkpoint policy pending.'}</strong>
+            <small>${escapeHtml(selection.rollAssist.reason)}${selection.rollAssist.policyId ? ` Policy: ${escapeHtml(selection.rollAssist.policyId)}.` : ''}</small>
+          </div>
+          ${selection.rollAssist.supported && selection.rollAssist.href
+            ? `<a id="alpha-roll-assist" href="${escapeHtml(selection.rollAssist.href)}">ROLL THESE ECHOES</a>`
+            : '<span class="alpha-roll-assist-disabled">POLICY PENDING</span>'}
         </div>
       </section>
 

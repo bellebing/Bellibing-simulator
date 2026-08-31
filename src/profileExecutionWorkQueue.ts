@@ -9,6 +9,7 @@ import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
   ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830,
 } from './data/profileExecutionSemanticReview20260830.ts';
+import { ROVER_HAVOC_EXECUTION_SEMANTIC_REVIEWS } from './data/roverHavocExecutionPreflight20260831.ts';
 import {
   PROFILE_ADAPTER_DEPENDENCY_MATRIX,
   type ProfileAdapterDependencyEdge,
@@ -248,6 +249,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,
   ...ROVER_AERO_REVIEWS,
+  ...ROVER_HAVOC_EXECUTION_SEMANTIC_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(

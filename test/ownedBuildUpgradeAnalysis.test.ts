@@ -32,10 +32,17 @@ function currentBuild(): Echo[] {
   }));
 }
 
-class NoLevel20RecycleRuntime extends VerifiedWuwaEchoRuntime {
+class NoExplicitCurrentRecycleCreditRuntime extends VerifiedWuwaEchoRuntime {
+  private level20StartingRefundReads = 0;
+
   override refundOnDiscard(current: Echo) {
-    if (current.level === 20) {
-      return { echoes: 0, tuners: 0, exp: 0, shellCredits: 0 };
+    if (current.id === 'augusta-candidate-plus20-refund-check' && current.level === 20) {
+      this.level20StartingRefundReads += 1;
+      // The first read is forecastPath's legitimate continuation baseline.
+      // Suppress only the later explicit recycle-now credit used by restart economics.
+      if (this.level20StartingRefundReads === 2) {
+        return { echoes: 0, tuners: 0, exp: 0, shellCredits: 0 };
+      }
     }
     return super.refundOnDiscard(current);
   }
@@ -181,7 +188,7 @@ test('restart economics credits the current partial Echo recycle refund exactly 
   });
   const withoutCurrentRefund = forecastPartialOwnedBuildCandidate({
     ...shared,
-    runtime: new NoLevel20RecycleRuntime(),
+    runtime: new NoExplicitCurrentRecycleCreditRuntime(),
     continueRng: createSeededRng('augusta-refund-continue-v1'),
     restartRng: createSeededRng('augusta-refund-restart-v1'),
   });

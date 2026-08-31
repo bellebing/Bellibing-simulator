@@ -1,5 +1,6 @@
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { ECHO_CHARACTER_RESTRICTED_EFFECTS } from './echoCharacterRestrictedEffects.ts';
+import { MECH_ABOMINATION_EFFECT_MODELS } from './echoEffectsMechAbomination20260831.ts';
 import { ECHO_MAIN_SLOT_EFFECT_MODELS } from './echoMainSlotEffects.ts';
 
 const V915_URL = 'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit';
@@ -104,6 +105,7 @@ export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
       ],
     ),
   },
+  ...MECH_ABOMINATION_EFFECT_MODELS,
   ...ECHO_CHARACTER_RESTRICTED_EFFECTS,
   ...ECHO_MAIN_SLOT_EFFECT_MODELS,
 ];

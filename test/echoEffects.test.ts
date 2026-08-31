@@ -11,9 +11,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 63);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
-  assert.equal(registry.byId.size, 63);
+  assert.equal(ECHO_EFFECT_MODELS.length, 64);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 38);
+  assert.equal(registry.byId.size, 64);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -23,6 +23,20 @@ test('Fallacy stores wielder ER and team ATK once, independent of support charac
     ['FALLACY_WIELDER_ER', 0.10, 'WIELDER'],
   ]);
   assert.ok(effects.every((row) => row.durationSeconds === 20));
+});
+
+test('Mech Abomination stores its exact self ATK cast window without claiming uptime', () => {
+  const effects = getEchoEffects(registry, 'echo-60000485');
+  assert.deepEqual(effects.map((row) => [
+    row.effectId,
+    row.statOrEffect,
+    row.value,
+    row.activation,
+    row.durationSeconds,
+    row.appliesTo,
+  ]), [
+    ['MECH_ABOMINATION_WIELDER_ATK', 'ATK%', 0.12, 'ON_ECHO_CAST', 15, 'WIELDER'],
+  ]);
 });
 
 test('Augusta main Echo passives are isolated from Crown of Valor and active damage', () => {

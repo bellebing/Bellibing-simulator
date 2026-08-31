@@ -52,7 +52,7 @@ test('released roster is structurally classified without a copied readiness-coun
 test('raw and intrinsic unresolved Character fields stay visible to DPS preflight', () => {
   const summary = assertProfileReadinessAudit();
   assert.deepEqual(summary.rawDpsBlockedCharacterIds, ['qingxiao', 'rover-electro', 'suisui']);
-  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, ['mornye']);
+  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, []);
 
   const qingxiao = summary.characters.find((row) => row.characterId === 'qingxiao');
   assert.ok(qingxiao);
@@ -60,7 +60,7 @@ test('raw and intrinsic unresolved Character fields stay visible to DPS prefligh
 
   const mornye = summary.characters.find((row) => row.characterId === 'mornye');
   assert.ok(mornye);
-  assert.equal(mornye.intrinsicDpsBlocked, true);
+  assert.equal(mornye.intrinsicDpsBlocked, false);
 });
 
 test('Augusta and Ciaccona are explicitly frozen DPS-ready profiles with adapter evidence', () => {

@@ -27,26 +27,13 @@ function verified(
   stats: readonly CharacterIntrinsicStat[],
   sourceLabels: readonly string[] = PRYDWEN,
   notes?: readonly string[],
+  checkedAt: string = CHECKED_AT,
 ): CharacterIntrinsicProfile {
   return {
     characterId,
     stats,
     verificationStatus: 'VERIFIED',
-    provenance: { sourceLabels, checkedAt: CHECKED_AT, notes },
-  };
-}
-
-function partial(
-  characterId: string,
-  stats: readonly CharacterIntrinsicStat[],
-  sourceLabels: readonly string[],
-  notes: readonly string[],
-): CharacterIntrinsicProfile {
-  return {
-    characterId,
-    stats,
-    verificationStatus: 'PARTIALLY_VERIFIED',
-    provenance: { sourceLabels, checkedAt: CHECKED_AT, notes },
+    provenance: { sourceLabels, checkedAt, notes },
   };
 }
 
@@ -88,11 +75,12 @@ export const CHARACTER_INTRINSIC_PROFILES: readonly CharacterIntrinsicProfile[] 
   verified('lupa', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
   verified('luuk-herssen', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
   verified('lynae', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
-  partial(
+  verified(
     'mornye',
-    [{ stat: 'Healing Bonus', value: 0.10 }],
+    [{ stat: 'Healing Bonus', value: 0.10 }, { stat: 'DEF%', value: 0.152 }],
     ['Prydwen — current Minor Fortes', 'Wutheringlab — current Forte nodes'],
-    ['Healing Bonus +10% agrees. DEF% is deliberately pending because current sources disagree between +11% and +15%.'],
+    ['Node-level review resolves DEF% as 2.28% + 5.32% on each of Mornye’s two DEF strands, totaling 15.20%.'],
+    '2026-08-31',
   ),
   verified('mortefi', [{ stat: 'Fusion DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }]),
   verified('phoebe', [{ stat: 'CRIT DMG', value: 0.16 }, { stat: 'ATK%', value: 0.12 }]),
@@ -139,14 +127,7 @@ export const CHARACTER_INTRINSIC_PROFILES: readonly CharacterIntrinsicProfile[] 
   verified('zhezhi', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
 ] as const;
 
-export const RELEASED_CHARACTER_INTRINSIC_PENDING: readonly CharacterIntrinsicPendingStat[] = [
-  {
-    characterId: 'mornye',
-    stat: 'DEF%',
-    checkedAt: CHECKED_AT,
-    reason: 'Current Prydwen reports DEF% +11%; current Wutheringlab reports DEF% +15%. Do not choose either value until the discrepancy is resolved.',
-  },
-] as const;
+export const RELEASED_CHARACTER_INTRINSIC_PENDING: readonly CharacterIntrinsicPendingStat[] = [] as const;
 
 export const CHARACTER_INTRINSIC_BY_ID: ReadonlyMap<string, CharacterIntrinsicProfile> = (() => {
   const map = new Map<string, CharacterIntrinsicProfile>();

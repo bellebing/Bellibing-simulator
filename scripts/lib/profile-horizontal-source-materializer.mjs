@@ -45,11 +45,11 @@ function parseCost(value) {
 function normalizeStat(value) {
   const source = text(value, 'stat').replace(/\s+/g, ' ').trim();
   const upper = source.toUpperCase();
-  if (upper === 'CRIT RATE') return 'CRIT Rate';
+  if (/^CRIT RATE(?: \(UNTIL .+\))?$/i.test(source)) return 'CRIT Rate';
   if (upper === 'CRIT DMG') return 'CRIT DMG';
   if (upper === 'ATK') return 'Flat ATK';
   if (upper === 'DEF') return 'Flat DEF';
-  if (upper === 'ENERGY REGEN (UNTIL SATISFIED)') return 'Energy Regen';
+  if (/^ENERGY REGEN(?: \(UNTIL .+\))?$/i.test(source)) return 'Energy Regen';
   if (/^HEAVY (?:ATK )?DMG%$/i.test(source)) return 'Heavy Attack DMG';
   if (/^BASIC (?:ATK )?DMG%$/i.test(source)) return 'Basic Attack DMG';
   if (/^SKILL DMG%$/i.test(source)) return 'Skill DMG';
@@ -59,7 +59,7 @@ function normalizeStat(value) {
 
 function parseStatPriority(value) {
   const source = text(value, 'substat priority').replace(/^Substats:\s*/i, '');
-  const groups = source.split(/\s*>\s*/).map((group) =>
+  const groups = source.split(/\s*>+\s*/).map((group) =>
     group.split(/\s*=\s*/).map(normalizeStat).filter(Boolean)
   ).filter((group) => group.length > 0);
   if (groups.length === 0) fail('substat priority yielded no groups');

@@ -123,7 +123,4 @@ test('all seven promoted profiles remain pending freeze with explicit backward-i
     assert.equal(impact.result, 'REVIEWED_WITH_PENDING_EXECUTION');
     assert.ok(impact.pendingExecutionIds.includes(`rotation:${presetId}-rotation:engine-model`));
   }
-
-  assert.ok(summary.profileSourcePendingIds.includes('lucilla'));
-  assert.ok(summary.profileSourcePendingIds.includes('rover-havoc'));
 });

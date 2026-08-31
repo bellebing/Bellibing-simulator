@@ -6,6 +6,9 @@ import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransf
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
+  CHIXIA_NIGHTMARE_INFERNO_RIDER_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260831,
+} from './data/chixiaExecutionReview20260831.ts';
+import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
   ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830,
 } from './data/profileExecutionSemanticReview20260830.ts';
@@ -148,7 +151,7 @@ const SONATA_CAST_WINDOW_REVIEWS: readonly ExecutionSemanticReview[] =
     primitiveId: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.adapterId,
     notes: [
       'Manual semantic review proved Molten Rift 5-piece is an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-      'The exact Changli dependency remains pending until an executable profile timeline supplies the Skill-cast timestamp.',
+      'The exact profile dependency remains pending until an executable profile timeline supplies the Skill-cast timestamp.',
     ],
   }));
 
@@ -184,6 +187,10 @@ const FALLACY_ACTIVE_DAMAGE_REVIEWS: readonly ExecutionSemanticReview[] = [{
     ...FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics,
     'The exact normal activation blast is attack data only; profile execution remains blocked until the source sequence resolves normal cast versus hold/release.',
   ],
+}];
+
+const CHIXIA_ECHO_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  ...CHIXIA_NIGHTMARE_INFERNO_RIDER_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260831,
 }];
 
 const DEFIERS_THORN_DEF_REVIEWS: readonly ExecutionSemanticReview[] = [{
@@ -246,6 +253,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...SONATA_TRANSFER_REVIEWS,
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
+  ...CHIXIA_ECHO_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,
   ...ROVER_AERO_REVIEWS,
 ]);

@@ -36,9 +36,9 @@ test('sigrika-standard canonical package and source sequence remain exact and SO
   assert.equal(resolved.weapon?.options.find((row) => row.weaponId === 'solsworn-ciphers')?.rank, 1);
   assert.deepEqual(resolved.echoes?.sonataSetIds, ['sonata-29']);
   assert.equal(resolved.echoes?.mainEchoId, 'echo-60001925');
-  assert.deepEqual(resolved.team?.characterIds, ['sigrika', 'qiuyuan', 'ciaccona']);
+  assert.deepEqual(resolved.team?.members.map((row) => row.characterId), ['sigrika', 'qiuyuan', 'ciaccona']);
   assert.equal(resolved.rotation?.executionStatus, 'SOURCE_SEQUENCE_ONLY');
-  assert.equal(resolved.rotation?.engineModelId, null);
+  assert.equal(resolved.rotation?.engineModelId, undefined);
   assert.deepEqual(resolved.rotation?.sourceSequence, SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.canonicalSourceSequence);
   assert.equal(resolved.rotation?.sourceSequence.some((step) => /Double Outburst/i.test(step)), false);
 });

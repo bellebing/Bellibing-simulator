@@ -8,6 +8,7 @@ import {
   withRank5MainStatsAtLevel,
   type Echo,
 } from '../src/echoCore.ts';
+import { buildOwnedBuildEchoFromCanonicalInput } from '../src/ownedBuildEchoInput.ts';
 import {
   analyzeFinishedOwnedBuildCandidate,
   forecastPartialOwnedBuildCandidate,
@@ -29,6 +30,25 @@ function currentBuild(): Echo[] {
     slotIndex,
     level: 25,
     substats: echo.substats.map((roll) => ({ ...roll })),
+  }));
+}
+
+function ciacconaCurrentBuild(): Echo[] {
+  const mainStats = ['CRIT Rate', 'Aero DMG', 'Aero DMG', 'ATK%', 'ATK%'] as const;
+  const substats = [
+    { name: 'CRIT Rate', value: 0.093 },
+    { name: 'CRIT DMG', value: 0.21 },
+    { name: 'ATK%', value: 0.116 },
+    { name: 'Energy Regen', value: 0.124 },
+    { name: 'Basic Attack DMG', value: 0.116 },
+  ] as const;
+
+  return mainStats.map((primaryMainStat, slotIndex) => buildOwnedBuildEchoFromCanonicalInput({
+    presetId: 'ciaccona-cartethyia-aero',
+    slotIndex,
+    level: 25,
+    primaryMainStat,
+    substats: substats.map((roll) => ({ ...roll })),
   }));
 }
 
@@ -77,6 +97,25 @@ test('finished Augusta candidate changes only one slot and reports real whole-bu
   assert.ok(result.candidateDps > result.currentDps);
   assert.ok(result.absoluteDpsDelta > 0);
   assert.ok((result.percentageDpsDelta ?? 0) > 0);
+});
+
+test('finished Ciaccona candidate keeps a valid whole-build decision when optional stat-contribution probes are rejected', () => {
+  const currentEchoes = ciacconaCurrentBuild();
+  const candidate = cloneEcho(currentEchoes[0]!);
+
+  const result = analyzeFinishedOwnedBuildCandidate({
+    presetId: 'ciaccona-cartethyia-aero',
+    currentEchoes,
+    slotIndex: 0,
+    candidate,
+  });
+
+  assert.equal(result.currentErGate, 'PASS');
+  assert.equal(result.candidateErGate, 'PASS');
+  assert.equal(result.decision, 'DO_NOT_REPLACE');
+  assert.equal(result.absoluteDpsDelta, 0);
+  assert.equal(result.analysis.statContributions.length, 5);
+  assert.ok(result.analysis.statContributions.every((row) => row.dpsLostIfRemoved === null));
 });
 
 test('finished Augusta candidate never replaces the incumbent when the ER gate fails', () => {

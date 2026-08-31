@@ -59,7 +59,7 @@ function normalizeStat(value) {
 
 function parseStatPriority(value) {
   const source = text(value, 'substat priority').replace(/^Substats:\s*/i, '');
-  const groups = source.split(/\s*>\s*/).map((group) =>
+  const groups = source.split(/\s*>+\s*/).map((group) =>
     group.split(/\s*=\s*/).map(normalizeStat).filter(Boolean)
   ).filter((group) => group.length > 0);
   if (groups.length === 0) fail('substat priority yielded no groups');

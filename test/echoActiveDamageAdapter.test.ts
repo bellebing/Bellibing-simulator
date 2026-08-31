@@ -18,6 +18,16 @@ test('exact active Echo primitive resolves Fleurdelys Rank-5 Windcleaver without
   assert.equal(Object.hasOwn(resolved, 'uptime'), false);
 });
 
+test('exact active Echo primitive preserves Mech Waste source classification without adding timing', () => {
+  const resolved = resolveExactEchoActiveDamage('echo-60000485', 'MECH_ABOMINATION_WASTE');
+  assert.equal(resolved.element, 'Electro');
+  assert.equal(resolved.scalingStat, 'ATK');
+  assert.equal(resolved.sourceDamageClass, 'OUTRO');
+  assert.equal(resolved.motionValue, 4.8);
+  assert.equal(Object.hasOwn(resolved, 'timestamp'), false);
+  assert.equal(Object.hasOwn(resolved, 'uptime'), false);
+});
+
 test('exact active Echo primitive rejects attacks not owned by the requested Echo', () => {
   assert.throws(
     () => resolveExactEchoActiveDamage('echo-60001065', 'FALSE_SOV_ACTIVE_SPIN'),

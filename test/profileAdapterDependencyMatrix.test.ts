@@ -12,10 +12,10 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   const matrixPendingIds = matrix.edges.map((edge) => `${edge.reviewId}|${edge.pendingExecutionId}`).sort();
 
   assert.deepEqual(matrixPendingIds, sourcePendingIds);
-  assert.equal(matrix.reviewCount, 18);
-  assert.equal(matrix.profileCount, 18);
-  assert.equal(matrix.pendingProfileCount, 16);
-  assert.equal(matrix.dependencyCount, 72);
+  assert.equal(matrix.reviewCount, 19);
+  assert.equal(matrix.profileCount, 19);
+  assert.equal(matrix.pendingProfileCount, 17);
+  assert.equal(matrix.dependencyCount, 79);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -36,7 +36,7 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   const rotation = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'rotation:engine-model');
   assert.ok(rotation);
   assert.equal(rotation.implementationScope, 'PROFILE_SPECIFIC_EXECUTION');
-  assert.equal(rotation.profileCount, 16);
+  assert.equal(rotation.profileCount, 17);
   assert.equal(matrix.reusablePriorityQueue.includes(rotation), false);
 
   const heron = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'echo:impermanence-heron-active-transfer-adapter');
@@ -93,6 +93,16 @@ test('new green-lane execution gaps stay grouped by generic mechanic where seman
 
   const changliEcho = newEdges.find((edge) => edge.presetId === 'changli-standard' && edge.layer === 'echo');
   assert.equal(changliEcho, undefined, 'Changli source rotation does not cast Nightmare: Inferno Rider, so no active-Echo dependency is invented.');
+});
+
+test('Rover Havoc dependencies remain fail-closed and profile rotation stays profile-specific', () => {
+  const matrix = buildProfileAdapterDependencyMatrix();
+  const roverEdges = matrix.edges.filter((edge) => edge.presetId === 'rover-havoc-standard');
+  assert.equal(roverEdges.length, 7);
+  assert.equal(roverEdges.filter((edge) => edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
+  assert.ok(roverEdges.some((edge) => edge.pendingExecutionId === 'echo:echo-60000535:dreamless-active-skill-damage-adapter'));
+  assert.ok(roverEdges.some((edge) => edge.pendingExecutionId === 'team:rover-havoc:roccia-shorekeeper-uptime-adapter'));
+  assert.ok(roverEdges.some((edge) => edge.pendingExecutionId === 'rotation:rover-havoc-standard-rotation:engine-model'));
 });
 
 test('syntactic reuse grouping never claims semantic execution closure', () => {

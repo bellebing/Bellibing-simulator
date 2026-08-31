@@ -68,7 +68,10 @@ test('Nightmare Inferno Rider Rank-5 normal active strike is exact one-hit 405% 
   assert.equal(attack.scalingStat, 'ATK');
   assert.deepEqual(attack.components, [{ motionValuePerHit: 4.05, hits: 1 }]);
   assert.equal(totalMotionValue(attack), 4.05);
-  assert.equal(profile.attacks.some((row) => row.attackId.includes('RIDE') || row.attackId.includes('HOLD')), false);
+  assert.equal(profile.attacks.some((row) => {
+    const tokens = row.attackId.split('_');
+    return tokens.includes('RIDING') || tokens.includes('HOLD');
+  }), false);
 });
 
 test('Fleurdelys Rank-5 summon is exact 27.36% x8 + 136.80% ATK Aero damage', () => {

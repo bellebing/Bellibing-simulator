@@ -100,7 +100,10 @@ test('Nightmare Inferno Rider normal Rank-5 attack is exact data but not an assu
   assert.equal(attack.scalingStat, 'ATK');
   assert.deepEqual(attack.components, [{ motionValuePerHit: 4.05, hits: 1 }]);
   assert.equal(totalMotionValue(attack), 4.05);
-  assert.equal(profile.attacks.some((row) => row.attackId.includes('RIDE') || row.attackId.includes('HOLD')), false);
+  assert.equal(profile.attacks.some((row) => {
+    const tokens = row.attackId.split('_');
+    return tokens.includes('RIDING') || tokens.includes('HOLD');
+  }), false);
 });
 
 test('Chixia backward-impact review exposes the exact four execution dependencies', () => {

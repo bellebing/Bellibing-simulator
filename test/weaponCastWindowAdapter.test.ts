@@ -11,7 +11,7 @@ import {
 } from '../src/combat/weaponCastWindowAdapter.ts';
 import { buildProfileAdapterDependencyMatrix } from '../src/profileAdapterDependencyMatrix.ts';
 
-test('weapon trigger-uptime fanout retains five cast-window edges after Woodland Aria closes through target-state execution', () => {
+test('weapon trigger-uptime fanout includes seven canonical edges while cast-window execution retains five reviewed edges', () => {
   const matrix = buildProfileAdapterDependencyMatrix();
   const triggerEdges = matrix.edges.filter((edge) => edge.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   const canonicalPendingIds = [...new Set(triggerEdges.map((edge) => edge.pendingExecutionId))].sort();
@@ -20,10 +20,13 @@ test('weapon trigger-uptime fanout retains five cast-window edges after Woodland
     ...WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds,
   ].sort();
 
-  assert.equal(triggerEdges.length, 5);
+  assert.equal(triggerEdges.length, 7);
   assert.deepEqual(canonicalPendingIds, reviewedPendingIds);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.length, 5);
-  assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, []);
+  assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, [
+    'weapon:blazing-justice:BJ-DEF:trigger-uptime-adapter',
+    'weapon:blazing-justice:BJ-FRAZZLE:trigger-uptime-adapter',
+  ]);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.closesPendingExecutionIds, []);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);
 });

@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 
 const LIVE_URL = process.env.BELLIBING_LIVE_ROLL_ASSIST_URL
   ?? 'https://bellebing.github.io/Bellibing-simulator/roll-assistant.html';
+const ALPHA_URL = new URL('.', LIVE_URL).href;
 const DEBUG_PORT = Number(process.env.CHROME_DEBUG_PORT ?? 9222);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -89,6 +90,50 @@ async function waitForLocation(send, expectedPrefix) {
   throw new Error(`Timed out waiting for navigation to ${expectedPrefix}.`);
 }
 
+async function verifyAlphaEntry(send) {
+  await send('Page.navigate', { url: 'about:blank' });
+  await waitForLocation(send, 'about:blank');
+  await send('Page.navigate', { url: ALPHA_URL });
+  await waitForLocation(send, ALPHA_URL);
+
+  const result = await evaluate(send, `
+    (async () => {
+      const deadline = Date.now() + 15000;
+      while (Date.now() < deadline) {
+        if (document.readyState === 'complete'
+          && document.querySelector('#alpha-character')
+          && document.querySelector('[data-preset]')
+          && document.querySelector('#alpha-analyze')) break;
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      const character = document.querySelector('#alpha-character');
+      const analyze = document.querySelector('#alpha-analyze');
+      if (!character || !analyze) throw new Error('Alpha controls did not become ready.');
+      analyze.click();
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      return {
+        heading: document.querySelector('h1')?.textContent?.replace(/\\s+/g, ' ').trim() ?? '',
+        characterCount: character.options.length,
+        modeCount: document.querySelectorAll('[data-preset]').length,
+        echoSlotCount: document.querySelectorAll('.alpha-echo-grid article').length,
+        hasResult: Boolean(document.querySelector('.alpha-result')),
+        echoLabHref: document.querySelector('a[href$="echo-lab.html"]')?.getAttribute('href') ?? null,
+        rollAssistHref: document.querySelector('a[href$="roll-assistant.html"]')?.getAttribute('href') ?? null,
+      };
+    })()
+  `);
+
+  if (!result?.heading.includes('Build the Echo.')) throw new Error(`Alpha heading missing: ${JSON.stringify(result?.heading)}.`);
+  if (!(result.characterCount > 0)) throw new Error('Alpha character selector has no registry profiles.');
+  if (!(result.modeCount > 0)) throw new Error('Alpha mode selector has no presets.');
+  if (result.echoSlotCount !== 5) throw new Error(`Alpha expected 5 Echo slots, got ${result.echoSlotCount}.`);
+  if (!result.hasResult) throw new Error('Alpha Analyze did not render a fail-closed/result state.');
+  if (result.echoLabHref !== './echo-lab.html') throw new Error(`Alpha Echo Lab route mismatch: ${JSON.stringify(result.echoLabHref)}.`);
+  if (result.rollAssistHref !== './roll-assistant.html') throw new Error(`Alpha Roll Assist route mismatch: ${JSON.stringify(result.rollAssistHref)}.`);
+}
+
 async function navigate(send) {
   await send('Page.navigate', { url: 'about:blank' });
   await waitForLocation(send, 'about:blank');
@@ -165,6 +210,9 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
+
+    await verifyAlphaEntry(send);
+    console.log('Alpha root verified in real Chrome: registry character/mode, 5 Echo slots, Analyze, debug routes.');
 
     await navigate(send);
     const lowCrit = await enterRoll(send, 'CRIT Rate', 0.063);

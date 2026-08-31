@@ -70,6 +70,39 @@ export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
     },
   },
   {
+    echoId: 'echo-60000885',
+    rank: 5,
+    cooldownSeconds: 25,
+    attacks: [
+      {
+        attackId: 'NIGHTMARE_THUNDERING_MEPHIS_ACTIVE_STRIKE',
+        name: 'Nightmare: Thundering Mephis — active strike',
+        trigger: 'ACTIVE_CAST',
+        element: 'Electro',
+        scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+    ],
+    provenance: {
+      sourceLabels: [
+        'Wuthering Waves Wiki — Nightmare: Thundering Mephis damage data',
+        'Wutheringlab — Nightmare: Thundering Mephis Rank-5 skill',
+        'wuwabuild Echo skill source identity',
+      ],
+      sourceUrls: [
+        'https://wutheringwaves.fandom.com/wiki/Nightmare:_Thundering_Mephis',
+        'https://wutheringlab.com/echo/nightmare-thundering-mephis/',
+        ECHO_SKILL_SOURCE_URL,
+      ],
+      checkedAt: '2026-08-31',
+      notes: [
+        'Current independent sources agree that the Rank-5 active Echo Skill deals one 405% ATK Electro hit with a 25-second cooldown.',
+        'Nightmare: Thundering Mephis main-slot Electro and Resonance Liberation bonuses remain in the Echo effect layer and are not duplicated here.',
+        'This exact attack fact authorizes damage resolution only after a profile rotation proves the active Echo cast event; it does not authorize rotation timing by itself.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60001065',
     rank: 5,
     cooldownSeconds: 20,

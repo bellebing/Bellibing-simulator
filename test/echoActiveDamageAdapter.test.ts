@@ -34,7 +34,7 @@ test('exact active Echo primitive does not reinterpret automatic summons as acti
 
 test('exact active Echo primitive fails closed when no exact attack profile exists', () => {
   assert.throws(
-    () => resolveExactEchoActiveDamage('echo-60000885', 'NIGHTMARE_THUNDERING_MEPHIS_ACTIVE'),
+    () => resolveExactEchoActiveDamage('echo-60000905', 'UNMODELED_NIGHTMARE_CROWNLESS_ACTIVE'),
     /No exact Echo attack profile/,
   );
 });

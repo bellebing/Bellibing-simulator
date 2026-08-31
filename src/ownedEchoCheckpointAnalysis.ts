@@ -4,6 +4,7 @@ import {
   createRank5EchoAtLevel0,
   nextCheckpoint,
   withRank5MainStatsAtLevel,
+  type Echo,
   type EchoLevel,
   type PrimaryMainStatName,
   type StatName,
@@ -60,7 +61,7 @@ function assertCheckpointLevel(level: number): asserts level is OwnedEchoCheckpo
   }
 }
 
-function assertExactRoll(roll: StatRoll): void {
+export function assertExactOwnedEchoRoll(roll: StatRoll): void {
   if (!SUBSTAT_TYPES.includes(roll.name)) throw new RangeError(`Unknown Echo substat: ${roll.name}.`);
   const values = SUBSTAT_VALUE_TABLE[roll.name];
   if (!values?.some((value) => Math.abs(value - roll.value) <= EPSILON)) {
@@ -68,18 +69,10 @@ function assertExactRoll(roll: StatRoll): void {
   }
 }
 
-function headline(decision: OwnedEchoCheckpointDecision, level: OwnedEchoCheckpointLevel): string {
-  if (decision === 'ROLL') {
-    const next = nextCheckpoint(level);
-    if (next === null) throw new Error('Final +25 checkpoint cannot request another roll.');
-    return `ROLL TO +${next}`;
-  }
-  if (decision === 'DISCARD') return 'DISCARD';
-  if (decision === 'KEEP') return 'KEEP';
-  return 'TEMPORARY';
-}
-
-export function analyzeOwnedEchoCheckpoint(input: OwnedEchoCheckpointInput): OwnedEchoCheckpointResult {
+function resolveOwnedEchoInput(input: OwnedEchoCheckpointInput): {
+  readonly policyId: string;
+  readonly echo: Echo;
+} {
   assertCheckpointLevel(input.level);
   if (!Number.isInteger(input.slotIndex)) throw new RangeError('Owned Echo slot index must be an integer.');
 
@@ -100,7 +93,7 @@ export function analyzeOwnedEchoCheckpoint(input: OwnedEchoCheckpointInput): Own
   for (const roll of input.substats) {
     if (seen.has(roll.name)) throw new Error(`Duplicate Echo substat: ${roll.name}.`);
     seen.add(roll.name);
-    assertExactRoll(roll);
+    assertExactOwnedEchoRoll(roll);
   }
 
   const level0 = createRank5EchoAtLevel0({
@@ -108,15 +101,38 @@ export function analyzeOwnedEchoCheckpoint(input: OwnedEchoCheckpointInput): Own
     cost: policySlot.cost,
     primaryMainStat: policySlot.primaryMain as PrimaryMainStatName,
   });
-  const echo = {
+  const echo: Echo = {
     ...withRank5MainStatsAtLevel(level0, input.level),
     substats: input.substats.map((roll) => ({ ...roll })),
   };
-  const evaluation = evaluateTargetCheckpoint(binding.policy, echo);
+  return { policyId: binding.policy.id, echo };
+}
+
+/** Build the exact Rank-5 Echo card represented by one validated owned-checkpoint input. */
+export function buildOwnedEchoFromCheckpointInput(input: OwnedEchoCheckpointInput): Echo {
+  return resolveOwnedEchoInput(input).echo;
+}
+
+function headline(decision: OwnedEchoCheckpointDecision, level: OwnedEchoCheckpointLevel): string {
+  if (decision === 'ROLL') {
+    const next = nextCheckpoint(level);
+    if (next === null) throw new Error('Final +25 checkpoint cannot request another roll.');
+    return `ROLL TO +${next}`;
+  }
+  if (decision === 'DISCARD') return 'DISCARD';
+  if (decision === 'KEEP') return 'KEEP';
+  return 'TEMPORARY';
+}
+
+export function analyzeOwnedEchoCheckpoint(input: OwnedEchoCheckpointInput): OwnedEchoCheckpointResult {
+  const resolved = resolveOwnedEchoInput(input);
+  const binding = resolveRollAssistProfileBinding(input.presetId);
+  if (!binding) throw new Error(`${input.presetId}: verified Roll Assist binding disappeared during analysis.`);
+  const evaluation = evaluateTargetCheckpoint(binding.policy, resolved.echo);
 
   return {
     presetId: binding.presetId,
-    policyId: binding.policy.id,
+    policyId: resolved.policyId,
     slotIndex: input.slotIndex,
     level: input.level,
     decision: evaluation.assessment.decision,

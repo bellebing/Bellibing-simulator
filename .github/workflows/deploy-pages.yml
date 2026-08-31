@@ -112,3 +112,8 @@ jobs:
         env:
           BELLIBING_ALPHA_URL: https://bellebing.github.io/Bellibing-simulator/
         run: node scripts/verify-alpha-upgrade.mjs
+
+      - name: Verify live Ciaccona owned-build path in Chrome
+        env:
+          BELLIBING_ALPHA_URL: https://bellebing.github.io/Bellibing-simulator/
+        run: node scripts/verify-alpha-ciaccona-owned-build.mjs

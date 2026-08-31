@@ -58,7 +58,7 @@ jobs:
       - name: Strict web build
         run: npm run build
 
-      - name: Browser Roll Assist verdict regression
+      - name: Browser Roll Assist and owned-build regression
         run: |
           python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
           server_pid=$!
@@ -74,6 +74,8 @@ jobs:
             node scripts/verify-live-roll-assist.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-upgrade.mjs
+          BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
+            node scripts/verify-alpha-ciaccona-owned-build.mjs
 
       - name: Diff whitespace check
         run: git diff --check HEAD^

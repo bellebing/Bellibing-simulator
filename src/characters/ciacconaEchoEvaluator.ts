@@ -1,6 +1,7 @@
 import type { BuildContext, DamageEvaluator, DamageResult, Echo, StatRoll } from '../domain.ts';
 import { secondaryMainStatValueAtLevel } from '../echoMainStats.ts';
 import { createEchoEffectRegistry } from '../echoEffectRegistry.ts';
+import { validateOwnedBuildEchoLoadout } from '../ownedBuildEchoValidation.ts';
 import { resolvePresetMainEchoEffects } from '../profileEchoEffectResolver.ts';
 import { resolveBuildPreset } from '../profileRegistry.ts';
 import {
@@ -187,7 +188,7 @@ export function ciacconaInputsFromEchoes(
   echoes: readonly Echo[],
   context: CiacconaOwnedBuildCombatContext,
 ): CiacconaOwnedBuildAssembly {
-  if (echoes.length !== 5) throw new Error('Ciaccona owned-build assembly requires exactly five Echoes.');
+  validateOwnedBuildEchoLoadout({ presetId: SUPPORTED.presetId, echoes });
 
   const character = CHARACTER_CATALOG.find((row) => row.id === SUPPORTED.characterId);
   const weapon = WEAPON_CATALOG.find((row) => row.id === SUPPORTED.weaponId);

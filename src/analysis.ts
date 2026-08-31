@@ -25,6 +25,35 @@ function removeOneSubstat(echo: Echo, index: number): Echo {
   };
 }
 
+function optionalStatContribution(
+  build: BuildContext,
+  slot: number,
+  candidate: Echo,
+  candidateResult: DamageResult,
+  stat: StatRoll,
+  index: number,
+  evaluator: DamageEvaluator,
+): EchoAnalysis['statContributions'][number] {
+  try {
+    const without = removeOneSubstat(candidate, index);
+    const withoutResult = evaluator.evaluate(replaceEcho(build, slot, without));
+    if (withoutResult.erGate !== 'PASS' || candidateResult.erGate !== 'PASS') {
+      return { stat, dpsLostIfRemoved: null, dpsLostIfRemovedPct: null };
+    }
+    const lost = candidateResult.personalRotationDps - withoutResult.personalRotationDps;
+    return {
+      stat,
+      dpsLostIfRemoved: lost,
+      dpsLostIfRemovedPct: safePct(lost, candidateResult.personalRotationDps),
+    };
+  } catch {
+    // Leave-one-substat-out is optional diagnostic data. Strict evaluators may
+    // intentionally reject the temporary incomplete Echo; that must not erase a
+    // valid current-vs-candidate whole-build decision that already evaluated.
+    return { stat, dpsLostIfRemoved: null, dpsLostIfRemovedPct: null };
+  }
+}
+
 /**
  * Evaluate an owned/candidate Echo by its actual whole-build Personal Rotation DPS effect.
  * No Core/Useful/Filler score is allowed to override the damage evaluator.
@@ -59,19 +88,9 @@ export function analyzeEchoCandidate(
   const delta = candidateResult.personalRotationDps - incumbent.personalRotationDps;
   const pct = safePct(delta, incumbent.personalRotationDps);
 
-  const statContributions = candidate.substats.map((stat: StatRoll, index: number) => {
-    const without = removeOneSubstat(candidate, index);
-    const withoutResult: DamageResult = evaluator.evaluate(replaceEcho(build, slot, without));
-    if (withoutResult.erGate !== 'PASS' || candidateResult.erGate !== 'PASS') {
-      return { stat, dpsLostIfRemoved: null, dpsLostIfRemovedPct: null };
-    }
-    const lost = candidateResult.personalRotationDps - withoutResult.personalRotationDps;
-    return {
-      stat,
-      dpsLostIfRemoved: lost,
-      dpsLostIfRemovedPct: safePct(lost, candidateResult.personalRotationDps),
-    };
-  });
+  const statContributions = candidate.substats.map((stat: StatRoll, index: number) => (
+    optionalStatContribution(build, slot, candidate, candidateResult, stat, index, evaluator)
+  ));
 
   if (candidateResult.erGate === 'FAIL') {
     return {

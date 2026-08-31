@@ -46,6 +46,7 @@ test('current source-backed profile packages have fresh current-patch onboarding
       ['carlotta', 'carlotta-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['changli', 'changli-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
       ['chisa', 'chisa-standard', '2026-08-30', 'REVIEWED_WITH_PENDING_EXECUTION'],
+      ['aemeath', 'aemeath-standard', '2026-09-01', 'REVIEWED_WITH_PENDING_EXECUTION'],
     ],
   );
 
@@ -81,6 +82,7 @@ test('profile onboarding reviews cover exactly the selected default weapon effec
     ['carlotta-standard-weapons', ['TLD-ATK', 'TLD-SKILL']],
     ['changli-standard-weapons', ['BBR-ATK', 'BBR-SKILL', 'BBR-SKILL-CAST-STACKS']],
     ['chisa-standard-weapons', ['KUMO-TEAM']],
+    ['aemeath-standard-weapons', ['EP-ATTR', 'EP-LIB-DEF', 'EP-LIB-FUSION-RES']],
   ]);
 
   for (const review of PROFILE_BACKWARD_IMPACT_REVIEWS_V36) {
@@ -126,11 +128,15 @@ test('Cartethyia and Rover Aero reviews close only the Fleurdelys character-rest
 test('unused active Echoes never receive fabricated execution dependencies', () => {
   const ciaccona = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'ciaccona');
   const changli = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'changli');
-  assert.ok(ciaccona && changli);
+  const aemeath = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.characterId === 'aemeath');
+  assert.ok(ciaccona && changli && aemeath);
   assert.deepEqual(ciaccona.reviewedEchoIds, ['echo-60001135']);
   assert.equal(ciaccona.pendingExecutionIds.some((id) => id.includes('kelpie')), false);
   assert.deepEqual(changli.reviewedEchoIds, ['echo-60000915']);
   assert.equal(changli.pendingExecutionIds.some((id) => id.startsWith('echo:')), false);
+  assert.deepEqual(aemeath.reviewedEchoIds, ['echo-60001915']);
+  assert.equal(aemeath.pendingExecutionIds.some((id) => id.startsWith('echo:')), false);
+  assert.deepEqual(aemeath.pendingExecutionIds, ['rotation:aemeath-standard-source-sequence:engine-model']);
 });
 
 test('support-oriented profiles retain their selected Echo-active execution boundaries', () => {

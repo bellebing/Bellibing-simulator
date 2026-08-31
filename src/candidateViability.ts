@@ -70,6 +70,10 @@ function cloneEcho(echo: Echo): Echo {
  * stats, ER gates or Personal Rotation DPS. This function contains no built-in
  * good/bad stat labels and never converts a stat name into a verdict by itself.
  *
+ * `assessFinal` also receives the exact future spend for that sampled branch.
+ * Existing callers may ignore it; DPS/economics consumers can use it without
+ * moving resource logic into the character-independent Echo runtime.
+ *
  * This is deliberately a viability forecast, not yet an optimal-stopping rule:
  * it answers "what can this exact partial Echo still become if taken to +25?".
  */
@@ -78,7 +82,7 @@ export function forecastCandidateViability(input: {
   trials: number;
   runtime: EchoRollRuntime;
   rng: RandomSource;
-  assessFinal: (echo: Echo) => FinalEchoAssessment;
+  assessFinal: (echo: Echo, futureSpend: Required<ResourceCost>) => FinalEchoAssessment;
 }): CandidateViabilityResult {
   if (!Number.isInteger(input.trials) || input.trials <= 0) {
     throw new RangeError(`trials must be a positive integer, got ${input.trials}.`);
@@ -114,7 +118,7 @@ export function forecastCandidateViability(input: {
     }
 
     totalFutureSpend = addCost(totalFutureSpend, futureSpend);
-    const assessment = input.assessFinal(current);
+    const assessment = input.assessFinal(current, futureSpend);
     switch (assessment.status) {
       case 'KEEP':
         kept += 1;

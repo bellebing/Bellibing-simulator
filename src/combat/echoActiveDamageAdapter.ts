@@ -17,6 +17,7 @@ export interface ExactEchoActiveDamage {
   readonly name: string;
   readonly element: EchoAttackFact['element'];
   readonly scalingStat: EchoAttackScalingStat;
+  readonly sourceDamageClass?: EchoAttackFact['sourceDamageClass'];
   readonly motionValue: number;
 }
 
@@ -47,6 +48,7 @@ export function resolveExactEchoActiveDamage(
     name: attack.name,
     element: attack.element,
     scalingStat: attack.scalingStat,
+    sourceDamageClass: attack.sourceDamageClass,
     motionValue: totalMotionValue(attack),
   };
 }

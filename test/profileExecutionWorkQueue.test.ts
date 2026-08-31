@@ -21,6 +21,7 @@ import {
   WEAPON_SKILL_STACK_SEMANTIC_REVIEW,
 } from '../src/combat/weaponSkillStackSemanticReview.ts';
 import { ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830 } from '../src/data/profileExecutionSemanticReview20260830.ts';
+import { SIGRIKA_EXECUTION_SEMANTIC_REVIEWS } from '../src/data/sigrikaExecutionSemanticReview20260901.ts';
 import {
   buildProfileExecutionWorkQueue,
   EXECUTION_SEMANTIC_REVIEWS,
@@ -33,7 +34,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 32);
+  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 14);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -94,6 +96,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+
+  assert.ok(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.every((row) => row.pendingExecutionId.includes('sigrika') || row.pendingExecutionId.includes('solsworn-ciphers') || row.pendingExecutionId.includes('sonata-29') || row.pendingExecutionId.includes('qiuyuan') || row.pendingExecutionId.includes('ciaccona')));
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -148,20 +152,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 87-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
+    totalEdges: 87,
     unreviewedEdges: 30,
-    semanticallyReviewedImplementationPendingEdges: 1,
+    semanticallyReviewedImplementationPendingEdges: 7,
     primitiveAvailableRequiresTimelineEdges: 11,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 9,
-    profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 31,
+    blockedSourceSemanticsEdges: 17,
+    profileSpecificExecutionEdges: 17,
+    actionableSharedEdges: 37,
   });
-  assert.equal(queue.reviewRecordCount, 18);
+  assert.equal(queue.reviewRecordCount, 32);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -200,6 +204,10 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
+
+  assert.equal(actionableIds.has('character:sigrika:rune-lifecycle-adapter'), false);
+  assert.equal(actionableIds.has('profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
+  assert.equal(actionableIds.has('weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter'), true);
 });
 
 test('remaining shared fanout is machine-ranked after Changli triage', () => {
@@ -290,6 +298,11 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
 
+  const sigrikaRune = queue.blockedSourceSemantics.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
+  assert.ok(sigrikaRune);
+  assert.equal(sigrikaRune.dependencyCount, 1);
+  assert.deepEqual(sigrikaRune.blockerIds, ['BUG-018']);
+
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);
   assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
@@ -297,8 +310,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

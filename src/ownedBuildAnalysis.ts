@@ -1,4 +1,5 @@
 import { augustaStandardEchoDamageEvaluator } from './characters/augustaEchoEvaluator.ts';
+import { ciacconaProductOwnedBuildDamageEvaluator } from './characters/ciacconaProductOwnedBuildEvaluator.ts';
 import type { Echo } from './echoCore.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
 import type { DamageEvaluator } from './domain.ts';
@@ -33,6 +34,12 @@ const BINDING_SPECS: readonly BindingSpec[] = [
     characterId: 'augusta',
     engineModelId: 'AUGUSTA_STD_V1',
     evaluator: augustaStandardEchoDamageEvaluator,
+  },
+  {
+    presetId: 'ciaccona-cartethyia-aero',
+    characterId: 'ciaccona',
+    engineModelId: 'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
+    evaluator: ciacconaProductOwnedBuildDamageEvaluator,
   },
 ] as const;
 

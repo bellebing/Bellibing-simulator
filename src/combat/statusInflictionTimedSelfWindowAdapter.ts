@@ -1,4 +1,4 @@
-import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffects.ts';
+import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import type { WeaponEffectData } from '../effectDomain.ts';
 import type { SonataEffectModel } from '../sonataEffectDomain.ts';

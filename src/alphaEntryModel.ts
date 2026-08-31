@@ -19,9 +19,9 @@ export interface AlphaPresetOption {
 export interface AlphaCharacterOption {
   readonly characterId: string;
   readonly name: string;
-  readonly element: string | null;
-  readonly weaponType: string | null;
-  readonly rarity: number;
+  readonly element: (typeof CHARACTER_CATALOG)[number]['element'];
+  readonly weaponType: (typeof CHARACTER_CATALOG)[number]['weaponType'];
+  readonly rarity: (typeof CHARACTER_CATALOG)[number]['rarity'];
   readonly readinessDisposition: CharacterProfileReadinessDisposition;
   readonly presets: readonly AlphaPresetOption[];
 }
@@ -57,9 +57,9 @@ export interface AlphaResolvedSelection {
 const readiness = assertProfileReadinessAudit();
 const readinessByCharacter = new Map(readiness.characters.map((row) => [row.characterId, row]));
 const characterById = new Map(CHARACTER_CATALOG.map((row) => [row.id, row]));
-const weaponNameById = new Map(WEAPON_CATALOG.map((row) => [row.id, row.name]));
-const echoNameById = new Map(ECHO_CATALOG.map((row) => [row.id, row.name]));
-const sonataNameById = new Map(SONATA_CATALOG.map((row) => [row.id, row.name]));
+const weaponNameById = new Map<string, string>(WEAPON_CATALOG.map((row) => [row.id, row.name]));
+const echoNameById = new Map<string, string>(ECHO_CATALOG.map((row) => [row.id, row.name]));
+const sonataNameById = new Map<string, string>(SONATA_CATALOG.map((row) => [row.id, row.name]));
 
 function characterName(id: string): string {
   return characterById.get(id)?.name ?? id;
@@ -71,33 +71,33 @@ export function listAlphaCharacterOptions(): readonly AlphaCharacterOption[] {
       .filter((preset) => preset.uiSelectable)
       .map((preset) => preset.characterId),
   );
+  const rows: AlphaCharacterOption[] = [];
 
-  return [...characterIds]
-    .map((characterId) => {
-      const character = characterById.get(characterId);
-      const readinessRow = readinessByCharacter.get(characterId);
-      if (!character || character.releaseStatus !== 'RELEASED' || !readinessRow) return null;
+  for (const characterId of characterIds) {
+    const character = characterById.get(characterId);
+    const readinessRow = readinessByCharacter.get(characterId);
+    if (!character || character.releaseStatus !== 'RELEASED' || !readinessRow) continue;
 
-      const presets = listCharacterPresets(PROFILE_REGISTRY, characterId).map((preset) => ({
-        id: preset.id,
-        label: preset.displayLabel,
-        modeKey: preset.modeKey,
-        isDefault: preset.isDefault,
-      }));
-      if (presets.length === 0) return null;
+    const presets = listCharacterPresets(PROFILE_REGISTRY, characterId).map((preset) => ({
+      id: preset.id,
+      label: preset.displayLabel,
+      modeKey: preset.modeKey,
+      isDefault: preset.isDefault,
+    }));
+    if (presets.length === 0) continue;
 
-      return {
-        characterId,
-        name: character.name,
-        element: character.element,
-        weaponType: character.weaponType,
-        rarity: character.rarity,
-        readinessDisposition: readinessRow.disposition,
-        presets,
-      } satisfies AlphaCharacterOption;
-    })
-    .filter((row): row is AlphaCharacterOption => row !== null)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    rows.push({
+      characterId,
+      name: character.name,
+      element: character.element,
+      weaponType: character.weaponType,
+      rarity: character.rarity,
+      readinessDisposition: readinessRow.disposition,
+      presets,
+    });
+  }
+
+  return rows.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function resolveAlphaSelection(characterId: string, presetId?: string): AlphaResolvedSelection {

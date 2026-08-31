@@ -31,7 +31,7 @@ h2 { margin: 8px 0 0; font-size: 24px; letter-spacing: -.025em; }
 .alpha-step--first { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: end; }
 .alpha-step-label { grid-column: 1 / -1; }
 .alpha-select-wrap { display: grid; gap: 8px; }
-.alpha-select-wrap span, .alpha-build-grid span, .alpha-echo-summary span, .alpha-echo-grid span, .alpha-roll-assist span, .alpha-owned-panel span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.alpha-select-wrap span, .alpha-build-grid span, .alpha-echo-summary span, .alpha-echo-grid span, .alpha-roll-assist span, .alpha-owned-panel span, .alpha-owned-build-progress span { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
 select { width: min(100%, 520px); color: #fff; background: #0d0f13; border: 1px solid #393e48; border-radius: 12px; padding: 13px 14px; }
 .alpha-status { align-self: center; padding: 10px 12px; border: 1px solid #54472d; color: #d8b86f; border-radius: 999px; font-size: 10px; font-weight: 850; letter-spacing: .1em; white-space: nowrap; }
 .alpha-status--ready { border-color: #315d49; color: var(--green); }
@@ -51,6 +51,8 @@ select { width: min(100%, 520px); color: #fff; background: #0d0f13; border: 1px 
 .alpha-echo-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 .alpha-echo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 8px; }
 .alpha-echo-grid strong { font-size: 12px; }
+.alpha-echo-grid .alpha-echo-slot--saved { border-color: #315d49; background: rgba(54,97,78,.12); }
+.alpha-echo-grid .alpha-echo-slot--saved span { color: #89c9aa; }
 .alpha-roll-assist { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 10px; border: 1px solid #37303a; background: #0d0f13; border-radius: 13px; padding: 15px; }
 .alpha-roll-assist strong, .alpha-roll-assist small { display: block; }
 .alpha-roll-assist strong { margin-top: 6px; }
@@ -88,10 +90,19 @@ select { width: min(100%, 520px); color: #fff; background: #0d0f13; border: 1px 
 .alpha-owned-verdict--keep strong { color: #9de0be; }
 .alpha-owned-verdict--temporary { border-color: #766337; }
 .alpha-owned-verdict--temporary strong, .alpha-owned-verdict--roll strong { color: #e7c982; }
-.alpha-owned-reset { margin-top: 10px; }
+.alpha-owned-finished-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.alpha-owned-reset { margin-top: 0; }
+#alpha-owned-save { border: 1px solid #4c8468; background: rgba(54,97,78,.24); color: #b8ebd2; border-radius: 9px; padding: 10px 12px; cursor: pointer; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
+#alpha-owned-save:hover { border-color: #78d7a7; color: #e8fff4; }
 
 .alpha-analyze { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
 .alpha-analyze p { color: var(--muted); margin: 8px 0 0; font-size: 13px; line-height: 1.5; max-width: 760px; }
+.alpha-owned-build-progress { display: grid; gap: 5px; margin-top: 14px; border: 1px solid #65583e; background: rgba(111,85,39,.10); border-radius: 11px; padding: 11px 13px; max-width: 760px; }
+.alpha-owned-build-progress strong { font-size: 13px; }
+.alpha-owned-build-progress small { color: #7d838d; line-height: 1.4; }
+.alpha-owned-build-progress--ready { border-color: #315d49; background: rgba(54,97,78,.13); }
+.alpha-owned-build-progress--ready strong { color: #a9e3c6; }
+.alpha-owned-build-progress--pending { border-color: #4a3d42; background: rgba(78,53,59,.10); }
 #alpha-analyze { min-width: 150px; border: 1px solid #977b43; background: linear-gradient(180deg, #d4a84f, #b58b3e); color: #17120b; font-weight: 900; letter-spacing: .08em; padding: 14px 18px; border-radius: 11px; cursor: pointer; }
 .alpha-result { margin-top: 12px; border: 1px solid #6d474a; background: rgba(112,50,54,.13); color: #e7b2b4; border-radius: 14px; padding: 15px 17px; font-size: 13px; line-height: 1.5; }
 .alpha-result--ready { border-color: #36614e; background: rgba(54,97,78,.13); color: #a9e3c6; }
@@ -115,6 +126,8 @@ footer { color: #666d78; text-align: center; font-size: 11px; margin-top: 22px; 
   .alpha-roll-assist-actions, .alpha-owned-entry-row { grid-template-columns: 1fr; display: grid; }
   #alpha-roll-assist, #alpha-owned-toggle, .alpha-roll-assist-disabled { width: 100%; text-align: center; }
   #alpha-owned-add { padding: 12px 14px; }
+  .alpha-owned-finished-actions { display: grid; grid-template-columns: 1fr; }
+  #alpha-owned-save, .alpha-owned-reset { width: 100%; }
   .alpha-analyze { align-items: stretch; flex-direction: column; }
   #alpha-analyze { width: 100%; }
 }

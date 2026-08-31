@@ -28,7 +28,12 @@ test('Alpha default selection resolves real profile relationships without phanto
     assert.equal(selection.echoes.slots.length, 5);
     assert.ok(selection.team.length === 3);
     assert.ok(selection.statPriorities.length > 0);
-    assert.ok(selection.rotation.sourceSequence.length > 0);
+    if (selection.rotation.executionStatus === 'SOURCE_SEQUENCE_ONLY') {
+      assert.ok(selection.rotation.sourceSequence.length > 0);
+      assert.equal(selection.rotation.engineModelId, null);
+    } else {
+      assert.ok(selection.rotation.engineModelId);
+    }
   }
 });
 

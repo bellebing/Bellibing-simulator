@@ -32,6 +32,19 @@ function currentBuild(): Echo[] {
   }));
 }
 
+class NoLevel20RecycleRuntime extends VerifiedWuwaEchoRuntime {
+  override refundOnDiscard(current: Echo) {
+    if (current.level === 20) {
+      return { echoes: 0, tuners: 0, exp: 0, shellCredits: 0 };
+    }
+    return super.refundOnDiscard(current);
+  }
+}
+
+function assertClose(actual: number, expected: number): void {
+  assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} !== ${expected}`);
+}
+
 test('finished Augusta candidate changes only one slot and reports real whole-build DPS delta', () => {
   const currentEchoes = currentBuild();
   const incumbent = currentEchoes[0]!;
@@ -137,6 +150,50 @@ test('partial Augusta candidate forecasts legal future rolls through whole-build
   assert.equal(result.continueEconomics.successProbability, result.probabilityBeatsIncumbent);
   assert.ok(result.restartEconomics.successProbability > 0);
   assert.notEqual(result.pathComparison.decision, 'INSUFFICIENT_DATA');
+});
+
+test('restart economics credits the current partial Echo recycle refund exactly once', () => {
+  const currentEchoes = currentBuild();
+  const incumbent = currentEchoes[0]!;
+  const partial = withRank5MainStatsAtLevel(
+    {
+      ...cloneEcho(incumbent),
+      id: 'augusta-candidate-plus20-refund-check',
+      substats: incumbent.substats
+        .filter((roll) => roll.name !== 'Flat DEF')
+        .map((roll) => ({ ...roll })),
+    },
+    20,
+  );
+  const shared = {
+    presetId: 'augusta-standard',
+    currentEchoes,
+    slotIndex: 0,
+    candidate: partial,
+    trials: 1500,
+  } as const;
+
+  const withRefund = forecastPartialOwnedBuildCandidate({
+    ...shared,
+    runtime: new VerifiedWuwaEchoRuntime(),
+    continueRng: createSeededRng('augusta-refund-continue-v1'),
+    restartRng: createSeededRng('augusta-refund-restart-v1'),
+  });
+  const withoutCurrentRefund = forecastPartialOwnedBuildCandidate({
+    ...shared,
+    runtime: new NoLevel20RecycleRuntime(),
+    continueRng: createSeededRng('augusta-refund-continue-v1'),
+    restartRng: createSeededRng('augusta-refund-restart-v1'),
+  });
+
+  const net = withRefund.restartEconomics.expectedCostToSuccess;
+  const gross = withoutCurrentRefund.restartEconomics.expectedCostToSuccess;
+  assert.ok(net);
+  assert.ok(gross);
+  assertClose(gross.echoes - net.echoes, withRefund.recycleNowRefund.echoes);
+  assertClose(gross.tuners - net.tuners, withRefund.recycleNowRefund.tuners);
+  assertClose(gross.exp - net.exp, withRefund.recycleNowRefund.exp);
+  assertClose((gross.shellCredits ?? 0) - (net.shellCredits ?? 0), withRefund.recycleNowRefund.shellCredits);
 });
 
 test('partial candidate gate probability comes from final whole-build branches, not a universal ER rule', () => {

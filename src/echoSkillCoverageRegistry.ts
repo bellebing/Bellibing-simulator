@@ -1,5 +1,8 @@
 import { ECHO_ATTACK_PROFILES } from './data/echoAttacks.ts';
-import { FLEURDELYS_CHARACTER_RESTRICTION_REVIEW } from './data/echoCharacterRestrictedEffects.ts';
+import {
+  FLEURDELYS_CHARACTER_RESTRICTION_REVIEW,
+  SIGILLUM_CHARACTER_RESTRICTION_REVIEW,
+} from './data/echoCharacterRestrictedEffects.ts';
 import { ECHO_EFFECT_MODELS } from './data/echoEffects.ts';
 import {
   ECHO_SKILL_PENDING_ADAPTER_FACTS,
@@ -75,13 +78,21 @@ export function auditEchoSkillCoverage(): EchoSkillCoverageSummary {
     throw new Error('Fleurdelys character restriction cannot remain both modeled and pending.');
   }
 
+  const sigillum = effectRegistry.byId.get(SIGILLUM_CHARACTER_RESTRICTION_REVIEW.effectId);
+  if (!sigillum) throw new Error('Sigillum character-restricted Resonance Liberation bonus is missing from the modeled Echo effect catalog.');
+  if (sigillum.echoId !== SIGILLUM_CHARACTER_RESTRICTION_REVIEW.echoId || sigillum.value !== 0.25) {
+    throw new Error('Sigillum character-restricted Resonance Liberation bonus drifted from the reviewed source contract.');
+  }
+  if (JSON.stringify(sigillum.wielderCharacterIds ?? []) !== JSON.stringify(['aemeath'])) {
+    throw new Error('Sigillum character restriction must remain exactly Aemeath.');
+  }
+  if (ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === SIGILLUM_CHARACTER_RESTRICTION_REVIEW.echoId && row.kind === 'CHARACTER_RESTRICTION')) {
+    throw new Error('Sigillum character restriction cannot remain both modeled and pending.');
+  }
+
   const adam = effectRegistry.byEchoId.get('echo-60002015') ?? [];
   if (adam.some((row) => row.statOrEffect === 'CRIT Rate')) {
     throw new Error('Adam Smasher character-restricted CRIT Rate must remain pending until its row is migrated onto the character-restriction primitive.');
-  }
-  const sigillum = effectRegistry.byEchoId.get('echo-60001915') ?? [];
-  if (sigillum.some((row) => row.statOrEffect === 'Resonance Liberation DMG Bonus')) {
-    throw new Error('Sigillum character-restricted Resonance Liberation bonus must remain pending until its row is migrated onto the character-restriction primitive.');
   }
   const collapsar = effectRegistry.byEchoId.get('echo-60001809') ?? [];
   if (collapsar.some((row) => row.statOrEffect === 'Electro DMG Bonus' || row.statOrEffect === 'Spectro DMG Bonus')) {

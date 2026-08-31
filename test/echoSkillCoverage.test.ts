@@ -17,7 +17,7 @@ test('Version 3.6 Echo skill source review is roster-wide and execution-explicit
   assert.equal(review.expectedSkillNameFieldCount, 0);
   assert.equal(review.expectedDamageTextRecordCount, 170);
   assert.equal(review.expectedNoDamageTextRecordCount, 11);
-  assert.equal(review.expectedModeledEffectRowCount, 63);
+  assert.equal(review.expectedModeledEffectRowCount, 64);
   assert.equal(review.expectedAttackProfileCount, 5);
   assert.equal(review.expectedAttackFactCount, 6);
 });
@@ -26,11 +26,11 @@ test('Echo skill coverage audit fails closed around modeled and pending boundari
   const summary = auditEchoSkillCoverage();
   assert.deepEqual(summary, {
     releasedEchoCount: 181,
-    modeledEffectRowCount: 63,
-    modeledEffectEchoCount: 37,
+    modeledEffectRowCount: 64,
+    modeledEffectEchoCount: 38,
     attackProfileCount: 5,
     attackFactCount: 6,
-    pendingAdapterFactCount: 6,
+    pendingAdapterFactCount: 5,
     sourceUnusedParamRecordCount: 3,
   });
 });
@@ -47,9 +47,13 @@ test('known source parameter discrepancies stay explicit instead of being interp
 });
 
 test('specialized Echo effect semantics remain explicit pending adapter facts', () => {
-  assert.equal(ECHO_SKILL_PENDING_ADAPTER_FACTS.length, 6);
+  assert.equal(ECHO_SKILL_PENDING_ADAPTER_FACTS.length, 5);
   assert.equal(
     ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === 'echo-60001065' && row.kind === 'CHARACTER_RESTRICTION'),
+    false,
+  );
+  assert.equal(
+    ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === 'echo-60001915' && row.kind === 'CHARACTER_RESTRICTION'),
     false,
   );
   assert.ok(ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === 'echo-60001809' && row.kind === 'LOADOUT_STATE_REPLACEMENT'));

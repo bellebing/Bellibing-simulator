@@ -63,8 +63,8 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   const targetState = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:target-state-adapter');
   assert.equal(targetState, undefined, 'the tranche closed both canonical Aero-Erosion target-state edges');
 
-  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
-  assert.equal(matrix.reusablePriorityQueue[1]?.syntacticPrimitiveKey, 'weapon:trigger-uptime-adapter');
+  assert.equal(matrix.reusablePriorityQueue[0]?.syntacticPrimitiveKey, 'weapon:trigger-uptime-adapter');
+  assert.equal(matrix.reusablePriorityQueue[1]?.syntacticPrimitiveKey, 'echo:impermanence-heron-active-transfer-adapter');
   assert.equal(matrix.reusablePriorityQueue[2]?.syntacticPrimitiveKey, 'sonata:outro-transfer-adapter');
 });
 

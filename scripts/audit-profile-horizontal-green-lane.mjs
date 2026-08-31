@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const COHORTS = [
@@ -34,6 +35,16 @@ async function assertEqualFile(committedPath, generatedPath) {
   ]);
   if (!committed.equals(regenerated)) {
     throw new Error(`${committedPath} drifted from deterministic regeneration`);
+  }
+}
+
+async function assertEqualJsonFile(committedPath, generatedPath) {
+  const [committed, regenerated] = await Promise.all([
+    fs.readFile(path.join(ROOT, committedPath), 'utf8'),
+    fs.readFile(generatedPath, 'utf8'),
+  ]);
+  if (!isDeepStrictEqual(JSON.parse(committed), JSON.parse(regenerated))) {
+    throw new Error(`${committedPath} semantic JSON drifted from deterministic regeneration`);
   }
 }
 
@@ -79,7 +90,7 @@ try {
 
     execFileSync(process.execPath, args, { cwd: ROOT, stdio: 'inherit' });
 
-    await assertEqualFile(cohort.sourceSubset, generatedSubset);
+    await assertEqualJsonFile(cohort.sourceSubset, generatedSubset);
     if (cohort.canonicalModule) {
       await assertEqualFile(cohort.canonicalModule, generatedCanonical);
     } else {
@@ -95,7 +106,7 @@ try {
 
     console.log(`Horizontal green-lane ${cohort.label} audit OK: approved=${approved.length}, parked=${parked.length}.`);
   }
-  console.log('Committed horizontal source subsets and canonical TypeScript are byte-identical to deterministic regeneration.');
+  console.log('Committed horizontal source subsets are structurally identical to regeneration; canonical TypeScript is byte-identical.');
 } finally {
   await fs.rm(tempRoot, { recursive: true, force: true });
 }

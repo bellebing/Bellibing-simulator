@@ -37,9 +37,11 @@ test('Alpha default selection resolves real profile relationships without phanto
     if (selection.rollAssist.supported) {
       assert.ok(selection.rollAssist.policyId);
       assert.ok(selection.rollAssist.href?.startsWith('./roll-assistant.html?'));
+      assert.equal(selection.rollAssist.slots.length, 5);
     } else {
       assert.equal(selection.rollAssist.policyId, null);
       assert.equal(selection.rollAssist.href, null);
+      assert.deepEqual(selection.rollAssist.slots, []);
     }
   }
 });
@@ -69,6 +71,13 @@ test('Alpha exposes Roll Assist only where an independently verified policy bind
   assert.equal(augusta.rollAssist.supported, true);
   assert.equal(augusta.rollAssist.policyId, 'AUGUSTA_RECOMMENDED_V915');
   assert.equal(augusta.rollAssist.href, './roll-assistant.html?character=augusta&preset=augusta-standard');
+  assert.deepEqual(augusta.rollAssist.slots, [
+    { cost: 4, primaryMain: 'CRIT Rate' },
+    { cost: 3, primaryMain: 'Electro DMG' },
+    { cost: 3, primaryMain: 'Electro DMG' },
+    { cost: 1, primaryMain: 'ATK%' },
+    { cost: 1, primaryMain: 'ATK%' },
+  ]);
 
   const ciaccona = resolveAlphaSelection('ciaccona', 'ciaccona-cartethyia-aero');
   assert.equal(ciaccona.analysisReady, true);

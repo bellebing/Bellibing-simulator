@@ -57,6 +57,10 @@ export interface AlphaResolvedSelection {
     readonly policyId: string | null;
     readonly href: string | null;
     readonly reason: string;
+    readonly slots: readonly {
+      readonly cost: number;
+      readonly primaryMain: string;
+    }[];
   };
   readonly analysisReady: boolean;
 }
@@ -161,12 +165,14 @@ export function resolveAlphaSelection(characterId: string, presetId?: string): A
         policyId: rollAssistBinding.policy.id,
         href: buildRollAssistHref(rollAssistBinding),
         reason: 'Verified Roll Assist policy matches this canonical Echo slot layout.',
+        slots: rollAssistBinding.policy.slots.map((slot) => ({ cost: slot.cost, primaryMain: slot.primaryMain })),
       }
       : {
         supported: false,
         policyId: null,
         href: null,
         reason: 'No verified Roll Assist checkpoint policy is bound to this canonical profile.',
+        slots: [],
       },
     analysisReady,
   };

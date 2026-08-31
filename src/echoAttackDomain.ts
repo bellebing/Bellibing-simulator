@@ -20,7 +20,7 @@ export interface EchoAttackFact {
 }
 
 /**
- * Rank-specific active Echo attack facts only.
+ * Rank-specific Echo attack facts only.
  *
  * Non-damage buffs/passives live in EchoEffectModel. Sonata effects and build
  * recommendations live elsewhere. Rotation adapters decide if/when an attack

@@ -20,6 +20,7 @@ import {
   validateWeaponSkillStackSemanticReview,
   WEAPON_SKILL_STACK_SEMANTIC_REVIEW,
 } from '../src/combat/weaponSkillStackSemanticReview.ts';
+import { LINGYANG_ENERGY_REGEN_GATE_REVIEW } from '../src/data/lingyangEnergyRegenGateReview20260901.ts';
 import { ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830 } from '../src/data/profileExecutionSemanticReview20260830.ts';
 import {
   buildProfileExecutionWorkQueue,
@@ -33,7 +34,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 28);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -114,6 +115,12 @@ test('semantic execution review catalog is derived from reviewed implementation/
       assert.equal(review?.blockerId, 'BUG-017');
     }
   }
+
+  const lingyangEr = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === LINGYANG_ENERGY_REGEN_GATE_REVIEW.pendingExecutionId);
+  assert.equal(lingyangEr?.status, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(lingyangEr?.actionKey, 'stat-target:lingyang-exact-er-gate');
+  assert.equal(lingyangEr?.primitiveId, undefined);
+  assert.equal(lingyangEr?.blockerId, 'BUG-017');
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -173,15 +180,15 @@ test('current 84-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 84,
-    unreviewedEdges: 29,
+    unreviewedEdges: 28,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 16,
     blockedSourceConflictEdges: 6,
-    blockedSourceSemanticsEdges: 15,
+    blockedSourceSemanticsEdges: 16,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 30,
+    actionableSharedEdges: 29,
   });
-  assert.equal(queue.reviewRecordCount, 27);
+  assert.equal(queue.reviewRecordCount, 28);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -225,11 +232,31 @@ test('actionable queue removes already-covered, closed and source-blocked famili
     'character:lingyang:burst-combo-action-mapping-adapter',
     'team:lingyang-standard:zhezhi-incoming-state-adapter',
     'team:lingyang-standard:shorekeeper-incoming-state-adapter',
+    'stat-target:lingyang-standard-stats:exact-er-gate-adapter',
   ]) assert.equal(actionableIds.has(id), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
+});
+
+test('all canonical Lingyang execution dependencies are triaged without authorizing closure', () => {
+  const queue = buildProfileExecutionWorkQueue();
+  const lingyangEdges = queue.edges.filter((edge) => edge.presetId === 'lingyang-standard');
+  assert.equal(lingyangEdges.length, 12);
+  assert.ok(lingyangEdges.every((edge) => edge.semanticStatus !== 'UNREVIEWED'));
+  assert.equal(
+    lingyangEdges.find((edge) => edge.pendingExecutionId === 'weapon:moongazers-sigil:MGS-LIB:trigger-uptime-adapter')?.primitiveId,
+    'weapon-cast-timed-self-window-v1',
+  );
+  assert.equal(
+    lingyangEdges.find((edge) => edge.pendingExecutionId === 'stat-target:lingyang-standard-stats:exact-er-gate-adapter')?.semanticStatus,
+    'BLOCKED_SOURCE_SEMANTICS',
+  );
+  assert.equal(
+    lingyangEdges.find((edge) => edge.pendingExecutionId === 'rotation:lingyang-standard-rotation:engine-model')?.semanticStatus,
+    'PROFILE_SPECIFIC_EXECUTION',
+  );
 });
 
 test('remaining shared fanout is machine-ranked after Lingyang triage', () => {
@@ -358,6 +385,12 @@ test('covered and blocked queues retain exact fanout after Lingyang review', () 
     assert.deepEqual(group.primitiveIds, [primitiveId]);
     assert.deepEqual(group.blockerIds, ['BUG-017']);
   }
+
+  const lingyangEr = queue.blockedSourceSemantics.find((row) => row.actionKey === 'stat-target:lingyang-exact-er-gate');
+  assert.ok(lingyangEr);
+  assert.deepEqual(lingyangEr.pendingExecutionIds, ['stat-target:lingyang-standard-stats:exact-er-gate-adapter']);
+  assert.deepEqual(lingyangEr.primitiveIds, []);
+  assert.deepEqual(lingyangEr.blockerIds, ['BUG-017']);
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);

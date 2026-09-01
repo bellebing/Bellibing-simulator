@@ -165,19 +165,15 @@ export function isVerinaBlossomAmplificationActive(window: VerinaBlossomWindow, 
   return atSeconds >= window.startedAtSeconds && atSeconds < window.expiresAtSeconds;
 }
 
-const JINHSI_TEAM_INCOMING_PENDING_EXECUTION_ID = 'team:jinhsi-zhezhi-verina:incoming-state-adapter';
-
 export const JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW = {
   primitiveId: JINHSI_TEAM_INCOMING_STATE_PRIMITIVE_ID,
   reviewedAt: '2026-09-01',
-  pendingExecutionId: JINHSI_TEAM_INCOMING_PENDING_EXECUTION_ID,
-  pendingExecutionIds: [] as readonly string[],
-  closesPendingExecutionIds: [JINHSI_TEAM_INCOMING_PENDING_EXECUTION_ID] as const,
+  pendingExecutionId: 'team:jinhsi-zhezhi-verina:incoming-state-adapter',
+  closesPendingExecutionIds: [] as readonly string[],
   requiresExplicitPredecessorEvents: true,
   notes: [
     'Zhezhi Outro transfer is executable from an explicit outgoing->incoming event: +15 Resonance Energy immediately, +20% Glacio DMG Amplification and +25% Resonance Skill DMG Amplification for 14s, ending early when the incoming Resonator switches out.',
     'Verina Gift of Nature is executable from an explicit source action as +20% team ATK for 20s. Verina Outro Blossom is executable from an explicit Verina->incoming event as +15% nearby-team DMG Amplification for 30s; its 6s incoming heal remains separate metadata.',
-    'For the canonical combat-start Standard Opener, current source explicitly places Jinhsi before team setup; the source-specific combat-start closure therefore proves no Zhezhi/Verina incoming window is active during that opener.',
-    'The reusable primitive remains available for later team/loop execution, but this exact opener dependency is no longer pending.',
+    'Current Standard Opener source places Jinhsi before team setup, so the audited opener has no source-proven teammate window; the dependency is nevertheless kept pending until the exact supported team-state boundary is closed without conflating opener inactivity with later-cycle incoming state.',
   ],
 } as const;

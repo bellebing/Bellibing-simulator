@@ -79,7 +79,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const chixiaInferno = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60000915:nightmare-inferno-rider-active-skill-damage-adapter');
   assert.equal(chixiaInferno?.status, 'BLOCKED_SOURCE_SEMANTICS');
   assert.equal(chixiaInferno?.actionKey, 'echo:nightmare-inferno-rider-cast-variant-resolution');
-  assert.equal(chixiaInferno?.blockerId, 'BUG-015');
+  assert.equal(chixiaInferno?.blockerId, 'BUG-022');
 
   const woodland = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:woodland-aria:WA-AERO:trigger-uptime-adapter');
   assert.equal(woodland, undefined, 'closed Woodland Aria edge must not remain in the pending semantic-review catalog');
@@ -289,7 +289,7 @@ test('covered and blocked queues retain exact fanout after Chixia semantic split
   assert.equal(inferno.dependencyCount, 1);
   assert.equal(inferno.profileCount, 1);
   assert.equal(inferno.characterCount, 1);
-  assert.deepEqual(inferno.blockerIds, ['BUG-015']);
+  assert.deepEqual(inferno.blockerIds, ['BUG-022']);
 
   const defiersThorn = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:defiers-thorn-def-timing');
   assert.ok(defiersThorn);

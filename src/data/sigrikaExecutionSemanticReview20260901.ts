@@ -39,41 +39,51 @@ function primitiveAvailable(
 }
 
 export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
-  blocked(
+  primitiveAvailable(
     'character:sigrika:rune-lifecycle-adapter',
     'character:sigrika-rune-lifecycle',
-    'Rune: Trust/Answer identity, cap and left-shift behavior are source-proven raw facts.',
-    'Current reviewed source does not expose one event-complete duration/consume/overwrite lifecycle sufficient for execution.',
+    'sigrika-resource-state-v1',
+    'Current source proves Trust/Answer direct-hit creation, base capacity 2, capacity 4 at >=50 Full Stop and left-shift overwrite at cap.',
+    'sigrika-resource-state-v1 models these transitions event-by-event and deliberately fails closed when Schemata is presented with more than two stored Runes because current reviewed text does not state a >2 selection order.',
+    'Canonical execution still requires exact event timestamps so Convergent/Divergent/Decipher lifetime checks are not inferred.',
   ),
-  blocked(
+  primitiveAvailable(
     'character:sigrika:decipher-elucidated-eligibility-adapter',
     'character:sigrika-decipher-elucidated-eligibility',
-    'Basic 4 -> Decipher for 5 seconds and Decipher enabling Elucidated are source-proven raw facts.',
-    'Exact executable state entry/expiry/field-switch termination and Rune grant ordering remain unimplemented behind the broader Rune lifecycle.',
+    'sigrika-resource-state-v1',
+    'Basic 4 -> Decipher for 5 seconds, switch-out termination and Elucidated availability are source-proven.',
+    'sigrika-resource-state-v1 exposes timestamped Decipher entry and Elucidated eligibility; no five-second overlap is assumed without a caller timeline.',
   ),
-  blocked(
+  primitiveAvailable(
     'character:sigrika:runic-heavy-branch-selection-adapter',
     'character:sigrika-runic-heavy-branch-selection',
-    'Runic Chain Whip and Runic Outburst have exact source motion-value curves.',
-    'The canonical sequence names each branch, but source-complete Rune selection/consumption state must prove eligibility before the action can execute.',
+    'sigrika-resource-state-v1',
+    'Current source explicitly maps Trust+Trust -> Runic Chain Whip, Trust+Answer -> Runic Outburst and Answer+Answer -> Runic Soliskin after consuming two Runes.',
+    'The primitive resolves the exact two-Rune branch and keeps multiplier increase versus DMG Amplification as separate source semantics.',
+    'The canonical profile still needs timestamped Rune-producing events; no branch is injected from the source-sequence label alone.',
   ),
-  blocked(
+  primitiveAvailable(
     'character:sigrika:learn-my-true-name-full-stop-adapter',
     'character:sigrika-learn-my-true-name-full-stop',
-    'Full Stop max 100 and Learn My True Name availability at 100 subject to cooldown are source-proven raw facts.',
-    'The exact executable Full Stop gain/consume/cooldown lifecycle is not source-complete in the current raw state contract.',
+    'sigrika-resource-state-v1',
+    'Schemata grants +50 Full Stop up to 100. At 100, Hold Skill consumes all Full Stop to cast Learn My True Name; current source lists a 25-second cooldown.',
+    'The primitive models gain, exact eligibility, consume-all and cooldown state without assigning canonical timestamps.',
   ),
-  blocked(
+  primitiveAvailable(
     'character:sigrika:innate-gift-damage-amplification-adapter',
     'character:sigrika-innate-gift-damage-amplification',
-    'Base Innate Gift max 2 and +30% DMG Amplification per stack for the source-listed Runic/Learn My True Name actions are source-proven raw facts.',
-    'Stack creation and exact per-event lifetime state are not executable in the canonical timeline.',
+    'sigrika-resource-state-v1',
+    'At >=30 Soliskin Vitality, Schemata consumes 30, increases the current Runic multiplier by 50% and grants one Innate Gift stack; lower Vitality consumes all and grants 15% DMG Amplification per 10 consumed.',
+    'Innate Gift remains max 2 at S0, grants 30% DMG Amplification per stack to the source-listed Runic/Learn actions, and clears on Learn My True Name or switch-out.',
+    'The primitive preserves multiplier increase and DMG Amplification as different outputs and does not assume predecessor Echo-cast Vitality.',
   ),
-  blocked(
+  primitiveAvailable(
     'character:sigrika:blessing-of-runes-echo-skill-state-adapter',
     'character:sigrika-blessing-of-runes-state',
-    'Nearby-team Echo Skill casts, the 6-stack bonuses and the Energy Regen conversion clause are source-proven raw mechanics.',
-    'The canonical Sigrika sequence does not provide the predecessor/team Echo Skill event timeline or a complete lifetime contract for this state.',
+    'sigrika-resource-state-v1',
+    'Nearby-team Echo Skill casts source-prove Soliskin Vitality +10 and Blessing of Runes +1 with same-name once-only records; Blessing caps at 6 and resets on lineup change, while the Vitality trigger record resets on Sigrika Outro.',
+    'The primitive models the two trigger records separately, Blessing stack bonuses and the ER-over-125% conversion formula.',
+    'No canonical predecessor Echo Skill event, Echo name or timing is invented; the profile still needs an executable team timeline.',
   ),
   primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
@@ -110,7 +120,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'team:qiuyuan-sigrika-incoming-state',
     'character-outro-incoming-transfer-v1',
     'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds or until that Resonator switches out.',
-    'character-outro-incoming-transfer-v1 now models the source 14-second cap and explicit incoming switch-out termination without assuming a predecessor event.',
+    'character-outro-incoming-transfer-v1 models the source 14-second cap and explicit incoming switch-out termination without assuming a predecessor event.',
     'The Sigrika source sequence still contains no Qiuyuan predecessor timeline proving outgoing Qiuyuan, incoming Sigrika or the trigger time; Qiuyuan Bamboo\'s Shade remains a separate predecessor-state concern.',
   ),
   implementationPending(
@@ -128,7 +138,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
   blocked(
     'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
     'rotation:sigrika-standard-denominator-timeline',
-    'The source preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics.',
-    'No exact total duration or approved measurement-derived timestamps exist, so frames and the DPS denominator remain parked.',
+    'Prydwen preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics. Current Prydwen also says the Summon may be cast at any point, so it does not provide one fixed Echo timestamp.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action sequence, but it is an external tested rotation and not an exact timestamped canonical Qiuyuan+Ciaccona predecessor/rotation contract. Bellibing therefore keeps exact denominator/timestamps parked rather than silently treating the tested duration as a source-exact frame model.',
   ),
 ] as const);

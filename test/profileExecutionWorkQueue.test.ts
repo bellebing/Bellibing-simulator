@@ -171,13 +171,13 @@ test('current 84-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 84,
-    unreviewedEdges: 33,
+    unreviewedEdges: 31,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 14,
     blockedSourceConflictEdges: 6,
-    blockedSourceSemanticsEdges: 13,
+    blockedSourceSemanticsEdges: 15,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 34,
+    actionableSharedEdges: 32,
   });
   assert.equal(queue.reviewRecordCount, 25);
   assert.equal(

@@ -4,7 +4,8 @@ import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 export type WeaponCastEventKind =
   | 'INTRO_SKILL_CAST'
   | 'RESONANCE_SKILL_CAST'
-  | 'RESONANCE_LIBERATION_CAST';
+  | 'RESONANCE_LIBERATION_CAST'
+  | 'ECHO_SKILL_CAST';
 
 export interface WeaponCastEvent {
   readonly kind: WeaponCastEventKind;
@@ -64,6 +65,11 @@ export const WEAPON_CAST_WINDOW_CONTRACTS: readonly WeaponCastWindowContract[] =
     expectedSourceTrigger: 'Cast Intro Skill or Resonance Liberation',
     triggerEvents: ['INTRO_SKILL_CAST', 'RESONANCE_LIBERATION_CAST'],
   },
+  {
+    effectId: 'SCIP-ECHO-AMP',
+    expectedSourceTrigger: 'Cast Intro Skill or Echo Skill',
+    triggerEvents: ['INTRO_SKILL_CAST', 'ECHO_SKILL_CAST'],
+  },
 ] as const;
 
 export const WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT = {
@@ -84,6 +90,7 @@ export const WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT = {
     'Woodland Aria WA-AERO was semantically split from this cast-window family and is now closed by aero-erosion-weapon-target-state-v1 in the Ciaccona closure tranche; its implementation/source review remains owned by that adapter artifact.',
     'Implementing the cast-window primitive does not close a profile dependency while its rotation is SOURCE_SEQUENCE_ONLY; an executable profile event timeline must supply the actual trigger event and timing.',
     'The primitive creates one source-backed activation window. It does not invent multi-trigger refresh/overlap policy beyond the event supplied by an executable caller.',
+    'SCIP-ECHO-AMP is also source-clean for this primitive, but its Sigrika-specific pendingExecutionId is reviewed separately because it does not use the historical trigger-uptime dependency family.',
   ],
 } as const;
 

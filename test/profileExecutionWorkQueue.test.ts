@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 25);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -94,6 +94,24 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+
+  const lingyangExpected = new Map([
+    ['weapon:moongazers-sigil:MGS-DEF:shield-stack-state-adapter', ['BLOCKED_SOURCE_SEMANTICS', 'moongazers-sigil-known-shield-stack-v1']],
+    ['weapon:moongazers-sigil:MGS-MAX-STACK:cross-effect-stack-override-adapter', ['BLOCKED_SOURCE_SEMANTICS', 'moongazers-sigil-intro-forced-max-window-v1']],
+    ['sonata:sonata-9:S09_5PC_FIELD_ATK:on-field-stack-state-adapter', ['BLOCKED_SOURCE_SEMANTICS', 'lingering-tunes-known-on-field-stack-v1']],
+    ['character:lingyang:diligent-practice-three-second-window-adapter', ['BLOCKED_SOURCE_SEMANTICS', 'lingyang-diligent-practice-known-window-v1']],
+    ['character:lingyang:striding-lion-resource-state-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'lingyang-striding-lion-known-segment-v1']],
+    ['echo:echo-60000485:mech-abomination-cast-timeline-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'mech-abomination-explicit-cast-state-v1']],
+    ['character:lingyang:burst-combo-action-mapping-adapter', ['BLOCKED_SOURCE_CONFLICT', 'lingyang-burst-combo-source-mismatch-aware-action-map-v2']],
+  ] as const);
+  for (const [pendingExecutionId, [status, primitiveId]] of lingyangExpected) {
+    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
+    assert.equal(review?.status, status);
+    assert.equal(review?.primitiveId, primitiveId);
+    if (status === 'BLOCKED_SOURCE_SEMANTICS' || status === 'BLOCKED_SOURCE_CONFLICT') {
+      assert.equal(review?.blockerId, 'BUG-017');
+    }
+  }
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -153,15 +171,15 @@ test('current 84-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 84,
-    unreviewedEdges: 40,
+    unreviewedEdges: 33,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 12,
-    blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 9,
+    primitiveAvailableRequiresTimelineEdges: 14,
+    blockedSourceConflictEdges: 6,
+    blockedSourceSemanticsEdges: 13,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 41,
+    actionableSharedEdges: 34,
   });
-  assert.equal(queue.reviewRecordCount, 18);
+  assert.equal(queue.reviewRecordCount, 25);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -173,7 +191,7 @@ test('current 84-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue removes already-covered, closed and source-blocked families including Changli split', () => {
+test('actionable queue removes already-covered, closed and source-blocked families including Lingyang reviews', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
   for (const id of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) assert.equal(actionableIds.has(id), false);
@@ -195,13 +213,22 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
+  for (const id of [
+    'weapon:moongazers-sigil:MGS-DEF:shield-stack-state-adapter',
+    'weapon:moongazers-sigil:MGS-MAX-STACK:cross-effect-stack-override-adapter',
+    'sonata:sonata-9:S09_5PC_FIELD_ATK:on-field-stack-state-adapter',
+    'character:lingyang:diligent-practice-three-second-window-adapter',
+    'character:lingyang:striding-lion-resource-state-adapter',
+    'echo:echo-60000485:mech-abomination-cast-timeline-adapter',
+    'character:lingyang:burst-combo-action-mapping-adapter',
+  ]) assert.equal(actionableIds.has(id), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fleurdelys-character-restriction-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
 });
 
-test('remaining shared fanout is machine-ranked after Changli triage', () => {
+test('remaining shared fanout is machine-ranked after Lingyang triage', () => {
   const queue = buildProfileExecutionWorkQueue();
   for (let index = 1; index < queue.actionableSharedQueue.length; index += 1) {
     assert.ok(queue.actionableSharedQueue[index - 1].profileCount >= queue.actionableSharedQueue[index].profileCount);
@@ -244,11 +271,27 @@ test('covered and blocked queues retain exact fanout after Lingyang review', () 
   assert.equal(fleurdelysActive.profileCount, 1);
   assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
 
+  const lingyangStriding = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:lingyang-striding-lion-resource-state');
+  assert.ok(lingyangStriding);
+  assert.deepEqual(lingyangStriding.pendingExecutionIds, ['character:lingyang:striding-lion-resource-state-adapter']);
+  assert.deepEqual(lingyangStriding.primitiveIds, ['lingyang-striding-lion-known-segment-v1']);
+
+  const lingyangMech = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:mech-abomination-cast-state');
+  assert.ok(lingyangMech);
+  assert.deepEqual(lingyangMech.pendingExecutionIds, ['echo:echo-60000485:mech-abomination-cast-timeline-adapter']);
+  assert.deepEqual(lingyangMech.primitiveIds, ['mech-abomination-explicit-cast-state-v1']);
+
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
   assert.equal(heron.profileCount, 5);
   assert.deepEqual(heron.blockerIds, ['BUG-008']);
+
+  const lingyangBurst = queue.blockedSourceConflicts.find((row) => row.actionKey === 'character:lingyang-burst-combo-source-mismatch');
+  assert.ok(lingyangBurst);
+  assert.deepEqual(lingyangBurst.pendingExecutionIds, ['character:lingyang:burst-combo-action-mapping-adapter']);
+  assert.deepEqual(lingyangBurst.blockerIds, ['BUG-017']);
+  assert.deepEqual(lingyangBurst.primitiveIds, ['lingyang-burst-combo-source-mismatch-aware-action-map-v2']);
 
   const stringmaster = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:stringmaster-skill-damage-stack-lifecycle');
   assert.ok(stringmaster);
@@ -288,6 +331,19 @@ test('covered and blocked queues retain exact fanout after Lingyang review', () 
   assert.equal(roverHealing.dependencyCount, 1);
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
+
+  for (const [actionKey, pendingExecutionId, primitiveId] of [
+    ['weapon:moongazers-sigil-shield-stack-state', 'weapon:moongazers-sigil:MGS-DEF:shield-stack-state-adapter', 'moongazers-sigil-known-shield-stack-v1'],
+    ['weapon:moongazers-sigil-forced-max-stack-state', 'weapon:moongazers-sigil:MGS-MAX-STACK:cross-effect-stack-override-adapter', 'moongazers-sigil-intro-forced-max-window-v1'],
+    ['sonata:lingering-tunes-on-field-stack-lifecycle', 'sonata:sonata-9:S09_5PC_FIELD_ATK:on-field-stack-state-adapter', 'lingering-tunes-known-on-field-stack-v1'],
+    ['character:lingyang-diligent-practice-window', 'character:lingyang:diligent-practice-three-second-window-adapter', 'lingyang-diligent-practice-known-window-v1'],
+  ] as const) {
+    const group = queue.blockedSourceSemantics.find((row) => row.actionKey === actionKey);
+    assert.ok(group);
+    assert.deepEqual(group.pendingExecutionIds, [pendingExecutionId]);
+    assert.deepEqual(group.primitiveIds, [primitiveId]);
+    assert.deepEqual(group.blockerIds, ['BUG-017']);
+  }
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);

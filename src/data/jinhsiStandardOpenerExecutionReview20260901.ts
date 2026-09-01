@@ -1,4 +1,7 @@
+import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from '../combat/jinhsiResourceStateAdapter.ts';
 import { JINHSI_STANDARD_OPENER_ACTION_MAP } from '../combat/jinhsiStandardOpenerState.ts';
+import { JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW } from '../combat/jinhsiTeamIncomingStateAdapter.ts';
+import { JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW } from '../combat/jueBlessingStateAdapter.ts';
 import {
   JINHSI_JUE_RANK5_ATTACK_20260901,
   JINHSI_JUE_REPEATED_SKILL_DAMAGE_20260901,
@@ -27,6 +30,15 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
       'The canonical source promotes Standard Opener only; it does not define a repeatable sustained loop.',
       'Exact opener damage is blocked by unresolved predecessor/team state, Incandescence amount, Jué/Celestial carry-in, and effect-window timing.',
       'Without exact opener duration, no source-safe opener-window DPS denominator exists.',
+    ],
+  },
+  availableEventStatePrimitives: {
+    jinhsiResourceState: JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+    jueBlessingState: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+    teamIncomingState: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+    notes: [
+      'These primitives execute only from caller-supplied known predecessor state and explicit events/timestamps.',
+      'Primitive availability does not provide a canonical Standard Opener predecessor timeline and closes no pending execution ID.',
     ],
   },
   weapon: {
@@ -74,24 +86,29 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     attack: JINHSI_JUE_RANK5_ATTACK_20260901,
     skillBonus: JINHSI_JUE_SKILL_BONUS_20260901,
     repeatedSkillDamage: JINHSI_JUE_REPEATED_SKILL_DAMAGE_20260901,
+    primitiveId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     canonicalCastPresent: false,
     carryInAuthorized: false,
     runtimeContributionAuthorized: false,
+    reason: 'Exact cast/Blessing/proc execution exists behind explicit events, but the canonical source opener contains no Jué cast and no source-backed carry-in state.',
   },
   characterState: {
     normalStateStart: true,
+    predecessorResourcesKnown: false,
+    resourcePrimitiveId: JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     incarnationEntry: 'Basic P4 opens Overflowing Radiance; casting Overflowing Radiance enters Incarnation.',
     incarnationExit: 'Incarnation Basic P4 ends Incarnation and opens 5s Ordination Glow.',
     skillReplacement: 'During Ordination Glow, Resonance Skill becomes Illuminous Epiphany.',
     ultimateInteraction: 'No source-backed Incarnation exit, Incandescence fill, or Unison change is attached to the canonical Liberation step.',
-    incandescenceGain: 'UNRESOLVED_PREDECESSOR_AND_TEAM_TIMELINE',
-    incandescenceConsume: 'Illuminous Epiphany consumes the amount actually available, up to 50; max is never assumed.',
-    unisonAvailability: 'UNRESOLVED_25S_TRIGGER_CADENCE_AND_PREDECESSOR_STATE',
-    unisonConsume: 'Switching may consume Unison to trigger Outro/incoming Intro when Unison is actually available; full Concerto is a separate source path.',
+    incandescenceGain: 'EXECUTABLE_FROM_EXPLICIT_PARTY_DAMAGE_EVENTS_AND_KNOWN_PREDECESSOR_CADENCE; CANONICAL_PREDECESSOR_UNRESOLVED',
+    incandescenceConsume: 'Illuminous Epiphany consumes the actually known amount, up to 50; max is never assumed.',
+    unisonAvailability: 'EXECUTABLE_FROM_EXPLICIT_ILLUMINOUS_EVENT_AND_KNOWN_25S_PREDECESSOR_CADENCE; CANONICAL_PREDECESSOR_UNRESOLVED',
+    unisonConsume: 'Switching may consume an actually available Unison to trigger Jinhsi Outro/incoming Intro; full Concerto is a separate source path. Already-held Unison is not re-granted or used to move the 25s cadence.',
     outro: 'SOURCE_SEQUENCE_IDENTITY_PROVEN_EXECUTION_TRIGGER_UNRESOLVED',
   },
   incomingTeamState: {
     teamId: 'jinhsi-zhezhi-verina',
+    primitiveId: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     zhezhiVerifiedFacts: [
       'zhezhi-inherent-flourish',
       'zhezhi-outro-carve-and-draw',
@@ -103,6 +120,7 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     canonicalPredecessorTimelinePresent: false,
     automaticIncomingEffectsAuthorized: false,
     notes: [
+      'Explicit Zhezhi Outro and Verina trigger/switch events can now resolve their source-defined windows, but no canonical predecessor event is supplied by this opener.',
       'Independently verified teammate mechanics do not prove that their effects are active at Jinhsi opener start.',
       'No fabricated Verina canonical rotation or teammate predecessor sequence is introduced.',
     ],
@@ -110,7 +128,7 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
   energyRegen: {
     sourceRange: { minimum: 1, maximum: 1.25 },
     exactHardGate: null,
-    reason: 'The 100–125% source range is team-dependent and current canonical opener evidence does not provide exact Jinhsi/Zhezhi/Verina energy accounting.',
+    reason: 'The 100–125% source range is team-dependent and current canonical opener evidence does not provide exact Jinhsi/Zhezhi/Verina energy accounting. An explicit Zhezhi Outro primitive can expose its source-defined +15 Resonance Energy, but the canonical predecessor event is not established.',
   },
   buildContextAndFreeze: {
     buildContextAuthorized: false,
@@ -126,15 +144,16 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     rollAssistPolicyAuthorized: false,
   },
   unresolvedSemantics: [
-    'No canonical predecessor timeline establishes Ages of Harvest Intro state, Celestial Light Intro state, Jué Blessing carry-in, Zhezhi/Verina transfer state, starting Incandescence, Unison cooldown state, or Concerto state.',
+    'No canonical predecessor timeline establishes Ages of Harvest Intro state, Celestial Light Intro state, Jué Blessing carry-in, Zhezhi/Verina transfer state, starting Incandescence, per-Attribute Incandescence cadence history, Unison cooldown state, or Concerto state.',
     'No exact timestamp/cast-duration source exists for the canonical opener, so triggered-window overlap and an opener DPS denominator cannot be proven.',
-    'Jué repeated Blessing damage needs a later Resonance-Skill-hit event adapter and is not implicitly inserted into the opener.',
+    'Jué cast/Blessing/proc, Jinhsi resource state and teammate incoming windows now have explicit event-state primitives, but the canonical opener does not provide the predecessor events/state needed to invoke them.',
     'A repeatable loop is not canonical for this profile; sustained DPS remains out of scope rather than inferred from the opener.',
   ],
   closesPendingExecutionIds: [] as readonly string[],
   sourceLabels: [
     'Bellibing current canonical Jinhsi profile source package',
     'Bellibing source-audited Jinhsi raw facts',
+    'Bellibing source-audited Zhezhi and Verina raw facts',
     'Bellibing source-audited Ages of Harvest and Celestial Light effect catalogs',
     'Current Jué rendered Echo sources cross-checked 2026-09-01',
   ],

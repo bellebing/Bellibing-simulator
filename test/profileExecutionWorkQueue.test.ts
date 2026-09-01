@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 19);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -148,20 +148,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 80-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
-    unreviewedEdges: 30,
+    totalEdges: 80,
+    unreviewedEdges: 34,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 11,
+    primitiveAvailableRequiresTimelineEdges: 14,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
-    profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 31,
+    profileSpecificExecutionEdges: 17,
+    actionableSharedEdges: 35,
   });
-  assert.equal(queue.reviewRecordCount, 18);
+  assert.equal(queue.reviewRecordCount, 19);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -194,6 +194,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-DEF:source-timing-adapter'), false);
   assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);
+  assert.equal(actionableIds.has('sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
@@ -220,18 +221,18 @@ test('remaining shared fanout is machine-ranked after Changli triage', () => {
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Changli semantic split', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi opener review', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
   assert.ok(weaponCast);
-  assert.equal(weaponCast.dependencyCount, 5);
-  assert.equal(weaponCast.profileCount, 4);
+  assert.equal(weaponCast.dependencyCount, 7);
+  assert.equal(weaponCast.profileCount, 5);
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
   assert.ok(sonataCast);
-  assert.equal(sonataCast.dependencyCount, 1);
-  assert.equal(sonataCast.profileCount, 1);
+  assert.equal(sonataCast.dependencyCount, 2);
+  assert.equal(sonataCast.profileCount, 2);
   assert.deepEqual(sonataCast.primitiveIds, ['sonata-cast-timed-self-window-v1']);
 
   const sonataTransfer = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:direct-outro-incoming-transfer');
@@ -297,8 +298,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

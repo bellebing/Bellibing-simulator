@@ -108,10 +108,11 @@ test('generic transfer core fails closed on actor mismatch, missing paired armin
   }));
 });
 
-test('Echo transfer contracts stay source-locked and execute Denia/Hyvatia prerequisites without guessing', () => {
+test('Echo transfer contracts stay source-locked and execute Denia/Glommoth/Hyvatia prerequisites without guessing', () => {
   assert.deepEqual(validateEchoTransferWindowContracts(), []);
   assert.deepEqual(ECHO_TRANSFER_WINDOW_CONTRACTS.map((row) => row.effectId), [
     'REMINISCENCE_DENIA_INCOMING_FUSION',
+    'GLOMMOTH_INCOMING_GLACIO',
     'HYVATIA_INCOMING_ALL_ATTRIBUTE',
   ]);
 
@@ -126,6 +127,17 @@ test('Echo transfer contracts stay source-locked and execute Denia/Hyvatia prere
   assert.equal(denia?.incomingResonatorId, 'changli');
   assert.equal(denia?.expiresAtSeconds, 25);
 
+  const glommoth = activateEchoTransferWindow({
+    effectId: 'GLOMMOTH_INCOMING_GLACIO',
+    wielderId: 'lucilla',
+    armEvent: { kind: 'ECHO_SKILL_SUMMON', echoId: 'echo-60001955', actorId: 'lucilla', atSeconds: 2 },
+    outroEvent: { kind: 'OUTRO_SWITCH', actorId: 'lucilla', incomingResonatorId: 'hiyuki', incomingEntry: 'DIRECT_SWITCH', atSeconds: 7.34 },
+  });
+  assert.equal(glommoth?.value, 0.12);
+  assert.equal(glommoth?.statOrEffect, 'Glacio DMG Bonus');
+  assert.equal(glommoth?.incomingResonatorId, 'hiyuki');
+  assert.equal(glommoth?.expiresAtSeconds, 22.34);
+
   const tooLate = activateEchoTransferWindow({
     effectId: 'REMINISCENCE_DENIA_INCOMING_FUSION',
     wielderId: 'aemeath',
@@ -133,6 +145,14 @@ test('Echo transfer contracts stay source-locked and execute Denia/Hyvatia prere
     outroEvent: { kind: 'OUTRO_SWITCH', actorId: 'aemeath', incomingResonatorId: 'changli', incomingEntry: 'DIRECT_SWITCH', atSeconds: 17.001 },
   });
   assert.equal(tooLate, null);
+
+  const glommothTooLate = activateEchoTransferWindow({
+    effectId: 'GLOMMOTH_INCOMING_GLACIO',
+    wielderId: 'lucilla',
+    armEvent: { kind: 'ECHO_SKILL_SUMMON', echoId: 'echo-60001955', actorId: 'lucilla', atSeconds: 2 },
+    outroEvent: { kind: 'OUTRO_SWITCH', actorId: 'lucilla', incomingResonatorId: 'hiyuki', incomingEntry: 'DIRECT_SWITCH', atSeconds: 17.001 },
+  });
+  assert.equal(glommothTooLate, null);
 
   assert.throws(() => activateEchoTransferWindow({
     effectId: 'REMINISCENCE_DENIA_INCOMING_FUSION',

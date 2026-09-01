@@ -72,6 +72,13 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
       'Heavy Attack — Mech Charged II is an action-kind Heavy Attack whose source-explicit damage classification is Resonance Liberation DMG.',
       'Overdrive and Finale are Resonance Liberation DMG.',
     ],
+    fusionBurstPredecessor: [
+      'The exact Aemeath + Denia + Chisa source team is the Fusion Burst Aemeath path; current Aemeath source identifies Denia as the required Fusion Burst partner.',
+      'Canonical Denia preset denia-fusion-burst-aemeath is explicitly Fusion Burst mode and its source sequence ends with Outro to Aemeath.',
+      'Denia Fusion Burst mechanics make source-listed Intro/Liberation/Erosion Field hits inflict Fusion Burst; the canonical Denia sequence contains Intro plus both listed Liberations before its Outro.',
+      'Aemeath Between the Stars grants 30% CRIT DMG once per unique Resonator that inflicts Fusion Burst, up to 2 stacks; this state has no timer and resets only on team change or Aemeath Resonance Mode switch.',
+      'aemeath-denia-fusion-burst-predecessor-v1 therefore source-proves exactly one Denia-caused Between the Stars stack before Aemeath entry without fabricating Denia timestamps or Denia Outro uptime.',
+    ],
     weaponAndSonata: [
       'Everbright Polestar EP-ATTR is permanent All-Attribute DMG.',
       'EP-LIB-DEF and EP-LIB-FUSION-RES are separate 8s SELF windows triggered by the wielder inflicting Fusion Burst or Tune Rupture - Shifting.',
@@ -90,14 +97,14 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     {
       dependencyId: 'incoming:denia:aemeath-fusion-burst-predecessor-state',
       producerCharacterId: 'denia',
-      status: 'BLOCKED_PREDECESSOR_STATE' as AemeathExecutionPreflightStatus,
-      notes: 'Canonical team/profile selection proves Denia is the SUB_DPS in the Fusion Burst team, but Aemeath execution cannot fabricate Denia actions, exact Fusion Burst application timestamps, Echo/Outro transfer lifecycle or resulting incoming windows.',
+      status: 'SOURCE_PROVEN' as AemeathExecutionPreflightStatus,
+      notes: 'Closed narrowly by aemeath-denia-fusion-burst-predecessor-v1: the exact canonical Denia Fusion Burst preset has source-proven Fusion Burst producers before Outro to Aemeath, so Aemeath enters with one persistent Denia-caused Between the Stars stack. This does not model Denia timestamps, Echo transfer timing, or 30s Outro uptime.',
     },
     {
       dependencyId: 'incoming:chisa:aemeath-negative-status-predecessor-state',
       producerCharacterId: 'chisa',
       status: 'BLOCKED_PREDECESSOR_STATE' as AemeathExecutionPreflightStatus,
-      notes: 'Canonical team/profile selection proves Chisa is the SUPPORT. Any Negative Status stack/team effect or healing/Outro-derived state must arrive as an explicit predecessor state; Aemeath execution does not invent Chisa rotation or uptime.',
+      notes: 'Canonical team/source proves Chisa is the Fusion Burst support and that Fusion Burst is a Negative Status path, but Chisa team effects still require an explicit Outro/predecessor event and lifecycle relative to Aemeath. No Chisa rotation or uptime is invented.',
     },
   ],
   closedExecutionIds: [
@@ -106,12 +113,12 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     'weapon:everbright-polestar:EP-LIB-FUSION-RES:status-infliction-window-semantics',
     'sonata:sonata-27:S27_5PC_CR:status-infliction-window-semantics',
     'sonata:sonata-27:S27_5PC_FUSION:status-infliction-window-semantics',
+    'incoming:denia:aemeath-fusion-burst-predecessor-state',
   ],
   blockedExecutionIds: [
     'echo:echo-60001915:sigillum-active-skill-scaling-stat',
     'character:aemeath:synchronization-routine-gain-values',
     'character:aemeath:duet-threshold-proof',
-    'incoming:denia:aemeath-fusion-burst-predecessor-state',
     'incoming:chisa:aemeath-negative-status-predecessor-state',
     'rotation:aemeath-standard-source-sequence:timing-denominator',
     'rotation:aemeath-standard-source-sequence:engine-model',
@@ -120,6 +127,7 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     'The source action order does not provide exact timestamps, animation/cancel durations or a total canonical rotation duration.',
     'The current source does not expose exact routine Basic-attack Synchronization gains, so the two >=100 Synchronization Duet gates cannot be numerically proven from the canonical action list.',
     'No canonical Aemeath + Denia + Chisa source locks the 115%-125% ER guidance range to one exact numeric execution gate; therefore no numeric team-specific ER gate is promoted.',
+    'Denia now has a source-proven timeless Between the Stars predecessor contract; Chisa still requires an explicit predecessor Outro/state timeline before any Chisa-derived Negative Status team effects can execute.',
     'A third-party timed team rotation exists, but it is a different execution artifact and is not substituted for the canonical aemeath-standard source sequence or its missing denominator.',
     'BuildContext remains fail-closed for SOURCE_SEQUENCE_ONLY rotations and freeze cannot approve this profile before ENGINE_MODELED plus clean dependency closure.',
   ],

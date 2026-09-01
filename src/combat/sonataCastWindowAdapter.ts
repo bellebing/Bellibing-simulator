@@ -1,7 +1,7 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import type { SonataActivationPieceCount, SonataEffectModel } from '../sonataEffectDomain.ts';
 
-export type SonataCastEventKind = 'RESONANCE_SKILL_CAST';
+export type SonataCastEventKind = 'INTRO_SKILL_CAST' | 'RESONANCE_SKILL_CAST';
 
 export interface SonataCastEvent {
   readonly kind: SonataCastEventKind;
@@ -48,19 +48,31 @@ export const SONATA_CAST_WINDOW_CONTRACTS: readonly SonataCastWindowContract[] =
     expectedDurationSeconds: 15,
     triggerEvents: ['RESONANCE_SKILL_CAST'],
   },
+  {
+    effectId: 'S05_5PC_SPECTRO',
+    expectedSonataSetId: 'sonata-5',
+    expectedPieces: 5,
+    expectedStatOrEffect: 'Spectro DMG Bonus',
+    expectedValue: 0.30,
+    expectedDurationSeconds: 15,
+    triggerEvents: ['INTRO_SKILL_CAST'],
+  },
 ] as const;
 
 export const SONATA_CAST_WINDOW_SEMANTIC_SPLIT = {
   adapterId: 'sonata-cast-timed-self-window-v1',
-  reviewedAt: '2026-08-30',
+  reviewedAt: '2026-09-01',
   pendingExecutionIds: [
     'sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter',
+    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
   ],
   closesPendingExecutionIds: [] as readonly string[],
   requiresProfileEventTimeline: true,
   notes: [
     'Molten Rift 5-piece is source-clean as an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-    'The primitive does not close Changli profile execution while the rotation remains SOURCE_SEQUENCE_ONLY; a caller must supply the actual cast timestamp.',
+    'Celestial Light 5-piece is source-clean as an executed Intro Skill cast -> 15-second SELF Spectro DMG window.',
+    'Neither primitive contract grants uptime from equipment alone; callers must supply the matching owner event and exact timestamp.',
+    'The primitive does not close Changli or Jinhsi profile execution while their rotations remain SOURCE_SEQUENCE_ONLY.',
     'No generic trigger-text parsing or blanket uptime is authorized by this semantic split.',
   ],
 } as const;

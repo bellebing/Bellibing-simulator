@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 25);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -103,6 +103,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
     ['character:lingyang:striding-lion-resource-state-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'lingyang-striding-lion-known-segment-v1']],
     ['echo:echo-60000485:mech-abomination-cast-timeline-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'mech-abomination-explicit-cast-state-v1']],
     ['character:lingyang:burst-combo-action-mapping-adapter', ['BLOCKED_SOURCE_CONFLICT', 'lingyang-burst-combo-source-mismatch-aware-action-map-v2']],
+    ['team:lingyang-standard:zhezhi-incoming-state-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'lingyang-zhezhi-explicit-outro-incoming-state-v1']],
+    ['team:lingyang-standard:shorekeeper-incoming-state-adapter', ['PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', 'lingyang-shorekeeper-explicit-outro-team-state-v1']],
   ] as const);
   for (const [pendingExecutionId, [status, primitiveId]] of lingyangExpected) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -171,15 +173,15 @@ test('current 84-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 84,
-    unreviewedEdges: 31,
+    unreviewedEdges: 29,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 14,
+    primitiveAvailableRequiresTimelineEdges: 16,
     blockedSourceConflictEdges: 6,
     blockedSourceSemanticsEdges: 15,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 32,
+    actionableSharedEdges: 30,
   });
-  assert.equal(queue.reviewRecordCount, 25);
+  assert.equal(queue.reviewRecordCount, 27);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -221,6 +223,8 @@ test('actionable queue removes already-covered, closed and source-blocked famili
     'character:lingyang:striding-lion-resource-state-adapter',
     'echo:echo-60000485:mech-abomination-cast-timeline-adapter',
     'character:lingyang:burst-combo-action-mapping-adapter',
+    'team:lingyang-standard:zhezhi-incoming-state-adapter',
+    'team:lingyang-standard:shorekeeper-incoming-state-adapter',
   ]) assert.equal(actionableIds.has(id), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'echo:fallacy-active-skill-damage-adapter'), false);
@@ -280,6 +284,16 @@ test('covered and blocked queues retain exact fanout after Lingyang review', () 
   assert.ok(lingyangMech);
   assert.deepEqual(lingyangMech.pendingExecutionIds, ['echo:echo-60000485:mech-abomination-cast-timeline-adapter']);
   assert.deepEqual(lingyangMech.primitiveIds, ['mech-abomination-explicit-cast-state-v1']);
+
+  const lingyangZhezhi = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:lingyang-zhezhi-explicit-incoming-state');
+  assert.ok(lingyangZhezhi);
+  assert.deepEqual(lingyangZhezhi.pendingExecutionIds, ['team:lingyang-standard:zhezhi-incoming-state-adapter']);
+  assert.deepEqual(lingyangZhezhi.primitiveIds, ['lingyang-zhezhi-explicit-outro-incoming-state-v1']);
+
+  const lingyangShorekeeper = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:lingyang-shorekeeper-explicit-team-state');
+  assert.ok(lingyangShorekeeper);
+  assert.deepEqual(lingyangShorekeeper.pendingExecutionIds, ['team:lingyang-standard:shorekeeper-incoming-state-adapter']);
+  assert.deepEqual(lingyangShorekeeper.primitiveIds, ['lingyang-shorekeeper-explicit-outro-team-state-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

@@ -131,8 +131,8 @@ test('Sigrika backward-impact review contributes exactly 15 still-pending depend
   const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
   assert.equal(queueEdges.length, 15);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 2);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 1);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 11);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 0);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 12);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 2);
 });

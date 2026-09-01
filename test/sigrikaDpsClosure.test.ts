@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
+import { SIGRIKA_RESOURCE_STATE_CONTRACT } from '../src/combat/sigrikaResourceState.ts';
 import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
 import { PROFILE_ADAPTER_DEPENDENCY_MATRIX } from '../src/profileAdapterDependencyMatrix.ts';
 import { PROFILE_EXECUTION_WORK_QUEUE } from '../src/profileExecutionWorkQueue.ts';
@@ -43,7 +44,7 @@ test('sigrika-standard canonical package and source sequence remain exact and SO
   assert.equal(resolved.rotation?.sourceSequence.some((step) => /Double Outburst/i.test(step)), false);
 });
 
-test('Sigrika raw state stays decomposed and no full Rune lifecycle is fabricated', () => {
+test('Sigrika raw state remains decomposed while source-closed transitions use one event primitive', () => {
   const rune = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-rune');
   const fullStop = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-full-stop');
   const innateGift = SIGRIKA_RESOURCE_FACTS.find((row) => row.factId === 'sigrika-resource-innate-gift');
@@ -56,6 +57,7 @@ test('Sigrika raw state stays decomposed and no full Rune lifecycle is fabricate
   assert.match(rune?.ruleSummary ?? '', /Answer/);
   assert.match(rune?.ruleSummary ?? '', /leftmost Rune/);
   assert.equal(fullStop?.maxValue, 100);
+  assert.match(fullStop?.ruleSummary ?? '', /grants 50 Full Stop/);
   assert.equal(innateGift?.maxValue, 2);
   assert.equal(decipher?.durationSeconds, 5);
   assert.equal(decipher?.modelingStatus, 'RAW_ONLY');
@@ -65,12 +67,14 @@ test('Sigrika raw state stays decomposed and no full Rune lifecycle is fabricate
   assert.equal(blessing?.durationSeconds, null);
   assert.equal(blessing?.modelingStatus, 'RAW_ONLY');
 
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.duration, 'BLOCKED_NOT_SOURCE_COMPLETE');
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.consume, 'BLOCKED_NOT_SOURCE_COMPLETE');
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.actionEligibility, 'BLOCKED_NOT_EXECUTABLE');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.primitiveId, 'sigrika-resource-state-v1');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.creation, 'PRIMITIVE_AVAILABLE_EVENT_DRIVEN_DIRECT_HIT');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.consume, 'PRIMITIVE_AVAILABLE_EXACT_TWO_RUNE_CANONICAL_FAIL_CLOSED_GT2');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.actionEligibility, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(SIGRIKA_RESOURCE_STATE_CONTRACT.rune.selectionWhenMoreThanTwoRunes, 'UNMODELED_FAIL_CLOSED');
 });
 
-test('canonical Sigrika action data exists while branch/cancel timing remains outside execution', () => {
+test('canonical Sigrika action data exists while cancel timing remains outside execution', () => {
   const factIds = new Set(SIGRIKA_ACTION_FACTS.map((row) => row.factId));
   assert.equal(factIds.has('sigrika-basic-attack-one-two-three-basic-attack-elucidated-dmg'), true);
   assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-runic-chain-whip-dmg'), true);
@@ -80,7 +84,9 @@ test('canonical Sigrika action data exists while branch/cancel timing remains ou
 
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactActionTimestamps, null);
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactRotationSeconds, null);
-  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.cancelPolicy, /Do not infer frames/);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.externalTestedRotationSeconds, 12.75);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.externalTestedRotationStatus, 'EVIDENCE_ONLY_NOT_CANONICAL_DENOMINATOR');
+  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.cancelPolicy, /does not publish exact frames/);
 });
 
 test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus event-driven semantics', () => {
@@ -106,8 +112,10 @@ test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus 
   const namelessByEffectId = new Map(nameless.map((row) => [row.effectId, row]));
   assert.equal(namelessByEffectId.get('ECHO_60001925_AERO_DMG')?.value, 0.12);
   assert.equal(namelessByEffectId.get('ECHO_60001925_ECHO_SKILL_DMG')?.value, 0.20);
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.rank5ActiveCoefficient, 2.736);
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.canonicalActiveCastRequired, false);
-  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /BLOCKED_SOURCE_CONFLICT/);
+  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /RANK5_COEFFICIENT_SOURCE_PROVEN/);
+  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /scalingStat/);
 });
 
 test('Sigrika backward-impact review contributes exactly 15 still-pending dependencies', () => {
@@ -122,11 +130,11 @@ test('Sigrika backward-impact review contributes exactly 15 still-pending depend
 
   const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
   assert.equal(queueEdges.length, 15);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 8);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 2);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 1);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 5);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 11);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
-  assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 8);
+  assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 2);
 });
 
 test('ER, BuildContext, freeze and product routes remain fail-closed', () => {
@@ -135,7 +143,7 @@ test('ER, BuildContext, freeze and product routes remain fail-closed', () => {
     sourcePreferred: 1.19,
     status: 'SOURCE_GUIDANCE_ONLY',
     hardGate: null,
-    reason: 'The 109%-119% requirement is team-dependent and the exact Sigrika/Qiuyuan/Ciaccona predecessor/energy timeline is not executable, so no single minimum is promoted.',
+    reason: 'The 109%-119% requirement is team-dependent and the exact Sigrika/Qiuyuan/Ciaccona predecessor/energy timeline is not executable, so no single minimum is promoted. The separate Inherent ER-over-125% Echo Skill bonus formula is modeled but is not the canonical ER requirement.',
   });
   assert.throws(
     () => buildContextFromVerifiedPreset('sigrika-standard', []),

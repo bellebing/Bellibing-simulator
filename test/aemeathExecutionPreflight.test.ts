@@ -6,6 +6,7 @@ import {
   AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901,
   AEMEATH_STANDARD_SOURCE_ACTION_FACT_MAP_20260901,
 } from '../src/data/aemeathExecutionPreflight20260901.ts';
+import { AEMEATH_DUET_SOURCE_CHECKPOINT_REVIEW_20260901 } from '../src/data/aemeathDuetCheckpointReview20260901.ts';
 import { AEMEATH_CHARACTER_MECHANIC_FACTS } from '../src/data/characterMechanics/aemeathRawFacts.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 
@@ -38,7 +39,47 @@ test('Aemeath form transitions are explicit and never made globally persistent',
   assert.deepEqual([byStep.get(15)?.formBefore, byStep.get(15)?.formAfter], ['AEMEATH', 'MECH']);
 });
 
-test('Aemeath preflight closes both predecessor entry states while Synchronization, timing, denominator and ER remain fail-closed', () => {
+test('current canonical source rotation authorizes both Duet checkpoints without inventing Synchronization arithmetic', () => {
+  const rotation = PROFILE_CATALOGS.rotations.find((row) => row.id === 'aemeath-standard-source-sequence');
+  assert.ok(rotation);
+
+  const review = AEMEATH_DUET_SOURCE_CHECKPOINT_REVIEW_20260901;
+  assert.equal(review.semantics, 'SOURCE_SEQUENCE_ELIGIBILITY_ONLY');
+  assert.equal(review.engineResourceArithmeticAvailable, false);
+  assert.deepEqual(
+    review.checkpoints.map((checkpoint) => ({
+      step: checkpoint.step,
+      sourceAction: checkpoint.sourceAction,
+      sourceSequenceAction: rotation.sourceSequence[checkpoint.step - 1],
+      prerequisiteSourceAction: rotation.sourceSequence[checkpoint.prerequisiteBasicStage4Step - 1],
+      minimumSynchronizationRate: checkpoint.minimumSynchronizationRate,
+      sourceSequenceAuthorizesCast: checkpoint.sourceSequenceAuthorizesCast,
+      exactSynchronizationRateBeforeCast: checkpoint.exactSynchronizationRateBeforeCast,
+    })),
+    [
+      {
+        step: 8,
+        sourceAction: 'Skill: Duet Encore',
+        sourceSequenceAction: 'Skill: Duet Encore',
+        prerequisiteSourceAction: 'Basic: Mech 4 (cancel first slash via Skill)',
+        minimumSynchronizationRate: 100,
+        sourceSequenceAuthorizesCast: true,
+        exactSynchronizationRateBeforeCast: null,
+      },
+      {
+        step: 12,
+        sourceAction: 'Skill: Duet Overture',
+        sourceSequenceAction: 'Skill: Duet Overture',
+        prerequisiteSourceAction: 'Basic: Aemeath 4 (cancel endlag via Skill)',
+        minimumSynchronizationRate: 100,
+        sourceSequenceAuthorizesCast: true,
+        exactSynchronizationRateBeforeCast: null,
+      },
+    ],
+  );
+});
+
+test('Aemeath preflight closes predecessor entry states and source Duet checkpoints while numeric Synchronization, timing, denominator and ER remain fail-closed', () => {
   const review = AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901;
   assert.equal(review.sourceSequenceStatus, 'SOURCE_SEQUENCE_ONLY');
   assert.equal(review.engineModeled, false);
@@ -52,6 +93,7 @@ test('Aemeath preflight closes both predecessor entry states while Synchronizati
   for (const closed of [
     'incoming:denia:aemeath-fusion-burst-predecessor-state',
     'incoming:chisa:aemeath-negative-status-predecessor-state',
+    'character:aemeath:duet-threshold-proof',
   ]) {
     assert.equal(review.closedExecutionIds.includes(closed), true, closed);
     assert.equal(review.blockedExecutionIds.includes(closed), false, closed);
@@ -60,7 +102,6 @@ test('Aemeath preflight closes both predecessor entry states while Synchronizati
   for (const blocker of [
     'echo:echo-60001915:sigillum-active-skill-scaling-stat',
     'character:aemeath:synchronization-routine-gain-values',
-    'character:aemeath:duet-threshold-proof',
     'rotation:aemeath-standard-source-sequence:timing-denominator',
     'rotation:aemeath-standard-source-sequence:engine-model',
   ]) {
@@ -80,6 +121,7 @@ test('Aemeath reusable semantic closures do not manufacture a BuildContext', () 
   assert.ok(review.closedExecutionIds.some((id) => id.includes('S27_5PC_CR:status-infliction-window-semantics')));
   assert.ok(review.closedExecutionIds.includes('incoming:denia:aemeath-fusion-burst-predecessor-state'));
   assert.ok(review.closedExecutionIds.includes('incoming:chisa:aemeath-negative-status-predecessor-state'));
+  assert.ok(review.closedExecutionIds.includes('character:aemeath:duet-threshold-proof'));
 
   assert.throws(
     () => buildContextFromVerifiedPreset('aemeath-standard', []),

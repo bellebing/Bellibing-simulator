@@ -51,15 +51,15 @@ test('Sigrika source checkpoint resolver fails closed on any sequence drift', ()
   );
 });
 
-test('Sigrika impact snapshot stays historical while five explicit closures yield ten live dependencies', () => {
+test('Sigrika impact snapshot stays historical while six explicit closures yield nine live dependencies', () => {
   assert.equal(SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS.length, 15);
-  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 10);
+  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 9);
   assert.deepEqual(
     SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.pendingExecutionIds,
     SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS,
   );
 
-  assert.equal(SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.length, 5);
+  assert.equal(SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.length, 6);
   assert.deepEqual(
     SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.map((row) => row.pendingExecutionId),
     [
@@ -67,6 +67,7 @@ test('Sigrika impact snapshot stays historical while five explicit closures yiel
       'character:sigrika:decipher-elucidated-eligibility-adapter',
       'character:sigrika:runic-heavy-branch-selection-adapter',
       'character:sigrika:learn-my-true-name-full-stop-adapter',
+      'character:sigrika:rune-lifecycle-adapter',
       'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
     ],
   );

@@ -2,6 +2,10 @@ import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrilli
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from './combat/jinhsiResourceStateAdapter.ts';
+import {
+  JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+  JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW,
+} from './combat/jinhsiStandardOpenerSkillTriggerCheckpoints.ts';
 import { JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW } from './combat/jueBlessingStateAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
@@ -89,17 +93,33 @@ function uniqueSorted(values: readonly string[]): readonly string[] {
 }
 
 const WEAPON_CAST_REVIEWS: readonly ExecutionSemanticReview[] =
-  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.map((pendingExecutionId) => ({
-    pendingExecutionId,
-    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
-    actionKey: 'weapon:cast-timed-self-window',
-    reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
-    primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
-    notes: [
-      'Manual semantic review proved this edge belongs to the explicit cast-event -> timed SELF-window primitive.',
-      'The exact profile edge remains pending until an executable timeline supplies the source event and timing.',
-    ],
-  }));
+  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds
+    .filter((pendingExecutionId) => pendingExecutionId !== JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID)
+    .map((pendingExecutionId) => ({
+      pendingExecutionId,
+      status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+      actionKey: 'weapon:cast-timed-self-window',
+      reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
+      primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
+      notes: [
+        'Manual semantic review proved this edge belongs to the explicit cast-event -> timed SELF-window primitive.',
+        'The exact profile edge remains pending until an executable timeline supplies the source event and timing.',
+      ],
+    }));
+
+const JINHSI_AH_SKILL_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.pendingExecutionId,
+  status: 'BLOCKED_SOURCE_SEMANTICS',
+  actionKey: 'weapon:ages-of-harvest-skill-window-lifecycle',
+  reviewedAt: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.reviewedAt,
+  primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
+  blockerId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.blockerId,
+  notes: [
+    ...JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.sourceEstablished,
+    ...JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.boundaries,
+    'The generic one-event weapon cast-window primitive remains reusable, but a timestamped canonical opener would still not define the second-cast same-effect lifecycle.',
+  ],
+}];
 
 const WEAPON_TARGET_APPLICATION_REVIEWS: readonly ExecutionSemanticReview[] =
   WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds.map((pendingExecutionId) => ({
@@ -264,6 +284,7 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
+  ...JINHSI_AH_SKILL_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
   ...WEAPON_SKILL_STACK_REVIEWS,
   ...BLAZING_BRILLIANCE_STACK_REVIEWS,

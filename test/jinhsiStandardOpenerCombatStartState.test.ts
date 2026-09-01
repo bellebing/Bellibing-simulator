@@ -54,6 +54,26 @@ test('combat-start review closes only the two source-proven inactive Intro-trigg
   assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('Incandescence remains pending')));
 });
 
+test('Prydwen Standard Opener remains the exact source authority and rejects cross-source variant inheritance', () => {
+  assert.equal(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.canonicalSequenceAuthority, 'CURRENT_PRYDWEN_STANDARD_OPENER');
+  assert.equal(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.variantInheritanceAuthorized, false);
+  assert.equal(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.externalEchoInsertionAuthorized, false);
+  assert.equal(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.externalInitialIncandescenceAssumptionAuthorized, false);
+  assert.ok(
+    JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('Other tested/opening strings')),
+  );
+
+  const echoInsertedVariant = [
+    ...CANONICAL_STANDARD_OPENER.slice(0, 5),
+    'Echo: Jue',
+    ...CANONICAL_STANDARD_OPENER.slice(5),
+  ];
+  assert.throws(
+    () => resolveJinhsiStandardOpenerCombatStartState(echoInsertedVariant),
+    /source sequence length drift/,
+  );
+});
+
 test('combat-start resolver fails closed on source-sequence drift', () => {
   assert.throws(
     () => resolveJinhsiStandardOpenerCombatStartState([

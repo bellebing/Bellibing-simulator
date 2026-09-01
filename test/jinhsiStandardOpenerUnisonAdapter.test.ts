@@ -44,7 +44,7 @@ test('canonical backward-impact catalog keeps the Jinhsi Unison closure explicit
   const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(review);
   assert.equal(review.pendingExecutionIds.includes(JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID), false);
-  assert.equal(review.pendingExecutionIds.length, 5);
+  assert.equal(review.pendingExecutionIds.length, 4);
   assert.ok(review.notes.some((note) => note.includes(closure.closureId)));
   assert.ok(review.pendingExecutionIds.includes('character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter'));
   assert.ok(review.pendingExecutionIds.includes('rotation:jinhsi-standard-opener-source-sequence:engine-model'));

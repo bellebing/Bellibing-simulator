@@ -83,6 +83,34 @@ export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
     ),
   },
   {
+    effectId: 'GLOMMOTH_INCOMING_GLACIO',
+    echoId: 'echo-60001955',
+    statOrEffect: 'Glacio DMG Bonus',
+    value: 0.12,
+    activation: 'TRANSFER_WINDOW',
+    trigger: 'Within 15s after summoning Glommoth, the wielder casts Outro Skill',
+    activationWindowSeconds: 15,
+    durationSeconds: 15,
+    appliesTo: 'INCOMING_RESONATOR',
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    notes: 'Source-explicit transfer only. This row does not infer Glommoth active-damage scaling or automatic profile uptime.',
+    provenance: {
+      sourceLabels: [
+        'wuwabuild pinned Echoes.json — Glommoth Rank-5 transfer text',
+        'Prydwen current Lucilla Glacio Chafe build',
+      ],
+      sourceUrls: [
+        'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Echoes.json',
+        'https://www.prydwen.gg/wuthering-waves/characters/lucilla',
+      ],
+      checkedAt: '2026-09-01',
+      notes: [
+        'Pinned Rank-5 parameters resolve the transfer to +12% Glacio DMG for 15s when Outro is cast within 15s of summoning Glommoth.',
+        'Prydwen independently describes Wishes of Quiet Snowfall 5P + Glommoth as 37% incoming Glacio DMG in Lucilla Glacio Chafe teams.',
+      ],
+    },
+  },
+  {
     effectId: 'HYVATIA_INCOMING_ALL_ATTRIBUTE',
     echoId: 'echo-60001895',
     statOrEffect: 'All Attribute DMG Bonus',

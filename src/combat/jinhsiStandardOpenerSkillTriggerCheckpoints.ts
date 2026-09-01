@@ -6,6 +6,8 @@ export const JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID =
 export const JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID =
   'weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter';
 
+export const JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID = 'BUG-020';
+
 export interface JinhsiStandardOpenerSkillCastCheckpoint {
   readonly step: 5 | 11;
   readonly sourceStep: 'Skill: Overflowing Radiance' | 'Skill: Illuminous Epiphany';
@@ -33,10 +35,13 @@ export interface JinhsiStandardOpenerSkillTriggerResolution {
   readonly presetId: 'jinhsi-standard-opener';
   readonly rotationId: 'jinhsi-standard-opener-source-sequence';
   readonly pendingExecutionId: typeof JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID;
+  readonly blockerId: typeof JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID;
+  readonly semanticStatus: 'BLOCKED_SOURCE_SEMANTICS';
   readonly skillCastCheckpoints: readonly JinhsiStandardOpenerSkillCastCheckpoint[];
   readonly skillDamageOnlyCheckpoints: readonly JinhsiStandardOpenerSkillDamageOnlyCheckpoint[];
   readonly exactActionTimestampsKnown: false;
   readonly sameEffectRetriggerLifecycleKnown: false;
+  readonly timelineAloneSufficient: false;
   readonly dependencyClosed: false;
 }
 
@@ -132,8 +137,11 @@ function validateExactStandardOpener(sourceSequence: readonly string[]): void {
  * so these Basic Attack actions cannot accidentally retrigger AH-SKILL.
  *
  * This resolver deliberately does not invent timestamps or same-effect
- * retrigger/refresh lifecycle. Trigger identity alone is insufficient to close
- * the timed uptime dependency.
+ * retrigger/refresh lifecycle. Because the canonical opener contains two
+ * qualifying Skill casts, timestamps alone would still be insufficient to
+ * decide whether the second cast resets, replaces, extends or otherwise mutates
+ * the first 12-second window. The exact dependency is therefore source-semantic
+ * blocked under BUG-020 while the generic one-event primitive remains reusable.
  */
 export function resolveJinhsiStandardOpenerSkillTriggerCheckpoints(
   sourceSequence: readonly string[],
@@ -145,10 +153,13 @@ export function resolveJinhsiStandardOpenerSkillTriggerCheckpoints(
     presetId: 'jinhsi-standard-opener',
     rotationId: 'jinhsi-standard-opener-source-sequence',
     pendingExecutionId: JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+    blockerId: JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID,
+    semanticStatus: 'BLOCKED_SOURCE_SEMANTICS',
     skillCastCheckpoints: SKILL_CAST_CHECKPOINTS,
     skillDamageOnlyCheckpoints: SKILL_DAMAGE_ONLY_CHECKPOINTS,
     exactActionTimestampsKnown: false,
     sameEffectRetriggerLifecycleKnown: false,
+    timelineAloneSufficient: false,
     dependencyClosed: false,
   };
 }
@@ -161,16 +172,21 @@ export const JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW = {
   rotationId: 'jinhsi-standard-opener-source-sequence',
   primitiveId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID,
   pendingExecutionId: JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+  blockerId: JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID,
+  semanticStatus: 'BLOCKED_SOURCE_SEMANTICS',
+  timelineAloneSufficient: false,
   closesPendingExecutionIds: [] as readonly string[],
   sourceEstablished: [
     'The exact canonical Standard Opener contains two explicitly named Resonance Skill casts: Overflowing Radiance at step 5 and Illuminous Epiphany at step 11.',
     'Ages of Harvest AH-SKILL is source-triggered by casting Resonance Skill, so those two canonical checkpoints establish trigger identity without requiring an Intro or teammate predecessor.',
     'Incarnation Basic P1-P4 deal damage considered Resonance Skill DMG but remain Basic Attack actions; damage classification alone is not promoted into a Resonance Skill cast trigger.',
+    'The source-audited Ages effect row defines one 12-second single-window effect but does not define how a second qualifying Skill cast mutates an already-active window.',
   ],
   boundaries: [
-    'No exact action timestamps are published for the canonical Standard Opener, so the 12-second AH-SKILL window cannot be placed on an executable time axis.',
-    'The source sequence establishes the order of the two Skill casts but not the same-effect retrigger/refresh lifecycle needed to derive exact uptime between them.',
+    'No exact action timestamps are published for the canonical Standard Opener, so the first 12-second AH-SKILL window cannot be placed on a canonical time axis.',
+    'Even if caller timestamps were supplied, the source does not establish whether the second qualifying Skill cast resets, replaces, extends, overlaps or otherwise mutates the first same-effect window.',
+    'The generic weapon-cast-timed-self-window-v1 primitive remains valid for one explicit activation event; it does not supply the missing same-effect lifecycle.',
     'Expert Opener roughly-2-second timing is a different variant and is not transferred to the canonical Standard Opener.',
-    'AH-SKILL therefore remains pending and no opener damage, duration, DPS denominator, ENGINE_MODELED state or product authorization follows from these checkpoints.',
+    'AH-SKILL therefore remains pending as BLOCKED_SOURCE_SEMANTICS / BUG-020 and no opener damage, duration, DPS denominator, ENGINE_MODELED state or product authorization follows from these checkpoints.',
   ],
 } as const;

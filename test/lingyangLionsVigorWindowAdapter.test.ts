@@ -19,6 +19,7 @@ test("Lion's Vigor contract locks the source-backed Liberation self window witho
   for (const id of LINGYANG_LIONS_VIGOR_WINDOW_SEMANTIC_REVIEW.contributesToPendingExecutionIds) {
     assert.ok(review.pendingExecutionIds.includes(id));
   }
+  assert.ok(review.notes.some((note) => note.includes('explicit self-window primitive') && note.includes('14-second SELF window')));
 });
 
 test("explicit Lingyang Liberation cast creates a 14s +50% Glacio / 0.5x Spirit-consumption window", () => {

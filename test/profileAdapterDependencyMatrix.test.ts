@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
+import { LUCILLA_STANDARD_PENDING_EXECUTION_IDS } from '../src/data/profileLucillaImpact20260901.ts';
 import { buildProfileAdapterDependencyMatrix } from '../src/profileAdapterDependencyMatrix.ts';
 
 test('profile adapter matrix preserves every canonical pendingExecutionId exactly once', () => {
@@ -12,10 +13,10 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   const matrixPendingIds = matrix.edges.map((edge) => `${edge.reviewId}|${edge.pendingExecutionId}`).sort();
 
   assert.deepEqual(matrixPendingIds, sourcePendingIds);
-  assert.equal(matrix.reviewCount, 18);
-  assert.equal(matrix.profileCount, 18);
-  assert.equal(matrix.pendingProfileCount, 16);
-  assert.equal(matrix.dependencyCount, 72);
+  assert.equal(matrix.reviewCount, 19);
+  assert.equal(matrix.profileCount, 19);
+  assert.equal(matrix.pendingProfileCount, 17);
+  assert.equal(matrix.dependencyCount, 76);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -28,6 +29,17 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'weapon:woodland-aria:WA-AERO-RES:target-state-adapter'),
     false,
+  );
+
+  const lucillaEdges = matrix.edges.filter((edge) => edge.presetId === 'lucilla-standard');
+  assert.deepEqual(
+    lucillaEdges.map((edge) => edge.pendingExecutionId).sort(),
+    Object.values(LUCILLA_STANDARD_PENDING_EXECUTION_IDS).sort(),
+  );
+  assert.equal(
+    lucillaEdges.some((edge) => edge.pendingExecutionId === 'rotation:lucilla-standard-rotation:engine-model'),
+    false,
+    'Lucilla rotation engine dependency is closed by the canonical execution overlay; only unresolved damage/team-state edges remain.',
   );
 });
 

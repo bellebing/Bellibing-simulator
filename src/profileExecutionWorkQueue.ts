@@ -3,7 +3,6 @@ import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDam
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from './combat/jinhsiResourceStateAdapter.ts';
 import {
-  JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
   JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW,
 } from './combat/jinhsiStandardOpenerSkillTriggerCheckpoints.ts';
 import { JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW } from './combat/jueBlessingStateAdapter.ts';
@@ -38,6 +37,7 @@ export interface ExecutionSemanticReview {
     | 'BLOCKED_SOURCE_SEMANTICS';
   readonly actionKey: string;
   readonly reviewedAt: string;
+  readonly presetIds?: readonly string[];
   readonly primitiveId?: string;
   readonly blockerId?: string;
   readonly notes: readonly string[];
@@ -93,30 +93,30 @@ function uniqueSorted(values: readonly string[]): readonly string[] {
 }
 
 const WEAPON_CAST_REVIEWS: readonly ExecutionSemanticReview[] =
-  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds
-    .filter((pendingExecutionId) => pendingExecutionId !== JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID)
-    .map((pendingExecutionId) => ({
-      pendingExecutionId,
-      status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
-      actionKey: 'weapon:cast-timed-self-window',
-      reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
-      primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
-      notes: [
-        'Manual semantic review proved this edge belongs to the explicit cast-event -> timed SELF-window primitive.',
-        'The exact profile edge remains pending until an executable timeline supplies the source event and timing.',
-      ],
-    }));
+  WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:cast-timed-self-window',
+    reviewedAt: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.reviewedAt,
+    primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
+    notes: [
+      'Manual semantic review proved this edge belongs to the explicit cast-event -> timed SELF-window primitive.',
+      'The exact profile edge remains pending until an executable timeline supplies the source event and timing.',
+    ],
+  }));
 
 const JINHSI_AH_SKILL_REVIEWS: readonly ExecutionSemanticReview[] = [{
   pendingExecutionId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.pendingExecutionId,
   status: 'BLOCKED_SOURCE_SEMANTICS',
   actionKey: 'weapon:ages-of-harvest-skill-window-lifecycle',
   reviewedAt: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.reviewedAt,
+  presetIds: ['jinhsi-standard-opener'],
   primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
   blockerId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.blockerId,
   notes: [
     ...JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.sourceEstablished,
     ...JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.boundaries,
+    'This source-semantic block is scoped to jinhsi-standard-opener; other profiles sharing the same Ages of Harvest pending ID retain their independently reviewed generic disposition.',
     'The generic one-event weapon cast-window primitive remains reusable, but a timestamped canonical opener would still not define the second-cast same-effect lifecycle.',
   ],
 }];
@@ -309,14 +309,29 @@ export function validateExecutionSemanticReviews(
       .filter((edge) => edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION')
       .map((edge) => edge.pendingExecutionId),
   );
-  const seen = new Set<string>();
+  const globalSeen = new Set<string>();
+  const scopedSeen = new Set<string>();
 
   for (const review of reviews) {
     if (!review.pendingExecutionId.trim()) issues.push('semantic review pendingExecutionId is blank');
-    if (seen.has(review.pendingExecutionId)) issues.push(`duplicate semantic review ${review.pendingExecutionId}`);
-    seen.add(review.pendingExecutionId);
     if (!canonicalIds.has(review.pendingExecutionId)) issues.push(`semantic review targets non-canonical pending id ${review.pendingExecutionId}`);
     if (profileSpecificIds.has(review.pendingExecutionId)) issues.push(`profile-specific execution id must not use reusable semantic review ${review.pendingExecutionId}`);
+
+    if (review.presetIds) {
+      if (review.presetIds.length === 0) issues.push(`semantic review ${review.pendingExecutionId} has empty preset scope`);
+      for (const presetId of review.presetIds) {
+        const scopeKey = `${review.pendingExecutionId}::${presetId}`;
+        if (scopedSeen.has(scopeKey)) issues.push(`duplicate scoped semantic review ${scopeKey}`);
+        scopedSeen.add(scopeKey);
+        if (!matrix.edges.some((edge) => edge.pendingExecutionId === review.pendingExecutionId && edge.presetId === presetId)) {
+          issues.push(`semantic review ${review.pendingExecutionId} scopes non-canonical preset ${presetId}`);
+        }
+      }
+    } else {
+      if (globalSeen.has(review.pendingExecutionId)) issues.push(`duplicate global semantic review ${review.pendingExecutionId}`);
+      globalSeen.add(review.pendingExecutionId);
+    }
+
     if (!review.actionKey.trim()) issues.push(`semantic review ${review.pendingExecutionId} has blank actionKey`);
     if (!review.reviewedAt.trim()) issues.push(`semantic review ${review.pendingExecutionId} has blank reviewedAt`);
     if (review.notes.length === 0) issues.push(`semantic review ${review.pendingExecutionId} has no notes`);
@@ -332,12 +347,15 @@ export function validateExecutionSemanticReviews(
 
 function dispositionForEdge(
   edge: ProfileAdapterDependencyEdge,
-  reviewById: ReadonlyMap<string, ExecutionSemanticReview>,
+  reviewsById: ReadonlyMap<string, readonly ExecutionSemanticReview[]>,
 ): ProfileExecutionDispositionEdge {
   if (edge.implementationScope === 'PROFILE_SPECIFIC_EXECUTION') {
     return { ...edge, semanticStatus: 'PROFILE_SPECIFIC_EXECUTION', actionKey: edge.syntacticPrimitiveKey, primitiveId: null, blockerId: null };
   }
-  const review = reviewById.get(edge.pendingExecutionId);
+  const candidates = reviewsById.get(edge.pendingExecutionId) ?? [];
+  const scopedReview = candidates.find((review) => review.presetIds?.includes(edge.presetId));
+  const globalReview = candidates.find((review) => !review.presetIds);
+  const review = scopedReview ?? globalReview;
   if (!review) return { ...edge, semanticStatus: 'UNREVIEWED', actionKey: edge.syntacticPrimitiveKey, primitiveId: null, blockerId: null };
   return { ...edge, semanticStatus: review.status, actionKey: review.actionKey, primitiveId: review.primitiveId ?? null, blockerId: review.blockerId ?? null };
 }
@@ -387,8 +405,13 @@ export function buildProfileExecutionWorkQueue(
   const issues = validateExecutionSemanticReviews(matrix, reviews);
   if (issues.length > 0) throw new Error(`Invalid execution semantic review catalog: ${issues.join('; ')}`);
 
-  const reviewById = new Map(reviews.map((review) => [review.pendingExecutionId, review] as const));
-  const edges = matrix.edges.map((edge) => dispositionForEdge(edge, reviewById));
+  const reviewsById = new Map<string, ExecutionSemanticReview[]>();
+  for (const review of reviews) {
+    const existing = reviewsById.get(review.pendingExecutionId);
+    if (existing) existing.push(review);
+    else reviewsById.set(review.pendingExecutionId, [review]);
+  }
+  const edges = matrix.edges.map((edge) => dispositionForEdge(edge, reviewsById));
   const count = (status: ExecutionSemanticStatus) => edges.filter((edge) => edge.semanticStatus === status).length;
   const unreviewedEdges = count('UNREVIEWED');
   const semanticallyReviewedImplementationPendingEdges = count('SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
@@ -421,6 +444,7 @@ export function buildProfileExecutionWorkQueue(
       'The work queue classifies exact canonical pending edges; it never removes or closes pendingExecutionIds.',
       'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE means reusable mechanics exist but the exact profile still lacks an executable event timeline.',
       'BLOCKED_SOURCE_CONFLICT and BLOCKED_SOURCE_SEMANTICS stay excluded until their evidence gaps are resolved.',
+      'Preset-scoped semantic reviews may override a global review only for matching canonical profile edges; other profiles sharing the pending ID retain the global disposition.',
       'PROFILE_SPECIFIC_EXECUTION remains separate from shared-primitive prioritization.',
       'Unlisted new pending IDs become UNREVIEWED automatically and surface in the actionable queue.',
     ],

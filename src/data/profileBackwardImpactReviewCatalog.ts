@@ -2,9 +2,11 @@ import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 as BASE_PROFILE_BACKWARD_IMPACT_REV
 import { PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS } from './profileCohort01GreenLaneImpact20260830.ts';
 import {
   applyProfileExecutionDependencyClosures,
+  PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260830,
 } from './profileExecutionClosures20260830.ts';
 import { PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS } from './profileMultiModeDeniaImpact20260829.ts';
 import { PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS } from './profileMultiModeZhezhiImpact20260829.ts';
+import { SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901 } from './sigrikaExecutionClosures20260901.ts';
 import { SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW } from './sigrikaExecutionPreflight20260901.ts';
 import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.ts';
 
@@ -25,5 +27,11 @@ const PROFILE_BACKWARD_IMPACT_REVIEW_BASE: readonly ProfileBackwardImpactReview[
 ]);
 
 export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpactReview[] = Object.freeze(
-  applyProfileExecutionDependencyClosures(PROFILE_BACKWARD_IMPACT_REVIEW_BASE),
+  applyProfileExecutionDependencyClosures(
+    PROFILE_BACKWARD_IMPACT_REVIEW_BASE,
+    [
+      ...PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260830,
+      ...SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901,
+    ],
+  ),
 );

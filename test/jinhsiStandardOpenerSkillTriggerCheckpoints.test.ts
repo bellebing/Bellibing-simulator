@@ -41,19 +41,26 @@ test('Incarnation Basics stay Resonance Skill DMG without becoming Resonance Ski
   assert.ok(result.skillDamageOnlyCheckpoints.every((row) => row.triggersAgesSkillWindow === false));
 });
 
-test('trigger checkpoints remain evidence-only until exact timestamps and retrigger lifecycle exist', () => {
+test('trigger checkpoints are bound into the canonical review without closing timed uptime', () => {
   const result = resolveJinhsiStandardOpenerSkillTriggerCheckpoints(sourceSequence);
+  const review = JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901;
 
   assert.equal(result.exactActionTimestampsKnown, false);
   assert.equal(result.sameEffectRetriggerLifecycleKnown, false);
   assert.equal(result.dependencyClosed, false);
   assert.deepEqual(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.closesPendingExecutionIds, []);
   assert.equal(
-    JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901.weapon.skillWindow.exactWindowPlacementKnown,
-    false,
+    review.availableEventStatePrimitives.standardOpenerSkillTriggerCheckpoints,
+    JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID,
   );
-  assert.equal(JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901.engineModeled, false);
-  assert.equal(JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901.dpsReady, false);
+  assert.deepEqual(review.weapon.skillWindow.canonicalSkillCastSteps, [5, 11]);
+  assert.equal(review.weapon.skillWindow.triggerIdentityKnown, true);
+  assert.equal(review.weapon.skillWindow.exactEventTimestampsKnown, false);
+  assert.equal(review.weapon.skillWindow.sameEffectRetriggerLifecycleKnown, false);
+  assert.equal(review.weapon.skillWindow.exactWindowPlacementKnown, false);
+  assert.equal(review.weapon.skillWindow.dependencyClosed, false);
+  assert.equal(review.engineModeled, false);
+  assert.equal(review.dpsReady, false);
 });
 
 test('skill-trigger resolver fails closed on sequence drift and cannot inherit Expert/Advanced variants', () => {

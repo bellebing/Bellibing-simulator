@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 19);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 22);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -94,6 +94,19 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+
+  for (const pendingExecutionId of [
+    'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
+    'character:jinhsi:jinhsi-resource-unison:availability-adapter',
+  ]) {
+    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
+    assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+    assert.equal(review?.primitiveId, 'jinhsi-resource-state-v1');
+  }
+
+  const jue = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60000595:jue-active-skill-and-blessing-adapter');
+  assert.equal(jue?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(jue?.primitiveId, 'jue-blessing-state-v1');
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -153,15 +166,15 @@ test('current 80-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 80,
-    unreviewedEdges: 34,
+    unreviewedEdges: 31,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 14,
+    primitiveAvailableRequiresTimelineEdges: 17,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 35,
+    actionableSharedEdges: 32,
   });
-  assert.equal(queue.reviewRecordCount, 19);
+  assert.equal(queue.reviewRecordCount, 22);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -173,7 +186,7 @@ test('current 80-edge matrix is partitioned into actionable, covered, blocked an
   );
 });
 
-test('actionable queue removes already-covered, closed and source-blocked families including Changli split', () => {
+test('actionable queue removes already-covered, closed and source-blocked families including Jinhsi primitives', () => {
   const queue = buildProfileExecutionWorkQueue();
   const actionableIds = new Set(queue.actionableSharedQueue.flatMap((row) => row.pendingExecutionIds));
 
@@ -195,6 +208,9 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-DEF:source-timing-adapter'), false);
   assert.equal(actionableIds.has('sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter'), false);
+  assert.equal(actionableIds.has('echo:echo-60000595:jue-active-skill-and-blessing-adapter'), false);
+  assert.equal(actionableIds.has('character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter'), false);
+  assert.equal(actionableIds.has('character:jinhsi:jinhsi-resource-unison:availability-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
@@ -203,7 +219,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:aero-erosion-application-state'), false);
 });
 
-test('remaining shared fanout is machine-ranked after Changli triage', () => {
+test('remaining shared fanout is machine-ranked after Jinhsi primitive classification', () => {
   const queue = buildProfileExecutionWorkQueue();
   for (let index = 1; index < queue.actionableSharedQueue.length; index += 1) {
     assert.ok(queue.actionableSharedQueue[index - 1].profileCount >= queue.actionableSharedQueue[index].profileCount);
@@ -221,7 +237,7 @@ test('remaining shared fanout is machine-ranked after Changli triage', () => {
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Jinhsi opener review', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi primitive classification', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -245,6 +261,20 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener review'
   assert.equal(fleurdelysActive.dependencyCount, 1);
   assert.equal(fleurdelysActive.profileCount, 1);
   assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
+
+  const jinhsiResource = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:jinhsi-resource-state');
+  assert.ok(jinhsiResource);
+  assert.equal(jinhsiResource.dependencyCount, 2);
+  assert.equal(jinhsiResource.profileCount, 1);
+  assert.equal(jinhsiResource.characterCount, 1);
+  assert.deepEqual(jinhsiResource.primitiveIds, ['jinhsi-resource-state-v1']);
+
+  const jue = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:jue-cast-blessing-state');
+  assert.ok(jue);
+  assert.equal(jue.dependencyCount, 1);
+  assert.equal(jue.profileCount, 1);
+  assert.equal(jue.characterCount, 1);
+  assert.deepEqual(jue.primitiveIds, ['jue-blessing-state-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

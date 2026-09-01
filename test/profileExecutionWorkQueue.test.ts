@@ -158,12 +158,12 @@ test('current 87-edge matrix is partitioned into actionable, covered, blocked an
   assert.deepEqual(queue.summary, {
     totalEdges: 87,
     unreviewedEdges: 30,
-    semanticallyReviewedImplementationPendingEdges: 7,
-    primitiveAvailableRequiresTimelineEdges: 11,
+    semanticallyReviewedImplementationPendingEdges: 3,
+    primitiveAvailableRequiresTimelineEdges: 15,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 17,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 37,
+    actionableSharedEdges: 33,
   });
   assert.equal(queue.reviewRecordCount, 32);
   assert.equal(
@@ -207,7 +207,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
 
   assert.equal(actionableIds.has('character:sigrika:rune-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
-  assert.equal(actionableIds.has('weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter'), true);
+  assert.equal(actionableIds.has('weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter'), false);
 });
 
 test('remaining shared fanout is machine-ranked after Changli triage', () => {
@@ -252,6 +252,21 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(fleurdelysActive.dependencyCount, 1);
   assert.equal(fleurdelysActive.profileCount, 1);
   assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
+
+  const sigrikaWeaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:solsworn-ciphers-echo-amplification-window');
+  assert.ok(sigrikaWeaponCast);
+  assert.equal(sigrikaWeaponCast.dependencyCount, 1);
+  assert.deepEqual(sigrikaWeaponCast.primitiveIds, ['weapon-cast-timed-self-window-v1']);
+
+  const sigrikaWeaponDamage = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:solsworn-ciphers-aero-def-ignore-window');
+  assert.ok(sigrikaWeaponDamage);
+  assert.equal(sigrikaWeaponDamage.dependencyCount, 1);
+  assert.deepEqual(sigrikaWeaponDamage.primitiveIds, ['weapon-damage-timed-self-window-v1']);
+
+  const sigrikaSonataDamage = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:sound-of-true-name-echo-skill-damage-window');
+  assert.ok(sigrikaSonataDamage);
+  assert.equal(sigrikaSonataDamage.dependencyCount, 2);
+  assert.deepEqual(sigrikaSonataDamage.primitiveIds, ['sonata-damage-timed-self-window-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

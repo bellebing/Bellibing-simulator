@@ -5,6 +5,7 @@ import { LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW } from './combat/lingeringTune
 import { LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW } from './combat/lingyangBurstComboActionMapping.ts';
 import { LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW } from './combat/lingyangDiligentPracticeAdapter.ts';
 import { LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW } from './combat/lingyangStridingLionResourceAdapter.ts';
+import { LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW } from './combat/lingyangTeamIncomingStateAdapter.ts';
 import { MECH_ABOMINATION_CAST_STATE_REVIEW } from './combat/mechAbominationCastStateAdapter.ts';
 import { MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW } from './combat/moongazersSigilShieldStackAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
@@ -330,6 +331,30 @@ const LINGYANG_EXECUTION_REVIEWS: readonly ExecutionSemanticReview[] = [
     notes: [
       ...LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.notes,
       'This work-queue classification records the confirmed current-source/canonical mismatch only; it neither assigns a historical cause nor substitutes the 16-step current source into canonical runtime.',
+    ],
+  },
+  {
+    pendingExecutionId: 'team:lingyang-standard:zhezhi-incoming-state-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'team:lingyang-zhezhi-explicit-incoming-state',
+    reviewedAt: LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.primitiveIds[0],
+    notes: [
+      ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.sourceEstablished,
+      ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.notes,
+      'The source-safe Zhezhi primitive is available; the canonical profile still lacks the explicit teammate Outro/switch timeline and switch-out lifecycle proof.',
+    ],
+  },
+  {
+    pendingExecutionId: 'team:lingyang-standard:shorekeeper-incoming-state-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'team:lingyang-shorekeeper-explicit-team-state',
+    reviewedAt: LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.primitiveIds[1],
+    notes: [
+      ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.sourceEstablished,
+      ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.notes,
+      'The source-safe Shorekeeper primitive is available; the canonical profile still lacks the explicit teammate Outro timestamp and nearby-party-member applicability proof.',
     ],
   },
 ];

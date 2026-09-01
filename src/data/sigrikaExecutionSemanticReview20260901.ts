@@ -43,7 +43,8 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'At >=30 Soliskin Vitality, Schemata consumes 30, increases the current Runic multiplier by 50% and grants one Innate Gift stack; lower Vitality consumes all and grants 15% DMG Amplification per 10 consumed.',
     'Innate Gift remains max 2 at S0, grants 30% DMG Amplification per stack to the source-listed Runic/Learn actions, and clears on Learn My True Name or switch-out.',
-    'The primitive preserves multiplier increase and DMG Amplification as different outputs and does not assume predecessor Echo-cast Vitality.',
+    'Canonical predecessor review now source-bounds Sigrika entry to 40–50 Soliskin Vitality, so the first Schemata high-Vitality path and one gained Innate Gift stack are guaranteed.',
+    'Exact later Innate Gift amplification remains unresolved because Ciaccona support-Echo uniqueness and Sigrika own flexible Echo timing can change whether the second Schemata reaches >=30 Vitality; the primitive does not collapse that interval.',
   ),
   primitiveAvailable(
     'character:sigrika:blessing-of-runes-echo-skill-state-adapter',
@@ -51,7 +52,8 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'Nearby-team Echo Skill casts source-prove Soliskin Vitality +10 and Blessing of Runes +1 with same-name once-only records; Blessing caps at 6 and resets on lineup change, while the Vitality trigger record resets on Sigrika Outro.',
     'The primitive models the two trigger records separately, Blessing stack bonuses and the ER-over-125% conversion formula.',
-    'No canonical predecessor Echo Skill count/name/timing is invented; the profile still needs an executable team event timeline for these gauges.',
+    'Current exact-team predecessor sources prove Qiuyuan contributes four valid distinct gauge triggers before Outro to Sigrika and describe one Ciaccona Echo cast, bounding canonical Sigrika entry at 4–5 Blessing stacks and 40–50 Soliskin Vitality.',
+    'The exact point cannot be selected without a canonical Ciaccona support-Echo identity binding, and Prydwen leaves Sigrika own Nameless Explorer cast timing flexible; no sixth trigger or later gauge state is invented.',
   ),
   primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',

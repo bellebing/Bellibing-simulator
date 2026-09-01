@@ -80,7 +80,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'weapon:solsworn-ciphers-echo-amplification-window',
     'weapon-cast-timed-self-window-v1',
     'SCIP-ECHO-AMP is source-exact at R1: +32% Echo Skill DMG Amplification for 15 seconds after Intro Skill or Echo Skill cast.',
-    'weapon-cast-timed-self-window-v1 now has an explicit SCIP-ECHO-AMP contract for INTRO_SKILL_CAST and ECHO_SKILL_CAST.',
+    'weapon-cast-timed-self-window-v1 has an explicit SCIP-ECHO-AMP contract for INTRO_SKILL_CAST and ECHO_SKILL_CAST.',
     'Canonical Intro proves a valid trigger in sequence order, but no exact timestamp/window overlap is inferred.',
   ),
   primitiveAvailable(
@@ -105,17 +105,19 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'Sound of True Name 5P grants +15% Aero DMG Bonus for the same 5-second Echo Skill damage-triggered state.',
     'sonata-damage-timed-self-window-v1 requires an explicit ECHO_SKILL_DAMAGE event; equipment selection alone grants no state.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter',
     'team:qiuyuan-sigrika-incoming-state',
-    'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds or until that Resonator switches out; his Forte also has a source-proven team Echo Skill bonus state.',
-    'The current incoming-transfer-state-v1 primitive does not own Character-layer early switch-out termination, and the Sigrika source sequence contains no Qiuyuan predecessor timeline proving outgoing actor, incoming Sigrika, trigger time or Forte state.',
+    'character-outro-incoming-transfer-v1',
+    'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds or until that Resonator switches out.',
+    'character-outro-incoming-transfer-v1 now models the source 14-second cap and explicit incoming switch-out termination without assuming a predecessor event.',
+    'The Sigrika source sequence still contains no Qiuyuan predecessor timeline proving outgoing Qiuyuan, incoming Sigrika or the trigger time; Qiuyuan Bamboo\'s Shade remains a separate predecessor-state concern.',
   ),
   implementationPending(
     'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
     'team:ciaccona-sigrika-incoming-state',
     'Ciaccona Solo Concert source-proves a non-stackable 24% Aero DMG Bonus for nearby team Resonators.',
-    'The Sigrika source sequence contains no Ciaccona predecessor timeline proving Solo Concert state at Sigrika entry; Ciaccona execution ownership stays external.',
+    'Raw source duration is null and the state is already owned inside the Ciaccona engine. The Sigrika source sequence contains no predecessor timeline proving Solo Concert state at Sigrika entry, so no independent timed state is fabricated and Ciaccona execution ownership stays external.',
   ),
   blocked(
     'profile:sigrika-standard:energy-regen-hard-gate-adapter',

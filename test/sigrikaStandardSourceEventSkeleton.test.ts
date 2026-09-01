@@ -20,7 +20,7 @@ test('Sigrika canonical event skeleton binds all fixed source steps without time
   );
   assert.equal(SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON.every((row) => row.exactTimestampSeconds === null), true);
   assert.equal(SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON_REVIEW.closesPendingExecutionIds.length, 0);
-  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 10);
+  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 9);
 });
 
 test('fixed Sigrika source order proves trigger checkpoints but not timed-window overlap', () => {

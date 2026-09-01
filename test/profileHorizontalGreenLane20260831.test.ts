@@ -81,7 +81,7 @@ test('2026-08-31 canonical package preserves verified source-only contracts', ()
   ));
 });
 
-test('2026-08-31 horizontal presets resolve through the canonical registry as fully verified packages', () => {
+test('2026-08-31 horizontal presets resolve through the canonical registry with only Lucilla execution-overlaid', () => {
   for (const preset of PROFILE_HORIZONTAL_GREEN_LANE_PRESETS) {
     const resolved = resolveBuildPreset(PROFILE_REGISTRY, preset.id);
     assert.equal(resolved.preset.verificationStatus, 'VERIFIED');
@@ -90,6 +90,15 @@ test('2026-08-31 horizontal presets resolve through the canonical registry as fu
     assert.equal(resolved.statTarget.verificationStatus, 'VERIFIED');
     assert.equal(resolved.team.verificationStatus, 'VERIFIED');
     assert.equal(resolved.rotation.verificationStatus, 'VERIFIED');
-    assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+
+    if (preset.id === 'lucilla-standard') {
+      assert.equal(resolved.rotation.executionStatus, 'ENGINE_MODELED');
+      assert.equal(resolved.rotation.engineModelId, 'LUCILLA_STANDARD_GLACIO_CHAFE_V1');
+      assert.equal(resolved.rotation.rotationSeconds, 7.34);
+    } else {
+      assert.equal(resolved.rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+      assert.equal(Object.hasOwn(resolved.rotation, 'rotationSeconds'), false);
+      assert.equal(Object.hasOwn(resolved.rotation, 'engineModelId'), false);
+    }
   }
 });

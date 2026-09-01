@@ -19,6 +19,7 @@ test('Lingyang Burst Combo map locks the canonical sequence and keeps the mappin
 
   const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'lingyang-standard')!;
   assert.ok(review.pendingExecutionIds.includes(LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.pendingExecutionId));
+  assert.ok(review.notes.some((note) => note.includes('partial Burst Combo action mapper') && note.includes('four generic Basic: Feral Gyrate')));
 });
 
 test('unique source steps resolve to exact canonical Lingyang action facts', () => {

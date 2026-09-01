@@ -61,6 +61,12 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
       'Under Instant Response + Unbound, Heavy Attack — Mech Charged II restores 200 Synchronization Rate.',
       'Finale requires source-defined Unbound plus capped Synchronization Rate and Resonance Rate, then consumes the resource state.',
     ],
+    duetCheckpointEligibility: [
+      'Current canonical Prydwen Standard Rotation explicitly prescribes Duet Encore at source step 8 after Mech Basic 4 and Duet Overture at source step 12 after Aemeath Basic 4.',
+      'The same current source states that Forte Skills require 100 Synchronization Rate and that Basic Attack chains replenish Synchronization Rate.',
+      'AEMEATH-DUET-SOURCE-CHECKPOINTS-2026-09-01-01 therefore source-proves that the published guide sequence considers both Duet casts eligible at those checkpoints.',
+      'This is SOURCE_SEQUENCE_ELIGIBILITY_ONLY: exact Synchronization Rate immediately before either cast remains unknown and no engine resource arithmetic is inferred.',
+    ],
     stateDurations: [
       'Starlume Acceleration: 15s.',
       'Stardust Resonance after Overdrive: 30s.',
@@ -122,17 +128,17 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     'sonata:sonata-27:S27_5PC_FUSION:status-infliction-window-semantics',
     'incoming:denia:aemeath-fusion-burst-predecessor-state',
     'incoming:chisa:aemeath-negative-status-predecessor-state',
+    'character:aemeath:duet-threshold-proof',
   ],
   blockedExecutionIds: [
     'echo:echo-60001915:sigillum-active-skill-scaling-stat',
     'character:aemeath:synchronization-routine-gain-values',
-    'character:aemeath:duet-threshold-proof',
     'rotation:aemeath-standard-source-sequence:timing-denominator',
     'rotation:aemeath-standard-source-sequence:engine-model',
   ],
   blockerNotes: [
     'The source action order does not provide exact timestamps, animation/cancel durations or a total canonical rotation duration.',
-    'The current source does not expose exact routine Basic-attack Synchronization gains, so the two >=100 Synchronization Duet gates cannot be numerically proven from the canonical action list.',
+    'Current reviewed mechanics text still does not expose exact routine Basic-attack Synchronization gains, so Bellibing cannot numerically reconstruct the gauge. The current canonical source sequence itself now closes the narrower Duet checkpoint-eligibility proof without claiming exact pre-cast values.',
     'No canonical Aemeath + Denia + Chisa source locks the 115%-125% ER guidance range to one exact numeric execution gate; therefore no numeric team-specific ER gate is promoted.',
     'Denia and Chisa now have narrow source-proven predecessor entry contracts. Their exact timed buff lifecycles inside Aemeath execution still require the eventual current canonical timeline and are not promoted into blanket uptime.',
     'A third-party timed team rotation exists, but it is a different execution artifact and is not substituted for the canonical aemeath-standard source sequence or its missing denominator.',

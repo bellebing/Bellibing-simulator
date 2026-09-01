@@ -159,9 +159,9 @@ test('current 87-edge matrix is partitioned into actionable, covered, blocked an
     totalEdges: 87,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 2,
-    primitiveAvailableRequiresTimelineEdges: 16,
+    primitiveAvailableRequiresTimelineEdges: 22,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 17,
+    blockedSourceSemanticsEdges: 11,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 32,
   });
@@ -274,6 +274,11 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(qiuyuanTransfer.dependencyCount, 1);
   assert.deepEqual(qiuyuanTransfer.primitiveIds, ['character-outro-incoming-transfer-v1']);
 
+  const sigrikaRune = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
+  assert.ok(sigrikaRune);
+  assert.equal(sigrikaRune.dependencyCount, 1);
+  assert.deepEqual(sigrikaRune.primitiveIds, ['sigrika-resource-state-v1']);
+
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);
   assert.equal(heron.dependencyCount, 5);
@@ -318,11 +323,6 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(roverHealing.dependencyCount, 1);
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
-
-  const sigrikaRune = queue.blockedSourceSemantics.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
-  assert.ok(sigrikaRune);
-  assert.equal(sigrikaRune.dependencyCount, 1);
-  assert.deepEqual(sigrikaRune.blockerIds, ['BUG-018']);
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);

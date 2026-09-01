@@ -88,13 +88,13 @@ export function applyLucillaStandardExecutionOverride(
         ],
         sourceUrls: [
           ...new Set([
-            ...rotation.provenance.sourceUrls,
+            ...(rotation.provenance.sourceUrls ?? []),
             ...LUCILLA_STANDARD_EXECUTION_REVIEW_20260901.sourceUrls,
           ]),
         ],
         checkedAt: LUCILLA_STANDARD_EXECUTION_REVIEW_20260901.checkedAt,
         notes: [
-          ...rotation.provenance.notes,
+          ...(rotation.provenance.notes ?? []),
           ...LUCILLA_STANDARD_EXECUTION_REVIEW_20260901.notes,
         ],
       },

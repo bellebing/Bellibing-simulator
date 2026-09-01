@@ -1,10 +1,30 @@
 import type { ProfileBackwardImpactReview } from './profileBackwardImpactReview.ts';
 
-export const SIGRIKA_STANDARD_PENDING_EXECUTION_IDS = [
+/**
+ * Historical/current-source onboarding snapshot before explicit execution
+ * closures are applied by profileBackwardImpactReviewCatalog.ts.
+ */
+export const SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS = [
   'character:sigrika:rune-lifecycle-adapter',
   'character:sigrika:decipher-elucidated-eligibility-adapter',
   'character:sigrika:runic-heavy-branch-selection-adapter',
   'character:sigrika:learn-my-true-name-full-stop-adapter',
+  'character:sigrika:innate-gift-damage-amplification-adapter',
+  'character:sigrika:blessing-of-runes-echo-skill-state-adapter',
+  'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
+  'weapon:solsworn-ciphers:SCIP-AERO-DEF:echo-skill-damage-window-adapter',
+  'sonata:sonata-29:S29_5PC_ECHO_CR:echo-skill-damage-window-adapter',
+  'sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter',
+  'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter',
+  'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
+  'profile:sigrika-standard:energy-regen-hard-gate-adapter',
+  'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
+  'rotation:sigrika-standard-source-sequence:engine-model',
+] as const;
+
+/** Current unresolved Sigrika boundaries after explicit 2026-09-01 closures. */
+export const SIGRIKA_STANDARD_PENDING_EXECUTION_IDS = [
+  'character:sigrika:rune-lifecycle-adapter',
   'character:sigrika:innate-gift-damage-amplification-adapter',
   'character:sigrika:blessing-of-runes-echo-skill-state-adapter',
   'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
@@ -46,6 +66,16 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
     'Outro',
   ] as const,
   advancedAlternativeExcludedFromCanonical: 'Double Outburst',
+  sourceCheckpointClosure: {
+    adapterId: 'sigrika-standard-source-checkpoints-v1',
+    scope: 'SOURCE_SEQUENCE_ELIGIBILITY_AND_BRANCH_IDENTITY_ONLY',
+    closedPendingExecutionIds: [
+      'character:sigrika:decipher-elucidated-eligibility-adapter',
+      'character:sigrika:runic-heavy-branch-selection-adapter',
+      'character:sigrika:learn-my-true-name-full-stop-adapter',
+    ] as const,
+    boundaries: 'Canonical source sequence itself proves the two Elucidated checkpoints, Chain Whip then Outburst branch identities, and Learn My True Name cast checkpoint. Numeric Rune/Full Stop reconstruction, Decipher elapsed time, cancel frames and timestamps remain outside this closure.',
+  },
   runeState: {
     creation: 'PRIMITIVE_AVAILABLE_EVENT_DRIVEN_DIRECT_HIT',
     identity: 'SOURCE_PROVEN_TRUST_ANSWER',
@@ -53,7 +83,7 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
     duration: 'SOURCE_HAS_NO_TIMED_RUNE_EXPIRY_CLAUSE',
     consume: 'PRIMITIVE_AVAILABLE_EXACT_TWO_RUNE_CANONICAL_FAIL_CLOSED_GT2',
     overwrite: 'PRIMITIVE_AVAILABLE_LEFT_SHIFT_AT_CAP',
-    actionEligibility: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionEligibility: 'CANONICAL_SOURCE_CHECKPOINTS_CLOSED_GENERAL_TIMELINE_OPEN',
     damageModifier: 'PRIMITIVE_AVAILABLE_MULTIPLIER_AND_AMPLIFICATION_SEPARATED',
     targetScope: 'SOURCE_PROVEN_ACTION_SEMANTICS',
     primitiveId: 'sigrika-resource-state-v1',
@@ -65,13 +95,13 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
       'Intro grants 20s Convergent and Liberation grants 20s Divergent; the next eligible Rune gain receives the source same/opposite duplicate with Convergent priority, suppressed at Full Stop 100.',
       'Schemata grants 50 Full Stop. Learn My True Name at Full Stop 100 consumes all Full Stop and has a source-listed 25s cooldown.',
     ] as const,
-    failClosedBoundary: 'Current reviewed text does not state which two Runes Schemata selects when more than two are stored. sigrika-resource-state-v1 therefore rejects >2-Rune Schemata state instead of inventing selection order; the canonical source sequence can proceed only if its executable event timeline proves exactly two Runes at each Heavy.',
+    failClosedBoundary: 'Current reviewed text does not state which two Runes Schemata selects when more than two are stored. sigrika-resource-state-v1 therefore rejects >2-Rune Schemata state. The canonical checkpoint closure proves only the source-prescribed branch identities/casts and does not authorize arbitrary >2-Rune resolution or a generic numeric resource timeline.',
   },
   characterExecution: {
-    elucidated: 'Basic 4 -> 5s Decipher, switch-out termination and Elucidated eligibility are source-proven and implemented in sigrika-resource-state-v1; canonical overlap still requires timestamps.',
-    chainWhip: 'Trust+Trust -> Runic Chain Whip is source-proven and executable in the resource primitive. Cancel-on-hit timing is still not timestamped.',
-    outburst: 'Trust+Answer -> Runic Outburst is source-proven and executable in the resource primitive. Hold Skill cancel timing is still not timestamped.',
-    learnMyTrueName: 'Full Stop +50 per Schemata, threshold 100, consume-all and 25s cooldown are source-proven and executable in the resource primitive; canonical timestamp remains pending.',
+    elucidated: 'Basic 4 -> 5s Decipher and Elucidated availability are source-proven in the Character primitive. The canonical source sequence explicitly prescribes Elucidated at both checkpoints, so profile checkpoint eligibility is closed without inventing exact elapsed seconds.',
+    chainWhip: 'Trust+Trust -> Runic Chain Whip is source-proven in the Character primitive, and the canonical source sequence explicitly identifies the first Runic Heavy as Chain Whip. Generic Rune history and cancel-on-hit timing remain separate.',
+    outburst: 'Trust+Answer -> Runic Outburst is source-proven in the Character primitive, and the canonical source sequence explicitly identifies the second Runic Heavy as Outburst. Generic Rune history and Hold Skill cancel timing remain separate.',
+    learnMyTrueName: 'Full Stop +50 per Schemata, threshold 100, consume-all and 25s cooldown are source-proven in the Character primitive. The canonical source sequence explicitly prescribes Learn My True Name after Outburst, closing that checkpoint eligibility only; exact Full Stop timestamp remains unmodeled.',
     ultimate: 'Where Trust Leads Me! has source-proven Echo Skill DMG action data and grants the source Divergent Rune state for 20s; the canonical cancel-on-hit handoff still has no exact timestamp.',
     innateGift: 'sigrika-resource-state-v1 models max 2 stacks, +30% DMG Amplification per stack, source gain from >=30 Soliskin Vitality Schemata, low-Vitality amplification separately from multiplier increase, and clear on Learn/switch-out. Predecessor Vitality remains event-driven.',
     blessingOfRunes: 'sigrika-resource-state-v1 models same-name-once Echo cast records, Soliskin +10/max60, Blessing max6, lineup reset, per-stack team bonuses, Sigrika 6-stack bonus and ER-over-125% conversion. The canonical predecessor Echo events remain unproven.',
@@ -104,7 +134,7 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
     externalTestedRotationSeconds: 12.75,
     externalTestedRotationStatus: 'EVIDENCE_ONLY_NOT_CANONICAL_DENOMINATOR',
     denominatorStatus: 'BLOCKED_SOURCE_SEMANTICS',
-    cancelPolicy: 'Preserve source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill. Prydwen does not publish exact frames. ArabWuwa publishes a tested 12.75s Sigrika action sequence, but Bellibing does not silently promote that tested duration into an exact timestamped canonical Qiuyuan+Ciaccona denominator.',
+    cancelPolicy: 'Preserve source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill. Prydwen does not publish exact frames. ArabWuwa publishes a tested 12.75s Sigrika action block, but its rendered shorthand is not an exact timestamped canonical Qiuyuan+Ciaccona contract, so Bellibing does not silently promote it into the canonical denominator.',
   },
   energyRegen: {
     sourceMinimum: 1.09,
@@ -132,16 +162,16 @@ export const SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW: ProfileBackwardImpactRevie
   reviewedWeaponEffectIds: ['SCIP-ATK', 'SCIP-ECHO-AMP', 'SCIP-AERO-DEF'],
   reviewedSonataSetIds: ['sonata-29'],
   reviewedEchoIds: ['echo-60001925'],
-  pendingExecutionIds: SIGRIKA_STANDARD_PENDING_EXECUTION_IDS,
+  pendingExecutionIds: SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS,
   result: 'REVIEWED_WITH_PENDING_EXECUTION',
   notes: [
     'sigrika-standard remains the verified build/source package: Solsworn Ciphers R1 / Sound of True Name / Nameless Explorer / Sigrika + Qiuyuan + Ciaccona / sigrika-standard-source-sequence.',
     'The canonical rotation remains SOURCE_SEQUENCE_ONLY. Current Prydwen preserves Chain Whip -> Ultimate and Outburst -> Hold Skill order/cancel semantics but publishes no exact frames/timestamps; its Summon timing is flexible rather than a fixed Standard Rotation timestamp.',
-    'Current source review closes the former character-state semantic uncertainty into sigrika-resource-state-v1: direct-hit Rune creation, 2/4 capacity, Convergent/Divergent duplication, exact two-Rune branch mapping, Schemata +50 Full Stop, Soliskin Vitality consumption, Innate Gift and Learn My True Name consume/cooldown are event-executable. >2-Rune Schemata selection remains deliberately fail-closed.',
-    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile/team timeline. Ciaccona Solo Concert is externally owned but now has a point-in-time Sigrika projection primitive that requires an explicit active snapshot.',
+    'Current source review closes the former Character-state semantic uncertainty into sigrika-resource-state-v1: direct-hit Rune creation, 2/4 capacity, Convergent/Divergent duplication, exact two-Rune branch mapping, Schemata +50 Full Stop, Soliskin Vitality consumption, Innate Gift and Learn My True Name consume/cooldown are event-executable. >2-Rune Schemata selection remains deliberately fail-closed.',
+    'This backward-impact row preserves the original 15 pending boundaries. Later ER and canonical source-checkpoint closures are applied explicitly by the aggregate catalog instead of rewriting this source-review snapshot.',
+    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile/team timeline. Ciaccona Solo Concert is externally owned but has a point-in-time Sigrika projection primitive that requires an explicit active snapshot.',
     'Nameless Explorer Rank-5 coefficient is source-resolved at 273.60% Aero; a reusable attack fact is still not authorized because current reviewed ability text does not explicitly prove scalingStat, and no fixed canonical Summon timestamp exists.',
-    'Current Prydwen maps 109% ER to Qiuyuan+Ciaccona and 119% to Qiuyuan+Shorekeeper. Canonical team therefore source-resolves the existing VERIFIED 1.09 minimum through sigrika-standard-er-gate-v1; the ER hard-gate pending ID is closed.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action sequence as external evidence, but Bellibing keeps exact denominator/timestamps pending rather than treating a tested guide duration as a canonical frame contract.',
-    'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized while the 14 pending IDs remain open.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action block as external evidence, but Bellibing keeps exact denominator/timestamps pending rather than treating a guide measurement as an exact timestamped canonical contract.',
+    'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized until the live pending dependencies close.',
   ],
 };

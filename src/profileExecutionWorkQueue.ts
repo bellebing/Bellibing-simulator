@@ -5,6 +5,7 @@ import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdap
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
+import { LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901 } from './data/lucillaExecutionSemanticReview20260901.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
   ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830,
@@ -236,6 +237,18 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
   },
 ];
 
+const LUCILLA_GLOMMOTH_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901.pendingExecutionId,
+  status: 'BLOCKED_SOURCE_SEMANTICS',
+  actionKey: LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901.actionKey,
+  reviewedAt: LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901.checkedAt,
+  blockerId: LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901.blockerId,
+  notes: [
+    ...LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901.unresolvedSemantics,
+    'The exact Rank-5 coefficient stays stored as source evidence only; no generic Echo damage primitive is authorized without a source-resolved scaling stat.',
+  ],
+}];
+
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
@@ -248,6 +261,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,
   ...ROVER_AERO_REVIEWS,
+  ...LUCILLA_GLOMMOTH_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(

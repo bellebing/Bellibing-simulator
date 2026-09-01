@@ -2,6 +2,7 @@ import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrilli
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from './combat/jinhsiResourceStateAdapter.ts';
+import { JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW } from './combat/jinhsiTeamIncomingStateAdapter.ts';
 import { JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW } from './combat/jueBlessingStateAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
@@ -180,6 +181,15 @@ const JINHSI_RESOURCE_REVIEWS: readonly ExecutionSemanticReview[] =
     ],
   }));
 
+const JINHSI_TEAM_INCOMING_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.pendingExecutionId,
+  status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+  actionKey: 'team:jinhsi-incoming-state',
+  reviewedAt: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.reviewedAt,
+  primitiveId: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+  notes: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.notes,
+}];
+
 const JUE_BLESSING_REVIEWS: readonly ExecutionSemanticReview[] = [{
   pendingExecutionId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.pendingExecutionId,
   status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
@@ -269,6 +279,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...SONATA_CAST_WINDOW_REVIEWS,
   ...SONATA_TRANSFER_REVIEWS,
   ...JINHSI_RESOURCE_REVIEWS,
+  ...JINHSI_TEAM_INCOMING_REVIEWS,
   ...JUE_BLESSING_REVIEWS,
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,

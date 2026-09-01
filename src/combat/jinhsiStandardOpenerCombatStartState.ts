@@ -99,6 +99,10 @@ export const JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW = {
   presetId: 'jinhsi-standard-opener',
   rotationId: 'jinhsi-standard-opener-source-sequence',
   primitiveId: JINHSI_STANDARD_OPENER_COMBAT_START_PRIMITIVE_ID,
+  canonicalSequenceAuthority: 'CURRENT_PRYDWEN_STANDARD_OPENER',
+  variantInheritanceAuthorized: false,
+  externalEchoInsertionAuthorized: false,
+  externalInitialIncandescenceAssumptionAuthorized: false,
   closesPendingExecutionIds: JINHSI_STANDARD_OPENER_COMBAT_START_CLOSED_PENDING_EXECUTION_IDS,
   sourceEstablished: [
     'Current Standard Opener source explicitly says Jinhsi starts combat and then lists the exact promoted 12-step sequence; that sequence contains no Intro Skill.',
@@ -111,6 +115,7 @@ export const JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW = {
     'Jué remains pending because current source describes Echo timing as free-flow and does not pin an exact Jué cast to the Standard Opener sequence.',
     'The Jinhsi + Zhezhi + Verina incoming-state dependency remains pending for later-cycle team-state execution even though the combat-start opener itself is pre-buff.',
     'Incandescence remains pending because combat-start source does not establish the exact amount gained across the opener or its per-Attribute cadence timestamps.',
+    'Other tested/opening strings or rotation variants may not insert Jué, assert starting Incandescence, remove actions, or supply timing for this Prydwen-pinned Standard Opener unless they are explicitly promoted as a new canonical source sequence.',
     'No exact action timestamps, opener duration, opener DPS denominator, loop timing, BuildContext, freeze, DPS_READY, product DPS or Roll Assist policy is authorized by this closure.',
   ],
 } as const;

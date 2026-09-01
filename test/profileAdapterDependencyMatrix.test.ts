@@ -15,7 +15,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 19);
   assert.equal(matrix.profileCount, 19);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 80);
+  assert.equal(matrix.dependencyCount, 79);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -28,6 +28,11 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'weapon:woodland-aria:WA-AERO-RES:target-state-adapter'),
     false,
+  );
+  assert.equal(
+    matrix.edges.some((edge) => edge.pendingExecutionId === 'character:jinhsi:jinhsi-resource-unison:availability-adapter'),
+    false,
+    'source-closed Standard Opener first-Unison edge must not remain in the canonical dependency matrix',
   );
 });
 

@@ -31,8 +31,8 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedStructuredBonusRowCount: 58,
   expectedCharacterConditionBonusRowCount: 3,
   expectedUnusedParamRecordCount: 3,
-  expectedModeledEffectRowCount: 63,
-  expectedModeledEffectEchoCount: 37,
+  expectedModeledEffectRowCount: 64,
+  expectedModeledEffectEchoCount: 38,
   expectedAttackProfileCount: 5,
   expectedAttackFactCount: 6,
   notes: [
@@ -42,6 +42,7 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
     'Fallacy of No Return normal activation is a partial safe exception: Rank-5 source proves one 15.86% max-HP Spectro blast, while its hold/release variant remains explicitly outside exact execution coverage.',
     'Nightmare: Thundering Mephis is now an exact safe attack-profile case: independent current sources resolve its Rank-5 active cast to one 405% ATK Electro hit with a 25-second cooldown. The profile cast event and timeline remain separate execution claims.',
     'Reminiscence: Fleurdelys is now an exact safe attack-profile case: the pinned Rank-5 row proves 27.36% ATK Aero DMG x8 plus one 136.80% ATK Aero hit, with no active-cast variant ambiguity in the source record.',
+    'Glommoth now has one modeled non-damage transfer row: the pinned Rank-5 source proves +12% incoming Glacio DMG for 15s when Outro occurs within 15s of summoning. Its active damage scaling remains a separate unresolved execution boundary.',
     'Structured upstream bonuses are used only where their main-slot behavior is stable. Character-restricted or loadout-replaced rows remain pending until the corresponding adapter exists.',
     'Reminiscence: Fleurdelys is the first character-restricted structured bonus promoted: the pinned record and multilingual text resolve source token Aero to Rover (Aero), while Cartethyia is named directly. The extra +10% Aero bonus is not generalized to other Aero Resonators.',
     'Exact Echo attack data does not close any profile active-damage dependency by itself; an executable rotation must still prove the exact Echo cast event.',

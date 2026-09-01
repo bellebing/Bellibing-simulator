@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import { buildContextFromVerifiedPreset } from '../src/profileBuildContext.ts';
 import { JINHSI_STANDARD_OPENER_ACTION_MAP, getJinhsiStandardOpenerStateSnapshots } from '../src/combat/jinhsiStandardOpenerState.ts';
+import { JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID } from '../src/combat/jinhsiStandardOpenerUnisonAdapter.ts';
 import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 import { resolveBuildPreset } from '../src/profileRegistry.ts';
@@ -32,7 +33,7 @@ test('Jinhsi canonical profile remains Standard Opener source sequence only', ()
   );
 });
 
-test('Jinhsi opener state map preserves Incarnation gates without fabricating resources', () => {
+test('Jinhsi opener state map preserves Incarnation gates, unresolved Incandescence and source-proven first Unison path', () => {
   const snapshots = getJinhsiStandardOpenerStateSnapshots();
   assert.equal(snapshots.length, 12);
   assert.equal(snapshots[3]?.phaseAfter, 'OVERFLOWING_AVAILABLE');
@@ -42,7 +43,9 @@ test('Jinhsi opener state map preserves Incarnation gates without fabricating re
   assert.equal(snapshots[10]?.phaseAfter, 'POST_ILLUMINOUS');
   assert.equal(snapshots[11]?.phaseAfter, 'OUTRO_REQUESTED');
   assert.ok(snapshots.every((row) => row.incandescence === 'UNRESOLVED_PREDECESSOR_STATE'));
-  assert.ok(snapshots.every((row) => row.unisonAvailability === 'UNRESOLVED_PREDECESSOR_STATE'));
+  assert.ok(snapshots.slice(0, 10).every((row) => row.unisonAvailability === 'NOT_YET_GRANTED_IN_COMBAT_START_OPENER'));
+  assert.equal(snapshots[10]?.unisonAvailability, 'AVAILABLE_FROM_FIRST_ILLUMINOUS');
+  assert.equal(snapshots[11]?.unisonAvailability, 'CONSUMED_BY_CANONICAL_UNISON_OUTRO');
 });
 
 test('Ages of Harvest and Celestial Light facts stay event-bound', () => {
@@ -84,7 +87,7 @@ test('Jué Rank-5 facts are exact but not automatically active in the opener', (
   assert.equal(review.jue.runtimeContributionAuthorized, false);
 });
 
-test('opener-only denominator and ER gate remain explicitly unresolved', () => {
+test('opener-only denominator and ER gate remain unresolved despite first-Unison closure', () => {
   assert.equal(review.rotationSeconds, null);
   assert.equal(review.outputContract.exactOpenerDamage, false);
   assert.equal(review.outputContract.exactOpenerDuration, false);
@@ -96,18 +99,22 @@ test('opener-only denominator and ER gate remain explicitly unresolved', () => {
   assert.equal(review.dpsReady, false);
   assert.equal(review.product.personalRotationDpsAuthorized, false);
   assert.equal(review.product.rollAssistPolicyAuthorized, false);
-  assert.deepEqual(review.closesPendingExecutionIds, []);
+  assert.deepEqual(review.closesPendingExecutionIds, [JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID]);
+  assert.equal(review.firstUnisonSourceClosure.firstIlluminousGrantReady, true);
+  assert.equal(review.firstUnisonSourceClosure.canonicalOutroUsesUnison, true);
+  assert.equal(review.firstUnisonSourceClosure.laterLoopTimingAuthorized, false);
 });
 
-test('seven reusable Jinhsi execution edges have primitives while all eight dependencies remain open', () => {
+test('six reusable Jinhsi execution edges remain primitive-covered after closing first Unison availability', () => {
   const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(impact);
-  assert.equal(impact.pendingExecutionIds.length, 8);
+  assert.equal(impact.pendingExecutionIds.length, 7);
+  assert.equal(impact.pendingExecutionIds.includes(JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID), false);
 
   const queue = buildProfileExecutionWorkQueue();
   const jinhsiEdges = queue.edges.filter((edge) => edge.presetId === 'jinhsi-standard-opener');
-  assert.equal(jinhsiEdges.length, 8);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 7);
+  assert.equal(jinhsiEdges.length, 7);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 6);
   assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.ok(
     jinhsiEdges
@@ -118,16 +125,17 @@ test('seven reusable Jinhsi execution edges have primitives while all eight depe
     jinhsiEdges.find((edge) => edge.pendingExecutionId === 'rotation:jinhsi-standard-opener-source-sequence:engine-model')?.semanticStatus,
     'PROFILE_SPECIFIC_EXECUTION',
   );
-  assert.deepEqual(review.closesPendingExecutionIds, []);
 });
 
-test('Jinhsi backward-impact review keeps execution blockers open and BuildContext fails closed', () => {
+test('Jinhsi backward-impact review keeps remaining execution blockers open and BuildContext fails closed', () => {
   const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(impact);
   assert.equal(impact.result, 'REVIEWED_WITH_PENDING_EXECUTION');
   assert.ok(impact.pendingExecutionIds.includes('rotation:jinhsi-standard-opener-source-sequence:engine-model'));
   assert.ok(impact.pendingExecutionIds.includes('team:jinhsi-zhezhi-verina:incoming-state-adapter'));
+  assert.ok(impact.pendingExecutionIds.includes('character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter'));
   assert.equal(review.availableEventStatePrimitives.jinhsiResourceState, 'jinhsi-resource-state-v1');
+  assert.equal(review.availableEventStatePrimitives.firstStandardOpenerUnison, 'jinhsi-standard-opener-first-unison-v1');
   assert.equal(review.availableEventStatePrimitives.jueBlessingState, 'jue-blessing-state-v1');
   assert.equal(review.availableEventStatePrimitives.teamIncomingState, 'jinhsi-team-incoming-state-v1');
   assert.throws(

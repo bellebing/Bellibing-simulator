@@ -34,8 +34,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
-  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 9);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 26);
+  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 8);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -152,20 +152,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 82-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 81-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 82,
+    totalEdges: 81,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 19,
+    primitiveAvailableRequiresTimelineEdges: 18,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 27);
+  assert.equal(queue.reviewRecordCount, 26);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -282,9 +282,7 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(ciacconaProjection, undefined, 'closed Ciaccona entry projection must not remain in the pending work queue');
 
   const sigrikaRune = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
-  assert.ok(sigrikaRune);
-  assert.equal(sigrikaRune.dependencyCount, 1);
-  assert.deepEqual(sigrikaRune.primitiveIds, ['sigrika-resource-state-v1']);
+  assert.equal(sigrikaRune, undefined, 'closed canonical Sigrika Rune source path must not remain in the pending work queue');
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

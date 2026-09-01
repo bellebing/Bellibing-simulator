@@ -30,15 +30,6 @@ function primitiveAvailable(
 
 export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
   primitiveAvailable(
-    'character:sigrika:rune-lifecycle-adapter',
-    'character:sigrika-rune-lifecycle',
-    'sigrika-resource-state-v1',
-    'Current source proves Trust/Answer direct-hit creation, base capacity 2, capacity 4 at >=50 Full Stop and left-shift overwrite at cap.',
-    'sigrika-resource-state-v1 models these transitions event-by-event and deliberately fails closed when Schemata is presented with more than two stored Runes because current reviewed text does not state a >2 selection order.',
-    'Prydwen current Standard key-mechanics text independently corroborates the prescribed first same-type Rune pair after Intro and second opposite-type pair after Ultimate, matching the already source-closed Chain Whip/Outburst checkpoints.',
-    'That profile evidence does not close the generic lifecycle edge: Convergent/Divergent are timed 20-second states and arbitrary off-sequence/>2-Rune behavior still requires a real event timeline.',
-  ),
-  primitiveAvailable(
     'character:sigrika:innate-gift-damage-amplification-adapter',
     'character:sigrika-innate-gift-damage-amplification',
     'sigrika-resource-state-v1',

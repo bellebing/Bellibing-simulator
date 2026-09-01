@@ -1,16 +1,26 @@
 import type { CharacterActionFact, CharacterDamageClass } from '../characterMechanicsDomain.ts';
 import { defenseMultiplier, expectedDamage, resistanceMultiplier } from '../combat/damageKernel.ts';
-import { resolveExactEchoActiveDamage } from '../combat/echoActiveDamageAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
+import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 
 export const LUCILLA_STANDARD_ENGINE_MODEL_ID = 'LUCILLA_STANDARD_GLACIO_CHAFE_V1';
 export const LUCILLA_STANDARD_ROTATION_SECONDS = 7.34;
-export const LUCILLA_GLOMMOTH_ATTACK_ID = 'GLOMMOTH_SUMMON_STOMP';
+export const LUCILLA_GLOMMOTH_ECHO_ID = 'echo-60001955';
+export const LUCILLA_GLOMMOTH_SOURCE_DAMAGE_COEFFICIENT = 2.736;
+export const LUCILLA_GLOMMOTH_SCALING_BLOCKER_ID = 'echo:echo-60001955:glommoth-active-skill-scaling-stat';
+
+export const LUCILLA_STANDARD_EXECUTION_SOURCE_URLS = [
+  'https://www.prydwen.gg/wuthering-waves/characters/lucilla',
+  'https://arabwuwa.com/rotations/hiyuki-and-chisa-with-lucilla-fast-rotation-107/',
+  'https://arabwuwa.com/teams/hiyuki-lucilla-chisa-136/',
+] as const;
 
 const CLEAR_AS_DAY_BASIC_BONUS = 0.30;
 const SLOW_MOTION_GLACIO_RES_REDUCTION = 0.08;
+const REMEMBRANCE_FILM_ROLL_PER_PHOTO = 2;
+const DEJA_VU_FILM_ROLL = 4;
 
 export const LUCILLA_STANDARD_MODELED_MECHANIC_FACT_IDS = [
   'lucilla-intro-skill-clip-it-clip-it-dmg',
@@ -24,7 +34,9 @@ export const LUCILLA_STANDARD_MODELED_MECHANIC_FACT_IDS = [
   'lucilla-resonance-liberation-clear-as-day-letting-it-go-dmg-glacio-chafe-mode',
   'lucilla-resource-trace',
   'lucilla-resource-photos',
+  'lucilla-resource-film-roll',
   'lucilla-inherent-slow-motion',
+  'lucilla-inherent-remembrance',
 ] as const;
 
 export const LUCILLA_STANDARD_ASSUMED_MECHANIC_FACT_IDS = [
@@ -44,12 +56,12 @@ export interface LucillaBuildInputs {
   basicAttackDamageBonus: number;
   resonanceSkillDamageBonus: number;
   introSkillDamageBonus: number;
-  echoSkillDamageBonus: number;
+  /** Constant external amplification only. Canonical Chisa/Kumokiri state is deliberately not flattened here. */
   allDamageAmplification: number;
   attackerLevel: number;
   enemyDefense: number;
   enemyGlacioResistance: number;
-  /** Constant external DEF ignore only. Dynamic Chisa Thread/Bane state is deliberately not synthesized here. */
+  /** Constant external DEF ignore only. Dynamic Chisa Thread of Bane state is deliberately not synthesized here. */
   defIgnore: number;
   /** Constant external DEF reduction only. Canonical Chisa Havoc Bane is not allowed to use this as blanket uptime. */
   defReduction: number;
@@ -57,43 +69,61 @@ export interface LucillaBuildInputs {
   weaponRank: number;
 }
 
+export type LucillaExecutionEventKind = 'CHARACTER_DAMAGE' | 'ECHO_CAST_UNRESOLVED_DAMAGE';
+
 export interface LucillaActionResult {
   readonly eventIndex: number;
+  readonly kind: LucillaExecutionEventKind;
   readonly sourceFactId: string | null;
-  readonly echoAttackId: string | null;
+  readonly echoId: string | null;
   readonly name: string;
-  readonly damageClass: CharacterDamageClass;
-  readonly motionValue: number;
+  readonly damageClass: CharacterDamageClass | null;
+  /** Exact source coefficient when known but not executable because its scaling stat is unresolved. */
+  readonly sourceDamageCoefficient: number | null;
+  readonly motionValue: number | null;
   readonly photosBefore: number;
   readonly photosAfter: number;
+  readonly filmRollBefore: number;
+  readonly filmRollAfter: number;
   readonly freezeFrameTriggeredBefore: boolean;
   readonly wishesFivePieceBefore: boolean;
   readonly slowMotionBefore: boolean;
   readonly clearAsDayBasicBonusBefore: boolean;
   readonly glacioChafeApplicationsAfter: number;
-  readonly damage: number;
+  readonly damage: number | null;
 }
 
 export interface LucillaRotationResult {
   readonly engineModelId: typeof LUCILLA_STANDARD_ENGINE_MODEL_ID;
   readonly rotationSeconds: number;
   readonly actions: readonly LucillaActionResult[];
-  readonly rotationDamage: number;
-  readonly personalDirectRotationDps: number;
+  /** Sum of only source-resolved executable damage events. */
+  readonly sourceResolvedRotationDamage: number;
+  /** Source-resolved direct damage divided by the exact 7.34s segment. Not a full canonical DPS claim. */
+  readonly sourceResolvedPersonalDirectDps: number;
+  readonly fullPersonalRotationDamageResolved: false;
+  readonly unresolvedDamageEventIds: readonly [typeof LUCILLA_GLOMMOTH_SCALING_BLOCKER_ID];
   readonly finalTrace: number;
   readonly finalPhotos: number;
+  readonly finalFilmRoll: number;
   readonly glacioChafeApplications: number;
   readonly glommothCastReached: true;
   readonly glommothOutroTransferGuaranteedByBoundedOrder: true;
+  readonly wishesSnowfallPreservedToOutro: true;
+  readonly incomingGlacioDamageBonusFromWishes: number;
+  readonly incomingGlacioDamageBonusFromGlommoth: number;
+  readonly incomingGlacioDamageBonusTotal: number;
   readonly outroReached: true;
   readonly excludesGlacioChafeSystemDamage: true;
   readonly excludesDynamicChisaHavocBaneState: true;
+  readonly excludesChisaThreadOfBaneAndKumokiriState: true;
 }
 
 interface CharacterRecipeAction {
   readonly kind: 'CHARACTER';
   readonly sourceFactId: string;
   readonly traceGainAfter?: number;
+  readonly filmRollGainAfter?: number;
   readonly chafeApplicationsAfter?: number;
   readonly requiresPhotos?: number;
   readonly consumesPhotoAfter?: boolean;
@@ -103,19 +133,21 @@ interface CharacterRecipeAction {
 
 interface EchoRecipeAction {
   readonly kind: 'ECHO';
-  readonly echoId: 'echo-60001955';
-  readonly attackId: typeof LUCILLA_GLOMMOTH_ATTACK_ID;
+  readonly echoId: typeof LUCILLA_GLOMMOTH_ECHO_ID;
+  readonly name: 'Glommoth — summon/stomp';
+  readonly sourceDamageCoefficient: typeof LUCILLA_GLOMMOTH_SOURCE_DAMAGE_COEFFICIENT;
 }
 
 type RecipeAction = CharacterRecipeAction | EchoRecipeAction;
 
 /**
- * Damage-bearing execution for the source-tested fast route.
+ * Ordered execution for the source-tested Hiyuki/Lucilla/Chisa fast route.
  *
- * The canonical guide sequence keeps Echo timing in a separate note; the measured
- * 7.34-second Hiyuki/Lucilla/Chisa fast route explicitly materializes Glommoth
- * between the Perfect-Release Skill and Clear As Day. Individual action timestamps
- * are intentionally absent, so no time-varying teammate target state is invented.
+ * Prydwen supplies the source-leading Lucilla skeleton and Perfect Release
+ * semantics. Arab Wuwa's published S0/R1 fast route materializes Glommoth
+ * between Hold Skill and Clear As Day and measures Lucilla's segment at 7.34s.
+ * Individual action timestamps are intentionally absent, so every state that
+ * needs sub-segment timing remains outside this engine.
  */
 const LUCILLA_STANDARD_RECIPE: readonly RecipeAction[] = [
   {
@@ -137,13 +169,15 @@ const LUCILLA_STANDARD_RECIPE: readonly RecipeAction[] = [
   },
   {
     kind: 'ECHO',
-    echoId: 'echo-60001955',
-    attackId: LUCILLA_GLOMMOTH_ATTACK_ID,
+    echoId: LUCILLA_GLOMMOTH_ECHO_ID,
+    name: 'Glommoth — summon/stomp',
+    sourceDamageCoefficient: LUCILLA_GLOMMOTH_SOURCE_DAMAGE_COEFFICIENT,
   },
   {
     kind: 'CHARACTER',
     sourceFactId: 'lucilla-resonance-liberation-clear-as-day-clear-as-day-dmg-glacio-chafe-mode',
     requiresPhotos: 3,
+    filmRollGainAfter: DEJA_VU_FILM_ROLL,
     activatesClearBasicBonusAfter: true,
   },
   {
@@ -229,10 +263,16 @@ function weaponRankValue(effectId: string, rank: number): number {
   return value;
 }
 
-function sonataValue(effectId: string): number {
+function sonataEffect(effectId: string) {
   const effect = SONATA_EFFECT_MODELS.find((row) => row.effectId === effectId);
   if (!effect) throw new Error(`Missing Sonata effect ${effectId}.`);
-  return effect.value;
+  return effect;
+}
+
+function echoEffect(effectId: string) {
+  const effect = ECHO_EFFECT_MODELS.find((row) => row.effectId === effectId);
+  if (!effect) throw new Error(`Missing Echo effect ${effectId}.`);
+  return effect;
 }
 
 function classBonus(damageClass: CharacterDamageClass, build: LucillaBuildInputs): number {
@@ -240,9 +280,8 @@ function classBonus(damageClass: CharacterDamageClass, build: LucillaBuildInputs
     case 'BASIC': return build.basicAttackDamageBonus;
     case 'SKILL': return build.resonanceSkillDamageBonus;
     case 'INTRO': return build.introSkillDamageBonus;
-    case 'ECHO': return build.echoSkillDamageBonus;
     default:
-      throw new Error(`Lucilla standard rotation does not support ${damageClass} direct-hit damage.`);
+      throw new Error(`Lucilla standard source-resolved direct damage does not support ${damageClass}.`);
   }
 }
 
@@ -257,7 +296,6 @@ function validateBuild(build: LucillaBuildInputs): void {
     build.basicAttackDamageBonus,
     build.resonanceSkillDamageBonus,
     build.introSkillDamageBonus,
-    build.echoSkillDamageBonus,
     build.allDamageAmplification,
     build.attackerLevel,
     build.enemyDefense,
@@ -279,51 +317,72 @@ export function evaluateLucillaStandardRotation(build: LucillaBuildInputs): Luci
   const ffPermanentAtk = weaponRankValue('FF-ATK', build.weaponRank);
   const ffTriggeredGlacio = weaponRankValue('FF-GLACIO', build.weaponRank);
   const ffTriggeredTeamAtk = weaponRankValue('FF-TEAM-ATK', build.weaponRank);
-  const wishesTwoPieceGlacio = sonataValue('S30_2PC_GLACIO');
-  const wishesFivePieceGlacio = sonataValue('S30_5PC_GLACIO');
-  const glommoth = resolveExactEchoActiveDamage('echo-60001955', LUCILLA_GLOMMOTH_ATTACK_ID);
-  if (glommoth.scalingStat !== 'ATK' || glommoth.element !== 'Glacio') {
-    throw new Error('Lucilla Glommoth execution requires exact ATK-scaling Glacio active damage.');
+  const wishesTwoPiece = sonataEffect('S30_2PC_GLACIO');
+  const wishesFivePiece = sonataEffect('S30_5PC_GLACIO');
+  const wishesIncoming = sonataEffect('S30_5PC_INCOMING_GLACIO');
+  const glommothIncoming = echoEffect('GLOMMOTH_INCOMING_GLACIO');
+
+  if (wishesFivePiece.durationSeconds !== 15 || wishesIncoming.durationSeconds !== 15) {
+    throw new Error('Lucilla Wishes of Quiet Snowfall execution requires the source-locked 15s Snowfall/transfer windows.');
+  }
+  if (glommothIncoming.activationWindowSeconds !== 15 || glommothIncoming.durationSeconds !== 15) {
+    throw new Error('Lucilla Glommoth transfer requires the source-locked 15s activation and incoming windows.');
+  }
+  if (LUCILLA_STANDARD_ROTATION_SECONDS >= 15) {
+    throw new Error('Lucilla bounded-order transfer proof requires the fixed rotation to remain shorter than 15s.');
   }
 
   let trace = 0;
   let photos = 0;
+  let filmRoll = 0;
   let chafeApplications = 0;
   let freezeFrameTriggered = false;
   let wishesFivePieceActive = false;
+  let wishesSnowfallActive = false;
   let slowMotionActive = false;
   let clearBasicBonusActive = false;
+  let glommothSummoned = false;
   const results: LucillaActionResult[] = [];
 
   for (const [eventIndex, recipe] of LUCILLA_STANDARD_RECIPE.entries()) {
     const photosBefore = photos;
+    const filmRollBefore = filmRoll;
     const freezeBefore = freezeFrameTriggered;
     const wishesBefore = wishesFivePieceActive;
     const slowBefore = slowMotionActive;
     const clearBasicBefore = clearBasicBonusActive;
 
-    let sourceFactId: string | null = null;
-    let echoAttackId: string | null = null;
-    let name: string;
-    let damageClass: CharacterDamageClass;
-    let motionValue: number;
-
-    if (recipe.kind === 'CHARACTER') {
-      const fact = characterAction(recipe.sourceFactId);
-      if (recipe.requiresPhotos !== undefined && photos < recipe.requiresPhotos) {
-        throw new Error(`${fact.factId}: requires ${recipe.requiresPhotos} Photos, has ${photos}.`);
-      }
-      sourceFactId = fact.factId;
-      name = fact.name;
-      damageClass = fact.damageClass as CharacterDamageClass;
-      motionValue = motionValueAtLevel(fact, build.skillLevel);
-    } else {
-      echoAttackId = recipe.attackId;
-      name = glommoth.name;
-      damageClass = 'ECHO';
-      motionValue = glommoth.motionValue;
+    if (recipe.kind === 'ECHO') {
+      glommothSummoned = true;
+      results.push({
+        eventIndex,
+        kind: 'ECHO_CAST_UNRESOLVED_DAMAGE',
+        sourceFactId: null,
+        echoId: recipe.echoId,
+        name: recipe.name,
+        damageClass: null,
+        sourceDamageCoefficient: recipe.sourceDamageCoefficient,
+        motionValue: null,
+        photosBefore,
+        photosAfter: photos,
+        filmRollBefore,
+        filmRollAfter: filmRoll,
+        freezeFrameTriggeredBefore: freezeBefore,
+        wishesFivePieceBefore: wishesBefore,
+        slowMotionBefore: slowBefore,
+        clearAsDayBasicBonusBefore: clearBasicBefore,
+        glacioChafeApplicationsAfter: 0,
+        damage: null,
+      });
+      continue;
     }
 
+    const fact = characterAction(recipe.sourceFactId);
+    if (recipe.requiresPhotos !== undefined && photos < recipe.requiresPhotos) {
+      throw new Error(`${fact.factId}: requires ${recipe.requiresPhotos} Photos, has ${photos}.`);
+    }
+    const motionValue = motionValueAtLevel(fact, build.skillLevel);
+    const damageClass = fact.damageClass as CharacterDamageClass;
     const totalAttack = build.combinedBaseAttack * (
       1
       + build.attackPercent
@@ -331,9 +390,9 @@ export function evaluateLucillaStandardRotation(build: LucillaBuildInputs): Luci
       + (freezeFrameTriggered ? ffTriggeredTeamAtk : 0)
     ) + build.flatAttack;
     const glacioBonus = build.glacioDamageBonus
-      + wishesTwoPieceGlacio
+      + wishesTwoPiece.value
       + (freezeFrameTriggered ? ffTriggeredGlacio : 0)
-      + (wishesFivePieceActive ? wishesFivePieceGlacio : 0);
+      + (wishesFivePieceActive ? wishesFivePiece.value : 0);
     const damageBonus = glacioBonus
       + classBonus(damageClass, build)
       + (damageClass === 'BASIC' && clearBasicBonusActive ? CLEAR_AS_DAY_BASIC_BONUS : 0);
@@ -359,35 +418,42 @@ export function evaluateLucillaStandardRotation(build: LucillaBuildInputs): Luci
     });
 
     let applicationsAfter = 0;
-    if (recipe.kind === 'CHARACTER') {
-      if (recipe.traceGainAfter) {
-        const oldTrace = trace;
-        trace = Math.min(150, trace + recipe.traceGainAfter);
-        const restored = trace - oldTrace;
-        photos = Math.min(3, photos + Math.floor(restored / 50));
-      }
-      if (recipe.consumesPhotoAfter) photos -= 1;
-      if (recipe.chafeApplicationsAfter) {
-        applicationsAfter = recipe.chafeApplicationsAfter;
-        chafeApplications += applicationsAfter;
-        // Trigger order is deliberately post-damage unless the source proves
-        // the state existed before the hit. Intro therefore never buffs itself.
-        freezeFrameTriggered = true;
-        wishesFivePieceActive = true;
-      }
-      if (recipe.activatesSlowMotionAfter) slowMotionActive = true;
-      if (recipe.activatesClearBasicBonusAfter) clearBasicBonusActive = true;
+    if (recipe.traceGainAfter) {
+      const oldTrace = trace;
+      trace = Math.min(150, trace + recipe.traceGainAfter);
+      const restored = trace - oldTrace;
+      photos = Math.min(3, photos + Math.floor(restored / 50));
     }
+    if (recipe.filmRollGainAfter) filmRoll = Math.min(10, filmRoll + recipe.filmRollGainAfter);
+    if (recipe.consumesPhotoAfter) {
+      photos -= 1;
+      filmRoll = Math.min(10, filmRoll + REMEMBRANCE_FILM_ROLL_PER_PHOTO);
+    }
+    if (recipe.chafeApplicationsAfter) {
+      applicationsAfter = recipe.chafeApplicationsAfter;
+      chafeApplications += applicationsAfter;
+      // Trigger order is deliberately post-damage unless the source proves
+      // the state existed before the hit. Intro therefore never buffs itself.
+      freezeFrameTriggered = true;
+      wishesFivePieceActive = true;
+      wishesSnowfallActive = true;
+    }
+    if (recipe.activatesSlowMotionAfter) slowMotionActive = true;
+    if (recipe.activatesClearBasicBonusAfter) clearBasicBonusActive = true;
 
     results.push({
       eventIndex,
-      sourceFactId,
-      echoAttackId,
-      name,
+      kind: 'CHARACTER_DAMAGE',
+      sourceFactId: fact.factId,
+      echoId: null,
+      name: fact.name,
       damageClass,
+      sourceDamageCoefficient: null,
       motionValue,
       photosBefore,
       photosAfter: photos,
+      filmRollBefore,
+      filmRollAfter: filmRoll,
       freezeFrameTriggeredBefore: freezeBefore,
       wishesFivePieceBefore: wishesBefore,
       slowMotionBefore: slowBefore,
@@ -398,27 +464,48 @@ export function evaluateLucillaStandardRotation(build: LucillaBuildInputs): Luci
   }
 
   if (photos !== 0) throw new Error(`Lucilla standard rotation must consume all 3 Photos, has ${photos}.`);
-  if (!freezeFrameTriggered || !wishesFivePieceActive || !slowMotionActive || !clearBasicBonusActive) {
+  if (filmRoll !== 10) throw new Error(`Lucilla standard rotation must leave 10 Film Roll, has ${filmRoll}.`);
+  if (!freezeFrameTriggered || !wishesFivePieceActive || !wishesSnowfallActive || !slowMotionActive || !clearBasicBonusActive) {
     throw new Error('Lucilla standard rotation did not reach all required self execution states.');
   }
+  if (!glommothSummoned) throw new Error('Lucilla standard rotation did not summon Glommoth.');
 
-  const rotationDamage = results.reduce((sum, row) => sum + row.damage, 0);
+  // No source-resolved Lucilla hit in this Glacio-Chafe branch deals Resonance
+  // Liberation DMG. Clear As Day is BASIC damage, so the Snowfall CRIT branch
+  // never consumes Snowfall before the fixed Outro. The whole segment is 7.34s,
+  // shorter than both the 15s Snowfall lifetime and Glommoth arm window.
+  const wishesSnowfallPreservedToOutro = results
+    .filter((row) => row.kind === 'CHARACTER_DAMAGE')
+    .every((row) => row.damageClass !== 'LIBERATION');
+  if (!wishesSnowfallPreservedToOutro) {
+    throw new Error('Lucilla Glacio-Chafe execution unexpectedly produced Resonance Liberation DMG before Outro.');
+  }
+
+  const sourceResolvedRotationDamage = results.reduce((sum, row) => sum + (row.damage ?? 0), 0);
+  const incomingGlacioDamageBonusFromWishes = wishesIncoming.value;
+  const incomingGlacioDamageBonusFromGlommoth = glommothIncoming.value;
+
   return {
     engineModelId: LUCILLA_STANDARD_ENGINE_MODEL_ID,
     rotationSeconds: LUCILLA_STANDARD_ROTATION_SECONDS,
     actions: results,
-    rotationDamage,
-    personalDirectRotationDps: rotationDamage / LUCILLA_STANDARD_ROTATION_SECONDS,
+    sourceResolvedRotationDamage,
+    sourceResolvedPersonalDirectDps: sourceResolvedRotationDamage / LUCILLA_STANDARD_ROTATION_SECONDS,
+    fullPersonalRotationDamageResolved: false,
+    unresolvedDamageEventIds: [LUCILLA_GLOMMOTH_SCALING_BLOCKER_ID],
     finalTrace: trace,
     finalPhotos: photos,
+    finalFilmRoll: filmRoll,
     glacioChafeApplications: chafeApplications,
     glommothCastReached: true,
-    // Echo is explicitly after Intro/Skill and before Outro inside a total 7.34s
-    // rotation, so Outro must occur less than 15s after the summon even without
-    // fabricating an individual Echo timestamp.
     glommothOutroTransferGuaranteedByBoundedOrder: true,
+    wishesSnowfallPreservedToOutro: true,
+    incomingGlacioDamageBonusFromWishes,
+    incomingGlacioDamageBonusFromGlommoth,
+    incomingGlacioDamageBonusTotal: incomingGlacioDamageBonusFromWishes + incomingGlacioDamageBonusFromGlommoth,
     outroReached: true,
     excludesGlacioChafeSystemDamage: true,
     excludesDynamicChisaHavocBaneState: true,
+    excludesChisaThreadOfBaneAndKumokiriState: true,
   };
 }

@@ -40,6 +40,10 @@ export function validateLingyangEnergyRegenGateReview(): readonly string[] {
   }
 
   const profile = matches[0];
+  if (!profile) {
+    issues.push(`expected ${PROFILE_ID} after cardinality validation`);
+    return issues;
+  }
   if (profile.characterId !== 'lingyang') issues.push(`Lingyang stat-target character drift: ${profile.characterId}`);
   if (profile.verificationStatus !== 'VERIFIED') issues.push(`Lingyang stat-target verification drift: ${profile.verificationStatus}`);
   if (profile.gates.length !== 0) issues.push(`Lingyang stat-target unexpectedly materializes ${profile.gates.length} gate(s)`);

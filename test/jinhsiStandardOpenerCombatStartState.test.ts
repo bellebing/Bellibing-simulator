@@ -22,7 +22,7 @@ const CANONICAL_STANDARD_OPENER = [
   'Outro',
 ] as const;
 
-test('combat-start Standard Opener proves Intro windows inactive without inventing other state', () => {
+test('combat-start Standard Opener proves Intro and teammate windows inactive without inventing other state', () => {
   const resolved = resolveJinhsiStandardOpenerCombatStartState(CANONICAL_STANDARD_OPENER);
 
   assert.equal(resolved.sourceScope, 'SOURCE_DEFINED_COMBAT_START_BEFORE_TEAM_SETUP');
@@ -39,10 +39,11 @@ test('combat-start Standard Opener proves Intro windows inactive without inventi
   assert.equal(resolved.exactTimelineResolved, false);
 });
 
-test('combat-start review closes only the two source-proven inactive Intro-trigger edges', () => {
+test('combat-start review closes only source-proven inactive opener edges', () => {
   assert.deepEqual(JINHSI_STANDARD_OPENER_COMBAT_START_CLOSED_PENDING_EXECUTION_IDS, [
     'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter',
     'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+    'team:jinhsi-zhezhi-verina:incoming-state-adapter',
   ]);
   assert.deepEqual(
     JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.closesPendingExecutionIds,
@@ -50,7 +51,7 @@ test('combat-start review closes only the two source-proven inactive Intro-trigg
   );
   assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('AH-SKILL remains pending')));
   assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('Jué remains pending')));
-  assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('incoming-state dependency remains pending')));
+  assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('future canonical loop/team profile')));
   assert.ok(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.boundaries.some((note) => note.includes('Incandescence remains pending')));
 });
 

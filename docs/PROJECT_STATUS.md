@@ -123,23 +123,23 @@ The stabilization baseline intentionally integrates **none** of these worker cod
 
 | PR | Scope | Current head | Exact-head CI | Stabilization disposition |
 | --- | --- | --- | --- | --- |
-| #140 | Chixia | `20bf5ca7` | Verify #668 + Export #640 SUCCESS | **UPDATE REQUIRED before integration** — individually green, but the worker assigns Chixia to `BUG-015`, which already canonically belongs to Zani/#144. Renumber/rebind before review. |
+| #140 | Chixia | `b30722bb` | Verify #939 + Export #911 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — the prior `BUG-015` collision is repaired; Chixia now uses unique `BUG-022` while Zani/#144 retains canonical `BUG-015`. No gameplay/source semantics changed in the repair. |
 | #141 | Rover (Havoc) | `576d8210` | Verify #664 + Export #636 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — source-safe preflight, still non-`DPS_READY`; integrate only in an explicitly selected execution tranche. |
 | #142 | Galbrena | `af24c988` | Verify #674 + Export #646 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — source-safe preflight, still non-`DPS_READY`. |
 | #143 | Mornye | `f1c81514` | Verify #669 + Export #641 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — source-safe support semantics, still no engine/freeze promotion. |
 | #144 | Zani | `bd92dc25` | Verify #686 + Export #658 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — `BUG-015` remains Zani's canonical gap; no `DPS_READY` promotion. |
 | #145 | Jiyan | `eb4a35ff` | Verify #683 + Export #655 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — exact Kelpie facts/source boundary, 0 execution IDs closed. |
 | #146 | Lingyang | `15d52c7d` | Verify #904 + Export #876 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — extensive fail-closed primitives, all 12 canonical dependencies remain open. |
-| #147 | Jinhsi | `c13c0ed5` | **Verify #933 FAIL + Export #905 FAIL** | **UPDATE REQUIRED** — PR body/Handoff still cite an older green head. Current head has stale Profile×Adapter/work-queue expectations and is not review-clean. |
+| #147 | Jinhsi | `985ef139` | Verify #936 + Export #908 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — stabilization fixed shared pending-ID review leakage with preset-scoped semantic reviews; Lumi keeps the global generic cast-window disposition while Jinhsi alone gets preset-scoped `BUG-020`. Still non-`DPS_READY`. |
 | #148 | Sigrika | `e3db50f6` | Verify #927 + Export #899 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — six closures, nine dependencies remain; historical 12.8s is not current denominator truth. |
 | #149 | Aemeath | `5135512f` | Verify #794 + Export #766 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — eight detailed execution IDs closed, four blockers remain; no engine/freeze/product promotion. |
 | #150 | Lucilla | `16fd10f2` | **Verify #896 FAIL + Export #868 FAIL** | **PARK / UPDATE REQUIRED** — draft by design; count/regression cleanup is unfinished and current exact head is red. |
 
 Additional stabilization findings:
 
-- PR #147's current head differs from the green head recorded in its PR body/Handoff. Current Verify reaches the Node suite but fails two Profile×Adapter/work-queue regressions; the branch must establish whether the changed disposition is intentional before updating fixtures.
+- PR #147's red current-head state was traced to a real work-queue scoping defect rather than a Jinhsi source-data dispute. `weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter` is shared by Lumi and Jinhsi; matching semantic reviews only by pending ID let Jinhsi-specific `BUG-020` leak onto Lumi. The worker now supports an optional preset scope with global fallback, validates scoped uniqueness/canonical preset ownership, and has an explicit Lumi-vs-Jinhsi regression. Exact-head Verify #936 + Export #908 are green.
+- PR #140's former `BUG-015` collision is resolved as metadata integrity only. Zani keeps `BUG-015`; Chixia now owns `BUG-022`. The repair changes only blocker-ID ownership/assertions across three files and exact-head Verify #939 + Export #911 are green.
 - PR #150 currently fails five Node regressions involving review/count snapshots and the historical `SOURCE_SEQUENCE_ONLY` expectation after its Lucilla execution overlay. This is unfinished worker state, not a main regression.
-- `BUG-015` is already canonical Zani ownership in the AI Handoff bug register. PR #140's Chixia reuse is a parallel-worker metadata collision and must not be merged as-is.
 - Green worker branches may contain valid reusable facts/primitives, but their branch-local counts are not canonical until a dedicated integration review rebases them onto the then-current main and reruns the full repository contract.
 
 No worker PR is closed by this stabilization pass. No worker branch is treated as merged, superseded or rejected on game-data merit merely because it is parked.
@@ -167,7 +167,7 @@ The next stable baseline is therefore deliberately boring:
 - **code/product behavior:** current main `2af8221b` unchanged;
 - **canonical readiness/execution counts:** current-main values above unchanged;
 - **worker code:** all kept outside the baseline;
-- **worker follow-up:** green branches may be selected later for dedicated rebase/integration review; #140, #147 and #150 require cleanup first;
+- **worker follow-up:** #140/#141/#142/#143/#144/#145/#146/#147/#148/#149 are individually green but parked for dedicated later rebase/integration review; only #150 remains cleanup-required/draft/red;
 - **broad roster DPS:** still blocked;
 - **no new gameplay/source truth is invented by stabilization.**
 

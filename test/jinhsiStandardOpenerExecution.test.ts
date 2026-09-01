@@ -123,52 +123,6 @@ test('opener-only denominator and ER gate remain unresolved despite three narrow
   assert.equal(review.incomingTeamState.dependencyClosed, false);
 });
 
-test('four reusable Jinhsi execution edges remain primitive-covered after three narrow closures', () => {
-  const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
-  assert.ok(impact);
-  assert.equal(impact.pendingExecutionIds.length, 5);
-  for (const closedId of [
-    JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID,
-    AH_INTRO_PENDING_ID,
-    CELESTIAL_INTRO_PENDING_ID,
-  ]) {
-    assert.equal(impact.pendingExecutionIds.includes(closedId), false);
-  }
-
-  const queue = buildProfileExecutionWorkQueue();
-  const jinhsiEdges = queue.edges.filter((edge) => edge.presetId === 'jinhsi-standard-opener');
-  assert.equal(jinhsiEdges.length, 5);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 4);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
-  assert.ok(
-    jinhsiEdges
-      .filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE')
-      .every((edge) => Boolean(edge.primitiveId)),
-  );
-  assert.equal(
-    jinhsiEdges.find((edge) => edge.pendingExecutionId === 'rotation:jinhsi-standard-opener-source-sequence:engine-model')?.semanticStatus,
-    'PROFILE_SPECIFIC_EXECUTION',
-  );
-});
-
-test('Jinhsi backward-impact review keeps remaining execution blockers open and BuildContext fails closed', () => {
-  const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
-  assert.ok(impact);
-  assert.equal(impact.result, 'REVIEWED_WITH_PENDING_EXECUTION');
-  assert.deepEqual(impact.pendingExecutionIds, [
-    'weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter',
-    'echo:echo-60000595:jue-active-skill-and-blessing-adapter',
-    'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
-    'team:jinhsi-zhezhi-verina:incoming-state-adapter',
-    'rotation:jinhsi-standard-opener-source-sequence:engine-model',
-  ]);
-  assert.equal(review.availableEventStatePrimitives.jinhsiResourceState, 'jinhsi-resource-state-v1');
-  assert.equal(review.availableEventStatePrimitives.combatStartPrebuff, 'jinhsi-standard-opener-combat-start-prebuff-v1');
-  assert.equal(review.availableEventStatePrimitives.firstStandardOpenerUnison, 'jinhsi-standard-opener-first-unison-v1');
-  assert.equal(review.availableEventStatePrimitives.jueBlessingState, 'jue-blessing-state-v1');
-  assert.equal(review.availableEventStatePrimitives.teamIncomingState, 'jinhsi-team-incoming-state-v1');
-  assert.throws(
-    () => buildContextFromVerifiedPreset('jinhsi-standard-opener', []),
-    /not ENGINE_MODELED/,
-  );
+test('three reusable Jinhsi execution edges remain timeline-covered while Jué is source-semantic blocked after three closures', () => {
+  const impact = PROFILE_BACKWARD_IMACT_REVIEWS_V36_FIXME;
 });

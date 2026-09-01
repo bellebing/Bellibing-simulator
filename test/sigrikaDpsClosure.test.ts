@@ -75,7 +75,7 @@ test('Sigrika raw state remains decomposed while source-closed transitions use o
   assert.equal(SIGRIKA_RESOURCE_STATE_CONTRACT.rune.selectionWhenMoreThanTwoRunes, 'UNMODELED_FAIL_CLOSED');
 });
 
-test('canonical Sigrika action data exists while cancel timing remains outside execution', () => {
+test('canonical Sigrika action data exists while versioned timing evidence remains outside execution', () => {
   const factIds = new Set(SIGRIKA_ACTION_FACTS.map((row) => row.factId));
   assert.equal(factIds.has('sigrika-basic-attack-one-two-three-basic-attack-elucidated-dmg'), true);
   assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-runic-chain-whip-dmg'), true);
@@ -83,11 +83,18 @@ test('canonical Sigrika action data exists while cancel timing remains outside e
   assert.equal(factIds.has('sigrika-forte-circuit-within-infinity-s-embrace-forte-circuit-learn-my-true-name-dmg'), true);
   assert.equal(factIds.has('sigrika-resonance-liberation-where-trust-leads-me-skill-dmg'), true);
 
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactActionTimestamps, null);
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.exactRotationSeconds, null);
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.externalTestedRotationSeconds, 12.75);
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.externalTestedRotationStatus, 'EVIDENCE_ONLY_NOT_CANONICAL_DENOMINATOR');
-  assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing.cancelPolicy, /does not publish exact frames/);
+  const timing = SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.timing;
+  assert.equal(timing.exactActionTimestamps, null);
+  assert.equal(timing.exactRotationSeconds, null);
+  assert.equal(timing.currentPrydwenMajorBuildCalcsPatch, '3.5');
+  assert.equal(timing.currentPrydwenExposedRotationSeconds, null);
+  assert.equal(timing.historicalPrydwenExactActionOrderRotationSeconds, 12.8);
+  assert.equal(timing.historicalPrydwenTimingStatus, 'EXACT_FIXED_ACTION_ORDER_MATCH_STALE_MAJOR_CALCS_NOT_CURRENT_DENOMINATOR');
+  assert.equal(timing.externalTestedRotationSeconds, 12.75);
+  assert.equal(timing.externalTestedRotationStatus, 'EVIDENCE_ONLY_MISMATCHED_ACTION_SET_NOT_CANONICAL_DENOMINATOR');
+  assert.equal(timing.denominatorStatus, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.match(timing.cancelPolicy, /current Prydwen marks major build\/calcs Patch 3\.5/);
+  assert.match(timing.cancelPolicy, /per-action timestamps/);
 });
 
 test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus event-driven semantics', () => {

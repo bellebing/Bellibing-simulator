@@ -64,15 +64,16 @@ export const SONATA_CAST_WINDOW_SEMANTIC_SPLIT = {
   reviewedAt: '2026-09-01',
   pendingExecutionIds: [
     'sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter',
-    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
   ],
-  closesPendingExecutionIds: [] as readonly string[],
+  closesPendingExecutionIds: [
+    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+  ] as const,
   requiresProfileEventTimeline: true,
   notes: [
-    'Molten Rift 5-piece is source-clean as an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-    'Celestial Light 5-piece is source-clean as an executed Intro Skill cast -> 15-second SELF Spectro DMG window.',
-    'Neither primitive contract grants uptime from equipment alone; callers must supply the matching owner event and exact timestamp.',
-    'The primitive does not close Changli or Jinhsi profile execution while their rotations remain SOURCE_SEQUENCE_ONLY.',
+    'Molten Rift 5-piece is source-clean as an executed Resonance Skill cast -> 15-second SELF Fusion DMG window and remains pending for Changli timeline execution.',
+    'Celestial Light 5-piece remains a reusable source-clean Intro Skill cast -> 15-second SELF Spectro DMG contract.',
+    'The exact Jinhsi Standard Opener Celestial dependency is now closed separately by jinhsi-standard-opener-combat-start-prebuff-v1 because current source explicitly starts combat with the no-Intro opener; this does not remove the reusable cast-window contract.',
+    'Neither primitive contract grants uptime from equipment alone; callers must supply the matching owner event and exact timestamp unless a source-specific profile review proves the trigger cannot occur in the supported artifact.',
     'No generic trigger-text parsing or blanket uptime is authorized by this semantic split.',
   ],
 } as const;

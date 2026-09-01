@@ -59,7 +59,11 @@ export function validateSigrikaPrydwenCalculationContext(): readonly string[] {
     issues.push(`Sigrika calculation context members drifted: ${teamIds.join(',')}`);
   }
 
-  if (context.supportEchoBindings.qiuyuan === context.supportEchoBindings.ciaccona) {
+  const supportEchoNames: readonly string[] = [
+    context.supportEchoBindings.qiuyuan,
+    context.supportEchoBindings.ciaccona,
+  ];
+  if (new Set(supportEchoNames).size !== supportEchoNames.length) {
     issues.push('Sigrika calculation context support Echo identities must remain distinct');
   }
 

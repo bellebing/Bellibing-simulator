@@ -10,7 +10,7 @@ import {
   validateSonataCastWindowContracts,
 } from '../src/combat/sonataCastWindowAdapter.ts';
 
-test('source-clean Sonata cast-window contracts stay locked to exact canonical rows', () => {
+test('source-clean Sonata cast-window contracts stay locked while exact profile closures stay separate', () => {
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(SONATA_CAST_WINDOW_CONTRACTS, [
     {
@@ -34,10 +34,11 @@ test('source-clean Sonata cast-window contracts stay locked to exact canonical r
   ]);
   assert.deepEqual(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds, [
     'sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter',
-    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
   ]);
   assert.equal(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);
-  assert.deepEqual(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.closesPendingExecutionIds, []);
+  assert.deepEqual(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.closesPendingExecutionIds, [
+    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+  ]);
 
   const drifted = SONATA_EFFECT_MODELS.map((effect) => effect.effectId === 'S05_5PC_SPECTRO'
     ? { ...effect, durationSeconds: 14 }
@@ -70,7 +71,7 @@ test('Molten Rift primitive activates only from an explicit owner Resonance Skil
   }), null);
 });
 
-test('Celestial Light primitive requires the actual owner Intro event and never equipment-only uptime', () => {
+test('Celestial Light primitive remains reusable and requires an actual owner Intro event', () => {
   const window = activateSonataCastWindow({
     effectId: 'S05_5PC_SPECTRO',
     ownerId: 'jinhsi',

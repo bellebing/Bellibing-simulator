@@ -1,3 +1,4 @@
+import type { StatTargetProfile } from '../profileDomain.ts';
 import { PROFILE_HORIZONTAL_GREEN_LANE_STATS } from './profileHorizontalGreenLane20260830.ts';
 
 const PENDING_EXECUTION_ID = 'stat-target:lingyang-standard-stats:exact-er-gate-adapter' as const;
@@ -33,7 +34,8 @@ export const LINGYANG_ENERGY_REGEN_GATE_REVIEW = {
 
 export function validateLingyangEnergyRegenGateReview(): readonly string[] {
   const issues: string[] = [];
-  const matches = PROFILE_HORIZONTAL_GREEN_LANE_STATS.filter((profile) => profile.id === PROFILE_ID);
+  const statTargets: readonly StatTargetProfile[] = PROFILE_HORIZONTAL_GREEN_LANE_STATS;
+  const matches = statTargets.filter((profile) => profile.id === PROFILE_ID);
   if (matches.length !== 1) {
     issues.push(`expected exactly one ${PROFILE_ID} stat target, got ${matches.length}`);
     return issues;

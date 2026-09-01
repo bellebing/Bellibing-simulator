@@ -1,5 +1,6 @@
 import { CHARACTER_BUILD_PRESETS } from './characterBuildPresets.ts';
 import { ECHO_LOADOUT_PROFILES } from './echoLoadoutProfiles.ts';
+import { applyLucillaStandardExecutionOverride } from './lucillaExecutionProfile20260901.ts';
 import {
   PROFILE_COHORT_01_GREEN_LANE_ECHOES,
   PROFILE_COHORT_01_GREEN_LANE_PRESETS,
@@ -62,6 +63,10 @@ import { WEAPON_RECOMMENDATION_PROFILES } from './weaponRecommendations.ts';
 import type { ProfileCatalogs } from '../profileDomain.ts';
 import { createProfileRegistry } from '../profileRegistry.ts';
 
+const PROFILE_HORIZONTAL_20260831_CANONICAL_ROTATIONS = applyLucillaStandardExecutionOverride(
+  PROFILE_HORIZONTAL_20260831_ROTATIONS,
+);
+
 export const PROFILE_CATALOGS: ProfileCatalogs = {
   weaponRecommendations: [
     ...WEAPON_RECOMMENDATION_PROFILES,
@@ -110,7 +115,7 @@ export const PROFILE_CATALOGS: ProfileCatalogs = {
     ...PROFILE_MULTIMODE_DENIA_ROTATIONS,
     ...PROFILE_COHORT_01_GREEN_LANE_ROTATIONS,
     ...PROFILE_HORIZONTAL_GREEN_LANE_ROTATIONS,
-    ...PROFILE_HORIZONTAL_20260831_ROTATIONS,
+    ...PROFILE_HORIZONTAL_20260831_CANONICAL_ROTATIONS,
   ],
   presets: [
     ...CHARACTER_BUILD_PRESETS,

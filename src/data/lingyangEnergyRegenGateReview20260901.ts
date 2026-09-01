@@ -1,9 +1,22 @@
-import type { StatTargetProfile } from '../profileDomain.ts';
 import { PROFILE_HORIZONTAL_GREEN_LANE_STATS } from './profileHorizontalGreenLane20260830.ts';
 
 const PENDING_EXECUTION_ID = 'stat-target:lingyang-standard-stats:exact-er-gate-adapter' as const;
 const PROFILE_ID = 'lingyang-standard-stats' as const;
 const SOURCE_RANGE = '120-125%+' as const;
+
+interface LingyangStatTargetReviewShape {
+  readonly id: string;
+  readonly characterId: string;
+  readonly verificationStatus: string;
+  readonly gates: readonly unknown[];
+  readonly targetRules: readonly {
+    readonly stat: string;
+    readonly priority: number;
+  }[];
+  readonly provenance: {
+    readonly notes: readonly string[];
+  };
+}
 
 export const LINGYANG_ENERGY_REGEN_GATE_REVIEW = {
   reviewId: 'LINGYANG-ER-GATE-REVIEW-2026-09-01-01',
@@ -34,7 +47,7 @@ export const LINGYANG_ENERGY_REGEN_GATE_REVIEW = {
 
 export function validateLingyangEnergyRegenGateReview(): readonly string[] {
   const issues: string[] = [];
-  const statTargets: readonly StatTargetProfile[] = PROFILE_HORIZONTAL_GREEN_LANE_STATS;
+  const statTargets: readonly LingyangStatTargetReviewShape[] = PROFILE_HORIZONTAL_GREEN_LANE_STATS;
   const matches = statTargets.filter((profile) => profile.id === PROFILE_ID);
   if (matches.length !== 1) {
     issues.push(`expected exactly one ${PROFILE_ID} stat target, got ${matches.length}`);

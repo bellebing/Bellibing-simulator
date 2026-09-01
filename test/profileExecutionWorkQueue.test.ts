@@ -37,25 +37,24 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 20);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 21);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
-    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
-    if (pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID) {
-      assert.equal(review?.status, 'BLOCKED_SOURCE_SEMANTICS');
-      assert.equal(review?.blockerId, 'BUG-020');
-      assert.equal(review?.primitiveId, 'weapon-cast-timed-self-window-v1');
-      continue;
-    }
+    const review = EXECUTION_SEMANTIC_REVIEWS.find(
+      (row) => row.pendingExecutionId === pendingExecutionId && !row.presetIds,
+    );
     assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
     assert.equal(review?.primitiveId, 'weapon-cast-timed-self-window-v1');
   }
 
   const jinhsiAhSkill = EXECUTION_SEMANTIC_REVIEWS.find(
-    (row) => row.pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+    (row) => row.pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID
+      && row.presetIds?.includes('jinhsi-standard-opener'),
   );
+  assert.deepEqual(jinhsiAhSkill?.presetIds, ['jinhsi-standard-opener']);
   assert.equal(jinhsiAhSkill?.status, JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.semanticStatus);
   assert.equal(jinhsiAhSkill?.actionKey, 'weapon:ages-of-harvest-skill-window-lifecycle');
+  assert.equal(jinhsiAhSkill?.primitiveId, 'weapon-cast-timed-self-window-v1');
   assert.equal(jinhsiAhSkill?.blockerId, JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.blockerId);
 
   for (const pendingExecutionId of SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds) {
@@ -202,7 +201,7 @@ test('current 76-edge matrix is partitioned into actionable, covered, blocked an
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 20);
+  assert.equal(queue.reviewRecordCount, 21);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -212,6 +211,25 @@ test('current 76-edge matrix is partitioned into actionable, covered, blocked an
       + queue.summary.profileSpecificExecutionEdges,
     queue.summary.totalEdges,
   );
+});
+
+test('preset-scoped semantic review does not leak across profiles sharing one pending id', () => {
+  const queue = buildProfileExecutionWorkQueue();
+  const shared = queue.edges.filter(
+    (row) => row.pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+  );
+  const lumi = shared.find((row) => row.presetId === 'lumi-hybrid');
+  const jinhsi = shared.find((row) => row.presetId === 'jinhsi-standard-opener');
+
+  assert.equal(shared.length, 2);
+  assert.equal(lumi?.semanticStatus, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(lumi?.actionKey, 'weapon:cast-timed-self-window');
+  assert.equal(lumi?.primitiveId, 'weapon-cast-timed-self-window-v1');
+  assert.equal(lumi?.blockerId, null);
+  assert.equal(jinhsi?.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(jinhsi?.actionKey, 'weapon:ages-of-harvest-skill-window-lifecycle');
+  assert.equal(jinhsi?.primitiveId, 'weapon-cast-timed-self-window-v1');
+  assert.equal(jinhsi?.blockerId, 'BUG-020');
 });
 
 test('actionable queue removes already-covered, closed and source-blocked families including Jinhsi primitives', () => {
@@ -271,7 +289,7 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener team-st
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
   assert.ok(weaponCast);
-  assert.equal(weaponCast.dependencyCount, 4);
+  assert.equal(weaponCast.dependencyCount, 5);
   assert.equal(weaponCast.profileCount, 4);
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
@@ -375,7 +393,12 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener team-st
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {
   const duplicate = [EXECUTION_SEMANTIC_REVIEWS[0], EXECUTION_SEMANTIC_REVIEWS[0]];
-  assert.ok(validateExecutionSemanticReviews(undefined, duplicate).some((issue) => issue.includes('duplicate semantic review')));
+  assert.ok(validateExecutionSemanticReviews(undefined, duplicate).some((issue) => issue.includes('duplicate global semantic review')));
+
+  const scopedReview = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.presetIds?.length);
+  assert.ok(scopedReview);
+  const duplicateScoped = [scopedReview, scopedReview];
+  assert.ok(validateExecutionSemanticReviews(undefined, duplicateScoped).some((issue) => issue.includes('duplicate scoped semantic review')));
 
   const unknown = [{
     pendingExecutionId: 'weapon:not-canonical:TEST:adapter',

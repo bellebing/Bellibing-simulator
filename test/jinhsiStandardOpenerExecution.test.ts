@@ -6,6 +6,7 @@ import { JINHSI_STANDARD_OPENER_ACTION_MAP, getJinhsiStandardOpenerStateSnapshot
 import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 import { resolveBuildPreset } from '../src/profileRegistry.ts';
+import { buildProfileExecutionWorkQueue } from '../src/profileExecutionWorkQueue.ts';
 import { JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 as review } from '../src/data/jinhsiStandardOpenerExecutionReview20260901.ts';
 import { JINHSI_JUE_RANK5_ATTACK_20260901, JINHSI_JUE_REPEATED_SKILL_DAMAGE_20260901, JINHSI_JUE_SKILL_BONUS_20260901 } from '../src/data/jinhsiJueFacts20260901.ts';
 import { SONATA_EFFECT_MODELS } from '../src/data/sonataEffects.ts';
@@ -78,6 +79,7 @@ test('Jué Rank-5 facts are exact but not automatically active in the opener', (
   assert.equal(JINHSI_JUE_SKILL_BONUS_20260901.durationSeconds, 15);
   assert.equal(JINHSI_JUE_REPEATED_SKILL_DAMAGE_20260901.motionValuePerProc, 0.16);
   assert.equal(JINHSI_JUE_REPEATED_SKILL_DAMAGE_20260901.minimumProcIntervalSeconds, 1);
+  assert.equal(review.jue.primitiveId, 'jue-blessing-state-v1');
   assert.equal(review.jue.canonicalCastPresent, false);
   assert.equal(review.jue.runtimeContributionAuthorized, false);
 });
@@ -97,12 +99,37 @@ test('opener-only denominator and ER gate remain explicitly unresolved', () => {
   assert.deepEqual(review.closesPendingExecutionIds, []);
 });
 
+test('seven reusable Jinhsi execution edges have primitives while all eight dependencies remain open', () => {
+  const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
+  assert.ok(impact);
+  assert.equal(impact.pendingExecutionIds.length, 8);
+
+  const queue = buildProfileExecutionWorkQueue();
+  const jinhsiEdges = queue.edges.filter((edge) => edge.presetId === 'jinhsi-standard-opener');
+  assert.equal(jinhsiEdges.length, 8);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 7);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
+  assert.ok(
+    jinhsiEdges
+      .filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE')
+      .every((edge) => Boolean(edge.primitiveId)),
+  );
+  assert.equal(
+    jinhsiEdges.find((edge) => edge.pendingExecutionId === 'rotation:jinhsi-standard-opener-source-sequence:engine-model')?.semanticStatus,
+    'PROFILE_SPECIFIC_EXECUTION',
+  );
+  assert.deepEqual(review.closesPendingExecutionIds, []);
+});
+
 test('Jinhsi backward-impact review keeps execution blockers open and BuildContext fails closed', () => {
   const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(impact);
   assert.equal(impact.result, 'REVIEWED_WITH_PENDING_EXECUTION');
   assert.ok(impact.pendingExecutionIds.includes('rotation:jinhsi-standard-opener-source-sequence:engine-model'));
   assert.ok(impact.pendingExecutionIds.includes('team:jinhsi-zhezhi-verina:incoming-state-adapter'));
+  assert.equal(review.availableEventStatePrimitives.jinhsiResourceState, 'jinhsi-resource-state-v1');
+  assert.equal(review.availableEventStatePrimitives.jueBlessingState, 'jue-blessing-state-v1');
+  assert.equal(review.availableEventStatePrimitives.teamIncomingState, 'jinhsi-team-incoming-state-v1');
   assert.throws(
     () => buildContextFromVerifiedPreset('jinhsi-standard-opener', []),
     /not ENGINE_MODELED/,

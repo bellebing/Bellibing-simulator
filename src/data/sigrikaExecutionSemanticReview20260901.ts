@@ -112,8 +112,9 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
   blocked(
     'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
     'rotation:sigrika-standard-denominator-timeline',
-    'Prydwen preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics. Current Prydwen also says the Summon may be cast at any point, so it does not provide one fixed Echo timestamp.',
-    'ArabWuwa publishes a tested 12.75s Sigrika block, but its measured/calculation action set fixes an Echo step and exposes only one explicit Enhanced Basic/Elucidated while Prydwen canonical contains two Elucidated checkpoints. The measured 12.75s block is therefore neither the exact canonical action set nor a safe canonical upper bound for 14s/15s window coverage.',
-    'sigrika-standard-source-event-skeleton-v1 closes event identity/order only: all exactTimestampSeconds remain null and Bellibing still lacks a source-backed denominator.',
+    'Current Prydwen preserves the exact 14-step Standard Rotation action order, Chain Whip cancel on hit via Ultimate, Outburst cancel via Hold Skill and flexible Summon placement. Its update tracker marks the latest major build/calcs revision as Patch 3.5, but the currently exposed calculation text does not publish a rotation-time value or per-action timestamps.',
+    'A historical Prydwen static snapshot from major build/calcs Patch 3.2 publishes 12.8s for the same fixed 14-action Standard Rotation order, the same Qiuyuan/Ciaccona calculation support-Echo bindings and the same Solsworn Ciphers R1 / Sound of True Name / Nameless Explorer calculation package. Because Prydwen subsequently revised major calculations to Patch 3.5, Bellibing records 12.8s as stale exact-order evidence rather than current denominator truth.',
+    'ArabWuwa publishes a current tested 12.75s Sigrika block, but its action set fixes an Echo step and exposes only one explicit Enhanced Basic/Elucidated while Prydwen canonical contains two Elucidated checkpoints. That 12.75s block is therefore not an exact canonical action-set denominator either.',
+    'Even an exact total rotation duration would not by itself resolve the per-action timestamps needed for 5s/6s/14s/15s timed-window coverage. sigrika-standard-source-event-skeleton-v1 closes event identity/order only; all exactTimestampSeconds remain null.',
   ),
 ] as const);

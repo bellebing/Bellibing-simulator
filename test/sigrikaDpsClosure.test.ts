@@ -19,6 +19,7 @@ import { SONATA_EFFECT_MODELS } from '../src/data/sonataEffects.ts';
 import {
   SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW,
   SIGRIKA_STANDARD_EXECUTION_PREFLIGHT,
+  SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS,
   SIGRIKA_STANDARD_PENDING_EXECUTION_IDS,
 } from '../src/data/sigrikaExecutionPreflight20260901.ts';
 import { GAUNTLET_WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectsGauntlet.ts';
@@ -70,7 +71,7 @@ test('Sigrika raw state remains decomposed while source-closed transitions use o
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.primitiveId, 'sigrika-resource-state-v1');
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.creation, 'PRIMITIVE_AVAILABLE_EVENT_DRIVEN_DIRECT_HIT');
   assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.consume, 'PRIMITIVE_AVAILABLE_EXACT_TWO_RUNE_CANONICAL_FAIL_CLOSED_GT2');
-  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.actionEligibility, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.runeState.actionEligibility, 'CANONICAL_SOURCE_CHECKPOINTS_CLOSED_GENERAL_TIMELINE_OPEN');
   assert.equal(SIGRIKA_RESOURCE_STATE_CONTRACT.rune.selectionWhenMoreThanTwoRunes, 'UNMODELED_FAIL_CLOSED');
 });
 
@@ -118,24 +119,34 @@ test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus 
   assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /scalingStat/);
 });
 
-test('Sigrika backward-impact review contributes exactly 14 still-pending dependencies', () => {
+test('Sigrika historical review keeps fifteen boundaries while aggregate catalog exposes eleven live dependencies', () => {
+  assert.equal(SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS.length, 15);
+  assert.deepEqual(SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.pendingExecutionIds, SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS);
+
   const canonical = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.reviewId === SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.reviewId);
   assert.ok(canonical);
   assert.equal(canonical.result, 'REVIEWED_WITH_PENDING_EXECUTION');
   assert.deepEqual(canonical.pendingExecutionIds, SIGRIKA_STANDARD_PENDING_EXECUTION_IDS);
 
   const edges = PROFILE_ADAPTER_DEPENDENCY_MATRIX.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(edges.length, 14);
+  assert.equal(edges.length, 11);
   assert.deepEqual(edges.map((row) => row.pendingExecutionId), [...SIGRIKA_STANDARD_PENDING_EXECUTION_IDS]);
 
   const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(queueEdges.length, 14);
+  assert.equal(queueEdges.length, 11);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 1);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 0);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 12);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 9);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 1);
-  assert.equal(queueEdges.some((row) => row.pendingExecutionId === 'profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
+  for (const closedId of [
+    'profile:sigrika-standard:energy-regen-hard-gate-adapter',
+    'character:sigrika:decipher-elucidated-eligibility-adapter',
+    'character:sigrika:runic-heavy-branch-selection-adapter',
+    'character:sigrika:learn-my-true-name-full-stop-adapter',
+  ]) {
+    assert.equal(queueEdges.some((row) => row.pendingExecutionId === closedId), false, closedId);
+  }
 });
 
 test('canonical ER gate resolves while BuildContext, freeze and product routes remain fail-closed', () => {

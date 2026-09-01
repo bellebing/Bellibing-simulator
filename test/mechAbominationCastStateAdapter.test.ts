@@ -18,6 +18,7 @@ test('Mech cast-state contract preserves exact effect/cooldown facts without clo
 
   const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'lingyang-standard')!;
   assert.ok(review.pendingExecutionIds.includes(MECH_ABOMINATION_CAST_STATE_REVIEW.pendingExecutionId));
+  assert.ok(review.notes.some((note) => note.includes('source-safe explicit-cast primitive') && note.includes('unscheduled')));
 });
 
 test('explicit Mech cast creates 15s wielder ATK window and 20s cooldown readiness', () => {

@@ -34,8 +34,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 32);
-  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 14);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 31);
+  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 13);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -152,20 +152,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 87-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 86-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 87,
+    totalEdges: 86,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 23,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 11,
+    blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 32);
+  assert.equal(queue.reviewRecordCount, 31);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -209,6 +209,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
   assert.equal(actionableIds.has('weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter'), false);
   assert.equal(actionableIds.has('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter'), false);
+  assert.equal(actionableIds.has('team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter'), false);
 });
 
 test('remaining shared fanout is machine-ranked after Changli triage', () => {
@@ -273,6 +274,11 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.ok(qiuyuanTransfer);
   assert.equal(qiuyuanTransfer.dependencyCount, 1);
   assert.deepEqual(qiuyuanTransfer.primitiveIds, ['character-outro-incoming-transfer-v1']);
+
+  const ciacconaProjection = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:ciaccona-sigrika-incoming-state');
+  assert.ok(ciacconaProjection);
+  assert.equal(ciacconaProjection.dependencyCount, 1);
+  assert.deepEqual(ciacconaProjection.primitiveIds, ['ciaccona-solo-concert-external-team-state-v1']);
 
   const sigrikaRune = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
   assert.ok(sigrikaRune);

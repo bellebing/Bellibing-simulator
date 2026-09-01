@@ -79,6 +79,13 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
       'Aemeath Between the Stars grants 30% CRIT DMG once per unique Resonator that inflicts Fusion Burst, up to 2 stacks; this state has no timer and resets only on team change or Aemeath Resonance Mode switch.',
       'aemeath-denia-fusion-burst-predecessor-v1 therefore source-proves exactly one Denia-caused Between the Stars stack before Aemeath entry without fabricating Denia timestamps or Denia Outro uptime.',
     ],
+    chisaNegativeStatusPredecessor: [
+      'Current Chisa source says Chisa acts first in all her teams and her opener/loop rotations end with Outro.',
+      'Chisa Outro grants Resonant Thread of Closure for 20s; current Chisa source separately states that a 20s team buff cast immediately before Outro is sufficient for the other two teammates rotation times.',
+      'Canonical Denia Fusion Burst sequence ends with Outro to Aemeath, establishing the exact source-supported Chisa -> Denia -> Aemeath handoff order for this team.',
+      'aemeath-chisa-negative-status-predecessor-v1 therefore proves Resonant Thread of Closure is active at Aemeath entry while leaving exact remaining seconds null.',
+      'Aemeath must still trigger her own 15s Thread of Bane by applying Fusion Burst/qualifying Negative Status after entry; full-rotation Thread of Bane uptime is not claimed without current exact Aemeath timing.',
+    ],
     weaponAndSonata: [
       'Everbright Polestar EP-ATTR is permanent All-Attribute DMG.',
       'EP-LIB-DEF and EP-LIB-FUSION-RES are separate 8s SELF windows triggered by the wielder inflicting Fusion Burst or Tune Rupture - Shifting.',
@@ -103,8 +110,8 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     {
       dependencyId: 'incoming:chisa:aemeath-negative-status-predecessor-state',
       producerCharacterId: 'chisa',
-      status: 'BLOCKED_PREDECESSOR_STATE' as AemeathExecutionPreflightStatus,
-      notes: 'Canonical team/source proves Chisa is the Fusion Burst support and that Fusion Burst is a Negative Status path, but Chisa team effects still require an explicit Outro/predecessor event and lifecycle relative to Aemeath. No Chisa rotation or uptime is invented.',
+      status: 'SOURCE_PROVEN' as AemeathExecutionPreflightStatus,
+      notes: 'Closed narrowly by aemeath-chisa-negative-status-predecessor-v1: current source establishes Chisa first, a 20s post-Outro window sufficient for the other two teammate rotations, and canonical Denia -> Aemeath handoff. Only Resonant Thread of Closure availability at Aemeath entry is proven; exact remaining seconds and Aemeath own 15s Thread of Bane full-rotation uptime remain unclaimed.',
     },
   ],
   closedExecutionIds: [
@@ -114,12 +121,12 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     'sonata:sonata-27:S27_5PC_CR:status-infliction-window-semantics',
     'sonata:sonata-27:S27_5PC_FUSION:status-infliction-window-semantics',
     'incoming:denia:aemeath-fusion-burst-predecessor-state',
+    'incoming:chisa:aemeath-negative-status-predecessor-state',
   ],
   blockedExecutionIds: [
     'echo:echo-60001915:sigillum-active-skill-scaling-stat',
     'character:aemeath:synchronization-routine-gain-values',
     'character:aemeath:duet-threshold-proof',
-    'incoming:chisa:aemeath-negative-status-predecessor-state',
     'rotation:aemeath-standard-source-sequence:timing-denominator',
     'rotation:aemeath-standard-source-sequence:engine-model',
   ],
@@ -127,7 +134,7 @@ export const AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901 = {
     'The source action order does not provide exact timestamps, animation/cancel durations or a total canonical rotation duration.',
     'The current source does not expose exact routine Basic-attack Synchronization gains, so the two >=100 Synchronization Duet gates cannot be numerically proven from the canonical action list.',
     'No canonical Aemeath + Denia + Chisa source locks the 115%-125% ER guidance range to one exact numeric execution gate; therefore no numeric team-specific ER gate is promoted.',
-    'Denia now has a source-proven timeless Between the Stars predecessor contract; Chisa still requires an explicit predecessor Outro/state timeline before any Chisa-derived Negative Status team effects can execute.',
+    'Denia and Chisa now have narrow source-proven predecessor entry contracts. Their exact timed buff lifecycles inside Aemeath execution still require the eventual current canonical timeline and are not promoted into blanket uptime.',
     'A third-party timed team rotation exists, but it is a different execution artifact and is not substituted for the canonical aemeath-standard source sequence or its missing denominator.',
     'BuildContext remains fail-closed for SOURCE_SEQUENCE_ONLY rotations and freeze cannot approve this profile before ENGINE_MODELED plus clean dependency closure.',
   ],

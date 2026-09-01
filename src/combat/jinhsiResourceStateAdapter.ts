@@ -229,13 +229,16 @@ export function consumeJinhsiIncandescenceForIlluminous(
 
 /**
  * Illuminous Epiphany may grant one Unison only when the caller-provided
- * predecessor cadence proves the 25s trigger is ready.
+ * predecessor cadence proves the 25s trigger is ready. A currently held Unison
+ * fails closed: the source does not prove that another grant may refresh or
+ * move the cadence while the existing Unison has not been consumed.
  */
 export function applyJinhsiIlluminousEpiphanyForUnison(
   state: JinhsiResourceState,
   atSeconds: number,
 ): JinhsiUnisonGrantResult {
   finiteNonNegative(atSeconds, 'Illuminous Epiphany time');
+  if (state.unisonAvailable) return { state, granted: false };
   if (atSeconds < state.unisonNextGrantReadyAtSeconds) return { state, granted: false };
   return {
     state: {
@@ -289,7 +292,7 @@ export const JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW = {
   requiresKnownPredecessorState: true,
   notes: [
     'Incandescence generation/consume and the exact per-point Stella Glamor multiplier are executable from explicit party-damage events plus known predecessor cadence state.',
-    'Unison gain/consume is executable from explicit Illuminous Epiphany and switch events plus a known 25-second predecessor cooldown state.',
+    'Unison gain/consume is executable from explicit Illuminous Epiphany and switch events plus a known 25-second predecessor cooldown state; already-held Unison is not refreshed or re-granted.',
     'The canonical Standard Opener still does not provide starting Incandescence, per-Attribute cadence history, or Unison cooldown history, so neither profile dependency closes.',
   ],
 } as const;

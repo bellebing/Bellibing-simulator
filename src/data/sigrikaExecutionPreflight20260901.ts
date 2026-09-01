@@ -13,7 +13,6 @@ export const SIGRIKA_STANDARD_PENDING_EXECUTION_IDS = [
   'sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter',
   'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter',
   'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
-  'profile:sigrika-standard:energy-regen-hard-gate-adapter',
   'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
   'rotation:sigrika-standard-source-sequence:engine-model',
 ] as const;
@@ -97,7 +96,7 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
   },
   incomingTeamState: {
     qiuyuan: 'Qiuyuan Outro 50% Echo Skill DMG Amplification for 14s or until incoming switch-out is implemented by character-outro-incoming-transfer-v1. The Sigrika source sequence still has no Qiuyuan predecessor event/timestamp proving it at Sigrika entry; Bamboo’s Shade remains a separate predecessor-state concern.',
-    ciaccona: 'Source-proven raw Solo Concert grants nearby team Resonators 24% Aero DMG Bonus, but raw duration is null and the state remains externally owned by the Ciaccona engine. The Sigrika source sequence contains no predecessor timeline proving that state at Sigrika entry.',
+    ciaccona: 'Solo Concert source-proves non-stackable +24% Aero DMG with raw duration null. ciaccona-solo-concert-external-team-state-v1 can project only an explicit same-time active snapshot from the external Ciaccona execution owner; the Sigrika source sequence still has no predecessor timeline proving that snapshot at its action times.',
   },
   timing: {
     exactActionTimestamps: null,
@@ -110,9 +109,11 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
   energyRegen: {
     sourceMinimum: 1.09,
     sourcePreferred: 1.19,
-    status: 'SOURCE_GUIDANCE_ONLY',
-    hardGate: null,
-    reason: 'The 109%-119% requirement is team-dependent and the exact Sigrika/Qiuyuan/Ciaccona predecessor/energy timeline is not executable, so no single minimum is promoted. The separate Inherent ER-over-125% Echo Skill bonus formula is modeled but is not the canonical ER requirement.',
+    status: 'CANONICAL_TEAM_GATE_RESOLVED',
+    hardGate: 1.09,
+    preferredGate: 1.19,
+    adapterId: 'sigrika-standard-er-gate-v1',
+    reason: 'Current Prydwen explicitly maps the lower 109% estimate to Qiuyuan + Ciaccona (or Phrolova) and the higher 119% estimate to Qiuyuan + Shorekeeper. Canonical sigrika-qiuyuan-ciaccona therefore resolves the existing VERIFIED stat-target minimum to 1.09; 1.19 remains the preferred upper reference rather than a second hard minimum.',
   },
   buildContext: 'BLOCKED: buildContextFromVerifiedPreset rejects SOURCE_SEQUENCE_ONLY rotations.',
   freeze: 'BLOCKED: no freeze approval is permitted while pendingExecutionIds remain and the rotation is not ENGINE_MODELED.',
@@ -137,9 +138,10 @@ export const SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW: ProfileBackwardImpactRevie
     'sigrika-standard remains the verified build/source package: Solsworn Ciphers R1 / Sound of True Name / Nameless Explorer / Sigrika + Qiuyuan + Ciaccona / sigrika-standard-source-sequence.',
     'The canonical rotation remains SOURCE_SEQUENCE_ONLY. Current Prydwen preserves Chain Whip -> Ultimate and Outburst -> Hold Skill order/cancel semantics but publishes no exact frames/timestamps; its Summon timing is flexible rather than a fixed Standard Rotation timestamp.',
     'Current source review closes the former character-state semantic uncertainty into sigrika-resource-state-v1: direct-hit Rune creation, 2/4 capacity, Convergent/Divergent duplication, exact two-Rune branch mapping, Schemata +50 Full Stop, Soliskin Vitality consumption, Innate Gift and Learn My True Name consume/cooldown are event-executable. >2-Rune Schemata selection remains deliberately fail-closed.',
-    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile/team timeline. Ciaccona Solo Concert remains externally owned and un-timestamped for Sigrika.',
-    'Nameless Explorer Rank-5 coefficient is now source-resolved at 273.60% Aero; a reusable attack fact is still not authorized because current reviewed ability text does not explicitly prove scalingStat, and no fixed canonical Summon timestamp exists.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action sequence as external evidence, but Bellibing keeps exact denominator/timestamps pending rather than treating a tested guide duration as a canonical frame contract. The 109%-119% Energy Regen range likewise remains team-dependent guidance.',
-    'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized while the 15 pending IDs remain open.',
+    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile/team timeline. Ciaccona Solo Concert is externally owned but now has a point-in-time Sigrika projection primitive that requires an explicit active snapshot.',
+    'Nameless Explorer Rank-5 coefficient is source-resolved at 273.60% Aero; a reusable attack fact is still not authorized because current reviewed ability text does not explicitly prove scalingStat, and no fixed canonical Summon timestamp exists.',
+    'Current Prydwen maps 109% ER to Qiuyuan+Ciaccona and 119% to Qiuyuan+Shorekeeper. Canonical team therefore source-resolves the existing VERIFIED 1.09 minimum through sigrika-standard-er-gate-v1; the ER hard-gate pending ID is closed.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action sequence as external evidence, but Bellibing keeps exact denominator/timestamps pending rather than treating a tested guide duration as a canonical frame contract.',
+    'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized while the 14 pending IDs remain open.',
   ],
 };

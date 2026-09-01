@@ -19,6 +19,7 @@ import { totalMotionValue } from '../src/echoAttackDomain.ts';
 
 const AH_INTRO_PENDING_ID = 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter';
 const CELESTIAL_INTRO_PENDING_ID = 'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter';
+const TEAM_INCOMING_PENDING_ID = 'team:jinhsi-zhezhi-verina:incoming-state-adapter';
 
 test('Jinhsi canonical profile remains Standard Opener source sequence only', () => {
   const resolved = resolveBuildPreset(PROFILE_REGISTRY, 'jinhsi-standard-opener');
@@ -54,7 +55,7 @@ test('Jinhsi opener state map preserves Incarnation gates, unresolved Incandesce
   assert.equal(snapshots[11]?.unisonAvailability, 'CONSUMED_BY_CANONICAL_UNISON_OUTRO');
 });
 
-test('Ages Intro and Celestial 5P are source-proven inactive in the combat-start no-Intro opener', () => {
+test('Ages Intro, Celestial 5P and teammate incoming state are source-proven inactive in the combat-start opener', () => {
   const ages = WEAPON_EFFECT_CATALOG.filter((row) => row.weaponId === 'ages-of-harvest');
   assert.deepEqual(ages.map((row) => row.effectId), ['AH-ATTR', 'AH-INTRO', 'AH-SKILL']);
   assert.equal(ages.find((row) => row.effectId === 'AH-ATTR')?.rankValues[0], 0.12);
@@ -74,9 +75,12 @@ test('Ages Intro and Celestial 5P are source-proven inactive in the combat-start
   assert.equal(review.weapon.introWindow.canonicalState, 'SOURCE_PROVEN_INACTIVE_COMBAT_START_NO_INTRO');
   assert.equal(review.celestialLight.fivePiece.canonicalTriggerPresent, false);
   assert.equal(review.celestialLight.fivePiece.canonicalState, 'SOURCE_PROVEN_INACTIVE_COMBAT_START_NO_INTRO');
+  assert.equal(review.incomingTeamState.openerTeamBuffState, 'SOURCE_PROVEN_PRE_TEAM_SETUP_NO_ACTIVE_INCOMING_WINDOW');
+  assert.equal(review.incomingTeamState.dependencyClosed, true);
   assert.deepEqual(JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.closesPendingExecutionIds, [
     AH_INTRO_PENDING_ID,
     CELESTIAL_INTRO_PENDING_ID,
+    TEAM_INCOMING_PENDING_ID,
   ]);
 });
 
@@ -99,7 +103,7 @@ test('Jué Rank-5 facts are exact but current free-flow source does not pin cast
   assert.equal(review.jue.runtimeContributionAuthorized, false);
 });
 
-test('opener-only denominator and ER gate remain unresolved despite three narrow source closures', () => {
+test('opener-only denominator and ER gate remain unresolved despite four narrow source closures', () => {
   assert.equal(review.rotationSeconds, null);
   assert.equal(review.outputContract.exactOpenerDamage, false);
   assert.equal(review.outputContract.exactOpenerDuration, false);
@@ -115,30 +119,33 @@ test('opener-only denominator and ER gate remain unresolved despite three narrow
     JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID,
     AH_INTRO_PENDING_ID,
     CELESTIAL_INTRO_PENDING_ID,
+    TEAM_INCOMING_PENDING_ID,
   ]);
   assert.equal(review.firstUnisonSourceClosure.firstIlluminousGrantReady, true);
   assert.equal(review.firstUnisonSourceClosure.canonicalOutroUsesUnison, true);
   assert.equal(review.firstUnisonSourceClosure.laterLoopTimingAuthorized, false);
   assert.equal(review.combatStartPrebuffSourceClosure.teamIncomingStateActiveInsideOpener, false);
-  assert.equal(review.incomingTeamState.dependencyClosed, false);
+  assert.equal(review.combatStartPrebuffSourceClosure.teamIncomingDependencyClosedForOpener, true);
+  assert.equal(review.incomingTeamState.dependencyClosed, true);
 });
 
-test('three reusable Jinhsi execution edges remain timeline-covered while Jué is source-semantic blocked after three closures', () => {
+test('two reusable Jinhsi execution edges remain timeline-covered while Jué is source-semantic blocked after four closures', () => {
   const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(impact);
-  assert.equal(impact.pendingExecutionIds.length, 5);
+  assert.equal(impact.pendingExecutionIds.length, 4);
   for (const closedId of [
     JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID,
     AH_INTRO_PENDING_ID,
     CELESTIAL_INTRO_PENDING_ID,
+    TEAM_INCOMING_PENDING_ID,
   ]) {
     assert.equal(impact.pendingExecutionIds.includes(closedId), false);
   }
 
   const queue = buildProfileExecutionWorkQueue();
   const jinhsiEdges = queue.edges.filter((edge) => edge.presetId === 'jinhsi-standard-opener');
-  assert.equal(jinhsiEdges.length, 5);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 3);
+  assert.equal(jinhsiEdges.length, 4);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 2);
   assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 1);
   assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.ok(
@@ -164,7 +171,6 @@ test('Jinhsi backward-impact review keeps remaining execution blockers open and 
     'weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter',
     'echo:echo-60000595:jue-active-skill-and-blessing-adapter',
     'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
-    'team:jinhsi-zhezhi-verina:incoming-state-adapter',
     'rotation:jinhsi-standard-opener-source-sequence:engine-model',
   ]);
   assert.equal(review.availableEventStatePrimitives.jinhsiResourceState, 'jinhsi-resource-state-v1');

@@ -38,7 +38,7 @@ test('Aemeath form transitions are explicit and never made globally persistent',
   assert.deepEqual([byStep.get(15)?.formBefore, byStep.get(15)?.formAfter], ['AEMEATH', 'MECH']);
 });
 
-test('Aemeath preflight closes only Denia predecessor state while Synchronization, Chisa, timing, denominator and ER remain fail-closed', () => {
+test('Aemeath preflight closes both predecessor entry states while Synchronization, timing, denominator and ER remain fail-closed', () => {
   const review = AEMEATH_STANDARD_EXECUTION_PREFLIGHT_20260901;
   assert.equal(review.sourceSequenceStatus, 'SOURCE_SEQUENCE_ONLY');
   assert.equal(review.engineModeled, false);
@@ -49,20 +49,18 @@ test('Aemeath preflight closes only Denia predecessor state while Synchronizatio
   assert.equal(review.buildContextAllowed, false);
   assert.equal(review.freezeAllowed, false);
 
-  assert.equal(
-    review.closedExecutionIds.includes('incoming:denia:aemeath-fusion-burst-predecessor-state'),
-    true,
-  );
-  assert.equal(
-    review.blockedExecutionIds.includes('incoming:denia:aemeath-fusion-burst-predecessor-state'),
-    false,
-  );
+  for (const closed of [
+    'incoming:denia:aemeath-fusion-burst-predecessor-state',
+    'incoming:chisa:aemeath-negative-status-predecessor-state',
+  ]) {
+    assert.equal(review.closedExecutionIds.includes(closed), true, closed);
+    assert.equal(review.blockedExecutionIds.includes(closed), false, closed);
+  }
 
   for (const blocker of [
     'echo:echo-60001915:sigillum-active-skill-scaling-stat',
     'character:aemeath:synchronization-routine-gain-values',
     'character:aemeath:duet-threshold-proof',
-    'incoming:chisa:aemeath-negative-status-predecessor-state',
     'rotation:aemeath-standard-source-sequence:timing-denominator',
     'rotation:aemeath-standard-source-sequence:engine-model',
   ]) {
@@ -71,7 +69,7 @@ test('Aemeath preflight closes only Denia predecessor state while Synchronizatio
 
   assert.deepEqual(
     review.incomingStateDependencies.map((dependency) => [dependency.producerCharacterId, dependency.status]),
-    [['denia', 'SOURCE_PROVEN'], ['chisa', 'BLOCKED_PREDECESSOR_STATE']],
+    [['denia', 'SOURCE_PROVEN'], ['chisa', 'SOURCE_PROVEN']],
   );
 });
 
@@ -81,6 +79,7 @@ test('Aemeath reusable semantic closures do not manufacture a BuildContext', () 
   assert.ok(review.closedExecutionIds.some((id) => id.includes('EP-LIB-DEF:status-infliction-window-semantics')));
   assert.ok(review.closedExecutionIds.some((id) => id.includes('S27_5PC_CR:status-infliction-window-semantics')));
   assert.ok(review.closedExecutionIds.includes('incoming:denia:aemeath-fusion-burst-predecessor-state'));
+  assert.ok(review.closedExecutionIds.includes('incoming:chisa:aemeath-negative-status-predecessor-state'));
 
   assert.throws(
     () => buildContextFromVerifiedPreset('aemeath-standard', []),

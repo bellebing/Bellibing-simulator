@@ -5,7 +5,7 @@ export const LUCILLA_GLOMMOTH_ACTIVE_DAMAGE_SEMANTIC_REVIEW_20260901 = {
   pendingExecutionId: LUCILLA_STANDARD_PENDING_EXECUTION_IDS.glommothScaling,
   checkedAt: '2026-09-01',
   status: 'BLOCKED_SOURCE_SEMANTICS',
-  blockerId: 'BUG-015',
+  blockerId: 'LUCILLA-GLOMMOTH-SCALING-SOURCE',
   actionKey: 'echo:glommoth-active-damage-scaling',
   echoId: 'echo-60001955',
   rank: 5,

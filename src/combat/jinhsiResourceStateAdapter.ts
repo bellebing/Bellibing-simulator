@@ -286,13 +286,13 @@ export const JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW = {
   reviewedAt: '2026-09-01',
   pendingExecutionIds: [
     'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
-    'character:jinhsi:jinhsi-resource-unison:availability-adapter',
   ],
   closesPendingExecutionIds: [] as readonly string[],
   requiresKnownPredecessorState: true,
   notes: [
     'Incandescence generation/consume and the exact per-point Stella Glamor multiplier are executable from explicit party-damage events plus known predecessor cadence state.',
-    'Unison gain/consume is executable from explicit Illuminous Epiphany and switch events plus a known 25-second predecessor cooldown state; already-held Unison is not refreshed or re-granted.',
-    'The canonical Standard Opener still does not provide starting Incandescence, per-Attribute cadence history, or Unison cooldown history, so neither profile dependency closes.',
+    'Generic Unison gain/consume remains executable from explicit Illuminous Epiphany and switch events plus known cadence state; already-held Unison is not refreshed or re-granted.',
+    'The canonical Standard Opener first-Unison availability edge is source-closed separately by jinhsi-standard-opener-first-unison-v1 and is no longer a pending semantic-review row.',
+    'The remaining canonical resource dependency is starting/earned Incandescence plus per-Attribute cadence history; no max-50 assumption is introduced.',
   ],
 } as const;

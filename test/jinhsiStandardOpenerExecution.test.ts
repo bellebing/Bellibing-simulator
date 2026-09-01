@@ -14,7 +14,8 @@ import { totalMotionValue } from '../src/echoAttackDomain.ts';
 
 test('Jinhsi canonical profile remains Standard Opener source sequence only', () => {
   const resolved = resolveBuildPreset(PROFILE_REGISTRY, 'jinhsi-standard-opener');
-  assert.equal(resolved.preset.variantKey, 'standard-opener');
+  assert.equal(resolved.preset.modeKey, 'standard-opener');
+  assert.equal(resolved.rotation.variantKey, 'standard-opener');
   assert.equal(resolved.weaponRecommendation.defaultWeaponId, 'ages-of-harvest');
   assert.equal(resolved.echoLoadout.mainEchoId, 'echo-60000595');
   assert.deepEqual(resolved.echoLoadout.sonataSetIds, ['sonata-5']);

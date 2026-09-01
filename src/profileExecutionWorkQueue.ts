@@ -192,10 +192,11 @@ const JINHSI_TEAM_INCOMING_REVIEWS: readonly ExecutionSemanticReview[] = [{
 
 const JUE_BLESSING_REVIEWS: readonly ExecutionSemanticReview[] = [{
   pendingExecutionId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.pendingExecutionId,
-  status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+  status: 'BLOCKED_SOURCE_SEMANTICS',
   actionKey: 'echo:jue-cast-blessing-state',
   reviewedAt: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.reviewedAt,
   primitiveId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+  blockerId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.blockerId,
   notes: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.notes,
 }];
 

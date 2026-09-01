@@ -134,7 +134,8 @@ export function validateLingeringTunesOnFieldContract(
     if (outro.mechanicsStatus !== 'VERIFIED_MODELED') issues.push('Lingering Tunes Outro mechanics status must remain VERIFIED_MODELED');
   }
 
-  if (LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.unresolvedSemantics.length === 0) {
+  const unresolvedSemantics: readonly string[] = LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.unresolvedSemantics;
+  if (unresolvedSemantics.length === 0) {
     issues.push('Lingering Tunes on-field review must retain explicit unresolved lifecycle semantics');
   }
   return issues;

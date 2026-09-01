@@ -4,7 +4,6 @@ export const JINHSI_STANDARD_OPENER_COMBAT_START_PRIMITIVE_ID =
 export const JINHSI_STANDARD_OPENER_COMBAT_START_CLOSED_PENDING_EXECUTION_IDS = [
   'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter',
   'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
-  'team:jinhsi-zhezhi-verina:incoming-state-adapter',
 ] as const;
 
 export interface JinhsiStandardOpenerCombatStartResolution {
@@ -58,9 +57,13 @@ function validateExactStandardOpener(sourceSequence: readonly string[]): void {
  * Current Prydwen source explicitly says Jinhsi starts combat with this exact
  * opener and performs a quick low-power Forte Skill before the rest of the team
  * applies their buffs. The exact opener contains no Intro Skill. Therefore the
- * Intro-triggered Ages of Harvest and Celestial Light windows, plus the
- * teammate-owned Zhezhi/Verina incoming state, are source-proven inactive for
- * this opener rather than merely "timeline unknown".
+ * Intro-triggered Ages of Harvest and Celestial Light windows are source-proven
+ * inactive for this opener rather than merely "timeline unknown".
+ *
+ * The same source also establishes that teammate setup happens after this
+ * opener, so the resolved opener state exposes no active Zhezhi/Verina incoming
+ * window. That observation is kept as evidence only: the broader team incoming
+ * dependency remains pending until later-cycle team-state execution is closed.
  *
  * This does not infer anything about the Skill-triggered Ages window, Jué's
  * free-flow Echo timing, Incandescence gained during the opener, or exact action
@@ -101,11 +104,12 @@ export const JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW = {
     'Current Standard Opener source explicitly says Jinhsi starts combat and then lists the exact promoted 12-step sequence; that sequence contains no Intro Skill.',
     'Current rotation-concept source says the first opener is a quick low-power Forte Skill performed before the rest of the team applies buffs onto Jinhsi.',
     'Ages of Harvest AH-INTRO and Celestial Light S05_5PC_SPECTRO require an actual Jinhsi Intro Skill cast, so neither window is entered in this source-defined combat-start opener.',
-    'The Jinhsi + Zhezhi + Verina incoming-state primitive requires explicit teammate actions/switches; the source-defined opener occurs before those team setup actions, so no Zhezhi/Verina incoming window is active in the opener.',
+    'The source-defined opener occurs before Zhezhi/Verina team setup, so no teammate incoming window is treated as active inside the opener; the broader team dependency is deliberately not closed by this review.',
   ],
   boundaries: [
     'AH-SKILL remains pending because the opener contains Resonance Skill casts but has no exact timestamps proving the 12-second window overlap for every affected action.',
     'Jué remains pending because current source describes Echo timing as free-flow and does not pin an exact Jué cast to the Standard Opener sequence.',
+    'The Jinhsi + Zhezhi + Verina incoming-state dependency remains pending for later-cycle team-state execution even though the combat-start opener itself is pre-buff.',
     'Incandescence remains pending because combat-start source does not establish the exact amount gained across the opener or its per-Attribute cadence timestamps.',
     'No exact action timestamps, opener duration, opener DPS denominator, loop timing, BuildContext, freeze, DPS_READY, product DPS or Roll Assist policy is authorized by this closure.',
   ],

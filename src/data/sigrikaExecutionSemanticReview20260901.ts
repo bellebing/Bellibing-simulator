@@ -51,7 +51,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'Nearby-team Echo Skill casts source-prove Soliskin Vitality +10 and Blessing of Runes +1 with same-name once-only records; Blessing caps at 6 and resets on lineup change, while the Vitality trigger record resets on Sigrika Outro.',
     'The primitive models the two trigger records separately, Blessing stack bonuses and the ER-over-125% conversion formula.',
-    'No canonical predecessor Echo Skill event, Echo name or timing is invented; the profile still needs an executable team timeline.',
+    'No canonical predecessor Echo Skill count/name/timing is invented; the profile still needs an executable team event timeline for these gauges.',
   ),
   primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
@@ -88,21 +88,13 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'team:qiuyuan-sigrika-incoming-state',
     'character-outro-incoming-transfer-v1',
     'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds or until that Resonator switches out.',
-    'character-outro-incoming-transfer-v1 models the source 14-second cap and explicit incoming switch-out termination without assuming a predecessor event.',
-    'The Sigrika source sequence still contains no Qiuyuan predecessor timeline proving outgoing Qiuyuan, incoming Sigrika or the trigger time; Qiuyuan Bamboo\'s Shade remains a separate predecessor-state concern.',
-  ),
-  primitiveAvailable(
-    'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
-    'team:ciaccona-sigrika-incoming-state',
-    'ciaccona-solo-concert-external-team-state-v1',
-    'Ciaccona Solo Concert source-proves a non-stackable 24% Aero DMG Bonus for nearby team Resonators while raw durationSeconds remains null.',
-    'ciaccona-solo-concert-external-team-state-v1 projects only an explicit point-in-time active snapshot supplied by the external Ciaccona execution owner; it does not create, persist, refresh or expire Solo Concert.',
-    'The Sigrika source sequence still contains no Ciaccona predecessor timeline proving such a snapshot at Sigrika action times, so the dependency remains open and timeline-required without any Ciaccona engine modification.',
+    'Current named-team rotation sources prove Qiuyuan switches to Sigrika via Outro, so the transfer is source-proven active at Sigrika entry.',
+    'Exact Sigrika action timestamps are still required to determine which canonical actions remain inside the 14-second window; entry proof does not authorize blanket full-rotation coverage.',
   ),
   blocked(
     'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
     'rotation:sigrika-standard-denominator-timeline',
     'Prydwen preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics. Current Prydwen also says the Summon may be cast at any point, so it does not provide one fixed Echo timestamp.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action block, but the rendered tested shorthand is not an exact timestamped canonical Qiuyuan+Ciaccona contract. Bellibing therefore keeps exact denominator/timestamps parked rather than silently treating the guide measurement as a source-exact frame model.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action block with a fixed Echo step, but Prydwen canonical leaves Summon timing flexible and omits fixed Echo from its 14-step Standard Rotation. Bellibing therefore keeps exact denominator/timestamps parked rather than silently treating a mismatched measured action set as the canonical frame model.',
   ),
 ] as const);

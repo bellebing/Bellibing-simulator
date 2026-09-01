@@ -108,6 +108,11 @@ test('Unison gain respects the explicit 25s cadence and switching consumes only 
   assert.equal(gained.state.unisonAvailable, true);
   assert.equal(gained.state.unisonNextGrantReadyAtSeconds, 35);
 
+  const held = applyJinhsiIlluminousEpiphanyForUnison(gained.state, 40);
+  assert.equal(held.granted, false);
+  assert.strictEqual(held.state, gained.state);
+  assert.equal(held.state.unisonNextGrantReadyAtSeconds, 35);
+
   const switched = consumeJinhsiUnisonOnSwitch({
     state: gained.state,
     outgoingActorId: 'jinhsi',

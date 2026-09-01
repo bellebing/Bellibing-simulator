@@ -2,6 +2,9 @@ import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from '../combat/jinhsiResou
 import {
   JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW,
 } from '../combat/jinhsiStandardOpenerCombatStartState.ts';
+import {
+  JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW,
+} from '../combat/jinhsiStandardOpenerSkillTriggerCheckpoints.ts';
 import { JINHSI_STANDARD_OPENER_ACTION_MAP } from '../combat/jinhsiStandardOpenerState.ts';
 import {
   JINHSI_STANDARD_OPENER_FIRST_UNISON_SOURCE_REVIEW,
@@ -35,21 +38,24 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     sustainedLoopDps: false,
     notes: [
       'The canonical source promotes Standard Opener only; it does not define a repeatable sustained loop.',
-      'Exact opener damage remains blocked by unresolved Incandescence accumulation, free-flow Jué cast placement, AH-SKILL overlap and exact action timing; Intro-triggered Ages/Celestial carry-in is now source-proven inactive for this combat-start opener.',
+      'Exact opener damage remains blocked by unresolved Incandescence accumulation, free-flow Jué cast placement, AH-SKILL timed overlap and exact action timing; Intro-triggered Ages/Celestial carry-in is source-proven inactive for this combat-start opener.',
       'Without exact opener duration, no source-safe opener-window DPS denominator exists.',
     ],
   },
   availableEventStatePrimitives: {
     jinhsiResourceState: JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     combatStartPrebuff: JINHSI_STANDARD_OPENER_COMBAT_START_SOURCE_REVIEW.primitiveId,
+    standardOpenerSkillTriggerCheckpoints: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.primitiveId,
     firstStandardOpenerUnison: JINHSI_STANDARD_OPENER_FIRST_UNISON_SOURCE_REVIEW.primitiveId,
     jueBlessingState: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     teamIncomingState: JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
     notes: [
       'Generic event/state primitives execute only from caller-supplied known predecessor state and explicit events/timestamps.',
       'The source-specific combat-start primitive proves the canonical opener has no Intro Skill and occurs before team buff setup, closing only the Ages Intro and Celestial Intro-trigger dependencies.',
+      'The source-specific Skill checkpoint primitive proves exactly two AH-SKILL cast-trigger identities at Standard Opener steps 5 and 11 while keeping timestamps/retrigger lifecycle unresolved.',
+      'Incarnation Basic P1-P4 are source-classified as Resonance Skill DMG but are not promoted into Resonance Skill cast events.',
       'The source-specific first-Unison primitive proves the first Standard Opener Illuminous -> Unison -> Outro path without inventing a timestamp.',
-      'AH-SKILL, Jué, Incandescence, broader team incoming state and the exact opener engine remain pending.',
+      'AH-SKILL timed uptime, Jué, Incandescence, broader team incoming state and the exact opener engine remain pending.',
     ],
   },
   combatStartPrebuffSourceClosure: {
@@ -95,7 +101,13 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
       durationSeconds: 12,
       trigger: 'ON_RESONANCE_SKILL',
       canonicalSkillEventsPresent: true,
+      canonicalSkillCastSteps: [5, 11],
+      triggerIdentityKnown: true,
+      exactEventTimestampsKnown: false,
+      sameEffectRetriggerLifecycleKnown: false,
       exactWindowPlacementKnown: false,
+      checkpointPrimitiveId: JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.primitiveId,
+      dependencyClosed: false,
     },
     overlapAndRefresh: {
       introAndSkillWindowsAreDistinctEffects: true,
@@ -181,7 +193,9 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     rollAssistPolicyAuthorized: false,
   },
   unresolvedSemantics: [
-    'Ages of Harvest AH-INTRO and Celestial Light 5-piece are source-closed as inactive in the combat-start no-Intro opener; AH-SKILL overlap remains unresolved because no exact timestamps are published.',
+    'Ages of Harvest AH-INTRO and Celestial Light 5-piece are source-closed as inactive in the combat-start no-Intro opener.',
+    'AH-SKILL trigger identity is source-proven at Standard Opener steps 5 and 11, but exact timestamps and same-effect retrigger/window lifecycle remain unresolved, so timed uptime stays pending.',
+    'Incarnation Basic P1-P4 are Resonance Skill DMG-classified Basic Attack actions and are not treated as additional AH-SKILL cast triggers.',
     'Jué timing remains unresolved because current source explicitly describes it as free-flow rather than pinning a cast to the Standard Opener.',
     'Starting/earned Incandescence amount and per-Attribute cadence timing remain unresolved.',
     'The first Standard Opener Illuminous -> Unison -> Outro path is source-closed; this does not provide later 25-second loop timing, an exact switch timestamp, or incoming teammate execution.',
@@ -199,6 +213,7 @@ export const JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 = {
     'Bellibing source-audited Zhezhi and Verina raw facts',
     'Bellibing source-audited Ages of Harvest and Celestial Light effect catalogs',
     'Current Prydwen Jinhsi Standard Opener + combat-start/pre-buff semantics cross-checked 2026-09-01',
+    'Current Prydwen Jinhsi Standard Opener + Resonance Skill trigger identity cross-checked 2026-09-01',
     'Current Prydwen Jinhsi Standard Opener + Unison semantics cross-checked 2026-09-01',
     'Current Jué rendered Echo sources cross-checked 2026-09-01',
   ],

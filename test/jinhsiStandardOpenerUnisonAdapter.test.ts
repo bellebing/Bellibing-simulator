@@ -34,7 +34,7 @@ test('first-Unison resolver fails closed on opener drift and never accepts loop-
   );
 });
 
-test('canonical backward-impact catalog removes exactly the Jinhsi Unison availability dependency', () => {
+test('canonical backward-impact catalog keeps the Jinhsi Unison closure explicit after later combat-start closures', () => {
   const closure = PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260901[0];
   assert.ok(closure);
   assert.equal(closure.pendingExecutionId, JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID);
@@ -44,7 +44,7 @@ test('canonical backward-impact catalog removes exactly the Jinhsi Unison availa
   const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(review);
   assert.equal(review.pendingExecutionIds.includes(JINHSI_STANDARD_OPENER_UNISON_PENDING_EXECUTION_ID), false);
-  assert.equal(review.pendingExecutionIds.length, 7);
+  assert.equal(review.pendingExecutionIds.length, 5);
   assert.ok(review.notes.some((note) => note.includes(closure.closureId)));
   assert.ok(review.pendingExecutionIds.includes('character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter'));
   assert.ok(review.pendingExecutionIds.includes('rotation:jinhsi-standard-opener-source-sequence:engine-model'));

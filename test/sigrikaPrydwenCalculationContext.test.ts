@@ -49,7 +49,7 @@ test('Prydwen timing evidence keeps historical exact-order 12.8s separate from c
     status: 'HISTORICAL_EXACT_FIXED_ACTION_ORDER_MATCH_STALE_MAJOR_CALCS_NOT_CURRENT_DENOMINATOR',
   });
   assert.equal(timing.denominatorConclusion, 'BLOCKED_CURRENT_ROTATION_SECONDS_AND_ACTION_TIMESTAMPS');
-  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 10);
+  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 9);
 });
 
 test('exact Prydwen calculation point does not collapse canonical registry-bound predecessor interval', () => {
@@ -61,5 +61,5 @@ test('exact Prydwen calculation point does not collapse canonical registry-bound
   assert.equal(canonical.blessingOfRunesStacksMin, 4);
   assert.equal(canonical.blessingOfRunesStacksMax, 5);
   assert.equal(canonical.exactEntryGaugeStateKnown, false);
-  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 10);
+  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 9);
 });

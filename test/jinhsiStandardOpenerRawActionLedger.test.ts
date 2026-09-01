@@ -7,6 +7,9 @@ import {
   resolveJinhsiStandardOpenerRawActionLedger,
 } from '../src/combat/jinhsiStandardOpenerRawActionLedger.ts';
 import { JINHSI_STANDARD_OPENER_ACTION_MAP } from '../src/combat/jinhsiStandardOpenerState.ts';
+import { getCharacterMechanicFact } from '../src/data/characterMechanics.ts';
+import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
+import { resolveBuildPreset } from '../src/profileRegistry.ts';
 
 const CANONICAL_STANDARD_OPENER = JINHSI_STANDARD_OPENER_ACTION_MAP.map((row) => row.sourceStep);
 
@@ -15,10 +18,13 @@ test('raw action ledger resolves exact Character-owned base coefficients without
   const level10 = resolveJinhsiStandardOpenerRawActionLedger(CANONICAL_STANDARD_OPENER, 10);
 
   assert.equal(level10.primitiveId, JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_PRIMITIVE_ID);
+  assert.equal(level10.canonicalResonanceChainSequence, 0);
   assert.equal(level10.damageFacts.length, 12);
   assert.deepEqual(level10.damageBearingSteps, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   assert.ok(level10.totalBaseMotionValue > level1.totalBaseMotionValue);
   assert.equal(level10.additionalIncandescenceMotionValue, null);
+  assert.equal(level10.resonanceChainBonusesApplied, false);
+  assert.equal(level10.s2OutOfCombatRestoreAuthorized, false);
   assert.equal(level10.exactHitTimestampsKnown, false);
   assert.equal(level10.agesSkillTimedUptimeResolved, false);
   assert.equal(level10.jueContributionResolved, false);
@@ -60,6 +66,23 @@ test('Illuminous base curves are exact while conditional Incandescence motion va
   assert.equal(ledger.additionalIncandescenceMotionValue, null);
 });
 
+test('sequence-zero preset excludes S2 out-of-combat Incandescence restore from the canonical opener', () => {
+  const resolved = resolveBuildPreset(PROFILE_REGISTRY, 'jinhsi-standard-opener');
+  assert.equal(resolved.preset.sequence, 0);
+
+  const s2 = getCharacterMechanicFact('jinhsi-s2-chronofrost-repose');
+  assert.ok(s2);
+  assert.equal(s2.kind, 'SEQUENCE');
+  if (s2.kind !== 'SEQUENCE') assert.fail('expected Jinhsi S2 sequence fact');
+  assert.equal(s2.sequence, 2);
+  assert.match(s2.effectSummary, /restores 50 Incandescence/);
+
+  const ledger = resolveJinhsiStandardOpenerRawActionLedger(CANONICAL_STANDARD_OPENER, 10);
+  assert.equal(ledger.canonicalResonanceChainSequence, resolved.preset.sequence);
+  assert.equal(ledger.s2OutOfCombatRestoreAuthorized, false);
+  assert.equal(ledger.resonanceChainBonusesApplied, false);
+});
+
 test('raw action ledger requires explicit skill level and exact canonical source sequence', () => {
   assert.throws(
     () => resolveJinhsiStandardOpenerRawActionLedger(CANONICAL_STANDARD_OPENER, 0),
@@ -80,7 +103,10 @@ test('raw action ledger requires explicit skill level and exact canonical source
 });
 
 test('raw action ledger semantic review closes no execution dependency', () => {
+  assert.equal(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.canonicalResonanceChainSequence, 0);
   assert.equal(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.sourceBackedDamageFactCount, 12);
   assert.equal(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.skillLevelMustBeExplicit, true);
+  assert.equal(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.resonanceChainBonusesAuthorized, false);
+  assert.equal(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.s2OutOfCombatRestoreAuthorized, false);
   assert.deepEqual(JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
 });

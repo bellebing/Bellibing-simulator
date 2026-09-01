@@ -39,6 +39,9 @@ export interface MornyeBoundednessState {
   readonly maxCappedHits: 3;
   readonly cappedIncomingDamageMaxHpFraction: 0.30;
   readonly maxFatalPreventions: 1;
+  readonly sourceLimitRelationship: 'OR';
+  readonly consumptionModelingStatus: 'PENDING_INTERPRETATION';
+  readonly canResolveIncomingDamage: false;
   readonly removalHealDefMultiplier: 1.50;
 }
 
@@ -237,6 +240,9 @@ export function createMornyeBoundednessState(params: {
     maxCappedHits: 3,
     cappedIncomingDamageMaxHpFraction: 0.30,
     maxFatalPreventions: 1,
+    sourceLimitRelationship: 'OR',
+    consumptionModelingStatus: 'PENDING_INTERPRETATION',
+    canResolveIncomingDamage: false,
     removalHealDefMultiplier: 1.50,
   };
 }

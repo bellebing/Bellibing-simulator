@@ -18,6 +18,7 @@ import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { totalMotionValue } from '../src/echoAttackDomain.ts';
 
 const AH_INTRO_PENDING_ID = 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter';
+const AH_SKILL_PENDING_ID = 'weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter';
 const CELESTIAL_INTRO_PENDING_ID = 'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter';
 const TEAM_INCOMING_PENDING_ID = 'team:jinhsi-zhezhi-verina:incoming-state-adapter';
 
@@ -129,7 +130,7 @@ test('opener-only denominator and ER gate remain unresolved despite four narrow 
   assert.equal(review.incomingTeamState.dependencyClosed, true);
 });
 
-test('two reusable Jinhsi execution edges remain timeline-covered while Jué is source-semantic blocked after four closures', () => {
+test('only Incandescence remains timeline-covered while AH-SKILL and Jué are source-semantic blocked after four closures', () => {
   const impact = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'jinhsi-standard-opener');
   assert.ok(impact);
   assert.equal(impact.pendingExecutionIds.length, 4);
@@ -145,14 +146,18 @@ test('two reusable Jinhsi execution edges remain timeline-covered while Jué is 
   const queue = buildProfileExecutionWorkQueue();
   const jinhsiEdges = queue.edges.filter((edge) => edge.presetId === 'jinhsi-standard-opener');
   assert.equal(jinhsiEdges.length, 4);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 2);
-  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 1);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 1);
+  assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 2);
   assert.equal(jinhsiEdges.filter((edge) => edge.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.ok(
     jinhsiEdges
       .filter((edge) => edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE')
       .every((edge) => Boolean(edge.primitiveId)),
   );
+  const ahSkillEdge = jinhsiEdges.find((edge) => edge.pendingExecutionId === AH_SKILL_PENDING_ID);
+  assert.equal(ahSkillEdge?.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(ahSkillEdge?.blockerId, 'BUG-020');
+  assert.equal(ahSkillEdge?.primitiveId, 'weapon-cast-timed-self-window-v1');
   const jueEdge = jinhsiEdges.find((edge) => edge.pendingExecutionId === 'echo:echo-60000595:jue-active-skill-and-blessing-adapter');
   assert.equal(jueEdge?.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
   assert.equal(jueEdge?.blockerId, 'BUG-020');

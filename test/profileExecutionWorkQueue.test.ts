@@ -34,8 +34,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 31);
-  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 13);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 28);
+  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 10);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -152,20 +152,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 86-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 83-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 86,
+    totalEdges: 83,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 23,
+    primitiveAvailableRequiresTimelineEdges: 20,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 31);
+  assert.equal(queue.reviewRecordCount, 28);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -207,6 +207,9 @@ test('actionable queue removes already-covered, closed and source-blocked famili
 
   assert.equal(actionableIds.has('character:sigrika:rune-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
+  assert.equal(actionableIds.has('character:sigrika:decipher-elucidated-eligibility-adapter'), false);
+  assert.equal(actionableIds.has('character:sigrika:runic-heavy-branch-selection-adapter'), false);
+  assert.equal(actionableIds.has('character:sigrika:learn-my-true-name-full-stop-adapter'), false);
   assert.equal(actionableIds.has('weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter'), false);
   assert.equal(actionableIds.has('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter'), false);
   assert.equal(actionableIds.has('team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter'), false);

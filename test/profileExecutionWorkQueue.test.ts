@@ -34,7 +34,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 28);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
   assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 10);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
@@ -152,20 +152,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 83-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 82-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 83,
+    totalEdges: 82,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 20,
+    primitiveAvailableRequiresTimelineEdges: 19,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 28);
+  assert.equal(queue.reviewRecordCount, 27);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -279,9 +279,7 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.deepEqual(qiuyuanTransfer.primitiveIds, ['character-outro-incoming-transfer-v1']);
 
   const ciacconaProjection = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:ciaccona-sigrika-incoming-state');
-  assert.ok(ciacconaProjection);
-  assert.equal(ciacconaProjection.dependencyCount, 1);
-  assert.deepEqual(ciacconaProjection.primitiveIds, ['ciaccona-solo-concert-external-team-state-v1']);
+  assert.equal(ciacconaProjection, undefined, 'closed Ciaccona entry projection must not remain in the pending work queue');
 
   const sigrikaRune = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:sigrika-rune-lifecycle');
   assert.ok(sigrikaRune);

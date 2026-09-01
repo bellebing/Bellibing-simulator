@@ -12,16 +12,6 @@ function blocked(pendingExecutionId: string, actionKey: string, ...notes: readon
   };
 }
 
-function implementationPending(pendingExecutionId: string, actionKey: string, ...notes: readonly string[]) {
-  return {
-    pendingExecutionId,
-    status: 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING' as const,
-    actionKey,
-    reviewedAt: REVIEWED_AT,
-    notes,
-  };
-}
-
 function primitiveAvailable(
   pendingExecutionId: string,
   actionKey: string,
@@ -123,11 +113,13 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'character-outro-incoming-transfer-v1 models the source 14-second cap and explicit incoming switch-out termination without assuming a predecessor event.',
     'The Sigrika source sequence still contains no Qiuyuan predecessor timeline proving outgoing Qiuyuan, incoming Sigrika or the trigger time; Qiuyuan Bamboo\'s Shade remains a separate predecessor-state concern.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
     'team:ciaccona-sigrika-incoming-state',
-    'Ciaccona Solo Concert source-proves a non-stackable 24% Aero DMG Bonus for nearby team Resonators.',
-    'Raw source duration is null and the state is already owned inside the Ciaccona engine. The Sigrika source sequence contains no predecessor timeline proving Solo Concert state at Sigrika entry, so no independent timed state is fabricated and Ciaccona execution ownership stays external.',
+    'ciaccona-solo-concert-external-team-state-v1',
+    'Ciaccona Solo Concert source-proves a non-stackable 24% Aero DMG Bonus for nearby team Resonators while raw durationSeconds remains null.',
+    'ciaccona-solo-concert-external-team-state-v1 projects only an explicit point-in-time active snapshot supplied by the external Ciaccona execution owner; it does not create, persist, refresh or expire Solo Concert.',
+    'The Sigrika source sequence still contains no Ciaccona predecessor timeline proving such a snapshot at Sigrika action times, so the dependency remains open and timeline-required without any Ciaccona engine modification.',
   ),
   blocked(
     'profile:sigrika-standard:energy-regen-hard-gate-adapter',

@@ -15,7 +15,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 19);
   assert.equal(matrix.profileCount, 19);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 79);
+  assert.equal(matrix.dependencyCount, 77);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -29,10 +29,27 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
     matrix.edges.some((edge) => edge.pendingExecutionId === 'weapon:woodland-aria:WA-AERO-RES:target-state-adapter'),
     false,
   );
+  for (const closedJinhsiId of [
+    'character:jinhsi:jinhsi-resource-unison:availability-adapter',
+    'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+  ]) {
+    assert.equal(
+      matrix.edges.some((edge) => edge.pendingExecutionId === closedJinhsiId),
+      false,
+      `${closedJinhsiId} must not remain in the canonical dependency matrix`,
+    );
+  }
   assert.equal(
-    matrix.edges.some((edge) => edge.pendingExecutionId === 'character:jinhsi:jinhsi-resource-unison:availability-adapter'),
+    matrix.edges.some((edge) => edge.presetId === 'jinhsi-standard-opener'
+      && edge.pendingExecutionId === 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter'),
     false,
-    'source-closed Standard Opener first-Unison edge must not remain in the canonical dependency matrix',
+    'Jinhsi combat-start opener must not retain AH-INTRO',
+  );
+  assert.equal(
+    matrix.edges.some((edge) => edge.presetId === 'lumi-hybrid'
+      && edge.pendingExecutionId === 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter'),
+    true,
+    'shared AH-INTRO primitive remains pending for Lumi',
   );
 });
 
@@ -53,7 +70,7 @@ test('reusable adapter priority is fanout-based while rotation engine models sta
   const weaponTrigger = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   assert.ok(weaponTrigger);
   assert.equal(weaponTrigger.profileCount, 5);
-  assert.equal(weaponTrigger.dependencyCount, 7);
+  assert.equal(weaponTrigger.dependencyCount, 6);
   assert.deepEqual(weaponTrigger.characterIds, ['calcharo', 'carlotta', 'iuno', 'jinhsi', 'lumi']);
 
   const outroTransfer = matrix.primitives.find((row) => row.syntacticPrimitiveKey === 'sonata:outro-transfer-adapter');

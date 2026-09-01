@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 23);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 22);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -95,14 +95,16 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
 
-  for (const pendingExecutionId of [
-    'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
-    'character:jinhsi:jinhsi-resource-unison:availability-adapter',
-  ]) {
-    const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
-    assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
-    assert.equal(review?.primitiveId, 'jinhsi-resource-state-v1');
-  }
+  const jinhsiIncandescence = EXECUTION_SEMANTIC_REVIEWS.find(
+    (row) => row.pendingExecutionId === 'character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter',
+  );
+  assert.equal(jinhsiIncandescence?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(jinhsiIncandescence?.primitiveId, 'jinhsi-resource-state-v1');
+
+  const closedJinhsiUnison = EXECUTION_SEMANTIC_REVIEWS.find(
+    (row) => row.pendingExecutionId === 'character:jinhsi:jinhsi-resource-unison:availability-adapter',
+  );
+  assert.equal(closedJinhsiUnison, undefined, 'closed Standard Opener first-Unison edge must leave the pending semantic catalog');
 
   const jue = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60000595:jue-active-skill-and-blessing-adapter');
   assert.equal(jue?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
@@ -165,20 +167,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 80-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 79-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 80,
+    totalEdges: 79,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 18,
+    primitiveAvailableRequiresTimelineEdges: 17,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 23);
+  assert.equal(queue.reviewRecordCount, 22);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -242,7 +244,7 @@ test('remaining shared fanout is machine-ranked after Jinhsi primitive classific
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Jinhsi primitive classification', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi first-Unison closure', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -269,7 +271,7 @@ test('covered and blocked queues retain exact fanout after Jinhsi primitive clas
 
   const jinhsiResource = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'character:jinhsi-resource-state');
   assert.ok(jinhsiResource);
-  assert.equal(jinhsiResource.dependencyCount, 2);
+  assert.equal(jinhsiResource.dependencyCount, 1);
   assert.equal(jinhsiResource.profileCount, 1);
   assert.equal(jinhsiResource.characterCount, 1);
   assert.deepEqual(jinhsiResource.primitiveIds, ['jinhsi-resource-state-v1']);

@@ -56,8 +56,8 @@ export const LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW = {
   ],
   unresolvedSemantics: [
     'The current source wording does not independently establish whether an event exactly 3.000 seconds after the Basic Attack is inside or outside the trigger boundary.',
-    'The canonical Lingyang source sequence has action order but no exact timestamps, so it cannot prove the Diligent Practice window for any Burst Combo pair.',
-    'The source rotation names generic Feral Gyrate while canonical mechanics have Stage 1 and Stage 2 facts; this primitive deliberately requires only a caller-established Basic Attack during Striding Lion and does not select a Feral Gyrate stage.',
+    'The canonical generated Lingyang sequence has action order but no exact timestamps, so it cannot prove the Diligent Practice window for any Burst Combo pair.',
+    'The canonical generated sequence has generic Feral Gyrate entries while the separately reviewed current Prydwen sequence identifies P1/P2 stages; the current-source identities are mismatch evidence and are not silently substituted underneath canonical runtime.',
   ],
   closesPendingExecutionIds: [] as readonly string[],
   notes: [

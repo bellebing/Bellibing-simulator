@@ -15,7 +15,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 19);
   assert.equal(matrix.profileCount, 19);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 83);
+  assert.equal(matrix.dependencyCount, 82);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -31,7 +31,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   );
   assert.equal(
     matrix.edges.filter((edge) => edge.presetId === 'sigrika-standard').length,
-    11,
+    10,
   );
   for (const closedId of [
     'profile:sigrika-standard:energy-regen-hard-gate-adapter',

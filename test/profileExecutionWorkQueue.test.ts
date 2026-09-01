@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 21);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 20);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -116,9 +116,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(jue?.blockerId, 'BUG-020');
   assert.equal(jue?.primitiveId, 'jue-blessing-state-v1');
 
-  const jinhsiTeam = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'team:jinhsi-zhezhi-verina:incoming-state-adapter');
-  assert.equal(jinhsiTeam?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
-  assert.equal(jinhsiTeam?.primitiveId, 'jinhsi-team-incoming-state-v1');
+  const closedJinhsiTeam = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'team:jinhsi-zhezhi-verina:incoming-state-adapter');
+  assert.equal(closedJinhsiTeam, undefined, 'source-closed combat-start team edge must leave the pending semantic catalog');
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -173,20 +172,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 77-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 76-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 77,
+    totalEdges: 76,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 14,
+    primitiveAvailableRequiresTimelineEdges: 13,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 21);
+  assert.equal(queue.reviewRecordCount, 20);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -250,7 +249,7 @@ test('remaining shared fanout is machine-ranked after Jinhsi primitive classific
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Jinhsi source-semantic narrowing', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi opener team-state closure', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -283,11 +282,7 @@ test('covered and blocked queues retain exact fanout after Jinhsi source-semanti
   assert.deepEqual(jinhsiResource.primitiveIds, ['jinhsi-resource-state-v1']);
 
   const jinhsiTeam = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:jinhsi-incoming-state');
-  assert.ok(jinhsiTeam);
-  assert.equal(jinhsiTeam.dependencyCount, 1);
-  assert.equal(jinhsiTeam.profileCount, 1);
-  assert.equal(jinhsiTeam.characterCount, 1);
-  assert.deepEqual(jinhsiTeam.primitiveIds, ['jinhsi-team-incoming-state-v1']);
+  assert.equal(jinhsiTeam, undefined, 'closed combat-start team edge must not remain timeline-covered');
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

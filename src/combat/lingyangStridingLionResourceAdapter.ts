@@ -70,16 +70,16 @@ export const LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW = {
     "When Lion's Spirit is below 10 during Striding Lion, Basic Attack performs Stormy Kicks.",
   ],
   unresolvedSemantics: [
-    'The canonical Lingyang source sequence has no exact action timestamps, so it does not establish how much Lion’s Spirit remains at any Burst Combo action.',
+    'The canonical generated Lingyang sequence has no exact action timestamps, so it does not establish how much Lion’s Spirit remains at any Burst Combo action.',
     "The current profile does not provide a fully executable Lion's Vigor start/end timeline relative to Striding Lion entry.",
-    "This isolated primitive does not resolve Lion's Spirit restoration events during Striding Lion, action/cancel/airborne timing, or the exact action-ID mapping for generic Feral Gyrate.",
+    "This isolated primitive does not resolve Lion's Spirit restoration events during Striding Lion or action/cancel/airborne timing. The separately reviewed current Prydwen sequence resolves Feral Gyrate stage identities, but those identities remain mismatch evidence until canonical source resolution and deterministic regeneration.",
   ],
   closesPendingExecutionIds: [] as readonly string[],
   notes: [
     'The primitive derives only the source-implied constant rates for a caller-proven homogeneous segment: 100 / 5s = 20 Lion’s Spirit/s, or 50% of that rate under Lion’s Vigor = 10/s.',
     'A segment whose Lion’s Vigor state changes or is unknown fails closed instead of integrating an unproven profile timeline.',
     'Stormy Kicks eligibility is exposed only as the source predicate remaining Lion’s Spirit < 10; the adapter does not execute Stormy Kicks or Tail Strike.',
-    'The canonical resource-state pending execution ID remains open until profile timestamps, state transitions and action mapping are independently closed.',
+    'The canonical resource-state pending execution ID remains open until profile timestamps, state transitions and canonical action mapping are independently closed.',
   ],
 } as const;
 

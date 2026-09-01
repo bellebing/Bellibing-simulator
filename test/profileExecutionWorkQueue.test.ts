@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 22);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 23);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -107,6 +107,10 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const jue = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60000595:jue-active-skill-and-blessing-adapter');
   assert.equal(jue?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(jue?.primitiveId, 'jue-blessing-state-v1');
+
+  const jinhsiTeam = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'team:jinhsi-zhezhi-verina:incoming-state-adapter');
+  assert.equal(jinhsiTeam?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(jinhsiTeam?.primitiveId, 'jinhsi-team-incoming-state-v1');
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -166,15 +170,15 @@ test('current 80-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 80,
-    unreviewedEdges: 31,
+    unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 17,
+    primitiveAvailableRequiresTimelineEdges: 18,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 32,
+    actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 22);
+  assert.equal(queue.reviewRecordCount, 23);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -211,6 +215,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('echo:echo-60000595:jue-active-skill-and-blessing-adapter'), false);
   assert.equal(actionableIds.has('character:jinhsi:jinhsi-forte-incandescence-damage-multiplier:resource-timeline-adapter'), false);
   assert.equal(actionableIds.has('character:jinhsi:jinhsi-resource-unison:availability-adapter'), false);
+  assert.equal(actionableIds.has('team:jinhsi-zhezhi-verina:incoming-state-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL:stack-lifecycle-adapter'), false);
   assert.equal(actionableIds.has('weapon:blazing-brilliance:BBR-SKILL-CAST-STACKS:cross-effect-stack-mutation-adapter'), false);
   assert.equal(queue.actionableSharedQueue.some((row) => row.actionKey === 'weapon:skill-stack-timing-adapter'), false);
@@ -275,6 +280,13 @@ test('covered and blocked queues retain exact fanout after Jinhsi primitive clas
   assert.equal(jue.profileCount, 1);
   assert.equal(jue.characterCount, 1);
   assert.deepEqual(jue.primitiveIds, ['jue-blessing-state-v1']);
+
+  const jinhsiTeam = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:jinhsi-incoming-state');
+  assert.ok(jinhsiTeam);
+  assert.equal(jinhsiTeam.dependencyCount, 1);
+  assert.equal(jinhsiTeam.profileCount, 1);
+  assert.equal(jinhsiTeam.characterCount, 1);
+  assert.deepEqual(jinhsiTeam.primitiveIds, ['jinhsi-team-incoming-state-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

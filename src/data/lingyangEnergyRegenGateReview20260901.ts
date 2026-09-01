@@ -14,7 +14,7 @@ interface LingyangStatTargetReviewShape {
     readonly priority: number;
   }[];
   readonly provenance: {
-    readonly notes: readonly string[];
+    readonly notes?: readonly string[];
   };
 }
 
@@ -67,7 +67,7 @@ export function validateLingyangEnergyRegenGateReview(): readonly string[] {
   if (!energyRule) issues.push('Lingyang stat-target is missing Energy Regen priority');
   else if (energyRule.priority !== 1) issues.push(`Lingyang Energy Regen priority drift: ${energyRule.priority}`);
 
-  const notes = profile.provenance.notes;
+  const notes = profile.provenance.notes ?? [];
   if (!notes.some((note) => note.includes('No exact numeric ER gate is claimed'))) {
     issues.push('Lingyang provenance lost the no-exact-ER-gate review boundary');
   }

@@ -7,6 +7,10 @@ export type JinhsiStandardOpenerPhase =
   | 'OUTRO_REQUESTED';
 
 export type JinhsiUnknownResourceState = 'UNRESOLVED_PREDECESSOR_STATE';
+export type JinhsiStandardOpenerUnisonAvailability =
+  | 'NOT_YET_GRANTED_IN_COMBAT_START_OPENER'
+  | 'AVAILABLE_FROM_FIRST_ILLUMINOUS'
+  | 'CONSUMED_BY_CANONICAL_UNISON_OUTRO';
 
 export interface JinhsiStandardOpenerStateSnapshot {
   readonly step: number;
@@ -14,7 +18,7 @@ export interface JinhsiStandardOpenerStateSnapshot {
   readonly phaseBefore: JinhsiStandardOpenerPhase;
   readonly phaseAfter: JinhsiStandardOpenerPhase;
   readonly incandescence: JinhsiUnknownResourceState;
-  readonly unisonAvailability: JinhsiUnknownResourceState;
+  readonly unisonAvailability: JinhsiStandardOpenerUnisonAvailability;
   readonly notes: readonly string[];
 }
 
@@ -29,7 +33,9 @@ export interface JinhsiStandardOpenerActionMapRow {
 
 /**
  * Canonical source-sequence mapping only. No action duration, swap cadence,
- * resource amount, teammate timeline, Intro carry-in or Echo cast is inferred.
+ * Incandescence amount, teammate predecessor timeline, Intro carry-in or Echo
+ * cast is inferred. The first combat-start Unison path is source-closed by the
+ * dedicated Standard Opener source review and is reflected symbolically here.
  */
 export const JINHSI_STANDARD_OPENER_ACTION_MAP: readonly JinhsiStandardOpenerActionMapRow[] = Object.freeze([
   { step: 1, sourceStep: 'Basic P1', factIds: ['jinhsi-basic-attack-slash-of-breaking-dawn-stage-1-dmg'], phaseBefore: 'NORMAL', phaseAfter: 'NORMAL', notes: [] },
@@ -84,7 +90,7 @@ export const JINHSI_STANDARD_OPENER_ACTION_MAP: readonly JinhsiStandardOpenerAct
     phaseAfter: 'POST_ILLUMINOUS',
     notes: [
       'Illuminous Epiphany consumes up to 50 Incandescence before Stella Glamor resolves; the source sequence does not establish the starting/earned amount.',
-      'Unison gain is subject to its source-explicit 25s trigger cadence, so availability is not assumed from sequence identity alone.',
+      'Current Standard Opener source explicitly starts combat and obtains the Unison Outro from this first Illuminous Epiphany, so the first 25s grant gate is source-proven ready without a predecessor timestamp.',
     ],
   },
   {
@@ -93,7 +99,10 @@ export const JINHSI_STANDARD_OPENER_ACTION_MAP: readonly JinhsiStandardOpenerAct
     factIds: ['jinhsi-outro-temporal-bender', 'jinhsi-resource-unison'],
     phaseBefore: 'POST_ILLUMINOUS',
     phaseAfter: 'OUTRO_REQUESTED',
-    notes: ['The source sequence names Outro, but exact triggering via Unison versus full Concerto requires predecessor/execution state.'],
+    notes: [
+      'The canonical Standard Opener Outro is source-proven as the Unison path; unknown Concerto state is not required for this first combat-start Outro.',
+      'The incoming Resonator identity/timestamp and later 25s Unison cadence placement remain outside this opener-state map.',
+    ],
   },
 ]);
 
@@ -104,7 +113,11 @@ export function getJinhsiStandardOpenerStateSnapshots(): readonly JinhsiStandard
     phaseBefore: row.phaseBefore,
     phaseAfter: row.phaseAfter,
     incandescence: 'UNRESOLVED_PREDECESSOR_STATE',
-    unisonAvailability: 'UNRESOLVED_PREDECESSOR_STATE',
+    unisonAvailability: row.step < 11
+      ? 'NOT_YET_GRANTED_IN_COMBAT_START_OPENER'
+      : row.step === 11
+        ? 'AVAILABLE_FROM_FIRST_ILLUMINOUS'
+        : 'CONSUMED_BY_CANONICAL_UNISON_OUTRO',
     notes: row.notes,
   }));
 }

@@ -22,6 +22,22 @@ function implementationPending(pendingExecutionId: string, actionKey: string, ..
   };
 }
 
+function primitiveAvailable(
+  pendingExecutionId: string,
+  actionKey: string,
+  primitiveId: string,
+  ...notes: readonly string[]
+) {
+  return {
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE' as const,
+    actionKey,
+    reviewedAt: REVIEWED_AT,
+    primitiveId,
+    notes,
+  };
+}
+
 export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
   blocked(
     'character:sigrika:rune-lifecycle-adapter',
@@ -59,35 +75,41 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'Nearby-team Echo Skill casts, the 6-stack bonuses and the Energy Regen conversion clause are source-proven raw mechanics.',
     'The canonical Sigrika sequence does not provide the predecessor/team Echo Skill event timeline or a complete lifetime contract for this state.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
     'weapon:solsworn-ciphers-echo-amplification-window',
+    'weapon-cast-timed-self-window-v1',
     'SCIP-ECHO-AMP is source-exact at R1: +32% Echo Skill DMG Amplification for 15 seconds after Intro Skill or Echo Skill cast.',
-    'Canonical Intro proves a valid trigger in sequence order, but no exact timestamp/window overlap exists and the current generic weapon cast primitive lacks Echo Skill cast semantics for this effect.',
+    'weapon-cast-timed-self-window-v1 now has an explicit SCIP-ECHO-AMP contract for INTRO_SKILL_CAST and ECHO_SKILL_CAST.',
+    'Canonical Intro proves a valid trigger in sequence order, but no exact timestamp/window overlap is inferred.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-AERO-DEF:echo-skill-damage-window-adapter',
     'weapon:solsworn-ciphers-aero-def-ignore-window',
+    'weapon-damage-timed-self-window-v1',
     'SCIP-AERO-DEF is source-exact at R1: Aero DMG ignores 10% DEF for 6 seconds after dealing Echo Skill DMG.',
-    'An executable Echo Skill damage event/timestamp is required; selecting the weapon does not authorize blanket uptime.',
+    'weapon-damage-timed-self-window-v1 opens only from an explicit ECHO_SKILL_DAMAGE event and preserves the source Aero-only damage condition.',
+    'An executable Echo Skill damage timestamp is still required; selecting the weapon does not authorize blanket uptime.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'sonata:sonata-29:S29_5PC_ECHO_CR:echo-skill-damage-window-adapter',
     'sonata:sound-of-true-name-echo-skill-damage-window',
+    'sonata-damage-timed-self-window-v1',
     'Sound of True Name 5P grants +20% Echo Skill CRIT Rate for 5 seconds after dealing Echo Skill DMG.',
-    'The state must open from an actual executable Echo Skill damage event, not from equipment selection.',
+    'sonata-damage-timed-self-window-v1 requires an explicit ECHO_SKILL_DAMAGE event; equipment selection alone grants no state.',
   ),
-  implementationPending(
+  primitiveAvailable(
     'sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter',
     'sonata:sound-of-true-name-echo-skill-damage-window',
+    'sonata-damage-timed-self-window-v1',
     'Sound of True Name 5P grants +15% Aero DMG Bonus for the same 5-second Echo Skill damage-triggered state.',
-    'The state must open from an actual executable Echo Skill damage event, not from equipment selection.',
+    'sonata-damage-timed-self-window-v1 requires an explicit ECHO_SKILL_DAMAGE event; equipment selection alone grants no state.',
   ),
   implementationPending(
     'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter',
     'team:qiuyuan-sigrika-incoming-state',
-    'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds; his Forte also has a source-proven team Echo Skill bonus state.',
-    'The Sigrika source sequence contains no Qiuyuan predecessor timeline proving outgoing actor, incoming Sigrika, trigger time or Forte state.',
+    'Qiuyuan Outro source-proves 50% Echo Skill DMG Amplification to the incoming Resonator for 14 seconds or until that Resonator switches out; his Forte also has a source-proven team Echo Skill bonus state.',
+    'The current incoming-transfer-state-v1 primitive does not own Character-layer early switch-out termination, and the Sigrika source sequence contains no Qiuyuan predecessor timeline proving outgoing actor, incoming Sigrika, trigger time or Forte state.',
   ),
   implementationPending(
     'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',

@@ -8,6 +8,7 @@ import {
   isJueBlessingActive,
   JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW,
 } from '../src/combat/jueBlessingStateAdapter.ts';
+import { JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901 } from '../src/data/jinhsiStandardOpenerExecutionReview20260901.ts';
 
 test('explicit Jué cast resolves exact active damage and starts only the source-backed 15s Blessing window', () => {
   const cast = castJueForBlessing({ kind: 'ECHO_CAST', actorId: 'jinhsi', atSeconds: 5 });
@@ -68,4 +69,16 @@ test('Jué primitive expires deterministically and never implies equipment-only 
   }).proc, null);
   assert.deepEqual(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
   assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.requiresExplicitEchoCast, true);
+});
+
+test('Jué source placement remains free-flow instead of becoming fixed presence or fixed absence in Standard Opener', () => {
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.blockerId, 'BUG-020');
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.sourcePlacementDisposition, 'FREE_FLOW_NO_CANONICAL_FIXED_CAST');
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.canonicalFixedCastCheckpointPresent, false);
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.canonicalCastPresence, null);
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.recommendedPlacementIfUsed, 'BEFORE_FORTE_SKILL_NUKE');
+  assert.equal(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.sourcePlacementBlocksCanonicalExecution, true);
+  assert.equal(JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901.jue.canonicalCastPresent, null);
+  assert.equal(JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901.jue.runtimeContributionAuthorized, false);
+  assert.ok(JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.notes.some((note) => note.includes('neither auto-insert nor auto-suppress')));
 });

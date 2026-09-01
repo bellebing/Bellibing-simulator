@@ -51,15 +51,15 @@ test('Sigrika source checkpoint resolver fails closed on any sequence drift', ()
   );
 });
 
-test('Sigrika impact snapshot stays historical while four explicit closures yield eleven live dependencies', () => {
+test('Sigrika impact snapshot stays historical while five explicit closures yield ten live dependencies', () => {
   assert.equal(SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS.length, 15);
-  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 11);
+  assert.equal(SIGRIKA_STANDARD_PENDING_EXECUTION_IDS.length, 10);
   assert.deepEqual(
     SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.pendingExecutionIds,
     SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS,
   );
 
-  assert.equal(SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.length, 4);
+  assert.equal(SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.length, 5);
   assert.deepEqual(
     SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.map((row) => row.pendingExecutionId),
     [
@@ -67,14 +67,15 @@ test('Sigrika impact snapshot stays historical while four explicit closures yiel
       'character:sigrika:decipher-elucidated-eligibility-adapter',
       'character:sigrika:runic-heavy-branch-selection-adapter',
       'character:sigrika:learn-my-true-name-full-stop-adapter',
+      'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
     ],
   );
 
   const liveReview = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'sigrika-standard');
   assert.ok(liveReview);
   assert.deepEqual(liveReview.pendingExecutionIds, SIGRIKA_STANDARD_PENDING_EXECUTION_IDS);
-  assert.equal(liveReview.pendingExecutionIds.includes('profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
-  assert.equal(liveReview.pendingExecutionIds.includes('character:sigrika:decipher-elucidated-eligibility-adapter'), false);
-  assert.equal(liveReview.pendingExecutionIds.includes('character:sigrika:runic-heavy-branch-selection-adapter'), false);
-  assert.equal(liveReview.pendingExecutionIds.includes('character:sigrika:learn-my-true-name-full-stop-adapter'), false);
+  for (const closedId of SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901.map((row) => row.pendingExecutionId)) {
+    assert.equal(liveReview.pendingExecutionIds.includes(closedId), false, closedId);
+  }
+  assert.equal(liveReview.pendingExecutionIds.includes('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter'), true);
 });

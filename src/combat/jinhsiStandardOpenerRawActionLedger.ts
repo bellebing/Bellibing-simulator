@@ -32,12 +32,15 @@ export interface JinhsiStandardOpenerRawActionLedgerResolution {
   readonly primitiveId: typeof JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_PRIMITIVE_ID;
   readonly presetId: 'jinhsi-standard-opener';
   readonly rotationId: 'jinhsi-standard-opener-source-sequence';
+  readonly canonicalResonanceChainSequence: 0;
   readonly skillLevel: number;
   readonly damageFacts: readonly JinhsiStandardOpenerRawDamageFact[];
   readonly damageBearingSteps: readonly number[];
   readonly totalBaseMotionValue: number;
   readonly additionalIncandescenceFactId: typeof JINHSI_STANDARD_OPENER_INCANDESCENCE_MULTIPLIER_FACT_ID;
   readonly additionalIncandescenceMotionValue: null;
+  readonly resonanceChainBonusesApplied: false;
+  readonly s2OutOfCombatRestoreAuthorized: false;
   readonly exactHitTimestampsKnown: false;
   readonly agesSkillTimedUptimeResolved: false;
   readonly jueContributionResolved: false;
@@ -135,10 +138,12 @@ function resolveDamageFact(
  *
  * This is deliberately not a rotation engine. It does not schedule hits, apply
  * Ages/Jué/Sonata windows, invent Incandescence, apply Resonance Chain bonuses,
- * divide by a duration or register an ENGINE_MODELED profile. The additional
- * Stella Glamor multiplier from Incandescence remains a separate unresolved
- * resource contribution even though the base Solar Flare/Stella Glamor curves
- * are exact.
+ * divide by a duration or register an ENGINE_MODELED profile. The canonical
+ * build preset is sequence 0, so S1-S6 facts are not executable profile inputs;
+ * in particular S2's out-of-combat 50-Incandescence restore cannot seed this
+ * opener. The additional Stella Glamor multiplier from Incandescence remains a
+ * separate unresolved resource contribution even though the base Solar
+ * Flare/Stella Glamor curves are exact.
  */
 export function resolveJinhsiStandardOpenerRawActionLedger(
   sourceSequence: readonly string[],
@@ -164,12 +169,15 @@ export function resolveJinhsiStandardOpenerRawActionLedger(
     primitiveId: JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_PRIMITIVE_ID,
     presetId: 'jinhsi-standard-opener',
     rotationId: 'jinhsi-standard-opener-source-sequence',
+    canonicalResonanceChainSequence: 0,
     skillLevel,
     damageFacts,
     damageBearingSteps: [...new Set(damageFacts.map((row) => row.step))],
     totalBaseMotionValue: damageFacts.reduce((sum, row) => sum + row.baseMotionValue, 0),
     additionalIncandescenceFactId: JINHSI_STANDARD_OPENER_INCANDESCENCE_MULTIPLIER_FACT_ID,
     additionalIncandescenceMotionValue: null,
+    resonanceChainBonusesApplied: false,
+    s2OutOfCombatRestoreAuthorized: false,
     exactHitTimestampsKnown: false,
     agesSkillTimedUptimeResolved: false,
     jueContributionResolved: false,
@@ -183,13 +191,17 @@ export const JINHSI_STANDARD_OPENER_RAW_ACTION_LEDGER_SEMANTIC_REVIEW = {
   reviewedAt: '2026-09-01',
   presetId: 'jinhsi-standard-opener',
   rotationId: 'jinhsi-standard-opener-source-sequence',
+  canonicalResonanceChainSequence: 0,
   sourceBackedDamageFactCount: 12,
   skillLevelMustBeExplicit: true,
+  resonanceChainBonusesAuthorized: false,
+  s2OutOfCombatRestoreAuthorized: false,
   closesPendingExecutionIds: [] as readonly string[],
   notes: [
     'The exact Standard Opener action map resolves twelve Character-owned ATK-scaling damage facts across steps 1-11; Outro is non-damage state/effect only.',
     'Incarnation Basic P1-P4 remain BASIC actions with SKILL damage classification; action kind and damage taxonomy are kept separate.',
     'Illuminous Epiphany resolves exact Solar Flare and base Stella Glamor curves, while the conditional additional Stella Glamor multiplier per Incandescence remains separate and unresolved for the canonical opener.',
+    'The canonical jinhsi-standard-opener preset is Resonance Chain sequence 0; S1-S6 raw facts are not active profile inputs, including S2 Chronofrost Repose and its out-of-combat 50-Incandescence restore.',
     'The resolver requires an explicit skill level 1-10 and never chooses a talent level for the profile.',
     'No hit timestamps, timed effect overlap, Jué placement, Incandescence predecessor state, opener duration, damage total, DPS denominator, ENGINE_MODELED state or product authorization is created by this ledger.',
   ],

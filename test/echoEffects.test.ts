@@ -11,9 +11,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 63);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
-  assert.equal(registry.byId.size, 63);
+  assert.equal(ECHO_EFFECT_MODELS.length, 64);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 38);
+  assert.equal(registry.byId.size, 64);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -78,12 +78,18 @@ test('Fleurdelys extra Aero bonus applies only to Rover Aero and Cartethyia', ()
   );
 });
 
-test('Denia and Hyvatia preserve transfer-window conditions instead of automatic uptime', () => {
+test('Denia, Glommoth and Hyvatia preserve transfer-window conditions instead of automatic uptime', () => {
   const denia = registry.byId.get('REMINISCENCE_DENIA_INCOMING_FUSION');
   assert.equal(denia?.value, 0.12);
   assert.equal(denia?.activationWindowSeconds, 15);
   assert.equal(denia?.durationSeconds, 15);
   assert.equal(denia?.mechanicsStatus, 'VERIFIED_CONDITIONAL');
+
+  const glommoth = registry.byId.get('GLOMMOTH_INCOMING_GLACIO');
+  assert.equal(glommoth?.value, 0.12);
+  assert.equal(glommoth?.activationWindowSeconds, 15);
+  assert.equal(glommoth?.durationSeconds, 15);
+  assert.equal(glommoth?.mechanicsStatus, 'VERIFIED_CONDITIONAL');
 
   const hyvatia = registry.byId.get('HYVATIA_INCOMING_ALL_ATTRIBUTE');
   assert.equal(hyvatia?.value, 0.10);

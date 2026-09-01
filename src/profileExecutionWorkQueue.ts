@@ -1,6 +1,12 @@
 import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrillianceStackSemanticReview.ts';
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
+import { LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW } from './combat/lingeringTunesOnFieldStackAdapter.ts';
+import { LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW } from './combat/lingyangBurstComboActionMapping.ts';
+import { LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW } from './combat/lingyangDiligentPracticeAdapter.ts';
+import { LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW } from './combat/lingyangStridingLionResourceAdapter.ts';
+import { MECH_ABOMINATION_CAST_STATE_REVIEW } from './combat/mechAbominationCastStateAdapter.ts';
+import { MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW } from './combat/moongazersSigilShieldStackAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
@@ -236,6 +242,98 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
   },
 ];
 
+const LINGYANG_EXECUTION_REVIEWS: readonly ExecutionSemanticReview[] = [
+  {
+    pendingExecutionId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.pendingExecutionIds[0],
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'weapon:moongazers-sigil-shield-stack-state',
+    reviewedAt: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.organicPrimitiveId,
+    blockerId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.sourceEstablished,
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.unresolvedSemantics,
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.notes,
+    ],
+  },
+  {
+    pendingExecutionId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.pendingExecutionIds[1],
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'weapon:moongazers-sigil-forced-max-stack-state',
+    reviewedAt: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.introPrimitiveId,
+    blockerId: MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.sourceEstablished,
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.unresolvedSemantics,
+      ...MOONGAZERS_SIGIL_SHIELD_STACK_SEMANTIC_REVIEW.notes,
+    ],
+  },
+  {
+    pendingExecutionId: LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.actionKey,
+    reviewedAt: LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.primitiveId,
+    blockerId: LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      ...LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.sourceEstablished,
+      ...LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.unresolvedSemantics,
+      ...LINGERING_TUNES_ON_FIELD_SEMANTIC_REVIEW.notes,
+    ],
+  },
+  {
+    pendingExecutionId: LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'character:lingyang-diligent-practice-window',
+    reviewedAt: LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.primitiveId,
+    blockerId: LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.blockerId,
+    notes: [
+      ...LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.sourceEstablished,
+      ...LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.unresolvedSemantics,
+      ...LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.notes,
+    ],
+  },
+  {
+    pendingExecutionId: LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'character:lingyang-striding-lion-resource-state',
+    reviewedAt: LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.primitiveId,
+    notes: [
+      ...LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.sourceEstablished,
+      ...LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.unresolvedSemantics,
+      ...LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.notes,
+      'The source-safe known-segment primitive is available; the remaining blocker is profile event/timeline state rather than missing primitive implementation.',
+    ],
+  },
+  {
+    pendingExecutionId: MECH_ABOMINATION_CAST_STATE_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'echo:mech-abomination-cast-state',
+    reviewedAt: MECH_ABOMINATION_CAST_STATE_REVIEW.reviewedAt,
+    primitiveId: MECH_ABOMINATION_CAST_STATE_REVIEW.primitiveId,
+    notes: [
+      ...MECH_ABOMINATION_CAST_STATE_REVIEW.sourceEstablished,
+      ...MECH_ABOMINATION_CAST_STATE_REVIEW.unresolvedSemantics,
+      ...MECH_ABOMINATION_CAST_STATE_REVIEW.notes,
+    ],
+  },
+  {
+    pendingExecutionId: LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_CONFLICT',
+    actionKey: 'character:lingyang-burst-combo-source-mismatch',
+    reviewedAt: LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.reviewedAt,
+    primitiveId: LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.primitiveId,
+    blockerId: LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.blockerId,
+    notes: [
+      ...LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.notes,
+      'This work-queue classification records the confirmed current-source/canonical mismatch only; it neither assigns a historical cause nor substitutes the 16-step current source into canonical runtime.',
+    ],
+  },
+];
+
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   ...WEAPON_CAST_REVIEWS,
@@ -248,6 +346,7 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,
   ...ROVER_AERO_REVIEWS,
+  ...LINGYANG_EXECUTION_REVIEWS,
 ]);
 
 export function validateExecutionSemanticReviews(

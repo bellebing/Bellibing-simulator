@@ -118,32 +118,35 @@ test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus 
   assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /scalingStat/);
 });
 
-test('Sigrika backward-impact review contributes exactly 15 still-pending dependencies', () => {
+test('Sigrika backward-impact review contributes exactly 14 still-pending dependencies', () => {
   const canonical = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.reviewId === SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.reviewId);
   assert.ok(canonical);
   assert.equal(canonical.result, 'REVIEWED_WITH_PENDING_EXECUTION');
   assert.deepEqual(canonical.pendingExecutionIds, SIGRIKA_STANDARD_PENDING_EXECUTION_IDS);
 
   const edges = PROFILE_ADAPTER_DEPENDENCY_MATRIX.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(edges.length, 15);
+  assert.equal(edges.length, 14);
   assert.deepEqual(edges.map((row) => row.pendingExecutionId), [...SIGRIKA_STANDARD_PENDING_EXECUTION_IDS]);
 
   const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(queueEdges.length, 15);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 2);
+  assert.equal(queueEdges.length, 14);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 1);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 0);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 12);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
-  assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 2);
+  assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 1);
+  assert.equal(queueEdges.some((row) => row.pendingExecutionId === 'profile:sigrika-standard:energy-regen-hard-gate-adapter'), false);
 });
 
-test('ER, BuildContext, freeze and product routes remain fail-closed', () => {
+test('canonical ER gate resolves while BuildContext, freeze and product routes remain fail-closed', () => {
   assert.deepEqual(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.energyRegen, {
     sourceMinimum: 1.09,
     sourcePreferred: 1.19,
-    status: 'SOURCE_GUIDANCE_ONLY',
-    hardGate: null,
-    reason: 'The 109%-119% requirement is team-dependent and the exact Sigrika/Qiuyuan/Ciaccona predecessor/energy timeline is not executable, so no single minimum is promoted. The separate Inherent ER-over-125% Echo Skill bonus formula is modeled but is not the canonical ER requirement.',
+    status: 'CANONICAL_TEAM_GATE_RESOLVED',
+    hardGate: 1.09,
+    preferredGate: 1.19,
+    adapterId: 'sigrika-standard-er-gate-v1',
+    reason: 'Current Prydwen explicitly maps the lower 109% estimate to Qiuyuan + Ciaccona (or Phrolova) and the higher 119% estimate to Qiuyuan + Shorekeeper. Canonical sigrika-qiuyuan-ciaccona therefore resolves the existing VERIFIED stat-target minimum to 1.09; 1.19 remains the preferred upper reference rather than a second hard minimum.',
   });
   assert.throws(
     () => buildContextFromVerifiedPreset('sigrika-standard', []),

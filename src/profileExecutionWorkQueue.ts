@@ -12,6 +12,7 @@ import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdap
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
+import { LINGYANG_ENERGY_REGEN_GATE_REVIEW } from './data/lingyangEnergyRegenGateReview20260901.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
   ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830,
@@ -355,6 +356,18 @@ const LINGYANG_EXECUTION_REVIEWS: readonly ExecutionSemanticReview[] = [
       ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.sourceEstablished,
       ...LINGYANG_TEAM_INCOMING_STATE_SEMANTIC_REVIEW.notes,
       'The source-safe Shorekeeper primitive is available; the canonical profile still lacks the explicit teammate Outro timestamp and nearby-party-member applicability proof.',
+    ],
+  },
+  {
+    pendingExecutionId: LINGYANG_ENERGY_REGEN_GATE_REVIEW.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: 'stat-target:lingyang-exact-er-gate',
+    reviewedAt: LINGYANG_ENERGY_REGEN_GATE_REVIEW.reviewedAt,
+    blockerId: LINGYANG_ENERGY_REGEN_GATE_REVIEW.blockerId,
+    notes: [
+      ...LINGYANG_ENERGY_REGEN_GATE_REVIEW.sourceEstablished,
+      ...LINGYANG_ENERGY_REGEN_GATE_REVIEW.unresolvedSemantics,
+      ...LINGYANG_ENERGY_REGEN_GATE_REVIEW.notes,
     ],
   },
 ];

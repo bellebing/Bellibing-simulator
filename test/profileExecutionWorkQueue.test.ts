@@ -148,17 +148,17 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 73-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
+    totalEdges: 73,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 11,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
-    profileSpecificExecutionEdges: 16,
+    profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
   assert.equal(queue.reviewRecordCount, 18);
@@ -297,8 +297,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');
-  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 16);
-  assert.equal(queue.profileSpecificExecution[0].profileCount, 16);
+  assert.equal(queue.profileSpecificExecution[0].dependencyCount, 17);
+  assert.equal(queue.profileSpecificExecution[0].profileCount, 17);
 });
 
 test('semantic review validation rejects duplicate, non-canonical and untracked blocker rows', () => {

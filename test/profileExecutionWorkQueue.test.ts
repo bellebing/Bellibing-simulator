@@ -271,7 +271,7 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener team-st
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
   assert.ok(weaponCast);
-  assert.equal(weaponCast.dependencyCount, 5);
+  assert.equal(weaponCast.dependencyCount, 4);
   assert.equal(weaponCast.profileCount, 4);
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');

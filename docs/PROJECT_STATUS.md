@@ -133,16 +133,16 @@ The stabilization baseline intentionally integrates **none** of these worker cod
 | #147 | Jinhsi | `985ef139` | Verify #936 + Export #908 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — stabilization fixed shared pending-ID review leakage with preset-scoped semantic reviews; Lumi keeps the global generic cast-window disposition while Jinhsi alone gets preset-scoped `BUG-020`. Still non-`DPS_READY`. |
 | #148 | Sigrika | `e3db50f6` | Verify #927 + Export #899 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — six closures, nine dependencies remain; historical 12.8s is not current denominator truth. |
 | #149 | Aemeath | `5135512f` | Verify #794 + Export #766 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — eight detailed execution IDs closed, four blockers remain; no engine/freeze/product promotion. |
-| #150 | Lucilla | `16fd10f2` | **Verify #896 FAIL + Export #868 FAIL** | **PARK / UPDATE REQUIRED** — draft by design; count/regression cleanup is unfinished and current exact head is red. |
+| #150 | Lucilla | `a385f948` | Verify #944 + Export #916 SUCCESS | **PARK / VERIFY-CLEAN; DRAFT FLAG REMAINS** — count/regression cleanup and strict-build provenance typing are complete. Canonical worker overlay is `ENGINE_MODELED` at source-backed 7.34s but remains non-`DPS_READY`, non-product, with four explicit execution gaps under canonical Handoff `BUG-023`. |
 
 Additional stabilization findings:
 
 - PR #147's red current-head state was traced to a real work-queue scoping defect rather than a Jinhsi source-data dispute. `weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter` is shared by Lumi and Jinhsi; matching semantic reviews only by pending ID let Jinhsi-specific `BUG-020` leak onto Lumi. The worker now supports an optional preset scope with global fallback, validates scoped uniqueness/canonical preset ownership, and has an explicit Lumi-vs-Jinhsi regression. Exact-head Verify #936 + Export #908 are green.
 - PR #140's former `BUG-015` collision is resolved as metadata integrity only. Zani keeps `BUG-015`; Chixia now owns `BUG-022`. The repair changes only blocker-ID ownership/assertions across three files and exact-head Verify #939 + Export #911 are green.
-- PR #150 currently fails five Node regressions involving review/count snapshots and the historical `SOURCE_SEQUENCE_ONLY` expectation after its Lucilla execution overlay. This is unfinished worker state, not a main regression.
+- PR #150's five Node regressions were stale branch fixtures after the explicit Lucilla impact-review/execution overlay, not evidence for new gameplay semantics. The cleanup now asserts the 19-review / 76-edge worker-local inventory, preserves the generated horizontal source snapshot as `SOURCE_SEQUENCE_ONLY`, and distinguishes the canonical Lucilla overlay as `ENGINE_MODELED`. A strict-build failure then exposed optional `ContentProvenance.sourceUrls`/`notes` being spread as required arrays; the final fix uses empty-array fallback without changing source facts or engine semantics. Verify #944 + Export #916 are green. Branch-local queue is **33 UNREVIEWED / 1 implementation-pending / 11 primitive+timeline / 5 source-conflict / 10 source-semantics / 16 profile-specific = 34 actionable shared** with 19 semantic review records. The four remaining Lucilla dependencies are Glommoth active scaling stat, Glacio Chafe system damage, Chisa Thread of Bane/Kumokiri predecessor state, and Chisa Havoc Bane stack/timeline state.
 - Green worker branches may contain valid reusable facts/primitives, but their branch-local counts are not canonical until a dedicated integration review rebases them onto the then-current main and reruns the full repository contract.
 
-No worker PR is closed by this stabilization pass. No worker branch is treated as merged, superseded or rejected on game-data merit merely because it is parked.
+No worker PR is closed by this stabilization pass. No worker branch is treated as merged, superseded or rejected on game-data merit merely because it is parked. PR #150 remains marked draft in GitHub even though its exact head is verification-clean; that UI state does not change code/source truth.
 
 ## Verification contract
 
@@ -167,7 +167,7 @@ The next stable baseline is therefore deliberately boring:
 - **code/product behavior:** current main `2af8221b` unchanged;
 - **canonical readiness/execution counts:** current-main values above unchanged;
 - **worker code:** all kept outside the baseline;
-- **worker follow-up:** #140/#141/#142/#143/#144/#145/#146/#147/#148/#149 are individually green but parked for dedicated later rebase/integration review; only #150 remains cleanup-required/draft/red;
+- **worker follow-up:** #140 through #150 are now exact-head verification-clean. They remain sibling branches and must be selected/rebased/integrated one at a time; #150 additionally remains marked draft in GitHub despite cleanup completion;
 - **broad roster DPS:** still blocked;
 - **no new gameplay/source truth is invented by stabilization.**
 

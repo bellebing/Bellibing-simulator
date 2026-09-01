@@ -36,6 +36,7 @@ test('cast-window contracts stay locked to the exact canonical source-backed Wea
     'WM-LIB',
     'TLD-SKILL',
     'MGS-LIB',
+    'SCIP-ECHO-AMP',
   ]);
 
   const drifted = WEAPON_EFFECT_CATALOG.map((effect) => effect.effectId === 'AH-INTRO'
@@ -120,6 +121,42 @@ test('Intro-or-Liberation contracts preserve their source durations and rank val
   });
   assert.equal(moongazer?.value, 0.20);
   assert.equal(moongazer?.expiresAtSeconds, 16);
+});
+
+test('Solsworn Ciphers cast window opens only from Sigrika cast events and preserves source duration', () => {
+  const intro = activateWeaponCastWindow({
+    effectId: 'SCIP-ECHO-AMP',
+    rank: 1,
+    wielderId: 'sigrika',
+    event: { kind: 'INTRO_SKILL_CAST', actorId: 'sigrika', atSeconds: 0 },
+  });
+  assert.deepEqual(intro, {
+    adapterId: 'weapon-cast-timed-self-window-v1',
+    effectId: 'SCIP-ECHO-AMP',
+    weaponId: 'solsworn-ciphers',
+    actorId: 'sigrika',
+    statOrEffect: 'Echo Skill DMG Amplification',
+    value: 0.32,
+    valueUnit: 'DECIMAL_MULTIPLIER',
+    startedAtSeconds: 0,
+    expiresAtSeconds: 15,
+  });
+
+  const echoCast = activateWeaponCastWindow({
+    effectId: 'SCIP-ECHO-AMP',
+    rank: 1,
+    wielderId: 'sigrika',
+    event: { kind: 'ECHO_SKILL_CAST', actorId: 'sigrika', atSeconds: 4 },
+  });
+  assert.equal(echoCast?.startedAtSeconds, 4);
+  assert.equal(echoCast?.expiresAtSeconds, 19);
+
+  assert.equal(activateWeaponCastWindow({
+    effectId: 'SCIP-ECHO-AMP',
+    rank: 1,
+    wielderId: 'sigrika',
+    event: { kind: 'RESONANCE_SKILL_CAST', actorId: 'sigrika', atSeconds: 4 },
+  }), null);
 });
 
 test('active-window boundary is deterministic and does not extend itself without a new executable event', () => {

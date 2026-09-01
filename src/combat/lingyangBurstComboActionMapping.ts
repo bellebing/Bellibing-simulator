@@ -8,7 +8,7 @@ export const LINGYANG_BURST_COMBO_MAPPING_PENDING_EXECUTION_ID =
 /**
  * Current repository-canonical sequence generated from the reviewer-authored
  * 2026-08-30 semantic review. It remains source-of-truth for current code until
- * that review is corrected and deterministically regenerated.
+ * that review is source-resolved and deterministically regenerated.
  */
 export const LINGYANG_STANDARD_SOURCE_SEQUENCE = [
   'Echo: Mech Abomination',
@@ -44,7 +44,7 @@ type AmbiguousCharacterActionMapping = {
     'lingyang-forte-feral-gyrate-1',
     'lingyang-forte-feral-gyrate-2',
   ];
-  readonly reason: 'CANONICAL_REVIEW_DROPPED_SOURCE_STAGE';
+  readonly reason: 'CANONICAL_SEQUENCE_DOES_NOT_IDENTIFY_STAGE';
 };
 
 type ExactEchoMapping = {
@@ -69,10 +69,10 @@ const CANONICAL_EXACT_ACTION_BY_STEP = new Map<string, string>([
 ]);
 
 export const LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW = {
-  status: 'BLOCKED_CANONICAL_SOURCE_DRIFT',
+  status: 'BLOCKED_CANONICAL_SOURCE_MISMATCH',
   blockerId: 'BUG-017',
   reviewedAt: '2026-09-01',
-  primitiveId: 'lingyang-burst-combo-source-drift-aware-action-map-v2',
+  primitiveId: 'lingyang-burst-combo-source-mismatch-aware-action-map-v2',
   pendingExecutionId: LINGYANG_BURST_COMBO_MAPPING_PENDING_EXECUTION_ID,
   canonicalSequenceStepCount: 15,
   currentSourceSequenceStepCount: 16,
@@ -81,10 +81,10 @@ export const LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW = {
   currentSourceExactMappedStepIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const,
   closesPendingExecutionIds: [] as readonly string[],
   notes: [
-    'Current-repo canonical truth remains the generated 15-step lingyang-standard-rotation until the reviewer-authored semantic review is corrected and deterministically regenerated.',
+    'Current-repo canonical truth remains the generated 15-step lingyang-standard-rotation until the canonical semantic review is source-resolved and deterministically regenerated.',
     'A 2026-09-01 source re-check found that the cited current Prydwen page publishes a 16-step Burst Combo with explicit Feral Gyrate P1/P2/P1/P2/P1 identities, Basic Attack: Stormy Kicks and Mid-Air Attack: Tail Strike.',
-    'Prydwen reports the page Last updated / Last profile update as 30/July/2026, predating the 2026-08-30 reviewer-authored semantic review. The mismatch is therefore recorded as a semantic-review transcription defect, not assumed to be later source drift.',
-    'The current source resolves all action identities, but Bellibing must not silently substitute that sequence underneath the generated canonical profile. The action-mapping pending ID remains open until deterministic canonical regeneration closes the data drift.',
+    'Prydwen reports Last profile update 20/August/2026, but Bellibing does not retain an immutable 2026-08-30 rotation snapshot from that page. The current source/canonical mismatch is confirmed while its historical cause remains unresolved.',
+    'The current source resolves all action identities, but Bellibing must not silently substitute that sequence underneath the generated canonical profile. The action-mapping pending ID remains open until canonical source resolution and deterministic regeneration close the mismatch.',
     'Neither sequence supplies timestamps, hit/cancel completion, Diligent Practice timing, Lion’s Spirit state or a DPS denominator.',
   ],
 } as const;
@@ -117,11 +117,14 @@ export function validateLingyangBurstComboActionMapping(): readonly string[] {
   if (LINGYANG_CURRENT_PRYDWEN_SOURCE_SEQUENCE.length !== LINGYANG_BURST_COMBO_ACTION_MAPPING_REVIEW.currentSourceSequenceStepCount) {
     issues.push(`Lingyang current-source review length drift: ${LINGYANG_CURRENT_PRYDWEN_SOURCE_SEQUENCE.length}`);
   }
-  if (LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.status !== 'CANONICAL_REVIEW_TRANSCRIPTION_MISMATCH_CONFIRMED') {
+  if (LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.status !== 'CURRENT_SOURCE_CANONICAL_MISMATCH_CONFIRMED') {
     issues.push(`Lingyang source-review status drift: ${LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.status}`);
   }
-  if (LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.sourcePageLastUpdated >= LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.canonicalSemanticReviewCheckedAt) {
-    issues.push('Lingyang source-review chronology no longer proves that the cited page predates the canonical semantic review');
+  if (LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.sourcePageLastUpdated !== '2026-08-20') {
+    issues.push(`Lingyang current-source page-update metadata drift: ${LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.sourcePageLastUpdated}`);
+  }
+  if (LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.canonicalSemanticReviewCheckedAt !== '2026-08-30') {
+    issues.push(`Lingyang canonical semantic-review date drift: ${LINGYANG_BURST_COMBO_SOURCE_REVIEW_20260901.canonicalSemanticReviewCheckedAt}`);
   }
 
   for (const actionId of CANONICAL_EXACT_ACTION_BY_STEP.values()) {
@@ -149,8 +152,9 @@ if (CONTRACT_ISSUES.length > 0) {
 
 /**
  * Resolve only the current repository-canonical generated sequence. Generic
- * Feral Gyrate entries remain ambiguous because the canonical review dropped
- * the source P1/P2 labels. This is intentionally not auto-corrected at runtime.
+ * Feral Gyrate entries remain ambiguous because that sequence does not identify
+ * P1/P2. The separate current-source evidence is intentionally not substituted
+ * into runtime underneath the generated profile.
  */
 export function resolveLingyangBurstComboStep(index: number): LingyangBurstComboStepMapping {
   if (!Number.isInteger(index) || index < 0 || index >= LINGYANG_STANDARD_SOURCE_SEQUENCE.length) {
@@ -173,7 +177,7 @@ export function resolveLingyangBurstComboStep(index: number): LingyangBurstCombo
         'lingyang-forte-feral-gyrate-1',
         'lingyang-forte-feral-gyrate-2',
       ],
-      reason: 'CANONICAL_REVIEW_DROPPED_SOURCE_STAGE',
+      reason: 'CANONICAL_SEQUENCE_DOES_NOT_IDENTIFY_STAGE',
     };
   }
 
@@ -188,8 +192,8 @@ export function resolveLingyangBurstComboStep(index: number): LingyangBurstCombo
 
 /**
  * Resolve the separately reviewed current Prydwen source sequence. This is
- * evidence for canonical correction only; it does not replace the generated
- * profile sequence or authorize execution timing.
+ * evidence for canonical source resolution only; it does not replace the
+ * generated profile sequence or authorize execution timing.
  */
 export function resolveLingyangCurrentPrydwenBurstComboStep(index: number): LingyangBurstComboStepMapping {
   if (!Number.isInteger(index) || index < 0 || index >= LINGYANG_CURRENT_PRYDWEN_SOURCE_SEQUENCE.length) {

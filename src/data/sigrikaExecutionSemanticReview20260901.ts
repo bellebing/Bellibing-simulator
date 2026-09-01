@@ -35,7 +35,8 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'Current source proves Trust/Answer direct-hit creation, base capacity 2, capacity 4 at >=50 Full Stop and left-shift overwrite at cap.',
     'sigrika-resource-state-v1 models these transitions event-by-event and deliberately fails closed when Schemata is presented with more than two stored Runes because current reviewed text does not state a >2 selection order.',
-    'Canonical action checkpoint identity is source-closed separately, but generic Rune history, Convergent/Divergent lifetime and arbitrary off-sequence state still require a real event timeline.',
+    'Prydwen current Standard key-mechanics text independently corroborates the prescribed first same-type Rune pair after Intro and second opposite-type pair after Ultimate, matching the already source-closed Chain Whip/Outburst checkpoints.',
+    'That profile evidence does not close the generic lifecycle edge: Convergent/Divergent are timed 20-second states and arbitrary off-sequence/>2-Rune behavior still requires a real event timeline.',
   ),
   primitiveAvailable(
     'character:sigrika:innate-gift-damage-amplification-adapter',
@@ -43,8 +44,9 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'At >=30 Soliskin Vitality, Schemata consumes 30, increases the current Runic multiplier by 50% and grants one Innate Gift stack; lower Vitality consumes all and grants 15% DMG Amplification per 10 consumed.',
     'Innate Gift remains max 2 at S0, grants 30% DMG Amplification per stack to the source-listed Runic/Learn actions, and clears on Learn My True Name or switch-out.',
-    'Canonical predecessor review now source-bounds Sigrika entry to 40–50 Soliskin Vitality, so the first Schemata high-Vitality path and one gained Innate Gift stack are guaranteed.',
-    'Exact later Innate Gift amplification remains unresolved because Ciaccona support-Echo uniqueness and Sigrika own flexible Echo timing can change whether the second Schemata reaches >=30 Vitality; the primitive does not collapse that interval.',
+    'Canonical registry-bound predecessor review source-bounds Sigrika entry to 40–50 Soliskin Vitality, so the first Schemata high-Vitality path and one gained Innate Gift stack are guaranteed.',
+    'Prydwen calculation context names Impermanence Heron on Qiuyuan and Nightmare: Kelpie on Ciaccona, proving exactly five predecessor triggers / 50 Soliskin in that calculation context only; Bellibing TeamProfile does not bind teammate Echo loadouts, so this point does not replace the canonical 40–50 interval.',
+    'Exact later Innate Gift amplification remains unresolved because the canonical profile leaves the support-Echo binding and Sigrika own flexible Echo timing outside registry truth, changing whether the second Schemata reaches >=30 Vitality.',
     'Current source wording also does not provide a separate event-order statement proving that the Innate Gift stack obtained while consuming Runes amplifies the same Runic hit that grants it; Bellibing does not assume same-event application.',
   ),
   primitiveAvailable(
@@ -53,8 +55,10 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'Nearby-team Echo Skill casts source-prove Soliskin Vitality +10 and Blessing of Runes +1 with same-name once-only records; Blessing caps at 6 and resets on lineup change, while the Vitality trigger record resets on Sigrika Outro.',
     'The primitive models the two trigger records separately, Blessing stack bonuses and the ER-over-125% conversion formula.',
-    'Current exact-team predecessor sources prove Qiuyuan contributes four valid distinct gauge triggers before Outro to Sigrika and describe one Ciaccona Echo cast, bounding canonical Sigrika entry at 4–5 Blessing stacks and 40–50 Soliskin Vitality.',
-    'The exact point cannot be selected without a canonical Ciaccona support-Echo identity binding, and Prydwen leaves Sigrika own Nameless Explorer cast timing flexible; no sixth trigger or later gauge state is invented.',
+    'Current canonical registry-bound predecessor sources prove Qiuyuan contributes four valid distinct gauge triggers before Outro to Sigrika and describe one Ciaccona Echo cast, bounding canonical Sigrika entry at 4–5 Blessing stacks and 40–50 Soliskin Vitality.',
+    'Prydwen calculations explicitly bind Impermanence Heron to Qiuyuan and Nightmare: Kelpie to Ciaccona, proving an exact five-trigger / five-Blessing point for that named calculation context, but teammate Echo equipment is not part of the current Bellibing TeamProfile contract and is therefore not silently promoted to canonical registry truth.',
+    'Game8 explicitly distinguishes Sigrika Character actions that deal Echo Skill DMG from actually casting an equipped Echo Skill. The six fixed Character ECHO damage checkpoints therefore do not feed Soliskin Vitality or Blessing cast-trigger records.',
+    'Prydwen leaves Sigrika own Nameless Explorer cast timing flexible; no sixth trigger or later gauge state is invented.',
   ),
   primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-ECHO-AMP:echo-intro-cast-window-adapter',
@@ -62,8 +66,9 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'weapon-cast-timed-self-window-v1',
     'SCIP-ECHO-AMP is source-exact at R1: +32% Echo Skill DMG Amplification for 15 seconds after Intro Skill or Echo Skill cast.',
     'weapon-cast-timed-self-window-v1 has an explicit SCIP-ECHO-AMP contract for INTRO_SKILL_CAST and ECHO_SKILL_CAST.',
-    'sigrika-standard-source-event-skeleton-v1 now source-binds the canonical Intro Skill cast to fixed zero-based step index 0 and deliberately binds no equipped-Echo cast to a fixed step.',
-    'The trigger event is therefore fixed in action order, but no seconds-elapsed value exists to resolve the 15-second overlap against later damage checkpoints.',
+    'sigrika-standard-source-event-skeleton-v1 source-binds the canonical Intro Skill cast to fixed zero-based step index 0 and deliberately binds no equipped-Echo cast to a fixed step.',
+    'Game8 source semantics keep Sigrika Character Echo Skill DMG separate from casting the equipped Echo Skill, so Elucidated/Runic/Liberation/Learn damage checkpoints cannot refresh SCIP-ECHO-AMP through its Echo-cast branch.',
+    'The Intro trigger event is fixed in action order, but no seconds-elapsed value exists to resolve the 15-second overlap against later damage checkpoints.',
   ),
   primitiveAvailable(
     'weapon:solsworn-ciphers:SCIP-AERO-DEF:echo-skill-damage-window-adapter',
@@ -72,6 +77,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'SCIP-AERO-DEF is source-exact at R1: Aero DMG ignores 10% DEF for 6 seconds after dealing Echo Skill DMG.',
     'weapon-damage-timed-self-window-v1 opens only from an explicit ECHO_SKILL_DAMAGE event and preserves the source Aero-only damage condition.',
     'sigrika-standard-source-event-skeleton-v1 proves the first fixed ECHO_SKILL_DAMAGE event is the first Elucidated at zero-based step index 4 and proves six fixed Echo Skill DMG checkpoints at indexes 4/5/6/10/11/12.',
+    'Game8 explicitly supports treating these Character actions as Echo Skill DMG even though they are not equipped-Echo casts, so they remain valid deal-Echo-Skill-DMG triggers.',
     'Those trigger checkpoints are source-ordered but timestamp-free; the 6-second overlap remains unresolved and equipment selection does not authorize blanket uptime.',
   ),
   primitiveAvailable(
@@ -81,6 +87,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'Sound of True Name 5P grants +20% Echo Skill CRIT Rate for 5 seconds after dealing Echo Skill DMG.',
     'sonata-damage-timed-self-window-v1 requires an explicit ECHO_SKILL_DAMAGE event; equipment selection alone grants no state.',
     'sigrika-standard-source-event-skeleton-v1 source-binds the first fixed trigger to Elucidated at zero-based step index 4 and the fixed Echo Skill DMG checkpoints to indexes 4/5/6/10/11/12, but assigns no timestamps.',
+    'Game8 confirms these Character actions retain Echo Skill DMG classification without becoming equipped-Echo casts; they are valid damage-window triggers but cannot be reused as cast-trigger evidence.',
     'The 5-second state can therefore be opened from a real canonical damage event once a timeline exists, but current source order alone cannot resolve its action coverage.',
   ),
   primitiveAvailable(
@@ -90,6 +97,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'Sound of True Name 5P grants +15% Aero DMG Bonus for the same 5-second Echo Skill damage-triggered state.',
     'sonata-damage-timed-self-window-v1 requires an explicit ECHO_SKILL_DAMAGE event; equipment selection alone grants no state.',
     'sigrika-standard-source-event-skeleton-v1 source-binds the first fixed trigger to Elucidated at zero-based step index 4 and the fixed Echo Skill DMG checkpoints to indexes 4/5/6/10/11/12, but assigns no timestamps.',
+    'Game8 confirms these Character actions retain Echo Skill DMG classification without becoming equipped-Echo casts; they are valid damage-window triggers but cannot be reused as cast-trigger evidence.',
     'The shared 5-second state can therefore be opened from a real canonical damage event once a timeline exists, but current source order alone cannot resolve its action coverage.',
   ),
   primitiveAvailable(

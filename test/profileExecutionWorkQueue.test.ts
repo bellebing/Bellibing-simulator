@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 18);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 19);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -94,6 +94,11 @@ test('semantic execution review catalog is derived from reviewed implementation/
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(fleurdelysActive?.primitiveId, 'echo-active-damage-v1');
+
+  const glommothScaling = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001955:glommoth-active-skill-scaling-stat');
+  assert.equal(glommothScaling?.status, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(glommothScaling?.actionKey, 'echo:glommoth-active-damage-scaling');
+  assert.equal(glommothScaling?.blockerId, 'LUCILLA-GLOMMOTH-SCALING-SOURCE');
 });
 
 test('Rover Aero source review parks exact timing instead of fabricating execution', () => {
@@ -148,20 +153,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 72-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 76-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 72,
-    unreviewedEdges: 30,
+    totalEdges: 76,
+    unreviewedEdges: 33,
     semanticallyReviewedImplementationPendingEdges: 1,
     primitiveAvailableRequiresTimelineEdges: 11,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 9,
+    blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 16,
-    actionableSharedEdges: 31,
+    actionableSharedEdges: 34,
   });
-  assert.equal(queue.reviewRecordCount, 18);
+  assert.equal(queue.reviewRecordCount, 19);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -294,6 +299,12 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.ok(roverTeamAmp);
   assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
   assert.equal(roverTeamAmp.dependencyCount, 1);
+
+  const glommothScaling = queue.blockedSourceSemantics.find((row) => row.actionKey === 'echo:glommoth-active-damage-scaling');
+  assert.ok(glommothScaling);
+  assert.equal(glommothScaling.dependencyCount, 1);
+  assert.equal(glommothScaling.profileCount, 1);
+  assert.deepEqual(glommothScaling.blockerIds, ['LUCILLA-GLOMMOTH-SCALING-SOURCE']);
 
   assert.equal(queue.profileSpecificExecution.length, 1);
   assert.equal(queue.profileSpecificExecution[0].actionKey, 'rotation:engine-model');

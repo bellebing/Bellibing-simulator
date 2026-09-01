@@ -112,7 +112,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(closedJinhsiUnison, undefined, 'closed Standard Opener first-Unison edge must leave the pending semantic catalog');
 
   const jue = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60000595:jue-active-skill-and-blessing-adapter');
-  assert.equal(jue?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(jue?.status, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(jue?.blockerId, 'BUG-020');
   assert.equal(jue?.primitiveId, 'jue-blessing-state-v1');
 
   const jinhsiTeam = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'team:jinhsi-zhezhi-verina:incoming-state-adapter');
@@ -179,9 +180,9 @@ test('current 77-edge matrix is partitioned into actionable, covered, blocked an
     totalEdges: 77,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 15,
+    primitiveAvailableRequiresTimelineEdges: 14,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 9,
+    blockedSourceSemanticsEdges: 10,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
@@ -249,7 +250,7 @@ test('remaining shared fanout is machine-ranked after Jinhsi primitive classific
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Jinhsi combat-start Intro closures', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi source-semantic narrowing', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
@@ -280,13 +281,6 @@ test('covered and blocked queues retain exact fanout after Jinhsi combat-start I
   assert.equal(jinhsiResource.profileCount, 1);
   assert.equal(jinhsiResource.characterCount, 1);
   assert.deepEqual(jinhsiResource.primitiveIds, ['jinhsi-resource-state-v1']);
-
-  const jue = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:jue-cast-blessing-state');
-  assert.ok(jue);
-  assert.equal(jue.dependencyCount, 1);
-  assert.equal(jue.profileCount, 1);
-  assert.equal(jue.characterCount, 1);
-  assert.deepEqual(jue.primitiveIds, ['jue-blessing-state-v1']);
 
   const jinhsiTeam = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'team:jinhsi-incoming-state');
   assert.ok(jinhsiTeam);
@@ -339,6 +333,14 @@ test('covered and blocked queues retain exact fanout after Jinhsi combat-start I
   assert.equal(roverHealing.dependencyCount, 1);
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
+
+  const jue = queue.blockedSourceSemantics.find((row) => row.actionKey === 'echo:jue-cast-blessing-state');
+  assert.ok(jue);
+  assert.equal(jue.dependencyCount, 1);
+  assert.equal(jue.profileCount, 1);
+  assert.equal(jue.characterCount, 1);
+  assert.deepEqual(jue.blockerIds, ['BUG-020']);
+  assert.deepEqual(jue.primitiveIds, ['jue-blessing-state-v1']);
 
   const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);

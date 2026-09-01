@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  SIGRIKA_STANDARD_CHARACTER_ECHO_DAMAGE_TRIGGER_SEMANTICS,
   SIGRIKA_STANDARD_SOURCE_EVENT_BOUNDARIES,
   SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON,
   SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON_REVIEW,
@@ -56,11 +57,21 @@ test('first Schemata is high-Vitality guaranteed while second modifier branch re
   assert.equal(outburst.sourceStateFacts.some((note) => note.includes('remain unresolved')), true);
 });
 
-test('Echo Skill DMG events are not promoted into equipped Echo Skill cast events', () => {
+test('Character Echo Skill DMG stays separate from equipped Echo Skill cast triggers', () => {
   const echoDamageSteps = SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON.filter((row) => row.damageEventKind === 'ECHO_SKILL_DAMAGE');
   assert.equal(echoDamageSteps.length, 6);
   assert.equal(echoDamageSteps.some((row) => row.castEventKind === 'INTRO_SKILL_CAST'), false);
   assert.equal(echoDamageSteps.some((row) => row.castEventKind === 'OUTRO_SKILL_CAST'), false);
+
+  assert.deepEqual(SIGRIKA_STANDARD_CHARACTER_ECHO_DAMAGE_TRIGGER_SEMANTICS, {
+    sourceLabel: 'Game8 — Sigrika Echo Skill damage/cast distinction',
+    sourceUrl: 'https://game8.co/games/Wuthering-Waves/archives/507924',
+    fixedCharacterEchoSkillDamageCountsAsEquippedEchoSkillCast: false,
+    fixedCharacterEchoSkillDamageCanFeedSoliskinVitalityEchoCastTrigger: false,
+    fixedCharacterEchoSkillDamageCanFeedBlessingOfRunesEchoCastTrigger: false,
+    fixedCharacterEchoSkillDamageCanTriggerSolswornEchoCastWindow: false,
+    fixedCharacterEchoSkillDamageCanTriggerEchoSkillDamageWindows: true,
+  });
 
   assert.equal(SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON[0].castEventKind, 'INTRO_SKILL_CAST');
   assert.equal(SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON[6].castEventKind, 'RESONANCE_LIBERATION_CAST');

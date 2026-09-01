@@ -30,6 +30,21 @@ export interface SigrikaStandardSourceEventStep {
   readonly exactTimestampSeconds: null;
 }
 
+/**
+ * Sigrika's Character actions can deal Echo Skill DMG without becoming casts of
+ * the equipped Echo Skill. Keep the two event families separate so damage-only
+ * actions cannot feed cast-triggered resources or weapon state by accident.
+ */
+export const SIGRIKA_STANDARD_CHARACTER_ECHO_DAMAGE_TRIGGER_SEMANTICS = Object.freeze({
+  sourceLabel: 'Game8 — Sigrika Echo Skill damage/cast distinction',
+  sourceUrl: 'https://game8.co/games/Wuthering-Waves/archives/507924',
+  fixedCharacterEchoSkillDamageCountsAsEquippedEchoSkillCast: false,
+  fixedCharacterEchoSkillDamageCanFeedSoliskinVitalityEchoCastTrigger: false,
+  fixedCharacterEchoSkillDamageCanFeedBlessingOfRunesEchoCastTrigger: false,
+  fixedCharacterEchoSkillDamageCanTriggerSolswornEchoCastWindow: false,
+  fixedCharacterEchoSkillDamageCanTriggerEchoSkillDamageWindows: true,
+} as const);
+
 const FACT = Object.freeze({
   intro: 'sigrika-intro-skill-solsworn-etymology-skill-dmg',
   basic2: 'sigrika-basic-attack-one-two-three-basic-attack-stage-2-dmg',
@@ -145,24 +160,29 @@ export const SIGRIKA_STANDARD_SOURCE_EVENT_SKELETON_REVIEW = Object.freeze({
   sourceLabels: [
     'Bellibing verified Sigrika raw Character Mechanics',
     'Prydwen — current Sigrika Standard Rotation',
+    'Game8 — current Sigrika Echo Skill damage/cast distinction',
     'Sigrika canonical predecessor Echo-trigger source review',
   ] as const,
   sourceUrls: [
     'https://github.com/bellebing/Bellibing-simulator/blob/main/src/data/characterMechanics/sigrikaRawFacts.ts',
     'https://www.prydwen.gg/wuthering-waves/characters/sigrika',
+    SIGRIKA_STANDARD_CHARACTER_ECHO_DAMAGE_TRIGGER_SEMANTICS.sourceUrl,
     'https://github.com/bellebing/Bellibing-simulator/blob/worker/sigrika-dps-closure-2026-09-01/src/data/sigrikaCanonicalPredecessorEchoTriggerReview20260901.ts',
   ] as const,
   sourceEstablished: [
     'All 14 fixed canonical Prydwen steps are bound to already-verified Sigrika Character damage facts without selecting a talent level.',
     'The fixed sequence has six source-proven Echo Skill DMG checkpoints: Elucidated, Chain Whip, Liberation, Elucidated, Outburst and Learn My True Name.',
     'The first fixed Echo Skill DMG event is the first Elucidated checkpoint at zero-based step index 4.',
+    'Game8 explicitly distinguishes Sigrika Character skills that deal Echo Skill DMG from actually casting an Echo Skill; the six fixed Character Echo Skill DMG checkpoints therefore remain damage events, not equipped-Echo cast events.',
     'The fixed sequence opens Solsworn SCIP-ECHO-AMP from its Intro cast event at zero-based step index 0, while no fixed Nameless Explorer Echo cast checkpoint exists.',
     'Predecessor bounds guarantee only the first Schemata high-Vitality branch; the second Schemata modifier branch remains unresolved.',
   ] as const,
   boundaries: [
     'This is an event-order skeleton, not a timeline. Every exactTimestampSeconds remains null.',
     'Step order does not prove seconds elapsed, cancel frames, 5s/6s/14s/15s window coverage or the DPS denominator.',
-    'Echo Skill DMG classification is not treated as an equipped Echo Skill cast. Nameless Explorer remains a separate flexible cast event.',
+    'Character Echo Skill DMG does not feed Soliskin/Blessing Echo-cast resources or Solsworn cast-trigger state; only an actual equipped Echo Skill cast may do so.',
+    'Echo Skill DMG classification remains eligible for effects whose source trigger is dealing Echo Skill DMG.',
+    'Nameless Explorer remains a separate flexible cast event with no fixed canonical step.',
     'The review closes no additional pendingExecutionId and does not authorize ENGINE_MODELED, BuildContext, freeze, DPS_READY or product support.',
   ] as const,
   closesPendingExecutionIds: [] as const,
@@ -215,6 +235,18 @@ export function validateSigrikaStandardSourceEventSkeleton(): readonly string[] 
   if (SIGRIKA_STANDARD_SOURCE_EVENT_BOUNDARIES.firstEchoSkillDamageStepIndex !== SIGRIKA_STANDARD_SOURCE_CHECKPOINTS.elucidatedStepIndexes[0]) {
     issues.push('first fixed Sigrika Echo Skill DMG checkpoint must remain the first Elucidated step');
   }
+
+  const triggerSemantics = SIGRIKA_STANDARD_CHARACTER_ECHO_DAMAGE_TRIGGER_SEMANTICS;
+  if (triggerSemantics.fixedCharacterEchoSkillDamageCountsAsEquippedEchoSkillCast
+    || triggerSemantics.fixedCharacterEchoSkillDamageCanFeedSoliskinVitalityEchoCastTrigger
+    || triggerSemantics.fixedCharacterEchoSkillDamageCanFeedBlessingOfRunesEchoCastTrigger
+    || triggerSemantics.fixedCharacterEchoSkillDamageCanTriggerSolswornEchoCastWindow) {
+    issues.push('Sigrika Character Echo Skill DMG must remain separate from equipped-Echo cast triggers');
+  }
+  if (!triggerSemantics.fixedCharacterEchoSkillDamageCanTriggerEchoSkillDamageWindows) {
+    issues.push('Sigrika Character Echo Skill DMG must remain eligible for deal-Echo-Skill-DMG triggers');
+  }
+
   if (!SIGRIKA_STANDARD_SOURCE_EVENT_BOUNDARIES.firstSchemataHighVitalityPathGuaranteed) {
     issues.push('Sigrika first Schemata high-Vitality guarantee drifted');
   }

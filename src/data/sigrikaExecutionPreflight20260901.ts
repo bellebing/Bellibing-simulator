@@ -130,10 +130,14 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
   timing: {
     exactActionTimestamps: null,
     exactRotationSeconds: null,
+    currentPrydwenMajorBuildCalcsPatch: '3.5',
+    currentPrydwenExposedRotationSeconds: null,
+    historicalPrydwenExactActionOrderRotationSeconds: 12.8,
+    historicalPrydwenTimingStatus: 'EXACT_FIXED_ACTION_ORDER_MATCH_STALE_MAJOR_CALCS_NOT_CURRENT_DENOMINATOR',
     externalTestedRotationSeconds: 12.75,
-    externalTestedRotationStatus: 'EVIDENCE_ONLY_NOT_CANONICAL_DENOMINATOR',
+    externalTestedRotationStatus: 'EVIDENCE_ONLY_MISMATCHED_ACTION_SET_NOT_CANONICAL_DENOMINATOR',
     denominatorStatus: 'BLOCKED_SOURCE_SEMANTICS',
-    cancelPolicy: 'Preserve source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill. Prydwen does not publish exact frames. ArabWuwa publishes a tested 12.75s Sigrika action block with a fixed Echo step, while Prydwen canonical leaves Summon timing flexible and omits fixed Echo from its 14-step Standard Rotation; Bellibing therefore does not promote that mismatched measured action set into the canonical denominator.',
+    cancelPolicy: 'Preserve current source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill; Summon remains flexible. Historical Prydwen Patch 3.2 publishes 12.8s for the same fixed 14-action order, but current Prydwen marks major build/calcs Patch 3.5 and does not expose a current rotation-time value. ArabWuwa publishes 12.75s for a mismatched action set with a fixed Echo step and only one explicit Enhanced Basic/Elucidated. Bellibing therefore promotes neither duration into current canonical denominator truth, and neither source provides the per-action timestamps required for timed-window coverage.',
   },
   energyRegen: {
     sourceMinimum: 1.09,
@@ -170,7 +174,8 @@ export const SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW: ProfileBackwardImpactRevie
     'This backward-impact row preserves the original 15 pending boundaries. Later ER, canonical source-checkpoint and Ciaccona canonical-entry closures are applied explicitly by the aggregate catalog instead of rewriting this source-review snapshot.',
     'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile timeline. Ciaccona Solo Concert entry is closed separately from current lifecycle + named-team-order sources while Ciaccona remains the state owner.',
     'Nameless Explorer Rank-5 coefficient is source-resolved at 273.60% Aero; a reusable attack fact is still not authorized because current reviewed ability text does not explicitly prove scalingStat, and no fixed canonical Summon timestamp exists.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action block as external evidence, but its fixed Echo step differs from the fixed Prydwen canonical sequence, so Bellibing keeps exact denominator/timestamps pending.',
+    'Historical Prydwen major build/calcs Patch 3.2 publishes 12.8s for the same fixed 14-action Standard Rotation order and canonical calculation package, but current Prydwen marks major build/calcs Patch 3.5 without exposing a current rotation-time value. Bellibing records the older number as stale exact-order evidence, not current denominator truth.',
+    'ArabWuwa publishes a current tested 12.75s Sigrika action block as external evidence, but its fixed Echo step and single explicit Enhanced Basic/Elucidated differ from the fixed Prydwen canonical sequence. Neither source provides per-action timestamps, so Bellibing keeps denominator/timeline pending.',
     'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized until the live pending dependencies close.',
   ],
 };

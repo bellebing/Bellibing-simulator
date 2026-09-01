@@ -35,7 +35,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
   assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
-  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 10);
+  assert.equal(SIGRIKA_EXECUTION_SEMANTIC_REVIEWS.length, 9);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);

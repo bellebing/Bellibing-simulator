@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 22);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 21);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -46,6 +46,11 @@ test('semantic execution review catalog is derived from reviewed implementation/
     assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
     assert.equal(review?.primitiveId, 'sonata-cast-timed-self-window-v1');
   }
+
+  const closedJinhsiCelestial = EXECUTION_SEMANTIC_REVIEWS.find(
+    (row) => row.pendingExecutionId === 'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+  );
+  assert.equal(closedJinhsiCelestial, undefined, 'closed Jinhsi combat-start Celestial edge must leave the pending semantic catalog');
 
   for (const pendingExecutionId of SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.directOutroPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -167,20 +172,20 @@ test('Fallacy exact attack coverage remains separate from supported-profile cast
   assert.ok(FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW.unresolvedSemantics.some((note) => note.includes('normal tap/default variant')));
 });
 
-test('current 79-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
+test('current 77-edge matrix is partitioned into actionable, covered, blocked and profile-specific work without authorizing execution', () => {
   const queue = buildProfileExecutionWorkQueue();
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
-    totalEdges: 79,
+    totalEdges: 77,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 17,
+    primitiveAvailableRequiresTimelineEdges: 15,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 22);
+  assert.equal(queue.reviewRecordCount, 21);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -244,18 +249,18 @@ test('remaining shared fanout is machine-ranked after Jinhsi primitive classific
   assert.equal(remainingTriggerUptime.characterCount, 1);
 });
 
-test('covered and blocked queues retain exact fanout after Jinhsi first-Unison closure', () => {
+test('covered and blocked queues retain exact fanout after Jinhsi combat-start Intro closures', () => {
   const queue = buildProfileExecutionWorkQueue();
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
   assert.ok(weaponCast);
-  assert.equal(weaponCast.dependencyCount, 7);
+  assert.equal(weaponCast.dependencyCount, 6);
   assert.equal(weaponCast.profileCount, 5);
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
   assert.ok(sonataCast);
-  assert.equal(sonataCast.dependencyCount, 2);
-  assert.equal(sonataCast.profileCount, 2);
+  assert.equal(sonataCast.dependencyCount, 1);
+  assert.equal(sonataCast.profileCount, 1);
   assert.deepEqual(sonataCast.primitiveIds, ['sonata-cast-timed-self-window-v1']);
 
   const sonataTransfer = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:direct-outro-incoming-transfer');

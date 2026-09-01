@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID,
   JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
   JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID,
   JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW,
@@ -19,6 +20,8 @@ test('canonical Standard Opener source proves exactly two AH-SKILL cast-trigger 
 
   assert.equal(result.primitiveId, JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID);
   assert.equal(result.pendingExecutionId, JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID);
+  assert.equal(result.blockerId, JINHSI_STANDARD_OPENER_AH_SKILL_BLOCKER_ID);
+  assert.equal(result.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
   assert.deepEqual(
     result.skillCastCheckpoints.map((row) => ({ step: row.step, sourceStep: row.sourceStep, eventKind: row.eventKind })),
     [
@@ -41,14 +44,21 @@ test('Incarnation Basics stay Resonance Skill DMG without becoming Resonance Ski
   assert.ok(result.skillDamageOnlyCheckpoints.every((row) => row.triggersAgesSkillWindow === false));
 });
 
-test('trigger checkpoints are bound into the canonical review without closing timed uptime', () => {
+test('two source-proven Skill triggers require lifecycle semantics beyond a caller timeline', () => {
   const result = resolveJinhsiStandardOpenerSkillTriggerCheckpoints(sourceSequence);
   const review = JINHSI_STANDARD_OPENER_EXECUTION_REVIEW_20260901;
 
   assert.equal(result.exactActionTimestampsKnown, false);
   assert.equal(result.sameEffectRetriggerLifecycleKnown, false);
+  assert.equal(result.timelineAloneSufficient, false);
+  assert.equal(result.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(result.blockerId, 'BUG-020');
   assert.equal(result.dependencyClosed, false);
+  assert.equal(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
+  assert.equal(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.blockerId, 'BUG-020');
+  assert.equal(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.timelineAloneSufficient, false);
   assert.deepEqual(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.closesPendingExecutionIds, []);
+  assert.ok(JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.boundaries.some((note) => note.includes('resets, replaces, extends, overlaps')));
   assert.equal(
     review.availableEventStatePrimitives.standardOpenerSkillTriggerCheckpoints,
     JINHSI_STANDARD_OPENER_SKILL_TRIGGER_CHECKPOINT_PRIMITIVE_ID,

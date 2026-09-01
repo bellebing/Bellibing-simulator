@@ -122,12 +122,6 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'The Sigrika source sequence still contains no Ciaccona predecessor timeline proving such a snapshot at Sigrika action times, so the dependency remains open and timeline-required without any Ciaccona engine modification.',
   ),
   blocked(
-    'profile:sigrika-standard:energy-regen-hard-gate-adapter',
-    'profile:sigrika-standard-energy-regen-hard-gate',
-    'The canonical stat target preserves the current team-dependent 109%-119% Energy Regen guidance.',
-    'Without the exact Sigrika/Qiuyuan/Ciaccona energy/predecessor timeline there is no source-backed single minimum to promote as a hard gate.',
-  ),
-  blocked(
     'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
     'rotation:sigrika-standard-denominator-timeline',
     'Prydwen preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics. Current Prydwen also says the Summon may be cast at any point, so it does not provide one fixed Echo timestamp.',

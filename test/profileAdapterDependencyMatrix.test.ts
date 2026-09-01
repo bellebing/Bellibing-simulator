@@ -15,7 +15,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   assert.equal(matrix.reviewCount, 19);
   assert.equal(matrix.profileCount, 19);
   assert.equal(matrix.pendingProfileCount, 17);
-  assert.equal(matrix.dependencyCount, 77);
+  assert.equal(matrix.dependencyCount, 76);
   assert.equal(matrix.authorizesExecution, false);
   assert.equal(
     matrix.edges.some((edge) => edge.pendingExecutionId === 'echo:echo-60001065:fleurdelys-character-restriction-adapter'),
@@ -32,6 +32,7 @@ test('profile adapter matrix preserves every canonical pendingExecutionId exactl
   for (const closedJinhsiId of [
     'character:jinhsi:jinhsi-resource-unison:availability-adapter',
     'sonata:sonata-5:S05_5PC_SPECTRO:trigger-uptime-adapter',
+    'team:jinhsi-zhezhi-verina:incoming-state-adapter',
   ]) {
     assert.equal(
       matrix.edges.some((edge) => edge.pendingExecutionId === closedJinhsiId),

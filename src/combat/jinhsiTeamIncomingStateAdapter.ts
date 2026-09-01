@@ -174,6 +174,6 @@ export const JINHSI_TEAM_INCOMING_EXECUTION_SEMANTIC_REVIEW = {
   notes: [
     'Zhezhi Outro transfer is executable from an explicit outgoing->incoming event: +15 Resonance Energy immediately, +20% Glacio DMG Amplification and +25% Resonance Skill DMG Amplification for 14s, ending early when the incoming Resonator switches out.',
     'Verina Gift of Nature is executable from an explicit source action as +20% team ATK for 20s. Verina Outro Blossom is executable from an explicit Verina->incoming event as +15% nearby-team DMG Amplification for 30s; its 6s incoming heal remains separate metadata.',
-    'Current Standard Opener source places Jinhsi before team setup, so the audited opener has no source-proven teammate window; the dependency is nevertheless kept pending until the exact supported team-state boundary is closed without conflating opener inactivity with later-cycle incoming state.',
+    'The exact combat-start jinhsi-standard-opener dependency is source-closed separately as inactive because Prydwen places this opener before teammate setup. This reusable primitive remains available for a future canonical loop/team profile that supplies explicit predecessor events and timestamps.',
   ],
 } as const;

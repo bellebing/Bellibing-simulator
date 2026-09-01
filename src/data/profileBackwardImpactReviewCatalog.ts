@@ -3,6 +3,7 @@ import { PROFILE_COHORT_01_GREEN_LANE_IMPACT_REVIEWS } from './profileCohort01Gr
 import {
   applyProfileExecutionDependencyClosures,
 } from './profileExecutionClosures20260830.ts';
+import { PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260901 } from './profileExecutionClosures20260901.ts';
 import { JINHSI_STANDARD_OPENER_IMPACT_REVIEWS_20260901 } from './jinhsiStandardOpenerImpact20260901.ts';
 import { PROFILE_MULTIMODE_DENIA_IMPACT_REVIEWS } from './profileMultiModeDeniaImpact20260829.ts';
 import { PROFILE_MULTIMODE_ZHEZHI_IMPACT_REVIEWS } from './profileMultiModeZhezhiImpact20260829.ts';
@@ -24,6 +25,13 @@ const PROFILE_BACKWARD_IMPACT_REVIEW_BASE: readonly ProfileBackwardImpactReview[
   ...JINHSI_STANDARD_OPENER_IMPACT_REVIEWS_20260901,
 ]);
 
+const PROFILE_BACKWARD_IMPACT_REVIEWS_AFTER_20260830 = applyProfileExecutionDependencyClosures(
+  PROFILE_BACKWARD_IMPACT_REVIEW_BASE,
+);
+
 export const PROFILE_BACKWARD_IMPACT_REVIEWS_V36: readonly ProfileBackwardImpactReview[] = Object.freeze(
-  applyProfileExecutionDependencyClosures(PROFILE_BACKWARD_IMPACT_REVIEW_BASE),
+  applyProfileExecutionDependencyClosures(
+    PROFILE_BACKWARD_IMPACT_REVIEWS_AFTER_20260830,
+    PROFILE_EXECUTION_DEPENDENCY_CLOSURES_20260901,
+  ),
 );

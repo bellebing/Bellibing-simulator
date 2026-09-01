@@ -119,7 +119,7 @@ test('Solsworn, Sound of True Name and Nameless Explorer preserve static versus 
   assert.match(SIGRIKA_STANDARD_EXECUTION_PREFLIGHT.equipmentExecution.namelessExplorer.activeDamage, /scalingStat/);
 });
 
-test('Sigrika historical review keeps fifteen boundaries while aggregate catalog exposes eleven live dependencies', () => {
+test('Sigrika historical review keeps fifteen boundaries while aggregate catalog exposes ten live dependencies', () => {
   assert.equal(SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS.length, 15);
   assert.deepEqual(SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW.pendingExecutionIds, SIGRIKA_STANDARD_INITIAL_PENDING_EXECUTION_IDS);
 
@@ -129,14 +129,14 @@ test('Sigrika historical review keeps fifteen boundaries while aggregate catalog
   assert.deepEqual(canonical.pendingExecutionIds, SIGRIKA_STANDARD_PENDING_EXECUTION_IDS);
 
   const edges = PROFILE_ADAPTER_DEPENDENCY_MATRIX.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(edges.length, 11);
+  assert.equal(edges.length, 10);
   assert.deepEqual(edges.map((row) => row.pendingExecutionId), [...SIGRIKA_STANDARD_PENDING_EXECUTION_IDS]);
 
   const queueEdges = PROFILE_EXECUTION_WORK_QUEUE.edges.filter((row) => row.presetId === 'sigrika-standard');
-  assert.equal(queueEdges.length, 11);
+  assert.equal(queueEdges.length, 10);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'BLOCKED_SOURCE_SEMANTICS').length, 1);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING').length, 0);
-  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 9);
+  assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 8);
   assert.equal(queueEdges.filter((row) => row.semanticStatus === 'PROFILE_SPECIFIC_EXECUTION').length, 1);
   assert.equal(queueEdges.filter((row) => row.blockerId === 'BUG-018').length, 1);
   for (const closedId of [
@@ -144,9 +144,11 @@ test('Sigrika historical review keeps fifteen boundaries while aggregate catalog
     'character:sigrika:decipher-elucidated-eligibility-adapter',
     'character:sigrika:runic-heavy-branch-selection-adapter',
     'character:sigrika:learn-my-true-name-full-stop-adapter',
+    'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
   ]) {
     assert.equal(queueEdges.some((row) => row.pendingExecutionId === closedId), false, closedId);
   }
+  assert.equal(queueEdges.some((row) => row.pendingExecutionId === 'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter'), true);
 });
 
 test('canonical ER gate resolves while BuildContext, freeze and product routes remain fail-closed', () => {

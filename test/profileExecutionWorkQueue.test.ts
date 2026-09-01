@@ -11,6 +11,10 @@ import {
 } from '../src/combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from '../src/combat/echoTransferWindowAdapter.ts';
 import {
+  JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+  JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW,
+} from '../src/combat/jinhsiStandardOpenerSkillTriggerCheckpoints.ts';
+import {
   SONATA_CAST_WINDOW_SEMANTIC_SPLIT,
   validateSonataCastWindowContracts,
 } from '../src/combat/sonataCastWindowAdapter.ts';
@@ -37,9 +41,22 @@ test('semantic execution review catalog is derived from reviewed implementation/
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
+    if (pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID) {
+      assert.equal(review?.status, 'BLOCKED_SOURCE_SEMANTICS');
+      assert.equal(review?.blockerId, 'BUG-020');
+      assert.equal(review?.primitiveId, 'weapon-cast-timed-self-window-v1');
+      continue;
+    }
     assert.equal(review?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
     assert.equal(review?.primitiveId, 'weapon-cast-timed-self-window-v1');
   }
+
+  const jinhsiAhSkill = EXECUTION_SEMANTIC_REVIEWS.find(
+    (row) => row.pendingExecutionId === JINHSI_STANDARD_OPENER_AH_SKILL_PENDING_EXECUTION_ID,
+  );
+  assert.equal(jinhsiAhSkill?.status, JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.semanticStatus);
+  assert.equal(jinhsiAhSkill?.actionKey, 'weapon:ages-of-harvest-skill-window-lifecycle');
+  assert.equal(jinhsiAhSkill?.blockerId, JINHSI_STANDARD_OPENER_SKILL_TRIGGER_SOURCE_REVIEW.blockerId);
 
   for (const pendingExecutionId of SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -179,9 +196,9 @@ test('current 76-edge matrix is partitioned into actionable, covered, blocked an
     totalEdges: 76,
     unreviewedEdges: 30,
     semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 13,
+    primitiveAvailableRequiresTimelineEdges: 12,
     blockedSourceConflictEdges: 5,
-    blockedSourceSemanticsEdges: 10,
+    blockedSourceSemanticsEdges: 11,
     profileSpecificExecutionEdges: 17,
     actionableSharedEdges: 31,
   });
@@ -254,8 +271,8 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener team-st
 
   const weaponCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:cast-timed-self-window');
   assert.ok(weaponCast);
-  assert.equal(weaponCast.dependencyCount, 6);
-  assert.equal(weaponCast.profileCount, 5);
+  assert.equal(weaponCast.dependencyCount, 5);
+  assert.equal(weaponCast.profileCount, 4);
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
   assert.ok(sonataCast);
@@ -328,6 +345,14 @@ test('covered and blocked queues retain exact fanout after Jinhsi opener team-st
   assert.equal(roverHealing.dependencyCount, 1);
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
+
+  const ahSkill = queue.blockedSourceSemantics.find((row) => row.actionKey === 'weapon:ages-of-harvest-skill-window-lifecycle');
+  assert.ok(ahSkill);
+  assert.equal(ahSkill.dependencyCount, 1);
+  assert.equal(ahSkill.profileCount, 1);
+  assert.equal(ahSkill.characterCount, 1);
+  assert.deepEqual(ahSkill.blockerIds, ['BUG-020']);
+  assert.deepEqual(ahSkill.primitiveIds, ['weapon-cast-timed-self-window-v1']);
 
   const jue = queue.blockedSourceSemantics.find((row) => row.actionKey === 'echo:jue-cast-blessing-state');
   assert.ok(jue);

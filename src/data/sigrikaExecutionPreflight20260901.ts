@@ -32,7 +32,6 @@ export const SIGRIKA_STANDARD_PENDING_EXECUTION_IDS = [
   'sonata:sonata-29:S29_5PC_ECHO_CR:echo-skill-damage-window-adapter',
   'sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter',
   'team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter',
-  'team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter',
   'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
   'rotation:sigrika-standard-source-sequence:engine-model',
 ] as const;
@@ -125,8 +124,8 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
     },
   },
   incomingTeamState: {
-    qiuyuan: 'Qiuyuan Outro 50% Echo Skill DMG Amplification for 14s or until incoming switch-out is implemented by character-outro-incoming-transfer-v1. The Sigrika source sequence still has no Qiuyuan predecessor event/timestamp proving it at Sigrika entry; Bamboo’s Shade remains a separate predecessor-state concern.',
-    ciaccona: 'Solo Concert source-proves non-stackable +24% Aero DMG with raw duration null. ciaccona-solo-concert-external-team-state-v1 can project only an explicit same-time active snapshot from the external Ciaccona execution owner; the Sigrika source sequence still has no predecessor timeline proving that snapshot at its action times.',
+    qiuyuan: 'Qiuyuan Outro 50% Echo Skill DMG Amplification for 14s or until incoming switch-out is implemented by character-outro-incoming-transfer-v1. Current team sources prove Qiuyuan -> Sigrika via Outro at entry, but exact Sigrika action timestamps are still required to determine 14-second coverage, so this dependency remains open.',
+    ciaccona: 'CANONICAL_ENTRY_CLOSED: current Prydwen source says Jump-cancelled Basic 4 generates a permanent Ensemble Sylph and treats the resulting Solo Concert +24% Aero DMG uptime as effectively permanent; the explicit Sigrika/Qiuyuan/Ciaccona team rotation creates Sylphs with Ciaccona before switching Ciaccona -> Qiuyuan -> Sigrika. sigrika-ciaccona-canonical-entry-state-v1 therefore proves Solo Concert active at Sigrika entry without creating a timer or modifying the Ciaccona engine.',
   },
   timing: {
     exactActionTimestamps: null,
@@ -134,7 +133,7 @@ export const SIGRIKA_STANDARD_EXECUTION_PREFLIGHT = Object.freeze({
     externalTestedRotationSeconds: 12.75,
     externalTestedRotationStatus: 'EVIDENCE_ONLY_NOT_CANONICAL_DENOMINATOR',
     denominatorStatus: 'BLOCKED_SOURCE_SEMANTICS',
-    cancelPolicy: 'Preserve source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill. Prydwen does not publish exact frames. ArabWuwa publishes a tested 12.75s Sigrika action block, but its rendered shorthand is not an exact timestamped canonical Qiuyuan+Ciaccona contract, so Bellibing does not silently promote it into the canonical denominator.',
+    cancelPolicy: 'Preserve source sequence only: Chain Whip cancel on hit via Ultimate; Outburst cancel via Hold Skill. Prydwen does not publish exact frames. ArabWuwa publishes a tested 12.75s Sigrika action block with a fixed Echo step, while Prydwen canonical leaves Summon timing flexible and omits fixed Echo from its 14-step Standard Rotation; Bellibing therefore does not promote that mismatched measured action set into the canonical denominator.',
   },
   energyRegen: {
     sourceMinimum: 1.09,
@@ -168,10 +167,10 @@ export const SIGRIKA_STANDARD_BACKWARD_IMPACT_REVIEW: ProfileBackwardImpactRevie
     'sigrika-standard remains the verified build/source package: Solsworn Ciphers R1 / Sound of True Name / Nameless Explorer / Sigrika + Qiuyuan + Ciaccona / sigrika-standard-source-sequence.',
     'The canonical rotation remains SOURCE_SEQUENCE_ONLY. Current Prydwen preserves Chain Whip -> Ultimate and Outburst -> Hold Skill order/cancel semantics but publishes no exact frames/timestamps; its Summon timing is flexible rather than a fixed Standard Rotation timestamp.',
     'Current source review closes the former Character-state semantic uncertainty into sigrika-resource-state-v1: direct-hit Rune creation, 2/4 capacity, Convergent/Divergent duplication, exact two-Rune branch mapping, Schemata +50 Full Stop, Soliskin Vitality consumption, Innate Gift and Learn My True Name consume/cooldown are event-executable. >2-Rune Schemata selection remains deliberately fail-closed.',
-    'This backward-impact row preserves the original 15 pending boundaries. Later ER and canonical source-checkpoint closures are applied explicitly by the aggregate catalog instead of rewriting this source-review snapshot.',
-    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile/team timeline. Ciaccona Solo Concert is externally owned but has a point-in-time Sigrika projection primitive that requires an explicit active snapshot.',
+    'This backward-impact row preserves the original 15 pending boundaries. Later ER, canonical source-checkpoint and Ciaccona canonical-entry closures are applied explicitly by the aggregate catalog instead of rewriting this source-review snapshot.',
+    'Solsworn triggered windows, Sound of True Name 5P and Qiuyuan Outro have reusable event primitives but still require an executable profile timeline. Ciaccona Solo Concert entry is closed separately from current lifecycle + named-team-order sources while Ciaccona remains the state owner.',
     'Nameless Explorer Rank-5 coefficient is source-resolved at 273.60% Aero; a reusable attack fact is still not authorized because current reviewed ability text does not explicitly prove scalingStat, and no fixed canonical Summon timestamp exists.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action block as external evidence, but Bellibing keeps exact denominator/timestamps pending rather than treating a guide measurement as an exact timestamped canonical contract.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action block as external evidence, but its fixed Echo step differs from the fixed Prydwen canonical sequence, so Bellibing keeps exact denominator/timestamps pending.',
     'No BuildContext, freeze approval, Alpha route, Roll Assist binding or owned-build DamageEvaluator adapter is authorized until the live pending dependencies close.',
   ],
 };

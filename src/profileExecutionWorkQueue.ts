@@ -1,6 +1,8 @@
 import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrillianceStackSemanticReview.ts';
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
+import { JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW } from './combat/jinhsiResourceStateAdapter.ts';
+import { JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW } from './combat/jueBlessingStateAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
@@ -165,6 +167,28 @@ const SONATA_TRANSFER_REVIEWS: readonly ExecutionSemanticReview[] =
     ],
   }));
 
+const JINHSI_RESOURCE_REVIEWS: readonly ExecutionSemanticReview[] =
+  JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.pendingExecutionIds.map((pendingExecutionId) => ({
+    pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'character:jinhsi-resource-state',
+    reviewedAt: JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.reviewedAt,
+    primitiveId: JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+    notes: [
+      ...JINHSI_RESOURCE_EXECUTION_SEMANTIC_REVIEW.notes,
+      'Primitive availability does not establish the canonical opener predecessor resource/cooldown state.',
+    ],
+  }));
+
+const JUE_BLESSING_REVIEWS: readonly ExecutionSemanticReview[] = [{
+  pendingExecutionId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.pendingExecutionId,
+  status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+  actionKey: 'echo:jue-cast-blessing-state',
+  reviewedAt: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.reviewedAt,
+  primitiveId: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.primitiveId,
+  notes: JUE_BLESSING_EXECUTION_SEMANTIC_REVIEW.notes,
+}];
+
 const HERON_REVIEWS: readonly ExecutionSemanticReview[] = [{
   pendingExecutionId: IMPERMANENCE_HERON_TRANSFER_DISPOSITION.pendingExecutionId,
   status: 'BLOCKED_SOURCE_CONFLICT',
@@ -244,6 +268,8 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...BLAZING_BRILLIANCE_STACK_REVIEWS,
   ...SONATA_CAST_WINDOW_REVIEWS,
   ...SONATA_TRANSFER_REVIEWS,
+  ...JINHSI_RESOURCE_REVIEWS,
+  ...JUE_BLESSING_REVIEWS,
   ...HERON_REVIEWS,
   ...FALLACY_ACTIVE_DAMAGE_REVIEWS,
   ...DEFIERS_THORN_DEF_REVIEWS,

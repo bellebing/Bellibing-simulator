@@ -35,29 +35,7 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'sigrika-resource-state-v1',
     'Current source proves Trust/Answer direct-hit creation, base capacity 2, capacity 4 at >=50 Full Stop and left-shift overwrite at cap.',
     'sigrika-resource-state-v1 models these transitions event-by-event and deliberately fails closed when Schemata is presented with more than two stored Runes because current reviewed text does not state a >2 selection order.',
-    'Canonical execution still requires exact event timestamps so Convergent/Divergent/Decipher lifetime checks are not inferred.',
-  ),
-  primitiveAvailable(
-    'character:sigrika:decipher-elucidated-eligibility-adapter',
-    'character:sigrika-decipher-elucidated-eligibility',
-    'sigrika-resource-state-v1',
-    'Basic 4 -> Decipher for 5 seconds, switch-out termination and Elucidated availability are source-proven.',
-    'sigrika-resource-state-v1 exposes timestamped Decipher entry and Elucidated eligibility; no five-second overlap is assumed without a caller timeline.',
-  ),
-  primitiveAvailable(
-    'character:sigrika:runic-heavy-branch-selection-adapter',
-    'character:sigrika-runic-heavy-branch-selection',
-    'sigrika-resource-state-v1',
-    'Current source explicitly maps Trust+Trust -> Runic Chain Whip, Trust+Answer -> Runic Outburst and Answer+Answer -> Runic Soliskin after consuming two Runes.',
-    'The primitive resolves the exact two-Rune branch and keeps multiplier increase versus DMG Amplification as separate source semantics.',
-    'The canonical profile still needs timestamped Rune-producing events; no branch is injected from the source-sequence label alone.',
-  ),
-  primitiveAvailable(
-    'character:sigrika:learn-my-true-name-full-stop-adapter',
-    'character:sigrika-learn-my-true-name-full-stop',
-    'sigrika-resource-state-v1',
-    'Schemata grants +50 Full Stop up to 100. At 100, Hold Skill consumes all Full Stop to cast Learn My True Name; current source lists a 25-second cooldown.',
-    'The primitive models gain, exact eligibility, consume-all and cooldown state without assigning canonical timestamps.',
+    'Canonical action checkpoint identity is source-closed separately, but generic Rune history, Convergent/Divergent lifetime and arbitrary off-sequence state still require a real event timeline.',
   ),
   primitiveAvailable(
     'character:sigrika:innate-gift-damage-amplification-adapter',
@@ -125,6 +103,6 @@ export const SIGRIKA_EXECUTION_SEMANTIC_REVIEWS = Object.freeze([
     'rotation:sigrika-standard-source-sequence:denominator-timeline-adapter',
     'rotation:sigrika-standard-denominator-timeline',
     'Prydwen preserves Chain Whip cancel on hit via Ultimate and Outburst cancel via Hold Skill as sequence semantics. Current Prydwen also says the Summon may be cast at any point, so it does not provide one fixed Echo timestamp.',
-    'ArabWuwa publishes a tested 12.75s Sigrika action sequence, but it is an external tested rotation and not an exact timestamped canonical Qiuyuan+Ciaccona predecessor/rotation contract. Bellibing therefore keeps exact denominator/timestamps parked rather than silently treating the tested duration as a source-exact frame model.',
+    'ArabWuwa publishes a tested 12.75s Sigrika action block, but the rendered tested shorthand is not an exact timestamped canonical Qiuyuan+Ciaccona contract. Bellibing therefore keeps exact denominator/timestamps parked rather than silently treating the guide measurement as a source-exact frame model.',
   ),
 ] as const);

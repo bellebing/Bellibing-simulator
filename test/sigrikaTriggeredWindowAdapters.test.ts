@@ -104,7 +104,7 @@ test('Sound of True Name 5-piece windows open from the same explicit Echo Skill 
   }), null);
 });
 
-test('Sigrika equipment edges become primitive-covered without closing timeline dependencies', () => {
+test('Sigrika equipment and Qiuyuan incoming edges become primitive-covered without closing timeline dependencies', () => {
   const byId = new Map(
     PROFILE_EXECUTION_WORK_QUEUE.edges
       .filter((row) => row.presetId === 'sigrika-standard')
@@ -119,7 +119,8 @@ test('Sigrika equipment edges become primitive-covered without closing timeline 
   assert.equal(byId.get('sonata:sonata-29:S29_5PC_ECHO_CR:echo-skill-damage-window-adapter')?.primitiveId, 'sonata-damage-timed-self-window-v1');
   assert.equal(byId.get('sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter')?.semanticStatus, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(byId.get('sonata:sonata-29:S29_5PC_AERO:echo-skill-damage-window-adapter')?.primitiveId, 'sonata-damage-timed-self-window-v1');
+  assert.equal(byId.get('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter')?.semanticStatus, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(byId.get('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter')?.primitiveId, 'character-outro-incoming-transfer-v1');
 
-  assert.equal(byId.get('team:qiuyuan:outro-echo-skill-amplification-incoming-state-adapter')?.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
   assert.equal(byId.get('team:ciaccona:solo-concert-aero-bonus-incoming-state-adapter')?.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
 });

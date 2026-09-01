@@ -32,6 +32,14 @@ export const ECHO_TRANSFER_WINDOW_CONTRACTS: readonly EchoTransferContract[] = [
     requiresIncomingIntro: false,
   },
   {
+    effectId: 'GLOMMOTH_INCOMING_GLACIO',
+    echoId: 'echo-60001955',
+    expectedSourceTrigger: 'Within 15s after summoning Glommoth, the wielder casts Outro Skill',
+    activationWindowSeconds: 15,
+    durationSeconds: 15,
+    requiresIncomingIntro: false,
+  },
+  {
     effectId: 'HYVATIA_INCOMING_ALL_ATTRIBUTE',
     echoId: 'echo-60001895',
     expectedSourceTrigger: 'Within 15s after summoning Hyvatia, the wielder casts Outro; the next Resonator uses Intro Skill',

@@ -6,12 +6,17 @@ import {
   LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW,
   validateLingyangStridingLionResourceContract,
 } from '../src/combat/lingyangStridingLionResourceAdapter.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 
 test('Striding Lion contract locks only source-proven continuous-consumption facts', () => {
   assert.deepEqual(validateLingyangStridingLionResourceContract(), []);
   assert.equal(LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.blockerId, 'BUG-017');
   assert.equal(LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.primitiveId, 'lingyang-striding-lion-known-segment-v1');
   assert.deepEqual(LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+
+  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'lingyang-standard')!;
+  assert.ok(review.pendingExecutionIds.includes(LINGYANG_STRIDING_LION_RESOURCE_SEMANTIC_REVIEW.pendingExecutionId));
+  assert.ok(review.notes.some((note) => note.includes('known-segment resource primitive') && note.includes('20 Spirit/s') && note.includes('10 Spirit/s')));
 });
 
 test('proven no-Vigor segment consumes 20 Lion Spirit per second and depletes at five seconds', () => {

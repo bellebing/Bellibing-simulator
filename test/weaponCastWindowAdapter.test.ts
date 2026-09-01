@@ -11,7 +11,7 @@ import {
 } from '../src/combat/weaponCastWindowAdapter.ts';
 import { buildProfileAdapterDependencyMatrix } from '../src/profileAdapterDependencyMatrix.ts';
 
-test('weapon trigger-uptime fanout includes Jinhsi Ages windows without authorizing uptime', () => {
+test('weapon trigger-uptime fanout keeps reusable Ages windows while Jinhsi combat-start AH-INTRO is profile-closed', () => {
   const matrix = buildProfileAdapterDependencyMatrix();
   const triggerEdges = matrix.edges.filter((edge) => edge.syntacticPrimitiveKey === 'weapon:trigger-uptime-adapter');
   const canonicalPendingIds = [...new Set(triggerEdges.map((edge) => edge.pendingExecutionId))].sort();
@@ -20,12 +20,22 @@ test('weapon trigger-uptime fanout includes Jinhsi Ages windows without authoriz
     ...WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds,
   ].sort();
 
-  assert.equal(triggerEdges.length, 7);
+  assert.equal(triggerEdges.length, 6);
   assert.deepEqual(canonicalPendingIds, reviewedPendingIds);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds.length, 5);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.targetStatusPendingExecutionIds, []);
   assert.deepEqual(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.closesPendingExecutionIds, []);
   assert.equal(WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);
+  assert.equal(
+    triggerEdges.some((edge) => edge.presetId === 'jinhsi-standard-opener'
+      && edge.pendingExecutionId === 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter'),
+    false,
+  );
+  assert.equal(
+    triggerEdges.some((edge) => edge.presetId === 'lumi-hybrid'
+      && edge.pendingExecutionId === 'weapon:ages-of-harvest:AH-INTRO:trigger-uptime-adapter'),
+    true,
+  );
 });
 
 test('cast-window contracts stay locked to the exact canonical source-backed Weapon Effect rows', () => {
@@ -81,8 +91,8 @@ test('cast-window primitive activates only from an explicitly matching wielder c
   assert.equal(activateWeaponCastWindow({
     effectId: 'AH-INTRO',
     rank: 1,
-    wielderId: 'lumi',
-    event: { kind: 'INTRO_SKILL_CAST', actorId: 'other-character', atSeconds: 2 },
+    wielderId: 'other-character',
+    event: { kind: 'INTRO_SKILL_CAST', actorId: 'lumi', atSeconds: 2 },
   }), null);
 });
 

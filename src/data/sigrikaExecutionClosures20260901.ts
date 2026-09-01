@@ -6,6 +6,10 @@ import {
   SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW,
   SIGRIKA_STANDARD_SOURCE_CHECKPOINTS_ADAPTER_ID,
 } from '../combat/sigrikaStandardSourceCheckpoints.ts';
+import {
+  SIGRIKA_STANDARD_RUNE_SOURCE_PATH_ADAPTER_ID,
+  SIGRIKA_STANDARD_RUNE_SOURCE_PATH_REVIEW,
+} from '../combat/sigrikaStandardRuneSourcePath.ts';
 import { SIGRIKA_STANDARD_ER_GATE_ADAPTER_ID } from '../combat/sigrikaEnergyRegenGate.ts';
 import type { ProfileExecutionDependencyClosure } from './profileExecutionClosures20260830.ts';
 
@@ -53,6 +57,17 @@ export const SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901: readonly ProfileExe
     notes: [
       ...SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW.sourceEstablished,
       ...SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW.boundaries,
+    ],
+  },
+  {
+    closureId: 'PROFILE-CLOSURE-SIGRIKA-STANDARD-RUNE-SOURCE-PATH-2026-09-01-01',
+    reviewedAt: SIGRIKA_STANDARD_RUNE_SOURCE_PATH_REVIEW.reviewedAt,
+    pendingExecutionId: 'character:sigrika:rune-lifecycle-adapter',
+    presetIds: ['sigrika-standard'],
+    primitiveId: SIGRIKA_STANDARD_RUNE_SOURCE_PATH_ADAPTER_ID,
+    notes: [
+      ...SIGRIKA_STANDARD_RUNE_SOURCE_PATH_REVIEW.sourceEstablished,
+      ...SIGRIKA_STANDARD_RUNE_SOURCE_PATH_REVIEW.boundaries,
     ],
   },
   {

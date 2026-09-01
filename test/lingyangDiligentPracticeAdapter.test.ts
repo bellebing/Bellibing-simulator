@@ -6,6 +6,7 @@ import {
   LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW,
   validateLingyangDiligentPracticeContract,
 } from '../src/combat/lingyangDiligentPracticeAdapter.ts';
+import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from '../src/data/profileBackwardImpactReviewCatalog.ts';
 
 test('Diligent Practice contract locks source facts without closing the canonical dependency', () => {
   assert.deepEqual(validateLingyangDiligentPracticeContract(), []);
@@ -13,6 +14,10 @@ test('Diligent Practice contract locks source facts without closing the canonica
   assert.equal(LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.blockerId, 'BUG-017');
   assert.equal(LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.primitiveId, 'lingyang-diligent-practice-known-window-v1');
   assert.deepEqual(LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.closesPendingExecutionIds, []);
+
+  const review = PROFILE_BACKWARD_IMPACT_REVIEWS_V36.find((row) => row.presetId === 'lingyang-standard')!;
+  assert.ok(review.pendingExecutionIds.includes(LINGYANG_DILIGENT_PRACTICE_SEMANTIC_REVIEW.pendingExecutionId));
+  assert.ok(review.notes.some((note) => note.includes('known-event primitive') && note.includes('exact 3.000s boundary fails closed')));
 });
 
 test('known events strictly below three seconds trigger 150% Mountain Roamer Skill-class damage', () => {

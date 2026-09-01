@@ -1,4 +1,8 @@
 import {
+  SIGRIKA_CIACCONA_CANONICAL_ENTRY_ADAPTER_ID,
+  SIGRIKA_CIACCONA_CANONICAL_ENTRY_SOURCE_REVIEW,
+} from '../combat/sigrikaCiacconaCanonicalEntryState.ts';
+import {
   SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW,
   SIGRIKA_STANDARD_SOURCE_CHECKPOINTS_ADAPTER_ID,
 } from '../combat/sigrikaStandardSourceCheckpoints.ts';
@@ -49,6 +53,17 @@ export const SIGRIKA_EXECUTION_DEPENDENCY_CLOSURES_20260901: readonly ProfileExe
     notes: [
       ...SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW.sourceEstablished,
       ...SIGRIKA_STANDARD_SOURCE_CHECKPOINT_REVIEW.boundaries,
+    ],
+  },
+  {
+    closureId: 'PROFILE-CLOSURE-SIGRIKA-CIACCONA-CANONICAL-ENTRY-2026-09-01-01',
+    reviewedAt: SIGRIKA_CIACCONA_CANONICAL_ENTRY_SOURCE_REVIEW.reviewedAt,
+    pendingExecutionId: SIGRIKA_CIACCONA_CANONICAL_ENTRY_SOURCE_REVIEW.pendingExecutionId,
+    presetIds: ['sigrika-standard'],
+    primitiveId: SIGRIKA_CIACCONA_CANONICAL_ENTRY_ADAPTER_ID,
+    notes: [
+      ...SIGRIKA_CIACCONA_CANONICAL_ENTRY_SOURCE_REVIEW.sourceEstablished,
+      ...SIGRIKA_CIACCONA_CANONICAL_ENTRY_SOURCE_REVIEW.boundaries,
     ],
   },
 ] as const;

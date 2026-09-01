@@ -388,7 +388,8 @@ export function getSigrikaEnergyRegenEchoSkillBonus(energyRegen: number): number
   if (!Number.isFinite(energyRegen) || energyRegen < 0) {
     throw new Error(`Sigrika Energy Regen must be finite and non-negative: ${energyRegen}`);
   }
-  return Math.min(0.50, Math.max(0, energyRegen - 1.25) * 2);
+  const rawBonus = Math.max(0, energyRegen - 1.25) * 2;
+  return Math.min(0.50, Number(rawBonus.toFixed(10)));
 }
 
 export function validateSigrikaResourceStateContract(): readonly string[] {

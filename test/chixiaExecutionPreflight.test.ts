@@ -124,7 +124,7 @@ test('Chixia execution review fail-closes the DPS denominator and cast variant',
   const review = CHIXIA_STANDARD_ROTATION_EXECUTION_REVIEW_20260831;
   assert.equal(review.disposition, 'SOURCE_SEMANTICS_BLOCKED');
   assert.equal(review.blockerId, CHIXIA_STANDARD_EXECUTION_BLOCKER_ID);
-  assert.equal(review.blockerId, 'BUG-015');
+  assert.equal(review.blockerId, 'BUG-022');
   assert.equal(review.rotationSeconds, null);
   assert.deepEqual(review.closesPendingExecutionIds, []);
   assert.ok(review.sourceEstablished.some((note) => note.includes('4 seconds')));
@@ -152,7 +152,7 @@ test('execution queue reuses generic windows and parks only Chixia-specific unre
 
   const echo = byPendingId.get('echo:echo-60000915:nightmare-inferno-rider-active-skill-damage-adapter');
   assert.equal(echo?.semanticStatus, 'BLOCKED_SOURCE_SEMANTICS');
-  assert.equal(echo?.blockerId, 'BUG-015');
+  assert.equal(echo?.blockerId, 'BUG-022');
 
   const rotation = byPendingId.get('rotation:chixia-standard-rotation:engine-model');
   assert.equal(rotation?.semanticStatus, 'PROFILE_SPECIFIC_EXECUTION');

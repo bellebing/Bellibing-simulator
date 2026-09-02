@@ -1,22 +1,29 @@
 # Bellibing Simulator — Current Project Status
 
-This is the canonical current-state checkpoint for Bellibing Simulator. Detailed chronology lives in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md), Git history, and the external AI Handoff update log.
+This file is the canonical **current-state + active-roadmap** checkpoint for Bellibing Simulator.
 
-`FOUNDATION` means architecture exists and is tested but supported-content coverage is incomplete. `COMPLETE` means the layer has the data/behavior required for its supported scope with no known blocking gap. `BLOCKED` means a known gap prevents that layer from being called complete.
+Detailed chronology belongs in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md), Git history and the external `Bellibing Echo Tool — AI Handoff` update/bug logs. Do not turn this file back into a workstream diary.
 
-Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS remains blocked. Narrow vertical slices may become `DPS_READY` only after their exact source, execution and freeze requirements close.
+Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS remains blocked. Narrow profiles may become `DPS_READY` only when their exact source, execution, BuildContext and freeze requirements close.
+
+## North star
+
+Bellibing is an Echo-building decision tool. Its job is to answer what the user should do next with the Echo/build in front of them under the selected Character/build/rotation context.
+
+Normal UX should give **one useful decision at a time**. Combat, probability and economy logic may be complex internally, but the default product should not become an analysis dashboard.
 
 ## Verified current baseline — 2026-09-02
 
-The accepted stabilization baseline is current `main`:
+Current `main`:
 
-- **main:** `c4f67bc65dda110709b5f98056f4b8d513c7bda1` — merged PR #151, docs/source-of-truth stabilization;
-- **post-merge Verify #964:** SUCCESS;
-- **post-merge Deploy #134:** SUCCESS;
-- **pre-merge exact-tree evidence:** PR #151 head `fdb7d1a77f42729f5e5fc229649271f47095e01f`, Verify #963 + Export #934 SUCCESS;
-- **product behavior:** unchanged from the previously live-verified `2af8221b13448c9a0cc6749e3d6234b8e6c1efd8` checkpoint; PR #151 changed documentation only.
+- commit: `699dc6a496f80c26f994dd9dfd477a3659609758`;
+- PR #151 established the stabilized source-truth/scope baseline;
+- PR #156 integrated the reviewed source-safe Mornye support payload from current main;
+- post-merge **Verify #970**: SUCCESS;
+- post-merge **Export #941**: SUCCESS;
+- post-merge **Deploy #135 + live verification**: SUCCESS.
 
-Current-main registry truth remains:
+PR #156 adds six Mornye research/support/review/test files. It does **not** edit shared readiness registries, generated profiles, product routing or UI, so current registry-derived readiness/execution counts remain:
 
 - **43 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
@@ -28,42 +35,46 @@ Current-main registry truth remains:
 - **72 exact pending execution edges**;
 - semantic queue: **30 UNREVIEWED / 1 SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING / 11 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 5 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 16 PROFILE_SPECIFIC_EXECUTION** = **31 actionable shared edges**.
 
-Do not replace current-main counts with counts from an unmerged worker or integration branch.
+Never replace current-main counts with branch-local worker counts.
+
+## Active initial scope
+
+Initial implementation/product support is deliberately narrower than retained source data:
+
+- **Sequences:** S0, S1 and S2.
+- **Character skills:** maxed skills only — Lv10 wherever source data owns an exact Lv1-Lv10 curve.
+- **Deferred:** S3-S6 and Character skill levels below max.
+- **Retention:** deferred sequence/skill values remain canonical raw/source-facing data and must not be deleted or flattened away.
+- **Consumer rule:** in-scope runtime explicitly selects max skill values; raw Lv1-Lv10 curves stay intact.
+- **Completeness rule:** S0-safe is not automatically S0-S2-complete. Missing/disputed S1/S2 semantics remain pending.
+
+Deferred scope must not create new combat adapters, profile/DPS work or product/UI complexity until an explicit later scope change.
 
 ## Architecture boundary
 
-Preserve the existing separation between:
+Preserve separation between:
 
 1. raw Character / Weapon / Echo / Sonata source data;
 2. Character Mechanics and source-facing facts;
 3. Weapon / Echo / Sonata effects;
-4. composable profile catalogs;
-5. execution/combat-DPS adapters and engines;
+4. composable profiles;
+5. execution/combat-DPS logic;
 6. product/UI projection.
 
-V9.15 is historical oracle/reference only where explicitly required. `SOURCE_SEQUENCE_ONLY` never becomes executable by assumption. A source-safe primitive does not close a profile dependency until the exact canonical event/timeline/state evidence required by that profile is available.
+Rules:
 
-The Alpha UI is a projection of canonical registries, not a second profile database. Frontend code must not invent Character, mode, team, Weapon, Echo shell, timing, Roll Assist policy or DPS truth.
+- current GitHub code is source truth above documentation/history;
+- never guess Wuthering Waves values, timing, state or lifecycle semantics;
+- `SOURCE_SEQUENCE_ONLY` is not executable timing evidence;
+- a reusable primitive closes nothing until the exact canonical event/state/timeline requirement is satisfied;
+- V9.15 is historical oracle/reference only when explicitly needed;
+- UI projects canonical registries and must not create a second Character/profile database.
 
-Owned-Echo analysis keeps two separate fail-closed boundaries:
+Owned-Echo product support has separate explicit boundaries:
 
-- checkpoint/Roll Assist requires an independently verified profile-policy binding;
-- whole-build DPS requires a verified `ENGINE_MODELED` profile plus an explicit source-backed Echo→`DamageEvaluator` adapter for that exact profile.
-
-`DPS_READY` alone authorizes neither boundary.
-
-## Initial implementation scope
-
-The active initial implementation/product scope is deliberately narrower than retained source coverage:
-
-- **Sequence scope:** S0, S1 and S2 only.
-- **Skill-level scope:** maxed Character skills only — Lv10 wherever the source owns an exact Lv1-Lv10 coefficient table.
-- **Retained source data:** S3-S6 facts and lower skill-level values remain canonical raw/source-facing data. They must not be deleted, flattened away or rewritten merely because they are outside the initial implementation scope.
-- **Deferred implementation:** S3+ and skill levels below max do not create new adapter, combat/DPS, profile, product or UI work now.
-- **Raw/model boundary:** full Lv1-Lv10 raw motion-value curves remain source truth; in-scope consumers explicitly select max level.
-- **Completeness boundary:** an S0-safe integration can be valid without proving S1/S2 completeness. Missing or disputed S1/S2 effects/execution semantics remain fail-closed.
-
-Never force blocked Wuthering Waves data to satisfy this scope.
+- Roll Assist/checkpoint decisions require a verified profile-policy binding;
+- whole-build DPS requires an `ENGINE_MODELED` profile plus an explicit source-backed Echo → `DamageEvaluator` adapter;
+- `DPS_READY` alone does not automatically authorize either product boundary.
 
 ## Current source coverage
 
@@ -71,123 +82,159 @@ Never force blocked Wuthering Waves data to satisfy this scope.
 
 - 60 Character records; 57 `RELEASED`.
 - Character Mechanics: **54 VERIFIED / 3 SOURCE_BLOCKED / 1866 canonical facts**.
-- Mechanics source blockers: **Buling, Danjin, Xiangli Yao**.
+- Mechanics blockers: **Buling, Danjin, Xiangli Yao**.
 - Raw/static blockers: **Qingxiao `maxEnergy`, Rover (Electro) `maxEnergy`, Suisui `maxEnergy`**.
 
 ### Weapons
 
 - **121 / 121 released Weapons** have source-audited effect coverage across **236 effect rows**.
-- Trigger/state/stack/target semantics remain separate execution concerns; source text never implies automatic uptime.
+- Trigger/state/stack/target execution semantics remain separate from source-text coverage.
 
 ### Echo / Sonata
 
-- **181 / 181 released Echoes** verified current for stable identity/COST/Sonata membership.
-- **34 / 34 released Sonata sets** verified current.
+- **181 / 181 released Echoes** reviewed for stable identity/COST/Sonata membership.
+- **34 / 34 released Sonata sets** reviewed.
 - Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
 - **181 / 181 released Echo skills** are source-reviewed.
-- Current-main Echo non-damage coverage: **63 modeled rows across 37 Echoes**.
-- Current-main exact Rank-5 Echo attack catalog: **5 attack profiles / 6 attack facts**.
+- Main exact Rank-5 Echo attack catalog remains **5 attack profiles / 6 attack facts**.
 
-Unmerged branches may contain additional attack/effect facts. They are not current-main truth until explicitly integrated and verified.
+Unmerged worker facts are not current-main truth until explicitly integrated and reverified.
 
-## Composable profiles and readiness
+## Profiles and product support
 
-Independent Weapon Recommendation, Echo Loadout, Stat Target, Team, Rotation and Character Preset catalogs are live and cross-validated. Candidate/profile pipelines remain fail closed: extraction cannot approve semantic truth, `SOURCE_SEQUENCE_ONLY` never implies timing/uptime, readiness is registry-derived, and ambiguity stays pending.
+Exact `PROFILE_SOURCE_PENDING` on main:
 
-The exact `PROFILE_SOURCE_PENDING` queue on main remains:
+- semantic: **Baizhi, Brant, Jianxin, Phoebe, Verina, Yuanwu**;
+- raw/static: **Qingxiao, Rover (Electro), Suisui**.
 
-- semantic blockers: **Baizhi, Brant, Jianxin, Phoebe, Verina, Yuanwu**;
-- raw/static blockers: **Qingxiao, Rover (Electro), Suisui**.
-
-Current narrow `DPS_READY` fixtures remain only:
+Current `DPS_READY` profiles:
 
 - Augusta — `augusta-standard` / `AUGUSTA_STD_V1`;
 - Ciaccona — `ciaccona-cartethyia-aero` / `CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1`.
 
-Augusta retains verified Roll Assist policy and owned-build evaluation. Ciaccona retains its locked +25 whole-build/completed-candidate support but still has no Roll Assist checkpoint/stopping-policy binding.
+Product boundary:
 
-## Known current-main execution/product gaps
+- Augusta has verified Roll Assist policy + owned-build evaluator.
+- Ciaccona has verified +25 whole-build/completed-candidate DPS support under its locked context, but no Roll Assist checkpoint/stopping-policy binding.
 
-Keep these fail closed until stronger source or an explicitly approved measurement method changes the evidence:
+## Mornye integrated boundary
 
-- **BUG-002:** accepted `BETTER` replacement lifecycle still lacks explicit end-to-end next-incumbent regression proof.
-- **BUG-008:** Impermanence Heron transfer — `BLOCKED_SOURCE_CONFLICT`.
-- **BUG-009:** Stringmaster / Rime-Draped Sprouts skill-stack lifetime — `BLOCKED_SOURCE_SEMANTICS`.
-- **BUG-010:** Fallacy profile cast variant — `BLOCKED_SOURCE_SEMANTICS`.
-- **BUG-011:** Defier's Thorn `DT-DEF` timing grammar — `BLOCKED_SOURCE_SEMANTICS`.
-- **BUG-012:** Rover (Aero) exact support execution — `BLOCKED_SOURCE_SEMANTICS`.
-- **BUG-013:** Blazing Brilliance Searing Feather at-cap lifecycle — `BLOCKED_SOURCE_SEMANTICS`.
-- **BUG-014:** Changli Standard Rotation denominator — `BLOCKED_SOURCE_SEMANTICS`.
+PR #156 makes the reviewed source-safe Mornye support semantics part of current main. This is useful source/execution infrastructure, **not** a readiness promotion.
 
-`BUG-001` remains fixed/live-verified with permanent Chrome regression.
+Preserved fail-closed boundaries include:
 
-## Active integration — Mornye
-
-Draft PR **#154** is the first post-stabilization integration candidate. It is built directly from current main `c4f67bc65dda110709b5f98056f4b8d513c7bda1` rather than reusing sibling history.
-
-The worker payload is exactly the six byte-identical files from source worker #143 head `f1522b613958f4ab0acbd6fa511c9e8a09a9b8ff`:
-
-- `data/research/mornye-combat-closure-2026-08-31.json`;
-- `src/combat/mornyeSupportEvents.ts`;
-- `src/data/mornyeExecutionReview20260831.ts`;
-- `src/data/profileMornyeImpact20260831.ts`;
-- `test/mornyeBoundednessBoundary.test.ts`;
-- `test/mornyeCombatClosure.test.ts`.
-
-The initial exact six-file integration head `ccd54a5526c22d3dca8060aed309ab29c455ddd7` passed **Verify #965 + Export #936** before this status resync was added. The final #154 head must pass fresh Verify + Export again after this documentation commit before it is review-ready.
-
-### Mornye scope and fail-closed boundary
-
-The source worker is canonical **S0** review material. Integrating it is compatible with the active S0-S2 scope but does **not** prove Mornye S1/S2 completeness and does not create S3+/lower-skill implementation work.
-
-Preserved boundaries:
-
-- Boundedness keeps `sourceLimitRelationship: 'OR'`, `consumptionModelingStatus: 'PENDING_INTERPRETATION'`, and `canResolveIncomingDamage: false`;
-- no incoming-damage reducer or guessed Boundedness lifecycle is introduced;
+- Boundedness keeps `sourceLimitRelationship: 'OR'`, `consumptionModelingStatus: 'PENDING_INTERPRETATION'` and `canResolveIncomingDamage: false`;
+- no incoming-damage reducer or guessed Boundedness lifecycle exists;
 - exact Loop Rotation duration/action timestamps remain unresolved;
-- Critical Protocol scaling remains conflicted between current Bellibing raw ATK and reviewed source DEF;
+- Critical Protocol scaling remains source-conflicted;
 - Reactor Husk active scaling stat remains source-unproven;
-- Starfield Calibrator 8-Concerto trigger remains source-conflicted;
-- Starfield permanent DEF +16% remains an effect-catalog gap;
+- Starfield Calibrator Concerto trigger remains source-conflicted;
+- Starfield permanent DEF effect remains a catalog gap;
 - Lucy/Rebecca incoming-state timeline remains absent;
 - Syntony periodic-heal first-tick phase remains unresolved;
-- no `ENGINE_MODELED`, `DPS_READY`, freeze, Roll Assist, owned-build or product promotion occurs.
+- Mornye remains non-`ENGINE_MODELED`, non-`DPS_READY`, non-freeze and non-product.
 
-The source-proven 260% Energy Regen mechanic cap remains review evidence only; it is not used to hand-edit the generated profile or fabricate a product gate.
+The source-proven 260% ER mechanic cap is review evidence only; it is not an invented product gate.
 
-## Remaining worker disposition
+## Active known gaps on main
 
-Gameplay/data workers remain sibling source branches and are not a dependency chain. After Mornye, the reviewed conflict-surface order is:
+Keep these fail closed:
 
-1. **#144 Zani** — candidate only after Mornye is separately accepted and post-merge verified; head `bd92dc25`, Verify #686 + Export #658 SUCCESS; `BUG-015` remains open.
-2. **#141 Rover (Havoc)** — candidate only after Zani is separately accepted and post-merge verified; head `f8422adb`, Verify #952 + Export #923 SUCCESS; `140%+` remains `AT_LEAST` estimated guidance, never an exact ER gate.
+- **BUG-002** — accepted `BETTER` replacement lifecycle still lacks explicit end-to-end next-incumbent regression proof.
+- **BUG-008** — Impermanence Heron transfer: source conflict.
+- **BUG-009** — Stringmaster / Rime-Draped Sprouts skill-stack lifetime: refresh/expiry semantics unresolved.
+- **BUG-010** — Fallacy profile cast variant unresolved.
+- **BUG-011** — Defier's Thorn `DT-DEF` timing grammar unresolved.
+- **BUG-012** — Rover (Aero) exact support execution unresolved.
+- **BUG-013** — Blazing Brilliance at-cap lifecycle unresolved.
+- **BUG-014** — Changli Standard Rotation exact denominator unresolved.
 
-Other source workers remain parked/reviewable individually:
+Resolved bugs stay in the external bug register/history rather than being repeated here.
 
-| PR | Scope | Current head | Verified disposition |
-| --- | --- | --- | --- |
-| #140 | Chixia | `b30722bb` | green; `BUG-022`; non-DPS-ready |
-| #142 | Galbrena | `af24c988` | green; source-safe preflight; non-DPS-ready |
-| #143 | Mornye source worker | `f1522b61` | source for #154 exact six-file payload; do not merge separately |
-| #145 | Jiyan | `eb4a35ff` | green; exact Kelpie source boundary; non-DPS-ready |
-| #146 | Lingyang | `15d52c7d` | green; all 12 canonical dependencies remain open |
-| #147 | Jinhsi | `985ef139` | green; preset-scoped review fix; non-DPS-ready |
-| #148 | Sigrika | `e3db50f6` | green; nine dependencies remain |
-| #149 | Aemeath | `5135512f` | green; four detailed blockers remain |
-| #150 | Lucilla | `a385f948` | green but still draft; non-DPS-ready/non-product |
+## Existing worker backlog
 
-Control/UI work remains parked:
+The remaining gameplay/data PRs are old sibling work from the pre-stabilization baseline. Their isolated green CI is evidence, not integration authorization. Every selected worker must be recomposed/rebased from then-current main and freshly verified.
 
-- **#152:** draft historical rehearsal evidence only; stale after baseline movement; do not merge.
-- **#153:** draft UI-only dropdown work, **PARKED / OUT OF CURRENT DIRECTION**; `BUG-027` remains `RESOLVED IN WORKER / UNMERGED`.
+Current integration priority:
 
-## Write-target incident boundary
+1. **#144 Zani** — next candidate. Preserve `BUG-015` and all fail-closed Frazzle/Blazing Justice/Mourning Aix/team/timing boundaries.
+2. **#141 Rover (Havoc)** — candidate only after Zani is independently integrated and main is green. Preserve `140%+` as `AT_LEAST` estimated guidance, never an exact ER gate.
 
-`BUG-026` remains **RESOLVED / CONTAINED**. The accidental commits from the earlier connector incident are history-only. Current main was verified after #151 merge and the new Mornye integration branch was created from exact main with explicit branch/ref targets. Do not use branch-mutating file writes without an explicit target and immediate ref verification.
+Other workers remain parked for later individual review:
+
+| PR | Scope | Current disposition |
+| --- | --- | --- |
+| #140 | Chixia | source-safe worker; `BUG-022`; non-DPS-ready |
+| #142 | Galbrena | source-safe preflight; non-DPS-ready |
+| #145 | Jiyan | exact Kelpie facts/source boundary; 0 execution IDs closed |
+| #146 | Lingyang | source-safe primitives/reviews; all 12 canonical dependencies remain open |
+| #147 | Jinhsi | preset-scoped semantic-review fix + opener closures; non-DPS-ready |
+| #148 | Sigrika | six closures; nine dependencies remain |
+| #149 | Aemeath | eight detailed closures; four blockers remain |
+| #150 | Lucilla | verified worker, still draft; `ENGINE_MODELED` overlay but non-DPS-ready/non-product |
+
+Do not bulk-compose sibling workers.
+
+## Active roadmap
+
+There is one active roadmap for the current initial scope.
+
+### Phase 1 — integrate useful existing work cleanly
+
+Process one worker at a time from current main. After every main movement:
+
+- re-read current source truth;
+- resolve only real integration conflicts;
+- run the full verification contract;
+- update current status/Handoff;
+- select the next worker only after the new baseline is green.
+
+Do not create more parallel Character workers while this backlog is being integrated.
+
+### Phase 2 — S0-S2 + max-skill coverage
+
+Audit supported Characters/profiles specifically for the active scope:
+
+- S0 execution truth;
+- S1 effects/semantics;
+- S2 effects/semantics;
+- max-skill damage/resource facts;
+- required Weapon/Echo/Sonata/team state;
+- exact source blockers.
+
+This is a coverage audit, not permission to invent missing execution data.
+
+### Phase 3 — executable combat / DPS closure
+
+Promote profiles only when actual dependencies close.
+
+**Worker stop rule:** if remaining blockers require missing/conflicting source, unavailable exact timeline/state evidence or deferred scope, park the Character and stop. Do not keep building validation-only layers that close no canonical dependency.
+
+`ENGINE_MODELED` and `DPS_READY` are exact claims, not architecture milestones.
+
+### Phase 4 — product activation
+
+For sufficiently verified profiles, connect the shared product architecture rather than creating Character-specific calculators:
+
+- owned five-Echo build evaluation;
+- mandatory gates;
+- candidate-vs-incumbent replacement;
+- Roll Assist/stopping policy when independently verified;
+- Upgrade Mode / best-next-improvement economics.
+
+The product should continue answering the user's next action instead of exposing engine complexity by default.
+
+### Deferred until later
+
+- S3-S6 implementation/product support;
+- Character skill levels below max;
+- nonessential UI polish;
+- unsupported account-sync/API promises;
+- side work that does not move the active S0-S2/max-skill decision-tool path.
 
 ## Verification contract
 
-A head intended for merge must pass:
+A merge-intended head must pass:
 
 - source/raw/profile audits;
 - Profile × Adapter/readiness audits;
@@ -195,12 +242,6 @@ A head intended for merge must pass:
 - strict web build;
 - permanent real-Chrome Alpha/Roll Assist/owned-build regressions;
 - diff/whitespace checks;
-- artifact packaging and Export.
+- artifact packaging / Export.
 
-Post-merge main is rechecked. UI/live claims require deployed real-Chrome verification where applicable.
-
-## Current decision boundary
-
-PR #154 is the next integration decision point. It must remain unmerged until its **final exact head** passes fresh Verify + Export and an explicit human merge authorization is given.
-
-If #154 is authorized and merged, re-read and fully verify new main before touching #144. Never bulk-compose sibling workers, never promote `SOURCE_SEQUENCE_ONLY` by assumption, and never force missing S1/S2 or other Wuthering Waves source truth.
+After merge, recheck main. UI/live claims require deployed real-Chrome verification where applicable.

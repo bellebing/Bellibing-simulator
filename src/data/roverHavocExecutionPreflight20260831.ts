@@ -32,6 +32,10 @@ export const ROVER_HAVOC_EXECUTION_PREFLIGHT_20260831 = Object.freeze({
   exactRotationDurationSeconds: null,
   exactEnergyRegenGate: null,
   sourceBackedEnergyRegenContext: 1.4,
+  sourceBackedEnergyRegenContextSourceText: '140%+',
+  sourceBackedEnergyRegenContextRelation: 'AT_LEAST',
+  sourceBackedEnergyRegenContextUsage: 'ESTIMATED_BUILD_GUIDANCE_ONLY',
+  sourceBackedEnergyRegenContextIsExactGate: false,
   sourceSequence: Object.freeze([
     'Intro',
     'Skill',
@@ -60,7 +64,7 @@ export const ROVER_HAVOC_EXECUTION_PREFLIGHT_20260831 = Object.freeze({
     'Dreamless Rank-5 attack magnitude is source-resolved as five 54.08% ATK Havoc hits plus one 270.40% ATK Havoc hit; current source also states +50% Echo Skill DMG when Dreamless is used within 5 seconds after Rover (Havoc) casts Deadening Abyss.',
     'Roccia Outro Applause, Please! source-proves 20% Havoc DMG Amplification plus 25% Basic Attack DMG Amplification for the next incoming Resonator for 14 seconds, ending early on switch-off.',
     'The Shorekeeper source-proves 30-second Stellarealm, Rover-specific 10% Energy Regen while Rover is in the party and Stellarealm, and 15% all-DMG Amplification for other party Resonators for 30 seconds from Binary Butterfly.',
-    'Prydwen publishes Energy Regen 140%+ build context and explicitly includes Roccia + The Shorekeeper among the teams to which that recommendation applies.',
+    'Prydwen publishes Energy Regen 140%+ build context and explicitly includes Roccia + The Shorekeeper among the teams to which that recommendation applies. The numeric 1.4 context is a lower-bound guidance value only; it is not an exact gate.',
   ]),
   exactBlockers: Object.freeze([
     'No source-reviewed total duration or per-action timestamps exist for the Medium Burst Combo, so Bellibing cannot create a Personal Rotation DPS denominator or convert optional swap-cancel text into frame timing.',
@@ -69,7 +73,7 @@ export const ROVER_HAVOC_EXECUTION_PREFLIGHT_20260831 = Object.freeze({
     'Havoc Eclipse 5-piece remains a canonical project SOURCE_CONFLICT (7.5% x4 rendered English versus 6% x5 structured params), and the omitted warm-up leaves its starting stack state unmaterialized.',
     'Dreamless exact Rank-5 damage is now cataloged, but the profile still lacks an executable cast/timeline event and a modeled post-Liberation conditional branch; the source-proven swap cancel does not provide a duration.',
     'The Rover-only source sequence does not execute Roccia or The Shorekeeper actions, so their exact start timestamps and supported overlap with Rover damage cannot be proved from the canonical rotation.',
-    'The 140%+ ER value is source-backed team/build context, not an exact energy-ledger gate for this represented rotation. Without the omitted warm-up/support actions and exact energy timeline, it must not be materialized as a hard gate.',
+    'The 140%+ ER value is source-backed estimated team/build guidance with an AT_LEAST relation, not an exact energy-ledger gate for this represented rotation. Without the omitted warm-up/support actions and exact energy timeline, it must not be materialized as a hard gate.',
   ]),
   pendingExecutionIds: ROVER_HAVOC_PENDING_EXECUTION_IDS,
   sourceUrls: Object.freeze([

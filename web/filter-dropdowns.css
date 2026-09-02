@@ -1,0 +1,74 @@
+/* Shared dropdown treatment for the two secondary Bellibing templates.
+   Keep the native select interaction, but make the closed control and focus state
+   consistent with the Alpha surface. */
+
+#lab-cost,
+#lab-main-stat,
+#assist-stat,
+#assist-value {
+  color-scheme: dark;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #393e48;
+  background-color: #0d0f13;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #9aa1ad 50%),
+    linear-gradient(135deg, #9aa1ad 50%, transparent 50%);
+  background-position:
+    calc(100% - 17px) 50%,
+    calc(100% - 12px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: #f4f3ef;
+  padding-right: 38px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+#lab-cost:hover,
+#lab-main-stat:hover,
+#assist-stat:hover,
+#assist-value:hover {
+  border-color: #555c68;
+  background-color: #111319;
+}
+
+#lab-cost:focus,
+#lab-main-stat:focus,
+#assist-stat:focus,
+#assist-value:focus {
+  outline: none;
+}
+
+#lab-cost:focus-visible,
+#lab-main-stat:focus-visible,
+#assist-stat:focus-visible,
+#assist-value:focus-visible {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(230, 184, 92, .11);
+}
+
+#lab-cost option,
+#lab-main-stat option,
+#assist-stat option,
+#assist-value option {
+  color: #f4f3ef;
+  background: #0d0f13;
+}
+
+#lab-cost:disabled,
+#lab-main-stat:disabled,
+#assist-stat:disabled,
+#assist-value:disabled {
+  opacity: .48;
+  cursor: not-allowed;
+}
+
+@media (max-width: 620px) {
+  #lab-cost,
+  #lab-main-stat,
+  #assist-stat,
+  #assist-value {
+    min-height: 46px;
+  }
+}

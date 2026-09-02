@@ -12,6 +12,7 @@ cpSync('web/alpha-entry.css', 'dist/alpha-entry.css');
 cpSync('web/echo-lab.html', 'dist/echo-lab.html');
 cpSync('web/styles.css', 'dist/styles.css');
 cpSync('web/echo-lab.css', 'dist/echo-lab.css');
+cpSync('web/filter-dropdowns.css', 'dist/filter-dropdowns.css');
 cpSync('web/roll-assistant.html', 'dist/roll-assistant.html');
 cpSync('web/roll-assistant.css', 'dist/roll-assistant.css');
 cpSync('web/START_BELLIBING_TEST.bat', 'dist/START_BELLIBING_TEST.bat');

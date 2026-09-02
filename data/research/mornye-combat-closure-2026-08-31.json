@@ -1,0 +1,114 @@
+{
+  "reviewId": "mornye-combat-closure-2026-08-31",
+  "profileId": "mornye-standard",
+  "baselineSha": "2af8221b13448c9a0cc6749e3d6234b8e6c1efd8",
+  "checkedAt": "2026-08-31",
+  "sources": [
+    {
+      "label": "current canonical profile",
+      "url": "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/profileHorizontalGreenLane20260831/mornye.ts",
+      "establishes": [
+        "mornye-standard is S0 / Starfield Calibrator R1 / Halo of Starry Radiance / Reactor Husk / Lucy + Rebecca + Mornye",
+        "Loop Rotation is SOURCE_SEQUENCE_ONLY",
+        "source sequence inserts Reactor Husk after Ultimate per Prydwen Echo timing",
+        "no numeric ER gate is materialized in the generated profile"
+      ]
+    },
+    {
+      "label": "current repo Mornye raw mechanics",
+      "url": "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/characterMechanics/mornyeRawFacts.ts",
+      "establishes": [
+        "Syntony field: 25s, periodic healing, +50% Off-Tune Buildup Rate, interruption resistance",
+        "Inversion applies a 30s Observation Marker; Tune Break on it creates an 8s Interfered Marker",
+        "Blueprint: +10% Energy Regen and two independent +20 Concerto events with 20s cooldowns",
+        "Boundedness: 60s team protection, 5 minute acquisition cooldown, three 30%-Max-HP caps or one fatal-blow prevention, removal heal = 150% Mornye DEF",
+        "Outro: team +25% All DMG Amplification for 30s"
+      ]
+    },
+    {
+      "label": "Prydwen current Mornye",
+      "url": "https://www.prydwen.gg/wuthering-waves/characters/mornye",
+      "establishes": [
+        "fixed Loop Rotation action order",
+        "Reactor Husk is best used after Ultimate and swap-cancelled",
+        "Syntony and High Syntony each last 25s",
+        "High Syntony gives nearby team +20% DEF and +40% Healing Multiplier while inheriting Syntony",
+        "Critical Protocol gains 0.5% CRIT Rate and 1% CRIT DMG per Energy Regen point above 100%, capped at +80% / +160%",
+        "Interfered target amplification is 0.25% per Energy Regen point above 100%, capped at +40%",
+        "canonical build text targets Energy Regen until 260%"
+      ],
+      "doesNotEstablish": [
+        "exact Loop Rotation duration",
+        "per-action timestamps"
+      ]
+    },
+    {
+      "label": "Wuthering Waves Wiki current Critical Protocol",
+      "url": "https://wutheringwaves.fandom.com/wiki/Critical_Protocol",
+      "establishes": [
+        "Critical Protocol is DEF-scaling",
+        "High Syntony exact duration and support values"
+      ]
+    },
+    {
+      "label": "Wuthering.gg current Reactor Husk",
+      "url": "https://wuthering.gg/echos/reactor-husk",
+      "establishes": [
+        "Rank-5 active deals 351.00% Fusion DMG",
+        "cooldown is 20s",
+        "main-slot passive is +10% Energy Regen"
+      ],
+      "doesNotEstablish": [
+        "the active attack scaling stat (ATK/DEF/HP)"
+      ]
+    },
+    {
+      "label": "current Starfield Calibrator cross-check",
+      "urls": [
+        "https://wuthering.gg/characters/mornye",
+        "https://wutheringlab.com/weapon/starfield-calibrator/",
+        "https://www.ldshop.gg/blog/guide/mornye-build.html"
+      ],
+      "establishes": [
+        "R1 permanent DEF +16%",
+        "R1 heal-triggered nearby-team CRIT DMG +20% for 4s",
+        "R1 Concerto restoration is 8 with a 20s trigger cooldown"
+      ],
+      "conflict": "Current sources disagree whether the 8 Concerto trigger is Resonance Skill or Resonance Liberation. No executable trigger is selected."
+    },
+    {
+      "label": "current Bellibing external effect catalogs",
+      "urls": [
+        "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/weaponEffects.ts",
+        "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/sonataEffects.ts",
+        "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/echoMainSlotEffects.ts",
+        "https://github.com/bellebing/Bellibing-simulator/blob/2af8221b13448c9a0cc6749e3d6234b8e6c1efd8/src/data/echoAttacks.ts"
+      ],
+      "establishes": [
+        "SC-TEAM-CD = R1 +20% team CRIT DMG for 4s on healing",
+        "HALO_TEAM_ATK = +0.2% team ATK per 1% Off-Tune Buildup Rate for 4s, capped +25%",
+        "Reactor Husk main-slot +10% Energy Regen is modeled",
+        "Reactor Husk has no executable Echo attack profile"
+      ],
+      "gaps": [
+        "Starfield Calibrator permanent R1 DEF +16% is absent from the current weapon effect catalog",
+        "Starfield Calibrator Concerto branch is absent from the current weapon effect catalog"
+      ]
+    }
+  ],
+  "numericErClosure": {
+    "mechanicCapPercent": 260,
+    "derivation": "100 + 160 excess ER points; this simultaneously caps Critical Protocol CRIT DMG (+160%), Critical Protocol CRIT Rate (+80% at 0.5 per point), and Interfered target amplification (+40% at 0.25 per point).",
+    "profileMutation": "DEFERRED_GENERATED_PROFILE",
+    "reason": "The exact numeric mechanic cap is now source-proven, but the generated profile must not be hand-edited."
+  },
+  "hardBlockers": [
+    "exact Loop Rotation duration / action timestamps",
+    "Critical Protocol raw scaling-stat conflict: repo ATK vs current source DEF",
+    "Reactor Husk active scaling stat",
+    "Starfield Calibrator Concerto trigger conflict",
+    "Starfield Calibrator permanent DEF branch missing from effect catalog",
+    "canonical Lucy/Rebecca incoming-state timing is not specified",
+    "Syntony periodic heal source gives a 3s cadence but not the first tick offset"
+  ]
+}

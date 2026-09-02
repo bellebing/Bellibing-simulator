@@ -2,53 +2,58 @@
 
 This file is the canonical **current-state + active-roadmap** checkpoint for Bellibing Simulator.
 
-Detailed chronology belongs in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md), Git history and the external `Bellibing Echo Tool — AI Handoff` update/bug logs. Do not turn this file back into a workstream diary.
+Detailed chronology belongs in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md), Git history and the external `Bellibing Echo Tool — AI Handoff` update/bug logs. Product/team-construction direction is recorded in [`BEST_AVAILABLE_TEAMS_DIRECTION.md`](BEST_AVAILABLE_TEAMS_DIRECTION.md).
 
 Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS remains blocked. Narrow profiles may become `DPS_READY` only when their exact source, execution, BuildContext and freeze requirements close.
 
 ## North star
 
-Bellibing is an Echo-building decision tool. Its job is to answer what the user should do next with the Echo/build in front of them under the selected Character/build/rotation context.
+Bellibing is an Echo/build decision tool. Its job is to answer what the user should do next under their actual Character/build/rotation/roster constraints.
 
-Normal UX should give **one useful decision at a time**. Combat, probability and economy logic may be complex internally, but the default product should not become an analysis dashboard.
+The product direction now includes **Best Available Teams**: given the Characters the user still has available, Bellibing should eventually find the best feasible team or set of non-overlapping teams by modeled result — not merely reproduce established meta teams or rank generic synergy.
+
+Normal UX should give useful decisions rather than expose internal engine complexity by default.
 
 ## Verified current baseline — 2026-09-02
 
 Current `main`:
 
-- commit: `699dc6a496f80c26f994dd9dfd477a3659609758`;
+- commit: `612324b8aba1dd1c4ae8a189ebf74062b291033b`;
 - PR #151 established the stabilized source-truth/scope baseline;
-- PR #156 integrated the reviewed source-safe Mornye support payload from current main;
-- post-merge **Verify #970**: SUCCESS;
-- post-merge **Export #941**: SUCCESS;
-- post-merge **Deploy #135 + live verification**: SUCCESS.
+- PR #156 integrated the reviewed source-safe Mornye support payload;
+- PR #158 integrated the reviewed Zani execution preflight/Frazzle target-state payload;
+- post-merge **Verify #974 attempt 2**: SUCCESS;
+- post-merge **Export #945**: SUCCESS;
+- post-merge **Deploy #137**: SUCCESS.
 
-PR #156 adds six Mornye research/support/review/test files. It does **not** edit shared readiness registries, generated profiles, product routing or UI, so current registry-derived readiness/execution counts remain:
+Current registry/readiness truth remains:
 
 - **43 `PROFILE_COMPLETE_PENDING_FREEZE`**;
 - **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
 - **9 `PROFILE_SOURCE_PENDING`**;
-- **2 `DPS_READY`** — Augusta and Ciaccona;
-- **18 backward-impact reviews**;
-- **18 reviewed canonical profiles**;
-- **16 profiles with pending execution dependencies**;
-- **72 exact pending execution edges**;
-- semantic queue: **30 UNREVIEWED / 1 SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING / 11 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 5 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 16 PROFILE_SPECIFIC_EXECUTION** = **31 actionable shared edges**.
+- **2 `DPS_READY`** — Augusta and Ciaccona.
+
+Zani adds a canonical backward-impact review with 11 still-open execution dependencies, so current execution inventory is:
+
+- **19 backward-impact reviews**;
+- **19 reviewed canonical profiles**;
+- **17 profiles with pending execution dependencies**;
+- **83 exact pending execution edges**;
+- semantic queue: **40 UNREVIEWED / 1 SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING / 11 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 5 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION** = **41 actionable shared edges**.
 
 Never replace current-main counts with branch-local worker counts.
 
 ## Active initial scope
 
-Initial implementation/product support is deliberately narrower than retained source data:
+Initial implementation/product support remains deliberately narrower than retained source data:
 
 - **Sequences:** S0, S1 and S2.
 - **Character skills:** maxed skills only — Lv10 wherever source data owns an exact Lv1-Lv10 curve.
 - **Deferred:** S3-S6 and Character skill levels below max.
 - **Retention:** deferred sequence/skill values remain canonical raw/source-facing data and must not be deleted or flattened away.
-- **Consumer rule:** in-scope runtime explicitly selects max skill values; raw Lv1-Lv10 curves stay intact.
 - **Completeness rule:** S0-safe is not automatically S0-S2-complete. Missing/disputed S1/S2 semantics remain pending.
 
-Deferred scope must not create new combat adapters, profile/DPS work or product/UI complexity until an explicit later scope change.
+Quickswap-oriented team optimization is also deferred from the initial Best Available Teams model. Do not make conflicting dual-carry combinations valid by assuming unsupported quickswap execution.
 
 ## Architecture boundary
 
@@ -57,7 +62,7 @@ Preserve separation between:
 1. raw Character / Weapon / Echo / Sonata source data;
 2. Character Mechanics and source-facing facts;
 3. Weapon / Echo / Sonata effects;
-4. composable profiles;
+4. composable profiles/team identity;
 5. execution/combat-DPS logic;
 6. product/UI projection.
 
@@ -68,9 +73,11 @@ Rules:
 - `SOURCE_SEQUENCE_ONLY` is not executable timing evidence;
 - a reusable primitive closes nothing until the exact canonical event/state/timeline requirement is satisfied;
 - V9.15 is historical oracle/reference only when explicitly needed;
-- UI projects canonical registries and must not create a second Character/profile database.
+- UI projects canonical registries and must not create a second Character/profile database;
+- team compatibility facts should be preset/mode-scoped where roles differ by context, not forced into one permanent Character-global role;
+- compatibility/synergy may prune or explain teams, but modeled combat result is the eventual ranking objective.
 
-Owned-Echo product support has separate explicit boundaries:
+Owned-Echo product support retains separate explicit boundaries:
 
 - Roll Assist/checkpoint decisions require a verified profile-policy binding;
 - whole-build DPS requires an `ENGINE_MODELED` profile plus an explicit source-backed Echo → `DamageEvaluator` adapter;
@@ -96,11 +103,10 @@ Owned-Echo product support has separate explicit boundaries:
 - **34 / 34 released Sonata sets** reviewed.
 - Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
 - **181 / 181 released Echo skills** are source-reviewed.
-- Main exact Rank-5 Echo attack catalog remains **5 attack profiles / 6 attack facts**.
 
 Unmerged worker facts are not current-main truth until explicitly integrated and reverified.
 
-## Profiles and product support
+## Profiles and current product support
 
 Exact `PROFILE_SOURCE_PENDING` on main:
 
@@ -112,29 +118,53 @@ Current `DPS_READY` profiles:
 - Augusta — `augusta-standard` / `AUGUSTA_STD_V1`;
 - Ciaccona — `ciaccona-cartethyia-aero` / `CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1`.
 
-Product boundary:
+Current product boundary:
 
-- Augusta has verified Roll Assist policy + owned-build evaluator.
+- Augusta has verified Roll Assist policy + owned-build evaluator;
 - Ciaccona has verified +25 whole-build/completed-candidate DPS support under its locked context, but no Roll Assist checkpoint/stopping-policy binding.
 
-## Mornye integrated boundary
+## Reference Team 01 — active foundation target
 
-PR #156 makes the reviewed source-safe Mornye support semantics part of current main. This is useful source/execution infrastructure, **not** a readiness promotion.
+The first full product/foundation slice is the existing verified canonical team:
 
-Preserved fail-closed boundaries include:
+- **Augusta** — DPS context;
+- **Iuno** — Hybrid/Sub DPS context;
+- **The Shorekeeper** — Support context.
 
-- Boundedness keeps `sourceLimitRelationship: 'OR'`, `consumptionModelingStatus: 'PENDING_INTERPRETATION'` and `canResolveIncomingDamage: false`;
-- no incoming-damage reducer or guessed Boundedness lifecycle exists;
-- exact Loop Rotation duration/action timestamps remain unresolved;
-- Critical Protocol scaling remains source-conflicted;
-- Reactor Husk active scaling stat remains source-unproven;
-- Starfield Calibrator Concerto trigger remains source-conflicted;
-- Starfield permanent DEF effect remains a catalog gap;
-- Lucy/Rebecca incoming-state timeline remains absent;
-- Syntony periodic-heal first-tick phase remains unresolved;
-- Mornye remains non-`ENGINE_MODELED`, non-`DPS_READY`, non-freeze and non-product.
+The milestone is not "finish every teammate's personal DPS engine." It is to make every teammate contribution required by the supported Augusta team explicit, source-backed and correctly composed through team/effect/context boundaries.
 
-The source-proven 260% ER mechanic cap is review evidence only; it is not an invented product gate.
+Before large team UI work, audit this path end-to-end:
+
+raw/source → mechanics/effects → profiles/team → execution → BuildContext/DPS → product projection.
+
+The audit must classify findings as `KEEP`, `SIMPLIFY`, `PARK/DELETE` or `MISSING` and specifically inspect duplicated truth, dead/legacy layers and hidden team assumptions.
+
+A known architecture risk to inspect is `AugustaStandardContext`: it currently contains fixed team-context values including Shorekeeper-related crit context and static amplification fields. That is valid only while the context is locked. Arbitrary teammate replacement must not become possible until the engine can no longer silently retain stale bonuses from the old team.
+
+## Best Available Teams — locked product direction
+
+See [`BEST_AVAILABLE_TEAMS_DIRECTION.md`](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the full contract. Core decisions:
+
+- optimize for the **best available** result under the user's remaining-roster constraints, not for a generic "good team" label;
+- established/meta teams are evidence/templates and validation fixtures, not the only legal candidates;
+- two high-field-time carry modes are normally a hard conflict in the initial non-quickswap model unless an explicitly supported execution archetype proves otherwise;
+- team role/field-time semantics belong to preset/mode context where necessary;
+- compatibility must be able to represent provides, benefits-from, off-field contribution, handoffs, required states/triggers and hard conflicts;
+- missing evidence remains pending rather than receiving guessed synergy value;
+- multi-team content must eventually use **global non-overlapping roster allocation**, not greedily pick one team and then optimize the leftovers;
+- actual executable/modelable team output is the final ranking target.
+
+## Integrated source-safe boundaries
+
+### Mornye — PR #156
+
+Mornye support/review infrastructure is on main without a readiness/product promotion. Boundedness remains `OR` / `PENDING_INTERPRETATION` / `canResolveIncomingDamage: false`; exact rotation timing, disputed scaling/trigger semantics and predecessor-state gaps remain fail closed.
+
+### Zani — PR #158
+
+Zani's explicit-event Spectro Frazzle → Heliacal Ember target-state primitive is on main. The canonical rotation remains `SOURCE_SEQUENCE_ONLY` and all 11 reviewed execution dependencies remain open. No `DPS_READY`, freeze, BuildContext, Roll Assist or product promotion was made.
+
+Historical worker PR #144 was closed unmerged after #158 became current-main truth so GitHub does not present two competing Zani integration candidates.
 
 ## Active known gaps on main
 
@@ -148,22 +178,19 @@ Keep these fail closed:
 - **BUG-012** — Rover (Aero) exact support execution unresolved.
 - **BUG-013** — Blazing Brilliance at-cap lifecycle unresolved.
 - **BUG-014** — Changli Standard Rotation exact denominator unresolved.
+- **BUG-015** — Zani exact Frazzle/Blazing Justice/Mourning Aix/Character-state/team/timing execution remains incomplete.
 
 Resolved bugs stay in the external bug register/history rather than being repeated here.
 
 ## Existing worker backlog
 
-The remaining gameplay/data PRs are old sibling work from the pre-stabilization baseline. Their isolated green CI is evidence, not integration authorization. Every selected worker must be recomposed/rebased from then-current main and freshly verified.
+The remaining gameplay/data PRs are old sibling work from the pre-stabilization baseline. Their isolated green CI is evidence, not integration authorization. Do not bulk-compose them.
 
-Current integration priority:
-
-1. **#144 Zani** — next candidate. Preserve `BUG-015` and all fail-closed Frazzle/Blazing Justice/Mourning Aix/team/timing boundaries.
-2. **#141 Rover (Havoc)** — candidate only after Zani is independently integrated and main is green. Preserve `140%+` as `AT_LEAST` estimated guidance, never an exact ER gate.
-
-Other workers remain parked for later individual review:
+They are **parked while Reference Team 01/product-foundation audit is active**. Resume an old worker only when it is the highest-leverage route to a product-critical dependency or reusable primitive.
 
 | PR | Scope | Current disposition |
 | --- | --- | --- |
+| #141 | Rover (Havoc) | next previously reviewed integration candidate; `140%+` remains lower-bound estimated guidance, never an exact ER gate; parked during reference-team audit |
 | #140 | Chixia | source-safe worker; `BUG-022`; non-DPS-ready |
 | #142 | Galbrena | source-safe preflight; non-DPS-ready |
 | #145 | Jiyan | exact Kelpie facts/source boundary; 0 execution IDs closed |
@@ -173,64 +200,63 @@ Other workers remain parked for later individual review:
 | #149 | Aemeath | eight detailed closures; four blockers remain |
 | #150 | Lucilla | verified worker, still draft; `ENGINE_MODELED` overlay but non-DPS-ready/non-product |
 
-Do not bulk-compose sibling workers.
-
 ## Active roadmap
 
-There is one active roadmap for the current initial scope.
+There is one active roadmap for the initial product foundation.
 
-### Phase 1 — integrate useful existing work cleanly
+### Phase 1 — current-truth sync + Reference Team 01 audit
 
-Process one worker at a time from current main. After every main movement:
+- keep `PROJECT_STATUS` and AI Handoff synchronized to current `main`;
+- trace Augusta / Iuno / The Shorekeeper end-to-end through the architecture;
+- identify duplicated truth, stale/legacy layers, hardcoded teammate context and real missing contracts;
+- do not create a broad UI or another Character worker during this audit;
+- implement only small fixes that are clearly required to make the foundation truthful or remove high-cost duplication.
 
-- re-read current source truth;
-- resolve only real integration conflicts;
-- run the full verification contract;
-- update current status/Handoff;
-- select the next worker only after the new baseline is green.
+### Phase 2 — minimal Team Compatibility + context composition contract
 
-Do not create more parallel Character workers while this backlog is being integrated.
+Define the smallest source-safe semantic layer required by Best Available Teams:
 
-### Phase 2 — S0-S2 + max-skill coverage
+- preset/mode-scoped field-time demand;
+- teammate-facing `provides`;
+- `benefits from` / consumed states and damage classes;
+- off-field/handoff behavior;
+- required states/triggers;
+- hard conflicts and explicit unknowns.
 
-Audit supported Characters/profiles specifically for the active scope:
+Prefer deriving these facts from canonical mechanics/effects/profiles. Do not build a second hand-maintained tier-list database.
 
-- S0 execution truth;
-- S1 effects/semantics;
-- S2 effects/semantics;
-- max-skill damage/resource facts;
-- required Weapon/Echo/Sonata/team state;
-- exact source blockers.
+At the same time, remove any unsafe hidden teammate coupling that would let UI/team selection drift away from the evaluator's real context.
 
-This is a coverage audit, not permission to invent missing execution data.
+### Phase 3 — make Reference Team 01 product-ready
 
-### Phase 3 — executable combat / DPS closure
+Close only the execution/context dependencies actually required to evaluate the supported Augusta team truthfully.
 
-Promote profiles only when actual dependencies close.
+Apply the worker stop rule aggressively: if a blocker requires missing/conflicting source or unavailable exact timeline/state evidence, record it and park it. Do not manufacture layers that close no dependency.
 
-**Worker stop rule:** if remaining blockers require missing/conflicting source, unavailable exact timeline/state evidence or deferred scope, park the Character and stop. Do not keep building validation-only layers that close no canonical dependency.
+The exit criterion is a complete truthful Augusta/Iuno/Shorekeeper decision path, not three independently complete personal-DPS engines.
 
-`ENGINE_MODELED` and `DPS_READY` are exact claims, not architecture milestones.
+### Phase 4 — Best Available Teams engine, then main UI
 
-### Phase 4 — product activation
+After the reference foundation is proven:
 
-For sufficiently verified profiles, connect the shared product architecture rather than creating Character-specific calculators:
+1. enumerate feasible preset/mode team candidates from a remaining roster;
+2. reject hard field-time/state/trigger conflicts;
+3. construct source-valid execution contexts;
+4. evaluate actual modeled output where supported;
+5. rank feasible teams;
+6. optimize non-overlapping multi-team roster allocation globally;
+7. explain why a recommendation is the best available choice and where evidence remains pending.
 
-- owned five-Echo build evaluation;
-- mandatory gates;
-- candidate-vs-incumbent replacement;
-- Roll Assist/stopping policy when independently verified;
-- Upgrade Mode / best-next-improvement economics.
-
-The product should continue answering the user's next action instead of exposing engine complexity by default.
+Build the large/main team UI **after** these contracts work. Small diagnostic/dev UI is allowed when it verifies the foundation.
 
 ### Deferred until later
 
+- quickswap-oriented team optimization;
 - S3-S6 implementation/product support;
 - Character skill levels below max;
 - nonessential UI polish;
 - unsupported account-sync/API promises;
-- side work that does not move the active S0-S2/max-skill decision-tool path.
+- broad roster work that does not move the active reference-team/Best Available Teams path.
 
 ## Verification contract
 

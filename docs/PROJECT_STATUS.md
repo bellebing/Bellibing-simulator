@@ -6,7 +6,7 @@ This is the canonical current-state checkpoint for Bellibing Simulator. Detailed
 
 Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS remains blocked. Narrow vertical slices may become `DPS_READY` only after their exact source, execution and freeze requirements close.
 
-## Verified current baseline — 2026-09-01
+## Verified current baseline — 2026-09-02
 
 Current verified repository baseline on `main`:
 
@@ -115,7 +115,7 @@ Keep these fail closed until stronger source or an explicitly approved measureme
 
 `BUG-001` remains fixed/live-verified with permanent Chrome regression.
 
-## Parallel worker stabilization review — 2026-09-01
+## Parallel worker stabilization review — 2026-09-02
 
 Eleven open worker PRs were created as **sibling branches from the same `2af8221b` baseline**. They are not a dependency chain. Individual green CI therefore does not prove that any arbitrary combination is integration-safe: several branches update shared execution reviews, semantic queues, coverage counts and regression snapshots.
 
@@ -124,10 +124,10 @@ The stabilization baseline intentionally integrates **none** of these worker cod
 | PR | Scope | Current head | Exact-head CI | Stabilization disposition |
 | --- | --- | --- | --- | --- |
 | #140 | Chixia | `b30722bb` | Verify #939 + Export #911 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — the prior `BUG-015` collision is repaired; Chixia now uses unique `BUG-022` while Zani/#144 retains canonical `BUG-015`. No gameplay/source semantics changed in the repair. |
-| #141 | Rover (Havoc) | `576d8210` | Verify #664 + Export #636 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — source-safe preflight, still non-`DPS_READY`; integrate only in an explicitly selected execution tranche. |
+| #141 | Rover (Havoc) | `f8422adb` | Verify #952 + Export #923 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY; CANDIDATE #3** — fail-closed review now preserves `140%+` as `AT_LEAST` estimated build guidance rather than an exact ER gate. Exact gate stays null; all Red Spring/Havoc Eclipse/Dreamless/Umbra/team/timing blockers remain open. `BUG-025` is resolved in worker representation only. |
 | #142 | Galbrena | `af24c988` | Verify #674 + Export #646 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — source-safe preflight, still non-`DPS_READY`. |
-| #143 | Mornye | `f1522b61` | Verify #947 + Export #919 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY; LOW-CONFLICT REBASE CANDIDATE** — stabilization review repaired Boundedness representation so the source `3 caps OR 1 fatal prevention` relationship stays explicit, consumption remains `PENDING_INTERPRETATION`, and runtime cannot resolve incoming damage. Still no engine/freeze/DPS/product promotion. |
-| #144 | Zani | `bd92dc25` | Verify #686 + Export #658 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — `BUG-015` remains Zani's canonical gap; no `DPS_READY` promotion. |
+| #143 | Mornye | `f1522b61` | Verify #947 + Export #919 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY; CANDIDATE #1** — stabilization review repaired Boundedness representation so the source `3 caps OR 1 fatal prevention` relationship stays explicit, consumption remains `PENDING_INTERPRETATION`, and runtime cannot resolve incoming damage. Still no engine/freeze/DPS/product promotion. |
+| #144 | Zani | `bd92dc25` | Verify #686 + Export #658 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY; CANDIDATE #2** — fresh semantic audit found the explicit-event Frazzle→Heliacal target-state primitive remains fail-closed; `BUG-015` remains Zani's canonical gap and no `DPS_READY` promotion occurs. |
 | #145 | Jiyan | `eb4a35ff` | Verify #683 + Export #655 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — exact Kelpie facts/source boundary, 0 execution IDs closed. |
 | #146 | Lingyang | `15d52c7d` | Verify #904 + Export #876 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — extensive fail-closed primitives, all 12 canonical dependencies remain open. |
 | #147 | Jinhsi | `985ef139` | Verify #936 + Export #908 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — stabilization fixed shared pending-ID review leakage with preset-scoped semantic reviews; Lumi keeps the global generic cast-window disposition while Jinhsi alone gets preset-scoped `BUG-020`. Still non-`DPS_READY`. |
@@ -137,11 +137,14 @@ The stabilization baseline intentionally integrates **none** of these worker cod
 
 Additional stabilization findings:
 
-- PR #151 itself received a fresh stabilization review on head `68541a41`: its only changed file was `docs/PROJECT_STATUS.md`, all live worker heads matched the documented table at review time, there were no unresolved review threads, and exact-head Verify #945 + Export #917 were green. No blocker was found for human review/merge of the docs-only baseline.
-- PR #143 had the smallest/localest changed-file surface among the first integration candidates reviewed: additive research/support/review/test files with no shared execution queue, generated profile or Echo taxonomy edits. Review still found a real semantic representation risk: canonical raw `mornye-inherent-boundedness` is `PENDING_INTERPRETATION` and says three capped hits **or** one fatal prevention, while the initial worker state exposed both source numbers without encoding the `OR` relationship. Head `f1522b61` now carries `sourceLimitRelationship: 'OR'`, `consumptionModelingStatus: 'PENDING_INTERPRETATION'` and `canResolveIncomingDamage: false`, with a focused regression bound to the canonical raw fact. Verify #947 + Export #919 are green. This makes #143 a sensible first **post-baseline rebase review candidate**, not an integration authorization.
-- PR #147's red current-head state was traced to a real work-queue scoping defect rather than a Jinhsi source-data dispute. `weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter` is shared by Lumi and Jinhsi; matching semantic reviews only by pending ID let Jinhsi-specific `BUG-020` leak onto Lumi. The worker now supports an optional preset scope with global fallback, validates scoped uniqueness/canonical preset ownership, and has an explicit Lumi-vs-Jinhsi regression. Exact-head Verify #936 + Export #908 are green.
+- PR #151 remains a docs-only baseline candidate. Its earlier exact heads passed the full Verify + Export contract; each subsequent source-truth resync must run the same exact-head contract before the PR can be treated as final review-ready. Exact current PR head/run numbers are tracked in the PR body and AI Handoff rather than embedded self-referentially in this file.
+- PR #143 has the smallest/localest changed-file surface among reviewed integration candidates: six additive research/support/review/test files with no sibling-file overlap, shared execution queue, generated profile or Echo taxonomy edit. Review found and repaired a real Boundedness representation risk: canonical raw remains `PENDING_INTERPRETATION` and says three capped hits **or** one fatal prevention. Head `f1522b61` carries `sourceLimitRelationship: 'OR'`, `consumptionModelingStatus: 'PENDING_INTERPRETATION'` and `canResolveIncomingDamage: false`, with Verify #947 + Export #919 green. This is candidate #1 after baseline acceptance, not integration authorization.
+- PR #144 has the next-lowest reviewed practical integration surface: eight files, with shared touches concentrated in the backward-impact catalog/regression snapshots and no `src/profileExecutionWorkQueue.ts` or Echo trigger-taxonomy edit. A fresh semantic audit found no blocking representation defect: the Zani target-state primitive requires explicit incoming Spectro Frazzle, preserves 1:1 Heliacal conversion and independent six-second expiries, keeps Zani SELF Blaze separate, fails closed on unresolved cap overflow/refresh, and exposes Eternal Radiance Heliacal equivalence only as stack-read truth with `provesInflictSpectroFrazzleTrigger=false`. `BUG-015` remains open. This is candidate #2 only after #143 is separately integrated/reverified.
+- PR #141 is the next-lowest reviewed candidate after #143/#144. Its Dreamless exact attack data remains attack truth only; cast/timeline and the +50% post-Liberation branch remain execution responsibilities. Stabilization review found that the preflight's `sourceBackedEnergyRegenContext: 1.4` could lose the source `140%+` relation to a future consumer even though `exactEnergyRegenGate` was already null. Head `f8422adb` now preserves source text `140%+`, relation `AT_LEAST`, usage `ESTIMATED_BUILD_GUIDANCE_ONLY`, and `sourceBackedEnergyRegenContextIsExactGate: false`, with a focused regression. Verify #952 + Export #923 are green. No execution dependency or product/readiness support was closed. This is candidate #3 only after #144 is separately integrated/reverified.
+- PR #147's former red current-head state was traced to a real work-queue scoping defect rather than a Jinhsi source-data dispute. `weapon:ages-of-harvest:AH-SKILL:trigger-uptime-adapter` is shared by Lumi and Jinhsi; matching semantic reviews only by pending ID let Jinhsi-specific `BUG-020` leak onto Lumi. The worker now supports an optional preset scope with global fallback, validates scoped uniqueness/canonical preset ownership, and has an explicit Lumi-vs-Jinhsi regression. Exact-head Verify #936 + Export #908 are green.
 - PR #140's former `BUG-015` collision is resolved as metadata integrity only. Zani keeps `BUG-015`; Chixia now owns `BUG-022`. The repair changes only blocker-ID ownership/assertions across three files and exact-head Verify #939 + Export #911 are green.
 - PR #150's five Node regressions were stale branch fixtures after the explicit Lucilla impact-review/execution overlay, not evidence for new gameplay semantics. The cleanup now asserts the 19-review / 76-edge worker-local inventory, preserves the generated horizontal source snapshot as `SOURCE_SEQUENCE_ONLY`, and distinguishes the canonical Lucilla overlay as `ENGINE_MODELED`. A strict-build failure then exposed optional `ContentProvenance.sourceUrls`/`notes` being spread as required arrays; the final fix uses empty-array fallback without changing source facts or engine semantics. Verify #944 + Export #916 are green. Branch-local queue is **33 UNREVIEWED / 1 implementation-pending / 11 primitive+timeline / 5 source-conflict / 10 source-semantics / 16 profile-specific = 34 actionable shared** with 19 semantic review records. The four remaining Lucilla dependencies are Glommoth active scaling stat, Glacio Chafe system damage, Chisa Thread of Bane/Kumokiri predecessor state, and Chisa Havoc Bane stack/timeline state.
+- A 2026-09-02 GitHub write-target incident briefly advanced `main` to accidental commit `ee016c2c...` and later moved the #141 worker to accidental `c2d46cb1...`. Both refs were immediately restored to their verified heads; live rechecks prove current `main` is exactly `2af8221b...`, the accidental test file is absent, #141 is exactly `f8422adb...`, and #151/#152 are again mergeable on the `2af8221b` base. This contained tooling incident is tracked as `BUG-026`; neither accidental commit is current project state.
 - Green worker branches may contain valid reusable facts/primitives, but their branch-local counts are not canonical until a dedicated integration review rebases them onto the then-current main and reruns the full repository contract.
 
 No worker PR is closed by this stabilization pass. No worker branch is treated as merged, superseded or rejected on game-data merit merely because it is parked. PR #150 remains marked draft in GitHub even though its exact head is verification-clean; that UI state does not change code/source truth.
@@ -164,13 +167,13 @@ For the current stabilization PR itself, product code is intentionally unchanged
 
 ## Review-ready baseline decision
 
-The next stable baseline is therefore deliberately boring:
+The next stable baseline is deliberately boring:
 
 - **code/product behavior:** current main `2af8221b` unchanged;
 - **canonical readiness/execution counts:** current-main values above unchanged;
 - **worker code:** all kept outside the baseline;
-- **worker follow-up:** #140 through #150 are exact-head verification-clean. They remain sibling branches and must be selected/rebased/integrated one at a time; #150 additionally remains marked draft in GitHub despite cleanup completion;
-- **preferred first post-baseline rebase review candidate:** #143 Mornye, because its reviewed changed-file surface is additive/local and its Boundedness ambiguity is now explicitly fail-closed; this preference does not authorize rebase or integration before the stabilization baseline is accepted;
+- **worker follow-up:** #140 through #150 remain sibling branches and must be selected/rebased/integrated one at a time; #150 additionally remains marked draft in GitHub despite cleanup completion;
+- **ordered post-baseline rebase-review queue:** #143 Mornye first, #144 Zani second only after #143 is separately accepted/reverified on main, #141 Rover (Havoc) third only after #144 is separately accepted/reverified. This ordering is a conflict-surface review priority, not merge authorization;
 - **broad roster DPS:** still blocked;
 - **no new gameplay/source truth is invented by stabilization.**
 

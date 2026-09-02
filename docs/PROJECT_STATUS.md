@@ -56,6 +56,19 @@ Owned-Echo analysis keeps two separate fail-closed boundaries:
 
 `DPS_READY` alone authorizes neither boundary.
 
+## Initial implementation scope
+
+The active initial implementation/product scope is deliberately narrower than retained source coverage:
+
+- **Sequence scope:** S0, S1 and S2 only.
+- **Skill-level scope:** maxed Character skills only — Lv10 wherever the source owns an exact Lv1-Lv10 coefficient table.
+- **Retained source data:** S3-S6 facts and lower skill-level values remain canonical raw/source-facing data. They must not be deleted, flattened away or rewritten merely because they are outside the initial implementation scope.
+- **Deferred implementation:** S3+ and skill levels below max do not create new adapter, combat/DPS, profile, product or UI work now. They stay source-only until a later explicit scope change.
+- **Raw/model boundary:** raw motion-value curves remain full Lv1-Lv10 source truth; consumers that are in initial scope must explicitly select the max level rather than mutating raw data into a Lv10-only representation.
+- **Completeness boundary:** an S0-safe worker can still be a valid integration candidate, but S0 coverage alone does **not** prove S0-S2 scope completeness. S1/S2 effects and execution semantics must be reviewed separately and stay fail-closed when source or modeling evidence is missing.
+
+Never force blocked Wuthering Waves data to satisfy this scope. Missing/disputed S1/S2 mechanics remain pending instead of being guessed.
+
 ## Current source coverage
 
 ### Characters
@@ -117,7 +130,7 @@ Keep these fail closed until stronger source or an explicitly approved measureme
 
 ## Parallel worker stabilization review — 2026-09-02
 
-Eleven open worker PRs were created as **sibling branches from the same `2af8221b` baseline**. They are not a dependency chain. Individual green CI therefore does not prove that any arbitrary combination is integration-safe: several branches update shared execution reviews, semantic queues, coverage counts and regression snapshots.
+Eleven gameplay/data worker PRs #140-#150 were created as **sibling branches from the same `2af8221b` baseline**. They are not a dependency chain. Individual green CI therefore does not prove that any arbitrary combination is integration-safe: several branches update shared execution reviews, semantic queues, coverage counts and regression snapshots.
 
 The stabilization baseline intentionally integrates **none** of these worker code changes. This avoids turning source-of-truth cleanup into a new execution-combat tranche.
 
@@ -134,6 +147,12 @@ The stabilization baseline intentionally integrates **none** of these worker cod
 | #148 | Sigrika | `e3db50f6` | Verify #927 + Export #899 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — six closures, nine dependencies remain; historical 12.8s is not current denominator truth. |
 | #149 | Aemeath | `5135512f` | Verify #794 + Export #766 SUCCESS | **PARK / REVIEW-READY INDIVIDUALLY** — eight detailed execution IDs closed, four blockers remain; no engine/freeze/product promotion. |
 | #150 | Lucilla | `a385f948` | Verify #944 + Export #916 SUCCESS | **PARK / VERIFY-CLEAN; DRAFT FLAG REMAINS** — count/regression cleanup and strict-build provenance typing are complete. Canonical worker overlay is `ENGINE_MODELED` at source-backed 7.34s but remains non-`DPS_READY`, non-product, with four explicit execution gaps under canonical Handoff `BUG-023`. |
+
+Separate stabilization/control PRs are not integration candidates:
+
+- **#151 — stabilization docs baseline:** the review/merge decision point. It changes only `docs/PROJECT_STATUS.md`; no worker code is integrated.
+- **#152 — Mornye rehearsal:** draft/evidence-only composition. After this scope resync it must not be treated as an exact mirror of #151 unless separately resynced and reverified. Keep it parked until the baseline decision instead of performing extra branch writes merely to keep rehearsal metadata cosmetically current.
+- **#153 — secondary-dropdown UI pass:** **PARK / OUT OF CURRENT DIRECTION**. This was an unintended UI workstream. It is verification-clean on its own draft branch but is unrelated to the S0-S2/max-skill stabilization direction and must not be integrated as part of this baseline or used to start more UI work. Current `main` does not contain its `web/filter-dropdowns.css` artifact and no #153 merge occurred.
 
 Additional stabilization findings:
 
@@ -170,8 +189,10 @@ For the current stabilization PR itself, product code is intentionally unchanged
 The next stable baseline is deliberately boring:
 
 - **code/product behavior:** current main `2af8221b` unchanged;
+- **initial implementation scope:** S0-S2 plus maxed Character skills only; S3+ and lower skill levels remain retained source data and must not create new implementation/product work now;
 - **canonical readiness/execution counts:** current-main values above unchanged;
 - **worker code:** all kept outside the baseline;
+- **parked control/UI work:** #152 stays rehearsal-only; #153 is outside current direction and remains unmerged;
 - **worker follow-up:** #140 through #150 remain sibling branches and must be selected/rebased/integrated one at a time; #150 additionally remains marked draft in GitHub despite cleanup completion;
 - **ordered post-baseline rebase-review queue:** #143 Mornye first, #144 Zani second only after #143 is separately accepted/reverified on main, #141 Rover (Havoc) third only after #144 is separately accepted/reverified. This ordering is a conflict-surface review priority, not merge authorization;
 - **broad roster DPS:** still blocked;

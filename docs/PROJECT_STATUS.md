@@ -128,13 +128,16 @@ Resolved bugs stay in the external bug register/history rather than being repeat
 
 ## Existing worker backlog
 
-Gameplay/data PRs **#140-#150** remain unmerged sibling work from the old `2af8221b` baseline. Their exact-head verification remains useful evidence, but every selected worker must be rebased/integrated against current main and freshly verified before merge.
+Gameplay/data PRs **#140-#150** are sibling worker branches from the old `2af8221b` baseline. Their verified source-safe work remains useful evidence, but the old worker branches are not a merge chain.
 
-Current integration order from stabilization review:
+The current selected integration is:
 
-1. **#143 Mornye** — first candidate; small/local additive surface.
-2. **#144 Zani** — next candidate only after #143 has been independently integrated and main rechecked.
-3. **#141 Rover (Havoc)** — next candidate only after #144 has been independently integrated and main rechecked.
+- **PR #154 — Mornye integration**: a fresh branch directly from current main containing the exact six reviewed Mornye files from worker #143 and no other worker content. It must pass fresh exact-head Verify + Export and review before any merge. Original PR #143 remains worker/source-boundary evidence; #154 is the current Mornye integration candidate.
+
+After a successful #154 integration and fresh main verification, the stabilization review order is:
+
+1. recompose/review **Zani #144** alone against then-current main;
+2. only after that, recompose/review **Rover (Havoc) #141** alone against then-current main.
 
 All other #140-#150 workers remain parked for later individual review. Do not bulk-compose sibling branches.
 
@@ -149,7 +152,7 @@ There is one active roadmap for the current initial scope.
 
 ### Phase 1 — clean integration baseline
 
-Integrate useful existing worker work **one PR at a time** from current main. After every main movement:
+Finish the existing worker backlog **one integration at a time**, beginning with active PR #154. After every main movement:
 
 - re-read current source truth;
 - resolve only real integration conflicts;
@@ -196,7 +199,7 @@ The product should continue answering the user's next action, not expose interna
 
 - S3-S6 implementation/product support;
 - Character skill levels below max;
-- nonessential UI polish such as the parked #153 dropdown pass;
+- nonessential UI polish such as the closed #153 dropdown pass;
 - unsupported account-sync/API promises;
 - other side work that does not move the active S0-S2/max-skill decision-tool path.
 

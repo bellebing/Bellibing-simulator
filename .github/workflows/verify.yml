@@ -72,6 +72,8 @@ jobs:
           google-chrome --version
           BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
             node scripts/verify-live-roll-assist.mjs
+          BELLIBING_SECONDARY_UI_BASE_URL=http://127.0.0.1:4173/ \
+            node scripts/verify-secondary-dropdown-filters.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-upgrade.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \

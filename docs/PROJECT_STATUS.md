@@ -248,6 +248,26 @@ At the same time, remove any unsafe hidden teammate coupling that would let UI/t
 
 For Reference Team 01, the execution boundary must additionally identify the selected teammate presets/loadouts and carry source-linked resolved contributions/unresolved dependencies so stale Iuno/Shorekeeper scalars cannot survive a teammate change.
 
+#### Phase 2 first execution-context slice — draft PR #161
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+The first bounded implementation slice now exists on draft PR #161:
+
+- `src/teamExecutionContext.ts` adds a resolved team-execution boundary separate from legacy `BuildContext`;
+- every selected team member must resolve an exact verified Character preset, default weapon/rank, Echo/Sonata loadout identity, stat profile and rotation execution identity;
+- source-linked contribution dependencies carry canonical `sourceKind + sourceId + source preset/Character + target + RESOLVED/PENDING/UNKNOWN`, with no copied buff values;
+- explicit dependency coverage is `PARTIAL | COMPLETE`; `dpsReady` requires `COMPLETE` coverage and zero required unresolved dependencies, so a partial manifest can never turn green by accident;
+- `src/data/referenceTeam01ExecutionContext.ts` binds `augusta-standard` + `iuno-augusta-hybrid` + `shorekeeper-augusta-support` and validates the selected canonical source identities;
+- `TFD-ATK` is the first source-linked `RESOLVED` contribution because the selected Augusta preset resolves Thunderflare Dominion and the canonical effect remains `PERMANENT / ALWAYS / SELF`;
+- Iuno `iuno-outro-from-gloom-to-gleam` and Shorekeeper `the-shorekeeper-liberation-stellarealms` remain required `PENDING` dependencies because their cross-character activation/state/timeline is not yet executable;
+- the Reference Team manifest is intentionally `PARTIAL`, therefore `dpsReady = false`;
+- missing/mismatched teammate preset selection and unselected contribution sources fail closed in tests.
+
+Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before this status-sync commit. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
+
+The next implementation slice should expand only the audited Reference Team dependency coverage and close the first real cross-character handoff/state requirement with source-valid execution evidence. Do not add guessed Team Compatibility semantics merely to fill the contract, and do not consume the resolved team context in DPS until the required contribution set is complete enough to replace stale hidden teammate assumptions safely.
+
 ### Phase 3 — make Reference Team 01 product-ready
 
 Close only the execution/context dependencies actually required to evaluate the supported Augusta team truthfully.

@@ -266,7 +266,25 @@ The first bounded implementation slice is review-ready on PR #161:
 
 Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before the status-sync commits. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
 
-The next implementation slice should expand only the audited Reference Team dependency coverage and close the first real cross-character handoff/state requirement with source-valid execution evidence. Do not add guessed Team Compatibility semantics merely to fill the contract, and do not consume the resolved team context in DPS until the required contribution set is complete enough to replace stale hidden teammate assumptions safely.
+#### Phase 2 second handoff-lifecycle slice — draft PR #162
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+The next bounded slice now closes the source-proven Iuno Outro handoff lifecycle without manufacturing Reference Team timing:
+
+- `src/combat/incomingTransferState.ts` admits `CHARACTER` as a source layer and can terminate a transfer at an explicit affected-Resonator switch-out event;
+- the new switch-out behavior is opt-in per transfer window, so existing Echo/Sonata/Weapon transfers retain their prior duration behavior unless a source-specific adapter proves otherwise;
+- `src/combat/iunoOutroTransferAdapter.ts` source-locks `iuno-outro-from-gloom-to-gleam` and derives its Heavy Attack DMG Amplification value and duration from the canonical fact text rather than creating a parallel buff-value table;
+- an explicit Iuno `OUTRO_SWITCH` event binds the actual incoming Resonator; activity queries additionally require explicit switch-out event history and end at the earlier of source duration or the affected recipient's switch-out;
+- the Reference Team manifest splits Iuno into `iuno-outro-handoff-lifecycle-contract = RESOLVED` and `iuno-outro-augusta-window-overlap = PENDING`;
+- Iuno's selected rotation remains `SOURCE_SEQUENCE_ONLY`, so no Iuno Outro timestamp or Augusta Heavy Attack overlap is inferred;
+- no canonical profile `pendingExecutionId` is closed merely because the reusable primitive now exists;
+- dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Iuno amplification is consumed by Augusta DPS;
+- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+
+TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982** before this status-sync commit, including source/profile audits, full Node tests, strict web build, real-Chrome owned-build regressions and whitespace checks.
+
+The next slice must stay dependency-led. Prefer the next source-complete Reference Team contribution/state boundary; if exact timeline/state evidence is unavailable, leave it PENDING rather than converting `SOURCE_SEQUENCE_ONLY` prose into invented timestamps. Do not consume the partial team context in DPS yet.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

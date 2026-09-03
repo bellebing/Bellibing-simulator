@@ -39,6 +39,7 @@ export const IUNO_OUTRO_TRANSFER_SEMANTIC_SPLIT = {
   notes: [
     'The canonical Iuno Outro fact owns the transfer amount, duration and switch-out termination semantics.',
     'This adapter activates only from an explicit Iuno OUTRO_SWITCH event and binds the actual incoming Resonator; it does not invent when that event occurs in a profile rotation.',
+    'Iuno-specific activity queries require explicit switch-out event history rather than defaulting to an assumed no-switch lifecycle.',
     'No canonical profile pendingExecutionId closes from primitive availability alone. Reference Team 01 still requires a source-valid Iuno Outro -> Augusta event and overlap timeline before the contribution can feed DPS.',
   ],
 } as const;
@@ -131,7 +132,7 @@ export function isIunoOutroTransferActive(
   window: IncomingTransferWindow,
   actorId: string,
   atSeconds: number,
-  switchOutEvents: readonly ResonatorSwitchOutEvent[] = [],
+  switchOutEvents: readonly ResonatorSwitchOutEvent[],
 ): boolean {
   if (
     window.adapterId !== IUNO_OUTRO_ADAPTER_ID

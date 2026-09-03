@@ -248,11 +248,11 @@ At the same time, remove any unsafe hidden teammate coupling that would let UI/t
 
 For Reference Team 01, the execution boundary must additionally identify the selected teammate presets/loadouts and carry source-linked resolved contributions/unresolved dependencies so stale Iuno/Shorekeeper scalars cannot survive a teammate change.
 
-#### Phase 2 first execution-context slice — draft PR #161
+#### Phase 2 first execution-context slice — PR #161
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-The first bounded implementation slice now exists on draft PR #161:
+The first bounded implementation slice is review-ready on PR #161:
 
 - `src/teamExecutionContext.ts` adds a resolved team-execution boundary separate from legacy `BuildContext`;
 - every selected team member must resolve an exact verified Character preset, default weapon/rank, Echo/Sonata loadout identity, stat profile and rotation execution identity;
@@ -264,7 +264,7 @@ The first bounded implementation slice now exists on draft PR #161:
 - the Reference Team manifest is intentionally `PARTIAL`, therefore `dpsReady = false`;
 - missing/mismatched teammate preset selection and unselected contribution sources fail closed in tests.
 
-Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before this status-sync commit. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
+Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before the status-sync commits. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
 
 The next implementation slice should expand only the audited Reference Team dependency coverage and close the first real cross-character handoff/state requirement with source-valid execution evidence. Do not add guessed Team Compatibility semantics merely to fill the contract, and do not consume the resolved team context in DPS until the required contribution set is complete enough to replace stale hidden teammate assumptions safely.
 

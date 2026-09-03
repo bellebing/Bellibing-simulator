@@ -43,9 +43,9 @@ test('Iuno Outro binds the actual incoming Resonator and honors source duration'
   assert.equal(window.startedAtSeconds, 3);
   assert.equal(window.expiresAtSeconds, 17);
   assert.equal(window.endsOnIncomingSwitchOut, true);
-  assert.equal(isIunoOutroTransferActive(window, 'augusta', 16.999), true);
-  assert.equal(isIunoOutroTransferActive(window, 'augusta', 17), false);
-  assert.equal(isIunoOutroTransferActive(window, 'iuno', 4), false);
+  assert.equal(isIunoOutroTransferActive(window, 'augusta', 16.999, []), true);
+  assert.equal(isIunoOutroTransferActive(window, 'augusta', 17, []), false);
+  assert.equal(isIunoOutroTransferActive(window, 'iuno', 4, []), false);
 });
 
 test('Iuno Outro ends exactly when the affected incoming Resonator switches out', () => {

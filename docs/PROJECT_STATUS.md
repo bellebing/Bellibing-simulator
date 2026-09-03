@@ -141,6 +141,23 @@ The audit must classify findings as `KEEP`, `SIMPLIFY`, `PARK/DELETE` or `MISSIN
 
 A known architecture risk to inspect is `AugustaStandardContext`: it currently contains fixed team-context values including Shorekeeper-related crit context and static amplification fields. That is valid only while the context is locked. Arbitrary teammate replacement must not become possible until the engine can no longer silently retain stale bonuses from the old team.
 
+### Phase 1 audit result — 2026-09-03
+
+The targeted end-to-end audit is recorded in [`REFERENCE_TEAM_01_FOUNDATION_AUDIT.md`](REFERENCE_TEAM_01_FOUNDATION_AUDIT.md). The important result is that canonical source ownership is mostly in the right place, but team execution composition is not yet truthful/composable enough for arbitrary teammate replacement.
+
+Verified findings:
+
+- Iuno and Shorekeeper already have canonical source facts for the major Augusta-facing values used by the locked evaluator; the missing layer is activation/state/timeline composition, not another numeric buff database;
+- current `TeamProfile` proves Character identity/roles but does not identify the exact teammate preset/loadout package consumed by DPS;
+- `buildContextFromVerifiedPreset()` resolves canonical profiles and then collapses them to an ID-only legacy `BuildContext`, so teammate contribution source/state is not carried to the evaluator;
+- current canonical Iuno/Shorekeeper presets have moved beyond the older support package embedded in the V9.15 Augusta context: Iuno is Moonlit/Heron in the Augusta Hybrid preset and Shorekeeper selects Stellar Symphony R1 with Rejuvenating/Fallacy;
+- `AUGUSTA_STD_V1.staticContextAtkPct = 0.37` contains the historical Thunderflare R1 +12% permanent ATK while `augustaEchoEvaluator` already includes the canonical same +12% upstream. This is a verified duplicate contribution in the locked parity path;
+- no scalar-only correction was made because the same static context still represents an older teammate-loadout package. Fixing only the duplicate would not create a truthful current Reference Team context;
+- the current evaluator remains fail-closed outside its exact supported Augusta/team/rotation envelope, so the fixed teammate scalars are not authorization for dynamic teammate-edit UI;
+- broad teammate replacement stays blocked until selected teammate presets/loadouts and required canonical contributions are resolved into an execution context that fails closed on unknown state.
+
+Phase 2 should therefore implement the smallest preset/mode compatibility semantics plus a resolved team-execution context/dependency manifest. It must reference canonical Character/Weapon/Echo/Sonata facts rather than copy their values. The existing incoming-transfer primitive should be extended for Character sources only when doing so closes the first real handoff dependency.
+
 ## Best Available Teams — locked product direction
 
 See [`BEST_AVAILABLE_TEAMS_DIRECTION.md`](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the full contract. Core decisions:
@@ -212,6 +229,8 @@ There is one active roadmap for the initial product foundation.
 - do not create a broad UI or another Character worker during this audit;
 - implement only small fixes that are clearly required to make the foundation truthful or remove high-cost duplication.
 
+The audit itself is complete on the review branch. No combat-math change was made because the verified Thunderflare duplicate is coupled to an older unresolved teammate-loadout package. Phase 1 exits after review/state synchronization; executable composition work belongs to Phase 2/3.
+
 ### Phase 2 — minimal Team Compatibility + context composition contract
 
 Define the smallest source-safe semantic layer required by Best Available Teams:
@@ -226,6 +245,8 @@ Define the smallest source-safe semantic layer required by Best Available Teams:
 Prefer deriving these facts from canonical mechanics/effects/profiles. Do not build a second hand-maintained tier-list database.
 
 At the same time, remove any unsafe hidden teammate coupling that would let UI/team selection drift away from the evaluator's real context.
+
+For Reference Team 01, the execution boundary must additionally identify the selected teammate presets/loadouts and carry source-linked resolved contributions/unresolved dependencies so stale Iuno/Shorekeeper scalars cannot survive a teammate change.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

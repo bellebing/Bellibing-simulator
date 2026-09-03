@@ -1,7 +1,7 @@
-import { IUNO_ACTION_FACTS } from './characterMechanics/iunoRawFacts.ts';
 import { THE_SHOREKEEPER_PASSIVE_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 import { PROFILE_REGISTRY } from './profileCatalogs.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
+import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -28,7 +28,19 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
       'Selected Augusta preset must resolve Thunderflare Dominion and its canonical permanent/ALWAYS self effect.',
   },
   {
-    id: 'iuno-outro-heavy-amplification-to-augusta',
+    id: 'iuno-outro-handoff-lifecycle-contract',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'iuno-outro-from-gloom-to-gleam',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Canonical Iuno Outro target/value/duration and affected-Resonator switch-out lifecycle are executable when an explicit Iuno OUTRO_SWITCH event is supplied.',
+  },
+  {
+    id: 'iuno-outro-augusta-window-overlap',
     sourceKind: 'CHARACTER_MECHANIC',
     sourceId: 'iuno-outro-from-gloom-to-gleam',
     sourceCharacterId: 'iuno',
@@ -37,7 +49,7 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     resolutionStatus: 'PENDING',
     requiredForDps: true,
     requirementSummary:
-      'Requires executable Iuno Outro → Augusta targeting plus source-valid transfer-window and switch lifecycle during the evaluated Augusta damage window.',
+      'Requires a source-valid Reference Team event timeline proving when Iuno Outro hands off to Augusta and which evaluated Augusta Heavy Attack events occur before switch-out or duration expiry.',
   },
   {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',
@@ -74,9 +86,9 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
     throw new Error(`Reference Team 01: TFD-ATK has no value for selected rank ${augusta.defaultWeapon.rank}`);
   }
 
-  const iunoOutro = IUNO_ACTION_FACTS.find((fact) => fact.factId === 'iuno-outro-from-gloom-to-gleam');
-  if (!iunoOutro || iunoOutro.characterId !== 'iuno' || iunoOutro.verificationStatus !== 'VERIFIED') {
-    throw new Error('Reference Team 01: canonical Iuno Outro source is missing or unverified');
+  const iunoOutroIssues = validateIunoOutroTransferContract();
+  if (iunoOutroIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
   }
 
   const stellarealm = THE_SHOREKEEPER_PASSIVE_FACTS.find(
@@ -88,11 +100,12 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
 }
 
 /**
- * First bounded Reference Team 01 execution-context slice.
+ * Bounded Reference Team 01 execution-context foundation.
  *
- * Dependency coverage is intentionally PARTIAL. This context therefore cannot
- * become DPS-ready even if the currently listed pending dependencies are later
- * resolved; the remaining audited execution blockers must first be represented.
+ * Dependency coverage is intentionally PARTIAL. Source-valid primitive/lifecycle
+ * semantics may be marked RESOLVED independently from profile timeline overlap,
+ * but the context cannot become DPS-ready until the audited dependency set is
+ * complete and every required execution dependency is resolved.
  */
 export function buildReferenceTeam01ExecutionContext(): ResolvedTeamExecutionContext {
   const context = resolveTeamExecutionContext(PROFILE_REGISTRY, {

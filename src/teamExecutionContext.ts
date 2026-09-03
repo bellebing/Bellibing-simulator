@@ -2,6 +2,7 @@ import type { ProfileBase, ResolvedBuildPreset, RotationExecutionStatus } from '
 import { resolveBuildPreset, type ProfileRegistry } from './profileRegistry.ts';
 
 export type TeamExecutionResolutionStatus = 'RESOLVED' | 'PENDING' | 'UNKNOWN';
+export type TeamExecutionDependencyCoverageStatus = 'PARTIAL' | 'COMPLETE';
 export type TeamExecutionSourceKind =
   | 'CHARACTER_MECHANIC'
   | 'WEAPON_EFFECT'
@@ -46,6 +47,7 @@ export interface TeamExecutionContributionDependency {
 export interface TeamExecutionContextInput {
   actorPresetId: string;
   memberPresetIds: readonly string[];
+  dependencyCoverageStatus: TeamExecutionDependencyCoverageStatus;
   contributionDependencies: readonly TeamExecutionContributionDependency[];
 }
 
@@ -53,6 +55,7 @@ export interface ResolvedTeamExecutionContext {
   teamProfileId: string;
   actorPresetId: string;
   members: readonly TeamExecutionMemberSelection[];
+  dependencyCoverageStatus: TeamExecutionDependencyCoverageStatus;
   contributions: readonly TeamExecutionContributionDependency[];
   unresolvedDependencies: readonly TeamExecutionContributionDependency[];
   dpsReady: boolean;
@@ -110,7 +113,8 @@ function resolveMemberSelection(
 /**
  * Resolve exact member preset/loadout identity before any team contribution can
  * cross into DPS. This does not calculate buffs or infer timing/state.
- * Required PENDING/UNKNOWN dependencies keep the context fail-closed.
+ * Required PENDING/UNKNOWN dependencies and partial dependency coverage both
+ * keep the context fail-closed.
  */
 export function resolveTeamExecutionContext(
   registry: ProfileRegistry,
@@ -192,12 +196,15 @@ export function resolveTeamExecutionContext(
   const unresolvedDependencies = input.contributionDependencies.filter(
     (dependency) => dependency.resolutionStatus !== 'RESOLVED',
   );
-  const dpsReady = !unresolvedDependencies.some((dependency) => dependency.requiredForDps);
+  const dpsReady =
+    input.dependencyCoverageStatus === 'COMPLETE'
+    && !unresolvedDependencies.some((dependency) => dependency.requiredForDps);
 
   return {
     teamProfileId: team.id,
     actorPresetId: input.actorPresetId,
     members: selections,
+    dependencyCoverageStatus: input.dependencyCoverageStatus,
     contributions: [...input.contributionDependencies],
     unresolvedDependencies,
     dpsReady,

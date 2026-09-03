@@ -266,11 +266,11 @@ The first bounded implementation slice is review-ready on PR #161:
 
 Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before the status-sync commits. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
 
-#### Phase 2 second handoff-lifecycle slice — draft PR #162
+#### Phase 2 second handoff-lifecycle slice — PR #162
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-The next bounded slice now closes the source-proven Iuno Outro handoff lifecycle without manufacturing Reference Team timing:
+The second bounded implementation slice is review-ready on PR #162 and closes the source-proven Iuno Outro handoff lifecycle without manufacturing Reference Team timing:
 
 - `src/combat/incomingTransferState.ts` admits `CHARACTER` as a source layer and can terminate a transfer at an explicit affected-Resonator switch-out event;
 - the new switch-out behavior is opt-in per transfer window, so existing Echo/Sonata/Weapon transfers retain their prior duration behavior unless a source-specific adapter proves otherwise;
@@ -282,7 +282,7 @@ The next bounded slice now closes the source-proven Iuno Outro handoff lifecycle
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Iuno amplification is consumed by Augusta DPS;
 - `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982** before this status-sync commit, including source/profile audits, full Node tests, strict web build, real-Chrome owned-build regressions and whitespace checks.
+TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982**. The first PROJECT_STATUS sync head `c83b7aeff06c027f318ad0327a3e3895113be44b` passed full repo **Verify #983**. This review-status-only documentation commit is the final hygiene step and must pass the same verification contract before #162 is marked ready in GitHub.
 
 The next slice must stay dependency-led. Prefer the next source-complete Reference Team contribution/state boundary; if exact timeline/state evidence is unavailable, leave it PENDING rather than converting `SOURCE_SEQUENCE_ONLY` prose into invented timestamps. Do not consume the partial team context in DPS yet.
 

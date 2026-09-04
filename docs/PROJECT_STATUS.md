@@ -304,12 +304,12 @@ Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #
 
 #### Phase 2 blocker audit — Stellarealm and Wan Light
 
-The next two Reference Team state candidates were re-audited against canonical structured data before implementation. Neither is safe to promote yet:
+The next two Reference Team state candidates were re-audited against canonical structured data before implementation. Their executable state still fails closed:
 
 - **Shorekeeper Stellarealm:** the canonical fact proves Outer → Inner → Supernal evolution and the source duration, but the executable data does not yet own the exact Energy Regen → party CRIT transfer function. Shorekeeper S1 also states that Discernment no longer ends the existing Stellarealm, which proves a baseline termination interaction exists without structurally specifying the exact S0 termination rule in the baseline fact. Do not infer that lifecycle from the S1 modifier or from the `SOURCE_SEQUENCE_ONLY` rotation.
-- **Iuno Blessing of the Wan Light:** the base canonical `iuno-forte-lunar-cycle` fact explicitly owns shield-gain cadence, stack value, duration, cap and switch-out termination, but is currently scoped `SELF`. Iuno S2 separately refers to "Resonators in the team with 10 stacks", while no current canonical recipient/stack-ownership rule proves that Augusta receives the base stacks. The historical Augusta evaluator's shield-event → Wan Light behavior therefore remains a historical assumption, not current source truth. Track this as `BUG-029` and keep Augusta-side Wan Light PENDING.
+- **Iuno Blessing of the Wan Light:** the original audit correctly found that the mixed `iuno-forte-lunar-cycle` SELF fact could not safely prove Augusta recipient ownership. PR #167 source-corrects that boundary with a separate current-source recipient fact for the receiving Resonator inside Full Moon Domain. The runtime Domain + Augusta shield + stack timeline is still not executable, so the historical evaluator behavior remains unauthorised as current runtime truth and `BUG-029` stays open.
 
-These findings are blockers, not reasons to manufacture a generic realm/stack engine. The next implemented slice was selected from current Shorekeeper gear because its source trigger semantics are explicit.
+These findings are blockers, not reasons to manufacture a generic realm/stack engine. Implement only source-valid state that can bind explicit events without invented cross-character timing.
 
 #### Phase 2 fourth healing-support slice — PR #164
 
@@ -352,7 +352,7 @@ Code head `42c0e1c8b341138c2371a6fbf0117decc3d7edab` passed full repo **Verify #
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-Draft PR #166 binds the already source-reviewed **Moonlit Clouds 5-piece `S08_5PC_INCOMING_ATK`** lifecycle to the selected Iuno Augusta-Hybrid package without adding another transfer engine:
+PR #166 is review-ready and binds the already source-reviewed **Moonlit Clouds 5-piece `S08_5PC_INCOMING_ATK`** lifecycle to the selected Iuno Augusta-Hybrid package without adding another transfer engine:
 
 - the selected Reference Team Iuno loadout must contain `sonata-8`, and the existing `sonataOutroTransferAdapter.ts` contract for `S08_5PC_INCOMING_ATK` is validated at the Reference Team boundary;
 - one explicit Iuno `OUTRO_SWITCH` event can activate both the canonical Iuno Character-Outro transfer and Moonlit incoming-ATK transfer for the actual incoming Resonator;
@@ -365,9 +365,28 @@ Draft PR #166 binds the already source-reviewed **Moonlit Clouds 5-piece `S08_5P
 - Moongazer's Sigil was rechecked during this slice: its current modeled effects are SELF/Iuno-personal-DPS state, so they are parked for this Reference Team milestone rather than broadening scope;
 - `BUG-028`, `BUG-029`, `BUG-010` and `BUG-008` remain open/blocking as applicable; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-Code head `52d1c3511f227383aab347d0ab409af387d19f60` passed full repo **Verify #994** before this PROJECT_STATUS sync. PR #166 must remain draft until the final status/Handoff head passes the same verification contract.
+Code head `52d1c3511f227383aab347d0ab409af387d19f60` passed full repo **Verify #994**. Final PROJECT_STATUS/Handoff head `276461e05e029ee7fa6a7ceae029c60109efe011` passed full repo **Verify #995**; PR #166 is review-ready.
 
-The next implementation should stop adding isolated source lifecycles unless they close a remaining Augusta-facing dependency. The highest-leverage next audit is now the **Reference Team event/timeline boundary** itself: determine whether current canonical Iuno/Shorekeeper source sequences plus the already-resolved lifecycle primitives can support a narrow explicit Reference Team execution fixture without inventing timestamps. If exact cross-character ordering/timing is not source-resolved, record that as the blocker and do not manufacture a team timeline.
+#### Phase 2 seventh Iuno Wan Light source-correction slice — PR #167
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #167 corrects canonical Iuno Wan Light source ownership first, without claiming executable Augusta stacks or closing `BUG-029`:
+
+- `iuno-forte-lunar-cycle` remains Iuno `SELF` form/domain-generation state and no longer owns recipient-stack semantics;
+- new canonical `iuno-full-moon-domain-wan-light-recipient` owns the receiving-Resonator rule: a receiving Resonator inside Iuno's Full Moon Domain that gains a Shield gains one Blessing of the Wan Light stack at most once every 0.5s;
+- the same source fact owns 4% all-DMG Amplification per stack, max 10 stacks, 10s duration, duration refresh on a new stack and removal when that receiving Resonator switches off field;
+- `iuno-inherent-derivation` remains separate `SELF` source truth for Iuno's immediate five stacks;
+- current Prydwen + Wutheringlab cross-checks dated 2026-09-04 support active/receiving-Resonator semantics and explicitly discuss Augusta as a practical recipient in Iuno/Augusta teams;
+- branch-local Character Mechanics count is therefore **1867 canonical facts**, while the current-main coverage checkpoint above correctly remains **1866** until integration;
+- source-semantic regressions lock the split, and historical current-coverage snapshots were advanced from 1866 → 1867; ninth-batch Iuno inventory advances from profile/raw 36/35 → 37/36;
+- no runtime Full Moon Domain duration/timeline, Augusta shield event/timestamp, Wan Light stack engine or Augusta damage-window overlap is introduced;
+- no combat/DPS, `.37`, UI, optimizer, quickswap or unrelated Character behavior changes;
+- Reference Team coverage remains `PARTIAL`, `dpsReady = false`, and `BUG-029` remains **HIGH / KNOWN GAP**.
+
+Code/test head `1875aeae65bdaf744956881caf20825a5bd3f4d7` passed full repo **Verify #998** and Character Mechanics import **#134**. A final docs/Handoff verification is still required before PR #167 is review-ready.
+
+The next implementation should model Wan Light recipient/domain/shield/stack runtime only if canonical state can bind explicit events without inventing cross-character timestamps. Otherwise record the unresolved execution boundary and park it. Do not feed source-correct but non-executable Wan Light into Augusta DPS.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

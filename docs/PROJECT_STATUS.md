@@ -390,7 +390,7 @@ Code/test head `1875aeae65bdaf744956881caf20825a5bd3f4d7` passed full repo **Ver
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-Draft PR #168 adds the smallest executable recipient-state core justified by the corrected canonical Wan Light fact, without manufacturing Reference Team timing:
+PR #168 is review-ready and adds the smallest executable recipient-state core justified by the corrected canonical Wan Light fact, without manufacturing Reference Team timing:
 
 - `src/combat/iunoWanLightRecipientState.ts` source-locks `iuno-full-moon-domain-wan-light-recipient` and derives the 0.5s cadence, 4% all-DMG Amplification per stack, max 10 and 10s duration from the canonical Character fact;
 - `SHIELD_GAIN` is an explicit recipient event whose caller must also explicitly prove `insideIunoFullMoonDomain` at that timestamp; the runtime never infers Domain activity from Iuno's `SOURCE_SEQUENCE_ONLY` source sequence;
@@ -402,7 +402,7 @@ Draft PR #168 adds the smallest executable recipient-state core justified by the
 - no Wan Light state is consumed by Augusta DPS, no canonical profile `pendingExecutionId` closes, coverage remains `PARTIAL`, and `dpsReady = false`;
 - `BUG-029` remains **HIGH / KNOWN GAP**; `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer, quickswap or unrelated Character change.
 
-Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. Final PROJECT_STATUS/Handoff verification is required before PR #168 becomes review-ready.
+Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. PROJECT_STATUS/Handoff sync head `52fb6cb8a3f9926a609e02a066aede3288ea8417` passed full repo **Verify #1001**. PR #168 is review-ready only after the current review/hygiene head also passes full Verify.
 
 The next implementation should not bypass the remaining event/timeline boundary. Close actual Augusta Wan Light overlap only if explicit Reference Team evidence supplies both in-Domain Augusta Shield-gain events and evaluated Augusta action timestamps; separately resolve the at-cap trigger rule from stronger source evidence before allowing a qualifying max-stack event. Otherwise keep both dependencies pending and park them.
 

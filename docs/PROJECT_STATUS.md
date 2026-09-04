@@ -307,7 +307,7 @@ Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #
 The next two Reference Team state candidates were re-audited against canonical structured data before implementation. Their executable state still fails closed:
 
 - **Shorekeeper Stellarealm:** the canonical fact proves Outer → Inner → Supernal evolution and the source duration, but the executable data does not yet own the exact Energy Regen → party CRIT transfer function. Shorekeeper S1 also states that Discernment no longer ends the existing Stellarealm, which proves a baseline termination interaction exists without structurally specifying the exact S0 termination rule in the baseline fact. Do not infer that lifecycle from the S1 modifier or from the `SOURCE_SEQUENCE_ONLY` rotation.
-- **Iuno Blessing of the Wan Light:** the original audit correctly found that the mixed `iuno-forte-lunar-cycle` SELF fact could not safely prove Augusta recipient ownership. PR #167 source-corrects that boundary with a separate current-source recipient fact for the receiving Resonator inside Full Moon Domain. The runtime Domain + Augusta shield + stack timeline is still not executable, so the historical evaluator behavior remains unauthorised as current runtime truth and `BUG-029` stays open.
+- **Iuno Blessing of the Wan Light:** the original audit correctly found that the mixed `iuno-forte-lunar-cycle` SELF fact could not safely prove Augusta recipient ownership. PR #167 source-corrects that boundary with a separate current-source recipient fact for the receiving Resonator inside Full Moon Domain. PR #168 adds only the bounded recipient-state core from explicit in-Domain Shield events; Full Moon Domain timing, actual Augusta Shield timestamps, at-cap refresh semantics and Augusta damage overlap remain unresolved. The historical evaluator behavior therefore remains unauthorised as current runtime truth and `BUG-029` stays open.
 
 These findings are blockers, not reasons to manufacture a generic realm/stack engine. Implement only source-valid state that can bind explicit events without invented cross-character timing.
 
@@ -384,9 +384,27 @@ PR #167 corrects canonical Iuno Wan Light source ownership first, without claimi
 - no combat/DPS, `.37`, UI, optimizer, quickswap or unrelated Character behavior changes;
 - Reference Team coverage remains `PARTIAL`, `dpsReady = false`, and `BUG-029` remains **HIGH / KNOWN GAP**.
 
-Code/test head `1875aeae65bdaf744956881caf20825a5bd3f4d7` passed full repo **Verify #998** and Character Mechanics import **#134**. A final docs/Handoff verification is still required before PR #167 is review-ready.
+Code/test head `1875aeae65bdaf744956881caf20825a5bd3f4d7` passed full repo **Verify #998** and Character Mechanics import **#134**. Final PROJECT_STATUS/Handoff head `8e8e404814ffd6759efd376bd7ee69ec2ea8fc78` passed full repo **Verify #999** and Character Mechanics import **#135**; PR #167 is review-ready.
 
-The next implementation should model Wan Light recipient/domain/shield/stack runtime only if canonical state can bind explicit events without inventing cross-character timestamps. Otherwise record the unresolved execution boundary and park it. Do not feed source-correct but non-executable Wan Light into Augusta DPS.
+#### Phase 2 eighth Iuno Wan Light recipient-runtime slice — PR #168
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+Draft PR #168 adds the smallest executable recipient-state core justified by the corrected canonical Wan Light fact, without manufacturing Reference Team timing:
+
+- `src/combat/iunoWanLightRecipientState.ts` source-locks `iuno-full-moon-domain-wan-light-recipient` and derives the 0.5s cadence, 4% all-DMG Amplification per stack, max 10 and 10s duration from the canonical Character fact;
+- `SHIELD_GAIN` is an explicit recipient event whose caller must also explicitly prove `insideIunoFullMoonDomain` at that timestamp; the runtime never infers Domain activity from Iuno's `SOURCE_SEQUENCE_ONLY` source sequence;
+- below cap, qualifying recipient Shield events respect the 0.5s minimum gain interval and each actually gained new stack refreshes the 10s duration;
+- exact expiry follows the repository's existing half-open timed-window convention, and explicit `RESONATOR_SWITCH_OUT` clears the affected recipient's stacks;
+- a qualifying Shield event at 10 stacks fails closed because current source says gaining a new stack resets duration but does not explicitly prove whether an at-cap trigger refreshes when no additional stack can be gained;
+- the Reference Team manifest therefore marks `iuno-wan-light-recipient-stack-core-contract = RESOLVED` while keeping `iuno-wan-light-at-cap-trigger-semantics = PENDING` and `iuno-wan-light-augusta-event-overlap = PENDING`;
+- no Full Moon Domain duration/timeline, actual Augusta Shield timestamp or evaluated Augusta damage overlap is invented;
+- no Wan Light state is consumed by Augusta DPS, no canonical profile `pendingExecutionId` closes, coverage remains `PARTIAL`, and `dpsReady = false`;
+- `BUG-029` remains **HIGH / KNOWN GAP**; `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer, quickswap or unrelated Character change.
+
+Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. Final PROJECT_STATUS/Handoff verification is required before PR #168 becomes review-ready.
+
+The next implementation should not bypass the remaining event/timeline boundary. Close actual Augusta Wan Light overlap only if explicit Reference Team evidence supplies both in-Domain Augusta Shield-gain events and evaluated Augusta action timestamps; separately resolve the at-cap trigger rule from stronger source evidence before allowing a qualifying max-stack event. Otherwise keep both dependencies pending and park them.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

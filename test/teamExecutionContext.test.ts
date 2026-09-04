@@ -34,64 +34,47 @@ test('Reference Team 01 binds exact selected member preset/loadout identity', ()
 
   assert.deepEqual(shorekeeper.defaultWeapon, { id: 'stellar-symphony', rank: 1 });
   assert.equal(shorekeeper.echoLoadoutProfileId, 'shorekeeper-rejuvenating-fallacy');
+  assert.deepEqual(shorekeeper.sonataSetIds, ['sonata-7']);
+  assert.equal(shorekeeper.mainEchoId, 'echo-60000605');
   assert.equal(shorekeeper.rotationExecutionStatus, 'SOURCE_SEQUENCE_ONLY');
 });
 
-test('Reference Team 01 separates resolved handoff/team-window lifecycles from pending overlap', () => {
+test('Reference Team 01 separates resolved source lifecycles from pending Augusta overlap', () => {
   const context = REFERENCE_TEAM_01_EXECUTION_CONTEXT;
   assert.equal(context.dependencyCoverageStatus, 'PARTIAL');
   assert.equal(context.dpsReady, false);
 
-  const thunderflare = context.contributions.find(
-    (dependency) => dependency.id === 'augusta-thunderflare-permanent-atk',
-  );
-  assert.ok(thunderflare);
-  assert.equal(thunderflare.sourceKind, 'WEAPON_EFFECT');
-  assert.equal(thunderflare.sourceId, 'TFD-ATK');
-  assert.equal(thunderflare.resolutionStatus, 'RESOLVED');
+  const expectedResolved = [
+    ['augusta-thunderflare-permanent-atk', 'TFD-ATK'],
+    ['iuno-outro-handoff-lifecycle-contract', 'iuno-outro-from-gloom-to-gleam'],
+    ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
+    ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
+    ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
+  ] as const;
+  for (const [id, sourceId] of expectedResolved) {
+    const dependency = context.contributions.find((row) => row.id === id);
+    assert.ok(dependency, `missing ${id}`);
+    assert.equal(dependency.sourceId, sourceId);
+    assert.equal(dependency.resolutionStatus, 'RESOLVED');
+  }
 
-  const iunoLifecycle = context.contributions.find(
-    (dependency) => dependency.id === 'iuno-outro-handoff-lifecycle-contract',
-  );
-  assert.ok(iunoLifecycle);
-  assert.equal(iunoLifecycle.sourceId, 'iuno-outro-from-gloom-to-gleam');
-  assert.equal(iunoLifecycle.resolutionStatus, 'RESOLVED');
-
-  const iunoOverlap = context.contributions.find(
-    (dependency) => dependency.id === 'iuno-outro-augusta-window-overlap',
-  );
-  assert.ok(iunoOverlap);
-  assert.equal(iunoOverlap.sourceId, 'iuno-outro-from-gloom-to-gleam');
-  assert.equal(iunoOverlap.resolutionStatus, 'PENDING');
-
-  const shorekeeperOutroLifecycle = context.contributions.find(
-    (dependency) => dependency.id === 'shorekeeper-outro-team-amplification-lifecycle-contract',
-  );
-  assert.ok(shorekeeperOutroLifecycle);
-  assert.equal(shorekeeperOutroLifecycle.sourceId, 'the-shorekeeper-outro-binary-butterfly');
-  assert.equal(shorekeeperOutroLifecycle.resolutionStatus, 'RESOLVED');
-
-  const shorekeeperOutroOverlap = context.contributions.find(
-    (dependency) => dependency.id === 'shorekeeper-outro-augusta-window-overlap',
-  );
-  assert.ok(shorekeeperOutroOverlap);
-  assert.equal(shorekeeperOutroOverlap.sourceId, 'the-shorekeeper-outro-binary-butterfly');
-  assert.equal(shorekeeperOutroOverlap.resolutionStatus, 'PENDING');
-
-  const stellarealm = context.contributions.find(
-    (dependency) => dependency.id === 'shorekeeper-stellarealm-party-crit-to-augusta',
-  );
-  assert.ok(stellarealm);
-  assert.equal(stellarealm.sourceId, 'the-shorekeeper-liberation-stellarealms');
-  assert.equal(stellarealm.resolutionStatus, 'PENDING');
+  const expectedPending = [
+    ['iuno-outro-augusta-window-overlap', 'iuno-outro-from-gloom-to-gleam'],
+    ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
+    ['shorekeeper-stellar-symphony-augusta-window-overlap', 'SSY-TEAM-ATK'],
+    ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],
+    ['shorekeeper-stellarealm-party-crit-to-augusta', 'the-shorekeeper-liberation-stellarealms'],
+  ] as const;
+  for (const [id, sourceId] of expectedPending) {
+    const dependency = context.contributions.find((row) => row.id === id);
+    assert.ok(dependency, `missing ${id}`);
+    assert.equal(dependency.sourceId, sourceId);
+    assert.equal(dependency.resolutionStatus, 'PENDING');
+  }
 
   assert.deepEqual(
     context.unresolvedDependencies.map((dependency) => dependency.id),
-    [
-      'iuno-outro-augusta-window-overlap',
-      'shorekeeper-outro-augusta-window-overlap',
-      'shorekeeper-stellarealm-party-crit-to-augusta',
-    ],
+    expectedPending.map(([id]) => id),
   );
 });
 

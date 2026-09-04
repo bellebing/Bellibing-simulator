@@ -1,6 +1,7 @@
 import { THE_SHOREKEEPER_PASSIVE_FACTS } from './characterMechanics/theShorekeeperRawFacts.ts';
 import { PROFILE_REGISTRY } from './profileCatalogs.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
+import { validateFallacySupportContracts } from '../combat/fallacySupportWindowAdapter.ts';
 import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
 import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeeperHealingSupportWindowAdapter.ts';
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
@@ -126,6 +127,54 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
       'Requires an executable Reference Team timeline proving a Shorekeeper heal-applied event and Augusta damage overlap inside the source-declared Sonata window.',
   },
   {
+    id: 'shorekeeper-fallacy-team-atk-lifecycle-contract',
+    sourceKind: 'ECHO_EFFECT',
+    sourceId: 'FALLACY_TEAM_ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Selected Fallacy of No Return team-ATK source semantics are executable from an explicit generic Fallacy Echo Skill cast without selecting an active-damage variant.',
+  },
+  {
+    id: 'shorekeeper-fallacy-team-atk-augusta-window-overlap',
+    sourceKind: 'ECHO_EFFECT',
+    sourceId: 'FALLACY_TEAM_ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires an executable Reference Team timeline proving the Fallacy cast timestamp and Augusta damage overlap inside the canonical team-ATK window.',
+  },
+  {
+    id: 'shorekeeper-fallacy-wielder-er-lifecycle-contract',
+    sourceKind: 'ECHO_EFFECT',
+    sourceId: 'FALLACY_WIELDER_ER',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'the-shorekeeper',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Selected Fallacy of No Return wielder Energy Regen source semantics are executable from an explicit generic Fallacy Echo Skill cast and remain scoped to Shorekeeper.',
+  },
+  {
+    id: 'shorekeeper-fallacy-wielder-er-stellarealm-state',
+    sourceKind: 'ECHO_EFFECT',
+    sourceId: 'FALLACY_WIELDER_ER',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'the-shorekeeper',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires actual Fallacy cast timing plus source-resolved Stellarealm Energy Regen sampling/formula before the wielder ER window may affect Shorekeeper party-crit state.',
+  },
+  {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',
     sourceKind: 'CHARACTER_MECHANIC',
     sourceId: 'the-shorekeeper-liberation-stellarealms',
@@ -135,7 +184,7 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     resolutionStatus: 'PENDING',
     requiredForDps: true,
     requirementSummary:
-      'Requires executable Stellarealm evolution plus source-valid Shorekeeper Energy Regen state before the party crit contribution can be resolved.',
+      'Requires executable Stellarealm evolution plus source-valid Shorekeeper Energy Regen state, including timed ER effects, before the party crit contribution can be resolved.',
   },
 ] as const;
 
@@ -181,6 +230,14 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const shorekeeperHealingSupportIssues = validateShorekeeperHealingSupportContracts();
   if (shorekeeperHealingSupportIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid Shorekeeper healing-support contracts: ${shorekeeperHealingSupportIssues.join('; ')}`);
+  }
+
+  if (shorekeeper.mainEchoId !== 'echo-60000605') {
+    throw new Error(`Reference Team 01: selected Shorekeeper main Echo is ${String(shorekeeper.mainEchoId)}, expected Fallacy of No Return`);
+  }
+  const fallacySupportIssues = validateFallacySupportContracts();
+  if (fallacySupportIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid Fallacy support contracts: ${fallacySupportIssues.join('; ')}`);
   }
 
   const stellarealm = THE_SHOREKEEPER_PASSIVE_FACTS.find(

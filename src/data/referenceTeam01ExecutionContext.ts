@@ -74,7 +74,7 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     resolutionStatus: 'PENDING',
     requiredForDps: true,
     requirementSummary:
-      'Requires a source-valid Reference Team event timeline proving Shorekeeper Outro cast timing and which evaluated Augusta damage events occur inside the 30-second team window.',
+      'Requires a source-valid Reference Team event timeline proving Shorekeeper Outro cast timing and which evaluated Augusta damage events occur inside the source-declared team window.',
   },
   {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',

@@ -2,6 +2,7 @@ import { THE_SHOREKEEPER_PASSIVE_FACTS } from './characterMechanics/theShorekeep
 import { PROFILE_REGISTRY } from './profileCatalogs.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
 import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
+import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeeperHealingSupportWindowAdapter.ts';
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
 import {
   resolveTeamExecutionContext,
@@ -77,6 +78,54 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
       'Requires a source-valid Reference Team event timeline proving Shorekeeper Outro cast timing and which evaluated Augusta damage events occur inside the source-declared team window.',
   },
   {
+    id: 'shorekeeper-stellar-symphony-team-atk-lifecycle-contract',
+    sourceKind: 'WEAPON_EFFECT',
+    sourceId: 'SSY-TEAM-ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Selected Stellar Symphony team-ATK source semantics are executable from an explicit Shorekeeper healing-qualified Resonance Skill cast.',
+  },
+  {
+    id: 'shorekeeper-stellar-symphony-augusta-window-overlap',
+    sourceKind: 'WEAPON_EFFECT',
+    sourceId: 'SSY-TEAM-ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires an executable Reference Team timeline proving the healing-qualified Shorekeeper Skill cast and Augusta damage overlap inside the source-declared weapon window.',
+  },
+  {
+    id: 'shorekeeper-rejuvenating-team-atk-lifecycle-contract',
+    sourceKind: 'SONATA_EFFECT',
+    sourceId: 'REJUV_ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Selected Rejuvenating Glow team-ATK source semantics are executable from an explicit Shorekeeper heal-applied event.',
+  },
+  {
+    id: 'shorekeeper-rejuvenating-augusta-window-overlap',
+    sourceKind: 'SONATA_EFFECT',
+    sourceId: 'REJUV_ATK',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires an executable Reference Team timeline proving a Shorekeeper heal-applied event and Augusta damage overlap inside the source-declared Sonata window.',
+  },
+  {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',
     sourceKind: 'CHARACTER_MECHANIC',
     sourceId: 'the-shorekeeper-liberation-stellarealms',
@@ -93,6 +142,8 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
 function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionContext): void {
   const augusta = context.members.find((member) => member.characterId === 'augusta');
   if (!augusta) throw new Error('Reference Team 01: Augusta member selection is missing');
+  const shorekeeper = context.members.find((member) => member.characterId === 'the-shorekeeper');
+  if (!shorekeeper) throw new Error('Reference Team 01: Shorekeeper member selection is missing');
 
   const thunderflareAtk = BROADBLADE_WEAPON_EFFECT_CATALOG.find((effect) => effect.effectId === 'TFD-ATK');
   if (!thunderflareAtk) throw new Error('Reference Team 01: canonical TFD-ATK source is missing');
@@ -119,6 +170,17 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const shorekeeperOutroIssues = validateShorekeeperOutroTeamWindowContract();
   if (shorekeeperOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Shorekeeper Outro team-window contract: ${shorekeeperOutroIssues.join('; ')}`);
+  }
+
+  if (shorekeeper.defaultWeapon.id !== 'stellar-symphony') {
+    throw new Error(`Reference Team 01: selected Shorekeeper weapon is ${shorekeeper.defaultWeapon.id}, expected stellar-symphony`);
+  }
+  if (!shorekeeper.sonataSetIds.includes('sonata-7')) {
+    throw new Error('Reference Team 01: selected Shorekeeper loadout does not contain Rejuvenating Glow / sonata-7');
+  }
+  const shorekeeperHealingSupportIssues = validateShorekeeperHealingSupportContracts();
+  if (shorekeeperHealingSupportIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid Shorekeeper healing-support contracts: ${shorekeeperHealingSupportIssues.join('; ')}`);
   }
 
   const stellarealm = THE_SHOREKEEPER_PASSIVE_FACTS.find(

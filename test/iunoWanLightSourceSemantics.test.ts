@@ -38,7 +38,7 @@ test('Full Moon Domain Wan Light source fact owns receiving-Resonator shield sta
   assert.match(wanLight.effectSummary, /4% all DMG Amplification/);
   assert.match(wanLight.effectSummary, /up to 10 stacks/);
   assert.match(wanLight.effectSummary, /lasts 10s/);
-  assert.match(wanLight.effectSummary, /new stack resets the buff duration/);
+  assert.match(wanLight.effectSummary, /gaining a new stack resets the buff duration/);
   assert.match(wanLight.effectSummary, /Switching that Resonator off field removes all stacks/);
 });
 

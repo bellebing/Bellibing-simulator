@@ -66,7 +66,7 @@ test('ninth Character Mechanics batch promotes five source-clean characters only
   const rows = [
     ['chisa', CHISA_CHARACTER_MECHANICS_PROFILE, 44],
     ['lupa', LUPA_CHARACTER_MECHANICS_PROFILE, 37],
-    ['iuno', IUNO_CHARACTER_MECHANICS_PROFILE, 36],
+    ['iuno', IUNO_CHARACTER_MECHANICS_PROFILE, 37],
     ['rover-havoc', ROVER_HAVOC_CHARACTER_MECHANICS_PROFILE, 34],
     ['rover-spectro', ROVER_SPECTRO_CHARACTER_MECHANICS_PROFILE, 28],
   ] as const;
@@ -87,7 +87,7 @@ test('ninth Character Mechanics batch promotes five source-clean characters only
   assert.equal(ROVER_SPECTRO_ACTION_FACTS.length, 16);
   assert.equal(CHISA_CHARACTER_MECHANIC_FACTS.length, 43);
   assert.equal(LUPA_CHARACTER_MECHANIC_FACTS.length, 36);
-  assert.equal(IUNO_CHARACTER_MECHANIC_FACTS.length, 35);
+  assert.equal(IUNO_CHARACTER_MECHANIC_FACTS.length, 36);
   assert.equal(ROVER_HAVOC_CHARACTER_MECHANIC_FACTS.length, 33);
   assert.equal(ROVER_SPECTRO_CHARACTER_MECHANIC_FACTS.length, 27);
 });
@@ -183,13 +183,13 @@ test('ninth-batch Tune Break facts remain at the shared-system boundary', () => 
   }
 });
 
-test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 unstarted / 1866 facts', () => {
+test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 unstarted / 1867 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
   assert.equal(audit.profileCount, 54);
   assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 3);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1867);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['chisa', 'lupa', 'iuno', 'rover-havoc', 'rover-spectro']) {

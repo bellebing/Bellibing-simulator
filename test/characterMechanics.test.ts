@@ -44,7 +44,7 @@ function assertNear(actual: number | null, expected: number, epsilon = 1e-10): v
 test('Augusta current Character-owned source action facts are exact Lv1-Lv10 representations', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1867);
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     if (fact.actionRole === 'NON_DAMAGE') {
@@ -163,7 +163,7 @@ test('mechanics coverage reports fifty-four released characters source-complete'
     'danjin',
     'xiangli-yao',
   ]);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1866);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1867);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

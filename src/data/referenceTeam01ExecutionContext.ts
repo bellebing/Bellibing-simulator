@@ -2,6 +2,7 @@ import { THE_SHOREKEEPER_PASSIVE_FACTS } from './characterMechanics/theShorekeep
 import { PROFILE_REGISTRY } from './profileCatalogs.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
 import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
+import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -52,6 +53,30 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
       'Requires a source-valid Reference Team event timeline proving when Iuno Outro hands off to Augusta and which evaluated Augusta Heavy Attack events occur before switch-out or duration expiry.',
   },
   {
+    id: 'shorekeeper-outro-team-amplification-lifecycle-contract',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'the-shorekeeper-outro-binary-butterfly',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Canonical Shorekeeper Outro TEAM scope, DMG Amplification value and duration are executable when an explicit Shorekeeper OUTRO_SKILL_CAST event plus selected-team membership are supplied.',
+  },
+  {
+    id: 'shorekeeper-outro-augusta-window-overlap',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'the-shorekeeper-outro-binary-butterfly',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires a source-valid Reference Team event timeline proving Shorekeeper Outro cast timing and which evaluated Augusta damage events occur inside the 30-second team window.',
+  },
+  {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',
     sourceKind: 'CHARACTER_MECHANIC',
     sourceId: 'the-shorekeeper-liberation-stellarealms',
@@ -89,6 +114,11 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const iunoOutroIssues = validateIunoOutroTransferContract();
   if (iunoOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
+  }
+
+  const shorekeeperOutroIssues = validateShorekeeperOutroTeamWindowContract();
+  if (shorekeeperOutroIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid canonical Shorekeeper Outro team-window contract: ${shorekeeperOutroIssues.join('; ')}`);
   }
 
   const stellarealm = THE_SHOREKEEPER_PASSIVE_FACTS.find(

@@ -282,9 +282,27 @@ The second bounded implementation slice is review-ready on PR #162 and closes th
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Iuno amplification is consumed by Augusta DPS;
 - `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982**. The first PROJECT_STATUS sync head `c83b7aeff06c027f318ad0327a3e3895113be44b` passed full repo **Verify #983**. This review-status-only documentation commit is the final hygiene step and must pass the same verification contract before #162 is marked ready in GitHub.
+TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982**. PROJECT_STATUS sync head `c83b7aeff06c027f318ad0327a3e3895113be44b` passed **Verify #983**. Final review/hygiene head `fd1ca912d46393b04f32a5c7196f7e557dfca084` passed full repo **Verify #984**; PR #162 is review-ready.
 
-The next slice must stay dependency-led. Prefer the next source-complete Reference Team contribution/state boundary; if exact timeline/state evidence is unavailable, leave it PENDING rather than converting `SOURCE_SEQUENCE_ONLY` prose into invented timestamps. Do not consume the partial team context in DPS yet.
+#### Phase 2 third team-window slice — PR #163
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+The third bounded implementation slice is open as draft PR #163 and closes only the source-proven Shorekeeper Outro Binary Butterfly team-window lifecycle:
+
+- `src/combat/shorekeeperOutroTeamWindowAdapter.ts` source-locks `the-shorekeeper-outro-binary-butterfly`;
+- TEAM scope, DMG Amplification value and duration are derived from the canonical Character fact rather than copied into the Reference Team manifest;
+- activation requires an explicit Shorekeeper `OUTRO_SKILL_CAST` event plus explicit selected-team membership, and activity queries cannot apply the window to a non-team Character;
+- the Reference Team manifest splits Shorekeeper Outro into `shorekeeper-outro-team-amplification-lifecycle-contract = RESOLVED` and `shorekeeper-outro-augusta-window-overlap = PENDING`;
+- Shorekeeper's selected rotation remains `SOURCE_SEQUENCE_ONLY`, so no Outro timestamp or Augusta damage-window overlap is inferred;
+- Shorekeeper Stellarealm crit contribution remains separately `PENDING`; this slice does not guess realm evolution, Energy Regen → crit transfer or exact team timing;
+- no canonical profile `pendingExecutionId` is closed merely because the source-specific lifecycle adapter exists;
+- dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Shorekeeper amplification is consumed by Augusta DPS;
+- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+
+Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #988** before this PROJECT_STATUS sync. PR #163 must remain draft until the final status/Handoff head passes the same verification contract.
+
+The next slice must stay dependency-led. Re-check Shorekeeper Stellarealm and Iuno Wan Light/shield-state against canonical structured evidence before implementation. If a required baseline lifecycle, formula, state transition or timestamp is not source-resolved, leave that dependency PENDING and choose another source-complete boundary rather than inferring it from `SOURCE_SEQUENCE_ONLY` prose.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

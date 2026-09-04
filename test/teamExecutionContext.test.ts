@@ -30,6 +30,7 @@ test('Reference Team 01 binds exact selected member preset/loadout identity', ()
 
   assert.deepEqual(iuno.defaultWeapon, { id: 'moongazers-sigil', rank: 1 });
   assert.equal(iuno.echoLoadoutProfileId, 'iuno-augusta-moonlit-heron');
+  assert.deepEqual(iuno.sonataSetIds, ['sonata-8']);
   assert.equal(iuno.rotationExecutionStatus, 'SOURCE_SEQUENCE_ONLY');
 
   assert.deepEqual(shorekeeper.defaultWeapon, { id: 'stellar-symphony', rank: 1 });
@@ -47,6 +48,7 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
   const expectedResolved = [
     ['augusta-thunderflare-permanent-atk', 'TFD-ATK'],
     ['iuno-outro-handoff-lifecycle-contract', 'iuno-outro-from-gloom-to-gleam'],
+    ['iuno-moonlit-incoming-atk-lifecycle-contract', 'S08_5PC_INCOMING_ATK'],
     ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
@@ -62,6 +64,7 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
 
   const expectedPending = [
     ['iuno-outro-augusta-window-overlap', 'iuno-outro-from-gloom-to-gleam'],
+    ['iuno-moonlit-augusta-window-overlap', 'S08_5PC_INCOMING_ATK'],
     ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-augusta-window-overlap', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],

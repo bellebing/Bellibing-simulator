@@ -37,7 +37,7 @@ test('Reference Team 01 binds exact selected member preset/loadout identity', ()
   assert.equal(shorekeeper.rotationExecutionStatus, 'SOURCE_SEQUENCE_ONLY');
 });
 
-test('Reference Team 01 separates resolved Iuno handoff lifecycle from pending team overlap', () => {
+test('Reference Team 01 separates resolved handoff/team-window lifecycles from pending overlap', () => {
   const context = REFERENCE_TEAM_01_EXECUTION_CONTEXT;
   assert.equal(context.dependencyCoverageStatus, 'PARTIAL');
   assert.equal(context.dpsReady, false);
@@ -64,6 +64,20 @@ test('Reference Team 01 separates resolved Iuno handoff lifecycle from pending t
   assert.equal(iunoOverlap.sourceId, 'iuno-outro-from-gloom-to-gleam');
   assert.equal(iunoOverlap.resolutionStatus, 'PENDING');
 
+  const shorekeeperOutroLifecycle = context.contributions.find(
+    (dependency) => dependency.id === 'shorekeeper-outro-team-amplification-lifecycle-contract',
+  );
+  assert.ok(shorekeeperOutroLifecycle);
+  assert.equal(shorekeeperOutroLifecycle.sourceId, 'the-shorekeeper-outro-binary-butterfly');
+  assert.equal(shorekeeperOutroLifecycle.resolutionStatus, 'RESOLVED');
+
+  const shorekeeperOutroOverlap = context.contributions.find(
+    (dependency) => dependency.id === 'shorekeeper-outro-augusta-window-overlap',
+  );
+  assert.ok(shorekeeperOutroOverlap);
+  assert.equal(shorekeeperOutroOverlap.sourceId, 'the-shorekeeper-outro-binary-butterfly');
+  assert.equal(shorekeeperOutroOverlap.resolutionStatus, 'PENDING');
+
   const stellarealm = context.contributions.find(
     (dependency) => dependency.id === 'shorekeeper-stellarealm-party-crit-to-augusta',
   );
@@ -73,7 +87,11 @@ test('Reference Team 01 separates resolved Iuno handoff lifecycle from pending t
 
   assert.deepEqual(
     context.unresolvedDependencies.map((dependency) => dependency.id),
-    ['iuno-outro-augusta-window-overlap', 'shorekeeper-stellarealm-party-crit-to-augusta'],
+    [
+      'iuno-outro-augusta-window-overlap',
+      'shorekeeper-outro-augusta-window-overlap',
+      'shorekeeper-stellarealm-party-crit-to-augusta',
+    ],
   );
 });
 

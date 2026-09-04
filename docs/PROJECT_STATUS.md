@@ -315,7 +315,7 @@ These findings are blockers, not reasons to manufacture a generic realm/stack en
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-Draft PR #164 closes only the source-proven activation/lifecycle semantics for the current Shorekeeper **Stellar Symphony + Rejuvenating Glow** support package:
+PR #164 is review-ready and closes only the source-proven activation/lifecycle semantics for the current Shorekeeper **Stellar Symphony + Rejuvenating Glow** support package:
 
 - `src/combat/shorekeeperHealingSupportWindowAdapter.ts` source-locks canonical `the-shorekeeper-skill-chaos-theory-healing`, selected weapon effect `SSY-TEAM-ATK` and selected Sonata effect `REJUV_ATK`;
 - Chaos Theory remains the source proof that Shorekeeper has a Resonance Skill which applies party healing;
@@ -326,12 +326,29 @@ Draft PR #164 closes only the source-proven activation/lifecycle semantics for t
 - Shorekeeper remains `SOURCE_SEQUENCE_ONLY`; no Skill/heal timestamp or Augusta overlap is inferred;
 - no canonical profile `pendingExecutionId` closes merely because the source-specific lifecycle adapter exists;
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither support ATK effect is consumed by Augusta DPS;
-- Fallacy cast effects remain a separate next audit; Fallacy active damage stays behind existing `BUG-010` and is not conflated with its non-damage team/ER effects;
 - `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-Code head `6df1491ca0faf91f3bbb0b792f6dc58fd28b1668` passed full repo **Verify #990** before this PROJECT_STATUS sync. PR #164 must remain draft until the final status/Handoff head passes the same verification contract.
+Code head `6df1491ca0faf91f3bbb0b792f6dc58fd28b1668` passed full repo **Verify #990**. Final PROJECT_STATUS/Handoff head `5ff4a716ffc848b451d24c4bcef4963d86eb1bf4` passed full repo **Verify #991**; PR #164 is review-ready.
 
-The next slice must remain dependency-led. Audit the selected Fallacy of No Return cast effects separately from `BUG-010` active-damage variant semantics. If the canonical non-damage cast trigger can be executed without choosing tap/hold damage behavior, model only that bounded lifecycle and keep all actual Reference Team overlap PENDING until executable timing exists.
+#### Phase 2 fifth Fallacy support-cast slice — PR #165
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+Draft PR #165 closes only the source-proven non-damage `ON_ECHO_CAST` lifecycle for the currently selected Shorekeeper main Echo, **Fallacy of No Return**:
+
+- `src/combat/fallacySupportWindowAdapter.ts` source-locks canonical `FALLACY_TEAM_ATK` and `FALLACY_WIELDER_ER` from `ECHO_EFFECT_MODELS`;
+- activation requires an explicit selected Fallacy `ECHO_SKILL_CAST` event, explicit wielder identity and explicit selected-team membership;
+- TEAM ATK and WIELDER Energy Regen remain separate target scopes, and values/durations are read from canonical Echo-effect rows at activation time rather than copied into the Reference Team manifest;
+- the Reference Team manifest splits `FALLACY_TEAM_ATK` into a `RESOLVED` lifecycle and `PENDING` Augusta overlap, and splits `FALLACY_WIELDER_ER` into a `RESOLVED` lifecycle and `PENDING` Stellarealm ER-state consumption;
+- the generic cast event is authorized only for non-damage effects: `FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW` remains `BLOCKED_SOURCE_SEMANTICS / BUG-010`, no `FALLACY_INITIAL_BLAST` is fired, no hold hit count is invented and no hold-release finisher is selected;
+- Shorekeeper remains `SOURCE_SEQUENCE_ONLY`, so no Fallacy cast timestamp, Augusta overlap or Stellarealm ER sampling is inferred;
+- no canonical profile `pendingExecutionId` closes merely because this support lifecycle exists;
+- dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither Fallacy effect is consumed by Augusta DPS;
+- `BUG-028` and `BUG-029` remain open/known gaps; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+
+Code head `42c0e1c8b341138c2371a6fbf0117decc3d7edab` passed full repo **Verify #992** before this PROJECT_STATUS sync. PR #165 must remain draft until the final status/Handoff head passes the same verification contract.
+
+The next source-complete candidate is Iuno's selected Moonlit Clouds `S08_5PC_INCOMING_ATK`. Reuse the existing `sonataOutroTransferAdapter.ts`/incoming-transfer state if its contract can bind the canonical Iuno Outro handoff without inventing a profile timestamp. Keep Impermanence Heron transfer separately blocked behind `BUG-008`; do not let Heron's source conflict block or contaminate source-clean Moonlit lifecycle work.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

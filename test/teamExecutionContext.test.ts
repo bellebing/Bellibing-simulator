@@ -39,7 +39,7 @@ test('Reference Team 01 binds exact selected member preset/loadout identity', ()
   assert.equal(shorekeeper.rotationExecutionStatus, 'SOURCE_SEQUENCE_ONLY');
 });
 
-test('Reference Team 01 separates resolved source lifecycles from pending Augusta overlap', () => {
+test('Reference Team 01 separates resolved source lifecycles from pending Augusta/state overlap', () => {
   const context = REFERENCE_TEAM_01_EXECUTION_CONTEXT;
   assert.equal(context.dependencyCoverageStatus, 'PARTIAL');
   assert.equal(context.dpsReady, false);
@@ -50,6 +50,8 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
     ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
+    ['shorekeeper-fallacy-team-atk-lifecycle-contract', 'FALLACY_TEAM_ATK'],
+    ['shorekeeper-fallacy-wielder-er-lifecycle-contract', 'FALLACY_WIELDER_ER'],
   ] as const;
   for (const [id, sourceId] of expectedResolved) {
     const dependency = context.contributions.find((row) => row.id === id);
@@ -63,6 +65,8 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
     ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-augusta-window-overlap', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],
+    ['shorekeeper-fallacy-team-atk-augusta-window-overlap', 'FALLACY_TEAM_ATK'],
+    ['shorekeeper-fallacy-wielder-er-stellarealm-state', 'FALLACY_WIELDER_ER'],
     ['shorekeeper-stellarealm-party-crit-to-augusta', 'the-shorekeeper-liberation-stellarealms'],
   ] as const;
   for (const [id, sourceId] of expectedPending) {

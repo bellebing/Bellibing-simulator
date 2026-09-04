@@ -288,7 +288,7 @@ TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-The third bounded implementation slice is open as draft PR #163 and closes only the source-proven Shorekeeper Outro Binary Butterfly team-window lifecycle:
+The third bounded implementation slice is review-ready on PR #163 and closes only the source-proven Shorekeeper Outro Binary Butterfly team-window lifecycle:
 
 - `src/combat/shorekeeperOutroTeamWindowAdapter.ts` source-locks `the-shorekeeper-outro-binary-butterfly`;
 - TEAM scope, DMG Amplification value and duration are derived from the canonical Character fact rather than copied into the Reference Team manifest;
@@ -300,9 +300,38 @@ The third bounded implementation slice is open as draft PR #163 and closes only 
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Shorekeeper amplification is consumed by Augusta DPS;
 - `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #988** before this PROJECT_STATUS sync. PR #163 must remain draft until the final status/Handoff head passes the same verification contract.
+Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #988**. Final PROJECT_STATUS/Handoff head `810e288445adc666706a1cb54e5dbfba186e5292` passed full repo **Verify #989**; PR #163 is review-ready.
 
-The next slice must stay dependency-led. Re-check Shorekeeper Stellarealm and Iuno Wan Light/shield-state against canonical structured evidence before implementation. If a required baseline lifecycle, formula, state transition or timestamp is not source-resolved, leave that dependency PENDING and choose another source-complete boundary rather than inferring it from `SOURCE_SEQUENCE_ONLY` prose.
+#### Phase 2 blocker audit — Stellarealm and Wan Light
+
+The next two Reference Team state candidates were re-audited against canonical structured data before implementation. Neither is safe to promote yet:
+
+- **Shorekeeper Stellarealm:** the canonical fact proves Outer → Inner → Supernal evolution and the source duration, but the executable data does not yet own the exact Energy Regen → party CRIT transfer function. Shorekeeper S1 also states that Discernment no longer ends the existing Stellarealm, which proves a baseline termination interaction exists without structurally specifying the exact S0 termination rule in the baseline fact. Do not infer that lifecycle from the S1 modifier or from the `SOURCE_SEQUENCE_ONLY` rotation.
+- **Iuno Blessing of the Wan Light:** the base canonical `iuno-forte-lunar-cycle` fact explicitly owns shield-gain cadence, stack value, duration, cap and switch-out termination, but is currently scoped `SELF`. Iuno S2 separately refers to "Resonators in the team with 10 stacks", while no current canonical recipient/stack-ownership rule proves that Augusta receives the base stacks. The historical Augusta evaluator's shield-event → Wan Light behavior therefore remains a historical assumption, not current source truth. Track this as `BUG-029` and keep Augusta-side Wan Light PENDING.
+
+These findings are blockers, not reasons to manufacture a generic realm/stack engine. The next implemented slice was selected from current Shorekeeper gear because its source trigger semantics are explicit.
+
+#### Phase 2 fourth healing-support slice — PR #164
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+Draft PR #164 closes only the source-proven activation/lifecycle semantics for the current Shorekeeper **Stellar Symphony + Rejuvenating Glow** support package:
+
+- `src/combat/shorekeeperHealingSupportWindowAdapter.ts` source-locks canonical `the-shorekeeper-skill-chaos-theory-healing`, selected weapon effect `SSY-TEAM-ATK` and selected Sonata effect `REJUV_ATK`;
+- Chaos Theory remains the source proof that Shorekeeper has a Resonance Skill which applies party healing;
+- Stellar Symphony activates only from an explicit Shorekeeper healing-qualified `RESONANCE_SKILL_CAST` event plus the actually selected weapon/rank;
+- Rejuvenating Glow activates only from a separate explicit `HEAL_APPLIED` event plus the actually selected Sonata set; the adapter deliberately does **not** turn a Skill cast into a successful heal automatically, so full-HP/heal-state is not guessed;
+- both windows bind explicit selected-team membership and derive their values/durations from canonical Weapon/Sonata catalogs rather than copying them into the team manifest;
+- the Reference Team manifest now splits `SSY-TEAM-ATK` and `REJUV_ATK` lifecycle contracts to `RESOLVED`, while their actual Augusta-window overlap remains `PENDING`;
+- Shorekeeper remains `SOURCE_SEQUENCE_ONLY`; no Skill/heal timestamp or Augusta overlap is inferred;
+- no canonical profile `pendingExecutionId` closes merely because the source-specific lifecycle adapter exists;
+- dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither support ATK effect is consumed by Augusta DPS;
+- Fallacy cast effects remain a separate next audit; Fallacy active damage stays behind existing `BUG-010` and is not conflated with its non-damage team/ER effects;
+- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+
+Code head `6df1491ca0faf91f3bbb0b792f6dc58fd28b1668` passed full repo **Verify #990** before this PROJECT_STATUS sync. PR #164 must remain draft until the final status/Handoff head passes the same verification contract.
+
+The next slice must remain dependency-led. Audit the selected Fallacy of No Return cast effects separately from `BUG-010` active-damage variant semantics. If the canonical non-damage cast trigger can be executed without choosing tap/hold damage behavior, model only that bounded lifecycle and keep all actual Reference Team overlap PENDING until executable timing exists.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

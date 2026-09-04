@@ -5,6 +5,7 @@ import { validateFallacySupportContracts } from '../combat/fallacySupportWindowA
 import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
 import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeeperHealingSupportWindowAdapter.ts';
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
+import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -53,6 +54,30 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     requiredForDps: true,
     requirementSummary:
       'Requires a source-valid Reference Team event timeline proving when Iuno Outro hands off to Augusta and which evaluated Augusta Heavy Attack events occur before switch-out or duration expiry.',
+  },
+  {
+    id: 'iuno-moonlit-incoming-atk-lifecycle-contract',
+    sourceKind: 'SONATA_EFFECT',
+    sourceId: 'S08_5PC_INCOMING_ATK',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Selected Iuno Moonlit Clouds 5-piece incoming-ATK lifecycle is executable through the existing Sonata Outro transfer adapter when an explicit Iuno OUTRO_SWITCH binds the actual incoming Resonator.',
+  },
+  {
+    id: 'iuno-moonlit-augusta-window-overlap',
+    sourceKind: 'SONATA_EFFECT',
+    sourceId: 'S08_5PC_INCOMING_ATK',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires a source-valid Reference Team event timeline proving Iuno Outro actually hands Moonlit to Augusta and which evaluated Augusta damage events occur inside the source-declared Sonata duration.',
   },
   {
     id: 'shorekeeper-outro-team-amplification-lifecycle-contract',
@@ -191,6 +216,8 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
 function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionContext): void {
   const augusta = context.members.find((member) => member.characterId === 'augusta');
   if (!augusta) throw new Error('Reference Team 01: Augusta member selection is missing');
+  const iuno = context.members.find((member) => member.characterId === 'iuno');
+  if (!iuno) throw new Error('Reference Team 01: Iuno member selection is missing');
   const shorekeeper = context.members.find((member) => member.characterId === 'the-shorekeeper');
   if (!shorekeeper) throw new Error('Reference Team 01: Shorekeeper member selection is missing');
 
@@ -214,6 +241,13 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const iunoOutroIssues = validateIunoOutroTransferContract();
   if (iunoOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
+  }
+  if (!iuno.sonataSetIds.includes('sonata-8')) {
+    throw new Error('Reference Team 01: selected Iuno loadout does not contain Moonlit Clouds / sonata-8');
+  }
+  const sonataOutroIssues = validateSonataOutroTransferContracts();
+  if (sonataOutroIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid Sonata Outro transfer contracts: ${sonataOutroIssues.join('; ')}`);
   }
 
   const shorekeeperOutroIssues = validateShorekeeperOutroTeamWindowContract();

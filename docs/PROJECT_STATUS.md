@@ -296,7 +296,7 @@ The third bounded implementation slice is review-ready on PR #163 and closes onl
 - the Reference Team manifest splits Shorekeeper Outro into `shorekeeper-outro-team-amplification-lifecycle-contract = RESOLVED` and `shorekeeper-outro-augusta-window-overlap = PENDING`;
 - Shorekeeper's selected rotation remains `SOURCE_SEQUENCE_ONLY`, so no Outro timestamp or Augusta damage-window overlap is inferred;
 - Shorekeeper Stellarealm crit contribution remains separately `PENDING`; this slice does not guess realm evolution, Energy Regen → crit transfer or exact team timing;
-- no canonical profile `pendingExecutionId` is closed merely because the source-specific lifecycle adapter exists;
+- no canonical profile `pendingExecutionId` closes merely because the source-specific lifecycle adapter exists;
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Shorekeeper amplification is consumed by Augusta DPS;
 - `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
@@ -334,7 +334,7 @@ Code head `6df1491ca0faf91f3bbb0b792f6dc58fd28b1668` passed full repo **Verify #
 
 Branch-local review progress only; this is **not current-main truth** until integrated.
 
-Draft PR #165 closes only the source-proven non-damage `ON_ECHO_CAST` lifecycle for the currently selected Shorekeeper main Echo, **Fallacy of No Return**:
+PR #165 is review-ready and closes only the source-proven non-damage `ON_ECHO_CAST` lifecycle for the currently selected Shorekeeper main Echo, **Fallacy of No Return**:
 
 - `src/combat/fallacySupportWindowAdapter.ts` source-locks canonical `FALLACY_TEAM_ATK` and `FALLACY_WIELDER_ER` from `ECHO_EFFECT_MODELS`;
 - activation requires an explicit selected Fallacy `ECHO_SKILL_CAST` event, explicit wielder identity and explicit selected-team membership;
@@ -346,9 +346,28 @@ Draft PR #165 closes only the source-proven non-damage `ON_ECHO_CAST` lifecycle 
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither Fallacy effect is consumed by Augusta DPS;
 - `BUG-028` and `BUG-029` remain open/known gaps; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
 
-Code head `42c0e1c8b341138c2371a6fbf0117decc3d7edab` passed full repo **Verify #992** before this PROJECT_STATUS sync. PR #165 must remain draft until the final status/Handoff head passes the same verification contract.
+Code head `42c0e1c8b341138c2371a6fbf0117decc3d7edab` passed full repo **Verify #992**. Final PROJECT_STATUS/Handoff head `1b72e8f4fdca2472f3f9b117686683ed3dcb1d86` passed full repo **Verify #993**; PR #165 is review-ready.
 
-The next source-complete candidate is Iuno's selected Moonlit Clouds `S08_5PC_INCOMING_ATK`. Reuse the existing `sonataOutroTransferAdapter.ts`/incoming-transfer state if its contract can bind the canonical Iuno Outro handoff without inventing a profile timestamp. Keep Impermanence Heron transfer separately blocked behind `BUG-008`; do not let Heron's source conflict block or contaminate source-clean Moonlit lifecycle work.
+#### Phase 2 sixth Iuno Moonlit transfer slice — PR #166
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+Draft PR #166 binds the already source-reviewed **Moonlit Clouds 5-piece `S08_5PC_INCOMING_ATK`** lifecycle to the selected Iuno Augusta-Hybrid package without adding another transfer engine:
+
+- the selected Reference Team Iuno loadout must contain `sonata-8`, and the existing `sonataOutroTransferAdapter.ts` contract for `S08_5PC_INCOMING_ATK` is validated at the Reference Team boundary;
+- one explicit Iuno `OUTRO_SWITCH` event can activate both the canonical Iuno Character-Outro transfer and Moonlit incoming-ATK transfer for the actual incoming Resonator;
+- the two source lifecycles remain distinct: Iuno Character-Outro ends on affected-recipient switch-out or source duration, while Moonlit retains the canonical timed Sonata transfer with no added switch-out termination;
+- the Reference Team manifest marks `iuno-moonlit-incoming-atk-lifecycle-contract = RESOLVED` and keeps `iuno-moonlit-augusta-window-overlap = PENDING`;
+- Iuno remains `SOURCE_SEQUENCE_ONLY`, so no Outro timestamp or Augusta damage overlap is inferred from prose;
+- Impermanence Heron remains separately source-conflicted behind `BUG-008` and is not used as evidence for Moonlit;
+- no canonical profile `pendingExecutionId` closes merely because the existing primitive is now bound to this selected package;
+- dependency coverage remains `PARTIAL`, `dpsReady = false`, and Moonlit ATK is not consumed by Augusta DPS;
+- Moongazer's Sigil was rechecked during this slice: its current modeled effects are SELF/Iuno-personal-DPS state, so they are parked for this Reference Team milestone rather than broadening scope;
+- `BUG-028`, `BUG-029`, `BUG-010` and `BUG-008` remain open/blocking as applicable; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+
+Code head `52d1c3511f227383aab347d0ab409af387d19f60` passed full repo **Verify #994** before this PROJECT_STATUS sync. PR #166 must remain draft until the final status/Handoff head passes the same verification contract.
+
+The next implementation should stop adding isolated source lifecycles unless they close a remaining Augusta-facing dependency. The highest-leverage next audit is now the **Reference Team event/timeline boundary** itself: determine whether current canonical Iuno/Shorekeeper source sequences plus the already-resolved lifecycle primitives can support a narrow explicit Reference Team execution fixture without inventing timestamps. If exact cross-character ordering/timing is not source-resolved, record that as the blocker and do not manufacture a team timeline.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

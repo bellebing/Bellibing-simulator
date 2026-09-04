@@ -49,6 +49,7 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
     ['augusta-thunderflare-permanent-atk', 'TFD-ATK'],
     ['iuno-outro-handoff-lifecycle-contract', 'iuno-outro-from-gloom-to-gleam'],
     ['iuno-moonlit-incoming-atk-lifecycle-contract', 'S08_5PC_INCOMING_ATK'],
+    ['iuno-wan-light-recipient-stack-core-contract', 'iuno-full-moon-domain-wan-light-recipient'],
     ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
@@ -65,6 +66,8 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
   const expectedPending = [
     ['iuno-outro-augusta-window-overlap', 'iuno-outro-from-gloom-to-gleam'],
     ['iuno-moonlit-augusta-window-overlap', 'S08_5PC_INCOMING_ATK'],
+    ['iuno-wan-light-at-cap-trigger-semantics', 'iuno-full-moon-domain-wan-light-recipient'],
+    ['iuno-wan-light-augusta-event-overlap', 'iuno-full-moon-domain-wan-light-recipient'],
     ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-augusta-window-overlap', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],

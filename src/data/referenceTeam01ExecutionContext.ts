@@ -3,6 +3,7 @@ import { PROFILE_REGISTRY } from './profileCatalogs.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
 import { validateFallacySupportContracts } from '../combat/fallacySupportWindowAdapter.ts';
 import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAdapter.ts';
+import { validateIunoWanLightRecipientContract } from '../combat/iunoWanLightRecipientState.ts';
 import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeeperHealingSupportWindowAdapter.ts';
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
@@ -78,6 +79,42 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     requiredForDps: true,
     requirementSummary:
       'Requires a source-valid Reference Team event timeline proving Iuno Outro actually hands Moonlit to Augusta and which evaluated Augusta damage events occur inside the source-declared Sonata duration.',
+  },
+  {
+    id: 'iuno-wan-light-recipient-stack-core-contract',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'iuno-full-moon-domain-wan-light-recipient',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Canonical recipient targeting, explicit in-Domain Shield events, below-cap 0.5s cadence, new-stack duration refresh and recipient switch-out clearing are executable without inferring Full Moon Domain timing.',
+  },
+  {
+    id: 'iuno-wan-light-at-cap-trigger-semantics',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'iuno-full-moon-domain-wan-light-recipient',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Current source does not explicitly prove whether a qualifying Shield event at 10 stacks refreshes duration when no additional stack can be gained; runtime fails closed at that boundary.',
+  },
+  {
+    id: 'iuno-wan-light-augusta-event-overlap',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'iuno-full-moon-domain-wan-light-recipient',
+    sourceCharacterId: 'iuno',
+    sourcePresetId: 'iuno-augusta-hybrid',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'PENDING',
+    requiredForDps: true,
+    requirementSummary:
+      'Requires explicit Reference Team evidence that Augusta Shield gains occur while Augusta is inside Iuno Full Moon Domain plus timestamps for the evaluated Augusta damage events while the resulting stack state is active.',
   },
   {
     id: 'shorekeeper-outro-team-amplification-lifecycle-contract',
@@ -241,6 +278,10 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const iunoOutroIssues = validateIunoOutroTransferContract();
   if (iunoOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
+  }
+  const iunoWanLightIssues = validateIunoWanLightRecipientContract();
+  if (iunoWanLightIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid canonical Iuno Wan Light recipient contract: ${iunoWanLightIssues.join('; ')}`);
   }
   if (!iuno.sonataSetIds.includes('sonata-8')) {
     throw new Error('Reference Team 01: selected Iuno loadout does not contain Moonlit Clouds / sonata-8');

@@ -9,6 +9,7 @@ import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeepe
 import { validateShorekeeperStellarealmContract } from '../combat/shorekeeperStellarealmState.ts';
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
 import { validateReferenceTeam01IunoAugustaWindowCoverage } from '../referenceTeam01IunoAugustaWindowCoverage.ts';
+import { validateReferenceTeam01ShorekeeperOutroAugustaCoverage } from '../referenceTeam01ShorekeeperOutroAugustaCoverage.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -137,10 +138,10 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     sourceCharacterId: 'the-shorekeeper',
     sourcePresetId: 'shorekeeper-augusta-support',
     targetCharacterId: 'augusta',
-    resolutionStatus: 'PENDING',
+    resolutionStatus: 'RESOLVED',
     requiredForDps: true,
     requirementSummary:
-      'Requires a source-valid Reference Team event timeline proving Shorekeeper Outro cast timing and which evaluated Augusta damage events occur inside the source-declared team window.',
+      'Current source-reviewed Augusta/Iuno/Shorekeeper team flow explicitly applies Shorekeeper Binary Butterfly before Iuno and states that Augusta then utilizes Shorekeeper’s team buffs through her core damage phase; no absolute team timestamp is invented.',
   },
   {
     id: 'shorekeeper-stellar-symphony-team-atk-lifecycle-contract',
@@ -312,6 +313,12 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const shorekeeperOutroIssues = validateShorekeeperOutroTeamWindowContract();
   if (shorekeeperOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Shorekeeper Outro team-window contract: ${shorekeeperOutroIssues.join('; ')}`);
+  }
+  const shorekeeperOutroAugustaCoverageIssues = validateReferenceTeam01ShorekeeperOutroAugustaCoverage();
+  if (shorekeeperOutroAugustaCoverageIssues.length > 0) {
+    throw new Error(
+      `Reference Team 01: invalid Shorekeeper Outro -> Augusta coverage: ${shorekeeperOutroAugustaCoverageIssues.join('; ')}`,
+    );
   }
   const shorekeeperStellarealmIssues = validateShorekeeperStellarealmContract();
   if (shorekeeperStellarealmIssues.length > 0) {

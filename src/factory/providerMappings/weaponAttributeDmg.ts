@@ -8,6 +8,10 @@ import {
 } from '../evidence.ts';
 
 export const FACTORY_WEAPON_R1_ATTRIBUTE_DMG_FAMILY_ID = 'weapon-r1-attribute-dmg-bonus-v1' as const;
+export const FACTORY_WEAPON_ATTRIBUTE_DMG_PROTOTYPE_PROVIDER_IDS = [
+  'prydwen-profile-source',
+  'frequency-manager',
+] as const;
 
 export interface FactoryWeaponAttributeDmgRawRow {
   readonly providerId: string;
@@ -33,9 +37,12 @@ export interface FactoryWeaponAttributeDmgEvidenceReport {
   readonly exceptionQueue: readonly FactoryEvidenceReconciliation[];
 }
 
-function providerEnabledForEvidence(providerId: string): boolean {
+function providerApprovedForThisPrototype(providerId: string): boolean {
   const provider = FACTORY_PROVIDER_REGISTRY.find((row) => row.providerId === providerId);
-  return provider?.enabledForFactoryEvidence === true
+  const prototypeApproved = FACTORY_WEAPON_ATTRIBUTE_DMG_PROTOTYPE_PROVIDER_IDS.some((id) => id === providerId);
+  return provider !== undefined
+    && prototypeApproved
+    && provider.licenseStatus === 'VERIFIED'
     && provider.canonicalAuthority === false
     && provider.dataUsePolicy !== 'REFERENCE_ONLY_NO_REUSE';
 }
@@ -94,7 +101,7 @@ export function normalizeWeaponR1AttributeDmgEvidence(
   return snapshot.providers.map((row, index) => {
     const candidateId = `${snapshot.familyId}:${snapshot.subjectId}:${row.providerId}:${index + 1}`;
 
-    if (!providerEnabledForEvidence(row.providerId)) {
+    if (!providerApprovedForThisPrototype(row.providerId)) {
       return {
         candidateId,
         providerId: row.providerId,
@@ -105,7 +112,7 @@ export function normalizeWeaponR1AttributeDmgEvidence(
         sourceRef: row.sourceRef,
         sourceVersion: row.sourceVersion,
         capturedAt: snapshot.capturedAt,
-        notes: [...(row.notes ?? []), 'Provider is not enabled for Factory evidence mapping.'],
+        notes: [...(row.notes ?? []), 'Provider is not approved for this bounded Factory mapping prototype.'],
       } satisfies FactoryEvidenceCandidate;
     }
 

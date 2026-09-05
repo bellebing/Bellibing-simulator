@@ -8,9 +8,15 @@ export interface OutgoingSwitchEvent {
   readonly atSeconds: number;
 }
 
+export interface ResonatorSwitchOutEvent {
+  readonly kind: 'RESONATOR_SWITCH_OUT';
+  readonly actorId: string;
+  readonly atSeconds: number;
+}
+
 export interface IncomingTransferSpec {
   readonly adapterId: string;
-  readonly sourceLayer: 'ECHO' | 'SONATA' | 'WEAPON';
+  readonly sourceLayer: 'CHARACTER' | 'ECHO' | 'SONATA' | 'WEAPON';
   readonly effectId: string;
   readonly sourceId: string;
   readonly sourceActorId: string;
@@ -18,6 +24,7 @@ export interface IncomingTransferSpec {
   readonly value: number;
   readonly durationSeconds: number;
   readonly requiresIncomingIntro: boolean;
+  readonly endsOnIncomingSwitchOut?: boolean;
   readonly armedAtSeconds?: number;
   readonly activationWindowSeconds?: number;
 }
@@ -34,6 +41,7 @@ export interface IncomingTransferWindow {
   readonly value: number;
   readonly startedAtSeconds: number;
   readonly expiresAtSeconds: number;
+  readonly endsOnIncomingSwitchOut: boolean;
 }
 
 function finiteNonNegative(value: number, label: string): void {
@@ -46,13 +54,21 @@ function nonBlank(value: string, label: string): void {
   if (!value.trim()) throw new Error(`${label} must not be blank`);
 }
 
+function validateSwitchOutEvent(event: ResonatorSwitchOutEvent): void {
+  if (event.kind !== 'RESONATOR_SWITCH_OUT') {
+    throw new Error(`unsupported Resonator switch-out event kind: ${String(event.kind)}`);
+  }
+  nonBlank(event.actorId, 'switch-out actor id');
+  finiteNonNegative(event.atSeconds, 'switch-out time');
+}
+
 /**
  * Shared low-level state primitive for effects that transfer from an outgoing
  * actor to the actual incoming Resonator.
  *
- * This function deliberately knows nothing about Echo/Sonata/Weapon source
- * prose. Layer adapters must prove their own trigger/prerequisite semantics and
- * pass an explicit, already-resolved switch event here.
+ * This function deliberately knows nothing about Character/Echo/Sonata/Weapon
+ * source prose. Layer adapters must prove their own trigger/prerequisite and
+ * termination semantics and pass explicit, already-resolved events here.
  */
 export function createIncomingTransferWindow(
   spec: IncomingTransferSpec,
@@ -71,11 +87,19 @@ export function createIncomingTransferWindow(
   if (event.incomingEntry !== 'INTRO_SKILL' && event.incomingEntry !== 'DIRECT_SWITCH') {
     throw new Error(`unsupported incoming entry kind: ${String(event.incomingEntry)}`);
   }
-  if (spec.sourceLayer !== 'ECHO' && spec.sourceLayer !== 'SONATA' && spec.sourceLayer !== 'WEAPON') {
+  if (
+    spec.sourceLayer !== 'CHARACTER'
+    && spec.sourceLayer !== 'ECHO'
+    && spec.sourceLayer !== 'SONATA'
+    && spec.sourceLayer !== 'WEAPON'
+  ) {
     throw new Error(`unsupported transfer source layer: ${String(spec.sourceLayer)}`);
   }
   if (typeof spec.requiresIncomingIntro !== 'boolean') {
     throw new Error('requiresIncomingIntro must be boolean');
+  }
+  if (spec.endsOnIncomingSwitchOut !== undefined && typeof spec.endsOnIncomingSwitchOut !== 'boolean') {
+    throw new Error('endsOnIncomingSwitchOut must be boolean when provided');
   }
   if (!Number.isFinite(spec.value)) throw new Error(`transfer value must be finite: ${spec.value}`);
   if (!Number.isFinite(spec.durationSeconds) || spec.durationSeconds <= 0) {
@@ -109,17 +133,40 @@ export function createIncomingTransferWindow(
     value: spec.value,
     startedAtSeconds: event.atSeconds,
     expiresAtSeconds: event.atSeconds + spec.durationSeconds,
+    endsOnIncomingSwitchOut: spec.endsOnIncomingSwitchOut ?? false,
   };
+}
+
+export function incomingTransferEffectiveEndSeconds(
+  window: IncomingTransferWindow,
+  switchOutEvents: readonly ResonatorSwitchOutEvent[] = [],
+): number {
+  if (!window.endsOnIncomingSwitchOut) return window.expiresAtSeconds;
+
+  let effectiveEndSeconds = window.expiresAtSeconds;
+  for (const event of switchOutEvents) {
+    validateSwitchOutEvent(event);
+    if (
+      event.actorId === window.incomingResonatorId
+      && event.atSeconds >= window.startedAtSeconds
+      && event.atSeconds < effectiveEndSeconds
+    ) {
+      effectiveEndSeconds = event.atSeconds;
+    }
+  }
+  return effectiveEndSeconds;
 }
 
 export function isIncomingTransferWindowActive(
   window: IncomingTransferWindow,
   actorId: string,
   atSeconds: number,
+  switchOutEvents: readonly ResonatorSwitchOutEvent[] = [],
 ): boolean {
   nonBlank(actorId, 'transfer query actor id');
   finiteNonNegative(atSeconds, 'transfer query time');
+  const effectiveEndSeconds = incomingTransferEffectiveEndSeconds(window, switchOutEvents);
   return actorId === window.incomingResonatorId
     && atSeconds >= window.startedAtSeconds
-    && atSeconds < window.expiresAtSeconds;
+    && atSeconds < effectiveEndSeconds;
 }

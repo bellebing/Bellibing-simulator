@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-strip-types --test test/*.test.ts",
+    "test:factory": "node --experimental-strip-types --test test/factory*.test.ts",
     "build": "node scripts/build-web.mjs",
+    "report:factory-evidence": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts",
+    "audit:factory-evidence-report": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts --check",
+    "verify:fast:factory": "npm run test:factory && npm run audit:factory-evidence-report && npm run audit:profile-readiness && npm run build",
     "audit:echo-raw": "node --experimental-strip-types scripts/audit-echo-raw.mjs",
     "audit:sonata-effects": "node --experimental-strip-types scripts/audit-sonata-effects.mjs",
     "audit:echo-skills": "node --experimental-strip-types scripts/audit-echo-skills.mjs",

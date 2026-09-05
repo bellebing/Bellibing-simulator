@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "generatorId": "factory-evidence-report-v1",
+  "canonicalPromotionPolicy": "MANUAL_SOURCE_VALIDATION_REQUIRED",
+  "summary": {
+    "totalReconciliations": 2,
+    "reviewCandidates": 2,
+    "exceptionQueue": 0,
+    "classifications": {
+      "CONSENSUS": 2,
+      "SINGLE_SOURCE": 0,
+      "CONFLICT": 0,
+      "MISSING": 0,
+      "UNKNOWN": 0
+    }
+  },
+  "reviewCandidateKeys": [
+    "abyss-surges::rarity.stars",
+    "ages-of-harvest::r1.attribute-dmg-bonus.value"
+  ],
+  "exceptionQueueKeys": [],
+  "reconciliations": [
+    {
+      "subjectId": "abyss-surges",
+      "fieldId": "rarity.stars",
+      "classification": "CONSENSUS",
+      "route": "REVIEW_CANDIDATE",
+      "canonicalPromotion": "MANUAL_SOURCE_VALIDATION_REQUIRED",
+      "presentProviderIds": [
+        "frequency-manager",
+        "prydwen-profile-source"
+      ],
+      "semanticFingerprints": [
+        "weapon-rarity-v1:stars=5"
+      ],
+      "candidates": [
+        {
+          "candidateId": "weapon-rarity-v1:abyss-surges:frequency-manager:2",
+          "providerId": "frequency-manager",
+          "subjectId": "abyss-surges",
+          "fieldId": "rarity.stars",
+          "evidenceState": "PRESENT",
+          "semanticFingerprint": "weapon-rarity-v1:stars=5",
+          "sourceRef": "https://github.com/Voruzhu/FrequencyManager/blob/f585e47a868cb2b65845367b976a1781f130c758/adapters/game-definitions/wuthering-waves/weapons.ts",
+          "sourceVersion": "f585e47a868cb2b65845367b976a1781f130c758",
+          "capturedAt": "2026-09-05T21:23:00Z",
+          "notes": [
+            "Pinned structured Abyss Surges row stores rarity=5.",
+            "FrequencyManager is MIT-licensed evidence-only input and cannot promote Bellibing canonical truth without manual source validation.",
+            "FrequencyManager integer weapon rarity normalized to the shared star-count family."
+          ]
+        },
+        {
+          "candidateId": "weapon-rarity-v1:abyss-surges:prydwen-profile-source:1",
+          "providerId": "prydwen-profile-source",
+          "subjectId": "abyss-surges",
+          "fieldId": "rarity.stars",
+          "evidenceState": "PRESENT",
+          "semanticFingerprint": "weapon-rarity-v1:stars=5",
+          "sourceRef": "https://www.prydwen.gg/wuthering-waves/weapons",
+          "sourceVersion": "live-weapons-index-review-2026-09-05",
+          "capturedAt": "2026-09-05T21:23:00Z",
+          "notes": [
+            "Current Prydwen weapons index identifies Abyss Surges as Rarity 5★.",
+            "This snapshot maps only discrete weapon rarity; weapon type, level-90 stats, passive text and gameplay semantics are out of scope.",
+            "Prydwen star label normalized to discrete weapon rarity without effect/runtime inference."
+          ]
+        }
+      ],
+      "reason": "Two or more independent providers normalize to the same semantic fingerprint."
+    },
+    {
+      "subjectId": "ages-of-harvest",
+      "fieldId": "r1.attribute-dmg-bonus.value",
+      "classification": "CONSENSUS",
+      "route": "REVIEW_CANDIDATE",
+      "canonicalPromotion": "MANUAL_SOURCE_VALIDATION_REQUIRED",
+      "presentProviderIds": [
+        "frequency-manager",
+        "prydwen-profile-source"
+      ],
+      "semanticFingerprints": [
+        "weapon-r1-attribute-dmg-bonus-v1:decimal=0.120000"
+      ],
+      "candidates": [
+        {
+          "candidateId": "weapon-r1-attribute-dmg-bonus-v1:ages-of-harvest:frequency-manager:2",
+          "providerId": "frequency-manager",
+          "subjectId": "ages-of-harvest",
+          "fieldId": "r1.attribute-dmg-bonus.value",
+          "evidenceState": "PRESENT",
+          "semanticFingerprint": "weapon-r1-attribute-dmg-bonus-v1:decimal=0.120000",
+          "sourceRef": "https://github.com/Voruzhu/FrequencyManager/blob/f585e47a868cb2b65845367b976a1781f130c758/adapters/game-definitions/wuthering-waves/weapons.ts",
+          "sourceVersion": "f585e47a868cb2b65845367b976a1781f130c758",
+          "capturedAt": "2026-09-05T18:58:00Z",
+          "notes": [
+            "Structured Ages of Harvest record stores the R1 unconditional elemental/attribute damage self-buff as elemDmg=12.",
+            "Provider data is evidence-only and cannot promote Bellibing canonical truth without manual source validation.",
+            "FrequencyManager unconditional R1 elemDmg value normalized to the shared attribute-DMG family."
+          ]
+        },
+        {
+          "candidateId": "weapon-r1-attribute-dmg-bonus-v1:ages-of-harvest:prydwen-profile-source:1",
+          "providerId": "prydwen-profile-source",
+          "subjectId": "ages-of-harvest",
+          "fieldId": "r1.attribute-dmg-bonus.value",
+          "evidenceState": "PRESENT",
+          "semanticFingerprint": "weapon-r1-attribute-dmg-bonus-v1:decimal=0.120000",
+          "sourceRef": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+          "sourceVersion": "live-page-review-2026-09-05",
+          "capturedAt": "2026-09-05T18:58:00Z",
+          "notes": [
+            "Current Lumi build write-up identifies Ages of Harvest R1 as providing an additional 12% DMG Bonus.",
+            "This snapshot normalizes only the numeric R1 general/attribute damage-bonus value; it does not infer trigger, duration, stacking, or runtime uptime semantics from the build write-up.",
+            "Prydwen R1 general DMG Bonus value normalized without trigger/lifetime inference."
+          ]
+        }
+      ],
+      "reason": "Two or more independent providers normalize to the same semantic fingerprint."
+    }
+  ]
+}

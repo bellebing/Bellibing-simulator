@@ -6,18 +6,41 @@ import type {
   CharacterSequenceFact,
 } from '../../characterMechanicsDomain.ts';
 
-const CHECKED_AT = "2026-08-28";
+const CHECKED_AT = "2026-09-04";
+const FULL_MOON_DOMAIN_CHECKED_AT = "2026-09-05";
 const SOURCE_SNAPSHOT = "https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json";
 
 export const IUNO_PROVENANCE = {
-  sourceLabels: ["wuwabuild normalized Character snapshot — exact pinned upstream commit", "Prydwen — current Iuno kit", "Current raw/skill data cross-check — Iuno"],
-  sourceUrls: [SOURCE_SNAPSHOT, "https://www.prydwen.gg/wuthering-waves/characters/iuno", "https://wuthering.wiki/character_1410.html"],
+  sourceLabels: ["wuwabuild normalized Character snapshot — exact pinned upstream commit", "Prydwen — current Iuno kit", "Current raw/skill data cross-check — Iuno", "Wutheringlab — current Iuno kit/build"],
+  sourceUrls: [SOURCE_SNAPSHOT, "https://www.prydwen.gg/wuthering-waves/characters/iuno", "https://wuthering.wiki/character_1410.html", "https://wutheringlab.com/character/iuno-build/"],
   checkedAt: CHECKED_AT,
   notes: [
     "The pinned PR #66/#68 promotion-review pipeline supplies exact Lv1-Lv10 transcription structures; current source pages were used for semantic verification.",
     "Moonbow, Flux, Arc Beyond the Edge, enhanced Moonbow/Arc and Absolute Fullness are explicitly Resonance Liberation DMG even when triggered through Basic/Heavy/Skill inputs.",
     "Generated candidates remained CANDIDATE_ONLY / NOT_VERIFIED until this Iuno semantic/source review; no generated candidate status was promoted automatically.",
+    "Current Prydwen and Wutheringlab cross-checks resolve Full Moon Domain Wan Light recipient semantics: the receiving/active Resonator gains a stack when that Resonator gains a Shield inside the Domain; the trigger cadence is 0.5s, the buff lasts 10s, new stacks reset its duration, the cap is 10 and switching that Resonator off field removes all stacks. Both current guides explicitly discuss Augusta as able to exploit this mechanic through repeated self-shields.",
     "Current sequence sources disagree on S4 shield magnitude/inheritance wording: the pinned raw source plus current Prydwen use 160% ATK and not passed to incoming Resonator, while Wuthering.wiki currently shows conflicting wording. The raw consensus is retained and the conflict remains provenance evidence.",
+  ],
+} as const;
+
+export const IUNO_FULL_MOON_DOMAIN_PROVENANCE = {
+  sourceLabels: [
+    "wuwabuild normalized Character snapshot — exact pinned upstream commit",
+    "Wutheringlab — current Iuno kit/build",
+    "Wuthering.wiki — current Iuno skill table",
+    "Wuthering.gg — current Iuno skill table",
+  ],
+  sourceUrls: [
+    SOURCE_SNAPSHOT,
+    "https://wutheringlab.com/character/iuno-build/",
+    "https://wuthering.wiki/character_1410.html",
+    "https://wuthering.gg/characters/iuno",
+  ],
+  checkedAt: FULL_MOON_DOMAIN_CHECKED_AT,
+  notes: [
+    "Current source tables independently list Lunar Cycle Duration = 15s and Full Moon Domain Duration = 30s; the two lifecycles must not share one duration field.",
+    "Current Wutheringlab explicitly states that Full Moon Domain lasts a fixed 30 seconds and does not end early when Iuno leaves the field.",
+    "This provenance owns only the separated Full Moon Domain lifecycle; Wan Light recipient stack semantics remain owned by iuno-full-moon-domain-wan-light-recipient.",
   ],
 } as const;
 
@@ -30,6 +53,16 @@ function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actio
 function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
   const { modelingStatus = 'RAW_ONLY', ...rest } = input;
   return { ...rest, characterId: "iuno", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: IUNO_PROVENANCE };
+}
+function fullMoonDomainPassive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterPassiveFact {
+  return {
+    ...input,
+    characterId: "iuno",
+    kind: 'PASSIVE',
+    verificationStatus: 'VERIFIED',
+    modelingStatus: 'RAW_ONLY',
+    provenance: IUNO_FULL_MOON_DOMAIN_PROVENANCE,
+  };
 }
 function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
   return { ...input, characterId: "iuno", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: IUNO_PROVENANCE };
@@ -70,7 +103,9 @@ export const IUNO_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
 ] as const;
 
 export const IUNO_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
-  passive({ factId: "iuno-forte-lunar-cycle", name: "Lunar Cycle / Full Moon Domain", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Cast Closing Refrain or Resonance Liberation; Flux switches Half Moon/New Moon. Absolute Fullness ends Lunar Cycle and creates Full Moon Domain.", effectSummary: "Lunar Cycle has Half Moon and New Moon forms. Absolute Fullness can trigger once every 25s. Full Moon Domain periodically restores HP and STA. Shield gain inside grants 1 Blessing of the Wan Light stack once every 0.5s; each stack gives 4% all DMG Amplification for 10s, max 10, ending early on switch-out.", durationSeconds: null, maxStacks: 10 }),
+  passive({ factId: "iuno-forte-lunar-cycle", name: "Lunar Cycle", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Cast Closing Refrain or Resonance Liberation; Flux switches Half Moon/New Moon.", effectSummary: "Lunar Cycle has Half Moon and New Moon forms and lasts 15s. Absolute Fullness ends Lunar Cycle. Full Moon Domain lifecycle is owned by the separate Full Moon Domain lifecycle fact.", durationSeconds: 15, maxStacks: null }),
+  fullMoonDomainPassive({ factId: "iuno-full-moon-domain-lifecycle", name: "Full Moon Domain — Lifecycle", section: "FORTE_CIRCUIT", conditional: true, scope: "TEAM", triggerSummary: "Cast Heavy Attack - Absolute Fullness; Absolute Fullness ends Lunar Cycle and conjures Full Moon Domain at Iuno's location.", effectSummary: "Full Moon Domain lasts 30s and does not end early when Iuno leaves the field. Resonators inside the Domain periodically restore HP and STA. Recipient-specific Blessing of the Wan Light trigger/stack semantics are owned by the separate Full Moon Domain Wan Light fact.", durationSeconds: 30, maxStacks: null, notes: ["Source skill tables explicitly separate Lunar Cycle Duration 15s from Full Moon Domain Duration 30s."] }),
+  passive({ factId: "iuno-full-moon-domain-wan-light-recipient", name: "Full Moon Domain — Blessing of the Wan Light", section: "FORTE_CIRCUIT", conditional: true, scope: "TEAM", triggerSummary: "A receiving Resonator inside Iuno's Full Moon Domain gains a Shield.", effectSummary: "That receiving Resonator gains 1 stack of Blessing of the Wan Light, at most once every 0.5s. Each stack grants 4% all DMG Amplification, up to 10 stacks. The buff lasts 10s; gaining a new stack resets the buff duration. Switching that Resonator off field removes all stacks.", durationSeconds: 10, maxStacks: 10 }),
   passive({ factId: "iuno-forte-healing-curves", name: "Moonbow / Arc / Absolute Fullness healing tables", section: "FORTE_CIRCUIT", conditional: true, scope: "TEAM", triggerSummary: "Use the source-listed Moonbow/Arc/Absolute Fullness/Full Moon Domain healing action.", effectSummary: "Exact ATK-scaling Lv1-Lv10 healing coefficients are preserved from the pinned tables: Moonbow Basic 1/2 [13.03,14.10,15.17,16.67,17.73,18.96,20.67,22.38,24.09,25.91]%; Basic 3 and Arc [24.43,26.44,28.44,31.24,33.25,35.55,38.75,41.96,45.16,48.57]%; Moonbow Dodge and Full Moon Domain [16.29,17.63,18.96,20.83,22.17,23.70,25.84,27.97,30.11,32.38]%; Absolute Fullness [97.71,105.73,113.74,124.96,132.97,142.18,155.00,167.82,180.64,194.26]%.", durationSeconds: null, maxStacks: null }),
   passive({ factId: "iuno-inherent-waxing-ascent", name: "Inherent Skill — Waxing Ascent", section: "INHERENT_SKILL", conditional: true, scope: "SELF", triggerSummary: "Cast Basic Attack, Heavy Attack, Dodge Counter, Resonance Skill, Resonance Liberation or Intro Skill.", effectSummary: "Gain 1 Shield equal to 32% of Iuno's ATK for 15s. This Shield is not passed to the incoming Resonator.", durationSeconds: 15, maxStacks: null }),
   passive({ factId: "iuno-inherent-derivation", name: "Inherent Skill — Derivation", section: "INHERENT_SKILL", conditional: true, scope: "SELF", triggerSummary: "Cast Intro Skill or Resonance Liberation.", effectSummary: "Immediately gain 5 stacks of Blessing of the Wan Light.", durationSeconds: null, maxStacks: 5 }),

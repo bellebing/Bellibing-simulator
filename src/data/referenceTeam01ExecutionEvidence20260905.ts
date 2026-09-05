@@ -33,3 +33,39 @@ export const REFERENCE_TEAM_01_IUNO_AUGUSTA_HANDOFF_REVIEW_20260905 = {
     'iuno-moonlit-augusta-window-overlap',
   ],
 } as const;
+
+export const REFERENCE_TEAM_01_SHOREKEEPER_OUTRO_AUGUSTA_OVERLAP_REVIEW_20260905 = {
+  reviewId: 'REFERENCE-TEAM-01-SHOREKEEPER-OUTRO-AUGUSTA-OVERLAP-2026-09-05-01',
+  teamProfileId: 'augusta-iuno-shorekeeper',
+  sourceCharacterId: 'the-shorekeeper',
+  targetCharacterId: 'augusta',
+  sourceFactId: 'the-shorekeeper-outro-binary-butterfly',
+  shorekeeperRotationId: 'shorekeeper-augusta-support-standard',
+  iunoRotationId: 'iuno-augusta-sub-dps-standard',
+  augustaRotationId: 'augusta-standard-iuno-shorekeeper',
+  checkedAt: '2026-09-05',
+  disposition: 'SOURCE_EXPLICIT_TEAM_OVERLAP_AUTHORIZED',
+  sourceLabels: [
+    'Prydwen — The Shorekeeper kit/gameplay',
+    'Game8 — Shorekeeper Augusta + Iuno team rotation',
+  ],
+  sourceUrls: [
+    'https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper',
+    'https://game8.co/games/Wuthering-Waves/archives/463667',
+  ],
+  sourceEstablished: [
+    'The Shorekeeper current kit states that Binary Butterfly Amplifies all nearby party members’ DMG by 15% for up to 30 seconds.',
+    'The Shorekeeper current gameplay instructs players to summon Stellarealm and immediately perform Outro into another team member’s Intro, after which one additional Intro fully upgrades the realm.',
+    'Game8’s Augusta + Iuno + Shorekeeper team guidance explicitly describes Shorekeeper as applying Stellarealm and Outro buffs, Iuno as applying the Heavy Attack buff, and Augusta as then utilizing those buffs through her damage rotation before the team returns to Shorekeeper.',
+    'The selected Bellibing Shorekeeper rotation ends Liberation -> Outro, the selected Iuno rotation begins with Intro, and PR #170 separately source-locks the terminal Iuno Outro -> Augusta Intro/core-start handoff.',
+    'For this exact selected Reference Team flow, Shorekeeper Binary Butterfly is therefore source-explicitly active for Augusta’s core damage phase without requiring Bellibing to invent an absolute team timestamp.',
+  ],
+  unresolvedSemantics: [
+    'No absolute Shorekeeper Outro timestamp or Iuno field-time duration is claimed by this review.',
+    'This review does not authorize Stellar Symphony, Rejuvenating Glow, Fallacy or Stellarealm party-crit overlap; each retains its own trigger/state dependency.',
+    'No per-action Augusta timestamps are introduced and no Augusta DPS consumer is changed by this evidence alone.',
+  ],
+  closesReferenceTeamDependencyIds: [
+    'shorekeeper-outro-augusta-window-overlap',
+  ],
+} as const;

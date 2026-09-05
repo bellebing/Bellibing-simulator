@@ -6,6 +6,7 @@ import { validateIunoOutroTransferContract } from '../combat/iunoOutroTransferAd
 import { validateIunoWanLightRecipientContract } from '../combat/iunoWanLightRecipientState.ts';
 import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeeperHealingSupportWindowAdapter.ts';
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
+import { validateShorekeeperStellarealmContract } from '../combat/shorekeeperStellarealmState.ts';
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
 import {
   resolveTeamExecutionContext,
@@ -225,6 +226,18 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
       'Selected Fallacy of No Return wielder Energy Regen source semantics are executable from an explicit generic Fallacy Echo Skill cast and remain scoped to Shorekeeper.',
   },
   {
+    id: 'shorekeeper-stellarealm-lifecycle-contract',
+    sourceKind: 'CHARACTER_MECHANIC',
+    sourceId: 'the-shorekeeper-liberation-stellarealms',
+    sourceCharacterId: 'the-shorekeeper',
+    sourcePresetId: 'shorekeeper-augusta-support',
+    targetCharacterId: 'augusta',
+    resolutionStatus: 'RESOLVED',
+    requiredForDps: true,
+    requirementSummary:
+      'Canonical S0 Outer→Inner→Supernal evolution, 30s lifetime, ER→party-crit formulas/caps and Discernment termination are executable from explicit End Loop/Intro/in-range events and an explicit current Shorekeeper ER sample.',
+  },
+  {
     id: 'shorekeeper-fallacy-wielder-er-stellarealm-state',
     sourceKind: 'ECHO_EFFECT',
     sourceId: 'FALLACY_WIELDER_ER',
@@ -234,7 +247,7 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     resolutionStatus: 'PENDING',
     requiredForDps: true,
     requirementSummary:
-      'Requires actual Fallacy cast timing plus source-resolved Stellarealm Energy Regen sampling/formula before the wielder ER window may affect Shorekeeper party-crit state.',
+      'Stellarealm ER→crit formula/state core is source-resolved; requires actual Fallacy cast timing plus an explicit current Shorekeeper ER composition at Reference Team query times before the wielder ER window can affect party crit.',
   },
   {
     id: 'shorekeeper-stellarealm-party-crit-to-augusta',
@@ -246,7 +259,7 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     resolutionStatus: 'PENDING',
     requiredForDps: true,
     requirementSummary:
-      'Requires executable Stellarealm evolution plus source-valid Shorekeeper Energy Regen state, including timed ER effects, before the party crit contribution can be resolved.',
+      'Stellarealm lifecycle/formulas are executable; requires source-valid Reference Team End Loop/Intro/Discernment/Augusta timestamps, Augusta in-range evidence and timed Shorekeeper ER composition before party crit can be applied to Augusta.',
   },
 ] as const;
 
@@ -294,6 +307,12 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const shorekeeperOutroIssues = validateShorekeeperOutroTeamWindowContract();
   if (shorekeeperOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Shorekeeper Outro team-window contract: ${shorekeeperOutroIssues.join('; ')}`);
+  }
+  const shorekeeperStellarealmIssues = validateShorekeeperStellarealmContract();
+  if (shorekeeperStellarealmIssues.length > 0) {
+    throw new Error(
+      `Reference Team 01: invalid canonical Shorekeeper Stellarealm contract: ${shorekeeperStellarealmIssues.join('; ')}`,
+    );
   }
 
   if (shorekeeper.defaultWeapon.id !== 'stellar-symphony') {

@@ -19,18 +19,28 @@ This is the canonical living roadmap for the latest active Factory branch. Histo
 - Review-ready head: `74ee4155f50ebb9a6717f978fc491fbaf3427d08`.
 - Preserves the verified #159-#173 Reference Team payload linearly above current main.
 - Exact-head Factory Fast #3, Verify #1040, Export #949 and Character Mechanics import #164 succeeded.
-- #174 is open, non-draft and mergeable, but **not merged**.
+- #174 is open, non-draft, mergeable and **not merged**.
 - Merge requires explicit user authorization.
 
-### PR #175 — active Factory milestone stacked on #174
+### PR #175 — review-ready Factory Milestone 01 stacked on #174
 
 - Branch: `factory/provider-evidence-standard-effect-v1-2026-09-05`.
+- Review-ready head: `dfdd8b90a52f01091b97ba030dacefdff31d5825`.
 - Base: #174 branch/head, not `main`.
-- Purpose: prove the next Factory v1 roadmap steps without requiring #174 to merge first.
-- Scope is one coherent Factory milestone: tiny multi-provider evidence mapping + reconciliation/exception routing + one declarative standard-effect family + regression proof.
+- Scope: tiny multi-provider evidence mapping + reconciliation/exception routing + one declarative standard-effect family + regression proof.
+- Factory Fast #11 and full Verify #1043 succeeded on the exact head.
+- #175 is open, non-draft, mergeable and **not merged**.
 - No Character-by-Character work and no post-#173 Reference Team semantic slicing.
-- #175 is currently draft while final docs/Handoff/exact-head verification are completed.
-- Neither #174 nor #175 is authorized for merge by this work.
+
+### PR #176 — active Factory Milestone 02 stacked on #175
+
+- Branch: `factory/evidence-reporting-v1-2026-09-05`.
+- Base: #175 branch/head, not `main`.
+- Scope: deterministic evidence/reconciliation reporting and export over reviewed Factory mappings.
+- Code-bearing head `6583e99b17ac9a5410e0ac3772a08ce10afcfd9b` passed full Verify #1046 and Character Mechanics import #167 after a whitespace-only first-pass failure was corrected.
+- The current documentation sync is stacked above that verified code head; exact final-head Verify is required before Milestone 02 is considered fully review-ready.
+- #176 remains a draft and **not merged**.
+- #174, #175 and #176 all require explicit user authorization before any merge.
 
 ## 2. One active development direction
 
@@ -51,13 +61,14 @@ Locked rules:
 - current gameplay scope remains S0-S2 + maxed Character skills;
 - S3-S6/lower skill levels remain retained source data but deferred;
 - quickswap remains deferred for initial Best Available Teams;
-- do not build one calculator per Character or a universal gameplay DSL.
+- do not build one calculator per Character or a universal gameplay DSL;
+- do not broaden to roster-scale provider ingestion before small-family Factory reuse is proven.
 
 ## 3. Reference Team 01 — Factory golden regression
 
 Team: **Augusta / Iuno / The Shorekeeper**.
 
-Preserved state on #174 and inherited by #175:
+Preserved through #174 → #175 → #176:
 
 - dependency coverage: `PARTIAL`;
 - `dpsReady = false`;
@@ -82,56 +93,66 @@ Related blockers remain open/relevant:
 - `BUG-008` Impermanence Heron source conflict;
 - `BUG-010` Fallacy active-damage variant source semantics.
 
-## 4. Factory milestone 01 — multi-provider evidence proof
+Milestones 01–02 close none of these blockers.
 
-PR #175 maps exactly one already-understood fact family:
+## 4. Factory Milestone 01 — reusable source/effect proof
+
+PR #175 established two bounded contracts without changing gameplay/DPS/UI truth.
+
+### Tiny multi-provider fact family
 
 - family: `weapon-r1-attribute-dmg-bonus-v1`;
 - subject: `ages-of-harvest`;
 - field: `r1.attribute-dmg-bonus.value`;
-- Prydwen review lane: current Lumi build evidence identifies R1 Ages of Harvest as supplying 12% general DMG Bonus;
-- FrequencyManager lane: pinned `f585e47a868cb2b65845367b976a1781f130c758` structured weapon row supplies unconditional `elemDmg=12`.
+- Prydwen review lane identifies the R1 general DMG Bonus value;
+- FrequencyManager pinned `f585e47a868cb2b65845367b976a1781f130c758` supplies the corresponding unconditional structured `elemDmg` value.
 
-Raw provider-specific evidence is stored separately under `data/factory/evidence/` with provider/source/version/capture provenance.
+The normalizer deliberately maps only the shared numeric R1 attribute/general-DMG value. It does **not** infer trigger, duration, stacking, refresh, target or profile uptime.
 
-The reviewed normalizer deliberately maps only the shared numeric R1 attribute/general-DMG value. It does **not** infer trigger, duration, stacking, refresh, target, or profile uptime from provider text/data.
+Matching evidence yields `CONSENSUS / REVIEW_CANDIDATE / MANUAL_SOURCE_VALIDATION_REQUIRED`; disagreement must yield `CONFLICT / EXCEPTION_QUEUE` rather than Factory selecting a winner.
 
-Expected reconciliation:
-
-- two independent present candidates normalize to one semantic fingerprint;
-- classification: `CONSENSUS`;
-- route: `REVIEW_CANDIDATE`;
-- canonical promotion: `MANUAL_SOURCE_VALIDATION_REQUIRED`;
-- exception queue: empty for the matching snapshot;
-- a regression changes one provider value and proves the result becomes `CONFLICT / EXCEPTION_QUEUE` rather than selecting a winner.
-
-`FrequencyManager` remains globally disabled for broad Factory ingestion. PR #175 allows it only in this explicit bounded prototype family based on its already-recorded MIT/evidence-only disposition.
-
-## 5. Factory milestone 01 — declarative standard-effect proof
-
-PR #175 also proves one intentionally narrow standard-effect generator family by reusing existing runtime architecture:
+### First declarative standard-effect family
 
 - family/runtime primitive: `weapon-cast-timed-self-window-v1`;
-- canonical proof effect identities: Ages of Harvest `AH-INTRO` and `AH-SKILL`;
-- source authority: `BELLIBING_CANONICAL_WEAPON_EFFECT_CATALOG` only.
+- proof identities: Ages of Harvest `AH-INTRO` and `AH-SKILL`;
+- runtime source authority: `BELLIBING_CANONICAL_WEAPON_EFFECT_CATALOG` only.
 
-The Factory specs contain identities only. Numeric values, rank values, durations, scope, source trigger text and execution semantics remain owned by Bellibing's canonical `WEAPON_EFFECT_CATALOG` and the existing manually reviewed `weaponCastWindowAdapter` contract.
+Factory specs carry identities only. Numeric values, durations, scope, source trigger text and runtime semantics remain owned by Bellibing canonical effect data and the existing reviewed runtime primitive.
 
-Regression requirements:
+This is generation over an existing mechanic family, not a new gameplay engine.
 
-- generated activation must equal direct activation through the existing runtime primitive;
-- wrong trigger remains inactive/fail-closed;
-- a spec claiming external/provider evidence as runtime source authority must throw;
-- provider reconciliation does not mutate/promote canonical Weapon Effect data.
+## 5. Factory Milestone 02 — deterministic evidence/report contract
 
-This is standard-effect generation through an existing primitive, not a new gameplay engine.
+PR #176 generalizes the review/output boundary without adding another Character or gameplay mechanic slice.
+
+Implemented contracts:
+
+- reviewed mapper registry; unregistered evidence families fail closed;
+- deterministic reconciliation and candidate ordering;
+- summary counts for `CONSENSUS / SINGLE_SOURCE / CONFLICT / MISSING / UNKNOWN`;
+- explicit review-candidate and exception-queue keys;
+- provenance-rich provider/source/version/capture output;
+- deterministic JSON + Markdown rendering with no generated-at timestamp;
+- CLI export from `data/factory/evidence/*.json`;
+- checked-in `data/generated/factory-evidence-report.json` and `docs/generated/FACTORY_EVIDENCE_REPORT.md`;
+- `audit:factory-evidence-report` drift validation wired into `verify:fast:factory`;
+- regressions for deterministic output, duplicate reconciliation keys, unreviewed-family rejection, provenance visibility and manual-promotion preservation.
+
+Current report remains intentionally bounded to the one reviewed Milestone 01 fact family:
+
+- 1 reconciliation;
+- 1 `CONSENSUS`;
+- 1 review candidate;
+- 0 exception rows.
+
+The report is review input only. It never promotes provider evidence into canonical runtime truth.
 
 ## 6. Provider/license boundary
 
 Current Factory dispositions:
 
 - Prydwen extraction/review lane — keep `REVIEW_ONLY`; extractor code is MIT, page content still requires Bellibing source review.
-- `Voruzhu/FrequencyManager` — MIT; approved for this bounded independent-evidence prototype, not broad auto-ingestion.
+- `Voruzhu/FrequencyManager` — MIT; approved for bounded independent-evidence prototypes, not broad auto-ingestion.
 - `d4rkOfficial/wuwa-afyg-tool` — repository MIT; provider architecture may be studied, but Wuwa data requires separate provenance/review before any mapping.
 - `DommyMM/wuwabuild` — no current repository license found during cutover audit; no new code/data copy without explicit reuse rights.
 
@@ -148,34 +169,34 @@ No external provider has canonical authority.
 
 ### Fast iteration path
 
-`npm run verify:fast:factory` runs targeted Factory tests + readiness + strict web build; the Factory workflow also runs diff whitespace validation.
+`npm run verify:fast:factory` now runs:
 
-PR #175 code/test head `48d5dbc59927c43e16ebcc070b36e85ba4bfe59a` passed Factory Fast #9, including:
+1. targeted `test:factory`;
+2. deterministic generated-report drift audit;
+3. profile-readiness audit;
+4. strict web build.
 
-- Factory provider/reconciliation tests;
-- Factory standard-effect generation tests;
-- Reference Team golden regression inherited from #174;
-- readiness gate;
-- strict web build;
-- diff whitespace.
+`.github/workflows/factory-fast.yml` also checks diff whitespace when invoked for its configured target/ref. The workflow currently targets pull requests into `main`; stacked Factory PRs should not rewrite or weaken that trigger merely to manufacture a fast-path status.
 
 ### Full PR path
 
-`.github/workflows/verify.yml` runs on any pull request, including stacked #175 → #174. Therefore #175 can receive the full existing repository Verify contract **without merging #174 first**.
+`.github/workflows/verify.yml` runs on stacked Factory pull requests, so full repository verification remains available before #174 is merged.
 
 Full Verify includes source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, required real-Chrome regressions and whitespace.
 
-Export remains the main-targeting artifact contract and is not treated as required for this stacked non-main-base PR. #174 retains its already-green main-targeting Export #949.
+PR #176 code-bearing head `6583e99b17ac9a5410e0ac3772a08ce10afcfd9b` passed full Verify #1046. The first #176 full run failed only diff whitespace; the two trailing-space lines were corrected without weakening any gate, then #1046 passed.
 
-No correctness gate is weakened.
+Export remains the main-targeting artifact contract. #174 retains Export #949 SUCCESS; stacked #175/#176 do not substitute for or invalidate it.
 
 ## 9. Current next step
 
-Finish PR #175 as one milestone:
+Complete Milestone 02 without merging anything:
 
-1. complete exact-head full Verify;
-2. synchronize this status, `docs/FACTORY_V1.md`, Handoff/update log and relevant bug preservation notes;
-3. mark #175 review-ready only if exact-head checks are green and its diff remains Factory-only;
-4. do **not** merge #174 or #175 without explicit authorization.
+1. receive exact-head full Verify for the final documentation-synced #176 head;
+2. synchronize Bellibing Echo Tool Handoff, UPD-158 and BUG-028/029 preservation notes;
+3. keep #176 draft unless/until its exact final state is deliberately promoted to review-ready;
+4. keep #174/#175/#176 unmerged until explicit user authorization.
 
-After milestone 01 is review-ready, the next Factory work should measure/reuse the pattern on another small source family or add report-generation ergonomics — not broaden directly to roster-scale ingestion and not return to Character-by-Character work.
+After Milestone 02 is exact-head verified, the preferred next Factory slice is a **second small, already-understood source fact family** through the same reviewed mapper registry and deterministic reporting path. Its purpose is to prove reuse across fact families, not to expand roster breadth.
+
+That next slice must preserve provider raw/provenance separation, fail closed on disagreement/unknowns, require manual canonical promotion, and avoid Character-specific calculators, a universal gameplay DSL and roster-scale ingestion.

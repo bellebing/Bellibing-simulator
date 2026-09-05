@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "familyId": "weapon-r1-attribute-dmg-bonus-v1",
+  "subjectId": "ages-of-harvest",
+  "fieldId": "r1.attribute-dmg-bonus.value",
+  "capturedAt": "2026-09-05T18:58:00Z",
+  "providers": [
+    {
+      "providerId": "prydwen-profile-source",
+      "evidenceState": "PRESENT",
+      "sourceRef": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+      "sourceVersion": "live-page-review-2026-09-05",
+      "raw": {
+        "rank": 1,
+        "bonusKind": "GENERAL_DMG_BONUS",
+        "valuePercent": 12
+      },
+      "notes": [
+        "Current Lumi build write-up identifies Ages of Harvest R1 as providing an additional 12% DMG Bonus.",
+        "This snapshot normalizes only the numeric R1 general/attribute damage-bonus value; it does not infer trigger, duration, stacking, or runtime uptime semantics from the build write-up."
+      ]
+    },
+    {
+      "providerId": "frequency-manager",
+      "evidenceState": "PRESENT",
+      "sourceRef": "https://github.com/Voruzhu/FrequencyManager/blob/f585e47a868cb2b65845367b976a1781f130c758/adapters/game-definitions/wuthering-waves/weapons.ts",
+      "sourceVersion": "f585e47a868cb2b65845367b976a1781f130c758",
+      "raw": {
+        "rank": 1,
+        "stat": "elemDmg",
+        "valuePercent": 12,
+        "conditional": false
+      },
+      "notes": [
+        "Structured Ages of Harvest record stores the R1 unconditional elemental/attribute damage self-buff as elemDmg=12.",
+        "Provider data is evidence-only and cannot promote Bellibing canonical truth without manual source validation."
+      ]
+    }
+  ]
+}

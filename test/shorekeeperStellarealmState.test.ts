@@ -42,6 +42,10 @@ function query(actorId: string, atSeconds: number, shorekeeperEnergyRegen = 2.5,
   return { actorId, atSeconds, shorekeeperEnergyRegen, insideStellarealm };
 }
 
+function assertClose(actual: number, expected: number, epsilon = 1e-12) {
+  assert.ok(Math.abs(actual - expected) <= epsilon, `${actual} is not within ${epsilon} of ${expected}`);
+}
+
 test('Shorekeeper Stellarealm contract remains source-owned and exact for S0 Reference Team use', () => {
   assert.deepEqual(validateShorekeeperStellarealmContract(), []);
   const contract = resolveShorekeeperStellarealmContract();
@@ -109,8 +113,8 @@ test('Stellarealm crit conversion consumes the explicit current ER sample rather
   state = applyShorekeeperStellarealmEvent(state, intro('augusta', 2));
 
   const belowCap = readShorekeeperStellarealmState(state, query('augusta', 3, 2.4));
-  assert.equal(belowCap.critRateBonus, 0.12);
-  assert.equal(belowCap.critDamageBonus, 0.24);
+  assertClose(belowCap.critRateBonus, 0.12);
+  assertClose(belowCap.critDamageBonus, 0.24);
 
   const aboveCap = readShorekeeperStellarealmState(state, query('augusta', 3, 3.0));
   assert.equal(aboveCap.critRateBonus, 0.125);

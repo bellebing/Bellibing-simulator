@@ -75,7 +75,7 @@ Disposition:
 - usable as an independent structured comparison/evidence corpus;
 - provenance must identify repository/commit/path;
 - do not copy its computed semantics directly into Bellibing runtime truth;
-- broad Factory ingestion remains disabled until a bounded mapping proves the contract.
+- broad Factory ingestion remains disabled until reviewed mappings prove the contract family-by-family.
 
 #### `d4rkOfficial/wuwa-afyg-tool` — APPROVED FOR CONTRACT/ARCHITECTURE STUDY; DATA MAPPING STILL REVIEWED
 
@@ -114,9 +114,9 @@ It adds:
 
 PR #174 remains review-ready and unmerged. `main` remains canonical runtime truth until an explicitly authorized merge.
 
-## Milestone 01 — tiny multi-provider mapping
+## Milestone 01 — tiny multi-provider mapping and first standard-effect family — PR #175
 
-PR #175 is stacked on #174 so Factory development does not require merging #174 first.
+PR #175 is stacked on #174 so Factory development does not require merging #174 first. It is review-ready and unmerged.
 
 The first mapping is deliberately narrow:
 
@@ -146,9 +146,7 @@ A disagreement regression changes one provider value and must yield `CONFLICT / 
 
 `FrequencyManager` remains globally disabled for broad ingestion. It is whitelisted only for this reviewed prototype family, preventing a tiny successful mapping from silently becoming roster-scale trust.
 
-## Milestone 01 — first declarative standard-effect family
-
-The first generated family is exactly the already-reviewed shared primitive:
+Milestone 01 also proves exactly one already-reviewed standard-effect family:
 
 `weapon-cast-timed-self-window-v1`
 
@@ -176,6 +174,33 @@ Required fail-closed behavior:
 
 This is a generator over an existing reviewed mechanic family, not a universal gameplay DSL.
 
+## Milestone 02 — deterministic evidence/reconciliation reporting — PR #176
+
+PR #176 is stacked directly on #175. It does not require #174 or #175 to be merged and introduces no new Wuthering Waves gameplay value.
+
+Milestone 02 adds a reusable reporting boundary over reviewed Factory mappings:
+
+- a reviewed mapper registry that rejects unregistered evidence families rather than guessing how to normalize them;
+- deterministic reconciliation ordering by subject/field and candidate ordering by provider/candidate identity;
+- summary counts for `CONSENSUS / SINGLE_SOURCE / CONFLICT / MISSING / UNKNOWN`;
+- explicit `reviewCandidateKeys` and `exceptionQueueKeys`;
+- provenance-rich candidate output retaining provider/source/version/capture metadata;
+- deterministic JSON and Markdown renderers with no generated-at timestamp;
+- `scripts/generate-factory-evidence-report.ts` over `data/factory/evidence/*.json`;
+- checked-in review artifacts under `data/generated/` and `docs/generated/`;
+- `--check` drift validation exposed as `npm run audit:factory-evidence-report` and included in `npm run verify:fast:factory`;
+- regression tests for deterministic output, duplicate reconciliation-key rejection, unreviewed-family fail-closed behavior, provenance visibility and manual canonical-promotion preservation.
+
+Current reviewed snapshot report remains deliberately tiny:
+
+- reconciliations: 1;
+- `CONSENSUS`: 1;
+- review candidates: 1;
+- exception queue: 0;
+- subject/field: `ages-of-harvest::r1.attribute-dmg-bonus.value`.
+
+The report is review input only. It cannot promote provider evidence into canonical Bellibing runtime truth.
+
 ## Exception-driven development
 
 Future AI workers should primarily work on:
@@ -202,21 +227,21 @@ Factory must continuously prove that:
 - no generated/provider candidate silently changes Wuwa semantics;
 - BUG-028/BUG-029 boundaries are not erased by data import.
 
-Milestone 01 does not close or alter any Reference Team dependency.
+Milestones 01 and 02 do not close or alter any Reference Team dependency.
 
 ## Verification throughput model
 
 ### Fast path
 
-Use affected tests/audits and strict build while iterating. `npm run verify:fast:factory` runs Factory tests, readiness and strict web build; the Factory branch workflow also checks diff whitespace.
+`npm run verify:fast:factory` runs Factory tests, generated-report drift audit, readiness and strict web build. `.github/workflows/factory-fast.yml` additionally checks diff whitespace when that workflow is invoked for its configured target/ref.
 
-Milestone 01 code/test head `48d5dbc59927c43e16ebcc070b36e85ba4bfe59a` passed Factory Fast #9.
-
-Fast checks are iteration checks, not merge authorization.
+Factory Fast is an iteration path, not merge authorization. Stacked PRs whose base is not `main` still receive the repository-wide `Verify` workflow; do not weaken or rewrite workflow triggers merely to manufacture a fast-path badge.
 
 ### Full PR path
 
-The existing `Verify` workflow runs on every pull request, including stacked PR #175 → #174. This allows full repository verification before #174 is merged.
+The existing `Verify` workflow runs on pull requests including stacked Factory PRs. This allows full repository verification before #174 is merged.
+
+For Milestone 02, code-bearing head `6583e99b17ac9a5410e0ac3772a08ce10afcfd9b` passed full Verify #1046 after a prior whitespace-only failure was corrected. The passing run includes source/raw/profile gates, full Node tests, strict build, required real-Chrome regressions and diff whitespace. Final documentation-head verification remains required before #176 can be called exact-head verified.
 
 Main-targeting Export remains required on #174 and is already green there (#949). A stacked non-main-base Factory PR does not substitute or invalidate that main-targeting artifact contract.
 
@@ -225,21 +250,29 @@ No Factory workflow may delete, skip or weaken existing correctness gates.
 ## Factory v1 milestone state
 
 1. Provider/evidence contract + reconciliation + exception queue — **implemented on #174**.
-2. Two provider mappings on one tiny source family with provenance/licensing — **implemented on #175; final review verification pending**.
-3. One declarative standard-effect family through an existing runtime primitive — **implemented on #175; final review verification pending**.
+2. Two provider mappings on one tiny source family with provenance/licensing — **implemented and exact-head verified on #175**.
+3. One declarative standard-effect family through an existing runtime primitive — **implemented and exact-head verified on #175**.
 4. Generated contract/regression tests protect source ownership and runtime semantics — **implemented on #175**.
-5. Fast targeted path demonstrates lower iteration latency while full PR Verify remains available — **fast path proven; exact final PR Verify required**.
-6. Reference Team 01 remains the golden regression — **locked; six dependencies remain PENDING**.
-7. Roster-scale ingestion/mechanic generation — **not authorized yet**.
+5. Deterministic evidence/reconciliation report export + provenance + drift contract — **implemented on #176; final documentation-head verification pending**.
+6. Fast targeted path remains available while full PR Verify protects stacked work — **preserved; no gate weakened**.
+7. Reference Team 01 remains the golden regression — **locked; six dependencies remain PENDING**.
+8. Roster-scale ingestion/mechanic generation — **not authorized yet**.
 
-## Next boundary after Milestone 01
+## Next boundary after Milestone 02
 
-Do not jump to roster-scale ingestion.
+Do not jump to roster-scale ingestion and do not return to Character-by-Character work.
 
-After #175 is exact-head review-ready, choose one of these Factory-scale follow-ups based on leverage:
+After #176 is exact-head verified, the preferred next Factory-scale slice is a **second small, already-understood source fact family** routed through the same provider-mapping registry and deterministic report path. The purpose is to prove that Milestones 01–02 are reusable infrastructure rather than Ages-of-Harvest-specific wiring.
 
-- add deterministic report-generation/export ergonomics for evidence/reconciliation output;
-- map a second small fact family to prove the mapping is reusable rather than Ages-of-Harvest-specific;
-- add a second already-reviewed standard-effect family only if it reuses an existing primitive without semantic invention.
+Requirements for that next family:
 
-Character-specific state remains Character-specific when genuinely required. Best Available Teams remains the product destination once canonical source/profile/execution coverage is strong enough.
+- use licensed/review-approved provider lanes only;
+- preserve raw evidence and provenance separately;
+- normalize only source-safe semantics already understood in Bellibing;
+- route disagreement/absence/unknown interpretation to the exception queue;
+- no automatic canonical promotion;
+- no Character-specific calculator;
+- no universal gameplay DSL;
+- no broad roster ingestion until the second-family proof shows the mapping/reporting contract generalizes safely.
+
+Best Available Teams remains the product destination once canonical source/profile/execution coverage is strong enough.

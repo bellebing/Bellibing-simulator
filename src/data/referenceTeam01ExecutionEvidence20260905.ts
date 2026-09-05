@@ -20,7 +20,7 @@ export const REFERENCE_TEAM_01_IUNO_AUGUSTA_HANDOFF_REVIEW_20260905 = {
     'Iuno current gameplay identifies Standard Sub DPS Rotation as the preferred rotation when using Augusta, states that it buffs Augusta the most, and ends the sequence with Absolute Fullness (Swap) followed by Outro.',
     'Iuno current kit states that Outro buffs the next character switched in for 14 seconds and ends early if that affected character switches off field.',
     'Augusta current gameplay states that her core rotation runs under an Amplify Outro in her best teams and that switching Augusta out during the rotation ends that kind of buff.',
-    'Augusta current team-flow guidance places the secondary buffer immediately before Augusta returns to execute her core rotation; Iuno is identified on the same page as Augusta’s best Outro buffer.',
+    'Augusta current team-flow guidance routes the third slot through its own Outro into the secondary buffer before Augusta returns; the same page identifies Iuno as Augusta’s best Outro buffer and Shorekeeper as the best third slot for Augusta teams.',
     'For the selected Augusta/Iuno/Shorekeeper Reference Team and the selected Iuno Augusta-Sub-DPS profile, the terminal Iuno Outro therefore hands directly to Augusta’s Intro/core-rotation start.',
   ],
   unresolvedSemantics: [

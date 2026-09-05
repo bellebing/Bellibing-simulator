@@ -36,16 +36,17 @@ This is the canonical living roadmap for the latest active Factory branch. Histo
 - Factory Fast #23, full Verify #1048 and Character Mechanics import #169 succeeded on the exact head.
 - Open, draft, mergeable, unmerged.
 
-### Active Factory Milestone 03 — second source fact family
+### PR #177 — Factory Milestone 03 / integration-review head
 
 - Branch: `factory/second-source-fact-family-v1-2026-09-05`.
 - Base: exact #176 head, not `main`.
 - Scope: route a second small, already-understood source fact family through the existing reviewed mapper registry and deterministic reporting path.
+- Final review-ready head before integration-state cleanup: `bd72a3287786dc7e3458445a65012f4c3783b8f9`.
+- That head passed Factory Fast #27 and full Verify #1049, including source/raw/profile gates, full Node tests, strict web build, required real-Chrome regression and diff whitespace.
+- Open, non-draft, mergeable, unmerged.
 - No Character-by-Character work, Reference Team semantic slicing, roster-scale ingestion or gameplay DSL work is in scope.
-- Code/report head `9653ee95f2b9688ca517afdba8af9d05f5da7d21` passed Factory Fast #26.
-- Full repository Verify remains mandatory on the final PR head before this milestone is review-ready.
 
-**Merge policy:** #174, #175, #176 and this active milestone remain unmerged. Any merge requires explicit user authorization.
+**Merge policy:** #174, #175, #176 and #177 remain unmerged. Any merge requires explicit user authorization.
 
 ## 2. Active development model
 
@@ -137,7 +138,7 @@ Why this tests reuse rather than duplicating Ages of Harvest:
 - both use the same registry, reconciliation core, deterministic report, provenance contract and manual-promotion boundary;
 - the report now contains two independently registered fact families and stable cross-family ordering.
 
-Expected checked-in report state:
+Checked-in report state:
 
 - 2 reconciliations;
 - 2 `CONSENSUS` rows;
@@ -170,16 +171,18 @@ No external provider has canonical authority.
 
 `npm run verify:fast:factory` covers targeted Factory tests, deterministic report drift, profile readiness and strict web build; Factory Fast workflow also validates diff whitespace.
 
-Milestone 03 code/report head `9653ee95f2b9688ca517afdba8af9d05f5da7d21` passed Factory Fast #26.
+PR #177 head `bd72a3287786dc7e3458445a65012f4c3783b8f9` passed Factory Fast #27.
 
 ### Full PR path
 
-The final Milestone 03 PR head must pass the existing full `Verify` workflow before review-ready status. Full Verify retains source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
+The same #177 head passed full Verify #1049. Full Verify retained source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
 
-No correctness gate is weakened.
+No correctness gate is weakened. Main-targeting Export remains a separate required integration contract; #174 has Export #949 SUCCESS.
 
-## 9. After Milestone 03
+## 9. Integration review state
 
-Stop after exact-head full verification and report stack health for #174 → #175 → #176 → Milestone 03.
+Milestone 03 is complete. Do not build Milestone 04 during integration review.
 
-Because the Factory review stack is now four layers deep and has demonstrated both multi-provider mapping reuse and deterministic reporting, the default next decision should be **integration/merge review rather than automatically stacking another Factory milestone**. This is a recommendation only; no merge is authorized by this document.
+The current task is to assess the full linear `main → #174 → #175 → #176 → #177` payload for safe main-bound integration while preserving milestone history. No merge is authorized by this document.
+
+Bellibing Echo Tool Handoff remains externally stale because the normal Google Sheets `spreadsheets.batchUpdate` write path returns `403 PERMISSION_DENIED`. No workaround or partial write is permitted. Until write permission returns, these GitHub living docs are the current integration-review truth.

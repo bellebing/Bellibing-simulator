@@ -110,9 +110,11 @@ Implemented:
 
 Exact #176 head `7c49c83dc1684f49c2d1f3bf6bbdcf56685d0add` passed Factory Fast #23 and full Verify #1048.
 
-## Milestone 03 — second source fact family
+## Milestone 03 — second source fact family / PR #177
 
 Purpose: prove the mapper/report architecture is reusable across **different fact classes**, not merely across different weapons carrying the same passive-stat schema.
+
+Final review-ready head before integration-state cleanup: `bd72a3287786dc7e3458445a65012f4c3783b8f9`. That head passed Factory Fast #27 and full Verify #1049.
 
 ### Selected family: `weapon-rarity-v1`
 
@@ -150,7 +152,7 @@ The checked-in report now contains:
 1. `abyss-surges::rarity.stars`;
 2. `ages-of-harvest::r1.attribute-dmg-bonus.value`.
 
-Expected summary on the reviewed snapshots:
+Reviewed summary:
 
 - reconciliations: 2;
 - `CONSENSUS`: 2;
@@ -179,17 +181,19 @@ Milestone 03 changes none of these dependencies. Reference Team remains `PARTIAL
 
 Use `npm run verify:fast:factory` while iterating. It covers targeted Factory tests, generated-report drift, profile readiness and strict build; the workflow also checks diff whitespace.
 
-Milestone 03 code/report head `9653ee95f2b9688ca517afdba8af9d05f5da7d21` passed Factory Fast #26.
+PR #177 head `bd72a3287786dc7e3458445a65012f4c3783b8f9` passed Factory Fast #27.
 
 ### Full PR path
 
-Before review-ready status, the final Milestone 03 PR head must pass the existing full repository `Verify` workflow. No Factory change may delete, skip or weaken source/raw/profile/readiness, full Node, strict build, real-Chrome or whitespace gates.
+The same #177 head passed full repository Verify #1049. The run retained source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict web build, required real-Chrome regression and diff whitespace.
 
-## Boundary after Milestone 03
+Factory fast-path remains an iteration accelerator only. It does not replace or weaken full Verify. Main-targeting Export remains a separate integration contract; #174 has Export #949 SUCCESS.
 
-Do not automatically stack a fifth Factory milestone.
+## Integration review boundary after Milestone 03
 
-Milestones 01–03 have now demonstrated:
+Do not automatically stack a fifth Factory milestone. Milestone 03 is complete and the active work is integration/merge review.
+
+Milestones 01–03 have demonstrated:
 
 - a narrow multi-provider effect fact;
 - a second, categorically different static fact family;
@@ -198,4 +202,6 @@ Milestones 01–03 have now demonstrated:
 - generated artifact drift protection;
 - manual promotion preservation.
 
-After exact-head verification, assess the full #174 → #175 → #176 → Milestone 03 stack. With a four-layer review stack, **integration/merge review should be preferred over additional stacking unless a concrete blocker requires another pre-integration Factory change**. This is planning guidance only; merge still requires explicit user authorization.
+Review the full linear `main → #174 → #175 → #176 → #177` payload and prefer the cleanest safe main-bound integration while preserving #174–#177 as milestone evidence. Merge still requires explicit user authorization.
+
+Bellibing Echo Tool Handoff remains externally stale because the normal Google Sheets `spreadsheets.batchUpdate` path returns `403 PERMISSION_DENIED`. No workaround or partial write is permitted; until permission returns, GitHub `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md` are the current integration-review truth.

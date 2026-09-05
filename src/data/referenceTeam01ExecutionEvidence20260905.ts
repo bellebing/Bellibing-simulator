@@ -69,3 +69,43 @@ export const REFERENCE_TEAM_01_SHOREKEEPER_OUTRO_AUGUSTA_OVERLAP_REVIEW_20260905
     'shorekeeper-outro-augusta-window-overlap',
   ],
 } as const;
+
+export const REFERENCE_TEAM_01_SHOREKEEPER_STELLAREALM_AUGUSTA_OVERLAP_REVIEW_20260905 = {
+  reviewId: 'REFERENCE-TEAM-01-SHOREKEEPER-STELLAREALM-AUGUSTA-OVERLAP-2026-09-05-01',
+  teamProfileId: 'augusta-iuno-shorekeeper',
+  sourceCharacterId: 'the-shorekeeper',
+  targetCharacterId: 'augusta',
+  sourceFactId: 'the-shorekeeper-liberation-stellarealms',
+  shorekeeperRotationId: 'shorekeeper-augusta-support-standard',
+  iunoRotationId: 'iuno-augusta-sub-dps-standard',
+  augustaRotationId: 'augusta-standard-iuno-shorekeeper',
+  checkedAt: '2026-09-05',
+  disposition: 'SOURCE_EXPLICIT_STELLAREALM_STAGE_AND_RECIPIENT_AUTHORIZED',
+  sourceLabels: [
+    'Prydwen — The Shorekeeper kit/gameplay',
+    'Prydwen — Augusta gameplay/teams',
+    'Game8 — Iuno Augusta + Shorekeeper team rotation',
+  ],
+  sourceUrls: [
+    'https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper',
+    'https://www.prydwen.gg/wuthering-waves/characters/augusta',
+    'https://game8.co/games/Wuthering-Waves/archives/524889',
+  ],
+  sourceEstablished: [
+    'The Shorekeeper current kit states that End Loop creates Outer Stellarealm, the first party Intro used within Outer evolves it to Inner, and the second party Intro used within Inner evolves it to Supernal; Inner/Supernal provide party Crit Rate/Crit DMG from Shorekeeper Energy Regen while the party member is inside the realm.',
+    'The Shorekeeper current gameplay explicitly instructs players to summon Stellarealm, immediately Outro into another member’s Intro for the first upgrade, and then use one additional Intro to fully upgrade the realm.',
+    'Game8’s exact Augusta + Iuno + Shorekeeper rotation starts on Shorekeeper, uses Liberation to activate Stellarealm, switches to Iuno when Iuno Intro is available, then later switches from Iuno to Augusta when Augusta Intro is available.',
+    'Game8 identifies Shorekeeper as the best third slot for this Iuno/Augusta team because of her Crit and ATK buffs, and current Augusta guidance likewise identifies Shorekeeper’s Crit Rate/Crit DMG support as Augusta-facing value.',
+    'The selected Bellibing Shorekeeper rotation ends Liberation -> Outro, the selected Iuno rotation begins with Intro, and PR #170 independently source-locks terminal Iuno Outro -> Augusta Intro/core-start. For this selected flow, Iuno is the first party Intro after End Loop and Augusta is the second, so Augusta enters as Supernal Stellarealm is generated and is source-authorized as the selected Crit-buff recipient.',
+  ],
+  unresolvedSemantics: [
+    'No absolute Shorekeeper/Iuno/Augusta team timestamps are created by this review; generic Stellarealm execution still requires explicit chronological events inside the 30s realm.',
+    'No Shorekeeper Energy Regen value is hardcoded. The runtime continues to require an explicit query-time current Shorekeeper Energy Regen sample.',
+    'Fallacy and other timed Energy Regen composition remain separately unresolved and are not converted into a Crit value by this review.',
+    'Active-realm End Loop recast semantics remain source-boundary unresolved.',
+    'No party Crit value is consumed by Augusta DPS and no per-action Augusta timestamps are introduced by this evidence alone.',
+  ],
+  closesReferenceTeamDependencyIds: [
+    'shorekeeper-stellarealm-party-crit-to-augusta',
+  ],
+} as const;

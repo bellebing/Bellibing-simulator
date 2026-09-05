@@ -16,8 +16,8 @@ test('Iuno Lunar Cycle remains SELF and no longer owns recipient Wan Light stack
   assert.equal(lunarCycle.scope, 'SELF');
   assert.equal(lunarCycle.durationSeconds, 15);
   assert.equal(lunarCycle.maxStacks, null);
-  assert.match(lunarCycle.effectSummary, /Full Moon Domain periodically restores HP and STA/);
-  assert.match(lunarCycle.effectSummary, /separate Full Moon Domain Wan Light fact/);
+  assert.match(lunarCycle.effectSummary, /Absolute Fullness ends Lunar Cycle/);
+  assert.match(lunarCycle.effectSummary, /separate Full Moon Domain lifecycle fact/);
 });
 
 test('Full Moon Domain Wan Light source fact owns receiving-Resonator shield stack lifecycle', () => {

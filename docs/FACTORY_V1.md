@@ -205,7 +205,10 @@ The integrated tree passed:
 - Character Mechanics import #170;
 - post-merge `main` full Verify #1052;
 - post-merge `main` Export #951;
-- post-merge Deploy #138.
+- post-merge Deploy #138;
+- docs-only cleanup `bbd57243801ed86fe2f30be650406b475663e4e9` full Verify #1053;
+- the same cleanup Export #952;
+- the same cleanup Deploy/live #139.
 
 Full Verify retains source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict web build, required real-Chrome regression and diff whitespace. Main-targeting Export remains a separate artifact contract. No correctness gate is weakened.
 
@@ -215,4 +218,8 @@ Factory v1 through Milestone 03 is now canonical on `main`; integration/merge re
 
 Do **not** automatically start Milestone 04. Select the next bounded Factory objective only after the post-merge canonical state is green and explicit. Avoid Character-by-Character continuation, Reference Team micro-slicing, roster-scale ingestion and universal gameplay DSL work unless a separately reviewed objective requires them.
 
-Bellibing Echo Tool Handoff remains an external synchronization target. A normal Sheets sync may be attempted once for this post-merge state. If it still returns `403 PERMISSION_DENIED`, do not use a workaround or partial write; GitHub `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md` remain canonical current state until normal write permission returns.
+## External Handoff synchronization
+
+After fresh-reading the Handoff sheets, the single permitted normal post-merge `spreadsheets.batchUpdate` synchronization attempt returned `403 PERMISSION_DENIED` / `The caller does not have permission`.
+
+No alternate write path, workaround or partial write was attempted or claimed. Handoff remains stale at UPD-157 / Milestone 01 state. Until normal Sheets write permission is restored, GitHub `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md` on current `main` are the canonical current project state.

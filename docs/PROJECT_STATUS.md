@@ -24,7 +24,10 @@ Verification around the integration is green:
 - main-bound PR #178 Character Mechanics import #170 — **SUCCESS**;
 - post-merge `main` Verify #1052 — **SUCCESS**;
 - post-merge `main` Export #951 — **SUCCESS**;
-- post-merge `main` Deploy #138 — **SUCCESS**.
+- post-merge `main` Deploy #138 — **SUCCESS**;
+- docs-only canonical cleanup `bbd57243801ed86fe2f30be650406b475663e4e9` Verify #1053 — **SUCCESS**;
+- the same docs-only cleanup Export #952 — **SUCCESS**;
+- the same docs-only cleanup Deploy/live #139 — **SUCCESS**.
 
 This post-merge cleanup is documentation-only. It does not change gameplay/runtime/data behavior.
 
@@ -163,7 +166,7 @@ It does not replace the repository-wide verification contract.
 
 The full `Verify` workflow remains authoritative for integration/main correctness and retains source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
 
-The main-targeting Export/artifact contract remains separate. The integrated payload passed both before merge (#1051 / #950) and again on the actual merge commit (#1052 / #951). Post-merge Deploy #138 also succeeded.
+The main-targeting Export/artifact contract remains separate. The integrated payload passed both before merge (#1051 / #950) and again on the actual merge commit (#1052 / #951). Post-merge Deploy #138 succeeded. The docs-only cleanup also passed Verify #1053, Export #952 and Deploy/live #139.
 
 No correctness gate is weakened.
 
@@ -175,4 +178,6 @@ Do not start the next Factory milestone until post-merge canonical state is veri
 
 ### External Handoff synchronization
 
-Bellibing Echo Tool Handoff is an external synchronization target, not implementation truth. A normal Google Sheets sync may be attempted once for this post-merge state. If it remains blocked by `403 PERMISSION_DENIED`, no workaround or partial write is permitted; these GitHub living docs remain the canonical current state until normal Sheets write permission is restored.
+The single permitted normal post-merge Google Sheets synchronization attempt was made after fresh-reading `Mål & Handoff`, `Uppdateringslogg`, `Buggar` and `ChatGPT Projektinstruktioner`. `spreadsheets.batchUpdate` returned `403 PERMISSION_DENIED` / `The caller does not have permission`.
+
+No alternate write path, workaround or partial write was attempted or claimed. Bellibing Echo Tool Handoff therefore remains stale at UPD-157 / Milestone 01 state. Until normal Sheets write permission is restored, GitHub `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md` on current `main` are the canonical current project state.

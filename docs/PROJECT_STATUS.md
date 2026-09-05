@@ -421,9 +421,27 @@ PR #169 source-corrects and executes the bounded S0 Shorekeeper Stellarealm life
 - readiness regression explicitly locks coverage at `PARTIAL` and `dpsReady = false`; no canonical profile `pendingExecutionId` closes from this primitive alone;
 - `BUG-028` remains open/known-gap and `BUG-029` remains open; `.37`, Augusta combat math, UI, optimizer and unrelated Character behavior are unchanged.
 
-Runtime/manifest head `ce22d89d02e51a683fa7835336158dc8ef4460c6` passed full repo **Verify #1006** and Character Mechanics import **#139**. Readiness-test head `a6c7aa024379ec320732d79a73ed520ccf739241` passed full repo **Verify #1007** and Character Mechanics import **#140**. Final docs/Handoff head must also pass the full Verify contract before PR #169 can be marked review-ready.
+Runtime/manifest head `ce22d89d02e51a683fa7835336158dc8ef4460c6` passed full repo **Verify #1006** and Character Mechanics import **#139**. Readiness-test head `a6c7aa024379ec320732d79a73ed520ccf739241` passed full repo **Verify #1007** and Character Mechanics import **#140**. Final PROJECT_STATUS/Handoff head `2edbd4c79bdf54be07baeacf8e7b58e1b70e7899` passed full repo **Verify #1008** and Character Mechanics import **#141**; PR #169 is review-ready.
 
-The next implementation should target the shared Reference Team event/timeline boundary only if source-valid evidence can bind actual Shorekeeper/Iuno handoffs and Augusta action timing. Do not convert `SOURCE_SEQUENCE_ONLY` rotation prose or Augusta's 11.17s total duration into invented per-action timestamps. Keep timed Shorekeeper ER composition and Wan Light at-cap semantics separately pending unless their exact source/state evidence closes.
+#### Phase 2 tenth Iuno → Augusta relative handoff-overlap slice — PR #170
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #170 closes only the selected Reference Team Iuno Outro + Moonlit overlap with Augusta by source-authorizing a relative handoff origin, without inventing a global team timeline:
+
+- current Iuno gameplay identifies the Augusta-specific Standard Sub DPS rotation as the preferred Iuno rotation with Augusta, says that it buffs Augusta the most and ends with `Absolute Fullness (Swap) → Outro`;
+- current Augusta gameplay routes the team third slot through its Outro into the secondary buffer before Augusta returns, identifies Iuno as Augusta's best Outro buffer and Shorekeeper as the best third slot, and states that Augusta executes her core rotation under an Amplify Outro;
+- `src/data/referenceTeam01ExecutionEvidence20260905.ts` therefore source-locks the selected Reference Team terminal Iuno Outro directly to Augusta Intro/core-rotation start, but authorizes only the relative origin `IUNO_OUTRO_TO_AUGUSTA_INTRO = t0`;
+- `src/referenceTeam01IunoAugustaWindowCoverage.ts` validates the exact selected Iuno/Augusta rotation identities, requires Iuno's `Absolute Fullness (Swap) → Outro` tail, requires Augusta's `AUGUSTA_STD_V1` engine identity and verifies that Augusta starts with Intro and has no intermediate switch-out boundary before its terminal Outro;
+- the fixed Augusta engine envelope remains 11.17s, which is fully inside Iuno Outro's canonical 14s duration and Moonlit `S08_5PC_INCOMING_ATK`'s canonical 15s duration; no per-action Augusta timestamps are required for these two full-envelope overlap claims;
+- `iuno-outro-augusta-window-overlap` and `iuno-moonlit-augusta-window-overlap` move to `RESOLVED`;
+- no absolute Iuno/Shorekeeper field-time timestamp, Full Moon Domain timing, Wan Light Shield timestamp, Shorekeeper timing or arbitrary-team handoff schedule is introduced;
+- the remaining eight Reference Team dependencies stay `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and neither resolved transfer is consumed by Augusta DPS in this slice;
+- `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
+
+Code head `d6364d9c91d7e4b436e6298a789819b5eb76d76a` passed full repo **Verify #1010**. Final PROJECT_STATUS/Handoff head must also pass the full Verify contract before PR #170 can be marked review-ready.
+
+The next implementation should target one of the remaining eight exact dependencies only when current source can prove the missing event/state boundary. The relative Iuno → Augusta origin must not be expanded into a fabricated absolute Reference Team timeline. Wan Light at-cap behavior and actual in-Domain Shield/action overlap remain separately pending; Shorekeeper windows still require source-valid activation/relative-placement evidence.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

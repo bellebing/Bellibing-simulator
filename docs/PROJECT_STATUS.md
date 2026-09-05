@@ -1,52 +1,32 @@
 # Bellibing Simulator — Current Project Status
 
-Last reconciled: 2026-09-05
+Last reconciled: 2026-09-06
 
-This is the canonical living roadmap for the latest active Factory branch. Historical PR bodies and old worker branches are context, not competing roadmaps.
+This is the canonical living roadmap for current `main`. Historical PR bodies and old worker branches are evidence/context, not competing roadmaps.
 
-## 1. Implementation truth and review stack
+## 1. Current implementation truth
 
-### Current `main`
+Bellibing Factory v1 through Milestone 03 is now integrated into `main` through PR #178.
 
-- Canonical runtime/implementation truth remains `main` at `612324b8aba1dd1c4ae8a189ebf74062b291033b` until an explicitly authorized merge changes it.
-- No Factory PR has been merged.
+- PR #178 was merged with a normal merge commit, not squash/rebase.
+- Integration head: `751c65de73b4916746da0261f2cdacd56350a6db`.
+- Factory integration merge commit: `576ac38f25a730a4c2a224b00db8665cb24a20ed`.
+- The merge commit has the former `main` head `612324b8aba1dd1c4ae8a189ebf74062b291033b` and the verified integration head as its two parents.
+- #174, #175, #176 and #177 are closed **unmerged** as superseded Factory milestone evidence and point to #178; they must not be merged separately.
+- No Factory Milestone 04 has started.
 
-### PR #174 — Factory cutover / integration path
+Verification around the integration is green:
 
-- Branch: `factory/cutover-v1-2026-09-05`.
-- Review-ready head: `74ee4155f50ebb9a6717f978fc491fbaf3427d08`.
-- Exact-head Factory Fast #3, Verify #1040, Export #949 and Character Mechanics import #164 succeeded.
-- Open, non-draft, mergeable, unmerged.
+- integration head Factory Fast #28 — **SUCCESS**;
+- integration head full Verify #1050 — **SUCCESS**;
+- main-bound PR #178 Verify #1051 — **SUCCESS**;
+- main-bound PR #178 Export #950 — **SUCCESS**;
+- main-bound PR #178 Character Mechanics import #170 — **SUCCESS**;
+- post-merge `main` Verify #1052 — **SUCCESS**;
+- post-merge `main` Export #951 — **SUCCESS**;
+- post-merge `main` Deploy #138 — **SUCCESS**.
 
-### PR #175 — Factory Milestone 01
-
-- Branch: `factory/provider-evidence-standard-effect-v1-2026-09-05`.
-- Base: #174.
-- Review-ready head: `dfdd8b90a52f01091b97ba030dacefdff31d5825`.
-- Proves one tiny multi-provider fact mapping plus one declarative standard-effect family through an existing reviewed primitive.
-- Factory Fast #11 and full Verify #1043 succeeded.
-- Open, non-draft, mergeable, unmerged.
-
-### PR #176 — Factory Milestone 02
-
-- Branch: `factory/evidence-reporting-v1-2026-09-05`.
-- Base: #175.
-- Final verified head: `7c49c83dc1684f49c2d1f3bf6bbdcf56685d0add`.
-- Adds reviewed mapper registry + deterministic JSON/Markdown evidence/reconciliation reporting + report drift audit.
-- Factory Fast #23, full Verify #1048 and Character Mechanics import #169 succeeded on the exact head.
-- Open, draft, mergeable, unmerged.
-
-### PR #177 — Factory Milestone 03 / integration-review head
-
-- Branch: `factory/second-source-fact-family-v1-2026-09-05`.
-- Base: exact #176 head, not `main`.
-- Scope: route a second small, already-understood source fact family through the existing reviewed mapper registry and deterministic reporting path.
-- Final review-ready head before integration-state cleanup: `bd72a3287786dc7e3458445a65012f4c3783b8f9`.
-- That head passed Factory Fast #27 and full Verify #1049, including source/raw/profile gates, full Node tests, strict web build, required real-Chrome regression and diff whitespace.
-- Open, non-draft, mergeable, unmerged.
-- No Character-by-Character work, Reference Team semantic slicing, roster-scale ingestion or gameplay DSL work is in scope.
-
-**Merge policy:** #174, #175, #176 and #177 remain unmerged. Any merge requires explicit user authorization.
+This post-merge cleanup is documentation-only. It does not change gameplay/runtime/data behavior.
 
 ## 2. Active development model
 
@@ -69,13 +49,13 @@ Locked rules:
 - current gameplay scope remains S0-S2 + maxed Character skills;
 - S3-S6/lower skill levels and quickswap remain deferred;
 - do not build one calculator per Character or a universal gameplay DSL;
-- do not broaden to roster-scale provider ingestion while bounded-family reuse/integration remains under review.
+- do not broaden to roster-scale provider ingestion without a reviewed bounded Factory milestone.
 
 ## 3. Reference Team 01 — golden regression
 
 Team: **Augusta / Iuno / The Shorekeeper**.
 
-State remains unchanged through Milestones 01–03:
+State remains unchanged through the Factory integration:
 
 - dependency coverage: `PARTIAL`;
 - `dpsReady = false`;
@@ -97,6 +77,8 @@ Related blockers remain open/relevant: `BUG-028`, `BUG-029`, `BUG-008`, `BUG-010
 
 ## 4. Factory Milestone 01 — first reviewed mapping
 
+Historical milestone PR: #175, now closed unmerged as evidence after #178 integration.
+
 Family: `weapon-r1-attribute-dmg-bonus-v1`.
 
 - subject: `ages-of-harvest`;
@@ -108,7 +90,9 @@ Matching evidence yields `CONSENSUS / REVIEW_CANDIDATE / MANUAL_SOURCE_VALIDATIO
 
 ## 5. Factory Milestone 02 — deterministic reporting
 
-PR #176 established family-agnostic review-output infrastructure:
+Historical milestone PR: #176, now closed unmerged as evidence after #178 integration.
+
+Milestone 02 established family-agnostic review-output infrastructure:
 
 - reviewed mapper registry; unregistered families fail closed;
 - deterministic reconciliation/candidate sorting;
@@ -121,6 +105,8 @@ PR #176 established family-agnostic review-output infrastructure:
 - drift audit in `verify:fast:factory`.
 
 ## 6. Factory Milestone 03 — reuse proof with a different fact class
+
+Historical milestone PR: #177, now closed unmerged as evidence after #178 integration.
 
 Second family: `weapon-rarity-v1`.
 
@@ -136,7 +122,7 @@ Why this tests reuse rather than duplicating Ages of Harvest:
 - Milestone 01 maps a numeric passive-effect value with effect-specific safety constraints;
 - Milestone 03 maps categorical/static identity metadata with a separate normalizer and separate raw provider shapes;
 - both use the same registry, reconciliation core, deterministic report, provenance contract and manual-promotion boundary;
-- the report now contains two independently registered fact families and stable cross-family ordering.
+- the report contains two independently registered fact families and stable cross-family ordering.
 
 Checked-in report state:
 
@@ -154,7 +140,7 @@ Regressions explicitly prove:
 
 ### Parked candidate: level-90 Base ATK
 
-A level-90 Base ATK family was evaluated first and deliberately **not implemented**. Current Prydwen weapons evidence reports Abyss Surges ATK (Lv.90) as `587`, while the pinned FrequencyManager row stores `baseAtk: 588`. Factory does not assume that difference is harmless rounding and does not invent a normalization rule to force consensus. If revisited, it must enter explicit conflict/source review.
+A level-90 Base ATK family was evaluated and deliberately **not implemented**. Prydwen evidence reports Abyss Surges ATK (Lv.90) as `587`, while the pinned FrequencyManager row stores `baseAtk: 588`. Factory does not assume harmless rounding and does not coerce the values into consensus. If revisited, this remains explicit conflict/source review.
 
 ## 7. Provider/license boundary
 
@@ -169,20 +155,24 @@ No external provider has canonical authority.
 
 ### Fast path
 
-`npm run verify:fast:factory` covers targeted Factory tests, deterministic report drift, profile readiness and strict web build; Factory Fast workflow also validates diff whitespace.
+`npm run verify:fast:factory` remains an iteration accelerator covering targeted Factory tests, deterministic report drift, profile readiness and strict web build; Factory Fast workflow also validates diff whitespace.
 
-PR #177 head `bd72a3287786dc7e3458445a65012f4c3783b8f9` passed Factory Fast #27.
+It does not replace the repository-wide verification contract.
 
-### Full PR path
+### Full path
 
-The same #177 head passed full Verify #1049. Full Verify retained source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
+The full `Verify` workflow remains authoritative for integration/main correctness and retains source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
 
-No correctness gate is weakened. Main-targeting Export remains a separate required integration contract; #174 has Export #949 SUCCESS.
+The main-targeting Export/artifact contract remains separate. The integrated payload passed both before merge (#1051 / #950) and again on the actual merge commit (#1052 / #951). Post-merge Deploy #138 also succeeded.
 
-## 9. Integration review state
+No correctness gate is weakened.
 
-Milestone 03 is complete. Do not build Milestone 04 during integration review.
+## 9. Post-merge boundary
 
-The current task is to assess the full linear `main → #174 → #175 → #176 → #177` payload for safe main-bound integration while preserving milestone history. No merge is authorized by this document.
+Factory integration through Milestone 03 is complete. The old `main → #174 → #175 → #176 → #177` review stack is no longer an active merge queue; #174–#177 are historical evidence and #178 is the canonical integration record.
 
-Bellibing Echo Tool Handoff remains externally stale because the normal Google Sheets `spreadsheets.batchUpdate` write path returns `403 PERMISSION_DENIED`. No workaround or partial write is permitted. Until write permission returns, these GitHub living docs are the current integration-review truth.
+Do not start the next Factory milestone until post-merge canonical state is verified green and the next bounded objective is explicitly selected. Do not return to Character-by-Character slicing by default.
+
+### External Handoff synchronization
+
+Bellibing Echo Tool Handoff is an external synchronization target, not implementation truth. A normal Google Sheets sync may be attempted once for this post-merge state. If it remains blocked by `403 PERMISSION_DENIED`, no workaround or partial write is permitted; these GitHub living docs remain the canonical current state until normal Sheets write permission is restored.

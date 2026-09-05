@@ -8,6 +8,7 @@ import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeepe
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
 import { validateShorekeeperStellarealmContract } from '../combat/shorekeeperStellarealmState.ts';
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
+import { validateReferenceTeam01IunoAugustaWindowCoverage } from '../referenceTeam01IunoAugustaWindowCoverage.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -52,10 +53,10 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     sourceCharacterId: 'iuno',
     sourcePresetId: 'iuno-augusta-hybrid',
     targetCharacterId: 'augusta',
-    resolutionStatus: 'PENDING',
+    resolutionStatus: 'RESOLVED',
     requiredForDps: true,
     requirementSummary:
-      'Requires a source-valid Reference Team event timeline proving when Iuno Outro hands off to Augusta and which evaluated Augusta Heavy Attack events occur before switch-out or duration expiry.',
+      'Current source-reviewed Reference Team flow binds terminal Iuno Outro directly to Augusta Intro; Augusta stays on field for the 11.17s fixed engine envelope, which is fully inside the 14s Iuno Outro window.',
   },
   {
     id: 'iuno-moonlit-incoming-atk-lifecycle-contract',
@@ -76,10 +77,10 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     sourceCharacterId: 'iuno',
     sourcePresetId: 'iuno-augusta-hybrid',
     targetCharacterId: 'augusta',
-    resolutionStatus: 'PENDING',
+    resolutionStatus: 'RESOLVED',
     requiredForDps: true,
     requirementSummary:
-      'Requires a source-valid Reference Team event timeline proving Iuno Outro actually hands Moonlit to Augusta and which evaluated Augusta damage events occur inside the source-declared Sonata duration.',
+      'The same source-reviewed Iuno -> Augusta handoff starts Moonlit at Augusta Intro; the fixed 11.17s Augusta rotation envelope is fully inside the canonical 15s Moonlit duration.',
   },
   {
     id: 'iuno-wan-light-recipient-stack-core-contract',
@@ -291,6 +292,10 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   const iunoOutroIssues = validateIunoOutroTransferContract();
   if (iunoOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
+  }
+  const iunoAugustaCoverageIssues = validateReferenceTeam01IunoAugustaWindowCoverage();
+  if (iunoAugustaCoverageIssues.length > 0) {
+    throw new Error(`Reference Team 01: invalid Iuno -> Augusta window coverage: ${iunoAugustaCoverageIssues.join('; ')}`);
   }
   const iunoWanLightIssues = validateIunoWanLightRecipientContract();
   if (iunoWanLightIssues.length > 0) {

@@ -1,7 +1,7 @@
 # Bellibing Factory Evidence Report
 
-Generator: `factory-evidence-report-v1`  
-Schema: `1`  
+Generator: `factory-evidence-report-v1`
+Schema: `1`
 Canonical promotion: `MANUAL_SOURCE_VALIDATION_REQUIRED`
 
 ## Summary

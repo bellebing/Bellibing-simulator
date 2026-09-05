@@ -1,550 +1,226 @@
 # Bellibing Simulator — Current Project Status
 
-This file is the canonical **current-state + active-roadmap** checkpoint for Bellibing Simulator.
+Last reconciled: 2026-09-05
 
-Detailed chronology belongs in [`PROJECT_STATUS_HISTORY_2026-08-29.md`](PROJECT_STATUS_HISTORY_2026-08-29.md), Git history and the external `Bellibing Echo Tool — AI Handoff` update/bug logs. Product/team-construction direction is recorded in [`BEST_AVAILABLE_TEAMS_DIRECTION.md`](BEST_AVAILABLE_TEAMS_DIRECTION.md).
+This is the canonical living roadmap. Historical PR bodies, old worker branches and update-log rows may explain how the project got here, but they are not the active roadmap.
 
-Bellibing has **not** passed the full Pre-DPS Completeness Gate. Broad roster-wide Character DPS remains blocked. Narrow profiles may become `DPS_READY` only when their exact source, execution, BuildContext and freeze requirements close.
+## 1. Implementation truth
 
-## North star
+### Current `main`
 
-Bellibing is an Echo/build decision tool. Its job is to answer what the user should do next under their actual Character/build/rotation/roster constraints.
+- Canonical implementation truth remains `main` at `612324b8aba1dd1c4ae8a189ebf74062b291033b` until an explicitly authorized merge changes it.
+- This is the post-Zani baseline after merged Mornye/Zani integrations.
+- Post-Zani verification recorded in project handoff: Verify #974 attempt 2, Export #945 and Deploy #137 succeeded.
+- Current-main readiness snapshot remains `43 PROFILE_COMPLETE_PENDING_FREEZE / 3 CHARACTER_MECHANICS_SOURCE_BLOCKED / 9 PROFILE_SOURCE_PENDING / 2 DPS_READY`.
+- Current-main execution snapshot remains `19 reviews / 19 reviewed profiles / 17 profiles with pending execution / 83 exact edges`, queue `40/1/11/5/9/17 = 41 actionable shared`.
 
-The product direction now includes **Best Available Teams**: given the Characters the user still has available, Bellibing should eventually find the best feasible team or set of non-overlapping teams by modeled result — not merely reproduce established meta teams or rank generic synergy.
+### Review-ready Reference Team payload
 
-Normal UX should give useful decisions rather than expose internal engine complexity by default.
+The old Reference Team stack #159 → #173 is a linear descendant of current main. The verified final head is:
 
-## Verified current baseline — 2026-09-02
+- `f4abdda16cddc17c2fc757a3d3829830efdf0982`
+- merge-base with current main: exactly `612324b8aba1dd1c4ae8a189ebf74062b291033b`
+- ahead of main: 98 commits
+- behind main: 0 commits
+- final #173 Verify #1037: SUCCESS
 
-Current `main`:
+The intended net payload from current main to that head is preserved by the Factory cutover branch. The old stacked PRs are review checkpoints/history, not a second implementation universe and not the future merge path.
 
-- commit: `612324b8aba1dd1c4ae8a189ebf74062b291033b`;
-- PR #151 established the stabilized source-truth/scope baseline;
-- PR #156 integrated the reviewed source-safe Mornye support payload;
-- PR #158 integrated the reviewed Zani execution preflight/Frazzle target-state payload;
-- post-merge **Verify #974 attempt 2**: SUCCESS;
-- post-merge **Export #945**: SUCCESS;
-- post-merge **Deploy #137**: SUCCESS.
+## 2. One active development direction
 
-Current registry/readiness truth remains:
+**ACTIVE DEVELOPMENT MODEL: BELLIBING FACTORY v1**
 
-- **43 `PROFILE_COMPLETE_PENDING_FREEZE`**;
-- **3 `CHARACTER_MECHANICS_SOURCE_BLOCKED`**;
-- **9 `PROFILE_SOURCE_PENDING`**;
-- **2 `DPS_READY`** — Augusta and Ciaccona.
+Factory is a development/data pipeline. It does not replace the product goal.
 
-Zani adds a canonical backward-impact review with 11 still-open execution dependencies, so current execution inventory is:
+**PRODUCT GOAL: BEST AVAILABLE TEAMS**
 
-- **19 backward-impact reviews**;
-- **19 reviewed canonical profiles**;
-- **17 profiles with pending execution dependencies**;
-- **83 exact pending execution edges**;
-- semantic queue: **40 UNREVIEWED / 1 SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING / 11 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 5 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION** = **41 actionable shared edges**.
+The locked product contract remains `docs/BEST_AVAILABLE_TEAMS_DIRECTION.md`:
 
-Never replace current-main counts with branch-local worker counts.
+- recommend the best team(s) the user can actually build from the remaining roster;
+- actual executable/modelable result is the ranking target;
+- established/meta teams are evidence/templates, not the only legal candidates;
+- role/field-time belongs to preset/mode context where needed;
+- initial model is non-quickswap;
+- substantial competing primary-field-time modes may hard-conflict;
+- multi-team optimization is global non-overlapping roster allocation, not greedy best-first selection.
 
-## Active initial scope
+Do not restart Character-by-Character workers as the roadmap. Do not start another bounded #174-style Reference Team semantic slice. Reference Team 01 is now a golden regression/proof case for Factory.
 
-Initial implementation/product support remains deliberately narrower than retained source data:
+## 3. Reference Team 01 — golden regression state
 
-- **Sequences:** S0, S1 and S2.
-- **Character skills:** maxed skills only — Lv10 wherever source data owns an exact Lv1-Lv10 curve.
-- **Deferred:** S3-S6 and Character skill levels below max.
-- **Retention:** deferred sequence/skill values remain canonical raw/source-facing data and must not be deleted or flattened away.
-- **Completeness rule:** S0-safe is not automatically S0-S2-complete. Missing/disputed S1/S2 semantics remain pending.
+Team: **Augusta / Iuno / The Shorekeeper**.
 
-Quickswap-oriented team optimization is also deferred from the initial Best Available Teams model. Do not make conflicting dual-carry combinations valid by assuming unsupported quickswap execution.
+Verified #173-head state:
 
-## Architecture boundary
+- dependency coverage: `PARTIAL`
+- `dpsReady = false`
+- six exact required dependencies remain `PENDING`
+- unresolved semantics remain fail-closed
+- Augusta `.37` historical static context is unchanged
+- Wan Light is not consumed by Augusta DPS
+- unresolved numeric Shorekeeper Stellarealm Crit composition is not guessed
 
-Preserve separation between:
+### Exact unresolved backlog
 
-1. raw Character / Weapon / Echo / Sonata source data;
-2. Character Mechanics and source-facing facts;
-3. Weapon / Echo / Sonata effects;
-4. composable profiles/team identity;
-5. execution/combat-DPS logic;
-6. product/UI projection.
+| Dependency ID | Owner/layer | Status | Already source/runtime proven | Still missing | Class | Factory handling |
+| --- | --- | --- | --- | --- | --- | --- |
+| `iuno-wan-light-at-cap-trigger-semantics` | Iuno Character Mechanics / Wan Light runtime | PENDING | Recipient ownership, below-cap 0.5s cadence, 4% per stack, max 10, 10s duration, new-stack refresh, switch-out clearing and fail-closed runtime core | Whether a qualifying Shield event at 10 stacks refreshes duration when no new stack can be gained | `SOURCE_MISSING` | Provider comparison may surface evidence; explicit AI/human source review required before canonical/runtime promotion |
+| `iuno-wan-light-augusta-event-overlap` | Team execution / Iuno→Augusta state | PENDING | Full Moon Domain source ownership/lifetime and Wan Light recipient runtime core | Exact Reference Team Domain activation plus Augusta in-Domain Shield events and evaluated Augusta damage timestamps/overlap | `TIMELINE_MISSING` + `STATE_MISSING` | Factory may normalize timeline evidence, but no inferred timestamps; explicit reviewed evidence required |
+| `shorekeeper-stellar-symphony-augusta-window-overlap` | Weapon effect → team execution | PENDING | Stellar Symphony team-ATK lifecycle from explicit healing-qualified Shorekeeper Skill cast | Exact qualifying cast timestamp and Augusta damage overlap inside the source window | `TIMELINE_MISSING` + `STATE_MISSING` | Route provider evidence to exception/review queue until explicit event coverage exists |
+| `shorekeeper-rejuvenating-augusta-window-overlap` | Sonata effect → team execution | PENDING | Rejuvenating Glow team-ATK lifecycle from explicit `HEAL_APPLIED` event | Exact heal-applied event and Augusta damage overlap inside the source window | `TIMELINE_MISSING` + `STATE_MISSING` | Route provider evidence to exception/review queue; do not equate Skill cast with heal application |
+| `shorekeeper-fallacy-team-atk-augusta-window-overlap` | Echo effect → team execution | PENDING | Generic Fallacy cast support lifecycle is executable independently from active-damage variant semantics | Exact Fallacy cast timestamp and Augusta overlap inside TEAM ATK window | `TIMELINE_MISSING` | Factory can reconcile event evidence; BUG-010 active damage remains separate |
+| `shorekeeper-fallacy-wielder-er-stellarealm-state` | Echo effect + Shorekeeper Character state | PENDING | Fallacy wielder-ER lifecycle and Stellarealm ER→Crit state core are source/runtime resolved | Exact Fallacy cast timing plus explicit current Shorekeeper ER composition at query times | `TIMELINE_MISSING` + `STATE_MISSING` | Factory may assemble candidate state evidence; explicit composition review required |
 
-Rules:
+### Related canonical blockers
 
-- current GitHub code is source truth above documentation/history;
-- never guess Wuthering Waves values, timing, state or lifecycle semantics;
-- `SOURCE_SEQUENCE_ONLY` is not executable timing evidence;
-- a reusable primitive closes nothing until the exact canonical event/state/timeline requirement is satisfied;
-- V9.15 is historical oracle/reference only when explicitly needed;
-- UI projects canonical registries and must not create a second Character/profile database;
-- team compatibility facts should be preset/mode-scoped where roles differ by context, not forced into one permanent Character-global role;
-- compatibility/synergy may prune or explain teams, but modeled combat result is the eventual ranking objective.
+- `BUG-028` — Augusta team-context correctness: historical `.37` contains a duplicated Thunderflare +12% ATK and stale teammate-package assumptions. `IMPLEMENTATION_PENDING` after current source-valid contribution/state coverage exists; do not patch `.37 → .25` in isolation.
+- `BUG-029` — Wan Light recipient execution: source ownership/below-cap runtime are verified; at-cap semantics and actual Augusta Domain/Shield/action overlap remain open.
+- `BUG-008` — Impermanence Heron incoming transfer arm condition remains a `SOURCE_CONFLICT`; all affected execution edges stay pending.
+- `BUG-010` — Fallacy active-damage variant selection remains `SOURCE_MISSING` / blocked source semantics. Generic support-cast semantics do not authorize normal/tap vs hold/release damage execution.
 
-Owned-Echo product support retains separate explicit boundaries:
+## 4. Reference Team payload preservation
 
-- Roll Assist/checkpoint decisions require a verified profile-policy binding;
-- whole-build DPS requires an `ENGINE_MODELED` profile plus an explicit source-backed Echo → `DamageEvaluator` adapter;
-- `DPS_READY` alone does not automatically authorize either product boundary.
+Preserve from #159-#173:
 
-## Current source coverage
+### Product / audit contracts
 
-### Characters
+- `docs/BEST_AVAILABLE_TEAMS_DIRECTION.md`
+- `docs/REFERENCE_TEAM_01_FOUNDATION_AUDIT.md`
+- source/profile/execution boundary findings, including the verified Thunderflare duplication and the rule that V9.15 remains historical parity/oracle only
 
-- 60 Character records; 57 `RELEASED`.
-- Character Mechanics: **54 VERIFIED / 3 SOURCE_BLOCKED / 1866 canonical facts**.
-- Mechanics blockers: **Buling, Danjin, Xiangli Yao**.
-- Raw/static blockers: **Qingxiao `maxEnergy`, Rover (Electro) `maxEnergy`, Suisui `maxEnergy`**.
+### Reusable execution contracts / primitives
 
-### Weapons
+- `src/teamExecutionContext.ts`
+- exact selected member preset/loadout identity at the team execution boundary
+- explicit `RESOLVED / PENDING / UNKNOWN` contribution dependencies and fail-closed `PARTIAL / COMPLETE` coverage
+- Character support added to shared incoming-transfer state rather than a second transfer engine
+- Iuno Outro transfer adapter
+- Shorekeeper Outro team-window adapter
+- Shorekeeper healing-support adapter
+- Fallacy non-damage support-window adapter
+- Iuno Wan Light recipient-state core
+- Shorekeeper Stellarealm state core
 
-- **121 / 121 released Weapons** have source-audited effect coverage across **236 effect rows**.
-- Trigger/state/stack/target execution semantics remain separate from source-text coverage.
+### Source corrections that must not be lost
 
-### Echo / Sonata
+- Iuno Wan Light recipient ownership correction
+- Iuno Lunar Cycle vs Full Moon Domain lifecycle separation
+- Full Moon Domain 30s/off-field persistence source ownership
+- Shorekeeper Stellarealm source wording/state corrections already carried by the verified stack
 
-- **181 / 181 released Echoes** reviewed for stable identity/COST/Sonata membership.
-- **34 / 34 released Sonata sets** reviewed.
-- Sonata Effect review: **62 / 62 activation tuples / 86 source-backed rows**.
-- **181 / 181 released Echo skills** are source-reviewed.
+### Reference Team-specific proof
 
-Unmerged worker facts are not current-main truth until explicitly integrated and reverified.
+- selected Reference Team execution-context manifest
+- Iuno→Augusta relative handoff/coverage proof
+- Shorekeeper Outro→Augusta coverage proof
+- Shorekeeper Stellarealm stage/recipient→Augusta proof
+- all regression tests protecting the above semantics
 
-## Profiles and current product support
+Do not import stale branch-local roadmap prose as runtime truth. The preserved code/tests/source corrections are the payload; historical phase narration is superseded by this document.
 
-Exact `PROFILE_SOURCE_PENDING` on main:
+## 5. Integration / recomposition path
 
-- semantic: **Baizhi, Brant, Jianxin, Phoebe, Verina, Yuanwu**;
-- raw/static: **Qingxiao, Rover (Electro), Suisui**.
+The safest integration path is a single cutover delivery branch rooted at verified #173 head and targeted at actual current `main`.
 
-Current `DPS_READY` profiles:
+Why this is safe:
 
-- Augusta — `augusta-standard` / `AUGUSTA_STD_V1`;
-- Ciaccona — `ciaccona-cartethyia-aero` / `CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1`.
+- #173 is a direct linear descendant of current main, not a divergent branch;
+- a fresh manual replay of 47 net-changed files would create unnecessary omission risk, especially for source corrections and regression tests;
+- one integration PR can preserve the exact verified #173 net payload while replacing the stale roadmap and adding the first Factory contract;
+- a later **squash merge** can give main a clean coherent milestone commit if the user explicitly authorizes merge.
 
-Current product boundary:
+Required before any merge:
 
-- Augusta has verified Roll Assist policy + owned-build evaluator;
-- Ciaccona has verified +25 whole-build/completed-candidate DPS support under its locked context, but no Roll Assist checkpoint/stopping-policy binding.
+1. compare integration head against current main and confirm the #173 net payload is preserved;
+2. run Factory targeted verification during iteration;
+3. run the full existing PR verification contract on the merge-intended head;
+4. require Export/artifact contract because the integration PR targets main;
+5. recheck main after any authorized merge;
+6. never merge without explicit user authorization.
 
-## Reference Team 01 — active foundation target
+## 6. Old active-guidance disposition
 
-The first full product/foundation slice is the existing verified canonical team:
-
-- **Augusta** — DPS context;
-- **Iuno** — Hybrid/Sub DPS context;
-- **The Shorekeeper** — Support context.
-
-The milestone is not "finish every teammate's personal DPS engine." It is to make every teammate contribution required by the supported Augusta team explicit, source-backed and correctly composed through team/effect/context boundaries.
-
-Before large team UI work, audit this path end-to-end:
-
-raw/source → mechanics/effects → profiles/team → execution → BuildContext/DPS → product projection.
-
-The audit must classify findings as `KEEP`, `SIMPLIFY`, `PARK/DELETE` or `MISSING` and specifically inspect duplicated truth, dead/legacy layers and hidden team assumptions.
-
-A known architecture risk to inspect is `AugustaStandardContext`: it currently contains fixed team-context values including Shorekeeper-related crit context and static amplification fields. That is valid only while the context is locked. Arbitrary teammate replacement must not become possible until the engine can no longer silently retain stale bonuses from the old team.
-
-### Phase 1 audit result — 2026-09-03
-
-The targeted end-to-end audit is recorded in [`REFERENCE_TEAM_01_FOUNDATION_AUDIT.md`](REFERENCE_TEAM_01_FOUNDATION_AUDIT.md). The important result is that canonical source ownership is mostly in the right place, but team execution composition is not yet truthful/composable enough for arbitrary teammate replacement.
-
-Verified findings:
-
-- Iuno and Shorekeeper already have canonical source facts for the major Augusta-facing values used by the locked evaluator; the missing layer is activation/state/timeline composition, not another numeric buff database;
-- current `TeamProfile` proves Character identity/roles but does not identify the exact teammate preset/loadout package consumed by DPS;
-- `buildContextFromVerifiedPreset()` resolves canonical profiles and then collapses them to an ID-only legacy `BuildContext`, so teammate contribution source/state is not carried to the evaluator;
-- current canonical Iuno/Shorekeeper presets have moved beyond the older support package embedded in the V9.15 Augusta context: Iuno is Moonlit/Heron in the Augusta Hybrid preset and Shorekeeper selects Stellar Symphony R1 with Rejuvenating/Fallacy;
-- `AUGUSTA_STD_V1.staticContextAtkPct = 0.37` contains the historical Thunderflare R1 +12% permanent ATK while `augustaEchoEvaluator` already includes the canonical same +12% upstream. This is a verified duplicate contribution in the locked parity path;
-- no scalar-only correction was made because the same static context still represents an older teammate-loadout package. Fixing only the duplicate would not create a truthful current Reference Team context;
-- the current evaluator remains fail-closed outside its exact supported Augusta/team/rotation envelope, so the fixed teammate scalars are not authorization for dynamic teammate-edit UI;
-- broad teammate replacement stays blocked until selected teammate presets/loadouts and required canonical contributions are resolved into an execution context that fails closed on unknown state.
-
-Phase 2 should therefore implement the smallest preset/mode compatibility semantics plus a resolved team-execution context/dependency manifest. It must reference canonical Character/Weapon/Echo/Sonata facts rather than copy their values. The existing incoming-transfer primitive should be extended for Character sources only when doing so closes the first real handoff dependency.
-
-## Best Available Teams — locked product direction
-
-See [`BEST_AVAILABLE_TEAMS_DIRECTION.md`](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the full contract. Core decisions:
-
-- optimize for the **best available** result under the user's remaining-roster constraints, not for a generic "good team" label;
-- established/meta teams are evidence/templates and validation fixtures, not the only legal candidates;
-- two high-field-time carry modes are normally a hard conflict in the initial non-quickswap model unless an explicitly supported execution archetype proves otherwise;
-- team role/field-time semantics belong to preset/mode context where necessary;
-- compatibility must be able to represent provides, benefits-from, off-field contribution, handoffs, required states/triggers and hard conflicts;
-- missing evidence remains pending rather than receiving guessed synergy value;
-- multi-team content must eventually use **global non-overlapping roster allocation**, not greedily pick one team and then optimize the leftovers;
-- actual executable/modelable team output is the final ranking target.
-
-## Integrated source-safe boundaries
-
-### Mornye — PR #156
-
-Mornye support/review infrastructure is on main without a readiness/product promotion. Boundedness remains `OR` / `PENDING_INTERPRETATION` / `canResolveIncomingDamage: false`; exact rotation timing, disputed scaling/trigger semantics and predecessor-state gaps remain fail closed.
-
-### Zani — PR #158
-
-Zani's explicit-event Spectro Frazzle → Heliacal Ember target-state primitive is on main. The canonical rotation remains `SOURCE_SEQUENCE_ONLY` and all 11 reviewed execution dependencies remain open. No `DPS_READY`, freeze, BuildContext, Roll Assist or product promotion was made.
-
-Historical worker PR #144 was closed unmerged after #158 became current-main truth so GitHub does not present two competing Zani integration candidates.
-
-## Active known gaps on main
-
-Keep these fail closed:
-
-- **BUG-002** — accepted `BETTER` replacement lifecycle still lacks explicit end-to-end next-incumbent regression proof.
-- **BUG-008** — Impermanence Heron transfer: source conflict.
-- **BUG-009** — Stringmaster / Rime-Draped Sprouts skill-stack lifetime: refresh/expiry semantics unresolved.
-- **BUG-010** — Fallacy profile cast variant unresolved.
-- **BUG-011** — Defier's Thorn `DT-DEF` timing grammar unresolved.
-- **BUG-012** — Rover (Aero) exact support execution unresolved.
-- **BUG-013** — Blazing Brilliance at-cap lifecycle unresolved.
-- **BUG-014** — Changli Standard Rotation exact denominator unresolved.
-- **BUG-015** — Zani exact Frazzle/Blazing Justice/Mourning Aix/Character-state/team/timing execution remains incomplete.
-
-Resolved bugs stay in the external bug register/history rather than being repeated here.
-
-## Existing worker backlog
-
-The remaining gameplay/data PRs are old sibling work from the pre-stabilization baseline. Their isolated green CI is evidence, not integration authorization. Do not bulk-compose them.
-
-They are **parked while Reference Team 01/product-foundation audit is active**. Resume an old worker only when it is the highest-leverage route to a product-critical dependency or reusable primitive.
-
-| PR | Scope | Current disposition |
+| Guidance | Disposition | Current meaning |
 | --- | --- | --- |
-| #141 | Rover (Havoc) | next previously reviewed integration candidate; `140%+` remains lower-bound estimated guidance, never an exact ER gate; parked during reference-team audit |
-| #140 | Chixia | source-safe worker; `BUG-022`; non-DPS-ready |
-| #142 | Galbrena | source-safe preflight; non-DPS-ready |
-| #145 | Jiyan | exact Kelpie facts/source boundary; 0 execution IDs closed |
-| #146 | Lingyang | source-safe primitives/reviews; all 12 canonical dependencies remain open |
-| #147 | Jinhsi | preset-scoped semantic-review fix + opener closures; non-DPS-ready |
-| #148 | Sigrika | six closures; nine dependencies remain |
-| #149 | Aemeath | eight detailed closures; four blockers remain |
-| #150 | Lucilla | verified worker, still draft; `ENGINE_MODELED` overlay but non-DPS-ready/non-product |
-
-## Active roadmap
-
-There is one active roadmap for the initial product foundation.
-
-### Phase 1 — current-truth sync + Reference Team 01 audit
-
-- keep `PROJECT_STATUS` and AI Handoff synchronized to current `main`;
-- trace Augusta / Iuno / The Shorekeeper end-to-end through the architecture;
-- identify duplicated truth, stale/legacy layers, hardcoded teammate context and real missing contracts;
-- do not create a broad UI or another Character worker during this audit;
-- implement only small fixes that are clearly required to make the foundation truthful or remove high-cost duplication.
-
-The audit itself is complete on the review branch. No combat-math change was made because the verified Thunderflare duplicate is coupled to an older unresolved teammate-loadout package. Phase 1 exits after review/state synchronization; executable composition work belongs to Phase 2/3.
-
-### Phase 2 — minimal Team Compatibility + context composition contract
-
-Define the smallest source-safe semantic layer required by Best Available Teams:
-
-- preset/mode-scoped field-time demand;
-- teammate-facing `provides`;
-- `benefits from` / consumed states and damage classes;
-- off-field/handoff behavior;
-- required states/triggers;
-- hard conflicts and explicit unknowns.
-
-Prefer deriving these facts from canonical mechanics/effects/profiles. Do not build a second hand-maintained tier-list database.
-
-At the same time, remove any unsafe hidden teammate coupling that would let UI/team selection drift away from the evaluator's real context.
-
-For Reference Team 01, the execution boundary must additionally identify the selected teammate presets/loadouts and carry source-linked resolved contributions/unresolved dependencies so stale Iuno/Shorekeeper scalars cannot survive a teammate change.
-
-#### Phase 2 first execution-context slice — PR #161
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-The first bounded implementation slice is review-ready on PR #161:
-
-- `src/teamExecutionContext.ts` adds a resolved team-execution boundary separate from legacy `BuildContext`;
-- every selected team member must resolve an exact verified Character preset, default weapon/rank, Echo/Sonata loadout identity, stat profile and rotation execution identity;
-- source-linked contribution dependencies carry canonical `sourceKind + sourceId + source preset/Character + target + RESOLVED/PENDING/UNKNOWN`, with no copied buff values;
-- explicit dependency coverage is `PARTIAL | COMPLETE`; `dpsReady` requires `COMPLETE` coverage and zero required unresolved dependencies, so a partial manifest can never turn green by accident;
-- `src/data/referenceTeam01ExecutionContext.ts` binds `augusta-standard` + `iuno-augusta-hybrid` + `shorekeeper-augusta-support` and validates the selected canonical source identities;
-- `TFD-ATK` is the first source-linked `RESOLVED` contribution because the selected Augusta preset resolves Thunderflare Dominion and the canonical effect remains `PERMANENT / ALWAYS / SELF`;
-- Iuno `iuno-outro-from-gloom-to-gleam` and Shorekeeper `the-shorekeeper-liberation-stellarealms` remain required `PENDING` dependencies because their cross-character activation/state/timeline is not yet executable;
-- the Reference Team manifest is intentionally `PARTIAL`, therefore `dpsReady = false`;
-- missing/mismatched teammate preset selection and unselected contribution sources fail closed in tests.
-
-Initial code head `fbbda2f912f6e3e392d5fdaad00642ac5b1117da` passed full repo **Verify #977** before the status-sync commits. No Augusta evaluator, combat math, Wuthering Waves source data, UI, optimizer or `.37` scalar was changed. `BUG-028` therefore remains open/known-gap rather than fixed.
-
-#### Phase 2 second handoff-lifecycle slice — PR #162
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-The second bounded implementation slice is review-ready on PR #162 and closes the source-proven Iuno Outro handoff lifecycle without manufacturing Reference Team timing:
-
-- `src/combat/incomingTransferState.ts` admits `CHARACTER` as a source layer and can terminate a transfer at an explicit affected-Resonator switch-out event;
-- the new switch-out behavior is opt-in per transfer window, so existing Echo/Sonata/Weapon transfers retain their prior duration behavior unless a source-specific adapter proves otherwise;
-- `src/combat/iunoOutroTransferAdapter.ts` source-locks `iuno-outro-from-gloom-to-gleam` and derives its Heavy Attack DMG Amplification value and duration from the canonical fact text rather than creating a parallel buff-value table;
-- an explicit Iuno `OUTRO_SWITCH` event binds the actual incoming Resonator; activity queries additionally require explicit switch-out event history and end at the earlier of source duration or the affected recipient's switch-out;
-- the Reference Team manifest splits Iuno into `iuno-outro-handoff-lifecycle-contract = RESOLVED` and `iuno-outro-augusta-window-overlap = PENDING`;
-- Iuno's selected rotation remains `SOURCE_SEQUENCE_ONLY`, so no Iuno Outro timestamp or Augusta Heavy Attack overlap is inferred;
-- no canonical profile `pendingExecutionId` is closed merely because the reusable primitive now exists;
-- dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Iuno amplification is consumed by Augusta DPS;
-- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
-
-TypeScript/code head `ecaf5815853b9bacfd0ff5b2302fd27b0c0ea23b` passed full repo **Verify #982**. PROJECT_STATUS sync head `c83b7aeff06c027f318ad0327a3e3895113be44b` passed **Verify #983**. Final review/hygiene head `fd1ca912d46393b04f32a5c7196f7e557dfca084` passed full repo **Verify #984**; PR #162 is review-ready.
-
-#### Phase 2 third team-window slice — PR #163
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-The third bounded implementation slice is review-ready on PR #163 and closes only the source-proven Shorekeeper Outro Binary Butterfly team-window lifecycle:
-
-- `src/combat/shorekeeperOutroTeamWindowAdapter.ts` source-locks `the-shorekeeper-outro-binary-butterfly`;
-- TEAM scope, DMG Amplification value and duration are derived from the canonical Character fact rather than copied into the Reference Team manifest;
-- activation requires an explicit Shorekeeper `OUTRO_SKILL_CAST` event plus explicit selected-team membership, and activity queries cannot apply the window to a non-team Character;
-- the Reference Team manifest splits Shorekeeper Outro into `shorekeeper-outro-team-amplification-lifecycle-contract = RESOLVED` and `shorekeeper-outro-augusta-window-overlap = PENDING`;
-- Shorekeeper's selected rotation remains `SOURCE_SEQUENCE_ONLY`, so no Outro timestamp or Augusta damage-window overlap is inferred;
-- Shorekeeper Stellarealm crit contribution remains separately `PENDING`; this slice does not guess realm evolution, Energy Regen → crit transfer or exact team timing;
-- no canonical profile `pendingExecutionId` closes merely because the source-specific lifecycle adapter exists;
-- dependency coverage remains `PARTIAL`, `dpsReady = false`, and no Shorekeeper amplification is consumed by Augusta DPS;
-- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
-
-Code head `d0e503d0a446608f217d1a8213cffb8ed2ee3c49` passed full repo **Verify #988**. Final PROJECT_STATUS/Handoff head `810e288445adc666706a1cb54e5dbfba186e5292` passed full repo **Verify #989**; PR #163 is review-ready.
-
-#### Phase 2 blocker audit — Stellarealm and Wan Light
-
-The next two Reference Team state candidates were re-audited against canonical structured data before implementation. Their executable state still fails closed:
-
-- **Shorekeeper Stellarealm:** the canonical fact proves Outer → Inner → Supernal evolution and the source duration, but the executable data does not yet own the exact Energy Regen → party CRIT transfer function. Shorekeeper S1 also states that Discernment no longer ends the existing Stellarealm, which proves a baseline termination interaction exists without structurally specifying the exact S0 termination rule in the baseline fact. Do not infer that lifecycle from the S1 modifier or from the `SOURCE_SEQUENCE_ONLY` rotation.
-- **Iuno Blessing of the Wan Light:** the original audit correctly found that the mixed `iuno-forte-lunar-cycle` SELF fact could not safely prove Augusta recipient ownership. PR #167 source-corrects that boundary with a separate current-source recipient fact for the receiving Resonator inside Full Moon Domain. PR #168 adds only the bounded recipient-state core from explicit in-Domain Shield events; Full Moon Domain timing, actual Augusta Shield timestamps, at-cap refresh semantics and Augusta damage overlap remain unresolved. The historical evaluator behavior therefore remains unauthorised as current runtime truth and `BUG-029` stays open.
-
-These findings are blockers, not reasons to manufacture a generic realm/stack engine. Implement only source-valid state that can bind explicit events without invented cross-character timing.
-
-#### Phase 2 fourth healing-support slice — PR #164
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #164 is review-ready and closes only the source-proven activation/lifecycle semantics for the current Shorekeeper **Stellar Symphony + Rejuvenating Glow** support package:
-
-- `src/combat/shorekeeperHealingSupportWindowAdapter.ts` source-locks canonical `the-shorekeeper-skill-chaos-theory-healing`, selected weapon effect `SSY-TEAM-ATK` and selected Sonata effect `REJUV_ATK`;
-- Chaos Theory remains the source proof that Shorekeeper has a Resonance Skill which applies party healing;
-- Stellar Symphony activates only from an explicit Shorekeeper healing-qualified `RESONANCE_SKILL_CAST` event plus the actually selected weapon/rank;
-- Rejuvenating Glow activates only from a separate explicit `HEAL_APPLIED` event plus the actually selected Sonata set; the adapter deliberately does **not** turn a Skill cast into a successful heal automatically, so full-HP/heal-state is not guessed;
-- both windows bind explicit selected-team membership and derive their values/durations from canonical Weapon/Sonata catalogs rather than copying them into the team manifest;
-- the Reference Team manifest now splits `SSY-TEAM-ATK` and `REJUV_ATK` lifecycle contracts to `RESOLVED`, while their actual Augusta-window overlap remains `PENDING`;
-- Shorekeeper remains `SOURCE_SEQUENCE_ONLY`; no Skill/heal timestamp or Augusta overlap is inferred;
-- no canonical profile `pendingExecutionId` closes merely because the source-specific lifecycle adapter exists;
-- dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither support ATK effect is consumed by Augusta DPS;
-- `BUG-028` remains open/known-gap; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
-
-Code head `6df1491ca0faf91f3bbb0b792f6dc58fd28b1668` passed full repo **Verify #990**. Final PROJECT_STATUS/Handoff head `5ff4a716ffc848b451d24c4bcef4963d86eb1bf4` passed full repo **Verify #991**; PR #164 is review-ready.
-
-#### Phase 2 fifth Fallacy support-cast slice — PR #165
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #165 is review-ready and closes only the source-proven non-damage `ON_ECHO_CAST` lifecycle for the currently selected Shorekeeper main Echo, **Fallacy of No Return**:
-
-- `src/combat/fallacySupportWindowAdapter.ts` source-locks canonical `FALLACY_TEAM_ATK` and `FALLACY_WIELDER_ER` from `ECHO_EFFECT_MODELS`;
-- activation requires an explicit selected Fallacy `ECHO_SKILL_CAST` event, explicit wielder identity and explicit selected-team membership;
-- TEAM ATK and WIELDER Energy Regen remain separate target scopes, and values/durations are read from canonical Echo-effect rows at activation time rather than copied into the Reference Team manifest;
-- the Reference Team manifest splits `FALLACY_TEAM_ATK` into a `RESOLVED` lifecycle and `PENDING` Augusta overlap, and splits `FALLACY_WIELDER_ER` into a `RESOLVED` lifecycle and `PENDING` Stellarealm ER-state consumption;
-- the generic cast event is authorized only for non-damage effects: `FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW` remains `BLOCKED_SOURCE_SEMANTICS / BUG-010`, no `FALLACY_INITIAL_BLAST` is fired, no hold hit count is invented and no hold-release finisher is selected;
-- Shorekeeper remains `SOURCE_SEQUENCE_ONLY`, so no Fallacy cast timestamp, Augusta overlap or Stellarealm ER sampling is inferred;
-- no canonical profile `pendingExecutionId` closes merely because this support lifecycle exists;
-- dependency coverage remains `PARTIAL`, `dpsReady = false`, and neither Fallacy effect is consumed by Augusta DPS;
-- `BUG-028` and `BUG-029` remain open/known gaps; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
-
-Code head `42c0e1c8b341138c2371a6fbf0117decc3d7edab` passed full repo **Verify #992**. Final PROJECT_STATUS/Handoff head `1b72e8f4fdca2472f3f9b117686683ed3dcb1d86` passed full repo **Verify #993**; PR #165 is review-ready.
-
-#### Phase 2 sixth Iuno Moonlit transfer slice — PR #166
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #166 is review-ready and binds the already source-reviewed **Moonlit Clouds 5-piece `S08_5PC_INCOMING_ATK`** lifecycle to the selected Iuno Augusta-Hybrid package without adding another transfer engine:
-
-- the selected Reference Team Iuno loadout must contain `sonata-8`, and the existing `sonataOutroTransferAdapter.ts` contract for `S08_5PC_INCOMING_ATK` is validated at the Reference Team boundary;
-- one explicit Iuno `OUTRO_SWITCH` event can activate both the canonical Iuno Character-Outro transfer and Moonlit incoming-ATK transfer for the actual incoming Resonator;
-- the two source lifecycles remain distinct: Iuno Character-Outro ends on affected-recipient switch-out or source duration, while Moonlit retains the canonical timed Sonata transfer with no added switch-out termination;
-- the Reference Team manifest marks `iuno-moonlit-incoming-atk-lifecycle-contract = RESOLVED` and keeps `iuno-moonlit-augusta-window-overlap = PENDING`;
-- Iuno remains `SOURCE_SEQUENCE_ONLY`, so no Outro timestamp or Augusta damage overlap is inferred from prose;
-- Impermanence Heron remains separately source-conflicted behind `BUG-008` and is not used as evidence for Moonlit;
-- no canonical profile `pendingExecutionId` closes merely because the existing primitive is now bound to this selected package;
-- dependency coverage remains `PARTIAL`, `dpsReady = false`, and Moonlit ATK is not consumed by Augusta DPS;
-- Moongazer's Sigil was rechecked during this slice: its current modeled effects are SELF/Iuno-personal-DPS state, so they are parked for this Reference Team milestone rather than broadening scope;
-- `BUG-028`, `BUG-029`, `BUG-010` and `BUG-008` remain open/blocking as applicable; `.37`, Augusta combat math, UI and optimizer are unchanged.
-
-Code head `52d1c3511f227383aab347d0ab409af387d19f60` passed full repo **Verify #994**. Final PROJECT_STATUS/Handoff head `276461e05e029ee7fa6a7ceae029c60109efe011` passed full repo **Verify #995**; PR #166 is review-ready.
-
-#### Phase 2 seventh Iuno Wan Light source-correction slice — PR #167
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #167 corrects canonical Iuno Wan Light source ownership first, without claiming executable Augusta stacks or closing `BUG-029`:
-
-- `iuno-forte-lunar-cycle` remains Iuno `SELF` form/domain-generation state and no longer owns recipient-stack semantics;
-- new canonical `iuno-full-moon-domain-wan-light-recipient` owns the receiving-Resonator rule: a receiving Resonator inside Iuno's Full Moon Domain that gains a Shield gains one Blessing of the Wan Light stack at most once every 0.5s;
-- the same source fact owns 4% all-DMG Amplification per stack, max 10 stacks, 10s duration, duration refresh on a new stack and removal when that receiving Resonator switches off field;
-- `iuno-inherent-derivation` remains separate `SELF` source truth for Iuno's immediate five stacks;
-- current Prydwen + Wutheringlab cross-checks dated 2026-09-04 support active/receiving-Resonator semantics and explicitly discuss Augusta as a practical recipient in Iuno/Augusta teams;
-- branch-local Character Mechanics count is therefore **1867 canonical facts**, while the current-main coverage checkpoint above correctly remains **1866** until integration;
-- source-semantic regressions lock the split, and historical current-coverage snapshots were advanced from 1866 → 1867; ninth-batch Iuno inventory advances from profile/raw 36/35 → 37/36;
-- no runtime Full Moon Domain duration/timeline, Augusta shield event/timestamp, Wan Light stack engine or Augusta damage-window overlap is introduced;
-- no combat/DPS, `.37`, UI, optimizer, quickswap or unrelated Character behavior changes;
-- Reference Team coverage remains `PARTIAL`, `dpsReady = false`, and `BUG-029` remains **HIGH / KNOWN GAP**.
-
-Code/test head `1875aeae65bdaf744956881caf20825a5bd3f4d7` passed full repo **Verify #998** and Character Mechanics import **#134**. Final PROJECT_STATUS/Handoff head `8e8e404814ffd6759efd376bd7ee69ec2ea8fc78` passed full repo **Verify #999** and Character Mechanics import **#135**; PR #167 is review-ready.
-
-#### Phase 2 eighth Iuno Wan Light recipient-runtime slice — PR #168
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #168 is review-ready and adds the smallest executable recipient-state core justified by the corrected canonical Wan Light fact, without manufacturing Reference Team timing:
-
-- `src/combat/iunoWanLightRecipientState.ts` source-locks `iuno-full-moon-domain-wan-light-recipient` and derives the 0.5s cadence, 4% all-DMG Amplification per stack, max 10 and 10s duration from the canonical Character fact;
-- `SHIELD_GAIN` is an explicit recipient event whose caller must also explicitly prove `insideIunoFullMoonDomain` at that timestamp; the runtime never infers Domain activity from Iuno's `SOURCE_SEQUENCE_ONLY` source sequence;
-- below cap, qualifying recipient Shield events respect the 0.5s minimum gain interval and each actually gained new stack refreshes the 10s duration;
-- exact expiry follows the repository's existing half-open timed-window convention, and explicit `RESONATOR_SWITCH_OUT` clears the affected recipient's stacks;
-- a qualifying Shield event at 10 stacks fails closed because current source says gaining a new stack resets duration but does not explicitly prove whether an at-cap trigger refreshes when no additional stack can be gained;
-- the Reference Team manifest therefore marks `iuno-wan-light-recipient-stack-core-contract = RESOLVED` while keeping `iuno-wan-light-at-cap-trigger-semantics = PENDING` and `iuno-wan-light-augusta-event-overlap = PENDING`;
-- no Full Moon Domain duration/timeline, actual Augusta Shield timestamp or evaluated Augusta damage overlap is invented;
-- no Wan Light state is consumed by Augusta DPS, no canonical profile `pendingExecutionId` closes, coverage remains `PARTIAL`, and `dpsReady = false`;
-- `BUG-029` remains **HIGH / KNOWN GAP**; `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer, quickswap or unrelated Character change.
-
-Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. PROJECT_STATUS/Handoff sync head `52fb6cb8a3f9926a609e02a066aede3288ea8417` passed full repo **Verify #1001**. Final review/hygiene head `f27342ef8800a38f05380a8532c0eb3db7a8e17a` passed full repo **Verify #1002**; PR #168 is review-ready.
-
-The next implementation should not bypass the remaining event/timeline boundary. Close actual Augusta Wan Light overlap only if explicit Reference Team evidence supplies both in-Domain Augusta Shield-gain events and evaluated Augusta action timestamps; separately resolve the at-cap trigger rule from stronger source evidence before allowing a qualifying max-stack event. Otherwise keep both dependencies pending and park them.
-
-#### Phase 2 ninth Shorekeeper Stellarealm state slice — PR #169
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #169 source-corrects and executes the bounded S0 Shorekeeper Stellarealm lifecycle without manufacturing Reference Team timing:
-
-- canonical `the-shorekeeper-liberation-stellarealms` now explicitly owns Outer → Inner → Supernal evolution, 30s lifetime, in-range ER → party CRIT Rate/CRIT DMG conversion formulas/caps and the S0 Discernment termination rule; the S1 fact remains the explicit boundary that removes Discernment termination;
-- `src/combat/shorekeeperStellarealmState.ts` consumes explicit Shorekeeper Liberation and party Intro events only, requires explicit in-range proof, uses half-open expiry and rejects retroactive events/queries;
-- current Shorekeeper Energy Regen is an explicit query-time ratio input (`2.5 = 250%`) so the core does not silently assume Self Gravitation, Fallacy or build-state uptime;
-- active-realm End Loop recast semantics remain `SOURCE_BOUNDARY_UNRESOLVED`; non-S0 execution is rejected by this Reference Team-bounded runtime;
-- the Reference Team manifest marks `shorekeeper-stellarealm-lifecycle-contract = RESOLVED`, while `shorekeeper-fallacy-wielder-er-stellarealm-state` and `shorekeeper-stellarealm-party-crit-to-augusta` remain `PENDING`;
-- actual End Loop/Intro/Discernment/Augusta timestamps, Augusta in-range evidence and timed Shorekeeper ER composition are still absent, so no party crit is consumed by Augusta DPS;
-- readiness regression explicitly locks coverage at `PARTIAL` and `dpsReady = false`; no canonical profile `pendingExecutionId` closes from this primitive alone;
-- `BUG-028` remains open/known-gap and `BUG-029` remains open; `.37`, Augusta combat math, UI, optimizer and unrelated Character behavior are unchanged.
-
-Runtime/manifest head `ce22d89d02e51a683fa7835336158dc8ef4460c6` passed full repo **Verify #1006** and Character Mechanics import **#139**. Readiness-test head `a6c7aa024379ec320732d79a73ed520ccf739241` passed full repo **Verify #1007** and Character Mechanics import **#140**. Final PROJECT_STATUS/Handoff head `2edbd4c79bdf54be07baeacf8e7b58e1b70e7899` passed full repo **Verify #1008** and Character Mechanics import **#141**; PR #169 is review-ready.
-
-#### Phase 2 tenth Iuno → Augusta relative handoff-overlap slice — PR #170
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #170 closes only the selected Reference Team Iuno Outro + Moonlit overlap with Augusta by source-authorizing a relative handoff origin, without inventing a global team timeline:
-
-- current Iuno gameplay identifies the Augusta-specific Standard Sub DPS rotation as the preferred Iuno rotation with Augusta, says that it buffs Augusta the most and ends with `Absolute Fullness (Swap) → Outro`;
-- current Augusta gameplay routes the team third slot through its Outro into the secondary buffer before Augusta returns, identifies Iuno as Augusta's best Outro buffer and Shorekeeper as the best third slot, and states that Augusta executes her core rotation under an Amplify Outro;
-- `src/data/referenceTeam01ExecutionEvidence20260905.ts` therefore source-locks the selected Reference Team terminal Iuno Outro directly to Augusta Intro/core-rotation start, but authorizes only the relative origin `IUNO_OUTRO_TO_AUGUSTA_INTRO = t0`;
-- `src/referenceTeam01IunoAugustaWindowCoverage.ts` validates the exact selected Iuno/Augusta rotation identities, requires Iuno's `Absolute Fullness (Swap) → Outro` tail, requires Augusta's `AUGUSTA_STD_V1` engine identity and verifies that Augusta starts with Intro and has no intermediate switch-out boundary before its terminal Outro;
-- the fixed Augusta engine envelope remains 11.17s, which is fully inside Iuno Outro's canonical 14s duration and Moonlit `S08_5PC_INCOMING_ATK`'s canonical 15s duration; no per-action Augusta timestamps are required for these two full-envelope overlap claims;
-- `iuno-outro-augusta-window-overlap` and `iuno-moonlit-augusta-window-overlap` move to `RESOLVED`;
-- no absolute Iuno/Shorekeeper field-time timestamp, Full Moon Domain timing, Wan Light Shield timestamp, Shorekeeper timing or arbitrary-team handoff schedule is introduced;
-- the remaining eight Reference Team dependencies stay `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and neither resolved transfer is consumed by Augusta DPS in this slice;
-- `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
-
-Code head `d6364d9c91d7e4b436e6298a789819b5eb76d76a` passed full repo **Verify #1010**. Final PROJECT_STATUS/Handoff head `40e4f67a95916bf6578fb04d0268709e9b0dac56` passed full repo **Verify #1011**; PR #170 is review-ready.
-
-The relative Iuno → Augusta origin remains deliberately bounded and must not be expanded into a fabricated absolute Reference Team timeline. A current tested Augusta/Iuno/Shorekeeper timing page was rechecked but uses Iuno Crown of Valor, whereas the selected Bellibing Reference Team Iuno loadout is Moonlit Clouds + Impermanence Heron; those measured Iuno field times are therefore not promoted as canonical timing for this profile.
-
-#### Phase 2 eleventh Shorekeeper Outro → Augusta overlap slice — PR #171
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #171 closes only the source-explicit Shorekeeper Binary Butterfly overlap with Augusta without assigning an absolute Shorekeeper/Iuno timeline:
-
-- canonical `the-shorekeeper-outro-binary-butterfly` remains the sole owner of the TEAM scope, 15% DMG Amplification and 30s duration;
-- current Shorekeeper gameplay establishes the normal cross-character handoff shape: create Stellarealm, immediately Outro into another member's Intro, then use one additional Intro to advance the realm;
-- current Augusta + Iuno + Shorekeeper team guidance explicitly states that Shorekeeper first provides Stellarealm + Outro buffs, Iuno then provides the Heavy Attack buff, and Augusta then utilizes those buffs through her damage rotation before returning to Shorekeeper;
-- the selected Bellibing Shorekeeper rotation ends `Liberation → Outro`, the selected Iuno rotation begins `Intro`, and PR #170 independently source-locks the terminal Iuno Outro → Augusta Intro/core-start handoff;
-- `src/referenceTeam01ShorekeeperOutroAugustaCoverage.ts` validates those selected rotation identities plus the existing canonical Shorekeeper Outro lifecycle, but deliberately creates no synthetic switch event or `startedAtSeconds` value;
-- `shorekeeper-outro-augusta-window-overlap` therefore moves to `RESOLVED` on source-explicit team-overlap evidence;
-- Stellar Symphony, Rejuvenating Glow, Fallacy and Stellarealm party-crit overlap remain separate and `PENDING`; no blanket 30s-window inference is made from Shorekeeper Outro;
-- seven exact Reference Team dependencies remain `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and no Shorekeeper contribution is newly consumed by Augusta DPS in this slice;
-- `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
-
-Code/manifest head `6262d85a35ae81e59601c9cca95758db11817de5` passed full repo **Verify #1012**, including Profile/readiness gates, Tests, Strict web build, real-Chrome regression and whitespace. Final PROJECT_STATUS/Handoff head `377774e874e7d4f0e88db996a31147788cf010ca` passed full repo **Verify #1013**; PR #171 is review-ready.
-
-The next implementation should keep the seven remaining dependencies independent. Full Moon Domain duration has fresh multi-source 30s evidence, but the current mixed `iuno-forte-lunar-cycle` fact must not be assigned 30s because Lunar Cycle and Full Moon Domain are distinct lifecycles; source ownership should be corrected with a separate Domain lifecycle fact before using that duration. Wan Light at-cap semantics and exact shield/action state remain separately pending.
-
-#### Phase 2 twelfth Iuno Full Moon Domain source-ownership slice — PR #172
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #172 corrects the remaining mixed Iuno lifecycle ownership before any further Domain/Wan Light runtime work:
-
-- canonical `iuno-forte-lunar-cycle` now owns only Iuno's SELF Lunar Cycle state: Half Moon/New Moon forms, canonical **15s** duration, and termination when Absolute Fullness is used;
-- new canonical `iuno-full-moon-domain-lifecycle` separately owns Full Moon Domain creation from Absolute Fullness, canonical **30s** duration and the source-explicit rule that the Domain does not end early when Iuno leaves the field;
-- the Domain lifecycle fact owns the in-Domain periodic HP/STA restoration context, while `iuno-full-moon-domain-wan-light-recipient` remains the separate recipient-specific 10s/10-stack Wan Light fact;
-- the new lifecycle carries narrow current-source provenance checked 2026-09-05 instead of pretending the older Wan Light provenance reviewed every Domain field;
-- branch-local Character Mechanics count advances from 1867 → **1868 canonical facts**, while the current-main checkpoint above correctly remains **1866** until integration; Iuno profile/raw fact inventory advances from 37/36 → **38/37**;
-- current coverage tests are updated only where they intentionally track the live canonical registry; historical/frozen snapshots remain untouched;
-- no Reference Team dependency changes are made in this slice: the seven exact Reference Team dependencies remain `PENDING`, coverage stays `PARTIAL`, and `dpsReady = false`;
-- no Full Moon Domain runtime start/end event timeline, Augusta in-Domain Shield timestamps, Augusta action timestamps, Wan Light at-cap semantics or Augusta Wan Light DPS overlap is inferred from the new 30s source fact;
-- `BUG-029` remains HIGH / KNOWN GAP and `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer or unrelated Character behavior changes.
-
-Source/test head `c5d651a504c60dc82ed16868122a1be09bbcfcab` passed full repo **Verify #1032** and Character Mechanics import **#160**. Final PROJECT_STATUS/Handoff head `3aa84d87392672b4bfda9fce09cb4596e8629990` passed full repo **Verify #1033** and Character Mechanics import **#161**; PR #172 is review-ready.
-
-The next implementation may bind a Full Moon Domain runtime only if an explicit source-valid activation origin can be represented without inventing the selected Iuno field-time timeline. Even with the 30s lifetime source-resolved, Wan Light at-cap behavior plus actual Augusta in-Domain Shield/action overlap remain independent blockers and must stay fail closed until sourced.
-
-#### Phase 2 thirteenth Shorekeeper Stellarealm → Augusta stage/recipient overlap slice — PR #173
-
-Branch-local review progress only; this is **not current-main truth** until integrated.
-
-PR #173 closes only the selected-team Stellarealm stage/recipient dependency; it does not turn Shorekeeper's unresolved Energy Regen composition into a numeric Augusta Crit value:
-
-- canonical `the-shorekeeper-liberation-stellarealms` remains the sole owner of Outer → Inner → Supernal evolution, 30s lifetime and ER → party Crit formulas/caps;
-- current Shorekeeper gameplay explicitly says to create Stellarealm, immediately Outro into another member's Intro for the first upgrade, then use one additional Intro to fully upgrade the realm;
-- current Game8 Augusta + Iuno + Shorekeeper rotation starts on Shorekeeper, activates Stellarealm, switches to Iuno on Intro, then later switches from Iuno to Augusta when Augusta Intro is available; Game8 identifies Shorekeeper's Crit/ATK support as the reason she is the best third slot for that team;
-- the selected Bellibing Shorekeeper rotation ends `Liberation → Outro`, the selected Iuno rotation begins with `Intro`, and the already verified #170 handoff binds terminal Iuno Outro directly to Augusta Intro/core start;
-- `src/referenceTeam01ShorekeeperStellarealmAugustaCoverage.ts` therefore source-locks Iuno as the first party Intro after End Loop (`INNER`) and Augusta as the second party Intro (`SUPERNAL`) without creating an absolute timestamp, a synthetic Crit value or a second realm engine;
-- `shorekeeper-stellarealm-party-crit-to-augusta` moves to `RESOLVED` for selected-team stage/recipient ownership only;
-- numeric party Crit remains conditional on the existing runtime's explicit query-time current Shorekeeper Energy Regen sample, while `shorekeeper-fallacy-wielder-er-stellarealm-state` remains separately `PENDING` for actual Fallacy timing/current ER composition;
-- no party Crit value is consumed by Augusta DPS in this slice, no per-action Augusta timestamps are added, and active-realm End Loop recast semantics remain source-boundary unresolved;
-- six exact Reference Team dependencies remain `PENDING`; coverage stays `PARTIAL` and `dpsReady = false`;
-- `BUG-028` and `BUG-029` remain open; no `.37`, Augusta combat math, UI or optimizer change.
-
-Source/coverage head `9cd764dd99da4d6a72a3217dfde0f37d8037015c` passed full repo **Verify #1034**. Code/manifest/readiness head `d47d0566184ff04843d0254e60509973a4033d6c` passed full repo **Verify #1036**, including source/profile/readiness gates, Tests, Strict web build, real Chrome regression and whitespace. The PROJECT_STATUS sync head must pass the same full Verify contract before PR #173 leaves draft; the exact final run is recorded in the PR/Handoff after that gate succeeds.
-
-The six remaining dependencies stay independent: Wan Light at-cap semantics; actual Augusta Wan Light Shield/action overlap; Stellar Symphony Augusta overlap; Rejuvenating Glow Augusta overlap; Fallacy TEAM ATK Augusta overlap; and Fallacy wielder ER → Stellarealm current-ER composition. Do not infer any of them from this discrete Intro-order closure.
-
-### Phase 3 — make Reference Team 01 product-ready
-
-Close only the execution/context dependencies actually required to evaluate the supported Augusta team truthfully.
-
-Apply the worker stop rule aggressively: if a blocker requires missing/conflicting source or unavailable exact timeline/state evidence, record it and park it. Do not manufacture layers that close no dependency.
-
-The exit criterion is a complete truthful Augusta/Iuno/Shorekeeper decision path, not three independently complete personal-DPS engines.
-
-### Phase 4 — Best Available Teams engine, then main UI
-
-After the reference foundation is proven:
-
-1. enumerate feasible preset/mode team candidates from a remaining roster;
-2. reject hard field-time/state/trigger conflicts;
-3. construct source-valid execution contexts;
-4. evaluate actual modeled output where supported;
-5. rank feasible teams;
-6. optimize non-overlapping multi-team roster allocation globally;
-7. explain why a recommendation is the best available choice and where evidence remains pending.
-
-Build the large/main team UI **after** these contracts work. Small diagnostic/dev UI is allowed when it verifies the foundation.
-
-### Deferred until later
-
-- quickswap-oriented team optimization;
-- S3-S6 implementation/product support;
-- Character skill levels below max;
-- nonessential UI polish;
-- unsupported account-sync/API promises;
-- broad roster work that does not move the active reference-team/Best Available Teams path.
-
-## Verification contract
-
-A merge-intended head must pass:
-
-- source/raw/profile audits;
-- Profile × Adapter/readiness audits;
+| Continue Character worker after Character worker | `SUPERSEDE` | Factory exception/backlog work replaces the manual roster queue |
+| Rover Havoc is automatically next | `SUPERSEDE` | #141 is evidence/backlog input only |
+| Continue #174-style bounded Reference Team slices | `SUPERSEDE` | #173 is the final old-pattern checkpoint |
+| Sequentially integrate old sibling worker PRs | `SUPERSEDE` | each old worker is individually classified; none is an automatic merge candidate |
+| Best Available Teams product contract | `KEEP` | remains the product goal |
+| raw/source → mechanics/effects → profiles → execution/DPS → product/UI | `KEEP` | Factory feeds this architecture; it does not replace it |
+| unresolved Wuwa semantics fail closed | `KEEP` | Factory classification/exception routing strengthens this rule |
+| V9.15 as current architecture/model | `ARCHIVE/HISTORICAL` | historical oracle only when explicitly required |
+| #159-#173 phase-by-phase roadmap narration | `ARCHIVE/HISTORICAL` | useful review history; not active development guidance |
+
+## 7. Old worker PR disposition
+
+Old sibling workers are not an integration queue.
+
+| PR | Disposition | Reuse boundary |
+| --- | --- | --- |
+| #140 Chixia | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | source-safe Echo/preflight evidence; BUG-022/open execution remains fail-closed |
+| #141 Rover Havoc | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | source/blocker review and ER-guidance boundary; old “third integration candidate” text is superseded |
+| #142 Galbrena | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | source-safe preflight/Echo facts; not DPS-ready |
+| #145 Jiyan | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | exact Echo attack/source-boundary review; no execution dependency was closed |
+| #146 Lingyang | `REUSABLE_EVIDENCE` + `NEEDS_FRESH_REVIEW` | reusable primitives/evidence exist, but canonical/current-source rotation mismatch and 12 open dependencies prohibit direct integration |
+| #147 Jinhsi | `REUSABLE_FIXTURE` + `REUSABLE_EVIDENCE` | preset-scoped semantic-review regression is valuable; implementation must be freshly compared before reuse |
+| #148 Sigrika | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | substantial source/preflight work; still non-engine-modeled with pending dependencies |
+| #149 Aemeath | `REUSABLE_FIXTURE` + `REUSABLE_EVIDENCE` | generic status/event primitives and source checkpoints are useful Factory inputs; no direct branch merge |
+| #150 Lucilla | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | engine-overlay evidence exists but profile is not DPS-ready and four dependencies remain |
+
+Any future reuse starts from current main/Factory truth and imports the smallest verified payload after fresh review. Do not merge these old branches wholesale.
+
+## 8. Factory v1 roadmap
+
+Detailed contract: `docs/FACTORY_V1.md`.
+
+Minimum sequence:
+
+1. Provider / Evidence contract.
+2. Normalized candidate schema with provenance/version/source ownership.
+3. At least two realistic provider lanes with explicit license/data-use disposition.
+4. Deterministic `CONSENSUS / SINGLE_SOURCE / CONFLICT / MISSING / UNKNOWN` reconciliation.
+5. Exception queue for conflict/missing/unknown.
+6. One declarative standard-effect family backed by an existing shared runtime primitive.
+7. Generated/contract regression tests.
+8. Fast targeted iteration path without weakening full gates.
+9. Reference Team 01 golden regression.
+10. Only then broaden ingestion/effect generation and later return to Best Available Teams product execution.
+
+## 9. Verification model
+
+### FAST / TARGETED iteration
+
+Factory batches may run only the affected audits/tests plus necessary build/type checks while work is being shaped. The first Factory slice provides a `verify:fast:factory` contract for Factory tests + readiness + strict build.
+
+This is an iteration accelerator, not a merge gate replacement.
+
+### FULL MERGE-INTENDED verification
+
+The existing repository PR contract remains mandatory:
+
+- Echo/Sonata raw coverage;
+- Sonata effect source coverage;
+- Echo skill source coverage;
+- profile candidate/source accelerator/horizontal cohort gates;
+- Profile × Adapter matrix;
+- readiness / Pre-DPS freeze;
 - full Node tests;
 - strict web build;
-- permanent real-Chrome Alpha/Roll Assist/owned-build regressions;
-- diff/whitespace checks;
-- artifact packaging / Export.
+- required real-Chrome Roll Assist/Alpha/owned-build regressions;
+- diff whitespace checks;
+- Export web artifact contract for main-targeting PRs.
 
-After merge, recheck main. UI/live claims require deployed real-Chrome verification where applicable.
+No correctness gate is removed or weakened.
+
+## 10. Exit criterion for this cutover
+
+A new AI should infer exactly one state from canonical sources:
+
+- current main is still `612324b8...` until authorized merge;
+- one cutover/integration head preserves the verified Reference Team payload;
+- six exact Reference Team dependencies remain open and fail-closed;
+- Reference Team 01 is the Factory golden regression, not the manual roster template;
+- old workers and old stacked PRs are historical/evidence inputs, not active merge queues;
+- Bellibing Factory v1 is the only active development model;
+- Best Available Teams remains the product goal.

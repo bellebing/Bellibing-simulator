@@ -167,7 +167,7 @@ test('sixth Character Mechanics batch remains valid after later batches advance 
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 3);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1867);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1868);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['roccia', 'zhezhi']) {

@@ -40,7 +40,7 @@ test('Reference Team 01 binds exact selected member preset/loadout identity', ()
   assert.equal(shorekeeper.rotationExecutionStatus, 'SOURCE_SEQUENCE_ONLY');
 });
 
-test('Reference Team 01 separates resolved source lifecycles from pending Augusta/state overlap', () => {
+test('Reference Team 01 separates resolved source lifecycles/relative overlaps from pending state overlap', () => {
   const context = REFERENCE_TEAM_01_EXECUTION_CONTEXT;
   assert.equal(context.dependencyCoverageStatus, 'PARTIAL');
   assert.equal(context.dpsReady, false);
@@ -48,7 +48,9 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
   const expectedResolved = [
     ['augusta-thunderflare-permanent-atk', 'TFD-ATK'],
     ['iuno-outro-handoff-lifecycle-contract', 'iuno-outro-from-gloom-to-gleam'],
+    ['iuno-outro-augusta-window-overlap', 'iuno-outro-from-gloom-to-gleam'],
     ['iuno-moonlit-incoming-atk-lifecycle-contract', 'S08_5PC_INCOMING_ATK'],
+    ['iuno-moonlit-augusta-window-overlap', 'S08_5PC_INCOMING_ATK'],
     ['iuno-wan-light-recipient-stack-core-contract', 'iuno-full-moon-domain-wan-light-recipient'],
     ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
@@ -65,8 +67,6 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
   }
 
   const expectedPending = [
-    ['iuno-outro-augusta-window-overlap', 'iuno-outro-from-gloom-to-gleam'],
-    ['iuno-moonlit-augusta-window-overlap', 'S08_5PC_INCOMING_ATK'],
     ['iuno-wan-light-at-cap-trigger-semantics', 'iuno-full-moon-domain-wan-light-recipient'],
     ['iuno-wan-light-augusta-event-overlap', 'iuno-full-moon-domain-wan-light-recipient'],
     ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],

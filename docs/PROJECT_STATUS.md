@@ -402,9 +402,28 @@ PR #168 is review-ready and adds the smallest executable recipient-state core ju
 - no Wan Light state is consumed by Augusta DPS, no canonical profile `pendingExecutionId` closes, coverage remains `PARTIAL`, and `dpsReady = false`;
 - `BUG-029` remains **HIGH / KNOWN GAP**; `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer, quickswap or unrelated Character change.
 
-Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. PROJECT_STATUS/Handoff sync head `52fb6cb8a3f9926a609e02a066aede3288ea8417` passed full repo **Verify #1001**. PR #168 is review-ready only after the current review/hygiene head also passes full Verify.
+Code head `e852343e9b1d650fc31ff606a57c3d460874c77f` passed full repo **Verify #1000**. PROJECT_STATUS/Handoff sync head `52fb6cb8a3f9926a609e02a066aede3288ea8417` passed full repo **Verify #1001**. Final review/hygiene head `f27342ef8800a38f05380a8532c0eb3db7a8e17a` passed full repo **Verify #1002**; PR #168 is review-ready.
 
 The next implementation should not bypass the remaining event/timeline boundary. Close actual Augusta Wan Light overlap only if explicit Reference Team evidence supplies both in-Domain Augusta Shield-gain events and evaluated Augusta action timestamps; separately resolve the at-cap trigger rule from stronger source evidence before allowing a qualifying max-stack event. Otherwise keep both dependencies pending and park them.
+
+#### Phase 2 ninth Shorekeeper Stellarealm state slice — PR #169
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #169 source-corrects and executes the bounded S0 Shorekeeper Stellarealm lifecycle without manufacturing Reference Team timing:
+
+- canonical `the-shorekeeper-liberation-stellarealms` now explicitly owns Outer → Inner → Supernal evolution, 30s lifetime, in-range ER → party CRIT Rate/CRIT DMG conversion formulas/caps and the S0 Discernment termination rule; the S1 fact remains the explicit boundary that removes Discernment termination;
+- `src/combat/shorekeeperStellarealmState.ts` consumes explicit Shorekeeper Liberation and party Intro events only, requires explicit in-range proof, uses half-open expiry and rejects retroactive events/queries;
+- current Shorekeeper Energy Regen is an explicit query-time ratio input (`2.5 = 250%`) so the core does not silently assume Self Gravitation, Fallacy or build-state uptime;
+- active-realm End Loop recast semantics remain `SOURCE_BOUNDARY_UNRESOLVED`; non-S0 execution is rejected by this Reference Team-bounded runtime;
+- the Reference Team manifest marks `shorekeeper-stellarealm-lifecycle-contract = RESOLVED`, while `shorekeeper-fallacy-wielder-er-stellarealm-state` and `shorekeeper-stellarealm-party-crit-to-augusta` remain `PENDING`;
+- actual End Loop/Intro/Discernment/Augusta timestamps, Augusta in-range evidence and timed Shorekeeper ER composition are still absent, so no party crit is consumed by Augusta DPS;
+- readiness regression explicitly locks coverage at `PARTIAL` and `dpsReady = false`; no canonical profile `pendingExecutionId` closes from this primitive alone;
+- `BUG-028` remains open/known-gap and `BUG-029` remains open; `.37`, Augusta combat math, UI, optimizer and unrelated Character behavior are unchanged.
+
+Runtime/manifest head `ce22d89d02e51a683fa7835336158dc8ef4460c6` passed full repo **Verify #1006** and Character Mechanics import **#139**. Readiness-test head `a6c7aa024379ec320732d79a73ed520ccf739241` passed full repo **Verify #1007** and Character Mechanics import **#140**. Final docs/Handoff head must also pass the full Verify contract before PR #169 can be marked review-ready.
+
+The next implementation should target the shared Reference Team event/timeline boundary only if source-valid evidence can bind actual Shorekeeper/Iuno handoffs and Augusta action timing. Do not convert `SOURCE_SEQUENCE_ONLY` rotation prose or Augusta's 11.17s total duration into invented per-action timestamps. Keep timed Shorekeeper ER composition and Wan Light at-cap semantics separately pending unless their exact source/state evidence closes.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

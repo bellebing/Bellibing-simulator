@@ -163,7 +163,7 @@ export function validateShorekeeperStellarealmContract(
   if (fact.section !== 'RESONANCE_LIBERATION') issues.push(`${SHOREKEEPER_STELLAREALM_FACT_ID} section drift`);
   if (!fact.conditional) issues.push(`${SHOREKEEPER_STELLAREALM_FACT_ID} must remain conditional`);
   if (fact.scope !== 'TEAM') issues.push(`${SHOREKEEPER_STELLAREALM_FACT_ID} scope drift`);
-  if (!Number.isFinite(fact.durationSeconds) || (fact.durationSeconds ?? 0) <= 0) {
+  if (fact.durationSeconds === null || !Number.isFinite(fact.durationSeconds) || fact.durationSeconds <= 0) {
     issues.push(`${SHOREKEEPER_STELLAREALM_FACT_ID} duration must remain explicit and positive`);
   }
   if (!/first party Intro Skill used within Outer Stellarealm evolves it into Inner Stellarealm/i.test(fact.effectSummary)) {
@@ -307,9 +307,6 @@ export function applyShorekeeperStellarealmEvent(
     };
   }
 
-  if (event.kind !== 'INTRO_SKILL_CAST') {
-    throw new Error(`unsupported Shorekeeper Stellarealm event kind: ${String(event.kind)}`);
-  }
   if (typeof event.insideStellarealm !== 'boolean') {
     throw new Error('insideStellarealm must be boolean');
   }

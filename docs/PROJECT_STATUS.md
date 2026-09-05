@@ -363,7 +363,7 @@ PR #166 is review-ready and binds the already source-reviewed **Moonlit Clouds 5
 - no canonical profile `pendingExecutionId` closes merely because the existing primitive is now bound to this selected package;
 - dependency coverage remains `PARTIAL`, `dpsReady = false`, and Moonlit ATK is not consumed by Augusta DPS;
 - Moongazer's Sigil was rechecked during this slice: its current modeled effects are SELF/Iuno-personal-DPS state, so they are parked for this Reference Team milestone rather than broadening scope;
-- `BUG-028`, `BUG-029`, `BUG-010` and `BUG-008` remain open/blocking as applicable; `.37`, Augusta combat math, Wuthering Waves source data, UI and optimizer are unchanged.
+- `BUG-028`, `BUG-029`, `BUG-010` and `BUG-008` remain open/blocking as applicable; `.37`, Augusta combat math, UI and optimizer are unchanged.
 
 Code head `52d1c3511f227383aab347d0ab409af387d19f60` passed full repo **Verify #994**. Final PROJECT_STATUS/Handoff head `276461e05e029ee7fa6a7ceae029c60109efe011` passed full repo **Verify #995**; PR #166 is review-ready.
 
@@ -459,9 +459,29 @@ PR #171 closes only the source-explicit Shorekeeper Binary Butterfly overlap wit
 - seven exact Reference Team dependencies remain `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and no Shorekeeper contribution is newly consumed by Augusta DPS in this slice;
 - `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
 
-Code/manifest head `6262d85a35ae81e59601c9cca95758db11817de5` passed full repo **Verify #1012**, including Profile/readiness gates, Tests, Strict web build, real-Chrome regression and whitespace. Final PROJECT_STATUS/Handoff head must pass the same Verify contract before PR #171 can be marked review-ready.
+Code/manifest head `6262d85a35ae81e59601c9cca95758db11817de5` passed full repo **Verify #1012**, including Profile/readiness gates, Tests, Strict web build, real-Chrome regression and whitespace. Final PROJECT_STATUS/Handoff head `377774e874e7d4f0e88db996a31147788cf010ca` passed full repo **Verify #1013**; PR #171 is review-ready.
 
 The next implementation should keep the seven remaining dependencies independent. Full Moon Domain duration has fresh multi-source 30s evidence, but the current mixed `iuno-forte-lunar-cycle` fact must not be assigned 30s because Lunar Cycle and Full Moon Domain are distinct lifecycles; source ownership should be corrected with a separate Domain lifecycle fact before using that duration. Wan Light at-cap semantics and exact shield/action state remain separately pending.
+
+#### Phase 2 twelfth Iuno Full Moon Domain source-ownership slice — PR #172
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #172 corrects the remaining mixed Iuno lifecycle ownership before any further Domain/Wan Light runtime work:
+
+- canonical `iuno-forte-lunar-cycle` now owns only Iuno's SELF Lunar Cycle state: Half Moon/New Moon forms, canonical **15s** duration, and termination when Absolute Fullness is used;
+- new canonical `iuno-full-moon-domain-lifecycle` separately owns Full Moon Domain creation from Absolute Fullness, canonical **30s** duration and the source-explicit rule that the Domain does not end early when Iuno leaves the field;
+- the Domain lifecycle fact owns the in-Domain periodic HP/STA restoration context, while `iuno-full-moon-domain-wan-light-recipient` remains the separate recipient-specific 10s/10-stack Wan Light fact;
+- the new lifecycle carries narrow current-source provenance checked 2026-09-05 instead of pretending the older Wan Light provenance reviewed every Domain field;
+- branch-local Character Mechanics count advances from 1867 → **1868 canonical facts**, while the current-main checkpoint above correctly remains **1866** until integration; Iuno profile/raw fact inventory advances from 37/36 → **38/37**;
+- current coverage tests are updated only where they intentionally track the live canonical registry; historical/frozen snapshots remain untouched;
+- no Reference Team dependency changes are made in this slice: the seven exact Reference Team dependencies remain `PENDING`, coverage stays `PARTIAL`, and `dpsReady = false`;
+- no Full Moon Domain runtime start/end event timeline, Augusta in-Domain Shield timestamps, Augusta action timestamps, Wan Light at-cap semantics or Augusta Wan Light DPS overlap is inferred from the new 30s source fact;
+- `BUG-029` remains HIGH / KNOWN GAP and `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer or unrelated Character behavior changes.
+
+Source/test head `c5d651a504c60dc82ed16868122a1be09bbcfcab` passed full repo **Verify #1032** and Character Mechanics import **#160**. Any later status/hygiene head must re-pass the same full Verify contract before PR #172 is review-ready.
+
+The next implementation may bind a Full Moon Domain runtime only if an explicit source-valid activation origin can be represented without inventing the selected Iuno field-time timeline. Even with the 30s lifetime source-resolved, Wan Light at-cap behavior plus actual Augusta in-Domain Shield/action overlap remain independent blockers and must stay fail closed until sourced.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

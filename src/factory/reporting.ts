@@ -118,8 +118,8 @@ export function renderFactoryEvidenceReportMarkdown(report: FactoryEvidenceRepor
   const lines: string[] = [
     '# Bellibing Factory Evidence Report',
     '',
-    `Generator: \`${report.generatorId}\`  `,
-    `Schema: \`${report.schemaVersion}\`  `,
+    `Generator: \`${report.generatorId}\``,
+    `Schema: \`${report.schemaVersion}\``,
     `Canonical promotion: \`${report.canonicalPromotionPolicy}\``,
     '',
     '## Summary',

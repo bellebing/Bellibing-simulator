@@ -4,6 +4,11 @@ import {
   buildWeaponR1AttributeDmgEvidenceReport,
   type FactoryWeaponAttributeDmgEvidenceSnapshot,
 } from './weaponAttributeDmg.ts';
+import {
+  FACTORY_WEAPON_RARITY_FAMILY_ID,
+  buildWeaponRarityEvidenceReport,
+  type FactoryWeaponRarityEvidenceSnapshot,
+} from './weaponRarity.ts';
 
 interface FactoryEvidenceSnapshotEnvelope {
   readonly schemaVersion: number;
@@ -44,6 +49,12 @@ export function reconcileFactoryEvidenceSnapshot(snapshot: unknown): FactoryEvid
   if (envelope.familyId === FACTORY_WEAPON_R1_ATTRIBUTE_DMG_FAMILY_ID) {
     return buildWeaponR1AttributeDmgEvidenceReport(
       snapshot as FactoryWeaponAttributeDmgEvidenceSnapshot,
+    ).reconciliation;
+  }
+
+  if (envelope.familyId === FACTORY_WEAPON_RARITY_FAMILY_ID) {
+    return buildWeaponRarityEvidenceReport(
+      snapshot as FactoryWeaponRarityEvidenceSnapshot,
     ).reconciliation;
   }
 

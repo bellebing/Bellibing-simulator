@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "familyId": "weapon-rarity-v1",
+  "subjectId": "abyss-surges",
+  "fieldId": "rarity.stars",
+  "capturedAt": "2026-09-05T21:23:00Z",
+  "providers": [
+    {
+      "providerId": "prydwen-profile-source",
+      "evidenceState": "PRESENT",
+      "sourceRef": "https://www.prydwen.gg/wuthering-waves/weapons",
+      "sourceVersion": "live-weapons-index-review-2026-09-05",
+      "raw": {
+        "rarityLabel": "5★"
+      },
+      "notes": [
+        "Current Prydwen weapons index identifies Abyss Surges as Rarity 5★.",
+        "This snapshot maps only discrete weapon rarity; weapon type, level-90 stats, passive text and gameplay semantics are out of scope."
+      ]
+    },
+    {
+      "providerId": "frequency-manager",
+      "evidenceState": "PRESENT",
+      "sourceRef": "https://github.com/Voruzhu/FrequencyManager/blob/f585e47a868cb2b65845367b976a1781f130c758/adapters/game-definitions/wuthering-waves/weapons.ts",
+      "sourceVersion": "f585e47a868cb2b65845367b976a1781f130c758",
+      "raw": {
+        "rarity": 5
+      },
+      "notes": [
+        "Pinned structured Abyss Surges row stores rarity=5.",
+        "FrequencyManager is MIT-licensed evidence-only input and cannot promote Bellibing canonical truth without manual source validation."
+      ]
+    }
+  ]
+}

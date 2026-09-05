@@ -14,7 +14,7 @@ test('Iuno Lunar Cycle remains SELF and no longer owns recipient Wan Light stack
   const lunarCycle = passive('iuno-forte-lunar-cycle');
   assert.ok(lunarCycle);
   assert.equal(lunarCycle.scope, 'SELF');
-  assert.equal(lunarCycle.durationSeconds, null);
+  assert.equal(lunarCycle.durationSeconds, 15);
   assert.equal(lunarCycle.maxStacks, null);
   assert.match(lunarCycle.effectSummary, /Full Moon Domain periodically restores HP and STA/);
   assert.match(lunarCycle.effectSummary, /separate Full Moon Domain Wan Light fact/);

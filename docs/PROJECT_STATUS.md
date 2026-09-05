@@ -14,17 +14,19 @@ This is the canonical living roadmap. Historical PR bodies, old worker branches 
 - Current-main readiness snapshot remains `43 PROFILE_COMPLETE_PENDING_FREEZE / 3 CHARACTER_MECHANICS_SOURCE_BLOCKED / 9 PROFILE_SOURCE_PENDING / 2 DPS_READY`.
 - Current-main execution snapshot remains `19 reviews / 19 reviewed profiles / 17 profiles with pending execution / 83 exact edges`, queue `40/1/11/5/9/17 = 41 actionable shared`.
 
-### Review-ready Reference Team payload
+### Review-ready cutover state
 
-The old Reference Team stack #159 → #173 is a linear descendant of current main. The verified final head is:
+The verified old Reference Team stack #159 → #173 was a direct linear descendant of current main. Its final old-pattern head was `f4abdda16cddc17c2fc757a3d3829830efdf0982`, exactly 98 commits ahead / 0 behind current main, with final #173 Verify #1037 SUCCESS.
 
-- `f4abdda16cddc17c2fc757a3d3829830efdf0982`
-- merge-base with current main: exactly `612324b8aba1dd1c4ae8a189ebf74062b291033b`
-- ahead of main: 98 commits
-- behind main: 0 commits
-- final #173 Verify #1037: SUCCESS
+That intended net payload is now preserved by **PR #174**, branch `factory/cutover-v1-2026-09-05`, targeted at actual current `main`.
 
-The intended net payload from current main to that head is preserved by the Factory cutover branch. The old stacked PRs are review checkpoints/history, not a second implementation universe and not the future merge path.
+- PR #174 is the only open pull request.
+- #159-#173 are closed **unmerged** as historical/review checkpoints after payload preservation.
+- old sibling workers #140/#141/#142/#145-#150 are closed **unmerged** after explicit disposition below.
+- no old PR is an implicit integration queue.
+- no merge has been performed; PR #174 requires explicit user authorization.
+
+The cutover branch preserves the #173 code/tests/source corrections and adds the first Bellibing Factory v1 foundation. `main` remains authoritative runtime truth until an authorized merge.
 
 ## 2. One active development direction
 
@@ -44,13 +46,13 @@ The locked product contract remains `docs/BEST_AVAILABLE_TEAMS_DIRECTION.md`:
 - substantial competing primary-field-time modes may hard-conflict;
 - multi-team optimization is global non-overlapping roster allocation, not greedy best-first selection.
 
-Do not restart Character-by-Character workers as the roadmap. Do not start another bounded #174-style Reference Team semantic slice. Reference Team 01 is now a golden regression/proof case for Factory.
+Do not restart Character-by-Character workers as the roadmap. Do not treat PR #174 as another bounded Reference Team semantic slice: it is the cutover/integration PR. Reference Team 01 is now a golden regression/proof case for Factory.
 
 ## 3. Reference Team 01 — golden regression state
 
 Team: **Augusta / Iuno / The Shorekeeper**.
 
-Verified #173-head state:
+Preserved verified state:
 
 - dependency coverage: `PARTIAL`
 - `dpsReady = false`
@@ -73,14 +75,14 @@ Verified #173-head state:
 
 ### Related canonical blockers
 
-- `BUG-028` — Augusta team-context correctness: historical `.37` contains a duplicated Thunderflare +12% ATK and stale teammate-package assumptions. `IMPLEMENTATION_PENDING` after current source-valid contribution/state coverage exists; do not patch `.37 → .25` in isolation.
+- `BUG-028` — Augusta team-context correctness: historical `.37` contains a duplicated Thunderflare +12% ATK and stale teammate-package assumptions. `IMPLEMENTATION_PENDING` only after current source-valid contribution/state coverage exists; do not patch `.37 → .25` in isolation.
 - `BUG-029` — Wan Light recipient execution: source ownership/below-cap runtime are verified; at-cap semantics and actual Augusta Domain/Shield/action overlap remain open.
-- `BUG-008` — Impermanence Heron incoming transfer arm condition remains a `SOURCE_CONFLICT`; all affected execution edges stay pending.
+- `BUG-008` — Impermanence Heron incoming transfer arm condition remains a `SOURCE_CONFLICT`; affected execution edges stay pending.
 - `BUG-010` — Fallacy active-damage variant selection remains `SOURCE_MISSING` / blocked source semantics. Generic support-cast semantics do not authorize normal/tap vs hold/release damage execution.
 
 ## 4. Reference Team payload preservation
 
-Preserve from #159-#173:
+PR #174 must preserve the intended #159-#173 net payload, specifically:
 
 ### Product / audit contracts
 
@@ -116,45 +118,25 @@ Preserve from #159-#173:
 - Shorekeeper Stellarealm stage/recipient→Augusta proof
 - all regression tests protecting the above semantics
 
-Do not import stale branch-local roadmap prose as runtime truth. The preserved code/tests/source corrections are the payload; historical phase narration is superseded by this document.
+A fresh manual replay of the 47-file #173 net payload was deliberately avoided because #173 is linear on current main and replay would create omission risk. PR #174 preserves the verified stack payload and composes the cutover on top. A later **squash merge** is the preferred clean-history landing strategy if the user explicitly authorizes merge.
 
-## 5. Integration / recomposition path
-
-The safest integration path is a single cutover delivery branch rooted at verified #173 head and targeted at actual current `main`.
-
-Why this is safe:
-
-- #173 is a direct linear descendant of current main, not a divergent branch;
-- a fresh manual replay of 47 net-changed files would create unnecessary omission risk, especially for source corrections and regression tests;
-- one integration PR can preserve the exact verified #173 net payload while replacing the stale roadmap and adding the first Factory contract;
-- a later **squash merge** can give main a clean coherent milestone commit if the user explicitly authorizes merge.
-
-Required before any merge:
-
-1. compare integration head against current main and confirm the #173 net payload is preserved;
-2. run Factory targeted verification during iteration;
-3. run the full existing PR verification contract on the merge-intended head;
-4. require Export/artifact contract because the integration PR targets main;
-5. recheck main after any authorized merge;
-6. never merge without explicit user authorization.
-
-## 6. Old active-guidance disposition
+## 5. Old active-guidance disposition
 
 | Guidance | Disposition | Current meaning |
 | --- | --- | --- |
 | Continue Character worker after Character worker | `SUPERSEDE` | Factory exception/backlog work replaces the manual roster queue |
 | Rover Havoc is automatically next | `SUPERSEDE` | #141 is evidence/backlog input only |
-| Continue #174-style bounded Reference Team slices | `SUPERSEDE` | #173 is the final old-pattern checkpoint |
-| Sequentially integrate old sibling worker PRs | `SUPERSEDE` | each old worker is individually classified; none is an automatic merge candidate |
+| Continue bounded Reference Team semantic slices after #173 | `SUPERSEDE` | #173 is the final old-pattern checkpoint; #174 is the cutover PR, not a semantic continuation |
+| Sequentially integrate old sibling worker PRs | `SUPERSEDE` | old workers are closed unmerged and individually classified; none is an automatic merge candidate |
 | Best Available Teams product contract | `KEEP` | remains the product goal |
 | raw/source → mechanics/effects → profiles → execution/DPS → product/UI | `KEEP` | Factory feeds this architecture; it does not replace it |
 | unresolved Wuwa semantics fail closed | `KEEP` | Factory classification/exception routing strengthens this rule |
 | V9.15 as current architecture/model | `ARCHIVE/HISTORICAL` | historical oracle only when explicitly required |
-| #159-#173 phase-by-phase roadmap narration | `ARCHIVE/HISTORICAL` | useful review history; not active development guidance |
+| #159-#173 phase-by-phase roadmap narration | `ARCHIVE/HISTORICAL` | closed PR history/review evidence; not active development guidance |
 
-## 7. Old worker PR disposition
+## 6. Old worker PR disposition
 
-Old sibling workers are not an integration queue.
+All rows below are closed **unmerged**. Their branches/history remain available as evidence; they are not an integration queue.
 
 | PR | Disposition | Reuse boundary |
 | --- | --- | --- |
@@ -168,36 +150,58 @@ Old sibling workers are not an integration queue.
 | #149 Aemeath | `REUSABLE_FIXTURE` + `REUSABLE_EVIDENCE` | generic status/event primitives and source checkpoints are useful Factory inputs; no direct branch merge |
 | #150 Lucilla | `REUSABLE_EVIDENCE` + `FACTORY_BACKLOG_INPUT` | engine-overlay evidence exists but profile is not DPS-ready and four dependencies remain |
 
-Any future reuse starts from current main/Factory truth and imports the smallest verified payload after fresh review. Do not merge these old branches wholesale.
+Any future reuse starts from then-current main/Factory truth and imports the smallest verified payload after fresh review. Do not reopen/merge these old branches wholesale as the roadmap.
 
-## 8. Factory v1 roadmap
+## 7. Bellibing Factory v1
 
 Detailed contract: `docs/FACTORY_V1.md`.
 
-Minimum sequence:
+The first cutover slice on PR #174 adds no Wuthering Waves gameplay values. It adds:
 
-1. Provider / Evidence contract.
-2. Normalized candidate schema with provenance/version/source ownership.
-3. At least two realistic provider lanes with explicit license/data-use disposition.
-4. Deterministic `CONSENSUS / SINGLE_SOURCE / CONFLICT / MISSING / UNKNOWN` reconciliation.
-5. Exception queue for conflict/missing/unknown.
-6. One declarative standard-effect family backed by an existing shared runtime primitive.
-7. Generated/contract regression tests.
-8. Fast targeted iteration path without weakening full gates.
-9. Reference Team 01 golden regression.
-10. Only then broaden ingestion/effect generation and later return to Best Available Teams product execution.
+- provider/evidence contracts;
+- normalized candidates with provenance/version/source ownership;
+- deterministic `CONSENSUS / SINGLE_SOURCE / CONFLICT / MISSING / UNKNOWN` reconciliation;
+- exception routing for `CONFLICT / MISSING / UNKNOWN`;
+- explicit `MANUAL_SOURCE_VALIDATION_REQUIRED` canonical-promotion policy;
+- provider/license dispositions for the existing Prydwen lane, FrequencyManager, wuwa-afyg-tool and unlicensed wuwabuild reference;
+- Reference Team 01 exact golden-regression assertions;
+- Factory contract tests;
+- targeted Factory verification without weakening the full repository gates.
+
+### Factory v1 next sequence
+
+1. Map at least two licensed/review-approved provider lanes onto one tiny, already-understood source fact family.
+2. Generate provenance-rich consensus/conflict reports and an explicit exception queue.
+3. Prove one declarative standard-effect family through an existing shared runtime primitive, preferably a timed self window if canonical source supports it.
+4. Generate contract/regression tests from that family.
+5. Measure targeted iteration path versus full merge verification.
+6. Keep Reference Team 01 as golden regression while expanding only after throughput is proven.
+7. Return to Best Available Teams product execution only on top of canonical source/profile/execution truth.
+
+Do **not** build a universal gameplay DSL and do **not** create one Character-specific calculator per Character. Character-specific complex state stays Character-specific when genuinely required.
+
+## 8. External provider / license boundary
+
+Factory provider policy is fail-closed:
+
+- existing Prydwen extraction lane: keep as review/evidence only; external page content is not canonical Bellibing truth;
+- `Voruzhu/FrequencyManager`: MIT, acceptable for a small independent evidence prototype with repository/commit/path provenance;
+- `d4rkOfficial/wuwa-afyg-tool`: repository contains MIT license; contract/provider architecture may be studied/reused under MIT, while Wuwa data still requires separate provenance and Bellibing semantic review;
+- `DommyMM/wuwabuild`: no current repository license found during cutover audit; do not copy new code/data without explicit reuse rights.
+
+No external source may directly become runtime truth.
 
 ## 9. Verification model
 
 ### FAST / TARGETED iteration
 
-Factory batches may run only the affected audits/tests plus necessary build/type checks while work is being shaped. The first Factory slice provides a `verify:fast:factory` contract for Factory tests + readiness + strict build.
+Factory batches may run affected Factory tests/audits plus necessary readiness/build checks while work is being shaped. `npm run verify:fast:factory` covers the first Factory contract, and the Factory branch workflow retains a diff-whitespace check with parent history available.
 
 This is an iteration accelerator, not a merge gate replacement.
 
 ### FULL MERGE-INTENDED verification
 
-The existing repository PR contract remains mandatory:
+Any merge-intended PR to `main`, including #174, still requires the existing repository contract:
 
 - Echo/Sonata raw coverage;
 - Sonata effect source coverage;
@@ -209,18 +213,22 @@ The existing repository PR contract remains mandatory:
 - strict web build;
 - required real-Chrome Roll Assist/Alpha/owned-build regressions;
 - diff whitespace checks;
-- Export web artifact contract for main-targeting PRs.
+- Export web artifact contract for main-targeting PRs;
+- Character Mechanics source import checks where triggered.
 
 No correctness gate is removed or weakened.
 
-## 10. Exit criterion for this cutover
+## 10. Cutover exit state
 
-A new AI should infer exactly one state from canonical sources:
+A new AI should infer exactly one project state from canonical sources:
 
-- current main is still `612324b8...` until authorized merge;
-- one cutover/integration head preserves the verified Reference Team payload;
+- `main` is still `612324b8...` until explicit merge authorization;
+- PR #174 is the only open/review-ready cutover/integration path and preserves the verified Reference Team payload;
 - six exact Reference Team dependencies remain open and fail-closed;
+- BUG-028, BUG-029, BUG-008 and BUG-010 remain relevant/open blockers as described above;
 - Reference Team 01 is the Factory golden regression, not the manual roster template;
-- old workers and old stacked PRs are historical/evidence inputs, not active merge queues;
+- old workers and #159-#173 are closed unmerged historical/evidence inputs, not active merge queues;
 - Bellibing Factory v1 is the only active development model;
 - Best Available Teams remains the product goal.
+
+Do not merge PR #174 without explicit user authorization.

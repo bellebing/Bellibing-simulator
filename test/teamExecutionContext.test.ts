@@ -53,6 +53,7 @@ test('Reference Team 01 separates resolved source lifecycles/relative overlaps f
     ['iuno-moonlit-augusta-window-overlap', 'S08_5PC_INCOMING_ATK'],
     ['iuno-wan-light-recipient-stack-core-contract', 'iuno-full-moon-domain-wan-light-recipient'],
     ['shorekeeper-outro-team-amplification-lifecycle-contract', 'the-shorekeeper-outro-binary-butterfly'],
+    ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-team-atk-lifecycle-contract', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
     ['shorekeeper-fallacy-team-atk-lifecycle-contract', 'FALLACY_TEAM_ATK'],
@@ -69,7 +70,6 @@ test('Reference Team 01 separates resolved source lifecycles/relative overlaps f
   const expectedPending = [
     ['iuno-wan-light-at-cap-trigger-semantics', 'iuno-full-moon-domain-wan-light-recipient'],
     ['iuno-wan-light-augusta-event-overlap', 'iuno-full-moon-domain-wan-light-recipient'],
-    ['shorekeeper-outro-augusta-window-overlap', 'the-shorekeeper-outro-binary-butterfly'],
     ['shorekeeper-stellar-symphony-augusta-window-overlap', 'SSY-TEAM-ATK'],
     ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],
     ['shorekeeper-fallacy-team-atk-augusta-window-overlap', 'FALLACY_TEAM_ATK'],

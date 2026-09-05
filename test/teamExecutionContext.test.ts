@@ -59,6 +59,7 @@ test('Reference Team 01 separates resolved source lifecycles/relative overlaps f
     ['shorekeeper-fallacy-team-atk-lifecycle-contract', 'FALLACY_TEAM_ATK'],
     ['shorekeeper-fallacy-wielder-er-lifecycle-contract', 'FALLACY_WIELDER_ER'],
     ['shorekeeper-stellarealm-lifecycle-contract', 'the-shorekeeper-liberation-stellarealms'],
+    ['shorekeeper-stellarealm-party-crit-to-augusta', 'the-shorekeeper-liberation-stellarealms'],
   ] as const;
   for (const [id, sourceId] of expectedResolved) {
     const dependency = context.contributions.find((row) => row.id === id);
@@ -74,7 +75,6 @@ test('Reference Team 01 separates resolved source lifecycles/relative overlaps f
     ['shorekeeper-rejuvenating-augusta-window-overlap', 'REJUV_ATK'],
     ['shorekeeper-fallacy-team-atk-augusta-window-overlap', 'FALLACY_TEAM_ATK'],
     ['shorekeeper-fallacy-wielder-er-stellarealm-state', 'FALLACY_WIELDER_ER'],
-    ['shorekeeper-stellarealm-party-crit-to-augusta', 'the-shorekeeper-liberation-stellarealms'],
   ] as const;
   for (const [id, sourceId] of expectedPending) {
     const dependency = context.contributions.find((row) => row.id === id);

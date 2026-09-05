@@ -479,9 +479,30 @@ PR #172 corrects the remaining mixed Iuno lifecycle ownership before any further
 - no Full Moon Domain runtime start/end event timeline, Augusta in-Domain Shield timestamps, Augusta action timestamps, Wan Light at-cap semantics or Augusta Wan Light DPS overlap is inferred from the new 30s source fact;
 - `BUG-029` remains HIGH / KNOWN GAP and `BUG-028` remains open; no `.37`, Augusta combat math, UI, optimizer or unrelated Character behavior changes.
 
-Source/test head `c5d651a504c60dc82ed16868122a1be09bbcfcab` passed full repo **Verify #1032** and Character Mechanics import **#160**. Any later status/hygiene head must re-pass the same full Verify contract before PR #172 is review-ready.
+Source/test head `c5d651a504c60dc82ed16868122a1be09bbcfcab` passed full repo **Verify #1032** and Character Mechanics import **#160**. Final PROJECT_STATUS/Handoff head `3aa84d87392672b4bfda9fce09cb4596e8629990` passed full repo **Verify #1033** and Character Mechanics import **#161**; PR #172 is review-ready.
 
 The next implementation may bind a Full Moon Domain runtime only if an explicit source-valid activation origin can be represented without inventing the selected Iuno field-time timeline. Even with the 30s lifetime source-resolved, Wan Light at-cap behavior plus actual Augusta in-Domain Shield/action overlap remain independent blockers and must stay fail closed until sourced.
+
+#### Phase 2 thirteenth Shorekeeper Stellarealm → Augusta stage/recipient overlap slice — PR #173
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #173 closes only the selected-team Stellarealm stage/recipient dependency; it does not turn Shorekeeper's unresolved Energy Regen composition into a numeric Augusta Crit value:
+
+- canonical `the-shorekeeper-liberation-stellarealms` remains the sole owner of Outer → Inner → Supernal evolution, 30s lifetime and ER → party Crit formulas/caps;
+- current Shorekeeper gameplay explicitly says to create Stellarealm, immediately Outro into another member's Intro for the first upgrade, then use one additional Intro to fully upgrade the realm;
+- current Game8 Augusta + Iuno + Shorekeeper rotation starts on Shorekeeper, activates Stellarealm, switches to Iuno on Intro, then later switches from Iuno to Augusta when Augusta Intro is available; Game8 identifies Shorekeeper's Crit/ATK support as the reason she is the best third slot for that team;
+- the selected Bellibing Shorekeeper rotation ends `Liberation → Outro`, the selected Iuno rotation begins with `Intro`, and the already verified #170 handoff binds terminal Iuno Outro directly to Augusta Intro/core start;
+- `src/referenceTeam01ShorekeeperStellarealmAugustaCoverage.ts` therefore source-locks Iuno as the first party Intro after End Loop (`INNER`) and Augusta as the second party Intro (`SUPERNAL`) without creating an absolute timestamp, a synthetic Crit value or a second realm engine;
+- `shorekeeper-stellarealm-party-crit-to-augusta` moves to `RESOLVED` for selected-team stage/recipient ownership only;
+- numeric party Crit remains conditional on the existing runtime's explicit query-time current Shorekeeper Energy Regen sample, while `shorekeeper-fallacy-wielder-er-stellarealm-state` remains separately `PENDING` for actual Fallacy timing/current ER composition;
+- no party Crit value is consumed by Augusta DPS in this slice, no per-action Augusta timestamps are added, and active-realm End Loop recast semantics remain source-boundary unresolved;
+- six exact Reference Team dependencies remain `PENDING`; coverage stays `PARTIAL` and `dpsReady = false`;
+- `BUG-028` and `BUG-029` remain open; no `.37`, Augusta combat math, UI or optimizer change.
+
+Source/coverage head `9cd764dd99da4d6a72a3217dfde0f37d8037015c` passed full repo **Verify #1034**. Code/manifest/readiness head `d47d0566184ff04843d0254e60509973a4033d6c` passed full repo **Verify #1036**, including source/profile/readiness gates, Tests, Strict web build, real Chrome regression and whitespace. The PROJECT_STATUS sync head must pass the same full Verify contract before PR #173 leaves draft; the exact final run is recorded in the PR/Handoff after that gate succeeds.
+
+The six remaining dependencies stay independent: Wan Light at-cap semantics; actual Augusta Wan Light Shield/action overlap; Stellar Symphony Augusta overlap; Rejuvenating Glow Augusta overlap; Fallacy TEAM ATK Augusta overlap; and Fallacy wielder ER → Stellarealm current-ER composition. Do not infer any of them from this discrete Intro-order closure.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

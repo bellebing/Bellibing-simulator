@@ -55,6 +55,7 @@ test('Reference Team 01 separates resolved source lifecycles from pending August
     ['shorekeeper-rejuvenating-team-atk-lifecycle-contract', 'REJUV_ATK'],
     ['shorekeeper-fallacy-team-atk-lifecycle-contract', 'FALLACY_TEAM_ATK'],
     ['shorekeeper-fallacy-wielder-er-lifecycle-contract', 'FALLACY_WIELDER_ER'],
+    ['shorekeeper-stellarealm-lifecycle-contract', 'the-shorekeeper-liberation-stellarealms'],
   ] as const;
   for (const [id, sourceId] of expectedResolved) {
     const dependency = context.contributions.find((row) => row.id === id);

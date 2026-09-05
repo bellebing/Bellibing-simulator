@@ -10,6 +10,7 @@ import { validateShorekeeperStellarealmContract } from '../combat/shorekeeperSte
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
 import { validateReferenceTeam01IunoAugustaWindowCoverage } from '../referenceTeam01IunoAugustaWindowCoverage.ts';
 import { validateReferenceTeam01ShorekeeperOutroAugustaCoverage } from '../referenceTeam01ShorekeeperOutroAugustaCoverage.ts';
+import { validateReferenceTeam01ShorekeeperStellarealmAugustaCoverage } from '../referenceTeam01ShorekeeperStellarealmAugustaCoverage.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -258,10 +259,10 @@ export const REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES: readonly TeamExecution
     sourceCharacterId: 'the-shorekeeper',
     sourcePresetId: 'shorekeeper-augusta-support',
     targetCharacterId: 'augusta',
-    resolutionStatus: 'PENDING',
+    resolutionStatus: 'RESOLVED',
     requiredForDps: true,
     requirementSummary:
-      'Stellarealm lifecycle/formulas are executable; requires source-valid Reference Team End Loop/Intro/Discernment/Augusta timestamps, Augusta in-range evidence and timed Shorekeeper ER composition before party crit can be applied to Augusta.',
+      'Current source-reviewed selected-team flow binds Shorekeeper End Loop -> Iuno first Intro -> terminal Iuno Outro -> Augusta second Intro, so Augusta enters as Supernal Stellarealm is generated and is authorized as the Crit-buff recipient. Numeric party Crit still requires an explicit current Shorekeeper ER sample; timed Fallacy ER composition remains a separate PENDING dependency.',
   },
 ] as const;
 
@@ -324,6 +325,12 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   if (shorekeeperStellarealmIssues.length > 0) {
     throw new Error(
       `Reference Team 01: invalid canonical Shorekeeper Stellarealm contract: ${shorekeeperStellarealmIssues.join('; ')}`,
+    );
+  }
+  const shorekeeperStellarealmAugustaCoverageIssues = validateReferenceTeam01ShorekeeperStellarealmAugustaCoverage();
+  if (shorekeeperStellarealmAugustaCoverageIssues.length > 0) {
+    throw new Error(
+      `Reference Team 01: invalid Shorekeeper Stellarealm -> Augusta coverage: ${shorekeeperStellarealmAugustaCoverageIssues.join('; ')}`,
     );
   }
 

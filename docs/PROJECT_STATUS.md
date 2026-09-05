@@ -439,9 +439,29 @@ PR #170 closes only the selected Reference Team Iuno Outro + Moonlit overlap wit
 - the remaining eight Reference Team dependencies stay `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and neither resolved transfer is consumed by Augusta DPS in this slice;
 - `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
 
-Code head `d6364d9c91d7e4b436e6298a789819b5eb76d76a` passed full repo **Verify #1010**. Final PROJECT_STATUS/Handoff head must also pass the full Verify contract before PR #170 can be marked review-ready.
+Code head `d6364d9c91d7e4b436e6298a789819b5eb76d76a` passed full repo **Verify #1010**. Final PROJECT_STATUS/Handoff head `40e4f67a95916bf6578fb04d0268709e9b0dac56` passed full repo **Verify #1011**; PR #170 is review-ready.
 
-The next implementation should target one of the remaining eight exact dependencies only when current source can prove the missing event/state boundary. The relative Iuno → Augusta origin must not be expanded into a fabricated absolute Reference Team timeline. Wan Light at-cap behavior and actual in-Domain Shield/action overlap remain separately pending; Shorekeeper windows still require source-valid activation/relative-placement evidence.
+The relative Iuno → Augusta origin remains deliberately bounded and must not be expanded into a fabricated absolute Reference Team timeline. A current tested Augusta/Iuno/Shorekeeper timing page was rechecked but uses Iuno Crown of Valor, whereas the selected Bellibing Reference Team Iuno loadout is Moonlit Clouds + Impermanence Heron; those measured Iuno field times are therefore not promoted as canonical timing for this profile.
+
+#### Phase 2 eleventh Shorekeeper Outro → Augusta overlap slice — PR #171
+
+Branch-local review progress only; this is **not current-main truth** until integrated.
+
+PR #171 closes only the source-explicit Shorekeeper Binary Butterfly overlap with Augusta without assigning an absolute Shorekeeper/Iuno timeline:
+
+- canonical `the-shorekeeper-outro-binary-butterfly` remains the sole owner of the TEAM scope, 15% DMG Amplification and 30s duration;
+- current Shorekeeper gameplay establishes the normal cross-character handoff shape: create Stellarealm, immediately Outro into another member's Intro, then use one additional Intro to advance the realm;
+- current Augusta + Iuno + Shorekeeper team guidance explicitly states that Shorekeeper first provides Stellarealm + Outro buffs, Iuno then provides the Heavy Attack buff, and Augusta then utilizes those buffs through her damage rotation before returning to Shorekeeper;
+- the selected Bellibing Shorekeeper rotation ends `Liberation → Outro`, the selected Iuno rotation begins `Intro`, and PR #170 independently source-locks the terminal Iuno Outro → Augusta Intro/core-start handoff;
+- `src/referenceTeam01ShorekeeperOutroAugustaCoverage.ts` validates those selected rotation identities plus the existing canonical Shorekeeper Outro lifecycle, but deliberately creates no synthetic switch event or `startedAtSeconds` value;
+- `shorekeeper-outro-augusta-window-overlap` therefore moves to `RESOLVED` on source-explicit team-overlap evidence;
+- Stellar Symphony, Rejuvenating Glow, Fallacy and Stellarealm party-crit overlap remain separate and `PENDING`; no blanket 30s-window inference is made from Shorekeeper Outro;
+- seven exact Reference Team dependencies remain `PENDING`, coverage stays `PARTIAL`, `dpsReady = false`, and no Shorekeeper contribution is newly consumed by Augusta DPS in this slice;
+- `BUG-028` and `BUG-029` remain open; `.37`, Augusta combat math, UI and optimizer are unchanged.
+
+Code/manifest head `6262d85a35ae81e59601c9cca95758db11817de5` passed full repo **Verify #1012**, including Profile/readiness gates, Tests, Strict web build, real-Chrome regression and whitespace. Final PROJECT_STATUS/Handoff head must pass the same Verify contract before PR #171 can be marked review-ready.
+
+The next implementation should keep the seven remaining dependencies independent. Full Moon Domain duration has fresh multi-source 30s evidence, but the current mixed `iuno-forte-lunar-cycle` fact must not be assigned 30s because Lunar Cycle and Full Moon Domain are distinct lifecycles; source ownership should be corrected with a separate Domain lifecycle fact before using that duration. Wan Light at-cap semantics and exact shield/action state remain separately pending.
 
 ### Phase 3 — make Reference Team 01 product-ready
 

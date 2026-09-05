@@ -10,27 +10,40 @@ import {
 } from '../src/factory/reporting.ts';
 import { reconcileFactoryEvidence } from '../src/factory/evidence.ts';
 import type { FactoryWeaponAttributeDmgEvidenceSnapshot } from '../src/factory/providerMappings/weaponAttributeDmg.ts';
+import type { FactoryWeaponRarityEvidenceSnapshot } from '../src/factory/providerMappings/weaponRarity.ts';
 
-const SNAPSHOT_URL = new URL(
+const ATTRIBUTE_DMG_SNAPSHOT_URL = new URL(
   '../data/factory/evidence/ages-of-harvest-r1-attribute-dmg-2026-09-05.json',
+  import.meta.url,
+);
+const RARITY_SNAPSHOT_URL = new URL(
+  '../data/factory/evidence/abyss-surges-rarity-2026-09-05.json',
   import.meta.url,
 );
 const GENERATED_JSON_URL = new URL('../data/generated/factory-evidence-report.json', import.meta.url);
 const GENERATED_MD_URL = new URL('../docs/generated/FACTORY_EVIDENCE_REPORT.md', import.meta.url);
 
-function loadSnapshot(): FactoryWeaponAttributeDmgEvidenceSnapshot {
-  return JSON.parse(readFileSync(SNAPSHOT_URL, 'utf8')) as FactoryWeaponAttributeDmgEvidenceSnapshot;
+function loadAttributeDmgSnapshot(): FactoryWeaponAttributeDmgEvidenceSnapshot {
+  return JSON.parse(readFileSync(ATTRIBUTE_DMG_SNAPSHOT_URL, 'utf8')) as FactoryWeaponAttributeDmgEvidenceSnapshot;
 }
 
-test('Factory evidence report is deterministic, provenance-rich, and keeps manual promotion boundary', () => {
-  const report = buildFactoryEvidenceReportFromSnapshots([loadSnapshot()]);
+function loadRaritySnapshot(): FactoryWeaponRarityEvidenceSnapshot {
+  return JSON.parse(readFileSync(RARITY_SNAPSHOT_URL, 'utf8')) as FactoryWeaponRarityEvidenceSnapshot;
+}
+
+function loadReviewedSnapshots(): readonly [FactoryWeaponRarityEvidenceSnapshot, FactoryWeaponAttributeDmgEvidenceSnapshot] {
+  return [loadRaritySnapshot(), loadAttributeDmgSnapshot()];
+}
+
+test('Factory evidence report is deterministic across two reviewed fact families and keeps manual promotion boundary', () => {
+  const report = buildFactoryEvidenceReportFromSnapshots(loadReviewedSnapshots());
 
   assert.deepEqual(report.summary, {
-    totalReconciliations: 1,
-    reviewCandidates: 1,
+    totalReconciliations: 2,
+    reviewCandidates: 2,
     exceptionQueue: 0,
     classifications: {
-      CONSENSUS: 1,
+      CONSENSUS: 2,
       SINGLE_SOURCE: 0,
       CONFLICT: 0,
       MISSING: 0,
@@ -38,20 +51,21 @@ test('Factory evidence report is deterministic, provenance-rich, and keeps manua
     },
   });
   assert.deepEqual(report.reviewCandidateKeys, [
+    'abyss-surges::rarity.stars',
     'ages-of-harvest::r1.attribute-dmg-bonus.value',
   ]);
   assert.deepEqual(report.exceptionQueueKeys, []);
   assert.equal(report.canonicalPromotionPolicy, 'MANUAL_SOURCE_VALIDATION_REQUIRED');
-  assert.deepEqual(report.reconciliations[0]?.candidates.map((candidate) => candidate.providerId), [
-    'frequency-manager',
-    'prydwen-profile-source',
+  assert.deepEqual(report.reconciliations.map((row) => row.subjectId), [
+    'abyss-surges',
+    'ages-of-harvest',
   ]);
-  assert.ok(report.reconciliations[0]?.candidates.every((candidate) => candidate.sourceRef));
-  assert.ok(report.reconciliations[0]?.candidates.every((candidate) => candidate.sourceVersion));
+  assert.ok(report.reconciliations.flatMap((row) => row.candidates).every((candidate) => candidate.sourceRef));
+  assert.ok(report.reconciliations.flatMap((row) => row.candidates).every((candidate) => candidate.sourceVersion));
 });
 
-test('checked-in Factory report artifacts exactly match deterministic renderers', () => {
-  const report = buildFactoryEvidenceReportFromSnapshots([loadSnapshot()]);
+test('checked-in Factory report artifacts exactly match deterministic renderers for all reviewed snapshots', () => {
+  const report = buildFactoryEvidenceReportFromSnapshots(loadReviewedSnapshots());
   assert.equal(readFileSync(GENERATED_JSON_URL, 'utf8'), renderFactoryEvidenceReportJson(report));
   assert.equal(readFileSync(GENERATED_MD_URL, 'utf8'), renderFactoryEvidenceReportMarkdown(report));
 });
@@ -86,7 +100,7 @@ test('Factory evidence report sorts reconciliations and rejects duplicate subjec
 
 test('Factory evidence snapshot registry fails closed for an unreviewed family', () => {
   const snapshot = {
-    ...loadSnapshot(),
+    ...loadRaritySnapshot(),
     familyId: 'unreviewed-family-v1',
   };
 
@@ -96,14 +110,18 @@ test('Factory evidence snapshot registry fails closed for an unreviewed family',
   );
 });
 
-test('Factory markdown report exposes review routing and provenance without claiming canonical truth', () => {
+test('Factory markdown report exposes multi-family review routing and provenance without claiming canonical truth', () => {
   const markdown = renderFactoryEvidenceReportMarkdown(
-    buildFactoryEvidenceReportFromSnapshots([loadSnapshot()]),
+    buildFactoryEvidenceReportFromSnapshots(loadReviewedSnapshots()),
   );
 
+  assert.match(markdown, /abyss-surges/);
+  assert.match(markdown, /weapon-rarity-v1:stars=5/);
+  assert.match(markdown, /ages-of-harvest/);
   assert.match(markdown, /CONSENSUS/);
   assert.match(markdown, /REVIEW_CANDIDATE/);
   assert.match(markdown, /f585e47a868cb2b65845367b976a1781f130c758/);
+  assert.match(markdown, /live-weapons-index-review-2026-09-05/);
   assert.match(markdown, /MANUAL_SOURCE_VALIDATION_REQUIRED/);
   assert.match(markdown, /never promotes provider evidence into canonical Bellibing runtime truth/);
 });

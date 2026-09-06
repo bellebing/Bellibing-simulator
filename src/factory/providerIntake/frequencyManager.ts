@@ -285,6 +285,7 @@ function refreshedSnapshot(
     evidenceState: extraction.evidenceState,
     sourceRef: ref,
     sourceVersion: artifact.upstreamCommit,
+    capturedAt: artifact.capturedAt,
     raw: extraction.raw,
     notes: [
       extraction.note,
@@ -300,14 +301,12 @@ function refreshedSnapshot(
   if (target.kind === 'RARITY') {
     return {
       ...(baseline as FactoryWeaponRarityEvidenceSnapshot),
-      capturedAt: artifact.capturedAt,
       providers: providers as readonly FactoryWeaponRarityRawRow[],
     };
   }
 
   return {
     ...(baseline as FactoryWeaponAttributeDmgEvidenceSnapshot),
-    capturedAt: artifact.capturedAt,
     providers: providers as readonly FactoryWeaponAttributeDmgRawRow[],
   };
 }

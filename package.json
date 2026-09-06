@@ -9,6 +9,7 @@
     "build": "node scripts/build-web.mjs",
     "report:factory-evidence": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts",
     "audit:factory-evidence-report": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts --check",
+    "intake:factory-frequency-manager": "node --experimental-strip-types scripts/generate-factory-provider-intake.ts",
     "verify:fast:factory": "npm run test:factory && npm run audit:factory-evidence-report && npm run audit:profile-readiness && npm run build",
     "audit:echo-raw": "node --experimental-strip-types scripts/audit-echo-raw.mjs",
     "audit:sonata-effects": "node --experimental-strip-types scripts/audit-sonata-effects.mjs",

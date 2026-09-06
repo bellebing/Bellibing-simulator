@@ -1,0 +1,56 @@
+name: Factory Provider Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      upstream_ref:
+        description: FrequencyManager ref/SHA to inspect; resolved SHA is recorded in the review artifact
+        required: true
+        default: f585e47a868cb2b65845367b976a1781f130c758
+
+permissions:
+  contents: read
+
+jobs:
+  frequency-manager-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Bellibing
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Checkout pinned FrequencyManager provider source
+        uses: actions/checkout@v4
+        with:
+          repository: Voruzhu/FrequencyManager
+          ref: ${{ inputs.upstream_ref }}
+          path: .factory-provider/frequency-manager
+          fetch-depth: 1
+
+      - name: Resolve exact upstream provenance
+        shell: bash
+        run: |
+          echo "UPSTREAM_SHA=$(git -C .factory-provider/frequency-manager rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "CAPTURED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
+      - name: Generate Factory evidence and review backlog artifacts
+        run: >-
+          npm run intake:factory-frequency-manager --
+          --source-file .factory-provider/frequency-manager/adapters/game-definitions/wuthering-waves/weapons.ts
+          --upstream-commit "$UPSTREAM_SHA"
+          --captured-at "$CAPTURED_AT"
+          --output-dir artifacts/factory-provider-intake
+
+      - name: Upload provider review artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: factory-provider-intake-frequency-manager-${{ env.UPSTREAM_SHA }}
+          path: artifacts/factory-provider-intake
+          if-no-files-found: error

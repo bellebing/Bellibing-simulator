@@ -6,7 +6,7 @@ Use these links so you do not need to remember repository paths.
 
 **Browser preview (v34 functional checkpoint):**
 
-https://raw.githack.com/bellebing/Bellibing-simulator/8ace173d3ecadf500e176db5ac8c794d61069fb7/docs/ui-prototypes/v34-functional.html
+https://rawcdn.githack.com/bellebing/Bellibing-simulator/8ace173d3ecadf500e176db5ac8c794d61069fb7/docs/ui-prototypes/v34-functional.html
 
 This preview is isolated from the production deploy. It uses temporary no-art placeholders but preserves the current Home / Build / Improve interaction model, autosave/account semantics, motion language, five Echo slots and Sequence rail.
 

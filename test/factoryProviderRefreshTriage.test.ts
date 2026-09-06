@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import {
   FACTORY_FREQUENCY_MANAGER_PROVIDER_ID,
@@ -23,6 +27,8 @@ const PROVIDER_REF = 'master';
 const FIXTURE_URL = new URL('../fixtures/factory/frequency-manager/weapons-pinned-f585e47.ts', import.meta.url);
 const RARITY_BASELINE_URL = new URL('../data/factory/evidence/abyss-surges-rarity-2026-09-05.json', import.meta.url);
 const ATTRIBUTE_BASELINE_URL = new URL('../data/factory/evidence/ages-of-harvest-r1-attribute-dmg-2026-09-05.json', import.meta.url);
+const SCRIPT_URL = new URL('../scripts/generate-factory-provider-intake.ts', import.meta.url);
+const REPO_ROOT_URL = new URL('../', import.meta.url);
 
 function loadBaseline(url: URL): FactoryFrequencyManagerSupportedSnapshot {
   return JSON.parse(readFileSync(url, 'utf8')) as FactoryFrequencyManagerSupportedSnapshot;
@@ -119,7 +125,7 @@ test('unknown bounded value produces REVIEW_REQUIRED', () => {
   assert.equal(report.targets.find((target) => target.subjectId === 'abyss-surges')?.refreshStatus, 'SOURCE_UNKNOWN');
 });
 
-test('pre-intake or global failure is REFRESH_FAILURE and fabricates no target reconciliation data', () => {
+test('pre-intake failure is REFRESH_FAILURE and fabricates no target reconciliation data', () => {
   const report = buildFactoryProviderRefreshFailureTriage({
     stage: 'PROVENANCE_RESOLUTION',
     code: 'PROVENANCE_RESOLUTION_FAILED',
@@ -133,4 +139,38 @@ test('pre-intake or global failure is REFRESH_FAILURE and fabricates no target r
   assert.deepEqual(report.targets, []);
   assert.doesNotMatch(json, /reconciliation/);
   assert.match(renderFactoryProviderRefreshTriageMarkdown(report), /No Factory evidence classification or reconciliation was fabricated/);
+});
+
+test('global intake execution failure writes REFRESH_FAILURE triage and no fabricated reconciliation', () => {
+  const outputDir = mkdtempSync(join(tmpdir(), 'bellibing-factory-triage-'));
+  try {
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types',
+      fileURLToPath(SCRIPT_URL),
+      '--source-file', fileURLToPath(FIXTURE_URL),
+      '--upstream-commit', 'main',
+      '--provider-ref', PROVIDER_REF,
+      '--output-dir', outputDir,
+    ], {
+      cwd: fileURLToPath(REPO_ROOT_URL),
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 1);
+    const report = JSON.parse(readFileSync(join(outputDir, 'frequency-manager-refresh-triage.json'), 'utf8')) as {
+      readonly disposition: string;
+      readonly attentionRequired: boolean;
+      readonly targets: readonly unknown[];
+      readonly failure?: { readonly stage?: string };
+    };
+    const json = JSON.stringify(report);
+
+    assert.equal(report.disposition, 'REFRESH_FAILURE');
+    assert.equal(report.attentionRequired, true);
+    assert.equal(report.failure?.stage, 'INTAKE_EXECUTION');
+    assert.deepEqual(report.targets, []);
+    assert.doesNotMatch(json, /reconciliation/);
+  } finally {
+    rmSync(outputDir, { recursive: true, force: true });
+  }
 });

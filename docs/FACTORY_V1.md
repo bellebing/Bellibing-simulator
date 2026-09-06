@@ -206,7 +206,7 @@ No issue creation, canonical writes, runtime mutation or provider auto-trust exi
 
 Milestone 04 Provider Refresh #1/#2 proved real pinned-provider intake.
 
-Milestone 05 Factory Provider Refresh #6 proved the configured live lane against real `Voruzhu/FrequencyManager@master` on the Milestone 05 implementation head.
+Milestone 05 Factory Provider Refresh #7 proved the configured live lane against real `Voruzhu/FrequencyManager@master` after the intake script was hardened to require the workflow/provider-configured ref explicitly.
 
 Direct inspection of the uploaded artifact proves:
 
@@ -241,15 +241,15 @@ Milestone 05 changes no Reference Team gameplay/DPS semantics.
 
 Milestone 04 integration/checkpoint verification remains preserved as previously recorded.
 
-Milestone 05 implementation payload before documentation synchronization passed:
+Milestone 05 code/test/docs payload before the final proof-reference-only documentation sync passed:
 
-- Factory Fast #43 — SUCCESS;
-- full Verify #1060 verify job — SUCCESS;
-- Export #959 — SUCCESS;
-- Factory Provider Refresh #6 — SUCCESS against real `FrequencyManager/master`;
+- Factory Fast #47 — SUCCESS;
+- full Verify #1064 verify job — SUCCESS;
+- Export #963 — SUCCESS;
+- Factory Provider Refresh #7 — SUCCESS against real `FrequencyManager/master` on the current runtime-code payload;
 - direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false`, exact SHA and baseline/current provenance.
 
-Final review-head verification must remain green after the documentation synchronization. Factory fast-path remains an iteration accelerator only and does not replace full Verify. No correctness gate is weakened.
+The final proof-reference-only documentation sync changes only Factory docs and must retain full Verify/Export on the final review head. Factory fast-path remains an iteration accelerator only and does not replace full Verify. No correctness gate is weakened.
 
 ## Handoff
 

@@ -4,6 +4,8 @@ Status: **ACTIVE DEVELOPMENT MODEL — Milestone 04 Provider Intake / Refresh v1
 
 Product goal remains **Best Available Teams**. Factory is a development/data pipeline; provider evidence never becomes gameplay/runtime truth by itself.
 
+The repository `main` branch head is authoritative implementation/runtime truth. This living document intentionally does not hardcode the exact live branch-head SHA; docs commits would make such a value stale by construction. Historical integration and cleanup checkpoints remain recorded below.
+
 ## Architecture boundary
 
 `external provider source`
@@ -55,7 +57,9 @@ Milestone 04 adds a refresh-health guard above generic reconciliation: an expect
 
 Milestones 00–03 are integrated on `main` through PR #178. Historical PRs #174–#177 remain closed unmerged milestone evidence.
 
-Milestone 04 is integrated on `main` through PR #179. Final review head `553bcb1dd9b18989f76ff000bba77307db6b0866` was merged with a normal merge commit as `1c396832f6658df7a1bd17305c4a3e488d6878b1`; its parents are prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head.
+Milestone 04 is integrated on `main` through PR #179. Final review head `553bcb1dd9b18989f76ff000bba77307db6b0866` was merged with a normal merge commit as integration checkpoint `1c396832f6658df7a1bd17305c4a3e488d6878b1`; its parents are prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head.
+
+Post-merge canonical cleanup checkpoint `72e4de8de8ce52a98293cb6f18a48292a94f5597` changed only `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md`.
 
 Milestones 00–04 establish provider/provenance contracts, reviewed mapping families, deterministic reconciliation/reporting, exception routing, declarative generation through existing canonical primitives, and the first real bounded automated provider-intake refresh lane.
 
@@ -159,12 +163,19 @@ Final PR #179 review head `553bcb1dd9b18989f76ff000bba77307db6b0866` passed:
 - Export #955 — SUCCESS;
 - Character Mechanics import #172 — SUCCESS.
 
-Actual Milestone 04 integration merge commit `1c396832f6658df7a1bd17305c4a3e488d6878b1` passed:
+Milestone 04 integration merge checkpoint `1c396832f6658df7a1bd17305c4a3e488d6878b1` passed:
 
 - full Verify #1057 — SUCCESS;
 - Export #956 — SUCCESS;
 - Deploy #141 — SUCCESS;
 - Deploy #141 live-site verification — SUCCESS, including Chrome checks for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
+
+Post-merge canonical cleanup checkpoint `72e4de8de8ce52a98293cb6f18a48292a94f5597` passed:
+
+- full Verify #1058 — SUCCESS;
+- Export #957 — SUCCESS;
+- Deploy #142 — SUCCESS;
+- Deploy #142 live-site verification — SUCCESS, including Chrome checks for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
 
 Factory fast-path remains an iteration accelerator only and does not replace full Verify. No correctness gate was weakened.
 
@@ -172,7 +183,7 @@ Factory fast-path remains an iteration accelerator only and does not replace ful
 
 The Milestone 04 pre-merge Google Sheets sync succeeded and established UPD-158 with the review-state evidence and blocker preservation.
 
-Post-merge Handoff synchronization is external bookkeeping and is performed at most once only after the final post-merge `main` state is verified green. Its result does not alter canonical GitHub implementation truth.
+The normal post-merge Handoff sync also succeeded after the post-merge canonical cleanup checkpoint was verified green and established UPD-159 with the actual then-current GitHub SHA, merge/checkpoint evidence, blocker preservation and Milestone 05 stop boundary. Because that external sync does not change the GitHub branch head, recording the exact SHA there does not create the living-doc self-reference problem.
 
 ## Milestone exit
 

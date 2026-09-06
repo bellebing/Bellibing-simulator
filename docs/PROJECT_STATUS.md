@@ -2,18 +2,20 @@
 
 Last reconciled: 2026-09-06
 
-This is the canonical living roadmap for current `main`.
+This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 
 ## 1. Current implementation truth
 
-Current `main`: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
+Repository `main` branch head = authoritative implementation/runtime truth.
 
 Factory v1 through Milestone 04 is integrated on `main` through PR #179.
 
 - PR #179 final review head: `553bcb1dd9b18989f76ff000bba77307db6b0866`.
 - PR #179 was merged with a normal merge commit, not squash/rebase.
-- Milestone 04 integration merge commit: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
+- Milestone 04 integration merge checkpoint: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
 - That merge commit has prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head as its two parents.
+- Post-merge canonical cleanup checkpoint: `72e4de8de8ce52a98293cb6f18a48292a94f5597`.
+- That cleanup changed only `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md`.
 - PRs #174–#177 remain closed unmerged as superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
 - No Milestone 05 has started.
 - Milestone 04 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
@@ -107,7 +109,7 @@ All Factory reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`. Provider
 
 ## 8. Verification state
 
-Milestone 04 and its integration are green:
+Milestone 04, its integration, and the post-merge canonical cleanup checkpoint are green:
 
 - Factory Provider Refresh #1 — SUCCESS against real pinned FrequencyManager;
 - Factory Provider Refresh #2 — SUCCESS after exact capture-provenance correction;
@@ -115,9 +117,12 @@ Milestone 04 and its integration are green:
 - final PR #179 head: full Verify #1056 — SUCCESS;
 - final PR #179 head: Export #955 — SUCCESS;
 - final PR #179 head: Character Mechanics import #172 — SUCCESS;
-- actual integration merge commit `1c396832f6658df7a1bd17305c4a3e488d6878b1`: full Verify #1057 — SUCCESS;
-- actual integration merge commit: Export #956 — SUCCESS;
-- actual integration merge commit: Deploy #141 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
+- Milestone 04 integration merge checkpoint `1c396832f6658df7a1bd17305c4a3e488d6878b1`: full Verify #1057 — SUCCESS;
+- integration merge checkpoint: Export #956 — SUCCESS;
+- integration merge checkpoint: Deploy #141 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path;
+- post-merge canonical cleanup checkpoint `72e4de8de8ce52a98293cb6f18a48292a94f5597`: full Verify #1058 — SUCCESS;
+- post-merge canonical cleanup checkpoint: Export #957 — SUCCESS;
+- post-merge canonical cleanup checkpoint: Deploy #142 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
 
 Normal tests/Verify remain network-independent because provider extraction regressions use local fixtures. External provider access is isolated to `Factory Provider Refresh`. No correctness gate was weakened.
 
@@ -125,7 +130,7 @@ Normal tests/Verify remain network-independent because provider extraction regre
 
 The Milestone 04 pre-merge Google Sheets synchronization succeeded and established the UPD-158 state with the milestone review evidence and blocker preservation.
 
-Post-merge Handoff synchronization is external bookkeeping and is performed at most once, only after the final post-merge `main` state is verified green. Whether that external write succeeds or fails does not change canonical GitHub implementation truth.
+The normal post-merge Handoff synchronization also succeeded after the post-merge canonical cleanup checkpoint was verified green and recorded UPD-159. Because the Handoff is external to GitHub, it can record the actual then-current GitHub SHA without creating a self-referential docs-head problem. No Handoff write changes canonical GitHub implementation truth.
 
 ## 10. Milestone boundary
 

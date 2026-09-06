@@ -2,182 +2,143 @@
 
 Last reconciled: 2026-09-06
 
-This is the canonical living roadmap for current `main`. Historical PR bodies and old worker branches are evidence/context, not competing roadmaps.
+This is the canonical living roadmap for the latest active Factory branch. Current `main` remains implementation/runtime truth until an explicitly authorized merge.
 
 ## 1. Current implementation truth
 
-Bellibing Factory v1 through Milestone 03 is now integrated into `main` through PR #178.
+Current `main`: `3a7fc098320fb51c1a1c941c60774343c1958121`.
 
-- PR #178 was merged with a normal merge commit, not squash/rebase.
-- Integration head: `751c65de73b4916746da0261f2cdacd56350a6db`.
-- Factory integration merge commit: `576ac38f25a730a4c2a224b00db8665cb24a20ed`.
-- The merge commit has the former `main` head `612324b8aba1dd1c4ae8a189ebf74062b291033b` and the verified integration head as its two parents.
-- #174, #175, #176 and #177 are closed **unmerged** as superseded Factory milestone evidence and point to #178; they must not be merged separately.
-- No Factory Milestone 04 has started.
+Factory v1 through Milestone 03 is integrated on `main` through PR #178. PRs #174–#177 are closed unmerged as superseded milestone evidence.
 
-Verification around the integration is green:
+**Factory Milestone 04 — Provider Intake / Refresh v1 — implementation is complete and is represented by PR #179.**
 
-- integration head Factory Fast #28 — **SUCCESS**;
-- integration head full Verify #1050 — **SUCCESS**;
-- main-bound PR #178 Verify #1051 — **SUCCESS**;
-- main-bound PR #178 Export #950 — **SUCCESS**;
-- main-bound PR #178 Character Mechanics import #170 — **SUCCESS**;
-- post-merge `main` Verify #1052 — **SUCCESS**;
-- post-merge `main` Export #951 — **SUCCESS**;
-- post-merge `main` Deploy #138 — **SUCCESS**;
-- docs-only canonical cleanup `bbd57243801ed86fe2f30be650406b475663e4e9` Verify #1053 — **SUCCESS**;
-- the same docs-only cleanup Export #952 — **SUCCESS**;
-- the same docs-only cleanup Deploy/live #139 — **SUCCESS**.
+- Branch: `factory/provider-intake-refresh-v1-2026-09-06`.
+- Base: exact current `main` above.
+- PR #179 is unmerged; merge still requires explicit user authorization.
+- No Milestone 05 has started.
+- Milestone 04 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
 
-This post-merge cleanup is documentation-only. It does not change gameplay/runtime/data behavior.
+## 2. Milestone 04 exit capability
 
-## 2. Active development model
+Milestone 04 proves this bounded real chain:
 
-**ACTIVE DEVELOPMENT MODEL: BELLIBING FACTORY v1**
+`provider source / pinned upstream`
+→ `automated provider-specific extraction`
+→ `provenance-rich generated Factory raw evidence`
+→ `reviewed mapper registry`
+→ `reconciliation`
+→ `deterministic evidence + intake reports`
+→ `REVIEW_CANDIDATE` or `EXCEPTION_QUEUE`.
 
-**PRODUCT GOAL: BEST AVAILABLE TEAMS**
+The first real lane is `Voruzhu/FrequencyManager`, MIT-licensed and bounded `EVIDENCE_ONLY`. Broad/roster-scale ingestion remains disabled.
 
-Factory is a development/data pipeline. It feeds but never bypasses:
+The lane reuses only existing reviewed families:
 
-`provider raw evidence → normalized reviewed candidates → canonical raw/source → Character Mechanics / Weapon / Echo / Sonata effects → profiles → execution/combat-DPS → product/UI`
+- `weapon-rarity-v1` → `abyss-surges::rarity.stars`;
+- `weapon-r1-attribute-dmg-bonus-v1` → `ages-of-harvest::r1.attribute-dmg-bonus.value`.
 
-Locked rules:
+No third Wuthering Waves fact family was added.
 
-- provider evidence is never canonical/runtime truth by itself;
-- `CONFLICT / MISSING / UNKNOWN` remain explicit and fail-closed;
-- canonical promotion remains `MANUAL_SOURCE_VALIDATION_REQUIRED`;
-- timeline/state gaps remain fail-closed;
-- `SOURCE_SEQUENCE_ONLY` is not executable timing;
-- V9.15 is historical oracle/reference only when explicitly needed;
-- current gameplay scope remains S0-S2 + maxed Character skills;
-- S3-S6/lower skill levels and quickswap remain deferred;
-- do not build one calculator per Character or a universal gameplay DSL;
-- do not broaden to roster-scale provider ingestion without a reviewed bounded Factory milestone.
+## 3. Provider intake implementation
 
-## 3. Reference Team 01 — golden regression
+Milestone 04 adds:
 
-Team: **Augusta / Iuno / The Shorekeeper**.
+- `src/factory/providerIntake/frequencyManager.ts` — bounded FrequencyManager parser and refresh-health assessment;
+- `scripts/generate-factory-provider-intake.ts` — generates Factory evidence snapshots plus deterministic review reports without manual refresh JSON authoring;
+- `fixtures/factory/frequency-manager/weapons-pinned-f585e47.ts` — offline fixture for the two existing reviewed targets;
+- `test/factoryProviderIntake*.test.ts` — unchanged/change/missing/unknown/exact-SHA/provenance regressions;
+- `.github/workflows/factory-provider-refresh.yml` — read-only external refresh workflow that checks out FrequencyManager, resolves exact upstream SHA, generates review artifacts and uploads them. It has no canonical/runtime write path.
 
-State remains unchanged through the Factory integration:
+Pinned proof source:
 
-- dependency coverage: `PARTIAL`;
+`Voruzhu/FrequencyManager@f585e47a868cb2b65845367b976a1781f130c758`
+
+Path:
+
+`adapters/game-definitions/wuthering-waves/weapons.ts`.
+
+Real Provider Refresh #1 and #2 both succeeded. Generated review artifacts show both bounded targets as `UNCHANGED / CONSENSUS / REVIEW_CANDIDATE`, preserve exact upstream SHA/blob provenance, and keep `MANUAL_SOURCE_VALIDATION_REQUIRED`.
+
+Provider-specific capture provenance is also locked: refreshed FrequencyManager candidates use the refresh capture time, while carried-forward Prydwen reviewed anchors retain their original capture timestamps.
+
+## 4. Fail-closed refresh behavior
+
+Milestone 04 does not let generic reconciliation hide provider degradation:
+
+- unchanged reviewed value → normal mapper/reconciliation route;
+- valid changed relevant value → `SOURCE_CHANGED`; effective intake route is `EXCEPTION_QUEUE`; current regressions produce mapper-level `CONFLICT`;
+- expected provider row missing → `SOURCE_MISSING / EXCEPTION_QUEUE`, even if another reviewed source would otherwise produce generic `SINGLE_SOURCE`;
+- unparseable/unsupported provider shape → `SOURCE_UNKNOWN / EXCEPTION_QUEUE`;
+- non-exact upstream Git SHA is rejected before evidence generation;
+- no path performs automatic canonical promotion or runtime mutation.
+
+## 5. Existing source extraction workflow audit
+
+`.github/workflows/profile-source-extract.yml` remains branch-bound to the old roster-wide Prydwen profile accelerator `feat/profile-source-import-accelerator-20260830`.
+
+Milestone 04 disposition: **reuse-by-pattern / future refactor-or-supersede candidate; not mechanical reuse**.
+
+Its artifact schema, roster-wide scope and Chromium/network extraction do not match the bounded Factory fact-family intake contract. It is unchanged. Prydwen remains `REVIEW_ONLY`.
+
+## 6. Reference Team 01 — golden regression
+
+Augusta / Iuno / The Shorekeeper remains unchanged:
+
+- dependency coverage `PARTIAL`;
 - `dpsReady = false`;
-- Augusta historical `.37` static context unchanged;
-- Wan Light is not consumed by Augusta DPS;
-- Shorekeeper Stellarealm numeric Crit composition is not guessed;
-- provider evidence cannot close a team dependency automatically.
+- exactly six required `PENDING` dependencies:
+  1. `iuno-wan-light-at-cap-trigger-semantics`;
+  2. `iuno-wan-light-augusta-event-overlap`;
+  3. `shorekeeper-stellar-symphony-augusta-window-overlap`;
+  4. `shorekeeper-rejuvenating-augusta-window-overlap`;
+  5. `shorekeeper-fallacy-team-atk-augusta-window-overlap`;
+  6. `shorekeeper-fallacy-wielder-er-stellarealm-state`.
 
-Exactly six required dependencies remain `PENDING`:
+`BUG-028`, `BUG-029`, `BUG-008` and `BUG-010` remain open/relevant. Abyss Surges level-90 Base ATK `587` vs `588` remains a parked provider conflict; no Base ATK mapper/coercion was added.
 
-1. `iuno-wan-light-at-cap-trigger-semantics` — `SOURCE_MISSING`.
-2. `iuno-wan-light-augusta-event-overlap` — `TIMELINE_MISSING + STATE_MISSING`.
-3. `shorekeeper-stellar-symphony-augusta-window-overlap` — `TIMELINE_MISSING + STATE_MISSING`.
-4. `shorekeeper-rejuvenating-augusta-window-overlap` — `TIMELINE_MISSING + STATE_MISSING`.
-5. `shorekeeper-fallacy-team-atk-augusta-window-overlap` — `TIMELINE_MISSING`.
-6. `shorekeeper-fallacy-wielder-er-stellarealm-state` — `TIMELINE_MISSING + STATE_MISSING`.
+## 7. Provider/canonical boundary
 
-Related blockers remain open/relevant: `BUG-028`, `BUG-029`, `BUG-008`, `BUG-010`.
+- Prydwen — `REVIEW_ONLY`.
+- FrequencyManager — MIT, bounded `EVIDENCE_ONLY`, no canonical authority.
+- `d4rkOfficial/wuwa-afyg-tool` — MIT evidence/reference candidate only after bounded review.
+- `DommyMM/wuwabuild` — no established reuse license; no new code/data copying.
 
-## 4. Factory Milestone 01 — first reviewed mapping
+All Factory reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`. Provider source changes, `CONFLICT`, `MISSING` and `UNKNOWN` never auto-promote.
 
-Historical milestone PR: #175, now closed unmerged as evidence after #178 integration.
+## 8. Verification state
 
-Family: `weapon-r1-attribute-dmg-bonus-v1`.
+Verified Milestone 04 evidence before this final docs-only state commit:
 
-- subject: `ages-of-harvest`;
-- field: `r1.attribute-dmg-bonus.value`;
-- Prydwen review lane and pinned FrequencyManager evidence normalize to the same narrow R1 general/attribute-DMG value;
-- trigger, duration, stacking, refresh, target and runtime uptime are deliberately not inferred.
+- Factory Fast #30 — SUCCESS;
+- Factory Provider Refresh #1 — SUCCESS against real pinned FrequencyManager;
+- Factory Provider Refresh #2 — SUCCESS after exact capture-provenance correction;
+- Factory Fast #34 — SUCCESS with provider-specific capture regression;
+- Factory Fast #36 — SUCCESS on PR #179 pre-final docs head `9723c0b0b98aace9902e80a832c97d4f7cbfc0eb`;
+- full Verify #1055 — SUCCESS on that head, including full tests, strict build and required real-Chrome regression;
+- Export #954 — SUCCESS on that head;
+- Character Mechanics import #171 — SUCCESS on that head.
 
-Matching evidence yields `CONSENSUS / REVIEW_CANDIDATE / MANUAL_SOURCE_VALIDATION_REQUIRED`. Tested disagreement yields `CONFLICT / EXCEPTION_QUEUE` rather than selecting a winner.
+Normal tests/Verify remain network-independent because provider extraction regressions use local fixtures. External provider access is isolated to `Factory Provider Refresh`.
 
-## 5. Factory Milestone 02 — deterministic reporting
+The current PR #179 head after this final docs-only state commit must have its own exact-head Factory Fast/full Verify/Export/Import green before PR #179 is marked ready for review. PR check state is authoritative for that final SHA; no correctness gate is weakened.
 
-Historical milestone PR: #176, now closed unmerged as evidence after #178 integration.
+## 9. Handoff synchronization
 
-Milestone 02 established family-agnostic review-output infrastructure:
+The single permitted normal Milestone 04 Google Sheets synchronization attempt **succeeded** after the pre-final head passed full verification.
 
-- reviewed mapper registry; unregistered families fail closed;
-- deterministic reconciliation/candidate sorting;
-- classification summary counts;
-- review-candidate and exception-queue keys;
-- full provider/source/version/capture provenance;
-- deterministic JSON + Markdown renderers;
-- CLI export from `data/factory/evidence/*.json`;
-- checked-in report artifacts;
-- drift audit in `verify:fast:factory`.
+Verified read-back shows:
 
-## 6. Factory Milestone 03 — reuse proof with a different fact class
+- `Mål & Handoff` now records current main plus Milestone 04 / PR #179 state;
+- `UPD-158` records Provider Intake / Refresh v1 and the real provider proof;
+- BUG-028/029 preservation notes remain `HIGH / KNOWN GAP` context;
+- ChatGPT Project Instructions were updated to the Milestone 04 boundary.
 
-Historical milestone PR: #177, now closed unmerged as evidence after #178 integration.
+No second Sheets write will be attempted for the final docs-only SHA. Handoff therefore records PR #179 head `9723c0b0...` at sync time, while this GitHub branch/PR remains authoritative for the final exact review SHA.
 
-Second family: `weapon-rarity-v1`.
+## 10. Milestone boundary
 
-- subject: `abyss-surges`;
-- field: `rarity.stars`;
-- Prydwen current weapons index supplies reviewed label `5★`;
-- `Voruzhu/FrequencyManager@f585e47a868cb2b65845367b976a1781f130c758` supplies structured `rarity=5`;
-- FrequencyManager is MIT-licensed and remains evidence-only;
-- normalization maps only discrete weapon rarity to `weapon-rarity-v1:stars=5`.
+**Stop after Milestone 04. Do not start Milestone 05 automatically.**
 
-Why this tests reuse rather than duplicating Ages of Harvest:
+The Milestone 04 capability answer is now **YES, bounded**: Factory can create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two already-reviewed targets. This does not authorize roster-scale ingestion or canonical promotion.
 
-- Milestone 01 maps a numeric passive-effect value with effect-specific safety constraints;
-- Milestone 03 maps categorical/static identity metadata with a separate normalizer and separate raw provider shapes;
-- both use the same registry, reconciliation core, deterministic report, provenance contract and manual-promotion boundary;
-- the report contains two independently registered fact families and stable cross-family ordering.
-
-Checked-in report state:
-
-- 2 reconciliations;
-- 2 `CONSENSUS` rows;
-- 2 review candidates;
-- 0 live exception rows;
-- all rows retain `MANUAL_SOURCE_VALIDATION_REQUIRED`.
-
-Regressions explicitly prove:
-
-- changing one rarity provider to a different star count produces `CONFLICT / EXCEPTION_QUEUE`;
-- unparseable rarity evidence becomes `UNKNOWN`; when no safe present candidate remains it routes to `EXCEPTION_QUEUE`;
-- Factory never chooses a provider winner or promotes runtime truth.
-
-### Parked candidate: level-90 Base ATK
-
-A level-90 Base ATK family was evaluated and deliberately **not implemented**. Prydwen evidence reports Abyss Surges ATK (Lv.90) as `587`, while the pinned FrequencyManager row stores `baseAtk: 588`. Factory does not assume harmless rounding and does not coerce the values into consensus. If revisited, this remains explicit conflict/source review.
-
-## 7. Provider/license boundary
-
-- Prydwen extraction/review lane — `REVIEW_ONLY`; extractor code is MIT, page content still requires Bellibing review.
-- `Voruzhu/FrequencyManager` — MIT; approved for bounded independent-evidence prototypes, not broad ingestion.
-- `d4rkOfficial/wuwa-afyg-tool` — MIT repository; data mappings still require separate provenance/review.
-- `DommyMM/wuwabuild` — no current reuse license established; no new code/data copy.
-
-No external provider has canonical authority.
-
-## 8. Verification model
-
-### Fast path
-
-`npm run verify:fast:factory` remains an iteration accelerator covering targeted Factory tests, deterministic report drift, profile readiness and strict web build; Factory Fast workflow also validates diff whitespace.
-
-It does not replace the repository-wide verification contract.
-
-### Full path
-
-The full `Verify` workflow remains authoritative for integration/main correctness and retains source/raw/profile gates, Profile × Adapter/readiness, full Node tests, strict build, real-Chrome regressions and whitespace.
-
-The main-targeting Export/artifact contract remains separate. The integrated payload passed both before merge (#1051 / #950) and again on the actual merge commit (#1052 / #951). Post-merge Deploy #138 succeeded. The docs-only cleanup also passed Verify #1053, Export #952 and Deploy/live #139.
-
-No correctness gate is weakened.
-
-## 9. Post-merge boundary
-
-Factory integration through Milestone 03 is complete. The old `main → #174 → #175 → #176 → #177` review stack is no longer an active merge queue; #174–#177 are historical evidence and #178 is the canonical integration record.
-
-Do not start the next Factory milestone until post-merge canonical state is verified green and the next bounded objective is explicitly selected. Do not return to Character-by-Character slicing by default.
-
-### External Handoff synchronization
-
-The single permitted normal post-merge Google Sheets synchronization attempt was made after fresh-reading `Mål & Handoff`, `Uppdateringslogg`, `Buggar` and `ChatGPT Projektinstruktioner`. `spreadsheets.batchUpdate` returned `403 PERMISSION_DENIED` / `The caller does not have permission`.
-
-No alternate write path, workaround or partial write was attempted or claimed. Bellibing Echo Tool Handoff therefore remains stale at UPD-157 / Milestone 01 state. Until normal Sheets write permission is restored, GitHub `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md` on current `main` are the canonical current project state.
+Merge PR #179 only after explicit user authorization.

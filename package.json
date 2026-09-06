@@ -7,6 +7,7 @@
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "test:factory": "node --experimental-strip-types --test test/factory*.test.ts",
     "build": "node scripts/build-web.mjs",
+    "export:characters": "node --experimental-strip-types scripts/export-character-database.ts",
     "report:factory-evidence": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts",
     "audit:factory-evidence-report": "node --experimental-strip-types scripts/generate-factory-evidence-report.ts --check",
     "intake:factory-frequency-manager": "node --experimental-strip-types scripts/generate-factory-provider-intake.ts",

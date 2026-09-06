@@ -8,13 +8,13 @@ This is the canonical living roadmap for repository `main`. The repository `main
 
 Repository `main` branch head = authoritative implementation/runtime truth.
 
-Factory v1 through Milestone 04 is integrated on `main` through PR #179.
+Factory v1 through Milestone 05 is integrated on `main` through PR #180.
 
 - PR #179 final review head: `553bcb1dd9b18989f76ff000bba77307db6b0866`.
 - Milestone 04 integration merge checkpoint: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
 - Post-merge canonical cleanup checkpoint: `72e4de8de8ce52a98293cb6f18a48292a94f5597`.
-- PR #180 is the active **unmerged** Milestone 05 review candidate: `Provider Refresh Change Detection / Triage v1`.
-- Milestone 05 merge still requires separate explicit authorization.
+- PR #180 final head `c3bce5e3eebd57f06cc1776e1069ec2368f75945` was integrated with normal merge commit `4f507f59e9b3be7a5cfa72f872803740c5a15a36`.
+- The integration parents are prior main `b789cc7e44bdcda5a44176d8d17b5355567bc807` and that exact verified PR head.
 - PRs #174–#177 remain closed unmerged superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
 - Milestone 05 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
 
@@ -146,18 +146,22 @@ Milestone 05 code/test/docs payload before the final proof-reference-only docume
 - Factory Provider Refresh #7 — SUCCESS against real `FrequencyManager/master` on the current runtime-code payload;
 - direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false` and exact upstream SHA/baseline/current provenance.
 
-The final proof-reference-only documentation sync changes only Factory docs and must retain the same full-repo correctness gates on the final review head. No verification gate is weakened.
+Final PR #180 head passed Factory Fast #49, full Verify #1066 and Export #965. The real Provider Refresh #7 runtime/script/workflow payload is unchanged at the final head; only documentation and a failure-path regression followed it. Its downloaded artifact SHA-256 was checked and the two `UNCHANGED` targets and provenance were read directly before integration.
+
+Integration checkpoint `4f507f59e9b3be7a5cfa72f872803740c5a15a36` passed full Verify #1067, Export #966 and Deploy #144 including live-site verification. Exact checks for subsequent work are recorded on its PR and in Handoff. No verification gate is weakened.
 
 ## 11. Handoff synchronization
 
 The external Bellibing Echo Tool — AI Handoff remains the place to record the final exact PR review-head SHA and final verification run identifiers without creating a self-referential GitHub-doc problem.
 
-Milestone 05 Handoff synchronization is required after the final review head is verified. No Handoff write changes canonical GitHub implementation/runtime truth.
+UPD-161 records the pre-merge M05 state. Post-integration Handoff synchronization follows the verified canonical cleanup and must also replace the stale M04 copy-ready project instructions. No Handoff write changes canonical GitHub implementation/runtime truth.
 
 ## 12. Milestone boundary
 
-**Stop after Milestone 05 review-ready. Do not start coverage expansion or Milestone 06 automatically.**
+**Current responsibility: Character data and reusable backend models. The user is building the UI separately.**
 
-Milestone 05 does not authorize roster-scale ingestion, Character-by-Character work, Reference Team micro-slicing, a universal gameplay DSL, new fact families/providers, automatic provider trust or canonical promotion.
+Prioritize the shortest source-valid path to supporting many Characters: reuse existing canonical rows, review shared fact/mechanic families in batches, and reuse execution primitives. Add Character-specific code only where actual mechanics require it. Follow `BEST_AVAILABLE_TEAMS_DIRECTION.md` for the downstream product contract; keep the six Reference Team dependencies open until independently resolved.
 
-PR #180 remains unmerged until separate explicit merge authorization is given.
+The current backend slice adds `characterActionValues.ts` and `characterDatabase.ts`: a common exact source-value reader across 54 verified mechanics profiles, reused by Ciaccona, and a deterministic JSON export for all 60 canonical identities (57 released), 1868 facts and 47 presets. `npm run export:characters` writes the standalone database; normal builds include `dist/data/character-database.json`. See `CHARACTER_DATABASE.md` for the consumer contract and batch workflow.
+
+No gameplay facts, source approvals, DPS-ready Characters or Reference Team dependencies change. Existing readiness remains 43 profile-complete/pending-freeze, 3 mechanics-source-blocked, 9 profile-source-pending and 2 DPS-ready. Further Factory infrastructure needs a concrete throughput or modeling benefit. A universal gameplay DSL, speculative facts, automatic canonical promotion and UI implementation remain outside this backend slice.

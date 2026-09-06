@@ -9,6 +9,8 @@ import {
 } from '../combat/aeroErosionTargetState.ts';
 import { WoodlandAriaAeroExecutionState } from '../combat/aeroErosionWeaponAdapter.ts';
 import type { CharacterActionFact, CharacterDamageClass } from '../characterMechanicsDomain.ts';
+import { requireSingleCharacterDamageClass } from '../characterMechanicsDomain.ts';
+import { sumCharacterActionCoefficients } from '../characterActionValues.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { CIACCONA_BASIC_ROTATION_EXECUTION_REVIEW_20260830 } from '../data/profileExecutionSemanticReview20260830.ts';
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
@@ -148,34 +150,8 @@ function actionFact(factId: string): CharacterActionFact {
   if (fact.actionRole !== 'DAMAGE' || fact.scalingStat !== 'ATK') {
     throw new Error(`Ciaccona engine requires ATK-scaling DAMAGE fact ${factId}.`);
   }
-  if (!fact.damageClass) throw new Error(`Ciaccona engine requires one damage class for ${factId}.`);
+  requireSingleCharacterDamageClass(fact);
   return fact;
-}
-
-function motionValueAtLevel(fact: CharacterActionFact, skillLevel: number): number {
-  if (!Number.isInteger(skillLevel) || skillLevel < 1 || skillLevel > 10) {
-    throw new Error(`Ciaccona skill level must be an integer 1-10, got ${skillLevel}.`);
-  }
-  const index = skillLevel - 1;
-  if (fact.motionValueCurve) {
-    if (fact.hitCount === null) throw new Error(`${fact.factId}: motionValueCurve requires explicit hitCount.`);
-    return fact.motionValueCurve[index] * fact.hitCount;
-  }
-  if (fact.motionValueComponents) {
-    return fact.motionValueComponents.reduce((sum, component) => sum + component.curve[index] * component.hitCount, 0);
-  }
-  if (fact.sourceFixedMotionValue !== null && fact.sourceFixedMotionValue !== undefined) {
-    if (fact.hitCount === null) throw new Error(`${fact.factId}: sourceFixedMotionValue requires explicit hitCount.`);
-    return fact.sourceFixedMotionValue * fact.hitCount;
-  }
-  if (fact.sourceFixedMotionValueComponents) {
-    return fact.sourceFixedMotionValueComponents.reduce(
-      (sum, component) => sum + component.coefficient * component.hitCount,
-      0,
-    );
-  }
-  if (fact.motionValue !== null) return fact.motionValue;
-  throw new Error(`${fact.factId}: no executable motion value for skill level ${skillLevel}.`);
 }
 
 function classBonus(damageClass: CharacterDamageClass, build: CiacconaBuildInputs): number {
@@ -256,7 +232,7 @@ export function evaluateCiacconaBasicRotation(build: CiacconaBuildInputs): Ciacc
       + (soloConcertActive ? SOLO_CONCERT_AERO_BONUS : 0)
       + heavyPassive;
     const resMult = resistanceMultiplier(build.enemyAeroResistance, woodland.targetAeroResReduction);
-    const motionValue = motionValueAtLevel(fact, build.skillLevel);
+    const motionValue = sumCharacterActionCoefficients(fact, build.skillLevel);
     const damage = expectedDamage({
       scalingStat: build.totalAttack,
       motionValue,

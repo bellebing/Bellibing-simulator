@@ -1,10 +1,10 @@
 # Bellibing Factory v1
 
-Status: **ACTIVE DEVELOPMENT MODEL — Milestone 04 integrated on `main`; Milestone 05 Provider Refresh Change Detection / Triage v1 is review-ready in unmerged PR #180**
+Status: **Milestones 00–05 integrated on `main`; further Factory work must remove a concrete Best Available Teams blocker.**
 
 Product goal remains **Best Available Teams**. Factory is a development/data pipeline; provider evidence never becomes gameplay/runtime truth by itself.
 
-The repository `main` branch head is authoritative implementation/runtime truth. This living document intentionally does not hardcode the exact live branch-head SHA; docs commits would make such a value stale by construction. Historical integration/checkpoints and unmerged review state are recorded separately below.
+The repository `main` branch head is authoritative implementation/runtime truth. This living document intentionally does not hardcode the exact live branch-head SHA; docs commits would make such a value stale by construction. Historical integration checkpoints remain recorded below.
 
 ## Architecture boundary
 
@@ -124,7 +124,7 @@ No route auto-promotes canonical truth.
 
 Purpose: reduce recurring human refresh/review work by distinguishing healthy no-change refreshes from refreshes that actually need attention, without altering the Milestone 04 evidence contract.
 
-PR #180 is the bounded unmerged implementation/review record. Merge requires separate explicit authorization.
+PR #180 is the bounded implementation and integration record for Milestone 05.
 
 ### Operational triage contract
 
@@ -259,8 +259,8 @@ No Handoff write changes canonical GitHub implementation/runtime truth.
 
 ## Milestone exit
 
-**Stop after Milestone 05 review-ready. Do not start coverage expansion or Milestone 06 automatically.**
+**The next bounded objective is the first truthful, runnable and browser-verified Best Available Teams UI slice. Stop at that first slice.**
 
-Milestone 05 remains bounded to one provider, one source path and the same two already-reviewed targets. It cannot be interpreted as roster-scale provider ingestion, Character-by-Character expansion, Reference Team continuation, a universal gameplay DSL, automatic provider trust or canonical promotion.
+Milestone 05 remains bounded to one provider, one source path and the same two already-reviewed targets. Product work follows `PROJECT_STATUS.md` and `BEST_AVAILABLE_TEAMS_DIRECTION.md`; further Factory work needs a concrete product dependency. Roster-scale provider ingestion, a universal gameplay DSL, automatic provider trust and canonical promotion remain outside this scope.
 
-PR #180 remains unmerged until separate explicit merge authorization is given.
+PR #180 is integrated through normal merge commit `4f507f59e9b3be7a5cfa72f872803740c5a15a36`, with verified review head `c3bce5e3eebd57f06cc1776e1069ec2368f75945` and prior main `b789cc7e44bdcda5a44176d8d17b5355567bc807` as parents. Final-head Factory Fast #49, Verify #1066 and Export #965 passed; the integration passed Verify #1067 and Export #966. Provider Refresh #7 runtime/script/workflow content is unchanged at the final head, and its downloaded artifact digest, bounded targets and provenance were verified before merge.

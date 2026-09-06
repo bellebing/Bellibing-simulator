@@ -11,14 +11,12 @@ Repository `main` branch head = authoritative implementation/runtime truth.
 Factory v1 through Milestone 04 is integrated on `main` through PR #179.
 
 - PR #179 final review head: `553bcb1dd9b18989f76ff000bba77307db6b0866`.
-- PR #179 was merged with a normal merge commit, not squash/rebase.
 - Milestone 04 integration merge checkpoint: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
-- That merge commit has prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head as its two parents.
 - Post-merge canonical cleanup checkpoint: `72e4de8de8ce52a98293cb6f18a48292a94f5597`.
-- That cleanup changed only `docs/PROJECT_STATUS.md` and `docs/FACTORY_V1.md`.
-- PRs #174–#177 remain closed unmerged as superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
-- No Milestone 05 has started.
-- Milestone 04 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
+- PR #180 is the active **unmerged** Milestone 05 review candidate: `Provider Refresh Change Detection / Triage v1`.
+- Milestone 05 merge still requires separate explicit authorization.
+- PRs #174–#177 remain closed unmerged superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
+- Milestone 05 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
 
 ## 2. Milestone 04 exit capability
 
@@ -32,57 +30,86 @@ Milestone 04 proves this bounded real chain:
 → `deterministic evidence + intake reports`
 → `REVIEW_CANDIDATE` or `EXCEPTION_QUEUE`.
 
-The first real lane is `Voruzhu/FrequencyManager`, MIT-licensed and bounded `EVIDENCE_ONLY`. Broad/roster-scale ingestion remains disabled.
+The real lane remains `Voruzhu/FrequencyManager`, MIT-licensed and bounded `EVIDENCE_ONLY`. Broad/roster-scale ingestion remains disabled.
 
-The lane reuses only existing reviewed families:
+The lane still reuses only the two existing reviewed families:
 
 - `weapon-rarity-v1` → `abyss-surges::rarity.stars`;
 - `weapon-r1-attribute-dmg-bonus-v1` → `ages-of-harvest::r1.attribute-dmg-bonus.value`.
 
-No third Wuthering Waves fact family was added.
+No third Wuthering Waves fact family has been added.
 
-## 3. Provider intake implementation
+## 3. Milestone 05 — Provider Refresh Change Detection / Triage v1
 
-Milestone 04 adds:
+Milestone 05 addresses the operational gap above Milestone 04: a successful refresh should distinguish between new human review work and a healthy no-change check without changing Factory evidence/reconciliation semantics.
 
-- `src/factory/providerIntake/frequencyManager.ts` — bounded FrequencyManager parser and refresh-health assessment;
-- `scripts/generate-factory-provider-intake.ts` — generates Factory evidence snapshots plus deterministic review reports without manual refresh JSON authoring;
-- `fixtures/factory/frequency-manager/weapons-pinned-f585e47.ts` — offline fixture for the two existing reviewed targets;
-- `test/factoryProviderIntake*.test.ts` — unchanged/change/missing/unknown/exact-SHA/provenance regressions;
-- `.github/workflows/factory-provider-refresh.yml` — read-only external refresh workflow that checks out FrequencyManager, resolves exact upstream SHA, generates review artifacts and uploads them. It has no canonical/runtime write path.
+The triage dispositions are operational only:
 
-Pinned proof source:
+- `NO_REVIEW_REQUIRED` — provider refresh completed correctly and every bounded target is `UNCHANGED`;
+- `REVIEW_REQUIRED` — refresh completed, but at least one target is `SOURCE_CHANGED`, `SOURCE_MISSING` or `SOURCE_UNKNOWN`;
+- `REFRESH_FAILURE` — provider checkout, provenance resolution or global intake execution could not complete safely. This does not fabricate Factory evidence classifications or reconciliation data.
 
-`Voruzhu/FrequencyManager@f585e47a868cb2b65845367b976a1781f130c758`
+A provider commit advance by itself never creates review. A new exact upstream SHA with identical bounded semantic facts remains `NO_REVIEW_REQUIRED`.
 
-Path:
+## 4. Milestone 05 implementation
 
-`adapters/game-definitions/wuthering-waves/weapons.ts`.
+PR #180 adds:
 
-Real Provider Refresh #1 and #2 both succeeded. Generated review artifacts show both bounded targets as `UNCHANGED / CONSENSUS / REVIEW_CANDIDATE`, preserve exact upstream SHA/blob provenance, and keep `MANUAL_SOURCE_VALIDATION_REQUIRED`.
+- `src/factory/providerIntake/refreshTriage.ts` — deterministic operational triage above the unchanged Milestone 04 intake report;
+- `test/factoryProviderRefreshTriage.test.ts` — no-change, timestamp determinism, new-SHA/same-facts, changed, missing, unknown and pre-intake/global-failure regressions;
+- `scripts/generate-factory-provider-intake.ts` — emits deterministic triage JSON/Markdown alongside the full Milestone 04 evidence bundle, and emits a failure-only triage artifact when intake cannot safely run;
+- `.github/workflows/factory-provider-refresh.yml` — adds scheduled bounded refresh, provider-configured default ref `master`, exact resolved SHA validation, Actions summary output and explicit operational failure handling while retaining `contents: read`.
 
-Provider-specific capture provenance is also locked: refreshed FrequencyManager candidates use the refresh capture time, while carried-forward Prydwen reviewed anchors retain their original capture timestamps.
+The parser is not hardcoded to a permanent default-branch name. `master` is workflow/provider configuration; manual dispatch still accepts an explicit ref/SHA.
 
-## 4. Fail-closed refresh behavior
+No issue creation, canonical write, provider auto-trust or runtime mutation path exists.
 
-Milestone 04 does not let generic reconciliation hide provider degradation:
+## 5. Determinism and fail-closed behavior
 
-- unchanged reviewed value → normal mapper/reconciliation route;
-- valid changed relevant value → `SOURCE_CHANGED`; effective intake route is `EXCEPTION_QUEUE`; current regressions produce mapper-level `CONFLICT`;
-- expected provider row missing → `SOURCE_MISSING / EXCEPTION_QUEUE`, even if another reviewed source would otherwise produce generic `SINGLE_SOURCE`;
-- unparseable/unsupported provider shape → `SOURCE_UNKNOWN / EXCEPTION_QUEUE`;
-- non-exact upstream Git SHA is rejected before evidence generation;
-- no path performs automatic canonical promotion or runtime mutation.
+Semantic triage excludes volatile execution metadata such as capture timestamps and workflow run IDs. For the same baseline plus the same upstream provenance/content/result, rendered triage JSON/Markdown is deterministic.
 
-## 5. Existing source extraction workflow audit
+The successful triage report carries:
+
+- exact upstream SHA and source blob provenance;
+- configured provider ref;
+- baseline FrequencyManager source ref/version per bounded target;
+- current source ref/version per bounded target;
+- each target's existing Milestone 04 refresh status;
+- triage disposition and `attentionRequired`.
+
+Milestone 04 evidence/reconciliation remains unchanged:
+
+- unchanged reviewed value → normal reconciliation route;
+- valid changed relevant value → `SOURCE_CHANGED` and effective `EXCEPTION_QUEUE`;
+- expected provider row missing → `SOURCE_MISSING / EXCEPTION_QUEUE`;
+- unsupported/unparseable row → `SOURCE_UNKNOWN / EXCEPTION_QUEUE`;
+- all reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`.
+
+`REFRESH_FAILURE` is not a new Factory evidence classification.
+
+## 6. Real provider proof
+
+Real `Factory Provider Refresh` run #6 on the Milestone 05 implementation head succeeded against provider-configured `Voruzhu/FrequencyManager@master`.
+
+The uploaded artifact was inspected directly and proves:
+
+- `master` resolved to exact SHA `f585e47a868cb2b65845367b976a1781f130c758`;
+- `abyss-surges::rarity.stars` → `UNCHANGED`;
+- `ages-of-harvest::r1.attribute-dmg-bonus.value` → `UNCHANGED`;
+- triage disposition → `NO_REVIEW_REQUIRED`;
+- `attentionRequired=false`;
+- baseline and current FrequencyManager source versions/refs are retained;
+- canonical promotion policy remains `MANUAL_SOURCE_VALIDATION_REQUIRED`.
+
+This is real provider proof, not fixture-only evidence.
+
+## 7. Existing source extraction workflow audit
 
 `.github/workflows/profile-source-extract.yml` remains branch-bound to the old roster-wide Prydwen profile accelerator `feat/profile-source-import-accelerator-20260830`.
 
-Milestone 04 disposition: **reuse-by-pattern / future refactor-or-supersede candidate; not mechanical reuse**.
+Disposition remains **reuse-by-pattern / future refactor-or-supersede candidate; not mechanical reuse**. Its artifact schema, roster-wide scope and Chromium/network extraction do not match bounded Factory fact-family intake. It is unchanged. Prydwen remains `REVIEW_ONLY`.
 
-Its artifact schema, roster-wide scope and Chromium/network extraction do not match the bounded Factory fact-family intake contract. It is unchanged. Prydwen remains `REVIEW_ONLY`.
-
-## 6. Reference Team 01 — golden regression
+## 8. Reference Team 01 — golden regression
 
 Augusta / Iuno / The Shorekeeper remains unchanged:
 
@@ -98,7 +125,7 @@ Augusta / Iuno / The Shorekeeper remains unchanged:
 
 `BUG-028`, `BUG-029`, `BUG-008` and `BUG-010` remain open/relevant. Abyss Surges level-90 Base ATK `587` vs `588` remains a parked provider conflict; no Base ATK mapper/coercion was added.
 
-## 7. Provider/canonical boundary
+## 9. Provider/canonical boundary
 
 - Prydwen — `REVIEW_ONLY`.
 - FrequencyManager — MIT, bounded `EVIDENCE_ONLY`, no canonical authority.
@@ -107,35 +134,30 @@ Augusta / Iuno / The Shorekeeper remains unchanged:
 
 All Factory reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`. Provider source changes, `CONFLICT`, `MISSING` and `UNKNOWN` never auto-promote.
 
-## 8. Verification state
+## 10. Verification state
 
-Milestone 04, its integration, and the post-merge canonical cleanup checkpoint are green:
+Milestone 04 integration remains green as previously recorded through PR #179 and its post-merge checkpoints.
 
-- Factory Provider Refresh #1 — SUCCESS against real pinned FrequencyManager;
-- Factory Provider Refresh #2 — SUCCESS after exact capture-provenance correction;
-- final PR #179 head `553bcb1dd9b18989f76ff000bba77307db6b0866`: Factory Fast #37 — SUCCESS;
-- final PR #179 head: full Verify #1056 — SUCCESS;
-- final PR #179 head: Export #955 — SUCCESS;
-- final PR #179 head: Character Mechanics import #172 — SUCCESS;
-- Milestone 04 integration merge checkpoint `1c396832f6658df7a1bd17305c4a3e488d6878b1`: full Verify #1057 — SUCCESS;
-- integration merge checkpoint: Export #956 — SUCCESS;
-- integration merge checkpoint: Deploy #141 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path;
-- post-merge canonical cleanup checkpoint `72e4de8de8ce52a98293cb6f18a48292a94f5597`: full Verify #1058 — SUCCESS;
-- post-merge canonical cleanup checkpoint: Export #957 — SUCCESS;
-- post-merge canonical cleanup checkpoint: Deploy #142 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
+Milestone 05 implementation payload before documentation synchronization passed:
 
-Normal tests/Verify remain network-independent because provider extraction regressions use local fixtures. External provider access is isolated to `Factory Provider Refresh`. No correctness gate was weakened.
+- Factory Fast #43 — SUCCESS;
+- full Verify #1060 verify job — SUCCESS, including tests, strict web build, browser regression and whitespace gate;
+- Export #959 — SUCCESS;
+- Factory Provider Refresh #6 — SUCCESS against real `FrequencyManager/master`;
+- direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false` and exact upstream SHA/provenance.
 
-## 9. Handoff synchronization
+Documentation synchronization changes only Factory docs and must retain the same full-repo correctness gates on the final review head. No verification gate is weakened.
 
-The Milestone 04 pre-merge Google Sheets synchronization succeeded and established the UPD-158 state with the milestone review evidence and blocker preservation.
+## 11. Handoff synchronization
 
-The normal post-merge Handoff synchronization also succeeded after the post-merge canonical cleanup checkpoint was verified green and recorded UPD-159. Because the Handoff is external to GitHub, it can record the actual then-current GitHub SHA without creating a self-referential docs-head problem. No Handoff write changes canonical GitHub implementation truth.
+The external Bellibing Echo Tool — AI Handoff remains the place to record the final exact PR review-head SHA and final verification run identifiers without creating a self-referential GitHub-doc problem.
 
-## 10. Milestone boundary
+Milestone 05 Handoff synchronization is required after the final review head is verified. No Handoff write changes canonical GitHub implementation/runtime truth.
 
-**Stop after Milestone 04. Do not start Milestone 05 automatically.**
+## 12. Milestone boundary
 
-The Milestone 04 capability answer is **YES, bounded**: Factory can create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two already-reviewed targets. This does not authorize roster-scale ingestion or canonical promotion.
+**Stop after Milestone 05 review-ready. Do not start coverage expansion or Milestone 06 automatically.**
 
-Milestone 04 integration is complete on `main`; the next Factory objective requires a new explicit bounded decision.
+Milestone 05 does not authorize roster-scale ingestion, Character-by-Character work, Reference Team micro-slicing, a universal gameplay DSL, new fact families/providers, automatic provider trust or canonical promotion.
+
+PR #180 remains unmerged until separate explicit merge authorization is given.

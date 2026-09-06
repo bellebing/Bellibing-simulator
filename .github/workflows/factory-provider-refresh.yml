@@ -9,15 +9,22 @@ on:
       - 'src/factory/providerIntake/**'
       - 'scripts/generate-factory-provider-intake.ts'
       - 'data/factory/evidence/**'
+  schedule:
+    - cron: '17 5 * * *'
   workflow_dispatch:
     inputs:
       upstream_ref:
-        description: FrequencyManager ref/SHA to inspect; resolved SHA is recorded in the review artifact
-        required: true
-        default: f585e47a868cb2b65845367b976a1781f130c758
+        description: FrequencyManager ref/SHA to inspect; resolved exact SHA is recorded in the review artifact
+        required: false
+        default: master
 
 permissions:
   contents: read
+
+env:
+  FACTORY_PROVIDER_REPOSITORY: Voruzhu/FrequencyManager
+  FACTORY_PROVIDER_DEFAULT_REF: master
+  FACTORY_PROVIDER_SOURCE_PATH: adapters/game-definitions/wuthering-waves/weapons.ts
 
 jobs:
   frequency-manager-refresh:
@@ -34,31 +41,93 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Checkout pinned FrequencyManager provider source
+      - name: Resolve configured provider ref
+        shell: bash
+        run: |
+          PROVIDER_REF='${{ inputs.upstream_ref || env.FACTORY_PROVIDER_DEFAULT_REF }}'
+          echo "PROVIDER_REF=$PROVIDER_REF" >> "$GITHUB_ENV"
+          echo "Factory provider ref: $PROVIDER_REF"
+
+      - name: Checkout bounded FrequencyManager provider source
+        id: provider_checkout
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
-          repository: Voruzhu/FrequencyManager
-          ref: ${{ inputs.upstream_ref || 'f585e47a868cb2b65845367b976a1781f130c758' }}
+          repository: ${{ env.FACTORY_PROVIDER_REPOSITORY }}
+          ref: ${{ inputs.upstream_ref || env.FACTORY_PROVIDER_DEFAULT_REF }}
           path: .factory-provider/frequency-manager
           fetch-depth: 1
 
-      - name: Resolve exact upstream provenance
-        shell: bash
-        run: |
-          echo "UPSTREAM_SHA=$(git -C .factory-provider/frequency-manager rev-parse HEAD)" >> "$GITHUB_ENV"
-          echo "CAPTURED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
-
-      - name: Generate Factory evidence and review backlog artifacts
+      - name: Record provider checkout failure triage
+        if: steps.provider_checkout.outcome == 'failure'
         run: >-
           npm run intake:factory-frequency-manager --
-          --source-file .factory-provider/frequency-manager/adapters/game-definitions/wuthering-waves/weapons.ts
+          --failure-stage PROVIDER_CHECKOUT
+          --failure-code PROVIDER_CHECKOUT_FAILED
+          --provider-ref "$PROVIDER_REF"
+          --output-dir artifacts/factory-provider-intake
+
+      - name: Resolve exact upstream provenance
+        id: provenance
+        if: steps.provider_checkout.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          UPSTREAM_SHA=$(git -C .factory-provider/frequency-manager rev-parse HEAD)
+          if [[ ! "$UPSTREAM_SHA" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "Resolved upstream revision is not an exact 40-character Git SHA" >&2
+            exit 1
+          fi
+          echo "UPSTREAM_SHA=$UPSTREAM_SHA" >> "$GITHUB_ENV"
+          echo "CAPTURED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
+      - name: Record provenance failure triage
+        if: steps.provider_checkout.outcome == 'success' && steps.provenance.outcome == 'failure'
+        run: >-
+          npm run intake:factory-frequency-manager --
+          --failure-stage PROVENANCE_RESOLUTION
+          --failure-code PROVENANCE_RESOLUTION_FAILED
+          --provider-ref "$PROVIDER_REF"
+          --output-dir artifacts/factory-provider-intake
+
+      - name: Generate Factory evidence, review backlog and refresh triage artifacts
+        id: intake
+        if: steps.provider_checkout.outcome == 'success' && steps.provenance.outcome == 'success'
+        continue-on-error: true
+        run: >-
+          npm run intake:factory-frequency-manager --
+          --source-file ".factory-provider/frequency-manager/$FACTORY_PROVIDER_SOURCE_PATH"
           --upstream-commit "$UPSTREAM_SHA"
+          --provider-ref "$PROVIDER_REF"
           --captured-at "$CAPTURED_AT"
           --output-dir artifacts/factory-provider-intake
 
+      - name: Publish refresh triage to Actions summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f artifacts/factory-provider-intake/frequency-manager-refresh-triage.md ]]; then
+            cat artifacts/factory-provider-intake/frequency-manager-refresh-triage.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo '# Factory Provider Refresh Change Detection / Triage v1' >> "$GITHUB_STEP_SUMMARY"
+            echo '' >> "$GITHUB_STEP_SUMMARY"
+            echo '**REFRESH_FAILURE** — triage artifact was not produced.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Upload provider review artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: factory-provider-intake-frequency-manager-${{ env.UPSTREAM_SHA }}
+          name: factory-provider-intake-frequency-manager
           path: artifacts/factory-provider-intake
           if-no-files-found: error
+
+      - name: Enforce operational refresh success
+        if: >-
+          always() &&
+          (steps.provider_checkout.outcome == 'failure' ||
+          steps.provenance.outcome == 'failure' ||
+          steps.intake.outcome == 'failure')
+        run: |
+          echo 'Factory provider refresh ended in REFRESH_FAILURE.' >&2
+          exit 1

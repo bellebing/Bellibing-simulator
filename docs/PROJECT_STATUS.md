@@ -2,19 +2,19 @@
 
 Last reconciled: 2026-09-06
 
-This is the canonical living roadmap for the latest active Factory branch. Current `main` remains implementation/runtime truth until an explicitly authorized merge.
+This is the canonical living roadmap for current `main`.
 
 ## 1. Current implementation truth
 
-Current `main`: `3a7fc098320fb51c1a1c941c60774343c1958121`.
+Current `main`: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
 
-Factory v1 through Milestone 03 is integrated on `main` through PR #178. PRs #174–#177 are closed unmerged as superseded milestone evidence.
+Factory v1 through Milestone 04 is integrated on `main` through PR #179.
 
-**Factory Milestone 04 — Provider Intake / Refresh v1 — implementation is complete and is represented by PR #179.**
-
-- Branch: `factory/provider-intake-refresh-v1-2026-09-06`.
-- Base: exact current `main` above.
-- PR #179 is unmerged; merge still requires explicit user authorization.
+- PR #179 final review head: `553bcb1dd9b18989f76ff000bba77307db6b0866`.
+- PR #179 was merged with a normal merge commit, not squash/rebase.
+- Milestone 04 integration merge commit: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
+- That merge commit has prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head as its two parents.
+- PRs #174–#177 remain closed unmerged as superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
 - No Milestone 05 has started.
 - Milestone 04 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
 
@@ -107,38 +107,30 @@ All Factory reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`. Provider
 
 ## 8. Verification state
 
-Verified Milestone 04 evidence before this final docs-only state commit:
+Milestone 04 and its integration are green:
 
-- Factory Fast #30 — SUCCESS;
 - Factory Provider Refresh #1 — SUCCESS against real pinned FrequencyManager;
 - Factory Provider Refresh #2 — SUCCESS after exact capture-provenance correction;
-- Factory Fast #34 — SUCCESS with provider-specific capture regression;
-- Factory Fast #36 — SUCCESS on PR #179 pre-final docs head `9723c0b0b98aace9902e80a832c97d4f7cbfc0eb`;
-- full Verify #1055 — SUCCESS on that head, including full tests, strict build and required real-Chrome regression;
-- Export #954 — SUCCESS on that head;
-- Character Mechanics import #171 — SUCCESS on that head.
+- final PR #179 head `553bcb1dd9b18989f76ff000bba77307db6b0866`: Factory Fast #37 — SUCCESS;
+- final PR #179 head: full Verify #1056 — SUCCESS;
+- final PR #179 head: Export #955 — SUCCESS;
+- final PR #179 head: Character Mechanics import #172 — SUCCESS;
+- actual integration merge commit `1c396832f6658df7a1bd17305c4a3e488d6878b1`: full Verify #1057 — SUCCESS;
+- actual integration merge commit: Export #956 — SUCCESS;
+- actual integration merge commit: Deploy #141 — SUCCESS, including live-site verification in Chrome for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
 
-Normal tests/Verify remain network-independent because provider extraction regressions use local fixtures. External provider access is isolated to `Factory Provider Refresh`.
-
-The current PR #179 head after this final docs-only state commit must have its own exact-head Factory Fast/full Verify/Export/Import green before PR #179 is marked ready for review. PR check state is authoritative for that final SHA; no correctness gate is weakened.
+Normal tests/Verify remain network-independent because provider extraction regressions use local fixtures. External provider access is isolated to `Factory Provider Refresh`. No correctness gate was weakened.
 
 ## 9. Handoff synchronization
 
-The single permitted normal Milestone 04 Google Sheets synchronization attempt **succeeded** after the pre-final head passed full verification.
+The Milestone 04 pre-merge Google Sheets synchronization succeeded and established the UPD-158 state with the milestone review evidence and blocker preservation.
 
-Verified read-back shows:
-
-- `Mål & Handoff` now records current main plus Milestone 04 / PR #179 state;
-- `UPD-158` records Provider Intake / Refresh v1 and the real provider proof;
-- BUG-028/029 preservation notes remain `HIGH / KNOWN GAP` context;
-- ChatGPT Project Instructions were updated to the Milestone 04 boundary.
-
-No second Sheets write will be attempted for the final docs-only SHA. Handoff therefore records PR #179 head `9723c0b0...` at sync time, while this GitHub branch/PR remains authoritative for the final exact review SHA.
+Post-merge Handoff synchronization is external bookkeeping and is performed at most once, only after the final post-merge `main` state is verified green. Whether that external write succeeds or fails does not change canonical GitHub implementation truth.
 
 ## 10. Milestone boundary
 
 **Stop after Milestone 04. Do not start Milestone 05 automatically.**
 
-The Milestone 04 capability answer is now **YES, bounded**: Factory can create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two already-reviewed targets. This does not authorize roster-scale ingestion or canonical promotion.
+The Milestone 04 capability answer is **YES, bounded**: Factory can create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two already-reviewed targets. This does not authorize roster-scale ingestion or canonical promotion.
 
-Merge PR #179 only after explicit user authorization.
+Milestone 04 integration is complete on `main`; the next Factory objective requires a new explicit bounded decision.

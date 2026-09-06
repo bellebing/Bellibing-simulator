@@ -1,6 +1,6 @@
 # Bellibing Factory v1
 
-Status: **ACTIVE DEVELOPMENT MODEL — Milestone 04 Provider Intake / Refresh v1 implementation complete; PR #179 unmerged**
+Status: **ACTIVE DEVELOPMENT MODEL — Milestone 04 Provider Intake / Refresh v1 integrated on `main` through PR #179**
 
 Product goal remains **Best Available Teams**. Factory is a development/data pipeline; provider evidence never becomes gameplay/runtime truth by itself.
 
@@ -51,11 +51,13 @@ Milestone 04 adds a refresh-health guard above generic reconciliation: an expect
 - `d4rkOfficial/wuwa-afyg-tool` — MIT; bounded provenance/review required before mapping.
 - `DommyMM/wuwabuild` — no established reuse license; reference only, no new copy.
 
-## Milestones 00–03
+## Milestones 00–04
 
 Milestones 00–03 are integrated on `main` through PR #178. Historical PRs #174–#177 remain closed unmerged milestone evidence.
 
-They established provider/provenance contracts, reviewed mapping families, deterministic reconciliation/reporting, exception routing and declarative generation through existing canonical primitives.
+Milestone 04 is integrated on `main` through PR #179. Final review head `553bcb1dd9b18989f76ff000bba77307db6b0866` was merged with a normal merge commit as `1c396832f6658df7a1bd17305c4a3e488d6878b1`; its parents are prior `main` `3a7fc098320fb51c1a1c941c60774343c1958121` and the verified PR head.
+
+Milestones 00–04 establish provider/provenance contracts, reviewed mapping families, deterministic reconciliation/reporting, exception routing, declarative generation through existing canonical primitives, and the first real bounded automated provider-intake refresh lane.
 
 Abyss Surges level-90 Base ATK remains deliberately parked: Prydwen `587` vs pinned FrequencyManager `588`. No coercion or Base ATK mapper exists.
 
@@ -150,29 +152,32 @@ Milestone 04 changes no Reference Team gameplay/DPS semantics.
 
 ## Verification
 
-Verified before final docs-only state commit:
+Final PR #179 review head `553bcb1dd9b18989f76ff000bba77307db6b0866` passed:
 
-- Factory Fast #30 — SUCCESS;
-- Factory Provider Refresh #1 — SUCCESS;
-- Factory Provider Refresh #2 — SUCCESS;
-- Factory Fast #34 — SUCCESS;
-- Factory Fast #36 — SUCCESS on pre-final PR head `9723c0b0b98aace9902e80a832c97d4f7cbfc0eb`;
-- full Verify #1055 — SUCCESS on that head;
-- Export #954 — SUCCESS;
-- Character Mechanics import #171 — SUCCESS.
+- Factory Fast #37 — SUCCESS;
+- full Verify #1056 — SUCCESS;
+- Export #955 — SUCCESS;
+- Character Mechanics import #172 — SUCCESS.
 
-The final docs-only PR #179 head must itself pass Factory Fast plus main-bound full Verify/Export/Import before the PR is marked ready. PR exact-head checks are authoritative for the final SHA. Factory fast-path does not replace full Verify.
+Actual Milestone 04 integration merge commit `1c396832f6658df7a1bd17305c4a3e488d6878b1` passed:
+
+- full Verify #1057 — SUCCESS;
+- Export #956 — SUCCESS;
+- Deploy #141 — SUCCESS;
+- Deploy #141 live-site verification — SUCCESS, including Chrome checks for Alpha/Roll Assist, Augusta upgrade loop and Ciaccona owned-build path.
+
+Factory fast-path remains an iteration accelerator only and does not replace full Verify. No correctness gate was weakened.
 
 ## Handoff
 
-The single normal Milestone 04 Google Sheets sync attempt succeeded. Read-back confirmed updated `Mål & Handoff`, new `UPD-158`, BUG-028/029 preservation notes and current project instructions.
+The Milestone 04 pre-merge Google Sheets sync succeeded and established UPD-158 with the review-state evidence and blocker preservation.
 
-The Handoff records PR #179 head `9723c0b0...` at sync time. No second Sheets write will be attempted after the final docs-only SHA; GitHub PR/living docs are authoritative for the exact final review head.
+Post-merge Handoff synchronization is external bookkeeping and is performed at most once only after the final post-merge `main` state is verified green. Its result does not alter canonical GitHub implementation truth.
 
 ## Milestone exit
 
 **Stop after Milestone 04. Do not start Milestone 05 automatically.**
 
-Exit answer: **YES, bounded**. Factory can now create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two existing reviewed targets. It cannot yet be interpreted as roster-scale provider ingestion, automatic provider trust, or canonical promotion.
+Exit answer: **YES, bounded**. Factory can create review backlog from real FrequencyManager provider input without manual Factory evidence-authoring for the two existing reviewed targets. It cannot be interpreted as roster-scale provider ingestion, automatic provider trust, or canonical promotion.
 
-PR #179 remains unmerged and requires explicit user authorization to merge.
+Milestone 04 integration is complete on `main`; a new explicit bounded objective is required before further Factory development.

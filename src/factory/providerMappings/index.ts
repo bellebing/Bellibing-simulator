@@ -43,19 +43,44 @@ function readEnvelope(snapshot: unknown): FactoryEvidenceSnapshotEnvelope {
   return row as unknown as FactoryEvidenceSnapshotEnvelope;
 }
 
+function readProviderCapturedAt(provider: unknown): string | null {
+  if (typeof provider !== 'object' || provider === null || Array.isArray(provider)) return null;
+  const capturedAt = (provider as Readonly<Record<string, unknown>>).capturedAt;
+  return typeof capturedAt === 'string' && capturedAt.trim().length > 0 ? capturedAt : null;
+}
+
+function preserveProviderCaptureTimes(
+  reconciliation: FactoryEvidenceReconciliation,
+  envelope: FactoryEvidenceSnapshotEnvelope,
+): FactoryEvidenceReconciliation {
+  return {
+    ...reconciliation,
+    candidates: reconciliation.candidates.map((candidate, index) => {
+      const capturedAt = readProviderCapturedAt(envelope.providers[index]);
+      return capturedAt === null ? candidate : { ...candidate, capturedAt };
+    }),
+  };
+}
+
 export function reconcileFactoryEvidenceSnapshot(snapshot: unknown): FactoryEvidenceReconciliation {
   const envelope = readEnvelope(snapshot);
 
   if (envelope.familyId === FACTORY_WEAPON_R1_ATTRIBUTE_DMG_FAMILY_ID) {
-    return buildWeaponR1AttributeDmgEvidenceReport(
-      snapshot as FactoryWeaponAttributeDmgEvidenceSnapshot,
-    ).reconciliation;
+    return preserveProviderCaptureTimes(
+      buildWeaponR1AttributeDmgEvidenceReport(
+        snapshot as FactoryWeaponAttributeDmgEvidenceSnapshot,
+      ).reconciliation,
+      envelope,
+    );
   }
 
   if (envelope.familyId === FACTORY_WEAPON_RARITY_FAMILY_ID) {
-    return buildWeaponRarityEvidenceReport(
-      snapshot as FactoryWeaponRarityEvidenceSnapshot,
-    ).reconciliation;
+    return preserveProviderCaptureTimes(
+      buildWeaponRarityEvidenceReport(
+        snapshot as FactoryWeaponRarityEvidenceSnapshot,
+      ).reconciliation,
+      envelope,
+    );
   }
 
   throw new Error(`Factory evidence mapper: no reviewed mapper registered for family ${envelope.familyId}`);

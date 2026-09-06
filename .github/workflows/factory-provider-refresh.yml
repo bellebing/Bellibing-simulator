@@ -1,6 +1,14 @@
 name: Factory Provider Refresh
 
 on:
+  push:
+    branches:
+      - 'factory/**'
+    paths:
+      - '.github/workflows/factory-provider-refresh.yml'
+      - 'src/factory/providerIntake/**'
+      - 'scripts/generate-factory-provider-intake.ts'
+      - 'data/factory/evidence/**'
   workflow_dispatch:
     inputs:
       upstream_ref:
@@ -30,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Voruzhu/FrequencyManager
-          ref: ${{ inputs.upstream_ref }}
+          ref: ${{ inputs.upstream_ref || 'f585e47a868cb2b65845367b976a1781f130c758' }}
           path: .factory-provider/frequency-manager
           fetch-depth: 1
 

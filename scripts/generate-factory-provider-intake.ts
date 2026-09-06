@@ -52,7 +52,7 @@ function writeTriage(outputDir: string, report: FactoryProviderRefreshTriageRepo
 }
 
 const outputDir = resolve(readArg('--output-dir') ?? 'data/generated/factory-provider-intake');
-const providerRef = readArg('--provider-ref') ?? 'master';
+const providerRef = requireArg('--provider-ref');
 const explicitFailureStage = readArg('--failure-stage');
 
 if (explicitFailureStage !== null) {

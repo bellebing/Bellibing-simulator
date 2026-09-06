@@ -89,7 +89,7 @@ Milestone 04 evidence/reconciliation remains unchanged:
 
 ## 6. Real provider proof
 
-Real `Factory Provider Refresh` run #6 on the Milestone 05 implementation head succeeded against provider-configured `Voruzhu/FrequencyManager@master`.
+Real `Factory Provider Refresh` run #7 succeeded against provider-configured `Voruzhu/FrequencyManager@master` after the intake script was hardened to require the workflow/provider-configured `--provider-ref` explicitly.
 
 The uploaded artifact was inspected directly and proves:
 
@@ -138,15 +138,15 @@ All Factory reconciliations retain `MANUAL_SOURCE_VALIDATION_REQUIRED`. Provider
 
 Milestone 04 integration remains green as previously recorded through PR #179 and its post-merge checkpoints.
 
-Milestone 05 implementation payload before documentation synchronization passed:
+Milestone 05 code/test/docs payload before the final proof-reference-only documentation sync passed:
 
-- Factory Fast #43 — SUCCESS;
-- full Verify #1060 verify job — SUCCESS, including tests, strict web build, browser regression and whitespace gate;
-- Export #959 — SUCCESS;
-- Factory Provider Refresh #6 — SUCCESS against real `FrequencyManager/master`;
-- direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false` and exact upstream SHA/provenance.
+- Factory Fast #47 — SUCCESS;
+- full Verify #1064 verify job — SUCCESS, including tests, strict web build, browser regression and whitespace gate;
+- Export #963 — SUCCESS;
+- Factory Provider Refresh #7 — SUCCESS against real `FrequencyManager/master` on the current runtime-code payload;
+- direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false` and exact upstream SHA/baseline/current provenance.
 
-Documentation synchronization changes only Factory docs and must retain the same full-repo correctness gates on the final review head. No verification gate is weakened.
+The final proof-reference-only documentation sync changes only Factory docs and must retain the same full-repo correctness gates on the final review head. No verification gate is weakened.
 
 ## 11. Handoff synchronization
 

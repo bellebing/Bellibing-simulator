@@ -2,6 +2,8 @@
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
+Review state: the primitive additions below are the **unmerged #182/#184–#188 integration candidate**, not new main approvals. Feature stacking is stopped at #188. [Integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it.
+
 ## Current registry-derived baseline
 
 Readiness:

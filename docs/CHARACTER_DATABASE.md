@@ -2,6 +2,8 @@
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
+Delivery state: **#182/#184–#188 are unmerged and frozen for integration review**. The integration branch preserves exact #188 code/data and adds documentation only; see [integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). No further feature slice is authorized during this review. The export is available in the reviewed build/Export artifact; it is not yet a deployed main feature.
+
 ## Use from a separate UI
 
 ```sh
@@ -14,7 +16,7 @@ npm run build
 # dist/data/character-database.json, included in the normal Pages/Export payload
 ```
 
-On the deployed site, fetch `./data/character-database.json` relative to the Bellibing site root. A UI hosted elsewhere can import a generated copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
+After a future authorized integration and deployment, fetch `./data/character-database.json` relative to the Bellibing site root. Until then, use the generated build/Export copy. A UI hosted elsewhere can import that copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
 
 TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase` from `src/characterDatabase.ts`. Each call returns a detached copy; client-side edits cannot mutate canonical catalogs or subsequent exports.
 

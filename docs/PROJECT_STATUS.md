@@ -20,6 +20,8 @@ Factory v1 through Milestone 05 is integrated on `main` through PR #180.
 
 PR #183 integrated the isolated UI/UX v34 checkpoint after M05. `docs/UI_UX_STATUS.md` owns the new UI interaction contract. Normal builds publish its prototype at `/ui-preview/`; the existing Alpha root and runtime regression routes remain intact. Backend work must preserve both payloads and must not alter the user's UI behavior. The historical UI integration checkpoint is `2a3b16f6122d81a8c2d39ab378e70971d8f1244d`.
 
+The Character backend stack #182/#184–#188 is **unmerged and under one integration review against current main**. Feature stacking stops at #188. The integration branch starts at exact verified #188 head `b78ce325d5b657b380d5f59065ca4ee1b527e347`; its additional changes only reconcile documentation. See [Character backend integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) for ancestry, scope and preserved boundaries. No merge or branch deletion is authorized.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:
@@ -168,7 +170,7 @@ The current backend slice adds `characterActionValues.ts` and `characterDatabase
 
 No gameplay facts, source approvals, DPS-ready Characters or Reference Team dependencies change. Existing readiness remains 43 profile-complete/pending-freeze, 3 mechanics-source-blocked, 9 profile-source-pending and 2 DPS-ready. Further Factory infrastructure needs a concrete throughput or modeling benefit. A universal gameplay DSL, speculative facts, automatic canonical promotion and UI implementation remain outside this backend slice.
 
-Current backend pass has **no merge authorization**. Leave verified PRs open, continue dependent work in clearly documented stacked branches/draft PRs, and start independent work from fresh main. Do not write directly to main, delete branches or rewrite published history. The next batch must use already-verified canonical mechanics and existing primitives to increase actual Character coverage without new gameplay assumptions.
+Current backend pass has **no merge authorization**. The user's 2026-09-07 integration-review instruction supersedes the earlier autonomous feature-stacking instruction: stop feature work after #188, leave #182/#184–#188 open, and review their complete payload through one integration PR against current main. #188 remains draft. Do not write directly to main, merge any of these PRs, delete branches or rewrite published history. A future integration merge would require separate authorization and fresh verification; only after that observed merge may the source PRs be closed as superseded.
 
 The first dependent batch, `codex/character-basic-hit-batch`, adds explicit ATK Basic Attack hit evaluation for 268 canonical actions across 52 Characters. It builds on verified #182 head `9240cfea5541de739f418e64fa124d4f388b1413` and remains separate/unmerged. Coverage is exposed in `hitPrimitives.basicHits`; hit occurrence and fully assembled combat context remain caller-owned. No rotation, readiness, source blocker or UI behavior changes. See `CHARACTER_DATABASE.md` for the exact family and fail-closed contract.
 

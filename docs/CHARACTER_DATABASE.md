@@ -24,6 +24,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `mechanicsFacts` | Original canonical action/passive/resource/S1–S6 facts, with provenance, conditions and modeling status preserved. |
 | `actionValuesAtMaxSkill` | Exact level-10 source coefficient components/hit counts or separately typed flat damage, keyed by `factId`. `UNAVAILABLE` carries a reason and no fabricated zero. |
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
+| `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
@@ -56,3 +57,24 @@ Stack dependency: PR #182 / `codex/character-database-batch`, verified parent he
 The caller selects the exact Character/fact, one coefficient component, an explicit landed-hit count within that component's source count, S0 and max skills. The caller also supplies the fully assembled ATK, bonuses, expected-crit inputs and defense/resistance/reduction multipliers at that hit. The primitive uses `readCharacterActionValues` and the existing `expectedDamage` kernel. Mixed components can have separate snapshots; a source-listed multi-hit attack is never assumed to land in full.
 
 This boundary evaluates a hit whose occurrence and combat context have already been established by the caller. It does not automatically compose gear/passive/team effects, carry state between calls, apply S1/S2 effects, reconstruct resources or prove a rotation. Conditional attacks, other scaling, simultaneous damage classes, missing facts, invalid snapshots and unsupported sequence/skill selections fail closed. Raw Character fields such as unresolved Max Energy are not consumed or promoted. Canonical fact modeling statuses and profile readiness remain unchanged.
+
+## Batch 2: standard direct-hit families
+
+Stack dependency: draft PR #184 / `codex/character-basic-hit-batch`, verified parent head `86b6263e410b251846065798c456a697516308ce` (which depends on #182). This batch remains unmerged and has no merge authorization.
+
+`characterDirectHitAdapter.ts` extends the same explicit-hit boundary to **492 canonical actions across all 54 verified mechanics profiles**. The original Basic Attack API delegates to the shared implementation and retains its narrower 268-action scope and output contract.
+
+| Source damage class | Actions |
+| --- | ---: |
+| BASIC | 294 |
+| HEAVY | 55 |
+| SKILL | 54 |
+| LIBERATION | 33 |
+| INTRO | 47 |
+| OUTRO | 9 |
+
+The batch covers 481 ATK, 6 HP and 5 DEF actions. Membership is derived from source-VERIFIED, MODEL_READY/MODELED, unconditional Character-owned damage with one of these ordinary damage classes and an exact stat coefficient. The source damage class is independent of action kind/section: for example, Aemeath Charged II uses its source LIBERATION class even though the action is HEAVY.
+
+`evaluateCharacterDirectHit` requires the caller's snapshot to name both the exact source damage class and scaling stat. A mismatched ATK/HP/DEF or damage-class binding is rejected rather than silently applying the wrong stat/bonus bucket. The caller must already establish the hit and its fully assembled action-specific snapshot, including special crit/defense/bonus rules where applicable; this primitive does not prove that supplied gameplay context. Synthetic test snapshots test arithmetic, not a canonical full-build result.
+
+Conditional actions, RAW_ONLY/PENDING_INTERPRETATION facts, simultaneous classes, shared-system damage, ECHO/negative-status/special-system classes, mixed scaling and literal flat damage remain outside this primitive. No such exclusion is a new source blocker or a fabricated zero. S1/S2 effects and rotation/state/timing execution remain pending; this batch adds no full Character/Team DPS approval and closes none of the existing pending dependencies.

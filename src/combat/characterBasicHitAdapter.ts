@@ -1,18 +1,12 @@
-import { readCharacterActionValues } from '../characterActionValues.ts';
 import type { CharacterActionFact, CharacterMechanicFact } from '../characterMechanicsDomain.ts';
-import { CHARACTER_MECHANIC_FACTS, getCharacterMechanicFact, getCharacterMechanicsProfile } from '../data/characterMechanics.ts';
-import { expectedDamage } from './damageKernel.ts';
+import { CHARACTER_MECHANIC_FACTS, getCharacterMechanicFact } from '../data/characterMechanics.ts';
+import { evaluateCharacterDirectHit, supportsCharacterDirectHit } from './characterDirectHitAdapter.ts';
 
 export const CHARACTER_BASIC_HIT_PRIMITIVE_ID = 'character-atk-basic-explicit-hit-v1';
 
 function supported(fact: CharacterMechanicFact): fact is CharacterActionFact {
-  const profile = getCharacterMechanicsProfile(fact.characterId);
-  return profile?.verificationStatus === 'VERIFIED' && profile.factIds.includes(fact.factId)
-    && fact.kind === 'ACTION' && fact.verificationStatus === 'VERIFIED'
-    && (fact.modelingStatus === 'MODEL_READY' || fact.modelingStatus === 'MODELED')
-    && fact.actionRole === 'DAMAGE' && fact.section === 'BASIC_ATTACK' && fact.actionKind === 'BASIC'
-    && fact.damageClass === 'BASIC' && (fact.damageClasses ?? null) === null
-    && fact.scalingStat === 'ATK' && !fact.conditional;
+  return supportsCharacterDirectHit(fact) && fact.section === 'BASIC_ATTACK' && fact.actionKind === 'BASIC'
+    && fact.damageClass === 'BASIC' && fact.scalingStat === 'ATK';
 }
 
 /** Derived family membership; no Character allowlist or copied coefficients. */
@@ -60,30 +54,11 @@ export function evaluateCharacterBasicHit(input: {
   if (!fact || fact.characterId !== input.characterId || !supported(fact)) {
     throw new Error(`${input.characterId}/${input.factId}: unsupported canonical basic-hit context.`);
   }
-  const values = readCharacterActionValues(fact, 10);
-  if (values.status !== 'SOURCE_VALUES' || values.kind !== 'COEFFICIENTS') {
-    throw new Error(`${fact.factId}: exact basic-hit coefficients unavailable.`);
-  }
-  if (!Number.isInteger(input.componentIndex) || input.componentIndex < 0 || input.componentIndex >= values.components.length) {
-    throw new Error('Select an existing source coefficient component.');
-  }
-  const component = values.components[input.componentIndex];
-  if (!Number.isInteger(input.landedHitCount) || input.landedHitCount < 0 || input.landedHitCount > component.hitCount) {
-    throw new Error('Landed hit count must be explicit and within the selected source component.');
-  }
   const s = input.snapshot;
-  if (!s || [s.totalAttack, s.damageBonus, s.amplification, s.critRate, s.critDamage,
-    s.defenseMultiplier, s.resistanceMultiplier, s.damageReduction].some((value) => !Number.isFinite(value))) {
-    throw new Error('Basic hit requires a complete finite combat snapshot.');
-  }
-  if (s.totalAttack <= 0 || s.damageBonus < -1 || s.amplification < -1 || s.critRate < 0 || s.critDamage < 1
-      || s.defenseMultiplier < 0 || s.defenseMultiplier > 1 || s.resistanceMultiplier < 0
-      || s.damageReduction < 0 || s.damageReduction > 1) {
-    throw new Error('Basic hit combat snapshot is outside supported bounds.');
-  }
-  const motionValue = component.coefficient * input.landedHitCount;
-  const damage = expectedDamage({ ...s, scalingStat: s.totalAttack, motionValue });
-  if (!Number.isFinite(damage)) throw new Error('Basic hit damage exceeded the supported numeric range.');
+  if (!s) throw new Error('Basic hit requires a complete finite combat snapshot.');
+  const result = evaluateCharacterDirectHit({ ...input, snapshot: {
+    ...s, totalScalingStat: s.totalAttack, scalingStat: 'ATK', damageClass: 'BASIC',
+  } });
   return {
     primitiveId: CHARACTER_BASIC_HIT_PRIMITIVE_ID,
     scope: 'EXPLICIT_HITS_ONLY' as const,
@@ -91,7 +66,7 @@ export function evaluateCharacterBasicHit(input: {
     factId: fact.factId,
     componentIndex: input.componentIndex,
     landedHitCount: input.landedHitCount,
-    motionValue,
-    expectedDamage: damage,
+    motionValue: result.motionValue,
+    expectedDamage: result.expectedDamage,
   };
 }

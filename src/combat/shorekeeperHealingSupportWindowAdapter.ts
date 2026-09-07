@@ -4,6 +4,7 @@ import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 import type { SonataEffectModel } from '../sonataEffectDomain.ts';
 import type { WeaponEffectData } from '../effectDomain.ts';
+import { activateSharedRejuvenatingGlowWindow } from './sharedSupportStatWindows.ts';
 
 const SHOREKEEPER_HEALING_FACT_ID = 'the-shorekeeper-skill-chaos-theory-healing';
 const STELLAR_SYMPHONY_TEAM_ATK_EFFECT_ID = 'SSY-TEAM-ATK';
@@ -253,26 +254,15 @@ export function activateRejuvenatingGlowTeamAtkWindow(params: {
   const selectedTeamMemberIds = validateTeamMemberIds(teamMemberIds);
   if (!selectedTeamMemberIds.includes(event.targetId)) return null;
 
-  const effect = uniqueSonataEffect(sonataCatalog, REJUVENATING_GLOW_TEAM_ATK_EFFECT_ID);
-  if (!effect) throw new Error(`Missing Sonata effect ${REJUVENATING_GLOW_TEAM_ATK_EFFECT_ID}`);
-  const durationSeconds = effect.durationSeconds;
-  if (!Number.isFinite(effect.value)) throw new Error(`${REJUVENATING_GLOW_TEAM_ATK_EFFECT_ID} has no finite value`);
-  if (durationSeconds === null || !Number.isFinite(durationSeconds) || durationSeconds <= 0) {
-    throw new Error(`${REJUVENATING_GLOW_TEAM_ATK_EFFECT_ID} has no executable duration`);
-  }
-
-  return {
-    adapterId: ADAPTER_ID,
-    sourceLayer: 'SONATA',
-    effectId: effect.effectId,
-    sourceId: effect.sonataSetId,
-    sourceCharacterId: 'the-shorekeeper',
-    statOrEffect: effect.statOrEffect,
-    value: effect.value,
+  const window = activateSharedRejuvenatingGlowWindow({
+    ownerId: 'the-shorekeeper',
+    event: { ...event, sourceTriggerQualification: 'VERIFIED_HEAL_ALLY' },
+    // This legacy wrapper receives source-qualified activated Sonata set IDs.
+    selectedSet: { id: 'sonata-7', pieces: 5 },
     teamMemberIds: selectedTeamMemberIds,
-    startedAtSeconds: event.atSeconds,
-    expiresAtSeconds: event.atSeconds + durationSeconds,
-  };
+    sonataCatalog,
+  });
+  return window && { ...window, adapterId: ADAPTER_ID, sourceCharacterId: 'the-shorekeeper' };
 }
 
 export function isShorekeeperHealingSupportWindowActive(

@@ -2,6 +2,13 @@
 
 A Wuthering Waves Echo-building decision engine.
 
+## Open Bellibing
+
+- **New UI/UX preview:** https://bellebing.github.io/Bellibing-simulator/ui-preview/
+- **Current Alpha / runtime regression site:** https://bellebing.github.io/Bellibing-simulator/
+
+The new UI preview is intentionally published as a separate route while the current Alpha root remains available for runtime/regression verification. The preview route becomes live when the reviewed UI checkpoint is merged to `main` and the normal Pages deployment succeeds.
+
 Bellibing's product question is:
 
 **"I am building this character and I just rolled this Echo. What should I do with it now?"**

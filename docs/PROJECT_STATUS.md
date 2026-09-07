@@ -1,6 +1,6 @@
 # Bellibing Simulator — Current Project Status
 
-Last reconciled: 2026-09-06
+Last reconciled: 2026-09-07
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 
@@ -17,6 +17,8 @@ Factory v1 through Milestone 05 is integrated on `main` through PR #180.
 - The integration parents are prior main `b789cc7e44bdcda5a44176d8d17b5355567bc807` and that exact verified PR head.
 - PRs #174–#177 remain closed unmerged superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
 - Milestone 05 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
+
+PR #183 integrated the isolated UI/UX v34 checkpoint after M05. `docs/UI_UX_STATUS.md` owns the new UI interaction contract. Normal builds publish its prototype at `/ui-preview/`; the existing Alpha root and runtime regression routes remain intact. Backend work must preserve both payloads and must not alter the user's UI behavior. The historical UI integration checkpoint is `2a3b16f6122d81a8c2d39ab378e70971d8f1244d`.
 
 ## 2. Milestone 04 exit capability
 
@@ -154,7 +156,7 @@ Integration checkpoint `4f507f59e9b3be7a5cfa72f872803740c5a15a36` passed full Ve
 
 The external Bellibing Echo Tool — AI Handoff remains the place to record the final exact PR review-head SHA and final verification run identifiers without creating a self-referential GitHub-doc problem.
 
-UPD-161 records the pre-merge M05 state. Post-integration Handoff synchronization follows the verified canonical cleanup and must also replace the stale M04 copy-ready project instructions. No Handoff write changes canonical GitHub implementation/runtime truth.
+UPD-162 records M05 integration and the unmerged Character database slice; UPD-163 records the integrated UI checkpoint. Subsequent backend Handoff records must distinguish verified branch heads from canonical main. No Handoff write changes canonical GitHub implementation/runtime truth.
 
 ## 12. Milestone boundary
 
@@ -165,3 +167,5 @@ Prioritize the shortest source-valid path to supporting many Characters: reuse e
 The current backend slice adds `characterActionValues.ts` and `characterDatabase.ts`: a common exact source-value reader across 54 verified mechanics profiles, reused by Ciaccona, and a deterministic JSON export for all 60 canonical identities (57 released), 1868 facts and 47 presets. `npm run export:characters` writes the standalone database; normal builds include `dist/data/character-database.json`. See `CHARACTER_DATABASE.md` for the consumer contract and batch workflow.
 
 No gameplay facts, source approvals, DPS-ready Characters or Reference Team dependencies change. Existing readiness remains 43 profile-complete/pending-freeze, 3 mechanics-source-blocked, 9 profile-source-pending and 2 DPS-ready. Further Factory infrastructure needs a concrete throughput or modeling benefit. A universal gameplay DSL, speculative facts, automatic canonical promotion and UI implementation remain outside this backend slice.
+
+Current backend pass has **no merge authorization**. Leave verified PRs open, continue dependent work in clearly documented stacked branches/draft PRs, and start independent work from fresh main. Do not write directly to main, delete branches or rewrite published history. The next batch must use already-verified canonical mechanics and existing primitives to increase actual Character coverage without new gameplay assumptions.

@@ -98,3 +98,19 @@ Stack dependency: draft PR #186 / `codex/weapon-team-amplify-window`, verified p
 The same batch extracts Rejuvenating Glow healing execution from the Shorekeeper-only path into `activateSharedRejuvenatingGlowWindow`. Any owner with the selected canonical 5-piece set can supply a source-qualified applied ally-heal, an explicit target and selected team. This supports the existing Chisa healing dependency without hardcoding a second Character engine. The source-qualified event is a caller obligation: a cast, shield, full-HP target or ambiguous self-heal is not automatically treated as a qualifying heal. Existing Shorekeeper behavior/output delegates to the shared implementation and retains its Character-specific guard.
 
 Both adapters read their values from canonical source rows and reject contract drift. Two more exact dependencies are primitive-available/requires-timeline; all 83 profile dependencies remain pending. New windows remain separate and do not select stacking/refresh policy. No source facts, Character readiness, Reference Team pending IDs or UI behavior change.
+
+## Batch 5: canonical cast-window coverage
+
+Stack dependency: draft PR #187 / `codex/shared-support-stat-windows`, verified parent head `7a0188028f6fd5c4be35ea459a28bb8a7b92e8cf`. No merge is authorized.
+
+The existing Weapon and Sonata cast-window primitives now cover **34 effects on 27 weapons** and **six Sonata effects**, respectively. The weapon catalog includes source-recommended options in 12 existing Character recommendation profiles. This is gear-effect execution coverage, not 12 new Character DPS approvals.
+
+Bindings are reviewed explicit effect-ID/event mappings over canonical data. Cast events include Intro, Skill, Liberation, Echo Skill and Basic Attack where the exact source row declares them. A cast is never substituted for dealing damage, applying a target status, healing or satisfying a resource/stack condition. Runtime values continue to come from the canonical rows, with source-trigger, scope, rank/duration and state-boundary validation also applied to caller-supplied catalogs.
+
+The six Sonata bindings use these exact canonical effect IDs; display names remain owned by the canonical set catalog:
+
+`S02_5PC_FUSION`, `S04_5PC_AERO`, `S05_5PC_SPECTRO`, `S10_5PC_GLACIO`, `S18_5PC_SELF_LIB`, `S21_3PC_HEAVY`.
+
+The caller must prove the selected weapon/rank or activated Sonata piece count, event ownership, resolved cast ordering and query timestamp. This low-level API does not select gear or supply a Character rotation. Cooldown, stack, target-state, damage-trigger and pending-trigger facts stay outside this cast family. New activations do not choose a repeated-window stacking/refresh policy.
+
+Frosty Resolve's exact Glacio cast-window dependency is now primitive-available/requires-timeline; its separate Skill stack dependency and all five Carlotta pending IDs remain. The total execution graph remains 83 pending edges, 15 with available timeline-dependent primitives. All source facts, full readiness, Reference Team pending IDs and UI behavior are preserved.

@@ -4,7 +4,9 @@ import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 export type WeaponCastEventKind =
   | 'INTRO_SKILL_CAST'
   | 'RESONANCE_SKILL_CAST'
-  | 'RESONANCE_LIBERATION_CAST';
+  | 'RESONANCE_LIBERATION_CAST'
+  | 'ECHO_SKILL_CAST'
+  | 'BASIC_ATTACK_CAST';
 
 export interface WeaponCastEvent {
   readonly kind: WeaponCastEventKind;
@@ -28,6 +30,12 @@ export interface ActiveWeaponSelfWindow {
   readonly valueUnit: WeaponEffectValueUnit;
   readonly startedAtSeconds: number;
   readonly expiresAtSeconds: number;
+}
+
+function reviewedCastGroup(
+  effectIds: readonly string[], expectedSourceTrigger: string, triggerEvents: readonly WeaponCastEventKind[],
+): readonly WeaponCastWindowContract[] {
+  return effectIds.map((effectId) => ({ effectId, expectedSourceTrigger, triggerEvents }));
 }
 
 /**
@@ -64,6 +72,16 @@ export const WEAPON_CAST_WINDOW_CONTRACTS: readonly WeaponCastWindowContract[] =
     expectedSourceTrigger: 'Cast Intro Skill or Resonance Liberation',
     triggerEvents: ['INTRO_SKILL_CAST', 'RESONANCE_LIBERATION_CAST'],
   },
+  // 2026-09-07: exact existing source rows sharing the same cast-only contract.
+  ...reviewedCastGroup(['PON-ATK', 'UF-SKILL', 'SKT-INTRO-BASIC', 'JK-ATK', 'JK-HP',
+    'RON-ATK', 'DE-ATK', 'DE-DEF', 'BON-ATK', 'AA-LIB', 'GON-ATK', 'COC-ATK', 'SON-ATK'],
+  'Cast Intro Skill', ['INTRO_SKILL_CAST']),
+  ...reviewedCastGroup(['RD-ATK', 'RD-BASIC', 'ST-LIB'], 'Cast Resonance Skill', ['RESONANCE_SKILL_CAST']),
+  ...reviewedCastGroup(['AUG-ATK', 'COA-HEAL', 'AZ-ATK', 'AZ-HEAVY', 'VH-LIB', 'AETH-ATK',
+    'AETH-LIB', 'UV-LIB-BASIC', 'FE-ATK', 'FE-LIB'], 'Cast Resonance Liberation', ['RESONANCE_LIBERATION_CAST']),
+  ...reviewedCastGroup(['TFD-HEAVY'], 'Cast Intro Skill or Resonance Skill', ['INTRO_SKILL_CAST', 'RESONANCE_SKILL_CAST']),
+  ...reviewedCastGroup(['SCIP-ECHO-AMP'], 'Cast Intro Skill or Echo Skill', ['INTRO_SKILL_CAST', 'ECHO_SKILL_CAST']),
+  ...reviewedCastGroup(['TC-HEAVY'], 'Cast Basic Attack or Intro Skill', ['BASIC_ATTACK_CAST', 'INTRO_SKILL_CAST']),
 ] as const;
 
 export const WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT = {
@@ -100,11 +118,12 @@ function uniqueEffectById(catalog: readonly WeaponEffectData[], effectId: string
 
 export function validateWeaponCastWindowContracts(
   catalog: readonly WeaponEffectData[] = WEAPON_EFFECT_CATALOG,
+  contracts: readonly WeaponCastWindowContract[] = WEAPON_CAST_WINDOW_CONTRACTS,
 ): readonly string[] {
   const issues: string[] = [];
   const seen = new Set<string>();
 
-  for (const contract of WEAPON_CAST_WINDOW_CONTRACTS) {
+  for (const contract of contracts) {
     if (seen.has(contract.effectId)) issues.push(`duplicate cast-window contract ${contract.effectId}`);
     seen.add(contract.effectId);
 
@@ -124,6 +143,13 @@ export function validateWeaponCastWindowContracts(
     if (effect.effectType !== 'TRIGGERED') issues.push(`${contract.effectId} must remain TRIGGERED`);
     if (effect.appliesTo !== 'SELF') issues.push(`${contract.effectId} must remain SELF`);
     if (effect.maxStacks !== 1) issues.push(`${contract.effectId} must remain single-window maxStacks=1`);
+    if (effect.stackIntervalSeconds !== 0) issues.push(`${contract.effectId} has unsupported stack interval`);
+    if (!['VERIFIED_MODELED', 'VERIFIED_CONDITIONAL'].includes(effect.mechanicsStatus)) {
+      issues.push(`${contract.effectId} mechanics must remain verified`);
+    }
+    if (effect.rankValues.length !== 5 || effect.rankValues.some((value) => !Number.isFinite(value) || value < 0)) {
+      issues.push(`${contract.effectId} requires five finite non-negative source rank values`);
+    }
     if (effect.durationSeconds === null || !Number.isFinite(effect.durationSeconds) || effect.durationSeconds <= 0) {
       issues.push(`${contract.effectId} requires a positive finite duration`);
     }
@@ -157,6 +183,8 @@ export function activateWeaponCastWindow(params: {
   const { effectId, rank, wielderId, event, catalog = WEAPON_EFFECT_CATALOG } = params;
   const contract = WEAPON_CAST_WINDOW_CONTRACTS.find((row) => row.effectId === effectId);
   if (!contract) throw new Error(`No verified cast-window contract for weapon effect ${effectId}`);
+  const issues = validateWeaponCastWindowContracts(catalog, [contract]);
+  if (issues.length) throw new Error(issues.join('; '));
   if (!Number.isInteger(rank) || rank < 1 || rank > 5) {
     throw new Error(`Weapon rank must be an integer from 1 through 5: ${rank}`);
   }
@@ -176,6 +204,8 @@ export function activateWeaponCastWindow(params: {
   }
   const value = effect.rankValues[rank - 1];
   if (!Number.isFinite(value)) throw new Error(`Weapon effect ${effectId} has no finite R${rank} value`);
+  const expiresAtSeconds = event.atSeconds + durationSeconds;
+  if (!Number.isFinite(expiresAtSeconds) || expiresAtSeconds <= event.atSeconds) throw new Error('Weapon cast-window expiration is not representable');
 
   return {
     adapterId: 'weapon-cast-timed-self-window-v1',
@@ -186,7 +216,7 @@ export function activateWeaponCastWindow(params: {
     value,
     valueUnit: effect.valueUnit,
     startedAtSeconds: event.atSeconds,
-    expiresAtSeconds: event.atSeconds + durationSeconds,
+    expiresAtSeconds,
   };
 }
 

@@ -12,17 +12,19 @@ import {
 
 test('Molten Rift cast-window contract stays locked to the exact canonical Sonata row', () => {
   assert.deepEqual(validateSonataCastWindowContracts(), []);
-  assert.deepEqual(SONATA_CAST_WINDOW_CONTRACTS, [{
+  assert.deepEqual(SONATA_CAST_WINDOW_CONTRACTS.slice(0, 1), [{
     effectId: 'S02_5PC_FUSION',
     expectedSonataSetId: 'sonata-2',
     expectedPieces: 5,
     expectedStatOrEffect: 'Fusion DMG Bonus',
     expectedValue: 0.30,
     expectedDurationSeconds: 15,
+    expectedSourceTrigger: 'Cast Resonance Skill',
     triggerEvents: ['RESONANCE_SKILL_CAST'],
   }]);
   assert.deepEqual(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.pendingExecutionIds, [
     'sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter',
+    'sonata:sonata-10:S10_5PC_GLACIO:trigger-uptime-adapter',
   ]);
   assert.equal(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.requiresProfileEventTimeline, true);
   assert.deepEqual(SONATA_CAST_WINDOW_SEMANTIC_SPLIT.closesPendingExecutionIds, []);

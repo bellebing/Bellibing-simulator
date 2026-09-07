@@ -4,19 +4,9 @@ import {
 } from '../src/data/echoRawAudit.ts';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
+import { fetchAuditJson as fetchJson } from './audit-fetch-json.mjs';
 
 const UPSTREAM_REPO = 'DommyMM/wuwabuild';
-
-async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: {
-      'User-Agent': 'Bellibing-simulator Echo raw audit',
-      Accept: 'application/vnd.github+json, application/json',
-    },
-  });
-  if (!response.ok) throw new Error(`Fetch failed ${response.status}: ${url}`);
-  return response.json();
-}
 
 function requireArray(value, label) {
   if (!Array.isArray(value)) throw new Error(`${label} must be an array.`);

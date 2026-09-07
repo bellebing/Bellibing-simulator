@@ -1,6 +1,6 @@
 # Bellibing Simulator — Current Project Status
 
-Last reconciled: 2026-09-06
+Last reconciled: 2026-09-07
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 
@@ -8,15 +8,19 @@ This is the canonical living roadmap for repository `main`. The repository `main
 
 Repository `main` branch head = authoritative implementation/runtime truth.
 
-Factory v1 through Milestone 04 is integrated on `main` through PR #179.
+Factory v1 through Milestone 05 is integrated on `main` through PR #180.
 
 - PR #179 final review head: `553bcb1dd9b18989f76ff000bba77307db6b0866`.
 - Milestone 04 integration merge checkpoint: `1c396832f6658df7a1bd17305c4a3e488d6878b1`.
 - Post-merge canonical cleanup checkpoint: `72e4de8de8ce52a98293cb6f18a48292a94f5597`.
-- PR #180 is the active **unmerged** Milestone 05 review candidate: `Provider Refresh Change Detection / Triage v1`.
-- Milestone 05 merge still requires separate explicit authorization.
+- PR #180 final head `c3bce5e3eebd57f06cc1776e1069ec2368f75945` was integrated with normal merge commit `4f507f59e9b3be7a5cfa72f872803740c5a15a36`.
+- The integration parents are prior main `b789cc7e44bdcda5a44176d8d17b5355567bc807` and that exact verified PR head.
 - PRs #174–#177 remain closed unmerged superseded milestone evidence; PR #178 remains the canonical integration record for Milestones 00–03.
 - Milestone 05 changes no Character Mechanics, combat/DPS, profiles, UI or canonical gameplay data.
+
+PR #183 integrated the isolated UI/UX v34 checkpoint after M05. `docs/UI_UX_STATUS.md` owns the new UI interaction contract. Normal builds publish its prototype at `/ui-preview/`; the existing Alpha root and runtime regression routes remain intact. Backend work must preserve both payloads and must not alter the user's UI behavior. The historical UI integration checkpoint is `2a3b16f6122d81a8c2d39ab378e70971d8f1244d`.
+
+The Character backend stack #182/#184–#188 is **unmerged and under one integration review against current main**. Feature stacking stops at #188. The integration branch starts at exact verified #188 head `b78ce325d5b657b380d5f59065ca4ee1b527e347`; its additional changes only reconcile documentation. See [Character backend integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) for ancestry, scope and preserved boundaries. No merge or branch deletion is authorized.
 
 ## 2. Milestone 04 exit capability
 
@@ -146,18 +150,36 @@ Milestone 05 code/test/docs payload before the final proof-reference-only docume
 - Factory Provider Refresh #7 — SUCCESS against real `FrequencyManager/master` on the current runtime-code payload;
 - direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false` and exact upstream SHA/baseline/current provenance.
 
-The final proof-reference-only documentation sync changes only Factory docs and must retain the same full-repo correctness gates on the final review head. No verification gate is weakened.
+Final PR #180 head passed Factory Fast #49, full Verify #1066 and Export #965. The real Provider Refresh #7 runtime/script/workflow payload is unchanged at the final head; only documentation and a failure-path regression followed it. Its downloaded artifact SHA-256 was checked and the two `UNCHANGED` targets and provenance were read directly before integration.
+
+Integration checkpoint `4f507f59e9b3be7a5cfa72f872803740c5a15a36` passed full Verify #1067, Export #966 and Deploy #144 including live-site verification. Exact checks for subsequent work are recorded on its PR and in Handoff. No verification gate is weakened.
 
 ## 11. Handoff synchronization
 
 The external Bellibing Echo Tool — AI Handoff remains the place to record the final exact PR review-head SHA and final verification run identifiers without creating a self-referential GitHub-doc problem.
 
-Milestone 05 Handoff synchronization is required after the final review head is verified. No Handoff write changes canonical GitHub implementation/runtime truth.
+UPD-162 records M05 integration and the unmerged Character database slice; UPD-163 records the integrated UI checkpoint. Subsequent backend Handoff records must distinguish verified branch heads from canonical main. No Handoff write changes canonical GitHub implementation/runtime truth.
 
 ## 12. Milestone boundary
 
-**Stop after Milestone 05 review-ready. Do not start coverage expansion or Milestone 06 automatically.**
+**Current responsibility: Character data and reusable backend models. The user is building the UI separately.**
 
-Milestone 05 does not authorize roster-scale ingestion, Character-by-Character work, Reference Team micro-slicing, a universal gameplay DSL, new fact families/providers, automatic provider trust or canonical promotion.
+Prioritize the shortest source-valid path to supporting many Characters: reuse existing canonical rows, review shared fact/mechanic families in batches, and reuse execution primitives. Add Character-specific code only where actual mechanics require it. Follow `BEST_AVAILABLE_TEAMS_DIRECTION.md` for the downstream product contract; keep the six Reference Team dependencies open until independently resolved.
 
-PR #180 remains unmerged until separate explicit merge authorization is given.
+The current backend slice adds `characterActionValues.ts` and `characterDatabase.ts`: a common exact source-value reader across 54 verified mechanics profiles, reused by Ciaccona, and a deterministic JSON export for all 60 canonical identities (57 released), 1868 facts and 47 presets. `npm run export:characters` writes the standalone database; normal builds include `dist/data/character-database.json`. See `CHARACTER_DATABASE.md` for the consumer contract and batch workflow.
+
+No gameplay facts, source approvals, DPS-ready Characters or Reference Team dependencies change. Existing readiness remains 43 profile-complete/pending-freeze, 3 mechanics-source-blocked, 9 profile-source-pending and 2 DPS-ready. Further Factory infrastructure needs a concrete throughput or modeling benefit. A universal gameplay DSL, speculative facts, automatic canonical promotion and UI implementation remain outside this backend slice.
+
+Current backend pass has **no merge authorization**. The user's 2026-09-07 integration-review instruction supersedes the earlier autonomous feature-stacking instruction: stop feature work after #188, leave #182/#184–#188 open, and review their complete payload through one integration PR against current main. #188 remains draft. Do not write directly to main, merge any of these PRs, delete branches or rewrite published history. A future integration merge would require separate authorization and fresh verification; only after that observed merge may the source PRs be closed as superseded.
+
+The first dependent batch, `codex/character-basic-hit-batch`, adds explicit ATK Basic Attack hit evaluation for 268 canonical actions across 52 Characters. It builds on verified #182 head `9240cfea5541de739f418e64fa124d4f388b1413` and remains separate/unmerged. Coverage is exposed in `hitPrimitives.basicHits`; hit occurrence and fully assembled combat context remain caller-owned. No rotation, readiness, source blocker or UI behavior changes. See `CHARACTER_DATABASE.md` for the exact family and fail-closed contract.
+
+The next stacked batch, `codex/character-direct-hit-families`, builds on verified draft #184 head `86b6263e410b251846065798c456a697516308ce`. It extends shared isolated-hit evaluation to 492 already-verified ordinary-damage actions across 54 Characters, with exact source damage-class and ATK/HP/DEF snapshot binding. Existing Basic Attack compatibility remains intact. No full Character execution/readiness claim follows from hit-primitive coverage; special-system, conditional and unresolved semantics remain excluded. Both backend batches remain unmerged.
+
+The third stacked batch, `codex/weapon-team-amplify-window`, builds on verified draft #185 head `181a23248482556f7f880a059dc7b9d8c8972394`. It implements the already-reviewed Bloodpact Unbound Flow team-amplification window with caller-proven recipient eligibility and event timing. The BPP execution dependency now has a reusable primitive but stays pending until a verified profile timeline/team state exists. No raw gameplay fact, full DPS approval, Reference Team closure or UI change is introduced. The execution-gap document is reconciled to the actual 19-profile/83-edge registry; final CI/head evidence belongs in the PR and Handoff.
+
+The fourth stacked batch, `codex/shared-support-stat-windows`, builds on verified draft #186 head `dac0aa15e2e64685eee7830910117e502d09f46e`. Static Mist now uses the existing incoming-transfer primitive, and Rejuvenating Glow has a shared applied-heal path reused by the existing Shorekeeper adapter and available to the Chisa dependency. The registry retains all 83 pending edges; 14 now have reusable primitives requiring a timeline. No UI or full DPS/readiness changes. Exact final head/CI evidence is recorded on its draft PR and Handoff.
+
+The fifth stacked batch, `codex/canonical-cast-window-batch`, builds on verified draft #187 head `7a0188028f6fd5c4be35ea459a28bb8a7b92e8cf`. Existing cast-window primitives now execute 34 canonical effects on 27 weapons and six Sonata effects. Their values and explicit event contracts remain source-bound; no cooldown, stack, hit/status trigger or profile uptime is inferred. Frosty Resolve's Glacio dependency is primitive-available/requires-timeline, while its separate Skill-stack dependency stays open. The registry still has 83 exact pending edges, including 15 with available primitives requiring timelines. No source, DPS readiness, Reference Team or UI change.
+
+Repeated Export failures on the unauthenticated GitHub API source-head lookup were observed during this batch. CI now supplies its existing GitHub token only to the raw-audit step; the fetch helper sends it only to the exact HTTPS GitHub API origin and rejects authenticated redirects. Public raw downloads receive no credential. Source-head resolution, live projection comparison and all failure gates remain mandatory. This workflow change does not dispatch a deployment or grant new permissions.

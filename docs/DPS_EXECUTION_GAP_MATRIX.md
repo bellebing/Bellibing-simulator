@@ -2,6 +2,8 @@
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
+Review state: the primitive additions below are the **unmerged #182/#184–#188 integration candidate**, not new main approvals. Feature stacking is stopped at #188. [Integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it.
+
 ## Current registry-derived baseline
 
 Readiness:
@@ -13,25 +15,27 @@ Readiness:
 
 Canonical dependency matrix:
 
-- **18 backward-impact reviews**;
-- **18 reviewed canonical profiles**;
-- **16 profiles with pending execution dependencies**;
-- **72 exact pending execution edges**.
+- **19 backward-impact reviews**;
+- **19 reviewed canonical profiles**;
+- **17 profiles with pending execution dependencies**;
+- **83 exact pending execution edges**.
 
-PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then moved it to the current 43/3/9/2 by integrating six additional canonical source-complete profiles. Neither profile-source tranche changed the supported execution graph; Ciaccona's four closed dependencies remain absent from the live 72-edge matrix.
+PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then moved it to the current 43/3/9/2. The current registry includes 19 reviewed profiles and 83 pending edges; the older 18-profile/72-edge snapshot was stale. Ciaccona's four closed dependencies remain absent. These counts are derived from `audit:profile-adapters` and confer no new execution approval.
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` currently partitions the 72 exact edges after the Changli semantic review as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges after the canonical cast-window batch as:
 
-- **30 `UNREVIEWED`**;
-- **1 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **11 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **37 `UNREVIEWED`**;
+- **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
+- **15 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **5 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
-- **16 `PROFILE_SPECIFIC_EXECUTION`**.
+- **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **31 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **37 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
+
+Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; Chisa's Rejuvenating Glow dependency has `heal-applied-team-atk-window-v1`. Both consume explicit source-qualified events and recipient/team state. Neither supplies a profile timeline or closes a canonical pending ID. The existing Shorekeeper healing wrapper delegates to the same Rejuvenating implementation with its original Character-specific guard.
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
 
@@ -73,14 +77,14 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 
 ## Carlotta current no-go
 
-`carlotta-standard` still has five canonical pending IDs. The Last Dance window can reuse the existing cast-timed weapon primitive once a profile timeline exists, but the current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve trigger/stack execution and the rotation therefore remain open; no Carlotta dependency is closed by inference.
+`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
 
 ## Rover (Aero) exact remaining graph
 
 After the already-applied Fleurdelys character-restriction closure, `rover-aero-cartethyia-ciaccona` has exactly four effective pending IDs:
 
 1. `weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter` — **BUG-012 / BLOCKED_SOURCE_SEMANTICS**. Cloudburst Dance and Omega Storm are source-proven healing events and Bloodpact grants a 6-second Skill-DMG window after Providing Healing, but the exact profile timeline needed to prove overlap is missing.
-2. `weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter` — **SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING**. Unbound Flow P1 is explicitly in the canonical source sequence and the weapon grants a 30-second team Aero amplification after Rover (Aero) casts Unbound Flow. Runtime/team-state execution remains unimplemented.
+2. `weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter` — **PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE** via `weapon-cast-team-amplify-window-v1`. The already-reviewed Unbound Flow trigger creates one source-bound 30-second window at a supplied timestamp. The query requires explicit nearby/on-field recipient eligibility and trigger ordering; unknown eligibility is rejected. Profile event timing, recipient allocation and recast/refresh policy are not inferred, so the exact dependency remains pending.
 3. `echo:echo-60001065:active-skill-damage-adapter` — **PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE** via `echo-active-damage-v1`. Prydwen Echo Usage explicitly places Fleurdelys after Unbound Flow P1 and before switching out, so the cast event is source-proven; the profile is still not executable.
 4. `rotation:rover-aero-cartethyia-ciaccona-standard:engine-model` — **PROFILE_SPECIFIC_EXECUTION / BUG-012**. No exact source-backed `rotationSeconds` exists for the fixed Standard Rotation and the sequence retains optional Skyfall Severance.
 

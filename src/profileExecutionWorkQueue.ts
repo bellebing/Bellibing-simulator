@@ -4,6 +4,8 @@ import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWi
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
+import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
+import { SHARED_SUPPORT_STAT_WINDOW_REVIEW } from './combat/sharedSupportStatWindows.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
@@ -147,8 +149,8 @@ const SONATA_CAST_WINDOW_REVIEWS: readonly ExecutionSemanticReview[] =
     reviewedAt: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.reviewedAt,
     primitiveId: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.adapterId,
     notes: [
-      'Manual semantic review proved Molten Rift 5-piece is an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-      'The exact Changli dependency remains pending until an executable profile timeline supplies the Skill-cast timestamp.',
+      'Manual semantic review maps this canonical Sonata dependency to an exact cast-event -> timed SELF-window contract.',
+      'The exact profile dependency remains pending until an executable timeline supplies the cast timestamp and equipped set activation.',
     ],
   }));
 
@@ -212,13 +214,15 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
     ],
   },
   {
-    pendingExecutionId: 'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter',
-    status: 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING',
+    pendingExecutionId: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
     actionKey: 'weapon:bloodpacts-pledge-unbound-flow-team-amplify',
-    reviewedAt: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.checkedAt,
+    reviewedAt: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.reviewedAt,
+    primitiveId: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.adapterId,
     notes: [
       'The weapon trigger is exact: Rover (Aero) casting Unbound Flow grants nearby on-field Resonators Aero DMG Amplification for 30 seconds.',
       'The canonical source sequence explicitly contains Unbound Flow P1 before the swap, so trigger identity is semantically resolved.',
+      'The single-cast primitive now resolves the canonical rank amount and duration for explicit recipient eligibility and event order; allocation, refresh and profile uptime are not inferred.',
       'No profile dependency closes until an executable Rover rotation owns the event and team state.',
     ],
   },
@@ -238,6 +242,22 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  {
+    pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponPendingId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:direct-outro-incoming-transfer',
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponAdapterId,
+    reviewedAt: SHARED_SUPPORT_STAT_WINDOW_REVIEW.reviewedAt,
+    notes: ['Static Mist reuses incoming-transfer-state-v1 for an explicit Outro and actual recipient; Aalto profile timing remains pending.'],
+  },
+  {
+    pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.healingPendingId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:explicit-heal-team-window',
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.healingAdapterId,
+    reviewedAt: SHARED_SUPPORT_STAT_WINDOW_REVIEW.reviewedAt,
+    notes: ['Shared Rejuvenating Glow execution requires a source-qualified applied ally-heal, selected 5-piece set and explicit team; Chisa timing remains pending.'],
+  },
   ...WEAPON_CAST_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
   ...WEAPON_SKILL_STACK_REVIEWS,

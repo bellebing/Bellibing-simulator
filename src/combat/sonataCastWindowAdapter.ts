@@ -1,7 +1,7 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import type { SonataActivationPieceCount, SonataEffectModel } from '../sonataEffectDomain.ts';
 
-export type SonataCastEventKind = 'RESONANCE_SKILL_CAST';
+export type SonataCastEventKind = 'RESONANCE_SKILL_CAST' | 'INTRO_SKILL_CAST' | 'RESONANCE_LIBERATION_CAST' | 'ECHO_SKILL_CAST';
 
 export interface SonataCastEvent {
   readonly kind: SonataCastEventKind;
@@ -16,6 +16,7 @@ export interface SonataCastWindowContract {
   readonly expectedStatOrEffect: string;
   readonly expectedValue: number;
   readonly expectedDurationSeconds: number;
+  readonly expectedSourceTrigger: string;
   readonly triggerEvents: readonly SonataCastEventKind[];
 }
 
@@ -46,21 +47,38 @@ export const SONATA_CAST_WINDOW_CONTRACTS: readonly SonataCastWindowContract[] =
     expectedStatOrEffect: 'Fusion DMG Bonus',
     expectedValue: 0.30,
     expectedDurationSeconds: 15,
+    expectedSourceTrigger: 'Cast Resonance Skill',
     triggerEvents: ['RESONANCE_SKILL_CAST'],
   },
+  { effectId: 'S04_5PC_AERO', expectedSonataSetId: 'sonata-4', expectedPieces: 5,
+    expectedStatOrEffect: 'Aero DMG Bonus', expectedValue: .30, expectedDurationSeconds: 15,
+    expectedSourceTrigger: 'Cast Intro Skill', triggerEvents: ['INTRO_SKILL_CAST'] },
+  { effectId: 'S05_5PC_SPECTRO', expectedSonataSetId: 'sonata-5', expectedPieces: 5,
+    expectedStatOrEffect: 'Spectro DMG Bonus', expectedValue: .30, expectedDurationSeconds: 15,
+    expectedSourceTrigger: 'Cast Intro Skill', triggerEvents: ['INTRO_SKILL_CAST'] },
+  { effectId: 'S10_5PC_GLACIO', expectedSonataSetId: 'sonata-10', expectedPieces: 5,
+    expectedStatOrEffect: 'Glacio DMG Bonus', expectedValue: .225, expectedDurationSeconds: 15,
+    expectedSourceTrigger: 'Cast Resonance Skill', triggerEvents: ['RESONANCE_SKILL_CAST'] },
+  { effectId: 'S18_5PC_SELF_LIB', expectedSonataSetId: 'sonata-18', expectedPieces: 5,
+    expectedStatOrEffect: 'Resonance Liberation DMG Bonus', expectedValue: .20, expectedDurationSeconds: 35,
+    expectedSourceTrigger: 'Cast Resonance Liberation', triggerEvents: ['RESONANCE_LIBERATION_CAST'] },
+  { effectId: 'S21_3PC_HEAVY', expectedSonataSetId: 'sonata-21', expectedPieces: 3,
+    expectedStatOrEffect: 'Heavy Attack DMG Bonus', expectedValue: .30, expectedDurationSeconds: 4,
+    expectedSourceTrigger: 'Cast Echo Skill', triggerEvents: ['ECHO_SKILL_CAST'] },
 ] as const;
 
 export const SONATA_CAST_WINDOW_SEMANTIC_SPLIT = {
   adapterId: 'sonata-cast-timed-self-window-v1',
-  reviewedAt: '2026-08-30',
+  reviewedAt: '2026-09-07',
   pendingExecutionIds: [
     'sonata:sonata-2:S02_5PC_FUSION:trigger-uptime-adapter',
+    'sonata:sonata-10:S10_5PC_GLACIO:trigger-uptime-adapter',
   ],
   closesPendingExecutionIds: [] as readonly string[],
   requiresProfileEventTimeline: true,
   notes: [
-    'Molten Rift 5-piece is source-clean as an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-    'The primitive does not close Changli profile execution while the rotation remains SOURCE_SEQUENCE_ONLY; a caller must supply the actual cast timestamp.',
+    'Six canonical SELF Sonata effects have exact cast-only triggers and durations; stack, target-state and pending trigger rows remain excluded.',
+    'The primitive does not close Changli or Carlotta profile execution while the rotation remains SOURCE_SEQUENCE_ONLY; a caller must supply the actual cast timestamp and prove equipped set activation.',
     'No generic trigger-text parsing or blanket uptime is authorized by this semantic split.',
   ],
 } as const;
@@ -78,11 +96,12 @@ function uniqueEffectById(catalog: readonly SonataEffectModel[], effectId: strin
 
 export function validateSonataCastWindowContracts(
   catalog: readonly SonataEffectModel[] = SONATA_EFFECT_MODELS,
+  contracts: readonly SonataCastWindowContract[] = SONATA_CAST_WINDOW_CONTRACTS,
 ): readonly string[] {
   const issues: string[] = [];
   const seen = new Set<string>();
 
-  for (const contract of SONATA_CAST_WINDOW_CONTRACTS) {
+  for (const contract of contracts) {
     if (seen.has(contract.effectId)) issues.push(`duplicate Sonata cast-window contract ${contract.effectId}`);
     seen.add(contract.effectId);
 
@@ -97,6 +116,10 @@ export function validateSonataCastWindowContracts(
     }
 
     const effect = matches[0];
+    if (effect.trigger !== contract.expectedSourceTrigger) issues.push(`${contract.effectId} trigger drift`);
+    if (effect.maxStacks !== undefined || effect.stackIntervalSeconds !== undefined || effect.capValue !== undefined) {
+      issues.push(`${contract.effectId} has unsupported stack/scaling state`);
+    }
     if (effect.sonataSetId !== contract.expectedSonataSetId) {
       issues.push(`${contract.effectId} Sonata set drift: expected ${contract.expectedSonataSetId}, got ${effect.sonataSetId}`);
     }
@@ -141,6 +164,8 @@ export function activateSonataCastWindow(params: {
   const { effectId, ownerId, event, catalog = SONATA_EFFECT_MODELS } = params;
   const contract = SONATA_CAST_WINDOW_CONTRACTS.find((row) => row.effectId === effectId);
   if (!contract) throw new Error(`No verified cast-window contract for Sonata effect ${effectId}`);
+  const issues = validateSonataCastWindowContracts(catalog, [contract]);
+  if (issues.length) throw new Error(issues.join('; '));
   if (!ownerId.trim()) throw new Error('Sonata cast-window ownerId must be non-blank');
   if (!event.actorId.trim()) throw new Error('Sonata cast event actorId must be non-blank');
   if (!Number.isFinite(event.atSeconds) || event.atSeconds < 0) {
@@ -156,6 +181,8 @@ export function activateSonataCastWindow(params: {
     throw new Error(`Sonata effect ${effectId} has no executable cast-window duration`);
   }
   if (!Number.isFinite(effect.value)) throw new Error(`Sonata effect ${effectId} has no finite value`);
+  const expiresAtSeconds = event.atSeconds + durationSeconds;
+  if (!Number.isFinite(expiresAtSeconds) || expiresAtSeconds <= event.atSeconds) throw new Error('Sonata cast-window expiration is not representable');
 
   return {
     adapterId: 'sonata-cast-timed-self-window-v1',
@@ -165,7 +192,7 @@ export function activateSonataCastWindow(params: {
     statOrEffect: effect.statOrEffect,
     value: effect.value,
     startedAtSeconds: event.atSeconds,
-    expiresAtSeconds: event.atSeconds + durationSeconds,
+    expiresAtSeconds,
   };
 }
 

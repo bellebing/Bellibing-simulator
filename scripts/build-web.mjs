@@ -8,6 +8,12 @@ mkdirSync('dist/ui-preview', { recursive: true });
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 
+const characterExport = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-character-database.ts',
+  '--output', 'dist/data/character-database.json',
+], { stdio: 'inherit' });
+if (characterExport.status !== 0) process.exit(characterExport.status ?? 1);
+
 cpSync('web/index.html', 'dist/index.html');
 cpSync('web/alpha-entry.css', 'dist/alpha-entry.css');
 cpSync('web/echo-lab.html', 'dist/echo-lab.html');

@@ -1,4 +1,5 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
+import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -43,6 +44,7 @@ export function buildCharacterDatabase() {
     mechanicsFacts,
     actionValuesAtMaxSkill: mechanicsFacts.flatMap((fact) => fact.kind === 'ACTION'
       ? [{ factId: fact.factId, values: readCharacterActionValues(fact, 10) }] : []),
+    hitPrimitives: { basicHits: listCharacterBasicHitSupport() },
     profiles: {
       presets: byId(PROFILE_CATALOGS.presets),
       weaponRecommendations: byId(PROFILE_CATALOGS.weaponRecommendations),

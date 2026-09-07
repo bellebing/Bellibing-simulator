@@ -23,6 +23,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `characters` | All canonical identities, level-90 stats, intrinsic stats, mechanics profile/fact references, source blockers and released-Character readiness. Upcoming/WIP identities retain their release status and `readiness: null`. |
 | `mechanicsFacts` | Original canonical action/passive/resource/S1–S6 facts, with provenance, conditions and modeling status preserved. |
 | `actionValuesAtMaxSkill` | Exact level-10 source coefficient components/hit counts or separately typed flat damage, keyed by `factId`. `UNAVAILABLE` carries a reason and no fabricated zero. |
+| `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
@@ -45,3 +46,13 @@ The export currently contains 57 released Characters, 54 verified mechanics prof
 4. Run targeted tests during iteration and full Verify before integration. The normal build validates and exports the entire database batch.
 
 Provider candidates remain evidence only. This export does not authorize new copying from unreviewed providers or automatic canonical promotion. Buling, Danjin and Xiangli Yao retain their mechanics source blockers; unresolved Max Energy fields stay null. BUG-008/010/028/029 and the six Reference Team dependencies remain open. No UI work is part of this backend slice.
+
+## Batch 1: explicit ATK Basic Attack hits
+
+Stack dependency: PR #182 / `codex/character-database-batch`, verified parent head `9240cfea5541de739f418e64fa124d4f388b1413`. This dependent batch remains a separate draft PR and has no merge authorization.
+
+`src/combat/characterBasicHitAdapter.ts` supplies `listCharacterBasicHitSupport` and `evaluateCharacterBasicHit`. Family membership is derived from VERIFIED mechanics profiles and VERIFIED, MODEL_READY/MODELED, unconditional ATK actions whose source section/action kind/damage class are Basic Attack. It currently covers **268 actions across 52 Characters**. No Character allowlist, coefficient copy or automatic source promotion is added.
+
+The caller selects the exact Character/fact, one coefficient component, an explicit landed-hit count within that component's source count, S0 and max skills. The caller also supplies the fully assembled ATK, bonuses, expected-crit inputs and defense/resistance/reduction multipliers at that hit. The primitive uses `readCharacterActionValues` and the existing `expectedDamage` kernel. Mixed components can have separate snapshots; a source-listed multi-hit attack is never assumed to land in full.
+
+This boundary evaluates a hit whose occurrence and combat context have already been established by the caller. It does not automatically compose gear/passive/team effects, carry state between calls, apply S1/S2 effects, reconstruct resources or prove a rotation. Conditional attacks, other scaling, simultaneous damage classes, missing facts, invalid snapshots and unsupported sequence/skill selections fail closed. Raw Character fields such as unresolved Max Energy are not consumed or promoted. Canonical fact modeling statuses and profile readiness remain unchanged.

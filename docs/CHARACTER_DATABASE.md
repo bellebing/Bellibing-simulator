@@ -88,3 +88,13 @@ Stack dependency: draft PR #185 / `codex/character-direct-hit-families`, verifie
 `weaponTeamAeroAmplificationAt` returns the amplification contribution for a supplied hit. Nearby/on-field eligibility must already be verified for that recipient/hit; `UNKNOWN` fails closed. Trigger ordering is explicit, including hits at the cast timestamp. The contribution is an amplification term for the existing damage kernel, and the integration test composes it with the shared Character direct-hit primitive using a synthetic snapshot.
 
 One activation has an independent window. This primitive does not choose recipient allocation/snapshot versus aura semantics, combine repeated windows, refresh buffs, infer team uptime or execute a rotation. The BPP dependency moves only from implementation-pending to primitive-available/requires-timeline; all four Rover profile pending IDs and BUG-012 remain. Source-only rotations, full Character readiness, the six Reference Team dependencies and UI behavior are unchanged.
+
+## Batch 4: shared support stat windows
+
+Stack dependency: draft PR #186 / `codex/weapon-team-amplify-window`, verified parent head `dac0aa15e2e64685eee7830910117e502d09f46e`. This batch remains unmerged.
+
+`sharedSupportStatWindows.ts` reuses `incoming-transfer-state-v1` for Static Mist's canonical R1–R5 ATK buff to the actual incoming Resonator after the wielder's Outro. The 14-second source duration is retained. It is neither a SELF nor a TEAM buff, requires no invented incoming Intro prerequisite and adds no early-removal/stack/refresh rule.
+
+The same batch extracts Rejuvenating Glow healing execution from the Shorekeeper-only path into `activateSharedRejuvenatingGlowWindow`. Any owner with the selected canonical 5-piece set can supply a source-qualified applied ally-heal, an explicit target and selected team. This supports the existing Chisa healing dependency without hardcoding a second Character engine. The source-qualified event is a caller obligation: a cast, shield, full-HP target or ambiguous self-heal is not automatically treated as a qualifying heal. Existing Shorekeeper behavior/output delegates to the shared implementation and retains its Character-specific guard.
+
+Both adapters read their values from canonical source rows and reject contract drift. Two more exact dependencies are primitive-available/requires-timeline; all 83 profile dependencies remain pending. New windows remain separate and do not select stacking/refresh policy. No source facts, Character readiness, Reference Team pending IDs or UI behavior change.

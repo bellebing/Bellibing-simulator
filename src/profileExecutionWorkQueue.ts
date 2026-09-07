@@ -5,6 +5,7 @@ import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdap
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
+import { SHARED_SUPPORT_STAT_WINDOW_REVIEW } from './combat/sharedSupportStatWindows.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
@@ -241,6 +242,22 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  {
+    pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponPendingId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:direct-outro-incoming-transfer',
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponAdapterId,
+    reviewedAt: SHARED_SUPPORT_STAT_WINDOW_REVIEW.reviewedAt,
+    notes: ['Static Mist reuses incoming-transfer-state-v1 for an explicit Outro and actual recipient; Aalto profile timing remains pending.'],
+  },
+  {
+    pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.healingPendingId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:explicit-heal-team-window',
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.healingAdapterId,
+    reviewedAt: SHARED_SUPPORT_STAT_WINDOW_REVIEW.reviewedAt,
+    notes: ['Shared Rejuvenating Glow execution requires a source-qualified applied ally-heal, selected 5-piece set and explicit team; Chisa timing remains pending.'],
+  },
   ...WEAPON_CAST_REVIEWS,
   ...WEAPON_TARGET_APPLICATION_REVIEWS,
   ...WEAPON_SKILL_STACK_REVIEWS,

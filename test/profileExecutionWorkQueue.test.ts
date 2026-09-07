@@ -89,7 +89,8 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.equal(roverHealing?.blockerId, 'BUG-012');
 
   const roverTeamAmp = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter');
-  assert.equal(roverTeamAmp?.status, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  assert.equal(roverTeamAmp?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
+  assert.equal(roverTeamAmp?.primitiveId, 'weapon-cast-team-amplify-window-v1');
 
   const fleurdelysActive = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'echo:echo-60001065:active-skill-damage-adapter');
   assert.equal(fleurdelysActive?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
@@ -154,12 +155,12 @@ test('current 83-edge matrix is partitioned into actionable, covered, blocked an
   assert.deepEqual(queue.summary, {
     totalEdges: 83,
     unreviewedEdges: 40,
-    semanticallyReviewedImplementationPendingEdges: 1,
-    primitiveAvailableRequiresTimelineEdges: 11,
+    semanticallyReviewedImplementationPendingEdges: 0,
+    primitiveAvailableRequiresTimelineEdges: 12,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 41,
+    actionableSharedEdges: 40,
   });
   assert.equal(queue.reviewRecordCount, 18);
   assert.equal(
@@ -188,7 +189,7 @@ test('actionable queue removes already-covered, closed and source-blocked famili
   assert.equal(actionableIds.has('echo:echo-60001065:fleurdelys-character-restriction-adapter'), false);
   assert.equal(actionableIds.has('echo:echo-60001065:active-skill-damage-adapter'), false);
   assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-SKILL:healing-uptime-adapter'), false);
-  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), true);
+  assert.equal(actionableIds.has('weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter'), false);
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO:trigger-uptime-adapter'), false);
   assert.equal(actionableIds.has('weapon:woodland-aria:WA-AERO-RES:target-state-adapter'), false);
   assert.equal(actionableIds.has('weapon:defiers-thorn:DT-AERO-AMP:target-state-adapter'), false);
@@ -290,9 +291,9 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(roverHealing.profileCount, 1);
   assert.deepEqual(roverHealing.blockerIds, ['BUG-012']);
 
-  const roverTeamAmp = queue.actionableSharedQueue.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
+  const roverTeamAmp = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'weapon:bloodpacts-pledge-unbound-flow-team-amplify');
   assert.ok(roverTeamAmp);
-  assert.equal(roverTeamAmp.semanticStatus, 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING');
+  assert.equal(roverTeamAmp.semanticStatus, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(roverTeamAmp.dependencyCount, 1);
 
   assert.equal(queue.profileSpecificExecution.length, 1);

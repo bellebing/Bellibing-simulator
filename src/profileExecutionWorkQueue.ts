@@ -149,8 +149,8 @@ const SONATA_CAST_WINDOW_REVIEWS: readonly ExecutionSemanticReview[] =
     reviewedAt: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.reviewedAt,
     primitiveId: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.adapterId,
     notes: [
-      'Manual semantic review proved Molten Rift 5-piece is an executed Resonance Skill cast -> 15-second SELF Fusion DMG window.',
-      'The exact Changli dependency remains pending until an executable profile timeline supplies the Skill-cast timestamp.',
+      'Manual semantic review maps this canonical Sonata dependency to an exact cast-event -> timed SELF-window contract.',
+      'The exact profile dependency remains pending until an executable timeline supplies the cast timestamp and equipped set activation.',
     ],
   }));
 

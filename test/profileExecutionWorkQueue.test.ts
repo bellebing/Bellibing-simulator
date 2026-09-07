@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 20);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 21);
 
   for (const pendingExecutionId of WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.castWindowPendingExecutionIds) {
     const review = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === pendingExecutionId);
@@ -154,15 +154,15 @@ test('current 83-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 83,
-    unreviewedEdges: 38,
+    unreviewedEdges: 37,
     semanticallyReviewedImplementationPendingEdges: 0,
-    primitiveAvailableRequiresTimelineEdges: 14,
+    primitiveAvailableRequiresTimelineEdges: 15,
     blockedSourceConflictEdges: 5,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 38,
+    actionableSharedEdges: 37,
   });
-  assert.equal(queue.reviewRecordCount, 20);
+  assert.equal(queue.reviewRecordCount, 21);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -216,9 +216,7 @@ test('remaining shared fanout is machine-ranked after Changli triage', () => {
   assert.equal(triggerStack.characterCount, 2);
 
   const remainingTriggerUptime = queue.actionableSharedQueue.find((row) => row.actionKey === 'sonata:trigger-uptime-adapter');
-  assert.ok(remainingTriggerUptime);
-  assert.equal(remainingTriggerUptime.profileCount, 1);
-  assert.equal(remainingTriggerUptime.characterCount, 1);
+  assert.equal(remainingTriggerUptime, undefined, 'Frosty Resolve cast window is covered; its separate stacking effect remains unreviewed');
 });
 
 test('covered and blocked queues retain exact fanout after Changli semantic split', () => {
@@ -231,8 +229,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   const sonataCast = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:cast-timed-self-window');
   assert.ok(sonataCast);
-  assert.equal(sonataCast.dependencyCount, 1);
-  assert.equal(sonataCast.profileCount, 1);
+  assert.equal(sonataCast.dependencyCount, 2);
+  assert.equal(sonataCast.profileCount, 2);
   assert.deepEqual(sonataCast.primitiveIds, ['sonata-cast-timed-self-window-v1']);
 
   const sonataTransfer = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'sonata:direct-outro-incoming-transfer');

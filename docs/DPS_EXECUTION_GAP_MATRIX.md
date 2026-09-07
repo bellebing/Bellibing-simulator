@@ -22,16 +22,16 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges after the shared support-window batch as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges after the canonical cast-window batch as:
 
-- **38 `UNREVIEWED`**;
+- **37 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **14 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **15 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **5 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **38 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **37 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
 
 Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; Chisa's Rejuvenating Glow dependency has `heal-applied-team-atk-window-v1`. Both consume explicit source-qualified events and recipient/team state. Neither supplies a profile timeline or closes a canonical pending ID. The existing Shorekeeper healing wrapper delegates to the same Rejuvenating implementation with its original Character-specific guard.
 
@@ -75,7 +75,7 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 
 ## Carlotta current no-go
 
-`carlotta-standard` still has five canonical pending IDs. The Last Dance window can reuse the existing cast-timed weapon primitive once a profile timeline exists, but the current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve trigger/stack execution and the rotation therefore remain open; no Carlotta dependency is closed by inference.
+`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
 
 ## Rover (Aero) exact remaining graph
 

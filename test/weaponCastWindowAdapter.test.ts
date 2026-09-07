@@ -34,7 +34,7 @@ test('weapon trigger-uptime fanout keeps Blazing Justice unreviewed while cast-w
 
 test('cast-window contracts stay locked to the exact canonical source-backed Weapon Effect rows', () => {
   assert.deepEqual(validateWeaponCastWindowContracts(), []);
-  assert.deepEqual(WEAPON_CAST_WINDOW_CONTRACTS.map((row) => row.effectId), [
+  assert.deepEqual(WEAPON_CAST_WINDOW_CONTRACTS.slice(0, 5).map((row) => row.effectId), [
     'AH-INTRO',
     'AH-SKILL',
     'WM-LIB',

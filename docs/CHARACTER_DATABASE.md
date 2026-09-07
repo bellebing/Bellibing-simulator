@@ -78,3 +78,13 @@ The batch covers 481 ATK, 6 HP and 5 DEF actions. Membership is derived from sou
 `evaluateCharacterDirectHit` requires the caller's snapshot to name both the exact source damage class and scaling stat. A mismatched ATK/HP/DEF or damage-class binding is rejected rather than silently applying the wrong stat/bonus bucket. The caller must already establish the hit and its fully assembled action-specific snapshot, including special crit/defense/bonus rules where applicable; this primitive does not prove that supplied gameplay context. Synthetic test snapshots test arithmetic, not a canonical full-build result.
 
 Conditional actions, RAW_ONLY/PENDING_INTERPRETATION facts, simultaneous classes, shared-system damage, ECHO/negative-status/special-system classes, mixed scaling and literal flat damage remain outside this primitive. No such exclusion is a new source blocker or a fabricated zero. S1/S2 effects and rotation/state/timing execution remain pending; this batch adds no full Character/Team DPS approval and closes none of the existing pending dependencies.
+
+## Batch 3: reviewed team amplification window
+
+Stack dependency: draft PR #185 / `codex/character-direct-hit-families`, verified parent head `181a23248482556f7f880a059dc7b9d8c8972394` (above #184 and #182). No merge is authorized.
+
+`weaponTeamAmplifyWindowAdapter.ts` implements the existing reviewed `BPP-TEAM-AERO` gap. `activateWeaponTeamAmplifyWindow` requires Bloodpact's Pledge, Rover (Aero), the wielder's explicit Unbound Flow event and its timestamp. The canonical R1–R5 value and 30-second duration are read from the source registry with drift checks. There is no new gameplay fact or Character-specific coefficient table.
+
+`weaponTeamAeroAmplificationAt` returns the amplification contribution for a supplied hit. Nearby/on-field eligibility must already be verified for that recipient/hit; `UNKNOWN` fails closed. Trigger ordering is explicit, including hits at the cast timestamp. The contribution is an amplification term for the existing damage kernel, and the integration test composes it with the shared Character direct-hit primitive using a synthetic snapshot.
+
+One activation has an independent window. This primitive does not choose recipient allocation/snapshot versus aura semantics, combine repeated windows, refresh buffs, infer team uptime or execute a rotation. The BPP dependency moves only from implementation-pending to primitive-available/requires-timeline; all four Rover profile pending IDs and BUG-012 remain. Source-only rotations, full Character readiness, the six Reference Team dependencies and UI behavior are unchanged.

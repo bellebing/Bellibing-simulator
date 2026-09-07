@@ -4,6 +4,7 @@ import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWi
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
+import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
@@ -212,13 +213,15 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
     ],
   },
   {
-    pendingExecutionId: 'weapon:bloodpacts-pledge:BPP-TEAM-AERO:unbound-flow-team-amplify-adapter',
-    status: 'SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING',
+    pendingExecutionId: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
     actionKey: 'weapon:bloodpacts-pledge-unbound-flow-team-amplify',
-    reviewedAt: ROVER_AERO_STANDARD_ROTATION_EXECUTION_REVIEW_20260830.checkedAt,
+    reviewedAt: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.reviewedAt,
+    primitiveId: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.adapterId,
     notes: [
       'The weapon trigger is exact: Rover (Aero) casting Unbound Flow grants nearby on-field Resonators Aero DMG Amplification for 30 seconds.',
       'The canonical source sequence explicitly contains Unbound Flow P1 before the swap, so trigger identity is semantically resolved.',
+      'The single-cast primitive now resolves the canonical rank amount and duration for explicit recipient eligibility and event order; allocation, refresh and profile uptime are not inferred.',
       'No profile dependency closes until an executable Rover rotation owns the event and team state.',
     ],
   },

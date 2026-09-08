@@ -38,6 +38,8 @@ The export currently contains 57 released Characters, 54 verified mechanics prof
 
 ## Reuse when building Character engines
 
+The PR #190 static Echo family now includes Adam Smasher's existing Lucy/Rebecca restriction and Sigillum's existing Aemeath restriction through the shared wielder-identity primitive. The generated gear effects and pending-fact list reflect 65 effects across 39 Echoes / four remaining specialized pending facts. This changes static applicability for the existing Lucy/Aemeath presets; it does not change their source-only rotations or the 83 profile execution dependencies. [Backward-impact evidence](ECHO_SONATA_EFFECT_COVERAGE.md) records the exact boundary.
+
 On PR #190 the additive `gear` section lets every existing profile's weapon options, main Echo and Sonata IDs resolve in this same file. Join `weaponEffects.weaponId`, `echoEffects.echoId`, `echoAttacks.echoId` and `sonataEffects.sonataSetId` to their identity catalogs. The raw weapon `effectIds` placeholder is preserved verbatim; use the separate effect rows for this relation.
 
 `weaponEffectCoverage` reuses the existing source audit, `echoSkillSourceReview` and `echoSkillPendingAdapterFacts` preserve the reviewed Echo boundary, and `sonataSourceReviews` retain each activation's disposition. Missing attack/effect rows never mean zero damage or no passive. `AUDITED_EFFECTS` describes weapon passive source coverage only; it does not settle disputed core stats, make a pending model executable, or select uptime. In particular the canonical Abyss Surges 587 value is exported unchanged while its parked 587/588 provider conflict remains unresolved. No new source facts, copied numeric tables, source refresh or UI implementation are introduced.

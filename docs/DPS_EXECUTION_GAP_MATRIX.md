@@ -43,6 +43,8 @@ Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; C
 
 `echo-character-restriction-v1` statically resolves the extra Fleurdelys Aero bonus for canonical `cartethyia` and `rover-aero`. Those exact character-restriction dependencies are closed.
 
+Unmerged PR #190 reuses that same primitive for the already-reviewed Adam Smasher Lucy/Rebecca CRIT Rate and Sigillum Aemeath Liberation bonuses. Existing Lucy/Aemeath preset main-Echo resolution gains those exact static effects; Rebecca's selected Bell-Borne is preserved. These close two Echo fact-level migration records, not any of the 83 profile execution edges. Source-only rotations, active Echo damage and all six Reference Team blockers remain outside this static applicability proof. See [source and backward-impact review](ECHO_SONATA_EFFECT_COVERAGE.md).
+
 ### Exact Echo active damage
 
 `echo-active-damage-v1` resolves exact verified `ACTIVE_CAST` Echo attack facts without inventing cast time, uptime or rotation state. Reminiscence: Fleurdelys has exact Rank-5 `27.36% x8 + 136.80%` Aero damage, totaling `355.68% ATK`.

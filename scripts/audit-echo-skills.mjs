@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
+import { ECHO_CHARACTER_RESTRICTED_EFFECTS, ECHO_CHARACTER_RESTRICTION_REVIEWS } from '../src/data/echoCharacterRestrictedEffects.ts';
 import { auditEchoSkillCoverage } from '../src/echoSkillCoverageRegistry.ts';
 import {
   ECHO_SKILL_SOURCE_REVIEW_V36,
@@ -127,6 +128,22 @@ async function main() {
   assertEqual(cooldownDistribution.size, expectedCooldownDistribution.size, 'Echo cooldown distinct-value count');
 
   const coverage = auditEchoSkillCoverage();
+  // Bind the migrated static family directly to the pinned structured source;
+  // the existing blob check also preserves the independently reviewed prose.
+  const sourceStatLabels = {
+    'CRIT Rate': 'Crit Rate',
+    'Aero DMG Bonus': 'Aero DMG',
+    'Resonance Liberation DMG Bonus': 'Resonance Liberation DMG Bonus',
+  };
+  for (const restriction of ECHO_CHARACTER_RESTRICTION_REVIEWS) {
+    const effect = ECHO_CHARACTER_RESTRICTED_EFFECTS.find((row) => row.effectId === restriction.effectId);
+    const echo = raw.find((row) => `echo-${row.id}` === restriction.echoId);
+    const matching = (echo?.bonuses ?? []).filter((bonus) => bonus.stat === sourceStatLabels[effect.statOrEffect]
+      && JSON.stringify([...(bonus.characterCondition ?? [])].sort())
+        === JSON.stringify([...restriction.sourceConditionTokens].sort()));
+    assertEqual(matching.length, 1, `${restriction.effectId} exact source restriction row`);
+    assertEqual(effect.value, matching[0].value / 100, `${restriction.effectId} exact source value`);
+  }
   console.log(JSON.stringify({
     sourceCommit: review.sourceCommit,
     sourceBlobSha: review.sourceBlobSha,

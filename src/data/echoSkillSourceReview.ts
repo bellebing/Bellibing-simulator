@@ -14,7 +14,7 @@ export interface EchoSkillPendingAdapterFact {
 
 export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   patch: '3.6',
-  checkedAt: '2026-08-31',
+  checkedAt: '2026-09-08',
   sourceRepository: 'DommyMM/wuwabuild',
   sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
   sourceBlobSha: 'cca1563ce0491a3de80ac7359344112631329224',
@@ -31,11 +31,12 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedStructuredBonusRowCount: 58,
   expectedCharacterConditionBonusRowCount: 3,
   expectedUnusedParamRecordCount: 3,
-  expectedModeledEffectRowCount: 63,
-  expectedModeledEffectEchoCount: 37,
+  expectedModeledEffectRowCount: 65,
+  expectedModeledEffectEchoCount: 39,
   expectedAttackProfileCount: 5,
   expectedAttackFactCount: 6,
   notes: [
+    'Adam Smasher Lucy/Rebecca CRIT Rate and Sigillum Aemeath Liberation bonus now use the existing static wielder-identity primitive. Their source values/restrictions were already verified; no active attack, profile rotation or recommendation is promoted.',
     'The upstream Echo record has no dedicated skill-name field. Bellibing therefore keeps the Echo identity plus source skill description and never invents a separate skill name.',
     'All 181 released Version 3.6 Echo records have English active-skill text, five rank parameter rows, and a source-explicit cooldown placeholder that resolves at Rank 5.',
     'Source review completeness does not imply executable combat coverage. Damage prose is not promoted to an attack profile when scaling, hit decomposition, variants, or state semantics cannot be proven in the current attack domain.',
@@ -70,18 +71,6 @@ export const ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS = [
 ] as const;
 
 export const ECHO_SKILL_PENDING_ADAPTER_FACTS: readonly EchoSkillPendingAdapterFact[] = [
-  {
-    echoId: 'echo-60002015',
-    fact: '15% CRIT Rate when Reminiscence - Nightmare: Adam Smasher is main-slot equipped by Lucy or Rebecca',
-    kind: 'CHARACTER_RESTRICTION',
-    reason: 'The current Echo effect layer has not yet migrated this character-restricted row onto the verified wielder-identity applicability primitive.',
-  },
-  {
-    echoId: 'echo-60001915',
-    fact: '25% Resonance Liberation DMG Bonus when Sigillum is main-slot equipped by Aemeath',
-    kind: 'CHARACTER_RESTRICTION',
-    reason: 'The effect is source-explicit but has not yet been migrated onto the verified wielder-identity applicability primitive.',
-  },
   {
     echoId: 'echo-60001809',
     fact: 'Twin Nova: Collapsar Blade main-slot 12% Electro DMG Bonus changes to 12% Spectro DMG Bonus when Twin Nova: Nebulous Cannon is equipped in another slot',

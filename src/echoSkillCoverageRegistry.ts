@@ -1,5 +1,5 @@
 import { ECHO_ATTACK_PROFILES } from './data/echoAttacks.ts';
-import { FLEURDELYS_CHARACTER_RESTRICTION_REVIEW } from './data/echoCharacterRestrictedEffects.ts';
+import { ECHO_CHARACTER_RESTRICTION_REVIEWS, FLEURDELYS_CHARACTER_RESTRICTION_REVIEW } from './data/echoCharacterRestrictedEffects.ts';
 import { ECHO_EFFECT_MODELS } from './data/echoEffects.ts';
 import {
   ECHO_SKILL_PENDING_ADAPTER_FACTS,
@@ -75,13 +75,17 @@ export function auditEchoSkillCoverage(): EchoSkillCoverageSummary {
     throw new Error('Fleurdelys character restriction cannot remain both modeled and pending.');
   }
 
-  const adam = effectRegistry.byEchoId.get('echo-60002015') ?? [];
-  if (adam.some((row) => row.statOrEffect === 'CRIT Rate')) {
-    throw new Error('Adam Smasher character-restricted CRIT Rate must remain pending until its row is migrated onto the character-restriction primitive.');
-  }
-  const sigillum = effectRegistry.byEchoId.get('echo-60001915') ?? [];
-  if (sigillum.some((row) => row.statOrEffect === 'Resonance Liberation DMG Bonus')) {
-    throw new Error('Sigillum character-restricted Resonance Liberation bonus must remain pending until its row is migrated onto the character-restriction primitive.');
+  for (const restriction of ECHO_CHARACTER_RESTRICTION_REVIEWS) {
+    const effect = effectRegistry.byId.get(restriction.effectId);
+    if (!effect || effect.echoId !== restriction.echoId || effect.activation !== 'MAIN_SLOT_PASSIVE'
+        || effect.appliesTo !== 'WIELDER' || effect.durationSeconds !== null
+        || JSON.stringify([...(effect.wielderCharacterIds ?? [])].sort())
+          !== JSON.stringify([...restriction.canonicalWielderCharacterIds].sort())) {
+      throw new Error(`${restriction.effectId}: modeled main-slot identity restriction differs from reviewed source.`);
+    }
+    if (ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === restriction.echoId && row.kind === 'CHARACTER_RESTRICTION')) {
+      throw new Error(`${restriction.effectId}: character restriction cannot remain both modeled and pending.`);
+    }
   }
   const collapsar = effectRegistry.byEchoId.get('echo-60001809') ?? [];
   if (collapsar.some((row) => row.statOrEffect === 'Electro DMG Bonus' || row.statOrEffect === 'Spectro DMG Bonus')) {

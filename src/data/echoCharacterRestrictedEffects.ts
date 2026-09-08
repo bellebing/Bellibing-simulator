@@ -23,7 +23,76 @@ export const FLEURDELYS_CHARACTER_RESTRICTION_REVIEW = {
   ],
 } as const;
 
+/** Existing source-explicit pending rows migrated onto the same identity gate. */
+export const ECHO_CHARACTER_RESTRICTION_REVIEWS = [
+  FLEURDELYS_CHARACTER_RESTRICTION_REVIEW,
+  {
+    reviewedAt: '2026-09-08',
+    echoId: 'echo-60002015',
+    effectId: 'ECHO_60002015_CRIT_RATE_LUCY_REBECCA',
+    primitiveId: 'echo-character-restriction-v1',
+    sourceConditionTokens: ['Lucy', 'Rebecca'],
+    canonicalWielderCharacterIds: ['lucy', 'rebecca'],
+    sourceEvidence: [
+      'The already-reviewed pinned structured row has Crit Rate 15 and characterCondition [Lucy, Rebecca].',
+      'Rendered main-slot text binds the same restriction and parameter 4 is 15% at every source rank.',
+      'Only the static CRIT Rate branch is migrated; identity-specific active Echo variants are separate pending execution work.',
+    ],
+  },
+  {
+    reviewedAt: '2026-09-08',
+    echoId: 'echo-60001915',
+    effectId: 'ECHO_60001915_LIBERATION_DMG_AEMEATH',
+    primitiveId: 'echo-character-restriction-v1',
+    sourceConditionTokens: ['Aemeath'],
+    canonicalWielderCharacterIds: ['aemeath'],
+    sourceEvidence: [
+      'The already-reviewed pinned structured row has Resonance Liberation DMG Bonus 25 and characterCondition [Aemeath].',
+      'Rendered main-slot text names Aemeath; parameter 2 is 25% at every source rank.',
+      'This static bonus neither proves the scaling of the separate active Echo attacks nor supplies an Aemeath rotation.',
+    ],
+  },
+] as const;
+
 export const ECHO_CHARACTER_RESTRICTED_EFFECTS: readonly EchoEffectModel[] = [
+  {
+    effectId: 'ECHO_60002015_CRIT_RATE_LUCY_REBECCA',
+    echoId: 'echo-60002015',
+    statOrEffect: 'CRIT Rate',
+    value: 0.15,
+    activation: 'MAIN_SLOT_PASSIVE',
+    trigger: 'Reminiscence - Nightmare: Adam Smasher equipped in the main Echo slot by Lucy or Rebecca',
+    durationSeconds: null,
+    appliesTo: 'WIELDER',
+    wielderCharacterIds: ['lucy', 'rebecca'],
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    notes: 'Static identity-restricted CRIT Rate only. Special active Echo skills and loadout recommendations are not inferred.',
+    provenance: {
+      sourceLabels: ['wuwabuild pinned Echo structured characterCondition and rendered main-slot text'],
+      sourceUrls: [SOURCE_URL],
+      checkedAt: '2026-09-08',
+      notes: ['Existing source-explicit pending fact migrated to echo-character-restriction-v1; the exact pinned blob was rechecked.'],
+    },
+  },
+  {
+    effectId: 'ECHO_60001915_LIBERATION_DMG_AEMEATH',
+    echoId: 'echo-60001915',
+    statOrEffect: 'Resonance Liberation DMG Bonus',
+    value: 0.25,
+    activation: 'MAIN_SLOT_PASSIVE',
+    trigger: 'Sigillum equipped in the main Echo slot by Aemeath',
+    durationSeconds: null,
+    appliesTo: 'WIELDER',
+    wielderCharacterIds: ['aemeath'],
+    mechanicsStatus: 'VERIFIED_CONDITIONAL',
+    notes: 'Static Aemeath-only Liberation bonus; not an all-Fusion-character bonus or active Echo damage claim.',
+    provenance: {
+      sourceLabels: ['wuwabuild pinned Echo structured characterCondition and rendered main-slot text'],
+      sourceUrls: [SOURCE_URL],
+      checkedAt: '2026-09-08',
+      notes: ['Existing source-explicit pending fact migrated to echo-character-restriction-v1; the exact pinned blob was rechecked.'],
+    },
+  },
   {
     effectId: FLEURDELYS_CHARACTER_RESTRICTION_REVIEW.effectId,
     echoId: FLEURDELYS_CHARACTER_RESTRICTION_REVIEW.echoId,

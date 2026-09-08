@@ -82,7 +82,7 @@ Current source coverage:
 
 ### Echo Effects — current executable/source-safe slice
 
-`src/data/echoEffects.ts` now contains **62 modeled non-damage effect rows across 37 Echoes**.
+`src/data/echoEffects.ts` now contains **65 modeled non-damage effect rows across 39 Echoes** on unmerged PR #190. Main through #189 has 63 rows / 37 Echoes; its Fleurdelys restriction is already implemented.
 
 The expansion is deliberately conservative:
 
@@ -93,22 +93,30 @@ The expansion is deliberately conservative:
 
 Source-explicit facts that the current effect domain cannot represent safely remain pending rather than being flattened:
 
-1. Reminiscence - Nightmare: Adam Smasher — Lucy/Rebecca-only +15% CRIT Rate.
-2. Reminiscence: Fleurdelys — extra +10% Aero DMG for Resonator: Aero or Cartethyia.
-3. Sigillum — Aemeath-only +25% Resonance Liberation DMG.
-4. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot.
-5. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting.
-6. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking.
-7. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope must not be guessed.
+1. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot.
+2. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting.
+3. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking.
+4. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope must not be guessed.
 
-Those seven facts live in `ECHO_SKILL_PENDING_ADAPTER_FACTS` with explicit adapter-boundary reasons.
+Those four facts live in `ECHO_SKILL_PENDING_ADAPTER_FACTS` with explicit adapter-boundary reasons. The static character-restriction family now covers all three existing structured source rows through `echo-character-restriction-v1`: Fleurdelys (Rover Aero/Cartethyia), Adam Smasher (Lucy/Rebecca +15% CRIT Rate), and Sigillum (Aemeath +25% Liberation bonus).
+
+### 2026-09-08 static restriction migration and backward impact
+
+The Adam Smasher and Sigillum facts were already source-verified pending rows. The same pinned source blob was fetched and hash-verified again; structured conditions, English main-slot text and every rank's parameter agree. They now use the existing `wielderCharacterIds` gate without Character-specific runtime code, new timing or active-attack assumptions. The normal source audit directly binds all three modeled restriction rows to exact source values and condition tokens.
+
+Backward-impact disposition: **IMPACT_FOUND** for static main-Echo resolution of existing `lucy-standard` and `aemeath-standard` presets. Recommendations, stat targets, rankings and rotations remain unchanged because this implements their existing selected equipment. Rebecca is eligible when actually equipping Adam Smasher, but her current `rebecca-standard` preset selects Bell-Borne; no Adam Smasher bonus or recommendation leaks into it. All other roster identities are excluded by regression tests. Replacing the selected Echo removes the bonus without mutating canonical selections.
+
+The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact profile execution edges are unchanged. The six Reference Team blockers are unchanged. Only two Echo fact-level pending migrations close (6 → 4); no full Character/Team DPS approval follows. Adam Smasher active variants and Sigillum active-attack scaling remain outside this static effect slice. Targeted tests, pinned-source audit, all 747 tests and strict build pass; exact branch/CI evidence lives in PR #190 and Handoff.
 
 ### Echo Attacks — exact executable facts only
 
-`src/data/echoAttacks.ts` now has **2 exact Rank-5 attack profiles / 3 attack facts**:
+`src/data/echoAttacks.ts` has **5 exact Rank-5 attack profiles / 6 attack facts**, already integrated through #189:
 
 - The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
 - Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
+- Fallacy of No Return — one 15.86% HP-scaled Spectro normal activation blast; hold/release is excluded.
+- Nightmare: Thundering Mephis — one 405% ATK Electro active hit, 25s cooldown.
+- Reminiscence: Fleurdelys — 27.36% ATK Aero ×8 plus 136.80% ATK Aero ×1, 20s cooldown.
 
 Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
 

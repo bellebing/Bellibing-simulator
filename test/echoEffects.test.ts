@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 
 import { ECHO_EFFECT_MODELS } from '../src/data/echoEffects.ts';
 import {
@@ -11,9 +12,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 63);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 37);
-  assert.equal(registry.byId.size, 63);
+  assert.equal(ECHO_EFFECT_MODELS.length, 65);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 39);
+  assert.equal(registry.byId.size, 65);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {
@@ -92,9 +93,18 @@ test('Denia and Hyvatia preserve transfer-window conditions instead of automatic
   assert.equal(hyvatia?.mechanicsStatus, 'VERIFIED_CONDITIONAL');
 });
 
-test('other character-restricted and loadout-replaced bonuses are not flattened into unconditional rows', () => {
-  assert.deepEqual(getEchoEffects(registry, 'echo-60002015'), []); // Adam Smasher CR is Lucy/Rebecca-only.
-  assert.deepEqual(getEchoEffects(registry, 'echo-60001915'), []); // Sigillum Liberation bonus is Aemeath-only.
+test('Adam Smasher and Sigillum static bonuses follow exact wielder identity across the whole roster', () => {
+  for (const character of CHARACTER_CATALOG) {
+    const adam = getEchoEffectsForWielder(registry, 'echo-60002015', character.id);
+    assert.deepEqual(adam.map((row) => [row.statOrEffect, row.value, row.activation, row.durationSeconds]),
+      ['lucy', 'rebecca'].includes(character.id) ? [['CRIT Rate', 0.15, 'MAIN_SLOT_PASSIVE', null]] : [], character.id);
+    const sigillum = getEchoEffectsForWielder(registry, 'echo-60001915', character.id);
+    assert.deepEqual(sigillum.map((row) => [row.statOrEffect, row.value, row.activation, row.durationSeconds]),
+      character.id === 'aemeath' ? [['Resonance Liberation DMG Bonus', 0.25, 'MAIN_SLOT_PASSIVE', null]] : [], character.id);
+  }
+});
+
+test('loadout-replaced bonuses stay pending until the exact replacement primitive exists', () => {
   const collapsar = getEchoEffects(registry, 'echo-60001809');
   assert.deepEqual(collapsar.map((row) => [row.statOrEffect, row.value]), [['Basic Attack DMG Bonus', 0.12]]);
 });

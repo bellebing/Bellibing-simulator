@@ -24,6 +24,8 @@ The Character backend stack #182/#184–#188 is **integrated on main through mer
 
 ## 2. Milestone 04 exit capability
 
+Active unmerged work: draft PR #190 / `codex/overnight-backend-2026-09-08` follows the [current Reference Team architecture audit](REFERENCE_TEAM_01_ARCHITECTURE_AUDIT_20260908.md). The historical Augusta parity team fixture is explicit and immutable; personal/team adapters share verified profile selection; resolved team manifests are detached from canonical/caller objects. This architecture group passes 742 local tests and strict build. It changes no source values, readiness, pending edges or UI behavior. The six Reference Team blockers remain parked for missing source/execution evidence. Continue source-valid backend work on this same branch; main remains the merged #189 baseline.
+
 Milestone 04 proves this bounded real chain:
 
 `provider source / pinned upstream`

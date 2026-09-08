@@ -52,7 +52,7 @@ Provider candidates remain evidence only. This export does not authorize new cop
 
 ## Batch 1: explicit ATK Basic Attack hits
 
-Stack dependency: PR #182 / `codex/character-database-batch`, verified parent head `9240cfea5541de739f418e64fa124d4f388b1413`. This dependent batch remains a separate draft PR and has no merge authorization.
+Historical stack dependency: PR #182 / `codex/character-database-batch`, verified parent head `9240cfea5541de739f418e64fa124d4f388b1413`. This payload is integrated through #189.
 
 `src/combat/characterBasicHitAdapter.ts` supplies `listCharacterBasicHitSupport` and `evaluateCharacterBasicHit`. Family membership is derived from VERIFIED mechanics profiles and VERIFIED, MODEL_READY/MODELED, unconditional ATK actions whose source section/action kind/damage class are Basic Attack. It currently covers **268 actions across 52 Characters**. No Character allowlist, coefficient copy or automatic source promotion is added.
 
@@ -83,7 +83,7 @@ Conditional actions, RAW_ONLY/PENDING_INTERPRETATION facts, simultaneous classes
 
 ## Batch 3: reviewed team amplification window
 
-Stack dependency: draft PR #185 / `codex/character-direct-hit-families`, verified parent head `181a23248482556f7f880a059dc7b9d8c8972394` (above #184 and #182). No merge is authorized.
+Historical stack dependency: PR #185 / `codex/character-direct-hit-families`, verified parent head `181a23248482556f7f880a059dc7b9d8c8972394` (above #184 and #182). This payload is integrated through #189.
 
 `weaponTeamAmplifyWindowAdapter.ts` implements the existing reviewed `BPP-TEAM-AERO` gap. `activateWeaponTeamAmplifyWindow` requires Bloodpact's Pledge, Rover (Aero), the wielder's explicit Unbound Flow event and its timestamp. The canonical R1–R5 value and 30-second duration are read from the source registry with drift checks. There is no new gameplay fact or Character-specific coefficient table.
 

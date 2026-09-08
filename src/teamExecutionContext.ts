@@ -177,7 +177,7 @@ export function resolveTeamExecutionContext(
     input.dependencyCoverageStatus === 'COMPLETE'
     && !unresolvedDependencies.some((dependency) => dependency.requiredForDps);
 
-  return {
+  return structuredClone({
     teamProfileId: team.id,
     actorPresetId: input.actorPresetId,
     members: selections,
@@ -185,5 +185,5 @@ export function resolveTeamExecutionContext(
     contributions: [...input.contributionDependencies],
     unresolvedDependencies,
     dpsReady,
-  };
+  });
 }

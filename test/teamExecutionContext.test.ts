@@ -1,14 +1,61 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
+import { PROFILE_CATALOGS, PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
+import { createProfileRegistry } from '../src/profileRegistry.ts';
 import {
   REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES,
   REFERENCE_TEAM_01_EXECUTION_CONTEXT,
   REFERENCE_TEAM_01_MEMBER_PRESET_IDS,
   buildReferenceTeam01ExecutionContext,
 } from '../src/data/referenceTeam01ExecutionContext.ts';
-import { resolveTeamExecutionContext } from '../src/teamExecutionContext.ts';
+import { resolveTeamExecutionContext, type TeamExecutionContextInput } from '../src/teamExecutionContext.ts';
+
+test('editing one team snapshot cannot retarget canonical gear or another candidate contribution', () => {
+  const catalogs = structuredClone(PROFILE_CATALOGS);
+  const registry = createProfileRegistry(catalogs);
+  const input: TeamExecutionContextInput = {
+    actorPresetId: 'augusta-standard',
+    memberPresetIds: REFERENCE_TEAM_01_MEMBER_PRESET_IDS,
+    dependencyCoverageStatus: 'PARTIAL',
+    contributionDependencies: structuredClone(REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES),
+  };
+  const originalCatalogs = structuredClone(catalogs);
+  const originalInput = structuredClone(input);
+  const first = resolveTeamExecutionContext(registry, input);
+  const second = resolveTeamExecutionContext(registry, input);
+  const originalSecond = structuredClone(second);
+  const iuno = first.members.find((row) => row.characterId === 'iuno')!;
+  iuno.defaultWeapon.id = 'candidate-only-weapon';
+  (iuno.sonataSetIds as string[]).splice(0, 1, 'candidate-only-sonata');
+  first.contributions[0].sourceCharacterId = 'candidate-only-source';
+  first.unresolvedDependencies[0].resolutionStatus = 'RESOLVED';
+
+  assert.deepEqual(catalogs, originalCatalogs);
+  assert.deepEqual(input, originalInput);
+  assert.deepEqual(second, originalSecond);
+  assert.deepEqual(resolveTeamExecutionContext(registry, input), originalSecond);
+  assert.equal(second.unresolvedDependencies.length, 6);
+  assert.equal(second.dpsReady, false);
+});
+
+test('a resolved team snapshot does not change when its caller later edits source dependencies', () => {
+  const dependencies = structuredClone(REFERENCE_TEAM_01_CONTRIBUTION_DEPENDENCIES);
+  const context = resolveTeamExecutionContext(PROFILE_REGISTRY, {
+    actorPresetId: 'augusta-standard',
+    memberPresetIds: REFERENCE_TEAM_01_MEMBER_PRESET_IDS,
+    dependencyCoverageStatus: 'PARTIAL',
+    contributionDependencies: dependencies,
+  });
+  const original = structuredClone(context);
+  for (const dependency of dependencies) {
+    dependency.resolutionStatus = 'RESOLVED';
+    dependency.sourcePresetId = 'changed-selection';
+  }
+  assert.deepEqual(context, original);
+  assert.equal(context.unresolvedDependencies.length, 6);
+  assert.equal(context.dpsReady, false);
+});
 
 test('Reference Team 01 binds exact selected member preset/loadout identity', () => {
   const context = buildReferenceTeam01ExecutionContext();

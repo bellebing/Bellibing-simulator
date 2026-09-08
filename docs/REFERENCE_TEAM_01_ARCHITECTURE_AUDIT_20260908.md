@@ -48,3 +48,7 @@ Here `PARK/DELETE` means **park, not delete evidence or canonical pending IDs**.
 First isolate the historical Augusta team fixture (A04) and prove exact current/expected parity plus rejection of retargeted fixture identity. Then remove duplicated profile selection (A06) and shared mutable team snapshots (A07), with focused tests of source-only teammate resolution, unsupported personal execution and independent candidate mutation. These changes consume existing semantics; none changes source facts, UI output or the six pending IDs.
 
 After these safe audit findings, continue source-valid horizontal Character/data work on the same overnight branch. Full tests/build and Verify/Export are required after the meaningful runtime group. New evidence, not architectural neatness, is required before any parked dependency can close.
+
+## Implemented on the overnight branch
+
+- A04: the unchanged V9.15 team/mixed-ATK/Wan Light inputs now live in immutable `characters/augustaParityTeamContext.ts`, explicitly labeled historical and bound to the existing team ID. `AugustaStandardContext.parityTeam` is required; missing/retargeted contexts fail before damage evaluation. The existing owned-build team gate shares this identity. No scalar correction, current-team promotion or new UI behavior is included. Existing exact parity and handoff tests plus replacement/mutation regressions passed (17 targeted tests); strict build passed. Complete runtime-group CI evidence is recorded in PR #190 and Handoff.

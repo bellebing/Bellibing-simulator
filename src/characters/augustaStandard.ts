@@ -9,6 +9,8 @@ import { ECHO_ATTACK_PROFILES } from '../data/echoAttacks.ts';
 import { totalMotionValue } from '../echoAttackDomain.ts';
 import { createEchoAttackRegistry } from '../echoAttackRegistry.ts';
 import { AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID } from './augustaStandardMotionValues.ts';
+import { AUGUSTA_PARITY_TEAM_CONTEXT, assertAugustaParityTeamContext,
+  type AugustaParityTeamContext } from './augustaParityTeamContext.ts';
 
 export type AugustaActionClass = 'HEAVY' | 'SKILL' | 'INTRO' | 'ECHO' | 'SETUP' | 'BOUNDARY';
 
@@ -37,24 +39,19 @@ export interface AugustaBuildInputs {
 }
 
 export interface AugustaStandardContext {
+  /** Explicit historical team fixture; never inferred from replacement teammates. */
+  readonly parityTeam: AugustaParityTeamContext;
   attackerLevel: number;
   enemyDefense: number;
   enemyResistance: number;
   rotationSeconds: number;
   combinedBaseAtk: number;
-  staticContextAtkPct: number;
-  shorekeeperCritRate: number;
-  shorekeeperCritDamage: number;
   staticSetElectroDamage: number;
   crownElectroDamage: number;
   selectedWeaponHeavyDamage: number;
-  staticAllDamageAmplification: number;
-  staticHeavyAmplification: number;
   covAtkPerStack: number;
   covCritDamagePerStack: number;
   covCap: number;
-  wanLightAmplificationPerStack: number;
-  wanLightCap: number;
   weaponDefIgnorePerStack: number;
   weaponDefIgnoreCap: number;
   erHardFloor: number;
@@ -171,29 +168,23 @@ export const AUGUSTA_STANDARD_ACTIONS: AugustaAction[] = [
   characterAction('15', 'augusta-outro-battlesong-of-the-unyielding', false, false),
 ];
 
-export const AUGUSTA_STD_V1: AugustaStandardContext = {
+export const AUGUSTA_STD_V1: Readonly<AugustaStandardContext> = Object.freeze({
+  parityTeam: AUGUSTA_PARITY_TEAM_CONTEXT,
   attackerLevel: 90,
   enemyDefense: 1592,
   enemyResistance: 0.2,
   rotationSeconds: 11.17,
   combinedBaseAtk: 1138,
-  staticContextAtkPct: 0.37,
-  shorekeeperCritRate: 0.125,
-  shorekeeperCritDamage: 0.25,
   staticSetElectroDamage: 0.10,
   crownElectroDamage: 0.15,
   selectedWeaponHeavyDamage: 0.20,
-  staticAllDamageAmplification: 0.15,
-  staticHeavyAmplification: 0.50,
   covAtkPerStack: 0.06,
   covCritDamagePerStack: 0.04,
   covCap: 5,
-  wanLightAmplificationPerStack: 0.04,
-  wanLightCap: 10,
   weaponDefIgnorePerStack: 0.072,
   weaponDefIgnoreCap: 5,
   erHardFloor: 1.16,
-};
+});
 
 function actionTypeBonus(action: AugustaAction, build: AugustaBuildInputs): number {
   switch (action.actionClass) {
@@ -210,9 +201,11 @@ export function evaluateAugustaStandardRotation(
   build: AugustaBuildInputs,
   context: AugustaStandardContext = AUGUSTA_STD_V1,
 ): AugustaRotationResult {
-  const staticAtk = build.upstreamAtk + context.combinedBaseAtk * context.staticContextAtkPct;
-  const critRate = Math.min(build.upstreamCritRate + context.shorekeeperCritRate, 1);
-  const baseCritDamage = build.upstreamCritDamage + context.shorekeeperCritDamage;
+  const team = context.parityTeam;
+  assertAugustaParityTeamContext(team);
+  const staticAtk = build.upstreamAtk + context.combinedBaseAtk * team.historicalAdditionalAtkPct;
+  const critRate = Math.min(build.upstreamCritRate + team.shorekeeperCritRate, 1);
+  const baseCritDamage = build.upstreamCritDamage + team.shorekeeperCritDamage;
   const resMult = resistanceMultiplier(context.enemyResistance);
   const baseDefMult = defenseMultiplier({
     attackerLevel: context.attackerLevel,
@@ -240,9 +233,9 @@ export function evaluateAugustaStandardRotation(
         actionTypeBonus(action, build) +
         (isHeavy ? context.selectedWeaponHeavyDamage : 0);
       const amplification =
-        context.staticAllDamageAmplification +
-        context.wanLightAmplificationPerStack * wanLightStacks +
-        (isHeavy ? context.staticHeavyAmplification : 0);
+        team.staticAllDamageAmplification +
+        team.wanLightAmplificationPerStack * wanLightStacks +
+        (isHeavy ? team.staticHeavyAmplification : 0);
       const critDamage = baseCritDamage + context.covCritDamagePerStack * covStacks;
       const defMult = isHeavy
         ? defenseMultiplier({
@@ -277,7 +270,7 @@ export function evaluateAugustaStandardRotation(
 
     if (shieldEventAfter) {
       covStacks = Math.min(context.covCap, covStacks + 1);
-      wanLightStacks = Math.min(context.wanLightCap, wanLightStacks + 1);
+      wanLightStacks = Math.min(team.wanLightCap, wanLightStacks + 1);
       weaponDefStacks = Math.min(context.weaponDefIgnoreCap, weaponDefStacks + 1);
     }
   }

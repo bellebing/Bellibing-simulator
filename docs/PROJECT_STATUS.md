@@ -24,6 +24,8 @@ The Character backend stack #182/#184–#188 is **integrated on main through mer
 
 Active unmerged work: draft PR #190 / `codex/overnight-backend-2026-09-08` follows the [current Reference Team architecture audit](REFERENCE_TEAM_01_ARCHITECTURE_AUDIT_20260908.md). The historical Augusta parity team fixture is explicit and immutable; personal/team adapters share verified profile selection; resolved team manifests are detached from canonical/caller objects. Character database export includes canonical gear and source dispositions. The existing static Echo identity primitive now covers the already-reviewed Adam Smasher Lucy/Rebecca and Sigillum Aemeath bonuses: two fact-level migrations close, with all 83 profile execution edges and six Reference Team blockers preserved. The current group passes 747 local tests, strict build and pinned Echo source audit. Continue source-valid backend work on this same branch; main remains the merged #189 baseline, with no UI implementation or merge authorization.
 
+The same PR now includes the shared flat-resource-on-cast family for 17 canonical weapon effects. It covers seven Concerto / ten Resonance Energy effects and options in four existing Character profiles, without changing their equipment recommendations. Stellar Symphony's resource edge gains a reusable primitive; the partition is now 36 unreviewed / 16 primitive-available, with all 83 pending IDs preserved. This group passes 754 local tests and strict build. Exact Verify/Export and review-head evidence belongs in PR #190 and Handoff.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

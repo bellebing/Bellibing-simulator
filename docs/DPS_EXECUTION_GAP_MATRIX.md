@@ -24,20 +24,26 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges after the canonical cast-window batch as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #190 branch as:
 
-- **37 `UNREVIEWED`**;
+- **36 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **15 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **16 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **5 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **37 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **36 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through #189 retains its historical 37 unreviewed / 15 primitive-available split until this PR is separately integrated.
 
 Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; Chisa's Rejuvenating Glow dependency has `heal-applied-team-atk-window-v1`. Both consume explicit source-qualified events and recipient/team state. Neither supplies a profile timeline or closes a canonical pending ID. The existing Shorekeeper healing wrapper delegates to the same Rejuvenating implementation with its original Character-specific guard.
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
+
+### Flat resource recovery after a cast
+
+Unmerged PR #190 adds `weapon-cast-flat-resource-v1` for 17 existing source-verified weapon effects: seven Concerto Energy and ten Resonance Energy effects, spanning all five weapon types. Every included source defines a Skill/Liberation cast, flat SELF amount, no additional conditions and an explicit 20-second trigger cooldown. Current recommendation options include these weapons for Augusta, Shorekeeper, Taoqi and Youhu; no recommendation changes or new DPS approvals follow.
+
+Stellar Symphony's exact `SSY-CONCERTO:resource-event-adapter` edge is now primitive-available/requires-timeline. Its trigger is Liberation, not Skill. The primitive requires explicit selected weapon/rank, owned ordered cast events and known initial cooldown readiness. It returns the nominal source resource amount, keeps the two resource types distinct and does not infer pool caps, spending, ER scaling, initial energy or rotation timing. Repeated casts during cooldown do not refresh it. All 83 exact profile edges and six Reference Team dependencies remain pending as before. Beguiling Melody's null-cooldown Intro/Outro branches and other conditional/stack/healing families remain outside this bounded family.
 
 ### Fleurdelys character restriction
 

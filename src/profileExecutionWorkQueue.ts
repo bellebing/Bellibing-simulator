@@ -5,6 +5,7 @@ import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdap
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
+import { WEAPON_RESOURCE_CAST_REVIEW } from './combat/weaponResourceCastAdapter.ts';
 import { SHARED_SUPPORT_STAT_WINDOW_REVIEW } from './combat/sharedSupportStatWindows.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
@@ -242,6 +243,18 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  {
+    pendingExecutionId: WEAPON_RESOURCE_CAST_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:cast-flat-resource',
+    primitiveId: WEAPON_RESOURCE_CAST_REVIEW.primitiveId,
+    reviewedAt: WEAPON_RESOURCE_CAST_REVIEW.reviewedAt,
+    notes: [
+      'Stellar Symphony source explicitly binds flat Concerto recovery to a Liberation cast with a 20-second trigger cooldown.',
+      'The shared resource primitive reads canonical rank amounts, distinguishes Concerto from Resonance Energy and requires known initial cooldown state plus owned ordered casts.',
+      'No resource pool, cap, ER scaling or profile timeline is inferred; the exact profile dependency remains pending.',
+    ],
+  },
   {
     pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponPendingId,
     status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',

@@ -51,4 +51,5 @@ After these safe audit findings, continue source-valid horizontal Character/data
 
 ## Implemented on the overnight branch
 
+- A06: `resolveVerifiedProfileSelection` now owns the existing six-row VERIFIED check and exact default-weapon lookup for both personal and team adapters. Personal DPS still requires an ENGINE_MODELED rotation; SOURCE_SEQUENCE_ONLY support identity remains selectable without gaining executable timing. Focused regressions cover unverified support package rows and a removed default weapon option.
 - A04: the unchanged V9.15 team/mixed-ATK/Wan Light inputs now live in immutable `characters/augustaParityTeamContext.ts`, explicitly labeled historical and bound to the existing team ID. `AugustaStandardContext.parityTeam` is required; missing/retargeted contexts fail before damage evaluation. The existing owned-build team gate shares this identity. No scalar correction, current-team promotion or new UI behavior is included. Existing exact parity and handoff tests plus replacement/mutation regressions passed (17 targeted tests); strict build passed. Complete runtime-group CI evidence is recorded in PR #190 and Handoff.

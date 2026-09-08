@@ -39,6 +39,10 @@ Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; C
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
 
+### Source-bound Character Outro transfers
+
+PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
+
 ### Flat resource recovery after a cast
 
 Unmerged PR #190 adds `weapon-cast-flat-resource-v1` for 17 existing source-verified weapon effects: seven Concerto Energy and ten Resonance Energy effects, spanning all five weapon types. Every included source defines a Skill/Liberation cast, flat SELF amount, no additional conditions and an explicit 20-second trigger cooldown. Current recommendation options include these weapons for Augusta, Shorekeeper, Taoqi and Youhu; no recommendation changes or new DPS approvals follow.

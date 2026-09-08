@@ -59,6 +59,10 @@ test('batch export preserves canonical identities, source provenance and relatio
   assert.equal(db.mechanicsFacts.length, CHARACTER_MECHANIC_FACTS.length);
   assert.equal(db.profiles.presets.length, PROFILE_CATALOGS.presets.length);
   const facts = new Map(db.mechanicsFacts.map((fact) => [fact.factId, fact]));
+  for (const support of db.outroTransferSupport) {
+    assert.equal(facts.get(support.factId)?.characterId, support.characterId);
+    assert.equal(support.scope, 'EXPLICIT_OUTRO_TRANSFER_ONLY');
+  }
   for (const character of db.characters) {
     for (const id of character.mechanics?.factIds ?? []) assert.equal(facts.get(id)?.characterId, character.id);
     const source = CHARACTER_CATALOG.find((row) => row.id === character.id)!;

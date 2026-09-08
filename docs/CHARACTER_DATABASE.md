@@ -28,6 +28,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
+| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Available on unmerged PR #190; not yet deployed on main. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
 
@@ -36,6 +37,10 @@ Resolve a Character's preset IDs through `character.readiness.presetIds`, then j
 The export currently contains 57 released Characters, 54 verified mechanics profiles and the existing two DPS-ready Characters. It introduces no new source facts or DPS approvals. Raw lower skill levels and S3–S6 are retained as source data; active product scope remains S0/S1/S2 and max skills, with quickswap deferred.
 
 ## Reuse when building Character engines
+
+On PR #190 the additive `gear` section lets every existing profile's weapon options, main Echo and Sonata IDs resolve in this same file. Join `weaponEffects.weaponId`, `echoEffects.echoId`, `echoAttacks.echoId` and `sonataEffects.sonataSetId` to their identity catalogs. The raw weapon `effectIds` placeholder is preserved verbatim; use the separate effect rows for this relation.
+
+`weaponEffectCoverage` reuses the existing source audit, `echoSkillSourceReview` and `echoSkillPendingAdapterFacts` preserve the reviewed Echo boundary, and `sonataSourceReviews` retain each activation's disposition. Missing attack/effect rows never mean zero damage or no passive. `AUDITED_EFFECTS` describes weapon passive source coverage only; it does not settle disputed core stats, make a pending model executable, or select uptime. In particular the canonical Abyss Surges 587 value is exported unchanged while its parked 587/588 provider conflict remains unresolved. No new source facts, copied numeric tables, source refresh or UI implementation are introduced.
 
 `readCharacterActionValues(fact, skillLevel)` in `src/characterActionValues.ts` selects exact canonical values for all existing Character action representations. It retains mixed coefficient components and their individual source hit counts. Flat damage stays separate; shared-system damage, unverified facts and legacy scalars without a machine-readable level binding are unavailable. Ambiguous or malformed source representations fail closed.
 

@@ -8,6 +8,46 @@ import { buildCharacterDatabase, serializeCharacterDatabase } from '../src/chara
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { CHARACTER_MECHANIC_FACTS } from '../src/data/characterMechanics.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
+import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../src/data/echoSkillSourceReview.ts';
+import { SONATA_EFFECT_SOURCE_REVIEWS } from '../src/data/sonataEffectSourceReview.ts';
+
+test('every Character profile gear reference resolves in the same exported database', () => {
+  const { profiles, gear } = buildCharacterDatabase();
+  const weapons = new Set(gear.weapons.map((row) => row.id));
+  const echoes = new Set<string>(gear.echoes.map((row) => row.id));
+  const sonatas = new Set<string>(gear.sonatas.map((row) => row.id));
+  for (const profile of profiles.weaponRecommendations) {
+    assert.ok(weapons.has(profile.defaultWeaponId), profile.id);
+    for (const option of profile.options) assert.ok(weapons.has(option.weaponId), profile.id);
+  }
+  for (const profile of profiles.echoLoadouts) {
+    if (profile.mainEchoId) assert.ok(echoes.has(profile.mainEchoId), profile.id);
+    for (const id of profile.sonataSetIds) assert.ok(sonatas.has(id), profile.id);
+  }
+  for (const effect of gear.weaponEffects) assert.ok(weapons.has(effect.weaponId), effect.effectId);
+  for (const effect of gear.echoEffects) assert.ok(echoes.has(effect.echoId), effect.effectId);
+  for (const attack of gear.echoAttacks) assert.ok(echoes.has(attack.echoId), attack.echoId);
+  for (const effect of gear.sonataEffects) assert.ok(sonatas.has(effect.sonataSetId), effect.effectId);
+  for (const echo of gear.echoes) {
+    for (const id of echo.sonataSetIds) assert.ok(sonatas.has(id), echo.id);
+  }
+});
+
+test('gear export preserves raw pending/conflict facts and never treats missing effects as zero', () => {
+  const { gear } = buildCharacterDatabase();
+  assert.deepEqual(new Map(gear.weaponEffects.map((row) => [row.effectId, row])),
+    new Map(WEAPON_EFFECT_CATALOG.map((row) => [row.effectId, row])));
+  assert.ok(gear.weaponEffects.some((row) => row.mechanicsStatus === 'VERIFIED_RAW_PENDING_MODEL'));
+  assert.deepEqual(gear.echoSkillPendingAdapterFacts, ECHO_SKILL_PENDING_ADAPTER_FACTS);
+  assert.deepEqual(gear.sonataSourceReviews, SONATA_EFFECT_SOURCE_REVIEWS);
+  assert.ok(gear.sonataSourceReviews.some((row) => row.status === 'SOURCE_CONFLICT'));
+  assert.equal(gear.weaponEffectCoverage.find((row) => row.weaponId === 'thousandfold-deliverance')?.status,
+    'NOT_RELEASED');
+  assert.equal(gear.weapons.find((row) => row.id === 'thousandfold-deliverance')?.verificationStatus,
+    'PARTIALLY_VERIFIED');
+  assert.ok(gear.echoes.some((echo) => !gear.echoAttacks.some((row) => row.echoId === echo.id)));
+});
 
 test('batch export preserves canonical identities, source provenance and relational references', () => {
   const db = buildCharacterDatabase();
@@ -64,6 +104,10 @@ test('a client editing its database copy cannot mutate canonical data or the nex
   db.characters[0].level90.hp = -123;
   db.mechanicsFacts[0].name = 'client edit';
   db.profiles.presets[0].name = 'client preset edit';
+  db.gear.weapons[0].level90BaseAtk = -123;
+  db.gear.weaponEffects[0].statOrEffect = 'client effect edit';
+  (db.gear.echoEffects[0].provenance.sourceLabels as string[]).push('client provenance edit');
+  (db.gear.echoSkillPendingAdapterFacts[0] as { reason: string }).reason = 'client pending edit';
   assert.equal(serializeCharacterDatabase(), before);
 });
 

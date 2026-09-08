@@ -7,6 +7,16 @@ import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './d
 import { CHARACTER_MECHANICS_SOURCE_BLOCKERS } from './data/characterMechanicsSourceReview.ts';
 import { PROFILE_CATALOGS } from './data/profileCatalogs.ts';
 import { PROFILE_BACKWARD_IMPACT_REVIEWS_V36 } from './data/profileBackwardImpactReviewCatalog.ts';
+import { WEAPON_CATALOG } from './data/weapons.ts';
+import { WEAPON_EFFECT_CATALOG } from './data/weaponEffectCatalog.ts';
+import { getWeaponEffectCoverageStatus } from './data/weaponEffectAudit.ts';
+import { ECHO_CATALOG } from './data/echoes.ts';
+import { ECHO_EFFECT_MODELS } from './data/echoEffects.ts';
+import { ECHO_ATTACK_PROFILES } from './data/echoAttacks.ts';
+import { ECHO_SKILL_SOURCE_REVIEW_V36, ECHO_SKILL_PENDING_ADAPTER_FACTS } from './data/echoSkillSourceReview.ts';
+import { SONATA_CATALOG } from './data/sonatas.ts';
+import { SONATA_EFFECT_MODELS } from './data/sonataEffects.ts';
+import { SONATA_EFFECT_SOURCE_REVIEWS } from './data/sonataEffectSourceReview.ts';
 import { buildReferenceTeam01ExecutionContext } from './data/referenceTeam01ExecutionContext.ts';
 import { assertProfileReadinessAudit } from './profileReadinessRegistry.ts';
 
@@ -46,6 +56,24 @@ export function buildCharacterDatabase() {
     actionValuesAtMaxSkill: mechanicsFacts.flatMap((fact) => fact.kind === 'ACTION'
       ? [{ factId: fact.factId, values: readCharacterActionValues(fact, 10) }] : []),
     hitPrimitives: { basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport() },
+    // Gear facts retain their own source/modeling status. Profile selection and
+    // audited source coverage do not authorize conditional effects or uptime.
+    gear: {
+      weapons: byId(WEAPON_CATALOG),
+      weaponEffects: [...WEAPON_EFFECT_CATALOG].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      weaponEffectCoverage: byId(WEAPON_CATALOG).map((weapon) => ({
+        weaponId: weapon.id,
+        status: getWeaponEffectCoverageStatus(weapon.id),
+      })),
+      echoes: byId(ECHO_CATALOG),
+      echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
+      echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,
+      echoSkillPendingAdapterFacts: ECHO_SKILL_PENDING_ADAPTER_FACTS,
+      sonatas: byId(SONATA_CATALOG),
+      sonataEffects: [...SONATA_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      sonataSourceReviews: SONATA_EFFECT_SOURCE_REVIEWS,
+    },
     profiles: {
       presets: byId(PROFILE_CATALOGS.presets),
       weaponRecommendations: byId(PROFILE_CATALOGS.weaponRecommendations),

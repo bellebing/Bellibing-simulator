@@ -2,7 +2,7 @@
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
-Delivery state: **#182/#184–#188 are unmerged and frozen for integration review**. The integration branch preserves exact #188 code/data and adds documentation only; see [integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). No further feature slice is authorized during this review. The export is available in the reviewed build/Export artifact; it is not yet a deployed main feature.
+Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**. Exact main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed post-merge Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). Batch ancestry below is historical; the current overnight pass continues source-valid backend work on one separate branch/draft PR without merge authorization.
 
 ## Use from a separate UI
 
@@ -16,7 +16,7 @@ npm run build
 # dist/data/character-database.json, included in the normal Pages/Export payload
 ```
 
-After a future authorized integration and deployment, fetch `./data/character-database.json` relative to the Bellibing site root. Until then, use the generated build/Export copy. A UI hosted elsewhere can import that copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
+Fetch `./data/character-database.json` relative to the deployed Bellibing site root, or use the generated build/Export copy. A UI hosted elsewhere can import that copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
 
 TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase` from `src/characterDatabase.ts`. Each call returns a detached copy; client-side edits cannot mutate canonical catalogs or subsequent exports.
 
@@ -62,7 +62,7 @@ This boundary evaluates a hit whose occurrence and combat context have already b
 
 ## Batch 2: standard direct-hit families
 
-Stack dependency: draft PR #184 / `codex/character-basic-hit-batch`, verified parent head `86b6263e410b251846065798c456a697516308ce` (which depends on #182). This batch remains unmerged and has no merge authorization.
+Historical stack dependency: PR #184 / `codex/character-basic-hit-batch`, verified parent head `86b6263e410b251846065798c456a697516308ce` (which depends on #182). This payload is integrated through #189.
 
 `characterDirectHitAdapter.ts` extends the same explicit-hit boundary to **492 canonical actions across all 54 verified mechanics profiles**. The original Basic Attack API delegates to the shared implementation and retains its narrower 268-action scope and output contract.
 
@@ -93,7 +93,7 @@ One activation has an independent window. This primitive does not choose recipie
 
 ## Batch 4: shared support stat windows
 
-Stack dependency: draft PR #186 / `codex/weapon-team-amplify-window`, verified parent head `dac0aa15e2e64685eee7830910117e502d09f46e`. This batch remains unmerged.
+Historical stack dependency: PR #186 / `codex/weapon-team-amplify-window`, verified parent head `dac0aa15e2e64685eee7830910117e502d09f46e`. This payload is integrated through #189.
 
 `sharedSupportStatWindows.ts` reuses `incoming-transfer-state-v1` for Static Mist's canonical R1–R5 ATK buff to the actual incoming Resonator after the wielder's Outro. The 14-second source duration is retained. It is neither a SELF nor a TEAM buff, requires no invented incoming Intro prerequisite and adds no early-removal/stack/refresh rule.
 

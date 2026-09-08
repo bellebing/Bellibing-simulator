@@ -1,6 +1,6 @@
 # Bellibing Simulator — Current Project Status
 
-Last reconciled: 2026-09-07
+Last reconciled: 2026-09-08
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 
@@ -20,7 +20,7 @@ Factory v1 through Milestone 05 is integrated on `main` through PR #180.
 
 PR #183 integrated the isolated UI/UX v34 checkpoint after M05. `docs/UI_UX_STATUS.md` owns the new UI interaction contract. Normal builds publish its prototype at `/ui-preview/`; the existing Alpha root and runtime regression routes remain intact. Backend work must preserve both payloads and must not alter the user's UI behavior. The historical UI integration checkpoint is `2a3b16f6122d81a8c2d39ab378e70971d8f1244d`.
 
-The Character backend stack #182/#184–#188 is **unmerged and under one integration review against current main**. Feature stacking stops at #188. The integration branch starts at exact verified #188 head `b78ce325d5b657b380d5f59065ca4ee1b527e347`; its additional changes only reconcile documentation. See [Character backend integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) for ancestry, scope and preserved boundaries. No merge or branch deletion is authorized.
+The Character backend stack #182/#184–#188 is **integrated on main through merged PR #189**. Its normal merge checkpoint is `b16552da92a35a717c179a3801b262d728cbba97`, with prior main `2a3b16f6122d81a8c2d39ab378e70971d8f1244d` and verified integration head `0cfe37eac5942410898b788bd4d2b761c8ae767c` as parents. Post-merge Verify #1085, Export #984 and Deploy #146 passed on that exact commit, including 734 tests, strict build and live browser checks. Published Alpha, `/ui-preview/` and Character database bytes matched the reviewed payload. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md); its earlier candidate state is historical.
 
 ## 2. Milestone 04 exit capability
 
@@ -170,11 +170,15 @@ The current backend slice adds `characterActionValues.ts` and `characterDatabase
 
 No gameplay facts, source approvals, DPS-ready Characters or Reference Team dependencies change. Existing readiness remains 43 profile-complete/pending-freeze, 3 mechanics-source-blocked, 9 profile-source-pending and 2 DPS-ready. Further Factory infrastructure needs a concrete throughput or modeling benefit. A universal gameplay DSL, speculative facts, automatic canonical promotion and UI implementation remain outside this backend slice.
 
-Current backend pass has **no merge authorization**. The user's 2026-09-07 integration-review instruction supersedes the earlier autonomous feature-stacking instruction: stop feature work after #188, leave #182/#184–#188 open, and review their complete payload through one integration PR against current main. #188 remains draft. Do not write directly to main, merge any of these PRs, delete branches or rewrite published history. A future integration merge would require separate authorization and fresh verification; only after that observed merge may the source PRs be closed as superseded.
+The current overnight backend pass has **no merge authorization** and uses one long-lived branch/draft PR from fresh main. The user's new overnight instruction supersedes the earlier stop-after-#188 instruction: reconcile status, audit Reference Team 01 end-to-end with `KEEP`, `SIMPLIFY`, `PARK/DELETE` and `MISSING`, then implement bounded source-valid findings and continue safe backend work on the same branch. Document the audit before implementation. Preserve all six Reference Team blockers without source/execution proof. No direct main writes, branch deletion, history rewrite, UI implementation or guessed gameplay semantics. A completed commit or green CI is not an instruction to stop this authorized pass.
 
-The first dependent batch, `codex/character-basic-hit-batch`, adds explicit ATK Basic Attack hit evaluation for 268 canonical actions across 52 Characters. It builds on verified #182 head `9240cfea5541de739f418e64fa124d4f388b1413` and remains separate/unmerged. Coverage is exposed in `hitPrimitives.basicHits`; hit occurrence and fully assembled combat context remain caller-owned. No rotation, readiness, source blocker or UI behavior changes. See `CHARACTER_DATABASE.md` for the exact family and fail-closed contract.
+## 13. Integrated backend batches — historical implementation sequence
 
-The next stacked batch, `codex/character-direct-hit-families`, builds on verified draft #184 head `86b6263e410b251846065798c456a697516308ce`. It extends shared isolated-hit evaluation to 492 already-verified ordinary-damage actions across 54 Characters, with exact source damage-class and ATK/HP/DEF snapshot binding. Existing Basic Attack compatibility remains intact. No full Character execution/readiness claim follows from hit-primitive coverage; special-system, conditional and unresolved semantics remain excluded. Both backend batches remain unmerged.
+The following branch/parent references record the original review sequence. Every payload below is integrated through #189; intermediate coverage counts describe the point at which each batch was implemented. GitHub automatically marked #182 merged; #184–#188 remain historical open drafts whose payloads are already on main. UPD-172 records full post-merge verification.
+
+The first dependent batch, `codex/character-basic-hit-batch`, added explicit ATK Basic Attack hit evaluation for 268 canonical actions across 52 Characters on verified #182 head `9240cfea5541de739f418e64fa124d4f388b1413`. Coverage is exposed in `hitPrimitives.basicHits`; hit occurrence and fully assembled combat context remain caller-owned. No rotation, readiness, source blocker or UI behavior changes. See `CHARACTER_DATABASE.md` for the exact family and fail-closed contract.
+
+The next stacked batch, `codex/character-direct-hit-families`, built on verified draft #184 head `86b6263e410b251846065798c456a697516308ce`. It extends shared isolated-hit evaluation to 492 already-verified ordinary-damage actions across 54 Characters, with exact source damage-class and ATK/HP/DEF snapshot binding. Existing Basic Attack compatibility remains intact. No full Character execution/readiness claim follows from hit-primitive coverage; special-system, conditional and unresolved semantics remain excluded.
 
 The third stacked batch, `codex/weapon-team-amplify-window`, builds on verified draft #185 head `181a23248482556f7f880a059dc7b9d8c8972394`. It implements the already-reviewed Bloodpact Unbound Flow team-amplification window with caller-proven recipient eligibility and event timing. The BPP execution dependency now has a reusable primitive but stays pending until a verified profile timeline/team state exists. No raw gameplay fact, full DPS approval, Reference Team closure or UI change is introduced. The execution-gap document is reconciled to the actual 19-profile/83-edge registry; final CI/head evidence belongs in the PR and Handoff.
 

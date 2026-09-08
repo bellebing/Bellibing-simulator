@@ -70,6 +70,8 @@ test('source amounts are read from canonical text while scope/duration/trigger d
   if (source.kind !== 'PASSIVE') throw new Error('Expected passive');
   assert.equal(resolveCharacterOutroTransferContract({ ...source, effectSummary: source.effectSummary.replace('38%', '39%') })?.amplifications[0].value, 0.39);
   assert.equal(resolveCharacterOutroTransferContract({ ...source, durationSeconds: 15 }), null);
+  assert.equal(resolveCharacterOutroTransferContract({ ...source, maxStacks: 2 }), null);
+  assert.equal(resolveCharacterOutroTransferContract({ ...source, maxStacks: null }), null);
   assert.equal(resolveCharacterOutroTransferContract({ ...source, scope: 'SELF' }), null);
   assert.equal(resolveCharacterOutroTransferContract({ ...source, triggerSummary: 'Unknown trigger' }), null);
   assert.equal(resolveCharacterOutroTransferContract({ ...source, modelingStatus: 'PENDING_INTERPRETATION' }), null);

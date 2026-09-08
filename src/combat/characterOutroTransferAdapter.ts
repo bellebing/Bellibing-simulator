@@ -30,7 +30,7 @@ export function resolveCharacterOutroTransferContract(fact: CharacterMechanicFac
   if (profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)
       || fact.kind !== 'PASSIVE' || fact.verificationStatus !== 'VERIFIED'
       || !['MODEL_READY', 'MODELED'].includes(fact.modelingStatus)
-      || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER') return null;
+      || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER' || fact.maxStacks !== 1) return null;
   const character = CHARACTER_CATALOG.find((row) => row.id === fact.characterId);
   if (fact.triggerSummary !== `${character?.name} casts Outro Skill and the incoming Resonator takes the field.`) return null;
 

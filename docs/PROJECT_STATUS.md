@@ -172,6 +172,8 @@ No gameplay facts, source approvals, DPS-ready Characters or Reference Team depe
 
 The current overnight backend pass has **no merge authorization** and uses one long-lived branch/draft PR from fresh main. The user's new overnight instruction supersedes the earlier stop-after-#188 instruction: reconcile status, audit Reference Team 01 end-to-end with `KEEP`, `SIMPLIFY`, `PARK/DELETE` and `MISSING`, then implement bounded source-valid findings and continue safe backend work on the same branch. Document the audit before implementation. Preserve all six Reference Team blockers without source/execution proof. No direct main writes, branch deletion, history rewrite, UI implementation or guessed gameplay semantics. A completed commit or green CI is not an instruction to stop this authorized pass.
 
+The [current Reference Team architecture audit](REFERENCE_TEAM_01_ARCHITECTURE_AUDIT_20260908.md) records the end-to-end trace before implementation. It preserves the partial source/timeline boundary and identifies three source-neutral changes: isolate the historical Augusta team fixture, share verified profile/default-weapon resolution, and detach resolved team snapshots. The historical `.37` ATK correction and arbitrary-team execution remain parked until current contribution proof exists.
+
 ## 13. Integrated backend batches — historical implementation sequence
 
 The following branch/parent references record the original review sequence. Every payload below is integrated through #189; intermediate coverage counts describe the point at which each batch was implemented. GitHub automatically marked #182 merged; #184–#188 remain historical open drafts whose payloads are already on main. UPD-172 records full post-merge verification.

@@ -155,6 +155,21 @@ if (CONTRACT_ISSUES.length > 0) {
   throw new Error(`Invalid Sonata cast-window contracts: ${CONTRACT_ISSUES.join('; ')}`);
 }
 
+/** Export existing reviewed execution bindings without mirroring numeric facts. */
+export function listSonataCastWindowSupport() {
+  const issues = validateSonataCastWindowContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  return SONATA_CAST_WINDOW_CONTRACTS.map((contract) => {
+    const effect = uniqueEffectById(SONATA_EFFECT_MODELS, contract.effectId)!;
+    return {
+      effectId: effect.effectId, sonataSetId: effect.sonataSetId, pieces: effect.pieces,
+      triggerEvents: [...contract.triggerEvents],
+      primitiveId: SONATA_CAST_WINDOW_SEMANTIC_SPLIT.adapterId,
+      scope: 'EXPLICIT_CAST_EVENT_ONLY' as const,
+    };
+  }).sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0);
+}
+
 export function activateSonataCastWindow(params: {
   readonly effectId: string;
   readonly ownerId: string;

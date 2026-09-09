@@ -6,6 +6,8 @@ import { listCharacterOutroTransferSupport } from './combat/characterOutroTransf
 import { listEchoActiveHitSupport } from './combat/echoActiveHitAdapter.ts';
 import { listWeaponDamageWindowSupport } from './combat/weaponDamageWindowAdapter.ts';
 import { listSonataDamageWindowSupport } from './combat/sonataDamageWindowAdapter.ts';
+import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts';
+import { listSonataCastWindowSupport } from './combat/sonataCastWindowAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -76,6 +78,7 @@ export function buildCharacterDatabase() {
       })),
       weaponResourceCasts: listWeaponResourceCastSupport(),
       weaponDamageWindows: listWeaponDamageWindowSupport(),
+      weaponCastWindows: listWeaponCastWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
@@ -85,6 +88,7 @@ export function buildCharacterDatabase() {
       sonataEffects: [...SONATA_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
       sonataSourceReviews: SONATA_EFFECT_SOURCE_REVIEWS,
       sonataDamageWindows: listSonataDamageWindowSupport(),
+      sonataCastWindows: listSonataCastWindowSupport(),
     },
     profiles: {
       presets: byId(PROFILE_CATALOGS.presets),

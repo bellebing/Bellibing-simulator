@@ -11,6 +11,44 @@ import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../src/data/echoSkillSourceReview.ts';
 import { SONATA_EFFECT_SOURCE_REVIEWS } from '../src/data/sonataEffectSourceReview.ts';
+import { activateWeaponCastWindow, WEAPON_CAST_WINDOW_CONTRACTS } from '../src/combat/weaponCastWindowAdapter.ts';
+import { activateSonataCastWindow, SONATA_CAST_WINDOW_CONTRACTS } from '../src/combat/sonataCastWindowAdapter.ts';
+
+test('exported cast capabilities resolve existing runtime contracts without duplicating numeric facts', () => {
+  const { gear, profiles } = buildCharacterDatabase();
+  assert.equal(gear.weaponCastWindows.length, 34);
+  assert.equal(gear.sonataCastWindows.length, 6);
+  const weaponIds = new Set(gear.weaponCastWindows.map((row) => row.weaponId));
+  assert.equal(profiles.weaponRecommendations.filter((profile) => profile.options.some((option) => weaponIds.has(option.weaponId))).length, 12);
+  for (const support of gear.weaponCastWindows) {
+    const source = gear.weaponEffects.find((effect) => effect.effectId === support.effectId)!;
+    assert.equal(source.weaponId, support.weaponId);
+    assert.equal(Object.hasOwn(support, 'rankValues'), false);
+    assert.equal(Object.hasOwn(support, 'durationSeconds'), false);
+    for (const kind of support.triggerEvents) {
+      const window = activateWeaponCastWindow({ effectId: support.effectId, rank: 1, wielderId: 'fixture-owner', event: { kind, actorId: 'fixture-owner', atSeconds: 3 } })!;
+      assert.equal(window.value, source.rankValues[0]);
+      assert.equal(window.expiresAtSeconds, 3 + source.durationSeconds!);
+    }
+  }
+  for (const support of gear.sonataCastWindows) {
+    const source = gear.sonataEffects.find((effect) => effect.effectId === support.effectId)!;
+    assert.equal(source.sonataSetId, support.sonataSetId);
+    assert.equal(source.pieces, support.pieces);
+    assert.equal(Object.hasOwn(support, 'value'), false);
+    for (const kind of support.triggerEvents) {
+      const window = activateSonataCastWindow({ effectId: support.effectId, ownerId: 'fixture-owner', event: { kind, actorId: 'fixture-owner', atSeconds: 3 } })!;
+      assert.equal(window.value, source.value);
+    }
+  }
+  // Clients cannot mutate execution bindings through exported nested event lists.
+  const originalWeapon = [...WEAPON_CAST_WINDOW_CONTRACTS[0].triggerEvents];
+  const originalSonata = [...SONATA_CAST_WINDOW_CONTRACTS[0].triggerEvents];
+  gear.weaponCastWindows.find((row) => row.effectId === WEAPON_CAST_WINDOW_CONTRACTS[0].effectId)!.triggerEvents.length = 0;
+  gear.sonataCastWindows.find((row) => row.effectId === SONATA_CAST_WINDOW_CONTRACTS[0].effectId)!.triggerEvents.length = 0;
+  assert.deepEqual(WEAPON_CAST_WINDOW_CONTRACTS[0].triggerEvents, originalWeapon);
+  assert.deepEqual(SONATA_CAST_WINDOW_CONTRACTS[0].triggerEvents, originalSonata);
+});
 
 test('every Character profile gear reference resolves in the same exported database', () => {
   const { profiles, gear } = buildCharacterDatabase();

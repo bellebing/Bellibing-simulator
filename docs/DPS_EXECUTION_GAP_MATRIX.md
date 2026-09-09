@@ -26,14 +26,18 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 `src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #190 branch as:
 
-- **36 `UNREVIEWED`**;
+- **31 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **16 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
-- **5 `BLOCKED_SOURCE_CONFLICT`**;
+- **19 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **7 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **36 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through #189 retains its historical 37 unreviewed / 15 primitive-available split until this PR is separately integrated.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **31 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through #189 retains its historical 37 unreviewed / 15 primitive-available split until this PR is separately integrated.
+
+The 2026-09-09 exact-code reconciliation starts from `0cf811f` (36 unreviewed / 16 primitive-available / 5 source-conflict). Three previously UNREVIEWED edges already have callable source-bound primitives: Calcharo's exact Nightmare: Thundering Mephis hit, Denia's Reminiscence: Denia summon/Outro transfer, and Shorekeeper's Stellar Symphony healing-qualified Skill window. Their actual preset equipment and canonical IDs are checked against those adapters. They are now correctly primitive-available/requires-timeline; no implementation is duplicated and none of the three dependencies closes. Voidwing Moth is not Hyvatia and remains outside that transfer proof.
+
+Two Blazing Justice edges move from UNREVIEWED to BLOCKED_SOURCE_CONFLICT using the conflict already recorded in canonical weapon effects and Zani's backward-impact review: Basic Attack versus Liberation as trigger. The registry-local blocker `source-conflict:blazing-justice-trigger` is an identifier for that existing conflict, not a new source determination. All 83 exact IDs and six Reference Team blockers remain open. The queue's actual enum names are `PROFILE_SPECIFIC_EXECUTION` and `BLOCKED_SOURCE_SEMANTICS`; alternate planning labels do not create extra statuses.
 
 Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; Chisa's Rejuvenating Glow dependency has `heal-applied-team-atk-window-v1`. Both consume explicit source-qualified events and recipient/team state. Neither supplies a profile timeline or closes a canonical pending ID. The existing Shorekeeper healing wrapper delegates to the same Rejuvenating implementation with its original Character-specific guard.
 

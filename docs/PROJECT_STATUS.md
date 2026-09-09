@@ -36,6 +36,8 @@ The next PR #190 slice reuses that damage-event boundary for four canonical Sona
 
 The database now also exposes the existing 34 weapon / six Sonata cast-window bindings, including options in 12 Character recommendation profiles. This fills a consumer capability gap without new mechanics: export tests join each binding to its source row and execute its accepted cast events through the existing adapter; nested event-list edits cannot mutate canonical contracts. Readiness and all pending dependencies are unchanged.
 
+Current execution-queue reconciliation on PR #190 finds three existing primitives still mislabeled UNREVIEWED (Calcharo Echo, Denia Echo transfer, Shorekeeper healing Skill window) and two Blazing Justice edges with an already-documented source conflict. The corrected partition is 31 unreviewed / 19 primitive-available / 7 source-conflict / 9 source-semantics / 17 profile-specific, preserving all 83 IDs. This records current source/runtime state without rebuilding adapters or closing any dependency. Earlier 36/16 summaries above are checkpoints.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

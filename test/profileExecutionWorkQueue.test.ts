@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 22);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 27);
   const concerto = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:stellar-symphony:SSY-CONCERTO:resource-event-adapter');
   assert.equal(concerto?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(concerto?.primitiveId, 'weapon-cast-flat-resource-v1');
@@ -157,15 +157,15 @@ test('current 83-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 83,
-    unreviewedEdges: 36,
+    unreviewedEdges: 31,
     semanticallyReviewedImplementationPendingEdges: 0,
-    primitiveAvailableRequiresTimelineEdges: 16,
-    blockedSourceConflictEdges: 5,
+    primitiveAvailableRequiresTimelineEdges: 19,
+    blockedSourceConflictEdges: 7,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 36,
+    actionableSharedEdges: 31,
   });
-  assert.equal(queue.reviewRecordCount, 22);
+  assert.equal(queue.reviewRecordCount, 27);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -241,11 +241,11 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
   assert.equal(sonataTransfer.dependencyCount, 4);
   assert.equal(sonataTransfer.profileCount, 4);
 
-  const fleurdelysActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
-  assert.ok(fleurdelysActive);
-  assert.equal(fleurdelysActive.dependencyCount, 1);
-  assert.equal(fleurdelysActive.profileCount, 1);
-  assert.deepEqual(fleurdelysActive.primitiveIds, ['echo-active-damage-v1']);
+  const echoActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
+  assert.ok(echoActive);
+  assert.equal(echoActive.dependencyCount, 2);
+  assert.equal(echoActive.profileCount, 2);
+  assert.deepEqual(echoActive.primitiveIds, ['echo-active-damage-v1', 'echo-active-explicit-hit-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');
   assert.ok(heron);

@@ -55,7 +55,7 @@ test('exact selected weapon and rank cannot be inferred from the effect or anoth
   for (const rank of [0, 1.5, 6, undefined as never]) {
     assert.throws(() => activateWeaponDamageWindow({ ...activation(), selectedWeapon: { id: 'lux-and-umbra', rank } }), /explicit R1 through R5/);
   }
-  assert.throws(() => activateWeaponDamageWindow({ ...activation(), wielderId: ' ' }), /Explicit weapon owner/);
+  assert.throws(() => activateWeaponDamageWindow({ ...activation(), wielderId: ' ' }), /Explicit effect owner/);
 });
 
 test('the triggering hit is never silently buffed and exact expiration excludes later damage', () => {

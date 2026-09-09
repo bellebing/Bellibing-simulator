@@ -61,6 +61,12 @@ A `SonataEffectModel` is a **source-audited fact record**, not an automatic upti
 
 Rotation, trigger occurrence, stack acquisition, refresh timing, current target state and Character/team execution still belong to later adapters/profiles. A source-reviewed set therefore must not be treated as 100% active by default.
 
+### 2026-09-09 Sonata damage-event windows
+
+Four existing effects now have explicit event execution on PR #190: `S22_3PC_HEAVY_CR`, `S22_3PC_ECHO_CR`, `S29_5PC_ECHO_CR`, `S29_5PC_AERO`. Their canonical source statements and parameters were read from the previously reviewed pinned Fetters file; no new source values were imported. The existing Galbrena and Sigrika loadouts can reuse these facts through the same qualified damage/owner/query boundary as weapon windows. Exact equipped set/piece count is required.
+
+Backward impact: source models, effects, recommendations and existing engines are unchanged. One source-qualified event creates a separate window with source duration; no same-hit benefit or refresh/overlap policy is assumed. Regression tests compose independently scoped weapon amplification and Sonata Echo crit with explicit Echo-hit arithmetic. Flamewing's joint-state Fusion bonus, Luuk's stack lifecycle and all profile dependencies remain outside this implementation. The database exposes canonical-linked support metadata without copying numeric facts.
+
 ### 2026-09-09 Sonata raw-text refresh
 
 Verify #1093 / Export #992 correctly detected live upstream drift in `sonata-35` (Lamp of Nether Road). A comparison of all 34 Sonata English identity/piece-text/parameter projections against the reviewed `5fa70b11` checkpoint found one change: the 5pc description now includes `s` after its duration placeholder. The parameters, activation counts and modeled effect values are unchanged. The exact fetched `8d8cbdee3ff14a0a384102e1771b4af96ac1d69f` Fetters file matches Git blob `b441635dde76ba117eb015ae0eeb43bdabb266e7`.

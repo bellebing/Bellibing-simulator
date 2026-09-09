@@ -37,6 +37,10 @@ test('every Character profile gear reference resolves in the same exported datab
   for (const effect of gear.echoEffects) assert.ok(echoes.has(effect.echoId), effect.effectId);
   for (const attack of gear.echoAttacks) assert.ok(echoes.has(attack.echoId), attack.echoId);
   for (const effect of gear.sonataEffects) assert.ok(sonatas.has(effect.sonataSetId), effect.effectId);
+  for (const support of gear.sonataDamageWindows) {
+    assert.ok(gear.sonataEffects.some((row) => row.effectId === support.effectId && row.sonataSetId === support.sonataSetId && row.pieces === support.pieces));
+    assert.equal(support.scope, 'EXPLICIT_DAMAGE_EVENT_ONLY');
+  }
   for (const echo of gear.echoes) {
     for (const id of echo.sonataSetIds) assert.ok(sonatas.has(id), echo.id);
   }

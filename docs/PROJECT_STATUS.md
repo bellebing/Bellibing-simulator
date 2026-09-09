@@ -32,6 +32,8 @@ PR #190 also provides seven source-bound weapon damage-event windows on four wea
 
 This checkpoint passes 777 tests and strict build locally. Source/backward-impact review: canonical effect identity/trigger/stat, R1–R5 values, duration, SELF scope and single-window boundaries are checked; conditional/cooldown/stack drift is rejected. Tests include exact expiry, explicit damage qualification, owner mismatch, same-timestamp before/after behavior and a synthetic Heavy-event → Echo-hit composition. No raw source facts or existing evaluator call sites changed.
 
+The next PR #190 slice reuses that damage-event boundary for four canonical Sonata windows in existing Galbrena and Sigrika loadouts, with exact selected set/piece count and separate source scopes. No joint-state/stack policy or profile timing is added. The current group passes 783 tests and strict build locally; weapon checkpoint Verify #1095 / Export #994 is green. Exact final-head CI/review evidence stays in PR #190 and Handoff.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

@@ -38,6 +38,8 @@ The database now also exposes the existing 34 weapon / six Sonata cast-window bi
 
 Current execution-queue reconciliation on PR #190 finds three existing primitives still mislabeled UNREVIEWED (Calcharo Echo, Denia Echo transfer, Shorekeeper healing Skill window) and two Blazing Justice edges with an already-documented source conflict. The corrected partition is 31 unreviewed / 19 primitive-available / 7 source-conflict / 9 source-semantics / 17 profile-specific, preserving all 83 IDs. This records current source/runtime state without rebuilding adapters or closing any dependency. Earlier 36/16 summaries above are checkpoints.
 
+Preserved local healing work is now implemented as a shared applied-heal family for Starfield Calibrator and Bloodpact's Pledge, with existing Mornye/Rover Aero consumers. It requires source-qualified actual healing, exact equipment/owner/target/team and query order; source TEAM/SELF scopes and R1–R5 values stay separate. Mornye's existing R1 event output is preserved. This does not resolve Rover's BUG-012 timing, Reference Team overlap or any other pending dependency.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

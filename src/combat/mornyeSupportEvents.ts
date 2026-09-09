@@ -1,5 +1,5 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
-import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
+import { readWeaponHealingWindowFact } from './weaponHealingWindowAdapter.ts';
 
 export type MornyeSupportScope = 'SELF' | 'TEAM' | 'NEARBY_TEAM' | 'ACTIVE_RESONATOR' | 'TARGET';
 
@@ -52,13 +52,9 @@ function assertEventTime(atSeconds: number): void {
 }
 
 function starfieldTeamCritDmgR1() {
-  const effect = WEAPON_EFFECT_CATALOG.find((row) => row.effectId === 'SC-TEAM-CD');
-  if (!effect) throw new Error('Missing Starfield Calibrator effect SC-TEAM-CD');
-  if (effect.weaponId !== 'starfield-calibrator') throw new Error('SC-TEAM-CD weapon id drift');
-  if (effect.effectType !== 'TRIGGERED' || effect.appliesTo !== 'TEAM') throw new Error('SC-TEAM-CD trigger/scope drift');
-  if (effect.trigger !== 'Wielder heals Resonators') throw new Error('SC-TEAM-CD source trigger drift');
+  const effect = readWeaponHealingWindowFact('SC-TEAM-CD', 1);
   if (effect.durationSeconds !== 4) throw new Error('SC-TEAM-CD duration drift');
-  const value = effect.rankValues[0];
+  const value = effect.value;
   if (value !== 0.20) throw new Error('SC-TEAM-CD R1 value drift');
   return { effect, value } as const;
 }
@@ -103,7 +99,7 @@ export function buildMornyeHealTriggeredWindows(params: {
       value: starfield.value,
       unit: 'DECIMAL_MULTIPLIER',
       startedAtSeconds: params.atSeconds,
-      expiresAtSeconds: params.atSeconds + 4,
+      expiresAtSeconds: params.atSeconds + starfield.effect.durationSeconds,
       inputRequired: null,
     },
     {

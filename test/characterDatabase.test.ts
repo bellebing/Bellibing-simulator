@@ -30,6 +30,10 @@ test('every Character profile gear reference resolves in the same exported datab
     assert.ok(gear.weaponEffects.some((row) => row.weaponId === support.weaponId && row.effectId === support.effectId));
     assert.equal(support.primitiveId, 'weapon-cast-flat-resource-v1');
   }
+  for (const support of gear.weaponDamageWindows) {
+    assert.ok(gear.weaponEffects.some((row) => row.weaponId === support.weaponId && row.effectId === support.effectId));
+    assert.equal(support.scope, 'EXPLICIT_DAMAGE_EVENT_ONLY');
+  }
   for (const effect of gear.echoEffects) assert.ok(echoes.has(effect.echoId), effect.effectId);
   for (const attack of gear.echoAttacks) assert.ok(echoes.has(attack.echoId), attack.echoId);
   for (const effect of gear.sonataEffects) assert.ok(sonatas.has(effect.sonataSetId), effect.effectId);

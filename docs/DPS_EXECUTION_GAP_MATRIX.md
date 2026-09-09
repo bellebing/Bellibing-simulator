@@ -39,6 +39,10 @@ Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; C
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
 
+### Weapon windows after explicit damage events
+
+PR #190 adds `weapon-damage-timed-self-window-v1`: seven existing source-verified effects on four weapons, including current Phrolova/Galbrena/Luuk Herssen options. The source trigger classes BASIC, HEAVY and ECHO remain separate from cast events. Exact equipped weapon/rank, owner and actual source-qualified damage are required. A window exposes its source stat/effect; the consumer must prove damage-scope applicability and event ordering. Repeated-window policy, uptime and profile execution are not inferred. This family changes none of the 83 dependency IDs or six Reference Team blockers.
+
 ### Source-bound Character Outro transfers
 
 PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.

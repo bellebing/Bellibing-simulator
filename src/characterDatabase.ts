@@ -4,6 +4,7 @@ import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapte
 import { listWeaponResourceCastSupport } from './combat/weaponResourceCastAdapter.ts';
 import { listCharacterOutroTransferSupport } from './combat/characterOutroTransferAdapter.ts';
 import { listEchoActiveHitSupport } from './combat/echoActiveHitAdapter.ts';
+import { listWeaponDamageWindowSupport } from './combat/weaponDamageWindowAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -73,6 +74,7 @@ export function buildCharacterDatabase() {
         status: getWeaponEffectCoverageStatus(weapon.id),
       })),
       weaponResourceCasts: listWeaponResourceCastSupport(),
+      weaponDamageWindows: listWeaponDamageWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),

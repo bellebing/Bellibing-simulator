@@ -28,6 +28,10 @@ The same PR includes the shared flat-resource-on-cast family for 17 canonical we
 
 The latest PR #190 runtime slice adds explicit component/landed-hit evaluation for the five canonical ACTIVE_CAST Echo attacks, sharing the existing Character hit snapshot validator and damage kernel. `hitPrimitives.echoActiveHits` exposes IDs/tags without duplicating numeric source facts. Rank/identity/context and landed-hit guards preserve the boundary against Intro auto-summons, unknown variants and inferred timelines. Local validation passes 768 tests and strict build; no profile engine/readiness, any of the 83 pending edges, six Reference Team blockers or UI behavior changes. PR #190 remains intentionally draft/open/unmerged.
 
+PR #190 also provides seven source-bound weapon damage-event windows on four weapons, reusable by the existing Phrolova/Galbrena/Luuk Herssen weapon options. Actual damage, exact owner/equipment and same-timestamp ordering are explicit. The database exposes the bindings while canonical effect rows retain numeric facts. No existing engine, recommendation, gameplay fact or readiness changes; all pending dependencies remain open.
+
+This checkpoint passes 777 tests and strict build locally. Source/backward-impact review: canonical effect identity/trigger/stat, R1–R5 values, duration, SELF scope and single-window boundaries are checked; conditional/cooldown/stack drift is rejected. Tests include exact expiry, explicit damage qualification, owner mismatch, same-timestamp before/after behavior and a synthetic Heavy-event → Echo-hit composition. No raw source facts or existing evaluator call sites changed.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

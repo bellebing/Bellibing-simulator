@@ -3,6 +3,7 @@ import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
 import { listWeaponResourceCastSupport } from './combat/weaponResourceCastAdapter.ts';
 import { listCharacterOutroTransferSupport } from './combat/characterOutroTransferAdapter.ts';
+import { listEchoActiveHitSupport } from './combat/echoActiveHitAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -57,7 +58,10 @@ export function buildCharacterDatabase() {
     mechanicsFacts,
     actionValuesAtMaxSkill: mechanicsFacts.flatMap((fact) => fact.kind === 'ACTION'
       ? [{ factId: fact.factId, values: readCharacterActionValues(fact, 10) }] : []),
-    hitPrimitives: { basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport() },
+    hitPrimitives: {
+      basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport(),
+      echoActiveHits: listEchoActiveHitSupport(),
+    },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     // Gear facts retain their own source/modeling status. Profile selection and
     // audited source coverage do not authorize conditional effects or uptime.

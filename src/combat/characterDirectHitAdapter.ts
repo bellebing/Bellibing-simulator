@@ -2,6 +2,7 @@ import { readCharacterActionValues } from '../characterActionValues.ts';
 import type { CharacterActionFact, CharacterMechanicFact } from '../characterMechanicsDomain.ts';
 import { CHARACTER_MECHANIC_FACTS, getCharacterMechanicFact, getCharacterMechanicsProfile } from '../data/characterMechanics.ts';
 import { expectedDamage } from './damageKernel.ts';
+import { assertExplicitHitSnapshot, type ExplicitHitSnapshot } from './explicitHitSnapshot.ts';
 
 export const CHARACTER_DIRECT_HIT_PRIMITIVE_ID = 'character-standard-explicit-hit-v1';
 export const DIRECT_HIT_DAMAGE_CLASSES = ['BASIC', 'HEAVY', 'SKILL', 'LIBERATION', 'INTRO', 'OUTRO'] as const;
@@ -34,17 +35,9 @@ export function listCharacterDirectHitSupport() {
 }
 
 /** Caller-proven, fully assembled values at the hit, tagged by source class/stat. */
-export interface CharacterDirectHitSnapshot {
+export interface CharacterDirectHitSnapshot extends ExplicitHitSnapshot {
   readonly damageClass: DirectHitDamageClass;
   readonly scalingStat: DirectHitScalingStat;
-  readonly totalScalingStat: number;
-  readonly damageBonus: number;
-  readonly amplification: number;
-  readonly critRate: number;
-  readonly critDamage: number;
-  readonly defenseMultiplier: number;
-  readonly resistanceMultiplier: number;
-  readonly damageReduction: number;
 }
 
 export interface CharacterDirectHitInput {
@@ -78,17 +71,9 @@ export function evaluateCharacterDirectHit(input: CharacterDirectHitInput) {
     throw new Error('Landed hit count must be explicit and within the selected source component.');
   }
   const s = input.snapshot;
-  if (!s || [s.totalScalingStat, s.damageBonus, s.amplification, s.critRate, s.critDamage,
-    s.defenseMultiplier, s.resistanceMultiplier, s.damageReduction].some((value) => !Number.isFinite(value))) {
-    throw new Error('Direct hit requires a complete finite combat snapshot.');
-  }
+  assertExplicitHitSnapshot(s, 'Direct hit');
   if (s.scalingStat !== fact.scalingStat || s.damageClass !== fact.damageClass) {
     throw new Error('Combat snapshot must match the canonical scaling stat and source damage class.');
-  }
-  if (s.totalScalingStat <= 0 || s.damageBonus < -1 || s.amplification < -1 || s.critRate < 0 || s.critDamage < 1
-      || s.defenseMultiplier < 0 || s.defenseMultiplier > 1 || s.resistanceMultiplier < 0
-      || s.damageReduction < 0 || s.damageReduction > 1) {
-    throw new Error('Direct hit combat snapshot is outside supported bounds.');
   }
   const motionValue = component.coefficient * input.landedHitCount;
   const damage = expectedDamage({ ...s, scalingStat: s.totalScalingStat, motionValue });

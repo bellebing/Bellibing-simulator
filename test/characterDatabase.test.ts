@@ -63,6 +63,10 @@ test('batch export preserves canonical identities, source provenance and relatio
     assert.equal(facts.get(support.factId)?.characterId, support.characterId);
     assert.equal(support.scope, 'EXPLICIT_OUTRO_TRANSFER_ONLY');
   }
+  for (const support of db.hitPrimitives.echoActiveHits) {
+    assert.ok(db.gear.echoAttacks.some((row) => row.echoId === support.echoId
+      && row.attacks.some((attack) => attack.attackId === support.attackId && attack.trigger === 'ACTIVE_CAST')));
+  }
   for (const character of db.characters) {
     for (const id of character.mechanics?.factIds ?? []) assert.equal(facts.get(id)?.characterId, character.id);
     const source = CHARACTER_CATALOG.find((row) => row.id === character.id)!;

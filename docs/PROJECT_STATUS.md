@@ -26,6 +26,8 @@ Active unmerged work: draft PR #190 / `codex/overnight-backend-2026-09-08` follo
 
 The same PR includes the shared flat-resource-on-cast family for 17 canonical weapon effects, with options in four existing Character profiles. Stellar Symphony's resource edge gains a reusable primitive; the partition is now 36 unreviewed / 16 primitive-available, with all 83 pending IDs preserved. That checkpoint passed 754 tests and Verify #1090 / Export #989. The subsequent Character Outro family reuses five MODEL_READY source facts (Aalto, Changli, Mortefi, Taoqi, Yinlin) through the existing incoming-transfer primitive, preserving seven independent amplification terms and exact recipient expiry. The current group passes 761 local tests and strict build. No new source values, profile dependency closures, readiness promotions or UI semantics are introduced. Exact final Verify/Export and review-head evidence belongs in PR #190 and Handoff.
 
+The latest PR #190 runtime slice adds explicit component/landed-hit evaluation for the five canonical ACTIVE_CAST Echo attacks, sharing the existing Character hit snapshot validator and damage kernel. `hitPrimitives.echoActiveHits` exposes IDs/tags without duplicating numeric source facts. Rank/identity/context and landed-hit guards preserve the boundary against Intro auto-summons, unknown variants and inferred timelines. Local validation passes 768 tests and strict build; no profile engine/readiness, any of the 83 pending edges, six Reference Team blockers or UI behavior changes. PR #190 remains intentionally draft/open/unmerged.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

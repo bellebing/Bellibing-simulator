@@ -61,6 +61,8 @@ Unmerged PR #190 reuses that same primitive for the already-reviewed Adam Smashe
 
 Primitive availability does **not** close a profile dependency until that profile has an executable source-proven cast path.
 
+PR #190 adds `echo-active-explicit-hit-v1` for all five existing exact ACTIVE_CAST facts. It evaluates only the selected component and explicit landed-hit count, using a complete caller-proven ECHO/element/ATK-HP-DEF snapshot and the existing damage kernel. Rank 5 and exact Echo/attack ownership are required. INTRO_AUTO_SUMMON and unproven variants remain excluded. This adds reusable isolated arithmetic, not a cast timeline or dependency closure; the 83 profile edges and six Reference Team blockers are unchanged.
+
 ### Molten Rift cast window
 
 `sonata-cast-timed-self-window-v1` is an explicit source-locked primitive for Molten Rift 5-piece. An executed Resonance Skill cast by the set owner starts a **15-second SELF +30% Fusion DMG** window. The adapter validates the canonical Sonata row and requires a caller timestamp; it does not infer uptime from the set being equipped or parse arbitrary trigger prose.

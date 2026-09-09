@@ -27,6 +27,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `actionValuesAtMaxSkill` | Exact level-10 source coefficient components/hit counts or separately typed flat damage, keyed by `factId`. `UNAVAILABLE` carries a reason and no fabricated zero. |
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
+| `hitPrimitives.echoActiveHits` | Five exact Rank-5 ACTIVE_CAST Echo facts with explicit component/landed-hit evaluation on PR #190. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
 | `outroTransferSupport` | Five source-verified/model-ready Character Outro transfer contracts on PR #190. Explicit handoff and recipient switch history are still required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
 | `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Available on unmerged PR #190; not yet deployed on main. |
@@ -54,6 +55,10 @@ On PR #190 the additive `gear` section lets every existing profile's weapon opti
 `readCharacterActionValues(fact, skillLevel)` in `src/characterActionValues.ts` selects exact canonical values for all existing Character action representations. It retains mixed coefficient components and their individual source hit counts. Flat damage stays separate; shared-system damage, unverified facts and legacy scalars without a machine-readable level binding are unavailable. Ambiguous or malformed source representations fail closed.
 
 `sumCharacterActionCoefficients` is the narrow execution helper for a single damage class and ATK/HP/DEF scaling. Ciaccona now uses it instead of a private curve reader. An engine must still prove the action occurs, which hits connect, resource/state prerequisites, damage rules and timing. The reader neither applies conditional effects nor supplies a rotation, uptime or DPS value. In particular, source values on a `PENDING_INTERPRETATION` fact remain source values only.
+
+`echoActiveHitAdapter.ts` now evaluates the five existing exact ACTIVE_CAST Echo facts through the same numeric snapshot boundary and damage kernel as Character direct hits. Exact Echo ID, attack ID, Rank 5, component index, landed-hit count and a caller-proven snapshot tagged ECHO / source element / ATK, HP or DEF are required. Different components or individual hits can use different explicit snapshots. Zero landed hits is valid; an omitted count never means all hits.
+
+The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
 
 ## Fast path for further Characters
 

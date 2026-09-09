@@ -61,6 +61,12 @@ A `SonataEffectModel` is a **source-audited fact record**, not an automatic upti
 
 Rotation, trigger occurrence, stack acquisition, refresh timing, current target state and Character/team execution still belong to later adapters/profiles. A source-reviewed set therefore must not be treated as 100% active by default.
 
+### 2026-09-09 Sonata raw-text refresh
+
+Verify #1093 / Export #992 correctly detected live upstream drift in `sonata-35` (Lamp of Nether Road). A comparison of all 34 Sonata English identity/piece-text/parameter projections against the reviewed `5fa70b11` checkpoint found one change: the 5pc description now includes `s` after its duration placeholder. The parameters, activation counts and modeled effect values are unchanged. The exact fetched `8d8cbdee3ff14a0a384102e1771b4af96ac1d69f` Fetters file matches Git blob `b441635dde76ba117eb015ae0eeb43bdabb266e7`.
+
+Only this raw description and its own provenance are refreshed; the broader raw snapshot identity is retained. Backward impact: no combat/model, profile, recommendation, pending dependency or readiness change. The existing source-modeled five-second CRIT stack duration is preserved; stack refresh/overlap is not newly authorized. The live raw-coverage gate remains enabled and continues comparing all current upstream fields. No source-conflict exception or gate bypass was added.
+
 ## Echo Skills — source review complete, execution intentionally partial
 
 The roster-wide Echo skill audit uses `DommyMM/wuwabuild/public/Data/Echoes.json` at exact commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f` / Git blob `cca1563ce0491a3de80ac7359344112631329224`.

@@ -7,6 +7,7 @@ import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowA
 import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
 import { WEAPON_RESOURCE_CAST_REVIEW } from './combat/weaponResourceCastAdapter.ts';
 import { SHARED_SUPPORT_STAT_WINDOW_REVIEW } from './combat/sharedSupportStatWindows.ts';
+import { SONATA_TARGET_WINDOW_PRIMITIVE_ID } from './combat/sonataTargetWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
@@ -243,6 +244,16 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  {
+    pendingExecutionId: 'sonata:sonata-11:S11_5PC_SPECTRO:target-stack-timeline-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:explicit-target-attack-window', primitiveId: SONATA_TARGET_WINDOW_PRIMITIVE_ID, reviewedAt: '2026-09-09',
+    notes: [
+      'The canonical S11 Spectro window now consumes an exact source-qualified attack and explicit target state immediately before it.',
+      'The existing Zani Eternal Radiance target view supplies reviewed Heliacal stack equivalence, never the separate Inflict Spectro Frazzle trigger.',
+      'Application history, attack occurrence, ordering and profile timeline remain caller responsibilities. This dependency and every Zani blocker remain open.',
+    ],
+  },
   {
     pendingExecutionId: 'echo:echo-60000885:nightmare-thundering-mephis-active-skill-damage-adapter',
     status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',

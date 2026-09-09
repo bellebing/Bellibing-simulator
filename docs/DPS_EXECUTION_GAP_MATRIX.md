@@ -53,7 +53,13 @@ The same explicit damage-event/query boundary now supports four Sonata windows f
 
 PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
 
-### Weapon windows after applied healing
+### Explicit attacks on source-qualified targets
+
+`sonata-explicit-target-attack-window-v1` implements canonical S11_5PC_SPECTRO and S17_5PC_CR/AERO. It consumes exact selected equipment, owner, actual source-qualified attack/hit, and target state observed at the same time explicitly before the trigger. Zani's existing Heliacal view can supply only the Eternal Radiance stack predicate; it cannot activate S11_5PC_CR, establish incoming Frazzle events or close BUG-015. Windward bindings have current Cartethyia/Rover Aero/Jiyan consumers. Windows remain independent with explicit same-timestamp query ordering.
+
+The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Current queue: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
+
+### Applied-heal window boundary
 
 `weapon-heal-applied-stat-window-v1` supports canonical `SC-TEAM-CD` and `BPP-SKILL` for explicit source-qualified applied ally heals, preserving TEAM versus SELF scope and R1–R5 values. It has existing Mornye/Rover Aero consumers and shares Starfield fact resolution with Mornye's unchanged R1 event output. Exact equipment/owner/target/team, event time and query order remain explicit; the primitive does not prove self-heal/full-HP qualification, heal cadence, repeated-window policy or overlap.
 

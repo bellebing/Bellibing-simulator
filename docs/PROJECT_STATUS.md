@@ -40,6 +40,8 @@ Current execution-queue reconciliation on PR #190 finds three existing primitive
 
 Preserved local healing work is now implemented as a shared applied-heal family for Starfield Calibrator and Bloodpact's Pledge, with existing Mornye/Rover Aero consumers. It requires source-qualified actual healing, exact equipment/owner/target/team and query order; source TEAM/SELF scopes and R1–R5 values stay separate. Mornye's existing R1 event output is preserved. This does not resolve Rover's BUG-012 timing, Reference Team overlap or any other pending dependency.
 
+PR #190 now connects the source-proven Eternal Radiance stack condition to an explicit attack window, sharing target-event boundaries with both Windward Pilgrimage hit windows. Current consumers are Zani/Cartethyia/Rover Aero/Jiyan. All target observations and attack/hit occurrence/order must be supplied explicitly. Zani's Heliacal equivalence applies only to stack counts, never the separate Frazzle-infliction CRIT trigger. The current execution queue is 30 unreviewed / 20 primitive-available / 7 source-conflict / 9 source-semantics / 17 profile-specific, still all 83 pending IDs; older 31/19 counts are the preceding checkpoint. No Character or Reference Team readiness changes.
+
 ## 2. Milestone 04 exit capability
 
 Milestone 04 proves this bounded real chain:

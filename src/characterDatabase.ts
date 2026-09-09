@@ -9,6 +9,7 @@ import { listSonataDamageWindowSupport } from './combat/sonataDamageWindowAdapte
 import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts';
 import { listSonataCastWindowSupport } from './combat/sonataCastWindowAdapter.ts';
 import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdapter.ts';
+import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -90,6 +91,7 @@ export function buildCharacterDatabase() {
       sonataEffects: [...SONATA_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
       sonataSourceReviews: SONATA_EFFECT_SOURCE_REVIEWS,
       sonataDamageWindows: listSonataDamageWindowSupport(),
+      sonataTargetWindows: listSonataTargetWindowSupport(),
       sonataCastWindows: listSonataCastWindowSupport(),
     },
     profiles: {

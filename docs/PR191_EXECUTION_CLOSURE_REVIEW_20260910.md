@@ -8,7 +8,7 @@ Main is the merged/post-merge-verified #190 baseline `c37b3ea5c0833f0483e2da2ac9
 - `31abdf6`: Zhezhi/Lumi isolated Outro bindings; six presets/five Characters, canonical RAW_ONLY and unknown stack metadata preserved. Verify1103/Export1002 passed.
 - `35acaaa`: Lorelei/Nightmare Lampylumen exact attack facts; Cantarella/Zhezhi pending edges gain existing hit capability. Verify1104/Export1003 passed at exact head `35acaaab16c9a21652ed773121e2fbbf70092044`; both downloaded logs show 809/809 tests, zero failures. Full paginated review inspection found zero unresolved threads, with no external AI pass observed.
 
-The current follow-up adds Sentry Construct's two explicit alternative damage facts. All 83 pending IDs, six Reference Team dependencies and readiness 43/3/9/2 remain open/unchanged. The semantic partition becomes **27 unreviewed / 23 primitive-available-needs-timeline / 7 source-conflict / 9 source-semantics / 17 profile-specific**; no edge is removed.
+The follow-ups add Sentry Construct's two explicit alternative damage facts, Roccia/Sanhua isolated Outro bindings, and Voidwing Moth's independent use-to-Outro ATK effect. All 83 pending IDs, six Reference Team dependencies and readiness 43/3/9/2 remain open/unchanged. The semantic partition becomes **26 unreviewed / 24 primitive-available-needs-timeline / 7 source-conflict / 9 source-semantics / 17 profile-specific**; no edge is removed.
 
 ## Remaining Echo cohort review
 
@@ -34,16 +34,16 @@ The current work queue was joined to every owning preset, loadout, team and rota
 | Carlotta | 5 / 3 | Sentry damage, The Last Dance and Frosty Resolve's Glacio window are available; Skill-stack lifecycle and exact rotation denominator remain missing. Variant occurrence and capacitor history still belong to the profile. |
 | Lumi | 5 / 3 | Three equipment primitives and the isolated Outro binding do not resolve Heron evidence conflict or supply resource/state/rotation timing. |
 | Rover Aero | 4 / 2 | Existing Unbound Flow/Fleurdelys ordering is reusable; optional Skyfall Severance, exact total duration and Bloodpact healing overlap remain BUG-012. |
-| Denia Fusion / Tune | 6 / 1; 6 / 0 | Source sequence identifies owners and outgoing recipients, but flexible/cancelled Echo timing, mode/resource state and exact duration remain unproven. |
+| Denia Fusion / Tune | 6 / 1; 6 / 1 | Source sequence identifies owners and outgoing recipients, but flexible/cancelled Echo timing, mode/resource state and exact duration remain unproven. The new Voidwing transfer requires an actual proven use event; an intended swap-cancel alone does not supply it. |
 
-No canonical numeric fact was sourced again for this audit. The 23 available edges remain pending; the six Reference Team blockers, BUG-008/010/012/028/029, other documented conflicts and null Max Energy fields remain untouched. Current detailed generated evidence is saved in `artifacts/pr191-profile-closure-audit.json` in the working checkout.
+No canonical numeric fact was sourced again for this audit. The 24 available edges remain pending; the six Reference Team blockers, BUG-008/010/012/028/029, other documented conflicts and null Max Energy fields remain untouched. Current detailed generated evidence is saved in `artifacts/pr191-profile-closure-audit.json` in the working checkout.
 
 ## Next queue ranking
 
 The next implemented slice reuses the same isolated-transfer contract for Roccia (two presets/two Characters) and Sanhua (one). Their combined three additional consumers bring the four new Outro owners to nine presets/eight Characters. Existing canonical numeric facts and unknown stacks are unchanged. Sanhua's exact Silversnow wording is reviewed against [current game text](https://wuthering.wiki/character_1102.html), which states Basic Attack amplification; no generic Deepen alias is introduced. Wrong scope/owner/provenance, repeated activation, expiry, switch-out and explicit Basic-hit consumption are tested. Brant's PENDING_INTERPRETATION fact remains excluded.
 
 1. Profile closure remains the goal; the audit above found no complete current event/duration proof. Do not manufacture a recipe merely because an equipment primitive now exists.
-2. A separate Voidwing use-to-Outro effect could shorten Denia Tune's graph if its exact arm condition is established; its attack damage remains parked independently.
+2. Implemented: Voidwing's separately stated use-to-Outro ATK effect reuses the existing transfer primitive with an exact use event (not the Denia/Hyvatia summon event). The Rank-5 source row owns the amount and both windows; the adapter requires rank, absence of a previous active transfer and explicit tied-event order. No damage/Intro prerequisite, early removal, refresh or profile timeline is added. Denia Tune's exact transfer edge remains pending but now has capability support. Database capability references expose this boundary without duplicating source values. Its damage scaling/variant execution stays parked independently.
 3. Sonata S03/S10 need a bounded lifecycle review. Canonical values/caps/durations are present, but do not settle at-cap refresh or shared versus independent expiry. S03 also needs trigger-category independence resolved; do not implement a generic two-stack counter from prose alone. No Sonata fact changes here.
 4. Action-resource evidence stays feasibility-first. The inspected Sanhua game-data page separates displayed Skill Concerto Regen from damage-entry Resonance/Concerto columns. This does not establish cast versus hit yield or ER interaction. No resource ingestion or automatic yield mapping is warranted by field labels.
 

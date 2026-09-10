@@ -12,9 +12,9 @@ import {
 const registry = createEchoEffectRegistry(ECHO_EFFECT_MODELS);
 
 test('Echo effect catalog contains the source-safe modeled roster slice', () => {
-  assert.equal(ECHO_EFFECT_MODELS.length, 65);
-  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 39);
-  assert.equal(registry.byId.size, 65);
+  assert.equal(ECHO_EFFECT_MODELS.length, 66);
+  assert.equal(new Set(ECHO_EFFECT_MODELS.map((row) => row.echoId)).size, 40);
+  assert.equal(registry.byId.size, 66);
 });
 
 test('Fallacy stores wielder ER and team ATK once, independent of support character', () => {

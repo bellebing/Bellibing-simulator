@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 31);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 32);
   const concerto = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:stellar-symphony:SSY-CONCERTO:resource-event-adapter');
   assert.equal(concerto?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(concerto?.primitiveId, 'weapon-cast-flat-resource-v1');
@@ -157,15 +157,15 @@ test('current 83-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 83,
-    unreviewedEdges: 27,
+    unreviewedEdges: 26,
     semanticallyReviewedImplementationPendingEdges: 0,
-    primitiveAvailableRequiresTimelineEdges: 23,
+    primitiveAvailableRequiresTimelineEdges: 24,
     blockedSourceConflictEdges: 7,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 27,
+    actionableSharedEdges: 26,
   });
-  assert.equal(queue.reviewRecordCount, 31);
+  assert.equal(queue.reviewRecordCount, 32);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges

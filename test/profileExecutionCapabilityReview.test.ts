@@ -13,6 +13,7 @@ test('reconciled execution edges bind existing profile equipment to actual calla
   const bindings = [
     ['calcharo-standard', 'echo:echo-60000885:nightmare-thundering-mephis-active-skill-damage-adapter', 'echo-active-explicit-hit-v1'],
     ['denia-fusion-burst-aemeath', 'echo:echo-60002005:reminiscence-denia-outro-transfer-adapter', 'echo-transfer-window-v1'],
+    ['denia-tune-strain-luuk', 'echo:echo-60001985:voidwing-moth-outro-transfer-adapter', 'echo-transfer-window-v1'],
     ['shorekeeper-augusta-support', 'weapon:stellar-symphony:SSY-TEAM-ATK:healing-skill-team-uptime-adapter', 'shorekeeper-healing-support-team-windows-v1'],
   ];
   for (const [presetId, id, primitiveId] of bindings) {
@@ -43,7 +44,7 @@ test('reconciled execution edges bind existing profile equipment to actual calla
   assert.equal(healing.effectId, 'SSY-TEAM-ATK');
   assert.equal(healing.expiresAtSeconds, 32);
   assert.deepEqual(queue.edges.map((row) => row.pendingExecutionId).sort(), buildProfileAdapterDependencyMatrix().edges.map((row) => row.pendingExecutionId).sort());
-  assert.equal(queue.edges.find((row) => row.pendingExecutionId === 'echo:echo-60001985:voidwing-moth-outro-transfer-adapter')?.semanticStatus, 'UNREVIEWED');
+  assert.equal(queue.edges.find((row) => row.pendingExecutionId === 'echo:echo-60001985:voidwing-moth-active-skill-damage-adapter')?.semanticStatus, 'UNREVIEWED');
 });
 
 test('Blazing Justice reviewed trigger conflict remains blocked instead of resembling a safe unreviewed cast family', () => {

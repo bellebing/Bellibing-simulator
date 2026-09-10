@@ -100,13 +100,14 @@ Current source coverage:
 
 ### Echo Effects — current executable/source-safe slice
 
-`src/data/echoEffects.ts` now contains **65 modeled non-damage effect rows across 39 Echoes** on unmerged PR #190. Main through #189 has 63 rows / 37 Echoes; its Fleurdelys restriction is already implemented.
+`src/data/echoEffects.ts` now contains **66 modeled non-damage effect rows across 40 Echoes** on PR #191. Main through merged #190 has 65 rows / 39 Echoes. The new row is Voidwing Moth's source-reviewed Rank-5 use-to-Outro ATK transfer; its press/hold damage remains unmodeled.
 
 The expansion is deliberately conservative:
 
 - source-explicit permanent main-slot bonuses are modeled where their behavior is stable;
 - four clear permanent main-slot facts that exist only in rendered English skill text are also modeled: Hecate Coordinated Attack DMG +40%, Nameless Explorer Echo Skill DMG +20%, Nightmare: Hecate Echo Skill DMG +20%, and Nightmare: Lampylumen Myriad Coordinated Attack DMG +30%;
 - the existing Fallacy cast buffs and Denia/Hyvatia transfer-window effects remain trigger-aware and are not converted to automatic uptime;
+- Voidwing Moth reuses the transfer core with an exact `ECHO_SKILL_USE` arm event, Rank 5, caller-proven absence of an earlier active transfer and explicit same-time Echo/Outro order. Its canonical ATK amount and two durations are read from the effect row. It gains no fabricated damage/Intro prerequisite or early switch-out removal. `gear.echoTransferWindows` exposes capability references for all three distinct transfer contracts;
 - The False Sovereign and Thousand-Puppet Pavilion retain `ALREADY_MODELED_UPSTREAM` protection so existing parity paths do not double count them.
 
 Source-explicit facts that the current effect domain cannot represent safely remain pending rather than being flattened:

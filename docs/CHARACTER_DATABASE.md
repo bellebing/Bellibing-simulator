@@ -33,6 +33,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `outroTransferSupport` | Nine canonical Character Outro contracts: five integrated through #190 and four reviewed single-activation bindings on #191. Explicit handoff, recipient history and the declared stack policy are required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
 | `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #190. |
+| `gear.echoTransferWindows` | Existing Denia/Hyvatia summon contracts and the new Rank-5 Voidwing use-to-Outro contract, with exact arm kind, rank and caller-state requirements. Values stay in `gear.echoEffects`; no profile timing or activation is inferred. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
 

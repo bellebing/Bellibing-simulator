@@ -2,7 +2,7 @@
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
-Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**. Exact main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed post-merge Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). Batch ancestry below is historical; the current overnight pass continues source-valid backend work on one separate branch/draft PR without merge authorization.
+Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**. Exact main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed post-merge Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). Batch ancestry below is historical; PR #190 is now frozen for integration review; the next feature lane is a recommendation only, outside this PR.
 
 ## Use from a separate UI
 
@@ -77,6 +77,8 @@ On PR #190 the additive `gear` section lets every existing profile's weapon opti
 The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
 
 ## Fast path for further Characters
+
+Current measured coverage and the next-lane ranking are in the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md). **Source once → canonical once → reuse many:** use an unchanged reviewed fact locally by ID while its provenance and source audits remain valid. Reopen external review only for changed/missing provenance, an uncovered semantic or a conflict. A new Character still needs its own occurrence, state, timing and team proof; this is separate from re-verifying the same effect value.
 
 1. Reuse current canonical data and the existing profile/mechanics import and review tools. Do not retranscribe verified rows.
 2. Review new material by shared fact/mechanic family; add source-valid records to the owning catalogs. Preserve missing/disputed fields explicitly.

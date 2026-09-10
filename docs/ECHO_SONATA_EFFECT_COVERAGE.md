@@ -1,5 +1,7 @@
 # Echo / Sonata effect coverage inventory
 
+PR #190 feature scope is frozen. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
+
 PR #190 adds `sonata-explicit-target-attack-window-v1` for existing source-reviewed S11_5PC_SPECTRO and S17_5PC_CR/AERO. Exact equipment and an actual source-qualified attack/hit require target state observed at the event time explicitly before the trigger. Existing Zani Heliacal equivalence is accepted only for Eternal Radiance stack counts, never S11_5PC_CR infliction. Values, source review totals and source statuses are unchanged; capability metadata joins canonical effects through `gear.sonataTargetWindows`. Zani's target-stack edge remains pending with primitive availability; no profile/Reference Team timeline is created.
 
 This document starts **after** the Version 3.6 raw Echo/Sonata roster audit. Raw identity/catalog coverage and combat-effect coverage remain separate layers.
@@ -21,7 +23,7 @@ Current source-reviewed Version 3.6 raw coverage:
 
 ## Sonata Effects — source review complete, execution intentionally partial
 
-The current pinned/current source checkpoint is DommyMM/wuwabuild commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f`. Upstream `main` was reverified at the same commit before this review.
+The roster-wide source-review checkpoint was DommyMM/wuwabuild commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f`; that is historical provenance, not a claim about current upstream main. PR #190 subsequently reconciled the unchanged-value Sonata-35 raw duration-unit text against `8d8cbdee3ff14a0a384102e1771b4af96ac1d69f`. The source audits remain authoritative for current raw parity.
 
 Current roster-wide Sonata effect coverage:
 

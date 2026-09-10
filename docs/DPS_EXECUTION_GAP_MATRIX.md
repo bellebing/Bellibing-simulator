@@ -55,6 +55,8 @@ The same explicit damage-event/query boundary now supports four Sonata windows f
 
 ### Source-bound Character Outro transfers
 
+The new reuse-first lane additionally binds Zhezhi and Lumi for one explicit isolated activation only. Their two VERIFIED/RAW_ONLY facts retain unknown stack metadata. Caller-proven absence of an earlier active activation and explicit activation/query and recipient-switch/query order are required; the existing incoming-transfer lifecycle preserves separate source terms, duration and switch-out termination. Six presets across five Characters discover these shared bindings without gaining rotation execution. Repeated-activation/refresh semantics, all 83 execution IDs and all six Reference Team blockers remain open.
+
 PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
 
 ### Explicit attacks on source-qualified targets

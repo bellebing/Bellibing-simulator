@@ -3,22 +3,25 @@ import test from 'node:test';
 import { buildCharacterDatabase } from '../src/characterDatabase.ts';
 import { getCharacterMechanicFact } from '../src/data/characterMechanics.ts';
 import { buildProfileExecutionWorkQueue } from '../src/profileExecutionWorkQueue.ts';
+import { evaluateCharacterBasicHit, listCharacterBasicHitSupport } from '../src/combat/characterBasicHitAdapter.ts';
 import { activateCharacterOutroTransfers, activeCharacterOutroAmplifications, listCharacterOutroTransferSupport,
   resolveCharacterOutroSingleActivationContract, resolveCharacterOutroTransferContract } from '../src/combat/characterOutroTransferAdapter.ts';
 
-const facts = ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting'];
+const facts = ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow'];
 const event = (actorId: string, atSeconds = 2, incomingResonatorId = 'carlotta') => ({ kind: 'OUTRO_SWITCH' as const,
   actorId, atSeconds, incomingResonatorId, incomingEntry: 'DIRECT_SWITCH' as const });
 const ordering = { sameTimestampOrder: 'AFTER_TRIGGER' as const };
 const activate = (factId: string, atSeconds = 2, recipient = 'carlotta') => activateCharacterOutroTransfers({ factId,
   event: event(getCharacterMechanicFact(factId)!.characterId, atSeconds, recipient), priorActivationState: 'NONE_ACTIVE' });
 
-test('two reviewed canonical Outro facts retain RAW_ONLY and unknown maxStacks while exposing three independent terms', () => {
+test('four reviewed canonical Outro facts retain RAW_ONLY and unknown maxStacks while exposing six independent terms', () => {
   const support = listCharacterOutroTransferSupport().filter((row) => row.stackPolicy);
-  assert.equal(listCharacterOutroTransferSupport().length, 7);
+  assert.equal(listCharacterOutroTransferSupport().length, 9);
   assert.deepEqual(support.map((row) => row.factId), [...facts].sort());
   assert.deepEqual(support.map((row) => [row.durationSeconds, row.amplifications]), [
     [10, [{ statOrEffect: 'Resonance Skill DMG Amplification', value: .38 }]],
+    [14, [{ statOrEffect: 'Havoc DMG Amplification', value: .20 }, { statOrEffect: 'Basic Attack DMG Amplification', value: .25 }]],
+    [14, [{ statOrEffect: 'Basic Attack DMG Amplification', value: .38 }]],
     [14, [{ statOrEffect: 'Glacio DMG Amplification', value: .20 }, { statOrEffect: 'Resonance Skill DMG Amplification', value: .25 }]],
   ]);
   for (const row of support) {
@@ -34,7 +37,7 @@ test('two reviewed canonical Outro facts retain RAW_ONLY and unknown maxStacks w
   }
 });
 
-test('canonical transfer ownership duration and incoming-recipient lifecycle hold for both bindings', () => {
+test('canonical transfer ownership duration and incoming-recipient lifecycle hold for every binding', () => {
   for (const id of facts) {
     const windows = activate(id);
     const source = getCharacterMechanicFact(id)!;
@@ -88,7 +91,7 @@ test('same-timestamp activation and recipient switch-out queries require explici
 test('source ownership status provenance and semantic-shape drift cannot grant a binding', () => {
   for (const id of facts) {
     const source = getCharacterMechanicFact(id)!;
-    for (const patch of [{ characterId: 'sanhua' }, { factId: 'other' }, { scope: 'TEAM' }, { triggerSummary: 'Cast Skill' },
+    for (const patch of [{ characterId: 'wrong-owner' }, { factId: 'other' }, { scope: 'TEAM' }, { triggerSummary: 'Cast Skill' },
       { effectSummary: source.effectSummary + ' Stacks up to twice.' }, { modelingStatus: 'MODEL_READY' },
       { maxStacks: 1 }, { maxStacks: undefined }, { durationSeconds: null }, { durationSeconds: Number.NaN },
       { verificationStatus: 'PENDING' }, { provenance: { ...source.provenance, checkedAt: 'CHANGED' } },
@@ -105,16 +108,49 @@ test('source amounts are selected from canonical representations rather than a s
   if (lumi.kind !== 'PASSIVE') throw Error('Expected passive');
   assert.equal(resolveCharacterOutroSingleActivationContract({ ...lumi, effectSummary: lumi.effectSummary.replace('38%', '39%') })?.amplifications[0].value, .39);
   assert.equal(resolveCharacterOutroSingleActivationContract({ ...lumi, durationSeconds: 11 }), null, 'duration/text must agree');
-  assert.equal(resolveCharacterOutroSingleActivationContract(getCharacterMechanicFact('sanhua-outro-silversnow')!), null);
+  assert.equal(resolveCharacterOutroSingleActivationContract(getCharacterMechanicFact('brant-outro-the-course-is-set')!), null);
 });
 
-test('six current presets across five Characters discover one canonical binding per outgoing teammate without readiness changes', () => {
+test('Roccia scopes cannot inherit Zhezhi semantics and Sanhua Deepen is a fact-specific reviewed alias', () => {
+  const roccia = getCharacterMechanicFact('roccia-outro-applause-please')!;
+  const sanhua = getCharacterMechanicFact('sanhua-outro-silversnow')!;
+  if (roccia.kind !== 'PASSIVE' || sanhua.kind !== 'PASSIVE') throw Error('Expected canonical passives');
+  for (const effectSummary of [roccia.effectSummary.replace('Havoc', 'Glacio'), roccia.effectSummary.replace('Basic Attack', 'Resonance Skill')]) {
+    assert.equal(resolveCharacterOutroSingleActivationContract({ ...roccia, effectSummary }), null);
+  }
+  assert.deepEqual(resolveCharacterOutroSingleActivationContract(sanhua)?.amplifications,
+    [{ statOrEffect: 'Basic Attack DMG Amplification', value: .38 }]);
+  assert.equal(resolveCharacterOutroSingleActivationContract({ ...sanhua, effectSummary: sanhua.effectSummary.replace('Deepen', 'Bonus') }), null);
+  assert.equal(resolveCharacterOutroSingleActivationContract({ ...sanhua, effectSummary: sanhua.effectSummary.replace('38%', '39%') })?.amplifications[0].value, .39);
+  assert.equal(resolveCharacterOutroSingleActivationContract({ ...sanhua, durationSeconds: 15 }), null);
+  assert.equal(sanhua.effectSummary.includes('Deepen'), true, 'canonical wording is retained');
+  assert.equal(resolveCharacterOutroSingleActivationContract({ ...sanhua, characterId: 'brant', factId: 'brant-outro-the-course-is-set' }), null);
+});
+
+test('Roccia and Sanhua Basic terms can feed a caller-proven Basic hit without combining different damage scopes', () => {
+  const support = listCharacterBasicHitSupport().find((s) => s.characterId === 'rover-havoc')!;
+  assert.ok(support);
+  const hit = (amplification: number) => evaluateCharacterBasicHit({ characterId: support.characterId, factId: support.factId,
+    sequence: 0, maxSkills: true, componentIndex: 0, landedHitCount: 1,
+    snapshot: { totalAttack: 1000, damageBonus: 0, amplification, critRate: 0, critDamage: 1.5,
+      defenseMultiplier: 1, resistanceMultiplier: 1, damageReduction: 0 } });
+  for (const id of ['roccia-outro-applause-please', 'sanhua-outro-silversnow']) {
+    const windows = activate(id, 2, 'rover-havoc');
+    const terms = activeCharacterOutroAmplifications(windows, 'rover-havoc', 3, [], ordering);
+    const basic = terms.find((t) => t.statOrEffect === 'Basic Attack DMG Amplification')!;
+    assert.ok(basic);
+    assert.equal(hit(basic.value).expectedDamage, hit(0).expectedDamage * (1 + basic.value));
+    if (id.startsWith('roccia')) assert.equal(terms.filter((t) => t.statOrEffect === 'Havoc DMG Amplification').length, 1);
+  }
+});
+
+test('nine current presets across eight Characters discover one canonical binding per outgoing teammate without readiness changes', () => {
   const db = buildCharacterDatabase();
   const bindings = db.outroTransferSupport.filter((row) => row.stackPolicy);
   const owners = new Set(bindings.map((row) => row.characterId));
   const consumers = db.profiles.presets.filter((p) => db.profiles.teams.find((t) => t.id === p.teamProfileId)!.members.some((m) => owners.has(m.characterId)));
-  assert.deepEqual(consumers.map((p) => p.id).sort(), ['carlotta-standard', 'jinhsi-standard-opener', 'lingyang-standard', 'lumi-hybrid', 'zhezhi-empyrean-endgame', 'zhezhi-moonlit-fallback']);
-  assert.equal(new Set(consumers.map((p) => p.characterId)).size, 5);
+  assert.deepEqual(consumers.map((p) => p.id).sort(), ['carlotta-standard', 'jinhsi-standard-opener', 'lingyang-standard', 'lumi-hybrid', 'roccia-standard', 'rover-havoc-standard', 'sanhua-standard', 'zhezhi-empyrean-endgame', 'zhezhi-moonlit-fallback']);
+  assert.equal(new Set(consumers.map((p) => p.characterId)).size, 8);
   for (const preset of consumers) {
     const members = db.profiles.teams.find((t) => t.id === preset.teamProfileId)!.members;
     assert.ok(bindings.some((binding) => members.some((member) => member.characterId === binding.characterId)));

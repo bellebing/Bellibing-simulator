@@ -40,7 +40,9 @@ No canonical numeric fact was sourced again for this audit. The 23 available edg
 
 ## Next queue ranking
 
-1. Existing canonical Outro candidates with the same isolated-transfer contract: Roccia has two presets/two Characters; Sanhua has one. Review exact semantic wording once, retain unknown stacks and explicit recipient/order, and reuse the current adapter. Brant's PENDING_INTERPRETATION fact is not admitted by analogy.
+The next implemented slice reuses the same isolated-transfer contract for Roccia (two presets/two Characters) and Sanhua (one). Their combined three additional consumers bring the four new Outro owners to nine presets/eight Characters. Existing canonical numeric facts and unknown stacks are unchanged. Sanhua's exact Silversnow wording is reviewed against [current game text](https://wuthering.wiki/character_1102.html), which states Basic Attack amplification; no generic Deepen alias is introduced. Wrong scope/owner/provenance, repeated activation, expiry, switch-out and explicit Basic-hit consumption are tested. Brant's PENDING_INTERPRETATION fact remains excluded.
+
+1. Profile closure remains the goal; the audit above found no complete current event/duration proof. Do not manufacture a recipe merely because an equipment primitive now exists.
 2. A separate Voidwing use-to-Outro effect could shorten Denia Tune's graph if its exact arm condition is established; its attack damage remains parked independently.
 3. Sonata S03/S10 need a bounded lifecycle review. Canonical values/caps/durations are present, but do not settle at-cap refresh or shared versus independent expiry. S03 also needs trigger-category independence resolved; do not implement a generic two-stack counter from prose alone. No Sonata fact changes here.
 4. Action-resource evidence stays feasibility-first. The inspected Sanhua game-data page separates displayed Skill Concerto Regen from damage-entry Resonance/Concerto columns. This does not establish cast versus hit yield or ER interaction. No resource ingestion or automatic yield mapping is warranted by field labels.

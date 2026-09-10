@@ -56,8 +56,7 @@ test('all terms end when their recipient switches out and do not reappear on ret
 
 test('raw/pending Outros, periodic resources and a missing switch-out clause are not silently promoted', () => {
   for (const id of [
-    'brant-outro-the-course-is-set',
-    'sanhua-outro-silversnow', 'yangyang-outro-whispering-breeze', 'youhu-outro-timeless-classics',
+    'brant-outro-the-course-is-set', 'yangyang-outro-whispering-breeze', 'youhu-outro-timeless-classics',
   ]) {
     assert.equal(resolveCharacterOutroTransferContract(getCharacterMechanicFact(id)!), null, id);
     assert.throws(() => activateCharacterOutroTransfers({ factId: id, event: event('jiyan') }), /unsupported canonical/);

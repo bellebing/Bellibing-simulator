@@ -1,5 +1,9 @@
 # Echo / Sonata effect coverage inventory
 
+PR #190 feature scope is frozen. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
+
+PR #190 adds `sonata-explicit-target-attack-window-v1` for existing source-reviewed S11_5PC_SPECTRO and S17_5PC_CR/AERO. Exact equipment and an actual source-qualified attack/hit require target state observed at the event time explicitly before the trigger. Existing Zani Heliacal equivalence is accepted only for Eternal Radiance stack counts, never S11_5PC_CR infliction. Values, source review totals and source statuses are unchanged; capability metadata joins canonical effects through `gear.sonataTargetWindows`. Zani's target-stack edge remains pending with primitive availability; no profile/Reference Team timeline is created.
+
 This document starts **after** the Version 3.6 raw Echo/Sonata roster audit. Raw identity/catalog coverage and combat-effect coverage remain separate layers.
 
 Do not read raw Sonata membership or raw Echo identity as proof that Bellibing can execute the corresponding combat effect.
@@ -19,7 +23,7 @@ Current source-reviewed Version 3.6 raw coverage:
 
 ## Sonata Effects — source review complete, execution intentionally partial
 
-The current pinned/current source checkpoint is DommyMM/wuwabuild commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f`. Upstream `main` was reverified at the same commit before this review.
+The roster-wide source-review checkpoint was DommyMM/wuwabuild commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f`; that is historical provenance, not a claim about current upstream main. PR #190 subsequently reconciled the unchanged-value Sonata-35 raw duration-unit text against `8d8cbdee3ff14a0a384102e1771b4af96ac1d69f`. The source audits remain authoritative for current raw parity.
 
 Current roster-wide Sonata effect coverage:
 
@@ -61,6 +65,18 @@ A `SonataEffectModel` is a **source-audited fact record**, not an automatic upti
 
 Rotation, trigger occurrence, stack acquisition, refresh timing, current target state and Character/team execution still belong to later adapters/profiles. A source-reviewed set therefore must not be treated as 100% active by default.
 
+### 2026-09-09 Sonata damage-event windows
+
+Four existing effects now have explicit event execution on PR #190: `S22_3PC_HEAVY_CR`, `S22_3PC_ECHO_CR`, `S29_5PC_ECHO_CR`, `S29_5PC_AERO`. Their canonical source statements and parameters were read from the previously reviewed pinned Fetters file; no new source values were imported. The existing Galbrena and Sigrika loadouts can reuse these facts through the same qualified damage/owner/query boundary as weapon windows. Exact equipped set/piece count is required.
+
+Backward impact: source models, effects, recommendations and existing engines are unchanged. One source-qualified event creates a separate window with source duration; no same-hit benefit or refresh/overlap policy is assumed. Regression tests compose independently scoped weapon amplification and Sonata Echo crit with explicit Echo-hit arithmetic. Flamewing's joint-state Fusion bonus, Luuk's stack lifecycle and all profile dependencies remain outside this implementation. The database exposes canonical-linked support metadata without copying numeric facts.
+
+### 2026-09-09 Sonata raw-text refresh
+
+Verify #1093 / Export #992 correctly detected live upstream drift in `sonata-35` (Lamp of Nether Road). A comparison of all 34 Sonata English identity/piece-text/parameter projections against the reviewed `5fa70b11` checkpoint found one change: the 5pc description now includes `s` after its duration placeholder. The parameters, activation counts and modeled effect values are unchanged. The exact fetched `8d8cbdee3ff14a0a384102e1771b4af96ac1d69f` Fetters file matches Git blob `b441635dde76ba117eb015ae0eeb43bdabb266e7`.
+
+Only this raw description and its own provenance are refreshed; the broader raw snapshot identity is retained. Backward impact: no combat/model, profile, recommendation, pending dependency or readiness change. The existing source-modeled five-second CRIT stack duration is preserved; stack refresh/overlap is not newly authorized. The live raw-coverage gate remains enabled and continues comparing all current upstream fields. No source-conflict exception or gate bypass was added.
+
 ## Echo Skills — source review complete, execution intentionally partial
 
 The roster-wide Echo skill audit uses `DommyMM/wuwabuild/public/Data/Echoes.json` at exact commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f` / Git blob `cca1563ce0491a3de80ac7359344112631329224`.
@@ -82,7 +98,7 @@ Current source coverage:
 
 ### Echo Effects — current executable/source-safe slice
 
-`src/data/echoEffects.ts` now contains **62 modeled non-damage effect rows across 37 Echoes**.
+`src/data/echoEffects.ts` now contains **65 modeled non-damage effect rows across 39 Echoes** on unmerged PR #190. Main through #189 has 63 rows / 37 Echoes; its Fleurdelys restriction is already implemented.
 
 The expansion is deliberately conservative:
 
@@ -93,24 +109,38 @@ The expansion is deliberately conservative:
 
 Source-explicit facts that the current effect domain cannot represent safely remain pending rather than being flattened:
 
-1. Reminiscence - Nightmare: Adam Smasher — Lucy/Rebecca-only +15% CRIT Rate.
-2. Reminiscence: Fleurdelys — extra +10% Aero DMG for Resonator: Aero or Cartethyia.
-3. Sigillum — Aemeath-only +25% Resonance Liberation DMG.
-4. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot.
-5. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting.
-6. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking.
-7. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope must not be guessed.
+1. Twin Nova: Collapsar Blade — main-slot Electro bonus becomes Spectro when Twin Nova: Nebulous Cannon occupies another slot.
+2. Calamity Effigy — extra +10% Aero DMG for 15s after inflicting Tune Strain - Shifting.
+3. Nightmare: Crownless — its own Echo Skill DMG +20% for 2s after hit, non-stacking.
+4. Nightmare: Mourning Aix — +100% damage against Spectro-Frazzle targets, whose exact affected damage scope must not be guessed.
 
-Those seven facts live in `ECHO_SKILL_PENDING_ADAPTER_FACTS` with explicit adapter-boundary reasons.
+Those four facts live in `ECHO_SKILL_PENDING_ADAPTER_FACTS` with explicit adapter-boundary reasons. The static character-restriction family now covers all three existing structured source rows through `echo-character-restriction-v1`: Fleurdelys (Rover Aero/Cartethyia), Adam Smasher (Lucy/Rebecca +15% CRIT Rate), and Sigillum (Aemeath +25% Liberation bonus).
+
+### 2026-09-08 static restriction migration and backward impact
+
+The Adam Smasher and Sigillum facts were already source-verified pending rows. The same pinned source blob was fetched and hash-verified again; structured conditions, English main-slot text and every rank's parameter agree. They now use the existing `wielderCharacterIds` gate without Character-specific runtime code, new timing or active-attack assumptions. The normal source audit directly binds all three modeled restriction rows to exact source values and condition tokens.
+
+Backward-impact disposition: **IMPACT_FOUND** for static main-Echo resolution of existing `lucy-standard` and `aemeath-standard` presets. Recommendations, stat targets, rankings and rotations remain unchanged because this implements their existing selected equipment. Rebecca is eligible when actually equipping Adam Smasher, but her current `rebecca-standard` preset selects Bell-Borne; no Adam Smasher bonus or recommendation leaks into it. All other roster identities are excluded by regression tests. Replacing the selected Echo removes the bonus without mutating canonical selections.
+
+The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact profile execution edges are unchanged. The six Reference Team blockers are unchanged. Only two Echo fact-level pending migrations close (6 → 4); no full Character/Team DPS approval follows. Adam Smasher active variants and Sigillum active-attack scaling remain outside this static effect slice. Targeted tests, pinned-source audit, all 747 tests and strict build pass; exact branch/CI evidence lives in PR #190 and Handoff.
 
 ### Echo Attacks — exact executable facts only
 
-`src/data/echoAttacks.ts` now has **2 exact Rank-5 attack profiles / 3 attack facts**:
+`src/data/echoAttacks.ts` has **5 exact Rank-5 attack profiles / 6 attack facts**, already integrated through #189:
 
 - The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
 - Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
+- Fallacy of No Return — one 15.86% HP-scaled Spectro normal activation blast; hold/release is excluded.
+- Nightmare: Thundering Mephis — one 405% ATK Electro active hit, 25s cooldown.
+- Reminiscence: Fleurdelys — 27.36% ATK Aero ×8 plus 136.80% ATK Aero ×1, 20s cooldown.
 
 Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
+
+### 2026-09-09 explicit active-hit execution and backward impact
+
+Unmerged PR #190 adds `echo-active-explicit-hit-v1` over the five existing ACTIVE_CAST facts. Exact Echo/attack/Rank-5 identity, coefficient component and landed-hit count are mandatory, together with a caller-proven combat snapshot bound to the source element, scaling stat and ECHO damage scope. The existing ATK/HP/DEF snapshot validator and damage kernel are reused. Canonical numeric facts stay in `echoAttacks.ts`; the Character database exports only support identities/tags alongside those facts.
+
+Backward-impact disposition: no existing profile engine, source fact, readiness status or pending ID changes. Full-component arithmetic agrees with the existing whole-action reader when the test explicitly lands every source hit. Partial/missed hits, separate component snapshots, HP/DEF binding, incomplete input, wrong rank/identity and excluded Intro/hold variants are covered. All 768 tests and strict build pass locally. This cannot resolve BUG-010's missing Fallacy profile variant, infer cast timing or close any Reference Team dependency. Exact remote verification belongs in PR #190 and Handoff.
 
 The other damage descriptions are source-reviewed but are not automatically converted into `EchoAttackProfile` rows. In particular, most rendered source text gives a damage percentage without explicitly stating the scaling stat, and several Echoes have hold/press, counter, summon-duration, loadout, form, target-state or repeated-hit semantics. Bellibing does not silently assume ATK scaling or maximal hit counts.
 

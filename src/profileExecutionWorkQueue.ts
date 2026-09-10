@@ -5,7 +5,9 @@ import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdap
 import { SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT } from './combat/sonataOutroTransferAdapter.ts';
 import { WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT } from './combat/weaponCastWindowAdapter.ts';
 import { WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW } from './combat/weaponTeamAmplifyWindowAdapter.ts';
+import { WEAPON_RESOURCE_CAST_REVIEW } from './combat/weaponResourceCastAdapter.ts';
 import { SHARED_SUPPORT_STAT_WINDOW_REVIEW } from './combat/sharedSupportStatWindows.ts';
+import { SONATA_TARGET_WINDOW_PRIMITIVE_ID } from './combat/sonataTargetWindowAdapter.ts';
 import { WEAPON_SKILL_STACK_SEMANTIC_REVIEW } from './combat/weaponSkillStackSemanticReview.ts';
 import {
   DEFIERS_THORN_DEF_EXECUTION_REVIEW_20260830,
@@ -242,6 +244,67 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  {
+    pendingExecutionId: 'sonata:sonata-11:S11_5PC_SPECTRO:target-stack-timeline-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'sonata:explicit-target-attack-window', primitiveId: SONATA_TARGET_WINDOW_PRIMITIVE_ID, reviewedAt: '2026-09-09',
+    notes: [
+      'The canonical S11 Spectro window now consumes an exact source-qualified attack and explicit target state immediately before it.',
+      'The existing Zani Eternal Radiance target view supplies reviewed Heliacal stack equivalence, never the separate Inflict Spectro Frazzle trigger.',
+      'Application history, attack occurrence, ordering and profile timeline remain caller responsibilities. This dependency and every Zani blocker remain open.',
+    ],
+  },
+  {
+    pendingExecutionId: 'echo:echo-60000885:nightmare-thundering-mephis-active-skill-damage-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'echo:active-cast-exact-damage', primitiveId: 'echo-active-explicit-hit-v1', reviewedAt: '2026-09-09',
+    notes: [
+      'Calcharo selects the canonical Nightmare: Thundering Mephis identity; NIGHTMARE_THUNDERING_MEPHIS_ACTIVE_STRIKE is already an exact Rank-5 ACTIVE_CAST ATK/Electro fact.',
+      'The existing Echo hit primitive requires exact attack/component/landed count and a caller-proven snapshot. No new attack implementation is needed.',
+      'Calcharo cast occurrence, landed hits, context and rotation remain unproven by capability alone; this exact dependency stays pending.',
+    ],
+  },
+  {
+    pendingExecutionId: 'echo:echo-60002005:reminiscence-denia-outro-transfer-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'echo:armed-outro-incoming-transfer', primitiveId: 'echo-transfer-window-v1', reviewedAt: '2026-09-09',
+    notes: [
+      'The existing REMINISCENCE_DENIA_INCOMING_FUSION contract validates the exact summon identity, 15-second arm window, actual Outro recipient and 15-second transfer duration.',
+      'The Denia Fusion profile uses this exact Echo. Its summon/Outro/recipient timeline remains required; no pending ID closes.',
+      'Hyvatia has a separate existing contract and is not Voidwing Moth. The Voidwing Moth dependency remains unreviewed and is not covered by this binding.',
+    ],
+  },
+  {
+    pendingExecutionId: 'weapon:stellar-symphony:SSY-TEAM-ATK:healing-skill-team-uptime-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:healing-skill-team-window', primitiveId: 'shorekeeper-healing-support-team-windows-v1', reviewedAt: '2026-09-09',
+    notes: [
+      'The existing source-bound Shorekeeper adapter consumes a Chaos Theory healing-qualified Skill cast, selected Stellar Symphony rank and explicit team.',
+      'This is the existing healing Skill cast contract, distinct from an applied-heal trigger. The exact profile edge and Reference Team overlap blocker remain pending.',
+    ],
+  },
+  ...['BJ-DEF', 'BJ-FRAZZLE'].map((effectId): ExecutionSemanticReview => ({
+    pendingExecutionId: `weapon:blazing-justice:${effectId}:trigger-uptime-adapter`,
+    status: 'BLOCKED_SOURCE_CONFLICT', actionKey: 'weapon:blazing-justice-trigger-conflict',
+    blockerId: 'source-conflict:blazing-justice-trigger', reviewedAt: '2026-09-09',
+    notes: [
+      'The canonical weapon effect and profileZaniExecutionImpact20260831 already record conflicting Basic Attack versus Resonance Liberation triggers.',
+      'Magnitude/duration remain source-backed, but mechanicsStatus is VERIFIED_RAW_PENDING_MODEL. Neither cast nor damage-window execution may select a trigger winner.',
+      'This registry-local blocker label records the existing conflict; no source fact or pending dependency is removed.',
+    ],
+  })),
+  {
+    pendingExecutionId: WEAPON_RESOURCE_CAST_REVIEW.pendingExecutionId,
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'weapon:cast-flat-resource',
+    primitiveId: WEAPON_RESOURCE_CAST_REVIEW.primitiveId,
+    reviewedAt: WEAPON_RESOURCE_CAST_REVIEW.reviewedAt,
+    notes: [
+      'Stellar Symphony source explicitly binds flat Concerto recovery to a Liberation cast with a 20-second trigger cooldown.',
+      'The shared resource primitive reads canonical rank amounts, distinguishes Concerto from Resonance Energy and requires known initial cooldown state plus owned ordered casts.',
+      'No resource pool, cap, ER scaling or profile timeline is inferred; the exact profile dependency remains pending.',
+    ],
+  },
   {
     pendingExecutionId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponPendingId,
     status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',

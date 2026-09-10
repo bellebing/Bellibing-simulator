@@ -1,6 +1,6 @@
 import type { BuildContext, Echo } from './domain.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
-import { resolveBuildPreset } from './profileRegistry.ts';
+import { resolveVerifiedProfileSelection } from './verifiedProfileSelection.ts';
 
 export const PROFILE_BUILD_CONTEXT_ADAPTER_ID = 'profile-build-context-v1' as const;
 
@@ -16,29 +16,9 @@ export function buildContextFromVerifiedPreset(
   presetId: string,
   echoes: Echo[],
 ): BuildContext {
-  const resolved = resolveBuildPreset(PROFILE_REGISTRY, presetId);
-  const packageRows = [
-    resolved.preset,
-    resolved.weaponRecommendation,
-    resolved.echoLoadout,
-    resolved.statTarget,
-    resolved.team,
-    resolved.rotation,
-  ];
-
-  const unverified = packageRows.find((row) => row.verificationStatus !== 'VERIFIED');
-  if (unverified) {
-    throw new Error(`${presetId}: profile package row ${unverified.id} is not VERIFIED`);
-  }
+  const { resolved, defaultWeapon } = resolveVerifiedProfileSelection(PROFILE_REGISTRY, presetId);
   if (resolved.rotation.executionStatus !== 'ENGINE_MODELED' || !resolved.rotation.engineModelId) {
     throw new Error(`${presetId}: rotation ${resolved.rotation.id} is not ENGINE_MODELED`);
-  }
-
-  const defaultWeapon = resolved.weaponRecommendation.options.find(
-    (option) => option.weaponId === resolved.weaponRecommendation.defaultWeaponId,
-  );
-  if (!defaultWeapon) {
-    throw new Error(`${presetId}: default weapon ${resolved.weaponRecommendation.defaultWeaponId} has no recommendation option`);
   }
 
   return {

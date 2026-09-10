@@ -2,7 +2,7 @@
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
-Delivery state: **#182/#184–#188 are unmerged and frozen for integration review**. The integration branch preserves exact #188 code/data and adds documentation only; see [integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). No further feature slice is authorized during this review. The export is available in the reviewed build/Export artifact; it is not yet a deployed main feature.
+Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**. Exact main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed post-merge Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). Batch ancestry below is historical; PR #190 is now frozen for integration review; the next feature lane is a recommendation only, outside this PR.
 
 ## Use from a separate UI
 
@@ -16,7 +16,7 @@ npm run build
 # dist/data/character-database.json, included in the normal Pages/Export payload
 ```
 
-After a future authorized integration and deployment, fetch `./data/character-database.json` relative to the Bellibing site root. Until then, use the generated build/Export copy. A UI hosted elsewhere can import that copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
+Fetch `./data/character-database.json` relative to the deployed Bellibing site root, or use the generated build/Export copy. A UI hosted elsewhere can import that copy into its own build. The file has `schemaVersion: 1` and stable bytes for the same canonical data; it does not refresh external providers. The CLI validates before replacing the last successful output.
 
 TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase` from `src/characterDatabase.ts`. Each call returns a detached copy; client-side edits cannot mutate canonical catalogs or subsequent exports.
 
@@ -27,7 +27,10 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `actionValuesAtMaxSkill` | Exact level-10 source coefficient components/hit counts or separately typed flat damage, keyed by `factId`. `UNAVAILABLE` carries a reason and no fabricated zero. |
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
+| `hitPrimitives.echoActiveHits` | Five exact Rank-5 ACTIVE_CAST Echo facts with explicit component/landed-hit evaluation on PR #190. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
+| `outroTransferSupport` | Five source-verified/model-ready Character Outro transfer contracts on PR #190. Explicit handoff and recipient switch history are still required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
+| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Available on unmerged PR #190; not yet deployed on main. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
 
@@ -37,11 +40,45 @@ The export currently contains 57 released Characters, 54 verified mechanics prof
 
 ## Reuse when building Character engines
 
+The PR #190 static Echo family now includes Adam Smasher's existing Lucy/Rebecca restriction and Sigillum's existing Aemeath restriction through the shared wielder-identity primitive. The generated gear effects and pending-fact list reflect 65 effects across 39 Echoes / four remaining specialized pending facts. This changes static applicability for the existing Lucy/Aemeath presets; it does not change their source-only rotations or the 83 profile execution dependencies. [Backward-impact evidence](ECHO_SONATA_EFFECT_COVERAGE.md) records the exact boundary.
+
+`gear.weaponResourceCasts` lists the 17 source-verified Skill/Liberation flat-resource effects now supported by `weaponResourceCastAdapter.ts`. Join their `effectId` to `gear.weaponEffects`; amounts remain in canonical rank values. Seven effects recover Concerto Energy and ten recover Resonance Energy. `createWeaponResourceCastState` requires known initial cooldown readiness, and `advanceWeaponResourceCast` consumes an owned, ordered cast to return a nominal source amount plus the next cooldown state. It does not compose energy pools/caps, ER scaling or a rotation. Current options in four Character recommendation profiles can reuse this family. Stellar Symphony's profile edge gains primitive availability while remaining pending for its timeline.
+
+`gear.weaponCastWindows` and `gear.sonataCastWindows` expose the already-implemented 34 weapon / six Sonata cast-window contracts. The weapon bindings cover options in 12 existing Character recommendation profiles. Consumers can discover exact effect IDs and accepted cast events, then join the corresponding canonical effect row for rank values/duration or set activation. These lists contain no copied numeric facts and introduce no new runtime behavior. Equipment selection and source-proven cast occurrence/timing remain caller responsibilities; listed capability never grants uptime or readiness.
+
+`gear.sonataTargetWindows` exposes Eternal Radiance's stack-qualified Spectro window and Windward Pilgrimage's two Aero-Erosion-target hit windows. Existing Zani, Cartethyia, Rover Aero and Jiyan loadouts can discover these exact canonical bindings. Execution requires an actual source-qualified attack/hit and the exact target observation at that time explicitly before the trigger. Target state alone, a cast, an assumed hit or a stale observation cannot activate an effect.
+
+Zani's existing Eternal Radiance target view is accepted only for Zani's stack-count condition, retaining its independent Heliacal expiry and `provesInflictSpectroFrazzleTrigger=false` boundary. The separate S11 CRIT Rate infliction edge stays unresolved. The Spectro edge gains primitive availability while all 83 pending IDs and every Reference Team blocker remain open. Source values/durations are joined from `gear.sonataEffects`; no copied numeric facts, refresh policy or profile timeline is introduced.
+
+`gear.weaponHealingWindows` supports two canonical applied-heal contracts: Starfield Calibrator TEAM CRIT DMG and Bloodpact's Pledge SELF Skill DMG. Current Mornye/Rover Aero weapon selections can reuse the family at explicit R1–R5. It requires an actual source-qualified applied ally heal plus selected weapon, owner, target and team. Arbitrary self-healing/full-HP qualification is not inferred. Stellar Symphony's healing-qualified Skill cast is a different trigger and remains in its existing adapter. Numeric facts stay canonical; Mornye's existing R1 event helper reuses the fact reader with unchanged output.
+
+These are separate activations with source duration and explicit same-timestamp query ordering. No repeat-heal cadence, refresh policy or profile coverage is assumed. In particular BUG-012 still blocks Rover's six-second overlap and rotation denominator; adding the isolated Bloodpact window does not close that edge or any Reference Team blocker.
+
+`gear.weaponDamageWindows` exposes seven reviewed event bindings on Lethean Elegy, Lux and Umbra, Daybreaker's Spine and Unflickering Valor. This covers existing weapon options for Phrolova, Galbrena and Luuk Herssen. `weaponDamageWindowAdapter.ts` requires the exact selected weapon/rank and an owned, source-qualified BASIC/HEAVY/ECHO damage event; a cast or hypothetical hit cannot activate it. Values/durations come from `gear.weaponEffects`. Bonus, amplification and DEF-ignore terms retain distinct source labels and are not automatically assigned to a damage calculation.
+
+Each activation creates one independent SELF window. Queries bind the recipient and require known event order at the activation timestamp, so the triggering hit is never automatically buffed. Repeated windows do not choose refresh/stack/overlap policy. Existing source conflicts, stack contracts and hit-versus-damage triggers remain outside this family. Synthetic composition with explicit Echo-hit arithmetic proves reuse; it does not select a Character's Echo, grant a rotation or close dependencies.
+
+`gear.sonataDamageWindows` exposes four matching source-verified damage-event bindings for Flamewing's Shadow (two 3pc crit windows) and Sound of True Name (5pc Echo crit/Aero windows), used by the existing Galbrena and Sigrika loadouts. Weapon and Sonata adapters share `qualifiedDamageEvent.ts` for actual damage qualification, ownership and query ordering. `activateSonataDamageWindow` additionally requires the exact set and explicit equipped piece count. All values remain in canonical Sonata rows. Flamewing's separate both-windows-active Fusion effect and Luuk's three-stack Spectro effect are not inferred from one damage event.
+
+`outroTransferSupport` reuses five MODEL_READY Character facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. `characterOutroTransferAdapter.ts` reads their exact canonical statements and uses the existing incoming-transfer state primitive. The seven source amplification terms stay independent; multi-scope bonus aggregation is not inferred. Every activation requires the actual outgoing/incoming identities and timestamp. Queries require explicit recipient switch-out history; the bonus ends at the source duration or first recipient switch-out and cannot reappear on a later return.
+
+No Character-specific value table, changed modeling status, profile dependency closure or new DPS result is added. Brant remains PENDING_INTERPRETATION; Zhezhi/Lumi/Sanhua remain outside this family while RAW_ONLY. Yangyang's periodic energy and Youhu's source statement without this switch-out termination clause are also excluded. Existing Iuno transfer behavior is preserved. Source/backward-impact validation includes all five source contracts, stale-recipient/expiry tests and one synthetic Mortefi → Jiyan Heavy-hit composition through the existing direct-hit primitive.
+
+On PR #190 the additive `gear` section lets every existing profile's weapon options, main Echo and Sonata IDs resolve in this same file. Join `weaponEffects.weaponId`, `echoEffects.echoId`, `echoAttacks.echoId` and `sonataEffects.sonataSetId` to their identity catalogs. The raw weapon `effectIds` placeholder is preserved verbatim; use the separate effect rows for this relation.
+
+`weaponEffectCoverage` reuses the existing source audit, `echoSkillSourceReview` and `echoSkillPendingAdapterFacts` preserve the reviewed Echo boundary, and `sonataSourceReviews` retain each activation's disposition. Missing attack/effect rows never mean zero damage or no passive. `AUDITED_EFFECTS` describes weapon passive source coverage only; it does not settle disputed core stats, make a pending model executable, or select uptime. In particular the canonical Abyss Surges 587 value is exported unchanged while its parked 587/588 provider conflict remains unresolved. No new source facts, copied numeric tables, source refresh or UI implementation are introduced.
+
 `readCharacterActionValues(fact, skillLevel)` in `src/characterActionValues.ts` selects exact canonical values for all existing Character action representations. It retains mixed coefficient components and their individual source hit counts. Flat damage stays separate; shared-system damage, unverified facts and legacy scalars without a machine-readable level binding are unavailable. Ambiguous or malformed source representations fail closed.
 
 `sumCharacterActionCoefficients` is the narrow execution helper for a single damage class and ATK/HP/DEF scaling. Ciaccona now uses it instead of a private curve reader. An engine must still prove the action occurs, which hits connect, resource/state prerequisites, damage rules and timing. The reader neither applies conditional effects nor supplies a rotation, uptime or DPS value. In particular, source values on a `PENDING_INTERPRETATION` fact remain source values only.
 
+`echoActiveHitAdapter.ts` now evaluates the five existing exact ACTIVE_CAST Echo facts through the same numeric snapshot boundary and damage kernel as Character direct hits. Exact Echo ID, attack ID, Rank 5, component index, landed-hit count and a caller-proven snapshot tagged ECHO / source element / ATK, HP or DEF are required. Different components or individual hits can use different explicit snapshots. Zero landed hits is valid; an omitted count never means all hits.
+
+The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
+
 ## Fast path for further Characters
+
+Current measured coverage and the next-lane ranking are in the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md). **Source once → canonical once → reuse many:** use an unchanged reviewed fact locally by ID while its provenance and source audits remain valid. Reopen external review only for changed/missing provenance, an uncovered semantic or a conflict. A new Character still needs its own occurrence, state, timing and team proof; this is separate from re-verifying the same effect value.
 
 1. Reuse current canonical data and the existing profile/mechanics import and review tools. Do not retranscribe verified rows.
 2. Review new material by shared fact/mechanic family; add source-valid records to the owning catalogs. Preserve missing/disputed fields explicitly.
@@ -52,7 +89,7 @@ Provider candidates remain evidence only. This export does not authorize new cop
 
 ## Batch 1: explicit ATK Basic Attack hits
 
-Stack dependency: PR #182 / `codex/character-database-batch`, verified parent head `9240cfea5541de739f418e64fa124d4f388b1413`. This dependent batch remains a separate draft PR and has no merge authorization.
+Historical stack dependency: PR #182 / `codex/character-database-batch`, verified parent head `9240cfea5541de739f418e64fa124d4f388b1413`. This payload is integrated through #189.
 
 `src/combat/characterBasicHitAdapter.ts` supplies `listCharacterBasicHitSupport` and `evaluateCharacterBasicHit`. Family membership is derived from VERIFIED mechanics profiles and VERIFIED, MODEL_READY/MODELED, unconditional ATK actions whose source section/action kind/damage class are Basic Attack. It currently covers **268 actions across 52 Characters**. No Character allowlist, coefficient copy or automatic source promotion is added.
 
@@ -62,7 +99,7 @@ This boundary evaluates a hit whose occurrence and combat context have already b
 
 ## Batch 2: standard direct-hit families
 
-Stack dependency: draft PR #184 / `codex/character-basic-hit-batch`, verified parent head `86b6263e410b251846065798c456a697516308ce` (which depends on #182). This batch remains unmerged and has no merge authorization.
+Historical stack dependency: PR #184 / `codex/character-basic-hit-batch`, verified parent head `86b6263e410b251846065798c456a697516308ce` (which depends on #182). This payload is integrated through #189.
 
 `characterDirectHitAdapter.ts` extends the same explicit-hit boundary to **492 canonical actions across all 54 verified mechanics profiles**. The original Basic Attack API delegates to the shared implementation and retains its narrower 268-action scope and output contract.
 
@@ -83,7 +120,7 @@ Conditional actions, RAW_ONLY/PENDING_INTERPRETATION facts, simultaneous classes
 
 ## Batch 3: reviewed team amplification window
 
-Stack dependency: draft PR #185 / `codex/character-direct-hit-families`, verified parent head `181a23248482556f7f880a059dc7b9d8c8972394` (above #184 and #182). No merge is authorized.
+Historical stack dependency: PR #185 / `codex/character-direct-hit-families`, verified parent head `181a23248482556f7f880a059dc7b9d8c8972394` (above #184 and #182). This payload is integrated through #189.
 
 `weaponTeamAmplifyWindowAdapter.ts` implements the existing reviewed `BPP-TEAM-AERO` gap. `activateWeaponTeamAmplifyWindow` requires Bloodpact's Pledge, Rover (Aero), the wielder's explicit Unbound Flow event and its timestamp. The canonical R1–R5 value and 30-second duration are read from the source registry with drift checks. There is no new gameplay fact or Character-specific coefficient table.
 
@@ -93,7 +130,7 @@ One activation has an independent window. This primitive does not choose recipie
 
 ## Batch 4: shared support stat windows
 
-Stack dependency: draft PR #186 / `codex/weapon-team-amplify-window`, verified parent head `dac0aa15e2e64685eee7830910117e502d09f46e`. This batch remains unmerged.
+Historical stack dependency: PR #186 / `codex/weapon-team-amplify-window`, verified parent head `dac0aa15e2e64685eee7830910117e502d09f46e`. This payload is integrated through #189.
 
 `sharedSupportStatWindows.ts` reuses `incoming-transfer-state-v1` for Static Mist's canonical R1–R5 ATK buff to the actual incoming Resonator after the wielder's Outro. The 14-second source duration is retained. It is neither a SELF nor a TEAM buff, requires no invented incoming Intro prerequisite and adds no early-removal/stack/refresh rule.
 

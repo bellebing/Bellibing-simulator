@@ -2,7 +2,9 @@
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
-Review state: the primitive additions below are the **unmerged #182/#184–#188 integration candidate**, not new main approvals. Feature stacking is stopped at #188. [Integration review](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it.
+Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. Subsequent overnight work is unmerged until separately authorized and observed on main.
+
+PR #190 feature scope is frozen at the reviewed target-window payload. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
 
 ## Current registry-derived baseline
 
@@ -24,30 +26,66 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges after the canonical cast-window batch as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #190 branch as:
 
-- **37 `UNREVIEWED`**;
+- **30 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **15 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
-- **5 `BLOCKED_SOURCE_CONFLICT`**;
+- **20 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **7 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **37 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **30 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through #189 retains its historical 37 unreviewed / 15 primitive-available split until this PR is separately integrated.
+
+The 2026-09-09 exact-code reconciliation starts from `0cf811f` (36 unreviewed / 16 primitive-available / 5 source-conflict). Three previously UNREVIEWED edges already have callable source-bound primitives: Calcharo's exact Nightmare: Thundering Mephis hit, Denia's Reminiscence: Denia summon/Outro transfer, and Shorekeeper's Stellar Symphony healing-qualified Skill window. Their actual preset equipment and canonical IDs are checked against those adapters. They are now correctly primitive-available/requires-timeline; no implementation is duplicated and none of the three dependencies closes. Voidwing Moth is not Hyvatia and remains outside that transfer proof.
+
+Two Blazing Justice edges move from UNREVIEWED to BLOCKED_SOURCE_CONFLICT using the conflict already recorded in canonical weapon effects and Zani's backward-impact review: Basic Attack versus Liberation as trigger. The registry-local blocker `source-conflict:blazing-justice-trigger` is an identifier for that existing conflict, not a new source determination. All 83 exact IDs and six Reference Team blockers remain open. The queue's actual enum names are `PROFILE_SPECIFIC_EXECUTION` and `BLOCKED_SOURCE_SEMANTICS`; alternate planning labels do not create extra statuses.
 
 Static Mist's Aalto dependency now reuses `weapon-outro-incoming-transfer-v1`; Chisa's Rejuvenating Glow dependency has `heal-applied-team-atk-window-v1`. Both consume explicit source-qualified events and recipient/team state. Neither supplies a profile timeline or closes a canonical pending ID. The existing Shorekeeper healing wrapper delegates to the same Rejuvenating implementation with its original Character-specific guard.
 
 ## Closed/reusable primitives that must not be mistaken for profile execution
 
+### Weapon windows after explicit damage events
+
+PR #190 adds `weapon-damage-timed-self-window-v1`: seven existing source-verified effects on four weapons, including current Phrolova/Galbrena/Luuk Herssen options. The source trigger classes BASIC, HEAVY and ECHO remain separate from cast events. Exact equipped weapon/rank, owner and actual source-qualified damage are required. A window exposes its source stat/effect; the consumer must prove damage-scope applicability and event ordering. Repeated-window policy, uptime and profile execution are not inferred. This family changes none of the 83 dependency IDs or six Reference Team blockers.
+
+The same explicit damage-event/query boundary now supports four Sonata windows for current Galbrena and Sigrika loadouts via `sonata-damage-timed-self-window-v1`. Exact selected set and equipped piece count are mandatory. Heavy crit, Echo crit and Aero bonus scopes remain distinct. Joint-state and stack effects stay outside the window family; all profile timelines and existing pending IDs remain unresolved.
+
+### Source-bound Character Outro transfers
+
+PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
+
+### Explicit attacks on source-qualified targets
+
+`sonata-explicit-target-attack-window-v1` implements canonical S11_5PC_SPECTRO and S17_5PC_CR/AERO. It consumes exact selected equipment, owner, actual source-qualified attack/hit, and target state observed at the same time explicitly before the trigger. Zani's existing Heliacal view can supply only the Eternal Radiance stack predicate; it cannot activate S11_5PC_CR, establish incoming Frazzle events or close BUG-015. Windward bindings have current Cartethyia/Rover Aero/Jiyan consumers. Windows remain independent with explicit same-timestamp query ordering.
+
+The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Current queue: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
+
+### Applied-heal window boundary
+
+`weapon-heal-applied-stat-window-v1` supports canonical `SC-TEAM-CD` and `BPP-SKILL` for explicit source-qualified applied ally heals, preserving TEAM versus SELF scope and R1–R5 values. It has existing Mornye/Rover Aero consumers and shares Starfield fact resolution with Mornye's unchanged R1 event output. Exact equipment/owner/target/team, event time and query order remain explicit; the primitive does not prove self-heal/full-HP qualification, heal cadence, repeated-window policy or overlap.
+
+The BPP-SKILL profile edge remains `BLOCKED_SOURCE_SEMANTICS / BUG-012`: a source-valid isolated six-second window cannot manufacture the missing profile timeline or rotation denominator. Stellar Symphony still requires its distinct healing-qualified Skill cast. No dependency ID, source fact or readiness changes.
+
+### Flat resource recovery after a cast
+
+Unmerged PR #190 adds `weapon-cast-flat-resource-v1` for 17 existing source-verified weapon effects: seven Concerto Energy and ten Resonance Energy effects, spanning all five weapon types. Every included source defines a Skill/Liberation cast, flat SELF amount, no additional conditions and an explicit 20-second trigger cooldown. Current recommendation options include these weapons for Augusta, Shorekeeper, Taoqi and Youhu; no recommendation changes or new DPS approvals follow.
+
+Stellar Symphony's exact `SSY-CONCERTO:resource-event-adapter` edge is now primitive-available/requires-timeline. Its trigger is Liberation, not Skill. The primitive requires explicit selected weapon/rank, owned ordered cast events and known initial cooldown readiness. It returns the nominal source resource amount, keeps the two resource types distinct and does not infer pool caps, spending, ER scaling, initial energy or rotation timing. Repeated casts during cooldown do not refresh it. All 83 exact profile edges and six Reference Team dependencies remain pending as before. Beguiling Melody's null-cooldown Intro/Outro branches and other conditional/stack/healing families remain outside this bounded family.
+
 ### Fleurdelys character restriction
 
 `echo-character-restriction-v1` statically resolves the extra Fleurdelys Aero bonus for canonical `cartethyia` and `rover-aero`. Those exact character-restriction dependencies are closed.
+
+Unmerged PR #190 reuses that same primitive for the already-reviewed Adam Smasher Lucy/Rebecca CRIT Rate and Sigillum Aemeath Liberation bonuses. Existing Lucy/Aemeath preset main-Echo resolution gains those exact static effects; Rebecca's selected Bell-Borne is preserved. These close two Echo fact-level migration records, not any of the 83 profile execution edges. Source-only rotations, active Echo damage and all six Reference Team blockers remain outside this static applicability proof. See [source and backward-impact review](ECHO_SONATA_EFFECT_COVERAGE.md).
 
 ### Exact Echo active damage
 
 `echo-active-damage-v1` resolves exact verified `ACTIVE_CAST` Echo attack facts without inventing cast time, uptime or rotation state. Reminiscence: Fleurdelys has exact Rank-5 `27.36% x8 + 136.80%` Aero damage, totaling `355.68% ATK`.
 
 Primitive availability does **not** close a profile dependency until that profile has an executable source-proven cast path.
+
+PR #190 adds `echo-active-explicit-hit-v1` for all five existing exact ACTIVE_CAST facts. It evaluates only the selected component and explicit landed-hit count, using a complete caller-proven ECHO/element/ATK-HP-DEF snapshot and the existing damage kernel. Rank 5 and exact Echo/attack ownership are required. INTRO_AUTO_SUMMON and unproven variants remain excluded. This adds reusable isolated arithmetic, not a cast timeline or dependency closure; the 83 profile edges and six Reference Team blockers are unchanged.
 
 ### Molten Rift cast window
 

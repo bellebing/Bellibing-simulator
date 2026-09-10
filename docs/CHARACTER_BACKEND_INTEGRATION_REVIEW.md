@@ -1,6 +1,10 @@
 # Character backend integration review through PR #188
 
-Review checkpoint: 2026-09-07. This is an **unmerged integration candidate**, not canonical main or a deployment. Feature stacking stops at #188. No merge, source-PR closure or branch deletion is authorized in this pass.
+Integration checkpoint: **PR #189 MERGED and post-merge/live-verified on 2026-09-07**. Normal merge commit `b16552da92a35a717c179a3801b262d728cbba97` has parents `2a3b16f6122d81a8c2d39ab378e70971d8f1244d` and approved integration head `0cfe37eac5942410898b788bd4d2b761c8ae767c`; its tree exactly equals the reviewed integration tree. All six source heads below are on main. GitHub automatically marked #182 merged; #184–#188 remain historical open drafts. No source PR was separately merged or manually closed and no branch was deleted.
+
+Post-merge [Verify #1085](https://github.com/bellebing/Bellibing-simulator/actions/runs/34144443923), [Export #984](https://github.com/bellebing/Bellibing-simulator/actions/runs/34144443915) and [Deploy #146](https://github.com/bellebing/Bellibing-simulator/actions/runs/34144443912) all passed on that exact merge commit. Each CI test step and local main passed 734 tests / 0 failures; strict build, whitespace, all live browser checks, source/PENDING boundaries and live/Export Alpha, UI-preview and Character database byte parity passed. AI Handoff UPD-172 records completion.
+
+The sections below preserve the **historical pre-merge review record**, including its original scope and landing restriction. Those restrictions were superseded for #189 by explicit merge authorization; they do not describe the current implementation state. The new overnight backend pass follows current `PROJECT_STATUS.md` on a separate branch without further merge authorization.
 
 ## Provenance and scope
 
@@ -35,6 +39,6 @@ The integration requires its own exact-final-head full Verify, Export, relevant 
 
 Local code review covers the complete main-to-integration change, including arithmetic/representation boundaries, explicit-hit eligibility, caller-owned timing, transfer recipients, source drift rejection, export isolation and audit credential scoping. An automated review is a separate result: no AI approval should be inferred from green CI or zero review threads. The fresh main ruleset requires a PR, prohibits deletion/non-fast-forward updates, and requires zero approving reviewers; it defines no mandatory AI-review gate. Any later reviewer usage limit must be reported as external and temporary, not as approval.
 
-## After review
+## Historical review-only landing boundary
 
 Leave the integration PR open and unmerged; leave all six source PRs open, with #188 draft. Do not start another feature slice. After a separately authorized future integration merge and verification that main contains the complete payload, #182/#184–#188 can be closed as superseded by the integration record. Do not close them before that event and do not delete their branches.

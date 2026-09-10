@@ -547,13 +547,15 @@ export const SONATA_CATALOG = [
       ],
       "sourceUrls": [
         "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/blob/8d8cbdee3ff14a0a384102e1771b4af96ac1d69f/public/Data/Fetters.json",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-09-09",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
-        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
+        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation.",
+        "Reviewed raw-text-only refresh: upstream adds the missing s after the 5pc duration placeholder. All source parameters and existing modeled effects are unchanged. Fetters Git blob b441635dde76ba117eb015ae0eeb43bdabb266e7 was verified; no stack lifecycle or readiness is inferred."
       ]
     },
     "sourceId": 35,
@@ -568,7 +570,7 @@ export const SONATA_CATALOG = [
       },
       {
         "pieces": 5,
-        "description": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus."
+        "description": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}s, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus."
       }
     ]
   },

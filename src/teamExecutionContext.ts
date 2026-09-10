@@ -1,5 +1,6 @@
-import type { ProfileBase, ResolvedBuildPreset, RotationExecutionStatus } from './profileDomain.ts';
+import type { ResolvedBuildPreset, RotationExecutionStatus } from './profileDomain.ts';
 import { resolveBuildPreset, type ProfileRegistry } from './profileRegistry.ts';
+import { resolveVerifiedProfileSelection } from './verifiedProfileSelection.ts';
 
 export type TeamExecutionResolutionStatus = 'RESOLVED' | 'PENDING' | 'UNKNOWN';
 export type TeamExecutionDependencyCoverageStatus = 'PARTIAL' | 'COMPLETE';
@@ -61,35 +62,11 @@ export interface ResolvedTeamExecutionContext {
   dpsReady: boolean;
 }
 
-function packageRows(resolved: ResolvedBuildPreset): readonly ProfileBase[] {
-  return [
-    resolved.preset,
-    resolved.weaponRecommendation,
-    resolved.echoLoadout,
-    resolved.statTarget,
-    resolved.team,
-    resolved.rotation,
-  ];
-}
-
 function resolveMemberSelection(
   registry: ProfileRegistry,
   presetId: string,
 ): { resolved: ResolvedBuildPreset; selection: TeamExecutionMemberSelection } {
-  const resolved = resolveBuildPreset(registry, presetId);
-  const unverified = packageRows(resolved).find((row) => row.verificationStatus !== 'VERIFIED');
-  if (unverified) {
-    throw new Error(`${presetId}: profile package row ${unverified.id} is not VERIFIED`);
-  }
-
-  const defaultWeapon = resolved.weaponRecommendation.options.find(
-    (option) => option.weaponId === resolved.weaponRecommendation.defaultWeaponId,
-  );
-  if (!defaultWeapon) {
-    throw new Error(
-      `${presetId}: default weapon ${resolved.weaponRecommendation.defaultWeaponId} has no recommendation option`,
-    );
-  }
+  const { resolved, defaultWeapon } = resolveVerifiedProfileSelection(registry, presetId);
 
   return {
     resolved,
@@ -200,7 +177,7 @@ export function resolveTeamExecutionContext(
     input.dependencyCoverageStatus === 'COMPLETE'
     && !unresolvedDependencies.some((dependency) => dependency.requiredForDps);
 
-  return {
+  return structuredClone({
     teamProfileId: team.id,
     actorPresetId: input.actorPresetId,
     members: selections,
@@ -208,5 +185,5 @@ export function resolveTeamExecutionContext(
     contributions: [...input.contributionDependencies],
     unresolvedDependencies,
     dpsReady,
-  };
+  });
 }

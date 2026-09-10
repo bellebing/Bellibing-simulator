@@ -1,4 +1,5 @@
 import type { BuildContext, DamageEvaluator, DamageResult, Echo, StatRoll } from '../domain.ts';
+import { AUGUSTA_PARITY_TEAM_ID } from './augustaParityTeamContext.ts';
 import {
   evaluateAugustaStandardRotation,
   type AugustaBuildInputs,
@@ -9,7 +10,7 @@ const SUPPORTED = {
   sequence: 0,
   weaponId: 'thunderflare-dominion',
   weaponRank: 1,
-  teamId: 'augusta-iuno-shorekeeper',
+  teamId: AUGUSTA_PARITY_TEAM_ID,
   rotationProfileId: 'AUGUSTA_STD_V1',
 } as const;
 

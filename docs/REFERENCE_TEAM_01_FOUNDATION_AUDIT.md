@@ -2,6 +2,8 @@
 
 Date: 2026-09-03
 
+Historical baseline. The [2026-09-08 architecture audit](REFERENCE_TEAM_01_ARCHITECTURE_AUDIT_20260908.md) records the actual post-#189 path, implemented intervening primitives/manifests, remaining six blockers and current safe refactors. Missing layers and next-step instructions below describe the original audit date.
+
 Reference Team 01:
 
 - Augusta — DPS context

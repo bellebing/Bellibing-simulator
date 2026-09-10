@@ -173,6 +173,19 @@ if (CONTRACT_ISSUES.length > 0) {
   throw new Error(`Invalid weapon cast-window contracts: ${CONTRACT_ISSUES.join('; ')}`);
 }
 
+/** Export existing reviewed execution bindings; canonical effect rows retain all values. */
+export function listWeaponCastWindowSupport() {
+  const issues = validateWeaponCastWindowContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  return WEAPON_CAST_WINDOW_CONTRACTS.map((contract) => ({
+    effectId: contract.effectId,
+    weaponId: uniqueEffectById(WEAPON_EFFECT_CATALOG, contract.effectId)!.weaponId,
+    triggerEvents: [...contract.triggerEvents],
+    primitiveId: WEAPON_TRIGGER_UPTIME_SEMANTIC_SPLIT.adapterId,
+    scope: 'EXPLICIT_CAST_EVENT_ONLY' as const,
+  })).sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0);
+}
+
 export function activateWeaponCastWindow(params: {
   readonly effectId: string;
   readonly rank: 1 | 2 | 3 | 4 | 5;

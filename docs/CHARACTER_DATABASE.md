@@ -1,5 +1,7 @@
 # Character database and shared action values
 
+Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
+
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
 Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**. Exact main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed post-merge Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). Batch ancestry below is historical; PR #190 is now frozen for integration review; the next feature lane is a recommendation only, outside this PR.

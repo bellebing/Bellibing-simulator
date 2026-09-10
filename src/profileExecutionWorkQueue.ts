@@ -247,11 +247,12 @@ export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Ob
   ...[
     'echo:echo-60000825:lorelei-active-skill-damage-adapter',
     'echo:echo-60001055:nightmare-lampylumen-active-skill-damage-adapter',
+    'echo:echo-60000835:sentry-construct-active-skill-damage-adapter',
   ].map((pendingExecutionId): ExecutionSemanticReview => ({
     pendingExecutionId, status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
     actionKey: 'echo:active-cast-exact-damage', primitiveId: 'echo-active-explicit-hit-v1', reviewedAt: '2026-09-10',
     notes: [
-      'Supplemental exact Echo damage-entry review proves the single Rank-5 ATK component; canonical attack provenance owns the source evidence.',
+      'Supplemental exact Echo damage-entry review proves the Rank-5 ATK component per selected attack; canonical attack provenance owns the source evidence. Sentry normal/charged attacks are separate alternatives, not a combined cast.',
       'The existing reader and damage kernel now support explicit component, landed count and combat snapshot. No new Echo engine is added.',
       'Preset Echo identity is exact, but cast occurrence, landed hits and profile timeline are still required. This dependency remains open.',
     ],

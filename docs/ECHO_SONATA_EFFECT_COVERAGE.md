@@ -128,7 +128,7 @@ The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact pro
 
 ### Echo Attacks — exact executable facts only
 
-The PR #191 reuse-first lane exposes **7 exact Rank-5 attack profiles / 8 attack facts** in `src/data/echoAttacks.ts`. Five profiles / six facts were already integrated through #189:
+The PR #191 reuse-first lane exposes **8 exact Rank-5 attack profiles / 10 attack facts** in `src/data/echoAttacks.ts`. Nine facts are ACTIVE_CAST and one is INTRO_AUTO_SUMMON. Five profiles / six facts were already integrated through #189:
 
 - The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
 - Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
@@ -141,6 +141,8 @@ The supplemental 2026-09-10 review adds Lorelei and Nightmare: Lampylumen Myriad
 Existing `echo-active-explicit-hit-v1`, whole-action reader and damage kernel consume these facts without runtime changes. Database facts/support are derived through their existing projections. The Cantarella and Zhezhi preset edges become primitive-available/requires-timeline; all 83 IDs remain pending. Explicit attack/rank/component/landed count and complete combat context remain mandatory. Main-slot buffs remain exclusively in the effect layer.
 
 Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
+
+The [current cohort and closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md) adds Sentry Construct's separate normal-strike and charged-dive facts. Both use explicit ATK/Glacio source entries and the existing hit primitive; they are alternative attacks, never two components automatically landed in one cast. Capacitor/reset/freeze mechanics and profile variant occurrence remain unmodeled. Reminiscence: Denia, Voidwing Moth and Nightmare: Mourning Aix attack promotion is parked with exact scaling/variant/target gaps recorded in that review.
 
 ### 2026-09-09 explicit active-hit execution and backward impact
 

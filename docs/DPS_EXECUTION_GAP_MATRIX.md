@@ -37,7 +37,7 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **28 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through merged #190 has 30 unreviewed / 20 primitive-available; #191 adds two exact Echo attack facts for Cantarella and Zhezhi without closing their timelines or changing any pending ID.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **27 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through merged #190 has 30 unreviewed / 20 primitive-available; #191 adds exact Echo attack facts for Cantarella, Zhezhi and Carlotta without closing their timelines or changing any pending ID.
 
 The 2026-09-09 exact-code reconciliation starts from `0cf811f` (36 unreviewed / 16 primitive-available / 5 source-conflict). Three previously UNREVIEWED edges already have callable source-bound primitives: Calcharo's exact Nightmare: Thundering Mephis hit, Denia's Reminiscence: Denia summon/Outro transfer, and Shorekeeper's Stellar Symphony healing-qualified Skill window. Their actual preset equipment and canonical IDs are checked against those adapters. They are now correctly primitive-available/requires-timeline; no implementation is duplicated and none of the three dependencies closes. Voidwing Moth is not Hyvatia and remains outside that transfer proof.
 
@@ -119,7 +119,7 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 
 ## Carlotta current no-go
 
-`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
+`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct now has separate exact Rank-5 normal-strike and charged-dive damage facts; variant occurrence and capacitor/reset state are still profile-owned. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
 
 ## Rover (Aero) exact remaining graph
 

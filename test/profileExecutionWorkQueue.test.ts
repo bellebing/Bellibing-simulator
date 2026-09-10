@@ -33,7 +33,7 @@ test('semantic execution review catalog is derived from reviewed implementation/
   assert.deepEqual(validateBlazingBrillianceStackSemanticReview(), []);
   assert.deepEqual(validateSonataCastWindowContracts(), []);
   assert.deepEqual(validateFallacyActiveDamageSemanticReview(), []);
-  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 30);
+  assert.equal(EXECUTION_SEMANTIC_REVIEWS.length, 31);
   const concerto = EXECUTION_SEMANTIC_REVIEWS.find((row) => row.pendingExecutionId === 'weapon:stellar-symphony:SSY-CONCERTO:resource-event-adapter');
   assert.equal(concerto?.status, 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(concerto?.primitiveId, 'weapon-cast-flat-resource-v1');
@@ -157,15 +157,15 @@ test('current 83-edge matrix is partitioned into actionable, covered, blocked an
   assert.equal(queue.authorizesExecution, false);
   assert.deepEqual(queue.summary, {
     totalEdges: 83,
-    unreviewedEdges: 28,
+    unreviewedEdges: 27,
     semanticallyReviewedImplementationPendingEdges: 0,
-    primitiveAvailableRequiresTimelineEdges: 22,
+    primitiveAvailableRequiresTimelineEdges: 23,
     blockedSourceConflictEdges: 7,
     blockedSourceSemanticsEdges: 9,
     profileSpecificExecutionEdges: 17,
-    actionableSharedEdges: 28,
+    actionableSharedEdges: 27,
   });
-  assert.equal(queue.reviewRecordCount, 30);
+  assert.equal(queue.reviewRecordCount, 31);
   assert.equal(
     queue.summary.unreviewedEdges
       + queue.summary.semanticallyReviewedImplementationPendingEdges
@@ -243,8 +243,8 @@ test('covered and blocked queues retain exact fanout after Changli semantic spli
 
   const echoActive = queue.primitiveAvailableRequiresTimeline.find((row) => row.actionKey === 'echo:active-cast-exact-damage');
   assert.ok(echoActive);
-  assert.equal(echoActive.dependencyCount, 4);
-  assert.equal(echoActive.profileCount, 4);
+  assert.equal(echoActive.dependencyCount, 5);
+  assert.equal(echoActive.profileCount, 5);
   assert.deepEqual(echoActive.primitiveIds, ['echo-active-damage-v1', 'echo-active-explicit-hit-v1']);
 
   const heron = queue.blockedSourceConflicts.find((row) => row.actionKey === 'echo:impermanence-heron-transfer');

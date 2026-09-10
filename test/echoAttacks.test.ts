@@ -9,8 +9,8 @@ import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
 const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
 
 test('Echo attack catalog contains only source-explicit executable profiles', () => {
-  assert.equal(ECHO_ATTACK_PROFILES.length, 7);
-  assert.equal(registry.attackById.size, 8);
+  assert.equal(ECHO_ATTACK_PROFILES.length, 8);
+  assert.equal(registry.attackById.size, 10);
   assert.ok(registry.byEchoId.has('echo-60000375'));
   assert.ok(registry.byEchoId.has('echo-60000605'));
   assert.ok(registry.byEchoId.has('echo-60000885'));

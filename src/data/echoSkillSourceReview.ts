@@ -33,9 +33,10 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
   expectedUnusedParamRecordCount: 3,
   expectedModeledEffectRowCount: 65,
   expectedModeledEffectEchoCount: 39,
-  expectedAttackProfileCount: 7,
-  expectedAttackFactCount: 8,
+  expectedAttackProfileCount: 8,
+  expectedAttackFactCount: 10,
   notes: [
+    '2026-09-10 Sentry Construct damage-only review: two alternative Rank-5 ACTIVE_CAST facts share the existing exact reader/kernel. ATK/Glacio scaling is explicit for both damage entries; no Strike Capacitor, reset or freeze state is modeled.',
     '2026-09-10 bounded supplemental review: Lorelei and Nightmare: Lampylumen Myriad each have an exact single active component. Their Wuthering Wiki Echo damage entries explicitly prove ATK scaling; per-profile provenance records the URLs and review date separately from the pinned roster inventory.',
     'Adam Smasher Lucy/Rebecca CRIT Rate and Sigillum Aemeath Liberation bonus now use the existing static wielder-identity primitive. Their source values/restrictions were already verified; no active attack, profile rotation or recommendation is promoted.',
     'The upstream Echo record has no dedicated skill-name field. Bellibing therefore keeps the Echo identity plus source skill description and never invents a separate skill name.',

@@ -12,6 +12,42 @@ const cohort = [
     url: 'https://wuthering.wiki/monster_340000130.html' },
 ];
 
+test('Sentry normal and charged attacks are explicit alternatives, with no inferred capacitor or combined cast', () => {
+  const profile = ECHO_ATTACK_PROFILES.find((p) => p.echoId === 'echo-60000835')!;
+  assert.deepEqual(profile.attacks.map((a) => a.attackId), ['SENTRY_CONSTRUCT_NORMAL_STRIKE', 'SENTRY_CONSTRUCT_CHARGED_DIVE']);
+  assert.equal(profile.cooldownSeconds, 25);
+  for (const key of ['startingCharges', 'maxCharges', 'rechargeSeconds']) assert.equal(Object.hasOwn(profile, key), false);
+  for (const attack of profile.attacks) {
+    const input = { echoId: profile.echoId, attackId: attack.attackId, rank: 5, componentIndex: 0, landedHitCount: 1,
+      snapshot: { element: 'Glacio' as const, scalingStat: 'ATK' as const, damageClass: 'ECHO' as const,
+        totalScalingStat: 1000, damageBonus: 0, amplification: 0, critRate: 0, critDamage: 1.5,
+        defenseMultiplier: 1, resistanceMultiplier: 1, damageReduction: 0 } };
+    assert.equal(evaluateEchoActiveHit(input).expectedDamage, 4050);
+    assert.equal(evaluateEchoActiveHit({ ...input, landedHitCount: 0 }).expectedDamage, 0);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, componentIndex: 1 }), /source Echo component/);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, landedHitCount: 2 }), /landed hit count/);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, attackId: undefined as never }), /does not own/);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, echoId: 'echo-60000825' }), /does not own/);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, snapshot: { ...input.snapshot, scalingStat: 'HP' } }), /source element, scaling stat/);
+    assert.throws(() => evaluateEchoActiveHit({ ...input, rank: 1 }), /Rank-5/);
+  }
+});
+
+test('Carlotta discovers both Sentry facts while all five profile edges and source-only rotation remain pending', () => {
+  const db = buildCharacterDatabase(), q = buildProfileExecutionWorkQueue();
+  const preset = db.profiles.presets.find((p) => p.id === 'carlotta-standard')!;
+  const loadout = db.profiles.echoLoadouts.find((p) => p.id === preset.echoLoadoutProfileId)!;
+  assert.equal(loadout.mainEchoId, 'echo-60000835');
+  assert.equal(db.hitPrimitives.echoActiveHits.filter((a) => a.echoId === loadout.mainEchoId).length, 2);
+  const edges = q.edges.filter((e) => e.presetId === preset.id);
+  assert.equal(edges.length, 5);
+  assert.equal(edges.filter((e) => e.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE').length, 3);
+  const rotation = db.profiles.rotations.find((r) => r.id === preset.rotationProfileId)!;
+  assert.equal(rotation.executionStatus, 'SOURCE_SEQUENCE_ONLY');
+  assert.equal(rotation.rotationSeconds, undefined);
+  assert.equal(q.summary.totalEdges, 83);
+});
+
 test('reviewed single-component Echo facts use the existing kernel with explicit landed damage and exact identity', () => {
   for (const row of cohort) {
     const profile = ECHO_ATTACK_PROFILES.find((p) => p.echoId === row.echoId)!;
@@ -34,7 +70,7 @@ test('reviewed single-component Echo facts use the existing kernel with explicit
     assert.throws(() => evaluateEchoActiveHit({ ...input, snapshot: { ...input.snapshot, scalingStat: 'DEF' } }), /source element, scaling stat/);
   }
   const supported = new Set(listEchoActiveHitSupport().map((r) => r.echoId));
-  for (const unreviewed of ['echo-60000835', 'echo-60000925', 'echo-60001985', 'echo-60002005']) assert.equal(supported.has(unreviewed), false);
+  for (const unreviewed of ['echo-60000925', 'echo-60001985', 'echo-60002005']) assert.equal(supported.has(unreviewed), false);
 });
 
 test('exact preset Echo consumers discover attack facts while all execution edges and Reference Team blockers remain open', () => {

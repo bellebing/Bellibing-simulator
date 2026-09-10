@@ -12,6 +12,34 @@ const ECHO_SKILL_SOURCE_URL = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b1
  */
 export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
   {
+    echoId: 'echo-60000835',
+    rank: 5,
+    cooldownSeconds: 25,
+    attacks: [
+      {
+        attackId: 'SENTRY_CONSTRUCT_NORMAL_STRIKE', name: 'Sentry Construct — normal strike',
+        trigger: 'ACTIVE_CAST', element: 'Glacio', scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+      {
+        attackId: 'SENTRY_CONSTRUCT_CHARGED_DIVE', name: 'Sentry Construct — charged aerial dive',
+        trigger: 'ACTIVE_CAST', element: 'Glacio', scalingStat: 'ATK',
+        components: [{ motionValuePerHit: 4.05, hits: 1 }],
+      },
+    ],
+    provenance: {
+      sourceLabels: ['Wuthering Wiki game-data mirror — Sentry Construct Echo description and both Echo damage entries'],
+      sourceUrls: ['https://wuthering.wiki/monster_330000120.html'],
+      checkedAt: '2026-09-10',
+      notes: [
+        'The description separates the normal frontal attack from the max-Strike-Capacitor aerial dive. Each is one 405% Glacio damage component at Rank 5. Both corresponding damage entries explicitly use ATK; they are alternative attack facts, never two components of one cast.',
+        'Only damage for an explicitly selected and caller-proven variant is represented. Strike Capacitor threshold, initial charge, charge gain, cooldown reset, freeze and timing remain outside this attack domain.',
+        '25s is the published base cooldown, not a simulated charged cooldown lifecycle. No charge metadata is invented.',
+        'The exact canonical identity is Sentry Construct, not its Phantom. Main-slot Glacio/Skill bonuses remain in the effect layer. Carlotta still requires a profile-owned variant/event timeline.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60000825',
     rank: 5,
     cooldownSeconds: 25,

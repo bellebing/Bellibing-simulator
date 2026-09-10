@@ -12,6 +12,46 @@ const ECHO_SKILL_SOURCE_URL = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b1
  */
 export const ECHO_ATTACK_PROFILES: readonly EchoAttackProfile[] = [
   {
+    echoId: 'echo-60000825',
+    rank: 5,
+    cooldownSeconds: 25,
+    attacks: [{
+      attackId: 'LORELEI_ACTIVE_STRIKE', name: 'Lorelei — active strike',
+      trigger: 'ACTIVE_CAST', element: 'Havoc', scalingStat: 'ATK',
+      components: [{ motionValuePerHit: 4.05, hits: 1 }],
+    }],
+    provenance: {
+      sourceLabels: ['Wuthering Wiki game-data mirror — Lorelei Echo Skill and damage entry 1'],
+      sourceUrls: ['https://wuthering.wiki/monster_330000110.html'],
+      checkedAt: '2026-09-10',
+      notes: [
+        'Reviewed Echo Skill description and its single damage entry together: the surrounding attack is one 405% ATK Havoc component at Rank 5, CD 25s. The damage entry explicitly supplies Base Attribute ATK; scaling is not inferred from the percentage.',
+        'The canonical Lorelei identity is unchanged. Main-slot Havoc and Basic bonuses remain exclusively in the existing effect catalog.',
+        'Monster level/stat tables are not Echo scaling evidence. This fact does not infer cast occurrence, landed damage or rotation timing.',
+      ],
+    },
+  },
+  {
+    echoId: 'echo-60001055',
+    rank: 5,
+    cooldownSeconds: 20,
+    attacks: [{
+      attackId: 'NIGHTMARE_LAMPYLUMEN_ACTIVE_STRIKE', name: 'Nightmare: Lampylumen Myriad — active strike',
+      trigger: 'ACTIVE_CAST', element: 'Glacio', scalingStat: 'ATK',
+      components: [{ motionValuePerHit: 2.736, hits: 1 }],
+    }],
+    provenance: {
+      sourceLabels: ['Wuthering Wiki game-data mirror — Nightmare: Lampylumen Myriad Echo Skill and damage entry 1'],
+      sourceUrls: ['https://wuthering.wiki/monster_340000130.html'],
+      checkedAt: '2026-09-10',
+      notes: [
+        'Reviewed Echo Skill description and its single damage entry together: the surrounding attack is one 273.60% ATK Glacio component at Rank 5, CD 20s. Base Attribute ATK is explicit in damage data.',
+        'This is the exact Nightmare identity, not ordinary Lampylumen Myriad. Existing main-slot Glacio and Coordinated Attack bonuses stay in the effect layer.',
+        'Only the isolated source component is supported; caller-proven exact attack, Rank 5, landed count and combat snapshot remain mandatory.',
+      ],
+    },
+  },
+  {
     echoId: 'echo-60000375',
     rank: 5,
     cooldownSeconds: 20,

@@ -128,7 +128,7 @@ The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact pro
 
 ### Echo Attacks — exact executable facts only
 
-`src/data/echoAttacks.ts` has **5 exact Rank-5 attack profiles / 6 attack facts**, already integrated through #189:
+The PR #191 reuse-first lane exposes **7 exact Rank-5 attack profiles / 8 attack facts** in `src/data/echoAttacks.ts`. Five profiles / six facts were already integrated through #189:
 
 - The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
 - Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
@@ -136,11 +136,15 @@ The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact pro
 - Nightmare: Thundering Mephis — one 405% ATK Electro active hit, 25s cooldown.
 - Reminiscence: Fleurdelys — 27.36% ATK Aero ×8 plus 136.80% ATK Aero ×1, 20s cooldown.
 
+The supplemental 2026-09-10 review adds Lorelei and Nightmare: Lampylumen Myriad. Each source's Echo Skill description and single Echo damage entry agree on one active component; the damage table explicitly supplies Base Attribute ATK. Lorelei has 405% Havoc with 25s cooldown ([damage entry 1](https://wuthering.wiki/monster_330000110.html)); Nightmare: Lampylumen has 273.60% Glacio with 20s cooldown ([damage entry 1](https://wuthering.wiki/monster_340000130.html)). These are exact Echo identities; ordinary/Phantom alternatives are not inferred. No monster stat table or resource column is imported. Canonical attack provenance owns this supplemental review separately from the unchanged pinned roster inventory.
+
+Existing `echo-active-explicit-hit-v1`, whole-action reader and damage kernel consume these facts without runtime changes. Database facts/support are derived through their existing projections. The Cantarella and Zhezhi preset edges become primitive-available/requires-timeline; all 83 IDs remain pending. Explicit attack/rank/component/landed count and complete combat context remain mandatory. Main-slot buffs remain exclusively in the effect layer.
+
 Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
 
 ### 2026-09-09 explicit active-hit execution and backward impact
 
-Unmerged PR #190 adds `echo-active-explicit-hit-v1` over the five existing ACTIVE_CAST facts. Exact Echo/attack/Rank-5 identity, coefficient component and landed-hit count are mandatory, together with a caller-proven combat snapshot bound to the source element, scaling stat and ECHO damage scope. The existing ATK/HP/DEF snapshot validator and damage kernel are reused. Canonical numeric facts stay in `echoAttacks.ts`; the Character database exports only support identities/tags alongside those facts.
+Merged PR #190 added `echo-active-explicit-hit-v1` over the five existing ACTIVE_CAST facts. Exact Echo/attack/Rank-5 identity, coefficient component and landed-hit count are mandatory, together with a caller-proven combat snapshot bound to the source element, scaling stat and ECHO damage scope. The existing ATK/HP/DEF snapshot validator and damage kernel are reused. Canonical numeric facts stay in `echoAttacks.ts`; the Character database exports only support identities/tags alongside those facts.
 
 Backward-impact disposition: no existing profile engine, source fact, readiness status or pending ID changes. Full-component arithmetic agrees with the existing whole-action reader when the test explicitly lands every source hit. Partial/missed hits, separate component snapshots, HP/DEF binding, incomplete input, wrong rank/identity and excluded Intro/hold variants are covered. All 768 tests and strict build pass locally. This cannot resolve BUG-010's missing Fallacy profile variant, infer cast timing or close any Reference Team dependency. Exact remote verification belongs in PR #190 and Handoff.
 

@@ -83,6 +83,8 @@ On PR #190 the additive `gear` section lets every existing profile's weapon opti
 
 The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
 
+The post-#191 follow-up adds the existing Lupa Outro fact to the same isolated-transfer family. Five current presets discover it from canonical team membership. Fusion and Basic terms remain separate; no Pack Hunt, Glory, stack refresh or profile timeline is inferred. See the [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md). The database projection derives this support directly from the shared adapter and retains canonical RAW_ONLY/null-stack facts.
+
 ## Fast path for further Characters
 
 Current measured coverage and the next-lane ranking are in the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md). **Source once → canonical once → reuse many:** use an unchanged reviewed fact locally by ID while its provenance and source audits remain valid. Reopen external review only for changed/missing provenance, an uncovered semantic or a conflict. A new Character still needs its own occurrence, state, timing and team proof; this is separate from re-verifying the same effect value.

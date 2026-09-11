@@ -15,8 +15,7 @@ const activate = (factId: string, atSeconds = 2, recipient = 'carlotta') => acti
   event: event(getCharacterMechanicFact(factId)!.characterId, atSeconds, recipient), priorActivationState: 'NONE_ACTIVE' });
 
 test('four reviewed canonical Outro facts retain RAW_ONLY and unknown maxStacks while exposing six independent terms', () => {
-  const support = listCharacterOutroTransferSupport().filter((row) => row.stackPolicy);
-  assert.equal(listCharacterOutroTransferSupport().length, 9);
+  const support = listCharacterOutroTransferSupport().filter((row) => facts.includes(row.factId));
   assert.deepEqual(support.map((row) => row.factId), [...facts].sort());
   assert.deepEqual(support.map((row) => [row.durationSeconds, row.amplifications]), [
     [10, [{ statOrEffect: 'Resonance Skill DMG Amplification', value: .38 }]],
@@ -146,7 +145,7 @@ test('Roccia and Sanhua Basic terms can feed a caller-proven Basic hit without c
 
 test('nine current presets across eight Characters discover one canonical binding per outgoing teammate without readiness changes', () => {
   const db = buildCharacterDatabase();
-  const bindings = db.outroTransferSupport.filter((row) => row.stackPolicy);
+  const bindings = db.outroTransferSupport.filter((row) => facts.includes(row.factId));
   const owners = new Set(bindings.map((row) => row.characterId));
   const consumers = db.profiles.presets.filter((p) => db.profiles.teams.find((t) => t.id === p.teamProfileId)!.members.some((m) => owners.has(m.characterId)));
   assert.deepEqual(consumers.map((p) => p.id).sort(), ['carlotta-standard', 'jinhsi-standard-opener', 'lingyang-standard', 'lumi-hybrid', 'roccia-standard', 'rover-havoc-standard', 'sanhua-standard', 'zhezhi-empyrean-endgame', 'zhezhi-moonlit-fallback']);

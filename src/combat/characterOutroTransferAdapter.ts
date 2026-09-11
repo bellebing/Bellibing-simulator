@@ -24,7 +24,8 @@ interface CharacterOutroContract {
 /** Reviewed only for one source-qualified activation, not repeated-activation stack/refresh behavior. */
 export const CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW = {
   reviewedAt: '2026-09-10',
-  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow'],
+  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow', 'lupa-outro-stand-by-me-warrior'],
+  lupaReviewedAt: '2026-09-11',
   sourceCheckedAt: '2026-08-28',
   sanhuaSourceCheckedAt: '2026-08-29',
   // Only Silversnow's canonical Deepen wording is mapped to this source-proven amplification scope.
@@ -38,7 +39,8 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
   const owner = fact.factId === 'zhezhi-outro-carve-and-draw' ? 'zhezhi'
     : fact.factId === 'lumi-outro-escorting' ? 'lumi'
     : fact.factId === 'roccia-outro-applause-please' ? 'roccia'
-    : fact.factId === 'sanhua-outro-silversnow' ? 'sanhua' : null;
+    : fact.factId === 'sanhua-outro-silversnow' ? 'sanhua'
+    : fact.factId === 'lupa-outro-stand-by-me-warrior' ? 'lupa' : null;
   const profile = owner && getCharacterMechanicsProfile(owner);
   if (!owner || fact.characterId !== owner || profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)
     || fact.kind !== 'PASSIVE' || fact.verificationStatus !== 'VERIFIED' || fact.modelingStatus !== 'RAW_ONLY'
@@ -55,9 +57,15 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
     ? fact.effectSummary.match(/^The incoming Resonator has Resonance Skill DMG Amplified by ([0-9]+(?:\.[0-9]+)?)% for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
   const sanhua = owner === 'sanhua' && fact.triggerSummary === 'Casting Outro Skill.' && fact.conditional === true
     ? fact.effectSummary.match(/^The incoming character gains ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Deepen for ([0-9]+(?:\.[0-9]+)?)s or until switched off field\.$/) : null;
+  const lupa = owner === 'lupa' && fact.triggerSummary === "Cast Lupa's Outro Skill." && fact.conditional === false
+    ? fact.effectSummary.match(/^The incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Fusion DMG Amplification and ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
   const single = lumi ?? sanhua;
-  if (!dual && !single || single && Number(single[2]) !== fact.durationSeconds) return null;
-  const amplifications = dual ? [
+  if (!dual && !single && !lupa || single && Number(single[2]) !== fact.durationSeconds
+    || lupa && Number(lupa[3]) !== fact.durationSeconds) return null;
+  const amplifications = lupa ? [
+    { statOrEffect: 'Fusion DMG Amplification', value: Number(lupa[1]) / 100 },
+    { statOrEffect: 'Basic Attack DMG Amplification', value: Number(lupa[2]) / 100 },
+  ] : dual ? [
     { statOrEffect: `${dual[1]} DMG Amplification`, value: Number(dual[2]) / 100 },
     { statOrEffect: `${dual[3]} DMG Amplification`, value: Number(dual[4]) / 100 },
   ] : [{ statOrEffect: `${lumi ? 'Resonance Skill' : 'Basic Attack'} DMG Amplification`, value: Number(single![1]) / 100 }];

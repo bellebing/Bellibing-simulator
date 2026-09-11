@@ -6,7 +6,7 @@ This document is a readable view of the current supported-profile execution boun
 
 Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. The subsequent #190 payload is also merged. Only the explicitly identified #191 additions remain unmerged.
 
-PR #190 and #191 are merged and post-merge verified; the next backend pass re-ranks unresolved lifecycle and execution evidence from this canonical baseline. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
+PR #190 and #191 are merged and post-merge verified. Draft #193 adds isolated canonical Lupa/Qiuyuan/Lynae/Cantarella transfer bindings, discoverable through 15 existing presets/Characters. Its [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md) rechecks primitive-to-profile closure after every slice: no edge closes and the partition/readiness below remain unchanged. S03/S10 timer/refresh/order semantics stay parked. The [historical integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
 
 ## Current registry-derived baseline
 

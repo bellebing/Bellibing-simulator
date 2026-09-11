@@ -25,7 +25,7 @@ No explicit target requirement is added to the canonical cast triggers. Actual t
 
 1. **Lupa isolated Outro transfer:** existing VERIFIED/RAW_ONLY canonical fact, exact provenance and simple incoming/switch-out clause; five existing presets across Changli, Chixia, Encore, Lupa and Mortefi. Reuses the existing lifecycle without new state/timing facts. Implemented below.
 2. **Qiuyuan isolated Outro transfer:** existing canonical incoming Echo amplification fact, five presets across Cantarella, Galbrena, Phrolova, Qiuyuan and Sigrika. Implemented after reviewing the exact fact below; Character-owned ECHO damage remains separate from an equipped Echo cast.
-3. **Lynae/Cantarella:** existing facts have different stack metadata and sentence shapes; review their exact scope separately before inclusion. Jianxin has no current preset consumers and ranks lower.
+3. **Lynae/Cantarella:** their exact scope and single-cap metadata are now reviewed and bound below. Jianxin has no current preset consumers and ranks lower.
 4. **Resource/Echo/profile closure:** remaining gaps retain the [PR191 audit](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md) findings. Provider resource field names alone do not establish cast-versus-hit, owner, units or ER behavior. Denia/Moth scaling and Mourning Aix target/modifier remain unresolved. None is silently cleared to increase coverage.
 
 ## Lupa isolated canonical transfer
@@ -39,3 +39,17 @@ Execution requires a real owner/recipient Outro switch, explicit absence of a pr
 `qiuyuan-outro-strike-before-ready-amplification` supplies only its existing incoming Echo Skill amplification. The canonical fact separately identifies Character-owned Outro ECHO damage; the transfer neither calculates that damage nor treats it as an equipped Echo cast. Its exact owner, pinned source URL, original checked date, scope, trigger and complete sentence shape are required. No number or source fact is duplicated.
 
 The same prior-state/order/recipient/expiry contract is reused. Tests cover source drift, repeated/mixed activation rejection, source-only consumer rotations, detached database projection, and a caller-proven Cantarella/Lorelei hit: no landed hit gives zero damage, omitted landed count fails, and a Character fact cannot masquerade as an Echo attack. Five current presets gain discovery; the closure recheck still supplies no missing profile events, equipment state, resources or duration. All 83 edges and six Reference Team blockers remain pending.
+
+## Lynae and Cantarella: known cap, isolated lifecycle
+
+`lynae-outro-lets-hit-the-road-amplification` and `cantarella-outro-gentle-tentacles` preserve their existing VERIFIED/RAW_ONLY and maxStacks=1 metadata. Their exact canonical owner, pinned provenance, original checked date, incoming scope, trigger and sentence shape are required. Single-cap metadata does not establish refresh at a repeated activation, so the same strict isolated policy applies. No generic RAW_ONLY or maxStacks=1 promotion is added.
+
+The All/Liberation and Havoc/Skill terms remain separately scoped. Lynae's source-fixed Outro hit remains a separate ACTION and is not calculated by the transfer. Tests exercise altered scope/provenance/cap/status, wrong owner, repeated/mixed activations, both kinds of tied order, expiry, permanent recipient switch-out, and direct-hit composition for Calcharo Basic and Roccia Skill. Buff selection/composition remains caller-proven; no All+Liberation or Havoc+Skill aggregation is inferred.
+
+Lynae has four current preset consumers and Cantarella two; one Cantarella consumer already belongs to the Qiuyuan cohort. Across the four new owners the union is **15 presets / 15 Characters**, exposing seven additional independent source terms. Total Outro contracts grow from nine to thirteen. The post-slice queue/rotation audit still finds all 83 open edges / 72 IDs, the same 26/24/7/9/17 partition, readiness43/3/9/2 and six Reference Team blockers. No profile is newly executable or DPS_READY.
+
+## Reviewability boundary
+
+The runtime diff extends one existing adapter for four exact canonical owners; it introduces no new kernel, lifecycle engine, source value table or UI path. Lupa, Qiuyuan and Lynae/Cantarella are the three coherent implementation slices. This exhausts the reviewed high-fanout simple Outro cohort selected in this pass. Jianxin has no current preset consumers; Phrolova couples the description to Maestro/Hecate execution; Brant remains PENDING_INTERPRETATION. Broader Character state, resource ingestion, Sonata lifecycles and profile engines need separately evidenced scopes. Freeze this draft's feature scope and perform integration readiness review before any such follow-up.
+
+All six Reference Team blockers, BUG-008/010/012/028/029, Zani Frazzle-infliction mapping, Abyss Surges 587/588, unresolved Max Energy, Buling/Danjin/Xiangli Yao, Denia/Moth attack scaling, Moth hold-hit occurrence and Mourning Aix target/modifier remain unchanged. This boundary is review scope, not a claim that no future safe backend work exists.

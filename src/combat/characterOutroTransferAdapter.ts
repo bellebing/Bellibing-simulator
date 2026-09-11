@@ -24,12 +24,14 @@ interface CharacterOutroContract {
 /** Reviewed only for one source-qualified activation, not repeated-activation stack/refresh behavior. */
 export const CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW = {
   reviewedAt: '2026-09-10',
-  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow', 'lupa-outro-stand-by-me-warrior', 'qiuyuan-outro-strike-before-ready-amplification'],
+  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow', 'lupa-outro-stand-by-me-warrior', 'qiuyuan-outro-strike-before-ready-amplification', 'lynae-outro-lets-hit-the-road-amplification', 'cantarella-outro-gentle-tentacles'],
   lupaReviewedAt: '2026-09-11',
   qiuyuanReviewedAt: '2026-09-11',
+  lynaeCantarellaReviewedAt: '2026-09-11',
   sourceCheckedAt: '2026-08-28',
   sanhuaSourceCheckedAt: '2026-08-29',
   qiuyuanSourceCheckedAt: '2026-08-29',
+  lynaeCantarellaSourceCheckedAt: '2026-08-29',
   // Only Silversnow's canonical Deepen wording is mapped to this source-proven amplification scope.
   sanhuaSemanticSource: 'https://wuthering.wiki/character_1102.html',
   sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
@@ -43,13 +45,17 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
     : fact.factId === 'roccia-outro-applause-please' ? 'roccia'
     : fact.factId === 'sanhua-outro-silversnow' ? 'sanhua'
     : fact.factId === 'lupa-outro-stand-by-me-warrior' ? 'lupa'
-    : fact.factId === 'qiuyuan-outro-strike-before-ready-amplification' ? 'qiuyuan' : null;
+    : fact.factId === 'qiuyuan-outro-strike-before-ready-amplification' ? 'qiuyuan'
+    : fact.factId === 'lynae-outro-lets-hit-the-road-amplification' ? 'lynae'
+    : fact.factId === 'cantarella-outro-gentle-tentacles' ? 'cantarella' : null;
   const profile = owner && getCharacterMechanicsProfile(owner);
+  const knownSingleCap = owner === 'lynae' || owner === 'cantarella';
   if (!owner || fact.characterId !== owner || profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)
     || fact.kind !== 'PASSIVE' || fact.verificationStatus !== 'VERIFIED' || fact.modelingStatus !== 'RAW_ONLY'
-    || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER' || fact.maxStacks !== null
+    || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER' || fact.maxStacks !== (knownSingleCap ? 1 : null)
     || fact.provenance.checkedAt !== (owner === 'sanhua' ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sanhuaSourceCheckedAt
       : owner === 'qiuyuan' ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.qiuyuanSourceCheckedAt
+      : knownSingleCap ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.lynaeCantarellaSourceCheckedAt
       : CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCheckedAt)
     || !fact.provenance.sourceUrls?.includes(`https://github.com/DommyMM/wuwabuild/blob/${CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCommit}/public/Data/Characters.json`)
     || fact.durationSeconds === null || !Number.isFinite(fact.durationSeconds) || fact.durationSeconds <= 0) return null;
@@ -65,12 +71,18 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
     ? fact.effectSummary.match(/^The incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Fusion DMG Amplification and ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
   const qiuyuan = owner === 'qiuyuan' && fact.triggerSummary === 'Casting Outro Skill.' && fact.conditional === true
     ? fact.effectSummary.match(/^The incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Echo Skill DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\. Outro damage is represented separately as source-fixed ECHO damage\.$/) : null;
+  // Their canonical cap is known, but repeated-activation refresh remains outside this isolated family.
+  const lynae = owner === 'lynae' && fact.triggerSummary === 'Lynae casts Outro Skill and the incoming Resonator takes the field.' && fact.conditional === true
+    ? fact.effectSummary.match(/^Incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% All DMG Amplification and ([0-9]+(?:\.[0-9]+)?)% Resonance Liberation DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\. The source-fixed [0-9]+(?:\.[0-9]+)?% ATK Outro hit is stored as a separate ACTION fact\.$/) : null;
+  const cantarella = owner === 'cantarella' && fact.triggerSummary === 'Cantarella casts Outro Skill and the incoming Resonator takes the field.' && fact.conditional === true
+    ? fact.effectSummary.match(/^Incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Havoc DMG Amplification and ([0-9]+(?:\.[0-9]+)?)% Resonance Skill DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
   const single = lumi ?? sanhua ?? qiuyuan;
-  if (!dual && !single && !lupa || single && Number(single[2]) !== fact.durationSeconds
-    || lupa && Number(lupa[3]) !== fact.durationSeconds) return null;
-  const amplifications = lupa ? [
-    { statOrEffect: 'Fusion DMG Amplification', value: Number(lupa[1]) / 100 },
-    { statOrEffect: 'Basic Attack DMG Amplification', value: Number(lupa[2]) / 100 },
+  const gainsDual = lupa ?? lynae ?? cantarella;
+  if (!dual && !single && !gainsDual || single && Number(single[2]) !== fact.durationSeconds
+    || gainsDual && Number(gainsDual[3]) !== fact.durationSeconds) return null;
+  const amplifications = gainsDual ? [
+    { statOrEffect: `${lupa ? 'Fusion' : lynae ? 'All' : 'Havoc'} DMG Amplification`, value: Number(gainsDual[1]) / 100 },
+    { statOrEffect: `${lupa ? 'Basic Attack' : lynae ? 'Resonance Liberation' : 'Resonance Skill'} DMG Amplification`, value: Number(gainsDual[2]) / 100 },
   ] : dual ? [
     { statOrEffect: `${dual[1]} DMG Amplification`, value: Number(dual[2]) / 100 },
     { statOrEffect: `${dual[3]} DMG Amplification`, value: Number(dual[4]) / 100 },

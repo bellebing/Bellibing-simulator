@@ -53,3 +53,20 @@ Lynae has four current preset consumers and Cantarella two; one Cantarella consu
 The runtime diff extends one existing adapter for four exact canonical owners; it introduces no new kernel, lifecycle engine, source value table or UI path. Lupa, Qiuyuan and Lynae/Cantarella are the three coherent implementation slices. This exhausts the reviewed high-fanout simple Outro cohort selected in this pass. Jianxin has no current preset consumers; Phrolova couples the description to Maestro/Hecate execution; Brant remains PENDING_INTERPRETATION. Broader Character state, resource ingestion, Sonata lifecycles and profile engines need separately evidenced scopes. Freeze this draft's feature scope and perform integration readiness review before any such follow-up.
 
 All six Reference Team blockers, BUG-008/010/012/028/029, Zani Frazzle-infliction mapping, Abyss Surges 587/588, unresolved Max Energy, Buling/Danjin/Xiangli Yao, Denia/Moth attack scaling, Moth hold-hit occurrence and Mourning Aix target/modifier remain unchanged. This boundary is review scope, not a claim that no future safe backend work exists.
+
+
+## Integration review and final verification protocol
+
+The complete four-commit candidate `febc1ffcd59613de46d90077865dfb7ec0936d6c` was reviewed against actual main `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`. The subsequent checkpoint changes documentation only. No additional runtime defect was found in the full review.
+
+| Area | Verified result |
+| --- | --- |
+| Runtime scope | Only `characterOutroTransferAdapter.ts` changes. Four exact fact/owner/source joins retain separate amplification scopes; no source numeric values are copied into runtime. Exact canonical null/one stack metadata is validated without implementing refresh. |
+| Existing behavior | All nine previous Outro contracts are byte-equivalent in the export. Existing legacy-family and PR191 tests remain, scoped to their original exact owners; the new test additionally asserts the complete thirteen-contract inventory. Shared activation/query state and damage kernels are unchanged. |
+| New behavior | Thirteen new tests cover source drift, exact scopes, prior-state proof, actual event/recipient identity, mixed/repeated activation rejection, tied ordering, expiry, switch-out, explicit Basic/Skill/Echo arithmetic and detached exports. Canonical damage facts remain separate from amplification. |
+| Preservation | Comparing built Character database JSON against the post-merge #191 Export, only four `outroTransferSupport` entries differ. Every other database field is identical. UI, canonical data, workflows and dependency definitions are unchanged. Original four-file Flamewing WIP hashes match the saved snapshot. |
+| Closure | Re-derived after each slice: 83 edges / 72 IDs, partition26/24/7/9/17, readiness43/3/9/2, six Reference Team blockers. All17 pending profiles remain SOURCE_SEQUENCE_ONLY without rotationSeconds. Fifteen consumers means discovery, not actual buff occurrence or profile execution. |
+| Repository CI | Runtime checkpoint: [Verify #1113](https://github.com/bellebing/Bellibing-simulator/actions/runs/34631842171) and [Export #1012](https://github.com/bellebing/Bellibing-simulator/actions/runs/34631842189) SUCCESS. Both logs show 832/832 tests, zero failures. Verify includes full source/profile gates, strict build, three Chrome regressions and whitespace. |
+| Review | Full paginated GitHub inspection found zero reviews, threads and conversation comments. This is not external AI approval. No required external-review gate was observed. Final-head checks and pagination are repeated after the docs checkpoint and recorded in PR #193 / Handoff. |
+
+After final-head gates and Handoff readback, the engineering outcome is `READY_FOR_EXPLICIT_MERGE_AUTHORIZATION`. Keep #193 draft/open/unmerged. The user authorized only #191 to merge; no landing request is made for #193. Next action is a separate explicit merge decision after reviewing this bounded cohort. New gameplay families are outside the frozen PR.

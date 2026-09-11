@@ -1,6 +1,6 @@
 # Character database and shared action values
 
-Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
+Integration status: PR #190 and #191 are merged/deployed through `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`; post-merge Verify #1110 / Export #1009 / Deploy #148 passed with 819 tests. References below to their draft/unmerged states are historical checkpoints. Draft #193 contains the separately reviewed follow-up and has no merge authorization.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
@@ -32,7 +32,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `hitPrimitives.echoActiveHits` | Nine exact Rank-5 ACTIVE_CAST Echo facts integrated through #191, with explicit component/landed-hit evaluation. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
 | `outroTransferSupport` | Thirteen canonical Character Outro contracts: nine integrated through #191 plus Lupa/Qiuyuan/Lynae/Cantarella isolated bindings on #193. Explicit handoff, recipient history and the declared stack policy are required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
-| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #190. |
+| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #191. |
 | `gear.echoTransferWindows` | Existing Denia/Hyvatia summon contracts and the new Rank-5 Voidwing use-to-Outro contract, with exact arm kind, rank and caller-state requirements. Values stay in `gear.echoEffects`; no profile timing or activation is inferred. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |

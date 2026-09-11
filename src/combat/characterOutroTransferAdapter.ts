@@ -18,6 +18,52 @@ interface CharacterOutroContract {
   readonly characterId: string;
   readonly durationSeconds: number;
   readonly amplifications: readonly CharacterOutroAmplification[];
+  readonly stackPolicy?: 'UNKNOWN_SINGLE_ACTIVATION_ONLY';
+}
+
+/** Reviewed only for one source-qualified activation, not repeated-activation stack/refresh behavior. */
+export const CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW = {
+  reviewedAt: '2026-09-10',
+  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow'],
+  sourceCheckedAt: '2026-08-28',
+  sanhuaSourceCheckedAt: '2026-08-29',
+  // Only Silversnow's canonical Deepen wording is mapped to this source-proven amplification scope.
+  sanhuaSemanticSource: 'https://wuthering.wiki/character_1102.html',
+  sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
+  stackPolicy: 'UNKNOWN_SINGLE_ACTIVATION_ONLY',
+} as const;
+
+/** Read already-canonical amounts. RAW_ONLY remains unchanged for the unknown repeated-activation lifecycle. */
+export function resolveCharacterOutroSingleActivationContract(fact: CharacterMechanicFact): CharacterOutroContract | null {
+  const owner = fact.factId === 'zhezhi-outro-carve-and-draw' ? 'zhezhi'
+    : fact.factId === 'lumi-outro-escorting' ? 'lumi'
+    : fact.factId === 'roccia-outro-applause-please' ? 'roccia'
+    : fact.factId === 'sanhua-outro-silversnow' ? 'sanhua' : null;
+  const profile = owner && getCharacterMechanicsProfile(owner);
+  if (!owner || fact.characterId !== owner || profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)
+    || fact.kind !== 'PASSIVE' || fact.verificationStatus !== 'VERIFIED' || fact.modelingStatus !== 'RAW_ONLY'
+    || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER' || fact.maxStacks !== null
+    || fact.provenance.checkedAt !== (owner === 'sanhua' ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sanhuaSourceCheckedAt
+      : CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCheckedAt)
+    || !fact.provenance.sourceUrls?.includes(`https://github.com/DommyMM/wuwabuild/blob/${CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCommit}/public/Data/Characters.json`)
+    || fact.durationSeconds === null || !Number.isFinite(fact.durationSeconds) || fact.durationSeconds <= 0) return null;
+  const dual = ['zhezhi', 'roccia'].includes(owner) && fact.triggerSummary === `${owner === 'zhezhi' ? 'Zhezhi' : 'Roccia'} casts Outro Skill.` && fact.conditional === true
+    ? fact.effectSummary.match(/^The incoming Resonator has (Glacio|Havoc) DMG Amplified by ([0-9]+(?:\.[0-9]+)?)% and (Resonance Skill|Basic Attack) DMG Amplified by ([0-9]+(?:\.[0-9]+)?)%\. The effect ends early if the Resonator is switched out\.$/) : null;
+  if (dual && (dual[1] !== (owner === 'zhezhi' ? 'Glacio' : 'Havoc')
+    || dual[3] !== (owner === 'zhezhi' ? 'Resonance Skill' : 'Basic Attack'))) return null;
+  const lumi = owner === 'lumi' && fact.triggerSummary === 'Lumi casts Outro Skill Escorting.' && fact.conditional === false
+    ? fact.effectSummary.match(/^The incoming Resonator has Resonance Skill DMG Amplified by ([0-9]+(?:\.[0-9]+)?)% for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
+  const sanhua = owner === 'sanhua' && fact.triggerSummary === 'Casting Outro Skill.' && fact.conditional === true
+    ? fact.effectSummary.match(/^The incoming character gains ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Deepen for ([0-9]+(?:\.[0-9]+)?)s or until switched off field\.$/) : null;
+  const single = lumi ?? sanhua;
+  if (!dual && !single || single && Number(single[2]) !== fact.durationSeconds) return null;
+  const amplifications = dual ? [
+    { statOrEffect: `${dual[1]} DMG Amplification`, value: Number(dual[2]) / 100 },
+    { statOrEffect: `${dual[3]} DMG Amplification`, value: Number(dual[4]) / 100 },
+  ] : [{ statOrEffect: `${lumi ? 'Resonance Skill' : 'Basic Attack'} DMG Amplification`, value: Number(single![1]) / 100 }];
+  if (amplifications.some((term) => !Number.isFinite(term.value) || term.value <= 0)) return null;
+  return { factId: fact.factId, characterId: owner, durationSeconds: fact.durationSeconds, amplifications,
+    stackPolicy: 'UNKNOWN_SINGLE_ACTIVATION_ONLY' };
 }
 
 /**
@@ -55,7 +101,7 @@ export function resolveCharacterOutroTransferContract(fact: CharacterMechanicFac
 
 export function listCharacterOutroTransferSupport() {
   return CHARACTER_MECHANIC_FACTS.flatMap((fact) => {
-    const contract = resolveCharacterOutroTransferContract(fact);
+    const contract = resolveCharacterOutroTransferContract(fact) ?? resolveCharacterOutroSingleActivationContract(fact);
     return contract ? [{ ...contract, primitiveId: CHARACTER_OUTRO_TRANSFER_ADAPTER_ID,
       scope: 'EXPLICIT_OUTRO_TRANSFER_ONLY' as const, endsOnIncomingSwitchOut: true as const }] : [];
   }).sort((a, b) => a.factId < b.factId ? -1 : a.factId > b.factId ? 1 : 0);
@@ -64,10 +110,15 @@ export function listCharacterOutroTransferSupport() {
 export function activateCharacterOutroTransfers(params: {
   readonly factId: string;
   readonly event: OutgoingSwitchEvent;
+  /** Required for the reviewed RAW_ONLY bindings: no earlier activation is still active. */
+  readonly priorActivationState?: 'NONE_ACTIVE' | 'UNKNOWN';
 }): readonly IncomingTransferWindow[] {
   const fact = CHARACTER_MECHANIC_FACTS.find((row) => row.factId === params.factId);
-  const contract = fact && resolveCharacterOutroTransferContract(fact);
+  const contract = fact && (resolveCharacterOutroTransferContract(fact) ?? resolveCharacterOutroSingleActivationContract(fact));
   if (!contract) throw new Error(`${params.factId}: unsupported canonical Outro transfer`);
+  if (contract.stackPolicy && params.priorActivationState !== 'NONE_ACTIVE') {
+    throw new Error('Explicit absence of an earlier active Outro is required; stack/refresh semantics remain unknown');
+  }
   const expiresAt = params.event.atSeconds + contract.durationSeconds;
   if (!Number.isFinite(expiresAt) || expiresAt <= params.event.atSeconds) throw new Error('Outro expiration is not representable');
   return contract.amplifications.flatMap((term) => {
@@ -86,11 +137,42 @@ export function activateCharacterOutroTransfers(params: {
 export function activeCharacterOutroAmplifications(
   windows: readonly IncomingTransferWindow[], actorId: string, atSeconds: number,
   switchOutEvents: readonly ResonatorSwitchOutEvent[],
+  ordering?: {
+    readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER' | 'UNKNOWN';
+    readonly sameTimestampSwitchOutOrder?: 'BEFORE_QUERY' | 'AFTER_QUERY' | 'UNKNOWN';
+  },
 ): readonly IncomingTransferWindow[] {
   if (!Array.isArray(switchOutEvents)) throw new Error('Outro query requires explicit recipient switch-out history');
   for (const window of windows) {
     if (window.adapterId !== CHARACTER_OUTRO_TRANSFER_ADAPTER_ID || window.sourceLayer !== 'CHARACTER') {
       throw new Error('Outro query requires a Character Outro transfer window');
+    }
+  }
+  const singleOnly = windows.some((window) => CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.factIds.some((id) => id === window.sourceId));
+  if (singleOnly) {
+    if (!ordering || !['BEFORE_TRIGGER', 'AFTER_TRIGGER', 'UNKNOWN'].includes(ordering.sameTimestampOrder)) {
+      throw new Error('Explicit Outro/query ordering is required');
+    }
+    const first = windows[0];
+    if (windows.some((window) => window.sourceId !== first.sourceId || window.sourceActorId !== first.sourceActorId
+      || window.incomingResonatorId !== first.incomingResonatorId || window.startedAtSeconds !== first.startedAtSeconds)
+      || new Set(windows.map((window) => window.effectId)).size !== windows.length) {
+      throw new Error('Unknown stack semantics require one independent activation; repeated/mixed windows are unsupported');
+    }
+    if (atSeconds === first.startedAtSeconds) {
+      if (ordering.sameTimestampOrder === 'UNKNOWN') throw new Error('Same-timestamp Outro/query ordering is unresolved');
+      if (ordering.sameTimestampOrder === 'BEFORE_TRIGGER') return [];
+    }
+    const ties = switchOutEvents.some((event) => event.actorId === first.incomingResonatorId && event.atSeconds === atSeconds);
+    if (ties) {
+      if (!['BEFORE_QUERY', 'AFTER_QUERY'].includes(ordering.sameTimestampSwitchOutOrder ?? '')) {
+        throw new Error('Same-timestamp recipient switch/query ordering is unresolved');
+      }
+      if (ordering.sameTimestampSwitchOutOrder === 'AFTER_QUERY') {
+        // Validate the complete supplied history before excluding only a proven later event.
+        windows.forEach((window) => isIncomingTransferWindowActive(window, actorId, atSeconds, switchOutEvents));
+        switchOutEvents = switchOutEvents.filter((event) => event.atSeconds !== atSeconds);
+      }
     }
   }
   return windows.filter((window) => isIncomingTransferWindowActive(window, actorId, atSeconds, switchOutEvents));

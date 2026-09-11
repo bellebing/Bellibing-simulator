@@ -1,10 +1,12 @@
 # Bellibing Simulator — DPS Execution Gap Matrix
 
+Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
+
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
-Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. Subsequent overnight work is unmerged until separately authorized and observed on main.
+Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. The subsequent #190 payload is also merged. Only the explicitly identified #191 additions remain unmerged.
 
-PR #190 feature scope is frozen at the reviewed target-window payload. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
+PR #190 is merged at its reviewed target-window payload; PR #191 is now frozen for integration review. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
 
 ## Current registry-derived baseline
 
@@ -15,7 +17,7 @@ Readiness:
 - **9 `PROFILE_SOURCE_PENDING`**;
 - **2 `DPS_READY`** — Augusta and Ciaccona.
 
-Canonical dependency matrix:
+Canonical dependency matrix (83 profile–dependency edges reference 72 distinct dependency IDs; shared IDs can occur in multiple profiles):
 
 - **19 backward-impact reviews**;
 - **19 reviewed canonical profiles**;
@@ -26,18 +28,18 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #190 branch as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #191 branch as:
 
-- **30 `UNREVIEWED`**;
+- **26 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **20 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **24 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **7 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
-`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **30 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through #189 retains its historical 37 unreviewed / 15 primitive-available split until this PR is separately integrated.
+`UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gives **26 actionable shared edges**. This is a prioritization signal only; closure work optimizes for shortest verified route to `DPS_READY` plus dependency reuse. The semantic partition does not remove canonical pending IDs. Main through merged #190 has 30 unreviewed / 20 primitive-available; #191 adds exact Echo attack facts for Cantarella, Zhezhi and Carlotta without closing their timelines or changing any pending ID.
 
-The 2026-09-09 exact-code reconciliation starts from `0cf811f` (36 unreviewed / 16 primitive-available / 5 source-conflict). Three previously UNREVIEWED edges already have callable source-bound primitives: Calcharo's exact Nightmare: Thundering Mephis hit, Denia's Reminiscence: Denia summon/Outro transfer, and Shorekeeper's Stellar Symphony healing-qualified Skill window. Their actual preset equipment and canonical IDs are checked against those adapters. They are now correctly primitive-available/requires-timeline; no implementation is duplicated and none of the three dependencies closes. Voidwing Moth is not Hyvatia and remains outside that transfer proof.
+The 2026-09-09 exact-code reconciliation starts from `0cf811f` (36 unreviewed / 16 primitive-available / 5 source-conflict). Three previously UNREVIEWED edges already have callable source-bound primitives: Calcharo's exact Nightmare: Thundering Mephis hit, Denia's Reminiscence: Denia summon/Outro transfer, and Shorekeeper's Stellar Symphony healing-qualified Skill window. Their actual preset equipment and canonical IDs are checked against those adapters. They are now correctly primitive-available/requires-timeline; no implementation is duplicated and none of the three dependencies closes. Voidwing Moth is not Hyvatia. PR #191 independently reviews its use-to-Outro ATK condition and adds a distinct use-arm binding; its damage and timeline remain pending.
 
 Two Blazing Justice edges move from UNREVIEWED to BLOCKED_SOURCE_CONFLICT using the conflict already recorded in canonical weapon effects and Zani's backward-impact review: Basic Attack versus Liberation as trigger. The registry-local blocker `source-conflict:blazing-justice-trigger` is an identifier for that existing conflict, not a new source determination. All 83 exact IDs and six Reference Team blockers remain open. The queue's actual enum names are `PROFILE_SPECIFIC_EXECUTION` and `BLOCKED_SOURCE_SEMANTICS`; alternate planning labels do not create extra statuses.
 
@@ -53,13 +55,17 @@ The same explicit damage-event/query boundary now supports four Sonata windows f
 
 ### Source-bound Character Outro transfers
 
+PR #191 also reuses its isolated-activation contract for Roccia and Sanhua. Four RAW_ONLY/null-stack owners now expose six independent terms, discoverable from nine presets/eight Characters. This expands canonical consumer coverage without executing a profile or removing a pending ID. Sanhua's exact Basic Deepen-to-amplification mapping has a supplemental wording review; no other Deepen or PENDING_INTERPRETATION fact is accepted by analogy.
+
+The new reuse-first lane additionally binds Zhezhi and Lumi for one explicit isolated activation only. Their two VERIFIED/RAW_ONLY facts retain unknown stack metadata. Caller-proven absence of an earlier active activation and explicit activation/query and recipient-switch/query order are required; the existing incoming-transfer lifecycle preserves separate source terms, duration and switch-out termination. Six presets across five Characters discover these shared bindings without gaining rotation execution. Repeated-activation/refresh semantics, all 83 execution edges and all six Reference Team blockers remain open.
+
 PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
 
 ### Explicit attacks on source-qualified targets
 
 `sonata-explicit-target-attack-window-v1` implements canonical S11_5PC_SPECTRO and S17_5PC_CR/AERO. It consumes exact selected equipment, owner, actual source-qualified attack/hit, and target state observed at the same time explicitly before the trigger. Zani's existing Heliacal view can supply only the Eternal Radiance stack predicate; it cannot activate S11_5PC_CR, establish incoming Frazzle events or close BUG-015. Windward bindings have current Cartethyia/Rover Aero/Jiyan consumers. Windows remain independent with explicit same-timestamp query ordering.
 
-The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Current queue: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
+The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Historical merged #190 checkpoint: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
 
 ### Applied-heal window boundary
 
@@ -115,7 +121,7 @@ The shared Aero Erosion state/weapon execution slice closes Ciaccona Woodland Ar
 
 ## Carlotta current no-go
 
-`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct also has no exact Rank-5 attack profile in the Echo attack catalog. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
+`carlotta-standard` still has five canonical pending IDs. The Last Dance weapon window and Frosty Resolve's `S10_5PC_GLACIO` window can reuse the existing cast-timed primitives once a profile timeline exists. The current reviewed source sequence does not provide an exact total rotation duration/DPS denominator. Sentry Construct now has separate exact Rank-5 normal-strike and charged-dive damage facts; variant occurrence and capacitor/reset state are still profile-owned. Frosty Resolve's separate Skill-stack execution and the rotation remain open; no Carlotta dependency is closed by inference.
 
 ## Rover (Aero) exact remaining graph
 

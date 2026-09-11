@@ -1,5 +1,5 @@
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
-import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
+import { ECHO_EFFECT_MODELS, VOIDWING_MOTH_TRANSFER_EFFECT } from '../data/echoEffects.ts';
 import {
   createIncomingTransferWindow,
   type IncomingTransferWindow,
@@ -7,7 +7,7 @@ import {
 } from './incomingTransferState.ts';
 
 export interface EchoTransferArmEvent {
-  readonly kind: 'ECHO_SKILL_SUMMON';
+  readonly kind: 'ECHO_SKILL_SUMMON' | 'ECHO_SKILL_USE';
   readonly echoId: string;
   readonly actorId: string;
   readonly atSeconds: number;
@@ -20,11 +20,22 @@ interface EchoTransferContract {
   readonly activationWindowSeconds: number;
   readonly durationSeconds: number;
   readonly requiresIncomingIntro: boolean;
+  readonly armEventKind: EchoTransferArmEvent['kind'];
+  readonly requiredRank?: 5;
+  readonly singleActivationOnly?: true;
 }
 
 export const ECHO_TRANSFER_WINDOW_CONTRACTS: readonly EchoTransferContract[] = [
   {
+    effectId: VOIDWING_MOTH_TRANSFER_EFFECT.effectId, echoId: VOIDWING_MOTH_TRANSFER_EFFECT.echoId,
+    expectedSourceTrigger: VOIDWING_MOTH_TRANSFER_EFFECT.trigger,
+    activationWindowSeconds: VOIDWING_MOTH_TRANSFER_EFFECT.activationWindowSeconds,
+    durationSeconds: VOIDWING_MOTH_TRANSFER_EFFECT.durationSeconds,
+    requiresIncomingIntro: false, armEventKind: 'ECHO_SKILL_USE', requiredRank: 5, singleActivationOnly: true,
+  },
+  {
     effectId: 'REMINISCENCE_DENIA_INCOMING_FUSION',
+    armEventKind: 'ECHO_SKILL_SUMMON',
     echoId: 'echo-60002005',
     expectedSourceTrigger: 'Within 15s after summoning Reminiscence: Denia, the wielder casts Outro Skill',
     activationWindowSeconds: 15,
@@ -33,6 +44,7 @@ export const ECHO_TRANSFER_WINDOW_CONTRACTS: readonly EchoTransferContract[] = [
   },
   {
     effectId: 'HYVATIA_INCOMING_ALL_ATTRIBUTE',
+    armEventKind: 'ECHO_SKILL_SUMMON',
     echoId: 'echo-60001895',
     expectedSourceTrigger: 'Within 15s after summoning Hyvatia, the wielder casts Outro; the next Resonator uses Intro Skill',
     activationWindowSeconds: 15,
@@ -92,6 +104,16 @@ export function validateEchoTransferWindowContracts(
     if (effect.durationSeconds !== contract.durationSeconds) issues.push(`${contract.effectId} duration drift`);
     if (Boolean(effect.requiresIncomingIntro) !== contract.requiresIncomingIntro) issues.push(`${contract.effectId} incoming Intro requirement drift`);
     if (!Number.isFinite(effect.value)) issues.push(`${contract.effectId} value must remain finite`);
+    if (contract.effectId === VOIDWING_MOTH_TRANSFER_EFFECT.effectId) {
+      if (catalog.filter((row) => row.effectId === contract.effectId).length !== 1) issues.push(`${contract.effectId} ambiguous source rows`);
+      if (effect.statOrEffect !== 'ATK%') issues.push(`${contract.effectId} must remain an ATK% transfer`);
+      if (effect.wielderCharacterIds !== undefined) issues.push(`${contract.effectId} unreviewed wielder restriction`);
+      if (effect.value <= 0) issues.push(`${contract.effectId} value must remain positive`);
+      if (effect.provenance?.checkedAt !== VOIDWING_MOTH_TRANSFER_EFFECT.provenance.checkedAt
+        || !VOIDWING_MOTH_TRANSFER_EFFECT.provenance.sourceUrls.every((url) => effect.provenance?.sourceUrls?.includes(url))) {
+        issues.push(`${contract.effectId} reviewed provenance drift`);
+      }
+    }
   }
 
   return issues;
@@ -102,17 +124,30 @@ if (CONTRACT_ISSUES.length > 0) {
   throw new Error(`Invalid Echo transfer contracts: ${CONTRACT_ISSUES.join('; ')}`);
 }
 
+/** Capability references only; source values remain in the canonical effect catalog. */
+export function listEchoTransferWindowSupport() {
+  return ECHO_TRANSFER_WINDOW_CONTRACTS.map((c) => ({ effectId: c.effectId, echoId: c.echoId,
+    primitiveId: 'echo-transfer-window-v1' as const, armEventKind: c.armEventKind,
+    requiredRank: c.requiredRank ?? null, requiresIncomingIntro: c.requiresIncomingIntro,
+    priorActivationRequirement: c.singleActivationOnly ? 'NONE_ACTIVE' as const : null,
+    requiresSameTimestampArmOrder: Boolean(c.singleActivationOnly),
+  }));
+}
+
 export function activateEchoTransferWindow(params: {
   readonly effectId: string;
   readonly wielderId: string;
   readonly armEvent: EchoTransferArmEvent;
   readonly outroEvent: OutgoingSwitchEvent;
   readonly catalog?: readonly EchoEffectModel[];
+  readonly rank?: number;
+  readonly priorActivationState?: 'NONE_ACTIVE' | 'UNKNOWN';
+  readonly sameTimestampArmOrder?: 'ECHO_BEFORE_OUTRO' | 'OUTRO_BEFORE_ECHO' | 'UNKNOWN';
 }): IncomingTransferWindow | null {
   const { effectId, wielderId, armEvent, outroEvent, catalog = ECHO_EFFECT_MODELS } = params;
   const contract = ECHO_TRANSFER_WINDOW_CONTRACTS.find((row) => row.effectId === effectId);
   if (!contract) throw new Error(`No verified Echo transfer contract for ${effectId}`);
-  if (armEvent.kind !== 'ECHO_SKILL_SUMMON') {
+  if (armEvent.kind !== contract.armEventKind) {
     throw new Error(`unsupported Echo transfer arm event kind: ${String(armEvent.kind)}`);
   }
   if (!armEvent.echoId.trim() || !armEvent.actorId.trim()) {
@@ -122,6 +157,20 @@ export function activateEchoTransferWindow(params: {
     throw new Error(`Echo transfer arm time must be a finite non-negative number: ${armEvent.atSeconds}`);
   }
   if (armEvent.echoId !== contract.echoId || armEvent.actorId !== wielderId) return null;
+
+  if (contract.singleActivationOnly) {
+    if (params.rank !== contract.requiredRank) throw new Error('Echo transfer requires the reviewed Rank-5 context');
+    if (params.priorActivationState !== 'NONE_ACTIVE') throw new Error('Earlier active Echo transfer state must be explicitly absent');
+    const issues = validateEchoTransferWindowContracts(catalog);
+    if (issues.length) throw new Error(`Invalid Echo transfer source: ${issues.join('; ')}`);
+    for (const [start, duration] of [[armEvent.atSeconds, contract.activationWindowSeconds], [outroEvent.atSeconds, contract.durationSeconds]]) {
+      if (!Number.isFinite(start + duration) || start + duration <= start) throw new Error('Echo transfer expiration is not representable');
+    }
+    if (armEvent.atSeconds === outroEvent.atSeconds) {
+      if (params.sameTimestampArmOrder === 'OUTRO_BEFORE_ECHO') return null;
+      if (params.sameTimestampArmOrder !== 'ECHO_BEFORE_OUTRO') throw new Error('Same-timestamp Echo/Outro order is unresolved');
+    }
+  }
 
   const effect = effectById(catalog, effectId);
   if (!effect) throw new Error(`Missing Echo transfer effect ${effectId}`);

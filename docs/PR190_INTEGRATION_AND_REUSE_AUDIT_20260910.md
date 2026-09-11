@@ -1,5 +1,7 @@
 # PR #190 integration review and reuse-first audit
 
+Integration update: **PR #190 merged on 2026-09-10** after explicit user authorization. Merge `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f` preserves the reviewed head `707563b91a2a5e892eae711739b14fa1c47e46ae` exactly, with prior main `b16552da92a35a717c179a3801b262d728cbba97` as first parent. [Verify #1102](https://github.com/bellebing/Bellibing-simulator/actions/runs/34499085676), [Export #1001](https://github.com/bellebing/Bellibing-simulator/actions/runs/34499085662) and [Deploy #147](https://github.com/bellebing/Bellibing-simulator/actions/runs/34499085641) all passed with 800/800 tests, strict build and required local/live browser gates. Published Alpha/UI-preview/database match Export bytes. The pre-merge restrictions and counts below remain historical review evidence; new feature work belongs to a fresh branch, with no further merge authorization.
+
 Reviewed 2026-09-10. Canonical main: `b16552da92a35a717c179a3801b262d728cbba97`. Runtime review head: `608b3918043d2cbfc0cf8a3d285d0d63eea52411`, 18 commits / 49 changed files against main. The closing commit adds documentation only; exact final-head checks and review state are recorded in [PR #190](https://github.com/bellebing/Bellibing-simulator/pull/190) and AI Handoff. No merge is authorized. Feature scope is frozen; this audit does not implement its recommended next lane.
 
 ## Integration result

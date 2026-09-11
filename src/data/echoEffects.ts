@@ -6,6 +6,22 @@ const V915_URL = 'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D
 const RAW_SNAPSHOT_URL = 'https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data';
 const CHECKED_AT = '2026-08-23';
 
+/** Supplemental Rank-5 effect review; unrelated press/hold damage scaling remains pending. */
+export const VOIDWING_MOTH_TRANSFER_EFFECT = {
+  effectId: 'VOIDWING_MOTH_INCOMING_ATK', echoId: 'echo-60001985',
+  statOrEffect: 'ATK%', value: 0.12, activation: 'TRANSFER_WINDOW',
+  trigger: 'Within 15s after using Voidwing Moth Echo Skill, the wielder casts Outro Skill',
+  activationWindowSeconds: 15, durationSeconds: 15, appliesTo: 'INCOMING_RESONATOR',
+  mechanicsStatus: 'VERIFIED_CONDITIONAL',
+  notes: 'Rank-5 use-to-Outro transfer only. Actual Echo use and later Outro/recipient must be proven; no hit, completed hold, incoming Intro, early switch-out removal or repeated-activation policy is inferred.',
+  provenance: {
+    sourceLabels: ['Wuwa Wiki game-text mirror — data version 3.6.13', 'Wuthering.gg — explicit Rank-5 Voidwing Moth text'],
+    sourceUrls: ['https://wuwa.wiki/en/codex/echoes/60001985', 'https://wuthering.gg/echos/voidwing-moth'],
+    checkedAt: '2026-09-10',
+    notes: ['The independently stated transfer condition follows using the Echo skill, not landing press/hold damage. Source mirrors may share underlying data; no independent experiment is claimed. The original rank-specific attack coefficients and missing scaling are not promoted by this effect review.'],
+  },
+} as const satisfies EchoEffectModel;
+
 function p(sourceLabels: readonly string[], sourceUrls: readonly string[]) {
   return {
     sourceLabels: ['V9.15 DPS Buffs', 'Bellibing raw Echo snapshot', ...sourceLabels],
@@ -24,6 +40,7 @@ function p(sourceLabels: readonly string[], sourceUrls: readonly string[]) {
  * that an Echo has no effect.
  */
 export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
+  VOIDWING_MOTH_TRANSFER_EFFECT,
   {
     effectId: 'FALLACY_TEAM_ATK',
     echoId: 'echo-60000605',

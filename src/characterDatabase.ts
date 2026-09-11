@@ -4,6 +4,7 @@ import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapte
 import { listWeaponResourceCastSupport } from './combat/weaponResourceCastAdapter.ts';
 import { listCharacterOutroTransferSupport } from './combat/characterOutroTransferAdapter.ts';
 import { listEchoActiveHitSupport } from './combat/echoActiveHitAdapter.ts';
+import { listEchoTransferWindowSupport } from './combat/echoTransferWindowAdapter.ts';
 import { listWeaponDamageWindowSupport } from './combat/weaponDamageWindowAdapter.ts';
 import { listSonataDamageWindowSupport } from './combat/sonataDamageWindowAdapter.ts';
 import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts';
@@ -84,6 +85,7 @@ export function buildCharacterDatabase() {
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      echoTransferWindows: listEchoTransferWindowSupport(),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
       echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,
       echoSkillPendingAdapterFacts: ECHO_SKILL_PENDING_ADAPTER_FACTS,

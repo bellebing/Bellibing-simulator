@@ -13,7 +13,7 @@ const event = (actorId: string) => ({
 });
 
 test('five model-ready Character Outros expose seven independent source amplification terms', () => {
-  const support = listCharacterOutroTransferSupport();
+  const support = listCharacterOutroTransferSupport().filter((row) => !row.stackPolicy);
   assert.deepEqual(support.map((row) => row.characterId), ['aalto', 'changli', 'mortefi', 'taoqi', 'yinlin']);
   assert.deepEqual(support.map((row) => [row.durationSeconds, row.amplifications.map((term) => [term.statOrEffect, term.value])]), [
     [14, [['Aero DMG Amplification', 0.23]]],
@@ -25,7 +25,7 @@ test('five model-ready Character Outros expose seven independent source amplific
 });
 
 test('each source transfer binds the actual incoming recipient and exact expiry', () => {
-  for (const support of listCharacterOutroTransferSupport()) {
+  for (const support of listCharacterOutroTransferSupport().filter((row) => !row.stackPolicy)) {
     const windows = activateCharacterOutroTransfers({ factId: support.factId, event: event(support.characterId) });
     assert.equal(windows.length, support.amplifications.length);
     for (const window of windows) {
@@ -56,8 +56,7 @@ test('all terms end when their recipient switches out and do not reappear on ret
 
 test('raw/pending Outros, periodic resources and a missing switch-out clause are not silently promoted', () => {
   for (const id of [
-    'brant-outro-the-course-is-set', 'zhezhi-outro-carve-and-draw', 'lumi-outro-escorting',
-    'sanhua-outro-silversnow', 'yangyang-outro-whispering-breeze', 'youhu-outro-timeless-classics',
+    'brant-outro-the-course-is-set', 'yangyang-outro-whispering-breeze', 'youhu-outro-timeless-classics',
   ]) {
     assert.equal(resolveCharacterOutroTransferContract(getCharacterMechanicFact(id)!), null, id);
     assert.throws(() => activateCharacterOutroTransfers({ factId: id, event: event('jiyan') }), /unsupported canonical/);

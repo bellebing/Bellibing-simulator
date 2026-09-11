@@ -245,6 +245,29 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
   {
+    pendingExecutionId: 'echo:echo-60001985:voidwing-moth-outro-transfer-adapter',
+    status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', actionKey: 'echo:armed-outro-incoming-transfer',
+    primitiveId: 'echo-transfer-window-v1', reviewedAt: '2026-09-10',
+    notes: [
+      'The exact canonical Voidwing Moth transfer consumes caller-proven Echo use, Rank 5, no earlier active transfer, actual Outro/recipient and explicit tied-event order.',
+      'Denia Tune selects this Echo and places it before the Luuk handoff, but the exact use/timeline must still be provided. The transfer does not infer press/hold damage, incoming Intro or early removal.',
+      'The profile dependency remains open. Reminiscence Denia and Hyvatia keep their distinct summon contracts; no attack scaling or rotation is inferred.',
+    ],
+  },
+  ...[
+    'echo:echo-60000825:lorelei-active-skill-damage-adapter',
+    'echo:echo-60001055:nightmare-lampylumen-active-skill-damage-adapter',
+    'echo:echo-60000835:sentry-construct-active-skill-damage-adapter',
+  ].map((pendingExecutionId): ExecutionSemanticReview => ({
+    pendingExecutionId, status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
+    actionKey: 'echo:active-cast-exact-damage', primitiveId: 'echo-active-explicit-hit-v1', reviewedAt: '2026-09-10',
+    notes: [
+      'Supplemental exact Echo damage-entry review proves the Rank-5 ATK component per selected attack; canonical attack provenance owns the source evidence. Sentry normal/charged attacks are separate alternatives, not a combined cast.',
+      'The existing reader and damage kernel now support explicit component, landed count and combat snapshot. No new Echo engine is added.',
+      'Preset Echo identity is exact, but cast occurrence, landed hits and profile timeline are still required. This dependency remains open.',
+    ],
+  })),
+  {
     pendingExecutionId: 'sonata:sonata-11:S11_5PC_SPECTRO:target-stack-timeline-adapter',
     status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE',
     actionKey: 'sonata:explicit-target-attack-window', primitiveId: SONATA_TARGET_WINDOW_PRIMITIVE_ID, reviewedAt: '2026-09-09',

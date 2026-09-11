@@ -1,6 +1,8 @@
 # Echo / Sonata effect coverage inventory
 
-PR #190 feature scope is frozen. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
+Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
+
+PR #190 is merged. PR #191 feature scope is frozen for integration review. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
 
 PR #190 adds `sonata-explicit-target-attack-window-v1` for existing source-reviewed S11_5PC_SPECTRO and S17_5PC_CR/AERO. Exact equipment and an actual source-qualified attack/hit require target state observed at the event time explicitly before the trigger. Existing Zani Heliacal equivalence is accepted only for Eternal Radiance stack counts, never S11_5PC_CR infliction. Values, source review totals and source statuses are unchanged; capability metadata joins canonical effects through `gear.sonataTargetWindows`. Zani's target-stack edge remains pending with primitive availability; no profile/Reference Team timeline is created.
 
@@ -98,13 +100,14 @@ Current source coverage:
 
 ### Echo Effects — current executable/source-safe slice
 
-`src/data/echoEffects.ts` now contains **65 modeled non-damage effect rows across 39 Echoes** on unmerged PR #190. Main through #189 has 63 rows / 37 Echoes; its Fleurdelys restriction is already implemented.
+`src/data/echoEffects.ts` now contains **66 modeled non-damage effect rows across 40 Echoes** on PR #191. Main through merged #190 has 65 rows / 39 Echoes. The new row is Voidwing Moth's source-reviewed Rank-5 use-to-Outro ATK transfer; its press/hold damage remains unmodeled.
 
 The expansion is deliberately conservative:
 
 - source-explicit permanent main-slot bonuses are modeled where their behavior is stable;
 - four clear permanent main-slot facts that exist only in rendered English skill text are also modeled: Hecate Coordinated Attack DMG +40%, Nameless Explorer Echo Skill DMG +20%, Nightmare: Hecate Echo Skill DMG +20%, and Nightmare: Lampylumen Myriad Coordinated Attack DMG +30%;
 - the existing Fallacy cast buffs and Denia/Hyvatia transfer-window effects remain trigger-aware and are not converted to automatic uptime;
+- Voidwing Moth reuses the transfer core with an exact `ECHO_SKILL_USE` arm event, Rank 5, caller-proven absence of an earlier active transfer and explicit same-time Echo/Outro order. Its canonical ATK amount and two durations are read from the effect row. It gains no fabricated damage/Intro prerequisite or early switch-out removal. `gear.echoTransferWindows` exposes capability references for all three distinct transfer contracts. Integration review additionally locks Voidwing caller catalogs to one unambiguous ATK row with reviewed provenance and no unreviewed wielder restriction; source amounts remain canonical;
 - The False Sovereign and Thousand-Puppet Pavilion retain `ALREADY_MODELED_UPSTREAM` protection so existing parity paths do not double count them.
 
 Source-explicit facts that the current effect domain cannot represent safely remain pending rather than being flattened:
@@ -126,7 +129,7 @@ The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact pro
 
 ### Echo Attacks — exact executable facts only
 
-`src/data/echoAttacks.ts` has **5 exact Rank-5 attack profiles / 6 attack facts**, already integrated through #189:
+The PR #191 reuse-first lane exposes **8 exact Rank-5 attack profiles / 10 attack facts** in `src/data/echoAttacks.ts`. Nine facts are ACTIVE_CAST and one is INTRO_AUTO_SUMMON. Five profiles / six facts were already integrated through #189:
 
 - The False Sovereign — verified 55.35% ×4 Electro active spin plus 405% Electro Intro auto-summon, with existing charge/cooldown parity.
 - Bell-Borne Geochelone — source-explicit 145.92% DEF-scaled Glacio protection blast with 20s cooldown.
@@ -134,11 +137,17 @@ The existing Augusta/Ciaccona evaluators, profile readiness and all 83 exact pro
 - Nightmare: Thundering Mephis — one 405% ATK Electro active hit, 25s cooldown.
 - Reminiscence: Fleurdelys — 27.36% ATK Aero ×8 plus 136.80% ATK Aero ×1, 20s cooldown.
 
+The supplemental 2026-09-10 review adds Lorelei and Nightmare: Lampylumen Myriad. Each source's Echo Skill description and single Echo damage entry agree on one active component; the damage table explicitly supplies Base Attribute ATK. Lorelei has 405% Havoc with 25s cooldown ([damage entry 1](https://wuthering.wiki/monster_330000110.html)); Nightmare: Lampylumen has 273.60% Glacio with 20s cooldown ([damage entry 1](https://wuthering.wiki/monster_340000130.html)). These are exact Echo identities; ordinary/Phantom alternatives are not inferred. No monster stat table or resource column is imported. Canonical attack provenance owns this supplemental review separately from the unchanged pinned roster inventory.
+
+Existing `echo-active-explicit-hit-v1`, whole-action reader and damage kernel consume these facts without runtime changes. Database facts/support are derived through their existing projections. The Cantarella and Zhezhi preset edges become primitive-available/requires-timeline; all 83 edges remain pending. Explicit attack/rank/component/landed count and complete combat context remain mandatory. Main-slot buffs remain exclusively in the effect layer.
+
 Bell-Borne's 15s shield, 50% DMG Reduction, 10% DMG Boost and three-hit removal rule are **not** flattened into the attack model; they require shield/state execution semantics.
+
+The [current cohort and closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md) adds Sentry Construct's separate normal-strike and charged-dive facts. Both use explicit ATK/Glacio source entries and the existing hit primitive; they are alternative attacks, never two components automatically landed in one cast. Capacitor/reset/freeze mechanics and profile variant occurrence remain unmodeled. Reminiscence: Denia, Voidwing Moth and Nightmare: Mourning Aix attack promotion is parked with exact scaling/variant/target gaps recorded in that review.
 
 ### 2026-09-09 explicit active-hit execution and backward impact
 
-Unmerged PR #190 adds `echo-active-explicit-hit-v1` over the five existing ACTIVE_CAST facts. Exact Echo/attack/Rank-5 identity, coefficient component and landed-hit count are mandatory, together with a caller-proven combat snapshot bound to the source element, scaling stat and ECHO damage scope. The existing ATK/HP/DEF snapshot validator and damage kernel are reused. Canonical numeric facts stay in `echoAttacks.ts`; the Character database exports only support identities/tags alongside those facts.
+Merged PR #190 added `echo-active-explicit-hit-v1` over the five existing ACTIVE_CAST facts. Exact Echo/attack/Rank-5 identity, coefficient component and landed-hit count are mandatory, together with a caller-proven combat snapshot bound to the source element, scaling stat and ECHO damage scope. The existing ATK/HP/DEF snapshot validator and damage kernel are reused. Canonical numeric facts stay in `echoAttacks.ts`; the Character database exports only support identities/tags alongside those facts.
 
 Backward-impact disposition: no existing profile engine, source fact, readiness status or pending ID changes. Full-component arithmetic agrees with the existing whole-action reader when the test explicitly lands every source hit. Partial/missed hits, separate component snapshots, HP/DEF binding, incomplete input, wrong rank/identity and excluded Intro/hold variants are covered. All 768 tests and strict build pass locally. This cannot resolve BUG-010's missing Fallacy profile variant, infer cast timing or close any Reference Team dependency. Exact remote verification belongs in PR #190 and Handoff.
 

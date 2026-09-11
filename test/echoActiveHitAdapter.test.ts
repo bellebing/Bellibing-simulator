@@ -13,10 +13,10 @@ const input = (overrides: Partial<EchoActiveHitInput> = {}): EchoActiveHitInput 
   ...overrides,
 });
 
-test('five exact active Echo attacks share the explicit hit boundary across ATK HP and DEF', () => {
+test('nine exact active Echo attacks share the explicit hit boundary across ATK HP and DEF', () => {
   const support = listEchoActiveHitSupport();
-  assert.equal(support.length, 5);
-  assert.deepEqual(support.map((row) => row.scalingStat).sort(), ['ATK', 'ATK', 'ATK', 'DEF', 'HP']);
+  assert.equal(support.length, 9);
+  assert.deepEqual(support.map((row) => row.scalingStat).sort(), ['ATK', 'ATK', 'ATK', 'ATK', 'ATK', 'ATK', 'ATK', 'DEF', 'HP']);
   for (const row of support) {
     const source = ECHO_ATTACK_PROFILES.find((profile) => profile.echoId === row.echoId)!;
     assert.equal(source.attacks.find((attack) => attack.attackId === row.attackId)?.trigger, 'ACTIVE_CAST');

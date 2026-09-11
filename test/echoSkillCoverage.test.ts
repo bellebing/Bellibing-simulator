@@ -17,19 +17,19 @@ test('Version 3.6 Echo skill source review is roster-wide and execution-explicit
   assert.equal(review.expectedSkillNameFieldCount, 0);
   assert.equal(review.expectedDamageTextRecordCount, 170);
   assert.equal(review.expectedNoDamageTextRecordCount, 11);
-  assert.equal(review.expectedModeledEffectRowCount, 65);
-  assert.equal(review.expectedAttackProfileCount, 5);
-  assert.equal(review.expectedAttackFactCount, 6);
+  assert.equal(review.expectedModeledEffectRowCount, 66);
+  assert.equal(review.expectedAttackProfileCount, 8);
+  assert.equal(review.expectedAttackFactCount, 10);
 });
 
 test('Echo skill coverage audit fails closed around modeled and pending boundaries', () => {
   const summary = auditEchoSkillCoverage();
   assert.deepEqual(summary, {
     releasedEchoCount: 181,
-    modeledEffectRowCount: 65,
-    modeledEffectEchoCount: 39,
-    attackProfileCount: 5,
-    attackFactCount: 6,
+    modeledEffectRowCount: 66,
+    modeledEffectEchoCount: 40,
+    attackProfileCount: 8,
+    attackFactCount: 10,
     pendingAdapterFactCount: 4,
     sourceUnusedParamRecordCount: 3,
   });

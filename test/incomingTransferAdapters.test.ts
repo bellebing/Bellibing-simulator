@@ -111,6 +111,7 @@ test('generic transfer core fails closed on actor mismatch, missing paired armin
 test('Echo transfer contracts stay source-locked and execute Denia/Hyvatia prerequisites without guessing', () => {
   assert.deepEqual(validateEchoTransferWindowContracts(), []);
   assert.deepEqual(ECHO_TRANSFER_WINDOW_CONTRACTS.map((row) => row.effectId), [
+    'VOIDWING_MOTH_INCOMING_ATK',
     'REMINISCENCE_DENIA_INCOMING_FUSION',
     'HYVATIA_INCOMING_ALL_ATTRIBUTE',
   ]);

@@ -1,0 +1,46 @@
+name: Temporary ETNA asset fetch
+
+on:
+  push:
+    branches:
+      - ui/home-v34-preview-art-2026-09-11
+  workflow_dispatch:
+
+jobs:
+  fetch-etna:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch accepted-v34 ETNA webfont
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          curl -fL --retry 3 --retry-delay 2 \
+            "https://db.onlinewebfonts.com/t/3c1a4128f95e2109303b045eda4bfe8a.woff2" \
+            -o out/etna-v34-preview.woff2
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('out/etna-v34-preview.woff2')
+          data = p.read_bytes()
+          if len(data) < 10000:
+              raise SystemExit(f'font unexpectedly small: {len(data)} bytes')
+          if data[:4] != b'wOF2':
+              raise SystemExit(f'not WOFF2: magic={data[:4]!r}')
+          print(f'validated WOFF2: {len(data)} bytes')
+          PY
+          sha256sum out/etna-v34-preview.woff2 | tee out/SHA256.txt
+          cat > out/SOURCE.txt <<'EOF'
+          Temporary visual-parity copy for Bellibing v34 only.
+          Typeface: ETNA by Krisjanis Mezulis / WILDTYPE.
+          Official product page: https://wildtype.design/product/etna-free-typeface/
+          Accepted-v34 webfont mirror used by the old chat prototype:
+          https://db.onlinewebfonts.com/t/3c1a4128f95e2109303b045eda4bfe8a.woff2
+          This artifact is not production-provenance clearance. Replace/verify against the official distributed OTF before any production promotion.
+          EOF
+      - name: Upload ETNA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: etna-v34-preview-source
+          path: out/
+          if-no-files-found: error
+          retention-days: 1

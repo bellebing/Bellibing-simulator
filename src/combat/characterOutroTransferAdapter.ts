@@ -24,10 +24,12 @@ interface CharacterOutroContract {
 /** Reviewed only for one source-qualified activation, not repeated-activation stack/refresh behavior. */
 export const CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW = {
   reviewedAt: '2026-09-10',
-  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow', 'lupa-outro-stand-by-me-warrior'],
+  factIds: ['zhezhi-outro-carve-and-draw', 'lumi-outro-escorting', 'roccia-outro-applause-please', 'sanhua-outro-silversnow', 'lupa-outro-stand-by-me-warrior', 'qiuyuan-outro-strike-before-ready-amplification'],
   lupaReviewedAt: '2026-09-11',
+  qiuyuanReviewedAt: '2026-09-11',
   sourceCheckedAt: '2026-08-28',
   sanhuaSourceCheckedAt: '2026-08-29',
+  qiuyuanSourceCheckedAt: '2026-08-29',
   // Only Silversnow's canonical Deepen wording is mapped to this source-proven amplification scope.
   sanhuaSemanticSource: 'https://wuthering.wiki/character_1102.html',
   sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
@@ -40,12 +42,14 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
     : fact.factId === 'lumi-outro-escorting' ? 'lumi'
     : fact.factId === 'roccia-outro-applause-please' ? 'roccia'
     : fact.factId === 'sanhua-outro-silversnow' ? 'sanhua'
-    : fact.factId === 'lupa-outro-stand-by-me-warrior' ? 'lupa' : null;
+    : fact.factId === 'lupa-outro-stand-by-me-warrior' ? 'lupa'
+    : fact.factId === 'qiuyuan-outro-strike-before-ready-amplification' ? 'qiuyuan' : null;
   const profile = owner && getCharacterMechanicsProfile(owner);
   if (!owner || fact.characterId !== owner || profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)
     || fact.kind !== 'PASSIVE' || fact.verificationStatus !== 'VERIFIED' || fact.modelingStatus !== 'RAW_ONLY'
     || fact.section !== 'OUTRO_SKILL' || fact.scope !== 'NEXT_CHARACTER' || fact.maxStacks !== null
     || fact.provenance.checkedAt !== (owner === 'sanhua' ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sanhuaSourceCheckedAt
+      : owner === 'qiuyuan' ? CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.qiuyuanSourceCheckedAt
       : CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCheckedAt)
     || !fact.provenance.sourceUrls?.includes(`https://github.com/DommyMM/wuwabuild/blob/${CHARACTER_OUTRO_SINGLE_ACTIVATION_REVIEW.sourceCommit}/public/Data/Characters.json`)
     || fact.durationSeconds === null || !Number.isFinite(fact.durationSeconds) || fact.durationSeconds <= 0) return null;
@@ -59,7 +63,9 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
     ? fact.effectSummary.match(/^The incoming character gains ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Deepen for ([0-9]+(?:\.[0-9]+)?)s or until switched off field\.$/) : null;
   const lupa = owner === 'lupa' && fact.triggerSummary === "Cast Lupa's Outro Skill." && fact.conditional === false
     ? fact.effectSummary.match(/^The incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Fusion DMG Amplification and ([0-9]+(?:\.[0-9]+)?)% Basic Attack DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\.$/) : null;
-  const single = lumi ?? sanhua;
+  const qiuyuan = owner === 'qiuyuan' && fact.triggerSummary === 'Casting Outro Skill.' && fact.conditional === true
+    ? fact.effectSummary.match(/^The incoming Resonator gains ([0-9]+(?:\.[0-9]+)?)% Echo Skill DMG Amplification for ([0-9]+(?:\.[0-9]+)?)s or until switched out\. Outro damage is represented separately as source-fixed ECHO damage\.$/) : null;
+  const single = lumi ?? sanhua ?? qiuyuan;
   if (!dual && !single && !lupa || single && Number(single[2]) !== fact.durationSeconds
     || lupa && Number(lupa[3]) !== fact.durationSeconds) return null;
   const amplifications = lupa ? [
@@ -68,7 +74,7 @@ export function resolveCharacterOutroSingleActivationContract(fact: CharacterMec
   ] : dual ? [
     { statOrEffect: `${dual[1]} DMG Amplification`, value: Number(dual[2]) / 100 },
     { statOrEffect: `${dual[3]} DMG Amplification`, value: Number(dual[4]) / 100 },
-  ] : [{ statOrEffect: `${lumi ? 'Resonance Skill' : 'Basic Attack'} DMG Amplification`, value: Number(single![1]) / 100 }];
+  ] : [{ statOrEffect: `${lumi ? 'Resonance Skill' : qiuyuan ? 'Echo Skill' : 'Basic Attack'} DMG Amplification`, value: Number(single![1]) / 100 }];
   if (amplifications.some((term) => !Number.isFinite(term.value) || term.value <= 0)) return null;
   return { factId: fact.factId, characterId: owner, durationSeconds: fact.durationSeconds, amplifications,
     stackPolicy: 'UNKNOWN_SINGLE_ACTIVATION_ONLY' };

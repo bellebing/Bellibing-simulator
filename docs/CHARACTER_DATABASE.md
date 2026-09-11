@@ -30,7 +30,7 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
 | `hitPrimitives.echoActiveHits` | Nine exact Rank-5 ACTIVE_CAST Echo facts integrated through #191, with explicit component/landed-hit evaluation. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
-| `outroTransferSupport` | Nine canonical Character Outro contracts: five integrated through #190 and four reviewed single-activation bindings integrated through #191. Explicit handoff, recipient history and the declared stack policy are required. |
+| `outroTransferSupport` | Eleven canonical Character Outro contracts: nine integrated through #191 plus Lupa/Qiuyuan isolated bindings on #193. Explicit handoff, recipient history and the declared stack policy are required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
 | `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #190. |
 | `gear.echoTransferWindows` | Existing Denia/Hyvatia summon contracts and the new Rank-5 Voidwing use-to-Outro contract, with exact arm kind, rank and caller-state requirements. Values stay in `gear.echoEffects`; no profile timing or activation is inferred. |
@@ -84,6 +84,8 @@ On PR #190 the additive `gear` section lets every existing profile's weapon opti
 The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
 
 The post-#191 follow-up adds the existing Lupa Outro fact to the same isolated-transfer family. Five current presets discover it from canonical team membership. Fusion and Basic terms remain separate; no Pack Hunt, Glory, stack refresh or profile timeline is inferred. See the [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md). The database projection derives this support directly from the shared adapter and retains canonical RAW_ONLY/null-stack facts.
+
+Qiuyuan's existing incoming Echo amplification additionally reuses this family for five current presets. Its Character-owned Outro ECHO damage remains a separate source fact; amplification support does not create an equipped Echo cast, select a hit or execute the Character's attack. Explicit event/recipient/order and isolated activation requirements remain unchanged, including detached export and RAW_ONLY/null-stack preservation.
 
 ## Fast path for further Characters
 

@@ -80,3 +80,24 @@ test('Denia Tune discovers exact transfer capability while attack scaling and al
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
   assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), ['augusta', 'ciaccona']);
 });
+
+test('Voidwing rejects changed effect semantics and missing reviewed provenance in caller catalogs', () => {
+  for (const patch of [{ statOrEffect: 'Havoc DMG Bonus' }, { wielderCharacterIds: ['mornye'] },
+    { value: 0 }, { value: -0.12 }, { provenance: { ...effect.provenance, sourceUrls: [] } },
+    { provenance: { ...effect.provenance, checkedAt: 'UNREVIEWED' } }]) {
+    const catalog = ECHO_EFFECT_MODELS.map((row) => row.effectId === effect.effectId ? { ...row, ...patch } : row);
+    assert.throws(() => activateEchoTransferWindow({ ...input(), catalog }), /Invalid Echo transfer source/);
+  }
+});
+
+test('Voidwing rejects ambiguous duplicate source rows and returns detached activation values', () => {
+  for (const rows of [[effect, { ...effect, value: .24 }], [{ ...effect, value: .24 }, effect]]) {
+    const catalog = [...ECHO_EFFECT_MODELS.filter((row) => row.effectId !== effect.effectId), ...rows];
+    assert.throws(() => activateEchoTransferWindow({ ...input(), catalog }), /Invalid Echo transfer source/);
+  }
+  const catalog = ECHO_EFFECT_MODELS.map((row) => ({ ...row }));
+  const first = activateEchoTransferWindow({ ...input(), catalog })!;
+  catalog.find((row) => row.effectId === effect.effectId)!.value = .24;
+  assert.equal(first.value, .12);
+  assert.equal(activateEchoTransferWindow(input())!.value, .12);
+});

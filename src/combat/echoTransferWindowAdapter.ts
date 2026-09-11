@@ -104,6 +104,16 @@ export function validateEchoTransferWindowContracts(
     if (effect.durationSeconds !== contract.durationSeconds) issues.push(`${contract.effectId} duration drift`);
     if (Boolean(effect.requiresIncomingIntro) !== contract.requiresIncomingIntro) issues.push(`${contract.effectId} incoming Intro requirement drift`);
     if (!Number.isFinite(effect.value)) issues.push(`${contract.effectId} value must remain finite`);
+    if (contract.effectId === VOIDWING_MOTH_TRANSFER_EFFECT.effectId) {
+      if (catalog.filter((row) => row.effectId === contract.effectId).length !== 1) issues.push(`${contract.effectId} ambiguous source rows`);
+      if (effect.statOrEffect !== 'ATK%') issues.push(`${contract.effectId} must remain an ATK% transfer`);
+      if (effect.wielderCharacterIds !== undefined) issues.push(`${contract.effectId} unreviewed wielder restriction`);
+      if (effect.value <= 0) issues.push(`${contract.effectId} value must remain positive`);
+      if (effect.provenance?.checkedAt !== VOIDWING_MOTH_TRANSFER_EFFECT.provenance.checkedAt
+        || !VOIDWING_MOTH_TRANSFER_EFFECT.provenance.sourceUrls.every((url) => effect.provenance?.sourceUrls?.includes(url))) {
+        issues.push(`${contract.effectId} reviewed provenance drift`);
+      }
+    }
   }
 
   return issues;

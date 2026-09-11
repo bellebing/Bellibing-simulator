@@ -1,0 +1,95 @@
+name: Temporary v34 exact ETNA parity
+
+on:
+  push:
+    branches: [ui/home-v34-preview-art-2026-09-11]
+
+permissions:
+  contents: write
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ui/home-v34-preview-art-2026-09-11
+          fetch-depth: 2
+
+      - name: Switch v34 to exact accepted external ETNA
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('docs/ui-prototypes/v34-functional.html')
+          s = p.read_text()
+          old = '<title>Bellibing UI checkpoint v34</title>\n<style>\n@font-face{font-family:"Etna";src:url("assets/v34/fonts/etna/etna-v34-preview.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}\n'
+          new = '<title>Bellibing UI checkpoint v34</title>\n<link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">\n<style>\n'
+          if old not in s:
+              raise SystemExit('expected local ETNA @font-face block not found')
+          s = s.replace(old, new, 1)
+          old_family = '--font-display:"Etna",Inter,ui-sans-serif,system-ui,sans-serif;'
+          new_family = '--font-display:"Etna",Inter,sans-serif;'
+          if old_family not in s:
+              raise SystemExit('expected display font family not found')
+          s = s.replace(old_family, new_family, 1)
+          if '@font-face{font-family:"Etna"' in s:
+              raise SystemExit('local ETNA @font-face still present')
+          p.write_text(s)
+          PY
+          git rm -f docs/ui-prototypes/assets/v34/fonts/etna/etna-v34-preview.woff2 docs/ui-prototypes/assets/v34/fonts/etna/SOURCE.md
+
+      - name: Fetch exact accepted stylesheet
+        run: |
+          curl -fLsS 'https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna' -o /tmp/etna-exact.css
+          test -s /tmp/etna-exact.css
+          grep -qi 'Etna' /tmp/etna-exact.css
+          printf '%s\n' '--- exact stylesheet ---'
+          cat /tmp/etna-exact.css
+          printf '%s  %s\n' "$(sha256sum /tmp/etna-exact.css | cut -d' ' -f1)" 'etna-exact.css'
+
+      - name: Render exact ETNA typography sheet in Chrome
+        run: |
+          cat > /tmp/etna-parity.html <<'EOF'
+          <!doctype html>
+          <html><head><meta charset="utf-8">
+          <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">
+          <style>
+          html,body{margin:0;background:#050608;color:#f2f0eb;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+          main{padding:64px 76px;display:grid;gap:42px}
+          .etna{font-family:"Etna",Inter,sans-serif;font-weight:400;letter-spacing:normal;line-height:1}
+          .home{font-size:32px}.question{font-size:52px}.character{font-size:48px}.section{font-size:23px}.compact{font-size:18px}
+          .row{display:grid;grid-template-columns:220px 1fr;align-items:baseline;border-bottom:1px solid rgba(255,255,255,.09);padding-bottom:22px}
+          .label{font:13px Inter,ui-sans-serif,system-ui,sans-serif;color:#8e949d;letter-spacing:.08em;text-transform:uppercase}
+          </style></head><body><main>
+          <div class="row"><div class="label">Home card title</div><div class="etna home">Build a Character</div></div>
+          <div class="row"><div class="label">Home card title</div><div class="etna home">Improve a Character</div></div>
+          <div class="row"><div class="label">Home card title</div><div class="etna home">Build a Team</div></div>
+          <div class="row"><div class="label">Question</div><div class="etna question">What Character?</div></div>
+          <div class="row"><div class="label">Character name</div><div class="etna character">Augusta</div></div>
+          <div class="row"><div class="label">Large headings</div><div class="etna section">Stats&nbsp;&nbsp;&nbsp; Weapon&nbsp;&nbsp;&nbsp; Echoes</div></div>
+          <div class="row"><div class="label">Compact heading</div><div class="etna compact">Sequences</div></div>
+          </main></body></html>
+          EOF
+          google-chrome --version
+          google-chrome --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=1400,900 --virtual-time-budget=6000 --screenshot=/tmp/etna-parity.png file:///tmp/etna-parity.html
+          test -s /tmp/etna-parity.png
+
+      - name: Upload parity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: v34-exact-etna-parity
+          path: |
+            /tmp/etna-parity.png
+            /tmp/etna-exact.css
+          if-no-files-found: error
+
+      - name: Commit corrected font source and remove temporary workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/temp-v34-exact-etna-parity.yml
+          git add docs/ui-prototypes/v34-functional.html
+          git diff --cached --check
+          git commit -m 'fix(ui): use exact accepted v34 ETNA stylesheet'
+          git push origin HEAD:ui/home-v34-preview-art-2026-09-11

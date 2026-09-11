@@ -4,9 +4,9 @@ Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
-Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. Subsequent overnight work is unmerged until separately authorized and observed on main.
+Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. The subsequent #190 payload is also merged. Only the explicitly identified #191 additions remain unmerged.
 
-PR #190 feature scope is frozen at the reviewed target-window payload. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
+PR #190 is merged at its reviewed target-window payload; PR #191 is now frozen for integration review. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes and ranks the next bounded lane; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
 
 ## Current registry-derived baseline
 
@@ -17,7 +17,7 @@ Readiness:
 - **9 `PROFILE_SOURCE_PENDING`**;
 - **2 `DPS_READY`** — Augusta and Ciaccona.
 
-Canonical dependency matrix:
+Canonical dependency matrix (83 profile–dependency edges reference 72 distinct dependency IDs; shared IDs can occur in multiple profiles):
 
 - **19 backward-impact reviews**;
 - **19 reviewed canonical profiles**;
@@ -30,9 +30,9 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 `src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the active PR #191 branch as:
 
-- **28 `UNREVIEWED`**;
+- **26 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
-- **22 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
+- **24 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **7 `BLOCKED_SOURCE_CONFLICT`**;
 - **9 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
@@ -57,7 +57,7 @@ The same explicit damage-event/query boundary now supports four Sonata windows f
 
 PR #191 also reuses its isolated-activation contract for Roccia and Sanhua. Four RAW_ONLY/null-stack owners now expose six independent terms, discoverable from nine presets/eight Characters. This expands canonical consumer coverage without executing a profile or removing a pending ID. Sanhua's exact Basic Deepen-to-amplification mapping has a supplemental wording review; no other Deepen or PENDING_INTERPRETATION fact is accepted by analogy.
 
-The new reuse-first lane additionally binds Zhezhi and Lumi for one explicit isolated activation only. Their two VERIFIED/RAW_ONLY facts retain unknown stack metadata. Caller-proven absence of an earlier active activation and explicit activation/query and recipient-switch/query order are required; the existing incoming-transfer lifecycle preserves separate source terms, duration and switch-out termination. Six presets across five Characters discover these shared bindings without gaining rotation execution. Repeated-activation/refresh semantics, all 83 execution IDs and all six Reference Team blockers remain open.
+The new reuse-first lane additionally binds Zhezhi and Lumi for one explicit isolated activation only. Their two VERIFIED/RAW_ONLY facts retain unknown stack metadata. Caller-proven absence of an earlier active activation and explicit activation/query and recipient-switch/query order are required; the existing incoming-transfer lifecycle preserves separate source terms, duration and switch-out termination. Six presets across five Characters discover these shared bindings without gaining rotation execution. Repeated-activation/refresh semantics, all 83 execution edges and all six Reference Team blockers remain open.
 
 PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READY Outro facts: Aalto, Changli, Mortefi, Taoqi and Yinlin. Seven separate amplification terms retain their original damage scopes and source durations. Explicit outgoing/incoming identity, handoff timestamp and recipient switch-out history are required; no dual-scope aggregation or Character rotation is invented. The database exposes this bounded support for reuse. These five primitives do not close any profile execution edge or alter the six Reference Team blockers. Raw/pending and periodic-resource Outro semantics remain outside this family.
 
@@ -65,7 +65,7 @@ PR #190 reuses `incoming-transfer-state-v1` for five already-VERIFIED/MODEL_READ
 
 `sonata-explicit-target-attack-window-v1` implements canonical S11_5PC_SPECTRO and S17_5PC_CR/AERO. It consumes exact selected equipment, owner, actual source-qualified attack/hit, and target state observed at the same time explicitly before the trigger. Zani's existing Heliacal view can supply only the Eternal Radiance stack predicate; it cannot activate S11_5PC_CR, establish incoming Frazzle events or close BUG-015. Windward bindings have current Cartethyia/Rover Aero/Jiyan consumers. Windows remain independent with explicit same-timestamp query ordering.
 
-The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Current queue: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
+The exact Zani target-stack dependency is now primitive-available, requiring the still-missing timeline. Historical merged #190 checkpoint: 30 UNREVIEWED / 20 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 9 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION = the same 83 open IDs. This supersedes earlier 31/19 checkpoint counts without changing readiness. The separate Zani infliction mapping remains unreviewed because Heliacal equivalence does not prove that event; no invented application or ownership rule is accepted.
 
 ### Applied-heal window boundary
 

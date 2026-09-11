@@ -2,7 +2,7 @@
 
 Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
 
-PR #190 is merged. PR #191 feature scope is frozen for integration review. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
+PR #190 and #191 are merged and post-merge verified. The next source-valid execution pass starts from #191; its lifecycle review does not promote unknown Sonata semantics. The [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) records exact committed coverage and provider trust boundaries; local uncommitted Flamewing intersection work is excluded. Canonical values are reused downstream, with new source review only for actual drift, conflicts or uncovered semantics.
 
 PR #190 adds `sonata-explicit-target-attack-window-v1` for existing source-reviewed S11_5PC_SPECTRO and S17_5PC_CR/AERO. Exact equipment and an actual source-qualified attack/hit require target state observed at the event time explicitly before the trigger. Existing Zani Heliacal equivalence is accepted only for Eternal Radiance stack counts, never S11_5PC_CR infliction. Values, source review totals and source statuses are unchanged; capability metadata joins canonical effects through `gear.sonataTargetWindows`. Zani's target-stack edge remains pending with primitive availability; no profile/Reference Team timeline is created.
 
@@ -100,7 +100,7 @@ Current source coverage:
 
 ### Echo Effects — current executable/source-safe slice
 
-`src/data/echoEffects.ts` now contains **66 modeled non-damage effect rows across 40 Echoes** on PR #191. Main through merged #190 has 65 rows / 39 Echoes. The new row is Voidwing Moth's source-reviewed Rank-5 use-to-Outro ATK transfer; its press/hold damage remains unmodeled.
+`src/data/echoEffects.ts` now contains **66 modeled non-damage effect rows across 40 Echoes** integrated through PR #191. The preceding #190 baseline had 65 rows / 39 Echoes. The new row is Voidwing Moth's source-reviewed Rank-5 use-to-Outro ATK transfer; its press/hold damage remains unmodeled.
 
 The expansion is deliberately conservative:
 

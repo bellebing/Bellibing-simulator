@@ -1,5 +1,13 @@
 # PR191 reuse and profile execution review
 
+## Integrated checkpoint — 2026-09-11
+
+PR #191 is **MERGED and post-merge verified** at `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`. Its parents are prior main `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f` and reviewed head `30058599ae7f52eb70b0011d00066e1cbaebdfc8`; the resulting tree `212d91add597d26504cc8d3888779ac303c1afe0` exactly matches the reviewed payload. Post-merge [Verify #1110](https://github.com/bellebing/Bellibing-simulator/actions/runs/34630158510), [Export #1009](https://github.com/bellebing/Bellibing-simulator/actions/runs/34630158564) and [Deploy #148](https://github.com/bellebing/Bellibing-simulator/actions/runs/34630158501) passed, each with 819/819 tests and zero failures. All source/profile audits, strict build, whitespace and real-browser regressions passed. Published Alpha, UI preview, Echo Lab, Roll Assist and Character database bytes match Export and the exact merge-head local build. No branch was deleted.
+
+The review below is retained as historical evidence for the exact accepted candidate. Its draft/stop/no-merge statements describe the earlier integration-review authorization, superseded by the user's explicit #191-only merge authorization. The new pass belongs to a fresh branch; this PR receives no further feature work.
+
+## Historical candidate review
+
 Main is the merged/post-merge-verified #190 baseline `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`. This review belongs to draft #191, `codex/reuse-first-execution-2026-09-10`; no further merge is authorized. It supersedes consumed recommendations in the historical #190 reuse audit, not that audit's source evidence.
 
 ## Completed checkpoints

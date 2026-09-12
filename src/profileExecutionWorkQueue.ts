@@ -1,4 +1,5 @@
 import { BLAZING_BRILLIANCE_STACK_SEMANTIC_REVIEW } from './combat/blazingBrillianceStackSemanticReview.ts';
+import { SONATA_STACK_EXECUTION_REVIEW_20260911 } from './data/sonataStackExecutionReview20260911.ts';
 import { FALLACY_ACTIVE_DAMAGE_SEMANTIC_REVIEW } from './combat/fallacyActiveDamageSemanticReview.ts';
 import { IMPERMANENCE_HERON_TRANSFER_DISPOSITION } from './combat/echoTransferWindowAdapter.ts';
 import { SONATA_CAST_WINDOW_SEMANTIC_SPLIT } from './combat/sonataCastWindowAdapter.ts';
@@ -244,6 +245,18 @@ const ROVER_AERO_REVIEWS: readonly ExecutionSemanticReview[] = [
 
 /** Semantic records only for exact dependencies that are still pending. */
 export const EXECUTION_SEMANTIC_REVIEWS: readonly ExecutionSemanticReview[] = Object.freeze([
+  ...SONATA_STACK_EXECUTION_REVIEW_20260911.contracts.map((contract): ExecutionSemanticReview => ({
+    pendingExecutionId: contract.pendingExecutionId,
+    status: 'BLOCKED_SOURCE_SEMANTICS',
+    actionKey: contract.actionKey,
+    blockerId: contract.blockerId,
+    reviewedAt: SONATA_STACK_EXECUTION_REVIEW_20260911.reviewedAt,
+    notes: [
+      `Existing completed review: ${SONATA_STACK_EXECUTION_REVIEW_20260911.evidencePath}.`,
+      ...contract.unresolvedSemantics,
+      'Reopen only with new current evidence addressing the missing lifecycle transitions. No dependency is closed.',
+    ],
+  })),
   {
     pendingExecutionId: 'echo:echo-60001985:voidwing-moth-outro-transfer-adapter',
     status: 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE', actionKey: 'echo:armed-outro-incoming-transfer',

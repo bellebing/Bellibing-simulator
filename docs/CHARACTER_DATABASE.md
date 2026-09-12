@@ -1,6 +1,6 @@
 # Character database and shared action values
 
-Integration status: PR #190 and #191 are merged/deployed through `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`; post-merge Verify #1110 / Export #1009 / Deploy #148 passed with 819 tests. References below to their draft/unmerged states are historical checkpoints. Draft #193 contains the separately reviewed follow-up and has no merge authorization.
+Integration status: PR #190/#191/#193 are merged and post-merge verified through `b03d43b3f1810b502099efb321be225ccfbba46c`; Verify1127 / Export1026 / Deploy149 passed with 832 tests. Earlier draft/authorization wording is historical. Draft PR #194 is the separate [execution-closure follow-up](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md); no merge of #194 is authorized.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
@@ -90,6 +90,10 @@ Qiuyuan's existing incoming Echo amplification additionally reuses this family f
 Lynae and Cantarella complete the follow-up cohort. Their canonical `maxStacks: 1` is preserved and validated; it does not authorize repeated-activation refresh. Both retain `UNKNOWN_SINGLE_ACTIVATION_ONLY` for that unresolved lifecycle. Lynae's All/Liberation terms and Cantarella's Havoc/Skill terms stay separate. The four new owners expose seven independent terms to **15 distinct existing presets / 15 Characters**; this is team-membership discovery, not proof of an outgoing recipient, active buff or executable rotation. Lynae's separate Outro attack is not executed by the transfer.
 
 ## Fast path for further Characters
+
+`resourceGainSupport` exposes four reviewed S0/max-skill nominal Windstrings bindings for Rover Aero: Intro, two single-target/single-hit Cloudburst stages and a separately team-qualified Omega Storm cast. Join resource/action fact IDs to `mechanicsFacts`; amounts are not repeated. `evaluateRoverWindstringsGain` requires an actual source-qualified event, exact owner/action and explicit Cloudburst hit count. The result is neither net stored resource nor a resource-feasible rotation: initial pool, cap, spending, unlisted team bonuses and other energy systems remain external obligations. See [resource feasibility](ACTION_RESOURCE_FEASIBILITY_20260912.md).
+
+The post-#193 [execution-closure audit](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md) ranks all 17 pending profiles by actual recipe feasibility. Its report joins this database's existing preset/team/rotation and resource identities; it is not a second canonical database. The completed S03/S10 review now appears as BLOCKED_SOURCE_SEMANTICS in the existing work queue instead of stale UNREVIEWED. This changes two diagnostic dispositions, not gameplay facts, pending IDs or readiness.
 
 Current measured coverage and the next-lane ranking are in the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md). **Source once → canonical once → reuse many:** use an unchanged reviewed fact locally by ID while its provenance and source audits remain valid. Reopen external review only for changed/missing provenance, an uncovered semantic or a conflict. A new Character still needs its own occurrence, state, timing and team proof; this is separate from re-verifying the same effect value.
 

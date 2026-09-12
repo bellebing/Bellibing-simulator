@@ -22,8 +22,9 @@ function reviewed(fact: CharacterMechanicFact): boolean {
     && profile?.verificationStatus === 'VERIFIED' && profile.factIds.includes(fact.factId);
 }
 
-/** Read nominal gains from the existing canonical rule; never a pool/cap/ER model. */
-export function readRoverWindstringsGains(fact: CharacterMechanicFact) {
+/** Canonical numeric reader shared by nominal evaluation and the bounded ledger.
+ * A maximum is a bound, not an overflow/clipping policy. */
+export function readRoverWindstringsResource(fact: CharacterMechanicFact) {
   if (fact.factId !== RESOURCE_ID || fact.kind !== 'RESOURCE' || !reviewed(fact)
     || fact.modelingStatus !== 'RAW_ONLY' || fact.resourceName !== 'Windstrings'
     || fact.section !== 'FORTE_CIRCUIT' || fact.conditional !== false) throw new Error('Unsupported Windstrings source fact');
@@ -33,7 +34,71 @@ export function readRoverWindstringsGains(fact: CharacterMechanicFact) {
   if (!values.every(n => Number.isSafeInteger(n) && n > 0 && n <= values[0]) || values[0] !== fact.maxValue) {
     throw new Error('Invalid canonical Windstrings values');
   }
-  return { cloudburstNominalGain: values[1], introNominalGain: values[2] };
+  return { maximum: values[0], cloudburstNominalGain: values[1], introNominalGain: values[2],
+    basicCounterNominalGain: values[3], unboundFlowStageCost: values[4] };
+}
+
+/** Preserve the existing nominal-gain API and its detached return shape. */
+export function readRoverWindstringsGains(fact: CharacterMechanicFact) {
+  const { cloudburstNominalGain, introNominalGain } = readRoverWindstringsResource(fact);
+  return { cloudburstNominalGain, introNominalGain };
+}
+
+export const ROVER_WINDSTRINGS_SPEND_ID = 'rover-windstrings-explicit-stage-spend-v1';
+const SPEND_ACTIONS = [
+  'rover-aero-forte-circuit-cycle-of-wind-unbound-flow-stage-1-dmg',
+  'rover-aero-forte-circuit-cycle-of-wind-unbound-flow-stage-2-dmg',
+] as const;
+
+/** Each performed attack consumes once; Stage 1's five damage hits are not five costs.
+ * Reviewed game-text scope: docs/ROVER_RESOURCE_STATE_REVIEW_20260912.md. */
+export function listRoverWindstringsSpendSupport() {
+  readRoverWindstringsResource(getCharacterMechanicFact(RESOURCE_ID)!);
+  return SPEND_ACTIONS.map((actionFactId, index) => {
+    const action = getCharacterMechanicFact(actionFactId);
+    if (!action || action.kind !== 'ACTION' || !reviewed(action) || action.modelingStatus !== 'MODEL_READY'
+      || action.section !== 'FORTE_CIRCUIT' || action.actionKind !== 'SKILL' || action.actionRole !== 'DAMAGE'
+      || action.damageClass !== 'SKILL' || action.conditional !== true) throw new Error('Unreviewed Unbound Flow action');
+    return { characterId: OWNER, resourceFactId: RESOURCE_ID, actionFactId, stage: index + 1,
+      eventKind: 'UNBOUND_FLOW_STAGE_EXECUTED' as const, primitiveId: ROVER_WINDSTRINGS_SPEND_ID,
+      scope: 'NOMINAL_SPEND_ONLY' as const, sequence: 0 as const, skillLevel: 10 as const };
+  });
+}
+
+export interface RoverWindstringsSpendInput {
+  readonly characterId: string;
+  readonly resourceFactId: string;
+  readonly actionFactId: string;
+  readonly sequence: number;
+  readonly maxSkills: boolean;
+  readonly event: {
+    readonly kind: 'UNBOUND_FLOW_STAGE_EXECUTED';
+    readonly actorId: string;
+    readonly atSeconds: number;
+    /** Proves this exact attack was performed, including its access/mode prerequisite.
+     * Does not prove a damage hit or its timing relative to resource consumption. */
+    readonly sourceQualified: true;
+    readonly mode: 'UNBOUND_FLOW';
+    readonly stage: 1 | 2;
+  };
+}
+
+export function evaluateRoverWindstringsSpend(input: RoverWindstringsSpendInput) {
+  const binding = listRoverWindstringsSpendSupport().find(row => row.actionFactId === input.actionFactId);
+  const event = input.event;
+  if (!binding || input.characterId !== OWNER || input.resourceFactId !== RESOURCE_ID
+    || input.sequence !== 0 || input.maxSkills !== true || !event
+    || event.kind !== binding.eventKind || event.actorId !== OWNER || event.stage !== binding.stage
+    || event.mode !== 'UNBOUND_FLOW' || event.sourceQualified !== true
+    || !Number.isFinite(event.atSeconds) || event.atSeconds < 0) throw new Error('Require exact source-qualified Unbound Flow stage');
+  // Reject accidental hit-based callers even when invoked from untyped runtime input.
+  if (['landedHitCount', 'componentIndex', 'targetId', 'targetCount'].some(key => Object.hasOwn(event, key))) {
+    throw new Error('Unbound Flow spends per performed attack, not per hit or target');
+  }
+  return { resourceFactId: RESOURCE_ID, sourceFactId: RESOURCE_ID, actionFactId: binding.actionFactId,
+    ownerId: OWNER, unit: 'Windstrings' as const, atSeconds: event.atSeconds,
+    nominalSpend: readRoverWindstringsResource(getCharacterMechanicFact(RESOURCE_ID)!).unboundFlowStageCost,
+    scope: 'NOMINAL_SPEND_ONLY' as const };
 }
 
 /** Exact existing team fact; its other healing/interruption effects are separate. */

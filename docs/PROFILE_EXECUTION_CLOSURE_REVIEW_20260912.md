@@ -1,5 +1,11 @@
 # Execution closure after merged PR193
 
+## Integrated checkpoint
+
+PR #194 is **MERGED and post-merge verified** at `2b1ba64a239338a91919c96afe1f8f4ed9516a73`. Parents: prior main `b03d43b3f1810b502099efb321be225ccfbba46c` and reviewed head `790bc054a1aac0fb62c26798e9ba21aeda877900`; tree `ba9d619f4c24c41f89cf70a4a4a06caa2fc48691` exactly matches the reviewed payload. [Verify #1133](https://github.com/bellebing/Bellibing-simulator/actions/runs/34697986741), [Export #1032](https://github.com/bellebing/Bellibing-simulator/actions/runs/34697986625) and [Deploy #150](https://github.com/bellebing/Bellibing-simulator/actions/runs/34697986650) passed with 839/839 tests, full audits, strict build, whitespace and real-Chrome regressions. Alpha, `/ui-preview/`, Echo Lab, Roll Assist and Character database match local/Export/live bytes. All 83 edges/72 IDs remain pending, partition24/24/7/11/17 and readiness43/3/9/2; six Reference Team blockers remain. No branch was deleted; UI/PR192 and Flamewing WIP were preserved.
+
+Explicit authorization to merge #194 supersedes its earlier integration stop. A new separate branch `codex/rover-resource-state-2026-09-12` starts from this verified main for source-valid resource/state execution toward real profile closure. No later merge is authorized. Existing nominal amounts are reused; initial state, overflow, full profile events and denominator remain proof obligations. Earlier candidate/freeze statements below are historical.
+
 PR193 was merged with explicit authorization at `b03d43b3f1810b502099efb321be225ccfbba46c`. Its parents are `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89` and reviewed `4e19968e0a2a15ee5506f257d0f318579f4d87b1`; tree `8edb29dd5bf7e6ba641b7776b62ad8e5c0f03812` is identical to the reviewed head. Post-merge Verify1127 / Export1026 / Deploy149 passed with 832 tests, full audits, strict build, whitespace, real Chrome and live/local/Export parity. See [current status](PROJECT_STATUS.md) for run links. Only PR193 was authorized to merge.
 
 The new `codex/profile-execution-closure-2026-09-12` branch starts at that verified commit. PR192/UI and original four-file Flamewing WIP remain separate. This pass asks whether a complete profile can be proved before adding another isolated fact binding.

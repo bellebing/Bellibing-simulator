@@ -1,6 +1,6 @@
 # Character database and shared action values
 
-Integration status: PR #190/#191/#193 are merged and post-merge verified through `b03d43b3f1810b502099efb321be225ccfbba46c`; Verify1127 / Export1026 / Deploy149 passed with 832 tests. Earlier draft/authorization wording is historical. Draft PR #194 is the separate [execution-closure follow-up](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md); no merge of #194 is authorized.
+Integration status: PR #190/#191/#193/#194 are merged through `2b1ba64a239338a91919c96afe1f8f4ed9516a73`; Verify1133/Export1032/Deploy150 passed with839 tests and live parity. The four nominal resource bindings are integrated; the new resource/state follow-up remains separate and unmerged.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 

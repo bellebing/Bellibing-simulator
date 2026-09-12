@@ -50,7 +50,7 @@
         },
         "resourceState": {
           "classification": "PROFILE_EVIDENCE_REQUIRED",
-          "missingProof": "Windstrings, airborne access and exact Concerto/Energy initial/end state."
+          "missingProof": "PR195 supplies explicit non-overflow Windstrings fragments and observed post-swap Stage2 spend. Still missing: source-backed profile initial/end observations, overflow/aggregation behavior, full ordered gain/spend occurrence, airborne access and complete Concerto/Resonance Energy state. Partial resource evaluation is not full profile feasibility."
         },
         "eventOccurrence": {
           "classification": "PROFILE_EVIDENCE_REQUIRED",
@@ -62,7 +62,7 @@
         },
         "recipientState": {
           "classification": "PROFILE_EVIDENCE_REQUIRED",
-          "missingProof": "Exact outgoing/incoming actor and off-field P2 ownership after swap."
+          "missingProof": "An exact Stage1/swap/Stage2 suffix can consume an independently observed post-swap pool. Full profile still needs actual outgoing/incoming context, continuation occurrence, source-qualified state observations and recipient/buff ownership; no automatic event or cross-swap persistence is inferred."
         },
         "targetState": {
           "classification": "PROFILE_EVIDENCE_REQUIRED",

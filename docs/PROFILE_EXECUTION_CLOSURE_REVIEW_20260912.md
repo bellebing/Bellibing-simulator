@@ -43,3 +43,9 @@ Canonical data was inspected first. Current guide reads on 2026-09-12 address mi
 - [Cartethyia](https://www.prydwen.gg/wuthering-waves/characters/cartethyia): the current page exposes explicit standard/low-Erosion alternatives and additional optional/cancel details compared with the older canonical transcription. Record this as source-review evidence, not a silent rotation replacement. No complete denominator was established. Manifest time, shadow lifetime, target-stack consumption and DEF timing are separate obligations; buff duration is not rotationSeconds.
 
 **No complete new execution recipe is proven.** No profile engine, DPS denominator or readiness promotion follows from this audit. Partial canonical evidence is linked in the report and remains reusable. Continue with the bounded action-resource review and the independently safe queue synchronization.
+
+## Completed-review synchronization
+
+The initial report exposed two stale `UNREVIEWED` edges: S03 and S10 had already been reviewed and parked in merged PR193. `sonataStackExecutionReview20260911.ts` now records that existing evidence and the work queue consumes it. No source is re-fetched for these families and no gameplay values or lifecycle are added.
+
+Current partition becomes **24 UNREVIEWED / 24 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE / 7 BLOCKED_SOURCE_CONFLICT / 11 BLOCKED_SOURCE_SEMANTICS / 17 PROFILE_SPECIFIC_EXECUTION**. The two Calcharo/Carlotta rows above therefore each move one unreviewed edge to semantics-blocked in current generated reports. All 83 edges / 72 IDs remain pending. Readiness and the six Reference Team blockers are unchanged. Regression coverage checks the queue exclusion, pending IDs, source-only rotations and unchanged DPS_READY set.

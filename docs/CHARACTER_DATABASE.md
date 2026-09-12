@@ -91,6 +91,8 @@ Lynae and Cantarella complete the follow-up cohort. Their canonical `maxStacks: 
 
 ## Fast path for further Characters
 
+The post-#193 [execution-closure audit](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md) ranks all 17 pending profiles by actual recipe feasibility. Its report joins this database's existing preset/team/rotation and resource identities; it is not a second canonical database. The completed S03/S10 review now appears as BLOCKED_SOURCE_SEMANTICS in the existing work queue instead of stale UNREVIEWED. This changes two diagnostic dispositions, not gameplay facts, pending IDs or readiness.
+
 Current measured coverage and the next-lane ranking are in the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md). **Source once → canonical once → reuse many:** use an unchanged reviewed fact locally by ID while its provenance and source audits remain valid. Reopen external review only for changed/missing provenance, an uncovered semantic or a conflict. A new Character still needs its own occurrence, state, timing and team proof; this is separate from re-verifying the same effect value.
 
 1. Reuse current canonical data and the existing profile/mechanics import and review tools. Do not retranscribe verified rows.

@@ -1,12 +1,12 @@
 # Bellibing Simulator — DPS Execution Gap Matrix
 
-Integration status: PR #190 and #191 are merged/deployed through `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`; post-merge Verify #1110 / Export #1009 / Deploy #148 passed with 819 tests. References below to their draft/unmerged states are historical checkpoints. Draft #193 contains the separately reviewed follow-up and has no merge authorization.
+Integration status: PR #190/#191/#193 are merged and post-merge verified through `b03d43b3f1810b502099efb321be225ccfbba46c`; Verify1127 / Export1026 / Deploy149 passed with 832 tests. Earlier draft/authorization wording is historical. Draft PR #194 is the separate [execution-closure follow-up](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md); no merge of #194 is authorized.
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.
 
-Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. The subsequent #190 and #191 payloads are also merged. Only the explicitly identified #193 follow-up remains unmerged.
+Implementation state: the primitive additions below are **integrated on main through PR #189**, with post-merge Verify #1085, Export #984 and Deploy #146 green. [Integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md) records the source heads and preservation checks. All 83 exact pending edges and all six Reference Team blockers remain; changing an edge to `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE` does not resolve it. The subsequent #190 and #191 payloads are also merged. Only the current #194 execution-closure follow-up remains unmerged.
 
-PR #190 and #191 are merged and post-merge verified. Draft #193 adds isolated canonical Lupa/Qiuyuan/Lynae/Cantarella transfer bindings, discoverable through 15 existing presets/Characters. Its [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md) rechecks primitive-to-profile closure after every slice: no edge closes and the partition/readiness below remain unchanged. S03/S10 timer/refresh/order semantics stay parked. The [historical integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
+PR #190/#191/#193 are merged and post-merge verified. Merged #193 added isolated canonical Lupa/Qiuyuan/Lynae/Cantarella transfer bindings, discoverable through 15 existing presets/Characters. Its [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md) rechecks primitive-to-profile closure after every slice: no edge closes and the partition/readiness below remain unchanged. S03/S10 timer/refresh/order semantics stay parked. The [historical integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md) separates seven gap classes; it introduces no execution approval. Historical checkpoint counts below are not the current branch partition.
 
 ## Current registry-derived baseline
 
@@ -28,13 +28,13 @@ PR #126 moved profile-source readiness from 24/3/28/2 to 37/3/15/2. PR #129 then
 
 ## Current semantic partition
 
-`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on canonical main through merged #191 as:
+`src/profileExecutionWorkQueue.ts` partitions the 83 exact edges on the current #194 branch as:
 
-- **26 `UNREVIEWED`**;
+- **24 `UNREVIEWED`**;
 - **0 `SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING`**;
 - **24 `PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE`**;
 - **7 `BLOCKED_SOURCE_CONFLICT`**;
-- **9 `BLOCKED_SOURCE_SEMANTICS`**;
+- **11 `BLOCKED_SOURCE_SEMANTICS`**;
 - **17 `PROFILE_SPECIFIC_EXECUTION`**.
 
 `UNREVIEWED + SEMANTICALLY_REVIEWED_IMPLEMENTATION_PENDING` gave **26 actionable shared edges** at merged #193. The subsequent [execution-closure audit](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md) consumes the already-completed S03/S10 review: current actionable shared edges are **24**, with two additional BLOCKED_SOURCE_SEMANTICS edges (**11**). This is diagnostic reconciliation, not dependency closure. All 83 pending IDs/edges remain. The historical #190 baseline had 30 unreviewed / 20 primitive-available; merged #191 added exact Echo attack facts for Cantarella, Zhezhi and Carlotta without closing their timelines.

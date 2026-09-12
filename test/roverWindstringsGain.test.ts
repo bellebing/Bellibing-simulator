@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getCharacterMechanicFact } from '../src/data/characterMechanics.ts';
 import { buildCharacterDatabase } from '../src/characterDatabase.ts';
-import { evaluateRoverWindstringsGain as evaluate, readRoverWindstringsGains,
+import { evaluateRoverWindstringsGain as evaluate, readRoverWindstringsGains, readCartethyiaWindstringsGain,
   listRoverWindstringsGainSupport, type RoverWindstringsGainInput } from '../src/combat/roverWindstringsGainAdapter.ts';
 
 function input(index = 0): RoverWindstringsGainInput {
   const binding = listRoverWindstringsGainSupport()[index];
   return { characterId: binding.characterId, resourceFactId: binding.resourceFactId, actionFactId: binding.actionFactId,
     sequence: 0, maxSkills: true, event: { kind: binding.eventKind, actorId: 'rover-aero', atSeconds: 0, sourceQualified: true,
-      ...(index ? { landedHitCount: 1, targetId: 'explicit-target' } : {}) } };
+      ...(binding.eventKind === 'CLOUDBURST_STAGE_HIT' ? { landedHitCount: 1, targetId: 'explicit-target', targetCount: 1 } : {}) } };
 }
 
 test('Intro nominal Windstrings comes once from a cast, never from its two damage components', () => {
@@ -34,6 +34,9 @@ test('each exact single-hit Cloudburst stage requires a landed hit; no cast or a
       assert.throws(() => evaluate({ ...value, event: { ...value.event, landedHitCount: count } }), /zero\/one/);
     }
     assert.throws(() => evaluate({ ...value, event: { ...value.event, targetId: undefined } }), /target/);
+    for (const targetCount of [undefined, 0, 2, NaN]) {
+      assert.throws(() => evaluate({ ...value, event: { ...value.event, targetCount } }), /single-target/);
+    }
     assert.throws(() => evaluate({ ...value, event: { ...value.event, kind: 'INTRO_CAST' } }), /source-qualified/);
   }
 });
@@ -68,9 +71,9 @@ test('wrong actor, unknown occurrence/time, unsupported action and unsupported s
   ]) assert.throws(() => evaluate(altered));
 });
 
-test('database exposes three identity-only resource bindings for the existing Rover profile without promoting execution', () => {
+test('database exposes four identity-only resource bindings for the existing Rover profile without promoting execution', () => {
   const database = buildCharacterDatabase();
-  assert.equal(database.resourceGainSupport.length, 3);
+  assert.equal(database.resourceGainSupport.length, 4);
   for (const binding of database.resourceGainSupport) {
     assert.ok(database.mechanicsFacts.some(f => f.factId === binding.actionFactId));
     const resource = database.mechanicsFacts.find(f => f.factId === binding.resourceFactId)!;
@@ -86,4 +89,34 @@ test('database exposes three identity-only resource bindings for the existing Ro
   assert.equal(buildCharacterDatabase().resourceGainSupport[0].characterId, 'rover-aero');
   assert.equal(database.referenceTeam01.unresolvedDependencies.length, 6);
   assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+});
+
+test('Omega Storm requires the actual Cartethyia team/passive and grants only Rover nominal Windstrings', () => {
+  const sourceId = 'cartethyia-inherent-a-hearts-truest-wishes';
+  const value = { ...input(3), teamProof: { memberCharacterIds: ['rover-aero', 'cartethyia', 'ciaccona'],
+    activeSourceFactId: sourceId, sourceCharacterSequence: 0 } };
+  const result = evaluate(value);
+  assert.equal(result.nominalGain, 25);
+  assert.equal(result.sourceFactId, sourceId);
+  assert.equal(result.recipientId, 'rover-aero');
+  assert.equal(Object.hasOwn(result, 'healingBonus'), false);
+  assert.equal(Object.hasOwn(result, 'poolAfter'), false);
+  for (const altered of [
+    { ...value, teamProof: undefined },
+    { ...value, teamProof: { ...value.teamProof, activeSourceFactId: 'unknown' } },
+    { ...value, teamProof: { ...value.teamProof, sourceCharacterSequence: 1 } },
+    ...[['rover-aero'], ['cartethyia'], ['rover-aero', 'cartethyia', 'unknown'], ['rover-aero', 'cartethyia', 'cartethyia']]
+      .map(memberCharacterIds => ({ ...value, teamProof: { ...value.teamProof, memberCharacterIds } })),
+    { ...value, event: { ...value.event, actorId: 'cartethyia' } },
+    { ...value, event: { ...value.event, landedHitCount: 1 } },
+  ]) assert.throws(() => evaluate(altered));
+  const fact = getCharacterMechanicFact(sourceId)!;
+  assert.equal(fact.kind, 'PASSIVE');
+  if (fact.kind !== 'PASSIVE') throw new Error('passive required');
+  for (const altered of [
+    { ...fact, scope: 'SELF' as const },
+    { ...fact, effectSummary: fact.effectSummary.replace('Omega Storm', 'Cloudburst Dance') },
+    { ...fact, effectSummary: fact.effectSummary.replace('25 Windstrings', 'unknown Windstrings') },
+    { ...fact, provenance: { ...fact.provenance, sourceUrls: [] } },
+  ]) assert.throws(() => readCartethyiaWindstringsGain(altered));
 });

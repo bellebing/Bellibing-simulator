@@ -1,5 +1,7 @@
 # Source-valid execution follow-up after PR191
 
+**Integration update 2026-09-12:** PR #193 merged with explicit authorization at `b03d43b3f1810b502099efb321be225ccfbba46c`; its tree equals reviewed `4e19968e0a2a15ee5506f257d0f318579f4d87b1`. Post-merge Verify1127/Export1026/Deploy149 and 832 tests passed, including live parity. Candidate/authorization language below is historical. Follow-up work is on a new branch; see [current closure review](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md).
+
 Baseline: merged and post-merge-verified #191, `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`. Work belongs to `codex/source-valid-execution-2026-09-11`, with one new draft PR and no further merge authorization. UI and the separately preserved Flamewing WIP are outside this branch.
 
 ## Baseline and closure review

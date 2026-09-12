@@ -1,0 +1,652 @@
+{
+  "reviewedAt": "2026-09-12",
+  "rankingBasis": "Manual bounded closure-feasibility review: existing reusable proof, actual selected-profile consumers and concrete missing state outrank low edge counts. Ranks 1-3 are the source-review cohort; none has a complete executable recipe. Requirements classify the remaining proof, not numeric gameplay facts or readiness.",
+  "profiles": [
+    {
+      "presetId": "shorekeeper-augusta-support",
+      "rationale": "Closest bounded resource subproblem: short standard loop and existing weapon/field primitives; enhanced Intro and Echo remain conditional.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Empirical Data/Collapsed Core, Concerto and Resonance Energy initial/end values; prior Supernal Stellarealm enabling Discernment."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Discernment prerequisite, actual Skill heal, butterflies and Fallacy occurrence."
+        },
+        "variantHits": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "Normal Fallacy versus hold/release is BUG-010; Basic component hits and butterfly arrival are unproved."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Stellarealm occupants, two qualifying teammate Intros and actual next recipient."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual healing recipients and attack targets; healing qualification at the queried event."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "Fallacy ER, Stellar Symphony, Rejuvenating Glow and Stellarealm crit at event times."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "rover-aero-cartethyia-ciaccona",
+      "rationale": "Existing Unbound Flow/Fleurdelys ordering and two reusable primitives narrow the evidence work; optional branch and healing overlap prevent closure.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Windstrings, airborne access and exact Concerto/Energy initial/end state."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Source sequence orders Unbound Flow P1, Fleurdelys and off-field P2; actual selected execution still required."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Choose optional Skyfall Severance with evidence; prove Cloudburst, plunge and Echo component hits."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Exact outgoing/incoming actor and off-field P2 ownership after swap."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual ailment conversion/Aero Erosion application and target observations."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "BUG-012: which later Skill hits lie inside Bloodpact's healing window; source order alone is insufficient."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "cartethyia-aero-erosion",
+      "rationale": "Fewest edges is misleading: DEF timing, manifestation, status damage and timed shadow state add substantial closure cost.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Conviction, distinct Sword Shadows, Manifest/HP prerequisites and actual initial/end values."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Exact standard sequence and any Echo occurrence; flexible guide placement is not a cast schedule."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Recalled-shadow variant, Fleurdelys stages, Aero Erosion damage and actual landed components."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Ciaccona/Rover outgoing effects, relevant recipient and team applications."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Aero Erosion stacks/consumption at each attack and transformation."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "BUG-011 Defier's Thorn DEF grammar remains unresolved; shadow expiry and Manifest/buff overlap."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "lumi-hybrid",
+      "rationale": "Several primitives exist; discrete Red/Yellow state may be bounded, but Heron conflict prevents complete selected-profile execution.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Red/Yellow spotlight and Forte state; Concerto/Energy beginning, costs and ending."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Selected signal transitions, dash cancels and actual Outro/Echo."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Enhanced/normal attacks and landed stage components."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Confirmed incoming Skill recipient and switch history."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual attacked target and relevant status observations."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_CONFLICT",
+          "missingProof": "Heron BUG-008 transfer conflict plus selected cast/transfer windows."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "aalto-hybrid-jiyan",
+      "rationale": "Short sequence and known Jiyan recipient; conditional Skill placement and Heron conflict outweigh low edge count.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Mist Drops, cooldown readiness and exact Concerto/Energy state."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Off-field preparation Skill versus still-on-cooldown placement must be resolved."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual mist-qualified shots and connected components."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Jiyan incoming identity is canonical; actual transfer/switch history still required."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Attack path through Mist and actual targets."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_CONFLICT",
+          "missingProof": "Heron BUG-008; Static Mist/Aalto transfer overlap and cooldown."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "calcharo-standard",
+      "rationale": "Two primitives do not bypass the previously parked S03 lifecycle; enhanced burst/resource execution also remains missing.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Cruelty/Killing Intent and actual liberation/Concerto resources."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Source burst chosen without silently adding warmup or optional swap cancels."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Death Messenger/Hounds Roar variant and actual component hits."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Lynae/Shorekeeper input state and actual switch boundaries."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual targets for all enhanced attacks."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "S03 independent/shared timers, refresh and event order are PARKED; no repeated source review."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "carlotta-standard",
+      "rationale": "Three primitives, but S10 and Sentry charge history block the selected profile; resource warmup is separate.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Initial Substance, consumption and burst availability; no zero-resource warmup inferred."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual selected burst and Sentry occurrence."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Exact Sentry variant/charge/freeze history and each Death Knell hit."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Zhezhi/Shorekeeper effects and actual incoming/outgoing timing."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Sentry target state and relevant frozen/qualified targets."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "S10 shared/independent expiry, refresh and order are PARKED."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "changli-standard",
+      "rationale": "Canonical damage facts exist but coupled Searing Feather stack mutation and enhanced-state sequence are not a short closure.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Enflamement/True Sight, energy and initial/end resources."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual selected standard sequence; no optional opener inferred."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Charge/Conquest/Flaming Sacrifice hit components and cancel outcomes."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Brant/Lupa support conditions and recipient switches."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual targets and source-qualified damage events."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "Blazing Brilliance stack lifecycle/cross-effect mutation remains source-blocked."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "iuno-augusta-hybrid",
+      "rationale": "Existing Character state helpers help, but weapon cross-effect stack overrides, Heron and Reference Team proof expand scope.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Moonbow/resource/shield state and Concerto/Energy initial/end state."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Heron cancellation, actual enhanced skills and shield events."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Moonbow/Absolute Fullness component hits and cancelled Echo outcome."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Augusta domain occupancy, at-cap Wan Light semantics and recipient switches."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual targets and shield qualification."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_REVIEW_REQUIRED",
+          "missingProof": "Moongazer stack/override and six separate Reference Team requirements remain pending."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "chisa-standard",
+      "rationale": "Negative-status support requires team state and unresolved Fallacy variant despite one heal primitive.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Forte and initial/end energy/Concerto; opener versus loop state."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual partial Death Snip, healing, Fallacy and Eradication events."
+        },
+        "variantHits": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "Partial/cancelled component hits and Fallacy BUG-010 variant."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Aemeath/Denia team status and actual recipient/switch."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Negative-status stack observations and qualifying targets for Kumokiri."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_REVIEW_REQUIRED",
+          "missingProof": "Kumokiri team stack window and Rejuvenating heal overlap."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "zhezhi-empyrean-endgame",
+      "rationale": "Two profiles share Character resource work, but skill-stack lifecycle, off-field requirements and coordinated crit are coupled.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Afflatus/Inklit Spirit and exact energy/Concerto starting/ending values."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Flexible Nightmare Lampylumen placement and actual off-field coordinated events."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Conjuration, teleport skills, Creation's Zenith and actual hits."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Carlotta incoming state and true active Resonator on coordinated crit."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual attack targets and coordinated-hit/crit qualification."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_SEMANTICS_BLOCKED",
+          "missingProof": "Rime stack lifecycle/off-field condition and Empyrean active-recipient ATK."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "zhezhi-moonlit-fallback",
+      "rationale": "Can share Zhezhi evidence, but adds Heron conflict and inherits the same weapon lifecycle blocker.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Afflatus/Inklit Spirit and exact energy/Concerto starting/ending values."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual dash/Heron immediate switch cancellation outcomes."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Exact skill variants and connected components after cancel."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Carlotta incoming state and switch history for Moonlit/Outro."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual targets and qualified coordinated attacks."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_CONFLICT",
+          "missingProof": "Rime lifecycle/off-field window plus Heron BUG-008 and Moonlit transfer."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "yinlin-moonlit",
+      "rationale": "Stringmaster lifecycle plus Heron conflict blocks equipment; Punishment Mark and coordinated damage need event evidence.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Judgment, marks and Concerto/Energy initial/end state."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual Heavy/endlag/Heron cancellation and off-field coordinated events."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Execution Mode/Chameleon Cipher and connected component counts."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Xiangli Yao/Shorekeeper context and outgoing/incoming state."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Sinner/Punishment marks and actual coordinated-hit target."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_CONFLICT",
+          "missingProof": "Stringmaster stack lifecycle and Heron BUG-008; Moonlit overlap."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "cantarella-standard",
+      "rationale": "More than a direct-hit problem: Gentle Dream weapon stacks, Sonata damage and resource conversions need new proof.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Trance/Shiver and initial/end Concerto/Energy; Phantom String consumption."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual enhanced attacks, Perception Drain, Lorelei and Outro occurrence."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Delusive Dive/Flickering Reverie/Phantom String variants and hits."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Phrolova/Qiuyuan recipient and Midnight Veil Havoc qualification."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual targets, Gentle Dream qualification and RES application."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_REVIEW_REQUIRED",
+          "missingProof": "Gentle Dream stack state and Midnight Veil Outro damage are unreviewed."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "denia-fusion-burst-aemeath",
+      "rationale": "Shares resource work with Tune, but mode-specific gear and unresolved Echo attack mapping make closure expensive.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Breakdown/Stagecraft resources and initial/end Energy/Concerto."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Flexible Denia Echo placement and exact source cancellation outcomes."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Selected Fusion Burst mode and landed Banish/Breakdown/Echo components."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Aemeath incoming with Chisa; mode-specific outgoing support."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual Fusion Burst conditions and affected targets."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_REVIEW_REQUIRED",
+          "missingProof": "Forged Dwarf Star/Chromatic Foam mode-qualified windows; Echo scaling remains parked."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "denia-tune-strain-luuk",
+      "rationale": "Shared Denia source sequence helps reuse; separate mode, Sonata and cancelled Moth occurrence prevent closure.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Breakdown/Stagecraft resources and initial/end Energy/Concerto."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual cancelled Moth use and source action occurrence."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Tune Strain mode; Moth scaling/hold landed count stays parked."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Luuk incoming with Mornye; explicit transfer/switch history."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual Tune Strain/Interfered targets and trigger qualification."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_REVIEW_REQUIRED",
+          "missingProof": "Forged Dwarf Star/Chromatic Foam Tune state and Moth transfer overlap."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    },
+    {
+      "presetId": "zani-standard",
+      "rationale": "Highest coupled state/conflict cost: target conversion, separate infliction, resources and incoming team timeline.",
+      "requirements": {
+        "rotationDuration": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "No canonical rotationSeconds for this exact sequence; neither a buff duration nor guide sequence supplies the denominator."
+        },
+        "resourceState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Blaze/Inferno, redundant-energy sequence scope and exact resource history."
+        },
+        "eventOccurrence": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Actual Rekindle/Last Stand and specialized heavy events."
+        },
+        "variantHits": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Daybreak/Dawning/Nightfall hits and sequence-specific variants."
+        },
+        "recipientState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Phoebe/Rover Spectro incoming Frazzle application timeline."
+        },
+        "targetState": {
+          "classification": "PROFILE_EVIDENCE_REQUIRED",
+          "missingProof": "Separate Frazzle infliction versus Heliacal conversion/stack observation."
+        },
+        "buffOverlap": {
+          "classification": "SOURCE_CONFLICT",
+          "missingProof": "Blazing Justice source conflict and Mourning Aix target/modifier remain parked."
+        },
+        "equipment": {
+          "classification": "CANONICAL_FACT_EXISTS",
+          "missingProof": "Canonical preset references supply recommended loadout/team context; prove actual selected weapon/rank, Echo variant and set/pieces for execution. Exact references are joined in the generated report."
+        }
+      }
+    }
+  ]
+}

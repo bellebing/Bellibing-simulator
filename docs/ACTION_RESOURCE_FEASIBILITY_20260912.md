@@ -1,0 +1,26 @@
+# Bounded action-resource feasibility
+
+This review follows the [nearest executable profile audit](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md). It inspects only the three selected profiles' concrete resource gaps. Canonical data was read first; no provider ingestion or copied gameplay value table is introduced.
+
+## Evidence and exact boundary
+
+Existing facts retain their original pinned `DommyMM/wuwabuild` commit `5fa70b11f1d84fb644e4dbed47873708da0fe66f` and checked dates. Supplemental semantic reads below were performed on 2026-09-12; a read date is not a newly verified game version.
+
+| Candidate / exact IDs | Amount and resource | Occurrence / multihit | Owner / unit / ER | Initial/cap and result |
+| --- | --- | --- | --- | --- |
+| Rover `rover-aero-intro-skill-relentless-squall-skill-dmg` → `rover-aero-resource-windstrings` | Reuse the canonical rule's Intro amount. | Cast-based; the two damage components do not each grant it. Actual available Intro cast must be supplied. | Rover Aero / Windstrings; nominal amount only, no ER operation. | No starting pool or cap clipping computed. Implemented as one explicit nominal event. |
+| Rover `rover-aero-forte-circuit-cycle-of-wind-cloudburst-dance-stage-1-dmg` and `...stage-2-dmg` → same resource fact | Reuse the canonical Cloudburst amount. | Hit-based; both exact canonical actions have one coefficient component/one hit. Require explicit zero or one landed hit and target for a real hit; airborne/access prerequisites are caller-proven. | Rover Aero / Windstrings; nominal amount only. | Partial misses are zero, not all-hits defaults. No pool accumulation, spending, cap or profile occurrence inferred. Implemented. |
+| Shorekeeper `the-shorekeeper-basic-attack-origin-calculus-stage-2-dmg` / `...stage-3-dmg` → `the-shorekeeper-resource-empirical-data` | Canonical stage amounts/cap exist; reuse those facts. | Source says the stage hitting grants Data, but the damage facts have multiple hits. No exact partial-hit/multi-target award or deduplication contract is established. | Shorekeeper / segments of Empirical Data; not a Resonance Energy field. No ER relationship is introduced. | Initial Data, partial-hit awards and Collapsed Core conversion/history remain unresolved. PARK this multi-hit family. |
+| Cartethyia `cartethyia-forte-circuit-tempest-sword-to-answer-waves-call-dmg` → `cartethyia-resource-conviction` | Canonical cap exists; the resource summary does not map an exact gain to each component. | On-hit generation is source text, but exact per-component amount and target multiplicity remain unproved. | Fleurdelys/Cartethyia / Conviction; no ER inference. | Manifest clears/uses state, but this is not a complete resource ledger or timeline. PARK. |
+
+The [Rover game-text/multiplier mirror](https://wuthering.wiki/character_1406.html) separates Intro casting from Cloudburst hit awards and preserves the single-hit action representations. Its separate Unbound Flow Concerto table and damage-entry energy columns do **not** by themselves establish per-hit/cast/ER runtime semantics; no energy values are imported. The [Shorekeeper mirror](https://wuthering.wiki/character_1505.html) preserves stage-based Empirical Data text and multi-hit coefficients without resolving partial-hit resource allocation. The [current Cartethyia kit](https://www.prydwen.gg/wuthering-waves/characters/cartethyia) still requires on-hit Conviction and Manifest state; it supplies no complete component ledger for this chosen case.
+
+## Implemented consumer
+
+`roverWindstringsGainAdapter.ts` evaluates only the three reviewed nominal gains. It validates exact resource/action/owner/provenance, S0/max-skill scope, the resource rule's complete shape and numeric consistency, explicit source-qualified occurrence/time, and a zero/one landed hit for each Cloudburst stage. `readCharacterActionValues` proves each accepted Cloudburst representation remains single-hit; a changed/multi-hit representation fails closed.
+
+`resourceGainSupport` adds three identity-only contracts to the existing Character database. The closure report joins these to the existing Rover preset. Canonical amounts remain solely in `mechanicsFacts`; no duplicate numeric export is added. Repeated calls are separate caller-proven events, not automatic cast occurrence or a deduplicating event ledger.
+
+Cartethyia's separate `cartethyia-inherent-a-hearts-truest-wishes` already mentions an Omega Storm Windstrings award. It is **not** included in the Rover-only gains and cannot be silently omitted from a future full team ledger. It needs explicit actual team membership/unlocked passive/owned Omega Storm cast proof. Basic 3/4 and Dodge Counter gains, Unbound Flow spending/off-field continuation, resource caps, initial/end pools and exact Concerto/Resonance Energy remain outside the three-event result. Nominal gain is not net stored resource or proof of resource sufficiency.
+
+No PROFILE_SPECIFIC_EXECUTION edge closes. All 17 source-only profiles, six Reference Team blockers, RAW_ONLY facts, existing unknown Max Energy and readiness remain unchanged. S1/S2 support is not implied by these S0 bindings; higher sequences, lower skills and quickswap are not added.

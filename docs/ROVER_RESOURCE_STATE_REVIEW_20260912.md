@@ -12,6 +12,12 @@ The canonical rule also contains Basic3/4 and Dodge Counter gains. Basic3 and Do
 
 ## State questions still open
 
+The bounded `rover-windstrings-ordered-fragment-v1` ledger now consumes the four existing gains and two performed-stage spends for the existing Rover preset. The caller supplies a proven numeric initial observation or explicit UNKNOWN, chronological event IDs/order, and evidence for a complete continuous on-field Windstrings fragment. Known values within the maximum can be updated without deciding overflow. Any possible overflow returns PENDING with the last proven prefix; it never clips. Unknown initial state returns no stored total. Invalid identities/order/source qualification fail closed before evaluation.
+
+Stage1 requires maximum stored resource; Stage2 requires the immediately preceding matching, source-qualified Unbound Flow chain. The ledger does not choose an attack, infer a mode, repeat an event, generate damage, execute a swap or carry state into an unproved interval. End-of-fragment resource is not a full-rotation final resource. `resourceStateSupport` exports one identity-only contract for the existing preset; the closure report joins it without promoting any readiness/dependency.
+
+Synthetic contract tests illustrate both outcomes: a non-overflow prefix can reach maximum and pay both stage costs; an all-landed gain prefix with the Cartethyia award encounters possible overflow and stops. The fixture initial value, timestamps and hit set are not claimed as source-backed profile events.
+
 The maximum bounds stored Windstrings; it alone supplies no overflow/clipping timing, simultaneous-award aggregation or reset policy. Neither zero nor full initial state is a proven standard-profile default. Unbound Flow's two source actions permit bounded explicit spend evaluation; performing Stage1 requires maximum resource and performing Stage2 requires source-qualified continuation. A source rotation alone supplies neither occurrence nor resource sufficiency.
 
 The selected `rover-aero-cartethyia-ciaccona` profile still needs initial/end Windstrings, overflow behavior if reached, complete ordered events, Concerto, Resonance Energy, optional Skyfall choice, target/hit proof, Cartethyia award occurrence, off-field continuation, BUG-012 healing overlap, gear applicability and a verified denominator. No ENERGY/Concerto provider field is promoted to execution semantics. S1/S2 are not inferred from S0 support.

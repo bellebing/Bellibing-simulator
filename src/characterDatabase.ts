@@ -1,6 +1,7 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
+import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
 import { listWeaponResourceCastSupport } from './combat/weaponResourceCastAdapter.ts';
 import { listCharacterOutroTransferSupport } from './combat/characterOutroTransferAdapter.ts';
@@ -72,6 +73,7 @@ export function buildCharacterDatabase() {
     },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     resourceGainSupport: listRoverWindstringsGainSupport(),
+    resourceStateSupport: listRoverWindstringsLedgerSupport(),
     // Gear facts retain their own source/modeling status. Profile selection and
     // audited source coverage do not authorize conditional effects or uptime.
     gear: {

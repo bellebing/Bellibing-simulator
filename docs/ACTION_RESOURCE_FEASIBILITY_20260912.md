@@ -26,3 +26,5 @@ The fourth binding consumes Cartethyia's separate `cartethyia-inherent-a-hearts-
 Basic 3/4 and Dodge Counter gains, Unbound Flow spending/off-field continuation, multi-target stage awards, caps, initial/end pools and exact Concerto/Resonance Energy remain outside the result. Nominal gain is not net stored resource or proof of resource sufficiency. No ER operation is applied to these nominal Windstrings; this does not generalize to Resonance/Concerto Energy.
 
 No PROFILE_SPECIFIC_EXECUTION edge closes. All 17 source-only profiles, six Reference Team blockers, RAW_ONLY facts, existing unknown Max Energy and readiness remain unchanged. S1/S2 support is not implied by these S0 bindings; higher sequences, lower skills and quickswap are not added.
+
+Integration review is complete for these four bindings. Six contract tests cover exact cast/hit distinctions, unsupported inputs/source drift, single-target scope, detached export and team/passive qualification. The complete runtime candidate passes 839 tests; exact final checkpoint CI is recorded in PR194/Handoff. No additional resource/state feature belongs to this frozen candidate.

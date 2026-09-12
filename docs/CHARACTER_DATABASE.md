@@ -1,10 +1,10 @@
 # Character database and shared action values
 
-Integration status: PR #190 is now merged/deployed through `c37b3ea5c0833f0483e2da2ac9cca36d42e1902f`; Verify #1102 / Export #1001 / Deploy #147 passed. References below to its unmerged/draft state are historical checkpoints. Its canonical gear/capability payload is now on main. New reuse-first work is on a separate branch and has no merge authorization.
+Integration status: PR #190 and #191 are merged/deployed through `3fe1544f81ba7658fccd2ebbe4c4471bf6dd7d89`; post-merge Verify #1110 / Export #1009 / Deploy #148 passed with 819 tests. References below to their draft/unmerged states are historical checkpoints. Draft #193 contains the separately reviewed follow-up and has no merge authorization.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
-Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**, followed by merged #190. The earlier main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). PR #191 is the active unmerged reuse lane: canonical Outro bindings and additional Echo facts project through existing exports. Its current eight attack profiles/ten attack facts and pending profile boundaries are documented in the [closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md).
+Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**, followed by merged #190. The earlier main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). PR #191 is merged and post-merge verified (819 tests; Verify1110/Export1009/Deploy148): canonical Outro bindings and additional Echo facts project through existing exports. Its current eight attack profiles/ten attack facts and pending profile boundaries are documented in the [closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md).
 
 ## Use from a separate UI
 
@@ -29,10 +29,10 @@ TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase`
 | `actionValuesAtMaxSkill` | Exact level-10 source coefficient components/hit counts or separately typed flat damage, keyed by `factId`. `UNAVAILABLE` carries a reason and no fabricated zero. |
 | `hitPrimitives.basicHits` | Derived S0/max-skill ATK Basic Attack hit support. This is isolated-hit coverage, never a rotation or DPS approval. |
 | `hitPrimitives.directHits` | Derived support for ordinary single-class ATK/HP/DEF damage, tagged with the actual source damage class and scaling stat. |
-| `hitPrimitives.echoActiveHits` | Nine exact Rank-5 ACTIVE_CAST Echo facts on PR #191 (five integrated through #190), with explicit component/landed-hit evaluation. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
-| `outroTransferSupport` | Nine canonical Character Outro contracts: five integrated through #190 and four reviewed single-activation bindings on #191. Explicit handoff, recipient history and the declared stack policy are required. |
+| `hitPrimitives.echoActiveHits` | Nine exact Rank-5 ACTIVE_CAST Echo facts integrated through #191, with explicit component/landed-hit evaluation. Join Echo/attack IDs to `gear.echoAttacks`; coefficients remain canonical there. |
+| `outroTransferSupport` | Thirteen canonical Character Outro contracts: nine integrated through #191 plus Lupa/Qiuyuan/Lynae/Cantarella isolated bindings on #193. Explicit handoff, recipient history and the declared stack policy are required. |
 | `profiles` | Presets and their referenced weapon recommendations, Echo loadouts, stat targets, teams and rotations. Roles belong to these team/mode contexts. |
-| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #190. |
+| `gear` | Canonical weapon/Echo/Sonata identities, separate effects and exact Echo attacks, plus existing source coverage and pending/conflict dispositions. Integrated and deployed through #191. |
 | `gear.echoTransferWindows` | Existing Denia/Hyvatia summon contracts and the new Rank-5 Voidwing use-to-Outro contract, with exact arm kind, rank and caller-state requirements. Values stay in `gear.echoEffects`; no profile timing or activation is inferred. |
 | `executionReviews` | Existing reviewed profile execution dependencies; absence of a review is not approval. |
 | `referenceTeam01` | The existing Augusta/Iuno/Shorekeeper context, including its six unresolved dependencies and `PARTIAL / dpsReady=false`. |
@@ -82,6 +82,12 @@ On PR #190 the additive `gear` section lets every existing profile's weapon opti
 `echoActiveHitAdapter.ts` now evaluates the five existing exact ACTIVE_CAST Echo facts through the same numeric snapshot boundary and damage kernel as Character direct hits. Exact Echo ID, attack ID, Rank 5, component index, landed-hit count and a caller-proven snapshot tagged ECHO / source element / ATK, HP or DEF are required. Different components or individual hits can use different explicit snapshots. Zero landed hits is valid; an omitted count never means all hits.
 
 The capability list contains identities and execution tags, not copied coefficients. The False Sovereign's INTRO_AUTO_SUMMON, Fallacy hold/release, unmodeled attacks and ambiguous variants remain unsupported. The primitive neither proves a cast nor selects effects, charges, cooldowns, timing or rotation. Synthetic arithmetic/partial-hit tests and existing Character hit regressions preserve all readiness and pending dependencies; no profile engine is switched to this primitive automatically.
+
+The post-#191 follow-up adds the existing Lupa Outro fact to the same isolated-transfer family. Five current presets discover it from canonical team membership. Fusion and Basic terms remain separate; no Pack Hunt, Glory, stack refresh or profile timeline is inferred. See the [source-valid execution review](SOURCE_VALID_EXECUTION_REVIEW_20260911.md). The database projection derives this support directly from the shared adapter and retains canonical RAW_ONLY/null-stack facts.
+
+Qiuyuan's existing incoming Echo amplification additionally reuses this family for five current presets. Its Character-owned Outro ECHO damage remains a separate source fact; amplification support does not create an equipped Echo cast, select a hit or execute the Character's attack. Explicit event/recipient/order and isolated activation requirements remain unchanged, including detached export and RAW_ONLY/null-stack preservation.
+
+Lynae and Cantarella complete the follow-up cohort. Their canonical `maxStacks: 1` is preserved and validated; it does not authorize repeated-activation refresh. Both retain `UNKNOWN_SINGLE_ACTIVATION_ONLY` for that unresolved lifecycle. Lynae's All/Liberation terms and Cantarella's Havoc/Skill terms stay separate. The four new owners expose seven independent terms to **15 distinct existing presets / 15 Characters**; this is team-membership discovery, not proof of an outgoing recipient, active buff or executable rotation. Lynae's separate Outro attack is not executed by the transfer.
 
 ## Fast path for further Characters
 

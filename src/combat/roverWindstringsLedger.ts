@@ -8,8 +8,17 @@ export const ROVER_WINDSTRINGS_LEDGER_ID = 'rover-windstrings-ordered-fragment-v
 const PROFILE_ID = 'rover-aero-cartethyia-ciaccona';
 const RESOURCE_ID = 'rover-aero-resource-windstrings';
 
+function reviewedProfileTeam() {
+  const preset = PROFILE_CATALOGS.presets.find(p => p.id === PROFILE_ID);
+  const team = PROFILE_CATALOGS.teams.find(t => t.id === preset?.teamProfileId);
+  if (!preset || preset.characterId !== 'rover-aero' || preset.verificationStatus !== 'VERIFIED'
+    || !team || team.verificationStatus !== 'VERIFIED') throw new Error('Missing reviewed Rover preset/team');
+  return team;
+}
+
 /** Identity-only discovery for this existing preset; no second numeric fact table. */
 export function listRoverWindstringsLedgerSupport() {
+  reviewedProfileTeam();
   return [{ primitiveId: ROVER_WINDSTRINGS_LEDGER_ID, presetId: PROFILE_ID, characterId: 'rover-aero',
     resourceFactId: RESOURCE_ID, gainActionFactIds: listRoverWindstringsGainSupport().map(row => row.actionFactId),
     spendActionFactIds: listRoverWindstringsSpendSupport().map(row => row.actionFactId),
@@ -64,6 +73,7 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
     throw new Error('Require exact Rover profile and proven complete ordered resource fragment');
   }
   const source = readRoverWindstringsResource(getCharacterMechanicFact(RESOURCE_ID)!);
+  const team = reviewedProfileTeam();
   const initial = input.initial;
   if (!initial || (initial.status !== 'UNKNOWN' && initial.status !== 'PROVEN')) throw new Error('Explicit initial state required');
   if (initial.status === 'PROVEN' && (!Number.isSafeInteger(initial.value) || initial.value < 0
@@ -84,7 +94,16 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
       throw new Error('Require unique events in proven chronological/order sequence');
     }
     ids.add(event.eventId); previousOrder = event.order; previousTime = event.input.event.atSeconds;
-    if (event.kind === 'GAIN') return { event, result: evaluateRoverWindstringsGain(event.input) };
+    if (event.kind === 'GAIN') {
+      const result = evaluateRoverWindstringsGain(event.input);
+      if (event.input.event.kind === 'OMEGA_STORM_CAST_WITH_CARTETHYIA') {
+        const members = event.input.teamProof!.memberCharacterIds;
+        if (members.length !== team.members.length || team.members.some(member => !members.includes(member.characterId))) {
+          throw new Error('Actual Omega Storm team does not match this selected profile');
+        }
+      }
+      return { event, result };
+    }
     if (event.kind !== 'SPEND' || !text(event.chainId) || event.continuationQualified !== true) {
       throw new Error('Require source-qualified Unbound Flow chain');
     }
@@ -96,8 +115,6 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
   } else {
     const proof = input.boundary.followupProof;
     const stage1 = proof?.stage1, swap = proof?.swap, stage2 = events[0].event;
-    const preset = PROFILE_CATALOGS.presets.find(p => p.id === PROFILE_ID);
-    const team = PROFILE_CATALOGS.teams.find(t => t.id === preset?.teamProfileId);
     if (!stage1 || stage1.kind !== 'SPEND' || stage1.input?.event?.stage !== 1
       || !text(stage1.eventId) || !text(stage1.chainId) || stage1.continuationQualified !== true
       || !Number.isSafeInteger(stage1.order) || stage1.order < 0
@@ -107,7 +124,7 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
       || !finiteTime(swap.atSeconds) || swap.atSeconds < stage1.input.event.atSeconds
       || swap.atSeconds > stage2.input.event.atSeconds || swap.sourceQualified !== true
       || swap.outgoingCharacterId !== 'rover-aero' || swap.incomingCharacterId === 'rover-aero'
-      || !team?.members.some(member => member.characterId === swap.incomingCharacterId)
+      || !team.members.some(member => member.characterId === swap.incomingCharacterId)
       || events.length !== 1 || stage2.kind !== 'SPEND' || stage2.input.event.stage !== 2
       || stage2.chainId !== stage1.chainId
       || (initial.status === 'PROVEN' && initial.atSeconds < swap.atSeconds)) {

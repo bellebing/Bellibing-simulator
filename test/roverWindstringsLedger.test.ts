@@ -158,3 +158,18 @@ test('off-field continuation cannot be invented from a stage name, recommended t
   assert.throws(() => evaluate({ ...value, boundary: { ...value.boundary,
     followupProof: { ...proof, stage1: { ...proof.stage1, input: { ...proof.stage1.input, sequence: 1 } } } } }));
 });
+
+test('a valid nominal team award cannot be relabeled as a different selected profile team', () => {
+  const event = gain(3, 1);
+  if (event.kind !== 'GAIN' || !event.input.teamProof) throw new Error('Omega fixture');
+  for (const memberCharacterIds of [
+    ['rover-aero', 'cartethyia', 'augusta'], ['rover-aero', 'cartethyia'],
+    ['rover-aero', 'cartethyia', 'ciaccona', 'augusta'],
+  ]) {
+    const altered = { ...event, input: { ...event.input, teamProof: { ...event.input.teamProof, memberCharacterIds } } };
+    assert.throws(() => evaluate(input(0, [altered])), /selected profile/);
+  }
+  const reordered = { ...event, input: { ...event.input, teamProof: { ...event.input.teamProof,
+    memberCharacterIds: ['ciaccona', 'rover-aero', 'cartethyia'] } } };
+  assert.equal(evaluate(input(0, [reordered])).finalStored, 25);
+});

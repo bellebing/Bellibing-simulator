@@ -1,4 +1,5 @@
 import { getCharacterMechanicFact } from '../data/characterMechanics.ts';
+import { PROFILE_CATALOGS } from '../data/profileCatalogs.ts';
 import { evaluateRoverWindstringsGain, evaluateRoverWindstringsSpend, readRoverWindstringsResource,
   listRoverWindstringsGainSupport, listRoverWindstringsSpendSupport,
   type RoverWindstringsGainInput, type RoverWindstringsSpendInput } from './roverWindstringsGainAdapter.ts';
@@ -14,7 +15,7 @@ export function listRoverWindstringsLedgerSupport() {
     spendActionFactIds: listRoverWindstringsSpendSupport().map(row => row.actionFactId),
     scope: 'PARTIAL_PROFILE_RESOURCE_FRAGMENT' as const, sequence: 0 as const, skillLevel: 10 as const,
     initialState: 'EXPLICIT_PROVEN_OR_UNKNOWN' as const, overflow: 'UNSUPPORTED_PENDING' as const,
-    offField: 'UNSUPPORTED' as const, authorizesProfileExecution: false as const }];
+    offField: 'EXPLICIT_STAGE2_WITH_POST_SWAP_OBSERVATION' as const, authorizesProfileExecution: false as const }];
 }
 
 type InitialState = { readonly status: 'UNKNOWN' } | {
@@ -33,10 +34,17 @@ export interface RoverWindstringsLedgerInput {
   readonly presetId: typeof PROFILE_ID;
   readonly initial: InitialState;
   readonly events: readonly OrderedEvent[];
-  /** Caller proves a continuous on-field fragment with every Windstrings mutation
-   * present, and the supplied order at any equal timestamps. No reset or omitted spend. */
-  readonly boundary: { readonly onFieldThroughout: true; readonly completeWindstringsEvents: true;
-    readonly eventOrderProven: true; readonly evidenceId: string };
+  /** Complete mutations since initial observation, including proven equal-time order.
+   * The off-field form is only one actual Stage2, observed after a proved swap. */
+  readonly boundary: { readonly completeWindstringsEvents: true;
+    readonly eventOrderProven: true; readonly evidenceId: string } & (
+      { readonly onFieldThroughout: true }
+      | { readonly onFieldThroughout: false; readonly followupProof: {
+          readonly stage1: Extract<OrderedEvent, { kind: 'SPEND' }>;
+          readonly swap: { readonly eventId: string; readonly order: number; readonly atSeconds: number;
+            readonly outgoingCharacterId: string; readonly incomingCharacterId: string; readonly sourceQualified: true };
+        } }
+    );
 }
 
 type PendingReason = 'INITIAL_WINDSTRINGS_UNKNOWN' | 'OVERFLOW_SEMANTICS_REQUIRED'
@@ -45,14 +53,15 @@ type PendingReason = 'INITIAL_WINDSTRINGS_UNKNOWN' | 'OVERFLOW_SEMANTICS_REQUIRE
 
 /** A selected-profile resource fragment, never a full profile execution result.
  * Unknown overflow is a stop boundary, not Math.min(maximum, value).
- * No sourceSequence parsing, timestamp generation, off-field model, ER or DPS. */
+ * No sourceSequence parsing, timestamp generation, inferred swap persistence, ER or DPS. */
 export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInput) {
   const text = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
   const finiteTime = (value: number) => Number.isFinite(value) && value >= 0;
-  if (input.presetId !== PROFILE_ID || input.boundary?.onFieldThroughout !== true
+  if (input.presetId !== PROFILE_ID || !input.boundary
+    || (input.boundary.onFieldThroughout !== true && input.boundary.onFieldThroughout !== false)
     || input.boundary.completeWindstringsEvents !== true || input.boundary.eventOrderProven !== true
     || !text(input.boundary.evidenceId) || !Array.isArray(input.events) || !input.events.length) {
-    throw new Error('Require exact Rover profile and proven complete ordered on-field fragment');
+    throw new Error('Require exact Rover profile and proven complete ordered resource fragment');
   }
   const source = readRoverWindstringsResource(getCharacterMechanicFact(RESOURCE_ID)!);
   const initial = input.initial;
@@ -81,6 +90,34 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
     }
     return { event, result: evaluateRoverWindstringsSpend(event.input) };
   });
+  let continuation: { chainId: string } | null = null;
+  if (input.boundary.onFieldThroughout) {
+    if (Object.hasOwn(input.boundary, 'followupProof')) throw new Error('Conflicting on-field/follow-up boundary');
+  } else {
+    const proof = input.boundary.followupProof;
+    const stage1 = proof?.stage1, swap = proof?.swap, stage2 = events[0].event;
+    const preset = PROFILE_CATALOGS.presets.find(p => p.id === PROFILE_ID);
+    const team = PROFILE_CATALOGS.teams.find(t => t.id === preset?.teamProfileId);
+    if (!stage1 || stage1.kind !== 'SPEND' || stage1.input?.event?.stage !== 1
+      || !text(stage1.eventId) || !text(stage1.chainId) || stage1.continuationQualified !== true
+      || !Number.isSafeInteger(stage1.order) || stage1.order < 0
+      || !swap || !text(swap.eventId) || swap.eventId === stage1.eventId
+      || ids.has(stage1.eventId) || ids.has(swap.eventId)
+      || !Number.isSafeInteger(swap.order) || swap.order <= stage1.order || swap.order >= stage2.order
+      || !finiteTime(swap.atSeconds) || swap.atSeconds < stage1.input.event.atSeconds
+      || swap.atSeconds > stage2.input.event.atSeconds || swap.sourceQualified !== true
+      || swap.outgoingCharacterId !== 'rover-aero' || swap.incomingCharacterId === 'rover-aero'
+      || !team?.members.some(member => member.characterId === swap.incomingCharacterId)
+      || events.length !== 1 || stage2.kind !== 'SPEND' || stage2.input.event.stage !== 2
+      || stage2.chainId !== stage1.chainId
+      || (initial.status === 'PROVEN' && initial.atSeconds < swap.atSeconds)) {
+      throw new Error('Off-field Stage2 requires actual Stage1/swap/continuation and a post-swap observation');
+    }
+    evaluateRoverWindstringsSpend(stage1.input);
+    // This seeds only the proved continuation, not a numeric pool from Stage1.
+    // Stored Windstrings come independently from the post-swap observation.
+    continuation = { chainId: stage1.chainId };
+  }
   const steps: { eventId: string; order: number; actionFactId: string; sourceFactId: string;
     atSeconds: number; kind: 'GAIN' | 'SPEND'; nominalAmount: number; storedBefore: number; storedAfter: number }[] = [];
   let stored: number | null = initial.status === 'PROVEN' ? initial.value : null;
@@ -92,7 +129,6 @@ export function evaluateRoverWindstringsLedger(input: RoverWindstringsLedgerInpu
   });
   if (stored === null) return pending('INITIAL_WINDSTRINGS_UNKNOWN', events[0].event.eventId);
   const usedChains = new Set<string>();
-  let continuation: { chainId: string } | null = null;
   for (const { event, result } of events) {
     const before: number = stored;
     let amount: number;

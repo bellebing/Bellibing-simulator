@@ -110,3 +110,51 @@ test('partial state discovery joins the exact preset and canonical facts without
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
   assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
 });
+
+function offField(): Input {
+  const stage1 = spend(1, 1);
+  if (stage1.kind !== 'SPEND') throw new Error('spend fixture');
+  return { ...input(60, [spend(2, 3)]),
+    initial: { status: 'PROVEN', value: 60, atSeconds: 2, sourceQualified: true, evidenceId: 'observed-after-swap' },
+    boundary: { ...boundary, onFieldThroughout: false, followupProof: { stage1,
+      swap: { eventId: 'swap', order: 2, atSeconds: 2, outgoingCharacterId: 'rover-aero',
+        incomingCharacterId: 'cartethyia', sourceQualified: true } } } };
+}
+
+test('actual off-field Stage2 debits only a separately proven post-swap pool', () => {
+  const value = offField(), result = evaluate(value);
+  assert.equal(result.status, 'EVALUATED_FRAGMENT');
+  assert.equal(result.finalStored, 0);
+  assert.equal(result.steps.length, 1);
+  assert.equal(result.steps[0].storedBefore, 60);
+  assert.equal(result.steps[0].nominalAmount, 60);
+  // No automatic carry of the hypothetical Stage1 remainder into an unknown snapshot.
+  const unknown = evaluate({ ...value, initial: { status: 'UNKNOWN' } });
+  assert.equal(unknown.status, 'PENDING');
+  assert.equal(unknown.finalStored, null);
+  const insufficient = evaluate({ ...value, initial: { ...value.initial, status: 'PROVEN', value: 10,
+    atSeconds: 2, sourceQualified: true, evidenceId: 'observed-low' } });
+  assert.equal(insufficient.status, 'PENDING');
+  if (insufficient.status !== 'PENDING') throw new Error('pending');
+  assert.equal(insufficient.reason, 'INSUFFICIENT_STORED_WINDSTRINGS');
+});
+
+test('off-field continuation cannot be invented from a stage name, recommended team or pre-swap pool', () => {
+  const value = offField();
+  if (value.boundary.onFieldThroughout) throw new Error('off-field fixture');
+  const proof = value.boundary.followupProof;
+  for (const swapChange of [
+    { incomingCharacterId: 'unknown' }, { incomingCharacterId: 'rover-aero' },
+    { incomingCharacterId: 'augusta' }, { outgoingCharacterId: 'ciaccona' }, { sourceQualified: false },
+    { eventId: proof.stage1.eventId }, { eventId: value.events[0].eventId }, { order: 1 }, { order: 3 },
+    { atSeconds: 0 }, { atSeconds: 4 }, { atSeconds: NaN },
+  ]) assert.throws(() => evaluate({ ...value, boundary: { ...value.boundary,
+    followupProof: { ...proof, swap: { ...proof.swap, ...swapChange } } } } as Input));
+  assert.throws(() => evaluate({ ...value, initial: { status: 'PROVEN', value: 60, atSeconds: 1,
+    sourceQualified: true, evidenceId: 'before-swap' } }));
+  assert.throws(() => evaluate({ ...value, events: [spend(2, 3, 'other')] }));
+  assert.throws(() => evaluate({ ...value, events: [spend(1, 3)] }));
+  assert.throws(() => evaluate({ ...value, events: [spend(2, 3), spend(2, 4)] }));
+  assert.throws(() => evaluate({ ...value, boundary: { ...value.boundary,
+    followupProof: { ...proof, stage1: { ...proof.stage1, input: { ...proof.stage1.input, sequence: 1 } } } } }));
+});

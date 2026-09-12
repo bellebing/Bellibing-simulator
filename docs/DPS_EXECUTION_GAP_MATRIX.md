@@ -1,5 +1,9 @@
 # Bellibing Simulator — DPS Execution Gap Matrix
 
+## Current PR195 resource-state boundary
+
+Merged PR194 baseline and PR195 both retain83 pending edges/72 IDs:24 UNREVIEWED /24 PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE /7 BLOCKED_SOURCE_CONFLICT /11 BLOCKED_SOURCE_SEMANTICS /17 PROFILE_SPECIFIC_EXECUTION. Readiness43/3/9/2, only Augusta/Ciaccona DPS_READY, all17 source-only rotations and six Reference Team blockers remain unchanged. PR195 adds a selected-profile partial Windstrings ledger, not a profile-specific dependency closure. The report joins its identity-only capability while retaining initial/overflow/Concerto/Energy/event/BUG-012/denominator obligations. No S03/S10, Echo or Reference Team boundary is resolved. [Integration review](ROVER_RESOURCE_STATE_REVIEW_20260912.md).
+
 Integration status: PR #190/#191/#193 are merged and post-merge verified through `b03d43b3f1810b502099efb321be225ccfbba46c`; Verify1127 / Export1026 / Deploy149 passed with 832 tests. Earlier draft/authorization wording is historical. Draft PR #194 is the separate [execution-closure follow-up](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md); no merge of #194 is authorized.
 
 This document is a readable view of the current supported-profile execution boundary. Canonical truth lives in the registries, backward-impact reviews and execution work queue; this file does not authorize execution.

@@ -1,6 +1,6 @@
 # Character database and shared action values
 
-Integration status: PR #190/#191/#193 are merged and post-merge verified through `b03d43b3f1810b502099efb321be225ccfbba46c`; Verify1127 / Export1026 / Deploy149 passed with 832 tests. Earlier draft/authorization wording is historical. Draft PR #194 is the separate [execution-closure follow-up](PROFILE_EXECUTION_CLOSURE_REVIEW_20260912.md); no merge of #194 is authorized.
+Integration status: PR #190/#191/#193/#194 are merged through `2b1ba64a239338a91919c96afe1f8f4ed9516a73`; Verify1133/Export1032/Deploy150 passed with839 tests and live parity. The four nominal resource bindings are integrated; the new resource/state follow-up remains separate and unmerged.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 
@@ -170,3 +170,7 @@ The six Sonata bindings use these exact canonical effect IDs; display names rema
 The caller must prove the selected weapon/rank or activated Sonata piece count, event ownership, resolved cast ordering and query timestamp. This low-level API does not select gear or supply a Character rotation. Cooldown, stack, target-state, damage-trigger and pending-trigger facts stay outside this cast family. New activations do not choose a repeated-window stacking/refresh policy.
 
 Frosty Resolve's exact Glacio cast-window dependency is now primitive-available/requires-timeline; its separate Skill stack dependency and all five Carlotta pending IDs remain. The total execution graph remains 83 pending edges, 15 with available timeline-dependent primitives. All source facts, full readiness, Reference Team pending IDs and UI behavior are preserved.
+
+## PR195 partial resource-state consumer
+
+`resourceStateSupport` contains one identity-only S0/max-skills binding for `rover-aero-cartethyia-ciaccona`, joining the four canonical nominal gain actions and two Unbound Flow spend actions. `evaluateRoverWindstringsLedger` requires explicit initial observation or UNKNOWN and complete ordered event proof. Non-overflow fragments return stored resource; unknown initial state or possible overflow stays PENDING. The off-field suffix needs actual Stage1/swap/Stage2 proof and an independent post-swap resource observation. Actual Omega Storm team membership must match the selected canonical profile. No numeric facts are copied into this projection, no full rotation is executed, and every prior database field remains unchanged. See [review](ROVER_RESOURCE_STATE_REVIEW_20260912.md).

@@ -36,6 +36,7 @@ const rows = review.profiles.map((row, index) => {
       sourceSequence: rotation.sourceSequence, provenance: rotation.provenance },
     preset, team,
     nominalResourceGainSupport: db.resourceGainSupport.filter(binding => binding.characterId === preset.characterId),
+    partialResourceStateSupport: db.resourceStateSupport.filter(binding => binding.presetId === preset.id),
     canonicalResources: db.mechanicsFacts.filter(f => f.characterId === preset.characterId && f.kind === 'RESOURCE').map(f => ({ factId: f.factId, verificationStatus: f.verificationStatus, modelingStatus: f.modelingStatus })),
     dependencies: edges.map(edge => ({ ...edge, requirementClass:
       edge.semanticStatus === 'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE' ? 'PRIMITIVE_EXISTS' :

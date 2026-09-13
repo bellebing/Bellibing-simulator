@@ -54,6 +54,10 @@ test('all 54 existing Character consumers can recompute exact same-hit Echo repl
 
 test('one complete recomputation accounts for percent, automatic flat stats and nonlinear crit together', () => {
   const input = fixture(), original = structuredClone(input);
+  for (const side of ['current', 'candidate'] as const) {
+    assert.equal(input[side].echoes.length, 5);
+    assert.equal(input[side].echoes.reduce((sum, echo) => sum + echo.cost, 0), 12);
+  }
   const result = compareCharacterHitEchoReplacement(input);
   assert.equal(result.status, 'EVALUATED_HIT_COMPARISON');
   if (result.status !== 'EVALUATED_HIT_COMPARISON') return;
@@ -61,6 +65,25 @@ test('one complete recomputation accounts for percent, automatic flat stats and 
   assert.equal(result.candidate.snapshot.critRate, .063);
   assert.ok(Math.abs(result.relativeExpectedDamageDelta! - (1404.8 * 1.0315 / 1328 - 1)) < 1e-12);
   assert.deepEqual(input, original);
+});
+
+test('over-COST equipped loadouts fail closed even with independently QUALIFIED contexts', () => {
+  for (const sides of [['current', 'candidate'], ['current'], ['candidate']] as const) {
+    const input = fixture();
+    for (const side of sides) {
+      const echoes = [...input[side].echoes];
+      echoes[1] = createRank5EchoAtLevel0({ id: echoes[1].id, cost: 4, primaryMainStat: 'ATK%' });
+      const context = input[side].context;
+      if (context.status !== 'QUALIFIED') throw new Error('Expected qualified fixture');
+      // All five stat cards are exact; equipped legality belongs to the comparison boundary.
+      const projection = projectRank5EchoStats(echoes);
+      input[side] = { echoes, context: { ...context, echoStatKey: projection.key, equipmentStateQualified: true } };
+      assert.equal(echoes.length, 5);
+      assert.equal(echoes.reduce((sum, echo) => sum + echo.cost, 0), 13);
+    }
+    assert.throws(() => compareCharacterHitEchoReplacement(input),
+      new RegExp(`${sides[0]} Echo loadout is invalid: TOO_HIGH_COST`));
+  }
 });
 
 test('build-dependent effects use independently supplied candidate state; unknown effects stay pending', () => {

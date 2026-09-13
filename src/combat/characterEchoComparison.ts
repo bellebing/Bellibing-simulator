@@ -1,6 +1,7 @@
 import type { Echo } from '../echoCore.ts';
 import type { Element } from '../gameDataDomain.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
+import { validateEchoLoadout } from '../loadoutValidator.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { evaluateCharacterDirectHit, listCharacterDirectHitSupport, supportsCharacterDirectHit,
@@ -71,6 +72,10 @@ export function compareCharacterHitEchoReplacement(input: CharacterEchoCompariso
   }
   const current = projectRank5EchoStats(input.current.echoes);
   const candidate = projectRank5EchoStats(input.candidate.echoes);
+  for (const [side, projection] of [['current', current], ['candidate', candidate]] as const) {
+    const loadout = validateEchoLoadout(projection.cards);
+    if (!loadout.valid) throw new Error(`${side} Echo loadout is invalid: ${loadout.violations.join(', ')}`);
+  }
   if (current.cards[input.slotIndex].cost !== candidate.cards[input.slotIndex].cost) {
     throw new Error('Replacement must retain the selected slot COST');
   }

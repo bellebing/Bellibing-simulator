@@ -1,6 +1,14 @@
 # Character database and shared action values
 
-Integration status: PR #190/#191/#193/#194 are merged through `2b1ba64a239338a91919c96afe1f8f4ed9516a73`; Verify1133/Export1032/Deploy150 passed with839 tests and live parity. The four nominal resource bindings are integrated; the new resource/state follow-up remains separate and unmerged.
+## Post-PR195 current state
+
+PR #195 is **MERGED and post-merge verified** at `f2f8db676ba9433d065e7b18d854e0245e77d9dd`. Parents are previous main `2b1ba64a239338a91919c96afe1f8f4ed9516a73` and reviewed `3348771486a32dc048e48dc5b6a9fedb19ccf90e`; tree `52e7fdc8bb5c255d5caf9f3687562f6eede78612` exactly matches the reviewed candidate. Post-merge [Verify1144](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534066), [Export1043](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534057) and [Deploy151](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534042) passed with851/851 tests, full audits/strict build/whitespace/Chrome and five-surface local/Export/live parity. All83 edges/72 IDs, readiness43/3/9/2 and six Reference Team blockers remain unchanged.
+
+The integrated Windstrings fragment is existing capability. The active 2026-09-13 backend pass now evaluates practical Character/build calculation coverage; see [product capability audit](BACKEND_PRODUCT_CAPABILITY_AUDIT_20260913.md). One new branch/draft PR may implement a bounded reusable calculation capability. No later merge is authorized. UI PR196 and BUG-030 are separate; PR192 is superseded history. Original Flamewing WIP is preserved.
+
+Earlier candidate and stop statements below are historical checkpoints; they do not override this integrated state or the current authorized backend pass.
+
+Integration status: #190/#191/#193/#194/#195 are merged and deployed. Both nominal Windstrings gains and the bounded resource/state fragment are integrated; full profile execution remains pending.
 
 The UI and backend can use one generated Character catalog instead of assembling a second Character database. The export is derived from the existing canonical registries on every build. Adding a reviewed Character, fact or preset to its owning registry automatically includes it; there is no export allowlist or copied numeric table to maintain.
 

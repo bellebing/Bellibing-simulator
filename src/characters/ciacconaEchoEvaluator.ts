@@ -1,5 +1,5 @@
-import type { BuildContext, DamageEvaluator, DamageResult, Echo, StatRoll } from '../domain.ts';
-import { secondaryMainStatValueAtLevel } from '../echoMainStats.ts';
+import { projectRank5EchoStats } from '../echoStatProjection.ts';
+import type { BuildContext, DamageEvaluator, DamageResult, Echo } from '../domain.ts';
 import { createEchoEffectRegistry } from '../echoEffectRegistry.ts';
 import { validateOwnedBuildEchoLoadout } from '../ownedBuildEchoValidation.ts';
 import { resolvePresetMainEchoEffects } from '../profileEchoEffectResolver.ts';
@@ -109,24 +109,6 @@ function statValue(stats: readonly { stat: string; value: number }[], name: stri
   return stats.filter((row) => row.stat === name).reduce((sum, row) => sum + row.value, 0);
 }
 
-function echoRolls(echo: Echo): readonly StatRoll[] {
-  const automaticSecondary = echo.secondaryMainStat ?? {
-    name: echo.cost === 1 ? 'Flat HP' : 'Flat ATK',
-    value: secondaryMainStatValueAtLevel(echo.cost, echo.level),
-  };
-  return [echo.mainStat, automaticSecondary, ...echo.substats];
-}
-
-function sumEchoStat(echoes: readonly Echo[], name: string): number {
-  let total = 0;
-  for (const echo of echoes) {
-    for (const roll of echoRolls(echo)) {
-      if (roll.name === name) total += roll.value;
-    }
-  }
-  return total;
-}
-
 function sonataValue(effectId: string): number {
   const effect = SONATA_EFFECT_MODELS.find((row) => row.effectId === effectId);
   if (!effect) throw new Error(`Missing Sonata effect ${effectId}.`);
@@ -189,6 +171,7 @@ export function ciacconaInputsFromEchoes(
   context: CiacconaOwnedBuildCombatContext,
 ): CiacconaOwnedBuildAssembly {
   validateOwnedBuildEchoLoadout({ presetId: SUPPORTED.presetId, echoes });
+  const echoStats = projectRank5EchoStats(echoes).totals;
 
   const character = CHARACTER_CATALOG.find((row) => row.id === SUPPORTED.characterId);
   const weapon = WEAPON_CATALOG.find((row) => row.id === SUPPORTED.weaponId);
@@ -227,11 +210,11 @@ export function ciacconaInputsFromEchoes(
   const combinedBaseAtk = character.level90.atk + weapon.level90BaseAtk;
   const atkPct = statValue(intrinsic.stats, 'ATK%')
     + rankValue('WA-ATK', SUPPORTED.weaponRank)
-    + sumEchoStat(echoes, 'ATK%')
+    + (echoStats['ATK%'] ?? 0)
     + context.attackPercent;
-  const flatAtk = sumEchoStat(echoes, 'Flat ATK') + context.flatAttack;
+  const flatAtk = (echoStats['Flat ATK'] ?? 0) + context.flatAttack;
   const energyRegen = character.baseCombat.energyRegen
-    + sumEchoStat(echoes, 'Energy Regen')
+    + (echoStats['Energy Regen'] ?? 0)
     + context.energyRegen;
   const erMinimum = canonicalErMinimum();
 
@@ -240,20 +223,20 @@ export function ciacconaInputsFromEchoes(
       totalAttack: combinedBaseAtk * (1 + atkPct) + flatAtk,
       critRate: character.baseCombat.critRate
         + weapon.secondary.value
-        + sumEchoStat(echoes, 'CRIT Rate')
+        + (echoStats['CRIT Rate'] ?? 0)
         + context.critRate,
       critDamage: character.baseCombat.critDamage
         + statValue(intrinsic.stats, 'CRIT DMG')
-        + sumEchoStat(echoes, 'CRIT DMG')
+        + (echoStats['CRIT DMG'] ?? 0)
         + context.critDamage,
       aeroDamageBonus: sonataValue('S16_2PC_AERO')
         + mainEchoStaticAeroBonus()
-        + sumEchoStat(echoes, 'Aero DMG')
+        + (echoStats['Aero DMG'] ?? 0)
         + context.aeroDamageBonus,
-      basicAttackDamageBonus: sumEchoStat(echoes, 'Basic Attack DMG') + context.basicAttackDamageBonus,
-      heavyAttackDamageBonus: sumEchoStat(echoes, 'Heavy Attack DMG') + context.heavyAttackDamageBonus,
-      resonanceSkillDamageBonus: sumEchoStat(echoes, 'Skill DMG') + context.resonanceSkillDamageBonus,
-      resonanceLiberationDamageBonus: sumEchoStat(echoes, 'Liberation DMG') + context.resonanceLiberationDamageBonus,
+      basicAttackDamageBonus: (echoStats['Basic Attack DMG'] ?? 0) + context.basicAttackDamageBonus,
+      heavyAttackDamageBonus: (echoStats['Heavy Attack DMG'] ?? 0) + context.heavyAttackDamageBonus,
+      resonanceSkillDamageBonus: (echoStats['Skill DMG'] ?? 0) + context.resonanceSkillDamageBonus,
+      resonanceLiberationDamageBonus: (echoStats['Liberation DMG'] ?? 0) + context.resonanceLiberationDamageBonus,
       introSkillDamageBonus: context.introSkillDamageBonus,
       allDamageAmplification: context.allDamageAmplification,
       attackerLevel: SUPPORTED.attackerLevel,

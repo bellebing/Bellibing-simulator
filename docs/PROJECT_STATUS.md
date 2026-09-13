@@ -1,6 +1,14 @@
 # Bellibing Simulator — Current Project Status
 
-Last reconciled: 2026-09-12
+## Post-PR195 current state
+
+PR #195 is **MERGED and post-merge verified** at `f2f8db676ba9433d065e7b18d854e0245e77d9dd`. Parents are previous main `2b1ba64a239338a91919c96afe1f8f4ed9516a73` and reviewed `3348771486a32dc048e48dc5b6a9fedb19ccf90e`; tree `52e7fdc8bb5c255d5caf9f3687562f6eede78612` exactly matches the reviewed candidate. Post-merge [Verify1144](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534066), [Export1043](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534057) and [Deploy151](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534042) passed with 851/851 tests, full audits/strict build/whitespace/Chrome and five-surface local/Export/live parity. All 83 edges/72 IDs, readiness 43/3/9/2 and six Reference Team blockers remain unchanged.
+
+The integrated Windstrings fragment is existing capability. Draft [PR #197](https://github.com/bellebing/Bellibing-simulator/pull/197), on `codex/product-calculation-coverage-2026-09-13`, adds an exact same-hit Echo-card comparison for the existing 54 Character hit paths (492 facts), with independently qualified context for each build. Ciaccona now consumes the shared Echo-stat reconstruction. This is candidate backend capability, not deployed main or a new DPS-ready profile. See the [product audit and consumer contract](BACKEND_PRODUCT_CAPABILITY_AUDIT_20260913.md). No new merge is authorized. UI PR196/BUG-030 and original Flamewing WIP remain separate and preserved.
+
+Earlier candidate and stop statements below are historical checkpoints; they do not override this integrated state or the current authorized backend pass.
+
+Last reconciled: 2026-09-13
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 
@@ -34,7 +42,7 @@ PR #194 is **MERGED and post-merge verified** at `2b1ba64a239338a91919c96afe1f8f
 
 Explicit authorization to merge #194 supersedes its earlier integration stop. A new separate branch `codex/rover-resource-state-2026-09-12` starts from this verified main for source-valid resource/state execution toward real profile closure. No later merge is authorized. Existing nominal amounts are reused; initial state, overflow, full profile events and denominator remain proof obligations.
 
-PR #195 is the separate, unmerged resource/state integration candidate on `codex/rover-resource-state-2026-09-12`. It adds exact Unbound Flow stage spends, explicit non-overflow Windstrings fragments and one source-qualified off-field Stage2 suffix with an independent post-swap observation. Existing canonical amounts and the four nominal gains are unchanged. One identity-only `resourceStateSupport` entry serves the existing Rover preset; no generic resource engine, full profile timeline or new DPS_READY Character is added. Integration review corrected actual-team/preset qualification. Initial profile state, overflow, full events/energy and denominator remain pending. See [resource/state review](ROVER_RESOURCE_STATE_REVIEW_20260912.md). At this coherent integration boundary, freeze scope, complete exact-head Verify/Export and Handoff synchronization, then stop for separate explicit merge authorization; no later merge is authorized.
+The reviewed PR #195 candidate, now integrated, was developed on `codex/rover-resource-state-2026-09-12`. It adds exact Unbound Flow stage spends, explicit non-overflow Windstrings fragments and one source-qualified off-field Stage2 suffix with an independent post-swap observation. Existing canonical amounts and the four nominal gains are unchanged. One identity-only `resourceStateSupport` entry serves the existing Rover preset; no generic resource engine, full profile timeline or new DPS_READY Character is added. Integration review corrected actual-team/preset qualification. Initial profile state, overflow, full events/energy and denominator remain pending. See [resource/state review](ROVER_RESOURCE_STATE_REVIEW_20260912.md). Its former integration freeze was superseded by explicit PR195 merge authorization and completed post-merge verification; only the new draft backend PR remains unmerged.
 
 The integrated payload isolates the historical Augusta team fixture, shares verified profile/default-equipment resolution, detaches team manifests, exports canonical gear, and extends the existing Echo identity family. Shared resource, Outro, explicit Echo-hit, damage-event, applied-heal and target-event bindings reuse canonical source facts. Cast capability export exposes existing contracts. No UI behavior or profile engine is added. See the [integration and reuse-first audit](PR190_INTEGRATION_AND_REUSE_AUDIT_20260910.md).
 

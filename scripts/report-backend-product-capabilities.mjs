@@ -55,4 +55,3 @@ assert.equal(result.characters.isolatedHitFacts, db.hitPrimitives.directHits.len
 const output = process.argv.indexOf('--output');
 if (output >= 0) { assert.ok(process.argv[output + 1]); writeFileSync(process.argv[output + 1], JSON.stringify(result, null, 2) + '\n'); }
 console.log(JSON.stringify(result, null, 2));
-

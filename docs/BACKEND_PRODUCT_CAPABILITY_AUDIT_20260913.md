@@ -35,4 +35,3 @@ This is higher value than another nominal resource binding because it connects a
 No gameplay fact or number is re-sourced for this source-neutral reuse lane. Existing canonical tables and reviewed stat-assembly equations remain authoritative. Current/user-supplied evidence is required for effects outside Echo stat cards. No duration measurement protocol is approved; video/animation timing is not promoted. Rover initial/end observations, overflow/reset, Concerto/Energy, optional Skyfall, hit/target set and BUG012 remain pending.
 
 The earlier profile-evidence-specific long-pass instruction is narrowed by the latest product-first capability audit. No new resource/timeline engine is needed. Final implementation, test and exact-head CI/review results will be appended after the bounded candidate is verified.
-

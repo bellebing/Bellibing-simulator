@@ -48,6 +48,12 @@ const result = {
     missing: ['Complete event/state/energy/denominator proof', 'Selected teammate/equipment effect composition without hidden old-team buffs',
       'Feasible non-quickswap rotations and global remaining-roster allocation'] },
   improveCharacter: { fullRotationDpsPresetIds: owned.map(r => r.presetId),
+    isolatedHitEchoComparison: {
+      characterIds: unique(db.hitPrimitives.echoComparisons, 'characterId'),
+      facts: db.hitPrimitives.echoComparisons.length,
+      requiresPerBuildContext: true, authorizesRotationDps: false, authorizesUpgradeVerdict: false,
+      scope: 'One same-COST Rank5 card replacement, same exact S0/max-skill hit; all other effects caller-qualified separately per build',
+    },
     missing: ['Source-valid complete engines beyond the two bindings', 'Build-dependent effect recomputation and complete team/gear context',
       'No isolated-hit delta may be labeled rotation/team DPS or a universal upgrade'] },
 };

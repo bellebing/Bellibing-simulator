@@ -1,5 +1,6 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
+import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -70,6 +71,7 @@ export function buildCharacterDatabase() {
     hitPrimitives: {
       basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport(),
       echoActiveHits: listEchoActiveHitSupport(),
+      echoComparisons: listCharacterEchoComparisonSupport(),
     },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     resourceGainSupport: listRoverWindstringsGainSupport(),

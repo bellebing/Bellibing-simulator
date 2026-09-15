@@ -1,5 +1,6 @@
 import { getWeaponEffect } from '../effectRegistry.ts';
 import { activateWeaponCastWindow, isWeaponCastWindowActive, type WeaponCastEvent } from './weaponCastWindowAdapter.ts';
+import { activateWeaponDamageWindow, isWeaponDamageWindowActive, type QualifiedWeaponDamageEvent } from './weaponDamageWindowAdapter.ts';
 
 export interface ProvenHitWeaponCast {
   readonly effectId: string;
@@ -18,12 +19,13 @@ export interface HitContextWeaponEvents {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly casts: readonly ProvenHitWeaponCast[];
+  readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
 }
 const text = (x: unknown): x is string => typeof x === 'string' && x.trim().length > 0;
 
 /** Reuse the existing source-contract validator and timed window. This is a
  * context consumer, not an event generator, refresh model or profile engine. */
-export function evaluateHitContextWeaponCasts(input: {
+export function evaluateHitContextWeaponEvents(input: {
   readonly characterId: string;
   readonly weapon: { readonly id: string; readonly rank: number };
   readonly hitAtSeconds: number;
@@ -36,10 +38,12 @@ export function evaluateHitContextWeaponCasts(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || proof.weapon?.id !== input.weapon.id || proof.weapon.rank !== input.weapon.rank
     || !text(proof.evidenceId) || !Array.isArray(proof.casts)
-    || new Set(proof.casts.map(c => c.effectId)).size !== proof.casts.length) {
+    || (proof.damages !== undefined && !Array.isArray(proof.damages))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
   }
-  return proof.casts.map(c => {
+  const all = [...proof.casts, ...(proof.damages ?? [])];
+  if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
+  const casts = proof.casts.map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
       || !text(c.evidenceId) || c.sourceQualification !== 'SOURCE_PROVEN_CAST'
@@ -60,4 +64,23 @@ export function evaluateHitContextWeaponCasts(input: {
       // Source signature invalidates downstream proof if the reviewed effect changes.
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
+  const damages = (proof.damages ?? []).map(c => {
+    const effect = getWeaponEffect(c.effectId);
+    if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
+      || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact weapon/owner, proven damage, isolated activation and explicit query ordering');
+    }
+    const window = activateWeaponDamageWindow({ effectId: c.effectId, selectedWeapon: input.weapon,
+      wielderId: input.characterId, event: c.event });
+    if (!window) throw new Error('The supplied damage event does not activate this canonical weapon effect');
+    const active = isWeaponDamageWindowActive(window, { actorId: input.characterId, atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder });
+    return { sourceId: `weapon:${c.effectId}`, stat: window.statOrEffect, value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const, active, evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
+      sourceKey: JSON.stringify(effect), window: { ...window } };
+  });
+  return [...casts, ...damages];
 }

@@ -2,7 +2,8 @@ import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
-  listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport } from './combat/characterHitContext.ts';
+  listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
+  listWeaponDamageHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -93,6 +94,7 @@ export function buildCharacterDatabase() {
       weaponDamageWindows: listWeaponDamageWindowSupport(),
       weaponCastWindows: listWeaponCastWindowSupport(),
       weaponCastHitContext: listWeaponCastHitContextSupport(),
+      weaponDamageHitContext: listWeaponDamageHitContextSupport(),
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),

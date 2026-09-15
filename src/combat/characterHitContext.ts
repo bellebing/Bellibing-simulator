@@ -16,8 +16,9 @@ import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
 import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../data/echoSkillSourceReview.ts';
 import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffectRegistry.ts';
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
-import { evaluateHitContextWeaponCasts, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
+import { evaluateHitContextWeaponEvents, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
+import { listWeaponDamageWindowSupport } from './weaponDamageWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
@@ -139,6 +140,12 @@ export function listSonataCastHitContextSupport() {
       requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listWeaponDamageHitContextSupport() {
+  return listWeaponDamageWindowSupport().filter(s => contextStatName(s.statOrEffect) !== null)
+    .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata'].includes(k)) || (!events.weapon && !events.sonata))) {
@@ -251,7 +258,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   }
   if (events?.sonata && !equipment) throw new Error('Sonata events require explicit equipped species/set evidence');
   const eventContributions = [
-    ...(events?.weapon ? evaluateHitContextWeaponCasts({ characterId: character.id, weapon,
+    ...(events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : []),
     ...(events?.sonata ? evaluateHitContextSonataCasts({ characterId: character.id,
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
@@ -270,6 +277,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const castRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`)]);
   const pending = identity.requirements.map(id => ({ id,
     status: castRequirements.has(id) ? 'PENDING_EVENT' as const

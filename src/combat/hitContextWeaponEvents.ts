@@ -1,6 +1,8 @@
 import { getWeaponEffect } from '../effectRegistry.ts';
 import { activateWeaponCastWindow, isWeaponCastWindowActive, type WeaponCastEvent } from './weaponCastWindowAdapter.ts';
 import { activateWeaponDamageWindow, isWeaponDamageWindowActive, type QualifiedWeaponDamageEvent } from './weaponDamageWindowAdapter.ts';
+import { activateWeaponHealingWindow, isWeaponHealingWindowActive } from './weaponHealingWindowAdapter.ts';
+import type { QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 
 export interface ProvenHitWeaponCast {
   readonly effectId: string;
@@ -13,6 +15,18 @@ export interface ProvenHitWeaponCast {
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
 }
+export interface ProvenHitWeaponHeal {
+  readonly effectId: string;
+  readonly evidenceId: string;
+  readonly event: QualifiedAllyHealEvent;
+  readonly teamMemberIds: readonly string[];
+  readonly sourceQualification: 'SOURCE_PROVEN_HEAL';
+  readonly equipmentAtEventQualified: true;
+  /** The existing window models one source-qualified heal activation only. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
 export interface HitContextWeaponEvents {
   readonly echoStatKey: string;
   readonly weapon: { readonly id: string; readonly rank: number };
@@ -20,10 +34,11 @@ export interface HitContextWeaponEvents {
   readonly evidenceId: string;
   readonly casts: readonly ProvenHitWeaponCast[];
   readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
+  readonly heals?: readonly ProvenHitWeaponHeal[];
 }
 const text = (x: unknown): x is string => typeof x === 'string' && x.trim().length > 0;
 
-/** Reuse the existing source-contract validator and timed window. This is a
+/** Reuse the existing source-contract validators and timed windows. This is a
  * context consumer, not an event generator, refresh model or profile engine. */
 export function evaluateHitContextWeaponEvents(input: {
   readonly characterId: string;
@@ -38,10 +53,11 @@ export function evaluateHitContextWeaponEvents(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || proof.weapon?.id !== input.weapon.id || proof.weapon.rank !== input.weapon.rank
     || !text(proof.evidenceId) || !Array.isArray(proof.casts)
-    || (proof.damages !== undefined && !Array.isArray(proof.damages))) {
+    || (proof.damages !== undefined && !Array.isArray(proof.damages))
+    || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
   }
-  const all = [...proof.casts, ...(proof.damages ?? [])];
+  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
   const casts = proof.casts.map(c => {
     const effect = getWeaponEffect(c.effectId);
@@ -82,5 +98,25 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...damages];
+  const heals = (proof.heals ?? []).map(c => {
+    const effect = getWeaponEffect(c.effectId);
+    if (!effect || effect.weaponId !== input.weapon.id || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
+      || !text(c.evidenceId) || c.sourceQualification !== 'SOURCE_PROVEN_HEAL'
+      || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.healerId !== input.characterId || input.hitAtSeconds < c.event.atSeconds
+      || !Array.isArray(c.teamMemberIds)) {
+      throw new Error('Require exact weapon/healer/team, proven applied heal, isolated activation and explicit query ordering');
+    }
+    const window = activateWeaponHealingWindow({ effectId: c.effectId, selectedWeapon: input.weapon,
+      wielderId: input.characterId, teamMemberIds: c.teamMemberIds, event: c.event });
+    if (!window) throw new Error('The supplied heal event does not activate this canonical weapon effect');
+    const active = isWeaponHealingWindowActive(window, { actorId: input.characterId, atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder });
+    return { sourceId: `weapon:${c.effectId}`, stat: window.statOrEffect, value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const, active, evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
+      sourceKey: JSON.stringify(effect), window: { ...window } };
+  });
+  return [...casts, ...damages, ...heals];
 }

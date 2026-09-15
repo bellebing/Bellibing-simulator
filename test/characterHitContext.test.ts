@@ -90,9 +90,20 @@ test('non-main Echoes and wrong wielders do not inherit static bonuses or restri
   assert.ok(!assembleCharacterHitContext(shifted, f.current).contributions.some(c => c.sourceId.startsWith('echo:ECHO_60001065')));
   for (const echoId of ['echo-60002015', 'echo-60001915']) {
     const wrong = withMainEcho(echoId), wa = assembleCharacterHitContext(wrong.selection, wrong.current);
-    const restricted = listStaticEchoContextSupport().filter(s => s.echoId === echoId && s.wielderCharacterIds);
+    const restricted = ECHO_EFFECT_MODELS.filter(s => s.echoId === echoId && s.wielderCharacterIds);
+    assert.ok(restricted.length > 0);
     for (const s of restricted) assert.ok(!wa.contributions.some(c => c.sourceId === `echo:${s.effectId}`));
+    for (const s of restricted) {
+      const owner = CHARACTER_CATALOG.find(c => c.id === s.wielderCharacterIds![0])!;
+      const weapon = WEAPON_CATALOG.find(w => w.weaponType === owner.weaponType && w.id !== 'abyss-surges')!;
+      const right = withMainEcho(echoId, fixture(owner.id, weapon.id));
+      const ra = assembleCharacterHitContext(right.selection, right.current);
+      assert.ok(ra.requirements.includes(`echo:${s.effectId}`), 'Conditional owner restriction still needs proof');
+      assert.ok(!ra.contributions.some(c => c.sourceId === `echo:${s.effectId}`));
+    }
   }
+  for (const mainSlotIndex of [-1, 5, 1.5, NaN]) assert.throws(() => assembleCharacterHitContext({ ...f.selection,
+    echoEquipment: { ...f.selection.echoEquipment!, mainSlotIndex } }, f.current), /complete explicit/);
 });
 
 test('main-Echo pending state and source activation drift stay out of automatic static context', () => {

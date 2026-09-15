@@ -16,6 +16,8 @@ import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
 import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../data/echoSkillSourceReview.ts';
 import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffectRegistry.ts';
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
+import { evaluateHitContextWeaponCasts, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
+import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -35,6 +37,8 @@ export interface CharacterHitContextSelection {
   readonly hit: ContextHit;
   readonly damageElement: Element;
   readonly eventContextId: string;
+  /** Required when composing observed event windows; never a rotation duration. */
+  readonly hitAtSeconds?: number;
   readonly characterLevel: 90;
   readonly maxMinorFortes: true;
   readonly weapon: { readonly id: string; readonly level: 90; readonly rank: number };
@@ -51,6 +55,7 @@ export interface StatContribution {
   readonly sourceId: string;
   readonly stat: string;
   readonly value: number;
+  readonly status: 'STATIC_ASSEMBLED' | 'EVENT_QUALIFIED_ASSEMBLED';
 }
 const text = (x: unknown): x is string => typeof x === 'string' && x.trim().length > 0;
 const statNames = new Set(['ATK%', 'HP%', 'DEF%', 'Flat ATK', 'Flat HP', 'Flat DEF',
@@ -114,13 +119,22 @@ export function listStaticEchoContextSupport() {
     primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'EXACT_MAIN_SLOT_SELF_STAT' as const, dependsOnEchoStats: false as const }));
 }
 
+export function listWeaponCastHitContextSupport() {
+  return listWeaponCastWindowSupport().filter(s => {
+    const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId)!;
+    return effect.valueUnit === 'DECIMAL_MULTIPLIER' && contextStatName(effect.statOrEffect) !== null;
+  }).map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
-export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[]) {
+export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: HitContextWeaponEvents) {
   const { hit, weapon } = selection;
   const fact = getCharacterActionFact(hit?.factId);
   if (!fact || fact.characterId !== hit.characterId || !supportsCharacterDirectHit(fact)
     || hit.sequence !== 0 || hit.maxSkills !== true || selection.characterLevel !== 90
     || selection.maxMinorFortes !== true || !text(selection.eventContextId)
+    || (selection.hitAtSeconds !== undefined && (!Number.isFinite(selection.hitAtSeconds) || selection.hitAtSeconds < 0))
     || !['Aero', 'Electro', 'Fusion', 'Glacio', 'Havoc', 'Spectro'].includes(selection.damageElement)) {
     throw new Error('Require exact supported S0/max-skill hit, Lv90/max Minor Fortes and explicit hit element/context');
   }
@@ -155,10 +169,10 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const legal = validateEchoLoadout(projection.cards);
   if (!legal.valid) throw new Error(`Invalid equipped Echo loadout: ${legal.violations.join(', ')}`);
   const contributions: StatContribution[] = [];
-  const add = (sourceId: string, stat: string, value: number) => {
+  const add = (sourceId: string, stat: string, value: number, status: StatContribution['status'] = 'STATIC_ASSEMBLED') => {
     const key = contextStatName(stat);
     if (!key || !Number.isFinite(value) || value < 0) throw new Error(`Unsupported canonical stat: ${sourceId}/${stat}`);
-    contributions.push({ sourceId, stat: key, value });
+    contributions.push({ sourceId, stat: key, value, status });
   };
   intrinsic.stats.forEach(s => add(`character:${character.id}:intrinsic`, s.stat, s.value));
   add(`weapon:${weapon.id}:secondary`, selectedWeapon.secondary.stat, selectedWeapon.secondary.value);
@@ -220,12 +234,26 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     // do not affect this hit. The caller must still prove the remaining scope.
     requirements.push(`echo:${mainEchoId}:unassembled-effects`);
   }
+  const eventContributions = events ? evaluateHitContextWeaponCasts({ characterId: character.id, weapon,
+    hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events }) : [];
+  for (const e of eventContributions) {
+    const pending = requirements.indexOf(e.sourceId);
+    if (pending < 0) throw new Error('Event contribution must resolve exactly one unassembled effect; duplicate/static application rejected');
+    add(e.sourceId, e.stat, e.value, e.status);
+    requirements.splice(pending, 1);
+  }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };
-  const identity = { selection, echoStatKey: projection.key, baseScalingStat, baseCombat, contributions,
+  const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
+    eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
-  return structuredClone({ primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PARTIAL_NON_ECHO_CONTEXT' as const,
+  const castRequirements = new Set(listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`));
+  const pending = identity.requirements.map(id => ({ id,
+    status: castRequirements.has(id) ? 'PENDING_EVENT' as const
+      : ['selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility'].includes(id)
+        ? 'PENDING_TIMELINE' as const : 'PENDING_SOURCE' as const }));
+  return structuredClone({ primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, pending,
     ...identity, assemblyKey: JSON.stringify(identity), stats, scalingStat, damageClass: fact.damageClass,
     authorizesRotationDps: false as const, authorizesUpgradeVerdict: false as const });
 }
@@ -294,11 +322,11 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
 export function compareCharacterHitWithAssembledContext(input: {
   readonly selection: CharacterHitContextSelection;
   readonly slotIndex: number;
-  readonly current: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext };
-  readonly candidate: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext };
+  readonly current: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: HitContextWeaponEvents };
+  readonly candidate: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: HitContextWeaponEvents };
 }) {
-  const current = assembleCharacterHitContext(input.selection, input.current.echoes);
-  const candidate = assembleCharacterHitContext(input.selection, input.candidate.echoes);
+  const current = assembleCharacterHitContext(input.selection, input.current.echoes, input.current.events);
+  const candidate = assembleCharacterHitContext(input.selection, input.candidate.echoes, input.candidate.events);
   const comparison = compareCharacterHitEchoReplacement({ hit: input.selection.hit,
     eventContextId: input.selection.eventContextId, slotIndex: input.slotIndex,
     current: { echoes: input.current.echoes, context: qualifiedContext(current, input.current.remaining) },

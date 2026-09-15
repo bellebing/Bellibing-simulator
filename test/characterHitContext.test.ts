@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { WEAPON_CATALOG } from '../src/data/weapons.ts';
+import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { listCharacterDirectHitSupport } from '../src/combat/characterDirectHitAdapter.ts';
 import { createRank5EchoAtLevel0 } from '../src/echoCore.ts';
 import { assembleCharacterHitContext, compareCharacterHitWithAssembledContext,
-  type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
+  listStaticWeaponContextSupport, type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
 
 const card = (id: string, cost: 1 | 3 | 4, primaryMainStat: 'ATK%' | 'CRIT Rate' | 'HP%') =>
   createRank5EchoAtLevel0({ id, cost, primaryMainStat });
@@ -53,15 +54,53 @@ test('canonical Character/weapon assembly reaches all 54 existing hit Characters
 test('real Ciaccona equipment identity supplies base/intrinsic/core secondary; unassembled effects remain pending', () => {
   const f = fixture(), a = assembleCharacterHitContext(f.selection, f.current);
   assert.equal(a.baseScalingStat, 875);
-  assert.equal(a.stats['ATK%'], 0.12);
+  assert.equal(a.stats['ATK%'], 0.24);
   assert.equal(a.stats['CRIT Rate'], 0.36);
   assert.equal(a.stats['CRIT DMG'], 0.16);
-  assert.ok(a.requirements.includes('weapon:WA-ATK'));
+  assert.ok(!a.requirements.includes('weapon:WA-ATK'));
+  assert.ok(a.requirements.includes('weapon:WA-AERO'));
   const input = comparison(f);
   input.candidate.remaining = { status: 'PENDING', reason: 'Build-dependent incoming effect is unknown' };
   const result = compareCharacterHitWithAssembledContext(input).comparison;
   assert.equal(result.status, 'PENDING');
   assert.ok(!('expectedDamageDelta' in result));
+});
+
+test('permanent weapon stats consume canonical R1-R5 values across compatible real Character consumers', () => {
+  const support = listStaticWeaponContextSupport();
+  assert.equal(support.length, 60);
+  for (const s of support) {
+    const w = WEAPON_CATALOG.find(w => w.id === s.weaponId)!;
+    if (w.id === 'abyss-surges') continue; // independent core conflict remains parked
+    const id = CHARACTER_CATALOG.find(c => c.weaponType === w.weaponType
+      && listCharacterDirectHitSupport().some(h => h.characterId === c.id))!.id;
+    const fact = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId)!;
+    for (let rank = 1; rank <= 5; rank++) {
+      const f = fixture(id, w.id);
+      f.selection.weapon = { ...f.selection.weapon, rank };
+      const a = assembleCharacterHitContext(f.selection, f.current);
+      assert.equal(a.contributions.find(c => c.sourceId === `weapon:${s.effectId}`)?.value, fact.rankValues[rank - 1]);
+      assert.ok(!a.requirements.includes(`weapon:${s.effectId}`));
+    }
+  }
+});
+
+test('conditional/source-drifted weapon effects never become permanent uptime', () => {
+  const f = fixture(), original = comparison(f);
+  const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === 'WA-ATK')!;
+  const old = effect.conditions;
+  try {
+    effect.conditions = ['requires an independently observed state'];
+    const a = assembleCharacterHitContext(f.selection, f.current);
+    assert.ok(a.requirements.includes('weapon:WA-ATK'));
+    assert.ok(!a.contributions.some(c => c.sourceId === 'weapon:WA-ATK'));
+    assert.throws(() => compareCharacterHitWithAssembledContext(original), /fresh per-build/);
+  } finally { effect.conditions = old; }
+  const a = assembleCharacterHitContext(f.selection, f.current);
+  for (const e of WEAPON_EFFECT_CATALOG.filter(e => e.weaponId === f.selection.weapon.id && e.effectType !== 'PERMANENT')) {
+    assert.ok(a.requirements.includes(`weapon:${e.effectId}`));
+    assert.ok(!a.contributions.some(c => c.sourceId === `weapon:${e.effectId}`));
+  }
 });
 
 test('each Echo substitution independently recomputes residual stat dependence and rejects stale evidence', () => {

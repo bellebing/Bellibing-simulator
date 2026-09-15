@@ -85,6 +85,10 @@ const family = (name, predicate) => {
     presetIds: unique(consumers.flatMap(c => c.presets.filter(predicate).map(p => p.presetId))) };
 };
 const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonicalNumbersDuplicated: false,
+  implementedPartialContext: { characterIds: unique(db.hitPrimitives.contextAssembly.map(x => x.characterId)),
+    factCount: db.hitPrimitives.contextAssembly.length, families: db.hitPrimitives.contextAssembly[0]?.assembles ?? [],
+    permanentWeaponEffectIds: db.gear.weaponStaticContext.map(x => x.effectId),
+    stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   counts: { hitCharacters: characters.length, hitFacts: db.hitPrimitives.directHits.length,
     presets: characters.flatMap(c => c.presets).length, pendingEdges: queue.summary,
     distinctDependencyIds: unique(queue.edges.map(e => e.pendingExecutionId)).length },

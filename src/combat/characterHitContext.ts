@@ -4,14 +4,22 @@ import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from '../data/characterIntrinsicStats.ts';
 import { WEAPON_CATALOG } from '../data/weapons.ts';
 import { getWeaponEffects } from '../effectRegistry.ts';
+import type { WeaponEffectData } from '../effectDomain.ts';
+import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
 import { validateEchoLoadout } from '../loadoutValidator.ts';
-import { supportsCharacterDirectHit, type CharacterDirectHitInput } from './characterDirectHitAdapter.ts';
+import { listCharacterDirectHitSupport, supportsCharacterDirectHit, type CharacterDirectHitInput } from './characterDirectHitAdapter.ts';
 import { compareCharacterHitEchoReplacement, type EchoBuildHitContext } from './characterEchoComparison.ts';
 
 export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-v1';
+export function listCharacterHitContextSupport() {
+  return listCharacterDirectHitSupport().map(row => ({ ...row, primitiveId: CHARACTER_HIT_CONTEXT_ID,
+    scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, requiresRemainingContextProof: true as const,
+    assembles: ['CHARACTER_BASE', 'MAX_MINOR_FORTES', 'WEAPON_CORE', 'PERMANENT_WEAPON_STATS'],
+    authorizesRotationDps: false as const }));
+}
 export type ContextHit = Omit<CharacterDirectHitInput, 'snapshot'>;
 export interface CharacterHitContextSelection {
   readonly hit: ContextHit;
@@ -35,6 +43,7 @@ const statNames = new Set(['ATK%', 'HP%', 'DEF%', 'Flat ATK', 'Flat HP', 'Flat D
 /** Exact canonical stat labels only. Never parse effect prose or infer a trigger. */
 export function contextStatName(name: string): string | null {
   const aliases: Record<string, string> = {
+    'All-Attribute DMG': 'All Attribute DMG',
     'Resonance Skill DMG': 'Skill DMG', 'Resonance Liberation DMG': 'Liberation DMG',
     'Glacio DMG Bonus': 'Glacio DMG', 'Fusion DMG Bonus': 'Fusion DMG',
     'Electro DMG Bonus': 'Electro DMG', 'Aero DMG Bonus': 'Aero DMG',
@@ -42,6 +51,23 @@ export function contextStatName(name: string): string | null {
   };
   const result = aliases[name] ?? name;
   return statNames.has(result) ? result : null;
+}
+
+function isStaticWeaponStat(effect: WeaponEffectData): boolean {
+  return effect.effectType === 'PERMANENT' && effect.trigger === 'Passive'
+    && effect.mechanicsStatus === 'VERIFIED_MODELED' && effect.appliesTo === 'SELF'
+    && effect.simulatorMode === 'ALWAYS' && effect.valueUnit === 'DECIMAL_MULTIPLIER'
+    && effect.conditions.length === 0 && effect.durationSeconds === null
+    && effect.triggerCooldownSeconds === null && effect.maxStacks === 1 && effect.stackIntervalSeconds === 0
+    && effect.rankValues.length === 5 && effect.rankValues.every(x => Number.isFinite(x) && x >= 0)
+    && contextStatName(effect.statOrEffect) !== null;
+}
+
+/** Identity-only discovery. Values retain their canonical ownership. */
+export function listStaticWeaponContextSupport() {
+  return WEAPON_EFFECT_CATALOG.filter(isStaticWeaponStat).map(e => ({ effectId: e.effectId, weaponId: e.weaponId,
+    primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PERMANENT_SELF_STAT' as const,
+    dependsOnEchoStats: false as const })).sort((a, b) => a.effectId.localeCompare(b.effectId));
 }
 
 /** Partial source assembly. Pending effect/context requirements are never zero. */
@@ -96,7 +122,10 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     `character:${character.id}:self-effects`, 'main-echo-effects', 'sonata-effects',
     'selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility',
   ];
-  for (const effect of getWeaponEffects(weapon.id)) requirements.push(`weapon:${effect.effectId}`);
+  for (const effect of getWeaponEffects(weapon.id)) {
+    if (isStaticWeaponStat(effect)) add(`weapon:${effect.effectId}`, effect.statOrEffect, effect.rankValues[weapon.rank - 1]);
+    else requirements.push(`weapon:${effect.effectId}`);
+  }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };

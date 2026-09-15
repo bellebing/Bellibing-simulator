@@ -1,6 +1,7 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
+import { listCharacterHitContextSupport, listStaticWeaponContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -72,6 +73,7 @@ export function buildCharacterDatabase() {
       basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport(),
       echoActiveHits: listEchoActiveHitSupport(),
       echoComparisons: listCharacterEchoComparisonSupport(),
+      contextAssembly: listCharacterHitContextSupport(),
     },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     resourceGainSupport: listRoverWindstringsGainSupport(),
@@ -86,6 +88,7 @@ export function buildCharacterDatabase() {
         status: getWeaponEffectCoverageStatus(weapon.id),
       })),
       weaponResourceCasts: listWeaponResourceCastSupport(),
+      weaponStaticContext: listStaticWeaponContextSupport(),
       weaponDamageWindows: listWeaponDamageWindowSupport(),
       weaponCastWindows: listWeaponCastWindowSupport(),
       weaponHealingWindows: listWeaponHealingWindowSupport(),

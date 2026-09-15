@@ -6,6 +6,12 @@ import { WEAPON_CATALOG } from '../data/weapons.ts';
 import { getWeaponEffects } from '../effectRegistry.ts';
 import type { WeaponEffectData } from '../effectDomain.ts';
 import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
+import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
+import { SONATA_EFFECT_SOURCE_REVIEWS } from '../data/sonataEffectSourceReview.ts';
+import type { SonataEffectModel } from '../sonataEffectDomain.ts';
+import { ECHO_CATALOG } from '../data/echoes.ts';
+import { SONATA_CATALOG } from '../data/sonatas.ts';
+import { ECHO_RAW_SOURCE_REVIEW_V36 } from '../data/echoRawAudit.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -17,7 +23,7 @@ export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-
 export function listCharacterHitContextSupport() {
   return listCharacterDirectHitSupport().map(row => ({ ...row, primitiveId: CHARACTER_HIT_CONTEXT_ID,
     scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, requiresRemainingContextProof: true as const,
-    assembles: ['CHARACTER_BASE', 'MAX_MINOR_FORTES', 'WEAPON_CORE', 'PERMANENT_WEAPON_STATS'],
+    assembles: ['CHARACTER_BASE', 'MAX_MINOR_FORTES', 'WEAPON_CORE', 'PERMANENT_WEAPON_STATS', 'STATIC_SONATA_STATS'],
     authorizesRotationDps: false as const }));
 }
 export type ContextHit = Omit<CharacterDirectHitInput, 'snapshot'>;
@@ -28,6 +34,14 @@ export interface CharacterHitContextSelection {
   readonly characterLevel: 90;
   readonly maxMinorFortes: true;
   readonly weapon: { readonly id: string; readonly level: 90; readonly rank: number };
+  /** Optional exact species/set assignment for each ordered card slot. Without
+   * this evidence Sonata/main-Echo context remains a caller obligation.
+   * This comparison retains species/set identities while replacing stat cards. */
+  readonly echoEquipment?: {
+    readonly evidenceId: string;
+    readonly slots: readonly { readonly echoId: string; readonly sonataSetId: string }[];
+    readonly mainSlotIndex: number;
+  };
 }
 export interface StatContribution {
   readonly sourceId: string;
@@ -48,6 +62,7 @@ export function contextStatName(name: string): string | null {
     'Glacio DMG Bonus': 'Glacio DMG', 'Fusion DMG Bonus': 'Fusion DMG',
     'Electro DMG Bonus': 'Electro DMG', 'Aero DMG Bonus': 'Aero DMG',
     'Spectro DMG Bonus': 'Spectro DMG', 'Havoc DMG Bonus': 'Havoc DMG',
+    'Resonance Skill DMG Bonus': 'Skill DMG', 'Outro Skill DMG Bonus': 'Outro DMG',
   };
   const result = aliases[name] ?? name;
   return statNames.has(result) ? result : null;
@@ -68,6 +83,18 @@ export function listStaticWeaponContextSupport() {
   return WEAPON_EFFECT_CATALOG.filter(isStaticWeaponStat).map(e => ({ effectId: e.effectId, weaponId: e.weaponId,
     primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PERMANENT_SELF_STAT' as const,
     dependsOnEchoStats: false as const })).sort((a, b) => a.effectId.localeCompare(b.effectId));
+}
+
+function isStaticSonataStat(e: SonataEffectModel): boolean {
+  return e.effectType === 'PERMANENT' && e.trigger === `${e.pieces}-piece set equipped`
+    && e.mechanicsStatus === 'VERIFIED_MODELED' && e.appliesTo === 'SELF' && e.valueMode === 'FLAT'
+    && e.durationSeconds === null && e.maxStacks === undefined && e.stackIntervalSeconds === undefined
+    && e.capValue === undefined && Number.isFinite(e.value) && e.value >= 0 && contextStatName(e.statOrEffect) !== null;
+}
+export function listStaticSonataContextSupport() {
+  return SONATA_EFFECT_MODELS.filter(isStaticSonataStat).map(e => ({ effectId: e.effectId,
+    sonataSetId: e.sonataSetId, pieces: e.pieces, primitiveId: CHARACTER_HIT_CONTEXT_ID,
+    scope: 'EQUIPPED_STATIC_SELF_STAT' as const, dependsOnEchoStats: false as const }));
 }
 
 /** Partial source assembly. Pending effect/context requirements are never zero. */
@@ -119,12 +146,50 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   intrinsic.stats.forEach(s => add(`character:${character.id}:intrinsic`, s.stat, s.value));
   add(`weapon:${weapon.id}:secondary`, selectedWeapon.secondary.stat, selectedWeapon.secondary.value);
   const requirements = [
-    `character:${character.id}:self-effects`, 'main-echo-effects', 'sonata-effects',
+    `character:${character.id}:self-effects`, 'main-echo-effects',
     'selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility',
   ];
   for (const effect of getWeaponEffects(weapon.id)) {
     if (isStaticWeaponStat(effect)) add(`weapon:${effect.effectId}`, effect.statOrEffect, effect.rankValues[weapon.rank - 1]);
     else requirements.push(`weapon:${effect.effectId}`);
+  }
+  const equipment = selection.echoEquipment;
+  if (!equipment) requirements.push('sonata-effects');
+  else {
+    if (!text(equipment.evidenceId) || equipment.slots.length !== projection.cards.length
+      || !Number.isInteger(equipment.mainSlotIndex) || equipment.mainSlotIndex < 0 || equipment.mainSlotIndex >= equipment.slots.length
+      || new Set(equipment.slots.map(s => s.echoId)).size !== equipment.slots.length) {
+      throw new Error('Require complete explicit distinct-species equipment; repeated-species set counting is outside this contract');
+    }
+    const counts = new Map<string, number>();
+    equipment.slots.forEach((s, i) => {
+      const echo = ECHO_CATALOG.find(e => e.id === s.echoId);
+      // Raw identity verification is owned by the separately audited raw review;
+      // generated PARTIALLY_VERIFIED does not describe effect execution readiness.
+      if (!echo || echo.releaseStatus !== 'RELEASED'
+        || ECHO_RAW_SOURCE_REVIEW_V36.sourceConflicts.some(c => c.recordId === s.echoId || c.recordId === s.sonataSetId)
+        || echo.cost !== projection.cards[i].cost || !echo.sonataSetIds.some(id => id === s.sonataSetId)) {
+        throw new Error('Echo species/COST/Sonata membership must match each exact equipped card slot');
+      }
+      counts.set(s.sonataSetId, (counts.get(s.sonataSetId) ?? 0) + 1);
+    });
+    for (const [setId, pieces] of counts) {
+      const reviews = SONATA_EFFECT_SOURCE_REVIEWS.filter(r => r.sonataSetId === setId && r.pieces <= pieces);
+      const set = SONATA_CATALOG.find(s => s.id === setId);
+      if (!set || set.activationPieces.some(n => n <= pieces && reviews.filter(r => r.pieces === n).length !== 1)) {
+        requirements.push(`sonata:${setId}:missing-source-review`);
+      }
+      for (const review of reviews) {
+        const effects = SONATA_EFFECT_MODELS.filter(e => e.sonataSetId === setId && e.pieces === review.pieces);
+        if (review.status !== 'MODELED' || effects.length !== review.expectedModeledEffectCount) {
+          requirements.push(`sonata:${setId}:${review.pieces}:source-or-specialized-state`);
+        }
+        for (const e of effects) {
+          if (isStaticSonataStat(e)) add(`sonata:${e.effectId}`, e.statOrEffect, e.value);
+          else requirements.push(`sonata:${e.effectId}`);
+        }
+      }
+    }
   }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;

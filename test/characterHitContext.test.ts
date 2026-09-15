@@ -3,10 +3,12 @@ import assert from 'node:assert/strict';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { WEAPON_CATALOG } from '../src/data/weapons.ts';
 import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
+import { ECHO_CATALOG } from '../src/data/echoes.ts';
+import { SONATA_EFFECT_MODELS } from '../src/data/sonataEffects.ts';
 import { listCharacterDirectHitSupport } from '../src/combat/characterDirectHitAdapter.ts';
 import { createRank5EchoAtLevel0 } from '../src/echoCore.ts';
 import { assembleCharacterHitContext, compareCharacterHitWithAssembledContext,
-  listStaticWeaponContextSupport, type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
+  listStaticWeaponContextSupport, listStaticSonataContextSupport, type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
 
 const card = (id: string, cost: 1 | 3 | 4, primaryMainStat: 'ATK%' | 'CRIT Rate' | 'HP%') =>
   createRank5EchoAtLevel0({ id, cost, primaryMainStat });
@@ -35,6 +37,55 @@ function comparison(f = fixture()) {
     current: { echoes: f.current, remaining: proof(assembleCharacterHitContext(f.selection, f.current)) },
     candidate: { echoes: f.candidate, remaining: proof(assembleCharacterHitContext(f.selection, f.candidate)) } };
 }
+
+function withSet(setId: string, f = fixture()) {
+  const species = ECHO_CATALOG.filter(e => e.sonataSetIds.some(id => id === setId)).sort((a, b) => a.cost - b.cost).slice(0, 5);
+  assert.equal(species.length, 5, setId);
+  f.current = species.map((s, i) => card(`synthetic-${i}`, s.cost, 'ATK%'));
+  f.candidate = structuredClone(f.current);
+  f.candidate[0] = card('synthetic-replacement', species[0].cost, 'HP%');
+  f.selection.echoEquipment = { evidenceId: 'synthetic-distinct-species-assignment-not-owned-user-gear', mainSlotIndex: 0,
+    slots: species.map(s => ({ echoId: s.id, sonataSetId: setId })) };
+  return f;
+}
+
+test('static Sonata family reads canonical values only after complete species/set assignment', () => {
+  const support = listStaticSonataContextSupport();
+  assert.equal(support.length, 30); // Coordinated damage is deliberately outside this selected-hit taxonomy.
+  for (const s of support) {
+    const f = withSet(s.sonataSetId), a = assembleCharacterHitContext(f.selection, f.current);
+    const fact = SONATA_EFFECT_MODELS.find(e => e.effectId === s.effectId)!;
+    assert.equal(a.contributions.find(c => c.sourceId === `sonata:${s.effectId}`)?.value, fact.value);
+    assert.equal(compareCharacterHitWithAssembledContext(comparison(f)).comparison.status, 'EVALUATED_HIT_COMPARISON');
+  }
+  const gusts = withSet('sonata-16'), a = assembleCharacterHitContext(gusts.selection, gusts.current);
+  assert.ok(a.contributions.some(c => c.sourceId === 'sonata:S16_2PC_AERO'));
+  assert.ok(a.requirements.some(id => id.startsWith('sonata:S16_5PC')));
+  assert.ok(!a.contributions.some(c => c.sourceId.startsWith('sonata:S16_5PC')));
+});
+
+test('Sonata membership, species duplication, incomplete equipment, source conflicts and below-threshold sets stay explicit', () => {
+  const f = withSet('sonata-16');
+  const equipment = f.selection.echoEquipment!;
+  for (const slots of [equipment.slots.slice(1), equipment.slots.map((s, i) => i === 0 ? equipment.slots[1] : s),
+    equipment.slots.map((s, i) => i === 0 ? { ...s, sonataSetId: 'sonata-1' } : s)]) {
+    assert.throws(() => assembleCharacterHitContext({ ...f.selection, echoEquipment: { ...equipment, slots } }, f.current));
+  }
+  const frost = withSet('sonata-1'), a = assembleCharacterHitContext(frost.selection, frost.current);
+  assert.ok(a.requirements.includes('sonata:sonata-1:5:source-or-specialized-state'));
+  const mixed = structuredClone(f);
+  const other = ECHO_CATALOG.filter(e => e.cost === 1 && e.sonataSetIds.some(id => id === 'sonata-1')).slice(0, 3);
+  mixed.selection.echoEquipment = { ...equipment, slots: [...equipment.slots.slice(0, 2),
+    ...other.map(e => ({ echoId: e.id, sonataSetId: 'sonata-1' }))] };
+  const mixedAssembly = assembleCharacterHitContext(mixed.selection, mixed.current);
+  assert.ok(mixedAssembly.contributions.some(c => c.sourceId === 'sonata:S16_2PC_AERO'));
+  assert.ok(!mixedAssembly.requirements.some(id => id.startsWith('sonata:S16_5PC')));
+  assert.ok(!mixedAssembly.requirements.includes('sonata:sonata-1:5:source-or-specialized-state'));
+  const baseline = comparison(f);
+  const fact = SONATA_EFFECT_MODELS.find(e => e.effectId === 'S16_2PC_AERO')!, old = fact.value;
+  try { fact.value += 0.01; assert.throws(() => compareCharacterHitWithAssembledContext(baseline), /fresh per-build/); }
+  finally { fact.value = old; }
+});
 
 test('canonical Character/weapon assembly reaches all 54 existing hit Characters without changing execution scope', () => {
   const ids = [...new Set(listCharacterDirectHitSupport().map(x => x.characterId))];

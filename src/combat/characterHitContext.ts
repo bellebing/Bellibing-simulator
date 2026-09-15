@@ -18,6 +18,8 @@ import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffec
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { evaluateHitContextWeaponCasts, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
+import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
+import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -33,6 +35,10 @@ export function listCharacterHitContextSupport() {
     authorizesRotationDps: false as const }));
 }
 export type ContextHit = Omit<CharacterDirectHitInput, 'snapshot'>;
+export interface CharacterHitContextEvents {
+  readonly weapon?: HitContextWeaponEvents;
+  readonly sonata?: HitContextSonataEvents;
+}
 export interface CharacterHitContextSelection {
   readonly hit: ContextHit;
   readonly damageElement: Element;
@@ -127,8 +133,17 @@ export function listWeaponCastHitContextSupport() {
     requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listSonataCastHitContextSupport() {
+  return listSonataCastWindowSupport().filter(s => contextStatName(SONATA_EFFECT_MODELS.find(e => e.effectId === s.effectId)!.statOrEffect) !== null)
+    .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
-export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: HitContextWeaponEvents) {
+export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
+  if (events && (Object.keys(events).some(k => !['weapon', 'sonata'].includes(k)) || (!events.weapon && !events.sonata))) {
+    throw new Error('Require a supported explicit event family; unknown event input cannot be silently ignored');
+  }
   const { hit, weapon } = selection;
   const fact = getCharacterActionFact(hit?.factId);
   if (!fact || fact.characterId !== hit.characterId || !supportsCharacterDirectHit(fact)
@@ -185,6 +200,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     else requirements.push(`weapon:${effect.effectId}`);
   }
   const equipment = selection.echoEquipment;
+  const counts = new Map<string, number>();
   if (!equipment) requirements.push('sonata-effects', 'main-echo-effects');
   else {
     if (!text(equipment.evidenceId) || equipment.slots.length !== projection.cards.length
@@ -192,7 +208,6 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       || new Set(equipment.slots.map(s => s.echoId)).size !== equipment.slots.length) {
       throw new Error('Require complete explicit distinct-species equipment; repeated-species set counting is outside this contract');
     }
-    const counts = new Map<string, number>();
     equipment.slots.forEach((s, i) => {
       const echo = ECHO_CATALOG.find(e => e.id === s.echoId);
       // Raw identity verification is owned by the separately audited raw review;
@@ -234,8 +249,14 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     // do not affect this hit. The caller must still prove the remaining scope.
     requirements.push(`echo:${mainEchoId}:unassembled-effects`);
   }
-  const eventContributions = events ? evaluateHitContextWeaponCasts({ characterId: character.id, weapon,
-    hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events }) : [];
+  if (events?.sonata && !equipment) throw new Error('Sonata events require explicit equipped species/set evidence');
+  const eventContributions = [
+    ...(events?.weapon ? evaluateHitContextWeaponCasts({ characterId: character.id, weapon,
+      hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : []),
+    ...(events?.sonata ? evaluateHitContextSonataCasts({ characterId: character.id,
+      hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
+      equipmentKey: JSON.stringify(equipment), pieceCounts: counts, proof: events.sonata }) : []),
+  ];
   for (const e of eventContributions) {
     const pending = requirements.indexOf(e.sourceId);
     if (pending < 0) throw new Error('Event contribution must resolve exactly one unassembled effect; duplicate/static application rejected');
@@ -248,7 +269,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
     eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
-  const castRequirements = new Set(listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`));
+  const castRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`)]);
   const pending = identity.requirements.map(id => ({ id,
     status: castRequirements.has(id) ? 'PENDING_EVENT' as const
       : ['selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility'].includes(id)
@@ -322,8 +344,8 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
 export function compareCharacterHitWithAssembledContext(input: {
   readonly selection: CharacterHitContextSelection;
   readonly slotIndex: number;
-  readonly current: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: HitContextWeaponEvents };
-  readonly candidate: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: HitContextWeaponEvents };
+  readonly current: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: CharacterHitContextEvents };
+  readonly candidate: { readonly echoes: readonly Echo[]; readonly remaining: RemainingHitContext; readonly events?: CharacterHitContextEvents };
 }) {
   const current = assembleCharacterHitContext(input.selection, input.current.echoes, input.current.events);
   const candidate = assembleCharacterHitContext(input.selection, input.candidate.echoes, input.candidate.events);

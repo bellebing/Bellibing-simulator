@@ -10,6 +10,7 @@ const row = (id, status, requirement) => ({ id, status, requirement });
 const supportedIds = rows => new Set(rows.map(x => x.effectId));
 const weaponStaticIds = supportedIds(db.gear.weaponStaticContext);
 const castContextIds = supportedIds(db.gear.weaponCastHitContext);
+const sonataCastContextIds = supportedIds(db.gear.sonataCastHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
@@ -45,6 +46,7 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
         staticMainEchoEffectIds: db.gear.echoStaticContext.filter(e => e.echoId === shell.mainEchoId
           && (!e.wielderCharacterIds || e.wielderCharacterIds.includes(characterId))).map(e => e.effectId),
         weaponCastEffectIds: selectedWeaponEffects.filter(e => castContextIds.has(e.effectId)).map(e => e.effectId),
+        sonataCastEffectIds: db.gear.sonataCastHitContext.filter(e => shell.sonataSetIds.includes(e.sonataSetId)).map(e => e.effectId),
       },
       selectedHitScope: p.sequence === 0 ? 'S0_HIT_SUPPORTED' : 'PRESET_SEQUENCE_NOT_AUTHORIZED_BY_S0_HIT_PRIMITIVE',
       weaponStats: weaponIds.map(id => row(id, id === 'abyss-surges' ? 'SOURCE_CONFLICT' : 'CANONICAL_STATIC_AVAILABLE',
@@ -122,11 +124,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     staticSonataEffectIds: db.gear.sonataStaticContext.map(x => x.effectId),
     staticMainEchoEffectIds: db.gear.echoStaticContext.map(x => x.effectId),
     weaponCastEffectIds: db.gear.weaponCastHitContext.map(x => x.effectId),
+    sonataCastEffectIds: [...sonataCastContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   counts: { hitCharacters: characters.length, hitFacts: db.hitPrimitives.directHits.length,
     presets: characters.flatMap(c => c.presets).length, pendingEdges: queue.summary,
     distinctDependencyIds: unique(queue.edges.map(e => e.pendingExecutionId)).length },
-  eventConsumerCohorts: [family('Weapon cast context', p => p.contextFamilies.weaponCastEffectIds.length > 0)],
+  eventConsumerCohorts: [family('Weapon cast context', p => p.contextFamilies.weaponCastEffectIds.length > 0),
+    family('Sonata cast context', p => p.contextFamilies.sonataCastEffectIds.length > 0)],
   rankedCandidates: [
     { rank: 1, name: 'Character base/intrinsic plus compatible weapon core', characterIds: characters.map(c => c.characterId),
       reason: 'All current hit consumers; removes source-stat arithmetic without lifecycle assumptions' },
@@ -138,8 +142,8 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
   ladder: { counting: 'Character identities with an existing path; partial contributions do not establish complete L3 context',
     L0: db.characters.length, L1: characters.length, L2: characters.length,
     PARTIAL_L3: characters.length,
-    PARTIAL_L4: family('Weapon cast context', p => p.contextFamilies.weaponCastEffectIds.length > 0).characterIds.length,
-    partialL4Counting: 'Characters with an existing preset weapon recommendation supported by the composition bridge; still requires explicit per-build events',
+    PARTIAL_L4: family('Cast context', p => p.contextFamilies.weaponCastEffectIds.length + p.contextFamilies.sonataCastEffectIds.length > 0).characterIds.length,
+    partialL4Counting: 'Characters with an existing preset equipment recommendation supported by a composition bridge; still requires explicit per-build events',
     L3: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,
     L4: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,
     L5: unique(db.profiles.rotations.filter(r => r.executionStatus === 'ENGINE_MODELED').map(r => r.characterId)).length,

@@ -8,7 +8,7 @@ import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { listCharacterDirectHitSupport } from '../src/combat/characterDirectHitAdapter.ts';
 import { assembleCharacterHitContext, compareCharacterHitWithAssembledContext, listWeaponCastHitContextSupport,
-  type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
+  type CharacterHitContextSelection, type CharacterHitContextEvents, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
 import type { HitContextWeaponEvents } from '../src/combat/hitContextWeaponEvents.ts';
 
 function fixture(effectId = 'TFD-HEAVY', characterId = 'augusta') {
@@ -21,11 +21,11 @@ function fixture(effectId = 'TFD-HEAVY', characterId = 'augusta') {
   const current = [4, 3, 3, 1, 1].map((cost, i) => createRank5EchoAtLevel0({ id: `current-${i}`, cost: cost as 1 | 3 | 4, primaryMainStat: 'ATK%' }));
   const candidate = structuredClone(current);
   candidate[0] = createRank5EchoAtLevel0({ id: 'replacement', cost: 4, primaryMainStat: 'CRIT Rate' });
-  const events = (cards: typeof current): HitContextWeaponEvents => ({ echoStatKey: projectRank5EchoStats(cards).key, weapon: { ...selection.weapon },
+  const events = (cards: typeof current): CharacterHitContextEvents & { weapon: HitContextWeaponEvents } => ({ weapon: { echoStatKey: projectRank5EchoStats(cards).key, weapon: { ...selection.weapon },
     eventContextId: selection.eventContextId, evidenceId: 'synthetic-per-build-event-proof', casts: [{ effectId,
       evidenceId: 'synthetic-single-cast', event: { kind: support.triggerEvents[0], actorId: characterId, atSeconds: 1 },
       sourceQualification: 'SOURCE_PROVEN_CAST', equipmentAtEventQualified: true, priorActivationState: 'NONE_ACTIVE',
-      noLaterActivationThroughHit: true, sameTimestampOrder: 'AFTER_TRIGGER' }] });
+      noLaterActivationThroughHit: true, sameTimestampOrder: 'AFTER_TRIGGER' }] } });
   return { selection, current, candidate, events };
 }
 function proof(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
@@ -57,7 +57,7 @@ test('missing events remain pending and cast/query ordering never grants the tri
   const f = fixture(), e = f.events(f.current), base = assembleCharacterHitContext(f.selection, f.current);
   assert.ok(base.pending.some(p => p.id === 'weapon:TFD-HEAVY' && p.status === 'PENDING_EVENT'));
   const selection = { ...f.selection, hitAtSeconds: 1 };
-  const before = structuredClone(e); before.casts[0].sameTimestampOrder = 'BEFORE_TRIGGER';
+  const before = structuredClone(e); before.weapon.casts[0].sameTimestampOrder = 'BEFORE_TRIGGER';
   assert.equal(assembleCharacterHitContext(selection, f.current, before).eventContributions[0].value, 0);
   assert.ok(assembleCharacterHitContext(selection, f.current, e).eventContributions[0].value > 0);
   const duration = WEAPON_EFFECT_CATALOG.find(x => x.effectId === 'TFD-HEAVY')!.durationSeconds!;
@@ -92,15 +92,15 @@ test('eleven existing preset weapon cohorts support a qualified isolated-hit del
 
 test('wrong event/owner/weapon/source qualification, duplicates and unknown lifecycle are rejected', () => {
   const f = fixture(), e = f.events(f.current);
-  const patches = [{ event: { ...e.casts[0].event, kind: 'HEAL_APPLIED' } },
-    { event: { ...e.casts[0].event, actorId: 'jiyan' } }, { effectId: 'AH-INTRO' },
+  const patches = [{ event: { ...e.weapon.casts[0].event, kind: 'HEAL_APPLIED' } },
+    { event: { ...e.weapon.casts[0].event, actorId: 'jiyan' } }, { effectId: 'AH-INTRO' },
     { sourceQualification: 'ASSUMED' }, { priorActivationState: 'UNKNOWN' },
     { noLaterActivationThroughHit: false }, { sameTimestampOrder: undefined }, { equipmentAtEventQualified: false }];
   for (const patch of patches) {
-    const bad = structuredClone(e); Object.assign(bad.casts[0], patch);
+    const bad = structuredClone(e); Object.assign(bad.weapon.casts[0], patch);
     assert.throws(() => assembleCharacterHitContext(f.selection, f.current, bad));
   }
-  const duplicate = { ...e, casts: [...e.casts, e.casts[0]] };
+  const duplicate = { ...e, weapon: { ...e.weapon, casts: [...e.weapon.casts, e.weapon.casts[0]] } };
   assert.throws(() => assembleCharacterHitContext(f.selection, f.current, duplicate), /unique/);
   assert.throws(() => assembleCharacterHitContext({ ...f.selection, hitAtSeconds: undefined }, f.current, e), /query time/);
   assert.throws(() => assembleCharacterHitContext({ ...f.selection, weapon: { ...f.selection.weapon, rank: 2 } }, f.current, e), /per-build/);

@@ -89,6 +89,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     factCount: db.hitPrimitives.contextAssembly.length, families: db.hitPrimitives.contextAssembly[0]?.assembles ?? [],
     permanentWeaponEffectIds: db.gear.weaponStaticContext.map(x => x.effectId),
     staticSonataEffectIds: db.gear.sonataStaticContext.map(x => x.effectId),
+    staticMainEchoEffectIds: db.gear.echoStaticContext.map(x => x.effectId),
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   counts: { hitCharacters: characters.length, hitFacts: db.hitPrimitives.directHits.length,
     presets: characters.flatMap(c => c.presets).length, pendingEdges: queue.summary,

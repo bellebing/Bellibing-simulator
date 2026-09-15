@@ -1,7 +1,8 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
-import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport } from './combat/characterHitContext.ts';
+import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
+  listStaticEchoContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -94,6 +95,7 @@ export function buildCharacterDatabase() {
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      echoStaticContext: listStaticEchoContextSupport(),
       echoTransferWindows: listEchoTransferWindowSupport(),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
       echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,

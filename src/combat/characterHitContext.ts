@@ -12,6 +12,10 @@ import type { SonataEffectModel } from '../sonataEffectDomain.ts';
 import { ECHO_CATALOG } from '../data/echoes.ts';
 import { SONATA_CATALOG } from '../data/sonatas.ts';
 import { ECHO_RAW_SOURCE_REVIEW_V36 } from '../data/echoRawAudit.ts';
+import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
+import { ECHO_SKILL_PENDING_ADAPTER_FACTS } from '../data/echoSkillSourceReview.ts';
+import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffectRegistry.ts';
+import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -23,7 +27,7 @@ export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-
 export function listCharacterHitContextSupport() {
   return listCharacterDirectHitSupport().map(row => ({ ...row, primitiveId: CHARACTER_HIT_CONTEXT_ID,
     scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, requiresRemainingContextProof: true as const,
-    assembles: ['CHARACTER_BASE', 'MAX_MINOR_FORTES', 'WEAPON_CORE', 'PERMANENT_WEAPON_STATS', 'STATIC_SONATA_STATS'],
+    assembles: ['CHARACTER_BASE', 'MAX_MINOR_FORTES', 'WEAPON_CORE', 'PERMANENT_WEAPON_STATS', 'STATIC_SONATA_STATS', 'MAIN_ECHO_STATIC_STATS'],
     authorizesRotationDps: false as const }));
 }
 export type ContextHit = Omit<CharacterDirectHitInput, 'snapshot'>;
@@ -63,6 +67,8 @@ export function contextStatName(name: string): string | null {
     'Electro DMG Bonus': 'Electro DMG', 'Aero DMG Bonus': 'Aero DMG',
     'Spectro DMG Bonus': 'Spectro DMG', 'Havoc DMG Bonus': 'Havoc DMG',
     'Resonance Skill DMG Bonus': 'Skill DMG', 'Outro Skill DMG Bonus': 'Outro DMG',
+    'Basic Attack DMG Bonus': 'Basic Attack DMG', 'Heavy Attack DMG Bonus': 'Heavy Attack DMG',
+    'Resonance Liberation DMG Bonus': 'Liberation DMG',
   };
   const result = aliases[name] ?? name;
   return statNames.has(result) ? result : null;
@@ -95,6 +101,17 @@ export function listStaticSonataContextSupport() {
   return SONATA_EFFECT_MODELS.filter(isStaticSonataStat).map(e => ({ effectId: e.effectId,
     sonataSetId: e.sonataSetId, pieces: e.pieces, primitiveId: CHARACTER_HIT_CONTEXT_ID,
     scope: 'EQUIPPED_STATIC_SELF_STAT' as const, dependsOnEchoStats: false as const }));
+}
+
+function isStaticEchoStat(e: EchoEffectModel): boolean {
+  return e.mechanicsStatus === 'VERIFIED_MODELED' && e.activation === 'MAIN_SLOT_PASSIVE' && e.durationSeconds === null
+    && e.activationWindowSeconds === undefined && e.requiresIncomingIntro === undefined && e.appliesTo === 'WIELDER'
+    && Number.isFinite(e.value) && e.value >= 0 && contextStatName(e.statOrEffect) !== null;
+}
+export function listStaticEchoContextSupport() {
+  return ECHO_EFFECT_MODELS.filter(isStaticEchoStat).map(e => ({ effectId: e.effectId, echoId: e.echoId,
+    wielderCharacterIds: e.wielderCharacterIds ? [...e.wielderCharacterIds] : null,
+    primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'EXACT_MAIN_SLOT_SELF_STAT' as const, dependsOnEchoStats: false as const }));
 }
 
 /** Partial source assembly. Pending effect/context requirements are never zero. */
@@ -146,7 +163,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   intrinsic.stats.forEach(s => add(`character:${character.id}:intrinsic`, s.stat, s.value));
   add(`weapon:${weapon.id}:secondary`, selectedWeapon.secondary.stat, selectedWeapon.secondary.value);
   const requirements = [
-    `character:${character.id}:self-effects`, 'main-echo-effects',
+    `character:${character.id}:self-effects`,
     'selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility',
   ];
   for (const effect of getWeaponEffects(weapon.id)) {
@@ -154,7 +171,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     else requirements.push(`weapon:${effect.effectId}`);
   }
   const equipment = selection.echoEquipment;
-  if (!equipment) requirements.push('sonata-effects');
+  if (!equipment) requirements.push('sonata-effects', 'main-echo-effects');
   else {
     if (!text(equipment.evidenceId) || equipment.slots.length !== projection.cards.length
       || !Number.isInteger(equipment.mainSlotIndex) || equipment.mainSlotIndex < 0 || equipment.mainSlotIndex >= equipment.slots.length
@@ -190,6 +207,18 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
         }
       }
     }
+    const mainEchoId = equipment.slots[equipment.mainSlotIndex].echoId;
+    const echoEffects = getEchoEffectsForWielder(createEchoEffectRegistry(ECHO_EFFECT_MODELS), mainEchoId, character.id);
+    for (const e of echoEffects) {
+      if (isStaticEchoStat(e)) add(`echo:${e.effectId}`, e.statOrEffect, e.value);
+      else requirements.push(`echo:${e.effectId}`);
+    }
+    for (const p of ECHO_SKILL_PENDING_ADAPTER_FACTS.filter(p => p.echoId === mainEchoId)) {
+      requirements.push(`echo:${mainEchoId}:${p.kind}`);
+    }
+    // Partial effect catalog cannot establish that omitted active/variant effects
+    // do not affect this hit. The caller must still prove the remaining scope.
+    requirements.push(`echo:${mainEchoId}:unassembled-effects`);
   }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;

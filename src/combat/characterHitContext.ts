@@ -19,6 +19,7 @@ import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { evaluateHitContextWeaponEvents, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
 import { listWeaponDamageWindowSupport } from './weaponDamageWindowAdapter.ts';
+import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
@@ -276,11 +277,13 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
     eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
-  const castRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
+  const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
-    ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`)]);
+    ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
+    ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
+    'sonata:REJUV_ATK']);
   const pending = identity.requirements.map(id => ({ id,
-    status: castRequirements.has(id) ? 'PENDING_EVENT' as const
+    status: eventRequirements.has(id) ? 'PENDING_EVENT' as const
       : ['selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility'].includes(id)
         ? 'PENDING_TIMELINE' as const : 'PENDING_SOURCE' as const }));
   return structuredClone({ primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, pending,

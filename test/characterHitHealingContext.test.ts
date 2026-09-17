@@ -144,9 +144,9 @@ test('Rejuvenating Glow rejects wrong owner/team/equipment/source and per-build 
 
 test('healing source drift invalidates the reviewed bridge rather than silently reusing stale context', () => {
   const f = weaponHealingFixture('SC-TEAM-CD'), events = f.events(f.current);
-  const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === 'SC-TEAM-CD')!, old = effect.durationSeconds;
+  const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === 'SC-TEAM-CD')!, old = effect.trigger;
   try {
-    effect.durationSeconds = old! + 1;
+    effect.trigger = 'Cast Echo Skill';
     assert.throws(() => assembleCharacterHitContext(f.selection, f.current, events), /contract drift/);
-  } finally { effect.durationSeconds = old; }
+  } finally { effect.trigger = old; }
 });

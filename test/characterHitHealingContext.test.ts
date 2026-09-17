@@ -50,8 +50,13 @@ function weaponHealingFixture(effectId: string) {
 }
 function rejuvenatingFixture() {
   const characterId = 'ciaccona', weaponId = 'woodland-aria', f = fixture(characterId, weaponId);
-  const species = ECHO_CATALOG.filter(e => e.sonataSetIds.includes('sonata-7')).sort((a, b) => a.cost - b.cost).slice(0, 5);
-  assert.equal(species.length, 5);
+  const pool = ECHO_CATALOG.filter(e => e.sonataSetIds.includes('sonata-7'));
+  const species = [
+    ...pool.filter(e => e.cost === 4).slice(0, 1),
+    ...pool.filter(e => e.cost === 3).slice(0, 2),
+    ...pool.filter(e => e.cost === 1).slice(0, 2),
+  ];
+  assert.deepEqual(species.map(s => s.cost), [4, 3, 3, 1, 1]);
   f.current = species.map((s, i) => card(`rejuv-${i}`, s.cost));
   f.candidate = structuredClone(f.current);
   f.candidate[0] = card('rejuv-replacement', species[0].cost, 'CRIT Rate');

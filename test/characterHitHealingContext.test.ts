@@ -80,6 +80,7 @@ test('both reviewed weapon healing windows compose only from an exact applied-he
     const f = weaponHealingFixture(s.effectId), events = f.events(f.current);
     const before = assembleCharacterHitContext(f.selection, f.current);
     assert.ok(before.requirements.includes(`weapon:${s.effectId}`));
+    assert.equal(before.pending.find(p => p.id === `weapon:${s.effectId}`)?.status, 'PENDING_EVENT');
     const after = assembleCharacterHitContext(f.selection, f.current, events);
     const contribution = after.eventContributions.find(c => c.sourceId === `weapon:${s.effectId}`)!;
     assert.ok(contribution.value > 0);
@@ -115,6 +116,7 @@ test('Rejuvenating Glow team ATK composes only from exact five-piece equipment a
   const effect = SONATA_EFFECT_MODELS.find(e => e.effectId === 'REJUV_ATK')!;
   const before = assembleCharacterHitContext(f.selection, f.current);
   assert.ok(before.requirements.includes('sonata:REJUV_ATK'));
+  assert.equal(before.pending.find(p => p.id === 'sonata:REJUV_ATK')?.status, 'PENDING_EVENT');
   const after = assembleCharacterHitContext(f.selection, f.current, events);
   const contribution = after.eventContributions.find(c => c.sourceId === 'sonata:REJUV_ATK')!;
   assert.equal(contribution.value, effect.value);

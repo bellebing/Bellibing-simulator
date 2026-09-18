@@ -3,7 +3,8 @@ import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listWeaponCooldownCastHitContextSupport,
-  listFreezeFrameStatusHitContextSupport, listSonataCastHitContextSupport,
+  listFreezeFrameStatusHitContextSupport, listAzureOathAmplificationHitContextSupport,
+  listAzureOathDefenseHitContextSupport, listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listWeaponDamageAmplificationHitContextSupport,
   listWeaponDamageDefenseHitContextSupport, listWeaponStatusApplicationHitContextSupport,
   listWeaponTargetResistanceHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
@@ -113,6 +114,8 @@ export function buildCharacterDatabase() {
       weaponDamageDefenseHitContext: listWeaponDamageDefenseHitContextSupport(),
       weaponStatusApplicationHitContext: listWeaponStatusApplicationHitContextSupport(),
       weaponFreezeFrameHitContext: listFreezeFrameStatusHitContextSupport(),
+      weaponAzureOathAmplificationHitContext: listAzureOathAmplificationHitContextSupport(),
+      weaponAzureOathDefenseHitContext: listAzureOathDefenseHitContextSupport(),
       weaponTargetWindows: listWeaponTargetWindowSupport(),
       weaponTargetResistanceHitContext: listWeaponTargetResistanceHitContextSupport(),
       weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),

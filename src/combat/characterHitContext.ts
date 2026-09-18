@@ -19,6 +19,7 @@ import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { evaluateHitContextWeaponEvents, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
 import { listWeaponDamageWindowSupport } from './weaponDamageWindowAdapter.ts';
+import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './luxUmbraDefenseStateAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
@@ -178,7 +179,7 @@ export function listWeaponDamageAmplificationHitContextSupport() {
 }
 
 export function listWeaponDamageDefenseHitContextSupport() {
-  return listWeaponDamageWindowSupport().flatMap(s => {
+  const timed = listWeaponDamageWindowSupport().flatMap(s => {
     const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
     const defenseScope = effect?.effectId === 'LE-DEF' && effect.statOrEffect === 'DEF Ignore'
       ? { kind: 'ALL_DAMAGE' as const }
@@ -196,6 +197,18 @@ export function listWeaponDamageDefenseHitContextSupport() {
       magnitudeDependsOnEchoStats: false as const,
       stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const }];
   });
+  const overlap = listLuxUmbraDefenseStateSupport().map(s => ({
+    ...s,
+    defenseScope: { kind: 'ALL_DAMAGE' as const },
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    selectedHitScope: 'ALL_CHARACTER_DIRECT_HITS' as const,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitEnemyDefenseProof: true as const,
+    requiresNoOtherDefenseModifiers: true as const,
+    magnitudeDependsOnEchoStats: false as const,
+    stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
+  }));
+  return [...timed, ...overlap];
 }
 
 export function listSonataDamageHitContextSupport() {
@@ -473,7 +486,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   });
   const weaponDamageDefenseSupport = listWeaponDamageDefenseHitContextSupport();
   const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
-  const defenseContributions = weaponEventResults.flatMap(e => {
+  const timedDefenseContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
     if (!weaponDamageDefenseIds.has(effectId)) return [];
     const support = weaponDamageDefenseSupport.find(row => row.effectId === effectId)!;
@@ -498,11 +511,42 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       activationProof: e.activationProof,
     }];
   });
+  const luxHeavyWindow = weaponEventResults.find(e => e.sourceId === 'weapon:LU-HEAVY-AMP');
+  const luxEchoWindow = weaponEventResults.find(e => e.sourceId === 'weapon:LU-ECHO-AMP');
+  const stateOnlyWeaponContributions = weaponEventResults.filter(e => e.sourceId === 'weapon:LU-ECHO-AMP');
+  const luxDefenseContributions = luxHeavyWindow && luxEchoWindow ? (() => {
+    const resolved = resolveLuxUmbraDefenseState({
+      selectedWeapon: weapon,
+      actorId: character.id,
+      heavyAmplification: { active: luxHeavyWindow.active, window: luxHeavyWindow.window },
+      echoAmplification: { active: luxEchoWindow.active, window: luxEchoWindow.window },
+    });
+    const source = WEAPON_EFFECT_CATALOG.find(e => e.effectId === resolved.effectId);
+    if (!source || resolved.value <= 0 || resolved.value >= 1) {
+      throw new Error('Reviewed Lux defense overlap lost its canonical bounded value');
+    }
+    return [{
+      sourceId: `weapon:${resolved.effectId}`,
+      canonicalSourceId: resolved.effectId,
+      statOrEffect: resolved.statOrEffect,
+      defenseScope: { kind: 'ALL_DAMAGE' as const },
+      value: resolved.value,
+      active: resolved.active,
+      sourceWindowActive: resolved.active,
+      appliesToSelectedHit: true,
+      evidenceId: JSON.stringify([luxHeavyWindow.evidenceId, luxEchoWindow.evidenceId]),
+      sourceKey: JSON.stringify(source),
+      window: resolved,
+      activationProof: 'PER_BUILD_EXPLICIT_WINDOW_OVERLAP' as const,
+    }];
+  })() : [];
+  const defenseContributions = [...timedDefenseContributions, ...luxDefenseContributions];
   const ordinaryWeaponEventContributions = weaponEventResults.filter(e => contextStatName(e.stat) !== null);
   const consumedWeaponSourceIds = new Set([
     ...ordinaryWeaponEventContributions.map(e => e.sourceId),
     ...weaponAmplificationContributions.map(e => e.sourceId),
-    ...defenseContributions.map(e => e.sourceId),
+    ...timedDefenseContributions.map(e => e.sourceId),
+    ...stateOnlyWeaponContributions.map(e => e.sourceId),
   ]);
   const unsupportedWeaponEvent = weaponEventResults.find(e => !consumedWeaponSourceIds.has(e.sourceId));
   if (unsupportedWeaponEvent) {
@@ -542,6 +586,11 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     if (pending < 0) throw new Error('Amplification contribution must resolve exactly one unassembled effect');
     requirements.splice(pending, 1);
   }
+  for (const e of stateOnlyWeaponContributions) {
+    const pending = requirements.indexOf(e.sourceId);
+    if (pending < 0) throw new Error('State-only weapon contribution must resolve exactly one reviewed prerequisite');
+    requirements.splice(pending, 1);
+  }
   for (const e of defenseContributions) {
     const pending = requirements.indexOf(e.sourceId);
     if (pending < 0) throw new Error('Defense contribution must resolve exactly one unassembled effect');
@@ -551,12 +600,13 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
-    amplificationContributions, defenseContributions, eventEvidence: events ?? null,
+    amplificationContributions, defenseContributions, stateOnlyWeaponContributions, eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
     ...listSonataDamageHitContextSupport().map(e => `sonata:${e.effectId}`),

@@ -201,8 +201,10 @@ export function evaluateHitContextAmplificationEvents(input: {
 
     const ordering = {
       sameTimestampOrder: row.sameTimestampOrder,
-      sameTimestampSwitchOutOrder: recipientTie ? row.sameTimestampSwitchOutOrder : undefined,
-    } as const;
+      sameTimestampSwitchOutOrder: recipientTie
+        ? row.sameTimestampSwitchOutOrder === 'BEFORE_QUERY' ? 'BEFORE_QUERY' as const : 'AFTER_QUERY' as const
+        : undefined,
+    };
     let history = row.switchOutEvents;
     if (!requiresPriorNoneActive && recipientTie && row.sameTimestampSwitchOutOrder === 'AFTER_QUERY') {
       // Validate the complete caller history, then exclude only the proven later same-timestamp recipient switch.

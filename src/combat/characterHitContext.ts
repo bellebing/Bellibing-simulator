@@ -22,11 +22,13 @@ import { listWeaponDamageWindowSupport } from './weaponDamageWindowAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
+import { listSonataDamageWindowSupport } from './sonataDamageWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
 import { validateEchoLoadout } from '../loadoutValidator.ts';
-import { listCharacterDirectHitSupport, supportsCharacterDirectHit, type CharacterDirectHitInput } from './characterDirectHitAdapter.ts';
+import { listCharacterDirectHitSupport, supportsCharacterDirectHit, type CharacterDirectHitInput,
+  type DirectHitDamageClass } from './characterDirectHitAdapter.ts';
 import { compareCharacterHitEchoReplacement, type EchoBuildHitContext } from './characterEchoComparison.ts';
 
 export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-v1';
@@ -147,6 +149,18 @@ export function listWeaponDamageHitContextSupport() {
       requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listSonataDamageHitContextSupport() {
+  return listSonataDamageWindowSupport().flatMap(s => {
+    if (s.effectId !== 'S22_3PC_HEAVY_CR' && s.effectId !== 'S29_5PC_AERO') return [];
+    const effect = SONATA_EFFECT_MODELS.find(e => e.effectId === s.effectId);
+    const expectedStat = s.effectId === 'S22_3PC_HEAVY_CR' ? 'Heavy Attack CRIT Rate' : 'Aero DMG Bonus';
+    if (!effect || effect.statOrEffect !== expectedStat) throw new Error(`${s.effectId} Character-hit target stat contract drift`);
+    return [{ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: s.effectId === 'S22_3PC_HEAVY_CR' ? 'HEAVY_DIRECT_HIT_ONLY' as const : 'AERO_ELEMENT_DAMAGE' as const,
+      requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }];
+  });
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata'].includes(k)) || (!events.weapon && !events.sonata))) {
@@ -263,7 +277,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : []),
     ...(events?.sonata ? evaluateHitContextSonataCasts({ characterId: character.id,
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
-      equipmentKey: JSON.stringify(equipment), pieceCounts: counts, proof: events.sonata }) : []),
+      equipmentKey: JSON.stringify(equipment), pieceCounts: counts, hitDamageClass: fact.damageClass as DirectHitDamageClass,
+      proof: events.sonata }) : []),
   ];
   for (const e of eventContributions) {
     const pending = requirements.indexOf(e.sourceId);
@@ -281,6 +296,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
+    ...listSonataDamageHitContextSupport().map(e => `sonata:${e.effectId}`),
     'sonata:REJUV_ATK']);
   const pending = identity.requirements.map(id => ({ id,
     status: eventRequirements.has(id) ? 'PENDING_EVENT' as const

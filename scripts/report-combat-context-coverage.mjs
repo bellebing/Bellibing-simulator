@@ -21,6 +21,7 @@ const weaponTeamStatContextIds = supportedIds(db.gear.weaponTeamStatHitContext);
 const weaponTeamAmplificationContextIds = supportedIds(db.gear.weaponTeamAmplificationHitContext);
 const echoTeamStatContextIds = supportedIds(db.gear.echoTeamStatHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
+const characterOutroAmplificationFactIds = new Set(db.hitPrimitives.characterOutroAmplification.map(x => x.factId));
 const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
@@ -151,6 +152,8 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponTeamAmplificationEffectIds: [...weaponTeamAmplificationContextIds],
     echoTeamStatEffectIds: [...echoTeamStatContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
+    characterOutroAmplificationFactIds: [...characterOutroAmplificationFactIds],
+    characterOutroAmplificationTermCount: db.hitPrimitives.characterOutroAmplification.length,
     characterTeamAmplificationFactIds: [...characterTeamAmplificationFactIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
@@ -183,6 +186,14 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate Fallacy main-Echo equipment, selected team and exact Echo cast are not inferred from recipient presets or team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_FALLACY_MAIN_ECHO_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_ECHO_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    characterOutroAmplificationWindows: {
+      factIds: [...characterOutroAmplificationFactIds],
+      termCount: db.hitPrimitives.characterOutroAmplification.length,
+      exactPresetReach: [],
+      counting: 'Single-active capability only: actual incoming recipient and complete switch-out history are caller proof; dual-scope terms are never combined automatically',
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY',
+      requires: ['EXACT_SOURCE_OUTRO', 'ACTUAL_INCOMING_RECIPIENT', 'EXPLICIT_SWITCH_OUT_HISTORY', 'SOURCE_SINGLE_ACTIVATION_PROOF_WHERE_REQUIRED', 'ZERO_RESIDUAL_AMPLIFICATION_WHEN_ACTIVE', 'PER_BUILD_QUERY_PROOF'],
     },
     characterTeamAmplificationWindows: {
       factIds: [...characterTeamAmplificationFactIds],

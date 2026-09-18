@@ -26,6 +26,7 @@ import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
 import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicationWindowAdapter.ts';
 import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
+import { listForgedDwarfStarStatusWindowSupport } from './forgedDwarfStarStatusWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -257,6 +258,16 @@ export function listFreezeFrameStatusHitContextSupport() {
     requiresExplicitTriggerTargetIdentity: true as const,
     requiresExplicitTeamMembershipProof: s.appliesTo === 'TEAM',
     requiresExplicitSourceEquipmentProof: s.appliesTo === 'TEAM',
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
+export function listForgedDwarfStarStatusHitContextSupport() {
+  return listForgedDwarfStarStatusWindowSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTriggerTargetIdentity: true as const,
     magnitudeDependsOnEchoStats: false as const,
   }));
 }
@@ -764,6 +775,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponStatusApplicationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listFreezeFrameStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listForgedDwarfStarStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),

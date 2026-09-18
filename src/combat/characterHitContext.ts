@@ -18,6 +18,7 @@ import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffec
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { evaluateHitContextWeaponEvents, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
+import { listWeaponCooldownCastWindowSupport } from './weaponCooldownCastWindowAdapter.ts';
 import { listWeaponDamageWindowSupport, WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID } from './weaponDamageWindowAdapter.ts';
 import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './luxUmbraDefenseStateAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
@@ -148,6 +149,17 @@ export function listStaticEchoContextSupport() {
   return ECHO_EFFECT_MODELS.filter(isStaticEchoStat).map(e => ({ effectId: e.effectId, echoId: e.echoId,
     wielderCharacterIds: e.wielderCharacterIds ? [...e.wielderCharacterIds] : null,
     primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'EXACT_MAIN_SLOT_SELF_STAT' as const, dependsOnEchoStats: false as const }));
+}
+
+export function listWeaponCooldownCastHitContextSupport() {
+  return listWeaponCooldownCastWindowSupport().filter(s => contextStatName(s.statOrEffect) !== null)
+    .map(s => ({
+      ...s,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitCooldownReadyState: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+    }));
 }
 
 export function listWeaponCastHitContextSupport() {
@@ -688,6 +700,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     stateOnlyWeaponContributions, eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponCooldownCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),

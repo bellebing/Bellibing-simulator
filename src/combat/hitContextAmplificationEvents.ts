@@ -17,6 +17,12 @@ import {
   weaponTeamAeroAmplificationAt,
   type WeaponTeamCastEvent,
 } from './weaponTeamAmplifyWindowAdapter.ts';
+import {
+  activateCharacterOutroTransfers,
+  activeCharacterOutroAmplifications,
+  listCharacterOutroTransferSupport,
+} from './characterOutroTransferAdapter.ts';
+import type { OutgoingSwitchEvent, ResonatorSwitchOutEvent } from './incomingTransferState.ts';
 
 export interface ProvenHitShorekeeperOutroTeamAmplification {
   readonly sourceFactId: 'the-shorekeeper-outro-binary-butterfly';
@@ -28,6 +34,19 @@ export interface ProvenHitShorekeeperOutroTeamAmplification {
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitCharacterOutroAmplification {
+  readonly factId: string;
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceQualification: 'SOURCE_PROVEN_CHARACTER_OUTRO';
+  readonly event: OutgoingSwitchEvent;
+  readonly switchOutEvents: readonly ResonatorSwitchOutEvent[];
+  readonly priorActivationState: 'NONE_ACTIVE' | 'NOT_REQUIRED';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+  readonly sameTimestampSwitchOutOrder: 'NO_TIE' | 'BEFORE_QUERY' | 'AFTER_QUERY';
 }
 
 export interface ProvenHitBloodpactsPledgeTeamAmplification {
@@ -50,6 +69,7 @@ export interface HitContextAmplificationEvents {
   readonly echoStatKey: string;
   readonly eventContextId: string;
   readonly evidenceId: string;
+  readonly characterOutros?: readonly ProvenHitCharacterOutroAmplification[];
   readonly shorekeeperOutros?: readonly ProvenHitShorekeeperOutroTeamAmplification[];
   readonly weaponTeamAmplifications?: readonly ProvenHitBloodpactsPledgeTeamAmplification[];
 }
@@ -61,6 +81,24 @@ const releasedCharacter = (id: string) => CHARACTER_CATALOG.find(character =>
   character.id === id && character.releaseStatus === 'RELEASED');
 const releasedWeapon = (id: string) => WEAPON_CATALOG.find(weapon =>
   weapon.id === id && weapon.releaseStatus === 'RELEASED' && weapon.verificationStatus === 'VERIFIED');
+
+export function listCharacterOutroHitAmplificationSupport() {
+  return listCharacterOutroTransferSupport().flatMap(contract =>
+    contract.amplifications.flatMap(term => {
+      const scope = classifyCharacterHitAmplificationScope(term.statOrEffect);
+      if (!scope) return [];
+      return [{
+        factId: contract.factId,
+        sourceCharacterId: contract.characterId,
+        statOrEffect: term.statOrEffect,
+        scope,
+        primitiveId: contract.primitiveId,
+        contextScope: 'EXPLICIT_INCOMING_OUTRO_SINGLE_ACTIVE_AMPLIFICATION' as const,
+        requiresPriorNoneActive: contract.stackPolicy === 'UNKNOWN_SINGLE_ACTIVATION_ONLY',
+        endsOnIncomingSwitchOut: contract.endsOnIncomingSwitchOut,
+      }];
+    }));
+}
 
 export function listShorekeeperOutroHitAmplificationSupport() {
   const contract = resolveShorekeeperOutroTeamWindowContract();
@@ -103,10 +141,16 @@ export function evaluateHitContextAmplificationEvents(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !['Aero', 'Electro', 'Fusion', 'Glacio', 'Havoc', 'Spectro'].includes(input.damageElement)
     || !text(proof.evidenceId)
+    || (proof.characterOutros !== undefined && !Array.isArray(proof.characterOutros))
     || (proof.shorekeeperOutros !== undefined && !Array.isArray(proof.shorekeeperOutros))
     || (proof.weaponTeamAmplifications !== undefined && !Array.isArray(proof.weaponTeamAmplifications))) {
     throw new Error('Require exact per-build scoped amplification proof and hit query');
   }
+  if (new Set((proof.characterOutros ?? []).map(row => row.factId)).size
+    !== (proof.characterOutros ?? []).length) {
+    throw new Error('Require one isolated activation per Character Outro fact; duplicate stacking is unreviewed');
+  }
+
   if (new Set((proof.shorekeeperOutros ?? []).map(row => row.sourceFactId)).size
     !== (proof.shorekeeperOutros ?? []).length) {
     throw new Error('Require one isolated Shorekeeper Outro activation; duplicate stacking is unreviewed');
@@ -116,6 +160,81 @@ export function evaluateHitContextAmplificationEvents(input: {
     !== (proof.weaponTeamAmplifications ?? []).length) {
     throw new Error('Require one isolated Bloodpact team amplification activation; duplicate stacking is unreviewed');
   }
+
+  const genericSupport = listCharacterOutroHitAmplificationSupport();
+  const characterOutros = (proof.characterOutros ?? []).flatMap(row => {
+    const supportTerms = genericSupport.filter(item => item.factId === row.factId);
+    if (supportTerms.length === 0) {
+      throw new Error('Character Outro has no supported Character direct-hit amplification terms');
+    }
+    const sourceCharacterId = supportTerms[0].sourceCharacterId;
+    const requiresPriorNoneActive = supportTerms.some(item => item.requiresPriorNoneActive);
+    if (supportTerms.some(item => item.sourceCharacterId !== sourceCharacterId
+      || item.requiresPriorNoneActive !== requiresPriorNoneActive)
+      || row.sourceWielderId !== sourceCharacterId || !releasedCharacter(row.sourceWielderId)
+      || !text(row.evidenceId) || row.sourceQualification !== 'SOURCE_PROVEN_CHARACTER_OUTRO'
+      || !row.event || row.event.actorId !== row.sourceWielderId
+      || row.event.incomingResonatorId !== input.characterId || input.hitAtSeconds < row.event.atSeconds
+      || !Array.isArray(row.switchOutEvents)
+      || row.priorActivationState !== (requiresPriorNoneActive ? 'NONE_ACTIVE' : 'NOT_REQUIRED')
+      || row.noLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !['NO_TIE', 'BEFORE_QUERY', 'AFTER_QUERY'].includes(row.sameTimestampSwitchOutOrder)) {
+      throw new Error('Require exact Character Outro owner/recipient, switch-out history and isolated query ordering');
+    }
+    const recipientTie = row.switchOutEvents.some(event =>
+      event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds);
+    if (recipientTie !== (row.sameTimestampSwitchOutOrder !== 'NO_TIE')) {
+      throw new Error('Character Outro same-timestamp switch-out ordering must match the supplied history');
+    }
+
+    const windows = activateCharacterOutroTransfers({
+      factId: row.factId,
+      event: row.event,
+      priorActivationState: requiresPriorNoneActive ? 'NONE_ACTIVE' : undefined,
+    });
+    if (windows.length !== supportTerms.length
+      || windows.some(window => window.sourceActorId !== row.sourceWielderId
+        || window.incomingResonatorId !== input.characterId)) {
+      throw new Error('The supplied Character Outro does not activate the reviewed incoming amplification terms');
+    }
+
+    const ordering = {
+      sameTimestampOrder: row.sameTimestampOrder,
+      sameTimestampSwitchOutOrder: recipientTie ? row.sameTimestampSwitchOutOrder : undefined,
+    } as const;
+    let history = row.switchOutEvents;
+    if (!requiresPriorNoneActive && recipientTie && row.sameTimestampSwitchOutOrder === 'AFTER_QUERY') {
+      // Validate the complete caller history, then exclude only the proven later same-timestamp recipient switch.
+      activeCharacterOutroAmplifications(windows, input.characterId, input.hitAtSeconds, history);
+      history = history.filter(event =>
+        !(event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds));
+    }
+    const activeWindows = activeCharacterOutroAmplifications(
+      windows,
+      input.characterId,
+      input.hitAtSeconds,
+      history,
+      requiresPriorNoneActive ? ordering : undefined,
+    );
+    const activeIds = new Set(activeWindows.map(window => window.effectId));
+
+    return windows.map(window => {
+      const support = supportTerms.find(item => item.statOrEffect === window.statOrEffect);
+      if (!support) throw new Error('Character Outro emitted a term outside reviewed Character-hit scope');
+      const active = activeIds.has(window.effectId)
+        && !(input.hitAtSeconds === window.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+      return {
+        sourceId: `team:character-outro-term:${row.factId}:${window.statOrEffect}:${row.sourceWielderId}`,
+        canonicalSourceId: row.factId,
+        statOrEffect: window.statOrEffect,
+        value: window.value,
+        active,
+        evidenceId: row.evidenceId,
+        scope: support.scope,
+      };
+    });
+  });
 
   const support = listShorekeeperOutroHitAmplificationSupport()[0];
   const shorekeeper = (proof.shorekeeperOutros ?? []).map(row => {
@@ -196,5 +315,5 @@ export function evaluateHitContextAmplificationEvents(input: {
     };
   });
 
-  return [...shorekeeper, ...bpp];
+  return [...characterOutros, ...shorekeeper, ...bpp];
 }

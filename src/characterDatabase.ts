@@ -3,7 +3,7 @@ import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
-  listWeaponDamageHitContextSupport } from './combat/characterHitContext.ts';
+  listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -110,6 +110,7 @@ export function buildCharacterDatabase() {
       sonataTargetWindows: listSonataTargetWindowSupport(),
       sonataCastWindows: listSonataCastWindowSupport(),
       sonataCastHitContext: listSonataCastHitContextSupport(),
+      sonataDamageHitContext: listSonataDamageHitContextSupport(),
       sonataStaticContext: listStaticSonataContextSupport(),
     },
     profiles: {

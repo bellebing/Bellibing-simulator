@@ -27,6 +27,7 @@ import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicat
 import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
 import { listForgedDwarfStarStatusWindowSupport } from './forgedDwarfStarStatusWindowAdapter.ts';
+import { listForgedDwarfStarTeamWindowSupport } from './forgedDwarfStarTeamWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -270,6 +271,21 @@ export function listForgedDwarfStarStatusHitContextSupport() {
     requiresExplicitTriggerTargetIdentity: true as const,
     magnitudeDependsOnEchoStats: false as const,
   }));
+}
+
+export function listForgedDwarfStarTeamHitContextSupport() {
+  return listForgedDwarfStarTeamWindowSupport().filter(s => contextStatName(s.statOrEffect) !== null)
+    .map(s => ({
+      ...s,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'RECIPIENT_SELF_STAT_AFTER_ACTIVE_SOURCE_WINDOW_AND_OWN_STATUS_APPLICATION' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitSourceEquipmentProof: true as const,
+      requiresExplicitTeamMembershipProof: true as const,
+      requiresActiveSourceSelfWindowProof: true as const,
+      requiresExplicitRecipientStatusApplication: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+    }));
 }
 
 export function listAzureOathAmplificationHitContextSupport() {
@@ -557,6 +573,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...(events?.incoming?.teamEchoCasts?.map(row => `team:echo-cast:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamWeaponStatusApplications?.map(row =>
       `team:weapon-status:${row.effectId}:${row.sourceWielderId}`) ?? []),
+    ...(events?.incoming?.teamWeaponChainedStatusApplications?.map(row =>
+      `team:weapon-chain:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamWeaponCasts?.map(row => `team:weapon-cast:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamHeals?.map(row => `team:sonata-heal:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.weaponOutros?.map(row => `team:weapon:${row.effectId}:${row.sourceWielderId}`) ?? []),

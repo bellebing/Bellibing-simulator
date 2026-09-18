@@ -181,11 +181,18 @@ test('weapon damage trigger, lifecycle, same-timestamp ordering and expiry remai
     .amplificationContributions[0].active, false);
 });
 
-test('Echo Skill amplification and DEF Ignore weapon windows remain outside Character-hit amplification', () => {
+test('Lux Echo Skill amplification stays out of Character amplification and only proves overlap prerequisite state', () => {
   const sel = selection('HEAVY'), current = cards();
-  assert.throws(() => assembleCharacterHitContext(sel, current, {
+  const assembly = assembleCharacterHitContext(sel, current, {
     weapon: weaponProof(sel, current, 1, 'LU-ECHO-AMP'),
-  }), /outside reviewed Character-hit stat\/amplification scope/);
+  });
+  assert.ok(!assembly.amplificationContributions.some(row => row.canonicalSourceId === 'LU-ECHO-AMP'));
+  assert.equal(assembly.stateOnlyWeaponContributions.length, 1);
+  assert.equal(assembly.stateOnlyWeaponContributions[0].sourceId, 'weapon:LU-ECHO-AMP');
+  assert.ok(!assembly.requirements.includes('weapon:LU-ECHO-AMP'));
+  assert.ok(assembly.requirements.includes('weapon:LU-HEAVY-AMP'));
+  assert.ok(assembly.requirements.includes('weapon:LU-DEF'),
+    'one prerequisite window never proves the two-window DEF Ignore overlap');
 });
 
 test('Lux Heavy amplification overlapping Shorekeeper all-DMG remains PENDING_STACKING', () => {

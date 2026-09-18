@@ -22,6 +22,7 @@ import { listWeaponDamageWindowSupport, WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID } from
 import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './luxUmbraDefenseStateAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
+import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicationWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -213,6 +214,22 @@ export function listWeaponDamageDefenseHitContextSupport() {
     stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
   }));
   return [...timed, ...overlap];
+}
+
+export function listWeaponStatusApplicationHitContextSupport() {
+  return listWeaponStatusApplicationWindowSupport().flatMap(s => {
+    const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
+    if (!effect || contextStatName(effect.statOrEffect) === null) return [];
+    return [{
+      ...s,
+      statOrEffect: effect.statOrEffect,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'SELF_STAT_AFTER_VERIFIED_STATUS_APPLICATION' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitTriggerTargetIdentity: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+    }];
+  });
 }
 
 export function listWeaponTargetResistanceHitContextSupport() {
@@ -674,6 +691,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponStatusApplicationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),

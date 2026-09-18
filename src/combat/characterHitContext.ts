@@ -33,7 +33,8 @@ import { listFallacyTeamAtkSupport } from './fallacySupportWindowAdapter.ts';
 import { evaluateHitContextAmplificationEvents, listIunoOutroHitAmplificationSupport,
   listCharacterOutroHitAmplificationSupport, listShorekeeperOutroHitAmplificationSupport,
   listBloodpactsPledgeHitAmplificationSupport, type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
-import { resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
+import { classifyCharacterHitAmplificationScope,
+  resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -160,6 +161,19 @@ export function listWeaponDamageHitContextSupport() {
   return listWeaponDamageWindowSupport().filter(s => contextStatName(s.statOrEffect) !== null)
     .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
       requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const }));
+}
+
+export function listWeaponDamageAmplificationHitContextSupport() {
+  return listWeaponDamageWindowSupport().flatMap(s => {
+    const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
+    const scope = effect && classifyCharacterHitAmplificationScope(effect.statOrEffect);
+    if (!effect || !scope) return [];
+    return [{ ...s, statOrEffect: effect.statOrEffect, amplificationScope: scope,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: scope.kind === 'DAMAGE_CLASS' ? `${scope.damageClass}_DIRECT_HIT_ONLY` as const : 'SCOPED_CHARACTER_HIT' as const,
+      requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const,
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const }];
+  });
 }
 
 export function listSonataDamageHitContextSupport() {
@@ -412,9 +426,40 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       `team:weapon-amplification:${row.effectId}:${row.sourceWielderId}`) ?? []),
   ];
   requirements.push(...amplificationRequirementIds);
+  const weaponEventResults = events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
+    hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : [];
+  const weaponDamageAmplificationIds = new Set(listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId));
+  const weaponAmplificationContributions = weaponEventResults.flatMap(e => {
+    const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
+    if (!weaponDamageAmplificationIds.has(effectId)) return [];
+    const scope = classifyCharacterHitAmplificationScope(e.stat);
+    if (!scope || !Number.isFinite(e.window?.value) || e.window.value <= 0) {
+      throw new Error('Reviewed weapon amplification event lost its exact scope or canonical window value');
+    }
+    return [{
+      sourceId: e.sourceId,
+      canonicalSourceId: effectId,
+      statOrEffect: e.stat,
+      value: e.window.value,
+      active: e.active,
+      evidenceId: e.evidenceId,
+      scope,
+      sourceKey: e.sourceKey,
+      window: e.window,
+      activationProof: e.activationProof,
+    }];
+  });
+  const ordinaryWeaponEventContributions = weaponEventResults.filter(e => contextStatName(e.stat) !== null);
+  const consumedWeaponSourceIds = new Set([
+    ...ordinaryWeaponEventContributions.map(e => e.sourceId),
+    ...weaponAmplificationContributions.map(e => e.sourceId),
+  ]);
+  const unsupportedWeaponEvent = weaponEventResults.find(e => !consumedWeaponSourceIds.has(e.sourceId));
+  if (unsupportedWeaponEvent) {
+    throw new Error(`Weapon event effect is outside reviewed Character-hit stat/amplification scope: ${unsupportedWeaponEvent.sourceId}`);
+  }
   const eventContributions = [
-    ...(events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
-      hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : []),
+    ...ordinaryWeaponEventContributions,
     ...(events?.sonata ? evaluateHitContextSonataCasts({ characterId: character.id,
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
       equipmentKey: JSON.stringify(equipment), pieceCounts: counts, hitDamageClass: fact.damageClass as DirectHitDamageClass,
@@ -423,16 +468,19 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
       proof: events.incoming }) : []),
   ];
-  const amplificationContributions = events?.amplification
-    ? evaluateHitContextAmplificationEvents({
-      characterId: character.id,
-      hitAtSeconds: selection.hitAtSeconds!,
-      eventContextId: selection.eventContextId,
-      echoStatKey: projection.key,
-      damageElement: selection.damageElement,
-      proof: events.amplification,
-    })
-    : [];
+  const amplificationContributions = [
+    ...weaponAmplificationContributions,
+    ...(events?.amplification
+      ? evaluateHitContextAmplificationEvents({
+        characterId: character.id,
+        hitAtSeconds: selection.hitAtSeconds!,
+        eventContextId: selection.eventContextId,
+        echoStatKey: projection.key,
+        damageElement: selection.damageElement,
+        proof: events.amplification,
+      })
+      : []),
+  ];
   for (const e of eventContributions) {
     const pending = requirements.indexOf(e.sourceId);
     if (pending < 0) throw new Error('Event contribution must resolve exactly one unassembled effect; duplicate/static application rejected');

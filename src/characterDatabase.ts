@@ -4,7 +4,7 @@ import { listCharacterEchoComparisonSupport } from './combat/characterEchoCompar
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listWeaponDamageAmplificationHitContextSupport,
-  listWeaponDamageDefenseHitContextSupport,
+  listWeaponDamageDefenseHitContextSupport, listWeaponTargetResistanceHitContextSupport,
   listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
   listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
@@ -23,6 +23,7 @@ import { listSonataDamageWindowSupport } from './combat/sonataDamageWindowAdapte
 import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts';
 import { listSonataCastWindowSupport } from './combat/sonataCastWindowAdapter.ts';
 import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdapter.ts';
+import { listWeaponTargetWindowSupport } from './combat/weaponTargetWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
@@ -108,6 +109,8 @@ export function buildCharacterDatabase() {
       weaponDamageHitContext: listWeaponDamageHitContextSupport(),
       weaponDamageAmplificationHitContext: listWeaponDamageAmplificationHitContextSupport(),
       weaponDamageDefenseHitContext: listWeaponDamageDefenseHitContextSupport(),
+      weaponTargetWindows: listWeaponTargetWindowSupport(),
+      weaponTargetResistanceHitContext: listWeaponTargetResistanceHitContextSupport(),
       weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),
       weaponTeamStatHitContext: listStellarSymphonyTeamHitContextSupport(),
       weaponTeamAmplificationHitContext: listBloodpactsPledgeAmplificationHitContextSupport(),

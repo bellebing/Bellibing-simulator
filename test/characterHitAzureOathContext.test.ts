@@ -235,8 +235,11 @@ test('same-timestamp ordering, expiry and duplicate Azure Oath application are e
   assert.equal(expiredAssembly.amplificationContributions.find(row => row.canonicalSourceId === 'AO-HEAVY-AMP')!.active, false);
   assert.equal(expiredAssembly.defenseContributions.find(row => row.canonicalSourceId === 'AO-DEF')!.active, false);
 
-  const duplicate = events(current, selection('HEAVY').eventContextId);
-  duplicate.azureOathApplications = [application(), application({ evidenceId: 'duplicate' })];
+  const base = events(current, selection('HEAVY').eventContextId);
+  const duplicate: HitContextWeaponEvents = {
+    ...base,
+    azureOathApplications: [application(), application({ evidenceId: 'duplicate' })],
+  };
   assert.throws(() => assembleCharacterHitContext(selection('HEAVY'), current, { weapon: duplicate }),
     /Azure Oath refresh\/stacking is unreviewed/);
 });

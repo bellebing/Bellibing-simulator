@@ -162,7 +162,19 @@ test('self Aero window does not require the later hit target and does not buff a
   });
   assert.equal(result.comparison.status, 'EVALUATED_HIT_COMPARISON');
   if (result.comparison.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected comparison');
-  assert.equal(result.comparison.current.snapshot.damageBonus, 0);
+
+  const baselineCurrent = assembleCharacterHitContext(sel, current);
+  const baselineCandidate = assembleCharacterHitContext(sel, candidate);
+  const baseline = compareCharacterHitWithAssembledContext({
+    selection: sel,
+    slotIndex: 0,
+    current: { echoes: current, remaining: remaining(baselineCurrent) },
+    candidate: { echoes: candidate, remaining: remaining(baselineCandidate) },
+  });
+  assert.equal(baseline.comparison.status, 'EVALUATED_HIT_COMPARISON');
+  if (baseline.comparison.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected baseline comparison');
+  assert.equal(result.comparison.current.snapshot.damageBonus, baseline.comparison.current.snapshot.damageBonus);
+  assert.equal(result.comparison.current.expectedDamage, baseline.comparison.current.expectedDamage);
 });
 
 test('application source identity, qualification, equipment and lifecycle fail closed', () => {

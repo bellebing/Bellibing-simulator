@@ -31,20 +31,31 @@ const candidateCards = () => {
   return rows;
 };
 
+function findCompatibleDirectHitConsumer() {
+  for (const character of CHARACTER_CATALOG.filter(row =>
+    row.releaseStatus === 'RELEASED' && row.weaponType === 'Rectifier')) {
+    const hits = listCharacterDirectHitSupport().filter(row => row.characterId === character.id);
+    if (hits.some(row => row.sourceDamageClass === 'LIBERATION')
+      && hits.some(row => row.sourceDamageClass !== 'LIBERATION')) return character.id;
+  }
+  throw new Error('No released Rectifier currently has both supported Liberation and non-Liberation direct hits');
+}
+const DIRECT_HIT_CONSUMER_ID = findCompatibleDirectHitConsumer();
+
 function selection(
   scope: 'LIBERATION' | 'NON_LIBERATION',
   hitAtSeconds = 2,
   rank: 1 | 2 | 3 | 4 | 5 = 1,
 ): CharacterHitContextSelection {
-  const character = CHARACTER_CATALOG.find(row => row.id === 'denia')!;
-  const hits = listCharacterDirectHitSupport().filter(row => row.characterId === 'denia');
+  const character = CHARACTER_CATALOG.find(row => row.id === DIRECT_HIT_CONSUMER_ID)!;
+  const hits = listCharacterDirectHitSupport().filter(row => row.characterId === DIRECT_HIT_CONSUMER_ID);
   const hit = scope === 'LIBERATION'
     ? hits.find(row => row.sourceDamageClass === 'LIBERATION')
     : hits.find(row => row.sourceDamageClass !== 'LIBERATION');
-  assert.ok(character?.element && hit, `missing Denia ${scope} direct hit`);
+  assert.ok(character?.element && hit, `missing compatible ${scope} direct hit`);
   return {
     hit: {
-      characterId: 'denia',
+      characterId: DIRECT_HIT_CONSUMER_ID,
       factId: hit.factId,
       componentIndex: 0,
       landedHitCount: 1,
@@ -67,12 +78,12 @@ function application(
 ): ProvenHitForgedDwarfStarApplication {
   return {
     effectId: 'FDS-LIB',
-    evidenceId: `synthetic-denia-${kind.toLowerCase()}`,
+    evidenceId: `synthetic-fds-${kind.toLowerCase()}`,
     event: {
       kind,
-      actorId: 'denia',
+      actorId: DIRECT_HIT_CONSUMER_ID,
       targetId: 'enemy',
-      sourceFactId: `caller-qualified-denia-${kind.toLowerCase()}`,
+      sourceFactId: `caller-qualified-fds-${kind.toLowerCase()}`,
       atSeconds: 1,
       sourceTriggerQualification: 'VERIFIED_FORGED_DWARF_STAR_STATUS_APPLICATION',
     },
@@ -157,6 +168,12 @@ test('Forged Dwarf Star hit support exposes only FDS-LIB, exact Liberation scope
   assert.ok(!support.some(row => row.effectId === 'FDS-TEAM'));
 });
 
+test('Denia is not counted as a direct-hit FDS-LIB consumer while her Liberation-class actions remain conditional', () => {
+  const deniaHits = listCharacterDirectHitSupport().filter(row => row.characterId === 'denia');
+  assert.deepEqual([...new Set(deniaHits.map(row => row.sourceDamageClass))].sort(), ['BASIC', 'HEAVY']);
+  assert.equal(deniaHits.some(row => row.sourceDamageClass === 'LIBERATION'), false);
+});
+
 test('both reviewed negative-status occurrences activate exact canonical R1-R5 values and five-second lifetime', () => {
   const source = WEAPON_EFFECT_CATALOG.find(row => row.effectId === 'FDS-LIB')!;
   assert.deepEqual(validateForgedDwarfStarStatusContract(), []);
@@ -164,7 +181,7 @@ test('both reviewed negative-status occurrences activate exact canonical R1-R5 v
     for (const rank of [1, 2, 3, 4, 5] as const) {
       const event: QualifiedForgedDwarfStarStatusApplicationEvent = {
         kind,
-        actorId: 'denia',
+        actorId: DIRECT_HIT_CONSUMER_ID,
         targetId: 'enemy',
         sourceFactId: `caller-qualified-${kind.toLowerCase()}`,
         atSeconds: 3,
@@ -172,7 +189,7 @@ test('both reviewed negative-status occurrences activate exact canonical R1-R5 v
       };
       const window = activateForgedDwarfStarStatusWindow({
         selectedWeapon: { id: 'forged-dwarf-star', rank },
-        wielderId: 'denia',
+        wielderId: DIRECT_HIT_CONSUMER_ID,
         event,
       })!;
       assert.equal(window.value, source.rankValues[rank - 1]);
@@ -182,16 +199,16 @@ test('both reviewed negative-status occurrences activate exact canonical R1-R5 v
       assert.equal(window.triggerTargetId, 'enemy');
       assert.equal(window.sourceFactId, event.sourceFactId);
       assert.equal(isForgedDwarfStarStatusWindowActive(window, {
-        actorId: 'denia', atSeconds: 3, sameTimestampOrder: 'BEFORE_TRIGGER',
+        actorId: DIRECT_HIT_CONSUMER_ID, atSeconds: 3, sameTimestampOrder: 'BEFORE_TRIGGER',
       }), false);
       assert.equal(isForgedDwarfStarStatusWindowActive(window, {
-        actorId: 'denia', atSeconds: 3, sameTimestampOrder: 'AFTER_TRIGGER',
+        actorId: DIRECT_HIT_CONSUMER_ID, atSeconds: 3, sameTimestampOrder: 'AFTER_TRIGGER',
       }), true);
       assert.equal(isForgedDwarfStarStatusWindowActive(window, {
-        actorId: 'denia', atSeconds: 7.999, sameTimestampOrder: 'AFTER_TRIGGER',
+        actorId: DIRECT_HIT_CONSUMER_ID, atSeconds: 7.999, sameTimestampOrder: 'AFTER_TRIGGER',
       }), true);
       assert.equal(isForgedDwarfStarStatusWindowActive(window, {
-        actorId: 'denia', atSeconds: 8, sameTimestampOrder: 'AFTER_TRIGGER',
+        actorId: DIRECT_HIT_CONSUMER_ID, atSeconds: 8, sameTimestampOrder: 'AFTER_TRIGGER',
       }), false);
     }
   }
@@ -252,28 +269,28 @@ test('weapon, owner, source fact, qualification and isolated lifecycle proof fai
   const source = WEAPON_EFFECT_CATALOG.find(row => row.effectId === 'FDS-LIB')!;
   const baseEvent: QualifiedForgedDwarfStarStatusApplicationEvent = {
     kind: 'FUSION_BURST_APPLIED',
-    actorId: 'denia',
+    actorId: DIRECT_HIT_CONSUMER_ID,
     targetId: 'enemy',
-    sourceFactId: 'caller-qualified-denia-fusion-burst',
+    sourceFactId: 'caller-qualified-fds-fusion-burst',
     atSeconds: 1,
     sourceTriggerQualification: 'VERIFIED_FORGED_DWARF_STAR_STATUS_APPLICATION',
   };
   assert.throws(() => activateForgedDwarfStarStatusWindow({
-    selectedWeapon: { id: 'stringmaster', rank: 1 }, wielderId: 'denia', event: baseEvent,
+    selectedWeapon: { id: 'stringmaster', rank: 1 }, wielderId: DIRECT_HIT_CONSUMER_ID, event: baseEvent,
   }), /exact selected weapon/);
   assert.throws(() => activateForgedDwarfStarStatusWindow({
-    selectedWeapon: { id: 'forged-dwarf-star', rank: 0 }, wielderId: 'denia', event: baseEvent,
+    selectedWeapon: { id: 'forged-dwarf-star', rank: 0 }, wielderId: DIRECT_HIT_CONSUMER_ID, event: baseEvent,
   }), /R1 through R5/);
   assert.equal(activateForgedDwarfStarStatusWindow({
-    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: 'denia',
-    event: { ...baseEvent, actorId: 'encore' },
+    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: DIRECT_HIT_CONSUMER_ID,
+    event: { ...baseEvent, actorId: 'different-actor' },
   }), null);
   assert.throws(() => activateForgedDwarfStarStatusWindow({
-    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: 'denia',
+    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: DIRECT_HIT_CONSUMER_ID,
     event: { ...baseEvent, sourceFactId: '' },
   }), /source\/target\/fact/);
   assert.throws(() => activateForgedDwarfStarStatusWindow({
-    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: 'denia',
+    selectedWeapon: { id: 'forged-dwarf-star', rank: 1 }, wielderId: DIRECT_HIT_CONSUMER_ID,
     event: { ...baseEvent, sourceTriggerQualification: 'UNKNOWN' },
   }), /source-qualified Fusion Burst or Tune Strain/);
 

@@ -15,6 +15,7 @@ const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
 const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTransferHitContext);
+const weaponIncomingTransferContextIds = supportedIds(db.gear.weaponIncomingTransferHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
@@ -137,6 +138,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
     sonataIncomingTransferEffectIds: [...sonataIncomingTransferContextIds],
+    weaponIncomingTransferEffectIds: [...weaponIncomingTransferContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
@@ -145,6 +147,12 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate equipment is not owned by the incoming Character preset and is never inferred from team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_5PC_EQUIPMENT_PROOF', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    weaponIncomingTransfers: {
+      effectIds: [...weaponIncomingTransferContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source teammate weapon/rank and Outro recipient are not inferred from the incoming Character preset or team membership',
+      requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_WEAPON_RANK_EQUIPMENT_PROOF', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
     },
     echoIncomingTransfers: {
       effectIds: [...echoIncomingTransferContextIds],

@@ -30,6 +30,9 @@ import { listEchoTransferWindowSupport } from './echoTransferWindowAdapter.ts';
 import { listStaticMistOutroTransferSupport, listSharedRejuvenatingGlowSupport } from './sharedSupportStatWindows.ts';
 import { listStellarSymphonyTeamAtkSupport } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { listFallacyTeamAtkSupport } from './fallacySupportWindowAdapter.ts';
+import { evaluateHitContextAmplificationEvents, listShorekeeperOutroHitAmplificationSupport,
+  type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
+import { resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -50,6 +53,7 @@ export interface CharacterHitContextEvents {
   readonly weapon?: HitContextWeaponEvents;
   readonly sonata?: HitContextSonataEvents;
   readonly incoming?: HitContextIncomingTransfers;
+  readonly amplification?: HitContextAmplificationEvents;
 }
 export interface CharacterHitContextSelection {
   readonly hit: ContextHit;
@@ -222,10 +226,21 @@ export function listFallacyTeamHitContextSupport() {
       requiresExplicitTeamMembershipProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listShorekeeperOutroAmplificationHitContextSupport() {
+  return listShorekeeperOutroHitAmplificationSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTeamMembershipProof: true as const,
+    stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
-  if (events && (Object.keys(events).some(k => !['weapon', 'sonata', 'incoming'].includes(k))
-    || (!events.weapon && !events.sonata && !events.incoming))) {
+  if (events && (Object.keys(events).some(k => !['weapon', 'sonata', 'incoming', 'amplification'].includes(k))
+    || (!events.weapon && !events.sonata && !events.incoming && !events.amplification))) {
     throw new Error('Require a supported explicit event family; unknown event input cannot be silently ignored');
   }
   const { hit, weapon } = selection;
@@ -347,6 +362,11 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...(events?.incoming?.echoTransfers?.map(row => `team:echo:${row.effectId}:${row.sourceWielderId}`) ?? []),
   ];
   requirements.push(...incomingRequirementIds);
+  const amplificationRequirementIds = [
+    ...(events?.amplification?.shorekeeperOutros?.map(row =>
+      `team:character-outro:${row.sourceFactId}:${row.sourceWielderId}`) ?? []),
+  ];
+  requirements.push(...amplificationRequirementIds);
   const eventContributions = [
     ...(events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : []),
@@ -358,17 +378,31 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key,
       proof: events.incoming }) : []),
   ];
+  const amplificationContributions = events?.amplification
+    ? evaluateHitContextAmplificationEvents({
+      characterId: character.id,
+      hitAtSeconds: selection.hitAtSeconds!,
+      eventContextId: selection.eventContextId,
+      echoStatKey: projection.key,
+      proof: events.amplification,
+    })
+    : [];
   for (const e of eventContributions) {
     const pending = requirements.indexOf(e.sourceId);
     if (pending < 0) throw new Error('Event contribution must resolve exactly one unassembled effect; duplicate/static application rejected');
     add(e.sourceId, e.stat, e.value, e.status);
     requirements.splice(pending, 1);
   }
+  for (const e of amplificationContributions) {
+    const pending = requirements.indexOf(e.sourceId);
+    if (pending < 0) throw new Error('Amplification contribution must resolve exactly one unassembled effect');
+    requirements.splice(pending, 1);
+  }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
-    eventEvidence: events ?? null,
+    amplificationContributions, eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
@@ -377,6 +411,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listSonataDamageHitContextSupport().map(e => `sonata:${e.effectId}`),
     ...listSonataTargetHitContextSupport().map(e => `sonata:${e.effectId}`),
     ...incomingRequirementIds,
+    ...amplificationRequirementIds,
     'sonata:REJUV_ATK']);
   const pending = identity.requirements.map(id => ({ id,
     status: eventRequirements.has(id) ? 'PENDING_EVENT' as const
@@ -429,6 +464,17 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
   const stat = (key: string) => a.stats[key] ?? 0;
   const hit = a.selection.hit;
   const damageClass = a.damageClass as keyof typeof classStat;
+  const scopedAmplification = resolveSingleActiveCharacterHitAmplification({
+    damageElement: a.selection.damageElement,
+    damageClass: a.damageClass as DirectHitDamageClass,
+    terms: a.amplificationContributions,
+  });
+  if (scopedAmplification.status === 'PENDING_STACKING') {
+    throw new Error(scopedAmplification.reason);
+  }
+  if (scopedAmplification.amplification > 0 && proof.amplification !== 0) {
+    throw new Error('Residual amplification must be zero when a source-qualified scoped amplification term is active; cross-source stacking is unreviewed');
+  }
   return { status: 'QUALIFIED', characterId: hit.characterId, factId: hit.factId,
     componentIndex: hit.componentIndex, landedHitCount: hit.landedHitCount,
     eventContextId: a.selection.eventContextId, echoStatKey: a.echoStatKey, evidenceId: proof.evidenceId,
@@ -441,7 +487,8 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
       critRate: a.baseCombat.critRate + stat('CRIT Rate') + proof.critRate,
       critDamage: a.baseCombat.critDamage + stat('CRIT DMG') + proof.critDamage,
       damageBonus: stat(a.selection.damageElement + ' DMG') + stat('All Attribute DMG') + stat(classStat[damageClass]) + proof.damageBonus,
-      amplification: proof.amplification, defenseMultiplier: proof.defenseMultiplier,
+      amplification: scopedAmplification.amplification + proof.amplification,
+      defenseMultiplier: proof.defenseMultiplier,
       resistanceMultiplier: proof.resistanceMultiplier, damageReduction: proof.damageReduction,
     } };
 }

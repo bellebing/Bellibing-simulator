@@ -5,7 +5,8 @@ import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listSta
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
-  listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport } from './combat/characterHitContext.ts';
+  listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
+  listStellarSymphonyTeamHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -99,6 +100,7 @@ export function buildCharacterDatabase() {
       weaponCastHitContext: listWeaponCastHitContextSupport(),
       weaponDamageHitContext: listWeaponDamageHitContextSupport(),
       weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),
+      weaponTeamStatHitContext: listStellarSymphonyTeamHitContextSupport(),
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),

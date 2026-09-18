@@ -177,6 +177,7 @@ export function evaluateHitContextIncomingTransfers(input: {
     const effects = SONATA_EFFECT_MODELS.filter(effect => effect.effectId === row.effectId);
     const effect = effects[0];
     if (!contract || effects.length !== 1 || !effect || !releasedCharacter(row.sourceWielderId)
+      || row.sourceWielderId === input.characterId
       || row.sourceSonataSetId !== contract.sonataSetId || row.sourcePieces !== contract.pieces
       || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
       || row.sourceQualification !== 'SOURCE_PROVEN_HEAL' || row.sourceEquipmentAtEventQualified !== true

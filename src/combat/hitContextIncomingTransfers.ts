@@ -2,6 +2,7 @@ import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
 import { ECHO_CATALOG } from '../data/echoes.ts';
 import { WEAPON_CATALOG } from '../data/weapons.ts';
+import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { activateSonataOutroTransfer, listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
 import { activateEchoTransferWindow, listEchoTransferWindowSupport, type EchoTransferArmEvent } from './echoTransferWindowAdapter.ts';
@@ -150,10 +151,12 @@ export function evaluateHitContextIncomingTransfers(input: {
   const weaponSupport = listStaticMistOutroTransferSupport();
   const weapon = (proof.weaponOutros ?? []).map(row => {
     const contract = weaponSupport.find(item => item.effectId === row.effectId);
-    const effectRows = WEAPON_CATALOG.filter(item => item.id === row.sourceWeaponId);
+    const weaponRows = WEAPON_CATALOG.filter(item => item.id === row.sourceWeaponId);
+    const effects = WEAPON_EFFECT_CATALOG.filter(item => item.effectId === row.effectId);
+    const effect = effects[0];
     const sourceWeapon = releasedWeapon(row.sourceWeaponId);
     const sourceCharacter = releasedCharacter(row.sourceWielderId);
-    if (!contract || effectRows.length !== 1 || !sourceWeapon || !sourceCharacter
+    if (!contract || weaponRows.length !== 1 || effects.length !== 1 || !effect || !sourceWeapon || !sourceCharacter
       || sourceWeapon.weaponType !== sourceCharacter.weaponType
       || row.sourceWeaponId !== contract.weaponId
       || !Number.isInteger(row.sourceWeaponRank) || row.sourceWeaponRank < contract.rankRange[0]
@@ -185,7 +188,7 @@ export function evaluateHitContextIncomingTransfers(input: {
       sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
       magnitudeDependsOnEchoStats: false as const,
       activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
-      sourceKey: JSON.stringify(contract),
+      sourceKey: JSON.stringify(effect),
       window: { ...window },
     };
   });

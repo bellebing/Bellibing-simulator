@@ -14,6 +14,8 @@ import { activateStellarSymphonyTeamAtkWindow, isShorekeeperHealingSupportWindow
   listStellarSymphonyTeamAtkSupport, type ShorekeeperHealingSkillCastEvent } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { activateFallacySupportWindows, isFallacySupportWindowActive, listFallacyTeamAtkSupport,
   type FallacyEchoCastEvent } from './fallacySupportWindowAdapter.ts';
+import { activateFreezeFrameGlacioChafeWindows, isFreezeFrameGlacioChafeWindowActive,
+  listFreezeFrameGlacioChafeWindowSupport, type QualifiedGlacioChafeApplicationEvent } from './freezeFrameGlacioChafeWindowAdapter.ts';
 
 export interface ProvenHitSonataOutroTransfer {
   readonly effectId: 'S08_5PC_INCOMING_ATK' | 'S12_5PC_INCOMING_HAVOC';
@@ -41,6 +43,22 @@ export interface ProvenHitFallacyTeamWindow {
   readonly sourceMainSlotAtEventQualified: true;
   readonly teamMemberIds: readonly string[];
   readonly event: FallacyEchoCastEvent;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitFreezeFrameTeamWindow {
+  readonly effectId: 'FF-TEAM-ATK';
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceWeaponId: 'freeze-frame';
+  readonly sourceWeaponRank: 1 | 2 | 3 | 4 | 5;
+  readonly sourceQualification: 'SOURCE_PROVEN_GLACIO_CHAFE_APPLICATION';
+  readonly sourceEquipmentAtEventQualified: true;
+  readonly teamMemberIds: readonly string[];
+  readonly event: QualifiedGlacioChafeApplicationEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -122,6 +140,7 @@ export interface HitContextIncomingTransfers {
   readonly evidenceId: string;
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
   readonly teamEchoCasts?: readonly ProvenHitFallacyTeamWindow[];
+  readonly teamWeaponStatusApplications?: readonly ProvenHitFreezeFrameTeamWindow[];
   readonly teamWeaponCasts?: readonly ProvenHitStellarSymphonyTeamWindow[];
   readonly teamHeals?: readonly ProvenHitRejuvenatingGlowTeamWindow[];
   readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
@@ -153,6 +172,7 @@ export function evaluateHitContextIncomingTransfers(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
     || (proof.teamEchoCasts !== undefined && !Array.isArray(proof.teamEchoCasts))
+    || (proof.teamWeaponStatusApplications !== undefined && !Array.isArray(proof.teamWeaponStatusApplications))
     || (proof.teamWeaponCasts !== undefined && !Array.isArray(proof.teamWeaponCasts))
     || (proof.teamHeals !== undefined && !Array.isArray(proof.teamHeals))
     || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
@@ -164,6 +184,10 @@ export function evaluateHitContextIncomingTransfers(input: {
   }
   if (new Set((proof.teamEchoCasts ?? []).map(row => row.effectId)).size !== (proof.teamEchoCasts ?? []).length) {
     throw new Error('Require one isolated activation per team Echo cast effect; duplicate stacking is unreviewed');
+  }
+  if (new Set((proof.teamWeaponStatusApplications ?? []).map(row => row.effectId)).size
+    !== (proof.teamWeaponStatusApplications ?? []).length) {
+    throw new Error('Require one isolated activation per team Weapon status effect; same-name stacking is unreviewed');
   }
   if (new Set((proof.teamWeaponCasts ?? []).map(row => row.effectId)).size !== (proof.teamWeaponCasts ?? []).length) {
     throw new Error('Require one isolated activation per team Weapon cast effect; duplicate stacking is unreviewed');
@@ -260,6 +284,62 @@ export function evaluateHitContextIncomingTransfers(input: {
       activationProof: 'PER_BUILD_EXPLICIT_TEAM_ECHO_CAST' as const,
       sourceKey: JSON.stringify(effect),
       window: { ...activation.teamAtk },
+    };
+  });
+
+  const freezeFrameTeamSupport = listFreezeFrameGlacioChafeWindowSupport()
+    .find(item => item.effectId === 'FF-TEAM-ATK')!;
+  const teamWeaponStatus = (proof.teamWeaponStatusApplications ?? []).map(row => {
+    const effects = WEAPON_EFFECT_CATALOG.filter(effect => effect.effectId === row.effectId);
+    const effect = effects[0];
+    const sourceCharacter = releasedCharacter(row.sourceWielderId);
+    const sourceWeapon = releasedWeapon(row.sourceWeaponId);
+    if (!freezeFrameTeamSupport || effects.length !== 1 || !effect || !sourceCharacter || !sourceWeapon
+      || row.sourceWielderId === input.characterId
+      || row.sourceWeaponId !== freezeFrameTeamSupport.weaponId
+      || sourceWeapon.weaponType !== sourceCharacter.weaponType
+      || !Number.isInteger(row.sourceWeaponRank) || row.sourceWeaponRank < 1 || row.sourceWeaponRank > 5
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_GLACIO_CHAFE_APPLICATION'
+      || row.sourceEquipmentAtEventQualified !== true || row.priorActivationState !== 'NONE_ACTIVE'
+      || row.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
+      || new Set(row.teamMemberIds).size !== row.teamMemberIds.length
+      || row.teamMemberIds.some((id: string) => !releasedCharacter(id))
+      || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
+      || !row.event || row.event.actorId !== row.sourceWielderId || input.hitAtSeconds < row.event.atSeconds) {
+      throw new Error('Require exact source Freeze Frame rank/team, Glacio Chafe application and isolated query ordering');
+    }
+    const windows = activateFreezeFrameGlacioChafeWindows({
+      selectedWeapon: { id: row.sourceWeaponId, rank: row.sourceWeaponRank },
+      wielderId: row.sourceWielderId,
+      teamMemberIds: row.teamMemberIds,
+      event: row.event,
+    });
+    if (!windows || windows.teamAtk.effectId !== row.effectId) {
+      throw new Error('The supplied source weapon/team/Glacio Chafe event does not activate Freeze Frame team ATK');
+    }
+    const active = isFreezeFrameGlacioChafeWindowActive(windows.teamAtk, {
+      actorId: input.characterId,
+      atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: row.sameTimestampOrder,
+    });
+    return {
+      sourceId: `team:weapon-status:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: windows.teamAtk.statOrEffect,
+      value: active ? windows.teamAtk.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_TEAM_STATUS_APPLICATION' as const,
+      sourceKey: JSON.stringify(effect),
+      triggerTargetId: row.event.targetId,
+      sourceFactId: row.event.sourceFactId,
+      appliedStacks: row.event.stacksApplied,
+      window: { ...windows.teamAtk },
     };
   });
 
@@ -446,5 +526,5 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...teamEcho, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
+  return [...sonata, ...teamEcho, ...teamWeaponStatus, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
 }

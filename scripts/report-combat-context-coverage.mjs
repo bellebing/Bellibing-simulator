@@ -20,6 +20,7 @@ const sonataTeamHealContextIds = supportedIds(db.gear.sonataTeamHealHitContext);
 const weaponTeamStatContextIds = supportedIds(db.gear.weaponTeamStatHitContext);
 const echoTeamStatContextIds = supportedIds(db.gear.echoTeamStatHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
+const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
@@ -147,6 +148,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponTeamStatEffectIds: [...weaponTeamStatContextIds],
     echoTeamStatEffectIds: [...echoTeamStatContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
+    characterTeamAmplificationFactIds: [...characterTeamAmplificationFactIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
     sonataIncomingTransfers: {
@@ -178,6 +180,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate Fallacy main-Echo equipment, selected team and exact Echo cast are not inferred from recipient presets or team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_FALLACY_MAIN_ECHO_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_ECHO_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    characterTeamAmplificationWindows: {
+      factIds: [...characterTeamAmplificationFactIds],
+      exactPresetReach: [],
+      counting: 'Single-active capability only: Shorekeeper Outro/team/timing proof is explicit and never infers profile overlap or cross-source amplification stacking',
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY',
+      requires: ['SHOREKEEPER_SOURCE_OWNER', 'EXPLICIT_SELECTED_TEAM', 'EXACT_OUTRO_CAST_EVENT', 'ZERO_RESIDUAL_AMPLIFICATION_WHEN_ACTIVE', 'PER_BUILD_QUERY_PROOF'],
     },
     echoIncomingTransfers: {
       effectIds: [...echoIncomingTransferContextIds],

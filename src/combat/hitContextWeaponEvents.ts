@@ -12,6 +12,8 @@ import type { QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { activateFreezeFrameGlacioChafeWindows, isFreezeFrameGlacioChafeWindowActive,
   type QualifiedGlacioChafeApplicationEvent } from './freezeFrameGlacioChafeWindowAdapter.ts';
+import { activateAzureOathHavocBaneWindows, isAzureOathHavocBaneWindowActive,
+  type QualifiedHavocBaneApplicationEvent } from './azureOathHavocBaneWindowAdapter.ts';
 
 export interface ProvenHitWeaponCooldownCast {
   readonly effectId: CooldownCastWindowEffectId;
@@ -54,6 +56,14 @@ export interface ProvenHitFreezeFrameApplication {
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
 }
+export interface ProvenHitAzureOathApplication {
+  readonly evidenceId: string;
+  readonly event: QualifiedHavocBaneApplicationEvent;
+  readonly equipmentAtEventQualified: true;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
 export interface ProvenHitWeaponTarget {
   readonly effectId: 'WA-AERO-RES';
   readonly evidenceId: string;
@@ -86,6 +96,7 @@ export interface HitContextWeaponEvents {
   readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
   readonly statusApplications?: readonly ProvenHitWeaponStatusApplication[];
   readonly freezeFrameApplications?: readonly ProvenHitFreezeFrameApplication[];
+  readonly azureOathApplications?: readonly ProvenHitAzureOathApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
   readonly heals?: readonly ProvenHitWeaponHeal[];
 }
@@ -110,6 +121,7 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.damages !== undefined && !Array.isArray(proof.damages))
     || (proof.statusApplications !== undefined && !Array.isArray(proof.statusApplications))
     || (proof.freezeFrameApplications !== undefined && !Array.isArray(proof.freezeFrameApplications))
+    || (proof.azureOathApplications !== undefined && !Array.isArray(proof.azureOathApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
@@ -123,6 +135,13 @@ export function evaluateHitContextWeaponEvents(input: {
   if ((proof.freezeFrameApplications ?? []).length
     && all.some(c => c.effectId === 'FF-GLACIO' || c.effectId === 'FF-TEAM-ATK')) {
     throw new Error('Freeze Frame paired application cannot be duplicated through another event family');
+  }
+  if ((proof.azureOathApplications ?? []).length > 1) {
+    throw new Error('Azure Oath refresh/stacking is unreviewed; require one isolated Havoc Bane application');
+  }
+  if ((proof.azureOathApplications ?? []).length
+    && all.some(c => c.effectId === 'AO-HEAVY-AMP' || c.effectId === 'AO-DEF')) {
+    throw new Error('Azure Oath paired application cannot be duplicated through another event family');
   }
   const cooldownCasts = (proof.cooldownCasts ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
@@ -283,6 +302,45 @@ export function evaluateHitContextWeaponEvents(input: {
       };
     });
   });
+  const azureOath = (proof.azureOathApplications ?? []).flatMap(c => {
+    const heavyEffect = getWeaponEffect('AO-HEAVY-AMP');
+    const defenseEffect = getWeaponEffect('AO-DEF');
+    if (!heavyEffect || !defenseEffect || heavyEffect.weaponId !== input.weapon.id || defenseEffect.weaponId !== input.weapon.id
+      || !text(c.evidenceId) || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact Azure Oath owner/equipment, Havoc Bane application and isolated query ordering');
+    }
+    const windows = activateAzureOathHavocBaneWindows({
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      event: c.event,
+    });
+    if (!windows) throw new Error('The supplied Havoc Bane application does not activate Azure Oath');
+    return [windows.heavyAmplification, windows.heavyDefenseIgnore].map(window => {
+      const active = isAzureOathHavocBaneWindowActive(window, {
+        actorId: input.characterId,
+        atSeconds: input.hitAtSeconds,
+        sameTimestampOrder: c.sameTimestampOrder,
+      });
+      const effect = window.effectId === 'AO-HEAVY-AMP' ? heavyEffect : defenseEffect;
+      return {
+        sourceId: `weapon:${window.effectId}`,
+        stat: window.statOrEffect,
+        value: active ? window.value : 0,
+        status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+        active,
+        evidenceId: c.evidenceId,
+        magnitudeDependsOnEchoStats: false as const,
+        activationProof: 'PER_BUILD_EXPLICIT_HAVOC_BANE_APPLICATION' as const,
+        sourceKey: JSON.stringify(effect),
+        triggerTargetId: c.event.targetId,
+        sourceFactId: c.event.sourceFactId,
+        appliedStacks: c.event.stacksApplied,
+        window: { ...window },
+      };
+    });
+  });
   const targets = (proof.targets ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
@@ -341,5 +399,5 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...targets, ...heals];
+  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...azureOath, ...targets, ...heals];
 }

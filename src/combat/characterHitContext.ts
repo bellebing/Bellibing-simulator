@@ -18,7 +18,7 @@ import { createEchoEffectRegistry, getEchoEffectsForWielder } from '../echoEffec
 import type { EchoEffectModel } from '../echoEffectDomain.ts';
 import { evaluateHitContextWeaponEvents, type HitContextWeaponEvents } from './hitContextWeaponEvents.ts';
 import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
-import { listWeaponDamageWindowSupport } from './weaponDamageWindowAdapter.ts';
+import { listWeaponDamageWindowSupport, WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID } from './weaponDamageWindowAdapter.ts';
 import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './luxUmbraDefenseStateAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
@@ -515,6 +515,12 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const luxEchoWindow = weaponEventResults.find(e => e.sourceId === 'weapon:LU-ECHO-AMP');
   const stateOnlyWeaponContributions = weaponEventResults.filter(e => e.sourceId === 'weapon:LU-ECHO-AMP');
   const luxDefenseContributions = luxHeavyWindow && luxEchoWindow ? (() => {
+    if (!('primitiveId' in luxHeavyWindow.window)
+      || luxHeavyWindow.window.primitiveId !== WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID
+      || !('primitiveId' in luxEchoWindow.window)
+      || luxEchoWindow.window.primitiveId !== WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID) {
+      throw new Error('Lux defense overlap prerequisites must be exact reviewed weapon damage windows');
+    }
     const resolved = resolveLuxUmbraDefenseState({
       selectedWeapon: weapon,
       actorId: character.id,

@@ -15,10 +15,11 @@ const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
 const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTransferHitContext);
+const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
-  ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers,
+  ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.echoTransferWindows,
 ].map(x => x.effectId));
 const factState = f => f.verificationStatus !== 'VERIFIED' ? 'SOURCE_REVIEW_REQUIRED'
   : f.modelingStatus === 'PENDING_INTERPRETATION' ? 'SOURCE_SEMANTICS_BLOCKED'
@@ -136,6 +137,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
     sonataIncomingTransferEffectIds: [...sonataIncomingTransferContextIds],
+    echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
     sonataIncomingTransfers: {
@@ -143,6 +145,12 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate equipment is not owned by the incoming Character preset and is never inferred from team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_5PC_EQUIPMENT_PROOF', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    echoIncomingTransfers: {
+      effectIds: [...echoIncomingTransferContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source teammate main Echo/rank and transfer events are not inferred from incoming Character presets or team membership',
+      requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_MAIN_ECHO_EQUIPMENT_PROOF', 'SOURCE_REQUIRED_RANK', 'EXACT_ECHO_ARM_EVENT', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
     },
   },
   counts: { hitCharacters: characters.length, hitFacts: db.hitPrimitives.directHits.length,

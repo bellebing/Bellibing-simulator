@@ -183,7 +183,7 @@ export function evaluateHitContextIncomingTransfers(input: {
       || row.priorActivationState !== 'NONE_ACTIVE' || row.noLaterActivationThroughHit !== true
       || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
       || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
-      || row.teamMemberIds.some(id => !releasedCharacter(id))
+      || row.teamMemberIds.some((id: string) => !releasedCharacter(id))
       || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
       || !row.event || row.event.healerId !== row.sourceWielderId || input.hitAtSeconds < row.event.atSeconds) {
       throw new Error('Require exact source Rejuvenating Glow 5-piece owner/team, applied heal and isolated query ordering');

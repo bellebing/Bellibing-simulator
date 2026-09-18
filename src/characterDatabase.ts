@@ -7,7 +7,8 @@ import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listSta
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
   listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
   listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport,
-  listShorekeeperOutroAmplificationHitContextSupport } from './combat/characterHitContext.ts';
+  listShorekeeperOutroAmplificationHitContextSupport,
+  listBloodpactsPledgeAmplificationHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -103,6 +104,7 @@ export function buildCharacterDatabase() {
       weaponDamageHitContext: listWeaponDamageHitContextSupport(),
       weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),
       weaponTeamStatHitContext: listStellarSymphonyTeamHitContextSupport(),
+      weaponTeamAmplificationHitContext: listBloodpactsPledgeAmplificationHitContextSupport(),
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),

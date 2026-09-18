@@ -89,6 +89,21 @@ export function activateStaticMistOutroTransfer(params: {
   }, params.event);
 }
 
+/** Identity-only team-heal capability; canonical value/duration remain in SonataEffectModel. */
+export function listSharedRejuvenatingGlowSupport() {
+  const issues = validateSharedSupportStatWindowContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  const effect = SONATA_EFFECT_MODELS.find((row) => row.effectId === 'REJUV_ATK')!;
+  return [{
+    effectId: effect.effectId,
+    sonataSetId: effect.sonataSetId,
+    pieces: effect.pieces,
+    statOrEffect: effect.statOrEffect,
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.healingAdapterId,
+    scope: 'EXPLICIT_APPLIED_HEAL_TEAM_WINDOW_ONLY' as const,
+  }];
+}
+
 export interface QualifiedAllyHealEvent {
   readonly kind: 'HEAL_APPLIED';
   readonly healerId: string;

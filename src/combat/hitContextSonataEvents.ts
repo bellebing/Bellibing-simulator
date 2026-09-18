@@ -1,6 +1,7 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import { activateSonataCastWindow, isSonataCastWindowActive, type SonataCastEvent } from './sonataCastWindowAdapter.ts';
 import { activateSonataDamageWindow, isSonataDamageWindowActive } from './sonataDamageWindowAdapter.ts';
+import { activateSonataTargetWindow, isSonataTargetWindowActive, type ExplicitPreAttackTarget } from './sonataTargetWindowAdapter.ts';
 import type { QualifiedDamageEvent } from './qualifiedDamageEvent.ts';
 import type { DirectHitDamageClass } from './characterDirectHitAdapter.ts';
 import { activateSharedRejuvenatingGlowWindow, isSharedHealingTeamWindowActive, type QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
@@ -12,6 +13,17 @@ export interface ProvenHitSonataDamage {
   readonly event: QualifiedDamageEvent;
   readonly equipmentAtEventQualified: true;
   /** This Character-hit bridge consumes only one isolated reviewed activation. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+export interface ProvenHitSonataTarget {
+  readonly effectId: 'S11_5PC_SPECTRO' | 'S17_5PC_CR' | 'S17_5PC_AERO';
+  readonly evidenceId: string;
+  readonly event: Parameters<typeof activateSonataTargetWindow>[0]['event'];
+  readonly target: ExplicitPreAttackTarget;
+  readonly equipmentAtEventQualified: true;
+  /** This bridge models one isolated reviewed target-trigger activation only. */
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -35,6 +47,7 @@ export interface HitContextSonataEvents {
   readonly evidenceId: string;
   readonly casts: readonly (Omit<ProvenHitWeaponCast, 'event'> & { readonly event: SonataCastEvent })[];
   readonly damages?: readonly ProvenHitSonataDamage[];
+  readonly targets?: readonly ProvenHitSonataTarget[];
   readonly heals?: readonly ProvenHitSonataHeal[];
 }
 const text = (x: unknown): x is string => typeof x === 'string' && x.trim().length > 0;
@@ -56,10 +69,11 @@ export function evaluateHitContextSonataCasts(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.equipmentKey !== input.equipmentKey
     || proof.eventContextId !== input.eventContextId || !text(proof.evidenceId) || !Array.isArray(proof.casts)
     || (proof.damages !== undefined && !Array.isArray(proof.damages))
+    || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build Sonata event/equipment proof, query time and unique activations');
   }
-  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.heals ?? [])];
+  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.targets ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) {
     throw new Error('Require unique Sonata effect activations across event families');
   }
@@ -110,6 +124,29 @@ export function evaluateHitContextSonataCasts(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
+  const targets = (proof.targets ?? []).map(c => {
+    const rows = SONATA_EFFECT_MODELS.filter(e => e.effectId === c.effectId);
+    const effect = rows[0];
+    const pieces = effect ? (input.pieceCounts.get(effect.sonataSetId) ?? 0) : 0;
+    if (rows.length !== 1 || !['S11_5PC_SPECTRO', 'S17_5PC_CR', 'S17_5PC_AERO'].includes(c.effectId)
+      || pieces < effect.pieces || !text(c.evidenceId)
+      || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds
+      || !c.target) {
+      throw new Error('Require exact equipped Sonata pieces/owner, proven target trigger/state and isolated query ordering');
+    }
+    const window = activateSonataTargetWindow({ effectId: c.effectId, ownerId: input.characterId,
+      selectedSet: { id: effect.sonataSetId, pieces }, event: c.event, target: c.target });
+    if (!window) throw new Error('The supplied target event/state does not activate this canonical Sonata effect');
+    const active = isSonataTargetWindowActive(window, { actorId: input.characterId, atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder });
+    return { sourceId: `sonata:${c.effectId}`, stat: window.statOrEffect, value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const, active, evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
+      sourceKey: JSON.stringify(effect), window: { ...window },
+      targetProof: structuredClone(c.target), sourceFactId: c.event.sourceFactId };
+  });
   const heals = (proof.heals ?? []).map(c => {
     const rows = SONATA_EFFECT_MODELS.filter(e => e.effectId === c.effectId);
     const effect = rows[0];
@@ -132,5 +169,5 @@ export function evaluateHitContextSonataCasts(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...damages, ...heals];
+  return [...casts, ...damages, ...targets, ...heals];
 }

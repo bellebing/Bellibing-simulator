@@ -66,6 +66,8 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
     const team = db.profiles.teams.find(x => x.id === p.teamProfileId);
     const weaponIds = unique(weapons.options.map(x => x.weaponId));
     const selectedWeaponEffects = db.gear.weaponEffects.filter(e => weaponIds.includes(e.weaponId));
+    const supportedHitClasses = new Set(db.hitPrimitives.directHits
+      .filter(hit => hit.characterId === characterId).map(hit => hit.sourceDamageClass));
     return {
       presetId: p.id, sequence: p.sequence,
       contextFamilies: {
@@ -79,7 +81,9 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
         weaponDamageEffectIds: selectedWeaponEffects.filter(e => damageContextIds.has(e.effectId)).map(e => e.effectId),
         weaponStatusApplicationEffectIds: selectedWeaponEffects.filter(e => weaponStatusApplicationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponFreezeFrameEffectIds: selectedWeaponEffects.filter(e => weaponFreezeFrameContextIds.has(e.effectId)).map(e => e.effectId),
-        weaponForgedDwarfStarEffectIds: selectedWeaponEffects.filter(e => weaponForgedDwarfStarContextIds.has(e.effectId)).map(e => e.effectId),
+        weaponForgedDwarfStarEffectIds: supportedHitClasses.has('LIBERATION')
+          ? selectedWeaponEffects.filter(e => weaponForgedDwarfStarContextIds.has(e.effectId)).map(e => e.effectId)
+          : [],
         weaponAzureOathAmplificationEffectIds: selectedWeaponEffects.filter(e => weaponAzureOathAmplificationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponAzureOathDefenseEffectIds: selectedWeaponEffects.filter(e => weaponAzureOathDefenseContextIds.has(e.effectId)).map(e => e.effectId),
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),

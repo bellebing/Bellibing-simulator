@@ -182,7 +182,7 @@ export function evaluateHitContextAmplificationEvents(input: {
       || !['NO_TIE', 'BEFORE_QUERY', 'AFTER_QUERY'].includes(row.sameTimestampSwitchOutOrder)) {
       throw new Error('Require exact Character Outro owner/recipient, switch-out history and isolated query ordering');
     }
-    const recipientTie = row.switchOutEvents.some(event =>
+    const recipientTie = row.switchOutEvents.some((event: ResonatorSwitchOutEvent) =>
       event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds);
     if (recipientTie !== (row.sameTimestampSwitchOutOrder !== 'NO_TIE')) {
       throw new Error('Character Outro same-timestamp switch-out ordering must match the supplied history');
@@ -209,7 +209,7 @@ export function evaluateHitContextAmplificationEvents(input: {
     if (!requiresPriorNoneActive && recipientTie && row.sameTimestampSwitchOutOrder === 'AFTER_QUERY') {
       // Validate the complete caller history, then exclude only the proven later same-timestamp recipient switch.
       activeCharacterOutroAmplifications(windows, input.characterId, input.hitAtSeconds, history);
-      history = history.filter(event =>
+      history = history.filter((event: ResonatorSwitchOutEvent) =>
         !(event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds));
     }
     const activeWindows = activeCharacterOutroAmplifications(

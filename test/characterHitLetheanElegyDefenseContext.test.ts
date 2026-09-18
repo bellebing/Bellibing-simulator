@@ -102,15 +102,17 @@ function remaining(
   };
 }
 
-test('Lethean Elegy defense support exposes only LE-DEF and copies no amount or duration', () => {
+test('Lethean Elegy defense support preserves its all-damage scope and copies no amount or duration', () => {
   const support = listWeaponDamageDefenseHitContextSupport();
-  assert.deepEqual(support, [{
+  const lethean = support.find(row => row.effectId === 'LE-DEF');
+  assert.deepEqual(lethean, {
     effectId: 'LE-DEF',
     weaponId: 'lethean-elegy',
     statOrEffect: 'DEF Ignore',
     damageClass: 'ECHO',
     primitiveId: 'weapon-damage-timed-self-window-v1',
     scope: 'EXPLICIT_DAMAGE_EVENT_ONLY',
+    defenseScope: { kind: 'ALL_DAMAGE' },
     contextPrimitiveId: 'character-source-qualified-hit-context-v1',
     selectedHitScope: 'ALL_CHARACTER_DIRECT_HITS',
     requiresPerBuildEventProof: true,
@@ -118,9 +120,10 @@ test('Lethean Elegy defense support exposes only LE-DEF and copies no amount or 
     requiresNoOtherDefenseModifiers: true,
     magnitudeDependsOnEchoStats: false,
     stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY',
-  }]);
-  assert.equal(Object.hasOwn(support[0], 'value'), false);
-  assert.equal(Object.hasOwn(support[0], 'durationSeconds'), false);
+  });
+  assert.ok(lethean);
+  assert.equal(Object.hasOwn(lethean, 'value'), false);
+  assert.equal(Object.hasOwn(lethean, 'durationSeconds'), false);
 });
 
 test('Lethean Elegy R1-R5 DEF Ignore reuses the existing Echo-damage window and exact defense kernel', () => {

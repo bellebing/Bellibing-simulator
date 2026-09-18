@@ -5,7 +5,7 @@ import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listSta
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
-  listWeaponIncomingTransferHitContextSupport } from './combat/characterHitContext.ts';
+  listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -119,6 +119,7 @@ export function buildCharacterDatabase() {
       sonataDamageHitContext: listSonataDamageHitContextSupport(),
       sonataTargetHitContext: listSonataTargetHitContextSupport(),
       sonataIncomingTransferHitContext: listSonataIncomingTransferHitContextSupport(),
+      sonataTeamHealHitContext: listSonataTeamHealHitContextSupport(),
       sonataStaticContext: listStaticSonataContextSupport(),
     },
     profiles: {

@@ -23,6 +23,11 @@ import {
   listCharacterOutroTransferSupport,
 } from './characterOutroTransferAdapter.ts';
 import type { OutgoingSwitchEvent, ResonatorSwitchOutEvent } from './incomingTransferState.ts';
+import {
+  activateIunoOutroTransfer,
+  isIunoOutroTransferActive,
+  resolveIunoOutroTransferContract,
+} from './iunoOutroTransferAdapter.ts';
 
 export interface ProvenHitShorekeeperOutroTeamAmplification {
   readonly sourceFactId: 'the-shorekeeper-outro-binary-butterfly';
@@ -34,6 +39,19 @@ export interface ProvenHitShorekeeperOutroTeamAmplification {
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitIunoOutroAmplification {
+  readonly sourceFactId: 'iuno-outro-from-gloom-to-gleam';
+  readonly evidenceId: string;
+  readonly sourceWielderId: 'iuno';
+  readonly sourceQualification: 'SOURCE_PROVEN_IUNO_OUTRO';
+  readonly event: OutgoingSwitchEvent;
+  readonly switchOutEvents: readonly ResonatorSwitchOutEvent[];
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+  readonly sameTimestampSwitchOutOrder: 'NO_TIE' | 'BEFORE_QUERY' | 'AFTER_QUERY';
 }
 
 export interface ProvenHitCharacterOutroAmplification {
@@ -69,6 +87,7 @@ export interface HitContextAmplificationEvents {
   readonly echoStatKey: string;
   readonly eventContextId: string;
   readonly evidenceId: string;
+  readonly iunoOutros?: readonly ProvenHitIunoOutroAmplification[];
   readonly characterOutros?: readonly ProvenHitCharacterOutroAmplification[];
   readonly shorekeeperOutros?: readonly ProvenHitShorekeeperOutroTeamAmplification[];
   readonly weaponTeamAmplifications?: readonly ProvenHitBloodpactsPledgeTeamAmplification[];
@@ -81,6 +100,22 @@ const releasedCharacter = (id: string) => CHARACTER_CATALOG.find(character =>
   character.id === id && character.releaseStatus === 'RELEASED');
 const releasedWeapon = (id: string) => WEAPON_CATALOG.find(weapon =>
   weapon.id === id && weapon.releaseStatus === 'RELEASED' && weapon.verificationStatus === 'VERIFIED');
+
+export function listIunoOutroHitAmplificationSupport() {
+  const contract = resolveIunoOutroTransferContract();
+  const scope = classifyCharacterHitAmplificationScope(contract.statOrEffect);
+  if (!scope) throw new Error('Iuno Outro amplification scope is not supported by Character direct hits');
+  return [{
+    sourceFactId: contract.sourceFactId,
+    sourceCharacterId: contract.sourceCharacterId,
+    statOrEffect: contract.statOrEffect,
+    scope,
+    primitiveId: contract.adapterId,
+    contextScope: 'EXPLICIT_IUNO_INCOMING_HEAVY_SINGLE_ACTIVE_AMPLIFICATION' as const,
+    endsOnIncomingSwitchOut: contract.endsOnIncomingSwitchOut,
+    requiresPriorNoneActive: true as const,
+  }];
+}
 
 export function listCharacterOutroHitAmplificationSupport() {
   return listCharacterOutroTransferSupport().flatMap(contract =>
@@ -141,11 +176,17 @@ export function evaluateHitContextAmplificationEvents(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !['Aero', 'Electro', 'Fusion', 'Glacio', 'Havoc', 'Spectro'].includes(input.damageElement)
     || !text(proof.evidenceId)
+    || (proof.iunoOutros !== undefined && !Array.isArray(proof.iunoOutros))
     || (proof.characterOutros !== undefined && !Array.isArray(proof.characterOutros))
     || (proof.shorekeeperOutros !== undefined && !Array.isArray(proof.shorekeeperOutros))
     || (proof.weaponTeamAmplifications !== undefined && !Array.isArray(proof.weaponTeamAmplifications))) {
     throw new Error('Require exact per-build scoped amplification proof and hit query');
   }
+  if (new Set((proof.iunoOutros ?? []).map(row => row.sourceFactId)).size
+    !== (proof.iunoOutros ?? []).length) {
+    throw new Error('Require one isolated Iuno Outro activation; duplicate stacking is unreviewed');
+  }
+
   if (new Set((proof.characterOutros ?? []).map(row => row.factId)).size
     !== (proof.characterOutros ?? []).length) {
     throw new Error('Require one isolated activation per Character Outro fact; duplicate stacking is unreviewed');
@@ -160,6 +201,49 @@ export function evaluateHitContextAmplificationEvents(input: {
     !== (proof.weaponTeamAmplifications ?? []).length) {
     throw new Error('Require one isolated Bloodpact team amplification activation; duplicate stacking is unreviewed');
   }
+
+  const iunoSupport = listIunoOutroHitAmplificationSupport()[0];
+  const iunoOutros = (proof.iunoOutros ?? []).map(row => {
+    if (!iunoSupport || row.sourceFactId !== iunoSupport.sourceFactId
+      || row.sourceWielderId !== iunoSupport.sourceCharacterId || !releasedCharacter(row.sourceWielderId)
+      || !text(row.evidenceId) || row.sourceQualification !== 'SOURCE_PROVEN_IUNO_OUTRO'
+      || !row.event || row.event.actorId !== row.sourceWielderId
+      || row.event.incomingResonatorId !== input.characterId || input.hitAtSeconds < row.event.atSeconds
+      || !Array.isArray(row.switchOutEvents) || row.priorActivationState !== 'NONE_ACTIVE'
+      || row.noLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !['NO_TIE', 'BEFORE_QUERY', 'AFTER_QUERY'].includes(row.sameTimestampSwitchOutOrder)) {
+      throw new Error('Require exact Iuno Outro owner/recipient, switch-out history and isolated query ordering');
+    }
+    const recipientTie = row.switchOutEvents.some((event: ResonatorSwitchOutEvent) =>
+      event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds);
+    if (recipientTie !== (row.sameTimestampSwitchOutOrder !== 'NO_TIE')) {
+      throw new Error('Iuno Outro same-timestamp switch-out ordering must match the supplied history');
+    }
+    const window = activateIunoOutroTransfer({ event: row.event });
+    if (!window || window.sourceActorId !== row.sourceWielderId
+      || window.incomingResonatorId !== input.characterId || window.statOrEffect !== iunoSupport.statOrEffect) {
+      throw new Error('The supplied Iuno Outro does not activate the reviewed incoming Heavy amplification');
+    }
+    let history = row.switchOutEvents;
+    if (recipientTie && row.sameTimestampSwitchOutOrder === 'AFTER_QUERY') {
+      // Validate the complete supplied history, then exclude only the proven later same-timestamp switch.
+      isIunoOutroTransferActive(window, input.characterId, input.hitAtSeconds, history);
+      history = history.filter((event: ResonatorSwitchOutEvent) =>
+        !(event.actorId === input.characterId && event.atSeconds === input.hitAtSeconds));
+    }
+    const active = isIunoOutroTransferActive(window, input.characterId, input.hitAtSeconds, history)
+      && !(input.hitAtSeconds === window.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+    return {
+      sourceId: `team:iuno-outro-term:${row.sourceFactId}:${window.statOrEffect}:${row.sourceWielderId}`,
+      canonicalSourceId: row.sourceFactId,
+      statOrEffect: window.statOrEffect,
+      value: window.value,
+      active,
+      evidenceId: row.evidenceId,
+      scope: iunoSupport.scope,
+    };
+  });
 
   const genericSupport = listCharacterOutroHitAmplificationSupport();
   const characterOutros = (proof.characterOutros ?? []).flatMap(row => {
@@ -317,5 +401,5 @@ export function evaluateHitContextAmplificationEvents(input: {
     };
   });
 
-  return [...characterOutros, ...shorekeeper, ...bpp];
+  return [...iunoOutros, ...characterOutros, ...shorekeeper, ...bpp];
 }

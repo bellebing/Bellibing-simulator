@@ -16,6 +16,9 @@ import { activateFallacySupportWindows, isFallacySupportWindowActive, listFallac
   type FallacyEchoCastEvent } from './fallacySupportWindowAdapter.ts';
 import { activateFreezeFrameGlacioChafeWindows, isFreezeFrameGlacioChafeWindowActive,
   listFreezeFrameGlacioChafeWindowSupport, type QualifiedGlacioChafeApplicationEvent } from './freezeFrameGlacioChafeWindowAdapter.ts';
+import { activateForgedDwarfStarTeamAtkWindow, isForgedDwarfStarTeamAtkWindowActive,
+  listForgedDwarfStarTeamWindowSupport } from './forgedDwarfStarTeamWindowAdapter.ts';
+import type { QualifiedForgedDwarfStarStatusApplicationEvent } from './forgedDwarfStarStatusWindowAdapter.ts';
 
 export interface ProvenHitSonataOutroTransfer {
   readonly effectId: 'S08_5PC_INCOMING_ATK' | 'S12_5PC_INCOMING_HAVOC';
@@ -61,6 +64,26 @@ export interface ProvenHitFreezeFrameTeamWindow {
   readonly event: QualifiedGlacioChafeApplicationEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitForgedDwarfStarTeamWindow {
+  readonly effectId: 'FDS-TEAM';
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceWeaponId: 'forged-dwarf-star';
+  readonly sourceWeaponRank: 1 | 2 | 3 | 4 | 5;
+  readonly sourceQualification: 'SOURCE_PROVEN_FORGED_DWARF_STAR_TEAM_CHAIN';
+  readonly sourceEquipmentAtEventQualified: true;
+  readonly teamMemberIds: readonly string[];
+  readonly sourceSelfEvent: QualifiedForgedDwarfStarStatusApplicationEvent;
+  readonly recipientEvent: QualifiedForgedDwarfStarStatusApplicationEvent;
+  readonly sourceSelfPriorActivationState: 'NONE_ACTIVE';
+  readonly sourceSelfNoLaterActivationThroughRecipientEvent: true;
+  readonly sourceSelfOrderAtRecipientEvent: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+  readonly teamPriorActivationState: 'NONE_ACTIVE';
+  readonly teamNoLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
 }
 
@@ -141,6 +164,7 @@ export interface HitContextIncomingTransfers {
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
   readonly teamEchoCasts?: readonly ProvenHitFallacyTeamWindow[];
   readonly teamWeaponStatusApplications?: readonly ProvenHitFreezeFrameTeamWindow[];
+  readonly teamWeaponChainedStatusApplications?: readonly ProvenHitForgedDwarfStarTeamWindow[];
   readonly teamWeaponCasts?: readonly ProvenHitStellarSymphonyTeamWindow[];
   readonly teamHeals?: readonly ProvenHitRejuvenatingGlowTeamWindow[];
   readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
@@ -173,6 +197,8 @@ export function evaluateHitContextIncomingTransfers(input: {
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
     || (proof.teamEchoCasts !== undefined && !Array.isArray(proof.teamEchoCasts))
     || (proof.teamWeaponStatusApplications !== undefined && !Array.isArray(proof.teamWeaponStatusApplications))
+    || (proof.teamWeaponChainedStatusApplications !== undefined
+      && !Array.isArray(proof.teamWeaponChainedStatusApplications))
     || (proof.teamWeaponCasts !== undefined && !Array.isArray(proof.teamWeaponCasts))
     || (proof.teamHeals !== undefined && !Array.isArray(proof.teamHeals))
     || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
@@ -188,6 +214,10 @@ export function evaluateHitContextIncomingTransfers(input: {
   if (new Set((proof.teamWeaponStatusApplications ?? []).map(row => row.effectId)).size
     !== (proof.teamWeaponStatusApplications ?? []).length) {
     throw new Error('Require one isolated activation per team Weapon status effect; same-name stacking is unreviewed');
+  }
+  if (new Set((proof.teamWeaponChainedStatusApplications ?? []).map(row => row.effectId)).size
+    !== (proof.teamWeaponChainedStatusApplications ?? []).length) {
+    throw new Error('Require one isolated Forged Dwarf Star team activation; same-name stacking is unreviewed');
   }
   if (new Set((proof.teamWeaponCasts ?? []).map(row => row.effectId)).size !== (proof.teamWeaponCasts ?? []).length) {
     throw new Error('Require one isolated activation per team Weapon cast effect; duplicate stacking is unreviewed');
@@ -340,6 +370,72 @@ export function evaluateHitContextIncomingTransfers(input: {
       sourceFactId: row.event.sourceFactId,
       appliedStacks: row.event.stacksApplied,
       window: { ...windows.teamAtk },
+    };
+  });
+
+  const forgedDwarfStarTeamSupport = listForgedDwarfStarTeamWindowSupport()[0];
+  const teamWeaponChainedStatus = (proof.teamWeaponChainedStatusApplications ?? []).map(row => {
+    const effects = WEAPON_EFFECT_CATALOG.filter(effect => effect.effectId === row.effectId);
+    const effect = effects[0];
+    const sourceCharacter = releasedCharacter(row.sourceWielderId);
+    const sourceWeapon = releasedWeapon(row.sourceWeaponId);
+    if (!forgedDwarfStarTeamSupport || effects.length !== 1 || !effect || !sourceCharacter || !sourceWeapon
+      || row.sourceWielderId === input.characterId
+      || row.sourceWeaponId !== forgedDwarfStarTeamSupport.weaponId
+      || sourceWeapon.weaponType !== sourceCharacter.weaponType
+      || !Number.isInteger(row.sourceWeaponRank) || row.sourceWeaponRank < 1 || row.sourceWeaponRank > 5
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_FORGED_DWARF_STAR_TEAM_CHAIN'
+      || row.sourceEquipmentAtEventQualified !== true
+      || row.sourceSelfPriorActivationState !== 'NONE_ACTIVE'
+      || row.sourceSelfNoLaterActivationThroughRecipientEvent !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sourceSelfOrderAtRecipientEvent)
+      || row.teamPriorActivationState !== 'NONE_ACTIVE' || row.teamNoLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
+      || new Set(row.teamMemberIds).size !== row.teamMemberIds.length
+      || row.teamMemberIds.some((id: string) => !releasedCharacter(id))
+      || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
+      || !row.sourceSelfEvent || row.sourceSelfEvent.actorId !== row.sourceWielderId
+      || !row.recipientEvent || row.recipientEvent.actorId !== input.characterId
+      || input.hitAtSeconds < row.recipientEvent.atSeconds) {
+      throw new Error('Require exact source Forged Dwarf Star rank/team, active self prerequisite, recipient status application and isolated ordering');
+    }
+    const window = activateForgedDwarfStarTeamAtkWindow({
+      selectedWeapon: { id: row.sourceWeaponId, rank: row.sourceWeaponRank },
+      sourceWielderId: row.sourceWielderId,
+      teamMemberIds: row.teamMemberIds,
+      sourceSelfEvent: row.sourceSelfEvent,
+      recipientEvent: row.recipientEvent,
+      sourceSelfOrderAtRecipientEvent: row.sourceSelfOrderAtRecipientEvent,
+    });
+    if (!window || window.effectId !== row.effectId || window.recipientCharacterId !== input.characterId) {
+      throw new Error('The supplied Forged Dwarf Star chain does not activate recipient ATK');
+    }
+    const active = isForgedDwarfStarTeamAtkWindowActive(window, {
+      actorId: input.characterId,
+      atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: row.sameTimestampOrder,
+    });
+    return {
+      sourceId: `team:weapon-chain:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_CHAINED_TEAM_STATUS_APPLICATION' as const,
+      sourceKey: JSON.stringify(effect),
+      sourceSelfFactId: row.sourceSelfEvent.sourceFactId,
+      sourceSelfTargetId: row.sourceSelfEvent.targetId,
+      sourceSelfStatusKind: row.sourceSelfEvent.kind,
+      recipientSourceFactId: row.recipientEvent.sourceFactId,
+      recipientTriggerTargetId: row.recipientEvent.targetId,
+      recipientTriggerStatusKind: row.recipientEvent.kind,
+      window: { ...window },
     };
   });
 
@@ -526,5 +622,6 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...teamEcho, ...teamWeaponStatus, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
+  return [...sonata, ...teamEcho, ...teamWeaponStatus, ...teamWeaponChainedStatus,
+    ...teamWeapon, ...teamHeal, ...weapon, ...echo];
 }

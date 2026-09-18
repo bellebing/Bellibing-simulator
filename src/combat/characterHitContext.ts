@@ -30,9 +30,9 @@ import { listEchoTransferWindowSupport } from './echoTransferWindowAdapter.ts';
 import { listStaticMistOutroTransferSupport, listSharedRejuvenatingGlowSupport } from './sharedSupportStatWindows.ts';
 import { listStellarSymphonyTeamAtkSupport } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { listFallacyTeamAtkSupport } from './fallacySupportWindowAdapter.ts';
-import { evaluateHitContextAmplificationEvents, listCharacterOutroHitAmplificationSupport,
-  listShorekeeperOutroHitAmplificationSupport, listBloodpactsPledgeHitAmplificationSupport,
-  type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
+import { evaluateHitContextAmplificationEvents, listIunoOutroHitAmplificationSupport,
+  listCharacterOutroHitAmplificationSupport, listShorekeeperOutroHitAmplificationSupport,
+  listBloodpactsPledgeHitAmplificationSupport, type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
 import { resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
@@ -227,6 +227,18 @@ export function listFallacyTeamHitContextSupport() {
       requiresExplicitTeamMembershipProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listIunoOutroAmplificationHitContextSupport() {
+  return listIunoOutroHitAmplificationSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitIncomingRecipientProof: true as const,
+    requiresExplicitSwitchOutHistory: true as const,
+    stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
 export function listCharacterOutroAmplificationHitContextSupport() {
   return listCharacterOutroHitAmplificationSupport().map(s => ({
     ...s,
@@ -389,6 +401,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   requirements.push(...incomingRequirementIds);
   const characterOutroAmplificationSupport = listCharacterOutroHitAmplificationSupport();
   const amplificationRequirementIds = [
+    ...(events?.amplification?.iunoOutros?.map(row =>
+      `team:iuno-outro-term:${row.sourceFactId}:Heavy Attack DMG Amplification:${row.sourceWielderId}`) ?? []),
     ...(events?.amplification?.characterOutros?.flatMap(row =>
       characterOutroAmplificationSupport.filter(term => term.factId === row.factId).map(term =>
         `team:character-outro-term:${row.factId}:${term.statOrEffect}:${row.sourceWielderId}`)) ?? []),

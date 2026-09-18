@@ -262,8 +262,11 @@ test('same-timestamp ordering, expiry, duplicate activation and per-build proof 
   assert.equal(assembleCharacterHitContext(expired, current, { weapon: weaponProof(expired, current) })
     .resistanceContributions[0].active, false);
 
-  const duplicate = weaponProof(selection('ciaccona'), current);
-  duplicate.targets = [duplicate.targets![0], duplicate.targets![0]];
+  const duplicateBase = weaponProof(selection('ciaccona'), current);
+  const duplicate: HitContextWeaponEvents = {
+    ...duplicateBase,
+    targets: [duplicateBase.targets![0], duplicateBase.targets![0]],
+  };
   assert.throws(() => assembleCharacterHitContext(selection('ciaccona'), current, { weapon: duplicate }), /unique effect activations/);
 
   const sel = selection('ciaccona'), ce = weaponProof(sel, current), ne = weaponProof(sel, candidate);

@@ -30,8 +30,9 @@ import { listEchoTransferWindowSupport } from './echoTransferWindowAdapter.ts';
 import { listStaticMistOutroTransferSupport, listSharedRejuvenatingGlowSupport } from './sharedSupportStatWindows.ts';
 import { listStellarSymphonyTeamAtkSupport } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { listFallacyTeamAtkSupport } from './fallacySupportWindowAdapter.ts';
-import { evaluateHitContextAmplificationEvents, listShorekeeperOutroHitAmplificationSupport,
-  listBloodpactsPledgeHitAmplificationSupport, type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
+import { evaluateHitContextAmplificationEvents, listCharacterOutroHitAmplificationSupport,
+  listShorekeeperOutroHitAmplificationSupport, listBloodpactsPledgeHitAmplificationSupport,
+  type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
 import { resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
@@ -226,6 +227,18 @@ export function listFallacyTeamHitContextSupport() {
       requiresExplicitTeamMembershipProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listCharacterOutroAmplificationHitContextSupport() {
+  return listCharacterOutroHitAmplificationSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitIncomingRecipientProof: true as const,
+    requiresExplicitSwitchOutHistory: true as const,
+    stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
 export function listShorekeeperOutroAmplificationHitContextSupport() {
   return listShorekeeperOutroHitAmplificationSupport().map(s => ({
     ...s,
@@ -374,7 +387,11 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...(events?.incoming?.echoTransfers?.map(row => `team:echo:${row.effectId}:${row.sourceWielderId}`) ?? []),
   ];
   requirements.push(...incomingRequirementIds);
+  const characterOutroAmplificationSupport = listCharacterOutroHitAmplificationSupport();
   const amplificationRequirementIds = [
+    ...(events?.amplification?.characterOutros?.flatMap(row =>
+      characterOutroAmplificationSupport.filter(term => term.factId === row.factId).map(term =>
+        `team:character-outro-term:${row.factId}:${term.statOrEffect}:${row.sourceWielderId}`)) ?? []),
     ...(events?.amplification?.shorekeeperOutros?.map(row =>
       `team:character-outro:${row.sourceFactId}:${row.sourceWielderId}`) ?? []),
     ...(events?.amplification?.weaponTeamAmplifications?.map(row =>

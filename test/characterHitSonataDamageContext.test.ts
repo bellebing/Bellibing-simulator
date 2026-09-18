@@ -9,7 +9,7 @@ import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { listCharacterDirectHitSupport } from '../src/combat/characterDirectHitAdapter.ts';
 import { assembleCharacterHitContext, compareCharacterHitWithAssembledContext, listSonataDamageHitContextSupport,
   type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
-import type { HitContextSonataEvents } from '../src/combat/hitContextSonataEvents.ts';
+import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from '../src/combat/hitContextSonataEvents.ts';
 
 function exactEquipment(setId: string, pieces: 3 | 5) {
   const targetCosts = pieces === 5 ? [4, 3, 3, 1, 1] : [4, 3, 1];
@@ -109,13 +109,15 @@ test('both supported Sonata damage windows compose from exact per-build damage e
 
 test('Heavy Attack CRIT Rate never becomes generic CRIT Rate for a non-Heavy Character hit', () => {
   const f = fixture('S22_3PC_HEAVY_CR');
-  const other = listCharacterDirectHitSupport().find(h => h.characterId === f.selection.hit.characterId
-    && h.sourceDamageClass !== 'HEAVY')!;
-  assert.ok(other);
-  const selection = { ...f.selection, hit: { ...f.selection.hit, factId: other.factId } };
-  const events = f.events(f.current);
-  const after = assembleCharacterHitContext(selection, f.current, events);
-  const contribution = after.eventContributions.find(c => c.sourceId === 'sonata:S22_3PC_HEAVY_CR')!;
+  const proof = f.events(f.current).sonata;
+  const contributions = evaluateHitContextSonataCasts({
+    characterId: f.selection.hit.characterId, hitAtSeconds: f.selection.hitAtSeconds!,
+    eventContextId: f.selection.eventContextId, echoStatKey: projectRank5EchoStats(f.current).key,
+    equipmentKey: JSON.stringify(f.selection.echoEquipment),
+    pieceCounts: new Map([[f.support.sonataSetId, f.support.pieces]]),
+    hitDamageClass: 'BASIC', proof,
+  });
+  const contribution = contributions.find(c => c.sourceId === 'sonata:S22_3PC_HEAVY_CR')!;
   assert.equal(contribution.active, true);
   assert.equal(contribution.appliesToSelectedHit, false);
   assert.equal(contribution.value, 0);

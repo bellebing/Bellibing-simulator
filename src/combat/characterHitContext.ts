@@ -21,6 +21,7 @@ import { listWeaponCastWindowSupport } from './weaponCastWindowAdapter.ts';
 import { listWeaponDamageWindowSupport, WEAPON_DAMAGE_WINDOW_PRIMITIVE_ID } from './weaponDamageWindowAdapter.ts';
 import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './luxUmbraDefenseStateAdapter.ts';
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
+import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -43,7 +44,8 @@ import { validateEchoLoadout } from '../loadoutValidator.ts';
 import { listCharacterDirectHitSupport, supportsCharacterDirectHit, type CharacterDirectHitInput,
   type DirectHitDamageClass } from './characterDirectHitAdapter.ts';
 import { compareCharacterHitEchoReplacement, type EchoBuildHitContext } from './characterEchoComparison.ts';
-import { defenseMultiplier as computeDefenseMultiplier } from './damageKernel.ts';
+import { defenseMultiplier as computeDefenseMultiplier,
+  resistanceMultiplier as computeResistanceMultiplier } from './damageKernel.ts';
 
 export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-v1';
 export function listCharacterHitContextSupport() {
@@ -63,6 +65,8 @@ export interface CharacterHitContextSelection {
   readonly hit: ContextHit;
   readonly damageElement: Element;
   readonly eventContextId: string;
+  /** Required when target-scoped debuffs are composed; never inferred from eventContextId. */
+  readonly targetId?: string;
   /** Required when composing observed event windows; never a rotation duration. */
   readonly hitAtSeconds?: number;
   readonly characterLevel: 90;
@@ -211,6 +215,25 @@ export function listWeaponDamageDefenseHitContextSupport() {
   return [...timed, ...overlap];
 }
 
+export function listWeaponTargetResistanceHitContextSupport() {
+  return listWeaponTargetWindowSupport().flatMap(s => {
+    const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
+    if (!effect || effect.effectId !== 'WA-AERO-RES' || effect.statOrEffect !== 'Aero RES Reduction') return [];
+    return [{
+      ...s,
+      resistanceScope: { kind: 'ELEMENT' as const, element: 'Aero' as const },
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'AERO_ELEMENT_SAME_TARGET' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitTargetIdentity: true as const,
+      requiresExplicitTargetResistanceProof: true as const,
+      requiresNoOtherResistanceModifiers: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+      stackingPolicy: 'SINGLE_ACTIVE_RES_REDUCTION_ONLY' as const,
+    }];
+  });
+}
+
 export function listSonataDamageHitContextSupport() {
   return listSonataDamageWindowSupport().flatMap(s => {
     if (s.effectId !== 'S22_3PC_HEAVY_CR' && s.effectId !== 'S29_5PC_AERO') return [];
@@ -334,6 +357,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   if (!fact || fact.characterId !== hit.characterId || !supportsCharacterDirectHit(fact)
     || hit.sequence !== 0 || hit.maxSkills !== true || selection.characterLevel !== 90
     || selection.maxMinorFortes !== true || !text(selection.eventContextId)
+    || (selection.targetId !== undefined && !text(selection.targetId))
     || (selection.hitAtSeconds !== undefined && (!Number.isFinite(selection.hitAtSeconds) || selection.hitAtSeconds < 0))
     || !['Aero', 'Electro', 'Fusion', 'Glacio', 'Havoc', 'Spectro'].includes(selection.damageElement)) {
     throw new Error('Require exact supported S0/max-skill hit, Lv90/max Minor Fortes and explicit hit element/context');
@@ -547,11 +571,43 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     }];
   })() : [];
   const defenseContributions = [...timedDefenseContributions, ...luxDefenseContributions];
+  const weaponTargetResistanceSupport = listWeaponTargetResistanceHitContextSupport();
+  const weaponTargetResistanceIds = new Set<string>(weaponTargetResistanceSupport.map(row => row.effectId));
+  const resistanceContributions = weaponEventResults.flatMap(e => {
+    const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
+    if (!weaponTargetResistanceIds.has(effectId)) return [];
+    const support = weaponTargetResistanceSupport.find(row => row.effectId === effectId)!;
+    if (!selection.targetId) {
+      throw new Error('Target-scoped resistance reduction requires explicit selected hit target identity');
+    }
+    if (e.stat !== support.statOrEffect || !('targetId' in e.window)
+      || e.window.targetId !== selection.targetId || !Number.isFinite(e.window.value)
+      || e.window.value <= 0 || e.window.value >= 1) {
+      throw new Error('Reviewed weapon resistance event lost its canonical target/scope/value');
+    }
+    const appliesToHit = support.resistanceScope.element === selection.damageElement;
+    return [{
+      sourceId: e.sourceId,
+      canonicalSourceId: effectId,
+      statOrEffect: support.statOrEffect,
+      resistanceScope: support.resistanceScope,
+      targetId: e.window.targetId,
+      value: e.window.value,
+      active: e.active && appliesToHit,
+      sourceWindowActive: e.active,
+      appliesToSelectedHit: appliesToHit,
+      evidenceId: e.evidenceId,
+      sourceKey: e.sourceKey,
+      window: e.window,
+      activationProof: e.activationProof,
+    }];
+  });
   const ordinaryWeaponEventContributions = weaponEventResults.filter(e => contextStatName(e.stat) !== null);
   const consumedWeaponSourceIds = new Set([
     ...ordinaryWeaponEventContributions.map(e => e.sourceId),
     ...weaponAmplificationContributions.map(e => e.sourceId),
     ...timedDefenseContributions.map(e => e.sourceId),
+    ...resistanceContributions.map(e => e.sourceId),
     ...stateOnlyWeaponContributions.map(e => e.sourceId),
   ]);
   const unsupportedWeaponEvent = weaponEventResults.find(e => !consumedWeaponSourceIds.has(e.sourceId));
@@ -602,16 +658,23 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     if (pending < 0) throw new Error('Defense contribution must resolve exactly one unassembled effect');
     requirements.splice(pending, 1);
   }
+  for (const e of resistanceContributions) {
+    const pending = requirements.indexOf(e.sourceId);
+    if (pending < 0) throw new Error('Resistance contribution must resolve exactly one unassembled effect');
+    requirements.splice(pending, 1);
+  }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
-    amplificationContributions, defenseContributions, stateOnlyWeaponContributions, eventEvidence: events ?? null,
+    amplificationContributions, defenseContributions, resistanceContributions,
+    stateOnlyWeaponContributions, eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
@@ -656,6 +719,13 @@ export type RemainingHitContext = { readonly status: 'PENDING'; readonly reason:
     readonly otherDefenseModifiersAbsent: true;
   };
   readonly resistanceMultiplier: number;
+  /** Required only when an active source-qualified RES Reduction term is assembled.
+   * The baseline multiplier must match this exact no-other-resistance-modifier state. */
+  readonly resistanceContext?: {
+    readonly evidenceId: string;
+    readonly targetResistance: number;
+    readonly otherResistanceModifiersAbsent: true;
+  };
   readonly damageReduction: number;
 };
 
@@ -716,6 +786,27 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
       defReduction: 0,
     });
   }
+  const activeResistance = a.resistanceContributions.filter(term => term.active);
+  if (activeResistance.length > 1) {
+    throw new Error('Multiple active RES Reduction terms require reviewed stacking semantics');
+  }
+  let resolvedResistanceMultiplier = proof.resistanceMultiplier;
+  if (activeResistance.length === 1) {
+    const resistance = proof.resistanceContext;
+    if (!resistance || !text(resistance.evidenceId) || !Number.isFinite(resistance.targetResistance)
+      || resistance.otherResistanceModifiersAbsent !== true || !a.selection.targetId
+      || activeResistance[0].targetId !== a.selection.targetId) {
+      throw new Error('Active source-qualified RES Reduction requires explicit selected target/base RES and proof that other resistance modifiers are absent');
+    }
+    const baselineResistanceMultiplier = computeResistanceMultiplier(resistance.targetResistance, 0);
+    if (Math.abs(proof.resistanceMultiplier - baselineResistanceMultiplier) > 1e-12) {
+      throw new Error('Residual resistance multiplier must match the explicit no-modifier target RES baseline before applying source-qualified RES Reduction');
+    }
+    resolvedResistanceMultiplier = computeResistanceMultiplier(
+      resistance.targetResistance,
+      activeResistance[0].value,
+    );
+  }
   return { status: 'QUALIFIED', characterId: hit.characterId, factId: hit.factId,
     componentIndex: hit.componentIndex, landedHitCount: hit.landedHitCount,
     eventContextId: a.selection.eventContextId, echoStatKey: a.echoStatKey, evidenceId: proof.evidenceId,
@@ -730,7 +821,7 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
       damageBonus: stat(a.selection.damageElement + ' DMG') + stat('All Attribute DMG') + stat(classStat[damageClass]) + proof.damageBonus,
       amplification: scopedAmplification.amplification + proof.amplification,
       defenseMultiplier: resolvedDefenseMultiplier,
-      resistanceMultiplier: proof.resistanceMultiplier, damageReduction: proof.damageReduction,
+      resistanceMultiplier: resolvedResistanceMultiplier, damageReduction: proof.damageReduction,
     } };
 }
 

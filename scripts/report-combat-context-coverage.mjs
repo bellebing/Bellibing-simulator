@@ -18,12 +18,13 @@ const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTran
 const weaponIncomingTransferContextIds = supportedIds(db.gear.weaponIncomingTransferHitContext);
 const sonataTeamHealContextIds = supportedIds(db.gear.sonataTeamHealHitContext);
 const weaponTeamStatContextIds = supportedIds(db.gear.weaponTeamStatHitContext);
+const echoTeamStatContextIds = supportedIds(db.gear.echoTeamStatHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
-  ...db.gear.weaponTeamStatHitContext, ...db.gear.echoTransferWindows,
+  ...db.gear.weaponTeamStatHitContext, ...db.gear.echoTeamStatHitContext, ...db.gear.echoTransferWindows,
 ].map(x => x.effectId));
 const factState = f => f.verificationStatus !== 'VERIFIED' ? 'SOURCE_REVIEW_REQUIRED'
   : f.modelingStatus === 'PENDING_INTERPRETATION' ? 'SOURCE_SEMANTICS_BLOCKED'
@@ -144,6 +145,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponIncomingTransferEffectIds: [...weaponIncomingTransferContextIds],
     sonataTeamHealEffectIds: [...sonataTeamHealContextIds],
     weaponTeamStatEffectIds: [...weaponTeamStatContextIds],
+    echoTeamStatEffectIds: [...echoTeamStatContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
@@ -170,6 +172,12 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: Shorekeeper Stellar Symphony equipment/rank, selected team and healing Skill cast are not inferred from recipient presets or team membership',
       requires: ['SHOREKEEPER_SOURCE_OWNER', 'STELLAR_SYMPHONY_RANK_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_HEALING_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    echoTeamStatWindows: {
+      effectIds: [...echoTeamStatContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source teammate Fallacy main-Echo equipment, selected team and exact Echo cast are not inferred from recipient presets or team membership',
+      requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_FALLACY_MAIN_ECHO_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_ECHO_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
     },
     echoIncomingTransfers: {
       effectIds: [...echoIncomingTransferContextIds],

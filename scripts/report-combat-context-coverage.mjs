@@ -18,6 +18,7 @@ const weaponDamageDefenseContextIds = supportedIds(db.gear.weaponDamageDefenseHi
 const weaponStatusApplicationContextIds = supportedIds(db.gear.weaponStatusApplicationHitContext);
 const weaponFreezeFrameContextIds = supportedIds(db.gear.weaponFreezeFrameHitContext);
 const weaponFreezeFrameTeamContextIds = new Set([...weaponFreezeFrameContextIds].filter(id => id === 'FF-TEAM-ATK'));
+const weaponForgedDwarfStarContextIds = supportedIds(db.gear.weaponForgedDwarfStarHitContext);
 const weaponAzureOathAmplificationContextIds = supportedIds(db.gear.weaponAzureOathAmplificationHitContext);
 const weaponAzureOathDefenseContextIds = supportedIds(db.gear.weaponAzureOathDefenseHitContext);
 const weaponTargetResistanceContextIds = supportedIds(db.gear.weaponTargetResistanceHitContext);
@@ -36,7 +37,8 @@ const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTe
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponCooldownCastHitContext,
   ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
-  ...db.gear.weaponFreezeFrameHitContext, ...db.gear.weaponAzureOathAmplificationHitContext,
+  ...db.gear.weaponFreezeFrameHitContext, ...db.gear.weaponForgedDwarfStarHitContext,
+  ...db.gear.weaponAzureOathAmplificationHitContext,
   ...db.gear.weaponAzureOathDefenseHitContext, ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
@@ -77,6 +79,7 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
         weaponDamageEffectIds: selectedWeaponEffects.filter(e => damageContextIds.has(e.effectId)).map(e => e.effectId),
         weaponStatusApplicationEffectIds: selectedWeaponEffects.filter(e => weaponStatusApplicationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponFreezeFrameEffectIds: selectedWeaponEffects.filter(e => weaponFreezeFrameContextIds.has(e.effectId)).map(e => e.effectId),
+        weaponForgedDwarfStarEffectIds: selectedWeaponEffects.filter(e => weaponForgedDwarfStarContextIds.has(e.effectId)).map(e => e.effectId),
         weaponAzureOathAmplificationEffectIds: selectedWeaponEffects.filter(e => weaponAzureOathAmplificationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponAzureOathDefenseEffectIds: selectedWeaponEffects.filter(e => weaponAzureOathDefenseContextIds.has(e.effectId)).map(e => e.effectId),
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),
@@ -169,6 +172,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponDamageDefenseEffectIds: [...weaponDamageDefenseContextIds],
     weaponStatusApplicationEffectIds: [...weaponStatusApplicationContextIds],
     weaponFreezeFrameEffectIds: [...weaponFreezeFrameContextIds],
+    weaponForgedDwarfStarEffectIds: [...weaponForgedDwarfStarContextIds],
     weaponAzureOathAmplificationEffectIds: [...weaponAzureOathAmplificationContextIds],
     weaponAzureOathDefenseEffectIds: [...weaponAzureOathDefenseContextIds],
     weaponTargetResistanceEffectIds: [...weaponTargetResistanceContextIds],
@@ -271,6 +275,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     family('Weapon damage defense context', p => p.contextFamilies.weaponDamageDefenseEffectIds.length > 0),
     family('Weapon status-application context', p => p.contextFamilies.weaponStatusApplicationEffectIds.length > 0),
     family('Freeze Frame Glacio Chafe context', p => p.contextFamilies.weaponFreezeFrameEffectIds.length > 0),
+    family('Forged Dwarf Star self status context', p => p.contextFamilies.weaponForgedDwarfStarEffectIds.length > 0),
     family('Azure Oath Havoc Bane context', p => p.contextFamilies.weaponAzureOathAmplificationEffectIds.length
       + p.contextFamilies.weaponAzureOathDefenseEffectIds.length > 0),
     family('Weapon target resistance context', p => p.contextFamilies.weaponTargetResistanceEffectIds.length > 0),
@@ -294,6 +299,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       + p.contextFamilies.sonataCastEffectIds.length + p.contextFamilies.weaponDamageEffectIds.length
       + p.contextFamilies.weaponDamageAmplificationEffectIds.length + p.contextFamilies.weaponDamageDefenseEffectIds.length
       + p.contextFamilies.weaponStatusApplicationEffectIds.length + p.contextFamilies.weaponFreezeFrameEffectIds.length
+      + p.contextFamilies.weaponForgedDwarfStarEffectIds.length
       + p.contextFamilies.weaponAzureOathAmplificationEffectIds.length + p.contextFamilies.weaponAzureOathDefenseEffectIds.length
       + p.contextFamilies.weaponTargetResistanceEffectIds.length
       + p.contextFamilies.sonataDamageEffectIds.length + p.contextFamilies.sonataTargetEffectIds.length > 0).characterIds.length,

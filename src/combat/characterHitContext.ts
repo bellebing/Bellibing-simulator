@@ -28,6 +28,7 @@ import { listSonataTargetWindowSupport } from './sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
 import { listEchoTransferWindowSupport } from './echoTransferWindowAdapter.ts';
 import { listStaticMistOutroTransferSupport, listSharedRejuvenatingGlowSupport } from './sharedSupportStatWindows.ts';
+import { listStellarSymphonyTeamAtkSupport } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -206,6 +207,13 @@ export function listSonataTeamHealHitContextSupport() {
       requiresExplicitTeamMembershipProof: true as const, magnitudeDependsOnEchoStats: false as const }));
 }
 
+export function listStellarSymphonyTeamHitContextSupport() {
+  return listStellarSymphonyTeamAtkSupport().filter(s => contextStatName(s.statOrEffect) !== null)
+    .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const, requiresExplicitSourceEquipmentProof: true as const,
+      requiresExplicitTeamMembershipProof: true as const, magnitudeDependsOnEchoStats: false as const }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata', 'incoming'].includes(k))
@@ -324,6 +332,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   }
   const incomingRequirementIds = [
     ...(events?.incoming?.sonataOutros.map(row => `team:sonata:${row.effectId}:${row.sourceWielderId}`) ?? []),
+    ...(events?.incoming?.teamWeaponCasts?.map(row => `team:weapon-cast:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamHeals?.map(row => `team:sonata-heal:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.weaponOutros?.map(row => `team:weapon:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.echoTransfers?.map(row => `team:echo:${row.effectId}:${row.sourceWielderId}`) ?? []),

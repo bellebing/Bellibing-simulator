@@ -14,10 +14,11 @@ const sonataCastContextIds = supportedIds(db.gear.sonataCastHitContext);
 const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
+const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTransferHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
-  ...db.gear.sonataTargetWindows,
+  ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers,
 ].map(x => x.effectId));
 const factState = f => f.verificationStatus !== 'VERIFIED' ? 'SOURCE_REVIEW_REQUIRED'
   : f.modelingStatus === 'PENDING_INTERPRETATION' ? 'SOURCE_SEMANTICS_BLOCKED'
@@ -134,7 +135,16 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponDamageEffectIds: [...damageContextIds],
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
+    sonataIncomingTransferEffectIds: [...sonataIncomingTransferContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
+  crossOwnerContextCapabilities: {
+    sonataIncomingTransfers: {
+      effectIds: [...sonataIncomingTransferContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source teammate equipment is not owned by the incoming Character preset and is never inferred from team membership',
+      requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_5PC_EQUIPMENT_PROOF', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+  },
   counts: { hitCharacters: characters.length, hitFacts: db.hitPrimitives.directHits.length,
     presets: characters.flatMap(c => c.presets).length, pendingEdges: queue.summary,
     distinctDependencyIds: unique(queue.edges.map(e => e.pendingExecutionId)).length },

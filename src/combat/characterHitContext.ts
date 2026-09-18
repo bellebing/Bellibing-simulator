@@ -23,6 +23,7 @@ import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts'
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
 import { listSonataDamageWindowSupport } from './sonataDamageWindowAdapter.ts';
+import { listSonataTargetWindowSupport } from './sonataTargetWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -161,6 +162,13 @@ export function listSonataDamageHitContextSupport() {
   });
 }
 
+export function listSonataTargetHitContextSupport() {
+  return listSonataTargetWindowSupport().filter(s => contextStatName(s.statOrEffect) !== null)
+    .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const, requiresExplicitPreAttackTargetState: true as const,
+      magnitudeDependsOnEchoStats: false as const }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata'].includes(k)) || (!events.weapon && !events.sonata))) {
@@ -297,6 +305,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
     ...listSonataDamageHitContextSupport().map(e => `sonata:${e.effectId}`),
+    ...listSonataTargetHitContextSupport().map(e => `sonata:${e.effectId}`),
     'sonata:REJUV_ATK']);
   const pending = identity.requirements.map(id => ({ id,
     status: eventRequirements.has(id) ? 'PENDING_EVENT' as const

@@ -31,7 +31,7 @@ import { listStaticMistOutroTransferSupport, listSharedRejuvenatingGlowSupport }
 import { listStellarSymphonyTeamAtkSupport } from './shorekeeperHealingSupportWindowAdapter.ts';
 import { listFallacyTeamAtkSupport } from './fallacySupportWindowAdapter.ts';
 import { evaluateHitContextAmplificationEvents, listShorekeeperOutroHitAmplificationSupport,
-  type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
+  listBloodpactsPledgeHitAmplificationSupport, type HitContextAmplificationEvents } from './hitContextAmplificationEvents.ts';
 import { resolveSingleActiveCharacterHitAmplification } from './scopedAmplificationComposition.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
@@ -237,6 +237,18 @@ export function listShorekeeperOutroAmplificationHitContextSupport() {
   }));
 }
 
+export function listBloodpactsPledgeAmplificationHitContextSupport() {
+  return listBloodpactsPledgeHitAmplificationSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitSourceEquipmentProof: true as const,
+    requiresExplicitRecipientEligibilityProof: true as const,
+    stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata', 'incoming', 'amplification'].includes(k))
@@ -365,6 +377,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const amplificationRequirementIds = [
     ...(events?.amplification?.shorekeeperOutros?.map(row =>
       `team:character-outro:${row.sourceFactId}:${row.sourceWielderId}`) ?? []),
+    ...(events?.amplification?.weaponTeamAmplifications?.map(row =>
+      `team:weapon-amplification:${row.effectId}:${row.sourceWielderId}`) ?? []),
   ];
   requirements.push(...amplificationRequirementIds);
   const eventContributions = [
@@ -384,6 +398,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       hitAtSeconds: selection.hitAtSeconds!,
       eventContextId: selection.eventContextId,
       echoStatKey: projection.key,
+      damageElement: selection.damageElement,
       proof: events.amplification,
     })
     : [];

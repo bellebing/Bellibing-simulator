@@ -10,6 +10,7 @@ const row = (id, status, requirement) => ({ id, status, requirement });
 const supportedIds = rows => new Set(rows.map(x => x.effectId));
 const weaponStaticIds = supportedIds(db.gear.weaponStaticContext);
 const castContextIds = supportedIds(db.gear.weaponCastHitContext);
+const cooldownCastContextIds = supportedIds(db.gear.weaponCooldownCastHitContext);
 const sonataCastContextIds = supportedIds(db.gear.sonataCastHitContext);
 const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const weaponDamageAmplificationContextIds = supportedIds(db.gear.weaponDamageAmplificationHitContext);
@@ -29,7 +30,8 @@ const iunoOutroAmplificationFactIds = new Set(db.hitPrimitives.iunoOutroAmplific
 const characterOutroAmplificationFactIds = new Set(db.hitPrimitives.characterOutroAmplification.map(x => x.factId));
 const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
 const eventIds = new Set([
-  ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
+  ...db.gear.weaponCastWindows, ...db.gear.weaponCooldownCastHitContext,
+  ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
   ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
@@ -66,6 +68,7 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
         staticMainEchoEffectIds: db.gear.echoStaticContext.filter(e => e.echoId === shell.mainEchoId
           && (!e.wielderCharacterIds || e.wielderCharacterIds.includes(characterId))).map(e => e.effectId),
         weaponCastEffectIds: selectedWeaponEffects.filter(e => castContextIds.has(e.effectId)).map(e => e.effectId),
+        weaponCooldownCastEffectIds: selectedWeaponEffects.filter(e => cooldownCastContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageEffectIds: selectedWeaponEffects.filter(e => damageContextIds.has(e.effectId)).map(e => e.effectId),
         weaponStatusApplicationEffectIds: selectedWeaponEffects.filter(e => weaponStatusApplicationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),
@@ -151,6 +154,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     staticSonataEffectIds: db.gear.sonataStaticContext.map(x => x.effectId),
     staticMainEchoEffectIds: db.gear.echoStaticContext.map(x => x.effectId),
     weaponCastEffectIds: db.gear.weaponCastHitContext.map(x => x.effectId),
+    weaponCooldownCastEffectIds: [...cooldownCastContextIds],
     sonataCastEffectIds: [...sonataCastContextIds],
     weaponDamageEffectIds: [...damageContextIds],
     weaponDamageAmplificationEffectIds: [...weaponDamageAmplificationContextIds],
@@ -242,6 +246,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     presets: characters.flatMap(c => c.presets).length, pendingEdges: queue.summary,
     distinctDependencyIds: unique(queue.edges.map(e => e.pendingExecutionId)).length },
   eventConsumerCohorts: [family('Weapon cast context', p => p.contextFamilies.weaponCastEffectIds.length > 0),
+    family('Weapon cooldown-cast context', p => p.contextFamilies.weaponCooldownCastEffectIds.length > 0),
     family('Sonata cast context', p => p.contextFamilies.sonataCastEffectIds.length > 0),
     family('Weapon damage context', p => p.contextFamilies.weaponDamageEffectIds.length > 0),
     family('Weapon damage amplification context', p => p.contextFamilies.weaponDamageAmplificationEffectIds.length > 0),
@@ -264,6 +269,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     L0: db.characters.length, L1: characters.length, L2: characters.length,
     PARTIAL_L3: characters.length,
     PARTIAL_L4: family('Event context', p => p.contextFamilies.weaponCastEffectIds.length
+      + p.contextFamilies.weaponCooldownCastEffectIds.length
       + p.contextFamilies.sonataCastEffectIds.length + p.contextFamilies.weaponDamageEffectIds.length
       + p.contextFamilies.weaponDamageAmplificationEffectIds.length + p.contextFamilies.weaponDamageDefenseEffectIds.length
       + p.contextFamilies.weaponStatusApplicationEffectIds.length + p.contextFamilies.weaponTargetResistanceEffectIds.length

@@ -18,6 +18,7 @@ const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTran
 const weaponIncomingTransferContextIds = supportedIds(db.gear.weaponIncomingTransferHitContext);
 const sonataTeamHealContextIds = supportedIds(db.gear.sonataTeamHealHitContext);
 const weaponTeamStatContextIds = supportedIds(db.gear.weaponTeamStatHitContext);
+const weaponTeamAmplificationContextIds = supportedIds(db.gear.weaponTeamAmplificationHitContext);
 const echoTeamStatContextIds = supportedIds(db.gear.echoTeamStatHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
 const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
@@ -25,7 +26,8 @@ const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
-  ...db.gear.weaponTeamStatHitContext, ...db.gear.echoTeamStatHitContext, ...db.gear.echoTransferWindows,
+  ...db.gear.weaponTeamStatHitContext, ...db.gear.weaponTeamAmplificationHitContext,
+  ...db.gear.echoTeamStatHitContext, ...db.gear.echoTransferWindows,
 ].map(x => x.effectId));
 const factState = f => f.verificationStatus !== 'VERIFIED' ? 'SOURCE_REVIEW_REQUIRED'
   : f.modelingStatus === 'PENDING_INTERPRETATION' ? 'SOURCE_SEMANTICS_BLOCKED'
@@ -146,6 +148,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponIncomingTransferEffectIds: [...weaponIncomingTransferContextIds],
     sonataTeamHealEffectIds: [...sonataTeamHealContextIds],
     weaponTeamStatEffectIds: [...weaponTeamStatContextIds],
+    weaponTeamAmplificationEffectIds: [...weaponTeamAmplificationContextIds],
     echoTeamStatEffectIds: [...echoTeamStatContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
     characterTeamAmplificationFactIds: [...characterTeamAmplificationFactIds],
@@ -187,6 +190,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       counting: 'Single-active capability only: Shorekeeper Outro/team/timing proof is explicit and never infers profile overlap or cross-source amplification stacking',
       stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY',
       requires: ['SHOREKEEPER_SOURCE_OWNER', 'EXPLICIT_SELECTED_TEAM', 'EXACT_OUTRO_CAST_EVENT', 'ZERO_RESIDUAL_AMPLIFICATION_WHEN_ACTIVE', 'PER_BUILD_QUERY_PROOF'],
+    },
+    weaponTeamAmplificationWindows: {
+      effectIds: [...weaponTeamAmplificationContextIds],
+      exactPresetReach: [],
+      counting: 'Single-active capability only: Rover Aero Bloodpact rank/equipment, Unbound Flow cast and nearby/on-field recipient eligibility are explicit; no cross-source stacking is inferred',
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY',
+      requires: ['ROVER_AERO_SOURCE_OWNER', 'BLOODPACTS_PLEDGE_RANK_EQUIPMENT_PROOF', 'EXACT_UNBOUND_FLOW_CAST_EVENT', 'VERIFIED_NEARBY_ON_FIELD_RECIPIENT', 'ZERO_RESIDUAL_AMPLIFICATION_WHEN_ACTIVE', 'PER_BUILD_QUERY_PROOF'],
     },
     echoIncomingTransfers: {
       effectIds: [...echoIncomingTransferContextIds],

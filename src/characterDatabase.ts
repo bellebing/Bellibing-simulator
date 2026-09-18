@@ -3,7 +3,8 @@ import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
-  listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport } from './combat/characterHitContext.ts';
+  listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
+  listSonataIncomingTransferHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -17,6 +18,7 @@ import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts
 import { listSonataCastWindowSupport } from './combat/sonataCastWindowAdapter.ts';
 import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
+import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -108,10 +110,12 @@ export function buildCharacterDatabase() {
       sonataSourceReviews: SONATA_EFFECT_SOURCE_REVIEWS,
       sonataDamageWindows: listSonataDamageWindowSupport(),
       sonataTargetWindows: listSonataTargetWindowSupport(),
+      sonataOutroTransfers: listSonataOutroTransferSupport(),
       sonataCastWindows: listSonataCastWindowSupport(),
       sonataCastHitContext: listSonataCastHitContextSupport(),
       sonataDamageHitContext: listSonataDamageHitContextSupport(),
       sonataTargetHitContext: listSonataTargetHitContextSupport(),
+      sonataIncomingTransferHitContext: listSonataIncomingTransferHitContextSupport(),
       sonataStaticContext: listStaticSonataContextSupport(),
     },
     profiles: {

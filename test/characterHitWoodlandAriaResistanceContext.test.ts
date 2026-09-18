@@ -27,7 +27,7 @@ function selection(
   characterId: 'ciaccona' | 'chixia',
   hitAtSeconds = 2,
   rank: 1 | 2 | 3 | 4 | 5 = 1,
-  targetId: string | undefined = 'enemy',
+  targetId: string | null = 'enemy',
 ): CharacterHitContextSelection {
   const character = CHARACTER_CATALOG.find(row => row.id === characterId)!;
   const hit = listCharacterDirectHitSupport().find(row => row.characterId === characterId)!;
@@ -37,7 +37,7 @@ function selection(
       sequence: 0, maxSkills: true },
     damageElement: character.element as CharacterHitContextSelection['damageElement'],
     eventContextId: `wa-res-${characterId}-${hit.factId}`,
-    ...(targetId === undefined ? {} : { targetId }),
+    ...(targetId === null ? {} : { targetId }),
     hitAtSeconds,
     characterLevel: 90,
     maxMinorFortes: true,
@@ -193,7 +193,7 @@ test('known Woodland Aria target window is inactive for a non-Aero Character hit
 test('active target RES reduction requires exact target identity, base resistance and clean baseline', () => {
   const current = cards(), candidate = candidateCards();
 
-  const missingTarget = selection('ciaccona', 2, 1, undefined);
+  const missingTarget = selection('ciaccona', 2, 1, null);
   assert.throws(() => assembleCharacterHitContext(missingTarget, current, {
     weapon: weaponProof(missingTarget, current),
   }), /explicit selected hit target identity/);

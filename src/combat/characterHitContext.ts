@@ -180,10 +180,16 @@ export function listWeaponDamageAmplificationHitContextSupport() {
 export function listWeaponDamageDefenseHitContextSupport() {
   return listWeaponDamageWindowSupport().flatMap(s => {
     const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
-    if (!effect || effect.statOrEffect !== 'DEF Ignore') return [];
-    return [{ ...s, statOrEffect: effect.statOrEffect,
+    const defenseScope = effect?.effectId === 'LE-DEF' && effect.statOrEffect === 'DEF Ignore'
+      ? { kind: 'ALL_DAMAGE' as const }
+      : effect?.effectId === 'SCIP-AERO-DEF' && effect.statOrEffect === 'Aero DMG DEF Ignore'
+        ? { kind: 'ELEMENT' as const, element: 'Aero' as const }
+        : null;
+    if (!effect || !defenseScope) return [];
+    return [{ ...s, statOrEffect: effect.statOrEffect, defenseScope,
       contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
-      selectedHitScope: 'ALL_CHARACTER_DIRECT_HITS' as const,
+      selectedHitScope: defenseScope.kind === 'ALL_DAMAGE'
+        ? 'ALL_CHARACTER_DIRECT_HITS' as const : 'AERO_ELEMENT_DAMAGE' as const,
       requiresPerBuildEventProof: true as const,
       requiresExplicitEnemyDefenseProof: true as const,
       requiresNoOtherDefenseModifiers: true as const,
@@ -465,19 +471,27 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       activationProof: e.activationProof,
     }];
   });
-  const weaponDamageDefenseIds = new Set<string>(listWeaponDamageDefenseHitContextSupport().map(row => row.effectId));
+  const weaponDamageDefenseSupport = listWeaponDamageDefenseHitContextSupport();
+  const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
   const defenseContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
     if (!weaponDamageDefenseIds.has(effectId)) return [];
-    if (e.stat !== 'DEF Ignore' || !Number.isFinite(e.window?.value) || e.window.value <= 0 || e.window.value >= 1) {
-      throw new Error('Reviewed weapon DEF Ignore event lost its canonical bounded window value');
+    const support = weaponDamageDefenseSupport.find(row => row.effectId === effectId)!;
+    if (e.stat !== support.statOrEffect || !Number.isFinite(e.window?.value)
+      || e.window.value <= 0 || e.window.value >= 1) {
+      throw new Error('Reviewed weapon DEF Ignore event lost its canonical bounded scope/value');
     }
+    const appliesToHit = support.defenseScope.kind === 'ALL_DAMAGE'
+      || (support.defenseScope.kind === 'ELEMENT' && support.defenseScope.element === selection.damageElement);
     return [{
       sourceId: e.sourceId,
       canonicalSourceId: effectId,
-      statOrEffect: 'DEF Ignore' as const,
+      statOrEffect: support.statOrEffect,
+      defenseScope: support.defenseScope,
       value: e.window.value,
-      active: e.active,
+      active: e.active && appliesToHit,
+      sourceWindowActive: e.active,
+      appliesToSelectedHit: appliesToHit,
       evidenceId: e.evidenceId,
       sourceKey: e.sourceKey,
       window: e.window,

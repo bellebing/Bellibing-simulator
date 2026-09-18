@@ -10,6 +10,8 @@ import { activateStaticMistOutroTransfer, listStaticMistOutroTransferSupport,
   activateSharedRejuvenatingGlowWindow, isSharedHealingTeamWindowActive, listSharedRejuvenatingGlowSupport,
   type QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 import { isIncomingTransferWindowActive, type OutgoingSwitchEvent } from './incomingTransferState.ts';
+import { activateStellarSymphonyTeamAtkWindow, isShorekeeperHealingSupportWindowActive,
+  listStellarSymphonyTeamAtkSupport, type ShorekeeperHealingSkillCastEvent } from './shorekeeperHealingSupportWindowAdapter.ts';
 
 export interface ProvenHitSonataOutroTransfer {
   readonly effectId: 'S08_5PC_INCOMING_ATK' | 'S12_5PC_INCOMING_HAVOC';
@@ -22,6 +24,22 @@ export interface ProvenHitSonataOutroTransfer {
   readonly sourceEquipmentAtEventQualified: true;
   readonly event: OutgoingSwitchEvent;
   /** This hit bridge consumes one isolated activation; refresh/overlap remains caller-owned. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitStellarSymphonyTeamWindow {
+  readonly effectId: 'SSY-TEAM-ATK';
+  readonly evidenceId: string;
+  readonly sourceWielderId: 'the-shorekeeper';
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceWeaponId: 'stellar-symphony';
+  readonly sourceWeaponRank: 1 | 2 | 3 | 4 | 5;
+  readonly sourceQualification: 'SOURCE_PROVEN_HEALING_SKILL_CAST';
+  readonly sourceEquipmentAtEventQualified: true;
+  readonly teamMemberIds: readonly string[];
+  readonly event: ShorekeeperHealingSkillCastEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -86,6 +104,7 @@ export interface HitContextIncomingTransfers {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
+  readonly teamWeaponCasts?: readonly ProvenHitStellarSymphonyTeamWindow[];
   readonly teamHeals?: readonly ProvenHitRejuvenatingGlowTeamWindow[];
   readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
   readonly echoTransfers?: readonly ProvenHitEchoTransfer[];
@@ -115,6 +134,7 @@ export function evaluateHitContextIncomingTransfers(input: {
   if (!Number.isFinite(input.hitAtSeconds) || input.hitAtSeconds < 0
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
+    || (proof.teamWeaponCasts !== undefined && !Array.isArray(proof.teamWeaponCasts))
     || (proof.teamHeals !== undefined && !Array.isArray(proof.teamHeals))
     || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
     || (proof.echoTransfers !== undefined && !Array.isArray(proof.echoTransfers))) {
@@ -122,6 +142,9 @@ export function evaluateHitContextIncomingTransfers(input: {
   }
   if (new Set(proof.sonataOutros.map(row => row.effectId)).size !== proof.sonataOutros.length) {
     throw new Error('Require one isolated activation per incoming Sonata effect; duplicate stacking is unreviewed');
+  }
+  if (new Set((proof.teamWeaponCasts ?? []).map(row => row.effectId)).size !== (proof.teamWeaponCasts ?? []).length) {
+    throw new Error('Require one isolated activation per team Weapon cast effect; duplicate stacking is unreviewed');
   }
   if (new Set((proof.teamHeals ?? []).map(row => row.effectId)).size !== (proof.teamHeals ?? []).length) {
     throw new Error('Require one isolated activation per team-heal Sonata effect; duplicate stacking is unreviewed');
@@ -166,6 +189,53 @@ export function evaluateHitContextIncomingTransfers(input: {
       sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
       magnitudeDependsOnEchoStats: false as const,
       activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
+      sourceKey: JSON.stringify(effect),
+      window: { ...window },
+    };
+  });
+
+  const teamWeaponSupport = listStellarSymphonyTeamAtkSupport();
+  const teamWeapon = (proof.teamWeaponCasts ?? []).map(row => {
+    const contract = teamWeaponSupport.find(item => item.effectId === row.effectId);
+    const effects = WEAPON_EFFECT_CATALOG.filter(effect => effect.effectId === row.effectId);
+    const effect = effects[0];
+    const sourceCharacter = releasedCharacter(row.sourceWielderId);
+    const sourceWeapon = releasedWeapon(row.sourceWeaponId);
+    if (!contract || effects.length !== 1 || !effect || !sourceCharacter || !sourceWeapon
+      || row.sourceWielderId !== contract.sourceCharacterId || row.sourceWielderId === input.characterId
+      || row.sourceWeaponId !== contract.weaponId || sourceWeapon.weaponType !== sourceCharacter.weaponType
+      || !Number.isInteger(row.sourceWeaponRank) || row.sourceWeaponRank < contract.rankRange[0]
+      || row.sourceWeaponRank > contract.rankRange[1]
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_HEALING_SKILL_CAST'
+      || row.sourceEquipmentAtEventQualified !== true || row.priorActivationState !== 'NONE_ACTIVE'
+      || row.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
+      || row.teamMemberIds.some((id: string) => !releasedCharacter(id))
+      || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
+      || !row.event || row.event.actorId !== row.sourceWielderId
+      || row.event.healingSourceFactId !== contract.sourceFactId || input.hitAtSeconds < row.event.atSeconds) {
+      throw new Error('Require exact Shorekeeper Stellar Symphony rank/team, healing Skill cast and isolated query ordering');
+    }
+    const window = activateStellarSymphonyTeamAtkWindow({
+      event: row.event,
+      selectedWeapon: { id: row.sourceWeaponId, rank: row.sourceWeaponRank },
+      teamMemberIds: row.teamMemberIds,
+    });
+    if (!window) throw new Error('The supplied Shorekeeper weapon/team/cast does not activate Stellar Symphony');
+    const active = isShorekeeperHealingSupportWindowActive(window, input.characterId, input.hitAtSeconds)
+      && !(input.hitAtSeconds === window.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+    return {
+      sourceId: `team:weapon-cast:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_TEAM_CAST' as const,
       sourceKey: JSON.stringify(effect),
       window: { ...window },
     };
@@ -307,5 +377,5 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...teamHeal, ...weapon, ...echo];
+  return [...sonata, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
 }

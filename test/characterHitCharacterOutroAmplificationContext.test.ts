@@ -147,7 +147,7 @@ test('Character Outro hit support exposes 12 compatible facts / 19 typed terms a
   assert.deepEqual(facts, [
     'aalto-outro-dissolving-mist',
     'cantarella-outro-gentle-tentacles',
-    'changli-outro-strategies-of-duality',
+    'changli-outro-strategy-of-duality',
     'lumi-outro-escorting',
     'lupa-outro-stand-by-me-warrior',
     'lynae-outro-lets-hit-the-road-amplification',
@@ -178,13 +178,13 @@ test('single-scope element and damage-class Outros feed the scalar only when the
 
 test('dual-term Changli Outro resolves one matching term or PENDING_STACKING for a Fusion Liberation hit', () => {
   const fusionBasic = target({ element: 'Fusion', damageClass: 'BASIC', excludeCharacterId: 'changli' });
-  const single = compareQualified(fusionBasic, 'changli-outro-strategies-of-duality', 'changli').result();
+  const single = compareQualified(fusionBasic, 'changli-outro-strategy-of-duality', 'changli').result();
   assert.equal(single.comparison.status, 'EVALUATED_HIT_COMPARISON');
   if (single.comparison.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected single-scope Changli comparison');
   assert.equal(single.comparison.current.snapshot.amplification, .20);
 
   const fusionLiberation = target({ element: 'Fusion', damageClass: 'LIBERATION', excludeCharacterId: 'changli' });
-  const dual = compareQualified(fusionLiberation, 'changli-outro-strategies-of-duality', 'changli');
+  const dual = compareQualified(fusionLiberation, 'changli-outro-strategy-of-duality', 'changli');
   assert.equal(dual.ca.amplificationContributions.length, 2);
   assert.throws(dual.result, /Multiple active applicable amplification terms/);
 });

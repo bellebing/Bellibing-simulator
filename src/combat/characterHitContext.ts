@@ -428,7 +428,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   requirements.push(...amplificationRequirementIds);
   const weaponEventResults = events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
     hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : [];
-  const weaponDamageAmplificationIds = new Set(listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId));
+  const weaponDamageAmplificationIds = new Set<string>(listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId));
   const weaponAmplificationContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
     if (!weaponDamageAmplificationIds.has(effectId)) return [];

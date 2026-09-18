@@ -1,5 +1,7 @@
 import { getWeaponEffect } from '../effectRegistry.ts';
 import { activateWeaponCastWindow, isWeaponCastWindowActive, type WeaponCastEvent } from './weaponCastWindowAdapter.ts';
+import { activateWeaponCooldownCastWindow, isWeaponCooldownCastWindowActive,
+  type CooldownCastWindowEffectId } from './weaponCooldownCastWindowAdapter.ts';
 import { activateWeaponDamageWindow, isWeaponDamageWindowActive, type QualifiedWeaponDamageEvent } from './weaponDamageWindowAdapter.ts';
 import { activateWeaponHealingWindow, isWeaponHealingWindowActive } from './weaponHealingWindowAdapter.ts';
 import { activateWeaponTargetWindow, isWeaponTargetWindowActive, type WeaponTargetHitEvent } from './weaponTargetWindowAdapter.ts';
@@ -8,6 +10,18 @@ import { activateWeaponStatusApplicationWindow, isWeaponStatusApplicationWindowA
 import type { ExplicitPreAttackTarget } from './sonataTargetWindowAdapter.ts';
 import type { QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 
+export interface ProvenHitWeaponCooldownCast {
+  readonly effectId: CooldownCastWindowEffectId;
+  readonly evidenceId: string;
+  readonly event: WeaponCastEvent;
+  readonly sourceQualification: 'SOURCE_PROVEN_CAST';
+  readonly equipmentAtEventQualified: true;
+  readonly cooldownReadyAtEventQualified: true;
+  readonly cooldownReadyAtSeconds: number;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
 export interface ProvenHitWeaponCast {
   readonly effectId: string;
   readonly evidenceId: string;
@@ -56,6 +70,7 @@ export interface HitContextWeaponEvents {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly casts: readonly ProvenHitWeaponCast[];
+  readonly cooldownCasts?: readonly ProvenHitWeaponCooldownCast[];
   readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
   readonly statusApplications?: readonly ProvenHitWeaponStatusApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
@@ -78,15 +93,55 @@ export function evaluateHitContextWeaponEvents(input: {
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || proof.weapon?.id !== input.weapon.id || proof.weapon.rank !== input.weapon.rank
     || !text(proof.evidenceId) || !Array.isArray(proof.casts)
+    || (proof.cooldownCasts !== undefined && !Array.isArray(proof.cooldownCasts))
     || (proof.damages !== undefined && !Array.isArray(proof.damages))
     || (proof.statusApplications !== undefined && !Array.isArray(proof.statusApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
   }
-  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.statusApplications ?? []),
+  const all = [...proof.casts, ...(proof.cooldownCasts ?? []), ...(proof.damages ?? []), ...(proof.statusApplications ?? []),
     ...(proof.targets ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
+  const cooldownCasts = (proof.cooldownCasts ?? []).map(c => {
+    const effect = getWeaponEffect(c.effectId);
+    if (!effect || effect.weaponId !== input.weapon.id || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
+      || !text(c.evidenceId) || c.sourceQualification !== 'SOURCE_PROVEN_CAST'
+      || c.equipmentAtEventQualified !== true || c.cooldownReadyAtEventQualified !== true
+      || !Number.isFinite(c.cooldownReadyAtSeconds) || c.cooldownReadyAtSeconds < 0
+      || c.priorActivationState !== 'NONE_ACTIVE' || c.noLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact weapon/owner, proven cast/cooldown readiness, isolated activation and explicit query ordering');
+    }
+    const window = activateWeaponCooldownCastWindow({
+      effectId: c.effectId,
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      event: c.event,
+      cooldownReadyAtSeconds: c.cooldownReadyAtSeconds,
+    });
+    if (!window) throw new Error('The supplied cast/cooldown state does not activate this canonical weapon effect');
+    const active = isWeaponCooldownCastWindowActive(window, {
+      actorId: input.characterId,
+      atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder,
+    });
+    return {
+      sourceId: `weapon:${c.effectId}`,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_CAST_AND_COOLDOWN_STATE' as const,
+      sourceKey: JSON.stringify(effect),
+      cooldownReadyAtSeconds: c.cooldownReadyAtSeconds,
+      nextCooldownReadyAtSeconds: window.nextCooldownReadyAtSeconds,
+      window: { ...window },
+    };
+  });
   const casts = proof.casts.map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
@@ -220,5 +275,5 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...damages, ...statusApplications, ...targets, ...heals];
+  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...targets, ...heals];
 }

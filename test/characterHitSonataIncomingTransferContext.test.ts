@@ -190,13 +190,13 @@ test('source owner, recipient, five-piece equipment and lifecycle proof fail clo
 test('duplicate same-effect sources do not manufacture stacking semantics', () => {
   const effectId = 'S08_5PC_INCOMING_ATK' as const, ids = transfer(effectId);
   const sel = selection(ids.incomingId), cards = echoes(), proof = events(effectId, cards);
-  proof.sonataOutros = [
+  const duplicate: HitContextIncomingTransfers = { ...proof, sonataOutros: [
     proof.sonataOutros[0],
     { ...proof.sonataOutros[0], sourceWielderId: 'lumi',
       event: { ...proof.sonataOutros[0].event, actorId: 'lumi' },
       sourceEquipmentEvidenceId: 'synthetic-lumi-five-piece-proof' },
-  ];
-  assert.throws(() => assembleCharacterHitContext(sel, cards, { incoming: proof }), /duplicate stacking is unreviewed/);
+  ] };
+  assert.throws(() => assembleCharacterHitContext(sel, cards, { incoming: duplicate }), /duplicate stacking is unreviewed/);
 });
 
 test('same-timestamp order and expiry are explicit for incoming transfer windows', () => {

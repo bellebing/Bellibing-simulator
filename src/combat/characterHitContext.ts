@@ -42,6 +42,7 @@ import { validateEchoLoadout } from '../loadoutValidator.ts';
 import { listCharacterDirectHitSupport, supportsCharacterDirectHit, type CharacterDirectHitInput,
   type DirectHitDamageClass } from './characterDirectHitAdapter.ts';
 import { compareCharacterHitEchoReplacement, type EchoBuildHitContext } from './characterEchoComparison.ts';
+import { defenseMultiplier as computeDefenseMultiplier } from './damageKernel.ts';
 
 export const CHARACTER_HIT_CONTEXT_ID = 'character-source-qualified-hit-context-v1';
 export function listCharacterHitContextSupport() {
@@ -173,6 +174,21 @@ export function listWeaponDamageAmplificationHitContextSupport() {
       selectedHitScope: 'TYPED_SCOPED_CHARACTER_HIT' as const,
       requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const,
       stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const }];
+  });
+}
+
+export function listWeaponDamageDefenseHitContextSupport() {
+  return listWeaponDamageWindowSupport().flatMap(s => {
+    const effect = WEAPON_EFFECT_CATALOG.find(e => e.effectId === s.effectId);
+    if (!effect || effect.statOrEffect !== 'DEF Ignore') return [];
+    return [{ ...s, statOrEffect: effect.statOrEffect,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'ALL_CHARACTER_DIRECT_HITS' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitEnemyDefenseProof: true as const,
+      requiresNoOtherDefenseModifiers: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+      stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const }];
   });
 }
 
@@ -449,10 +465,30 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       activationProof: e.activationProof,
     }];
   });
+  const weaponDamageDefenseIds = new Set<string>(listWeaponDamageDefenseHitContextSupport().map(row => row.effectId));
+  const defenseContributions = weaponEventResults.flatMap(e => {
+    const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
+    if (!weaponDamageDefenseIds.has(effectId)) return [];
+    if (e.stat !== 'DEF Ignore' || !Number.isFinite(e.window?.value) || e.window.value <= 0 || e.window.value >= 1) {
+      throw new Error('Reviewed weapon DEF Ignore event lost its canonical bounded window value');
+    }
+    return [{
+      sourceId: e.sourceId,
+      canonicalSourceId: effectId,
+      statOrEffect: 'DEF Ignore' as const,
+      value: e.window.value,
+      active: e.active,
+      evidenceId: e.evidenceId,
+      sourceKey: e.sourceKey,
+      window: e.window,
+      activationProof: e.activationProof,
+    }];
+  });
   const ordinaryWeaponEventContributions = weaponEventResults.filter(e => contextStatName(e.stat) !== null);
   const consumedWeaponSourceIds = new Set([
     ...ordinaryWeaponEventContributions.map(e => e.sourceId),
     ...weaponAmplificationContributions.map(e => e.sourceId),
+    ...defenseContributions.map(e => e.sourceId),
   ]);
   const unsupportedWeaponEvent = weaponEventResults.find(e => !consumedWeaponSourceIds.has(e.sourceId));
   if (unsupportedWeaponEvent) {
@@ -492,14 +528,21 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     if (pending < 0) throw new Error('Amplification contribution must resolve exactly one unassembled effect');
     requirements.splice(pending, 1);
   }
+  for (const e of defenseContributions) {
+    const pending = requirements.indexOf(e.sourceId);
+    if (pending < 0) throw new Error('Defense contribution must resolve exactly one unassembled effect');
+    requirements.splice(pending, 1);
+  }
   const stats: Record<string, number> = {};
   for (const c of contributions) stats[c.stat] = (stats[c.stat] ?? 0) + c.value;
   const baseCombat = { ...character.baseCombat } as { critRate: number; critDamage: number; energyRegen: number };
   const identity = { selection, hitSourceKey: JSON.stringify(fact), echoStatKey: projection.key, baseScalingStat, baseCombat, contributions, eventContributions,
-    amplificationContributions, eventEvidence: events ?? null,
+    amplificationContributions, defenseContributions, eventEvidence: events ?? null,
     requirements: [...requirements].sort() };
   const eventRequirements = new Set([...listWeaponCastHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),
     ...listSonataCastHitContextSupport().map(e => `sonata:${e.effectId}`),
     ...listSonataDamageHitContextSupport().map(e => `sonata:${e.effectId}`),
@@ -535,6 +578,13 @@ export type RemainingHitContext = { readonly status: 'PENDING'; readonly reason:
   readonly damageBonus: number;
   readonly amplification: number;
   readonly defenseMultiplier: number;
+  /** Required only when an active source-qualified DEF Ignore term is assembled.
+   * The baseline multiplier must match this exact no-other-defense-modifier state. */
+  readonly defenseContext?: {
+    readonly evidenceId: string;
+    readonly enemyDefense: number;
+    readonly otherDefenseModifiersAbsent: true;
+  };
   readonly resistanceMultiplier: number;
   readonly damageReduction: number;
 };
@@ -569,6 +619,33 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
   if (scopedAmplification.amplification > 0 && proof.amplification !== 0) {
     throw new Error('Residual amplification must be zero when a source-qualified scoped amplification term is active; cross-source stacking is unreviewed');
   }
+  const activeDefense = a.defenseContributions.filter(term => term.active);
+  if (activeDefense.length > 1) {
+    throw new Error('Multiple active DEF Ignore terms require reviewed stacking semantics');
+  }
+  let resolvedDefenseMultiplier = proof.defenseMultiplier;
+  if (activeDefense.length === 1) {
+    const defense = proof.defenseContext;
+    if (!defense || !text(defense.evidenceId) || !Number.isFinite(defense.enemyDefense)
+      || defense.enemyDefense < 0 || defense.otherDefenseModifiersAbsent !== true) {
+      throw new Error('Active source-qualified DEF Ignore requires explicit enemy DEF and proof that other defense modifiers are absent');
+    }
+    const baselineDefenseMultiplier = computeDefenseMultiplier({
+      attackerLevel: a.selection.characterLevel,
+      enemyDefense: defense.enemyDefense,
+      defIgnore: 0,
+      defReduction: 0,
+    });
+    if (Math.abs(proof.defenseMultiplier - baselineDefenseMultiplier) > 1e-12) {
+      throw new Error('Residual defense multiplier must match the explicit no-modifier enemy DEF baseline before applying source-qualified DEF Ignore');
+    }
+    resolvedDefenseMultiplier = computeDefenseMultiplier({
+      attackerLevel: a.selection.characterLevel,
+      enemyDefense: defense.enemyDefense,
+      defIgnore: activeDefense[0].value,
+      defReduction: 0,
+    });
+  }
   return { status: 'QUALIFIED', characterId: hit.characterId, factId: hit.factId,
     componentIndex: hit.componentIndex, landedHitCount: hit.landedHitCount,
     eventContextId: a.selection.eventContextId, echoStatKey: a.echoStatKey, evidenceId: proof.evidenceId,
@@ -582,7 +659,7 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
       critDamage: a.baseCombat.critDamage + stat('CRIT DMG') + proof.critDamage,
       damageBonus: stat(a.selection.damageElement + ' DMG') + stat('All Attribute DMG') + stat(classStat[damageClass]) + proof.damageBonus,
       amplification: scopedAmplification.amplification + proof.amplification,
-      defenseMultiplier: proof.defenseMultiplier,
+      defenseMultiplier: resolvedDefenseMultiplier,
       resistanceMultiplier: proof.resistanceMultiplier, damageReduction: proof.damageReduction,
     } };
 }

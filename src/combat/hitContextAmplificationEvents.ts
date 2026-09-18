@@ -80,8 +80,10 @@ export function listBloodpactsPledgeHitAmplificationSupport() {
   return listWeaponTeamAmplifySupport().map(contract => {
     const scope = classifyCharacterHitAmplificationScope(contract.statOrEffect);
     if (!scope) throw new Error('Bloodpact team amplification scope is not supported by Character direct hits');
+    const { scope: sourceScope, ...identity } = contract;
     return {
-      ...contract,
+      ...identity,
+      sourceScope,
       scope,
       contextScope: 'EXPLICIT_UNBOUND_FLOW_SINGLE_ACTIVE_AERO_AMPLIFICATION' as const,
     };

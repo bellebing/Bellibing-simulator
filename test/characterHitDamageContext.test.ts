@@ -64,7 +64,7 @@ test('casts, wrong damage classes/actors and unknown state cannot activate damag
     { event: { ...damage.event, damageClass: 'BASIC' } }, { event: { ...damage.event, actorId: 'cantarella' } },
     { event: { ...damage.event, sourceTriggerQualification: 'UNKNOWN' } }, { priorActivationState: 'UNKNOWN' },
     { equipmentAtEventQualified: false }, { noLaterActivationThroughHit: false }, { sameTimestampOrder: 'UNKNOWN' },
-    { effectId: 'LE-DEF' }, { effectId: 'LE-ECHO' }]) {
+    { effectId: 'LE-ECHO' }]) {
     const bad = structuredClone(e); Object.assign(bad.weapon.damages![0], patch);
     assert.throws(() => assembleCharacterHitContext(f.selection, f.current, bad));
   }

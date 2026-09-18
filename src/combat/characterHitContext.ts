@@ -26,6 +26,7 @@ import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
 import { listSonataDamageWindowSupport } from './sonataDamageWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
+import { listEchoTransferWindowSupport } from './echoTransferWindowAdapter.ts';
 import { getCharacterActionFact } from '../data/characterMechanics.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { projectRank5EchoStats } from '../echoStatProjection.ts';
@@ -80,7 +81,7 @@ const statNames = new Set(['ATK%', 'HP%', 'DEF%', 'Flat ATK', 'Flat HP', 'Flat D
 /** Exact canonical stat labels only. Never parse effect prose or infer a trigger. */
 export function contextStatName(name: string): string | null {
   const aliases: Record<string, string> = {
-    'All-Attribute DMG': 'All Attribute DMG',
+    'All-Attribute DMG': 'All Attribute DMG', 'All Attribute DMG Bonus': 'All Attribute DMG',
     'Resonance Skill DMG': 'Skill DMG', 'Resonance Liberation DMG': 'Liberation DMG',
     'Glacio DMG Bonus': 'Glacio DMG', 'Fusion DMG Bonus': 'Fusion DMG',
     'Electro DMG Bonus': 'Electro DMG', 'Aero DMG Bonus': 'Aero DMG',
@@ -177,6 +178,17 @@ export function listSonataIncomingTransferHitContextSupport() {
     .map(s => ({ ...s, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
       requiresPerBuildEventProof: true as const, requiresExplicitSourceEquipmentProof: true as const,
       magnitudeDependsOnEchoStats: false as const }));
+}
+
+export function listEchoIncomingTransferHitContextSupport() {
+  return listEchoTransferWindowSupport().flatMap(s => {
+    const effects = ECHO_EFFECT_MODELS.filter(e => e.effectId === s.effectId);
+    const effect = effects[0];
+    if (effects.length !== 1 || !effect || contextStatName(effect.statOrEffect) === null) return [];
+    return [{ ...s, statOrEffect: effect.statOrEffect, contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const, requiresExplicitSourceEquipmentProof: true as const,
+      magnitudeDependsOnEchoStats: false as const }];
+  });
 }
 
 /** Partial source assembly. Pending effect/context requirements are never zero. */
@@ -291,8 +303,10 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     requirements.push(`echo:${mainEchoId}:unassembled-effects`);
   }
   if (events?.sonata && !equipment) throw new Error('Sonata events require explicit equipped species/set evidence');
-  const incomingRequirementIds = events?.incoming?.sonataOutros.map(row =>
-    `team:sonata:${row.effectId}:${row.sourceWielderId}`) ?? [];
+  const incomingRequirementIds = [
+    ...(events?.incoming?.sonataOutros.map(row => `team:sonata:${row.effectId}:${row.sourceWielderId}`) ?? []),
+    ...(events?.incoming?.echoTransfers?.map(row => `team:echo:${row.effectId}:${row.sourceWielderId}`) ?? []),
+  ];
   requirements.push(...incomingRequirementIds);
   const eventContributions = [
     ...(events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,

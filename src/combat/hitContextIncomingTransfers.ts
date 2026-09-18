@@ -1,9 +1,11 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
 import { ECHO_EFFECT_MODELS } from '../data/echoEffects.ts';
 import { ECHO_CATALOG } from '../data/echoes.ts';
+import { WEAPON_CATALOG } from '../data/weapons.ts';
 import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { activateSonataOutroTransfer, listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
 import { activateEchoTransferWindow, listEchoTransferWindowSupport, type EchoTransferArmEvent } from './echoTransferWindowAdapter.ts';
+import { activateStaticMistOutroTransfer, listStaticMistOutroTransferSupport } from './sharedSupportStatWindows.ts';
 import { isIncomingTransferWindowActive, type OutgoingSwitchEvent } from './incomingTransferState.ts';
 
 export interface ProvenHitSonataOutroTransfer {
@@ -17,6 +19,21 @@ export interface ProvenHitSonataOutroTransfer {
   readonly sourceEquipmentAtEventQualified: true;
   readonly event: OutgoingSwitchEvent;
   /** This hit bridge consumes one isolated activation; refresh/overlap remains caller-owned. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitWeaponOutroTransfer {
+  readonly effectId: 'STM-NEXT-ATK';
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceWeaponId: 'static-mist';
+  readonly sourceWeaponRank: 1 | 2 | 3 | 4 | 5;
+  readonly sourceQualification: 'SOURCE_PROVEN_WEAPON_OUTRO_TRANSFER';
+  readonly sourceEquipmentAtEventQualified: true;
+  readonly event: OutgoingSwitchEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -50,6 +67,7 @@ export interface HitContextIncomingTransfers {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
+  readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
   readonly echoTransfers?: readonly ProvenHitEchoTransfer[];
 }
 
@@ -58,6 +76,8 @@ const releasedCharacter = (id: string) => CHARACTER_CATALOG.find(character =>
   character.id === id && character.releaseStatus === 'RELEASED');
 const releasedEcho = (id: string) => ECHO_CATALOG.find(echo =>
   echo.id === id && echo.releaseStatus === 'RELEASED');
+const releasedWeapon = (id: string) => WEAPON_CATALOG.find(weapon =>
+  weapon.id === id && weapon.releaseStatus === 'RELEASED' && weapon.verificationStatus === 'VERIFIED');
 
 /**
  * Cross-owner transfer evidence is intentionally separate from the selected
@@ -75,11 +95,15 @@ export function evaluateHitContextIncomingTransfers(input: {
   if (!Number.isFinite(input.hitAtSeconds) || input.hitAtSeconds < 0
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
+    || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
     || (proof.echoTransfers !== undefined && !Array.isArray(proof.echoTransfers))) {
     throw new Error('Require exact per-build incoming-transfer proof and hit query');
   }
   if (new Set(proof.sonataOutros.map(row => row.effectId)).size !== proof.sonataOutros.length) {
     throw new Error('Require one isolated activation per incoming Sonata effect; duplicate stacking is unreviewed');
+  }
+  if (new Set((proof.weaponOutros ?? []).map(row => row.effectId)).size !== (proof.weaponOutros ?? []).length) {
+    throw new Error('Require one isolated activation per incoming Weapon effect; duplicate stacking is unreviewed');
   }
   if (new Set((proof.echoTransfers ?? []).map(row => row.effectId)).size !== (proof.echoTransfers ?? []).length) {
     throw new Error('Require one isolated activation per incoming Echo effect; duplicate stacking is unreviewed');
@@ -119,6 +143,49 @@ export function evaluateHitContextIncomingTransfers(input: {
       magnitudeDependsOnEchoStats: false as const,
       activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
       sourceKey: JSON.stringify(effect),
+      window: { ...window },
+    };
+  });
+
+  const weaponSupport = listStaticMistOutroTransferSupport();
+  const weapon = (proof.weaponOutros ?? []).map(row => {
+    const contract = weaponSupport.find(item => item.effectId === row.effectId);
+    const effectRows = WEAPON_CATALOG.filter(item => item.id === row.sourceWeaponId);
+    const sourceWeapon = releasedWeapon(row.sourceWeaponId);
+    const sourceCharacter = releasedCharacter(row.sourceWielderId);
+    if (!contract || effectRows.length !== 1 || !sourceWeapon || !sourceCharacter
+      || sourceWeapon.weaponType !== sourceCharacter.weaponType
+      || row.sourceWeaponId !== contract.weaponId
+      || !Number.isInteger(row.sourceWeaponRank) || row.sourceWeaponRank < contract.rankRange[0]
+      || row.sourceWeaponRank > contract.rankRange[1]
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_WEAPON_OUTRO_TRANSFER'
+      || row.sourceEquipmentAtEventQualified !== true || row.priorActivationState !== 'NONE_ACTIVE'
+      || row.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !row.event || row.event.actorId !== row.sourceWielderId
+      || row.event.incomingResonatorId !== input.characterId || input.hitAtSeconds < row.event.atSeconds) {
+      throw new Error('Require exact source weapon/rank/owner, Outro recipient and isolated query ordering');
+    }
+    const window = activateStaticMistOutroTransfer({
+      selectedWeapon: { id: row.sourceWeaponId, rank: row.sourceWeaponRank },
+      wielderId: row.sourceWielderId,
+      event: row.event,
+    });
+    if (!window) throw new Error('The supplied weapon/Outro event does not activate this canonical incoming transfer');
+    const active = isIncomingTransferWindowActive(window, input.characterId, input.hitAtSeconds)
+      && !(input.hitAtSeconds === window.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+    return {
+      sourceId: `team:weapon:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
+      sourceKey: JSON.stringify(contract),
       window: { ...window },
     };
   });
@@ -171,5 +238,5 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...echo];
+  return [...sonata, ...weapon, ...echo];
 }

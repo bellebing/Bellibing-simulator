@@ -6,7 +6,7 @@ import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listSta
   listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
   listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
-  listStellarSymphonyTeamHitContextSupport } from './combat/characterHitContext.ts';
+  listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -107,6 +107,7 @@ export function buildCharacterDatabase() {
       echoStaticContext: listStaticEchoContextSupport(),
       echoTransferWindows: listEchoTransferWindowSupport(),
       echoIncomingTransferHitContext: listEchoIncomingTransferHitContextSupport(),
+      echoTeamStatHitContext: listFallacyTeamHitContextSupport(),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
       echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,
       echoSkillPendingAdapterFacts: ECHO_SKILL_PENDING_ADAPTER_FACTS,

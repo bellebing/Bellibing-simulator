@@ -6,7 +6,8 @@ import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listSta
   listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
   listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
-  listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport } from './combat/characterHitContext.ts';
+  listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport,
+  listShorekeeperOutroAmplificationHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -80,6 +81,7 @@ export function buildCharacterDatabase() {
       echoActiveHits: listEchoActiveHitSupport(),
       echoComparisons: listCharacterEchoComparisonSupport(),
       contextAssembly: listCharacterHitContextSupport(),
+      shorekeeperTeamAmplification: listShorekeeperOutroAmplificationHitContextSupport(),
     },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     resourceGainSupport: listRoverWindstringsGainSupport(),

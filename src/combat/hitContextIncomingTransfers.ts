@@ -1,4 +1,5 @@
 import { SONATA_EFFECT_MODELS } from '../data/sonataEffects.ts';
+import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { activateSonataOutroTransfer, listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
 import { isIncomingTransferWindowActive, type OutgoingSwitchEvent } from './incomingTransferState.ts';
 
@@ -54,7 +55,9 @@ export function evaluateHitContextIncomingTransfers(input: {
     const contract = support.find(item => item.effectId === row.effectId);
     const effects = SONATA_EFFECT_MODELS.filter(effect => effect.effectId === row.effectId);
     const effect = effects[0];
+    const sourceCharacter = CHARACTER_CATALOG.find(character => character.id === row.sourceWielderId);
     if (!contract || effects.length !== 1 || contract.pieces !== 5
+      || !sourceCharacter || sourceCharacter.releaseStatus !== 'RELEASED'
       || row.sourceSonataSetId !== contract.sonataSetId || row.sourcePieces !== contract.pieces
       || !text(row.evidenceId) || !text(row.sourceWielderId) || !text(row.sourceEquipmentEvidenceId)
       || row.sourceQualification !== 'SOURCE_PROVEN_OUTRO_TRANSFER'

@@ -296,14 +296,13 @@ test('same-name FDS-TEAM stacking is rejected and the cross-owner adapter cannot
   assert.throws(() => assembleCharacterHitContext(sel, current, { incoming: incoming(current, self) }));
 });
 
-test('FDS-TEAM canonical/source drift fails instead of retaining stale chained semantics', () => {
+test('FDS-TEAM structural source drift fails while numeric rank truth stays single-owned', () => {
   const source = WEAPON_EFFECT_CATALOG.find(row => row.effectId === 'FDS-TEAM')!;
   for (const patch of [
     { durationSeconds: 14 },
     { appliesTo: 'SELF' as const },
     { trigger: 'Any status' },
     { maxStacks: 2 },
-    { rankValues: [.25, .30, .36, .42, .48] as const },
   ]) {
     const drifted = WEAPON_EFFECT_CATALOG.map(row => row.effectId === source.effectId
       ? { ...row, ...patch }

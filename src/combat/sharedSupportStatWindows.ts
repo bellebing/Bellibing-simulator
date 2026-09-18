@@ -48,6 +48,21 @@ export function validateSharedSupportStatWindowContracts(
   return issues;
 }
 
+/** Identity-only support; rank values remain owned by the canonical weapon effect row. */
+export function listStaticMistOutroTransferSupport() {
+  const issues = validateSharedSupportStatWindowContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  const effect = WEAPON_EFFECT_CATALOG.find((row) => row.effectId === 'STM-NEXT-ATK')!;
+  return [{
+    effectId: effect.effectId,
+    weaponId: effect.weaponId,
+    statOrEffect: effect.statOrEffect,
+    primitiveId: SHARED_SUPPORT_STAT_WINDOW_REVIEW.weaponAdapterId,
+    scope: 'EXPLICIT_OUTRO_INCOMING_TRANSFER_ONLY' as const,
+    rankRange: [1, 5] as const,
+  }];
+}
+
 export function activateStaticMistOutroTransfer(params: {
   readonly selectedWeapon: { readonly id: string; readonly rank: number };
   readonly wielderId: string;

@@ -12,6 +12,8 @@ import { activateStaticMistOutroTransfer, listStaticMistOutroTransferSupport,
 import { isIncomingTransferWindowActive, type OutgoingSwitchEvent } from './incomingTransferState.ts';
 import { activateStellarSymphonyTeamAtkWindow, isShorekeeperHealingSupportWindowActive,
   listStellarSymphonyTeamAtkSupport, type ShorekeeperHealingSkillCastEvent } from './shorekeeperHealingSupportWindowAdapter.ts';
+import { activateFallacySupportWindows, isFallacySupportWindowActive, listFallacyTeamAtkSupport,
+  type FallacyEchoCastEvent } from './fallacySupportWindowAdapter.ts';
 
 export interface ProvenHitSonataOutroTransfer {
   readonly effectId: 'S08_5PC_INCOMING_ATK' | 'S12_5PC_INCOMING_HAVOC';
@@ -24,6 +26,21 @@ export interface ProvenHitSonataOutroTransfer {
   readonly sourceEquipmentAtEventQualified: true;
   readonly event: OutgoingSwitchEvent;
   /** This hit bridge consumes one isolated activation; refresh/overlap remains caller-owned. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitFallacyTeamWindow {
+  readonly effectId: 'FALLACY_TEAM_ATK';
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceMainEchoId: 'echo-60000605';
+  readonly sourceQualification: 'SOURCE_PROVEN_FALLACY_CAST';
+  readonly sourceMainSlotAtEventQualified: true;
+  readonly teamMemberIds: readonly string[];
+  readonly event: FallacyEchoCastEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -104,6 +121,7 @@ export interface HitContextIncomingTransfers {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
+  readonly teamEchoCasts?: readonly ProvenHitFallacyTeamWindow[];
   readonly teamWeaponCasts?: readonly ProvenHitStellarSymphonyTeamWindow[];
   readonly teamHeals?: readonly ProvenHitRejuvenatingGlowTeamWindow[];
   readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
@@ -134,6 +152,7 @@ export function evaluateHitContextIncomingTransfers(input: {
   if (!Number.isFinite(input.hitAtSeconds) || input.hitAtSeconds < 0
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
+    || (proof.teamEchoCasts !== undefined && !Array.isArray(proof.teamEchoCasts))
     || (proof.teamWeaponCasts !== undefined && !Array.isArray(proof.teamWeaponCasts))
     || (proof.teamHeals !== undefined && !Array.isArray(proof.teamHeals))
     || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
@@ -142,6 +161,9 @@ export function evaluateHitContextIncomingTransfers(input: {
   }
   if (new Set(proof.sonataOutros.map(row => row.effectId)).size !== proof.sonataOutros.length) {
     throw new Error('Require one isolated activation per incoming Sonata effect; duplicate stacking is unreviewed');
+  }
+  if (new Set((proof.teamEchoCasts ?? []).map(row => row.effectId)).size !== (proof.teamEchoCasts ?? []).length) {
+    throw new Error('Require one isolated activation per team Echo cast effect; duplicate stacking is unreviewed');
   }
   if (new Set((proof.teamWeaponCasts ?? []).map(row => row.effectId)).size !== (proof.teamWeaponCasts ?? []).length) {
     throw new Error('Require one isolated activation per team Weapon cast effect; duplicate stacking is unreviewed');
@@ -191,6 +213,53 @@ export function evaluateHitContextIncomingTransfers(input: {
       activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
       sourceKey: JSON.stringify(effect),
       window: { ...window },
+    };
+  });
+
+  const teamEchoSupport = listFallacyTeamAtkSupport();
+  const teamEcho = (proof.teamEchoCasts ?? []).map(row => {
+    const contract = teamEchoSupport.find(item => item.effectId === row.effectId);
+    const effects = ECHO_EFFECT_MODELS.filter(effect => effect.effectId === row.effectId);
+    const effect = effects[0];
+    if (!contract || effects.length !== 1 || !effect || !releasedCharacter(row.sourceWielderId)
+      || row.sourceWielderId === input.characterId || !releasedEcho(row.sourceMainEchoId)
+      || row.sourceMainEchoId !== contract.echoId
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_FALLACY_CAST'
+      || row.sourceMainSlotAtEventQualified !== true || row.priorActivationState !== 'NONE_ACTIVE'
+      || row.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
+      || new Set(row.teamMemberIds).size !== row.teamMemberIds.length
+      || row.teamMemberIds.some((id: string) => !releasedCharacter(id))
+      || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
+      || !row.event || row.event.actorId !== row.sourceWielderId || row.event.echoId !== row.sourceMainEchoId
+      || input.hitAtSeconds < row.event.atSeconds) {
+      throw new Error('Require exact source Fallacy main-Echo/team, cast occurrence and isolated query ordering');
+    }
+    const activation = activateFallacySupportWindows({
+      event: row.event,
+      wielderId: row.sourceWielderId,
+      selectedMainEchoId: row.sourceMainEchoId,
+      teamMemberIds: row.teamMemberIds,
+    });
+    if (!activation || activation.teamAtk.effectId !== row.effectId || activation.teamAtk.statOrEffect !== contract.statOrEffect) {
+      throw new Error('The supplied source Echo/team/cast does not activate the reviewed Fallacy team ATK window');
+    }
+    const active = isFallacySupportWindowActive(activation.teamAtk, input.characterId, input.hitAtSeconds)
+      && !(input.hitAtSeconds === activation.teamAtk.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+    return {
+      sourceId: `team:echo-cast:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: activation.teamAtk.statOrEffect,
+      value: active ? activation.teamAtk.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_TEAM_ECHO_CAST' as const,
+      sourceKey: JSON.stringify(effect),
+      window: { ...activation.teamAtk },
     };
   });
 
@@ -377,5 +446,5 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
+  return [...sonata, ...teamEcho, ...teamWeapon, ...teamHeal, ...weapon, ...echo];
 }

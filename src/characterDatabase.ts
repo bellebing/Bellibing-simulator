@@ -3,7 +3,8 @@ import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
-  listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
+  listWeaponDamageHitContextSupport, listWeaponDamageAmplificationHitContextSupport,
+  listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
   listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
   listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
   listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport,
@@ -104,6 +105,7 @@ export function buildCharacterDatabase() {
       weaponCastWindows: listWeaponCastWindowSupport(),
       weaponCastHitContext: listWeaponCastHitContextSupport(),
       weaponDamageHitContext: listWeaponDamageHitContextSupport(),
+      weaponDamageAmplificationHitContext: listWeaponDamageAmplificationHitContextSupport(),
       weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),
       weaponTeamStatHitContext: listStellarSymphonyTeamHitContextSupport(),
       weaponTeamAmplificationHitContext: listBloodpactsPledgeAmplificationHitContextSupport(),

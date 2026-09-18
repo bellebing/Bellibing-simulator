@@ -243,7 +243,7 @@ export function evaluateHitContextWeaponEvents(input: {
     const teamEffect = getWeaponEffect('FF-TEAM-ATK');
     const releasedTeam = Array.isArray(c.teamMemberIds) && c.teamMemberIds.length > 0
       && new Set(c.teamMemberIds).size === c.teamMemberIds.length
-      && c.teamMemberIds.every(id => CHARACTER_CATALOG.some(character =>
+      && c.teamMemberIds.every((id: string) => CHARACTER_CATALOG.some(character =>
         character.id === id && character.releaseStatus === 'RELEASED'));
     if (!selfEffect || !teamEffect || selfEffect.weaponId !== input.weapon.id || teamEffect.weaponId !== input.weapon.id
       || !text(c.evidenceId) || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'

@@ -24,6 +24,7 @@ import { listLuxUmbraDefenseStateSupport, resolveLuxUmbraDefenseState } from './
 import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts';
 import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
 import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicationWindowAdapter.ts';
+import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -242,6 +243,21 @@ export function listWeaponStatusApplicationHitContextSupport() {
       magnitudeDependsOnEchoStats: false as const,
     }];
   });
+}
+
+export function listFreezeFrameStatusHitContextSupport() {
+  return listFreezeFrameGlacioChafeWindowSupport().map(s => ({
+    ...s,
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    selectedHitScope: s.appliesTo === 'SELF'
+      ? 'SELF_STAT_AFTER_VERIFIED_GLACIO_CHAFE_APPLICATION' as const
+      : 'SELECTED_TEAM_STAT_AFTER_VERIFIED_GLACIO_CHAFE_APPLICATION' as const,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTriggerTargetIdentity: true as const,
+    requiresExplicitTeamMembershipProof: s.appliesTo === 'TEAM',
+    requiresExplicitSourceEquipmentProof: s.appliesTo === 'TEAM',
+    magnitudeDependsOnEchoStats: false as const,
+  }));
 }
 
 export function listWeaponTargetResistanceHitContextSupport() {
@@ -492,9 +508,15 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     && events?.incoming?.teamHeals?.some(row => row.effectId === 'REJUV_ATK')) {
     throw new Error('Rejuvenating Glow duplicate owner activations cannot be combined without reviewed stacking semantics');
   }
+  if ((events?.weapon?.freezeFrameApplications?.length ?? 0) > 0
+    && events?.incoming?.teamWeaponStatusApplications?.some(row => row.effectId === 'FF-TEAM-ATK')) {
+    throw new Error('Freeze Frame team ATK own/cross-owner activations cannot be combined without reviewed same-name stacking semantics');
+  }
   const incomingRequirementIds = [
     ...(events?.incoming?.sonataOutros.map(row => `team:sonata:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamEchoCasts?.map(row => `team:echo-cast:${row.effectId}:${row.sourceWielderId}`) ?? []),
+    ...(events?.incoming?.teamWeaponStatusApplications?.map(row =>
+      `team:weapon-status:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamWeaponCasts?.map(row => `team:weapon-cast:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.teamHeals?.map(row => `team:sonata-heal:${row.effectId}:${row.sourceWielderId}`) ?? []),
     ...(events?.incoming?.weaponOutros?.map(row => `team:weapon:${row.effectId}:${row.sourceWielderId}`) ?? []),
@@ -705,6 +727,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponStatusApplicationHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listFreezeFrameStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),

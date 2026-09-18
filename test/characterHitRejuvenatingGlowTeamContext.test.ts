@@ -182,6 +182,8 @@ test('source owner, five-piece set, selected team, applied heal and lifecycle al
   const original = base.teamHeals![0];
   const patches: Partial<ProvenHitRejuvenatingGlowTeamWindow>[] = [
     { sourceWielderId: 'not-a-character' },
+    { sourceWielderId: 'phrolova', teamMemberIds: ['phrolova', 'cantarella'],
+      event: { ...original.event, healerId: 'phrolova' } },
     { sourceEquipmentEvidenceId: '' },
     { sourceSonataSetId: 'sonata-8' as 'sonata-7' },
     { sourcePieces: 4 as 5 },

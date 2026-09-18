@@ -3,6 +3,8 @@ import { activateWeaponCastWindow, isWeaponCastWindowActive, type WeaponCastEven
 import { activateWeaponDamageWindow, isWeaponDamageWindowActive, type QualifiedWeaponDamageEvent } from './weaponDamageWindowAdapter.ts';
 import { activateWeaponHealingWindow, isWeaponHealingWindowActive } from './weaponHealingWindowAdapter.ts';
 import { activateWeaponTargetWindow, isWeaponTargetWindowActive, type WeaponTargetHitEvent } from './weaponTargetWindowAdapter.ts';
+import { activateWeaponStatusApplicationWindow, isWeaponStatusApplicationWindowActive,
+  type QualifiedAeroErosionApplicationEvent } from './weaponStatusApplicationWindowAdapter.ts';
 import type { ExplicitPreAttackTarget } from './sonataTargetWindowAdapter.ts';
 import type { QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 
@@ -13,6 +15,15 @@ export interface ProvenHitWeaponCast {
   readonly sourceQualification: 'SOURCE_PROVEN_CAST';
   readonly equipmentAtEventQualified: true;
   /** This bridge supports one isolated activation, never a guessed refresh. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+export interface ProvenHitWeaponStatusApplication {
+  readonly effectId: 'WA-AERO';
+  readonly evidenceId: string;
+  readonly event: QualifiedAeroErosionApplicationEvent;
+  readonly equipmentAtEventQualified: true;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -46,6 +57,7 @@ export interface HitContextWeaponEvents {
   readonly evidenceId: string;
   readonly casts: readonly ProvenHitWeaponCast[];
   readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
+  readonly statusApplications?: readonly ProvenHitWeaponStatusApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
   readonly heals?: readonly ProvenHitWeaponHeal[];
 }
@@ -67,11 +79,13 @@ export function evaluateHitContextWeaponEvents(input: {
     || proof.weapon?.id !== input.weapon.id || proof.weapon.rank !== input.weapon.rank
     || !text(proof.evidenceId) || !Array.isArray(proof.casts)
     || (proof.damages !== undefined && !Array.isArray(proof.damages))
+    || (proof.statusApplications !== undefined && !Array.isArray(proof.statusApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
   }
-  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.targets ?? []), ...(proof.heals ?? [])];
+  const all = [...proof.casts, ...(proof.damages ?? []), ...(proof.statusApplications ?? []),
+    ...(proof.targets ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
   const casts = proof.casts.map(c => {
     const effect = getWeaponEffect(c.effectId);
@@ -111,6 +125,42 @@ export function evaluateHitContextWeaponEvents(input: {
       status: 'EVENT_QUALIFIED_ASSEMBLED' as const, active, evidenceId: c.evidenceId,
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
+  });
+  const statusApplications = (proof.statusApplications ?? []).map(c => {
+    const effect = getWeaponEffect(c.effectId);
+    if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
+      || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact weapon/owner, source-qualified status application, isolated activation and explicit query ordering');
+    }
+    const window = activateWeaponStatusApplicationWindow({
+      effectId: c.effectId,
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      event: c.event,
+    });
+    if (!window) throw new Error('The supplied status application does not activate this canonical weapon effect');
+    const active = isWeaponStatusApplicationWindowActive(window, {
+      actorId: input.characterId,
+      atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder,
+    });
+    return {
+      sourceId: `weapon:${c.effectId}`,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_STATUS_APPLICATION' as const,
+      sourceKey: JSON.stringify(effect),
+      sourceFactId: c.event.sourceFactId,
+      triggerTargetId: c.event.targetId,
+      appliedStacks: c.event.stacksApplied,
+      window: { ...window },
+    };
   });
   const targets = (proof.targets ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
@@ -170,5 +220,5 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...damages, ...targets, ...heals];
+  return [...casts, ...damages, ...statusApplications, ...targets, ...heals];
 }

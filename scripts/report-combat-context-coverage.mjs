@@ -16,6 +16,8 @@ const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const weaponDamageAmplificationContextIds = supportedIds(db.gear.weaponDamageAmplificationHitContext);
 const weaponDamageDefenseContextIds = supportedIds(db.gear.weaponDamageDefenseHitContext);
 const weaponStatusApplicationContextIds = supportedIds(db.gear.weaponStatusApplicationHitContext);
+const weaponFreezeFrameContextIds = supportedIds(db.gear.weaponFreezeFrameHitContext);
+const weaponFreezeFrameTeamContextIds = new Set([...weaponFreezeFrameContextIds].filter(id => id === 'FF-TEAM-ATK'));
 const weaponTargetResistanceContextIds = supportedIds(db.gear.weaponTargetResistanceHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
@@ -32,7 +34,7 @@ const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTe
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponCooldownCastHitContext,
   ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
-  ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
+  ...db.gear.weaponFreezeFrameHitContext, ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
   ...db.gear.weaponTeamStatHitContext, ...db.gear.weaponTeamAmplificationHitContext,
@@ -71,6 +73,7 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
         weaponCooldownCastEffectIds: selectedWeaponEffects.filter(e => cooldownCastContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageEffectIds: selectedWeaponEffects.filter(e => damageContextIds.has(e.effectId)).map(e => e.effectId),
         weaponStatusApplicationEffectIds: selectedWeaponEffects.filter(e => weaponStatusApplicationContextIds.has(e.effectId)).map(e => e.effectId),
+        weaponFreezeFrameEffectIds: selectedWeaponEffects.filter(e => weaponFreezeFrameContextIds.has(e.effectId)).map(e => e.effectId),
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageAmplificationEffectIds: selectedWeaponEffects.filter(e => weaponDamageAmplificationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageDefenseEffectIds: selectedWeaponEffects.filter(e => weaponDamageDefenseContextIds.has(e.effectId)).map(e => e.effectId),
@@ -160,6 +163,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponDamageAmplificationEffectIds: [...weaponDamageAmplificationContextIds],
     weaponDamageDefenseEffectIds: [...weaponDamageDefenseContextIds],
     weaponStatusApplicationEffectIds: [...weaponStatusApplicationContextIds],
+    weaponFreezeFrameEffectIds: [...weaponFreezeFrameContextIds],
     weaponTargetResistanceEffectIds: [...weaponTargetResistanceContextIds],
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
@@ -199,6 +203,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: Shorekeeper Stellar Symphony equipment/rank, selected team and healing Skill cast are not inferred from recipient presets or team membership',
       requires: ['SHOREKEEPER_SOURCE_OWNER', 'STELLAR_SYMPHONY_RANK_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_HEALING_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    weaponTeamStatusWindows: {
+      effectIds: [...weaponFreezeFrameTeamContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: teammate Freeze Frame rank/equipment, selected team and exact caller-qualified Glacio Chafe application are never inferred from recipient presets or team membership',
+      sameNameStacking: 'REJECT_DUPLICATE_ACTIVE_SOURCE',
+      requires: ['EXACT_SOURCE_WIELDER', 'FREEZE_FRAME_RANK_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'VERIFIED_GLACIO_CHAFE_APPLICATION_EVENT', 'EXACT_TRIGGER_TARGET_AND_SOURCE_FACT', 'PER_BUILD_QUERY_PROOF'],
     },
     echoTeamStatWindows: {
       effectIds: [...echoTeamStatContextIds],
@@ -252,6 +263,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     family('Weapon damage amplification context', p => p.contextFamilies.weaponDamageAmplificationEffectIds.length > 0),
     family('Weapon damage defense context', p => p.contextFamilies.weaponDamageDefenseEffectIds.length > 0),
     family('Weapon status-application context', p => p.contextFamilies.weaponStatusApplicationEffectIds.length > 0),
+    family('Freeze Frame Glacio Chafe context', p => p.contextFamilies.weaponFreezeFrameEffectIds.length > 0),
     family('Weapon target resistance context', p => p.contextFamilies.weaponTargetResistanceEffectIds.length > 0),
     family('Sonata damage context', p => p.contextFamilies.sonataDamageEffectIds.length > 0),
     family('Sonata target context', p => p.contextFamilies.sonataTargetEffectIds.length > 0)],
@@ -272,7 +284,8 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       + p.contextFamilies.weaponCooldownCastEffectIds.length
       + p.contextFamilies.sonataCastEffectIds.length + p.contextFamilies.weaponDamageEffectIds.length
       + p.contextFamilies.weaponDamageAmplificationEffectIds.length + p.contextFamilies.weaponDamageDefenseEffectIds.length
-      + p.contextFamilies.weaponStatusApplicationEffectIds.length + p.contextFamilies.weaponTargetResistanceEffectIds.length
+      + p.contextFamilies.weaponStatusApplicationEffectIds.length + p.contextFamilies.weaponFreezeFrameEffectIds.length
+      + p.contextFamilies.weaponTargetResistanceEffectIds.length
       + p.contextFamilies.sonataDamageEffectIds.length + p.contextFamilies.sonataTargetEffectIds.length > 0).characterIds.length,
     partialL4Counting: 'Characters with an existing preset equipment recommendation supported by a composition bridge; still requires explicit per-build events',
     L3: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,

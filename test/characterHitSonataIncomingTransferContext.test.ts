@@ -134,7 +134,10 @@ test('S08 and S12 compose only into the actual incoming Character build and pres
     const contribution = withTransfer.eventContributions.find(row => row.sourceId === sourceId)!;
     const source = SONATA_EFFECT_MODELS.find(row => row.effectId === effectId)!;
     assert.equal(contribution.value, source.value);
-    assert.equal(contribution.stat, effectId === 'S08_5PC_INCOMING_ATK' ? 'ATK%' : 'Havoc DMG');
+    assert.equal(contribution.stat, effectId === 'S08_5PC_INCOMING_ATK' ? 'ATK%' : 'Havoc DMG Bonus');
+    assert.ok(withTransfer.contributions.some(row => row.sourceId === sourceId
+      && row.stat === (effectId === 'S08_5PC_INCOMING_ATK' ? 'ATK%' : 'Havoc DMG')),
+      'assembled stat projection normalizes the canonical source label separately');
     assert.equal(contribution.status, 'EVENT_QUALIFIED_ASSEMBLED');
     assert.ok(!withTransfer.requirements.includes(sourceId));
     assert.ok(withTransfer.requirements.includes('selected-team-effects'),

@@ -14,6 +14,7 @@ const sonataCastContextIds = supportedIds(db.gear.sonataCastHitContext);
 const damageContextIds = supportedIds(db.gear.weaponDamageHitContext);
 const weaponDamageAmplificationContextIds = supportedIds(db.gear.weaponDamageAmplificationHitContext);
 const weaponDamageDefenseContextIds = supportedIds(db.gear.weaponDamageDefenseHitContext);
+const weaponStatusApplicationContextIds = supportedIds(db.gear.weaponStatusApplicationHitContext);
 const weaponTargetResistanceContextIds = supportedIds(db.gear.weaponTargetResistanceHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
@@ -28,7 +29,8 @@ const iunoOutroAmplificationFactIds = new Set(db.hitPrimitives.iunoOutroAmplific
 const characterOutroAmplificationFactIds = new Set(db.hitPrimitives.characterOutroAmplification.map(x => x.factId));
 const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
 const eventIds = new Set([
-  ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
+  ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
+  ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
   ...db.gear.weaponTeamStatHitContext, ...db.gear.weaponTeamAmplificationHitContext,
@@ -65,6 +67,7 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
           && (!e.wielderCharacterIds || e.wielderCharacterIds.includes(characterId))).map(e => e.effectId),
         weaponCastEffectIds: selectedWeaponEffects.filter(e => castContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageEffectIds: selectedWeaponEffects.filter(e => damageContextIds.has(e.effectId)).map(e => e.effectId),
+        weaponStatusApplicationEffectIds: selectedWeaponEffects.filter(e => weaponStatusApplicationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageAmplificationEffectIds: selectedWeaponEffects.filter(e => weaponDamageAmplificationContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageDefenseEffectIds: selectedWeaponEffects.filter(e => weaponDamageDefenseContextIds.has(e.effectId)).map(e => e.effectId),
@@ -152,6 +155,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponDamageEffectIds: [...damageContextIds],
     weaponDamageAmplificationEffectIds: [...weaponDamageAmplificationContextIds],
     weaponDamageDefenseEffectIds: [...weaponDamageDefenseContextIds],
+    weaponStatusApplicationEffectIds: [...weaponStatusApplicationContextIds],
     weaponTargetResistanceEffectIds: [...weaponTargetResistanceContextIds],
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
@@ -242,6 +246,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     family('Weapon damage context', p => p.contextFamilies.weaponDamageEffectIds.length > 0),
     family('Weapon damage amplification context', p => p.contextFamilies.weaponDamageAmplificationEffectIds.length > 0),
     family('Weapon damage defense context', p => p.contextFamilies.weaponDamageDefenseEffectIds.length > 0),
+    family('Weapon status-application context', p => p.contextFamilies.weaponStatusApplicationEffectIds.length > 0),
     family('Weapon target resistance context', p => p.contextFamilies.weaponTargetResistanceEffectIds.length > 0),
     family('Sonata damage context', p => p.contextFamilies.sonataDamageEffectIds.length > 0),
     family('Sonata target context', p => p.contextFamilies.sonataTargetEffectIds.length > 0)],
@@ -261,7 +266,8 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     PARTIAL_L4: family('Event context', p => p.contextFamilies.weaponCastEffectIds.length
       + p.contextFamilies.sonataCastEffectIds.length + p.contextFamilies.weaponDamageEffectIds.length
       + p.contextFamilies.weaponDamageAmplificationEffectIds.length + p.contextFamilies.weaponDamageDefenseEffectIds.length
-      + p.contextFamilies.weaponTargetResistanceEffectIds.length + p.contextFamilies.sonataDamageEffectIds.length + p.contextFamilies.sonataTargetEffectIds.length > 0).characterIds.length,
+      + p.contextFamilies.weaponStatusApplicationEffectIds.length + p.contextFamilies.weaponTargetResistanceEffectIds.length
+      + p.contextFamilies.sonataDamageEffectIds.length + p.contextFamilies.sonataTargetEffectIds.length > 0).characterIds.length,
     partialL4Counting: 'Characters with an existing preset equipment recommendation supported by a composition bridge; still requires explicit per-build events',
     L3: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,
     L4: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,

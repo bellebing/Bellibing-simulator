@@ -12,6 +12,14 @@ The authorized PR197 merge/post-merge pass is complete. The separately authorize
 
 This branch publishes the previously local post-merge documentation reconciliation. Canonical GitHub main remains the exact verified merge above; candidate context assembly will be tracked separately from deployed capability.
 
+### Active PR198 candidate checkpoint
+
+Draft PR #198 remains **OPEN / UNMERGED** on `codex/source-qualified-combat-context-2026-09-15`. Its last runtime checkpoint before this documentation sync is `7ba8837c7375e8b46bc7661dbc89133d5cbc43bc`, based on canonical main `3ce9b150a7a5b1f4bc8947f74411d6df9ac859bf`. [Verify #1170](https://github.com/bellebing/Bellibing-simulator/actions/runs/35309178723) and [Export #1069](https://github.com/bellebing/Bellibing-simulator/actions/runs/35309178726) passed on that exact runtime head with **900/900 tests, zero failures**, all deterministic source/profile/readiness gates, strict build, real-Chrome regressions and whitespace checks.
+
+The candidate source-qualifies partial non-Echo context for all 54 existing S0/max-skill Character hit consumers / 492 facts: level-90 Character/core weapon stats, max Minor Fortes, 60 permanent weapon effects, 30 static Sonata effects, 50 reviewed static main-Echo effects, weapon cast/damage/heal windows, Sonata cast/Rejuvenating Glow healing, and a bounded Sonata damage subset. Current and candidate builds retain independent equipment/event proof; missing event/state/source scope remains named PENDING rather than zero.
+
+The new Sonata damage bridge deliberately consumes only `S22_3PC_HEAVY_CR` for selected HEAVY direct hits and `S29_5PC_AERO` as Aero DMG Bonus. The two reviewed Echo Skill CRIT Rate windows remain outside ordinary Character-hit context; they are not coerced to generic CRIT Rate. Export inspection at the runtime checkpoint reports **PARTIAL_L3 = 54** and **PARTIAL_L4 = 17**, adding Galbrena and Sigrika event-context cohorts. This is partial isolated-hit context only: complete L3–L7 remains two (Augusta/Ciaccona), readiness remains 43/3/9/2, all 83 edges / 72 dependency IDs and the six Reference Team blockers remain open. No merge is authorized. See [the combat-context campaign](COMBAT_CONTEXT_CAMPAIGN_20260915.md).
+
 ## Historical post-PR195 checkpoint
 
 PR #195 is **MERGED and post-merge verified** at `f2f8db676ba9433d065e7b18d854e0245e77d9dd`. Parents are previous main `2b1ba64a239338a91919c96afe1f8f4ed9516a73` and reviewed `3348771486a32dc048e48dc5b6a9fedb19ccf90e`; tree `52e7fdc8bb5c255d5caf9f3687562f6eede78612` exactly matches the reviewed candidate. Post-merge [Verify1144](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534066), [Export1043](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534057) and [Deploy151](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534042) passed with 851/851 tests, full audits/strict build/whitespace/Chrome and five-surface local/Export/live parity. All 83 edges/72 IDs, readiness 43/3/9/2 and six Reference Team blockers remain unchanged.
@@ -20,7 +28,7 @@ At the historical PR195 checkpoint, PR197 was the separate draft backend candida
 
 Earlier candidate and stop statements below are historical checkpoints; they do not override this integrated state or the current authorized backend pass.
 
-Last reconciled: 2026-09-13
+Last reconciled: 2026-09-18
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 

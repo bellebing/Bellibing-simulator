@@ -25,6 +25,7 @@ import { listWeaponHealingWindowSupport } from './weaponHealingWindowAdapter.ts'
 import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
 import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicationWindowAdapter.ts';
 import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
+import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
 import { listSonataCastWindowSupport } from './sonataCastWindowAdapter.ts';
@@ -257,6 +258,34 @@ export function listFreezeFrameStatusHitContextSupport() {
     requiresExplicitTeamMembershipProof: s.appliesTo === 'TEAM',
     requiresExplicitSourceEquipmentProof: s.appliesTo === 'TEAM',
     magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
+export function listAzureOathAmplificationHitContextSupport() {
+  return listAzureOathHavocBaneWindowSupport().filter(s => s.effectId === 'AO-HEAVY-AMP').map(s => ({
+    ...s,
+    amplificationScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'HEAVY' as const },
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    selectedHitScope: 'HEAVY_DIRECT_HIT_ONLY' as const,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTriggerTargetIdentity: true as const,
+    magnitudeDependsOnEchoStats: false as const,
+    stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+  }));
+}
+
+export function listAzureOathDefenseHitContextSupport() {
+  return listAzureOathHavocBaneWindowSupport().filter(s => s.effectId === 'AO-DEF').map(s => ({
+    ...s,
+    defenseScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'HEAVY' as const },
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    selectedHitScope: 'HEAVY_DIRECT_HIT_ONLY' as const,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTriggerTargetIdentity: true as const,
+    requiresExplicitEnemyDefenseProof: true as const,
+    requiresNoOtherDefenseModifiers: true as const,
+    magnitudeDependsOnEchoStats: false as const,
+    stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
   }));
 }
 
@@ -538,7 +567,10 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   requirements.push(...amplificationRequirementIds);
   const weaponEventResults = events?.weapon ? evaluateHitContextWeaponEvents({ characterId: character.id, weapon,
     hitAtSeconds: selection.hitAtSeconds!, eventContextId: selection.eventContextId, echoStatKey: projection.key, proof: events.weapon }) : [];
-  const weaponDamageAmplificationIds = new Set<string>(listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId));
+  const weaponDamageAmplificationIds = new Set<string>([
+    ...listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId),
+    ...listAzureOathAmplificationHitContextSupport().map(row => row.effectId),
+  ]);
   const weaponAmplificationContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
     if (!weaponDamageAmplificationIds.has(effectId)) return [];
@@ -559,7 +591,10 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       activationProof: e.activationProof,
     }];
   });
-  const weaponDamageDefenseSupport = listWeaponDamageDefenseHitContextSupport();
+  const weaponDamageDefenseSupport = [
+    ...listWeaponDamageDefenseHitContextSupport(),
+    ...listAzureOathDefenseHitContextSupport(),
+  ];
   const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
   const timedDefenseContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
@@ -570,7 +605,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       throw new Error('Reviewed weapon DEF Ignore event lost its canonical bounded scope/value');
     }
     const appliesToHit = support.defenseScope.kind === 'ALL_DAMAGE'
-      || (support.defenseScope.kind === 'ELEMENT' && support.defenseScope.element === selection.damageElement);
+      || (support.defenseScope.kind === 'ELEMENT' && support.defenseScope.element === selection.damageElement)
+      || (support.defenseScope.kind === 'DAMAGE_CLASS' && support.defenseScope.damageClass === fact.damageClass);
     return [{
       sourceId: e.sourceId,
       canonicalSourceId: effectId,
@@ -728,6 +764,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponStatusApplicationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listFreezeFrameStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listAzureOathAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listAzureOathDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),

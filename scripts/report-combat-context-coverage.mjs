@@ -16,11 +16,13 @@ const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
 const sonataIncomingTransferContextIds = supportedIds(db.gear.sonataIncomingTransferHitContext);
 const weaponIncomingTransferContextIds = supportedIds(db.gear.weaponIncomingTransferHitContext);
+const sonataTeamHealContextIds = supportedIds(db.gear.sonataTeamHealHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
 const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponDamageWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
-  ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.echoTransferWindows,
+  ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
+  ...db.gear.echoTransferWindows,
 ].map(x => x.effectId));
 const factState = f => f.verificationStatus !== 'VERIFIED' ? 'SOURCE_REVIEW_REQUIRED'
   : f.modelingStatus === 'PENDING_INTERPRETATION' ? 'SOURCE_SEMANTICS_BLOCKED'
@@ -139,6 +141,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     sonataTargetEffectIds: [...sonataTargetContextIds],
     sonataIncomingTransferEffectIds: [...sonataIncomingTransferContextIds],
     weaponIncomingTransferEffectIds: [...weaponIncomingTransferContextIds],
+    sonataTeamHealEffectIds: [...sonataTeamHealContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
     stillRequiresRemainingContextProof: true, fullyAssembledNewCharacters: 0 },
   crossOwnerContextCapabilities: {
@@ -153,6 +156,12 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate weapon/rank and Outro recipient are not inferred from the incoming Character preset or team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_WEAPON_RANK_EQUIPMENT_PROOF', 'OUTRO_TO_ACTUAL_INCOMING_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    sonataTeamHealWindows: {
+      effectIds: [...sonataTeamHealContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source teammate Sonata equipment, selected team and applied heal are not inferred from the incoming Character preset or team membership',
+      requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_5PC_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'VERIFIED_HEAL_APPLIED_EVENT', 'PER_BUILD_QUERY_PROOF'],
     },
     echoIncomingTransfers: {
       effectIds: [...echoIncomingTransferContextIds],

@@ -2,7 +2,8 @@ import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
-  listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
+  listStaticEchoContextSupport, listWeaponCastHitContextSupport, listWeaponCooldownCastHitContextSupport,
+  listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listWeaponDamageAmplificationHitContextSupport,
   listWeaponDamageDefenseHitContextSupport, listWeaponStatusApplicationHitContextSupport,
   listWeaponTargetResistanceHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
@@ -106,6 +107,7 @@ export function buildCharacterDatabase() {
       weaponDamageWindows: listWeaponDamageWindowSupport(),
       weaponCastWindows: listWeaponCastWindowSupport(),
       weaponCastHitContext: listWeaponCastHitContextSupport(),
+      weaponCooldownCastHitContext: listWeaponCooldownCastHitContextSupport(),
       weaponDamageHitContext: listWeaponDamageHitContextSupport(),
       weaponDamageAmplificationHitContext: listWeaponDamageAmplificationHitContextSupport(),
       weaponDamageDefenseHitContext: listWeaponDamageDefenseHitContextSupport(),

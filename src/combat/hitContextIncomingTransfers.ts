@@ -45,8 +45,8 @@ export function evaluateHitContextIncomingTransfers(input: {
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)) {
     throw new Error('Require exact per-build incoming-transfer proof and hit query');
   }
-  if (new Set(proof.sonataOutros.map(row => `${row.effectId}:${row.sourceWielderId}`)).size !== proof.sonataOutros.length) {
-    throw new Error('Require unique incoming Sonata transfer activations');
+  if (new Set(proof.sonataOutros.map(row => row.effectId)).size !== proof.sonataOutros.length) {
+    throw new Error('Require one isolated activation per incoming Sonata effect; duplicate stacking is unreviewed');
   }
 
   const support = listSonataOutroTransferSupport();

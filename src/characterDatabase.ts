@@ -4,7 +4,7 @@ import { listCharacterEchoComparisonSupport } from './combat/characterEchoCompar
 import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
   listStaticEchoContextSupport, listWeaponCastHitContextSupport, listSonataCastHitContextSupport,
   listWeaponDamageHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
-  listSonataIncomingTransferHitContextSupport } from './combat/characterHitContext.ts';
+  listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -102,6 +102,7 @@ export function buildCharacterDatabase() {
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
       echoStaticContext: listStaticEchoContextSupport(),
       echoTransferWindows: listEchoTransferWindowSupport(),
+      echoIncomingTransferHitContext: listEchoIncomingTransferHitContextSupport(),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
       echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,
       echoSkillPendingAdapterFacts: ECHO_SKILL_PENDING_ADAPTER_FACTS,

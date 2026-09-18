@@ -19,6 +19,7 @@ const weaponStatusApplicationContextIds = supportedIds(db.gear.weaponStatusAppli
 const weaponFreezeFrameContextIds = supportedIds(db.gear.weaponFreezeFrameHitContext);
 const weaponFreezeFrameTeamContextIds = new Set([...weaponFreezeFrameContextIds].filter(id => id === 'FF-TEAM-ATK'));
 const weaponForgedDwarfStarContextIds = supportedIds(db.gear.weaponForgedDwarfStarHitContext);
+const weaponForgedDwarfStarTeamContextIds = supportedIds(db.gear.weaponForgedDwarfStarTeamHitContext);
 const weaponAzureOathAmplificationContextIds = supportedIds(db.gear.weaponAzureOathAmplificationHitContext);
 const weaponAzureOathDefenseContextIds = supportedIds(db.gear.weaponAzureOathDefenseHitContext);
 const weaponTargetResistanceContextIds = supportedIds(db.gear.weaponTargetResistanceHitContext);
@@ -38,7 +39,7 @@ const eventIds = new Set([
   ...db.gear.weaponCastWindows, ...db.gear.weaponCooldownCastHitContext,
   ...db.gear.weaponDamageWindows, ...db.gear.weaponStatusApplicationHitContext,
   ...db.gear.weaponFreezeFrameHitContext, ...db.gear.weaponForgedDwarfStarHitContext,
-  ...db.gear.weaponAzureOathAmplificationHitContext,
+  ...db.gear.weaponForgedDwarfStarTeamHitContext, ...db.gear.weaponAzureOathAmplificationHitContext,
   ...db.gear.weaponAzureOathDefenseHitContext, ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
@@ -177,6 +178,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponStatusApplicationEffectIds: [...weaponStatusApplicationContextIds],
     weaponFreezeFrameEffectIds: [...weaponFreezeFrameContextIds],
     weaponForgedDwarfStarEffectIds: [...weaponForgedDwarfStarContextIds],
+    weaponForgedDwarfStarTeamEffectIds: [...weaponForgedDwarfStarTeamContextIds],
     weaponAzureOathAmplificationEffectIds: [...weaponAzureOathAmplificationContextIds],
     weaponAzureOathDefenseEffectIds: [...weaponAzureOathDefenseContextIds],
     weaponTargetResistanceEffectIds: [...weaponTargetResistanceContextIds],
@@ -225,6 +227,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       counting: 'Capability only: teammate Freeze Frame rank/equipment, selected team and exact caller-qualified Glacio Chafe application are never inferred from recipient presets or team membership',
       sameNameStacking: 'REJECT_DUPLICATE_ACTIVE_SOURCE',
       requires: ['EXACT_SOURCE_WIELDER', 'FREEZE_FRAME_RANK_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'VERIFIED_GLACIO_CHAFE_APPLICATION_EVENT', 'EXACT_TRIGGER_TARGET_AND_SOURCE_FACT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    weaponTeamChainedStatusWindows: {
+      effectIds: [...weaponForgedDwarfStarTeamContextIds],
+      exactPresetReach: [],
+      counting: 'Capability only: source Forged Dwarf Star equipment plus an already-active FDS-LIB prerequisite and the selected recipient own status application are explicit per build; Denia mode/rotation and team membership never infer the chain',
+      sameNameStacking: 'REJECT_DUPLICATE_ACTIVE_SOURCE',
+      requires: ['EXACT_SOURCE_WIELDER', 'FORGED_DWARF_STAR_RANK_EQUIPMENT_PROOF', 'EXPLICIT_SELECTED_TEAM', 'ACTIVE_SOURCE_FDS_LIB_AT_RECIPIENT_EVENT', 'RECIPIENT_OWN_VERIFIED_FUSION_BURST_OR_TUNE_STRAIN_EVENT', 'TWO_STAGE_LIFECYCLE_PROOF', 'PER_BUILD_QUERY_PROOF'],
     },
     echoTeamStatWindows: {
       effectIds: [...echoTeamStatContextIds],

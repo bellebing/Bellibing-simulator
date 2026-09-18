@@ -9,6 +9,9 @@ import { activateWeaponStatusApplicationWindow, isWeaponStatusApplicationWindowA
   type QualifiedAeroErosionApplicationEvent } from './weaponStatusApplicationWindowAdapter.ts';
 import type { ExplicitPreAttackTarget } from './sonataTargetWindowAdapter.ts';
 import type { QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
+import { CHARACTER_CATALOG } from '../data/characters.ts';
+import { activateFreezeFrameGlacioChafeWindows, isFreezeFrameGlacioChafeWindowActive,
+  type QualifiedGlacioChafeApplicationEvent } from './freezeFrameGlacioChafeWindowAdapter.ts';
 
 export interface ProvenHitWeaponCooldownCast {
   readonly effectId: CooldownCastWindowEffectId;
@@ -37,6 +40,15 @@ export interface ProvenHitWeaponStatusApplication {
   readonly effectId: 'WA-AERO';
   readonly evidenceId: string;
   readonly event: QualifiedAeroErosionApplicationEvent;
+  readonly equipmentAtEventQualified: true;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+export interface ProvenHitFreezeFrameApplication {
+  readonly evidenceId: string;
+  readonly event: QualifiedGlacioChafeApplicationEvent;
+  readonly teamMemberIds: readonly string[];
   readonly equipmentAtEventQualified: true;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
@@ -73,6 +85,7 @@ export interface HitContextWeaponEvents {
   readonly cooldownCasts?: readonly ProvenHitWeaponCooldownCast[];
   readonly damages?: readonly (Omit<ProvenHitWeaponCast, 'event' | 'sourceQualification'> & { readonly event: QualifiedWeaponDamageEvent })[];
   readonly statusApplications?: readonly ProvenHitWeaponStatusApplication[];
+  readonly freezeFrameApplications?: readonly ProvenHitFreezeFrameApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
   readonly heals?: readonly ProvenHitWeaponHeal[];
 }
@@ -96,6 +109,7 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.cooldownCasts !== undefined && !Array.isArray(proof.cooldownCasts))
     || (proof.damages !== undefined && !Array.isArray(proof.damages))
     || (proof.statusApplications !== undefined && !Array.isArray(proof.statusApplications))
+    || (proof.freezeFrameApplications !== undefined && !Array.isArray(proof.freezeFrameApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
@@ -103,6 +117,13 @@ export function evaluateHitContextWeaponEvents(input: {
   const all = [...proof.casts, ...(proof.cooldownCasts ?? []), ...(proof.damages ?? []), ...(proof.statusApplications ?? []),
     ...(proof.targets ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
+  if ((proof.freezeFrameApplications ?? []).length > 1) {
+    throw new Error('Freeze Frame same-name refresh/stacking is unreviewed; require one isolated application');
+  }
+  if ((proof.freezeFrameApplications ?? []).length
+    && all.some(c => c.effectId === 'FF-GLACIO' || c.effectId === 'FF-TEAM-ATK')) {
+    throw new Error('Freeze Frame paired application cannot be duplicated through another event family');
+  }
   const cooldownCasts = (proof.cooldownCasts ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
@@ -217,6 +238,51 @@ export function evaluateHitContextWeaponEvents(input: {
       window: { ...window },
     };
   });
+  const freezeFrame = (proof.freezeFrameApplications ?? []).flatMap(c => {
+    const selfEffect = getWeaponEffect('FF-GLACIO');
+    const teamEffect = getWeaponEffect('FF-TEAM-ATK');
+    const releasedTeam = Array.isArray(c.teamMemberIds) && c.teamMemberIds.length > 0
+      && new Set(c.teamMemberIds).size === c.teamMemberIds.length
+      && c.teamMemberIds.every(id => CHARACTER_CATALOG.some(character =>
+        character.id === id && character.releaseStatus === 'RELEASED'));
+    if (!selfEffect || !teamEffect || selfEffect.weaponId !== input.weapon.id || teamEffect.weaponId !== input.weapon.id
+      || !text(c.evidenceId) || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !releasedTeam || !c.teamMemberIds.includes(input.characterId)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact Freeze Frame owner/equipment, selected team, Glacio Chafe application and isolated query ordering');
+    }
+    const windows = activateFreezeFrameGlacioChafeWindows({
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      teamMemberIds: c.teamMemberIds,
+      event: c.event,
+    });
+    if (!windows) throw new Error('The supplied Glacio Chafe application does not activate Freeze Frame');
+    return [windows.selfGlacio, windows.teamAtk].map(window => {
+      const active = isFreezeFrameGlacioChafeWindowActive(window, {
+        actorId: input.characterId,
+        atSeconds: input.hitAtSeconds,
+        sameTimestampOrder: c.sameTimestampOrder,
+      });
+      const effect = window.effectId === 'FF-GLACIO' ? selfEffect : teamEffect;
+      return {
+        sourceId: `weapon:${window.effectId}`,
+        stat: window.statOrEffect,
+        value: active ? window.value : 0,
+        status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+        active,
+        evidenceId: c.evidenceId,
+        magnitudeDependsOnEchoStats: false as const,
+        activationProof: 'PER_BUILD_EXPLICIT_GLACIO_CHAFE_APPLICATION' as const,
+        sourceKey: JSON.stringify(effect),
+        triggerTargetId: c.event.targetId,
+        sourceFactId: c.event.sourceFactId,
+        appliedStacks: c.event.stacksApplied,
+        window: { ...window },
+      };
+    });
+  });
   const targets = (proof.targets ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
@@ -275,5 +341,5 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...targets, ...heals];
+  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...targets, ...heals];
 }

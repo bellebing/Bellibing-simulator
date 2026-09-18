@@ -21,6 +21,7 @@ const weaponTeamStatContextIds = supportedIds(db.gear.weaponTeamStatHitContext);
 const weaponTeamAmplificationContextIds = supportedIds(db.gear.weaponTeamAmplificationHitContext);
 const echoTeamStatContextIds = supportedIds(db.gear.echoTeamStatHitContext);
 const echoIncomingTransferContextIds = supportedIds(db.gear.echoIncomingTransferHitContext);
+const iunoOutroAmplificationFactIds = new Set(db.hitPrimitives.iunoOutroAmplification.map(x => x.sourceFactId));
 const characterOutroAmplificationFactIds = new Set(db.hitPrimitives.characterOutroAmplification.map(x => x.factId));
 const characterTeamAmplificationFactIds = new Set(db.hitPrimitives.shorekeeperTeamAmplification.map(x => x.sourceFactId));
 const eventIds = new Set([
@@ -152,6 +153,7 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponTeamAmplificationEffectIds: [...weaponTeamAmplificationContextIds],
     echoTeamStatEffectIds: [...echoTeamStatContextIds],
     echoIncomingTransferEffectIds: [...echoIncomingTransferContextIds],
+    iunoOutroAmplificationFactIds: [...iunoOutroAmplificationFactIds],
     characterOutroAmplificationFactIds: [...characterOutroAmplificationFactIds],
     characterOutroAmplificationTermCount: db.hitPrimitives.characterOutroAmplification.length,
     characterTeamAmplificationFactIds: [...characterTeamAmplificationFactIds],
@@ -186,6 +188,13 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       exactPresetReach: [],
       counting: 'Capability only: source teammate Fallacy main-Echo equipment, selected team and exact Echo cast are not inferred from recipient presets or team membership',
       requires: ['EXACT_SOURCE_WIELDER', 'SOURCE_FALLACY_MAIN_ECHO_PROOF', 'EXPLICIT_SELECTED_TEAM', 'EXACT_ECHO_SKILL_CAST_EVENT', 'PER_BUILD_QUERY_PROOF'],
+    },
+    iunoOutroAmplificationWindow: {
+      factIds: [...iunoOutroAmplificationFactIds],
+      exactPresetReach: [],
+      counting: 'Single-active capability only: actual Iuno incoming recipient and complete switch-out history are caller proof; Reference Team overlap is not inferred',
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY',
+      requires: ['IUNO_SOURCE_OWNER', 'ACTUAL_INCOMING_RECIPIENT', 'EXPLICIT_SWITCH_OUT_HISTORY', 'EXPLICIT_NONE_ACTIVE_PROOF', 'ZERO_RESIDUAL_AMPLIFICATION_WHEN_ACTIVE', 'PER_BUILD_QUERY_PROOF'],
     },
     characterOutroAmplificationWindows: {
       factIds: [...characterOutroAmplificationFactIds],

@@ -39,6 +39,22 @@ export function validateWeaponTeamAmplifyWindowContract(
   return issues;
 }
 
+/** Identity-only support; rank values and duration remain canonical WeaponEffectData. */
+export function listWeaponTeamAmplifySupport() {
+  const issues = validateWeaponTeamAmplifyWindowContract();
+  if (issues.length) throw new Error(issues.join('; '));
+  const effect = WEAPON_EFFECT_CATALOG.find((row) => row.effectId === 'BPP-TEAM-AERO')!;
+  return [{
+    effectId: effect.effectId,
+    weaponId: effect.weaponId,
+    sourceCharacterId: 'rover-aero' as const,
+    statOrEffect: effect.statOrEffect,
+    primitiveId: WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.adapterId,
+    scope: 'EXPLICIT_UNBOUND_FLOW_NEARBY_ON_FIELD_AERO_ONLY' as const,
+    rankRange: [1, 5] as const,
+  }];
+}
+
 export interface WeaponTeamCastEvent {
   readonly kind: 'ROVER_AERO_UNBOUND_FLOW_CAST';
   readonly actorId: string;

@@ -6,7 +6,9 @@ import { WEAPON_EFFECT_CATALOG } from '../data/weaponEffectCatalog.ts';
 import { CHARACTER_CATALOG } from '../data/characters.ts';
 import { activateSonataOutroTransfer, listSonataOutroTransferSupport } from './sonataOutroTransferAdapter.ts';
 import { activateEchoTransferWindow, listEchoTransferWindowSupport, type EchoTransferArmEvent } from './echoTransferWindowAdapter.ts';
-import { activateStaticMistOutroTransfer, listStaticMistOutroTransferSupport } from './sharedSupportStatWindows.ts';
+import { activateStaticMistOutroTransfer, listStaticMistOutroTransferSupport,
+  activateSharedRejuvenatingGlowWindow, isSharedHealingTeamWindowActive, listSharedRejuvenatingGlowSupport,
+  type QualifiedAllyHealEvent } from './sharedSupportStatWindows.ts';
 import { isIncomingTransferWindowActive, type OutgoingSwitchEvent } from './incomingTransferState.ts';
 
 export interface ProvenHitSonataOutroTransfer {
@@ -20,6 +22,22 @@ export interface ProvenHitSonataOutroTransfer {
   readonly sourceEquipmentAtEventQualified: true;
   readonly event: OutgoingSwitchEvent;
   /** This hit bridge consumes one isolated activation; refresh/overlap remains caller-owned. */
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+
+export interface ProvenHitRejuvenatingGlowTeamWindow {
+  readonly effectId: 'REJUV_ATK';
+  readonly evidenceId: string;
+  readonly sourceWielderId: string;
+  readonly sourceEquipmentEvidenceId: string;
+  readonly sourceSonataSetId: 'sonata-7';
+  readonly sourcePieces: 5;
+  readonly sourceQualification: 'SOURCE_PROVEN_HEAL';
+  readonly sourceEquipmentAtEventQualified: true;
+  readonly teamMemberIds: readonly string[];
+  readonly event: QualifiedAllyHealEvent;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
@@ -68,6 +86,7 @@ export interface HitContextIncomingTransfers {
   readonly eventContextId: string;
   readonly evidenceId: string;
   readonly sonataOutros: readonly ProvenHitSonataOutroTransfer[];
+  readonly teamHeals?: readonly ProvenHitRejuvenatingGlowTeamWindow[];
   readonly weaponOutros?: readonly ProvenHitWeaponOutroTransfer[];
   readonly echoTransfers?: readonly ProvenHitEchoTransfer[];
 }
@@ -96,12 +115,16 @@ export function evaluateHitContextIncomingTransfers(input: {
   if (!Number.isFinite(input.hitAtSeconds) || input.hitAtSeconds < 0
     || !proof || proof.echoStatKey !== input.echoStatKey || proof.eventContextId !== input.eventContextId
     || !text(proof.evidenceId) || !Array.isArray(proof.sonataOutros)
+    || (proof.teamHeals !== undefined && !Array.isArray(proof.teamHeals))
     || (proof.weaponOutros !== undefined && !Array.isArray(proof.weaponOutros))
     || (proof.echoTransfers !== undefined && !Array.isArray(proof.echoTransfers))) {
     throw new Error('Require exact per-build incoming-transfer proof and hit query');
   }
   if (new Set(proof.sonataOutros.map(row => row.effectId)).size !== proof.sonataOutros.length) {
     throw new Error('Require one isolated activation per incoming Sonata effect; duplicate stacking is unreviewed');
+  }
+  if (new Set((proof.teamHeals ?? []).map(row => row.effectId)).size !== (proof.teamHeals ?? []).length) {
+    throw new Error('Require one isolated activation per team-heal Sonata effect; duplicate stacking is unreviewed');
   }
   if (new Set((proof.weaponOutros ?? []).map(row => row.effectId)).size !== (proof.weaponOutros ?? []).length) {
     throw new Error('Require one isolated activation per incoming Weapon effect; duplicate stacking is unreviewed');
@@ -143,6 +166,48 @@ export function evaluateHitContextIncomingTransfers(input: {
       sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
       magnitudeDependsOnEchoStats: false as const,
       activationProof: 'PER_BUILD_EXPLICIT_TRANSFER' as const,
+      sourceKey: JSON.stringify(effect),
+      window: { ...window },
+    };
+  });
+
+  const teamHealSupport = listSharedRejuvenatingGlowSupport();
+  const teamHeal = (proof.teamHeals ?? []).map(row => {
+    const contract = teamHealSupport.find(item => item.effectId === row.effectId);
+    const effects = SONATA_EFFECT_MODELS.filter(effect => effect.effectId === row.effectId);
+    const effect = effects[0];
+    if (!contract || effects.length !== 1 || !effect || !releasedCharacter(row.sourceWielderId)
+      || row.sourceSonataSetId !== contract.sonataSetId || row.sourcePieces !== contract.pieces
+      || !text(row.evidenceId) || !text(row.sourceEquipmentEvidenceId)
+      || row.sourceQualification !== 'SOURCE_PROVEN_HEAL' || row.sourceEquipmentAtEventQualified !== true
+      || row.priorActivationState !== 'NONE_ACTIVE' || row.noLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(row.sameTimestampOrder)
+      || !Array.isArray(row.teamMemberIds) || row.teamMemberIds.length === 0
+      || row.teamMemberIds.some(id => !releasedCharacter(id))
+      || !row.teamMemberIds.includes(input.characterId) || !row.teamMemberIds.includes(row.sourceWielderId)
+      || !row.event || row.event.healerId !== row.sourceWielderId || input.hitAtSeconds < row.event.atSeconds) {
+      throw new Error('Require exact source Rejuvenating Glow 5-piece owner/team, applied heal and isolated query ordering');
+    }
+    const window = activateSharedRejuvenatingGlowWindow({
+      ownerId: row.sourceWielderId,
+      event: row.event,
+      selectedSet: { id: row.sourceSonataSetId, pieces: row.sourcePieces },
+      teamMemberIds: row.teamMemberIds,
+    });
+    if (!window) throw new Error('The supplied source set/team/heal does not activate this canonical Rejuvenating Glow window');
+    const active = isSharedHealingTeamWindowActive(window, input.characterId, input.hitAtSeconds)
+      && !(input.hitAtSeconds === window.startedAtSeconds && row.sameTimestampOrder === 'BEFORE_TRIGGER');
+    return {
+      sourceId: `team:sonata-heal:${row.effectId}:${row.sourceWielderId}`,
+      canonicalEffectId: row.effectId,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: row.evidenceId,
+      sourceEquipmentEvidenceId: row.sourceEquipmentEvidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_TEAM_HEAL' as const,
       sourceKey: JSON.stringify(effect),
       window: { ...window },
     };
@@ -241,5 +306,5 @@ export function evaluateHitContextIncomingTransfers(input: {
     };
   });
 
-  return [...sonata, ...weapon, ...echo];
+  return [...sonata, ...teamHeal, ...weapon, ...echo];
 }

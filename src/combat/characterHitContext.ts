@@ -170,7 +170,7 @@ export function listWeaponDamageAmplificationHitContextSupport() {
     if (!effect || !scope) return [];
     return [{ ...s, statOrEffect: effect.statOrEffect, amplificationScope: scope,
       contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
-      selectedHitScope: scope.kind === 'DAMAGE_CLASS' ? `${scope.damageClass}_DIRECT_HIT_ONLY` as const : 'SCOPED_CHARACTER_HIT' as const,
+      selectedHitScope: 'TYPED_SCOPED_CHARACTER_HIT' as const,
       requiresPerBuildEventProof: true as const, magnitudeDependsOnEchoStats: false as const,
       stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const }];
   });

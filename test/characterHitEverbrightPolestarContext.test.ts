@@ -136,7 +136,7 @@ test('Everbright source-contract drift fails closed instead of retaining stale D
     { trigger: 'Inflict Tune Strain - Shifting or Fusion Burst' },
     { appliesTo: 'TARGET' as const },
     { conditions: [] as readonly string[] },
-    { mechanicsStatus: 'VERIFIED_CONDITIONAL' as const },
+    { mechanicsStatus: 'VERIFIED_RAW_PENDING_MODEL' as const },
   ]) {
     assert.ok(validateEverbrightPolestarStatusWindowContract(
       WEAPON_EFFECT_CATALOG.map(row => row.effectId === source.effectId ? { ...row, ...patch } : row),

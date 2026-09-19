@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createRank5EchoAtLevel0 } from '../src/echoCore.ts';
 import { projectRank5EchoStats } from '../src/echoStatProjection.ts';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
@@ -129,6 +133,47 @@ test('Hack - Shifting source contracts expose exactly four bounded rows and park
   assert.deepEqual(listHackShiftingDefenseHitContextSupport().map(row => row.effectId), ['SPT-HEAVY-DEF']);
   assert.deepEqual(listHackShiftingStatHitContextSupport().map(row => row.effectId), ['SKT-HACK-BASIC', 'SKT-HACK-TEAM']);
   assert.ok(!support.some(row => row.effectId === 'SPT-SPECTRO'));
+});
+
+test('Hack - Shifting adds only Lucy to the unique PARTIAL_L4 cohort; Rebecca already has cast context', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'bellibing-hack-coverage-'));
+  const output = join(directory, 'coverage.json');
+  const run = () => spawnSync(process.execPath,
+    ['--experimental-strip-types', 'scripts/report-combat-context-coverage.mjs', '--output', output],
+    { encoding: 'utf8' });
+  try {
+    const first = run();
+    assert.equal(first.status, 0, first.stderr);
+    const serialized = readFileSync(output, 'utf8');
+    const second = run();
+    assert.equal(second.status, 0, second.stderr);
+    assert.equal(readFileSync(output, 'utf8'), serialized, 'coverage report must be deterministic');
+    const report = JSON.parse(serialized);
+    const families: { name: string; characterIds: string[] }[] = report.eventConsumerCohorts;
+    const uniqueCharacters = (rows: typeof families) => [...new Set(rows.flatMap(row => row.characterIds))].sort();
+    const hack = families.find(row => row.name === 'Hack - Shifting weapon context')!;
+    const withoutHack = uniqueCharacters(families.filter(row => row !== hack));
+    const current = uniqueCharacters(families);
+
+    // Reconstructed at c7b99a3, immediately before the first Hack - Shifting commit.
+    assert.deepEqual(withoutHack, [
+      'aemeath', 'augusta', 'calcharo', 'camellya', 'carlotta', 'cartethyia', 'changli', 'chixia',
+      'ciaccona', 'encore', 'galbrena', 'iuno', 'jinhsi', 'jiyan', 'lingyang', 'lucilla', 'lumi',
+      'lupa', 'luuk-herssen', 'phrolova', 'rebecca', 'roccia', 'rover-aero', 'rover-havoc',
+      'sigrika', 'yangyang-xuanling', 'zani',
+    ]);
+    assert.deepEqual(hack.characterIds, ['lucy', 'rebecca']);
+    assert.ok(families.find(row => row.name === 'Weapon cast context')!.characterIds.includes('rebecca'));
+    const rebecca = report.characters.find((row: { characterId: string }) => row.characterId === 'rebecca');
+    assert.deepEqual(rebecca.presets.find((row: { presetId: string }) => row.presetId === 'rebecca-standard')
+      .contextFamilies.weaponCastEffectIds, ['SKT-INTRO-BASIC']);
+    assert.deepEqual(current.filter(id => !withoutHack.includes(id)), ['lucy']);
+    assert.equal(withoutHack.length, 27);
+    assert.equal(current.length, 28);
+    assert.equal(report.ladder.PARTIAL_L4, current.length, 'count unique Characters, not summed family reach');
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
 test('Spectral Trigger Hack proof composes Heavy amplification and inherited DEF only for Heavy hit arithmetic', () => {

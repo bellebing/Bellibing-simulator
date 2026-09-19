@@ -89,7 +89,8 @@ export function validateHackShiftingWeaponContracts(
     }
   }
   const team = catalog.find(row => row.effectId === 'SKT-HACK-TEAM');
-  if (team && !(team.sourceEffectText ?? '').toLowerCase().includes('does not stack')) {
+  const teamText = (team?.sourceEffectText ?? '').toLowerCase();
+  if (team && (!teamText.includes('same-name') || !teamText.includes('not stack'))) {
     issues.push('SKT-HACK-TEAM same-name non-stacking source text drift');
   }
   const def = catalog.find(row => row.effectId === 'SPT-HEAVY-DEF');

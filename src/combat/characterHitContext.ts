@@ -27,6 +27,7 @@ import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicat
 import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
 import { listForgedDwarfStarStatusWindowSupport } from './forgedDwarfStarStatusWindowAdapter.ts';
+import { listEverbrightPolestarStatusWindowSupport } from './everbrightPolestarStatusWindowAdapter.ts';
 import { listForgedDwarfStarTeamWindowSupport } from './forgedDwarfStarTeamWindowAdapter.ts';
 import { evaluateHitContextSonataCasts, type HitContextSonataEvents } from './hitContextSonataEvents.ts';
 import { evaluateHitContextIncomingTransfers, type HitContextIncomingTransfers } from './hitContextIncomingTransfers.ts';
@@ -307,6 +308,21 @@ export function listAzureOathDefenseHitContextSupport() {
     defenseScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'HEAVY' as const },
     contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
     selectedHitScope: 'HEAVY_DIRECT_HIT_ONLY' as const,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitTriggerTargetIdentity: true as const,
+    requiresExplicitEnemyDefenseProof: true as const,
+    requiresNoOtherDefenseModifiers: true as const,
+    magnitudeDependsOnEchoStats: false as const,
+    stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
+  }));
+}
+
+export function listEverbrightPolestarDefenseHitContextSupport() {
+  return listEverbrightPolestarStatusWindowSupport().map(s => ({
+    ...s,
+    defenseScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'LIBERATION' as const },
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    selectedHitScope: 'LIBERATION_DIRECT_HIT_ONLY' as const,
     requiresPerBuildEventProof: true as const,
     requiresExplicitTriggerTargetIdentity: true as const,
     requiresExplicitEnemyDefenseProof: true as const,
@@ -623,6 +639,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const weaponDamageDefenseSupport = [
     ...listWeaponDamageDefenseHitContextSupport(),
     ...listAzureOathDefenseHitContextSupport(),
+    ...listEverbrightPolestarDefenseHitContextSupport(),
   ];
   const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
   const timedDefenseContributions = weaponEventResults.flatMap(e => {
@@ -796,6 +813,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listForgedDwarfStarStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listEverbrightPolestarDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),
     ...listWeaponHealingWindowSupport().map(e => `weapon:${e.effectId}`),

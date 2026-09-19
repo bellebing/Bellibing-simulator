@@ -19,7 +19,7 @@ function resolveContract(catalog: readonly WeaponEffectData[] = WEAPON_EFFECT_CA
   const effect = rows[0];
   if (effect.weaponId !== CONTRACT.weaponId || effect.statOrEffect !== CONTRACT.statOrEffect
     || effect.trigger !== CONTRACT.trigger || effect.effectType !== 'TRIGGERED'
-    || effect.appliesTo !== 'SELF' || effect.mechanicsStatus !== 'VERIFIED_MODELED'
+    || effect.appliesTo !== 'SELF' || effect.mechanicsStatus !== 'VERIFIED_CONDITIONAL'
     || effect.valueUnit !== 'DECIMAL_MULTIPLIER'
     || effect.durationSeconds !== CONTRACT.durationSeconds
     || effect.maxStacks !== 1 || effect.stackIntervalSeconds !== 0

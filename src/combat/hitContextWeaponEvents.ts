@@ -182,6 +182,9 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
   }
+  if ((proof.concertoConsumes ?? []).length > 1) {
+    throw new Error('Red Spring repeated Concerto activation/refresh is outside one isolated activation proof');
+  }
   const all = [...proof.casts, ...(proof.cooldownCasts ?? []), ...(proof.damages ?? []), ...(proof.statusApplications ?? []),
     ...(proof.concertoConsumes ?? []), ...(proof.targets ?? []), ...(proof.heals ?? [])];
   if (new Set(all.map(c => c.effectId)).size !== all.length) throw new Error('Require unique effect activations across event families');
@@ -205,9 +208,6 @@ export function evaluateHitContextWeaponEvents(input: {
   if ((proof.daybreakersSpineApplications ?? []).length
     && all.some(c => c.effectId === 'DBS-BASIC-AMP' || c.effectId === 'DBS-BASIC-DEF')) {
     throw new Error("Daybreaker's Spine paired application cannot be duplicated through another event family");
-  }
-  if ((proof.concertoConsumes ?? []).length > 1) {
-    throw new Error('Red Spring repeated Concerto activation/refresh is outside one isolated activation proof');
   }
   if ((proof.forgedDwarfStarApplications ?? []).length > 1) {
     throw new Error('Forged Dwarf Star refresh/stacking is unreviewed; require one isolated status application');

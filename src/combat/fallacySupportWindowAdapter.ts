@@ -54,11 +54,12 @@ export const FALLACY_SUPPORT_SEMANTIC_SPLIT = {
 interface FallacyEffectContract {
   readonly effectId: string;
   readonly appliesTo: 'TEAM' | 'WIELDER';
+  readonly statOrEffect: 'ATK%' | 'Energy Regen';
 }
 
 const FALLACY_EFFECT_CONTRACTS: readonly FallacyEffectContract[] = [
-  { effectId: FALLACY_TEAM_ATK_EFFECT_ID, appliesTo: 'TEAM' },
-  { effectId: FALLACY_WIELDER_ER_EFFECT_ID, appliesTo: 'WIELDER' },
+  { effectId: FALLACY_TEAM_ATK_EFFECT_ID, appliesTo: 'TEAM', statOrEffect: 'ATK%' },
+  { effectId: FALLACY_WIELDER_ER_EFFECT_ID, appliesTo: 'WIELDER', statOrEffect: 'Energy Regen' },
 ] as const;
 
 function effectsById(catalog: readonly EchoEffectModel[], effectId: string): readonly EchoEffectModel[] {
@@ -115,6 +116,7 @@ export function validateFallacySupportContracts(
     if (effect.activation !== 'ON_ECHO_CAST') issues.push(`${contract.effectId} must remain ON_ECHO_CAST`);
     if (effect.trigger !== FALLACY_CAST_TRIGGER) issues.push(`${contract.effectId} trigger drift`);
     if (effect.appliesTo !== contract.appliesTo) issues.push(`${contract.effectId} scope drift`);
+    if (effect.statOrEffect !== contract.statOrEffect) issues.push(`${contract.effectId} stat contract drift`);
     if (effect.mechanicsStatus !== 'VERIFIED_MODELED') issues.push(`${contract.effectId} must remain VERIFIED_MODELED`);
     if (!Number.isFinite(effect.value)) issues.push(`${contract.effectId} value must remain finite`);
     if (effect.durationSeconds === null || !Number.isFinite(effect.durationSeconds) || effect.durationSeconds <= 0) {
@@ -168,6 +170,20 @@ function windowFromEffect(params: {
     startedAtSeconds: atSeconds,
     expiresAtSeconds: atSeconds + durationSeconds,
   };
+}
+
+/** Identity-only team-stat capability. Value/duration remain owned by EchoEffectModel. */
+export function listFallacyTeamAtkSupport() {
+  const issues = validateFallacySupportContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  const effect = uniqueEffectById(ECHO_EFFECT_MODELS, FALLACY_TEAM_ATK_EFFECT_ID)!;
+  return [{
+    effectId: effect.effectId,
+    echoId: effect.echoId,
+    statOrEffect: effect.statOrEffect,
+    primitiveId: ADAPTER_ID,
+    scope: 'EXPLICIT_ECHO_CAST_TEAM_ATK_ONLY' as const,
+  }];
 }
 
 export function activateFallacySupportWindows(params: {

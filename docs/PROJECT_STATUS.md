@@ -1,14 +1,38 @@
 # Bellibing Simulator — Current Project Status
 
-## Post-PR195 current state
+## Post-PR197 current state
+
+PR #197 is **MERGED, deployed and post-merge verified** at `3ce9b150a7a5b1f4bc8947f74411d6df9ac859bf`. Its parents are previous main `f2f8db676ba9433d065e7b18d854e0245e77d9dd` and the exact authorized reviewed head `7c84b1d4c7246954400cc66e281828592d6487df`. Tree `c4b66ff8ea2cf2cfcea4c9e5ec6bfa64a6285e3d` exactly matches the reviewed payload; no squash, rebase or branch rewrite occurred.
+
+Post-merge [Verify #1150](https://github.com/bellebing/Bellibing-simulator/actions/runs/34781244713), [Export #1049](https://github.com/bellebing/Bellibing-simulator/actions/runs/34781244703) and [Deploy #152](https://github.com/bellebing/Bellibing-simulator/actions/runs/34781244705) passed on that exact main commit. Local and all three CI test logs report **864/864 tests, zero failures**. All nine local audits, strict build, whitespace and the local/live Chrome regressions pass. All 289 exported files match the reviewed and local builds; Alpha, `/ui-preview/`, Echo Lab, Roll Assist, Character database and four relevant runtime modules also match the public site byte for byte.
+
+Shared Echo-stat reconstruction and same-hit Echo replacement comparison are now integrated for the existing 54 Character hit paths / 492 facts. Both current and candidate equipped loadouts use the canonical validator; qualified caller context cannot override the COST limit. Ciaccona consumes the shared stat reconstruction. This adds no executable profile or DPS_READY Character: only Augusta/Ciaccona remain ready, all 83 edges / 72 dependency IDs and six Reference Team blockers remain open, and readiness stays 43/3/9/2. See the [product contract](BACKEND_PRODUCT_CAPABILITY_AUDIT_20260913.md).
+
+The authorized PR197 merge/post-merge pass is complete. The separately authorized 2026-09-15 backend campaign starts from this verified main on `codex/source-qualified-combat-context-2026-09-15`. Its scope is source-qualified combat context assembly for existing isolated-hit calculations. UI PR196/BUG-030 and original Flamewing WIP remain separate and preserved. No new merge is authorized. Earlier stop statements below describe historical passes.
+
+This branch publishes the previously local post-merge documentation reconciliation. Canonical GitHub main remains the exact verified merge above; candidate context assembly will be tracked separately from deployed capability.
+
+### Active PR198 candidate checkpoint
+
+Draft PR #198 remains **OPEN / UNMERGED** on `codex/source-qualified-combat-context-2026-09-15`. Its latest fully verified runtime checkpoint is `ceef2369092bd6682916875607ff1b5886d7cf5e`, based on canonical main `3ce9b150a7a5b1f4bc8947f74411d6df9ac859bf`. [Verify #1388](https://github.com/bellebing/Bellibing-simulator/actions/runs/35455744721) and [Export #1287](https://github.com/bellebing/Bellibing-simulator/actions/runs/35455744708) passed on that exact runtime head with **1090/1090 tests, zero failures**, all deterministic source/profile/readiness gates, strict build, real-Chrome regressions and whitespace checks.
+
+Checkpoint24 adds bounded Hack - Shifting weapon context. One caller-qualified `HACK_SHIFTING_APPLIED` occurrence may activate the reviewed Spectral Trigger pair `SPT-HEAVY-AMP` / `SPT-HEAVY-DEF` or Skull Thrasher pair `SKT-HACK-BASIC` / `SKT-HACK-TEAM`, depending on exact selected weapon/rank and source actor. Spectral Trigger's Heavy amplification has the canonical 14-second timer; its Heavy-only DEF Ignore inherits that exact active state and has no independent timer. Skull Thrasher's self Basic DMG window lasts 14 seconds and its TEAM ATK% window lasts 30 seconds with canonical same-name non-stacking semantics.
+
+Every build must independently prove exact weapon/rank, source actor/target/source fact, explicit Hack qualification, isolated lifecycle and same-timestamp ordering; Skull Thrasher TEAM ATK additionally requires an explicit selected team including the wielder. Reapplication/refresh is outside one isolated proof. `SPT-SPECTRO` remains parked because its two-stack cast history is not reviewed and Hack evidence does not manufacture those stacks.
+
+Exact Export artifact `10588386951` contains two `weaponHackShiftingStatHitContext` rows (`SKT-HACK-BASIC`, `SKT-HACK-TEAM`), one `weaponHackShiftingAmplificationHitContext` row (`SPT-HEAVY-AMP`) and one `weaponHackShiftingDefenseHitContext` row (`SPT-HEAVY-DEF`). Independent artifact reconstruction confirms **PARTIAL_L3 = 54** and **PARTIAL_L4 = 29**, up from 27: **Lucy** and **Rebecca** are the two newly counted preset cohorts. Direct-hit facts remain 492. Complete L3–L7 remains Augusta/Ciaccona only, readiness remains 43/3/9/2, and all 83 pending edges / 72 dependency IDs plus all six Reference Team blockers remain open.
+
+The next pass should fresh-rerank remaining reviewed conditional families from current code/report. Prefer a bounded single-window or already-structured prerequisite with direct Character-hit fan-out. `SPT-SPECTRO`, Wildfire Mark `WM-FUSION`, stack-history/mode/refresh, DMG Taken and unreviewed RES Ignore remain parked unless a current source-valid prerequisite can be represented without inferred occurrence. No merge is authorized. See [the combat-context campaign](COMBAT_CONTEXT_CAMPAIGN_20260915.md).
+
+## Historical post-PR195 checkpoint
 
 PR #195 is **MERGED and post-merge verified** at `f2f8db676ba9433d065e7b18d854e0245e77d9dd`. Parents are previous main `2b1ba64a239338a91919c96afe1f8f4ed9516a73` and reviewed `3348771486a32dc048e48dc5b6a9fedb19ccf90e`; tree `52e7fdc8bb5c255d5caf9f3687562f6eede78612` exactly matches the reviewed candidate. Post-merge [Verify1144](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534066), [Export1043](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534057) and [Deploy151](https://github.com/bellebing/Bellibing-simulator/actions/runs/34714534042) passed with 851/851 tests, full audits/strict build/whitespace/Chrome and five-surface local/Export/live parity. All 83 edges/72 IDs, readiness 43/3/9/2 and six Reference Team blockers remain unchanged.
 
-The integrated Windstrings fragment is existing capability. Draft [PR #197](https://github.com/bellebing/Bellibing-simulator/pull/197), on `codex/product-calculation-coverage-2026-09-13`, adds an exact same-hit Echo-card comparison for the existing 54 Character hit paths (492 facts), with independently qualified context for each build. Ciaccona now consumes the shared Echo-stat reconstruction. This is candidate backend capability, not deployed main or a new DPS-ready profile. See the [product audit and consumer contract](BACKEND_PRODUCT_CAPABILITY_AUDIT_20260913.md). No new merge is authorized. UI PR196/BUG-030 and original Flamewing WIP remain separate and preserved.
+At the historical PR195 checkpoint, PR197 was the separate draft backend candidate. It is now merged and deployed as recorded above. The integrated Windstrings fragment and all pending full-profile execution boundaries remain unchanged.
 
 Earlier candidate and stop statements below are historical checkpoints; they do not override this integrated state or the current authorized backend pass.
 
-Last reconciled: 2026-09-13
+Last reconciled: 2026-09-19
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 

@@ -9,6 +9,7 @@ import {
 interface SonataOutroTransferContract {
   readonly effectId: string;
   readonly sonataSetId: string;
+  readonly pieces: 5;
   readonly expectedSourceTrigger: string;
   readonly durationSeconds: number;
 }
@@ -17,12 +18,14 @@ export const SONATA_OUTRO_TRANSFER_CONTRACTS: readonly SonataOutroTransferContra
   {
     effectId: 'S08_5PC_INCOMING_ATK',
     sonataSetId: 'sonata-8',
+    pieces: 5,
     expectedSourceTrigger: 'Cast Outro Skill; apply to next Resonator',
     durationSeconds: 15,
   },
   {
     effectId: 'S12_5PC_INCOMING_HAVOC',
     sonataSetId: 'sonata-12',
+    pieces: 5,
     expectedSourceTrigger: 'Trigger Outro Skill; apply to incoming Resonator',
     durationSeconds: 15,
   },
@@ -63,6 +66,7 @@ export function validateSonataOutroTransferContracts(
       continue;
     }
     if (effect.sonataSetId !== contract.sonataSetId) issues.push(`${contract.effectId} Sonata set id drift`);
+    if (effect.pieces !== contract.pieces) issues.push(`${contract.effectId} piece threshold drift`);
     if (effect.trigger !== contract.expectedSourceTrigger) issues.push(`${contract.effectId} trigger drift`);
     if (effect.effectType !== 'TRIGGERED') issues.push(`${contract.effectId} must remain TRIGGERED`);
     if (effect.valueMode !== 'FLAT') issues.push(`${contract.effectId} must remain FLAT`);
@@ -78,6 +82,16 @@ export function validateSonataOutroTransferContracts(
 const CONTRACT_ISSUES = validateSonataOutroTransferContracts();
 if (CONTRACT_ISSUES.length > 0) {
   throw new Error(`Invalid Sonata Outro transfer contracts: ${CONTRACT_ISSUES.join('; ')}`);
+}
+
+/** Identity-only capability view. Numeric truth remains in the canonical Sonata row. */
+export function listSonataOutroTransferSupport() {
+  return SONATA_OUTRO_TRANSFER_CONTRACTS.map((contract) => {
+    const effect = effectById(SONATA_EFFECT_MODELS, contract.effectId)!;
+    return { effectId: contract.effectId, sonataSetId: contract.sonataSetId, pieces: contract.pieces,
+      statOrEffect: effect.statOrEffect, primitiveId: SONATA_OUTRO_TRANSFER_SEMANTIC_SPLIT.adapterId,
+      scope: 'EXPLICIT_OUTRO_INCOMING_TRANSFER_ONLY' as const };
+  });
 }
 
 export function activateSonataOutroTransfer(params: {

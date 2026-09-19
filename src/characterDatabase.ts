@@ -1,6 +1,23 @@
 import { readCharacterActionValues } from './characterActionValues.ts';
 import { listCharacterBasicHitSupport } from './combat/characterBasicHitAdapter.ts';
 import { listCharacterEchoComparisonSupport } from './combat/characterEchoComparison.ts';
+import { listCharacterHitContextSupport, listStaticWeaponContextSupport, listStaticSonataContextSupport,
+  listStaticEchoContextSupport, listWeaponCastHitContextSupport, listWeaponCooldownCastHitContextSupport,
+  listFreezeFrameStatusHitContextSupport, listForgedDwarfStarStatusHitContextSupport,
+  listForgedDwarfStarTeamHitContextSupport, listEverbrightPolestarDefenseHitContextSupport,
+  listAzureOathAmplificationHitContextSupport, listAzureOathDefenseHitContextSupport,
+  listDaybreakersSpineAmplificationHitContextSupport, listDaybreakersSpineDefenseHitContextSupport,
+  listRedSpringConcertoHitContextSupport, listHackShiftingStatHitContextSupport,
+  listHackShiftingAmplificationHitContextSupport, listHackShiftingDefenseHitContextSupport,
+  listSonataCastHitContextSupport,
+  listWeaponDamageHitContextSupport, listWeaponDamageAmplificationHitContextSupport,
+  listWeaponDamageDefenseHitContextSupport, listWeaponStatusApplicationHitContextSupport,
+  listWeaponTargetResistanceHitContextSupport, listSonataDamageHitContextSupport, listSonataTargetHitContextSupport,
+  listSonataIncomingTransferHitContextSupport, listEchoIncomingTransferHitContextSupport,
+  listWeaponIncomingTransferHitContextSupport, listSonataTeamHealHitContextSupport,
+  listStellarSymphonyTeamHitContextSupport, listFallacyTeamHitContextSupport,
+  listIunoOutroAmplificationHitContextSupport, listCharacterOutroAmplificationHitContextSupport,
+  listShorekeeperOutroAmplificationHitContextSupport, listBloodpactsPledgeAmplificationHitContextSupport } from './combat/characterHitContext.ts';
 import { listRoverWindstringsGainSupport } from './combat/roverWindstringsGainAdapter.ts';
 import { listRoverWindstringsLedgerSupport } from './combat/roverWindstringsLedger.ts';
 import { listCharacterDirectHitSupport } from './combat/characterDirectHitAdapter.ts';
@@ -13,7 +30,9 @@ import { listSonataDamageWindowSupport } from './combat/sonataDamageWindowAdapte
 import { listWeaponCastWindowSupport } from './combat/weaponCastWindowAdapter.ts';
 import { listSonataCastWindowSupport } from './combat/sonataCastWindowAdapter.ts';
 import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdapter.ts';
+import { listWeaponTargetWindowSupport } from './combat/weaponTargetWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
+import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -72,6 +91,10 @@ export function buildCharacterDatabase() {
       basicHits: listCharacterBasicHitSupport(), directHits: listCharacterDirectHitSupport(),
       echoActiveHits: listEchoActiveHitSupport(),
       echoComparisons: listCharacterEchoComparisonSupport(),
+      contextAssembly: listCharacterHitContextSupport(),
+      iunoOutroAmplification: listIunoOutroAmplificationHitContextSupport(),
+      characterOutroAmplification: listCharacterOutroAmplificationHitContextSupport(),
+      shorekeeperTeamAmplification: listShorekeeperOutroAmplificationHitContextSupport(),
     },
     outroTransferSupport: listCharacterOutroTransferSupport(),
     resourceGainSupport: listRoverWindstringsGainSupport(),
@@ -86,12 +109,39 @@ export function buildCharacterDatabase() {
         status: getWeaponEffectCoverageStatus(weapon.id),
       })),
       weaponResourceCasts: listWeaponResourceCastSupport(),
+      weaponStaticContext: listStaticWeaponContextSupport(),
       weaponDamageWindows: listWeaponDamageWindowSupport(),
       weaponCastWindows: listWeaponCastWindowSupport(),
+      weaponCastHitContext: listWeaponCastHitContextSupport(),
+      weaponCooldownCastHitContext: listWeaponCooldownCastHitContextSupport(),
+      weaponDamageHitContext: listWeaponDamageHitContextSupport(),
+      weaponDamageAmplificationHitContext: listWeaponDamageAmplificationHitContextSupport(),
+      weaponDamageDefenseHitContext: listWeaponDamageDefenseHitContextSupport(),
+      weaponStatusApplicationHitContext: listWeaponStatusApplicationHitContextSupport(),
+      weaponFreezeFrameHitContext: listFreezeFrameStatusHitContextSupport(),
+      weaponForgedDwarfStarHitContext: listForgedDwarfStarStatusHitContextSupport(),
+      weaponForgedDwarfStarTeamHitContext: listForgedDwarfStarTeamHitContextSupport(),
+      weaponEverbrightPolestarDefenseHitContext: listEverbrightPolestarDefenseHitContextSupport(),
+      weaponAzureOathAmplificationHitContext: listAzureOathAmplificationHitContextSupport(),
+      weaponAzureOathDefenseHitContext: listAzureOathDefenseHitContextSupport(),
+      weaponDaybreakersSpineAmplificationHitContext: listDaybreakersSpineAmplificationHitContextSupport(),
+      weaponDaybreakersSpineDefenseHitContext: listDaybreakersSpineDefenseHitContextSupport(),
+      weaponRedSpringConcertoHitContext: listRedSpringConcertoHitContextSupport(),
+      weaponHackShiftingStatHitContext: listHackShiftingStatHitContextSupport(),
+      weaponHackShiftingAmplificationHitContext: listHackShiftingAmplificationHitContextSupport(),
+      weaponHackShiftingDefenseHitContext: listHackShiftingDefenseHitContextSupport(),
+      weaponTargetWindows: listWeaponTargetWindowSupport(),
+      weaponTargetResistanceHitContext: listWeaponTargetResistanceHitContextSupport(),
+      weaponIncomingTransferHitContext: listWeaponIncomingTransferHitContextSupport(),
+      weaponTeamStatHitContext: listStellarSymphonyTeamHitContextSupport(),
+      weaponTeamAmplificationHitContext: listBloodpactsPledgeAmplificationHitContextSupport(),
       weaponHealingWindows: listWeaponHealingWindowSupport(),
       echoes: byId(ECHO_CATALOG),
       echoEffects: [...ECHO_EFFECT_MODELS].sort((a, b) => a.effectId < b.effectId ? -1 : a.effectId > b.effectId ? 1 : 0),
+      echoStaticContext: listStaticEchoContextSupport(),
       echoTransferWindows: listEchoTransferWindowSupport(),
+      echoIncomingTransferHitContext: listEchoIncomingTransferHitContextSupport(),
+      echoTeamStatHitContext: listFallacyTeamHitContextSupport(),
       echoAttacks: [...ECHO_ATTACK_PROFILES].sort((a, b) => a.echoId < b.echoId ? -1 : a.echoId > b.echoId ? 1 : 0),
       echoSkillSourceReview: ECHO_SKILL_SOURCE_REVIEW_V36,
       echoSkillPendingAdapterFacts: ECHO_SKILL_PENDING_ADAPTER_FACTS,
@@ -100,7 +150,14 @@ export function buildCharacterDatabase() {
       sonataSourceReviews: SONATA_EFFECT_SOURCE_REVIEWS,
       sonataDamageWindows: listSonataDamageWindowSupport(),
       sonataTargetWindows: listSonataTargetWindowSupport(),
+      sonataOutroTransfers: listSonataOutroTransferSupport(),
       sonataCastWindows: listSonataCastWindowSupport(),
+      sonataCastHitContext: listSonataCastHitContextSupport(),
+      sonataDamageHitContext: listSonataDamageHitContextSupport(),
+      sonataTargetHitContext: listSonataTargetHitContextSupport(),
+      sonataIncomingTransferHitContext: listSonataIncomingTransferHitContextSupport(),
+      sonataTeamHealHitContext: listSonataTeamHealHitContextSupport(),
+      sonataStaticContext: listStaticSonataContextSupport(),
     },
     profiles: {
       presets: byId(PROFILE_CATALOGS.presets),

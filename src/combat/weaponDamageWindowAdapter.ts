@@ -13,6 +13,7 @@ const CONTRACTS = [
   { effectId: 'LE-DEF', weaponId: 'lethean-elegy', statOrEffect: 'DEF Ignore', damageClass: 'ECHO' },
   { effectId: 'LU-HEAVY-AMP', weaponId: 'lux-and-umbra', statOrEffect: 'Heavy Attack DMG Amplification', damageClass: 'ECHO' },
   { effectId: 'LU-ECHO-AMP', weaponId: 'lux-and-umbra', statOrEffect: 'Echo Skill DMG Amplification', damageClass: 'HEAVY' },
+  { effectId: 'SCIP-AERO-DEF', weaponId: 'solsworn-ciphers', statOrEffect: 'Aero DMG DEF Ignore', damageClass: 'ECHO' },
   { effectId: 'DBS-SPECTRO', weaponId: 'daybreakers-spine', statOrEffect: 'Spectro DMG', damageClass: 'BASIC' },
   { effectId: 'UV-BASIC-BASIC', weaponId: 'unflickering-valor', statOrEffect: 'Basic Attack DMG', damageClass: 'BASIC' },
 ] as const;
@@ -26,7 +27,9 @@ function resolveContract(effectId: string, catalog: readonly WeaponEffectData[])
   if (row.weaponId !== contract.weaponId || row.statOrEffect !== contract.statOrEffect
     || row.trigger !== DAMAGE_SOURCE_TRIGGERS[contract.damageClass] || row.effectType !== 'TRIGGERED'
     || row.appliesTo !== 'SELF' || row.maxStacks !== 1 || row.stackIntervalSeconds !== 0
-    || row.triggerCooldownSeconds !== null || row.conditions.length !== 0
+    || row.triggerCooldownSeconds !== null
+    || JSON.stringify(row.conditions) !== JSON.stringify(
+      contract.effectId === 'SCIP-AERO-DEF' ? ['Damage is Aero DMG'] : [])
     || row.valueUnit !== 'DECIMAL_MULTIPLIER'
     || !['VERIFIED_MODELED', 'VERIFIED_CONDITIONAL'].includes(row.mechanicsStatus)
     || row.durationSeconds === null || !Number.isFinite(row.durationSeconds) || row.durationSeconds <= 0

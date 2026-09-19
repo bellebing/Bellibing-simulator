@@ -26,6 +26,7 @@ import { listWeaponTargetWindowSupport } from './weaponTargetWindowAdapter.ts';
 import { listWeaponStatusApplicationWindowSupport } from './weaponStatusApplicationWindowAdapter.ts';
 import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
+import { listDaybreakersSpineTuneStrainWindowSupport } from './daybreakersSpineTuneStrainWindowAdapter.ts';
 import { listForgedDwarfStarStatusWindowSupport } from './forgedDwarfStarStatusWindowAdapter.ts';
 import { listEverbrightPolestarStatusWindowSupport } from './everbrightPolestarStatusWindowAdapter.ts';
 import { listForgedDwarfStarTeamWindowSupport } from './forgedDwarfStarTeamWindowAdapter.ts';
@@ -315,6 +316,38 @@ export function listAzureOathDefenseHitContextSupport() {
     magnitudeDependsOnEchoStats: false as const,
     stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
   }));
+}
+
+export function listDaybreakersSpineAmplificationHitContextSupport() {
+  return listDaybreakersSpineTuneStrainWindowSupport()
+    .filter(s => s.effectId === 'DBS-BASIC-AMP')
+    .map(s => ({
+      ...s,
+      amplificationScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'BASIC' as const },
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'BASIC_DIRECT_HIT_ONLY' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitTriggerTargetIdentity: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+    }));
+}
+
+export function listDaybreakersSpineDefenseHitContextSupport() {
+  return listDaybreakersSpineTuneStrainWindowSupport()
+    .filter(s => s.effectId === 'DBS-BASIC-DEF')
+    .map(s => ({
+      ...s,
+      defenseScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'BASIC' as const },
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      selectedHitScope: 'BASIC_DIRECT_HIT_ONLY' as const,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitTriggerTargetIdentity: true as const,
+      requiresExplicitEnemyDefenseProof: true as const,
+      requiresNoOtherDefenseModifiers: true as const,
+      magnitudeDependsOnEchoStats: false as const,
+      stackingPolicy: 'SINGLE_ACTIVE_DEF_IGNORE_ONLY' as const,
+    }));
 }
 
 export function listEverbrightPolestarDefenseHitContextSupport() {
@@ -615,6 +648,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const weaponDamageAmplificationIds = new Set<string>([
     ...listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId),
     ...listAzureOathAmplificationHitContextSupport().map(row => row.effectId),
+    ...listDaybreakersSpineAmplificationHitContextSupport().map(row => row.effectId),
   ]);
   const weaponAmplificationContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
@@ -639,6 +673,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
   const weaponDamageDefenseSupport = [
     ...listWeaponDamageDefenseHitContextSupport(),
     ...listAzureOathDefenseHitContextSupport(),
+    ...listDaybreakersSpineDefenseHitContextSupport(),
     ...listEverbrightPolestarDefenseHitContextSupport(),
   ];
   const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
@@ -813,6 +848,8 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listForgedDwarfStarStatusHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listAzureOathDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listDaybreakersSpineAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listDaybreakersSpineDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listEverbrightPolestarDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listLuxUmbraDefenseStateSupport().flatMap(e => e.prerequisiteEffectIds.map(id => `weapon:${id}`)),

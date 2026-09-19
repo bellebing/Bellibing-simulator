@@ -18,6 +18,9 @@ import { activateDaybreakersSpineTuneStrainWindows, isDaybreakersSpineTuneStrain
   type QualifiedDaybreakersSpineTuneStrainApplicationEvent } from './daybreakersSpineTuneStrainWindowAdapter.ts';
 import { activateRedSpringConcertoWindow, isRedSpringConcertoWindowActive,
   type QualifiedConcertoConsumptionEvent } from './redSpringConcertoWindowAdapter.ts';
+import { activateSpectralTriggerHackShiftingWindows, activateSkullThrasherHackShiftingWindows,
+  isSpectralTriggerHackShiftingWindowActive, isSkullThrasherHackShiftingWindowActive,
+  type QualifiedHackShiftingApplicationEvent } from './hackShiftingWeaponWindowAdapter.ts';
 import type { ResonatorSwitchOutEvent } from './incomingTransferState.ts';
 import { activateForgedDwarfStarStatusWindow, isForgedDwarfStarStatusWindowActive,
   type QualifiedForgedDwarfStarStatusApplicationEvent } from './forgedDwarfStarStatusWindowAdapter.ts';
@@ -76,6 +79,16 @@ export interface ProvenHitAzureOathApplication {
 export interface ProvenHitDaybreakersSpineApplication {
   readonly evidenceId: string;
   readonly event: QualifiedDaybreakersSpineTuneStrainApplicationEvent;
+  readonly equipmentAtEventQualified: true;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+export interface ProvenHitHackShiftingApplication {
+  readonly evidenceId: string;
+  readonly event: QualifiedHackShiftingApplicationEvent;
+  /** Required for Skull Thrasher TEAM ATK; omitted/empty for Spectral Trigger is allowed. */
+  readonly teamMemberIds?: readonly string[];
   readonly equipmentAtEventQualified: true;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
@@ -146,6 +159,7 @@ export interface HitContextWeaponEvents {
   readonly freezeFrameApplications?: readonly ProvenHitFreezeFrameApplication[];
   readonly azureOathApplications?: readonly ProvenHitAzureOathApplication[];
   readonly daybreakersSpineApplications?: readonly ProvenHitDaybreakersSpineApplication[];
+  readonly hackShiftingApplications?: readonly ProvenHitHackShiftingApplication[];
   readonly concertoConsumes?: readonly ProvenHitRedSpringConcertoConsume[];
   readonly forgedDwarfStarApplications?: readonly ProvenHitForgedDwarfStarApplication[];
   readonly everbrightPolestarApplications?: readonly ProvenHitEverbrightPolestarApplication[];
@@ -175,12 +189,16 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.freezeFrameApplications !== undefined && !Array.isArray(proof.freezeFrameApplications))
     || (proof.azureOathApplications !== undefined && !Array.isArray(proof.azureOathApplications))
     || (proof.daybreakersSpineApplications !== undefined && !Array.isArray(proof.daybreakersSpineApplications))
+    || (proof.hackShiftingApplications !== undefined && !Array.isArray(proof.hackShiftingApplications))
     || (proof.concertoConsumes !== undefined && !Array.isArray(proof.concertoConsumes))
     || (proof.forgedDwarfStarApplications !== undefined && !Array.isArray(proof.forgedDwarfStarApplications))
     || (proof.everbrightPolestarApplications !== undefined && !Array.isArray(proof.everbrightPolestarApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
+  }
+  if ((proof.hackShiftingApplications ?? []).length > 1) {
+    throw new Error('Hack - Shifting refresh/reapplication is outside one isolated application proof');
   }
   if ((proof.concertoConsumes ?? []).length > 1) {
     throw new Error('Red Spring repeated Concerto activation/refresh is outside one isolated activation proof');
@@ -459,6 +477,89 @@ export function evaluateHitContextWeaponEvents(input: {
       };
     });
   });
+  const hackShifting = (proof.hackShiftingApplications ?? []).flatMap(c => {
+    if (!text(c.evidenceId) || c.equipmentAtEventQualified !== true
+      || c.priorActivationState !== 'NONE_ACTIVE' || c.noLaterActivationThroughHit !== true
+      || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact Hack - Shifting owner/equipment, qualified application and isolated query ordering');
+    }
+    if (input.weapon.id === 'spectral-trigger') {
+      const windows = activateSpectralTriggerHackShiftingWindows({
+        selectedWeapon: input.weapon,
+        wielderId: input.characterId,
+        event: c.event,
+      });
+      if (!windows) throw new Error('The supplied Hack - Shifting application does not activate Spectral Trigger');
+      return [windows.heavyAmplification, windows.heavyDefenseIgnore].map(window => {
+        const effect = getWeaponEffect(window.effectId);
+        if (!effect) throw new Error(`${window.effectId}: missing canonical weapon effect`);
+        const active = isSpectralTriggerHackShiftingWindowActive(window, {
+          actorId: input.characterId,
+          atSeconds: input.hitAtSeconds,
+          sameTimestampOrder: c.sameTimestampOrder,
+        });
+        return {
+          sourceId: `weapon:${window.effectId}`,
+          stat: window.statOrEffect,
+          value: active ? window.value : 0,
+          status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+          active,
+          evidenceId: c.evidenceId,
+          magnitudeDependsOnEchoStats: false as const,
+          activationProof: 'PER_BUILD_EXPLICIT_HACK_SHIFTING_APPLICATION' as const,
+          sourceKey: JSON.stringify(effect),
+          triggerTargetId: c.event.targetId,
+          sourceFactId: c.event.sourceFactId,
+          triggerStatusKind: c.event.kind,
+          window: { ...window },
+        };
+      });
+    }
+    if (input.weapon.id === 'skull-thrasher') {
+      if (!Array.isArray(c.teamMemberIds) || c.teamMemberIds.length === 0
+        || new Set(c.teamMemberIds).size !== c.teamMemberIds.length
+        || c.teamMemberIds.some((id: string) => !CHARACTER_CATALOG.some(character =>
+          character.id === id && character.releaseStatus === 'RELEASED'))) {
+        throw new Error('Skull Thrasher Hack - Shifting proof requires an explicit unique canonical selected team');
+      }
+      const windows = activateSkullThrasherHackShiftingWindows({
+        selectedWeapon: input.weapon,
+        wielderId: input.characterId,
+        teamMemberIds: c.teamMemberIds,
+        event: c.event,
+      });
+      if (!windows) throw new Error('The supplied Hack - Shifting application does not activate Skull Thrasher');
+      return [windows.selfBasic, windows.teamAtk].map(window => {
+        const effect = getWeaponEffect(window.effectId);
+        if (!effect) throw new Error(`${window.effectId}: missing canonical weapon effect`);
+        const active = isSkullThrasherHackShiftingWindowActive(window, {
+          actorId: input.characterId,
+          atSeconds: input.hitAtSeconds,
+          sameTimestampOrder: c.sameTimestampOrder,
+        });
+        return {
+          sourceId: `weapon:${window.effectId}`,
+          stat: window.statOrEffect,
+          value: active ? window.value : 0,
+          status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+          active,
+          evidenceId: c.evidenceId,
+          magnitudeDependsOnEchoStats: false as const,
+          activationProof: 'PER_BUILD_EXPLICIT_HACK_SHIFTING_APPLICATION' as const,
+          sourceKey: JSON.stringify(effect),
+          triggerTargetId: c.event.targetId,
+          sourceFactId: c.event.sourceFactId,
+          triggerStatusKind: c.event.kind,
+          teamMemberIds: window.appliesTo === 'TEAM' && 'teamMemberIds' in window
+            ? structuredClone(window.teamMemberIds) : null,
+          window: { ...window },
+        };
+      });
+    }
+    throw new Error('Hack - Shifting proof is only reviewed for Spectral Trigger or Skull Thrasher');
+  });
+
   const redSpringConcerto = (proof.concertoConsumes ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
@@ -631,5 +732,5 @@ export function evaluateHitContextWeaponEvents(input: {
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
   return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...azureOath,
-    ...daybreakersSpine, ...redSpringConcerto, ...forgedDwarfStar, ...everbrightPolestar, ...targets, ...heals];
+    ...daybreakersSpine, ...hackShifting, ...redSpringConcerto, ...forgedDwarfStar, ...everbrightPolestar, ...targets, ...heals];
 }

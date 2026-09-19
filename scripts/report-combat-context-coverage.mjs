@@ -26,6 +26,9 @@ const weaponAzureOathDefenseContextIds = supportedIds(db.gear.weaponAzureOathDef
 const weaponDaybreakersSpineAmplificationContextIds = supportedIds(db.gear.weaponDaybreakersSpineAmplificationHitContext);
 const weaponDaybreakersSpineDefenseContextIds = supportedIds(db.gear.weaponDaybreakersSpineDefenseHitContext);
 const weaponRedSpringConcertoContextIds = supportedIds(db.gear.weaponRedSpringConcertoHitContext);
+const weaponHackShiftingStatContextIds = supportedIds(db.gear.weaponHackShiftingStatHitContext);
+const weaponHackShiftingAmplificationContextIds = supportedIds(db.gear.weaponHackShiftingAmplificationHitContext);
+const weaponHackShiftingDefenseContextIds = supportedIds(db.gear.weaponHackShiftingDefenseHitContext);
 const weaponTargetResistanceContextIds = supportedIds(db.gear.weaponTargetResistanceHitContext);
 const sonataDamageContextIds = supportedIds(db.gear.sonataDamageHitContext);
 const sonataTargetContextIds = supportedIds(db.gear.sonataTargetHitContext);
@@ -46,7 +49,9 @@ const eventIds = new Set([
   ...db.gear.weaponForgedDwarfStarTeamHitContext, ...db.gear.weaponEverbrightPolestarDefenseHitContext,
   ...db.gear.weaponAzureOathAmplificationHitContext, ...db.gear.weaponAzureOathDefenseHitContext,
   ...db.gear.weaponDaybreakersSpineAmplificationHitContext, ...db.gear.weaponDaybreakersSpineDefenseHitContext,
-  ...db.gear.weaponRedSpringConcertoHitContext, ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
+  ...db.gear.weaponRedSpringConcertoHitContext, ...db.gear.weaponHackShiftingStatHitContext,
+  ...db.gear.weaponHackShiftingAmplificationHitContext, ...db.gear.weaponHackShiftingDefenseHitContext,
+  ...db.gear.weaponTargetWindows, ...db.gear.weaponHealingWindows,
   ...db.gear.weaponResourceCasts, ...db.gear.sonataCastWindows, ...db.gear.sonataDamageWindows,
   ...db.gear.sonataTargetWindows, ...db.gear.sonataOutroTransfers, ...db.gear.sonataTeamHealHitContext,
   ...db.gear.weaponTeamStatHitContext, ...db.gear.weaponTeamAmplificationHitContext,
@@ -104,6 +109,15 @@ const characters = unique(db.hitPrimitives.directHits.map(x => x.characterId)).m
           : [],
         weaponRedSpringConcertoEffectIds: supportedHitClasses.has('BASIC')
           ? selectedWeaponEffects.filter(e => weaponRedSpringConcertoContextIds.has(e.effectId)).map(e => e.effectId)
+          : [],
+        weaponHackShiftingStatEffectIds: selectedWeaponEffects.filter(e =>
+          weaponHackShiftingStatContextIds.has(e.effectId)
+          && (e.effectId !== 'SKT-HACK-BASIC' || supportedHitClasses.has('BASIC'))).map(e => e.effectId),
+        weaponHackShiftingAmplificationEffectIds: supportedHitClasses.has('HEAVY')
+          ? selectedWeaponEffects.filter(e => weaponHackShiftingAmplificationContextIds.has(e.effectId)).map(e => e.effectId)
+          : [],
+        weaponHackShiftingDefenseEffectIds: supportedHitClasses.has('HEAVY')
+          ? selectedWeaponEffects.filter(e => weaponHackShiftingDefenseContextIds.has(e.effectId)).map(e => e.effectId)
           : [],
         weaponTargetResistanceEffectIds: selectedWeaponEffects.filter(e => weaponTargetResistanceContextIds.has(e.effectId)).map(e => e.effectId),
         weaponDamageAmplificationEffectIds: selectedWeaponEffects.filter(e => weaponDamageAmplificationContextIds.has(e.effectId)).map(e => e.effectId),
@@ -203,6 +217,9 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     weaponDaybreakersSpineAmplificationEffectIds: [...weaponDaybreakersSpineAmplificationContextIds],
     weaponDaybreakersSpineDefenseEffectIds: [...weaponDaybreakersSpineDefenseContextIds],
     weaponRedSpringConcertoEffectIds: [...weaponRedSpringConcertoContextIds],
+    weaponHackShiftingStatEffectIds: [...weaponHackShiftingStatContextIds],
+    weaponHackShiftingAmplificationEffectIds: [...weaponHackShiftingAmplificationContextIds],
+    weaponHackShiftingDefenseEffectIds: [...weaponHackShiftingDefenseContextIds],
     weaponTargetResistanceEffectIds: [...weaponTargetResistanceContextIds],
     sonataDamageEffectIds: [...sonataDamageContextIds],
     sonataTargetEffectIds: [...sonataTargetContextIds],
@@ -317,6 +334,9 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
     family("Daybreaker's Spine Tune Strain context", p => p.contextFamilies.weaponDaybreakersSpineAmplificationEffectIds.length
       + p.contextFamilies.weaponDaybreakersSpineDefenseEffectIds.length > 0),
     family('Red Spring Concerto context', p => p.contextFamilies.weaponRedSpringConcertoEffectIds.length > 0),
+    family('Hack - Shifting weapon context', p => p.contextFamilies.weaponHackShiftingStatEffectIds.length
+      + p.contextFamilies.weaponHackShiftingAmplificationEffectIds.length
+      + p.contextFamilies.weaponHackShiftingDefenseEffectIds.length > 0),
     family('Weapon target resistance context', p => p.contextFamilies.weaponTargetResistanceEffectIds.length > 0),
     family('Sonata damage context', p => p.contextFamilies.sonataDamageEffectIds.length > 0),
     family('Sonata target context', p => p.contextFamilies.sonataTargetEffectIds.length > 0)],
@@ -341,7 +361,11 @@ const result = { scope: 'CONTEXT_DISCOVERY_NOT_EXECUTION_OR_READINESS', canonica
       + p.contextFamilies.weaponForgedDwarfStarEffectIds.length + p.contextFamilies.weaponEverbrightPolestarDefenseEffectIds.length
       + p.contextFamilies.weaponAzureOathAmplificationEffectIds.length + p.contextFamilies.weaponAzureOathDefenseEffectIds.length
       + p.contextFamilies.weaponDaybreakersSpineAmplificationEffectIds.length + p.contextFamilies.weaponDaybreakersSpineDefenseEffectIds.length
-      + p.contextFamilies.weaponRedSpringConcertoEffectIds.length + p.contextFamilies.weaponTargetResistanceEffectIds.length
+      + p.contextFamilies.weaponRedSpringConcertoEffectIds.length
+      + p.contextFamilies.weaponHackShiftingStatEffectIds.length
+      + p.contextFamilies.weaponHackShiftingAmplificationEffectIds.length
+      + p.contextFamilies.weaponHackShiftingDefenseEffectIds.length
+      + p.contextFamilies.weaponTargetResistanceEffectIds.length
       + p.contextFamilies.sonataDamageEffectIds.length + p.contextFamilies.sonataTargetEffectIds.length > 0).characterIds.length,
     partialL4Counting: 'Characters with an existing preset equipment recommendation supported by a composition bridge; still requires explicit per-build events',
     L3: db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length,

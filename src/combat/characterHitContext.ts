@@ -28,6 +28,7 @@ import { listFreezeFrameGlacioChafeWindowSupport } from './freezeFrameGlacioChaf
 import { listAzureOathHavocBaneWindowSupport } from './azureOathHavocBaneWindowAdapter.ts';
 import { listDaybreakersSpineTuneStrainWindowSupport } from './daybreakersSpineTuneStrainWindowAdapter.ts';
 import { listRedSpringConcertoWindowSupport } from './redSpringConcertoWindowAdapter.ts';
+import { listHackShiftingWeaponWindowSupport } from './hackShiftingWeaponWindowAdapter.ts';
 import { listForgedDwarfStarStatusWindowSupport } from './forgedDwarfStarStatusWindowAdapter.ts';
 import { listEverbrightPolestarStatusWindowSupport } from './everbrightPolestarStatusWindowAdapter.ts';
 import { listForgedDwarfStarTeamWindowSupport } from './forgedDwarfStarTeamWindowAdapter.ts';
@@ -510,6 +511,48 @@ export function listBloodpactsPledgeAmplificationHitContextSupport() {
   }));
 }
 
+export function listHackShiftingStatHitContextSupport() {
+  return listHackShiftingWeaponWindowSupport().filter(s =>
+    (s.effectId === 'SKT-HACK-BASIC' || s.effectId === 'SKT-HACK-TEAM')
+      && contextStatName(s.statOrEffect) !== null)
+    .map(s => ({
+      ...s,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const,
+      requiresExplicitTeamMembershipProof: s.effectId === 'SKT-HACK-TEAM',
+      magnitudeDependsOnEchoStats: false as const,
+    }));
+}
+
+export function listHackShiftingAmplificationHitContextSupport() {
+  return listHackShiftingWeaponWindowSupport().filter(s => s.effectId === 'SPT-HEAVY-AMP').map(s => {
+    const amplificationScope = classifyCharacterHitAmplificationScope(s.statOrEffect);
+    if (!amplificationScope || amplificationScope.kind !== 'DAMAGE_CLASS'
+      || amplificationScope.damageClass !== 'HEAVY') {
+      throw new Error('SPT-HEAVY-AMP Character-hit amplification scope drift');
+    }
+    return {
+      ...s,
+      amplificationScope,
+      contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+      requiresPerBuildEventProof: true as const,
+      stackingPolicy: 'SINGLE_ACTIVE_APPLICABLE_TERM_ONLY' as const,
+      magnitudeDependsOnEchoStats: false as const,
+    };
+  });
+}
+
+export function listHackShiftingDefenseHitContextSupport() {
+  return listHackShiftingWeaponWindowSupport().filter(s => s.effectId === 'SPT-HEAVY-DEF').map(s => ({
+    ...s,
+    defenseScope: { kind: 'DAMAGE_CLASS' as const, damageClass: 'HEAVY' as const },
+    contextPrimitiveId: CHARACTER_HIT_CONTEXT_ID,
+    requiresPerBuildEventProof: true as const,
+    requiresExplicitEnemyDefenseProofWhenActive: true as const,
+    magnitudeDependsOnEchoStats: false as const,
+  }));
+}
+
 /** Partial source assembly. Pending effect/context requirements are never zero. */
 export function assembleCharacterHitContext(selection: CharacterHitContextSelection, echoes: readonly Echo[], events?: CharacterHitContextEvents) {
   if (events && (Object.keys(events).some(k => !['weapon', 'sonata', 'incoming', 'amplification'].includes(k))
@@ -663,6 +706,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageAmplificationHitContextSupport().map(row => row.effectId),
     ...listAzureOathAmplificationHitContextSupport().map(row => row.effectId),
     ...listDaybreakersSpineAmplificationHitContextSupport().map(row => row.effectId),
+    ...listHackShiftingAmplificationHitContextSupport().map(row => row.effectId),
   ]);
   const weaponAmplificationContributions = weaponEventResults.flatMap(e => {
     const effectId = e.sourceId.startsWith('weapon:') ? e.sourceId.slice('weapon:'.length) : '';
@@ -688,6 +732,7 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listWeaponDamageDefenseHitContextSupport(),
     ...listAzureOathDefenseHitContextSupport(),
     ...listDaybreakersSpineDefenseHitContextSupport(),
+    ...listHackShiftingDefenseHitContextSupport(),
     ...listEverbrightPolestarDefenseHitContextSupport(),
   ];
   const weaponDamageDefenseIds = new Set<string>(weaponDamageDefenseSupport.map(row => row.effectId));
@@ -864,6 +909,9 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
     ...listAzureOathDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listDaybreakersSpineAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listDaybreakersSpineDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listHackShiftingStatHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listHackShiftingAmplificationHitContextSupport().map(e => `weapon:${e.effectId}`),
+    ...listHackShiftingDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listRedSpringConcertoHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listEverbrightPolestarDefenseHitContextSupport().map(e => `weapon:${e.effectId}`),
     ...listWeaponTargetResistanceHitContextSupport().map(e => `weapon:${e.effectId}`),

@@ -14,6 +14,8 @@ import { activateFreezeFrameGlacioChafeWindows, isFreezeFrameGlacioChafeWindowAc
   type QualifiedGlacioChafeApplicationEvent } from './freezeFrameGlacioChafeWindowAdapter.ts';
 import { activateAzureOathHavocBaneWindows, isAzureOathHavocBaneWindowActive,
   type QualifiedHavocBaneApplicationEvent } from './azureOathHavocBaneWindowAdapter.ts';
+import { activateDaybreakersSpineTuneStrainWindows, isDaybreakersSpineTuneStrainWindowActive,
+  type QualifiedDaybreakersSpineTuneStrainApplicationEvent } from './daybreakersSpineTuneStrainWindowAdapter.ts';
 import { activateForgedDwarfStarStatusWindow, isForgedDwarfStarStatusWindowActive,
   type QualifiedForgedDwarfStarStatusApplicationEvent } from './forgedDwarfStarStatusWindowAdapter.ts';
 import { activateEverbrightPolestarStatusWindow, isEverbrightPolestarStatusWindowActive,
@@ -63,6 +65,14 @@ export interface ProvenHitFreezeFrameApplication {
 export interface ProvenHitAzureOathApplication {
   readonly evidenceId: string;
   readonly event: QualifiedHavocBaneApplicationEvent;
+  readonly equipmentAtEventQualified: true;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
+export interface ProvenHitDaybreakersSpineApplication {
+  readonly evidenceId: string;
+  readonly event: QualifiedDaybreakersSpineTuneStrainApplicationEvent;
   readonly equipmentAtEventQualified: true;
   readonly priorActivationState: 'NONE_ACTIVE';
   readonly noLaterActivationThroughHit: true;
@@ -119,6 +129,7 @@ export interface HitContextWeaponEvents {
   readonly statusApplications?: readonly ProvenHitWeaponStatusApplication[];
   readonly freezeFrameApplications?: readonly ProvenHitFreezeFrameApplication[];
   readonly azureOathApplications?: readonly ProvenHitAzureOathApplication[];
+  readonly daybreakersSpineApplications?: readonly ProvenHitDaybreakersSpineApplication[];
   readonly forgedDwarfStarApplications?: readonly ProvenHitForgedDwarfStarApplication[];
   readonly everbrightPolestarApplications?: readonly ProvenHitEverbrightPolestarApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
@@ -146,6 +157,7 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.statusApplications !== undefined && !Array.isArray(proof.statusApplications))
     || (proof.freezeFrameApplications !== undefined && !Array.isArray(proof.freezeFrameApplications))
     || (proof.azureOathApplications !== undefined && !Array.isArray(proof.azureOathApplications))
+    || (proof.daybreakersSpineApplications !== undefined && !Array.isArray(proof.daybreakersSpineApplications))
     || (proof.forgedDwarfStarApplications !== undefined && !Array.isArray(proof.forgedDwarfStarApplications))
     || (proof.everbrightPolestarApplications !== undefined && !Array.isArray(proof.everbrightPolestarApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
@@ -168,6 +180,13 @@ export function evaluateHitContextWeaponEvents(input: {
   if ((proof.azureOathApplications ?? []).length
     && all.some(c => c.effectId === 'AO-HEAVY-AMP' || c.effectId === 'AO-DEF')) {
     throw new Error('Azure Oath paired application cannot be duplicated through another event family');
+  }
+  if ((proof.daybreakersSpineApplications ?? []).length > 1) {
+    throw new Error("Daybreaker's Spine refresh/stacking is unreviewed; require one isolated Tune Strain application");
+  }
+  if ((proof.daybreakersSpineApplications ?? []).length
+    && all.some(c => c.effectId === 'DBS-BASIC-AMP' || c.effectId === 'DBS-BASIC-DEF')) {
+    throw new Error("Daybreaker's Spine paired application cannot be duplicated through another event family");
   }
   if ((proof.forgedDwarfStarApplications ?? []).length > 1) {
     throw new Error('Forged Dwarf Star refresh/stacking is unreviewed; require one isolated status application');
@@ -379,6 +398,46 @@ export function evaluateHitContextWeaponEvents(input: {
       };
     });
   });
+  const daybreakersSpine = (proof.daybreakersSpineApplications ?? []).flatMap(c => {
+    const amplificationEffect = getWeaponEffect('DBS-BASIC-AMP');
+    const defenseEffect = getWeaponEffect('DBS-BASIC-DEF');
+    if (!amplificationEffect || !defenseEffect
+      || amplificationEffect.weaponId !== input.weapon.id || defenseEffect.weaponId !== input.weapon.id
+      || !text(c.evidenceId) || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error("Require exact Daybreaker's Spine owner/equipment, Tune Strain application and isolated query ordering");
+    }
+    const windows = activateDaybreakersSpineTuneStrainWindows({
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      event: c.event,
+    });
+    if (!windows) throw new Error("The supplied Tune Strain application does not activate Daybreaker's Spine");
+    return [windows.basicAmplification, windows.basicDefenseIgnore].map(window => {
+      const active = isDaybreakersSpineTuneStrainWindowActive(window, {
+        actorId: input.characterId,
+        atSeconds: input.hitAtSeconds,
+        sameTimestampOrder: c.sameTimestampOrder,
+      });
+      const effect = window.effectId === 'DBS-BASIC-AMP' ? amplificationEffect : defenseEffect;
+      return {
+        sourceId: `weapon:${window.effectId}`,
+        stat: window.statOrEffect,
+        value: active ? window.value : 0,
+        status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+        active,
+        evidenceId: c.evidenceId,
+        magnitudeDependsOnEchoStats: false as const,
+        activationProof: 'PER_BUILD_EXPLICIT_TUNE_STRAIN_APPLICATION' as const,
+        sourceKey: JSON.stringify(effect),
+        triggerTargetId: c.event.targetId,
+        sourceFactId: c.event.sourceFactId,
+        triggerStatusKind: c.event.kind,
+        window: { ...window },
+      };
+    });
+  });
   const forgedDwarfStar = (proof.forgedDwarfStarApplications ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
@@ -508,5 +567,5 @@ export function evaluateHitContextWeaponEvents(input: {
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
   return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...azureOath,
-    ...forgedDwarfStar, ...everbrightPolestar, ...targets, ...heals];
+    ...daybreakersSpine, ...forgedDwarfStar, ...everbrightPolestar, ...targets, ...heals];
 }

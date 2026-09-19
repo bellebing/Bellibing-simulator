@@ -192,7 +192,7 @@ test('source-qualified Red Spring window composes for Camellya and Rover Havoc B
 });
 
 test('known active Red Spring window does not leak Basic Attack DMG onto non-BASIC direct hits', () => {
-  const sel = selection('camellya', 'SKILL'), current = cards(), candidate = candidateCards();
+  const sel = selection('rover-havoc', 'SKILL'), current = cards(), candidate = candidateCards();
   const currentEvents = events(current, sel), candidateEvents = events(candidate, sel);
   const currentAssembly = assembleCharacterHitContext(sel, current, { weapon: currentEvents });
   const candidateAssembly = assembleCharacterHitContext(sel, candidate, { weapon: candidateEvents });

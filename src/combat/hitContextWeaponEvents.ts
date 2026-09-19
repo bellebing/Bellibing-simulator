@@ -16,6 +16,8 @@ import { activateAzureOathHavocBaneWindows, isAzureOathHavocBaneWindowActive,
   type QualifiedHavocBaneApplicationEvent } from './azureOathHavocBaneWindowAdapter.ts';
 import { activateForgedDwarfStarStatusWindow, isForgedDwarfStarStatusWindowActive,
   type QualifiedForgedDwarfStarStatusApplicationEvent } from './forgedDwarfStarStatusWindowAdapter.ts';
+import { activateEverbrightPolestarStatusWindow, isEverbrightPolestarStatusWindowActive,
+  type QualifiedEverbrightPolestarStatusApplicationEvent } from './everbrightPolestarStatusWindowAdapter.ts';
 
 export interface ProvenHitWeaponCooldownCast {
   readonly effectId: CooldownCastWindowEffectId;
@@ -75,6 +77,15 @@ export interface ProvenHitForgedDwarfStarApplication {
   readonly noLaterActivationThroughHit: true;
   readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
 }
+export interface ProvenHitEverbrightPolestarApplication {
+  readonly effectId: 'EP-LIB-DEF';
+  readonly evidenceId: string;
+  readonly event: QualifiedEverbrightPolestarStatusApplicationEvent;
+  readonly equipmentAtEventQualified: true;
+  readonly priorActivationState: 'NONE_ACTIVE';
+  readonly noLaterActivationThroughHit: true;
+  readonly sameTimestampOrder: 'BEFORE_TRIGGER' | 'AFTER_TRIGGER';
+}
 export interface ProvenHitWeaponTarget {
   readonly effectId: 'WA-AERO-RES';
   readonly evidenceId: string;
@@ -109,6 +120,7 @@ export interface HitContextWeaponEvents {
   readonly freezeFrameApplications?: readonly ProvenHitFreezeFrameApplication[];
   readonly azureOathApplications?: readonly ProvenHitAzureOathApplication[];
   readonly forgedDwarfStarApplications?: readonly ProvenHitForgedDwarfStarApplication[];
+  readonly everbrightPolestarApplications?: readonly ProvenHitEverbrightPolestarApplication[];
   readonly targets?: readonly ProvenHitWeaponTarget[];
   readonly heals?: readonly ProvenHitWeaponHeal[];
 }
@@ -135,6 +147,7 @@ export function evaluateHitContextWeaponEvents(input: {
     || (proof.freezeFrameApplications !== undefined && !Array.isArray(proof.freezeFrameApplications))
     || (proof.azureOathApplications !== undefined && !Array.isArray(proof.azureOathApplications))
     || (proof.forgedDwarfStarApplications !== undefined && !Array.isArray(proof.forgedDwarfStarApplications))
+    || (proof.everbrightPolestarApplications !== undefined && !Array.isArray(proof.everbrightPolestarApplications))
     || (proof.targets !== undefined && !Array.isArray(proof.targets))
     || (proof.heals !== undefined && !Array.isArray(proof.heals))) {
     throw new Error('Require exact per-build event proof, hit query time and unique effect activations');
@@ -161,6 +174,12 @@ export function evaluateHitContextWeaponEvents(input: {
   }
   if ((proof.forgedDwarfStarApplications ?? []).length && all.some(c => c.effectId === 'FDS-LIB')) {
     throw new Error('Forged Dwarf Star status application cannot be duplicated through another event family');
+  }
+  if ((proof.everbrightPolestarApplications ?? []).length > 1) {
+    throw new Error('Everbright Polestar refresh/stacking is unreviewed; require one isolated status application');
+  }
+  if ((proof.everbrightPolestarApplications ?? []).length && all.some(c => c.effectId === 'EP-LIB-DEF')) {
+    throw new Error('Everbright Polestar status application cannot be duplicated through another event family');
   }
   const cooldownCasts = (proof.cooldownCasts ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
@@ -395,6 +414,41 @@ export function evaluateHitContextWeaponEvents(input: {
       window: { ...window },
     };
   });
+  const everbrightPolestar = (proof.everbrightPolestarApplications ?? []).map(c => {
+    const effect = getWeaponEffect(c.effectId);
+    if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
+      || c.equipmentAtEventQualified !== true || c.priorActivationState !== 'NONE_ACTIVE'
+      || c.noLaterActivationThroughHit !== true || !['BEFORE_TRIGGER', 'AFTER_TRIGGER'].includes(c.sameTimestampOrder)
+      || !c.event || c.event.actorId !== input.characterId || input.hitAtSeconds < c.event.atSeconds) {
+      throw new Error('Require exact Everbright Polestar owner/equipment, status application and isolated query ordering');
+    }
+    const window = activateEverbrightPolestarStatusWindow({
+      selectedWeapon: input.weapon,
+      wielderId: input.characterId,
+      event: c.event,
+    });
+    if (!window) throw new Error('The supplied negative-status application does not activate Everbright Polestar');
+    const active = isEverbrightPolestarStatusWindowActive(window, {
+      actorId: input.characterId,
+      atSeconds: input.hitAtSeconds,
+      sameTimestampOrder: c.sameTimestampOrder,
+    });
+    return {
+      sourceId: `weapon:${c.effectId}`,
+      stat: window.statOrEffect,
+      value: active ? window.value : 0,
+      status: 'EVENT_QUALIFIED_ASSEMBLED' as const,
+      active,
+      evidenceId: c.evidenceId,
+      magnitudeDependsOnEchoStats: false as const,
+      activationProof: 'PER_BUILD_EXPLICIT_NEGATIVE_STATUS_APPLICATION' as const,
+      sourceKey: JSON.stringify(effect),
+      triggerTargetId: c.event.targetId,
+      sourceFactId: c.event.sourceFactId,
+      triggerStatusKind: c.event.kind,
+      window: { ...window },
+    };
+  });
   const targets = (proof.targets ?? []).map(c => {
     const effect = getWeaponEffect(c.effectId);
     if (!effect || effect.weaponId !== input.weapon.id || !text(c.evidenceId)
@@ -453,5 +507,6 @@ export function evaluateHitContextWeaponEvents(input: {
       magnitudeDependsOnEchoStats: false as const, activationProof: 'PER_BUILD_EXPLICIT_EVENT' as const,
       sourceKey: JSON.stringify(effect), window: { ...window } };
   });
-  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...azureOath, ...forgedDwarfStar, ...targets, ...heals];
+  return [...casts, ...cooldownCasts, ...damages, ...statusApplications, ...freezeFrame, ...azureOath,
+    ...forgedDwarfStar, ...everbrightPolestar, ...targets, ...heals];
 }

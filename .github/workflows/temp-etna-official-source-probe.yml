@@ -20,18 +20,64 @@ jobs:
           set -euxo pipefail
           mkdir -p /tmp/etna-probe
 
-          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/wildtype.headers             -o /tmp/etna-probe/wildtype.html             'https://wildtype.design/product/etna-free-typeface/' || true
+          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/wildtype.headers             -o /tmp/etna-probe/wildtype.html             'https://wildtype.design/product/etna-free-typeface/'
 
-          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/gumco.headers             -o /tmp/etna-probe/gumco.html             'https://gum.co/INIw' || true
+          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/gumroad.headers             -o /tmp/etna-probe/gumroad.html             'https://wildtype.gumroad.com/l/INIw'
 
-          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/gumroad.headers             -o /tmp/etna-probe/gumroad.html             'https://wildtype.gumroad.com/l/INIw' || true
+          grep -q 'ETNA - Free font' /tmp/etna-probe/gumroad.html
+          grep -q '&quot;name&quot;:&quot;Personal use&quot;' /tmp/etna-probe/gumroad.html
+          grep -q '&quot;name&quot;:&quot;Commercial&quot;' /tmp/etna-probe/gumroad.html
 
-          printf '\n=== FILE TYPES ===\n' > /tmp/etna-probe/summary.txt
-          file /tmp/etna-probe/* >> /tmp/etna-probe/summary.txt || true
-          printf '\n=== SIZES ===\n' >> /tmp/etna-probe/summary.txt
-          wc -c /tmp/etna-probe/* >> /tmp/etna-probe/summary.txt || true
-          printf '\n=== URL/PAYLOAD HINTS ===\n' >> /tmp/etna-probe/summary.txt
-          grep -Eo 'https?://[^"'"'"'<> ]+|[A-Za-z0-9_./-]+\.(otf|zip|woff2?|ttf)'             /tmp/etna-probe/wildtype.html /tmp/etna-probe/gumco.html /tmp/etna-probe/gumroad.html             | sort -u >> /tmp/etna-probe/summary.txt || true
+      - name: Verify exact external ETNA renders in Chrome
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cat > /tmp/etna-probe/font-check.html <<'HTML'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">
+            <style>
+              body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+              #display { font-family: "Etna", Inter, sans-serif; font-size: 32px; font-weight: 400; }
+            </style>
+          </head>
+          <body>
+            <div id="display">Build a Character — What Character? — Shorekeeper</div>
+            <script>
+              document.fonts.ready.then(() => {
+                document.documentElement.dataset.etnaLoaded =
+                  document.fonts.check('32px "Etna"') ? 'true' : 'false';
+                document.documentElement.dataset.computedFamily =
+                  getComputedStyle(document.getElementById('display')).fontFamily;
+              });
+            </script>
+          </body>
+          </html>
+          HTML
+
+          python3 -m http.server 4173 --directory /tmp/etna-probe >/tmp/etna-probe/http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4173/font-check.html >/dev/null; then break; fi
+            sleep 0.25
+          done
+
+          google-chrome --version
+          google-chrome --headless --no-sandbox --disable-gpu             --virtual-time-budget=6000             --dump-dom http://127.0.0.1:4173/font-check.html             > /tmp/etna-probe/font-check-dom.html
+
+          grep -q 'data-etna-loaded="true"' /tmp/etna-probe/font-check-dom.html
+          grep -q 'Etna' /tmp/etna-probe/font-check-dom.html
+
+      - name: Verify preview source wiring
+        shell: bash
+        run: |
+          set -euxo pipefail
+          grep -Fq 'https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna' docs/ui-prototypes/v34-functional.html
+          grep -Fq -- '--font-display:"Etna",Inter,sans-serif' docs/ui-prototypes/v34-functional.html
+          grep -Fq 'font-family:var(--font-display)' docs/ui-prototypes/v34-functional.html
 
       - name: Upload probe evidence
         uses: actions/upload-artifact@v4

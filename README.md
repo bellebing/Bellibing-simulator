@@ -33,7 +33,7 @@ Raw game data never owns character recommendations. The UI should resolve profil
 
 ## Current state
 
-PR #198 is integrated on `main`. The backend now has source-qualified partial Character-hit context across the existing 54 Character / 492 isolated direct-hit paths, with PARTIAL_L3 = **54** and PARTIAL_L4 = **28**. This does not create additional DPS-ready profiles: Augusta and Ciaccona remain the only DPS_READY Characters, readiness is **43/3/9/2**, and all **83 pending execution edges / 72 dependency IDs** plus six Reference Team blockers remain open.
+PR #198 is integrated on `main`. The backend now assembles a bounded partial subset of Character-hit context across the existing 54 Character / 492 isolated direct-hit paths, with PARTIAL_L3 = **54** and PARTIAL_L4 = **28**; residual and complete context remain `CALLER_QUALIFIED`, not independently engine/source-resolved. This does not create additional DPS-ready profiles: Augusta and Ciaccona remain the only DPS_READY Characters, readiness is **43/3/9/2**, and all **83 pending execution edges / 72 dependency IDs** plus six Reference Team blockers remain open.
 
 See [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md) for the authoritative current completion matrix and roadmap. Dated audit/campaign documents preserve historical checkpoints and should not be read as the current branch state.
 

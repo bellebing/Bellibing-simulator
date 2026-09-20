@@ -50,9 +50,17 @@ The intended future local production candidate is:
 
 **ETNA Free Font — Krišjānis Mežulis — WILDTYPE — OTF**
 
-That local OTF must not replace the external parity oracle until it has been visually compared against the accepted v34 oracle at the same CSS metrics.
+Official source references:
 
-When a local font file is introduced:
+- product: `https://wildtype.design/product/etna-free-typeface/`;
+- license: `https://wildtype.design/license/`;
+- creator Gumroad product: `https://wildtype.gumroad.com/l/INIw`.
+
+The official WILDTYPE product page identifies ETNA Free Font by Krišjānis Mežulis and OTF format. The general WILDTYPE license page currently says listed Free Fonts may be used for the previously listed uses including websites/apps/commercial work. However, the current creator Gumroad product simultaneously exposes the zero-price option as **Personal use** alongside separate paid license variants.
+
+Because those official surfaces are inconsistent, **do not vendor the OTF binary into the public Bellibing repository yet**. A local production binary requires a clearly applicable website/self-hosting license or direct creator clarification. Do not resolve the conflict by using a mirror or by assuming the zero-price Personal-use option covers the public site.
+
+When a local font file is legitimately introduced:
 
 1. retain source/license/provenance beside the binary;
 2. render the same representative strings with the same font size, weight, line height and letter spacing as the external oracle;
@@ -63,7 +71,7 @@ When a local font file is introduced:
 
 As of 2026-09-20, current `main` does **not** carry a production-local ETNA binary.
 
-The durable truth is the font contract in this file. UI implementation may temporarily use the exact external parity stylesheet while the official local WILDTYPE OTF is still awaiting parity/provenance verification.
+PR #200 wires the accepted preview to the exact external v34 ETNA oracle so the correct face can be used without manual font installation while the local-file license boundary is unresolved. This external source is the parity baseline, not proof that a local font binary may be redistributed from the public repository.
 
 Old PR #192 is historical and closed unmerged. Do not use its earlier local WOFF2 experiment as font truth.
 

@@ -7,7 +7,7 @@ A Wuthering Waves Echo-building decision engine.
 - **New UI/UX preview:** https://bellebing.github.io/Bellibing-simulator/ui-preview/
 - **Current Alpha / runtime regression site:** https://bellebing.github.io/Bellibing-simulator/
 
-The new UI preview is intentionally published as a separate route while the current Alpha root remains available for runtime/regression verification. The preview route becomes live when the reviewed UI checkpoint is merged to `main` and the normal Pages deployment succeeds.
+The UI preview is intentionally published as a separate route while the current Alpha root remains available for runtime/regression verification.
 
 Bellibing's product question is:
 
@@ -33,20 +33,9 @@ Raw game data never owns character recommendations. The UI should resolve profil
 
 ## Current state
 
-The horizontal foundation is established, but several catalogs are intentionally only partially populated. Broad character DPS expansion is gated until the pre-DPS foundation is complete.
+PR #198 is integrated on `main`. The backend now has source-qualified partial Character-hit context across the existing 54 Character / 492 isolated direct-hit paths, with PARTIAL_L3 = **54** and PARTIAL_L4 = **28**. This does not create additional DPS-ready profiles: Augusta and Ciaccona remain the only DPS_READY Characters, readiness is **43/3/9/2**, and all **83 pending execution edges / 72 dependency IDs** plus six Reference Team blockers remain open.
 
-See [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md) for the authoritative completion matrix and build order.
-
-Known headline gaps include:
-
-- Rank-5 Echo main-stat progression at +5 / +10 / +15 / +20;
-- full Character static/fact audit;
-- full Weapon Effect coverage;
-- full Sonata Effect coverage;
-- broad Echo effect/attack fact coverage;
-- profile population beyond the first golden fixture;
-- final DPS-aware checkpoint stopping logic;
-- a live Roll Assist blocker where the current test page can return `DISCARD` incorrectly.
+See [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md) for the authoritative current completion matrix and roadmap. Dated audit/campaign documents preserve historical checkpoints and should not be read as the current branch state.
 
 ## Quality rules
 

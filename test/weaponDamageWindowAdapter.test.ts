@@ -12,13 +12,13 @@ const activation = () => ({
 });
 const query = (atSeconds: number) => ({ actorId: 'galbrena', atSeconds, sameTimestampOrder: 'UNKNOWN' as const });
 
-test('seven canonical damage-triggered effects cover current options for three Character profiles', () => {
+test('eight canonical damage-triggered effects cover current options for four Character profiles', () => {
   const support = listWeaponDamageWindowSupport();
-  assert.equal(support.length, 7);
+  assert.equal(support.length, 8);
   const weapons = new Set<string>(support.map((row) => row.weaponId));
-  assert.equal(weapons.size, 4);
+  assert.equal(weapons.size, 5);
   const profiles = PROFILE_CATALOGS.weaponRecommendations.filter((profile) => profile.options.some((option) => weapons.has(option.weaponId)));
-  assert.deepEqual(profiles.map((row) => row.characterId).sort(), ['galbrena', 'luuk-herssen', 'phrolova']);
+  assert.deepEqual(profiles.map((row) => row.characterId).sort(), ['galbrena', 'luuk-herssen', 'phrolova', 'sigrika']);
   for (const row of support) {
     assert.ok(WEAPON_EFFECT_CATALOG.some((effect) => effect.effectId === row.effectId && effect.weaponId === row.weaponId));
     assert.equal(Object.hasOwn(row, 'rankValues'), false);
@@ -89,6 +89,22 @@ test('stack cooldown prerequisite and source-class drift stay outside the damage
   for (const effectId of ['BJ-DEF', 'RS-BASIC', 'AS-SKILL', 'WS-BASIC']) {
     assert.throws(() => activateWeaponDamageWindow({ ...activation(), effectId }), /No reviewed damage-window/);
   }
+});
+
+test('Solsworn Aero applicability condition is source-locked without becoming an activation guess', () => {
+  const source = WEAPON_EFFECT_CATALOG.find((row) => row.effectId === 'SCIP-AERO-DEF')!;
+  assert.deepEqual(source.conditions, ['Damage is Aero DMG']);
+  const drifted = WEAPON_EFFECT_CATALOG.map((row) => row.effectId === 'SCIP-AERO-DEF'
+    ? { ...row, conditions: [] }
+    : row);
+  assert.throws(() => activateWeaponDamageWindow({
+    effectId: 'SCIP-AERO-DEF',
+    selectedWeapon: { id: 'solsworn-ciphers', rank: 1 },
+    wielderId: 'sigrika',
+    event: { kind: 'DAMAGE_DEALT', actorId: 'sigrika', damageClass: 'ECHO', atSeconds: 2,
+      sourceTriggerQualification: 'VERIFIED_DAMAGE_DEALT' },
+    catalog: drifted,
+  }), /source contract drift/);
 });
 
 test('invalid or unrepresentable timestamps fail closed', () => {

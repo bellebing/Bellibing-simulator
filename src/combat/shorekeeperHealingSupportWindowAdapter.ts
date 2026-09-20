@@ -192,6 +192,23 @@ if (CONTRACT_ISSUES.length > 0) {
   throw new Error(`Invalid Shorekeeper healing-support contracts: ${CONTRACT_ISSUES.join('; ')}`);
 }
 
+/** Identity-only support; canonical rank values/duration remain in the reviewed Weapon effect row. */
+export function listStellarSymphonyTeamAtkSupport() {
+  const issues = validateShorekeeperHealingSupportContracts();
+  if (issues.length) throw new Error(issues.join('; '));
+  const effect = WEAPON_EFFECT_CATALOG.find((row) => row.effectId === STELLAR_SYMPHONY_TEAM_ATK_EFFECT_ID)!;
+  return [{
+    effectId: effect.effectId,
+    weaponId: effect.weaponId,
+    sourceCharacterId: 'the-shorekeeper' as const,
+    statOrEffect: effect.statOrEffect,
+    primitiveId: ADAPTER_ID,
+    scope: 'EXPLICIT_HEALING_SKILL_TEAM_WINDOW_ONLY' as const,
+    rankRange: [1, 5] as const,
+    sourceFactId: SHOREKEEPER_HEALING_FACT_ID,
+  }];
+}
+
 export function activateStellarSymphonyTeamAtkWindow(params: {
   readonly event: ShorekeeperHealingSkillCastEvent;
   readonly selectedWeapon: { readonly id: string; readonly rank: number };

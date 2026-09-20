@@ -68,3 +68,39 @@ Character/hero art must use a semantic visual focal point (normally face or uppe
 `.github/workflows/snapshot-ui-asset-sources.yml` builds a pinned, checksum-manifested source artifact without adding the raw binary archive to the normal Bellibing source tree.
 
 The artifact is a transport/archive step only. It must not be treated as production UI integration or proof of final visual approval.
+
+
+## Verified first snapshot
+
+Snapshot workflow run `35512564627` completed successfully on 2026-09-20 from PR #201.
+
+GitHub artifact:
+
+- name: `bellibing-wuwa-asset-source-snapshot`
+- artifact size: `502,798,915` bytes
+- artifact digest: `sha256:b5a3f182c4b0abe7a79de2cd0f69d8ae050f494dbf9e0fa5f7d6a804fd3917d7`
+- raw manifest: `2,984` files / `503,064,872` bytes
+- durable archive copy: `Bellibing Asset Sources/bellibing-wuwa-asset-source-snapshot-2026-09-20.zip` in the Bellibing file Library
+
+Observed source-file counts inside the raw snapshot:
+
+- Ryan: 468 files under `images/echoes/`, 130 under `images/weapons/`, 244 under `images/enemies/`, 6 under `images/icons/`, and 124 other/root image assets.
+- TomyJan: 504 `UiRole` files, 72 SkillIcon files, 1,196 selected reusable sprite textures, 56 RoleShare files, 47 WeaponShare files, plus 134 other explicitly selected UI files.
+- Four manifest files carry source pins, file listing, summary and SHA-256 checksums.
+
+### Echo thumbnail coverage check
+
+Bellibing current `src/data/echoes.ts` contains 181 released canonical Echo entries at this checkpoint.
+
+The Ryan source snapshot contains 313 top-level `images/echoes/*.webp` candidate icons. A name-normalized comparison (including Unicode diacritic normalization, e.g. `Jué` → `Jue`) found a source icon for **181 / 181** released canonical Echoes.
+
+The remaining source files include duplicates, variants and non-canonical candidates. They must not be auto-promoted or auto-mapped without entity review.
+
+Spot-checked snapshot assets:
+
+- `Crownless.webp` — 256×256 RGBA WebP
+- `AbyssalGladius.webp` — 256×256 RGBA WebP
+- `Jue.webp` — 256×256 RGBA WebP
+- `ThunderflareDominion.png` — 256×256 PNG
+
+This establishes complete first-pass Echo thumbnail source coverage, not final runtime selection/cropping approval.

@@ -1,0 +1,41 @@
+name: Temporary ETNA official-source probe
+
+on:
+  push:
+    branches:
+      - docs/ui-canonical-handoff-20260920
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch WILDTYPE and Gumroad public surfaces
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p /tmp/etna-probe
+
+          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/wildtype.headers             -o /tmp/etna-probe/wildtype.html             'https://wildtype.design/product/etna-free-typeface/' || true
+
+          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/gumco.headers             -o /tmp/etna-probe/gumco.html             'https://gum.co/INIw' || true
+
+          curl -A 'Mozilla/5.0' -L -D /tmp/etna-probe/gumroad.headers             -o /tmp/etna-probe/gumroad.html             'https://wildtype.gumroad.com/l/INIw' || true
+
+          printf '\n=== FILE TYPES ===\n' > /tmp/etna-probe/summary.txt
+          file /tmp/etna-probe/* >> /tmp/etna-probe/summary.txt || true
+          printf '\n=== SIZES ===\n' >> /tmp/etna-probe/summary.txt
+          wc -c /tmp/etna-probe/* >> /tmp/etna-probe/summary.txt || true
+          printf '\n=== URL/PAYLOAD HINTS ===\n' >> /tmp/etna-probe/summary.txt
+          grep -Eo 'https?://[^"'"'"'<> ]+|[A-Za-z0-9_./-]+\.(otf|zip|woff2?|ttf)'             /tmp/etna-probe/wildtype.html /tmp/etna-probe/gumco.html /tmp/etna-probe/gumroad.html             | sort -u >> /tmp/etna-probe/summary.txt || true
+
+      - name: Upload probe evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: etna-official-source-probe
+          path: /tmp/etna-probe/
+          if-no-files-found: error

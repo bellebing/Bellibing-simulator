@@ -28,7 +28,7 @@ function fixture(characterId: string, weaponId: string) {
   return { selection, current, candidate };
 }
 function proof(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
-  return { status: 'QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-explicit-residual-proof',
+  return { status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-explicit-residual-proof',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic:${id}` })), buildDependentEffectsRecomputed: true,
     scalingPercent: 0, scalingFlat: 0, critRate: 0, critDamage: 0, damageBonus: 0, amplification: 0,
     defenseMultiplier: 0.5, resistanceMultiplier: 0.9, damageReduction: 0 };

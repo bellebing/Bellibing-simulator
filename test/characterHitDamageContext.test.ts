@@ -27,7 +27,7 @@ function fixture(effectId = 'LE-SKILL', characterId = 'phrolova', rank = 1) {
   return { selection, current, candidate, events };
 }
 function proof(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
-  return { status: 'QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-qualified-rest',
+  return { status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-qualified-rest',
     requirements: a.requirements.map(id => ({ id, evidenceId: 'synthetic-explicit-scope' })), buildDependentEffectsRecomputed: true,
     scalingPercent: 0, scalingFlat: 0, critRate: 0, critDamage: 0, damageBonus: 0, amplification: 0,
     defenseMultiplier: 0.5, resistanceMultiplier: 0.9, damageReduction: 0 };

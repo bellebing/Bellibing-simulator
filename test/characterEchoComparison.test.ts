@@ -12,17 +12,18 @@ const cards = () => [4, 3, 3, 1, 1].map((cost, i) => createRank5EchoAtLevel0({
   id: 'owned-' + i, cost: cost as 1 | 3 | 4, primaryMainStat: 'ATK%',
 }));
 const defaultRow = listCharacterDirectHitSupport().find(r => r.factId === 'aalto-basic-half-truths-1')!;
+const callerAssertions = { allNonEchoSourcesQualified: true,
+  echoDependentEffectsRecomputed: true, equipmentStateQualified: true } as const;
 function fixture(row = defaultRow): CharacterEchoComparisonInput {
   const current = cards(), candidate = cards();
   candidate[0] = withRank5MainStatsAtLevel(candidate[0], 5);
   candidate[0].substats = [{ name: 'CRIT Rate', value: .063 }];
   const context = (echoes: Echo[], evidenceId: string): EchoBuildHitContext => ({
-    status: 'QUALIFIED', characterId: row.characterId, factId: row.factId,
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', characterId: row.characterId, factId: row.factId,
     componentIndex: 0, landedHitCount: 1,
     eventContextId: 'same-observed-hit', echoStatKey: projectRank5EchoStats(echoes).key, evidenceId,
     damageElement: CHARACTER_CATALOG.find(c => c.id === row.characterId)!.element!,
-    scalingBaseBeforePercentBonuses: 1000, allNonEchoSourcesQualified: true,
-    echoDependentEffectsRecomputed: true, equipmentStateQualified: true,
+    scalingBaseBeforePercentBonuses: 1000, callerAssertions: { ...callerAssertions },
     nonEchoSnapshot: { totalScalingStat: 1000, scalingStat: row.scalingStat, damageClass: row.sourceDamageClass,
       damageBonus: 0, amplification: 0, critRate: 0, critDamage: 1.5,
       defenseMultiplier: 1, resistanceMultiplier: 1, damageReduction: 0 },
@@ -49,6 +50,8 @@ test('all 54 existing Character consumers can recompute exact same-hit Echo repl
     assert.equal(result.authorizesRotationDps, false);
     assert.equal(result.authorizesUpgradeVerdict, false);
     assert.equal(result.resourceFeasibility, 'NOT_EVALUATED');
+    assert.equal(result.current.provenance, 'CALLER_QUALIFIED');
+    assert.equal(result.candidate.provenance, 'CALLER_QUALIFIED');
   }
 });
 
@@ -77,7 +80,7 @@ test('over-COST equipped loadouts fail closed even with independently QUALIFIED 
       if (context.status !== 'QUALIFIED') throw new Error('Expected qualified fixture');
       // All five stat cards are exact; equipped legality belongs to the comparison boundary.
       const projection = projectRank5EchoStats(echoes);
-      input[side] = { echoes, context: { ...context, echoStatKey: projection.key, equipmentStateQualified: true } };
+      input[side] = { echoes, context: { ...context, echoStatKey: projection.key } };
       assert.equal(echoes.length, 5);
       assert.equal(echoes.reduce((sum, echo) => sum + echo.cost, 0), 13);
     }
@@ -109,8 +112,8 @@ test('stale, wrong-actor, wrong-event and incomplete proofs cannot be reused', (
     { echoStatKey: 'old-build' }, { characterId: 'ciaccona' }, { factId: 'wrong' },
     { eventContextId: 'other-hit' }, { evidenceId: '' }, { damageElement: undefined },
     { componentIndex: 1 }, { landedHitCount: 0 },
-    { allNonEchoSourcesQualified: false }, { echoDependentEffectsRecomputed: false },
-    { equipmentStateQualified: false }, { scalingBaseBeforePercentBonuses: Number.NaN },
+    ...Object.keys(callerAssertions).map(key => ({ callerAssertions: { ...callerAssertions, [key]: false } })),
+    { scalingBaseBeforePercentBonuses: Number.NaN },
   ];
   for (const patch of changes) {
     const input = fixture();
@@ -120,6 +123,43 @@ test('stale, wrong-actor, wrong-event and incomplete proofs cannot be reused', (
   const input = fixture();
   input.candidate = { ...input.candidate, context: input.current.context };
   assert.throws(() => compareCharacterHitEchoReplacement(input), /bound to these exact/);
+});
+
+test('comparison rejects missing or engine provenance and incomplete caller assertions on either build', () => {
+  for (const side of ['current', 'candidate'] as const) {
+    for (const patch of [
+      { provenance: undefined }, { provenance: null }, { provenance: 'ENGINE_SOURCE_RESOLVED' },
+      { provenance: 'BELLIBING_ASSEMBLED_PARTIAL' }, { provenance: { kind: 'CALLER_QUALIFIED' } },
+      { callerAssertions: undefined }, { callerAssertions: null },
+      { callerAssertions: { allNonEchoSourcesQualified: true } },
+      // Legacy top-level flags cannot substitute for the explicit caller contract.
+      { callerAssertions: undefined, ...callerAssertions },
+    ]) {
+      const input = fixture();
+      Object.assign(input[side].context, patch);
+      assert.throws(() => compareCharacterHitEchoReplacement(input), /independently qualified/);
+      const other = side === 'current' ? 'candidate' : 'current';
+      input[other] = { ...input[other], context: { status: 'PENDING', reason: 'Unknown context' } };
+      assert.throws(() => compareCharacterHitEchoReplacement(input), /independently qualified/);
+    }
+  }
+});
+
+test('opaque evidence labels do not grant engine provenance to a supplied complete snapshot', () => {
+  const input = fixture();
+  for (const side of ['current', 'candidate'] as const) {
+    const context = input[side].context;
+    if (context.status !== 'QUALIFIED') throw new Error('Expected qualified fixture');
+    input[side] = { ...input[side], context: { ...context, evidenceId: 'ENGINE_SOURCE_RESOLVED',
+      nonEchoSnapshot: { ...context.nonEchoSnapshot, totalScalingStat: 1234.5 } } };
+  }
+  const result = compareCharacterHitEchoReplacement(input);
+  if (result.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected evaluated fixture');
+  for (const side of ['current', 'candidate'] as const) {
+    assert.equal(result[side].provenance, 'CALLER_QUALIFIED');
+    assert.equal(result[side].evidenceId, 'ENGINE_SOURCE_RESOLVED');
+    assert.ok(!('allNonEchoSourcesQualified' in result[side]));
+  }
 });
 
 test('source damage class and explicitly proven element determine which Echo bonuses apply', () => {

@@ -92,7 +92,7 @@ const BASE_DEFENSE = defenseMultiplier({ attackerLevel: 90, enemyDefense: ENEMY_
 function remaining(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
   const activeDefense = a.defenseContributions.some(row => row.active);
   return {
-    status: 'QUALIFIED',
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED',
     assemblyKey: a.assemblyKey,
     evidenceId: 'synthetic-everbright-remaining-context',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic-proof:${id}` })),

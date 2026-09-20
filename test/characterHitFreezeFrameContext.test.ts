@@ -134,7 +134,7 @@ function incomingEvents(
 
 function remaining(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
   return {
-    status: 'QUALIFIED',
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED',
     assemblyKey: a.assemblyKey,
     evidenceId: 'synthetic-freeze-frame-remaining-context',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic-proof:${id}` })),

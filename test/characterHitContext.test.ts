@@ -6,7 +6,7 @@ import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_EFFECT_MODELS } from '../src/data/sonataEffects.ts';
 import { ECHO_EFFECT_MODELS } from '../src/data/echoEffects.ts';
-import { listCharacterDirectHitSupport } from '../src/combat/characterDirectHitAdapter.ts';
+import { listCharacterDirectHitSupport, evaluateCharacterDirectHit } from '../src/combat/characterDirectHitAdapter.ts';
 import { createRank5EchoAtLevel0, withRank5MainStatsAtLevel, SUBSTAT_VALUE_TABLE, type PrimaryMainStatName } from '../src/echoCore.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { ciacconaInputsFromEchoes } from '../src/characters/ciacconaEchoEvaluator.ts';
@@ -31,7 +31,7 @@ function fixture(characterId = 'ciaccona', weaponId = 'woodland-aria') {
 }
 // Synthetic explicit absence of residual effects is test evidence only, never a preset/owned gear claim.
 function proof(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
-  return { status: 'QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-no-other-active-effect',
+  return { status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-no-other-active-effect',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic-explicit-absence:${id}` })),
     buildDependentEffectsRecomputed: true, scalingPercent: 0, scalingFlat: 0, critRate: 0, critDamage: 0,
     damageBonus: 0, amplification: 0, defenseMultiplier: 0.5, resistanceMultiplier: 0.9, damageReduction: 0 };
@@ -272,6 +272,62 @@ test('each Echo substitution independently recomputes residual stat dependence a
     assert.equal(after.current.expectedDamage, before.current.expectedDamage);
     assert.ok(after.candidate.expectedDamage > before.candidate.expectedDamage);
     assert.equal(after.authorizesUpgradeVerdict, false);
+  }
+});
+
+test('residual values retain caller provenance after assembly and leave canonical contributions separate', () => {
+  const input = comparison();
+  const baseline = compareCharacterHitWithAssembledContext(input);
+  if (baseline.comparison.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected evaluated fixture');
+  for (const [side, scalingFlat] of [['current', 137], ['candidate', 311]] as const) {
+    Object.assign(input[side].remaining, { scalingFlat, damageBonus: 0.125,
+      evidenceId: 'opaque-not-source-resolved' });
+  }
+  const result = compareCharacterHitWithAssembledContext(input);
+  if (result.comparison.status !== 'EVALUATED_HIT_COMPARISON') throw new Error('Expected evaluated fixture');
+  assert.deepEqual(result.currentAssembly, baseline.currentAssembly);
+  assert.deepEqual(result.candidateAssembly, baseline.candidateAssembly);
+  assert.equal(result.currentAssembly.provenance, 'BELLIBING_ASSEMBLED_PARTIAL');
+  assert.equal(result.candidateAssembly.provenance, 'BELLIBING_ASSEMBLED_PARTIAL');
+  assert.notEqual(result.currentAssembly.assemblyKey, result.candidateAssembly.assemblyKey);
+  for (const [side, scalingFlat] of [['current', 137], ['candidate', 311]] as const) {
+    const evaluated = result.comparison[side];
+    assert.equal(evaluated.provenance, 'CALLER_QUALIFIED');
+    assert.equal(evaluated.evidenceId, 'opaque-not-source-resolved');
+    for (const flag of ['allNonEchoSourcesQualified', 'echoDependentEffectsRecomputed', 'equipmentStateQualified']) {
+      assert.ok(!(flag in evaluated));
+    }
+    const expectedSnapshot = { ...baseline.comparison[side].snapshot,
+      totalScalingStat: baseline.comparison[side].snapshot.totalScalingStat + scalingFlat,
+      damageBonus: baseline.comparison[side].snapshot.damageBonus + 0.125 };
+    assert.deepEqual(evaluated.snapshot, expectedSnapshot);
+    assert.equal(evaluated.expectedDamage,
+      evaluateCharacterDirectHit({ ...input.selection.hit, snapshot: expectedSnapshot }).expectedDamage);
+  }
+  assert.equal(result.comparison.expectedDamageDelta,
+    result.comparison.candidate.expectedDamage - result.comparison.current.expectedDamage);
+});
+
+test('residual provenance fails closed on either build even with complete labels and numeric values', () => {
+  for (const side of ['current', 'candidate'] as const) {
+    for (const provenance of [undefined, null, 'ENGINE_SOURCE_RESOLVED', 'BELLIBING_ASSEMBLED_PARTIAL',
+      { kind: 'CALLER_QUALIFIED' }]) {
+      const input = comparison();
+      Object.assign(input[side].remaining, { provenance });
+      assert.throws(() => compareCharacterHitWithAssembledContext(input), /fresh per-build/);
+      const other = side === 'current' ? 'candidate' : 'current';
+      input[other].remaining = { status: 'PENDING', reason: 'Unknown residual context' };
+      assert.throws(() => compareCharacterHitWithAssembledContext(input), /fresh per-build/);
+    }
+  }
+});
+
+test('caller provenance and shared evidence labels cannot replace exact per-build assembly binding', () => {
+  for (const side of ['current', 'candidate'] as const) {
+    const input = comparison();
+    const other = side === 'current' ? 'candidate' : 'current';
+    input[side].remaining = structuredClone(input[other].remaining);
+    assert.throws(() => compareCharacterHitWithAssembledContext(input), /fresh per-build/);
   }
 });
 

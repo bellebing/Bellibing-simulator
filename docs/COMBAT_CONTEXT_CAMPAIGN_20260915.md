@@ -24,6 +24,27 @@ The new consumer must independently rebuild current/candidate stats, preserve th
 
 Parked without new evidence: S03/S10 lifecycle; Heron conflict; Fallacy variant; Defier's Thorn timing; Mourning Aix semantics; Denia/Moth scaling; Voidwing hit occurrence; Abyss Surges core-stat conflict. No Reference Team constant or resource/denominator assumption is changed. UI PR196, BUG-030 and root Flamewing WIP remain separate.
 
+## Remaining-context provenance boundary
+
+The stabilization starts from reconciliation head `74007f57f215a42af20c69faea43499ad149ae64`. Previously, `RemainingHitContext` supplied residual numbers and opaque evidence IDs to private `qualifiedContext()`. Structural validation, exact-build binding and selected semantic guards then produced `EchoBuildHitContext` with three top-level qualification flags. Those checks did not independently source-resolve every residual, but the completed snapshot did not distinguish caller assertions from engine-derived contributions.
+
+The existing low-level caller-qualified capability remains available with an explicit contract:
+
+| Boundary | Provenance and guarantee |
+| --- | --- |
+| `assembleCharacterHitContext()` → `AssembledCharacterHitContext` | `BELLIBING_ASSEMBLED_PARTIAL`: Bellibing reads canonical values and evaluates supported contributions against explicit caller-qualified event/equipment inputs. Remaining requirements stay pending. This does not prove event occurrence or resolve residual values. |
+| Qualified `RemainingHitContext` → private `callerQualifiedContext()` | Requires `CALLER_QUALIFIED`, the exact fresh assembly key, every requirement label, explicit finite residuals and the existing semantic guards. Evidence IDs remain caller labels, not numeric source proof. |
+| Qualified `EchoBuildHitContext` → `compareCharacterHitEchoReplacement()` | Requires `CALLER_QUALIFIED`; `allNonEchoSourcesQualified`, `echoDependentEffectsRecomputed` and `equipmentStateQualified` are explicitly nested under `callerAssertions`. No complete engine/source-resolved variant is supported here. |
+| `compareCharacterHitWithAssembledContext()` → result | Independently assembles current/candidate, converts each residual, then invokes the same Echo comparison. Partial assemblies retain their own provenance; each evaluated side retains `CALLER_QUALIFIED`. Neither key nor evidence label upgrades provenance. |
+
+Missing or mismatched provenance and incomplete caller assertions fail closed even when the other side is pending. Existing exact hit/component/count/event/card/assembly binding remains mandatory. Missing evidence remains `PENDING` without evaluated damage; malformed qualified inputs throw. DEF Ignore and RES Reduction still require their explicit clean baselines, and unreviewed scoped-amplification overlap still fails closed. No numeric formula, event adapter, source interpretation, occurrence/stacking/timing rule or gameplay coverage changes.
+
+All repository callers are migrated. External qualified residual/complete-context callers must supply `provenance: 'CALLER_QUALIFIED'`; direct complete-context callers must also nest the three flags under `callerAssertions`. Pending inputs need no migration. The assertion is a trusted-caller API contract, not an authenticity token or independent proof engine.
+
+Verification: `node --experimental-strip-types --test test/characterHit*.test.ts test/characterEchoComparison.test.ts` passes **224/224**; `npm test` passes **1096/1096**, both with zero failures/skips. All nine required source/profile audits, `npm run build` and `git diff --check` pass. Five new tests cover provenance retention, invalid contracts, opaque labels, exact per-build binding and unchanged residual arithmetic; the existing defense/resistance/amplification guards remain exercised. A before/after run of 984 scenarios (all 492 facts / 54 Characters, zero/one landed hit, independent nonzero residuals per build) has byte-identical arithmetic/results and assembly keys after excluding the newly added result provenance. The deterministic report and canonical Character export are also byte-identical: PARTIAL_L3/L4 = **54/28**, readiness **43/3/9/2**, **83** pending edges / **72** IDs, six Reference Team blockers, and only Augusta/Ciaccona DPS_READY.
+
+A possible next small architectural review is the naming of caller-qualified occurrence/equipment assertions within existing event inputs, so higher-level consumers can distinguish source-resolved effect definitions from caller-asserted occurrence. That review is not implemented here and must preserve the existing event contracts and pending boundaries.
+
 ## Checkpoints
 
 - Discovery: first inventory reproduces 54/492, 47 presets and all 83/72 open dependencies. Status reconciliation is published on the candidate branch. Runtime assembly and its gates are still in progress.
@@ -95,7 +116,7 @@ Running that report from `c7b99a39c7e117cdc03e129fd9906e378504096f`, the parent 
 
 `aemeath`, `augusta`, `calcharo`, `camellya`, `carlotta`, `cartethyia`, `changli`, `chixia`, `ciaccona`, `encore`, `galbrena`, `iuno`, `jinhsi`, `jiyan`, `lingyang`, `lucilla`, `lumi`, `lupa`, `luuk-herssen`, `phrolova`, `rebecca`, `roccia`, `rover-aero`, `rover-havoc`, `sigrika`, `yangyang-xuanling`, `zani`.
 
-Running the report from `7421889c82837cb7c4ed997e764f8e4afb6a51f0` reconstructs **28**: exactly the same cohort plus `lucy`, with no removals. Its runtime/report code matches checkpoint24 `ceef2369092bd6682916875607ff1b5886d7cf5e`. In both historical and current reports, `rebecca-standard` already has weapon-cast effect `SKT-INTRO-BASIC`. Hack - Shifting reaches `lucy` and `rebecca`, but only `lucy` is new to the union. The regression in `test/characterHitHackShiftingContext.test.ts` checks deterministic report output, the 27-member non-Hack cohort, Rebecca's cast bridge and the one-member increase to 28. No gameplay data, adapters or report counting logic changed in this reconciliation; the RemainingHitContext refactor remains separate.
+Running the report from `7421889c82837cb7c4ed997e764f8e4afb6a51f0` reconstructs **28**: exactly the same cohort plus `lucy`, with no removals. Its runtime/report code matches checkpoint24 `ceef2369092bd6682916875607ff1b5886d7cf5e`. In both historical and current reports, `rebecca-standard` already has weapon-cast effect `SKT-INTRO-BASIC`. Hack - Shifting reaches `lucy` and `rebecca`, but only `lucy` is new to the union. The regression in `test/characterHitHackShiftingContext.test.ts` checks deterministic report output, the 27-member non-Hack cohort, Rebecca's cast bridge and the one-member increase to 28. No gameplay data, adapters or report counting logic changed in this reconciliation; the later [RemainingHitContext provenance stabilization](#remaining-context-provenance-boundary) is a separate change.
 
 ## Current partial coverage and next ranking
 

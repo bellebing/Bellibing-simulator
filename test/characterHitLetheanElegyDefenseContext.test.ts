@@ -83,7 +83,7 @@ function remaining(
 ): RemainingHitContext {
   const baseline = defenseMultiplier({ attackerLevel: 90, enemyDefense });
   return {
-    status: 'QUALIFIED',
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED',
     assemblyKey: a.assemblyKey,
     evidenceId: 'synthetic-residual-context',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic-proof:${id}` })),

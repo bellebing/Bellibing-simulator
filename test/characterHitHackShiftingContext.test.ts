@@ -101,7 +101,7 @@ function remaining(
 ): RemainingHitContext {
   const enemyDefense = options.enemyDefense ?? 1000;
   return {
-    status: 'QUALIFIED',
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED',
     assemblyKey: assembly.assemblyKey,
     evidenceId: 'synthetic-residual-context',
     requirements: assembly.requirements.map(id => ({ id, evidenceId: `synthetic-proof:${id}` })),

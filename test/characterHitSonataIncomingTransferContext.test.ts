@@ -92,7 +92,7 @@ function events(
 
 function remaining(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
   return {
-    status: 'QUALIFIED',
+    status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED',
     assemblyKey: a.assemblyKey,
     evidenceId: 'synthetic-residual-context',
     requirements: a.requirements.map(id => ({ id, evidenceId: `synthetic-proof:${id}` })),

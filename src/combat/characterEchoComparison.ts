@@ -10,9 +10,11 @@ import { evaluateCharacterDirectHit, listCharacterDirectHitSupport, supportsChar
 export const CHARACTER_ECHO_COMPARISON_ID = 'character-explicit-hit-echo-comparison-v1';
 type Hit = Omit<CharacterDirectHitInput, 'snapshot'>;
 
-/** Evidence is supplied separately for each exact card set. The key is identity, not proof. */
+/** Complete snapshots remain caller-qualified, including when Bellibing assembled
+ * part of their values. Evidence IDs and card keys are labels/identity, not proof. */
 export type EchoBuildHitContext = { readonly status: 'PENDING'; readonly reason: string } | {
   readonly status: 'QUALIFIED';
+  readonly provenance: 'CALLER_QUALIFIED';
   readonly characterId: string;
   readonly factId: string;
   readonly componentIndex: number;
@@ -20,17 +22,20 @@ export type EchoBuildHitContext = { readonly status: 'PENDING'; readonly reason:
   readonly eventContextId: string;
   readonly echoStatKey: string;
   readonly evidenceId: string;
-  /** The selected hit's proven attribute; never inferred from a Character label. */
+  /** The selected hit's caller-qualified attribute; never inferred from a Character label. */
   readonly damageElement: Element;
   /** Includes all Character, weapon, main-Echo, Sonata, team/enemy/state effects,
    * but excludes the primary/secondary/substat card values added below. */
   readonly nonEchoSnapshot: CharacterDirectHitSnapshot;
   /** The exact ATK/HP/DEF base to which the Echo's percentage stat applies.
-   * Already source-qualified, including weapon base ATK where applicable. */
+   * The caller qualifies its source, including weapon base ATK where applicable. */
   readonly scalingBaseBeforePercentBonuses: number;
-  readonly allNonEchoSourcesQualified: true;
-  readonly echoDependentEffectsRecomputed: true;
-  readonly equipmentStateQualified: true;
+  /** Assertions required of the trusted caller; not engine-issued source proof. */
+  readonly callerAssertions: {
+    readonly allNonEchoSourcesQualified: true;
+    readonly echoDependentEffectsRecomputed: true;
+    readonly equipmentStateQualified: true;
+  };
 };
 
 export interface CharacterEchoComparisonInput {
@@ -89,13 +94,15 @@ export function compareCharacterHitEchoReplacement(input: CharacterEchoCompariso
       if (!text(context.reason)) throw new Error('Pending combat context requires its missing evidence');
       return;
     }
-    if (!context || context.status !== 'QUALIFIED' || context.characterId !== hit.characterId
+    if (!context || context.status !== 'QUALIFIED' || context.provenance !== 'CALLER_QUALIFIED'
+      || context.characterId !== hit.characterId
       || context.factId !== hit.factId || context.eventContextId !== input.eventContextId
       || context.componentIndex !== hit.componentIndex || context.landedHitCount !== hit.landedHitCount
       || context.echoStatKey !== key || !text(context.evidenceId)
       || !['Aero', 'Electro', 'Fusion', 'Glacio', 'Havoc', 'Spectro'].includes(context.damageElement)
-      || context.allNonEchoSourcesQualified !== true || context.echoDependentEffectsRecomputed !== true
-      || context.equipmentStateQualified !== true || !Number.isFinite(context.scalingBaseBeforePercentBonuses)
+      || context.callerAssertions?.allNonEchoSourcesQualified !== true
+      || context.callerAssertions?.echoDependentEffectsRecomputed !== true
+      || context.callerAssertions?.equipmentStateQualified !== true || !Number.isFinite(context.scalingBaseBeforePercentBonuses)
       || context.scalingBaseBeforePercentBonuses <= 0) {
       throw new Error('Require independently qualified combat context bound to these exact Echo cards');
     }
@@ -127,7 +134,8 @@ export function compareCharacterHitEchoReplacement(input: CharacterEchoCompariso
       damageBonus: s.damageBonus + stat(context.damageElement + ' DMG') + (damageStat ? stat(damageStat) : 0),
     };
     return { expectedDamage: evaluateCharacterDirectHit({ ...hit, snapshot }).expectedDamage,
-      snapshot, echoStats: projection.totals, evidenceId: context.evidenceId };
+      snapshot, echoStats: projection.totals, evidenceId: context.evidenceId,
+      provenance: context.provenance };
   };
   const before = evaluate(current, input.current.context), after = evaluate(candidate, input.candidate.context);
   const delta = after.expectedDamage - before.expectedDamage;

@@ -928,6 +928,9 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
       : ['selected-team-effects', 'target-state-and-other-effects', 'event-resource-state-feasibility'].includes(id)
         ? 'PENDING_TIMELINE' as const : 'PENDING_SOURCE' as const }));
   return structuredClone({ primitiveId: CHARACTER_HIT_CONTEXT_ID, scope: 'PARTIAL_NON_ECHO_CONTEXT' as const, pending,
+    // Canonical contributions evaluated against explicit caller-qualified events/equipment.
+    // This partial assembly does not establish the occurrence of those events or resolve residuals.
+    provenance: 'BELLIBING_ASSEMBLED_PARTIAL' as const,
     ...identity, assemblyKey: JSON.stringify(identity), stats, scalingStat, damageClass: fact.damageClass,
     authorizesRotationDps: false as const, authorizesUpgradeVerdict: false as const });
 }
@@ -935,6 +938,9 @@ export function assembleCharacterHitContext(selection: CharacterHitContextSelect
 export type AssembledCharacterHitContext = ReturnType<typeof assembleCharacterHitContext>;
 export type RemainingHitContext = { readonly status: 'PENDING'; readonly reason: string } | {
   readonly status: 'QUALIFIED';
+  /** Residual values and evidence labels are asserted by the trusted caller.
+   * Structural/selected semantic validation never resolves their sources. */
+  readonly provenance: 'CALLER_QUALIFIED';
   readonly assemblyKey: string;
   readonly evidenceId: string;
   /** Covers every named missing scope separately, for this exact build and hit.
@@ -972,12 +978,13 @@ export type RemainingHitContext = { readonly status: 'PENDING'; readonly reason:
 const classStat = { BASIC: 'Basic Attack DMG', HEAVY: 'Heavy Attack DMG', SKILL: 'Skill DMG',
   LIBERATION: 'Liberation DMG', INTRO: 'Intro DMG', OUTRO: 'Outro DMG' } as const;
 
-function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitContext): EchoBuildHitContext {
+function callerQualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitContext): EchoBuildHitContext {
   if (proof?.status === 'PENDING') {
     if (!text(proof.reason)) throw new Error('Pending context requires a reason');
-    return { ...proof };
+    return { status: 'PENDING', reason: proof.reason };
   }
-  if (!proof || proof.status !== 'QUALIFIED' || proof.assemblyKey !== a.assemblyKey || !text(proof.evidenceId)
+  if (!proof || proof.status !== 'QUALIFIED' || proof.provenance !== 'CALLER_QUALIFIED'
+    || proof.assemblyKey !== a.assemblyKey || !text(proof.evidenceId)
     || proof.buildDependentEffectsRecomputed !== true || !Array.isArray(proof.requirements)
     || proof.requirements.some(r => !text(r.evidenceId))
     || JSON.stringify(proof.requirements.map(r => r.id).sort()) !== JSON.stringify(a.requirements)
@@ -1047,11 +1054,13 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
       activeResistance[0].value,
     );
   }
-  return { status: 'QUALIFIED', characterId: hit.characterId, factId: hit.factId,
+  return { status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', characterId: hit.characterId, factId: hit.factId,
     componentIndex: hit.componentIndex, landedHitCount: hit.landedHitCount,
     eventContextId: a.selection.eventContextId, echoStatKey: a.echoStatKey, evidenceId: proof.evidenceId,
     damageElement: a.selection.damageElement, scalingBaseBeforePercentBonuses: a.baseScalingStat,
-    allNonEchoSourcesQualified: true, echoDependentEffectsRecomputed: true, equipmentStateQualified: true,
+    callerAssertions: {
+      allNonEchoSourcesQualified: true, echoDependentEffectsRecomputed: true, equipmentStateQualified: true,
+    },
     nonEchoSnapshot: {
       scalingStat: a.scalingStat, damageClass,
       totalScalingStat: a.baseScalingStat * (1 + stat(a.scalingStat + '%') + proof.scalingPercent)
@@ -1065,8 +1074,8 @@ function qualifiedContext(a: AssembledCharacterHitContext, proof: RemainingHitCo
     } };
 }
 
-/** Existing #197 comparison consumes freshly assembled current/candidate context.
- * No complete snapshot or old-build context is silently reused. */
+/** The comparison consumes fresh per-build assembly plus caller-qualified residuals.
+ * The complete snapshot retains caller provenance; the partial assembly stays separate. */
 export function compareCharacterHitWithAssembledContext(input: {
   readonly selection: CharacterHitContextSelection;
   readonly slotIndex: number;
@@ -1077,7 +1086,7 @@ export function compareCharacterHitWithAssembledContext(input: {
   const candidate = assembleCharacterHitContext(input.selection, input.candidate.echoes, input.candidate.events);
   const comparison = compareCharacterHitEchoReplacement({ hit: input.selection.hit,
     eventContextId: input.selection.eventContextId, slotIndex: input.slotIndex,
-    current: { echoes: input.current.echoes, context: qualifiedContext(current, input.current.remaining) },
-    candidate: { echoes: input.candidate.echoes, context: qualifiedContext(candidate, input.candidate.remaining) } });
+    current: { echoes: input.current.echoes, context: callerQualifiedContext(current, input.current.remaining) },
+    candidate: { echoes: input.candidate.echoes, context: callerQualifiedContext(candidate, input.candidate.remaining) } });
   return { currentAssembly: current, candidateAssembly: candidate, comparison };
 }

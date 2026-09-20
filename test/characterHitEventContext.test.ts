@@ -29,7 +29,7 @@ function fixture(effectId = 'TFD-HEAVY', characterId = 'augusta') {
   return { selection, current, candidate, events };
 }
 function proof(a: ReturnType<typeof assembleCharacterHitContext>): RemainingHitContext {
-  return { status: 'QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-rest-inactive',
+  return { status: 'QUALIFIED', provenance: 'CALLER_QUALIFIED', assemblyKey: a.assemblyKey, evidenceId: 'synthetic-rest-inactive',
     requirements: a.requirements.map(id => ({ id, evidenceId: 'synthetic-explicit-scope-proof' })), buildDependentEffectsRecomputed: true,
     scalingPercent: 0, scalingFlat: 0, critRate: 0, critDamage: 0, damageBonus: 0, amplification: 0,
     defenseMultiplier: 0.5, resistanceMultiplier: 0.9, damageReduction: 0 };

@@ -1,10 +1,6 @@
 name: Snapshot UI Asset Sources
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/snapshot-ui-asset-sources.yml'
-      - 'docs/ASSET_SOURCE_INVENTORY.md'
   workflow_dispatch:
 
 permissions:

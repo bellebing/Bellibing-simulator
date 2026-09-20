@@ -1,0 +1,90 @@
+name: Snapshot UI Asset Sources
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/snapshot-ui-asset-sources.yml'
+      - 'docs/ASSET_SOURCE_INVENTORY.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Bellibing
+        uses: actions/checkout@v6
+
+      - name: Snapshot source assets
+        shell: bash
+        env:
+          RYAN_SHA: d77801ecfb8c3abc950c1ffbc6ddec94f5129889
+          TOMY_SHA: 5b3d1d128ed3938cbb8e5260ba07b075b321a7c6
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/wuwa-asset-source-snapshot/raw
+          mkdir -p artifacts/wuwa-asset-source-snapshot/manifest
+
+          git clone --filter=blob:none --sparse https://github.com/ryanbenson/wuthering-waves-assets.git /tmp/ryan
+          git -C /tmp/ryan sparse-checkout set images
+          git -C /tmp/ryan checkout "$RYAN_SHA"
+          mkdir -p artifacts/wuwa-asset-source-snapshot/raw/ryanbenson-wuthering-waves-assets
+          cp -a /tmp/ryan/images artifacts/wuwa-asset-source-snapshot/raw/ryanbenson-wuthering-waves-assets/
+
+          git clone --filter=blob:none --no-checkout https://github.com/TomyJan/WutheringWaves-UIResources.git /tmp/tomy
+          git -C /tmp/tomy sparse-checkout init --no-cone
+          cat > /tmp/tomy/.git/info/sparse-checkout <<'EOF'
+          /UIResources/UiArchive/
+          /UIResources/UiCreateRole/
+          /UIResources/UiInventory/
+          /UIResources/UiMonsterAbsorb/
+          /UIResources/UiNewRole/
+          /UIResources/UiRole/
+          /UIResources/UiTeam/
+          /UIResources/Common/Atlas/SkillIcon/
+          /UIResources/Common/Atlas/_SpriteTextures/
+          /UIResources/Common/Image/ArchiveRole/
+          /UIResources/Common/Image/ChipIcon160/
+          /UIResources/Common/Image/ChipIcon256/
+          /UIResources/Common/Image/BgCg/T_RoleShare_*.png
+          /UIResources/Common/Image/BgCg/T_WeaponShare_*.png
+          EOF
+          git -C /tmp/tomy checkout "$TOMY_SHA"
+          mkdir -p artifacts/wuwa-asset-source-snapshot/raw/TomyJan-WutheringWaves-UIResources
+          cp -a /tmp/tomy/UIResources artifacts/wuwa-asset-source-snapshot/raw/TomyJan-WutheringWaves-UIResources/
+
+          cat > artifacts/wuwa-asset-source-snapshot/manifest/SOURCES.txt <<EOF
+          Bellibing Wuthering Waves UI asset source snapshot
+          Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          ryanbenson/wuthering-waves-assets
+          commit: $RYAN_SHA
+          included: images/ (character/reference images, Echoes, Weapons, Enemies, icons and related image assets)
+
+          TomyJan/WutheringWaves-UIResources
+          commit: $TOMY_SHA
+          included: selected raw UI families relevant to Character, Weapon, inventory, team and visual UI work.
+          intentionally excluded for this snapshot: whole Common tree (~9.38 GB), whole repository (~45 GB), UiLuckdraw (~0.91 GB).
+          EOF
+
+          (
+            cd artifacts/wuwa-asset-source-snapshot
+            find raw -type f -print0 | sort -z | xargs -0 sha256sum > manifest/SHA256SUMS.txt
+            find raw -type f | sort > manifest/FILES.txt
+            printf 'files=' > manifest/SUMMARY.txt
+            find raw -type f | wc -l >> manifest/SUMMARY.txt
+            printf 'bytes=' >> manifest/SUMMARY.txt
+            du -sb raw | cut -f1 >> manifest/SUMMARY.txt
+          )
+
+          cat artifacts/wuwa-asset-source-snapshot/manifest/SUMMARY.txt
+
+      - name: Upload source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-wuwa-asset-source-snapshot
+          path: artifacts/wuwa-asset-source-snapshot/
+          if-no-files-found: error
+          retention-days: 7

@@ -1,8 +1,8 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-20
+Last reconciled: 2026-09-22
 
-This document is the product/interaction source of truth for the **new Bellibing UI/UX direction** while it remains isolated from the current production Alpha web UI.
+This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
 Durable companion docs on `main`:
 
@@ -31,14 +31,11 @@ Mobile is a separate presentation pass. Desktop should show useful build context
 
 The collectible-card interaction language is intentionally reusable across desktop and mobile.
 
-## Isolation from current live site
+## New UI and current root
 
-The existing GitHub Pages root remains the Bellibing Simulator Alpha/runtime regression implementation:
+New UI is the only forward product/design direction. The existing GitHub Pages root still serves the older Alpha implementation today, but that surface is legacy and is not a design authority.
 
-- `web/index.html`;
-- `src/web/alpha-entry.ts`.
-
-Do not replace the live root or remove Alpha/runtime routes until an explicitly reviewed migration exists. The new UI continues in the isolated `/ui-preview/` route during visual/product development.
+During the current visual build pass, `/ui-preview/` is the review surface. After the New UI Home baseline is user-approved, replacing the public root and retiring/removing Alpha is an explicit migration step. Do not silently mix that deployment migration into an unrelated visual tweak.
 
 ## Locked visual identity
 
@@ -58,12 +55,11 @@ Comparable short labels must not wrap inconsistently. Character names/card title
 
 - center-oriented, minimal UI;
 - Home functions are large visual vertical cards with collectible-card proportions;
-- 0 owned Characters → `Build a Character` only;
-- 1 owned Character → add `Improve a Character`;
-- 2+ owned Characters → add `Build a Team`;
+- Home always presents exactly three primary cards in fixed visual order: `Build a Character` left, `Improve a Character` center/default focus, `Build a Team` right;
+- Home-card visibility is no longer account-count gating; account-state constraints belong inside the destination feature/empty state rather than hiding Home navigation;
 - Build means create/build a Character draft, then explicitly add it to the account;
-- Improve operates only on Characters already added to the account;
-- Team is a separate surface using account Characters.
+- Improve operates on Characters already added to the account; empty-state handling remains a later UI slice;
+- Team is a separate surface using account Characters; insufficient-account handling remains a later UI slice.
 
 Home visual baseline and exact card/art geometry are documented in `docs/UI_BUILD_HANDOFF_V34.md` and should not be freely redesigned by a new agent.
 

@@ -137,3 +137,14 @@ These 42 files are treated as immutable visual masters for this collection.
 - Character identity mapping is currently `PENDING_IDENTITY_REVIEW`; do not infer entity IDs from file order.
 - Semantic focal points and safe-crop metadata remain pending until each Character identity is verified.
 - Runtime/UI import remains pending; raw masters stay outside the normal app source tree until mapping and derivative selection are reviewed.
+
+### Identity review result
+
+The 42-file collection is now mapped **42 / 42** in `docs/CHARACTER_ASSET_MAPPING_5STAR.md`.
+
+- reviewed mapping status: `REVIEWED_42_OF_42`;
+- reviewed mapping JSON is stored durably beside the archive in Bellibing Library;
+- mapping JSON SHA-256: `1d7869d9f90c0ca564b3cd20ac2e6726a8841421c108f2601cb8670fa4e546bc`;
+- Rover is not present in this uploaded collection;
+- Jingran is present at capture index 41 and remains `CONFIRMED_UPCOMING` in the current Bellibing catalog;
+- identity review does not authorize runtime import or imply focal/crop approval.

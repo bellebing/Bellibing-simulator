@@ -10,7 +10,7 @@
   "policy": {
     "directPortraits": "Canonical filename equals Bellibing Character ID for non-Rover catalog entries.",
     "uiEligibility": "Only RELEASED entries are eligible for Character selector by this manifest.",
-    "rover": "Rover candidates are imported but canonical per-element portrait selection is pending a female/male presentation decision."
+    "rover": "FIRST_SOURCE_MATCH: first lexicographically sorted matching sourcePath for each element; intentionally simple initial policy."
   },
   "summary": {
     "catalogEntries": 60,
@@ -19,7 +19,8 @@
     "directConfirmedUpcoming": 1,
     "directUnreleasedWip": 2,
     "roverCatalogEntries": 4,
-    "roverSourceCandidates": 10
+    "roverSourceCandidates": 10,
+    "canonicalRoverPortraits": 4
   },
   "portraits": [
     {
@@ -765,6 +766,40 @@
       "sourceBytes": 91715,
       "targetPath": "docs/ui-prototypes/assets/characters/portraits/rover-candidates/rover-spectro-male.png",
       "mappingStatus": "PENDING_ROVER_PRESENTATION"
+    }
+  ],
+  "roverPortraits": [
+    {
+      "characterId": "rover-aero",
+      "selectionPolicy": "FIRST_SOURCE_MATCH",
+      "sourcePath": "images/RoverAeroFemale.png",
+      "targetPath": "docs/ui-prototypes/assets/characters/portraits/rover-aero.png",
+      "bytes": 108295,
+      "sha256": "28f777d2304c3f8c184a145427da70ead448c1280ed11fed548bda81e47baf22"
+    },
+    {
+      "characterId": "rover-electro",
+      "selectionPolicy": "FIRST_SOURCE_MATCH",
+      "sourcePath": "images/Roverelectrofemale.png",
+      "targetPath": "docs/ui-prototypes/assets/characters/portraits/rover-electro.png",
+      "bytes": 13516,
+      "sha256": "e8fdd8642bc02122f7fd4b0593b8ec35cdd6bbc5b8f128b11afcfdc68d04783a"
+    },
+    {
+      "characterId": "rover-havoc",
+      "selectionPolicy": "FIRST_SOURCE_MATCH",
+      "sourcePath": "images/Rover-Havoc.png",
+      "targetPath": "docs/ui-prototypes/assets/characters/portraits/rover-havoc.png",
+      "bytes": 30582,
+      "sha256": "2506ff6384c7a583875b509e8c735b60df0cc179d1e8206206eb68c0d164edde"
+    },
+    {
+      "characterId": "rover-spectro",
+      "selectionPolicy": "FIRST_SOURCE_MATCH",
+      "sourcePath": "images/Rover-Spectro.png",
+      "targetPath": "docs/ui-prototypes/assets/characters/portraits/rover-spectro.png",
+      "bytes": 30582,
+      "sha256": "2506ff6384c7a583875b509e8c735b60df0cc179d1e8206206eb68c0d164edde"
     }
   ]
 }

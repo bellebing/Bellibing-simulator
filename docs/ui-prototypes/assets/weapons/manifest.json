@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": 1,
+  "role": "weapon.icon",
+  "source": {
+    "repository": "ryanbenson/wuthering-waves-assets",
+    "commit": "d77801ecfb8c3abc950c1ffbc6ddec94f5129889",
+    "path": "images/weapons/"
+  },
+  "importedAt": "2026-09-22",
+  "policy": {
+    "scope": "Current canonical Bellibing Weapon catalog.",
+    "transform": "NONE_BYTE_IDENTICAL_COPY",
+    "extras": "Unmatched source files remain excluded."
+  },
+  "summary": {
+    "canonical": 122,
+    "imported": 122,
+    "rarityCounts": {
+      "1": 5,
+      "2": 5,
+      "3": 21,
+      "4": 43,
+      "5": 48
+    }
+  },
+  "icons": [
+    {
+      "weaponId": "ages-of-harvest",
+      "name": "Ages of Harvest",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/AgesOfHarvest.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/ages-of-harvest.png",
+      "bytes": 114050,
+      "sha256": "8f590fe8878d23b65f1097b0c745f3f03f0afab59146ec8fbf3011be3693938c"
+    },
+    {
+      "weaponId": "kumokiri",
+      "name": "Kumokiri",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/Kumokiri.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/kumokiri.png",
+      "bytes": 23760,
+      "sha256": "15b947d23a84d7c2bfe3e8cebbbdbc19789b86216cd80eaae9a518e524a8686c"
+    },
+    {
+      "weaponId": "lustrous-razor",
+      "name": "Lustrous Razor",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/LustrousRazor.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/lustrous-razor.png",
+      "bytes": 58078,
+      "sha256": "8e95bb6f4f218479dd37ae5edc80780b33930b1c19e9d962ab5c3c1ab84f3a98"
+    },
+    {
+      "weaponId": "radiance-cleaver",
+      "name": "Radiance Cleaver",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/RadianceCleaver.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/radiance-cleaver.png",
+      "bytes": 21502,
+      "sha256": "5defb11746c9e587f0cca5b819b015bbcb540708a4293c6876c6f912619ed0ac"
+    },
+    {
+      "weaponId": "starfield-calibrator",
+      "name": "Starfield Calibrator",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/StarfieldCalibrator.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/starfield-calibrator.png",
+      "bytes": 36199,
+      "sha256": "b5715f9b52b51e73dff73121b549b386706fbbfd6b607e2babe898d7531ab0cf"
+    },
+    {
+      "weaponId": "thunderflare-dominion",
+      "name": "Thunderflare Dominion",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/ThunderflareDominion.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/thunderflare-dominion.png",
+      "bytes": 22860,
+      "sha256": "ffdfcbcd0178d22b74a31fbef32d2dc8ca453cb69f67b4fea25475aa4ba2cd99"
+    },
+    {
+      "weaponId": "verdant-summit",
+      "name": "Verdant Summit",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/VerdantSummit.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/verdant-summit.png",
+      "bytes": 56170,
+      "sha256": "c6e8ff76f51951be0251fcb0078cd54966ec85acae0c38fd49ac18fe9c8bd80b"
+    },
+    {
+      "weaponId": "wildfire-mark",
+      "name": "Wildfire Mark",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/WildfireMark.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/wildfire-mark.png",
+      "bytes": 22123,
+      "sha256": "caec4514b1d47ce2fb399058e0b9acc53869a7ea07cf7d07c623e2f6d9f0a596"
+    },
+    {
+      "weaponId": "thousandfold-deliverance",
+      "name": "Thousandfold Deliverance",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "sourcePath": "images/weapons/ThousandfoldDeliverance.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/thousandfold-deliverance.png",
+      "bytes": 29029,
+      "sha256": "9c49a0ee66eddc060ac60cb1dc38f3c366a73bd138d4ddc2c8261799694bcb94"
+    },
+    {
+      "weaponId": "abyss-surges",
+      "name": "Abyss Surges",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/AbyssSurges.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/abyss-surges.png",
+      "bytes": 47485,
+      "sha256": "6154d188d20f25e6ae4611ba9afe82bdf482b99a545ec33c39e603b7915b1424"
+    },
+    {
+      "weaponId": "blazing-justice",
+      "name": "Blazing Justice",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/BlazingJustice.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/blazing-justice.png",
+      "bytes": 19539,
+      "sha256": "cfbe291be227b2e29527a2f6ce8449299ed01097c622a3094481b1cb7171bc8c"
+    },
+    {
+      "weaponId": "daybreakers-spine",
+      "name": "Daybreaker's Spine",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/DaybreakersSpine.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/daybreakers-spine.png",
+      "bytes": 133332,
+      "sha256": "8df684e9d3ed77eaa27bf6320f8b4250afe2c0e335b03d06a1fee8c359c6e71f"
+    },
+    {
+      "weaponId": "moongazers-sigil",
+      "name": "Moongazer's Sigil",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/MoongazersSigil.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/moongazers-sigil.png",
+      "bytes": 27471,
+      "sha256": "49396eb83e930d93c70cc42e611ebc35e32bce3bc9eaf580731d00d3eaa036bc"
+    },
+    {
+      "weaponId": "pulsation-bracer",
+      "name": "Pulsation Bracer",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/PulsationBracer.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/pulsation-bracer.png",
+      "bytes": 20224,
+      "sha256": "3b06fb4f386e98d0f62d8379bf271ddbbbb8e4b45a1f4301391e79356775d487"
+    },
+    {
+      "weaponId": "solsworn-ciphers",
+      "name": "Solsworn Ciphers",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/SolswornCiphers.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/solsworn-ciphers.png",
+      "bytes": 30784,
+      "sha256": "0311329de229a4354397191e852467a3faf3ff809a3b69600b1423f7756b6158"
+    },
+    {
+      "weaponId": "tragicomedy",
+      "name": "Tragicomedy",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/Tragicomedy.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tragicomedy.png",
+      "bytes": 23425,
+      "sha256": "67431ca365ba7f5f58e8a4f6b335837ad852bd799133eb21e13a6b2164dbe5cb"
+    },
+    {
+      "weaponId": "veritys-handle",
+      "name": "Verity's Handle",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "sourcePath": "images/weapons/VeritysHandle.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/veritys-handle.png",
+      "bytes": 51853,
+      "sha256": "d15bd7e7d507c9e3f8bdb7677c1a26d9cce4fe938e58751dbddefcbef6732e98"
+    },
+    {
+      "weaponId": "lux-and-umbra",
+      "name": "Lux & Umbra",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/LuxUmbra.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/lux-and-umbra.png",
+      "bytes": 23301,
+      "sha256": "5ba7b1700c86e1979f9c894fe8c13ace68fd2b0b7aa749e630da0425e694f098"
+    },
+    {
+      "weaponId": "phasic-homogenizer",
+      "name": "Phasic Homogenizer",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/PhasicHomogenizer.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/phasic-homogenizer.png",
+      "bytes": 13971,
+      "sha256": "aa976b27544689b799c176104c8a563800a9e6e9265bd98ba849043fe0991209"
+    },
+    {
+      "weaponId": "skull-thrasher",
+      "name": "Skull Thrasher",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/SkullThrasher.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/skull-thrasher.png",
+      "bytes": 21365,
+      "sha256": "927868a36d8e1279c823f8a22d367a97e0dbd5ad9ce7f66528170507cab02195"
+    },
+    {
+      "weaponId": "spectral-trigger",
+      "name": "Spectral Trigger",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/SpectralTrigger.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/spectral-trigger.png",
+      "bytes": 20061,
+      "sha256": "9f9a495b65e668054466190fa8e8a8471751152ef9bba7397f02520146d93d12"
+    },
+    {
+      "weaponId": "spectrum-blaster",
+      "name": "Spectrum Blaster",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/SpectrumBlaster.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/spectrum-blaster.png",
+      "bytes": 20853,
+      "sha256": "74918b51e265fc151e07233473abb2c60f27f5cc9e10e6b886cc0538193bad17"
+    },
+    {
+      "weaponId": "static-mist",
+      "name": "Static Mist",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/StaticMist.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/static-mist.png",
+      "bytes": 35951,
+      "sha256": "0b7145a2209e07dabf518fd540b6ce4d455b3ce18ad23218371b6a31f169b7e8"
+    },
+    {
+      "weaponId": "the-last-dance",
+      "name": "The Last Dance",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/TheLastDance.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/the-last-dance.png",
+      "bytes": 15110,
+      "sha256": "44430348f72d999eff9b50091db59143c47b2870a25eb0122c06b45089e3ae41"
+    },
+    {
+      "weaponId": "woodland-aria",
+      "name": "Woodland Aria",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "sourcePath": "images/weapons/WoodlandAria.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/woodland-aria.png",
+      "bytes": 14492,
+      "sha256": "c2017ad85d565bd222e6eef67c0c1b5fb3c7697e294955cc044943ba1ba324c6"
+    },
+    {
+      "weaponId": "boson-astrolabe",
+      "name": "Boson Astrolabe",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/BosonAstrolabe.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/boson-astrolabe.png",
+      "bytes": 18177,
+      "sha256": "0996e7522bf1b97877294f7ecb3b6bef4b799d21c8f136ebadae28d65ac9a893"
+    },
+    {
+      "weaponId": "cosmic-ripples",
+      "name": "Cosmic Ripples",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/CosmicRipples.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/cosmic-ripples.png",
+      "bytes": 33070,
+      "sha256": "41ce66777d042db7f75206a1ce6a62c0a06d6c2d639779c114523b5d027cd43b"
+    },
+    {
+      "weaponId": "firstlights-herald",
+      "name": "Firstlight's Herald",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/FirstlightsHerald.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/firstlights-herald.png",
+      "bytes": 27506,
+      "sha256": "897fb163740e30a8f43387723d09b01da027f007653c412cf3efa8dd80f56887"
+    },
+    {
+      "weaponId": "forged-dwarf-star",
+      "name": "Forged Dwarf Star",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/ForgedDwarfStar.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/forged-dwarf-star.png",
+      "bytes": 30301,
+      "sha256": "6650640dce36b9962471f592971cc63decfdf84bb07171e442771da1e3a63bcb"
+    },
+    {
+      "weaponId": "freeze-frame",
+      "name": "Freeze Frame",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/FreezeFrame.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/freeze-frame.png",
+      "bytes": 28564,
+      "sha256": "359014141bb94cbff26533b4adb96a50ba0c2b60f225d4a4a12b4ee3117f1aea"
+    },
+    {
+      "weaponId": "lethean-elegy",
+      "name": "Lethean Elegy",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/LetheanElegy.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/lethean-elegy.png",
+      "bytes": 21555,
+      "sha256": "fbe685d8ab5a86b553e27913caeac7dcaf9198978d897b78b62580b7c7b82f11"
+    },
+    {
+      "weaponId": "luminous-hymn",
+      "name": "Luminous Hymn",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/LuminousHymn.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/luminous-hymn.png",
+      "bytes": 23473,
+      "sha256": "30458506dc4284eb8420a5ebf7b12a7fde9940f9453ea9f6194cf9c18af0d7eb"
+    },
+    {
+      "weaponId": "rime-draped-sprouts",
+      "name": "Rime-Draped Sprouts",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/RimeDrapedSprouts.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/rime-draped-sprouts.png",
+      "bytes": 100048,
+      "sha256": "cf0b17f5e50f4e35b9152bc2bccf02c0e97a93a2373395fa1531ae6651f8035e"
+    },
+    {
+      "weaponId": "stellar-symphony",
+      "name": "Stellar Symphony",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/StellarSymphony.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/stellar-symphony.png",
+      "bytes": 81780,
+      "sha256": "137050ca0e51a8cee076d84097b0eb155978034fc5583ee94b94c77ade053c7f"
+    },
+    {
+      "weaponId": "stringmaster",
+      "name": "Stringmaster",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/Stringmaster.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/stringmaster.png",
+      "bytes": 46078,
+      "sha256": "bd5e48f19c83ac5c971a759a4457d9a8cc100e02a59391ee1f347a77d36492ae"
+    },
+    {
+      "weaponId": "whispers-of-sirens",
+      "name": "Whispers of Sirens",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "sourcePath": "images/weapons/WhispersofSirens.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/whispers-of-sirens.png",
+      "bytes": 24958,
+      "sha256": "2871a87468958833d677edb2b176aa8f17903baccf6212f4ff08af84b98a29ea"
+    },
+    {
+      "weaponId": "azure-oath",
+      "name": "Azure Oath",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/AzureOath.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/azure-oath.png",
+      "bytes": 23519,
+      "sha256": "f704a1ef1dff4b3bc9d0c987d1694602c33e218d0d031645726d6807e07519e5"
+    },
+    {
+      "weaponId": "blazing-brilliance",
+      "name": "Blazing Brilliance",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/BlazingBrilliance.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/blazing-brilliance.png",
+      "bytes": 101302,
+      "sha256": "0985a4fe2afc92dff6bb7dfad38e0a27eb4c7291d6662d9ff95df384eac56642"
+    },
+    {
+      "weaponId": "bloodpacts-pledge",
+      "name": "Bloodpact's Pledge",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/BloodpactsPledge.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/bloodpacts-pledge.png",
+      "bytes": 23450,
+      "sha256": "bcd54b6a70db11388d1b1df9574d66105d0b8d7723dae330566bfb0771fade08"
+    },
+    {
+      "weaponId": "defiers-thorn",
+      "name": "Defier's Thorn",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/DefiersThorn.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/defiers-thorn.png",
+      "bytes": 27469,
+      "sha256": "35f77667760e431d57809c3fa70da1489006f05c690d2f8a4f2f1467fa4ab007"
+    },
+    {
+      "weaponId": "emerald-sentence",
+      "name": "Emerald Sentence",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/EmeraldSentence.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/emerald-sentence.png",
+      "bytes": 21605,
+      "sha256": "8183cfd4fde43369ea0c8380babf163d8f77a1c025fc67acb5198ff937ab74b6"
+    },
+    {
+      "weaponId": "emerald-of-genesis",
+      "name": "Emerald of Genesis",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/EmeraldOfGenesis.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/emerald-of-genesis.png",
+      "bytes": 44831,
+      "sha256": "c9e53e9cf62954028541655760c1e6d752fb015feffe604b0e55ac85cb342018"
+    },
+    {
+      "weaponId": "everbright-polestar",
+      "name": "Everbright Polestar",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/EverbrightPolestar.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/everbright-polestar.png",
+      "bytes": 27676,
+      "sha256": "a9210889a42ded9cea8246273f3ce2573afc69316718dab2ac4fb9dc6304252b"
+    },
+    {
+      "weaponId": "frostburn",
+      "name": "Frostburn",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/Frostburn.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/frostburn.png",
+      "bytes": 27714,
+      "sha256": "2f357bde0d9969f05bab10434e2664574825610b262b4259dea6cd666c4c7a6e"
+    },
+    {
+      "weaponId": "laser-shearer",
+      "name": "Laser Shearer",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/LaserShearer.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/laser-shearer.png",
+      "bytes": 17179,
+      "sha256": "451bdb201bac50aac967f912ad318843296d578fb18f19012ed4edc243c734d4"
+    },
+    {
+      "weaponId": "red-spring",
+      "name": "Red Spring",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/RedSpring.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/red-spring.png",
+      "bytes": 19721,
+      "sha256": "f044d5fed1bf4f65f41f44914cfb39c88570b5ae2cf802ee765f61e78a091cce"
+    },
+    {
+      "weaponId": "unflickering-valor",
+      "name": "Unflickering Valor",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/UnflickeringValor.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/unflickering-valor.png",
+      "bytes": 21045,
+      "sha256": "4f9c82b810830831ea8bc309e7206dccc74acd21dc44e08c5b29f2144162aef9"
+    },
+    {
+      "weaponId": "glint-of-clouds",
+      "name": "Glint of Clouds",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "sourcePath": "images/weapons/GlintOfClouds.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/glint-of-clouds.png",
+      "bytes": 27227,
+      "sha256": "5db0c1faeac8cac2d15ae5801cd1ff924c3462e20ddc9c95534a0db8393b0788"
+    },
+    {
+      "weaponId": "aureate-zenith",
+      "name": "Aureate Zenith",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/AureateZenith.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/aureate-zenith.png",
+      "bytes": 20714,
+      "sha256": "25fc0a742311260d7ecc9e435deeab98450b845bd4d99a841cf514d4286fd0ca"
+    },
+    {
+      "weaponId": "autumntrace",
+      "name": "Autumntrace",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Autumntrace.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/autumntrace.png",
+      "bytes": 46855,
+      "sha256": "7bc9c135264b968b023e7f6fbca86e264b026307f316a956f43935fa3a3a6def"
+    },
+    {
+      "weaponId": "broadblade-41",
+      "name": "Broadblade#41",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Broadblade41.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/broadblade-41.png",
+      "bytes": 46990,
+      "sha256": "98f332b954611cf8fda133ca00f3de66c75cfee97c160e2116e0d87889a01edc"
+    },
+    {
+      "weaponId": "dauntless-evernight",
+      "name": "Dauntless Evernight",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/DauntlessEvernight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/dauntless-evernight.png",
+      "bytes": 48041,
+      "sha256": "e6a6ed4f683daaaa411337f200352a93edbf630139e0aae842455c6b4e7cbf9a"
+    },
+    {
+      "weaponId": "discord",
+      "name": "Discord",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Discord.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/discord.png",
+      "bytes": 45538,
+      "sha256": "ed1a4c811dfc4ab47b3543ce76b997010d94e107529987bff8bf07e2819fc0d2"
+    },
+    {
+      "weaponId": "helios-cleaver",
+      "name": "Helios Cleaver",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/HeliosCleaver.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/helios-cleaver.png",
+      "bytes": 47028,
+      "sha256": "46ee7132eea09f281b5b75485cef455b4524bc72943e147a4c71d7fb7e45923a"
+    },
+    {
+      "weaponId": "meditations-on-mercy",
+      "name": "Meditations on Mercy",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/MeditationsonMercy.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/meditations-on-mercy.png",
+      "bytes": 15896,
+      "sha256": "9cdf31d310d395c1fef4adb5e767b1ca60e3eb5996a388cee057003464b68e41"
+    },
+    {
+      "weaponId": "waning-redshift",
+      "name": "Waning Redshift",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "sourcePath": "images/weapons/WaningRedshift.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/waning-redshift.png",
+      "bytes": 55178,
+      "sha256": "68026d6864c3cac4c018f9a28d7b725cc9859c574903dbf46760467fa36a1a9e"
+    },
+    {
+      "weaponId": "aether-strike",
+      "name": "Aether Strike",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/AetherStrike.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/aether-strike.png",
+      "bytes": 21335,
+      "sha256": "5e5f4398503b9a4756b9fbb0971d8ed69827e50f1d6aeb79982b8f461280e329"
+    },
+    {
+      "weaponId": "amity-accord",
+      "name": "Amity Accord",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/AmityAccord.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/amity-accord.png",
+      "bytes": 39395,
+      "sha256": "0b8920ff558ddb8a8a27abc2cfadedc801dcc612d966b51f4e0be281d3355bc8"
+    },
+    {
+      "weaponId": "celestial-spiral",
+      "name": "Celestial Spiral",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/CelestialSpiral.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/celestial-spiral.png",
+      "bytes": 41990,
+      "sha256": "3f6c9005525472ad189515be7ac32ffa2e644d96b9e9f3128d9821faa5338776"
+    },
+    {
+      "weaponId": "gauntlets-21d",
+      "name": "Gauntlets#21D",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Gauntlets21D.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/gauntlets-21d.png",
+      "bytes": 41394,
+      "sha256": "9c20a2b6952f1b740cfee151176226fa38a6f71cd6c7f6cfa5e9828e90810a44"
+    },
+    {
+      "weaponId": "hollow-mirage",
+      "name": "Hollow Mirage",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/HollowMirage.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/hollow-mirage.png",
+      "bytes": 40002,
+      "sha256": "abf58990fc7b39dacd757bdd5a50afe9cf8d0a32356f405434d27c6f737c09fa"
+    },
+    {
+      "weaponId": "legend-of-drunken-hero",
+      "name": "Legend of Drunken Hero",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/LegendofDrunkenHero.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/legend-of-drunken-hero.png",
+      "bytes": 16721,
+      "sha256": "1f404f680ef9946e5dc8db4eb7c7d065ca72f98a2f6bc66acb4f1e4310dc8801"
+    },
+    {
+      "weaponId": "marcato",
+      "name": "Marcato",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Marcato.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/marcato.png",
+      "bytes": 45558,
+      "sha256": "f833388797ee65b88d2c6831a50c9b5bdb7a918350457a8b57876f702392bfbd"
+    },
+    {
+      "weaponId": "stonard",
+      "name": "Stonard",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Stonard.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/stonard.png",
+      "bytes": 43911,
+      "sha256": "c491c9cc419544d7dd161744ff848df10e7c5696e6639fe89ece9f4e2bfb58c1"
+    },
+    {
+      "weaponId": "cadenza",
+      "name": "Cadenza",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Cadenza.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/cadenza.png",
+      "bytes": 39471,
+      "sha256": "4e70e36267b601b4290ef6c05aab94b98588e9025103b5c4620cd51694aabb98"
+    },
+    {
+      "weaponId": "novaburst",
+      "name": "Novaburst",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Novaburst.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/novaburst.png",
+      "bytes": 34733,
+      "sha256": "a6418455af1d75bb130bda65d7a48c409343ade9ab5dc5d402b3bebabf8642e6"
+    },
+    {
+      "weaponId": "pistols-26",
+      "name": "Pistols#26",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Pistols26.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/pistols-26.png",
+      "bytes": 34568,
+      "sha256": "03aa520ecfcf42ff13d527087d19178fde1c8aa549ddb9777237c75b27647f1f"
+    },
+    {
+      "weaponId": "relativistic-jet",
+      "name": "Relativistic Jet",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/RelativisticJet.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/relativistic-jet.png",
+      "bytes": 37032,
+      "sha256": "4333710f694abe778029f3776b5929bcfb06c07448974092419a7b2acc26c0f5"
+    },
+    {
+      "weaponId": "romance-in-farewell",
+      "name": "Romance in Farewell",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/RomanceinFarewell.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/romance-in-farewell.png",
+      "bytes": 13013,
+      "sha256": "5c13ae577d80683ac5cde256eda7305b958375a327ad922e10f47c7037667211"
+    },
+    {
+      "weaponId": "solar-flame",
+      "name": "Solar Flame",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/SolarFlame.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/solar-flame.png",
+      "bytes": 13349,
+      "sha256": "952c1e977f23f2692a8817fe7e8f3c40540347003bb7b61dac1cc85276d42ce4"
+    },
+    {
+      "weaponId": "thunderbolt",
+      "name": "Thunderbolt",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Thunderbolt.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/thunderbolt.png",
+      "bytes": 40573,
+      "sha256": "5e867b239ff985b92631e643fcce643388542c250cffb9cd2019e01062cda7c7"
+    },
+    {
+      "weaponId": "undying-flame",
+      "name": "Undying Flame",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "sourcePath": "images/weapons/UndyingFlame.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/undying-flame.png",
+      "bytes": 37682,
+      "sha256": "b949f785517df4f9fe1acc1841ac40bdb6d9ba8b89ff2ff802d5463051480ec2"
+    },
+    {
+      "weaponId": "augment",
+      "name": "Augment",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Augment.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/augment.png",
+      "bytes": 53705,
+      "sha256": "209601e02c7c51b22782d69efdf22b6132789528a03e4ba5be5651e1fcf3bf04"
+    },
+    {
+      "weaponId": "call-of-the-abyss",
+      "name": "Call of the Abyss",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/CalloftheAbyss.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/call-of-the-abyss.png",
+      "bytes": 15646,
+      "sha256": "668ef4a008cbea37f37ca994a7afe1937fae3061316cd976be92fa607d898afb"
+    },
+    {
+      "weaponId": "comet-flare",
+      "name": "Comet Flare",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/CometFlare.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/comet-flare.png",
+      "bytes": 40156,
+      "sha256": "27bfee602a074a1a9df4c2274105fc62e5b90e346c061707c232f882c97fdea3"
+    },
+    {
+      "weaponId": "fusion-accretion",
+      "name": "Fusion Accretion",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/FusionAccretion.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/fusion-accretion.png",
+      "bytes": 50962,
+      "sha256": "dce9ee409c19b5b12470dcbb7a386810ff5f7a51d8a11606cc71f22f3522456f"
+    },
+    {
+      "weaponId": "jinzhou-keeper",
+      "name": "Jinzhou Keeper",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/JinzhouKeeper.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/jinzhou-keeper.png",
+      "bytes": 47322,
+      "sha256": "912300b5cbcb9d394b1dfe8f7b4d1883a27e96231fcfc1ea1768102c42c167f0"
+    },
+    {
+      "weaponId": "oceans-gift",
+      "name": "Ocean's Gift",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/OceansGift.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/oceans-gift.png",
+      "bytes": 14505,
+      "sha256": "8078ea45d8c591dc7393f8ceb4b9d77e1ba7a37ba17e9a93a186f1b14e2ec518"
+    },
+    {
+      "weaponId": "radiant-dawn",
+      "name": "Radiant Dawn",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/RadiantDawn.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/radiant-dawn.png",
+      "bytes": 15639,
+      "sha256": "cbe4f85cc82fa356dca28e40da07f7f82bdf8333ceaa8658838d0369ac88a5f7"
+    },
+    {
+      "weaponId": "rectifier-25",
+      "name": "Rectifier#25",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Rectifier25.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/rectifier-25.png",
+      "bytes": 44117,
+      "sha256": "0908105324f37eb89f68300cc74e3cd9a6e68380a6ec0d3c6db19f32d103a59c"
+    },
+    {
+      "weaponId": "variation",
+      "name": "Variation",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Variation.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/variation.png",
+      "bytes": 47908,
+      "sha256": "51f843492709686e16cb59dc31410d68eac78205179f1fabad132f4e5c095673"
+    },
+    {
+      "weaponId": "waltz-in-masquerade",
+      "name": "Waltz in Masquerade",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "sourcePath": "images/weapons/WaltzinMasquerade.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/waltz-in-masquerade.png",
+      "bytes": 17296,
+      "sha256": "8b40d71a48010093e949c97350eeab47984e4dbbca653a30cadfb721c90d4076"
+    },
+    {
+      "weaponId": "commando-of-conviction",
+      "name": "Commando of Conviction",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/CommandoOfConviction.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/commando-of-conviction.png",
+      "bytes": 51257,
+      "sha256": "c641ffd7b8b68f1829e50c2dc34e8fac0cfe0d51ab3b3027a64a4298e5a334ad"
+    },
+    {
+      "weaponId": "endless-collapse",
+      "name": "Endless Collapse",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/EndlessCollapse.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/endless-collapse.png",
+      "bytes": 51725,
+      "sha256": "23d696274b71d16295c529ffcfe520196872996c2200c7b71498ce9f8422fa3e"
+    },
+    {
+      "weaponId": "fables-of-wisdom",
+      "name": "Fables of Wisdom",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/FablesofWisdom.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/fables-of-wisdom.png",
+      "bytes": 14859,
+      "sha256": "c29ce7d875df453fe4366e6c06ecddd68295ba649d07e1513eba76f0da3e2d43"
+    },
+    {
+      "weaponId": "feather-edge",
+      "name": "Feather Edge",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/FeatherEdge.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/feather-edge.png",
+      "bytes": 17003,
+      "sha256": "7308e44ec17ce992d54a0c395130df2e6652fc007292c573aad8a2e40a1e7cb1"
+    },
+    {
+      "weaponId": "lumingloss",
+      "name": "Lumingloss",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Lumingloss.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/lumingloss.png",
+      "bytes": 44464,
+      "sha256": "a25dd60001b4730ac2fd588f3c2cb01196982e1a388a9764c984e443df293ac4"
+    },
+    {
+      "weaponId": "lunar-cutter",
+      "name": "Lunar Cutter",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/LunarCutter.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/lunar-cutter.png",
+      "bytes": 39405,
+      "sha256": "b787335b952bf02b682d7777a20d55f72632410a5b54728665826cbfcc3f5dc2"
+    },
+    {
+      "weaponId": "overture",
+      "name": "Overture",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Overture.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/overture.png",
+      "bytes": 41140,
+      "sha256": "2ecb53bb44a517ea49b40ec2aab429c4a58f7a23d52ae003d608ed01dc0b951c"
+    },
+    {
+      "weaponId": "somnoire-anchor",
+      "name": "Somnoire Anchor",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/SomnoireAnchor.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/somnoire-anchor.png",
+      "bytes": 17480,
+      "sha256": "e08591f4a70cbb9f706be7b83532c99cd17b9e430ccbcef62902ee4f317b46bc"
+    },
+    {
+      "weaponId": "sword-18",
+      "name": "Sword#18",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "sourcePath": "images/weapons/Sword18.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/sword-18.png",
+      "bytes": 40348,
+      "sha256": "144bdf7bbb66bfe63bdf2b1b7aba7c41468bdda395c78109531af072c84654fe"
+    },
+    {
+      "weaponId": "beguiling-melody",
+      "name": "Beguiling Melody",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "sourcePath": "images/weapons/BeguilingMelody.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/beguiling-melody.png",
+      "bytes": 160432,
+      "sha256": "7e055333ee6abbfad93bbcf716a57b6710ad4e21992d57e4541b8d9025d7fb3e"
+    },
+    {
+      "weaponId": "broadblade-of-night",
+      "name": "Broadblade of Night",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "sourcePath": "images/weapons/BroadbladeOfNight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/broadblade-of-night.png",
+      "bytes": 40075,
+      "sha256": "d65b8624207c318ba33e72a3c731ff978e4789cb81cbc9bcf34c927fa9109e01"
+    },
+    {
+      "weaponId": "broadblade-of-voyager",
+      "name": "Broadblade of Voyager",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "sourcePath": "images/weapons/BroadbladeOfVoyager.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/broadblade-of-voyager.png",
+      "bytes": 40799,
+      "sha256": "9e9f5f74157665b11574acc52e21c11906c7b7d1f9b95f90a67f83d05457287b"
+    },
+    {
+      "weaponId": "guardian-broadblade",
+      "name": "Guardian Broadblade",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GuardianBroadblade.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/guardian-broadblade.png",
+      "bytes": 43328,
+      "sha256": "0791c941406265c99aebeadaf9390e2434d7a5cb9cd793c4cfefbe3ada39f1dd"
+    },
+    {
+      "weaponId": "originite-type-i",
+      "name": "Originite: Type I",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "sourcePath": "images/weapons/OriginiteTypeI.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/originite-type-i.png",
+      "bytes": 44227,
+      "sha256": "e1b2299c4640444cbaf50ee3e8df10442748268d9472bbbbba8079e134a06b33"
+    },
+    {
+      "weaponId": "gauntlets-of-night",
+      "name": "Gauntlets of Night",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GauntletsOfNight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/gauntlets-of-night.png",
+      "bytes": 36686,
+      "sha256": "29ab09334315d16335681cbe5dac444562b77c2677b86fef7aee5d712f21b022"
+    },
+    {
+      "weaponId": "gauntlets-of-voyager",
+      "name": "Gauntlets of Voyager",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GauntletsOfVoyager.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/gauntlets-of-voyager.png",
+      "bytes": 38298,
+      "sha256": "01215cedca3dd4013d70aaff6e15851071a602d03712271ef5e6535e6b770978"
+    },
+    {
+      "weaponId": "guardian-gauntlets",
+      "name": "Guardian Gauntlets",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GuardianGauntlets.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/guardian-gauntlets.png",
+      "bytes": 39117,
+      "sha256": "e34542c76a8f7d307cec60a324ad0e61ab6d01adb880490fac8c70668a4c68af"
+    },
+    {
+      "weaponId": "originite-type-iv",
+      "name": "Originite: Type IV",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "sourcePath": "images/weapons/OriginiteTypeIV.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/originite-type-iv.png",
+      "bytes": 38789,
+      "sha256": "51e7b9c216e7ec3d504ee1c2030a6415b0fb31238c5bd7b343074b5fe12b5e9b"
+    },
+    {
+      "weaponId": "guardian-pistols",
+      "name": "Guardian Pistols",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GuardianPistols.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/guardian-pistols.png",
+      "bytes": 40810,
+      "sha256": "3ca88f6d3be01420c8a224802040e71580abf1cb74d7df106c862b2274d71da4"
+    },
+    {
+      "weaponId": "originite-type-iii",
+      "name": "Originite: Type III",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "sourcePath": "images/weapons/OriginiteTypeIII.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/originite-type-iii.png",
+      "bytes": 32059,
+      "sha256": "fdbd13e63a9ab0adf4684da4060f469f81ef54baf2aa9e7b27793b7c783b57fc"
+    },
+    {
+      "weaponId": "pistols-of-night",
+      "name": "Pistols of Night",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "sourcePath": "images/weapons/PistolsOfNight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/pistols-of-night.png",
+      "bytes": 34059,
+      "sha256": "857f348bd79c43f0b119e2b7d63253463d6605f45556d9363bbebae377554828"
+    },
+    {
+      "weaponId": "pistols-of-voyager",
+      "name": "Pistols of Voyager",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "sourcePath": "images/weapons/PistolsOfVoyager.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/pistols-of-voyager.png",
+      "bytes": 32212,
+      "sha256": "9e0a50884813047dd5ef99894798ecec0a1f6e091afbd53618cfca2d44b08177"
+    },
+    {
+      "weaponId": "guardian-rectifier",
+      "name": "Guardian Rectifier",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GuardianRectifier.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/guardian-rectifier.png",
+      "bytes": 35829,
+      "sha256": "e353e17f78f5d243cff4566d26bcac3cfe8962d2f9249d12447d5d0f0e09e5d1"
+    },
+    {
+      "weaponId": "originite-type-v",
+      "name": "Originite: Type V",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "sourcePath": "images/weapons/OriginiteTypeV.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/originite-type-v.png",
+      "bytes": 34885,
+      "sha256": "9a040a71365cbc12924f5185e7ab3fa37b54db9275b1df91536cad9269c5556e"
+    },
+    {
+      "weaponId": "rectifier-of-night",
+      "name": "Rectifier of Night",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "sourcePath": "images/weapons/RectifierOfNight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/rectifier-of-night.png",
+      "bytes": 44480,
+      "sha256": "6a24e30c49ce015e4a544034cd0a218d6602b1790fbdd8ef18452f7b12e99e30"
+    },
+    {
+      "weaponId": "rectifier-of-voyager",
+      "name": "Rectifier of Voyager",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "sourcePath": "images/weapons/RectifierOfVoyager.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/rectifier-of-voyager.png",
+      "bytes": 44329,
+      "sha256": "d661018e3d34bc7142a0e44eca362ebd1ab828912450314f7ed1bf204b73cc20"
+    },
+    {
+      "weaponId": "guardian-sword",
+      "name": "Guardian Sword",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "sourcePath": "images/weapons/GuardianSword.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/guardian-sword.png",
+      "bytes": 43033,
+      "sha256": "9b33c639f0b1c9075e881d7475f96b6707363fe46aafd20c5b42ecf5adb22e62"
+    },
+    {
+      "weaponId": "originite-type-ii",
+      "name": "Originite: Type II",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "sourcePath": "images/weapons/OriginiteTypeII.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/originite-type-ii.png",
+      "bytes": 36284,
+      "sha256": "ce7c5fd3c97958c299b4564b8900dda13ec24bfea2f5bd718d769760e8e14345"
+    },
+    {
+      "weaponId": "sword-of-night",
+      "name": "Sword of Night",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "sourcePath": "images/weapons/SwordOfNight.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/sword-of-night.png",
+      "bytes": 39240,
+      "sha256": "f4d18a73fa1877677fdbf21929eba32f66df65a069f2cbd5d6173697683c25bb"
+    },
+    {
+      "weaponId": "sword-of-voyager",
+      "name": "Sword of Voyager",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "sourcePath": "images/weapons/SwordOfVoyager.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/sword-of-voyager.png",
+      "bytes": 43451,
+      "sha256": "3e63aaff7b9e54efb04274a6044f95896f53e731bbe705027e4afaf5175fb168"
+    },
+    {
+      "weaponId": "tyro-broadblade",
+      "name": "Tyro Broadblade",
+      "weaponType": "Broadblade",
+      "rarity": 2,
+      "sourcePath": "images/weapons/TyroBroadblade.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tyro-broadblade.png",
+      "bytes": 46602,
+      "sha256": "fdf611bfde81658902100dfe035d60f8dabf33b29e578cd3168cba778b7769d2"
+    },
+    {
+      "weaponId": "tyro-gauntlets",
+      "name": "Tyro Gauntlets",
+      "weaponType": "Gauntlets",
+      "rarity": 2,
+      "sourcePath": "images/weapons/TyroGauntlets.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tyro-gauntlets.png",
+      "bytes": 40092,
+      "sha256": "c4b9ae0d67b96249295cbb2410049fe765661552db6351d33ccbe563ec3eec57"
+    },
+    {
+      "weaponId": "tyro-pistols",
+      "name": "Tyro Pistols",
+      "weaponType": "Pistols",
+      "rarity": 2,
+      "sourcePath": "images/weapons/TyroPistols.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tyro-pistols.png",
+      "bytes": 34638,
+      "sha256": "063b3cabf6b2cfb2305b0bfbd6d11d6f0b120a10f7445af403f17ddc100d00fe"
+    },
+    {
+      "weaponId": "tyro-rectifier",
+      "name": "Tyro Rectifier",
+      "weaponType": "Rectifier",
+      "rarity": 2,
+      "sourcePath": "images/weapons/TyroRectifier.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tyro-rectifier.png",
+      "bytes": 40104,
+      "sha256": "2cfe86769ae1374ed81266b8e3442e83ae4edda21802597c6e897a4f4e113932"
+    },
+    {
+      "weaponId": "tyro-sword",
+      "name": "Tyro Sword",
+      "weaponType": "Sword",
+      "rarity": 2,
+      "sourcePath": "images/weapons/TyroSword.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/tyro-sword.png",
+      "bytes": 40203,
+      "sha256": "d4b398d4dde6741762ceca35ac8f31a3672cb6d8659c375688b7607ba89e0cfa"
+    },
+    {
+      "weaponId": "training-broadblade",
+      "name": "Training Broadblade",
+      "weaponType": "Broadblade",
+      "rarity": 1,
+      "sourcePath": "images/weapons/TrainingBroadblade.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/training-broadblade.png",
+      "bytes": 44721,
+      "sha256": "a1c17e810d0249577a0eb842daa56dc5162f9a482bd9435d0bb0bb2a09bec006"
+    },
+    {
+      "weaponId": "training-gauntlets",
+      "name": "Training Gauntlets",
+      "weaponType": "Gauntlets",
+      "rarity": 1,
+      "sourcePath": "images/weapons/TrainingGauntlets.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/training-gauntlets.png",
+      "bytes": 42617,
+      "sha256": "f1c138d996a42aa3e3b777096d51e6253b04f13db1a7aa42e5022833e643b2cf"
+    },
+    {
+      "weaponId": "training-pistols",
+      "name": "Training Pistols",
+      "weaponType": "Pistols",
+      "rarity": 1,
+      "sourcePath": "images/weapons/TrainingPistols.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/training-pistols.png",
+      "bytes": 32160,
+      "sha256": "8a6569bc3adac8f096e359f12925f9ab2c7a697c3526e0db9157c52db3749517"
+    },
+    {
+      "weaponId": "training-rectifier",
+      "name": "Training Rectifier",
+      "weaponType": "Rectifier",
+      "rarity": 1,
+      "sourcePath": "images/weapons/TrainingRectifier.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/training-rectifier.png",
+      "bytes": 36125,
+      "sha256": "85304e0c3b6af9ca716be1b992acb15c6660078c0eaf4c6bf89a316ed1cf6653"
+    },
+    {
+      "weaponId": "training-sword",
+      "name": "Training Sword",
+      "weaponType": "Sword",
+      "rarity": 1,
+      "sourcePath": "images/weapons/TrainingSword.png",
+      "targetPath": "docs/ui-prototypes/assets/weapons/icons/training-sword.png",
+      "bytes": 37565,
+      "sha256": "909e4df075b3e2adb288b7cb731026d3b139ef67c46af6678616e55c065ae3b2"
+    }
+  ]
+}

@@ -24,3 +24,4 @@ cpSync('web/roll-assistant.css', 'dist/roll-assistant.css');
 cpSync('web/START_BELLIBING_TEST.bat', 'dist/START_BELLIBING_TEST.bat');
 cpSync('web/serve.ps1', 'dist/serve.ps1');
 cpSync('docs/ui-prototypes/v34-functional.html', 'dist/ui-preview/index.html');
+cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursive: true });

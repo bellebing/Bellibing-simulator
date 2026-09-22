@@ -1,6 +1,6 @@
 # Wuthering Waves UI Asset Source Inventory
 
-Last reconciled: 2026-09-20
+Last reconciled: 2026-09-22
 
 This document tracks source snapshots used for Bellibing visual-asset evaluation. Raw source material is kept separate from runtime/UI assets. Importing a source snapshot does **not** make every image a canonical Bellibing asset and does not change gameplay/data verification.
 
@@ -104,3 +104,36 @@ Spot-checked snapshot assets:
 - `ThunderflareDominion.png` — 256×256 PNG
 
 This establishes complete first-pass Echo thumbnail source coverage, not final runtime selection/cropping approval.
+
+
+## User-supplied 5-star Character master collection
+
+Received 2026-09-22 as `Characters.zip` for the New UI Character asset pass.
+
+Durable raw storage:
+
+- Library archive: `Bellibing Asset Sources/Characters/5-star/Characters-2026-09-22.zip`
+- Archive SHA-256: `d5c498a68bc05677480e06ac5244fc0602f33c0cf4223977b71e425a0c32dda8`
+- Library manifest: `Bellibing Asset Sources/Characters/5-star/character-5star-capture-manifest-2026-09-22.json`
+- Manifest SHA-256: `945fe86b4d63c5b7dd11945af2327cfeb5a24dbe61d3ff6130eb0338ca2234b4`
+
+Verified raw collection facts:
+
+- 42 image files;
+- 31,296,808 total uncompressed image bytes;
+- all 42 are PNG;
+- all 42 are RGBA with transparency;
+- no byte-identical duplicate files by SHA-256;
+- image dimensions range from 543–1582 px wide and 1057–1438 px high;
+- source filenames are generic `image-Photoroom...` names and are **not** canonical Character identity.
+
+### Master-image rule
+
+These 42 files are treated as immutable visual masters for this collection.
+
+- Do not overwrite them with resized, sharpened, AI-generated or reconstructed versions.
+- Do not use generative reconstruction to invent missing pixels/details.
+- Any web optimization, resize, crop, portrait extraction or optional living-still treatment must be a separate derivative.
+- Character identity mapping is currently `PENDING_IDENTITY_REVIEW`; do not infer entity IDs from file order.
+- Semantic focal points and safe-crop metadata remain pending until each Character identity is verified.
+- Runtime/UI import remains pending; raw masters stay outside the normal app source tree until mapping and derivative selection are reviewed.

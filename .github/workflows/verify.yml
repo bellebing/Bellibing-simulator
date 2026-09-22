@@ -96,6 +96,16 @@ jobs:
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
 
+          test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
+          test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 181
+          test "$(find dist/ui-preview/assets/weapons/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 122
+          test -s dist/ui-preview/assets/echoes/manifest.json
+          test -s dist/ui-preview/assets/weapons/manifest.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/echoes/manifest.json"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/manifest.json"
+
           google-chrome \
             --headless=new \
             --no-sandbox \

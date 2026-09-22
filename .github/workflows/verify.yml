@@ -88,6 +88,14 @@ jobs:
               "http://127.0.0.1:4173/ui-preview/assets/v34/$asset"
           done
 
+          test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 56
+          test "$(find dist/ui-preview/assets/characters/portraits/rover-candidates -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 10
+          test -s dist/ui-preview/assets/characters/portraits/manifest.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/augusta.png"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
+
           google-chrome \
             --headless=new \
             --no-sandbox \

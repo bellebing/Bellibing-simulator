@@ -2,10 +2,7 @@ name: Import New UI Static Assets
 # importer-revision: 2
 
 on:
-  pull_request:
-    paths:
-      - 'scripts/import-ui-static-assets.mjs'
-      - '.github/workflows/import-ui-static-assets.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write

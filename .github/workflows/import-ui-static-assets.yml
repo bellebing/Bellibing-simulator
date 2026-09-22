@@ -1,0 +1,49 @@
+name: Import New UI Static Assets
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/import-ui-static-assets.mjs'
+      - '.github/workflows/import-ui-static-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout active PR branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Fetch pinned Wuthering Waves asset source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none --no-checkout https://github.com/ryanbenson/wuthering-waves-assets.git /tmp/wuwa-assets
+          git -C /tmp/wuwa-assets fetch --depth 1 origin d77801ecfb8c3abc950c1ffbc6ddec94f5129889
+          git -C /tmp/wuwa-assets checkout d77801ecfb8c3abc950c1ffbc6ddec94f5129889 -- images
+
+      - name: Import canonical Echo, Weapon and Rover portrait assets
+        run: node scripts/import-ui-static-assets.mjs /tmp/wuwa-assets
+
+      - name: Commit imported assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/ui-prototypes/assets/echoes \
+            docs/ui-prototypes/assets/weapons \
+            docs/ui-prototypes/assets/characters/portraits
+          if git diff --cached --quiet; then
+            echo "No import changes."
+            exit 0
+          fi
+          git commit -m "assets(ui): import Echo and Weapon libraries"
+          git push origin "HEAD:${{ github.head_ref }}"

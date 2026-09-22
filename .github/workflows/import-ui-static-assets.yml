@@ -24,9 +24,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git clone --filter=blob:none --no-checkout https://github.com/ryanbenson/wuthering-waves-assets.git /tmp/wuwa-assets
-          git -C /tmp/wuwa-assets fetch --depth 1 origin d77801ecfb8c3abc950c1ffbc6ddec94f5129889
-          git -C /tmp/wuwa-assets checkout d77801ecfb8c3abc950c1ffbc6ddec94f5129889 -- images
+          mkdir -p /tmp/wuwa-assets
+          curl --fail --location --retry 3 \
+            "https://github.com/ryanbenson/wuthering-waves-assets/archive/d77801ecfb8c3abc950c1ffbc6ddec94f5129889.tar.gz" \
+            --output /tmp/wuwa-assets.tar.gz
+          tar -xzf /tmp/wuwa-assets.tar.gz --strip-components=1 -C /tmp/wuwa-assets
+          test -d /tmp/wuwa-assets/images
 
       - name: Import canonical Echo, Weapon and Rover portrait assets
         run: node scripts/import-ui-static-assets.mjs /tmp/wuwa-assets

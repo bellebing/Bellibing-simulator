@@ -79,5 +79,49 @@ jobs:
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-ciaccona-owned-build.mjs
 
+          mkdir -p artifacts
+          for asset in \
+            bellibing-ui-build-character-rover.webp \
+            bellibing-ui-improve-character-augusta.webp \
+            bellibing-ui-build-team.webp; do
+            curl --fail --silent --output /dev/null \
+              "http://127.0.0.1:4173/ui-preview/assets/v34/$asset"
+          done
+
+          test "$(find dist/ui-preview/assets/characters/portraits/rover-candidates -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 10
+          test -s dist/ui-preview/assets/characters/portraits/manifest.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/augusta.png"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
+
+          test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
+          test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 181
+          test "$(find dist/ui-preview/assets/weapons/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 122
+          test -s dist/ui-preview/assets/echoes/manifest.json
+          test -s dist/ui-preview/assets/weapons/manifest.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/echoes/manifest.json"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/manifest.json"
+
+          google-chrome \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --hide-scrollbars \
+            --window-size=1440,900 \
+            --screenshot=artifacts/ui-preview-home-1440x900.png \
+            http://127.0.0.1:4173/ui-preview/
+          test -s artifacts/ui-preview-home-1440x900.png
+
+      - name: Upload New UI Home visual evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-new-ui-home-visual
+          path: artifacts/ui-preview-home-1440x900.png
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Diff whitespace check
         run: git diff --check HEAD^

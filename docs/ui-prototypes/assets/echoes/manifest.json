@@ -1,0 +1,1831 @@
+{
+  "schemaVersion": 1,
+  "role": "echo.icon",
+  "source": {
+    "repository": "ryanbenson/wuthering-waves-assets",
+    "commit": "d77801ecfb8c3abc950c1ffbc6ddec94f5129889",
+    "path": "images/echoes/"
+  },
+  "importedAt": "2026-09-22",
+  "policy": {
+    "scope": "Released canonical Bellibing Echoes only.",
+    "transform": "NONE_BYTE_IDENTICAL_COPY",
+    "extras": "Source variants not mapped to a canonical released Echo remain excluded."
+  },
+  "summary": {
+    "releasedCanonical": 181,
+    "imported": 181
+  },
+  "icons": [
+    {
+      "echoId": "echo-60000775",
+      "sourceId": "60000775",
+      "name": "Abyssal Gladius",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AbyssalGladius.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000775.webp",
+      "bytes": 20750,
+      "sha256": "7ce5c6918b40ac890e481cd8efc8ad96660a56e85dd81669ab549d01842b5197"
+    },
+    {
+      "echoId": "echo-60000785",
+      "sourceId": "60000785",
+      "name": "Abyssal Mercator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/abyssalmercator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000785.png",
+      "bytes": 25920,
+      "sha256": "25948538db2849a4570c4da07562b814d792a09f1c982412c977ef3f56105840"
+    },
+    {
+      "echoId": "echo-60000765",
+      "sourceId": "60000765",
+      "name": "Abyssal Patricius",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AbyssalPatricius.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000765.webp",
+      "bytes": 38452,
+      "sha256": "2e60e8448ab4b893ba063dd8ec9f1b42eb7365798870deb0c285575282552636"
+    },
+    {
+      "echoId": "echo-60001015",
+      "sourceId": "60001015",
+      "name": "Aero Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AeroDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001015.webp",
+      "bytes": 15482,
+      "sha256": "906d1e6d23eb515fa3dc983956e040181f8edad776e24fc82855b8df859a4641"
+    },
+    {
+      "echoId": "echo-60000235",
+      "sourceId": "60000235",
+      "name": "Aero Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AeroPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000235.png",
+      "bytes": 67875,
+      "sha256": "aedbafd3e9fbbde99e7ce54954b726bbbf7b77d59b92960fa4422372037a0056"
+    },
+    {
+      "echoId": "echo-60000955",
+      "sourceId": "60000955",
+      "name": "Aero Prism",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AeroPrism.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000955.png",
+      "bytes": 32294,
+      "sha256": "d2e40114b1824112b6e624152df72a94b4aeeb86b794a8a8ad859d03da9e8eaf"
+    },
+    {
+      "echoId": "echo-60002055",
+      "sourceId": "60002055",
+      "name": "Aureate Picket",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AureatePicket.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002055.webp",
+      "bytes": 35032,
+      "sha256": "ff8637cc451db9e56cdda905b76addf0e717f9f12060bb90fe1e8c448075be1a"
+    },
+    {
+      "echoId": "echo-60000495",
+      "sourceId": "60000495",
+      "name": "Autopuppet Scout",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/AutopuppetScout.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000495.png",
+      "bytes": 131903,
+      "sha256": "240dc749d7bae1a15a9e1bf52f8d87122e374ec850e4dde3d65a18c9704d2e18"
+    },
+    {
+      "echoId": "echo-60000305",
+      "sourceId": "60000305",
+      "name": "Baby Roseshroom",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/BabyRoseshroom.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000305.webp",
+      "bytes": 21546,
+      "sha256": "5b6056fa13f74a6d647dcb9bbc30299da6a49de13aa5764710534cf975f870ef"
+    },
+    {
+      "echoId": "echo-60000285",
+      "sourceId": "60000285",
+      "name": "Baby Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/BabyViridblazeSaurian.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000285.webp",
+      "bytes": 34750,
+      "sha256": "c19ea01e6cae5aa5462f109f6fdeb13a7e6201130523e3c2aef55be1f7e288ea"
+    },
+    {
+      "echoId": "echo-60000375",
+      "sourceId": "60000375",
+      "name": "Bell-Borne Geochelone",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/BellBorneGeochelone.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000375.png",
+      "bytes": 123475,
+      "sha256": "dba489aa8e6d0c6991f68e886c81a5c4ef1fdd9b90ed6b303bdc41efcd779f0f"
+    },
+    {
+      "echoId": "echo-60002215",
+      "sourceId": "60002215",
+      "name": "Calamity Effigy",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/CalamityEffigy.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002215.webp",
+      "bytes": 29214,
+      "sha256": "eebbae61b68eeb1bd04088533bae354a4381c4e57f9f3ee43b022d267665dde6"
+    },
+    {
+      "echoId": "echo-60000945",
+      "sourceId": "60000945",
+      "name": "Calcified Junrock",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/CalcifiedJunrock.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000945.png",
+      "bytes": 29561,
+      "sha256": "d7bb1add4ef2490d4a4ae84a61c12d67f0c2ab9e1683cc9cb784a6ee1b227007"
+    },
+    {
+      "echoId": "echo-60001045",
+      "sourceId": "60001045",
+      "name": "Capitaneus",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Capitaneus.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001045.webp",
+      "bytes": 14870,
+      "sha256": "d6ec9238f0d91cb12f775e1c30610d453822236d9c36deb20cc914741393b6e5"
+    },
+    {
+      "echoId": "echo-60000465",
+      "sourceId": "60000465",
+      "name": "Carapace",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Carapace.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000465.webp",
+      "bytes": 35654,
+      "sha256": "d4a67434bac1765e44a663b8e5f5c1a31183b468620547d1b3b68492d86801c8"
+    },
+    {
+      "echoId": "echo-60000215",
+      "sourceId": "60000215",
+      "name": "Chasm Guardian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ChasmGuardian.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000215.png",
+      "bytes": 105068,
+      "sha256": "8829c56f60c79a58fc9be15a662722c246ea9cd069dffe1988a2a45737a47848"
+    },
+    {
+      "echoId": "echo-60000725",
+      "sourceId": "60000725",
+      "name": "Chest Mimic",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/chestmimic.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000725.png",
+      "bytes": 29368,
+      "sha256": "dd5490d415862f5797ecb700eb1b154791787c61cf079a1b903c9ec60d9de1b3"
+    },
+    {
+      "echoId": "echo-60000475",
+      "sourceId": "60000475",
+      "name": "Chirpuff",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Chirpuff.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000475.png",
+      "bytes": 55209,
+      "sha256": "6de08252cd0d9644443d4f3a8a79450cac7b4f7362c9fb927f8095891068284a"
+    },
+    {
+      "echoId": "echo-60000795",
+      "sourceId": "60000795",
+      "name": "Chop Chop",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ChopChop.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000795.webp",
+      "bytes": 20182,
+      "sha256": "8336c694a7841cbb28f8e2f782ae30c80e33709f310d40629ae49f379445c1e5"
+    },
+    {
+      "echoId": "echo-60000645",
+      "sourceId": "60000645",
+      "name": "Chop Chop: Headless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ChopChopHeadless.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000645.webp",
+      "bytes": 11458,
+      "sha256": "5f2ee5fe5bbb4dc67e5de9c34508c9dde80944f78441e947d5171fd63c46fb36"
+    },
+    {
+      "echoId": "echo-60000655",
+      "sourceId": "60000655",
+      "name": "Chop Chop: Leftless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/chopchopleftless.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000655.png",
+      "bytes": 14766,
+      "sha256": "59e07d2ef382fa22436a20eb0a48bb87da6398c40b5735b986b367c6797e9240"
+    },
+    {
+      "echoId": "echo-60000665",
+      "sourceId": "60000665",
+      "name": "Chop Chop: Rightless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/chopchoprightless.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000665.png",
+      "bytes": 14693,
+      "sha256": "7893f517943d13a2c03464141fcf4e8424c55f1b672041f685d8f90ee8745c93"
+    },
+    {
+      "echoId": "echo-60000515",
+      "sourceId": "60000515",
+      "name": "Clang Bang",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ClangBang.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000515.png",
+      "bytes": 79972,
+      "sha256": "c8e51229a3889ea61b1ed8157d6314f0b7395d472c08e362c34252a9fdaf9c7b"
+    },
+    {
+      "echoId": "echo-60001205",
+      "sourceId": "60001205",
+      "name": "Corrosaurus",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Corrosaurus.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001205.png",
+      "bytes": 28731,
+      "sha256": "a73f652915d162178d0ea2e268b35380d91ef545ddbaa982a26d58678730323a"
+    },
+    {
+      "echoId": "echo-60000425",
+      "sourceId": "60000425",
+      "name": "Crownless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Crownless.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000425.png",
+      "bytes": 106415,
+      "sha256": "3b332ddb4f0693b3df62a2b93d64679a8cb9de922ded32ad75e0085829edfaec"
+    },
+    {
+      "echoId": "echo-60000255",
+      "sourceId": "60000255",
+      "name": "Cruisewing",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Cruisewing.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000255.png",
+      "bytes": 59259,
+      "sha256": "31927949d5db8d951abecc813f96ec61ea8c429e06a9eb1d71ce3cb977f816e7"
+    },
+    {
+      "echoId": "echo-60000815",
+      "sourceId": "60000815",
+      "name": "Cuddle Wuddle",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/cuddlewuddle.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000815.png",
+      "bytes": 22596,
+      "sha256": "0ab915c750d38cffb826abcf94e31ea090efe94d5d174336b4668fa4ccc373bb"
+    },
+    {
+      "echoId": "echo-60000135",
+      "sourceId": "60000135",
+      "name": "Cyan-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/CyanFeatheredHeron.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000135.png",
+      "bytes": 79435,
+      "sha256": "6ad7aa3474dd9298788d53cf289534a2f0343d39565f904a4678a3ce68bfa43f"
+    },
+    {
+      "echoId": "echo-60001105",
+      "sourceId": "60001105",
+      "name": "Devotee's Flesh",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/DevoteesFlesh.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001105.webp",
+      "bytes": 27012,
+      "sha256": "f4f719d4b717a9afd72602e714dabd523b9ff4485825538d21950a6c9383fb4e"
+    },
+    {
+      "echoId": "echo-60000415",
+      "sourceId": "60000415",
+      "name": "Diamondclaw",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Diamondclaw.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000415.png",
+      "bytes": 87025,
+      "sha256": "24baa6a3da6fe0641d643933c21d82f58a1e7a3782676dfb2ed1a606dedd94d3"
+    },
+    {
+      "echoId": "echo-60000715",
+      "sourceId": "60000715",
+      "name": "Diggy Duggy",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/DiggyDuggy.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000715.webp",
+      "bytes": 10784,
+      "sha256": "8fe8998c5c3da31215e84ff9d93edb7e910f576a05eb0fb32547cad79b9977c3"
+    },
+    {
+      "echoId": "echo-60000745",
+      "sourceId": "60000745",
+      "name": "Diurnus Knight",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/DiurnusKnight.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000745.webp",
+      "bytes": 17530,
+      "sha256": "3ffcfb464833a4d90084d7c607150fe196a536648189ec8abaf5dfcce3576d3c"
+    },
+    {
+      "echoId": "echo-60000845",
+      "sourceId": "60000845",
+      "name": "Dragon of Dirge",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/DragonofDirge.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000845.webp",
+      "bytes": 23602,
+      "sha256": "4e960ec12981d32bfdfdce590173567847f44e129fd782c02bdcc18a3c75af66"
+    },
+    {
+      "echoId": "echo-60000535",
+      "sourceId": "60000535",
+      "name": "Dreamless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Dreamless.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000535.png",
+      "bytes": 124286,
+      "sha256": "309a3b565ef8207fa9286f46ae723c924eba10325b92c2a5016bb05488d88bb5"
+    },
+    {
+      "echoId": "echo-60000555",
+      "sourceId": "60000555",
+      "name": "Dwarf Cassowary",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/DwarfCassowary.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000555.png",
+      "bytes": 68800,
+      "sha256": "67c274d6f38925cac96c677d8a80f8e683acecfcd58a038872f75dcb4436eb35"
+    },
+    {
+      "echoId": "echo-60001025",
+      "sourceId": "60001025",
+      "name": "Electro Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ElectroDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001025.webp",
+      "bytes": 15024,
+      "sha256": "09a205cc39b503ccbacf9b16e891d202924bdc57b4661e6d787205308b55d447"
+    },
+    {
+      "echoId": "echo-60000035",
+      "sourceId": "60000035",
+      "name": "Electro Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ElectroPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000035.png",
+      "bytes": 76964,
+      "sha256": "176cd9b2e262c516418790f499111a55f277286f8edca8c66b53bed6afc39f4d"
+    },
+    {
+      "echoId": "echo-60000275",
+      "sourceId": "60000275",
+      "name": "Excarat",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Excarat.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000275.png",
+      "bytes": 120842,
+      "sha256": "467d1fe8b6bace287dc61ea271e9ceebabe3c36244973e31ddd1ac811bfdd26f"
+    },
+    {
+      "echoId": "echo-60000675",
+      "sourceId": "60000675",
+      "name": "Fae Ignis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FaeIgnis.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000675.webp",
+      "bytes": 29808,
+      "sha256": "b282576e6f9bf96f7da015c4dcd4f6adb9b9f3f0aa6656eb9f6125cf87864154"
+    },
+    {
+      "echoId": "echo-60000605",
+      "sourceId": "60000605",
+      "name": "Fallacy of No Return",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FallacyOfNoReturn.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000605.png",
+      "bytes": 26126,
+      "sha256": "72442aefafcb19fe687d098e23d7b188e25ebcd0617fe366d9d3b2ee4d2e5311"
+    },
+    {
+      "echoId": "echo-60000435",
+      "sourceId": "60000435",
+      "name": "Feilian Beringal",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FeilianBeringal.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000435.png",
+      "bytes": 108739,
+      "sha256": "446e6f6d5b14e4cb20bd7d505da25fc386c6701a8fc081143ccfadeb152c009d"
+    },
+    {
+      "echoId": "echo-60000025",
+      "sourceId": "60000025",
+      "name": "Fission Junrock",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FissionJunrock.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000025.png",
+      "bytes": 81925,
+      "sha256": "8acd2a66c3eb98b0b056e7616f966aea62ce29a579854346f9299fb9c32ee02d"
+    },
+    {
+      "echoId": "echo-60000195",
+      "sourceId": "60000195",
+      "name": "Flautist",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Flautist.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000195.png",
+      "bytes": 40780,
+      "sha256": "11cec7558369b6e8e1eb7b829a6b5d7231f582607a40fc40e2816255c4bab651"
+    },
+    {
+      "echoId": "echo-60001755",
+      "sourceId": "60001755",
+      "name": "Flora Drone",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FloraDrone.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001755.webp",
+      "bytes": 24872,
+      "sha256": "4b626f62c42e72bb1b72332217c5cb99e25fba8e851321a04251ac0f07012101"
+    },
+    {
+      "echoId": "echo-60001815",
+      "sourceId": "60001815",
+      "name": "Flora Reindeer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FloraReindeer.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001815.webp",
+      "bytes": 26226,
+      "sha256": "bd10b64f29eda8a079ddde7b9cd1afee4f5d21db167b3cbe7bf452704efe05f6"
+    },
+    {
+      "echoId": "echo-60002155",
+      "sourceId": "60002155",
+      "name": "Fog Lionarch",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FogLionarch.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002155.webp",
+      "bytes": 35184,
+      "sha256": "e58ae692a32f3fbcf7a31c84244d3937492942f255df90290a4c806fbd93b8d2"
+    },
+    {
+      "echoId": "echo-60002125",
+      "sourceId": "60002125",
+      "name": "Fog Lionarch: Body",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FogLionarchBody.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002125.webp",
+      "bytes": 30782,
+      "sha256": "1e62d40b1ec836eb34cff64c10eeb8dfbbd384be4d8dc4eb6fa219f0c61b7d47"
+    },
+    {
+      "echoId": "echo-60002135",
+      "sourceId": "60002135",
+      "name": "Fog Lionarch: Head",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FogLionarchHead.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002135.webp",
+      "bytes": 34210,
+      "sha256": "e7aac5fc3fbb8d49dea52fd0249fafb60ad837e1dfb82583d3bc4dc121fd6992"
+    },
+    {
+      "echoId": "echo-60002165",
+      "sourceId": "60002165",
+      "name": "Forbidden Bastion",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ForbiddenBastion.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002165.webp",
+      "bytes": 31734,
+      "sha256": "1eab1b4f48ee8f5f747bc92f777ffc8eb29d7bb81a942fdacbaf8830075d355d"
+    },
+    {
+      "echoId": "echo-60001875",
+      "sourceId": "60001875",
+      "name": "Frostbite Coleoid",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FrostbiteColeoid.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001875.webp",
+      "bytes": 18948,
+      "sha256": "166464f048e0b0adbf55a9fb10ffaf5a080e9d298c7b243d25c32c4f8b8de748"
+    },
+    {
+      "echoId": "echo-60000635",
+      "sourceId": "60000635",
+      "name": "Frostscourge Stalker",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FrostscourgeStalker.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000635.webp",
+      "bytes": 14636,
+      "sha256": "6d29a35a136b957a81dd23078404e137c89aa6377a4176ad3f56b59b8ec3e8cf"
+    },
+    {
+      "echoId": "echo-60001075",
+      "sourceId": "60001075",
+      "name": "Fusion Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FusionDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001075.webp",
+      "bytes": 25462,
+      "sha256": "31994dd564c01415e69fcbcb2ca5f1ce78b87b3dcc1d511f7614e2ec0b19da11"
+    },
+    {
+      "echoId": "echo-60000365",
+      "sourceId": "60000365",
+      "name": "Fusion Dreadmane",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FusionDreadmane.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000365.png",
+      "bytes": 74631,
+      "sha256": "ca8904ff0fd4809bc2db750a2061547a1f6c72200925d076bff5450d6fbeb62f"
+    },
+    {
+      "echoId": "echo-60000155",
+      "sourceId": "60000155",
+      "name": "Fusion Prism",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FusionPrism.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000155.png",
+      "bytes": 115090,
+      "sha256": "87d2700937c5026f56d733e040c537d6685b1f33a456112d492b0302177a1734"
+    },
+    {
+      "echoId": "echo-60000045",
+      "sourceId": "60000045",
+      "name": "Fusion Warrior",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/FusionWarrior.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000045.png",
+      "bytes": 67660,
+      "sha256": "0764194d949427f6e10afb702bf58218c5b0216d878535a7c44ae0c25b446bd8"
+    },
+    {
+      "echoId": "echo-60000615",
+      "sourceId": "60000615",
+      "name": "Galescourge Stalker",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/galescourgestalker.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000615.png",
+      "bytes": 28719,
+      "sha256": "8b1539c97747960d6312e22f2c8999ebeb43a12ca6a75c5bd1912d04fd3c9a5f"
+    },
+    {
+      "echoId": "echo-60001775",
+      "sourceId": "60001775",
+      "name": "Geospider S4",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GeospiderS4.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001775.webp",
+      "bytes": 21152,
+      "sha256": "af3245af99b82e05b2c61807df10cad92c545bbfc657fbce39db2054ebd0079f"
+    },
+    {
+      "echoId": "echo-60001035",
+      "sourceId": "60001035",
+      "name": "Glacio Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GlacioDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001035.webp",
+      "bytes": 14862,
+      "sha256": "e8b7c27d18039f0e43d529d55f70314a16a4fa35f9b0676b83468c34acf8c985"
+    },
+    {
+      "echoId": "echo-60000565",
+      "sourceId": "60000565",
+      "name": "Glacio Dreadmane",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GlacioDreadmane.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000565.png",
+      "bytes": 34865,
+      "sha256": "330b6a0526187f2b9f97921889c16e4540e8bcba1ee1a74a3b54d25c7c322d86"
+    },
+    {
+      "echoId": "echo-60000105",
+      "sourceId": "60000105",
+      "name": "Glacio Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GlacioPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000105.png",
+      "bytes": 71755,
+      "sha256": "73226f587e1ded033a236fef2045a9e7f35e069c0475eb45dca46e3d4440c1aa"
+    },
+    {
+      "echoId": "echo-60000145",
+      "sourceId": "60000145",
+      "name": "Glacio Prism",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GlacioPrism.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000145.png",
+      "bytes": 118649,
+      "sha256": "95b8c167c8755c637d0efb466dec8e894f677e98201792a5d62c63e8c791a8b3"
+    },
+    {
+      "echoId": "echo-60001955",
+      "sourceId": "60001955",
+      "name": "Glommoth",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Glommoth.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001955.webp",
+      "bytes": 28626,
+      "sha256": "4ed3f98b2b6e589f20c9766476fcc2aaa3bb1623957fb62c7d48aa3216502a38"
+    },
+    {
+      "echoId": "echo-60000935",
+      "sourceId": "60000935",
+      "name": "Golden Junrock",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/GoldenJunrock.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000935.png",
+      "bytes": 29278,
+      "sha256": "a427021e7be56b0c60530aa05431635e35944b27f7294e8b84e426f296949539"
+    },
+    {
+      "echoId": "echo-60000115",
+      "sourceId": "60000115",
+      "name": "Gulpuff",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Gulpuff.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000115.png",
+      "bytes": 75388,
+      "sha256": "459578e0d7a5a06e43df4867f6c357c1f27735c98f9094455fc1feb9e8c4b50b"
+    },
+    {
+      "echoId": "echo-60001095",
+      "sourceId": "60001095",
+      "name": "Havoc Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/HavocDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001095.webp",
+      "bytes": 29770,
+      "sha256": "3372695295ef98be23da00ea445c8f294c19d10ab5378a1ae611cb75595e3e8e"
+    },
+    {
+      "echoId": "echo-60000355",
+      "sourceId": "60000355",
+      "name": "Havoc Dreadmane",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/HavocDreadmane.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000355.png",
+      "bytes": 109140,
+      "sha256": "ce4e44a0ab4bdbbbc74a0be44df5e6cc278bb9f241427e446992ccbc37624e64"
+    },
+    {
+      "echoId": "echo-60000175",
+      "sourceId": "60000175",
+      "name": "Havoc Prism",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/HavocPrism.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000175.png",
+      "bytes": 110780,
+      "sha256": "2d0ff5355a98b7f5d104527bdd4f606f204d71d6e1e4e08105e1ee42b2bc6182"
+    },
+    {
+      "echoId": "echo-60000055",
+      "sourceId": "60000055",
+      "name": "Havoc Warrior",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/HavocWarrior.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000055.png",
+      "bytes": 89723,
+      "sha256": "0d3a9ef58ac56ced030b0303d16fcab32e1839f89a089e18442466ced68e41a6"
+    },
+    {
+      "echoId": "echo-60000855",
+      "sourceId": "60000855",
+      "name": "Hecate",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hecate.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000855.webp",
+      "bytes": 28514,
+      "sha256": "059a3276b7aa59a5fcb14001047008e2ac3960331919982aea84592edc34caa8"
+    },
+    {
+      "echoId": "echo-60000345",
+      "sourceId": "60000345",
+      "name": "Hoartoise",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hoartoise.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000345.png",
+      "bytes": 98259,
+      "sha256": "6e008fa320e495aae533bc74a09022e5b6ae9b981c05d500bfb7f246b20781b8"
+    },
+    {
+      "echoId": "echo-60000695",
+      "sourceId": "60000695",
+      "name": "Hocus Pocus",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/hocuspocus.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000695.png",
+      "bytes": 21841,
+      "sha256": "eaaccae5822d080abe6e86d17fc769a58966bf6fabe5a235b69be34bd6384c41"
+    },
+    {
+      "echoId": "echo-60000405",
+      "sourceId": "60000405",
+      "name": "Hoochief",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hoochief.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000405.png",
+      "bytes": 133173,
+      "sha256": "4253efa5de70ea19a4d4859eacb602562decb727675fc641f5439db868e4c5ce"
+    },
+    {
+      "echoId": "echo-60000385",
+      "sourceId": "60000385",
+      "name": "Hooscamp",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hooscamp.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000385.png",
+      "bytes": 142721,
+      "sha256": "8a0025d442011420b784fc2120b90d4f2c1648779cb75461f819870c6c98912d"
+    },
+    {
+      "echoId": "echo-60000975",
+      "sourceId": "60000975",
+      "name": "Hurriclaw",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hurriclaw.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000975.png",
+      "bytes": 38210,
+      "sha256": "afdec41645566db29f0b3ad53f18a08cd5c2a56e54d4c8be2f5d1e9ddbef651c"
+    },
+    {
+      "echoId": "echo-60001895",
+      "sourceId": "60001895",
+      "name": "Hyvatia",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Hyvatia.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001895.webp",
+      "bytes": 27550,
+      "sha256": "e8552ca21bdd5955928496c3e284fac9efafca9d8856c4c6bb44516237710d94"
+    },
+    {
+      "echoId": "echo-60001965",
+      "sourceId": "60001965",
+      "name": "Iceglint Dancer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/IceglintDancer.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001965.webp",
+      "bytes": 26156,
+      "sha256": "21d0d50b5b10c910e80797c485dfcd8484f369ad6382235e21da74f3340e840e"
+    },
+    {
+      "echoId": "echo-60000525",
+      "sourceId": "60000525",
+      "name": "Impermanence Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ImpermanenceHeron.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000525.png",
+      "bytes": 109876,
+      "sha256": "b8fd42c3f3b9a417064779d6bb0dd759c6193feb332f984cc71c02c641320bc4"
+    },
+    {
+      "echoId": "echo-60000325",
+      "sourceId": "60000325",
+      "name": "Inferno Rider",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/InfernoRider.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000325.png",
+      "bytes": 107351,
+      "sha256": "24a5a9157e977687b36e81dcc49c18e7380f647cba740eedb67fa2c3b6243cf5"
+    },
+    {
+      "echoId": "echo-60001839",
+      "sourceId": "60001839",
+      "name": "Ironhoof",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Ironhoof.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001839.webp",
+      "bytes": 29102,
+      "sha256": "677fdbc2ce43ff6d0478e17f8524d580d8300f6fe25504e3e40c9812a7fcd42d"
+    },
+    {
+      "echoId": "echo-60000595",
+      "sourceId": "60000595",
+      "name": "Jué",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Jue.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000595.png",
+      "bytes": 113326,
+      "sha256": "b94973ba45b1f1cbc95599c0a34c24b7b2f5f3361822a88b58be0c3b0ed1d8c5"
+    },
+    {
+      "echoId": "echo-60001125",
+      "sourceId": "60001125",
+      "name": "Kerasaur",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Kerasaur.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001125.webp",
+      "bytes": 35762,
+      "sha256": "939a0e2cd3e6df07161a5613ba8522b4e30ae7cbbb38d6b6d8b85222790d482c"
+    },
+    {
+      "echoId": "echo-60002075",
+      "sourceId": "60002075",
+      "name": "Kernel Puppet: Anger",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetAnger.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002075.webp",
+      "bytes": 28554,
+      "sha256": "92b2c5b829b29ebf5afe977cd150de0485f2da3c5f7fdf90a755958ed2027bde"
+    },
+    {
+      "echoId": "echo-60002115",
+      "sourceId": "60002115",
+      "name": "Kernel Puppet: Fright",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetFright.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002115.webp",
+      "bytes": 29230,
+      "sha256": "6ba9949c6daa50b810dd78cbe49ca515daed40fa8339a6e23e92b251d015f4da"
+    },
+    {
+      "echoId": "echo-60002105",
+      "sourceId": "60002105",
+      "name": "Kernel Puppet: Grief",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetGrief.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002105.webp",
+      "bytes": 29800,
+      "sha256": "f075d1a71861015b16d69c25ad9b3e592910cf3d032268f3531e250419aa410f"
+    },
+    {
+      "echoId": "echo-60002065",
+      "sourceId": "60002065",
+      "name": "Kernel Puppet: Joy",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetJoy.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002065.webp",
+      "bytes": 25780,
+      "sha256": "3914e395f7b2f28630feb127f91bd3413ce0daa75c2f767a0beef6dbeee5a5e4"
+    },
+    {
+      "echoId": "echo-60002095",
+      "sourceId": "60002095",
+      "name": "Kernel Puppet: Reflection",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetReflection.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002095.webp",
+      "bytes": 28618,
+      "sha256": "21a7d70594a3369136c51b0bffb8cc6855d257eda9f2d5c83dc8449052e407eb"
+    },
+    {
+      "echoId": "echo-60002085",
+      "sourceId": "60002085",
+      "name": "Kernel Puppet: Worry",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/KernelPuppetWorry.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002085.webp",
+      "bytes": 29870,
+      "sha256": "13f4b5d9d2ad01ce1206aae460dffd4f3c70612e0d03535fe52705ce260d42f0"
+    },
+    {
+      "echoId": "echo-60001935",
+      "sourceId": "60001935",
+      "name": "Kronablight",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Kronablight.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001935.webp",
+      "bytes": 33992,
+      "sha256": "ee276c4132e14173c1d36d74fe20efcdb8b0114971dd6f67db49c0f12f681052"
+    },
+    {
+      "echoId": "echo-60000985",
+      "sourceId": "60000985",
+      "name": "La Guardia",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LaGuardia.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000985.webp",
+      "bytes": 13192,
+      "sha256": "41de0a11fe5568cf2d34ec357026b0cfe413f38e78804fc799a9d9a6eb2c8009"
+    },
+    {
+      "echoId": "echo-60001605",
+      "sourceId": "60001605",
+      "name": "Lady of the Sea",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LadyoftheSea.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001605.png",
+      "bytes": 37157,
+      "sha256": "c7dc5f626787c1c0e5c263567b50efdc67c6062cbdbbb4523d02d259e93b6a44"
+    },
+    {
+      "echoId": "echo-60000445",
+      "sourceId": "60000445",
+      "name": "Lampylumen Myriad",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LampylumenMyriad.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000445.png",
+      "bytes": 138847,
+      "sha256": "187292dae575c0dbe667079a70092a8c2b7965acd36645474cd94d28bb67e1df"
+    },
+    {
+      "echoId": "echo-60000545",
+      "sourceId": "60000545",
+      "name": "Lava Larva",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LavaLarva.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000545.png",
+      "bytes": 26407,
+      "sha256": "5936d84215d6ce3ad9be5a78329cf082fad8268e0c113d7816d2e716b6270df5"
+    },
+    {
+      "echoId": "echo-60000585",
+      "sourceId": "60000585",
+      "name": "Lightcrusher",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Lightcrusher.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000585.png",
+      "bytes": 123713,
+      "sha256": "4cb1c7343f3b10f24e0f2e5305b931dd3e96415c4481debbe25e36c84c46bcfc"
+    },
+    {
+      "echoId": "echo-60001145",
+      "sourceId": "60001145",
+      "name": "Lioness of Glory",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LionessofGlory.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001145.webp",
+      "bytes": 33124,
+      "sha256": "bc8afb754e09e7a75287a7dd3cca1f3183a506736e7e802030606b34cb8cdf1f"
+    },
+    {
+      "echoId": "echo-60000825",
+      "sourceId": "60000825",
+      "name": "Lorelei",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Lorelei.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000825.webp",
+      "bytes": 22146,
+      "sha256": "bc4c621aef84d2d8207cec82a352a6e2ab2ddd9a9d7e14ebf3b4d715f9825cdf"
+    },
+    {
+      "echoId": "echo-60000705",
+      "sourceId": "60000705",
+      "name": "Lottie Lost",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/lottielost.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000705.png",
+      "bytes": 21640,
+      "sha256": "c1b328b165db6a19444552817922900a12b565ccb67027b20b24ab969826efca"
+    },
+    {
+      "echoId": "echo-60000575",
+      "sourceId": "60000575",
+      "name": "Lumiscale Construct",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/LumiscaleConstruct.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000575.png",
+      "bytes": 115721,
+      "sha256": "24b2397d270f708f3ce72189a5d0e350acb0d95512c3336d5aa9e22313b57ce8"
+    },
+    {
+      "echoId": "echo-60000485",
+      "sourceId": "60000485",
+      "name": "Mech Abomination",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/MechAbomination.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000485.png",
+      "bytes": 125077,
+      "sha256": "2e7ba3ffbc880c17be3a8dd084bd3ce44adcc13bbc06f32942a00e2f32c11210"
+    },
+    {
+      "echoId": "echo-60001765",
+      "sourceId": "60001765",
+      "name": "Mining Drone",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/MiningDrone.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001765.webp",
+      "bytes": 23624,
+      "sha256": "beabab63cc23ffadf70c7df6f8cc30b3a5425ed85ac0c9edc4da2e60806d6d34"
+    },
+    {
+      "echoId": "echo-60001825",
+      "sourceId": "60001825",
+      "name": "Mining Reindeer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/MiningReindeer.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001825.webp",
+      "bytes": 24972,
+      "sha256": "40538d89c1db14160b48b3f48fa9921b6e21a03deef17f20d4bfbd3f3565b92f"
+    },
+    {
+      "echoId": "echo-60000455",
+      "sourceId": "60000455",
+      "name": "Mourning Aix",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/MourningAix.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000455.png",
+      "bytes": 135202,
+      "sha256": "c5bc25c683407767b05e55bdea5e3027a0453b17149f328a813e06c1c2c127b6"
+    },
+    {
+      "echoId": "echo-60002175",
+      "sourceId": "60002175",
+      "name": "Myriad Snare: Rustfire Chassis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/MyriadSnareRustfireChassis.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002175.webp",
+      "bytes": 39718,
+      "sha256": "6625295686c6fee5164c614fb2f3bda70dd1fa4bb9cd2f475c5d1ac61e8e1c64"
+    },
+    {
+      "echoId": "echo-60001925",
+      "sourceId": "60001925",
+      "name": "Nameless Explorer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NamelessExplorer.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001925.webp",
+      "bytes": 31614,
+      "sha256": "28f6245642a540217fb35d113e6889fd762e13409112804e90435b40ac335df7"
+    },
+    {
+      "echoId": "echo-60001645",
+      "sourceId": "60001645",
+      "name": "Nightmare: Aero Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareAeroPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001645.png",
+      "bytes": 18641,
+      "sha256": "c53d5fbeaf7a5e7b413abc6c3b3511d166687b43dc5db87a089d4b6cfb7de3b3"
+    },
+    {
+      "echoId": "echo-60001705",
+      "sourceId": "60001705",
+      "name": "Nightmare: Baby Roseshroom",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareBabyRoseshroom.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001705.png",
+      "bytes": 18953,
+      "sha256": "b4ed4b93005475ca9af6e5e2f12ac238bf832dd230a37e0522a20f3b9e009aa4"
+    },
+    {
+      "echoId": "echo-60001695",
+      "sourceId": "60001695",
+      "name": "Nightmare: Baby Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareBabyViridblazeSaurian.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001695.png",
+      "bytes": 31288,
+      "sha256": "598c4c2b848d516a9af9acd47579a9fff23fea83b597f96691d343bbcdc27421"
+    },
+    {
+      "echoId": "echo-60001665",
+      "sourceId": "60001665",
+      "name": "Nightmare: Chirpuff",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareChirpuff.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001665.png",
+      "bytes": 16261,
+      "sha256": "dc51cd75165d66a662323ebdfb9191430b626026c01ba5080ec54aa391173f42"
+    },
+    {
+      "echoId": "echo-60000905",
+      "sourceId": "60000905",
+      "name": "Nightmare: Crownless",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareCrownless.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000905.webp",
+      "bytes": 19748,
+      "sha256": "13d5c96172436698cca8cc844dcff646b24a9d44d603603d5425fb25278b037a"
+    },
+    {
+      "echoId": "echo-60001625",
+      "sourceId": "60001625",
+      "name": "Nightmare: Cyan-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareCyanFeatheredHeron.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001625.png",
+      "bytes": 11230,
+      "sha256": "0b29c084fe5959900ec94bbe800ebae2851adc0eee3ef39a4caf083c0987f837"
+    },
+    {
+      "echoId": "echo-60001725",
+      "sourceId": "60001725",
+      "name": "Nightmare: Dwarf Cassowary",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareDwarfCassowary.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001725.webp",
+      "bytes": 18836,
+      "sha256": "e29fa094f5fdfaa277e7ea0ef92fb2ea26c622201cd8a3d8dd308ada165ed91d"
+    },
+    {
+      "echoId": "echo-60001635",
+      "sourceId": "60001635",
+      "name": "Nightmare: Electro Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareElectroPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001635.png",
+      "bytes": 20489,
+      "sha256": "5e62cec90618b203285c6701f9b5b12c8209f4a3dbea58272fb4a6a2ed1a8a48"
+    },
+    {
+      "echoId": "echo-60000865",
+      "sourceId": "60000865",
+      "name": "Nightmare: Feilian Beringal",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareFeilianBeringal.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000865.webp",
+      "bytes": 15016,
+      "sha256": "0807d4ba2f116ebdace4875fd0827895f8f5dc15982655f7cdad8be6e6fb37ae"
+    },
+    {
+      "echoId": "echo-60001185",
+      "sourceId": "60001185",
+      "name": "Nightmare: Glacio Predator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareGlacioPredator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001185.png",
+      "bytes": 23191,
+      "sha256": "e74b6d6536de461f3b317ca4c2a87f110980cc7326712f6fb248b2b642e8a0be"
+    },
+    {
+      "echoId": "echo-60001655",
+      "sourceId": "60001655",
+      "name": "Nightmare: Gulpuff",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareGulpuff.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001655.png",
+      "bytes": 19111,
+      "sha256": "c364b17c566713782781296840cea1f218f4d74b98112bd3a937af02922d7987"
+    },
+    {
+      "echoId": "echo-60001175",
+      "sourceId": "60001175",
+      "name": "Nightmare: Havoc Warrior",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareHavocWarrior.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001175.png",
+      "bytes": 26688,
+      "sha256": "bda724805b7ddeed62b797dc38451621295338a9d756b302a8537cfdc80fc951"
+    },
+    {
+      "echoId": "echo-60001155",
+      "sourceId": "60001155",
+      "name": "Nightmare: Hecate",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareHecate.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001155.png",
+      "bytes": 29641,
+      "sha256": "dafdf4d8faf365943cba4e2e7b972adbb986f972581ee1234da900fc3913642f"
+    },
+    {
+      "echoId": "echo-60000875",
+      "sourceId": "60000875",
+      "name": "Nightmare: Impermanence Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareImpermanenceHeron.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000875.webp",
+      "bytes": 25056,
+      "sha256": "40077b2f5cfaecff1d58be8eb712c55b76870e04a120af676b6bc805ac232e58"
+    },
+    {
+      "echoId": "echo-60000915",
+      "sourceId": "60000915",
+      "name": "Nightmare: Inferno Rider",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareInfernoRider.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000915.webp",
+      "bytes": 13916,
+      "sha256": "3c67bb579b928de67a780d1a18311758de2f01aca04a66e53cda2900f632a2e6"
+    },
+    {
+      "echoId": "echo-60001135",
+      "sourceId": "60001135",
+      "name": "Nightmare: Kelpie",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareKelpie.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001135.webp",
+      "bytes": 28190,
+      "sha256": "e7a91714d21ad8ee2439a591a3191da5a8f75239143f75eb8a8a60017f7a21c3"
+    },
+    {
+      "echoId": "echo-60001055",
+      "sourceId": "60001055",
+      "name": "Nightmare: Lampylumen Myriad",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareLampylumenMyriad.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001055.png",
+      "bytes": 43445,
+      "sha256": "44895d8674d306264676b6afe10c33dce3c3642f2cc7628e219fb41bf4ea3c43"
+    },
+    {
+      "echoId": "echo-60000925",
+      "sourceId": "60000925",
+      "name": "Nightmare: Mourning Aix",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareMourningAix.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000925.webp",
+      "bytes": 22046,
+      "sha256": "eb6c1469020a560c972b39d0d5c473882691d4a698b973d8e6106c5851c9e47e"
+    },
+    {
+      "echoId": "echo-60001739",
+      "sourceId": "60001739",
+      "name": "Nightmare: Roseshroom",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareRoseshroom.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001739.webp",
+      "bytes": 34630,
+      "sha256": "55cfd6a17ec21ad34638783dd77b506fb6f18527d1e9bcc17337a17b3df7a55a"
+    },
+    {
+      "echoId": "echo-60001195",
+      "sourceId": "60001195",
+      "name": "Nightmare: Tambourinist",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareTambourinist.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001195.png",
+      "bytes": 36238,
+      "sha256": "2a88f35762b47e008bad0089cb4e9f33e074dfc3e73573bbfe4f29f68c45f083"
+    },
+    {
+      "echoId": "echo-60000895",
+      "sourceId": "60000895",
+      "name": "Nightmare: Tempest Mephis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareTempestMephis.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000895.webp",
+      "bytes": 14930,
+      "sha256": "383240f5d3df43050ff8cea9b3a7f2b959ea453b103165ef9077ab126c949d6a"
+    },
+    {
+      "echoId": "echo-60000885",
+      "sourceId": "60000885",
+      "name": "Nightmare: Thundering Mephis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareThunderingMephis.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000885.webp",
+      "bytes": 24858,
+      "sha256": "cdc9d20d2967d9c7dcde8818a2903889a07c5d194cc07f89661dcb5bb30a22ba"
+    },
+    {
+      "echoId": "echo-60001719",
+      "sourceId": "60001719",
+      "name": "Nightmare: Tick Tack",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareTickTack.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001719.webp",
+      "bytes": 23764,
+      "sha256": "2623d22a24431723cb5902d56417636e0629e287df097cf6faec62e25f985201"
+    },
+    {
+      "echoId": "echo-60001615",
+      "sourceId": "60001615",
+      "name": "Nightmare: Violet-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareVioletFeatheredHeron.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001615.png",
+      "bytes": 11506,
+      "sha256": "9853dc81a15b2200db31c37870a42d8e997b42cb387b2c44227f32666b79f9a3"
+    },
+    {
+      "echoId": "echo-60001685",
+      "sourceId": "60001685",
+      "name": "Nightmare: Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NightmareViridblazeSaurian.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001685.png",
+      "bytes": 35221,
+      "sha256": "b8f3d0c04dd34186a1915ca033e463da3e6baa8aa9f8c369a917e87277d16ce4"
+    },
+    {
+      "echoId": "echo-60000685",
+      "sourceId": "60000685",
+      "name": "Nimbus Wraith",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NimbusWraith.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000685.webp",
+      "bytes": 12070,
+      "sha256": "686f3d75de82fd37802abe3d0ccc45ec9b034e74594c906330190b4bafc80b21"
+    },
+    {
+      "echoId": "echo-60000755",
+      "sourceId": "60000755",
+      "name": "Nocturnus Knight",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/NocturnusKnight.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000755.webp",
+      "bytes": 15490,
+      "sha256": "cc1c2c92a087408e529ca2e876c70a5903f0190a57c4ee887023acdc0aa20231"
+    },
+    {
+      "echoId": "echo-60001115",
+      "sourceId": "60001115",
+      "name": "Pilgrim's Shell",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/PilgrimsShell.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001115.webp",
+      "bytes": 32312,
+      "sha256": "d6ad33c926376a3626074f8c1e8166e8b6078e23fb1a80f5829bf685e694c39b"
+    },
+    {
+      "echoId": "echo-60002035",
+      "sourceId": "60002035",
+      "name": "Porcelain Picket",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/PorcelainPicket.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002035.webp",
+      "bytes": 24064,
+      "sha256": "63664ca80a6a8caaf844927c366ecf3dc65e7f527731ab0de6c7586e71155610"
+    },
+    {
+      "echoId": "echo-60000735",
+      "sourceId": "60000735",
+      "name": "Questless Knight",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/questlessknight.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000735.png",
+      "bytes": 27663,
+      "sha256": "942c6ce7f6eed4fc0d56e25dfc062c18a0a704592b1874c4a272c04d5d2338a3"
+    },
+    {
+      "echoId": "echo-60000965",
+      "sourceId": "60000965",
+      "name": "Rage Against the Statue",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/RageAgainsttheStatue.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000965.png",
+      "bytes": 34106,
+      "sha256": "55adc70a763fbbf4699fec6654b15db6d3e1b557f31f13b44d39e5041fcc5b2b"
+    },
+    {
+      "echoId": "echo-60001905",
+      "sourceId": "60001905",
+      "name": "Reactor Husk",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReactorHusk.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001905.webp",
+      "bytes": 33040,
+      "sha256": "03620872553d64967edeb44e429c24a921b26a10c90f38d629014e833288e409"
+    },
+    {
+      "echoId": "echo-60002015",
+      "sourceId": "60002015",
+      "name": "Reminiscence - Nightmare: Adam Smasher",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceNightmareAdamSmasher.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002015.webp",
+      "bytes": 20126,
+      "sha256": "ebb1fa969b40130a2fb4e2b82c05c915c8c8b52066d8b0e0692feb16a15c355c"
+    },
+    {
+      "echoId": "echo-60002005",
+      "sourceId": "60002005",
+      "name": "Reminiscence: Denia",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceDenia.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002005.webp",
+      "bytes": 22110,
+      "sha256": "3ed179de50bf7729d07da02187e6914be1770ca7560de080497d597b7f1eab48"
+    },
+    {
+      "echoId": "echo-60001165",
+      "sourceId": "60001165",
+      "name": "Reminiscence: Fenrico",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceFenrico.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001165.png",
+      "bytes": 10710,
+      "sha256": "52a5cf403366cbd3e8f1886b274243025e492b5f7dfdf0c7a6b7b031b397f614"
+    },
+    {
+      "echoId": "echo-60001065",
+      "sourceId": "60001065",
+      "name": "Reminiscence: Fleurdelys",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceFleurdelys.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001065.webp",
+      "bytes": 13118,
+      "sha256": "9418f096f01a2b9e1c14b8e5b4b54891a1fae2cc2dedfd453b848d52fb076332"
+    },
+    {
+      "echoId": "echo-60001945",
+      "sourceId": "60001945",
+      "name": "Reminiscence: Kronaclaw",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceKronaclaw.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001945.webp",
+      "bytes": 28986,
+      "sha256": "f15ec5ff6c340510716ce48548f31393e69f1a9a378771f990554054f26afc10"
+    },
+    {
+      "echoId": "echo-60001675",
+      "sourceId": "60001675",
+      "name": "Reminiscence: Threnodian - Leviathan",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceThrenodianLeviathan.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001675.webp",
+      "bytes": 14702,
+      "sha256": "9b08c6b02f937a12518385c8990e16f1185e4aa88badc293f3715ac1ad97f5ea"
+    },
+    {
+      "echoId": "echo-60001995",
+      "sourceId": "60001995",
+      "name": "Reminiscence: Threnodian - Voidborne Construct",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ReminiscenceThrenodianVoidborneConstruct.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001995.webp",
+      "bytes": 32340,
+      "sha256": "ec9aed3258abdcf1f703d616ff2a2a987b5cec33cc5fa37e9886955d1588bffa"
+    },
+    {
+      "echoId": "echo-60000245",
+      "sourceId": "60000245",
+      "name": "Rocksteady Guardian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/RocksteadyGuardian.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000245.png",
+      "bytes": 117811,
+      "sha256": "bac81c3fb96417ad9604de32d856a7cec982929400fa9ce87090ad552913f786"
+    },
+    {
+      "echoId": "echo-60000315",
+      "sourceId": "60000315",
+      "name": "Roseshroom",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Roseshroom.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000315.png",
+      "bytes": 127643,
+      "sha256": "8c904345674f839cd0d4f3b841cb221ef735dcfb7d135ac5e7e4e7f26dbdf1bf"
+    },
+    {
+      "echoId": "echo-60001865",
+      "sourceId": "60001865",
+      "name": "Sabercat Prowler",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SabercatProwler.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001865.webp",
+      "bytes": 30992,
+      "sha256": "538bc673a1a3d32be5dbba0b0b3accab34049af798dafc5408616f82c13b84ea"
+    },
+    {
+      "echoId": "echo-60001855",
+      "sourceId": "60001855",
+      "name": "Sabercat Reaver",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SabercatReaver.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001855.webp",
+      "bytes": 26482,
+      "sha256": "fdfaadce2d8ff00a01de1f7a46807f38f9e08c1ee28a705da4d09c5a4eb24f0b"
+    },
+    {
+      "echoId": "echo-60000265",
+      "sourceId": "60000265",
+      "name": "Sabyr Boar",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SabyrBoar.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000265.png",
+      "bytes": 93136,
+      "sha256": "f397375078e5b65d828d6f95d61fadb744e5d622e3d14580d325abd3fd39c60d"
+    },
+    {
+      "echoId": "echo-60001005",
+      "sourceId": "60001005",
+      "name": "Sacerdos",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Sacerdos.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001005.webp",
+      "bytes": 12562,
+      "sha256": "bfa9fe52abf48476786dda8b869f5209e63e7b62245fb2f5422745d8d0d5fd27"
+    },
+    {
+      "echoId": "echo-60000995",
+      "sourceId": "60000995",
+      "name": "Sagittario",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Sagittario.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000995.webp",
+      "bytes": 13182,
+      "sha256": "4d92b7dcd37f3e5b5c1fba14b029316d7aa4630e119bc390eb32b0c188242523"
+    },
+    {
+      "echoId": "echo-60000835",
+      "sourceId": "60000835",
+      "name": "Sentry Construct",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/sentryconstruct.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000835.png",
+      "bytes": 30375,
+      "sha256": "ce3c96c659b1aa97066be42674a3e75348b8109a3182a16d6471f76e8f7ce6a1"
+    },
+    {
+      "echoId": "echo-60001975",
+      "sourceId": "60001975",
+      "name": "Shadow Stepper",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ShadowStepper.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001975.webp",
+      "bytes": 16314,
+      "sha256": "7b53b98f0de8e4799ebc5e315a255756254d4ac064eeb19148773eb22136e356"
+    },
+    {
+      "echoId": "echo-60001915",
+      "sourceId": "60001915",
+      "name": "Sigillum",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Sigillum.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001915.webp",
+      "bytes": 35966,
+      "sha256": "70dd9388c2cabdf71c3ba32733c5e44184e7615148e383dcb0cde40df08c9b48"
+    },
+    {
+      "echoId": "echo-60002025",
+      "sourceId": "60002025",
+      "name": "Smiter",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Smiter.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002025.webp",
+      "bytes": 36560,
+      "sha256": "045f2e618bb312cb54f06eee3465f795a256e37ceb698a18f06bb917ee38bd41"
+    },
+    {
+      "echoId": "echo-60002145",
+      "sourceId": "60002145",
+      "name": "Smolder",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Smolder.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002145.webp",
+      "bytes": 34244,
+      "sha256": "cafeef8e2c046b2736a71ca517d1e32b387cb674cfd0ba4c230f5ba34fd63d2c"
+    },
+    {
+      "echoId": "echo-60000065",
+      "sourceId": "60000065",
+      "name": "Snip Snap",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SnipSnap.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000065.png",
+      "bytes": 93984,
+      "sha256": "e7bc8899ee4c49a1461cf3002ab0cd5f742db42ba8db44c138d9f03fbc01c13e"
+    },
+    {
+      "echoId": "echo-60001845",
+      "sourceId": "60001845",
+      "name": "Spacetrek Explorer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SpacetrekExplorer.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001845.webp",
+      "bytes": 21938,
+      "sha256": "6e9420af87ebb4dcf7e3266ada4a34a13adfcd78b9bcba4a04f31bf533bb3304"
+    },
+    {
+      "echoId": "echo-60000335",
+      "sourceId": "60000335",
+      "name": "Spearback",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Spearback.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000335.png",
+      "bytes": 107956,
+      "sha256": "8bce1efaaef9659fe657421aa4e0fa4e0a8aea4d0ec6cb5da459858501cd85f8"
+    },
+    {
+      "echoId": "echo-60001085",
+      "sourceId": "60001085",
+      "name": "Spectro Drake",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SpectroDrake.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001085.webp",
+      "bytes": 25868,
+      "sha256": "c2bbabdda51e668ab6e63bd88b8c6101f55177863de36abdc68d1f87c04d0a45"
+    },
+    {
+      "echoId": "echo-60000165",
+      "sourceId": "60000165",
+      "name": "Spectro Prism",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/SpectroPrism.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000165.png",
+      "bytes": 106989,
+      "sha256": "425abbc91410b24fdeabf2c9ce712902af292e7ef4ebdbf9ee9740723bb12697"
+    },
+    {
+      "echoId": "echo-60002045",
+      "sourceId": "60002045",
+      "name": "Stone Picket",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/StonePicket.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002045.webp",
+      "bytes": 39670,
+      "sha256": "5c216a60d1731ed8be8058ae255fb2e7a3222bf881848264645906ecd9d7a47a"
+    },
+    {
+      "echoId": "echo-60000185",
+      "sourceId": "60000185",
+      "name": "Stonewall Bracer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/StonewallBracer.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000185.png",
+      "bytes": 87010,
+      "sha256": "eeab41987ab5ba1d3ed0797f769753206b2982bac6cca1e6a5a23d06a4632e7b"
+    },
+    {
+      "echoId": "echo-60000205",
+      "sourceId": "60000205",
+      "name": "Tambourinist",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/Tambourinist.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000205.png",
+      "bytes": 113255,
+      "sha256": "0f7f3083963191755c9ddb6ad0ce7548b510b216dad80bff17e2c665b8da7673"
+    },
+    {
+      "echoId": "echo-60000395",
+      "sourceId": "60000395",
+      "name": "Tempest Mephis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TempestMephis.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000395.png",
+      "bytes": 77027,
+      "sha256": "dda86406f3e728f19945de48c7107f4f4744d805b491f04ae9006a361e00c48f"
+    },
+    {
+      "echoId": "echo-60001215",
+      "sourceId": "60001215",
+      "name": "The False Sovereign",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TheFalseSovereign.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001215.png",
+      "bytes": 29308,
+      "sha256": "c1dd1a6ce7fdbbbc72be816ad6915aca94d980b15bbbbef396b02f7db68ddc1d"
+    },
+    {
+      "echoId": "echo-60002185",
+      "sourceId": "60002185",
+      "name": "Thousand-Puppet Pavilion",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ThousandPuppetPavilion.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002185.webp",
+      "bytes": 38722,
+      "sha256": "6d17b35242b572a3fd7e81fc8d1630b3ab70708ed3893a9a62b643edde79c2b8"
+    },
+    {
+      "echoId": "echo-60000225",
+      "sourceId": "60000225",
+      "name": "Thundering Mephis",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ThunderingMephis.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000225.png",
+      "bytes": 100619,
+      "sha256": "ce3b084f39d56875b0ccbc6e12261562e11f31989c03d6741883173919fa8d9e"
+    },
+    {
+      "echoId": "echo-60000095",
+      "sourceId": "60000095",
+      "name": "Tick Tack",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TickTack.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000095.png",
+      "bytes": 98168,
+      "sha256": "166612578f0abb05d382c65898f130131568af812d5b5f9fa8530d541266700c"
+    },
+    {
+      "echoId": "echo-60000505",
+      "sourceId": "60000505",
+      "name": "Traffic Illuminator",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TrafficIlluminator.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000505.png",
+      "bytes": 80210,
+      "sha256": "2118ac52446294ba5b99a990d2c7fa2673322e2f1a104396fed82f3934c6796c"
+    },
+    {
+      "echoId": "echo-60001745",
+      "sourceId": "60001745",
+      "name": "Tremor Warrior",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TremorWarrior.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001745.webp",
+      "bytes": 24396,
+      "sha256": "a0c78db5bd603cbe447606869716c6073dba839a0178c6f1390d12d3eedef1d4"
+    },
+    {
+      "echoId": "echo-60001809",
+      "sourceId": "60001809",
+      "name": "Twin Nova: Collapsar Blade",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TwinNovaCollapsarBlade.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001809.webp",
+      "bytes": 34404,
+      "sha256": "4ffff2c5512941e22709d251505ccb928219b5f02840f6223997a94fdccc8e35"
+    },
+    {
+      "echoId": "echo-60001795",
+      "sourceId": "60001795",
+      "name": "Twin Nova: Nebulous Cannon",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/TwinNovaNebulousCannon.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001795.webp",
+      "bytes": 28890,
+      "sha256": "c37cafffc301311183ecf31f22d97fe73bcab574c7db0b8a91a3e28dc0b634ec"
+    },
+    {
+      "echoId": "echo-60000015",
+      "sourceId": "60000015",
+      "name": "Vanguard Junrock",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/VanguardJunrock.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000015.png",
+      "bytes": 108813,
+      "sha256": "3e7771d72522b06c1863333f62ea8a4c567aad57fb1e1cf7e96ff4cfbb18c6bc"
+    },
+    {
+      "echoId": "echo-60000125",
+      "sourceId": "60000125",
+      "name": "Violet-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/VioletFeatheredHeron.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000125.png",
+      "bytes": 83934,
+      "sha256": "53a7e6ba5469844a66fa198ac6a80f3356d8f469f95aa1cf5e808d9d39ade184"
+    },
+    {
+      "echoId": "echo-60000295",
+      "sourceId": "60000295",
+      "name": "Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ViridblazeSaurian.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000295.png",
+      "bytes": 134425,
+      "sha256": "7a37e20805575889ff55fe8e04d41785f9ea78fa84cee84aedcf5ba313c6cae3"
+    },
+    {
+      "echoId": "echo-60000805",
+      "sourceId": "60000805",
+      "name": "Vitreum Dancer",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/VitreumDancer.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000805.png",
+      "bytes": 18162,
+      "sha256": "683156ae5ac3ad32574033478fa094aa490e70cbbefa6be66a8bc5bac163b5aa"
+    },
+    {
+      "echoId": "echo-60001985",
+      "sourceId": "60001985",
+      "name": "Voidwing Moth",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/VoidwingMoth.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001985.webp",
+      "bytes": 30200,
+      "sha256": "227a8fdc94752c587bed1e935310d41e7b106e8244d764b82f80d4c7c7d6d309"
+    },
+    {
+      "echoId": "echo-60000625",
+      "sourceId": "60000625",
+      "name": "Voltscourge Stalker",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/VoltscourgeStalker.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000625.webp",
+      "bytes": 14764,
+      "sha256": "8b8d292f4d15c83046f99ebf3ad48714f9bf7428d0df5eafe74c101a035ca043"
+    },
+    {
+      "echoId": "echo-60000085",
+      "sourceId": "60000085",
+      "name": "Whiff Whaff",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/WhiffWhaff.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000085.png",
+      "bytes": 114062,
+      "sha256": "4d2a2eff6c7716c6c791451b1ee602771eab75f069bfde0d0bafdbc6272efba2"
+    },
+    {
+      "echoId": "echo-60001885",
+      "sourceId": "60001885",
+      "name": "Windlash Coleoid",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/WindlashColeoid.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001885.webp",
+      "bytes": 26814,
+      "sha256": "a9e55cf0016a998061a1ff07e23039287fd21e6d539a7ef3bd8cb31b6871cced"
+    },
+    {
+      "echoId": "echo-60000075",
+      "sourceId": "60000075",
+      "name": "Zig Zag",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ZigZag.png",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000075.png",
+      "bytes": 91250,
+      "sha256": "6ee708c3d0c5794a2078521adb6c1f626496b3404b7583ce76ef14984c207a8f"
+    },
+    {
+      "echoId": "echo-60001785",
+      "sourceId": "60001785",
+      "name": "Zip Zap",
+      "releaseStatus": "RELEASED",
+      "sourcePath": "images/echoes/ZipZap.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001785.webp",
+      "bytes": 23060,
+      "sha256": "71a28b8e95118e40bf65a20b54c2c2f551073e7302a1e22f45aec2c579744f3f"
+    }
+  ]
+}

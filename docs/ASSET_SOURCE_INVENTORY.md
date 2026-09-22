@@ -148,3 +148,27 @@ The 42-file collection is now mapped **42 / 42** in `docs/CHARACTER_ASSET_MAPPIN
 - Rover is not present in this uploaded collection;
 - Jingran is present at capture index 41 and remains `CONFIRMED_UPCOMING` in the current Bellibing catalog;
 - identity review does not authorize runtime import or imply focal/crop approval.
+
+
+## Character portrait library import
+
+Imported 2026-09-22 from pinned source `ryanbenson/wuthering-waves-assets@d77801ecfb8c3abc950c1ffbc6ddec94f5129889`.
+
+Repo/runtime source location:
+
+- `docs/ui-prototypes/assets/characters/portraits/`
+- published by normal build to `dist/ui-preview/assets/characters/portraits/`
+- manifest: `docs/ui-prototypes/assets/characters/portraits/manifest.json`
+
+Coverage at this checkpoint:
+
+- Bellibing Character catalog: 60 entries;
+- 56 non-Rover catalog entries have an exact source portrait copied byte-identically and renamed to canonical Bellibing ID;
+- among those 56: 53 `RELEASED`, 1 `CONFIRMED_UPCOMING` (Jingran), 2 `UNRELEASED_WIP` (Hsin, Suoming);
+- all 4 released Rover element IDs remain mapping-pending because the source provides female/male variants instead of one canonical Bellibing portrait;
+- 10 Rover source candidate paths are preserved under `portraits/rover-candidates/`;
+- source quirks are preserved rather than hidden: several Rover element/gender files share identical Git blob SHA values in the pinned upstream.
+
+UI eligibility is controlled by manifest metadata, not by file existence. `UNRELEASED_WIP` and `CONFIRMED_UPCOMING` portrait files must not be surfaced as released selector entries merely because their PNG is present.
+
+No image pixels were regenerated, resized, sharpened or otherwise altered during import. Each imported blob is byte-identical to the pinned upstream source.

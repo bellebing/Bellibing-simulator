@@ -172,3 +172,42 @@ Coverage at this checkpoint:
 UI eligibility is controlled by manifest metadata, not by file existence. `UNRELEASED_WIP` and `CONFIRMED_UPCOMING` portrait files must not be surfaced as released selector entries merely because their PNG is present.
 
 No image pixels were regenerated, resized, sharpened or otherwise altered during import. Each imported blob is byte-identical to the pinned upstream source.
+
+
+## Echo + Weapon static runtime libraries
+
+Imported 2026-09-22 from pinned `ryanbenson/wuthering-waves-assets@d77801ecfb8c3abc950c1ffbc6ddec94f5129889` using `scripts/import-ui-static-assets.mjs`.
+
+### Echoes
+
+- target: `docs/ui-prototypes/assets/echoes/icons/`;
+- build target: `dist/ui-preview/assets/echoes/icons/`;
+- canonical released coverage: **181 / 181**;
+- import transform: `NONE_BYTE_IDENTICAL_COPY`;
+- source extras/variants are excluded unless mapped to a canonical released Bellibing Echo;
+- manifest: `docs/ui-prototypes/assets/echoes/manifest.json`.
+
+### Weapons
+
+- target: `docs/ui-prototypes/assets/weapons/icons/`;
+- build target: `dist/ui-preview/assets/weapons/icons/`;
+- canonical Weapon coverage: **122 / 122**;
+- rarity coverage: 5×1-star, 5×2-star, 21×3-star, 43×4-star, 48×5-star;
+- import transform: `NONE_BYTE_IDENTICAL_COPY`;
+- unmatched source extras are excluded;
+- manifest: `docs/ui-prototypes/assets/weapons/manifest.json`.
+
+### Rover initial portrait policy
+
+User approved a deliberately simple first-pass policy: choose the first matching source portrait for each Rover element.
+
+Current canonical mapping:
+
+- `rover-aero` → `images/RoverAeroFemale.png`;
+- `rover-electro` → `images/Roverelectrofemale.png`;
+- `rover-havoc` → `images/Rover-Havoc.png`;
+- `rover-spectro` → `images/Rover-Spectro.png`.
+
+The original 10 Rover candidates remain preserved for later redesign without re-sourcing.
+
+This checkpoint is static-asset foundation only. Parallax, living-still motion, glow and animation are explicitly deferred until the simple functional New UI is working.

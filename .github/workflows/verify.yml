@@ -79,5 +79,32 @@ jobs:
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-ciaccona-owned-build.mjs
 
+          mkdir -p artifacts
+          for asset in \
+            bellibing-ui-build-character-rover.webp \
+            bellibing-ui-improve-character-augusta.webp \
+            bellibing-ui-build-team.webp; do
+            curl --fail --silent --output /dev/null \
+              "http://127.0.0.1:4173/ui-preview/assets/v34/$asset"
+          done
+
+          google-chrome \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --hide-scrollbars \
+            --window-size=1440,900 \
+            --screenshot=artifacts/ui-preview-home-1440x900.png \
+            http://127.0.0.1:4173/ui-preview/
+          test -s artifacts/ui-preview-home-1440x900.png
+
+      - name: Upload New UI Home visual evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-new-ui-home-visual
+          path: artifacts/ui-preview-home-1440x900.png
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Diff whitespace check
         run: git diff --check HEAD^

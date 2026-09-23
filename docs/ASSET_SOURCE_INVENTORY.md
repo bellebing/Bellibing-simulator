@@ -230,3 +230,45 @@ Final import provenance is byte-exact rather than visual/fuzzy: every one of the
 The source-resolution audit that preceded import remains useful historical context: 134 current entries mapped by the same current `IconMonsterHead` suffix, 46 older `IconMonsterGoods` entries mapped through exact monster-name→head identity from WaveTools, and Baby Roseshroom was resolved through the verified current/legacy alias plus monster ID `310000220` → head `305`. After import, binary identity against the pinned upstream file is the durable per-file proof.
 
 This slice is static portrait asset coverage only. Functional Echo selector/detail wiring, full-art reveal and parallax/living-still motion remain separate later work.
+
+
+## Builder icon foundation
+
+Imported 2026-09-23 as a selective New UI builder-visible icon library.
+
+Pinned sources:
+
+- `DommyMM/wuwabuild@5fa70b11f1d84fb644e4dbed47873708da0fe66f`
+  - `public/Data/Characters.json` for exact Character skill and S1-S6 icon references plus Character element identity;
+  - `public/Data/Fetters.json` for exact Sonata-set icon references;
+  - `public/Data/Stats.json` for the Bellibing builder stat vocabulary and shared stat icon references;
+  - referenced assets copied byte-identically from `public/assets/`.
+- `TomyJan/WutheringWaves-UIResources` branch `3.6` @ `5b3d1d128ed3938cbb8e5260ba07b075b321a7c6`
+  - Echo COST 1/3/4 inventory sort icons from `UIResources/UiInventory/Image/T_SortCost{1,3,4}.png`.
+
+Runtime/source location:
+
+- `docs/ui-prototypes/assets/builder-icons/`
+- build target: `dist/ui-preview/assets/builder-icons/`
+- manifest: `docs/ui-prototypes/assets/builder-icons/manifest.json`
+- reproducible importer: `scripts/import-ui-builder-icons.mjs`
+- fail-closed audit: `scripts/audit-ui-builder-icons.mjs`
+
+Verified scope:
+
+- **819 physical image assets**;
+- **6** Character element icons;
+- **34 / 34** Sonata-set icons;
+- **58** source-resolved logical Character kits;
+- **411** unique Character skill icons covering **464** logical-kit skill references; the five shared weapon-type Normal Attack icons are included here rather than duplicated as another library;
+- **348** unique S1-S6 Resonance Chain icons covering all six chains for each source-resolved logical kit;
+- **20** Bellibing stat labels backed by **17** unique stat image files where upstream intentionally shares HP/HP%, ATK/ATK% and DEF/DEF%;
+- **3** Echo COST icons for COST 1 / 3 / 4.
+
+The upstream Character file contains 62 rows and 496 skill / 372 chain references because Rover gender variants are separate source rows. Bellibing collapses each Rover element to one logical kit only after verifying that the duplicate source rows reference identical skill and chain assets.
+
+Hsin and Suoming remain explicitly excluded from this library because their Bellibing catalog entries are `UNRELEASED_WIP` and no pinned source-resolved kits exist for them here.
+
+EXP, Tuner and other material icons remain **PENDING_SOURCE_MAPPING**. No `IconA`, `IconRup`, `IconWup` or look-alike material images are promoted until item ID -> canonical name -> exact asset path is source-resolved.
+
+Rarity stars, locks, plus/minus controls and other generic builder chrome remain CSS/SVG/UI and are not imported as game assets.

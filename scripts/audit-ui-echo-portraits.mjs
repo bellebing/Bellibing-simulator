@@ -24,7 +24,7 @@ function gitBlobSha(path) {
 function parseReleasedEchoes() {
   const text = readFileSync('src/data/echoes.ts', 'utf8');
   const rows = [];
-  const re = /"id": "echo-(\\d+)"[\\s\\S]*?"name": "([^"]+)"[\\s\\S]*?"releaseStatus": "([^"]+)"/g;
+  const re = /"id": "echo-(\d+)"[\s\S]*?"name": "([^"]+)"[\s\S]*?"releaseStatus": "([^"]+)"/g;
   let match;
   while ((match = re.exec(text))) {
     if (match[3] === 'RELEASED') {

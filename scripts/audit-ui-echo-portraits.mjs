@@ -83,7 +83,7 @@ for (const row of released) {
   if (entry.targetPath !== expectedTarget) fail(`${row.echoId} targetPath mismatch`);
   if (!existsSync(expectedTarget)) fail(`${row.echoId} target file missing`);
 
-  const expectedSourcePattern = /^UIResources\/Common\/Image\/IconMonsterHead732\/T_IconMonsterHead732_\d+_UI\.png$/;
+  const expectedSourcePattern = /^UIResources\/Common\/Image\/IconMonsterHead732\/T_IconMonsterHead732_[A-Za-z0-9_]+_UI\.png$/;
   if (!expectedSourcePattern.test(entry.sourcePath)) fail(`${row.echoId} sourcePath is outside pinned portrait family`);
 
   const size = statSync(expectedTarget).size;

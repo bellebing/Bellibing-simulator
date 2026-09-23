@@ -29,7 +29,8 @@
     "sync:character-mechanics": "node --experimental-strip-types scripts/sync-character-mechanics.mjs",
     "review:character-mechanics": "node scripts/generate-character-mechanics-review.mjs",
     "review:character-mechanics-descriptions": "node scripts/generate-character-mechanics-description-review.mjs",
-    "prepare:character-mechanics": "npm run sync:character-mechanics && npm run review:character-mechanics && npm run review:character-mechanics-descriptions"
+    "prepare:character-mechanics": "npm run sync:character-mechanics && npm run review:character-mechanics && npm run review:character-mechanics-descriptions",
+    "audit:ui-echo-portraits": "node scripts/audit-ui-echo-portraits.mjs"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

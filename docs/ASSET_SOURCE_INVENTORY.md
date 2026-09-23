@@ -211,3 +211,22 @@ Current canonical mapping:
 The original 10 Rover candidates remain preserved for later redesign without re-sourcing.
 
 This checkpoint is static-asset foundation only. Parallax, living-still motion, glow and animation are explicitly deferred until the simple functional New UI is working.
+
+
+## Echo portrait runtime library
+
+Imported 2026-09-23 from pinned unpacked-game UI source `TomyJan/WutheringWaves-UIResources` branch `3.6` @ `5b3d1d128ed3938cbb8e5260ba07b075b321a7c6`.
+
+- source family: `UIResources/Common/Image/IconMonsterHead732/*.png`;
+- target: `docs/ui-prototypes/assets/echoes/portraits/`;
+- build target: `dist/ui-preview/assets/echoes/portraits/`;
+- canonical released coverage: **181 / 181**;
+- import transform: `NONE_BYTE_IDENTICAL_COPY`;
+- manifest: `docs/ui-prototypes/assets/echoes/portraits/manifest.json`;
+- role separation: these are `echo.portrait` assets and do not replace the existing 181 `echo.icon` assets.
+
+Final import provenance is byte-exact rather than visual/fuzzy: every one of the 181 canonical Bellibing portrait PNGs has the same Git blob SHA and byte size as exactly one file in the pinned upstream `IconMonsterHead732` directory. The manifest records canonical Echo ID/name, exact upstream source path, source Git blob SHA, source byte count and target path. `scripts/audit-ui-echo-portraits.mjs` fails closed on canonical-set drift, file-count drift, target byte changes or provenance SHA mismatches.
+
+The source-resolution audit that preceded import remains useful historical context: 134 current entries mapped by the same current `IconMonsterHead` suffix, 46 older `IconMonsterGoods` entries mapped through exact monster-name→head identity from WaveTools, and Baby Roseshroom was resolved through the verified current/legacy alias plus monster ID `310000220` → head `305`. After import, binary identity against the pinned upstream file is the durable per-file proof.
+
+This slice is static portrait asset coverage only. Functional Echo selector/detail wiring, full-art reveal and parallax/living-still motion remain separate later work.

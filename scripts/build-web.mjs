@@ -28,3 +28,4 @@ cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursiv
 cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/characters', { recursive: true });
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });
 cpSync('docs/ui-prototypes/assets/weapons', 'dist/ui-preview/assets/weapons', { recursive: true });
+cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builder-icons', { recursive: true });

@@ -126,6 +126,8 @@ function assertBuild(state, width, height) {
 
 async function dragBuild(send, state) {
   const b = state.wheel, y = b.y + b.height * .5, startX = b.x + b.width * .76, endX = b.x + b.width * .10, before = state.focus;
+  await evaluate(send, "(()=>{const w=document.getElementById('buildWheel');w.__dragTrace={down:0,move:0,up:0};w.addEventListener('pointerdown',()=>w.__dragTrace.down++,{once:true});w.addEventListener('pointermove',()=>w.__dragTrace.move++);w.addEventListener('pointerup',()=>w.__dragTrace.up++,{once:true})})()");
+  const hit = await evaluate(send, "(()=>{const w=document.getElementById('buildWheel'),r=w.getBoundingClientRect(),x=r.x+r.width*.76,y=r.y+r.height*.5,e=document.elementFromPoint(x,y);return{tag:e?.tagName||null,className:e?.className||null,inWheel:!!(e&&w.contains(e)),x,y,rect:{x:r.x,y:r.y,width:r.width,height:r.height}}})()");
   await send('Input.dispatchMouseEvent', { type:'mouseMoved', x:startX, y });
   await send('Input.dispatchMouseEvent', { type:'mousePressed', x:startX, y, button:'left', clickCount:1 });
   for (let step=1; step<=12; step++) {
@@ -135,8 +137,8 @@ async function dragBuild(send, state) {
   }
   await send('Input.dispatchMouseEvent', { type:'mouseReleased', x:endX, y, button:'left', clickCount:1 });
   await sleep(850);
-  const after = await evaluate(send, "({focus:Number(document.getElementById('buildWheel').dataset.focus),dragging:document.getElementById('buildWheel').classList.contains('dragging')})");
-  if (after.focus - before < 2) throw new Error('Expected multi-card drag, got ' + before + ' -> ' + after.focus + '.');
+  const after = await evaluate(send, "(()=>{const w=document.getElementById('buildWheel');return{focus:Number(w.dataset.focus),dragging:w.classList.contains('dragging'),trace:w.__dragTrace||null}})()");
+  if (after.focus - before < 2) throw new Error('Expected multi-card drag, got ' + before + ' -> ' + after.focus + '; hit=' + JSON.stringify(hit) + '; trace=' + JSON.stringify(after.trace) + '.');
   if (after.dragging) throw new Error('Build wheel stayed in dragging state.');
   return { before, after: after.focus };
 }

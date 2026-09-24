@@ -78,6 +78,8 @@ jobs:
             sleep 0.25
           done
           google-chrome --version
+          BELLIBING_UI_PREVIEW_URL=http://127.0.0.1:4173/ui-preview/ \
+            npm run verify:ui-carousel-runtime
           BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
             node scripts/verify-live-roll-assist.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
@@ -141,11 +143,13 @@ jobs:
             http://127.0.0.1:4173/ui-preview/
           test -s artifacts/ui-preview-home-1440x900.png
 
-      - name: Upload New UI Home visual evidence
+      - name: Upload New UI carousel visual evidence
         uses: actions/upload-artifact@v4
         with:
-          name: bellibing-new-ui-home-visual
-          path: artifacts/ui-preview-home-1440x900.png
+          name: bellibing-new-ui-carousel-runtime-visual
+          path: |
+            artifacts/ui-preview-home-1440x900.png
+            artifacts/ui-carousel-runtime-build-*.png
           if-no-files-found: error
           retention-days: 7
 

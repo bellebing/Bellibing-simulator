@@ -42,6 +42,9 @@ jobs:
       - name: Builder icon asset provenance gate
         run: npm run audit:ui-builder-icons
 
+      - name: New UI Character identity wiring gate
+        run: npm run audit:ui-character-wiring
+
       - name: Profile candidate inventory gate
         run: npm run audit:profile-candidates
 
@@ -131,6 +134,9 @@ jobs:
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/echo-cost/cost-4.png"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/manifest.json"
 
+          BELLIBING_UI_PREVIEW_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-ui-character-wiring.mjs
+
           google-chrome \
             --headless=new \
             --no-sandbox \
@@ -145,7 +151,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-new-ui-home-visual
-          path: artifacts/ui-preview-home-1440x900.png
+          path: |
+            artifacts/ui-preview-home-1440x900.png
+            artifacts/ui-preview-character-identity-1440x900.png
           if-no-files-found: error
           retention-days: 7
 

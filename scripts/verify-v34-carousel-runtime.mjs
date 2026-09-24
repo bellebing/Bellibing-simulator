@@ -71,7 +71,9 @@ async function navigate(send) {
 }
 
 async function setViewport(send, width, height) {
-  await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width <= 768 });
+  const mobile=width<=768;
+  await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile });
+  await send('Emulation.setTouchEmulationEnabled', { enabled: mobile, maxTouchPoints: mobile ? 5 : 1 });
   await sleep(60);
 }
 

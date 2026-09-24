@@ -157,7 +157,7 @@ async function buildMetrics(send) {
       const lineBoxSafe=Number.isFinite(fontSize)&&Number.isFinite(lineHeight)&&lineHeight>=fontSize*1.18&&paddingBottom>=3;
       const oneLine=name.scrollWidth<=name.clientWidth+1&&name.scrollHeight<=name.clientHeight+1;
       const placementSafe=state==='COMPACT'?nameRect.top>=portraitRect.bottom+2:nameRect.bottom<=portraitRect.top-2;
-      return {label:card.getAttribute('aria-label'),lineBoxSafe,oneLine,placementSafe,overflow:style.overflow};
+      return {label:card.getAttribute('aria-label'),lineBoxSafe,oneLine,placementSafe,overflow:style.overflow,scrollWidth:name.scrollWidth,clientWidth:name.clientWidth,scrollHeight:name.scrollHeight,clientHeight:name.clientHeight};
     });
     const descenderLabels=typography.filter(item=>/[gjpqy]/i.test(item.label||''));
     return {
@@ -168,7 +168,7 @@ async function buildMetrics(send) {
       names,
       state,
       oneLine:typography.every(item=>item.oneLine),
-      overflowLabels:typography.filter(item=>!item.oneLine).map(item=>item.label),
+      overflowLabels:typography.filter(item=>!item.oneLine).map(item=>({label:item.label,scrollWidth:item.scrollWidth,clientWidth:item.clientWidth,scrollHeight:item.scrollHeight,clientHeight:item.clientHeight})),
       textMetricsSafe:typography.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
       descenderMetricsSafe:descenderLabels.length>0&&descenderLabels.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
       descenderLabels:descenderLabels.map(item=>item.label),

@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
@@ -92,19 +93,29 @@ async function homeMetrics(send) {
   })()`);
 }
 
-async function drag(send, selector, direction=-1, fraction=.66) {
+async function drag(send, selector, direction=-1, fraction=.66, {touch=false}={}) {
   const bounds = await evaluate(send, `document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);
   const y=bounds.y+bounds.height*.5;
   const startX=bounds.x+bounds.width*(direction<0?.78:.22);
   const endX=bounds.x+bounds.width*(direction<0?Math.max(.05,.78-fraction):Math.min(.95,.22+fraction));
-  await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:startX,y});
-  await send('Input.dispatchMouseEvent',{type:'mousePressed',x:startX,y,button:'left',clickCount:1});
-  for(let i=1;i<=12;i++){
-    const x=startX+(endX-startX)*(i/12);
-    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y,button:'left',buttons:1});
-    await sleep(12);
+  if(touch){
+    await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:startX,y,id:1,radiusX:1,radiusY:1,force:1}]});
+    for(let i=1;i<=12;i++){
+      const x=startX+(endX-startX)*(i/12);
+      await send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y,id:1,radiusX:1,radiusY:1,force:1}]});
+      await sleep(12);
+    }
+    await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  }else{
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:startX,y});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',x:startX,y,button:'left',clickCount:1});
+    for(let i=1;i<=12;i++){
+      const x=startX+(endX-startX)*(i/12);
+      await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y,button:'left',buttons:1});
+      await sleep(12);
+    }
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:endX,y,button:'left',clickCount:1});
   }
-  await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:endX,y,button:'left',clickCount:1});
   await sleep(760);
 }
 
@@ -132,18 +143,46 @@ async function buildMetrics(send) {
     const cards=[...document.querySelectorAll('#buildWheel .choice')];
     const images=cards.map(card=>card.querySelector('img'));
     const names=cards.map(card=>card.getAttribute('aria-label'));
+    const shell=document.getElementById('buildShell');
+    const state=shell.classList.contains('hover-expanded')?'HOVER_EXPANDED':shell.classList.contains('has-selection')?'COMPACT':'EXPANDED';
+    const typography=cards.map(card=>{
+      const name=card.querySelector('.choice-name');
+      const portrait=card.querySelector('.choice-portrait');
+      const style=getComputedStyle(name);
+      const nameRect=name.getBoundingClientRect();
+      const portraitRect=portrait.getBoundingClientRect();
+      const fontSize=parseFloat(style.fontSize);
+      const lineHeight=parseFloat(style.lineHeight);
+      const paddingBottom=parseFloat(style.paddingBottom);
+      const lineBoxSafe=Number.isFinite(fontSize)&&Number.isFinite(lineHeight)&&lineHeight>=fontSize*1.18&&paddingBottom>=3;
+      const oneLine=name.scrollWidth<=name.clientWidth+1&&name.scrollHeight<=name.clientHeight+1;
+      const placementSafe=state==='COMPACT'?nameRect.top>=portraitRect.bottom+2:nameRect.bottom<=portraitRect.top-2;
+      return {label:card.getAttribute('aria-label'),lineBoxSafe,oneLine,placementSafe,overflow:style.overflow};
+    });
+    const descenderLabels=typography.filter(item=>/[gjpqy]/i.test(item.label||''));
     return {
       count:cards.length,
       loaded:images.filter(img=>img?.complete&&img.naturalWidth>0).length,
       focus:Number(document.getElementById('buildWheel').dataset.focusIndex),
+      focusName:names[Number(document.getElementById('buildWheel').dataset.focusIndex)]??null,
       names,
-      oneLine:cards.every(card=>{const n=card.querySelector('.choice-name');return n.scrollWidth<=n.clientWidth+1}),
-      headerFirst:cards.every(card=>{const n=card.querySelector('.choice-name').getBoundingClientRect();const p=card.querySelector('.choice-portrait').getBoundingClientRect();return n.bottom<=p.top+1}),
+      state,
+      oneLine:typography.every(item=>item.oneLine),
+      textMetricsSafe:typography.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
+      descenderMetricsSafe:descenderLabels.length>0&&descenderLabels.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
+      descenderLabels:descenderLabels.map(item=>item.label),
+      headerFirst:state==='COMPACT'?true:typography.every(item=>item.placementSafe),
       fit:images[0]?getComputedStyle(images[0]).objectFit:null,
       pos:images[0]?getComputedStyle(images[0]).objectPosition:null,
       noHorizontalPageScroll:document.documentElement.scrollWidth<=innerWidth+1
     };
   })()`);
+}
+
+async function capture(send, path) {
+  const shot=await send('Page.captureScreenshot',{format:'png',fromSurface:true});
+  mkdirSync('artifacts',{recursive:true});
+  writeFileSync(path,Buffer.from(shot.data,'base64'));
 }
 
 const matrix=[[390,844],[768,1024],[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]];
@@ -175,8 +214,27 @@ try{
     if(homeAfter.focus!==2) throw new Error(`Desktop Home drag did not freewheel to Team: ${JSON.stringify(homeAfter)}`);
 
     await navigate(send);await enterBuild(send);
+    await evaluate(send,`document.querySelector('#buildWheel .choice[aria-label="Lingyang"]').click()`);
+    await sleep(760);
+    const expandedNames=await buildMetrics(send);
+    if(expandedNames.focusName!=='Lingyang') throw new Error(`Lingyang did not center for typography review: ${JSON.stringify(expandedNames)}`);
+    if(expandedNames.count!==57||expandedNames.loaded!==57||!expandedNames.oneLine||!expandedNames.headerFirst||!expandedNames.textMetricsSafe||!expandedNames.descenderMetricsSafe||expandedNames.fit!=='contain'||expandedNames.pos!=='50% 50%') throw new Error(`Expanded Build typography contract failed: ${JSON.stringify(expandedNames)}`);
+    for(const sentinel of ['Buling','Lingyang','Yangyang']) if(!expandedNames.descenderLabels.includes(sentinel)) throw new Error(`Missing descender sentinel ${sentinel} from typography audit.`);
+    await capture(send,'artifacts/ui-preview-build-names-expanded-1440x900.png');
+
+    await evaluate(send,`document.querySelector('#buildWheel .choice[aria-label="Lingyang"]').click()`);
+    await sleep(700);
+    const compactNames=await buildMetrics(send);
+    if(compactNames.state!=='COMPACT'||!compactNames.oneLine||!compactNames.textMetricsSafe||!compactNames.descenderMetricsSafe) throw new Error(`Compact Build typography contract failed: ${JSON.stringify(compactNames)}`);
+    await evaluate(send,`document.getElementById('buildShell').classList.add('hover-expanded');window.dispatchEvent(new Event('resize'))`);
+    await sleep(100);
+    const hoverNames=await buildMetrics(send);
+    if(hoverNames.state!=='HOVER_EXPANDED'||!hoverNames.oneLine||!hoverNames.headerFirst||!hoverNames.textMetricsSafe||!hoverNames.descenderMetricsSafe) throw new Error(`Hover-expanded Build typography contract failed: ${JSON.stringify(hoverNames)}`);
+    await capture(send,'artifacts/ui-preview-build-names-hover-expanded-1440x900.png');
+
+    await navigate(send);await enterBuild(send);
     const desktopBefore=await buildMetrics(send);
-    if(desktopBefore.count!==57||desktopBefore.loaded!==57||!desktopBefore.oneLine||!desktopBefore.headerFirst||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
+    if(desktopBefore.count!==57||desktopBefore.loaded!==57||!desktopBefore.oneLine||!desktopBefore.headerFirst||!desktopBefore.textMetricsSafe||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
     for(const forbidden of ['Jingran','Hsin','Suoming']) if(desktopBefore.names.includes(forbidden)) throw new Error(`${forbidden} leaked into released Build selector.`);
     for(const rover of ['Rover (Aero)','Rover (Electro)','Rover (Havoc)','Rover (Spectro)']) if(!desktopBefore.names.includes(rover)) throw new Error(`Missing ${rover}.`);
     await drag(send,'#buildWheel',-1,.72);
@@ -185,17 +243,18 @@ try{
 
     await setViewport(send,390,844);await navigate(send);await enterBuild(send);
     const mobileBefore=await buildMetrics(send);
-    if(!mobileBefore.noHorizontalPageScroll) throw new Error('Mobile Build requires horizontal page scrolling.');
-    await drag(send,'#buildWheel',-1,.72);
+    if(!mobileBefore.noHorizontalPageScroll||!mobileBefore.textMetricsSafe) throw new Error(`Mobile Build contract failed: ${JSON.stringify(mobileBefore)}`);
+    await drag(send,'#buildWheel',-1,.72,{touch:true});
     const mobileAfter=await buildMetrics(send);
     if(mobileAfter.focus-mobileBefore.focus<2) throw new Error(`Mobile Build drag did not traverse multiple cards: ${mobileBefore.focus} -> ${mobileAfter.focus}`);
 
     console.log('v34 runtime carousel verification passed in real Chrome.');
     console.log('- Home finite centered shell passed 390x844 through 7680x2160.');
     console.log('- Home mouse drag reached Team from default Improve focus.');
-    console.log('- Build selector loaded 57/57 released canonical portraits with header-first one-line names.');
+    console.log('- Build selector loaded 57/57 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');
+    console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
-    console.log(`- Mobile Build multi-card drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
+    console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

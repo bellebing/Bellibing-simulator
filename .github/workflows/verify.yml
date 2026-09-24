@@ -147,7 +147,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-new-ui-home-visual
-          path: artifacts/ui-preview-home-1440x900.png
+          path: |
+            artifacts/ui-preview-home-1440x900.png
+            artifacts/ui-preview-build-names-expanded-1440x900.png
+            artifacts/ui-preview-build-names-hover-expanded-1440x900.png
           if-no-files-found: error
           retention-days: 7
 

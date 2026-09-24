@@ -168,6 +168,7 @@ async function buildMetrics(send) {
       names,
       state,
       oneLine:typography.every(item=>item.oneLine),
+      overflowLabels:typography.filter(item=>!item.oneLine).map(item=>item.label),
       textMetricsSafe:typography.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
       descenderMetricsSafe:descenderLabels.length>0&&descenderLabels.every(item=>item.lineBoxSafe&&item.placementSafe&&item.overflow==='visible'),
       descenderLabels:descenderLabels.map(item=>item.label),

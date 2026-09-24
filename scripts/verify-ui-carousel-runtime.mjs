@@ -105,7 +105,7 @@ async function enterBuild(send) {
   const deadline = Date.now() + 15000;
   while (Date.now() < deadline) {
     const state = await evaluate(send, "({active:document.getElementById('build').classList.contains('active'),count:document.querySelectorAll('#buildWheel .choice').length,loaded:[...document.querySelectorAll('#buildWheel .choice img')].filter(i=>i.complete&&i.naturalWidth>0).length})");
-    if (state.active && state.count === 57 && state.loaded === 57) return;
+    if (state.active && state.count === 57 && state.loaded === 57) { await sleep(900); return; }
     await sleep(100);
   }
   throw new Error('Timed out entering Build with 57 loaded Character portraits.');

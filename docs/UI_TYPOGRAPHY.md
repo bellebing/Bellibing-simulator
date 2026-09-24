@@ -1,6 +1,6 @@
 # Bellibing UI Typography
 
-Last reconciled: 2026-09-20
+Last reconciled: 2026-09-24
 
 This file is the canonical typography/font handoff for the new Bellibing UI. It exists so a new chat or implementation agent does not have to reconstruct the accepted font choice from old conversation history or abandoned PRs.
 
@@ -67,15 +67,11 @@ When a local font file is legitimately introduced:
 3. compare Home titles, `What Character?`, Character names and major headings in a real browser;
 4. only replace the external source if the result is visually equivalent and explicitly accepted.
 
-## Current repository status
+## Current repository boundary
 
-As of 2026-09-20, current `main` does **not** carry a production-local ETNA binary.
+The accepted New UI preview currently uses the external v34 ETNA oracle; no production-local ETNA binary is the typography source of truth.
 
-PR #200 wires the accepted preview to the exact external v34 ETNA oracle so the correct face can be used without manual font installation while the local-file license boundary is unresolved. This external source is the parity baseline, not proof that a local font binary may be redistributed from the public repository.
-
-Old PR #192 is historical and closed unmerged. Do not use its earlier local WOFF2 experiment as font truth.
-
-The current UI lane must be fresh-read from GitHub before implementation. At this reconciliation checkpoint, draft PR #196 contains the v34 parity-foundation implementation work, but this typography contract is intentionally independent of that branch so future chats can recover it from `main`.
+This file intentionally does **not** own or name the active UI PR/branch. Fresh-read GitHub + PROJECT_STATUS + AI Handoff for current implementation state. Historical UI PR numbers are not font truth.
 
 ## Typography composition rules
 
@@ -95,3 +91,5 @@ hyphens: none;
 ```
 
 If a peer label does not fit, fix the peer-group/container/responsive rule consistently rather than individually shrinking or wrapping one item unless the user explicitly approves an exception.
+
+Positioning/containment of typography inside cards/components is governed by `docs/UI_LAYOUT_MOTION_CONTRACT.md`; this file owns font/typographic behavior only.

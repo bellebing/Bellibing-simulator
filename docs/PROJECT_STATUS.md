@@ -1,5 +1,15 @@
 # Bellibing Simulator — Current Project Status
 
+## Post-PR203 UI asset state
+
+PR #202 and PR #203 are **MERGED, deployed and post-merge verified**. PR #202 normal-merged the source-backed 181/181 Echo portrait library at `c98ea1162757cd1f78261825a95ab666cdf36476`. PR #203 then normal-merged the selective New UI builder icon foundation at `c6b768ad43ebfa84c692ee4bd406d733c323e137`, with reviewed head `1524a58041e7e40393beb45c176616245f78e73a`; the merge tree exactly matches the reviewed head tree.
+
+The integrated builder foundation contains exactly **819 physical image assets**: 6 Character element icons, 34/34 Sonata icons, 411 unique Character skill icons across 58 source-resolved logical kits, 348 Character-specific S1–S6 chain icons, 20 stat labels backed by 17 unique stat files, and Echo COST 1/3/4. Existing 122/122 Weapon item icons are reused rather than duplicated. Hsin and Suoming remain `UNRELEASED_WIP` and intentionally receive no guessed Character assets. EXP/Tuner/material icons remain `PENDING_SOURCE_MAPPING` until item ID → canonical name → exact asset path is source-resolved.
+
+Post-merge PR #203 verification is green on the exact merge commit: Verify run `35946018624`, Export run `35946018786`, and Deploy run `35946018679` all completed successfully, including live-site verification. This asset work changes no Character mechanics, combat/DPS logic, profiles, readiness or canonical gameplay data. Backend capability therefore remains the post-PR198 state below: PARTIAL_L3 = **54**, PARTIAL_L4 = **28**, readiness **43/3/9/2**, with all **83 pending edges / 72 dependency IDs** and all six Reference Team blockers still open; only Augusta/Ciaccona are DPS_READY.
+
+The active UI lane is now functional wiring against the integrated manifest-backed libraries: Character elements/skills/S1–S6, Sonata/stat/COST, Echo portrait/icon/detail and Weapon/Echo selectors. **BUG-030 remains open** until real UI/live visual parity is verified; asset availability alone is not a UI fix.
+
 ## Post-PR198 current state
 
 PR #198 is **MERGED, deployed and post-merge verified** at main merge commit `dde1023f0841eb4ea4b553bbc9a76a76ff7a6b2b`. Its parents are previous main `3ce9b150a7a5b1f4bc8947f74411d6df9ac859bf` and reviewed PR198 head `1d1fe8c8f1d095624a79a0ca3673428a545ed759`. Post-merge [Verify](https://github.com/bellebing/Bellibing-simulator/actions/runs/35495502015), [Export](https://github.com/bellebing/Bellibing-simulator/actions/runs/35495502038) and [Deploy](https://github.com/bellebing/Bellibing-simulator/actions/runs/35495502014) all completed successfully on that exact merge commit; Deploy's `Verify live site` job also passed its Alpha, Echo Lab, Roll Assist and Chrome checks. Current capability remains PARTIAL_L3 = **54**, PARTIAL_L4 = **28**, readiness **43/3/9/2**, with all **83 pending edges / 72 dependency IDs** and all six Reference Team blockers still open; only Augusta/Ciaccona are DPS_READY.
@@ -38,7 +48,7 @@ At the historical PR195 checkpoint, PR197 was the separate draft backend candida
 
 Earlier candidate and stop statements below are historical checkpoints; they do not override the post-PR198 integrated state above.
 
-Last reconciled: 2026-09-20
+Last reconciled: 2026-09-24
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 

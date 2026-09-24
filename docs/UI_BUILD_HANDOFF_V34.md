@@ -1,19 +1,26 @@
 # Bellibing UI Build Handoff — v34 visual baseline
 
-Last reconciled: 2026-09-20
+Last reconciled: 2026-09-24
 
-This is the durable visual/implementation handoff for the accepted Bellibing v34 UI baseline. It complements `docs/UI_UX_STATUS.md`, which owns product/interaction semantics, and `docs/UI_TYPOGRAPHY.md`, which owns font truth.
+This is the durable visual/implementation handoff for the accepted Bellibing v34 UI baseline.
 
-This file belongs on `main` so future chats do not need an old PR or chat transcript to recover the accepted visual rules.
+Authority is deliberately separated:
+
+- `docs/UI_UX_STATUS.md` owns product/interaction semantics;
+- `docs/UI_LAYOUT_MOTION_CONTRACT.md` owns containment, responsive behavior and motion;
+- this file owns the accepted **v34 visual/parity reference**;
+- `docs/UI_TYPOGRAPHY.md` owns font truth.
+
+Exact values below are retained where they are useful to reproduce the accepted v34 look. They are not permission to create viewport-relative positioning or a second responsive architecture. If a historical v34 timing/layout value conflicts with the current layout/motion contract, preserve the visual intent and follow the current contract.
 
 ## Working rule
 
-Do not redesign the accepted composition from memory or from the old Alpha UI. Fresh-read current GitHub `main`, the active UI branch/PR, and the current preview before changing UI.
+Do not redesign the accepted composition from memory or from the old Alpha UI. Fresh-read current GitHub `main`, active UI PR(s), the current preview and the canonical contracts before changing UI.
 
 Work one coherent user-approved slice at a time:
 
 1. prototype/preview the slice;
-2. verify visually in a real browser;
+2. verify visually in a real browser at relevant responsive sizes;
 3. user approves the slice;
 4. checkpoint the coherent slice in GitHub;
 5. continue.
@@ -22,9 +29,11 @@ Do not commit every tiny pixel adjustment, and do not wait until the whole app i
 
 ## Product target and responsive priority
 
-Primary target: desktop web + desktop app.
+Desktop web + desktop app remain the primary composition surface.
 
-Mobile is a separate presentation pass using the same data/components with progressive disclosure. Do not degrade desktop into dropdown-heavy/mobile-style UI just to force one layout across every screen.
+Mobile uses the same data/state/components from the beginning with progressive disclosure. It is not a later independent redesign pass. Do not degrade desktop into dropdown-heavy UI, and do not fork feature logic just to create mobile.
+
+The canonical max-spread, component-local positioning, mobile drawer and verification rules live in `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Typography
 
@@ -44,7 +53,7 @@ Do not substitute Etna Extended, another unrelated Etna, or a lookalike. Do not 
 
 Center-oriented and minimal. One visual focus at a time.
 
-Desktop starting geometry:
+Historical/accepted v34 desktop starting geometry:
 
 ```css
 .home-card {
@@ -54,7 +63,7 @@ Desktop starting geometry:
 }
 ```
 
-Desktop wheel spacing: `318px`.
+Historical v34 wheel spacing: `318px`.
 
 Scale formula:
 
@@ -64,13 +73,15 @@ Math.max(.72, 1.075 - Math.abs(logicalDistance) * .17)
 
 Center card is about `1.075`, immediate neighbors about `0.905`.
 
-Responsive wheel spacing:
+Historical responsive wheel spacing reference:
 
 - under 520px: `238px`;
 - under 900px: `270px`;
 - desktop: `318px`.
 
-When all three functions are available, `Improve a Character` starts centered, Build left, Team right.
+These values describe the accepted v34 look; the production implementation must still satisfy the AppShell/max-spread and mobile carousel contract.
+
+When all three functions are shown, `Improve a Character` starts centered, Build left, Team right. **All three Home cards remain visible/available as Home navigation regardless of account count.** Account insufficiency is handled inside the destination surface.
 
 ### Home title baseline
 
@@ -89,6 +100,8 @@ When all three functions are available, `Improve a Character` starts centered, B
 ```
 
 One title, one main artwork composition. Do not turn Home cards into mini dashboards.
+
+The title and art are **card-local**. Moving the Home card moves its title/art/overlays as a single component.
 
 ## Temporary v34 artwork composition
 
@@ -130,6 +143,8 @@ Do not normalize them to one generic `object-fit: contain` rule. The accepted v3
 }
 ```
 
+These are **card-local parity offsets** for the current processed art, not viewport offsets. Future presentation should express reviewed composition through explicit card-local presentation tokens/metadata or reviewed derivatives rather than repeatedly guessing from transparent bounds.
+
 For future Character-art framing, the Character/face is the visual anchor; weapons, hands, capes and other silhouette outliers must not drive perceived centering.
 
 ## Character selector baseline
@@ -154,9 +169,10 @@ After selection:
 - compact portrait baseline `82 × 82px`;
 - compact spacing `98px`;
 - hover-expanded spacing about `126px`;
-- first large→compact morph about `920ms`;
 - hover-collapse delay `320ms`;
 - hover alone never switches Character.
+
+The historical v34 prototype used a roughly `920ms` first large→compact animation. That number is retained only as prototype history; current major-transition timing is governed by `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 Switching Character after entering a build requires confirmation.
 
@@ -164,7 +180,7 @@ Release chronology is pending source-backed metadata and must not be guessed.
 
 ## Build workspace focus
 
-Selected Character is the independent viewport-center anchor. Selector expansion/collapse must not move, scale or dim the main Character.
+Selected Character is the independent viewport-center visual anchor inside the application surface. Selector expansion/collapse must not move, scale or dim the main Character.
 
 Desktop baseline:
 
@@ -177,11 +193,17 @@ Desktop baseline:
 
 Sequence rail: S1 bottom → S6 top, circular nodes grow toward S6, thin connector line.
 
-## Motion language
+Mobile presentation is defined in `UI_LAYOUT_MOTION_CONTRACT.md`: Character remains the anchor and compact feature controls open Stats/Weapon/Sequences/Echoes in overlay drawers without moving the Character stage.
 
-Major Home transitions: selected card advances slightly/fades, neighbors recede/fade, destination enters from depth around `~0.84 → 1`, roughly `0.7–0.9s` overlap.
+## Motion visual intent
 
-Character large→compact selector transition is slower/readable. Minor controls stay faster/lighter.
+Major Home transitions: selected card advances, neighbors recede, destination enters from depth.
+
+Character selection: the source card/portrait visibly leads into the selected Character state; returning uses the reverse spatial logic.
+
+Minor controls stay faster/lighter than major transitions.
+
+Canonical timing bands, easing, transform rules and reduced-motion behavior live only in `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Account semantics
 
@@ -193,7 +215,7 @@ Character large→compact selector transition is slower/readable. Minor controls
 - draft does not imply account ownership;
 - `Add to Account` is an account action, not Save;
 - Improve lists account-owned Characters only;
-- Team becomes available at 2+ account-owned Characters.
+- Build Team Home navigation remains visible; insufficient account state is handled inside Team.
 
 ## Verification
 
@@ -201,6 +223,8 @@ For visual changes, green CI alone is insufficient.
 
 Use:
 
-`preview → real browser check → user approval → coherent GitHub checkpoint`
+`preview → real browser responsive check → user approval → coherent GitHub checkpoint`
 
-Verify typography, artwork crop/framing, selector state changes and desktop composition in a real browser before calling a visual bug fixed.
+Verify typography, artwork crop/framing, selector state changes and composition in a real browser. Relevant sizes and the extreme-ultrawide max-spread guard are defined in `UI_LAYOUT_MOTION_CONTRACT.md`.
+
+Do not call a visual bug fixed from a single desktop screenshot.

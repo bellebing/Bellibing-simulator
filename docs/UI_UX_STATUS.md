@@ -1,16 +1,24 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-22
+Last reconciled: 2026-09-24
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
 Durable companion docs on `main`:
 
 - `docs/UI_AGENT_START.md` — first-read contract for new UI chats/agents;
-- `docs/UI_BUILD_HANDOFF_V34.md` — accepted v34 visual/composition baseline;
+- `docs/UI_LAYOUT_MOTION_CONTRACT.md` — canonical containment, responsive and motion implementation rules;
+- `docs/UI_BUILD_HANDOFF_V34.md` — accepted v34 visual/composition reference;
 - `docs/UI_TYPOGRAPHY.md` — canonical font/typography contract.
 
-A new chat should not need old PR #192 or old chat transcripts to recover the accepted font or visual rules.
+Authority is intentionally split rather than duplicated:
+
+1. this file owns product/interaction semantics;
+2. `UI_LAYOUT_MOTION_CONTRACT.md` owns layout containment, responsive behavior and motion invariants;
+3. `UI_BUILD_HANDOFF_V34.md` owns the accepted v34 visual reference and exact parity measurements where still applicable;
+4. `UI_TYPOGRAPHY.md` owns font truth.
+
+If an older v34 measurement conflicts with the current layout/motion contract, preserve the approved visual intent while following the current containment/responsive contract. A new chat should not need old PRs or chat transcripts to recover these rules.
 
 ## Checkpoint
 
@@ -25,11 +33,21 @@ The preview may use recovered processed v34 Home artwork as **temporary prototyp
 
 ## Product target
 
-Primary target: desktop web + desktop app.
+Desktop web + desktop app remain the primary composition surface, but **mobile is not a deferred redesign pass**.
 
-Mobile is a separate presentation pass. Desktop should show useful build context directly rather than hiding everything behind dropdowns. Mobile should reuse the same data/components with progressive disclosure when screen space requires it.
+Every new UI component must be built from the start with a defined narrow/mobile presentation using the same component state and data. Desktop may expose more context simultaneously; narrow/mobile uses progressive disclosure rather than a separate product flow.
 
-The collectible-card interaction language is intentionally reusable across desktop and mobile.
+The collectible-card interaction language is intentionally shared across desktop and mobile.
+
+Responsive product rules:
+
+- wide screens gain outer breathing room, not unlimited separation between UI elements;
+- the product surface lives inside a centered finite-width application shell;
+- shrinking the viewport must not make navigation or controls disappear beyond the sides;
+- component children are positioned relative to their owning component, not directly against the browser viewport;
+- mobile reuses the same underlying components/state and changes presentation through carousel focus, compact controls and drawers/overlays.
+
+Detailed implementation rules and verification sizes live in `docs/UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## New UI and current root
 
@@ -57,11 +75,15 @@ Comparable short labels must not wrap inconsistently. Character names/card title
 - Home functions are large visual vertical cards with collectible-card proportions;
 - Home always presents exactly three primary cards in fixed visual order: `Build a Character` left, `Improve a Character` center/default focus, `Build a Team` right;
 - Home-card visibility is no longer account-count gating; account-state constraints belong inside the destination feature/empty state rather than hiding Home navigation;
+- the same three-card carousel exists on desktop and mobile;
+- desktop/wide presentation may show all three cards clearly, while mobile keeps one focused card with neighboring-card peek and swipe/drag navigation;
+- widening the browser adds outer gutters after the application shell reaches its maximum spread; it must not keep pushing the cards toward the physical monitor edges;
+- card title, art, overlays and future card-local content move as one component because the card itself owns their coordinate system;
 - Build means create/build a Character draft, then explicitly add it to the account;
 - Improve operates on Characters already added to the account; empty-state handling remains a later UI slice;
-- Team is a separate surface using account Characters; insufficient-account handling remains a later UI slice.
+- Team is a separate surface using account Characters; insufficient-account handling belongs in that destination surface rather than Home-card visibility.
 
-Home visual baseline and exact card/art geometry are documented in `docs/UI_BUILD_HANDOFF_V34.md` and should not be freely redesigned by a new agent.
+Home visual baseline and exact existing card/art geometry are documented in `docs/UI_BUILD_HANDOFF_V34.md`. Layout ownership and responsive behavior are defined in `docs/UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ### Account vs autosave
 
@@ -77,7 +99,7 @@ Home visual baseline and exact card/art geometry are documented in `docs/UI_BUIL
 One selector component has:
 
 1. `EXPANDED` — initial large horizontal Character-card wheel under `What Character?`;
-2. `COMPACT` — after selection, same wheel moves to the top and becomes small circular portrait placeholders;
+2. `COMPACT` — after selection, same wheel moves to the top and becomes small circular portraits;
 3. `HOVER_EXPANDED` — desktop hover over compact wheel unfolds smaller Character cards; leaving collapses after a short delay.
 
 Behavior:
@@ -93,13 +115,30 @@ Large/minicard Character names use header-first placement. Compact portrait-stri
 
 ## Motion language
 
-Bellibing should not feel like abrupt page teleportation.
+Bellibing should not feel like abrupt page teleportation. The core motion philosophy is **continuity / object permanence**: when practical, the object the user acted on should visibly become or lead into the next state.
 
-Major choices (Home → Build / Improve / Team): selected Home card advances/fades, surrounding cards recede/fade, destination enters from depth with deliberate overlap.
+Major choices (Home → Build / Improve / Team):
 
-Character selection: large Character cards visibly glide upward while shrinking/morphing into compact portraits; this is intentionally softer/slower than a normal button response. Hover collapse is delayed slightly.
+- selected Home card advances/enlarges slightly;
+- surrounding cards recede/fade;
+- destination enters from depth with deliberate overlap;
+- the transition must feel weighted and concrete rather than instant, but must not linger.
 
-Minor actions remain faster/lighter; do not use the full cinematic transition for every click.
+Character selection:
+
+- the selected Character card/portrait is the visual origin for the selected Character state;
+- large Character cards glide/shrink into the compact selector;
+- the Character focus art appears through a coordinated scale/depth transition rather than an unrelated page pop;
+- returning reverses the visual logic: the Character focus recedes toward the portrait/card origin;
+- selector motion must not move or dim the already-established main Character focus merely because the selector itself expands/collapses.
+
+Panels and minor actions:
+
+- drawers/panels slide with a short weighted transition and background scrim rather than teleporting;
+- micro-actions stay faster/lighter than navigation;
+- do not apply the full cinematic transition to every button.
+
+Canonical duration bands, easing, reduced-motion behavior and transform rules live in `docs/UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Build a Character layout direction
 
@@ -115,13 +154,25 @@ Desktop baseline:
 - S1 bottom → S6 top, circular nodes grow toward S6;
 - `Add to Account` remains separate.
 
-Visual spacing can evolve through user-approved iterations, but Character focus/scale must not regress while surrounding controls are refined.
+Mobile/narrow baseline:
+
+- Character remains the primary visual anchor rather than being replaced by a stack of full-width sections;
+- Stats, Weapon, Sequences and Echoes become compact function controls/icons around the Character workspace;
+- activating one opens that same functional component in an overlay drawer, normally from the nearest relevant side;
+- the Character workspace remains behind the drawer under a transparent dark scrim, with restrained optional backdrop blur;
+- opening a drawer must not reflow or permanently move the Character stage;
+- drawer close must be available through an explicit close/back affordance and tapping the scrim; gesture close may be added when verified;
+- only one primary mobile drawer is open at a time.
+
+Visual spacing can evolve through user-approved iterations, but Character focus/scale and containment rules must not regress while surrounding controls are refined.
 
 ## Asset status
 
 Temporary prototype/parity assets belong under `docs/ui-prototypes/assets/v34/` when used by the implementation lane and should be copied into the built `/ui-preview/assets/v34/` artifact only after exact byte-valid assets are present.
 
-Prototype art does not imply production rights clearance. Final Character/portrait/Sequence/Echo/Weapon asset sourcing remains a separate later workstream.
+Prototype art does not imply production rights clearance. Final Character/portrait/Sequence/Echo/Weapon asset sourcing remains a separate workstream.
+
+Static portrait/icon asset identity is separate from card/hero presentation framing. Card/hero placement must use explicit component-local presentation metadata or reviewed derivatives rather than recomputing a visual center from transparent bounds, weapons, capes or other silhouette outliers.
 
 ## UI development workflow
 
@@ -129,13 +180,16 @@ Continue from the accepted v34 baseline rather than rebuilding from old Alpha or
 
 For each meaningful slice:
 
-1. build/preview quickly;
-2. verify in a real browser;
-3. get user approval;
-4. checkpoint the coherent slice in GitHub;
-5. continue.
+1. fresh-read current `main`, current UI PR(s), this document and the layout/motion contract;
+2. build/preview quickly;
+3. verify in a real browser at the relevant responsive sizes;
+4. get user approval;
+5. checkpoint the coherent slice in GitHub;
+6. continue.
 
 Do not make a GitHub commit for every tiny pixel adjustment, but also do not wait until an entire large surface is finished before checkpointing.
+
+A visual slice is not complete because it looks correct at one 1440px screenshot. Relevant narrow, normal desktop, wide and ultrawide checks from `UI_LAYOUT_MOTION_CONTRACT.md` are part of UI verification. Mobile interaction surfaces require real mobile/narrow verification.
 
 Near-term implementation order is owned by the active UI lane and must be fresh-read before work. Do not assume a historical PR number is still current.
 

@@ -1,36 +1,45 @@
-# Bellibing UI Preview — click here
+# Bellibing UI Preview — current routes
 
-Use these links so you do not need to remember repository paths.
+Last reconciled: 2026-09-24
 
-## New UI/UX checkpoint
+Use these links so a new chat/user does not need to remember repository paths or a historical branch name.
 
-**Stable GitHub Pages route after this checkpoint is merged:**
+## Stable New UI preview
+
+GitHub Pages route produced from current merged `main`:
 
 https://bellebing.github.io/Bellibing-simulator/ui-preview/
 
-The normal Bellibing Alpha root remains separate and unchanged:
+The current Alpha root remains separate legacy/runtime-regression material:
 
 https://bellebing.github.io/Bellibing-simulator/
 
-Before merge, the UI checkpoint can still be opened from the draft Pull Request preview link. The GitHub Pages `/ui-preview/` route is produced by the normal `main` Pages deployment and therefore does not exist until the reviewed change reaches `main`.
+## Canonical source on main
 
-**GitHub source:**
+Functional prototype source:
 
-https://github.com/bellebing/Bellibing-simulator/blob/ui/ux-checkpoint-v34-2026-09-06/docs/ui-prototypes/v34-functional.html
+https://github.com/bellebing/Bellibing-simulator/blob/main/docs/ui-prototypes/v34-functional.html
 
-**UI/UX handoff / current decisions:**
+Product/interaction contract:
 
-https://github.com/bellebing/Bellibing-simulator/blob/ui/ux-checkpoint-v34-2026-09-06/docs/UI_UX_STATUS.md
+https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_UX_STATUS.md
 
-## Where to click in GitHub
+Layout/motion contract:
 
-Once this checkpoint is merged, the repository README has an **Open Bellibing** section at the top with direct links to both:
+https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_LAYOUT_MOTION_CONTRACT.md
 
-- New UI/UX preview
-- Current Alpha / runtime regression site
+v34 visual baseline:
 
-Until merge, open the draft Pull Request named:
+https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_BUILD_HANDOFF_V34.md
 
-`UI/UX checkpoint v34 — new Bellibing interface`
+## Active PR previews
 
-The old Alpha visual design is not the source of truth for new UI/UX work.
+Do not assume a historical branch-specific Pages URL is current.
+
+For an unmerged active UI PR:
+
+1. fresh-read the current PR/head;
+2. use its GitHub Actions visual/build artifact or a locally served build for review;
+3. treat the stable `/ui-preview/` Pages route as merged-main evidence only.
+
+The old Alpha visual design is not the source of truth for New UI work.

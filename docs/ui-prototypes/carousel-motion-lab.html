@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bellibing Carousel Motion Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#08090b;--line:rgba(255,255,255,.11);--text:#f3f1ed;--muted:#8f96a0}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif}body{overflow-x:hidden}
+main{width:min(1180px,calc(100% - 28px));margin:0 auto;padding:28px 0 56px}h1{font-size:clamp(28px,4vw,48px);margin:0 0 8px}p{color:var(--muted);max-width:760px;line-height:1.5}
+.tabs{display:flex;gap:10px;margin:24px 0 12px}.tabs button{border:1px solid var(--line);background:#101319;color:#fff;border-radius:14px;padding:10px 14px;cursor:pointer}.tabs button.active{background:#1b2028}
+.lab{display:none}.lab.active{display:block}.meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 4px 10px;color:var(--muted);font-size:13px}
+.viewport{position:relative;width:100%;height:min(560px,68vh);min-height:430px;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.055),transparent 35%),linear-gradient(180deg,#0c0e12,#07080a);touch-action:pan-y;user-select:none;cursor:grab;outline:none}
+.viewport.dragging{cursor:grabbing}.card{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:260px;height:360px;transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,#1a1e26,#0d1015);box-shadow:0 24px 70px rgba(0,0,0,.48);color:#fff;display:flex;align-items:flex-end;justify-content:center;padding:22px;font-size:23px;font-weight:650;text-align:center;will-change:transform,opacity;cursor:inherit}
+.home .card{width:min(360px,calc(100vw - 78px));height:min(470px,58vh)}.card::before{content:"";position:absolute;inset:18px 18px 72px;border-radius:18px;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.12),rgba(255,255,255,.025) 48%,transparent 68%)}.card strong{position:relative;z-index:1}
+.help{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;color:#c7cbd1;background:#0d1014;font-size:14px;line-height:1.5}.badge{font-variant-numeric:tabular-nums}
+@media(max-width:620px){main{width:min(100% - 16px,1180px);padding-top:16px}.viewport{height:66vh;min-height:390px}.card{width:214px;height:300px}.home .card{width:min(320px,calc(100vw - 52px));height:min(430px,56vh)}}
+</style>
+</head>
+<body>
+<main>
+<h1>Carousel Motion Lab</h1>
+<p>Testkandidat: håll nere musknappen/fingret och dra. Karusellen följer kontinuerligt, tar med släpphastigheten och kan passera flera kort innan den magnetiskt landar på närmaste kort.</p>
+<div class="tabs"><button class="active" data-tab="homeLab">Home — 3 kort</button><button data-tab="characterLab">Character — 7 kort</button></div>
+<section id="homeLab" class="lab active"><div class="meta"><span>Home-känsla</span><span class="badge" data-status></span></div><div class="viewport home" data-start="1"><button class="card"><strong>Build a Character</strong></button><button class="card"><strong>Improve a Character</strong></button><button class="card"><strong>Build a Team</strong></button></div></section>
+<section id="characterLab" class="lab"><div class="meta"><span>Samma motor, längre lista</span><span class="badge" data-status></span></div><div class="viewport" data-start="3"><button class="card"><strong>Character 1</strong></button><button class="card"><strong>Character 2</strong></button><button class="card"><strong>Character 3</strong></button><button class="card"><strong>Character 4</strong></button><button class="card"><strong>Character 5</strong></button><button class="card"><strong>Character 6</strong></button><button class="card"><strong>Character 7</strong></button></div></section>
+<div class="help"><b>Testas:</b> ingen max-ett-kort-spärr; lång dragning kan flytta flera kort; snabb flick ger momentum; långsam release landar nära släppositionen; samma pointer-motor används med mus och touch. Klick på kort centrerar det.</div>
+</main>
+<script>
+class FreewheelCarousel{
+constructor(viewport){this.viewport=viewport;this.cards=[...viewport.querySelectorAll('.card')];this.max=Math.max(0,this.cards.length-1);this.pos=Math.max(0,Math.min(this.max,Number(viewport.dataset.start||0)));this.index=Math.round(this.pos);this.pointer=null;this.lastX=0;this.lastT=0;this.velocity=0;this.moved=false;this.suppressUntil=0;this.raf=0;this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;this.status=viewport.closest('.lab').querySelector('[data-status]');this.bind();this.paint()}
+spacing(){const w=this.viewport.clientWidth;if(this.viewport.classList.contains('home'))return w<520?236:w<900?282:330;return w<520?174:w<900?220:250}
+visualPosition(){if(this.pos<0)return-Math.sqrt(-this.pos)*.32;if(this.pos>this.max)return this.max+Math.sqrt(this.pos-this.max)*.32;return this.pos}
+paint(){const p=this.visualPosition(),space=this.spacing();this.cards.forEach((card,i)=>{const d=i-p,a=Math.abs(d);card.style.setProperty('--x',d*space+'px');card.style.setProperty('--s',Math.max(.70,1.075-a*.17));card.style.setProperty('--o',Math.max(.18,1-a*.24));card.style.zIndex=String(40-Math.round(a*6))});this.index=Math.max(0,Math.min(this.max,Math.round(this.pos)));this.status.textContent='fokus '+(this.index+1)+'/'+this.cards.length}
+stop(){if(this.raf)cancelAnimationFrame(this.raf);this.raf=0}
+animateTo(target,initialVelocity=0){this.stop();target=Math.max(0,Math.min(this.max,target));if(this.reduced){this.pos=target;this.paint();return}const from=this.pos,distance=Math.abs(target-from),speedBoost=Math.min(120,Math.abs(initialVelocity)*18000),duration=Math.max(300,Math.min(650,330+distance*88+speedBoost)),start=performance.now(),ease=t=>1-Math.pow(1-t,4);const tick=now=>{const t=Math.min(1,(now-start)/duration);this.pos=from+(target-from)*ease(t);this.paint();if(t<1)this.raf=requestAnimationFrame(tick);else{this.raf=0;this.pos=target;this.paint()}};this.raf=requestAnimationFrame(tick)}
+release(){const projected=this.pos+this.velocity*260,target=Math.round(Math.max(0,Math.min(this.max,projected)));this.animateTo(target,this.velocity)}
+bind(){this.viewport.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;this.stop();this.pointer=e.pointerId;this.viewport.setPointerCapture?.(e.pointerId);this.lastX=e.clientX;this.lastT=performance.now();this.velocity=0;this.moved=false;this.viewport.classList.add('dragging')});this.viewport.addEventListener('pointermove',e=>{if(e.pointerId!==this.pointer)return;const now=performance.now(),dx=e.clientX-this.lastX,dt=Math.max(8,now-this.lastT),step=-dx/this.spacing();this.pos+=step;this.pos=Math.max(-1.25,Math.min(this.max+1.25,this.pos));const instant=step/dt;this.velocity=this.velocity*.68+instant*.32;if(Math.abs(dx)>.5)this.moved=true;this.lastX=e.clientX;this.lastT=now;this.paint()});const end=e=>{if(e.pointerId!==this.pointer)return;this.pointer=null;this.viewport.classList.remove('dragging');if(this.moved){this.suppressUntil=performance.now()+240;this.release()}else this.animateTo(Math.round(Math.max(0,Math.min(this.max,this.pos))))};this.viewport.addEventListener('pointerup',end);this.viewport.addEventListener('pointercancel',end);this.cards.forEach((card,i)=>card.addEventListener('click',()=>{if(performance.now()<this.suppressUntil)return;this.animateTo(i)}));this.viewport.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();this.animateTo(this.index-1)}if(e.key==='ArrowRight'){e.preventDefault();this.animateTo(this.index+1)}});this.viewport.tabIndex=0;addEventListener('resize',()=>this.paint())}}
+document.querySelectorAll('.viewport').forEach(v=>new FreewheelCarousel(v));
+document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===button));document.querySelectorAll('.lab').forEach(l=>l.classList.toggle('active',l.id===button.dataset.tab));dispatchEvent(new Event('resize'))}));
+</script>
+</body></html>

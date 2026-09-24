@@ -24,6 +24,7 @@ cpSync('web/roll-assistant.css', 'dist/roll-assistant.css');
 cpSync('web/START_BELLIBING_TEST.bat', 'dist/START_BELLIBING_TEST.bat');
 cpSync('web/serve.ps1', 'dist/serve.ps1');
 cpSync('docs/ui-prototypes/v34-functional.html', 'dist/ui-preview/index.html');
+cpSync('docs/ui-prototypes/carousel-motion-lab.html', 'dist/ui-preview/carousel-motion-lab.html');
 cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursive: true });
 cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/characters', { recursive: true });
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });

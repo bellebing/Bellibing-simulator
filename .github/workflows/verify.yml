@@ -84,6 +84,8 @@ jobs:
             node scripts/verify-alpha-upgrade.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-ciaccona-owned-build.mjs
+          BELLIBING_CAROUSEL_LAB_URL=http://127.0.0.1:4173/ui-preview/carousel-motion-lab.html \
+            node scripts/verify-carousel-motion-lab.mjs
 
           mkdir -p artifacts
           for asset in \
@@ -146,6 +148,16 @@ jobs:
         with:
           name: bellibing-new-ui-home-visual
           path: artifacts/ui-preview-home-1440x900.png
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload Carousel Motion Lab visual evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-carousel-motion-lab-visual
+          path: |
+            artifacts/carousel-motion-lab-1440x900.png
+            artifacts/carousel-motion-lab-390x844.png
           if-no-files-found: error
           retention-days: 7
 

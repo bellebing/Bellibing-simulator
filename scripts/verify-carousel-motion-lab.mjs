@@ -238,7 +238,6 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    await send('Emulation.enable');
 
     const desktop = await verifyViewport(send, 1440, 900, 'artifacts/carousel-motion-lab-1440x900.png');
     const mobile = await verifyViewport(send, 390, 844, 'artifacts/carousel-motion-lab-390x844.png');

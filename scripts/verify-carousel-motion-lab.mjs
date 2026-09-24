@@ -122,6 +122,11 @@ async function openCharacterLab(send) {
           return name.scrollWidth <= name.clientWidth + 1;
         }),
         objectPosition: images[0] ? getComputedStyle(images[0]).objectPosition : null,
+        objectFit: images[0] ? getComputedStyle(images[0]).objectFit : null,
+        squarePortraitFrames: cards.every((card) => {
+          const frame = card.querySelector('.character-portrait').getBoundingClientRect();
+          return Math.abs(frame.width - frame.height) <= 1;
+        }),
         status: document.querySelector('#characterLab [data-status]')?.textContent?.trim() ?? '',
         bounds: document.querySelector('#characterViewport')?.getBoundingClientRect()?.toJSON?.() ?? null,
       };
@@ -132,7 +137,9 @@ async function openCharacterLab(send) {
   if (state.loaded !== 57) throw new Error(`Expected 57 loaded Character portraits, got ${state.loaded}.`);
   if (!state.namesAbovePortrait) throw new Error('At least one Character name is not header-first above its portrait area.');
   if (!state.noHeaderWrap) throw new Error('At least one Character name wraps/overflows the one-line header contract.');
-  if (state.objectPosition !== '50% 43%') throw new Error(`Portrait focal baseline drifted: ${JSON.stringify(state.objectPosition)}.`);
+  if (state.objectPosition !== '50% 50%') throw new Error(`Portrait focal baseline drifted: ${JSON.stringify(state.objectPosition)}.`);
+  if (state.objectFit !== 'contain') throw new Error(`Portraits must remain uncropped: object-fit=${JSON.stringify(state.objectFit)}.`);
+  if (!state.squarePortraitFrames) throw new Error('Character portrait frame must stay square so canonical portraits are not re-cropped.');
   for (const forbidden of ['Jingran', 'Hsin', 'Suoming']) {
     if (state.names.includes(forbidden)) throw new Error(`${forbidden} must not appear in the released Build selector.`);
   }
@@ -245,7 +252,7 @@ try {
     console.log('Carousel Motion Lab verified in real Chrome:');
     console.log('- 57 released Character cards / 57 loaded portraits');
     console.log('- names remain one-line header-first above portrait area');
-    console.log('- portrait focal baseline = 50% 43%');
+    console.log('- canonical portraits remain uncropped in square frames, object-position = 50% 50%');
     console.log('- Jingran/Hsin/Suoming excluded; four released Rover cards included');
     console.log(`- desktop multi-card drag: ${desktop.before} -> ${desktop.afterDrag}; selected ${desktop.selected}`);
     console.log(`- mobile multi-card drag: ${mobile.before} -> ${mobile.afterDrag}; selected ${mobile.selected}`);

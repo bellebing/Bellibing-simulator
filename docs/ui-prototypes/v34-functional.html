@@ -32,9 +32,11 @@ html,body{overflow-x:hidden}
 .picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}
 .picker-shell.hover-expanded .choice-name{opacity:1;top:11px;font-size:16px}
 .picker-shell.hover-expanded .choice-portrait{top:40px;left:10px;right:10px;bottom:auto;aspect-ratio:1;border-radius:12px}
-@media(max-width:700px){
+@media(max-width:760px){
   #build>.app-shell,#improve>.app-shell{height:100dvh;min-height:100dvh}
   .picker-shell{min-height:100dvh}
+  .build-stage{position:absolute;inset:0;padding:0}
+  .picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}
   .home-card{width:min(320px,calc(100% - 52px))}
   .choice-name{font-size:21px;top:15px}
   .choice-portrait{top:50px;left:10px;right:10px}

@@ -268,6 +268,7 @@ async function buildMetrics(send) {
 }
 
 async function verifyWeaponOverlay(send, width, height, capturePath) {
+  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
   const touch=width<=760;
   const alreadySelected=await evaluate(send,`document.getElementById('buildShell').classList.contains('has-selection')`);
   if(!alreadySelected){

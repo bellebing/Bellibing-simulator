@@ -41,6 +41,7 @@ The user is the designer; implementation should translate approved behavior/comp
 - Home always shows three primary cards in fixed order `Build a Character` / `Improve a Character` / `Build a Team`, with Improve centered by default.
 - Home navigation is not hidden by account count; destination surfaces handle unavailable/empty states.
 - Home uses the same carousel component across desktop/mobile.
+- Shared carousel input must preserve native card clicks: pointer capture starts only after the drag threshold, never on pointerdown alone; physical mouse/touch activation is part of real-browser verification.
 - UI content lives in a centered finite-width AppShell; ultrawide adds gutters rather than unlimited UI spread.
 - Component children are positioned relative to their owning component. A card moves with its title/art/overlays as one unit.
 - Mobile is designed with each component from the start through progressive disclosure; it is not a later separate rewrite.

@@ -11,7 +11,9 @@
 .picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{width:100%;flex:1;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#6b4a34;font-size:12px;letter-spacing:.18em}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);height:min(540px,58vh);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:space-between;gap:22px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block h2,.echoes h2,.seq h2{margin:0 0 12px;font-family:var(--font-display);font-size:23px}.stats-box{height:255px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:20px}.statline{height:11px;border-radius:99px;background:rgba(255,255,255,.06)}.weapon{height:108px;width:100%;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .16s ease,background .16s ease,transform .16s ease}
 .weapon:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .weapon:active{transform:scale(.985)}
-.weapon-slot-host{display:block;width:100%;height:100%}
+.weapon-slot-host{position:relative;display:grid;place-items:center;width:100%;height:100%}
+.weapon-empty{position:absolute;inset:0;display:grid;place-items:center;color:#777;font-size:28px;transition:opacity .18s ease}
+.weapon-slot-host.has-weapon .weapon-empty{opacity:0}
 .weapon-card{position:relative;width:100%;height:100%;min-height:74px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:radial-gradient(circle at 24% 20%,rgba(255,255,255,.10),transparent 34%),linear-gradient(145deg,#1a1e26,#0d0f14 72%);overflow:hidden;display:flex;align-items:flex-end;padding:13px 14px;text-align:left;transform-origin:center;will-change:transform;box-shadow:0 18px 48px rgba(0,0,0,.28)}
 .weapon-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.72));pointer-events:none}
 .weapon-card-mark{position:absolute;z-index:1;left:50%;top:42%;transform:translate(-50%,-50%);font-size:38px;font-weight:300;color:rgba(255,255,255,.72);text-shadow:0 8px 24px rgba(0,0,0,.55);transition:transform .16s ease,color .16s ease}
@@ -30,11 +32,13 @@
 .weapon-panel-head{padding-right:54px}
 .weapon-eyebrow{font-size:10px;letter-spacing:.20em;color:#777f8a;text-transform:uppercase}
 .weapon-panel-head h2{margin:5px 0 0;font-family:var(--font-display);font-size:36px;font-weight:400}
-.weapon-current-row{display:grid;grid-template-columns:minmax(190px,240px) 1fr;align-items:center;gap:24px;margin-top:18px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:rgba(255,255,255,.025)}
+.weapon-current-row{display:none;grid-template-columns:minmax(190px,240px) 1fr;align-items:center;gap:24px;margin-top:18px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:rgba(255,255,255,.025)}
+.weapon-panel.has-current .weapon-current-row{display:grid}
 .weapon-current-host{height:122px}
 .weapon-current-copy h3{margin:0 0 6px;font-family:var(--font-display);font-size:23px;font-weight:400}
 .weapon-current-copy p{margin:0;max-width:500px;color:#858d98;font-size:12px;line-height:1.45}
-.weapon-main{display:grid;grid-template-columns:minmax(0,1fr) 0fr;gap:0;height:calc(100% - 242px);margin-top:20px;transition:grid-template-columns .46s cubic-bezier(.16,.84,.24,1),gap .46s cubic-bezier(.16,.84,.24,1)}
+.weapon-main{display:grid;grid-template-columns:minmax(0,1fr) 0fr;gap:0;height:calc(100% - 82px);margin-top:20px;transition:grid-template-columns .46s cubic-bezier(.16,.84,.24,1),gap .46s cubic-bezier(.16,.84,.24,1),height .32s ease}
+.weapon-panel.has-current .weapon-main{height:calc(100% - 242px)}
 .weapon-panel.has-preview .weapon-main{grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:22px}
 .weapon-browser{min-width:0;overflow:auto;padding:2px 10px 18px 2px}
 .weapon-options-head{display:flex;align-items:end;justify-content:space-between;gap:18px}
@@ -44,6 +48,7 @@
 .weapon-choice{position:relative;aspect-ratio:1;padding:0;border:0;border-radius:18px;background:transparent;color:#fff;cursor:pointer;isolation:isolate}
 .weapon-choice::before{content:"";position:absolute;inset:0;border:1px dashed transparent;border-radius:18px;transition:border-color .18s ease,background .18s ease}
 .weapon-choice.is-preview-source::before{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.025)}
+.weapon-choice.is-current-source{display:none}
 .weapon-choice.is-preview-source::after{content:"Previewing";position:absolute;inset:0;display:grid;place-items:center;color:#525965;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
 .weapon-choice .weapon-card{position:absolute;inset:0;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease}
 @media(hover:hover){
@@ -73,10 +78,12 @@
   .weapon-current-row{grid-template-columns:112px 1fr;gap:12px;padding:12px}
   .weapon-current-host{height:88px}
   .weapon-current-copy p{display:none}
-  .weapon-main,.weapon-panel.has-preview .weapon-main{display:block;height:calc(100% - 188px);margin-top:14px}
+  .weapon-main,.weapon-panel.has-preview .weapon-main{display:block;height:calc(100% - 68px);margin-top:14px}
+  .weapon-panel.has-current .weapon-main,.weapon-panel.has-current.has-preview .weapon-main{height:calc(100% - 188px)}
   .weapon-browser{height:100%;padding-right:2px}
   .weapon-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:5px}
-  .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:150px;bottom:12px;border-radius:22px;background:rgba(10,12,16,.985);transform:translateX(36px) scale(.97)}
+  .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:82px;bottom:12px;border-radius:22px;background:rgba(10,12,16,.985);transform:translateX(36px) scale(.97)}
+  .weapon-panel.has-current .weapon-preview-pane{top:150px}
   .weapon-panel.has-preview .weapon-preview-pane{transform:translateX(0) scale(1)}
   .weapon-preview-shell{padding:14px}
   .weapon-preview-host{height:min(285px,37vh)}
@@ -87,7 +94,7 @@
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home>☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button class="node n6">S6</button><button class="node n5">S5</button><button class="node n4">S4</button><button class="node n3">S3</button><button class="node n2">S2</button><button class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button></div></aside><button id="accountBtn" class="account">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home>☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button class="node n6">S6</button><button class="node n5">S5</button><button class="node n4">S4</button><button class="node n3">S3</button><button class="node n2">S2</button><button class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button><button class="echo">+</button></div></aside><button id="accountBtn" class="account">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home>☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
 <section id="team" class="page"><button class="menu" data-home>☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="weaponOverlay" class="weapon-overlay" aria-hidden="true">
@@ -135,13 +142,13 @@ const owned=n=>state.characters.includes(n);
 function addOwned(n){draft(n);if(!owned(n))state.characters.push(n);state.drafts[n].addedToAccountAt=state.drafts[n].addedToAccountAt||new Date().toISOString();save()}
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const WEAPON_PREVIEW_ITEMS=[
-  {id:'current',name:'Current Weapon',mark:'◆'},
   {id:'preview-01',name:'Weapon 01',mark:'◇'},
   {id:'preview-02',name:'Weapon 02',mark:'◈'},
   {id:'preview-03',name:'Weapon 03',mark:'✦'},
   {id:'preview-04',name:'Weapon 04',mark:'⬡'},
   {id:'preview-05',name:'Weapon 05',mark:'✧'},
-  {id:'preview-06',name:'Weapon 06',mark:'◊'}
+  {id:'preview-06',name:'Weapon 06',mark:'◊'},
+  {id:'preview-07',name:'Weapon 07',mark:'◆'}
 ];
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 function makeWeaponCard(item){
@@ -162,56 +169,66 @@ function animateWeaponRect(element,from,to,duration=460){
   return animation.finished.catch(()=>{}).finally(()=>animation.cancel());
 }
 const weaponUi={
-  overlay:null,panel:null,slotHost:null,currentHost:null,previewHost:null,previewPane:null,choices:null,currentCard:null,previewCard:null,previewChoice:null,
+  overlay:null,panel:null,slotHost:null,currentHost:null,previewHost:null,previewPane:null,choices:null,currentCard:null,currentChoice:null,previewCard:null,previewChoice:null,
   open:false,busy:false,lastFocus:null,
   init(){
     this.overlay=document.getElementById('weaponOverlay');this.panel=document.getElementById('weaponPanel');
     this.slotHost=document.getElementById('weaponSlotHost');this.currentHost=document.getElementById('weaponCurrentHost');
     this.previewHost=document.getElementById('weaponPreviewHost');this.previewPane=document.getElementById('weaponPreviewPane');this.choices=document.getElementById('weaponChoices');
-    this.currentCard=makeWeaponCard(WEAPON_PREVIEW_ITEMS[0]);this.currentCard.classList.add('is-current');this.slotHost.appendChild(this.currentCard);
-    WEAPON_PREVIEW_ITEMS.slice(1).forEach(item=>{
-      const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';choice.setAttribute('aria-label','Preview '+item.name);
+    WEAPON_PREVIEW_ITEMS.forEach(item=>{
+      const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';choice.dataset.weaponId=item.id;choice.setAttribute('aria-label','Preview '+item.name);
       choice.appendChild(makeWeaponCard(item));choice.addEventListener('click',()=>this.preview(choice));this.choices.appendChild(choice);
     });
   },
   async show(){
     if(this.open||this.busy)return;this.busy=true;this.lastFocus=document.activeElement;
-    const from=this.currentCard.getBoundingClientRect();
+    let travel=null;
+    if(this.currentCard){
+      const from=this.currentCard.getBoundingClientRect();
+      this.panel.classList.add('has-current');this.currentHost.appendChild(this.currentCard);
+      document.getElementById('weaponCurrentName').textContent=this.currentCard.dataset.name;
+      const to=this.currentCard.getBoundingClientRect();travel={from,to};
+    }else{
+      this.panel.classList.remove('has-current');
+    }
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');document.getElementById('weaponBtn').setAttribute('aria-expanded','true');
-    this.currentHost.appendChild(this.currentCard);const to=this.currentCard.getBoundingClientRect();
     requestAnimationFrame(()=>this.overlay.classList.add('open'));
-    await animateWeaponRect(this.currentCard,from,to,500);
+    if(travel)await animateWeaponRect(this.currentCard,travel.from,travel.to,500);else await new Promise(resolve=>setTimeout(resolve,reducedMotion()?0:360));
     this.open=true;this.busy=false;document.getElementById('weaponClose').focus();
   },
-  async returnPreview({animate=true}={}){
+  async returnPreview({animate=true,keepPane=false}={}){
     if(!this.previewCard||!this.previewChoice)return;
     const card=this.previewCard,choice=this.previewChoice,from=card.getBoundingClientRect();
     card.classList.remove('is-preview');choice.appendChild(card);
     choice.classList.remove('is-preview-source');const to=card.getBoundingClientRect();
-    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');
     this.previewCard=null;this.previewChoice=null;
     if(animate)await animateWeaponRect(card,from,to,330);
+    if(!keepPane){this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true')}
   },
   async hide(){
     if(!this.open||this.busy)return;this.busy=true;this.open=false;
     if(this.previewCard)await this.returnPreview({animate:true});
-    const from=this.currentCard.getBoundingClientRect(),to=this.slotHost.getBoundingClientRect();
     this.overlay.classList.remove('open');document.getElementById('weaponBtn').setAttribute('aria-expanded','false');
-    if(!reducedMotion()){
-      const dx=to.left-from.left,dy=to.top-from.top,sx=to.width/from.width,sy=to.height/from.height;
-      const animation=this.currentCard.animate(
-        [{transform:'translate(0,0) scale(1,1)'},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`}],
-        {duration:420,easing:'cubic-bezier(.16,.84,.24,1)'}
-      );
-      await animation.finished.catch(()=>{});animation.cancel();
+    if(this.currentCard){
+      const from=this.currentCard.getBoundingClientRect(),to=this.slotHost.getBoundingClientRect();
+      if(!reducedMotion()){
+        const dx=to.left-from.left,dy=to.top-from.top,sx=to.width/from.width,sy=to.height/from.height;
+        const animation=this.currentCard.animate(
+          [{transform:'translate(0,0) scale(1,1)'},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`}],
+          {duration:420,easing:'cubic-bezier(.16,.84,.24,1)'}
+        );
+        await animation.finished.catch(()=>{});animation.cancel();
+      }
+      this.slotHost.appendChild(this.currentCard);this.slotHost.classList.add('has-weapon');
     }
-    this.slotHost.appendChild(this.currentCard);this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.busy=false;
+    this.panel.classList.remove('has-preview','has-current');this.previewPane.setAttribute('aria-hidden','true');
+    this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.busy=false;
     if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
   },
   async preview(choice){
-    if(this.busy||choice===this.previewChoice)return;
+    if(this.busy||choice===this.previewChoice||choice===this.currentChoice)return;
     this.busy=true;
-    if(this.previewCard)await this.returnPreview({animate:true});
+    if(this.previewCard)await this.returnPreview({animate:true,keepPane:true});
     const card=choice.querySelector('.weapon-card');if(!card){this.busy=false;return}
     const from=card.getBoundingClientRect();
     choice.classList.add('is-preview-source');card.classList.add('is-preview');this.previewHost.appendChild(card);
@@ -225,18 +242,23 @@ const weaponUi={
   async choose(){
     if(this.busy||!this.previewCard||!this.previewChoice)return;
     this.busy=true;
-    const next=this.previewCard,old=this.currentCard,choice=this.previewChoice;
-    const nextFrom=next.getBoundingClientRect(),oldFrom=old.getBoundingClientRect();
-    next.classList.remove('is-preview');next.classList.add('is-current');old.classList.remove('is-current');
-    choice.appendChild(old);choice.classList.remove('is-preview-source');this.currentHost.appendChild(next);
-    const nextTo=next.getBoundingClientRect(),oldTo=old.getBoundingClientRect();
-    this.currentCard=next;this.previewCard=null;this.previewChoice=null;
+    const next=this.previewCard,nextChoice=this.previewChoice,old=this.currentCard,oldChoice=this.currentChoice;
+    const nextFrom=next.getBoundingClientRect(),oldFrom=old?.getBoundingClientRect()||null;
+    next.classList.remove('is-preview');next.classList.add('is-current');
+    if(old&&oldChoice){
+      old.classList.remove('is-current');oldChoice.classList.remove('is-current-source');oldChoice.appendChild(old);
+    }
+    this.panel.classList.add('has-current');this.currentHost.appendChild(next);
     document.getElementById('weaponCurrentName').textContent=next.dataset.name;
-    choice.setAttribute('aria-label','Preview '+old.dataset.name);
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    const nextTo=next.getBoundingClientRect(),oldTo=old?.getBoundingClientRect()||null;
     await Promise.all([
       animateWeaponRect(next,nextFrom,nextTo,560),
-      new Promise(resolve=>setTimeout(resolve,55)).then(()=>animateWeaponRect(old,oldFrom,oldTo,500))
+      old&&oldFrom&&oldTo?new Promise(resolve=>setTimeout(resolve,55)).then(()=>animateWeaponRect(old,oldFrom,oldTo,500)):Promise.resolve()
     ]);
+    nextChoice.classList.remove('is-preview-source');nextChoice.classList.add('is-current-source');
+    this.currentCard=next;this.currentChoice=nextChoice;this.previewCard=null;this.previewChoice=null;
+    this.slotHost.classList.add('has-weapon');
     this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');
     this.busy=false;
   }

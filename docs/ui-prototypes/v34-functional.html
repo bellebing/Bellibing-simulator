@@ -313,12 +313,43 @@ class FreewheelCarousel{
   constructor(viewport,{cards=[...viewport.children],startIndex=0,spacing,onActivate=null}={}){
     this.viewport=viewport;this.cards=cards;this.spacingFn=spacing;this.onActivate=onActivate;
     this.max=Math.max(0,cards.length-1);this.pos=clamp(startIndex,0,this.max);this.index=Math.round(this.pos);
-    this.pointer=null;this.lastX=0;this.lastT=0;this.velocity=0;this.dragDistance=0;this.suppressUntil=0;this.raf=0;
+    this.pointer=null;this.dragging=false;this.lastX=0;this.lastT=0;this.velocity=0;this.dragDistance=0;this.suppressUntil=0;this.raf=0;
     this.reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
     this.clickHandlers=[];
-    this.onPointerDown=e=>{if(e.button!==undefined&&e.button!==0)return;this.stop();this.pointer=e.pointerId;this.viewport.setPointerCapture?.(e.pointerId);this.lastX=e.clientX;this.lastT=performance.now();this.velocity=0;this.dragDistance=0;this.viewport.classList.add('freewheel-moving')};
-    this.onPointerMove=e=>{if(e.pointerId!==this.pointer)return;const now=performance.now(),dx=e.clientX-this.lastX,dt=Math.max(8,now-this.lastT),step=-dx/this.spacing();this.pos=clamp(this.pos+step,-1.25,this.max+1.25);const instant=step/dt;this.velocity=this.velocity*.68+instant*.32;this.dragDistance+=Math.abs(dx);this.lastX=e.clientX;this.lastT=now;this.paint()};
-    this.onPointerEnd=e=>{if(e.pointerId!==this.pointer)return;this.pointer=null;if(this.dragDistance>6){this.suppressUntil=performance.now()+240;this.release()}else{this.viewport.classList.remove('freewheel-moving');this.animateTo(Math.round(clamp(this.pos,0,this.max)))}};
+    this.onPointerDown=e=>{
+      if(e.button!==undefined&&e.button!==0)return;
+      this.stop();this.pointer=e.pointerId;this.dragging=false;this.lastX=e.clientX;this.lastT=performance.now();this.velocity=0;this.dragDistance=0;
+    };
+    this.onPointerMove=e=>{
+      if(e.pointerId!==this.pointer)return;
+      const now=performance.now(),dx=e.clientX-this.lastX,dt=Math.max(8,now-this.lastT);
+      this.dragDistance+=Math.abs(dx);
+      if(!this.dragging&&this.dragDistance>6){
+        this.dragging=true;
+        this.viewport.setPointerCapture?.(e.pointerId);
+        this.viewport.classList.add('freewheel-moving');
+      }
+      if(this.dragging){
+        e.preventDefault();
+        const step=-dx/this.spacing();
+        this.pos=clamp(this.pos+step,-1.25,this.max+1.25);
+        const instant=step/dt;this.velocity=this.velocity*.68+instant*.32;
+        this.paint();
+      }
+      this.lastX=e.clientX;this.lastT=now;
+    };
+    this.onPointerEnd=e=>{
+      if(e.pointerId!==this.pointer)return;
+      const wasDragging=this.dragging;
+      if(wasDragging&&this.viewport.hasPointerCapture?.(e.pointerId))this.viewport.releasePointerCapture?.(e.pointerId);
+      this.pointer=null;this.dragging=false;
+      if(wasDragging||this.dragDistance>6){
+        this.suppressUntil=performance.now()+240;
+        this.release();
+      }else{
+        this.viewport.classList.remove('freewheel-moving');
+      }
+    };
     this.onWheel=e=>{if(Math.abs(e.deltaY)<4&&Math.abs(e.deltaX)<4)return;e.preventDefault();const delta=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;this.animateTo(this.index+(delta>0?1:-1))};
     this.onKey=e=>{if(e.key==='ArrowLeft'){e.preventDefault();this.animateTo(this.index-1)}else if(e.key==='ArrowRight'){e.preventDefault();this.animateTo(this.index+1)}};
     this.onResize=()=>this.paint();
@@ -360,7 +391,7 @@ let homeCarousel=null;
 function renderHome(){
   const items=[{title:'Build a Character',target:'build',className:'card-build',src:'assets/v34/bellibing-ui-build-character-rover.webp'},{title:'Improve a Character',target:'improve',className:'card-improve',src:'assets/v34/bellibing-ui-improve-character-augusta.webp'},{title:'Build a Team',target:'team',className:'card-team',src:'assets/v34/bellibing-ui-build-team.webp'}];
   const stage=document.querySelector('#homeStage');homeCarousel?.destroy();stage.innerHTML='';
-  const cards=items.map(({title,target,className,src})=>{const b=document.createElement('button');b.className='home-card '+className;b.innerHTML='<div class="home-card-art"><img src="'+src+'" alt="" draggable="false"></div><strong class="home-card-title">'+title+'</strong>';b.dataset.target=target;b.setAttribute('aria-label',title);stage.appendChild(b);return b});
+  const cards=items.map(({title,target,className,src})=>{const b=document.createElement('button');b.type='button';b.className='home-card '+className;b.innerHTML='<div class="home-card-art"><img src="'+src+'" alt="" draggable="false"></div><strong class="home-card-title">'+title+'</strong>';b.dataset.target=target;b.setAttribute('aria-label',title);stage.appendChild(b);return b});
   homeCarousel=new FreewheelCarousel(stage,{cards,startIndex:1,spacing:()=>stage.clientWidth<520?238:stage.clientWidth<900?270:318,onActivate:(card)=>major(card.dataset.target,card)});
 }
 
@@ -375,7 +406,7 @@ function makePicker({shellId,wheelId,items,mode}){
     list=source().filter(Boolean);carousel?.destroy();carousel=null;wheel.innerHTML='';cards=[];
     if(!list.length){shell.querySelector('.question').textContent=mode==='build'&&!releasedCharacters.length?'Loading Characters…':'No Characters yet';delete wheel.dataset.focusIndex;return}
     shell.querySelector('.question').textContent='What Character?';
-    cards=list.map((item)=>{const b=document.createElement('button');b.className='choice';b.dataset.characterId=item.id;b.setAttribute('aria-label',item.name);b.innerHTML='<strong class="choice-name"></strong><span class="choice-portrait"><img alt="" draggable="false"></span>';b.querySelector('.choice-name').textContent=item.name;b.querySelector('img').src=item.src;wheel.appendChild(b);return b});
+    cards=list.map((item)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.characterId=item.id;b.setAttribute('aria-label',item.name);b.innerHTML='<strong class="choice-name"></strong><span class="choice-portrait"><img alt="" draggable="false"></span>';b.querySelector('.choice-name').textContent=item.name;b.querySelector('img').src=item.src;wheel.appendChild(b);return b});
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }

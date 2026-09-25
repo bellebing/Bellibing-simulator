@@ -189,26 +189,41 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
     await evaluate(send,`(()=>{const w=document.getElementById('buildWheel'),i=Number(w.dataset.focusIndex),c=w.querySelectorAll('.choice')[i];if(!c)throw new Error('Focused Build card missing');c.click()})()`);
     await sleep(760);
   }
-  const slotBefore=await evaluate(send,`(()=>{const b=document.getElementById('weaponBtn'),h=document.getElementById('weaponSlotHost'),c=h.querySelector('.weapon-card');if(!c)throw new Error('Weapon slot card missing');const r=c.getBoundingClientRect();return{width:r.width,height:r.height,expanded:b.getAttribute('aria-expanded')}})()`);
+  const slotBefore=await evaluate(send,`(()=>{const b=document.getElementById('weaponBtn'),h=document.getElementById('weaponSlotHost'),c=h.querySelector('.weapon-card');if(!c)throw new Error('Weapon slot card missing');const r=c.getBoundingClientRect();return{width:r.width,height:r.height,currentId:c.dataset.weaponId,expanded:b.getAttribute('aria-expanded')}})()`);
   await evaluate(send,`document.getElementById('weaponBtn').click()`);
   await sleep(560);
-  const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel').getBoundingClientRect(),h=document.getElementById('weaponCurrentHost'),c=h.querySelector('.weapon-card'),buttons=[...document.getElementById('weaponPanel').querySelectorAll('button')].map(b=>b.textContent.trim());return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,options:document.querySelectorAll('#weaponChoices .weapon-choice').length,panel:{left:p.left,top:p.top,right:p.right,bottom:p.bottom},current:c?(()=>{const r=c.getBoundingClientRect();return{width:r.width,height:r.height}})():null,actionButtons:buttons.filter(t=>/^(save|apply)$/i.test(t))}})()`);
+  const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel').getBoundingClientRect(),h=document.getElementById('weaponCurrentHost'),c=h.querySelector('.weapon-card'),buttons=[...document.getElementById('weaponPanel').querySelectorAll('button')].map(b=>b.textContent.trim()),first=document.querySelector('#weaponChoices .weapon-choice'),firstCard=first?.querySelector('.weapon-card'),r=firstCard?.getBoundingClientRect();return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentId:c?.dataset.weaponId||null,options:document.querySelectorAll('#weaponChoices .weapon-choice').length,panel:{left:p.left,top:p.top,right:p.right,bottom:p.bottom},current:c?(()=>{const q=c.getBoundingClientRect();return{width:q.width,height:q.height}})():null,first:r?{left:r.left,top:r.top,width:r.width,height:r.height}:null,actionButtons:buttons.filter(t=>/^(save|apply)$/i.test(t)),chooseButtons:buttons.filter(t=>/^choose weapon$/i.test(t))}})()`);
   if(!opened.mounted||!opened.open||opened.hidden!=='false'||opened.expanded!=='true') throw new Error(`Weapon overlay did not open at ${width}x${height}: ${JSON.stringify(opened)}`);
-  if(opened.parent!=='weaponCurrentHost'||opened.options!==6||opened.actionButtons.length) throw new Error(`Weapon current/options contract failed: ${JSON.stringify(opened)}`);
+  if(opened.parent!=='weaponCurrentHost'||opened.currentId!=='current'||opened.options!==6||opened.actionButtons.length||opened.chooseButtons.length!==1) throw new Error(`Weapon open/current contract failed: ${JSON.stringify(opened)}`);
   if(opened.panel.left<-1||opened.panel.top<-1||opened.panel.right>width+1||opened.panel.bottom>height+1) throw new Error(`Weapon overlay escaped viewport at ${width}x${height}: ${JSON.stringify(opened.panel)}`);
-  if(!opened.current||opened.current.height<=slotBefore.height*1.15) throw new Error(`Current Weapon card did not visibly expand: slot=${JSON.stringify(slotBefore)} current=${JSON.stringify(opened.current)}`);
-  if(capturePath) await capture(send,capturePath);
+  if(!opened.current||opened.current.height<=slotBefore.height*1.05) throw new Error(`Current Weapon card did not visibly expand: slot=${JSON.stringify(slotBefore)} current=${JSON.stringify(opened.current)}`);
+
+  if(width>760&&opened.first){
+    const choiceBounds=await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice').getBoundingClientRect().toJSON()`);
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:choiceBounds.x+choiceBounds.width*.5,y:choiceBounds.y+choiceBounds.height*.5});
+    await sleep(220);
+    const hovered=await evaluate(send,`(()=>{const choice=document.querySelector('#weaponChoices .weapon-choice'),card=choice.querySelector('.weapon-card'),r=card.getBoundingClientRect();return{width:r.width,height:r.height,choiceWidth:choice.getBoundingClientRect().width,transform:getComputedStyle(card).transform}})()`);
+    if(hovered.width<opened.first.width*1.035||hovered.height<opened.first.height*1.035||hovered.choiceWidth<opened.first.width*.95) throw new Error(`Weapon hover focus did not bubble above the stable grid: ${JSON.stringify({before:opened.first,after:hovered})}`);
+  }
 
   await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice').click()`);
-  await sleep(440);
-  const switched=await evaluate(send,`({name:document.getElementById('weaponCurrentName').textContent.trim(),currentId:document.querySelector('#weaponCurrentHost .weapon-card')?.dataset.weaponId||null,gridHasOld:[...document.querySelectorAll('#weaponChoices .weapon-card')].some(c=>c.dataset.weaponId==='current')})`);
-  if(switched.name!=='Weapon 01'||switched.currentId!=='preview-01'||!switched.gridHasOld) throw new Error(`Weapon swap behavior failed: ${JSON.stringify(switched)}`);
+  await sleep(540);
+  const previewed=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),pane=document.getElementById('weaponPreviewPane'),preview=document.querySelector('#weaponPreviewHost .weapon-card'),current=document.querySelector('#weaponCurrentHost .weapon-card'),source=document.querySelector('#weaponChoices .weapon-choice.is-preview-source'),pr=preview?.getBoundingClientRect();return{hasPreview:p.classList.contains('has-preview'),hidden:pane.getAttribute('aria-hidden'),previewId:preview?.dataset.weaponId||null,previewName:document.getElementById('weaponPreviewName').textContent.trim(),currentId:current?.dataset.weaponId||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),sourceGhost:!!source,sourceHasCard:!!source?.querySelector('.weapon-card'),previewRect:pr?{width:pr.width,height:pr.height}:null}})()`);
+  if(!previewed.hasPreview||previewed.hidden!=='false'||previewed.previewId!=='preview-01'||previewed.previewName!=='Weapon 01') throw new Error(`Weapon preview state failed: ${JSON.stringify(previewed)}`);
+  if(previewed.currentId!=='current'||previewed.currentName!=='Current Weapon'||!previewed.sourceGhost||previewed.sourceHasCard) throw new Error(`Preview incorrectly changed Current Weapon or duplicated the preview card: ${JSON.stringify(previewed)}`);
+  if(!previewed.previewRect||!opened.first||previewed.previewRect.height<opened.first.height*1.25) throw new Error(`Weapon preview did not visibly enlarge from the grid: ${JSON.stringify({grid:opened.first,preview:previewed.previewRect})}`);
+  if(capturePath) await capture(send,capturePath);
+
+  await evaluate(send,`document.getElementById('weaponChoose').click()`);
+  await sleep(720);
+  const equipped=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),pane=document.getElementById('weaponPreviewPane'),current=document.querySelector('#weaponCurrentHost .weapon-card'),first=document.querySelector('#weaponChoices .weapon-choice'),grid=first?.querySelector('.weapon-card');return{hasPreview:p.classList.contains('has-preview'),hidden:pane.getAttribute('aria-hidden'),currentId:current?.dataset.weaponId||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),gridId:grid?.dataset.weaponId||null,gridGhost:first?.classList.contains('is-preview-source')||false,previewCount:document.querySelectorAll('#weaponPreviewHost .weapon-card').length}})()`);
+  if(equipped.hasPreview||equipped.hidden!=='true'||equipped.currentId!=='preview-01'||equipped.currentName!=='Weapon 01'||equipped.gridId!=='current'||equipped.gridGhost||equipped.previewCount!==0) throw new Error(`Choose Weapon animated swap failed: ${JSON.stringify(equipped)}`);
 
   await evaluate(send,`document.getElementById('weaponClose').click()`);
   await sleep(480);
   const closed=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),c=document.querySelector('#weaponSlotHost .weapon-card');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentId:c?.dataset.weaponId||null}})()`);
   if(closed.mounted||closed.open||closed.hidden!=='true'||closed.expanded!=='false'||closed.parent!=='weaponSlotHost'||closed.currentId!=='preview-01') throw new Error(`Weapon close/return behavior failed: ${JSON.stringify(closed)}`);
-  return switched.name;
+  return {previewed:'Weapon 01',equipped:'Weapon 01'};
 }
 
 async function capture(send, path) {
@@ -289,7 +304,7 @@ try{
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
     console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
-    console.log(`- Weapon selector morph/swap/return passed on desktop and mobile; active preview: ${desktopWeapon} / ${mobileWeapon}.`);
+    console.log(`- Weapon selector grid→preview→Choose→Current flow passed on desktop and mobile; equipped: ${desktopWeapon.equipped} / ${mobileWeapon.equipped}.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

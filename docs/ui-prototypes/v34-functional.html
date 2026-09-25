@@ -256,6 +256,7 @@ const weaponUi={
     if(this.currentCard){
       const currentFrom=this.currentCard.getBoundingClientRect();
       currentFlight=prepareWeaponFlight(this.currentCard,currentFrom);
+      this.slotHost.classList.add('has-weapon');
     }
     if(this.previewCard&&this.previewCard!==this.currentCard){
       const previewChoice=this.previewChoice,previewCard=this.previewCard,previewFlight=prepareWeaponFlight(previewCard);

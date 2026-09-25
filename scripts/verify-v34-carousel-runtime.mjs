@@ -291,9 +291,18 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="preview-01"]',{touch});
   await waitForUi(send,`!weaponUi.busy&&weaponUi.currentId==='preview-01'&&weaponUi.previewId==='preview-01'`,'First Weapon selection did not settle before second click',3000);
   const first=await evaluate(send,`(()=>{const choices=[...document.querySelectorAll('#weaponChoices .weapon-choice')],first=choices[0],gridCard=first?.querySelector('.weapon-card'),preview=document.querySelector('#weaponPreviewStage .weapon-preview-layer'),slot=document.querySelector('#weaponSlotHost .weapon-card'),badge=gridCard?.querySelector('.weapon-equipped-badge');return{currentId:weaponUi.currentId,previewId:weaponUi.previewId,order:choices.map(x=>x.dataset.weaponId),firstId:first?.dataset.weaponId||null,firstEquipped:first?.classList.contains('is-equipped')||false,gridCardId:gridCard?.dataset.weaponId||null,badgeText:badge?.textContent.trim()||null,badgeDisplay:badge?getComputedStyle(badge).display:null,previewIdDom:preview?.dataset.weaponId||null,previewCardId:preview?.querySelector('.weapon-card')?.dataset.weaponId||null,previewLayers:document.querySelectorAll('#weaponPreviewStage .weapon-preview-layer').length,slotId:slot?.dataset.weaponId||null,flying:document.querySelectorAll('.weapon-card.is-flying').length,gridContains:document.querySelectorAll('#weaponChoices .weapon-card').length}})()`);
-  if(first.currentId!=='preview-01'||first.previewId!=='preview-01'||first.firstId!=='preview-01'||!first.firstEquipped||first.gridCardId!=='preview-01'||first.badgeText!=='Active Weapon'||first.badgeDisplay==='none'||first.previewIdDom!=='preview-01'||first.previewCardId!=='preview-01'||first.previewLayers!==1||first.slotId!=='preview-01'||first.flying!==0||first.gridContains!==7) throw new Error(`First click did not produce Active slot 1 + independent Preview: ${JSON.stringify(first)}`);
+  if(first.currentId!=='preview-01'||first.previewId!=='preview-01'||first.firstId!=='preview-01'||!first.firstEquipped||first.gridCardId!=='preview-01'||first.badgeText!=='Active Weapon'||first.badgeDisplay==='none'||first.previewIdDom!=='preview-01'||first.previewCardId!=='preview-01'||first.previewLayers!==1||first.slotId!=='preview-01'||first.flying!==0||first.gridContains!==7) throw new Error(`First click did not produce Active slot 1 + independent Preview at ${width}x${height}: ${JSON.stringify(first)}`);
 
-  // Second click must swap only grid positions while Preview performs the tunnel cross-transition.
+  if(touch){
+    if(capturePath) await capture(send,capturePath);
+    await pointerClick(send,'#weaponClose',{touch:true});
+    await sleep(470);
+    const mobileClosed=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay');return{mounted:o.classList.contains('mounted'),hidden:o.getAttribute('aria-hidden'),currentId:weaponUi.currentId,slotId:document.querySelector('#weaponSlotHost .weapon-card')?.dataset.weaponId||null,flying:document.querySelectorAll('.weapon-card.is-flying').length}})()`);
+    if(mobileClosed.mounted||mobileClosed.hidden!=='true'||mobileClosed.currentId!=='preview-01'||mobileClosed.slotId!=='preview-01'||mobileClosed.flying!==0) throw new Error(`Mobile Weapon smoke close failed: ${JSON.stringify(mobileClosed)}`);
+    return {previewed:'Weapon 01',equipped:'Weapon 01',mobileDetailPending:true};
+  }
+
+  // Desktop: second click must swap only grid positions while Preview performs the tunnel cross-transition.
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="preview-02"]',{touch});
   await waitForUi(send,`weaponUi.currentId==='preview-02'&&weaponUi.previewId==='preview-02'`,'Second Weapon click did not enter the Active/Preview state',1200);
   await sleep(55);
@@ -409,7 +418,7 @@ try{
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
     console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
-    console.log(`- Weapon selector slot-first/tunnel flow passed: Active stays grid item #1, ranked remainder stays ordered, Preview uses independent zoom/fade layers, and no Weapon card flight exists; equipped: ${desktopWeapon.equipped} / ${mobileWeapon.equipped}.`);
+    console.log(`- Desktop Weapon slot-first/tunnel flow passed with no card flights; mobile smoke passed first Active selection/Preview/close and remains a separate adaptation pass; desktop equipped: ${desktopWeapon.equipped}, mobile smoke equipped: ${mobileWeapon.equipped}.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

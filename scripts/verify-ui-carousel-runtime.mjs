@@ -152,6 +152,32 @@ async function activateFocused(send) {
   return selected;
 }
 
+async function verifyWeaponOverlay(send, width, height, capture=false) {
+  const slotBefore = await evaluate(send, "(()=>{const b=document.getElementById('weaponBtn'),h=document.getElementById('weaponSlotHost'),c=h.querySelector('.weapon-card');if(!c)throw new Error('Weapon slot card missing');const r=c.getBoundingClientRect();return{left:r.left,top:r.top,width:r.width,height:r.height,expanded:b.getAttribute('aria-expanded')}})()");
+  await evaluate(send, "document.getElementById('weaponBtn').click()");
+  await sleep(560);
+  const opened = await evaluate(send, "(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel').getBoundingClientRect(),h=document.getElementById('weaponCurrentHost'),c=h.querySelector('.weapon-card');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),options:document.querySelectorAll('#weaponChoices .weapon-choice').length,panel:{left:p.left,top:p.top,right:p.right,bottom:p.bottom,width:p.width,height:p.height},current:c?(()=>{const r=c.getBoundingClientRect();return{width:r.width,height:r.height}})():null,hasSave:/\\b(save|apply)\\b/i.test(document.getElementById('weaponPanel').textContent)}})()");
+  if (!opened.mounted || !opened.open || opened.hidden !== 'false' || opened.expanded !== 'true') throw new Error('Weapon overlay did not open.');
+  if (opened.parent !== 'weaponCurrentHost' || opened.options !== 6) throw new Error('Weapon current/options structure failed.');
+  if (opened.hasSave) throw new Error('Weapon overlay must not expose Save/Apply.');
+  if (opened.panel.left < -1 || opened.panel.top < -1 || opened.panel.right > width + 1 || opened.panel.bottom > height + 1) throw new Error('Weapon overlay escaped viewport at ' + width + 'x' + height + '.');
+  if (!opened.current || opened.current.width <= slotBefore.width * .9) throw new Error('Weapon card did not expand into Current Weapon.');
+
+  if (capture) await screenshot(send,'artifacts/ui-weapon-overlay-' + width + 'x' + height + '.png');
+
+  await evaluate(send, "document.querySelector('#weaponChoices .weapon-choice').click()");
+  await sleep(440);
+  const switched = await evaluate(send, "({name:document.getElementById('weaponCurrentName').textContent.trim(),currentId:document.querySelector('#weaponCurrentHost .weapon-card')?.dataset.weaponId||null,gridHasOld:[...document.querySelectorAll('#weaponChoices .weapon-card')].some(c=>c.dataset.weaponId==='current')})");
+  if (switched.name !== 'Weapon 01' || switched.currentId !== 'preview-01' || !switched.gridHasOld) throw new Error('Weapon swap/current behavior failed.');
+
+  await evaluate(send, "document.getElementById('weaponClose').click()");
+  await sleep(480);
+  const closed = await evaluate(send, "(()=>{const o=document.getElementById('weaponOverlay'),c=document.querySelector('#weaponSlotHost .weapon-card');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentId:c?.dataset.weaponId||null}})()");
+  if (closed.mounted || closed.open || closed.hidden !== 'true' || closed.expanded !== 'false') throw new Error('Weapon overlay did not close.');
+  if (closed.parent !== 'weaponSlotHost' || closed.currentId !== 'preview-01') throw new Error('Selected Weapon did not return to Build slot.');
+  return { width, height, selected: switched.name };
+}
+
 async function screenshot(send, path) {
   mkdirSync('artifacts', { recursive:true });
   const capture = await send('Page.captureScreenshot', { format:'png', captureBeyondViewport:false });
@@ -190,8 +216,10 @@ try {
 
     await setViewport(send,1440,900); await navigate(send); await enterBuild(send);
     const desktop = await readBuild(send); const desktopDrag = await dragBuild(send,desktop); const desktopSelected = await activateFocused(send);
+    const desktopWeapon = await verifyWeaponOverlay(send,1440,900,true);
     await setViewport(send,390,844); await navigate(send); await enterBuild(send);
     const mobile = await readBuild(send); const mobileDrag = await dragBuild(send,mobile); const mobileSelected = await activateFocused(send);
+    const mobileWeapon = await verifyWeaponOverlay(send,390,844,true);
 
     console.log('New UI runtime carousel verified in real Chrome:');
     console.log('- responsive matrix: ' + report.join(', '));
@@ -201,6 +229,7 @@ try {
     console.log('- one-line header-first names; uncropped square card-local portrait frames');
     console.log('- desktop drag ' + desktopDrag.before + '/57 -> ' + desktopDrag.after + '/57; selected ' + desktopSelected);
     console.log('- mobile drag ' + mobileDrag.before + '/57 -> ' + mobileDrag.after + '/57; selected ' + mobileSelected);
+    console.log('- Weapon overlay: morph open/current swap/close verified at ' + desktopWeapon.width + 'x' + desktopWeapon.height + ' and ' + mobileWeapon.width + 'x' + mobileWeapon.height);
   } finally {
     socket.close();
   }

@@ -67,6 +67,10 @@
 .weapon-preview-stat{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#7f8791}
 .weapon-preview-stat strong{color:#e7e9ed;font-weight:700}
 .weapon-preview-effect{margin:12px 0 0;color:#8a929c;font-size:12px;line-height:1.5}
+.weapon-equip{margin-top:auto;width:100%;padding:13px 16px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;font-weight:800;cursor:pointer;opacity:1;transition:transform .17s ease-out,filter .17s ease-out,opacity .17s ease-out}
+.weapon-equip:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}
+.weapon-equip:active:not(:disabled){transform:translateY(0) scale(.985)}
+.weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);color:#aab0b9}
 .echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
 .home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
 @media(max-width:760px){
@@ -116,6 +120,7 @@
             </div>
             <p class="weapon-preview-effect">Placeholder detail surface for motion review. Canonical Weapon ranking, stats and effects are intentionally not wired in this slice.</p>
           </div>
+          <button id="weaponEquip" class="weapon-equip" type="button" disabled>Equip Weapon</button>
         </div>
       </aside>
     </div>
@@ -196,8 +201,15 @@ const weaponUi={
     this.choiceById.forEach((choice,id)=>{
       const active=id===this.currentId;choice.classList.toggle('is-equipped',active);
       const card=choice.querySelector('.weapon-card');card?.classList.toggle('is-current',active);
-      choice.setAttribute('aria-label',(active?'Active Weapon, ':'Select ')+(choice.dataset.name||'Weapon'));
+      choice.setAttribute('aria-label',(active?'Active Weapon, ':'Preview ')+(choice.dataset.name||'Weapon'));
     });
+    this.syncEquipAction();
+  },
+  syncEquipAction(){
+    const button=document.getElementById('weaponEquip');if(!button)return;
+    const hasPreview=!!this.previewId,alreadyActive=hasPreview&&this.previewId===this.currentId;
+    button.disabled=!hasPreview||alreadyActive;
+    button.textContent=alreadyActive?'Active Weapon':'Equip Weapon';
   },
   async reorderChoices({animate=true}={}){
     const before=new Map([...this.choices.children].map(node=>[node,node.getBoundingClientRect()]));
@@ -217,7 +229,7 @@ const weaponUi={
   },
   clearPreview(){
     this.previewId=null;this.previewLayer=null;this.previewStage.replaceChildren();
-    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');document.getElementById('weaponPreviewName').textContent='Weapon';
+    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');document.getElementById('weaponPreviewName').textContent='Weapon';this.syncEquipAction();
   },
   async transitionPreview(item){
     const old=this.previewLayer;
@@ -225,7 +237,7 @@ const weaponUi={
     const layer=document.createElement('div');layer.className='weapon-preview-layer is-incoming';layer.dataset.weaponId=item.id;layer.appendChild(makeWeaponCard(item));
     this.previewStage.appendChild(layer);this.previewLayer=layer;this.previewId=item.id;
     document.getElementById('weaponPreviewName').textContent=item.name;
-    this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');
+    this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');this.syncEquipAction();
     if(reducedMotion()){
       old?.remove();layer.classList.remove('is-incoming');return;
     }
@@ -258,9 +270,13 @@ const weaponUi={
   },
   async select(choice){
     if(this.busy)return;const id=choice?.dataset.weaponId,item=weaponItemById(id);if(!item)return;
-    this.busy=true;this.currentId=id;this.syncEquipped();this.renderBuildSlot();
-    await Promise.all([this.reorderChoices({animate:true}),this.transitionPreview(item)]);
-    this.busy=false;this.choiceById.get(id)?.focus({preventScroll:true});
+    this.busy=true;await this.transitionPreview(item);this.busy=false;this.choiceById.get(id)?.focus({preventScroll:true});
+  },
+  async equipPreview(){
+    if(this.busy||!this.previewId||this.previewId===this.currentId)return;
+    this.busy=true;const nextId=this.previewId;this.currentId=nextId;this.syncEquipped();this.renderBuildSlot();
+    await this.reorderChoices({animate:true});this.syncEquipAction();this.busy=false;
+    document.getElementById('weaponEquip')?.focus({preventScroll:true});
   }
 };
 class FreewheelCarousel{
@@ -374,6 +390,7 @@ const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()
 const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>state.characters.map(name=>characterByName.get(name)).filter(Boolean),mode:'improve'});
 document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()});show('home')});
 document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
+document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
 document.getElementById('weaponClose').onclick=()=>weaponUi.hide();
 document.querySelector('[data-weapon-close]').onclick=()=>weaponUi.hide();
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&weaponUi.open){event.preventDefault();weaponUi.hide()}});

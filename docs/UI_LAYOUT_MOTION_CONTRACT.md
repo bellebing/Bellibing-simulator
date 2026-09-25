@@ -258,15 +258,17 @@ Where a feature has meaningful detail inspection before committing a choice, pre
 
 Rules:
 
-- the clicked/source card should remain the same visual object through the transition when practical;
-- temporarily reserve its source position with a ghost/placeholder so the surrounding grid does not jump;
 - Preview is inspection state and must not silently mutate Current/Equipped state;
-- the domain action (for example `Choose Weapon`) is the commit point when the product semantics require an explicit choice;
-- on replacement, the new Preview object moves into Current while the old Current object returns to its own candidate/grid position where applicable;
-- avoid duplicated simultaneous representations of the same selected item when object continuity can express the state more clearly;
-- close/back returns the current feature representation to its Build control/slot when that continuity is part of the feature.
+- keep the browse grid spatially stable when repeated comparison is the primary task;
+- Preview may use an independent clone/detail representation when preserving the grid is clearer than physically moving the source card;
+- the domain action is the only commit point when product semantics require explicit confirmation;
+- on commit, reorder or replace the Current/Active representation locally within its owning layout rather than routing the item through an unrelated viewport path;
+- close/back clears transient Preview state but preserves committed state unless the feature explicitly defines otherwise;
+- no feature should introduce a source-card flight merely to simulate continuity if the reviewed interaction instead uses a stable grid plus independent Preview.
 
-Do not force an explicit Choose/Apply step on features whose product semantics are intentionally immediate. Reuse the visual hierarchy and object-permanence motion while preserving the owning feature's interaction contract.
+**Weapon reference (locked):** the Weapon card remains in the grid during Preview. Preview uses an independent depth/tunnel clone. `Equip Weapon` promotes the previewed Weapon into Active slot 1, and the previous Active returns to the remaining browse/ranking order. Opening/closing the selector never flies Weapon cards to or from the Build slot or viewport corners.
+
+Do not force an explicit Choose/Apply step on features whose product semantics are intentionally immediate. Reuse the visual hierarchy and motion family while preserving the owning feature's interaction contract.
 
 ### Responsive presentation
 

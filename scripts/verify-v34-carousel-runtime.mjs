@@ -140,6 +140,71 @@ async function pointerClick(send, selector, {touch=false}={}) {
   await sleep(42);
 }
 
+async function waitForUi(send, expression, message, timeout=4000) {
+  const deadline=Date.now()+timeout;
+  while(Date.now()<deadline){
+    if(await evaluate(send,expression)) return;
+    await sleep(50);
+  }
+  throw new Error(message);
+}
+
+async function verifyRealPointerMenus(send) {
+  await setViewport(send,1440,900);
+  await navigate(send);
+
+  // Default-centered Home card: one physical mouse click must activate Improve.
+  await pointerClick(send,'#homeStage .card-improve');
+  await waitForUi(send,`document.getElementById('improve').classList.contains('active')`,'Mouse click did not activate centered Improve a Character');
+  await sleep(760);
+  await pointerClick(send,'#improve [data-home]');
+  await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Improve to Home');
+
+  // Build: real drag focuses the side card, real click activates it.
+  await drag(send,'#homeStage',1,.48);
+  const buildFocused=await evaluate(send,`Number(document.getElementById('homeStage').dataset.focusIndex)===0`);
+  if(!buildFocused) throw new Error('Real mouse drag did not focus Build a Character before click audit');
+  await pointerClick(send,'#homeStage .card-build');
+  await waitForUi(send,`document.getElementById('build').classList.contains('active')`,'Mouse click did not activate Build a Character');
+  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build Character picker did not load for mouse click audit',15000);
+
+  // Second menu: centered Character card must be a genuine mouse target, not keyboard-only.
+  const buildFocus=await evaluate(send,`Number(document.getElementById('buildWheel').dataset.focusIndex)`);
+  const buildLabel=await evaluate(send,`document.querySelectorAll('#buildWheel .choice')[Number(document.getElementById('buildWheel').dataset.focusIndex)]?.getAttribute('aria-label')||''`);
+  if(!Number.isInteger(buildFocus)||!buildLabel) throw new Error('Build Character picker has no focused card for mouse audit');
+  await pointerClick(send,`#buildWheel .choice[aria-label="${buildLabel.replace(/"/g,'\\\"')}"]`);
+  await waitForUi(send,`document.getElementById('buildShell').classList.contains('has-selection')`,'Mouse click did not select centered Character card');
+  const selected=await evaluate(send,`document.getElementById('buildName').textContent.trim()`);
+  if(selected!==buildLabel) throw new Error(`Mouse-selected Character mismatch: expected ${buildLabel}, got ${selected}`);
+
+  // Make one owned Character so Improve's second carousel can be audited with a real click too.
+  await pointerClick(send,'#accountBtn');
+  await sleep(80);
+  await pointerClick(send,'#build [data-home]');
+  await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Build to Home');
+
+  await pointerClick(send,'#homeStage .card-improve');
+  await waitForUi(send,`document.getElementById('improve').classList.contains('active')`,'Second Improve mouse entry failed');
+  await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===1`,'Improve Character picker did not expose the owned Character');
+  await pointerClick(send,'#improveWheel .choice');
+  await waitForUi(send,`document.getElementById('improveShell').classList.contains('has-selection')`,'Mouse click did not select Character in Improve picker');
+  const improved=await evaluate(send,`document.getElementById('improveFocus').textContent.trim()`);
+  if(improved!==buildLabel) throw new Error(`Improve mouse-selected Character mismatch: expected ${buildLabel}, got ${improved}`);
+  await pointerClick(send,'#improve [data-home]');
+  await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Improve after picker audit');
+
+  // Team side card uses the same Home carousel: focus by real drag, then activate by real click.
+  await drag(send,'#homeStage',-1,.48);
+  const teamFocused=await evaluate(send,`Number(document.getElementById('homeStage').dataset.focusIndex)===2`);
+  if(!teamFocused) throw new Error('Real mouse drag did not focus Build a Team before click audit');
+  await pointerClick(send,'#homeStage .card-team');
+  await waitForUi(send,`document.getElementById('team').classList.contains('active')`,'Mouse click did not activate Build a Team');
+  await pointerClick(send,'#team [data-home]');
+  await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Team to Home');
+
+  return {character:buildLabel};
+}
+
 async function enterBuild(send) {
   await evaluate(send, `document.querySelector('#homeStage .card-build').click()`);
   await sleep(700);
@@ -315,6 +380,8 @@ try{
       if(home.scrollWidth>home.innerWidth+1||!home.titlesAttached) throw new Error(`Home containment failed at ${width}x${height}: ${JSON.stringify(home)}`);
     }
 
+    const pointerMenus=await verifyRealPointerMenus(send);
+
     await setViewport(send,1440,900);await navigate(send);
     await drag(send,'#homeStage',-1,.62);
     const homeAfter=await homeMetrics(send);
@@ -360,6 +427,7 @@ try{
     console.log('v34 runtime carousel verification passed in real Chrome.');
     console.log('- Home finite centered shell passed 390x844 through 7680x2160.');
     console.log('- Home mouse drag reached Team from default Improve focus.');
+    console.log(`- Real mouse click navigation passed for Home Build/Improve/Team plus Build and Improve Character pickers; selected: ${pointerMenus.character}.`);
     console.log('- Build selector loaded 57/57 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);

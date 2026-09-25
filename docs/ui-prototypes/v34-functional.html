@@ -33,11 +33,15 @@
 .weapon-panel-head h2{margin:0;font-family:var(--font-display);font-size:36px;font-weight:400;text-align:center}
 .weapon-eyebrow{font-size:10px;letter-spacing:.20em;color:#777f8a;text-transform:uppercase}
 .weapon-main{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(286px,.86fr);gap:20px;height:calc(100% - 62px);margin-top:20px}
-.weapon-browser{min-width:0;overflow:auto;padding:2px 10px 18px 2px}
-.weapon-options-head{display:grid;justify-items:center;gap:6px;text-align:center}
-.weapon-options-head h3{margin:0;font-family:var(--font-display);font-size:22px;font-weight:400}
-.weapon-options-head span{color:#666e79;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
-.weapon-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:14px;margin-top:14px;padding:8px}
+.weapon-browser-shell{position:relative;min-width:0;min-height:0;height:100%}
+.weapon-browser{height:100%;min-width:0;overflow:auto;padding:2px 24px 18px 2px;scrollbar-width:none;-ms-overflow-style:none}
+.weapon-browser::-webkit-scrollbar{width:0;height:0}
+.weapon-scroll-rail{--scroll-p:0;position:absolute;z-index:7;right:5px;top:8px;bottom:8px;width:13px;pointer-events:none;opacity:.36;transition:opacity .18s ease}
+.weapon-scroll-rail::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,rgba(5,6,8,.25),rgba(0,0,0,.94) 12%,rgba(0,0,0,.94) 88%,rgba(5,6,8,.25));box-shadow:0 0 0 1px rgba(255,255,255,.015)}
+.weapon-scroll-rail.has-scroll{opacity:.9}
+.weapon-scroll-thumb{position:absolute;left:50%;top:calc(var(--scroll-p) * 100%);width:15px;height:15px;transform:translate(-50%,-50%);display:grid;place-items:center;color:#d4aa55;font-size:17px;line-height:1;filter:drop-shadow(0 2px 5px rgba(0,0,0,.62));transition:top .08s linear}
+.weapon-scroll-thumb::before{content:"✦"}
+.weapon-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:14px;padding:8px}
 .weapon-choice{position:relative;aspect-ratio:1;padding:0;border:0;border-radius:18px;background:transparent;color:#fff;cursor:pointer;isolation:isolate;will-change:transform}
 .weapon-choice::before{content:"";position:absolute;inset:0;border:1px dashed transparent;border-radius:18px;transition:border-color .18s ease-out,background .18s ease-out}
 .weapon-choice.is-equipped::before{border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.025)}
@@ -71,10 +75,10 @@
 .weapon-preview-stat{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#7f8791}
 .weapon-preview-stat strong{color:#e7e9ed;font-weight:700}
 .weapon-preview-effect{margin:12px 0 0;color:#8a929c;font-size:12px;line-height:1.5;text-align:left}
-.weapon-equip{margin-top:auto;width:100%;padding:13px 16px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;font-weight:800;cursor:pointer;opacity:1;transition:transform .17s ease-out,filter .17s ease-out,opacity .17s ease-out}
-.weapon-equip:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}
+.weapon-equip{margin-top:auto;width:100%;padding:13px 16px;border:1px solid rgba(207,166,84,.44);border-radius:13px;background:linear-gradient(180deg,rgba(32,33,37,.94),rgba(16,17,20,.96));color:#f0ede7;font-weight:800;cursor:pointer;opacity:1;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 12px 28px rgba(0,0,0,.28);transition:transform .17s ease-out,border-color .17s ease-out,background .17s ease-out,box-shadow .17s ease-out,color .17s ease-out}
+.weapon-equip:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(39,38,39,.98),rgba(19,19,21,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 14px 34px rgba(0,0,0,.34)}
 .weapon-equip:active:not(:disabled){transform:translateY(0) scale(.985)}
-.weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);color:#aab0b9}
+.weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.10);color:#747b85;box-shadow:none}
 .echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
 .home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
 @media(max-width:760px){
@@ -107,9 +111,11 @@
     <button id="weaponClose" class="weapon-close" type="button" aria-label="Close weapon selector">×</button>
     <div class="weapon-panel-head"><h2 id="weaponTitle">Select Weapon</h2></div>
     <div class="weapon-main">
-      <div class="weapon-browser">
-        <div class="weapon-options-head"><h3>Weapons</h3><span>Active first · ranking data later</span></div>
-        <div id="weaponChoices" class="weapon-choices"></div>
+      <div class="weapon-browser-shell">
+        <div id="weaponBrowser" class="weapon-browser">
+          <div id="weaponChoices" class="weapon-choices"></div>
+        </div>
+        <div id="weaponScrollRail" class="weapon-scroll-rail" aria-hidden="true"><span class="weapon-scroll-thumb"></span></div>
       </div>
       <aside id="weaponPreviewPane" class="weapon-preview-pane" aria-hidden="true">
         <div class="weapon-preview-empty"><strong>Preview</strong><p>Select a Weapon to inspect it here.</p></div>
@@ -191,13 +197,16 @@ function makeWeaponHero(item){
   return hero;
 }
 const weaponUi={
-  overlay:null,panel:null,slotHost:null,previewStage:null,previewPane:null,choices:null,
+  overlay:null,panel:null,slotHost:null,previewStage:null,previewPane:null,choices:null,browser:null,scrollRail:null,
   currentId:null,previewId:null,previewLayer:null,choiceById:new Map(),open:false,busy:false,lastFocus:null,
   previewMotion:{incomingFrom:.64,incomingTo:1,outgoingFrom:1,outgoingTo:1.24,outgoingOpacity:0,incomingMs:460,outgoingMs:360},lastPreviewTransition:null,
   init(){
     this.overlay=document.getElementById('weaponOverlay');this.panel=document.getElementById('weaponPanel');
     this.slotHost=document.getElementById('weaponSlotHost');this.previewStage=document.getElementById('weaponPreviewStage');
     this.previewPane=document.getElementById('weaponPreviewPane');this.choices=document.getElementById('weaponChoices');
+    this.browser=document.getElementById('weaponBrowser');this.scrollRail=document.getElementById('weaponScrollRail');
+    this.browser.addEventListener('scroll',()=>this.syncScrollbar(),{passive:true});
+    if('ResizeObserver'in window)new ResizeObserver(()=>this.syncScrollbar()).observe(this.browser);
     WEAPON_PREVIEW_ITEMS.forEach(item=>{
       const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';
       choice.dataset.weaponId=item.id;choice.dataset.name=item.name;choice.dataset.baseRank=String(item.baseRank);choice.setAttribute('aria-label','Select '+item.name);
@@ -228,6 +237,13 @@ const weaponUi={
     if(button)button.setAttribute('aria-label',item?`Open Weapon menu. Active: ${item.name}`:'Open Weapon menu');
     if(item)this.slotHost.appendChild(makeWeaponCard(item,{active:true}));
   },
+  syncScrollbar(){
+    if(!this.browser||!this.scrollRail)return;
+    const max=Math.max(0,this.browser.scrollHeight-this.browser.clientHeight);
+    const progress=max?this.browser.scrollTop/max:0;
+    this.scrollRail.style.setProperty('--scroll-p',String(progress));
+    this.scrollRail.classList.toggle('has-scroll',max>1);
+  },
   syncEquipped(){
     this.choiceById.forEach((choice,id)=>{
       const active=id===this.currentId;choice.classList.toggle('is-equipped',active);
@@ -246,7 +262,7 @@ const weaponUi={
     const before=new Map([...this.choices.children].map(node=>[node,node.getBoundingClientRect()]));
     const ordered=this.orderedIds().map(id=>this.choiceById.get(id)).filter(Boolean);
     ordered.forEach(node=>this.choices.appendChild(node));
-    await nextWeaponFrame();
+    await nextWeaponFrame();this.syncScrollbar();
     if(!animate||reducedMotion())return;
     const animations=[];
     ordered.forEach(node=>{
@@ -290,7 +306,7 @@ const weaponUi={
   async show(){
     if(this.open||this.busy)return;this.busy=true;this.open=true;this.lastFocus=document.activeElement;
     document.getElementById('weaponBtn').setAttribute('aria-expanded','true');this.clearPreview();this.syncEquipped();await this.reorderChoices({animate:false});
-    this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>this.overlay.classList.add('open'));
+    this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>{this.overlay.classList.add('open');this.syncScrollbar()});
     await waitWeaponMotion(WEAPON_MOTION.panel);this.busy=false;document.getElementById('weaponClose').focus();
   },
   async hide(){

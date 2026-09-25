@@ -1,6 +1,6 @@
 # Bellibing UI Agent Start
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-09-25
 
 Use this as the first-read contract for a new Bellibing UI-building chat or Codex session.
 
@@ -47,6 +47,7 @@ The user is the designer; implementation should translate approved behavior/comp
 - Mobile Build keeps the Character as visual anchor and opens Stats/Weapon/Sequences/Echoes in overlay drawers from compact controls.
 - Character is the desktop Build visual anchor; five Echo slots and S1-bottom→S6-top Sequence rail remain.
 - Motion uses continuity/object permanence: card/portrait/focus states should visually transform into one another where practical.
+- Comparable selector/detail tools reuse the locked Bellibing glass pattern: transparent contextual background/panel, solid item/content layer, non-reflowing hover focus, and source-object continuity into Preview/Current where the feature semantics fit. See `UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
 - Major motion is weighted, not abrupt; exact timing bands and reduced-motion behavior live in `UI_LAYOUT_MOTION_CONTRACT.md`.
 - Autosave and `Add to Account` remain separate semantics.
 - Card/hero image framing uses explicit component-local presentation values or reviewed derivatives, never geometric viewport/bounding-box guesses.

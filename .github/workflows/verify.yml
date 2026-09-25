@@ -151,6 +151,8 @@ jobs:
             artifacts/ui-preview-home-1440x900.png
             artifacts/ui-preview-build-names-expanded-1440x900.png
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png
+            artifacts/ui-preview-weapon-overlay-1440x900.png
+            artifacts/ui-preview-weapon-overlay-390x844.png
           if-no-files-found: error
           retention-days: 7
 

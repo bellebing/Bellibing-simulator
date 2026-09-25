@@ -8,7 +8,7 @@
 <style>
 :root{--bg:#050608;--panel:#11141a;--text:#f2f0eb;--muted:#8e949d;--line:rgba(255,255,255,.09);--font-display:"Etna",Inter,sans-serif;--font-ui:Inter,ui-sans-serif,system-ui,sans-serif}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-ui);overflow:hidden}button{font:inherit}.page{position:fixed;inset:0;display:none;overflow:hidden}.page.active{display:block}.menu{position:absolute;z-index:90;left:18px;top:16px;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101319;color:#fff;font-size:20px}.dev{position:absolute;z-index:90;right:16px;bottom:14px;border:0;background:transparent;color:#555;font-size:11px}.home-stage{position:absolute;left:50%;top:0;bottom:0;width:min(calc(100% - 32px),1280px);transform:translateX(-50%);display:flex;align-items:center;justify-content:center;perspective:1200px;overflow:hidden;touch-action:pan-y;user-select:none;outline:none}.home-card{--x:0px;--s:1;position:absolute;left:50%;top:50%;width:min(390px,calc(100vw - 64px));height:500px;transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,#171a21,#0c0f13);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#fff;cursor:pointer;overflow:hidden;transition:transform .42s cubic-bezier(.16,.84,.24,1),opacity .35s ease}.home-card-art{position:absolute;inset:0;overflow:hidden;pointer-events:none}.home-card-art img{position:absolute;width:auto;max-width:none}.home-card.card-build img{height:98%;bottom:0;left:50%;transform:translateX(-38%)}.home-card.card-improve img{height:98%;bottom:0;left:50%;transform:translateX(-62.5%)}.home-card.card-team img{height:132%;bottom:-80px;left:50%;transform:translateX(-49%);filter:none;mix-blend-mode:normal}.home-card-title{position:absolute;z-index:2;top:23px;left:10px;right:10px;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:400;line-height:1;white-space:nowrap;text-shadow:0 2px 18px rgba(0,0,0,.72)}.home-leaving .home-card{opacity:0}.home-leaving .home-card.major-source{transform:translate(-50%,-50%) translateX(var(--x)) scale(1.16)}.major-enter .picker-shell,.major-enter .team-placeholder{opacity:0;transform:scale(.84)}.major-enter.go .picker-shell,.major-enter.go .team-placeholder{opacity:1;transform:scale(1);transition:transform .72s cubic-bezier(.16,.84,.24,1),opacity .5s ease}
-.picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{width:100%;flex:1;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#6b4a34;font-size:12px;letter-spacing:.18em}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);height:min(540px,58vh);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:space-between;gap:22px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block h2,.echoes h2,.seq h2{margin:0 0 12px;font-family:var(--font-display);font-size:23px}.stats-box{height:255px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:20px}.statline{height:11px;border-radius:99px;background:rgba(255,255,255,.06)}.weapon{height:108px;width:100%;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{width:100%;flex:1;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#6b4a34;font-size:12px;letter-spacing:.18em}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);height:min(540px,58vh);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:space-between;gap:22px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block h2,.echoes h2,.seq h2{margin:0 0 12px;font-family:var(--font-display);font-size:23px}.stats-box{height:255px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:20px}.statline{height:11px;border-radius:99px;background:rgba(255,255,255,.06)}.weapon{height:108px;width:100%;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
 .weapon:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .weapon:active{transform:scale(.985)}
 .weapon-slot-host{position:relative;display:grid;place-items:center;width:100%;height:100%}
@@ -16,48 +16,50 @@
 .weapon-slot-host.has-weapon .weapon-empty{opacity:0}
 .weapon-card{position:relative;width:100%;height:100%;min-height:74px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:radial-gradient(circle at 24% 20%,rgba(255,255,255,.10),transparent 34%),linear-gradient(145deg,#1a1e26,#0d0f14 72%);overflow:hidden;display:flex;align-items:flex-end;padding:13px 14px;text-align:left;transform-origin:center;will-change:transform;box-shadow:0 18px 48px rgba(0,0,0,.28)}
 .weapon-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.72));pointer-events:none}
-.weapon-card-mark{position:absolute;z-index:1;left:50%;top:42%;transform:translate(-50%,-50%);font-size:38px;font-weight:300;color:rgba(255,255,255,.72);text-shadow:0 8px 24px rgba(0,0,0,.55);transition:transform .16s ease,color .16s ease}
+.weapon-card-mark{position:absolute;z-index:1;left:50%;top:42%;transform:translate(-50%,-50%);font-size:38px;font-weight:300;color:rgba(255,255,255,.72);text-shadow:0 8px 24px rgba(0,0,0,.55);transition:transform .17s ease-out,color .17s ease-out}
 .weapon-card-copy{position:relative;z-index:2;min-width:0}
 .weapon-card-copy strong{display:block;font-family:var(--font-display);font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .weapon-card-copy small{display:block;margin-top:4px;color:#777f8a;font-size:9px;letter-spacing:.13em;text-transform:uppercase}
-.weapon-card.is-current{border-color:rgba(255,255,255,.28);box-shadow:0 0 0 1px rgba(255,255,255,.04),0 24px 70px rgba(0,0,0,.42)}
+.weapon-equipped-badge{position:absolute;z-index:4;left:10px;top:10px;display:none;align-items:center;min-height:21px;padding:4px 7px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(8,10,14,.82);color:#f2f4f7;font-size:8px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.weapon-card.is-current{border-color:rgba(255,255,255,.34);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 70px rgba(0,0,0,.42)}
 .weapon-card.is-preview{border-color:rgba(255,255,255,.30);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 34px 90px rgba(0,0,0,.48)}
-.weapon-overlay{position:fixed;inset:0;z-index:170;visibility:hidden;pointer-events:none}
+.weapon-card.is-flying{position:fixed!important;inset:auto!important;z-index:220!important;pointer-events:none!important;margin:0!important;transform-origin:top left!important;transition:none!important}
+.weapon-overlay{--weapon-ease:cubic-bezier(.4,0,.2,1);--weapon-panel-ms:380ms;--weapon-preview-ms:520ms;--weapon-major-ms:560ms;position:fixed;inset:0;z-index:170;visibility:hidden;pointer-events:none}
 .weapon-overlay.mounted{visibility:visible;pointer-events:auto}
-.weapon-scrim{position:absolute;inset:0;background:rgba(4,5,8,.48);backdrop-filter:blur(2px);opacity:0;transition:opacity .34s ease}
-.weapon-panel{position:absolute;left:50%;top:50%;width:min(1100px,calc(100vw - 48px));height:min(760px,calc(100dvh - 64px));padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:30px;background:linear-gradient(180deg,rgba(19,22,28,.74),rgba(10,12,16,.70));backdrop-filter:blur(5px) saturate(.88);box-shadow:0 42px 120px rgba(0,0,0,.62);opacity:0;transform:translate(-54%,-42%) scale(.84);transform-origin:18% 78%;transition:opacity .32s ease,transform .48s cubic-bezier(.16,.84,.24,1);overflow:hidden}
+.weapon-scrim{position:absolute;inset:0;background:rgba(4,5,8,.48);backdrop-filter:blur(2px);opacity:0;transition:opacity var(--weapon-panel-ms) var(--weapon-ease)}
+.weapon-panel{position:absolute;left:50%;top:50%;width:min(980px,calc(100vw - 48px));height:min(720px,calc(100dvh - 64px));padding:30px;border:1px solid rgba(255,255,255,.12);border-radius:30px;background:linear-gradient(180deg,rgba(19,22,28,.74),rgba(10,12,16,.70));backdrop-filter:blur(5px) saturate(.88);box-shadow:0 42px 120px rgba(0,0,0,.62);opacity:0;transform:translate(-50%,calc(-50% + 14px)) scale(.985);transform-origin:50% 50%;transition:opacity var(--weapon-panel-ms) var(--weapon-ease),transform var(--weapon-panel-ms) var(--weapon-ease);overflow:hidden}
 .weapon-overlay.open .weapon-scrim{opacity:1}
 .weapon-overlay.open .weapon-panel{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.weapon-overlay.measure-open .weapon-scrim{opacity:0;transition:none}
+.weapon-overlay.measure-open .weapon-panel{opacity:0;transform:translate(-50%,-50%) scale(1);transition:none}
 .weapon-close{position:absolute;z-index:8;top:18px;right:18px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:#171a20;color:#d9dde3;font-size:24px;line-height:1;cursor:pointer}
 .weapon-panel-head{padding-right:54px}
+.weapon-panel-head h2{margin:0;font-family:var(--font-display);font-size:36px;font-weight:400}
 .weapon-eyebrow{font-size:10px;letter-spacing:.20em;color:#777f8a;text-transform:uppercase}
-.weapon-panel-head h2{margin:5px 0 0;font-family:var(--font-display);font-size:36px;font-weight:400}
-.weapon-current-row{display:none;grid-template-columns:minmax(190px,240px) 1fr;align-items:center;gap:24px;margin-top:18px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:rgba(255,255,255,.025)}
-.weapon-panel.has-current .weapon-current-row{display:grid}
-.weapon-current-host{height:122px}
-.weapon-current-copy h3{margin:0 0 6px;font-family:var(--font-display);font-size:23px;font-weight:400}
-.weapon-current-copy p{margin:0;max-width:500px;color:#858d98;font-size:12px;line-height:1.45}
-.weapon-main{display:grid;grid-template-columns:minmax(0,1fr) 0fr;gap:0;height:calc(100% - 82px);margin-top:20px;transition:grid-template-columns .46s cubic-bezier(.16,.84,.24,1),gap .46s cubic-bezier(.16,.84,.24,1),height .32s ease}
-.weapon-panel.has-current .weapon-main{height:calc(100% - 242px)}
-.weapon-panel.has-preview .weapon-main{grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:22px}
+.weapon-main{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(286px,.86fr);gap:20px;height:calc(100% - 62px);margin-top:20px}
 .weapon-browser{min-width:0;overflow:auto;padding:2px 10px 18px 2px}
 .weapon-options-head{display:flex;align-items:end;justify-content:space-between;gap:18px}
 .weapon-options-head h3{margin:0;font-family:var(--font-display);font-size:22px;font-weight:400}
 .weapon-options-head span{color:#666e79;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
-.weapon-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:14px;margin-top:14px;padding:8px}
+.weapon-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:14px;margin-top:14px;padding:8px}
 .weapon-choice{position:relative;aspect-ratio:1;padding:0;border:0;border-radius:18px;background:transparent;color:#fff;cursor:pointer;isolation:isolate}
-.weapon-choice::before{content:"";position:absolute;inset:0;border:1px dashed transparent;border-radius:18px;transition:border-color .18s ease,background .18s ease}
+.weapon-choice::before{content:"";position:absolute;inset:0;border:1px dashed transparent;border-radius:18px;transition:border-color .18s ease-out,background .18s ease-out}
 .weapon-choice.is-preview-source::before{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.025)}
-.weapon-choice.is-current-source{display:none}
 .weapon-choice.is-preview-source::after{content:"Previewing";position:absolute;inset:0;display:grid;place-items:center;color:#525965;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
-.weapon-choice .weapon-card{position:absolute;inset:0;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease}
+.weapon-choice.is-equipped::before{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.02)}
+.weapon-choice.is-equipped .weapon-equipped-badge{display:inline-flex}
+.weapon-choice .weapon-card{position:absolute;inset:0;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out,filter .17s ease-out}
 .weapon-choice:not(.is-preview-source):hover{z-index:12}
 .weapon-choice:not(.is-preview-source):hover .weapon-card{transform:translateY(-7px) scale(1.065);border-color:rgba(255,255,255,.34);box-shadow:0 26px 62px rgba(0,0,0,.48);filter:brightness(1.08)}
 .weapon-choice:not(.is-preview-source):hover .weapon-card-mark{transform:translate(-50%,-52%) scale(1.04);color:rgba(255,255,255,.90)}
 .weapon-choice:focus-visible{outline:2px solid #fff;outline-offset:3px;z-index:13}
-.weapon-preview-pane{min-width:0;opacity:0;transform:translateX(28px) scale(.96);pointer-events:none;overflow:hidden;transition:opacity .30s ease,transform .46s cubic-bezier(.16,.84,.24,1)}
-.weapon-panel.has-preview .weapon-preview-pane{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
-.weapon-preview-shell{height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:24px;background:rgba(255,255,255,.025);display:flex;flex-direction:column}
+.weapon-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:24px;background:rgba(255,255,255,.025);overflow:hidden}
+.weapon-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783;transition:opacity .24s ease-out}
+.weapon-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
+.weapon-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
+.weapon-panel.has-preview .weapon-preview-empty{opacity:0;pointer-events:none}
+.weapon-preview-shell{height:100%;display:flex;flex-direction:column;opacity:0;transform:translateX(20px) scale(.985);pointer-events:none;transition:opacity .28s ease-out,transform .42s var(--weapon-ease)}
+.weapon-panel.has-preview .weapon-preview-shell{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
 .weapon-preview-host{width:min(100%,205px);height:auto;aspect-ratio:1;flex:0 0 auto;margin:0 auto}
 .weapon-preview-copy{padding:12px 4px 0}
 .weapon-preview-copy h3{margin:5px 0 8px;font-family:var(--font-display);font-size:28px;font-weight:400}
@@ -65,27 +67,26 @@
 .weapon-preview-stat{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#7f8791}
 .weapon-preview-stat strong{color:#e7e9ed;font-weight:700}
 .weapon-preview-effect{margin:12px 0 0;color:#8a929c;font-size:12px;line-height:1.5}
-.weapon-choose{margin-top:auto;width:100%;padding:13px 16px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;font-weight:800;cursor:pointer;transition:transform .14s ease,filter .14s ease}
-.weapon-choose:hover{filter:brightness(1.06);transform:translateY(-1px)}
-.weapon-choose:active{transform:translateY(0) scale(.985)}.echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
+.weapon-choose{margin-top:auto;width:100%;padding:13px 16px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;font-weight:800;cursor:pointer;opacity:1;transition:transform .17s ease-out,filter .17s ease-out,opacity .17s ease-out}
+.weapon-choose:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}
+.weapon-choose:active:not(:disabled){transform:translateY(0) scale(.985)}
+.weapon-choose:disabled{cursor:default;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);color:#aab0b9}
+.echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
 .home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
 @media(max-width:760px){
-  .weapon-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:24px 18px;transform:translate(-32px,30px) scale(.92);transform-origin:0 72%;border-radius:24px}
+  .weapon-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:24px 18px;transform:translate(-18px,18px) scale(.985);transform-origin:0 72%;border-radius:24px}
   .weapon-overlay.open .weapon-panel{transform:translate(0,0) scale(1)}
+  .weapon-overlay.measure-open .weapon-panel{transform:translate(0,0) scale(1)}
   .weapon-panel-head h2{font-size:30px}
-  .weapon-current-row{grid-template-columns:112px 1fr;gap:12px;padding:12px}
-  .weapon-current-host{height:88px}
-  .weapon-current-copy p{display:none}
-  .weapon-main,.weapon-panel.has-preview .weapon-main{display:block;height:calc(100% - 68px);margin-top:14px}
-  .weapon-panel.has-current .weapon-main,.weapon-panel.has-current.has-preview .weapon-main{height:calc(100% - 188px)}
+  .weapon-main{display:block;height:calc(100% - 54px);margin-top:14px}
   .weapon-browser{height:100%;padding-right:2px}
   .weapon-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:5px}
   .weapon-choice:hover .weapon-card{transform:none;filter:none}
   .weapon-choice:hover .weapon-card-mark{transform:translate(-50%,-50%)}
-  .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:82px;bottom:12px;border-radius:22px;background:rgba(10,12,16,.985);transform:translateX(36px) scale(.97)}
-  .weapon-panel.has-current .weapon-preview-pane{top:150px}
-  .weapon-panel.has-preview .weapon-preview-pane{transform:translateX(0) scale(1)}
-  .weapon-preview-shell{padding:14px}
+  .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:82px;bottom:12px;height:auto;padding:14px;background:rgba(10,12,16,.92);backdrop-filter:blur(5px) saturate(.88);opacity:0;pointer-events:none;transform:translateX(28px) scale(.985);transition:opacity .28s ease-out,transform .42s var(--weapon-ease)}
+  .weapon-panel.has-preview .weapon-preview-pane{opacity:1;pointer-events:auto;transform:translateX(0) scale(1)}
+  .weapon-preview-empty{display:none}
+  .weapon-preview-shell{padding:0}
   .weapon-preview-host{width:min(100%,285px);height:auto;aspect-ratio:1;max-height:none}
   .weapon-preview-copy h3{font-size:25px}
 }
@@ -101,17 +102,14 @@
   <div class="weapon-scrim" data-weapon-close></div>
   <section id="weaponPanel" class="weapon-panel" role="dialog" aria-modal="true" aria-labelledby="weaponTitle">
     <button id="weaponClose" class="weapon-close" type="button" aria-label="Close weapon selector">×</button>
-    <div class="weapon-panel-head"><span class="weapon-eyebrow">Build tool</span><h2 id="weaponTitle">Select Weapon</h2></div>
-    <div class="weapon-current-row">
-      <div id="weaponCurrentHost" class="weapon-current-host"></div>
-      <div class="weapon-current-copy"><span class="weapon-eyebrow">Current Weapon</span><h3 id="weaponCurrentName">Current Weapon</h3><p>Your equipped Weapon stays here while you inspect another option. Previewing does not change the build.</p></div>
-    </div>
+    <div class="weapon-panel-head"><h2 id="weaponTitle">Select Weapon</h2></div>
     <div class="weapon-main">
       <div class="weapon-browser">
         <div class="weapon-options-head"><h3>Weapons</h3><span>UI preview · data wiring later</span></div>
         <div id="weaponChoices" class="weapon-choices"></div>
       </div>
       <aside id="weaponPreviewPane" class="weapon-preview-pane" aria-hidden="true">
+        <div class="weapon-preview-empty"><strong>Preview</strong><p>Select a Weapon to inspect it before equipping.</p></div>
         <div class="weapon-preview-shell">
           <div id="weaponPreviewHost" class="weapon-preview-host"></div>
           <div class="weapon-preview-copy">
@@ -150,117 +148,164 @@ const WEAPON_PREVIEW_ITEMS=[
   {id:'preview-06',name:'Weapon 06',mark:'◊'},
   {id:'preview-07',name:'Weapon 07',mark:'◆'}
 ];
+const WEAPON_MOTION={panel:380,preview:520,return:460,major:560,ease:'cubic-bezier(.4,0,.2,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const nextWeaponFrame=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+const waitWeaponMotion=ms=>new Promise(resolve=>setTimeout(resolve,reducedMotion()?0:ms));
 function makeWeaponCard(item){
   const card=document.createElement('div');card.className='weapon-card';card.dataset.weaponId=item.id;card.dataset.name=item.name;
   const mark=document.createElement('span');mark.className='weapon-card-mark';mark.textContent=item.mark;
+  const badge=document.createElement('span');badge.className='weapon-equipped-badge';badge.textContent='Currently Equipped';
   const copy=document.createElement('span');copy.className='weapon-card-copy';
   const name=document.createElement('strong');name.textContent=item.name;
   const note=document.createElement('small');note.textContent='UI preview';
-  copy.append(name,note);card.append(mark,copy);return card;
+  copy.append(name,note);card.append(mark,badge,copy);return card;
 }
-function animateWeaponRect(element,from,to,duration=460){
-  if(reducedMotion())return Promise.resolve();
-  const dx=from.left-to.left,dy=from.top-to.top,sx=from.width/to.width,sy=from.height/to.height;
-  const animation=element.animate(
-    [{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`},{transform:'translate(0,0) scale(1,1)'}],
-    {duration,easing:'cubic-bezier(.16,.84,.24,1)'}
-  );
-  return animation.finished.catch(()=>{}).finally(()=>animation.cancel());
+function prepareWeaponFlight(card,from=card.getBoundingClientRect()){
+  const savedStyle=card.getAttribute('style');
+  const rect={left:from.left,top:from.top,width:from.width,height:from.height};
+  document.body.appendChild(card);card.classList.add('is-flying');
+  Object.assign(card.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});
+  return{card,from:rect,savedStyle};
+}
+async function landWeaponFlight(flight,targetHost,duration=WEAPON_MOTION.major,toOverride=null){
+  const{card,from,savedStyle}=flight;
+  const measured=toOverride||targetHost.getBoundingClientRect();
+  const to={left:measured.left,top:measured.top,width:measured.width,height:measured.height};
+  if(!reducedMotion()){
+    const dx=to.left-from.left,dy=to.top-from.top,sx=to.width/from.width,sy=to.height/from.height;
+    const animation=card.animate(
+      [{transform:'translate(0,0) scale(1,1)'},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`}],
+      {duration,easing:WEAPON_MOTION.ease,fill:'forwards'}
+    );
+    await animation.finished.catch(()=>{});animation.cancel();
+  }
+  targetHost.appendChild(card);card.classList.remove('is-flying');
+  if(savedStyle===null)card.removeAttribute('style');else card.setAttribute('style',savedStyle);
 }
 const weaponUi={
-  overlay:null,panel:null,slotHost:null,currentHost:null,previewHost:null,previewPane:null,choices:null,currentCard:null,currentChoice:null,previewCard:null,previewChoice:null,
+  overlay:null,panel:null,slotHost:null,previewHost:null,previewPane:null,choices:null,currentCard:null,currentChoice:null,previewCard:null,previewChoice:null,
   open:false,busy:false,lastFocus:null,
   init(){
     this.overlay=document.getElementById('weaponOverlay');this.panel=document.getElementById('weaponPanel');
-    this.slotHost=document.getElementById('weaponSlotHost');this.currentHost=document.getElementById('weaponCurrentHost');
-    this.previewHost=document.getElementById('weaponPreviewHost');this.previewPane=document.getElementById('weaponPreviewPane');this.choices=document.getElementById('weaponChoices');
-    WEAPON_PREVIEW_ITEMS.forEach(item=>{
-      const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';choice.dataset.weaponId=item.id;choice.setAttribute('aria-label','Preview '+item.name);
+    this.slotHost=document.getElementById('weaponSlotHost');this.previewHost=document.getElementById('weaponPreviewHost');
+    this.previewPane=document.getElementById('weaponPreviewPane');this.choices=document.getElementById('weaponChoices');
+    WEAPON_PREVIEW_ITEMS.forEach((item,index)=>{
+      const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';
+      choice.dataset.weaponId=item.id;choice.dataset.name=item.name;choice.dataset.order=String(index);choice.setAttribute('aria-label','Preview '+item.name);
       choice.appendChild(makeWeaponCard(item));choice.addEventListener('click',()=>this.preview(choice));this.choices.appendChild(choice);
     });
+    this.syncEquipped();
+  },
+  reorderChoices(){
+    const nodes=[...this.choices.children].sort((a,b)=>{
+      if(a===this.currentChoice)return-1;if(b===this.currentChoice)return 1;
+      return Number(a.dataset.order)-Number(b.dataset.order);
+    });
+    nodes.forEach(node=>this.choices.appendChild(node));
+  },
+  syncEquipped(){
+    [...this.choices.children].forEach(choice=>{
+      const equipped=choice===this.currentChoice;
+      choice.classList.toggle('is-equipped',equipped);
+      choice.setAttribute('aria-label',(equipped?'Preview currently equipped ':'Preview ')+(choice.dataset.name||'Weapon'));
+    });
+  },
+  syncPreviewAction(){
+    const choose=document.getElementById('weaponChoose');
+    const equipped=!!this.previewChoice&&this.previewChoice===this.currentChoice;
+    choose.disabled=equipped;choose.textContent=equipped?'Currently Equipped':'Choose Weapon';
+  },
+  clearPreviewState(){
+    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');
+    document.getElementById('weaponPreviewName').textContent='Weapon';this.syncPreviewAction();
   },
   async show(){
-    if(this.open||this.busy)return;this.busy=true;this.lastFocus=document.activeElement;
-    let travel=null;
-    if(this.currentCard){
-      const from=this.currentCard.getBoundingClientRect();
-      this.panel.classList.add('has-current');this.currentHost.appendChild(this.currentCard);
-      document.getElementById('weaponCurrentName').textContent=this.currentCard.dataset.name;
-      const to=this.currentCard.getBoundingClientRect();travel={from,to};
-    }else{
-      this.panel.classList.remove('has-current');
+    if(this.open||this.busy)return;this.busy=true;this.open=true;this.lastFocus=document.activeElement;
+    document.getElementById('weaponBtn').setAttribute('aria-expanded','true');
+    this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');
+    let currentFlight=null,currentTarget=null;
+    if(this.currentCard&&this.currentChoice){
+      const from=this.currentCard.getBoundingClientRect();currentFlight=prepareWeaponFlight(this.currentCard,from);
+      this.slotHost.classList.remove('has-weapon');this.reorderChoices();this.syncEquipped();
+      this.overlay.classList.add('measure-open');await nextWeaponFrame();
+      const target=this.currentChoice.getBoundingClientRect();currentTarget={left:target.left,top:target.top,width:target.width,height:target.height};
+      this.overlay.classList.remove('measure-open');void this.panel.offsetWidth;
     }
-    this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');document.getElementById('weaponBtn').setAttribute('aria-expanded','true');
     requestAnimationFrame(()=>this.overlay.classList.add('open'));
-    if(travel)await animateWeaponRect(this.currentCard,travel.from,travel.to,500);else await new Promise(resolve=>setTimeout(resolve,reducedMotion()?0:360));
-    this.open=true;this.busy=false;document.getElementById('weaponClose').focus();
+    const tasks=[waitWeaponMotion(WEAPON_MOTION.panel)];
+    if(currentFlight)tasks.push(landWeaponFlight(currentFlight,this.currentChoice,WEAPON_MOTION.major,currentTarget));
+    await Promise.all(tasks);
+    this.busy=false;document.getElementById('weaponClose').focus();
   },
   async returnPreview({animate=true,keepPane=false}={}){
     if(!this.previewCard||!this.previewChoice)return;
-    const card=this.previewCard,choice=this.previewChoice,from=card.getBoundingClientRect();
-    card.classList.remove('is-preview');choice.appendChild(card);
-    choice.classList.remove('is-preview-source');const to=card.getBoundingClientRect();
+    const card=this.previewCard,choice=this.previewChoice,flight=prepareWeaponFlight(card);
+    card.classList.remove('is-preview');
     this.previewCard=null;this.previewChoice=null;
-    if(animate)await animateWeaponRect(card,from,to,330);
-    if(!keepPane){this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true')}
+    if(!keepPane)this.clearPreviewState();else this.syncPreviewAction();
+    await nextWeaponFrame();
+    await landWeaponFlight(flight,choice,animate?WEAPON_MOTION.return:0);
+    choice.classList.remove('is-preview-source');
   },
   async hide(){
     if(!this.open||this.busy)return;this.busy=true;this.open=false;
-    if(this.previewCard)await this.returnPreview({animate:true});
-    this.overlay.classList.remove('open');document.getElementById('weaponBtn').setAttribute('aria-expanded','false');
+    document.getElementById('weaponBtn').setAttribute('aria-expanded','false');
+    const tasks=[];
+    let currentFlight=null;
     if(this.currentCard){
-      const from=this.currentCard.getBoundingClientRect(),to=this.slotHost.getBoundingClientRect();
-      if(!reducedMotion()){
-        const dx=to.left-from.left,dy=to.top-from.top,sx=to.width/from.width,sy=to.height/from.height;
-        const animation=this.currentCard.animate(
-          [{transform:'translate(0,0) scale(1,1)'},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`}],
-          {duration:420,easing:'cubic-bezier(.16,.84,.24,1)'}
-        );
-        await animation.finished.catch(()=>{});animation.cancel();
-      }
-      this.slotHost.appendChild(this.currentCard);this.slotHost.classList.add('has-weapon');
+      const currentFrom=this.currentCard.getBoundingClientRect();
+      currentFlight=prepareWeaponFlight(this.currentCard,currentFrom);
     }
-    this.panel.classList.remove('has-preview','has-current');this.previewPane.setAttribute('aria-hidden','true');
-    this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.busy=false;
+    if(this.previewCard&&this.previewCard!==this.currentCard){
+      const previewChoice=this.previewChoice,previewCard=this.previewCard,previewFlight=prepareWeaponFlight(previewCard);
+      previewCard.classList.remove('is-preview');previewChoice.classList.remove('is-preview-source');
+      tasks.push(nextWeaponFrame().then(()=>landWeaponFlight(previewFlight,previewChoice,WEAPON_MOTION.return)));
+    }else if(this.previewCard&&this.previewChoice){
+      this.previewCard.classList.remove('is-preview');this.previewChoice.classList.remove('is-preview-source');
+    }
+    this.previewCard=null;this.previewChoice=null;this.clearPreviewState();
+    this.overlay.classList.remove('open');
+    tasks.push(waitWeaponMotion(WEAPON_MOTION.panel));
+    if(currentFlight){
+      await nextWeaponFrame();
+      tasks.push(landWeaponFlight(currentFlight,this.slotHost,WEAPON_MOTION.major));
+    }
+    await Promise.all(tasks);
+    if(this.currentCard)this.slotHost.classList.add('has-weapon');else this.slotHost.classList.remove('has-weapon');
+    this.overlay.classList.remove('mounted','measure-open');this.overlay.setAttribute('aria-hidden','true');this.busy=false;
     if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
   },
   async preview(choice){
-    if(this.busy||choice===this.previewChoice||choice===this.currentChoice)return;
+    if(this.busy||choice===this.previewChoice)return;
     this.busy=true;
     if(this.previewCard)await this.returnPreview({animate:true,keepPane:true});
     const card=choice.querySelector('.weapon-card');if(!card){this.busy=false;return}
-    const from=card.getBoundingClientRect();
-    choice.classList.add('is-preview-source');card.classList.add('is-preview');this.previewHost.appendChild(card);
-    document.getElementById('weaponPreviewName').textContent=card.dataset.name;
+    const flight=prepareWeaponFlight(card);choice.classList.add('is-preview-source');card.classList.add('is-preview');
     this.previewCard=card;this.previewChoice=choice;
-    this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');
-    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-    const to=card.getBoundingClientRect();await animateWeaponRect(card,from,to,430);
-    this.busy=false;document.getElementById('weaponChoose').focus({preventScroll:true});
+    document.getElementById('weaponPreviewName').textContent=card.dataset.name;
+    this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');this.syncPreviewAction();
+    await nextWeaponFrame();await landWeaponFlight(flight,this.previewHost,WEAPON_MOTION.preview);
+    this.busy=false;
+    if(!document.getElementById('weaponChoose').disabled)document.getElementById('weaponChoose').focus({preventScroll:true});
   },
   async choose(){
-    if(this.busy||!this.previewCard||!this.previewChoice)return;
+    if(this.busy||!this.previewCard||!this.previewChoice||this.previewChoice===this.currentChoice)return;
     this.busy=true;
     const next=this.previewCard,nextChoice=this.previewChoice,old=this.currentCard,oldChoice=this.currentChoice;
-    const nextFrom=next.getBoundingClientRect(),oldFrom=old?.getBoundingClientRect()||null;
+    const nextFlight=prepareWeaponFlight(next);
+    const oldFlight=old?prepareWeaponFlight(old):null;
     next.classList.remove('is-preview');next.classList.add('is-current');
-    if(old&&oldChoice){
-      old.classList.remove('is-current');oldChoice.classList.remove('is-current-source');oldChoice.appendChild(old);
-    }
-    this.panel.classList.add('has-current');this.currentHost.appendChild(next);
-    document.getElementById('weaponCurrentName').textContent=next.dataset.name;
-    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-    const nextTo=next.getBoundingClientRect(),oldTo=old?.getBoundingClientRect()||null;
-    await Promise.all([
-      animateWeaponRect(next,nextFrom,nextTo,560),
-      old&&oldFrom&&oldTo?new Promise(resolve=>setTimeout(resolve,55)).then(()=>animateWeaponRect(old,oldFrom,oldTo,500)):Promise.resolve()
-    ]);
-    nextChoice.classList.remove('is-preview-source');nextChoice.classList.add('is-current-source');
-    this.currentCard=next;this.currentChoice=nextChoice;this.previewCard=null;this.previewChoice=null;
-    this.slotHost.classList.add('has-weapon');
-    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');
-    this.busy=false;
+    nextChoice.classList.remove('is-preview-source');
+    if(old)old.classList.remove('is-current');
+    this.previewCard=null;this.previewChoice=null;
+    this.currentCard=next;this.currentChoice=nextChoice;
+    this.clearPreviewState();this.syncEquipped();this.reorderChoices();
+    await nextWeaponFrame();
+    const tasks=[landWeaponFlight(nextFlight,nextChoice,WEAPON_MOTION.major)];
+    if(oldFlight&&oldChoice)tasks.push(landWeaponFlight(oldFlight,oldChoice,WEAPON_MOTION.major));
+    await Promise.all(tasks);
+    this.busy=false;nextChoice.focus({preventScroll:true});
   }
 };
 class FreewheelCarousel{

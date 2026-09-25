@@ -55,12 +55,16 @@
 .weapon-panel.has-preview .weapon-preview-empty{opacity:0;pointer-events:none}
 .weapon-preview-shell{height:100%;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .22s ease-out}
 .weapon-panel.has-preview .weapon-preview-shell{opacity:1;pointer-events:auto}
-.weapon-preview-stage{position:relative;width:min(100%,220px);aspect-ratio:1;margin:0 auto;perspective:700px}
-.weapon-preview-layer{position:absolute;inset:0;z-index:1;pointer-events:none;transform-origin:50% 50%;will-change:transform,opacity,filter}
+.weapon-preview-stage{position:relative;width:min(100%,250px);height:250px;margin:0 auto;perspective:800px}
+.weapon-preview-layer{position:absolute;inset:0;z-index:1;display:grid;place-items:center;pointer-events:none;transform-origin:50% 50%;will-change:transform,opacity,filter}
 .weapon-preview-layer.is-outgoing{z-index:3}
 .weapon-preview-layer.is-incoming{z-index:2}
-.weapon-preview-layer .weapon-card{height:100%}
-.weapon-preview-layer .weapon-equipped-badge{display:none!important}
+.weapon-preview-hero{position:relative;width:100%;height:100%;display:grid;place-items:center;overflow:visible}
+.weapon-preview-hero svg{width:88%;height:88%;overflow:visible;filter:drop-shadow(0 24px 30px rgba(0,0,0,.48))}
+.weapon-preview-hero .hero-edge{fill:url(#weaponHeroMetal)}
+.weapon-preview-hero .hero-core{fill:url(#weaponHeroCore)}
+.weapon-preview-hero .hero-detail{fill:rgba(255,255,255,.72)}
+.weapon-preview-hero .hero-glow{fill:none;stroke:rgba(255,255,255,.16);stroke-width:5;filter:blur(5px)}
 .weapon-preview-copy{padding:12px 4px 0;text-align:center}
 .weapon-preview-copy h3{margin:5px 0 8px;font-family:var(--font-display);font-size:28px;font-weight:400}
 .weapon-preview-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
@@ -86,7 +90,7 @@
   .weapon-panel.has-preview .weapon-preview-pane{opacity:1;pointer-events:auto;transform:translateX(0) scale(1)}
   .weapon-preview-empty{display:none}
   .weapon-preview-shell{padding:0}
-  .weapon-preview-stage{width:min(100%,285px)}
+  .weapon-preview-stage{width:min(100%,300px);height:300px}
   .weapon-preview-copy h3{font-size:25px}
 }
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
@@ -160,6 +164,31 @@ function makeWeaponCard(item,{active=false}={}){
   const name=document.createElement('strong');name.textContent=item.name;
   const note=document.createElement('small');note.textContent='UI preview';
   copy.append(name,note);card.append(mark,badge,copy);return card;
+}
+function makeWeaponHero(item){
+  const hero=document.createElement('div');hero.className='weapon-preview-hero';hero.dataset.weaponId=item.id;hero.setAttribute('aria-label',`Full Weapon preview placeholder for ${item.name}`);
+  hero.innerHTML=`
+    <svg viewBox="0 0 260 260" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="weaponHeroMetal" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f1f3f5"/>
+          <stop offset=".42" stop-color="#aeb5bf"/>
+          <stop offset="1" stop-color="#555d69"/>
+        </linearGradient>
+        <linearGradient id="weaponHeroCore" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#d8dde4"/>
+          <stop offset="1" stop-color="#7e8794"/>
+        </linearGradient>
+      </defs>
+      <path class="hero-glow" d="M38 220 158 100 183 76 211 48"/>
+      <path class="hero-edge" d="M34 225 149 110 171 88 205 38 222 21 215 54 167 102 52 217 46 234Z"/>
+      <path class="hero-core" d="M49 214 160 103 172 115 61 226Z"/>
+      <path class="hero-detail" d="M142 122 173 91 201 119 191 130 175 114 155 134Z"/>
+      <path class="hero-edge" d="M133 132 151 114 180 143 171 152Z"/>
+      <path class="hero-core" d="M39 214 57 232 44 245 26 227Z"/>
+      <path class="hero-detail" d="m25 228 19 19-7 7-19-19Z"/>
+    </svg>`;
+  return hero;
 }
 const weaponUi={
   overlay:null,panel:null,slotHost:null,previewStage:null,previewPane:null,choices:null,
@@ -236,7 +265,7 @@ const weaponUi={
   async transitionPreview(item){
     const old=this.previewLayer;
     this.lastPreviewTransition={from:this.previewId,to:item.id,...this.previewMotion,reduced:reducedMotion()};
-    const layer=document.createElement('div');layer.className='weapon-preview-layer is-incoming';layer.dataset.weaponId=item.id;layer.appendChild(makeWeaponCard(item));
+    const layer=document.createElement('div');layer.className='weapon-preview-layer is-incoming';layer.dataset.weaponId=item.id;layer.appendChild(makeWeaponHero(item));
     this.previewStage.appendChild(layer);this.previewLayer=layer;this.previewId=item.id;
     document.getElementById('weaponPreviewName').textContent=item.name;
     this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');this.syncEquipAction();

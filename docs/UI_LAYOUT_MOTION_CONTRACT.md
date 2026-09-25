@@ -1,6 +1,6 @@
 # Bellibing UI Layout & Motion Contract
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-09-25
 
 This file is the canonical implementation contract for **containment, responsive layout and motion** in the Bellibing New UI.
 
@@ -203,6 +203,65 @@ Required behavior:
 - tapping scrim closes;
 - browser/app back should close the open drawer before abandoning the build where platform integration permits;
 - focus/keyboard handling must remain accessible when implemented.
+
+## 10A. Locked reusable glass selector/detail pattern
+
+The Weapon selector review establishes the default visual/motion family for future **item selectors and detail inspectors** such as Weapon, Echo and comparable Build tools. Reuse this pattern instead of inventing a new modal language for each feature.
+
+This is a reusable **presentation and continuity pattern**, not a requirement that every feature share identical product semantics.
+
+### Layering contract
+
+The approved selector is explicitly split into glass and content layers:
+
+- viewport scrim reference: `rgba(4,5,8,.48)`;
+- main selector panel reference gradient: `rgba(19,22,28,.74)` → `rgba(10,12,16,.70)`;
+- main selector backdrop reference: `blur(5px) saturate(.88)`;
+- item cards, artwork, labels, stats and primary action content remain visually solid/full-opacity above the glass;
+- do **not** create the transparency by lowering opacity on a parent that contains the cards/content, because that fades the interactive content together with the background;
+- preserve enough contrast that the underlying Character/Build stage is clearly contextual but never competes with the active selector.
+
+These values are the approved Bellibing reference target for this family. A feature may require a small accessibility/performance adjustment, but a different visual treatment requires explicit review rather than silent drift.
+
+### Grid/card contract
+
+For browseable visual items:
+
+- cards use a stable local frame and normally a square/near-square visual footprint when the artwork benefits from full silhouette visibility;
+- artwork uses contained framing unless a source-backed reviewed crop says otherwise;
+- hover on pointer devices gives a subtle bubble/focus lift without reflowing neighbors;
+- the approved Weapon reference is approximately 5–8% scale-up with a small upward lift, stronger border/shadow and unchanged grid geometry;
+- touch/mobile does not emulate sticky desktop hover.
+
+### Browse → Preview → Commit continuity
+
+Where a feature has meaningful detail inspection before committing a choice, prefer:
+
+`Grid → Preview → explicit domain action → Current`
+
+Rules:
+
+- the clicked/source card should remain the same visual object through the transition when practical;
+- temporarily reserve its source position with a ghost/placeholder so the surrounding grid does not jump;
+- Preview is inspection state and must not silently mutate Current/Equipped state;
+- the domain action (for example `Choose Weapon`) is the commit point when the product semantics require an explicit choice;
+- on replacement, the new Preview object moves into Current while the old Current object returns to its own candidate/grid position where applicable;
+- avoid duplicated simultaneous representations of the same selected item when object continuity can express the state more clearly;
+- close/back returns the current feature representation to its Build control/slot when that continuity is part of the feature.
+
+Do not force an explicit Choose/Apply step on features whose product semantics are intentionally immediate. Reuse the visual hierarchy and object-permanence motion while preserving the owning feature's interaction contract.
+
+### Responsive presentation
+
+- desktop/wide may expose browse/grid and detail/Preview side by side;
+- narrow/mobile uses the same state and feature component but may present Preview as a near-full drawer/detail layer;
+- underlying Character/Build context remains visible through the approved glass treatment;
+- mobile presentation must not fork feature data or business logic;
+- entry direction should still respect spatial ownership where meaningful (left-associated tools from left, right-associated tools from right).
+
+### Reuse rule
+
+Before designing a new Build selector/inspector, first test whether this pattern fits. New visual language is justified only when the feature's information architecture genuinely cannot use the established glass + solid-content + continuity model.
 
 ## 11. Reduced motion
 

@@ -31,7 +31,8 @@
     "review:character-mechanics-descriptions": "node scripts/generate-character-mechanics-description-review.mjs",
     "prepare:character-mechanics": "npm run sync:character-mechanics && npm run review:character-mechanics && npm run review:character-mechanics-descriptions",
     "audit:ui-echo-portraits": "node scripts/audit-ui-echo-portraits.mjs",
-    "audit:ui-builder-icons": "node scripts/audit-ui-builder-icons.mjs"
+    "audit:ui-builder-icons": "node scripts/audit-ui-builder-icons.mjs",
+    "verify:ui-carousel-runtime": "node scripts/verify-ui-carousel-runtime.mjs"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

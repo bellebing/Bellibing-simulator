@@ -108,6 +108,23 @@ Narrow/mobile:
 
 The same card component/state/data is used at every size. Mobile is a presentation mode, not a second Home implementation.
 
+## 4A. Shared carousel pointer arbitration
+
+Home and Character carousels share one input rule: **click/tap activation and drag/swipe are separate gestures**.
+
+Implementation requirements:
+
+- do not capture the pointer merely because `pointerdown` occurred on a card;
+- preserve the card's native click target while movement remains below the drag threshold;
+- begin carousel moving state and pointer capture only after movement has clearly crossed the drag threshold;
+- the current shared runtime reference uses approximately **6px** as that threshold;
+- once a real drag begins, pointer capture may keep the gesture stable outside the original card and the trailing click must be suppressed;
+- sub-threshold press/release must remain a normal button click and must never require keyboard Enter as a workaround;
+- card buttons use explicit `type="button"` semantics;
+- the same arbitration applies to Home, Build Character and Improve Character because they reuse the shared carousel component.
+
+Real-browser verification for clickable carousel menus must use actual mouse/touch input. Programmatic DOM `.click()` and keyboard activation are useful supplemental checks, but they do not prove physical pointer activation.
+
 ## 5. Build workspace responsive contract
 
 Desktop/wide keeps the accepted v34 composition:

@@ -1,6 +1,6 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-09-25
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
@@ -139,6 +139,25 @@ Panels and minor actions:
 - do not apply the full cinematic transition to every button.
 
 Canonical duration bands, easing, reduced-motion behavior and transform rules live in `docs/UI_LAYOUT_MOTION_CONTRACT.md`.
+
+## Locked reusable selector/detail design language
+
+The user-approved Weapon selector now defines the default **selector/detail visual language** for comparable New UI tools.
+
+Use this family for Weapon, Echo and future browse/inspect/select surfaces when their information architecture fits:
+
+- transparent dark glass keeps the Character/Build context visible behind the active tool;
+- the glass/background is allowed to be substantially transparent, while item cards, icons/artwork, labels, stats and primary actions remain solid and high-contrast;
+- pointer hover gives the currently targeted card a small non-reflowing bubble/lift;
+- selecting an item for inspection should visibly move/expand that source object into Preview rather than teleporting to an unrelated detail panel;
+- when commitment is distinct from inspection, Preview does not change Current until the feature-specific primary action is used;
+- replacement should preserve object permanence: new Preview → Current and old Current → candidate position where applicable;
+- desktop can use browse + right-side detail; mobile can use the same state/component in a drawer/detail presentation;
+- the Character/Build stage remains contextual beneath the glass and does not permanently reflow.
+
+This locks a shared **design system**, not identical semantics. A future Echo selector may reuse the same visual/motion architecture while still obeying canonical Echo rules; Stats can reuse the glass treatment without pretending to be a browse/equip grid. Do not invent gameplay restrictions or confirmation semantics merely to match the visual pattern.
+
+The exact approved glass values, hover/motion rules, containment requirements and responsive implementation contract live in `docs/UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
 
 ## Build a Character layout direction
 

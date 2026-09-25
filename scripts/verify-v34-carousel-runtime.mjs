@@ -410,6 +410,7 @@ try{
     const desktopWeapon=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-overlay-1440x900.png');
 
     await navigate(send);await enterBuild(send);
+    await waitForUi(send,`(()=>{const cards=[...document.querySelectorAll('#buildWheel .choice')],images=cards.map(card=>card.querySelector('img'));return cards.length===57&&images.every(img=>img?.complete&&img.naturalWidth>0)})()`,'Desktop Build portraits did not settle to 57/57 after navigation',15000);
     const desktopBefore=await buildMetrics(send);
     if(desktopBefore.count!==57||desktopBefore.loaded!==57||!desktopBefore.oneLine||!desktopBefore.headerFirst||!desktopBefore.textMetricsSafe||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
     for(const forbidden of ['Jingran','Hsin','Suoming']) if(desktopBefore.names.includes(forbidden)) throw new Error(`${forbidden} leaked into released Build selector.`);

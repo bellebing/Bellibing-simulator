@@ -121,6 +121,23 @@ async function drag(send, selector, direction=-1, fraction=.66, {touch=false}={}
   await sleep(760);
 }
 
+async function pointerClick(send, selector, {touch=false}={}) {
+  const bounds=await evaluate(send,`(()=>{const el=document.querySelector(${JSON.stringify(selector)});if(!el)throw new Error('Missing pointer target: '+${JSON.stringify(selector)});const r=el.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}})()`);
+  if(bounds.width<=0||bounds.height<=0) throw new Error(`Pointer target has no visible bounds: ${selector} ${JSON.stringify(bounds)}`);
+  const x=bounds.x+bounds.width*.5,y=bounds.y+bounds.height*.5;
+  if(touch){
+    await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y,id:1,radiusX:1,radiusY:1,force:1}]});
+    await sleep(28);
+    await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  }else{
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',clickCount:1});
+    await sleep(28);
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});
+  }
+  await sleep(42);
+}
+
 async function enterBuild(send) {
   await evaluate(send, `document.querySelector('#homeStage .card-build').click()`);
   await sleep(700);
@@ -184,6 +201,7 @@ async function buildMetrics(send) {
 }
 
 async function verifyWeaponOverlay(send, width, height, capturePath) {
+  const touch=width<=760;
   const alreadySelected=await evaluate(send,`document.getElementById('buildShell').classList.contains('has-selection')`);
   if(!alreadySelected){
     await evaluate(send,`(()=>{const w=document.getElementById('buildWheel'),i=Number(w.dataset.focusIndex),c=w.querySelectorAll('.choice')[i];if(!c)throw new Error('Focused Build card missing');c.click()})()`);
@@ -192,14 +210,31 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   const slotBefore=await evaluate(send,`(()=>{const b=document.getElementById('weaponBtn'),h=document.getElementById('weaponSlotHost');return{cardCount:h.querySelectorAll('.weapon-card').length,emptyVisible:getComputedStyle(h.querySelector('.weapon-empty')).opacity,expanded:b.getAttribute('aria-expanded')}})()`);
   if(slotBefore.cardCount!==0) throw new Error(`Fresh Weapon slot must start empty: ${JSON.stringify(slotBefore)}`);
 
-  await evaluate(send,`document.getElementById('weaponBtn').click()`);
-  await sleep(560);
-  const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel'),scrim=document.querySelector('.weapon-scrim'),r=p.getBoundingClientRect(),buttons=[...p.querySelectorAll('button')].map(b=>b.textContent.trim()),first=document.querySelector('#weaponChoices .weapon-choice'),firstCard=first?.querySelector('.weapon-card'),fr=firstCard?.getBoundingClientRect(),ps=getComputedStyle(p),ss=getComputedStyle(scrim);return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),hasCurrent:p.classList.contains('has-current'),currentCount:document.querySelectorAll('#weaponCurrentHost .weapon-card').length,options:document.querySelectorAll('#weaponChoices .weapon-choice').length,visibleOptions:[...document.querySelectorAll('#weaponChoices .weapon-choice')].filter(x=>getComputedStyle(x).display!=='none').length,panel:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},first:fr?{left:fr.left,top:fr.top,width:fr.width,height:fr.height}:null,actionButtons:buttons.filter(t=>/^(save|apply)$/i.test(t)),chooseButtons:buttons.filter(t=>/^choose weapon$/i.test(t)),visual:{scrimBackground:ss.backgroundColor,panelBackground:ps.backgroundImage,panelBackdrop:ps.backdropFilter,cardBackground:firstCard?getComputedStyle(firstCard).backgroundImage:null,cardOpacity:firstCard?getComputedStyle(firstCard).opacity:null,chooseOpacity:getComputedStyle(document.getElementById('weaponChoose')).opacity}}})()`);
+  await pointerClick(send,'#weaponBtn',{touch});
+  await sleep(120);
+  const opening=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel'),ps=getComputedStyle(p);return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),busy:weaponUi.busy,transition:ps.transitionDuration}})()`);
+  if(!opening.mounted||!opening.open||opening.hidden!=='false'||opening.expanded!=='true'||!opening.transition.includes('0.38s')) throw new Error(`Weapon no-current open animation did not start: ${JSON.stringify(opening)}`);
+  await sleep(360);
+
+  const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel'),scrim=document.querySelector('.weapon-scrim'),r=p.getBoundingClientRect(),buttons=[...p.querySelectorAll('button')].map(b=>b.textContent.trim()),first=document.querySelector('#weaponChoices .weapon-choice'),firstCard=first?.querySelector('.weapon-card'),fr=firstCard?.getBoundingClientRect(),ps=getComputedStyle(p),ss=getComputedStyle(scrim);return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),hasCurrentHost:!!document.getElementById('weaponCurrentHost'),options:document.querySelectorAll('#weaponChoices .weapon-choice').length,visibleOptions:[...document.querySelectorAll('#weaponChoices .weapon-choice')].filter(x=>getComputedStyle(x).display!=='none').length,equippedCount:document.querySelectorAll('#weaponChoices .weapon-choice.is-equipped').length,panel:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},first:fr?{left:fr.left,top:fr.top,width:fr.width,height:fr.height}:null,actionButtons:buttons.filter(t=>/^(save|apply)$/i.test(t)),chooseButtons:buttons.filter(t=>/^choose weapon$/i.test(t)),visual:{scrimBackground:ss.backgroundColor,panelBackground:ps.backgroundImage,panelBackdrop:ps.backdropFilter,cardBackground:firstCard?getComputedStyle(firstCard).backgroundImage:null,cardOpacity:firstCard?getComputedStyle(firstCard).opacity:null,chooseOpacity:getComputedStyle(document.getElementById('weaponChoose')).opacity}}})()`);
   if(!opened.mounted||!opened.open||opened.hidden!=='false'||opened.expanded!=='true') throw new Error(`Weapon overlay did not open at ${width}x${height}: ${JSON.stringify(opened)}`);
-  if(opened.hasCurrent||opened.currentCount!==0||opened.options!==7||opened.visibleOptions!==7||opened.actionButtons.length||opened.chooseButtons.length!==1) throw new Error(`Empty Weapon browse state failed: ${JSON.stringify(opened)}`);
+  if(opened.hasCurrentHost||opened.options!==7||opened.visibleOptions!==7||opened.equippedCount!==0||opened.actionButtons.length||opened.chooseButtons.length!==1) throw new Error(`Empty Weapon browse state failed: ${JSON.stringify(opened)}`);
   if(opened.panel.left<-1||opened.panel.top<-1||opened.panel.right>width+1||opened.panel.bottom>height+1) throw new Error(`Weapon overlay escaped viewport at ${width}x${height}: ${JSON.stringify(opened.panel)}`);
+  if(width>760&&(Math.abs(opened.panel.width-980)>1.5||Math.abs(opened.panel.height-720)>1.5)) throw new Error(`Locked desktop Weapon panel must be 980x720: ${JSON.stringify(opened.panel)}`);
   if(!opened.visual.scrimBackground.includes('0.48')||!opened.visual.panelBackground.includes('0.74')||!opened.visual.panelBackground.includes('0.7')||!opened.visual.panelBackdrop.includes('blur(5px)')) throw new Error(`Weapon overlay transparency contract failed: ${JSON.stringify(opened.visual)}`);
   if(opened.visual.cardOpacity!=='1'||opened.visual.chooseOpacity!=='1'||!opened.visual.cardBackground?.includes('linear-gradient')) throw new Error(`Weapon content must remain solid above transparent glass: ${JSON.stringify(opened.visual)}`);
+
+  // Closing with no equipped Weapon must still visibly animate instead of unmounting immediately.
+  await pointerClick(send,'#weaponClose',{touch});
+  await sleep(90);
+  const emptyClosing=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),busy:weaponUi.busy}})()`);
+  if(!emptyClosing.mounted||emptyClosing.open||emptyClosing.hidden!=='false'||!emptyClosing.busy) throw new Error(`No-current Weapon close did not preserve the closing animation: ${JSON.stringify(emptyClosing)}`);
+  await sleep(360);
+  const emptyClosed=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay');return{mounted:o.classList.contains('mounted'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded')}})()`);
+  if(emptyClosed.mounted||emptyClosed.hidden!=='true'||emptyClosed.expanded!=='false') throw new Error(`No-current Weapon close did not finish cleanly: ${JSON.stringify(emptyClosed)}`);
+
+  await pointerClick(send,'#weaponBtn',{touch});
+  await sleep(620);
 
   if(width>760&&opened.first){
     const choiceBounds=await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice').getBoundingClientRect().toJSON()`);
@@ -209,33 +244,43 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
     if(hovered.width<opened.first.width*1.035||hovered.height<opened.first.height*1.035||hovered.choiceWidth<opened.first.width*.95) throw new Error(`Weapon hover focus did not bubble above the stable grid: ${JSON.stringify({before:opened.first,after:hovered})}`);
   }
 
-  await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-01"]').click()`);
-  await sleep(540);
-  const firstPreview=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),pane=document.getElementById('weaponPreviewPane'),preview=document.querySelector('#weaponPreviewHost .weapon-card'),source=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-01"]'),pr=preview?.getBoundingClientRect();return{hasPreview:p.classList.contains('has-preview'),hasCurrent:p.classList.contains('has-current'),hidden:pane.getAttribute('aria-hidden'),previewId:preview?.dataset.weaponId||null,previewName:document.getElementById('weaponPreviewName').textContent.trim(),currentCount:document.querySelectorAll('#weaponCurrentHost .weapon-card').length,sourceGhost:source?.classList.contains('is-preview-source')||false,sourceHasCard:!!source?.querySelector('.weapon-card'),previewRect:pr?{width:pr.width,height:pr.height}:null}})()`);
-  if(!firstPreview.hasPreview||firstPreview.hasCurrent||firstPreview.hidden!=='false'||firstPreview.previewId!=='preview-01'||firstPreview.previewName!=='Weapon 01'||firstPreview.currentCount!==0||!firstPreview.sourceGhost||firstPreview.sourceHasCard) throw new Error(`First Weapon preview state failed: ${JSON.stringify(firstPreview)}`);
-  if(!firstPreview.previewRect||!opened.first||firstPreview.previewRect.height<opened.first.height*1.25) throw new Error(`Weapon preview did not visibly enlarge from the grid: ${JSON.stringify({grid:opened.first,preview:firstPreview.previewRect})}`);
+  await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="preview-01"]',{touch});
+  await sleep(600);
+  const firstPreview=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),preview=document.querySelector('#weaponPreviewHost .weapon-card'),source=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-01"]'),pr=preview?.getBoundingClientRect(),choose=document.getElementById('weaponChoose');return{hasPreview:p.classList.contains('has-preview'),previewId:preview?.dataset.weaponId||null,previewName:document.getElementById('weaponPreviewName').textContent.trim(),currentId:weaponUi.currentCard?.dataset.weaponId||null,sourceGhost:source?.classList.contains('is-preview-source')||false,sourceHasCard:!!source?.querySelector('.weapon-card'),chooseText:choose.textContent.trim(),chooseDisabled:choose.disabled,previewRect:pr?{width:pr.width,height:pr.height}:null}})()`);
+  if(!firstPreview.hasPreview||firstPreview.previewId!=='preview-01'||firstPreview.previewName!=='Weapon 01'||firstPreview.currentId!==null||!firstPreview.sourceGhost||firstPreview.sourceHasCard||firstPreview.chooseText!=='Choose Weapon'||firstPreview.chooseDisabled) throw new Error(`First Weapon preview state failed: ${JSON.stringify(firstPreview)}`);
+  if(!firstPreview.previewRect||!opened.first||firstPreview.previewRect.height<opened.first.height*1.20) throw new Error(`Weapon preview did not visibly enlarge from the grid: ${JSON.stringify({grid:opened.first,preview:firstPreview.previewRect})}`);
 
-  await evaluate(send,`document.getElementById('weaponChoose').click()`);
-  await sleep(720);
-  const firstEquip=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),current=document.querySelector('#weaponCurrentHost .weapon-card'),own=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-01"]');return{hasPreview:p.classList.contains('has-preview'),hasCurrent:p.classList.contains('has-current'),currentId:current?.dataset.weaponId||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),ownHidden:getComputedStyle(own).display==='none',ownHasCard:!!own.querySelector('.weapon-card'),visibleOptions:[...document.querySelectorAll('#weaponChoices .weapon-choice')].filter(x=>getComputedStyle(x).display!=='none').length}})()`);
-  if(firstEquip.hasPreview||!firstEquip.hasCurrent||firstEquip.currentId!=='preview-01'||firstEquip.currentName!=='Weapon 01'||!firstEquip.ownHidden||firstEquip.ownHasCard||firstEquip.visibleOptions!==6) throw new Error(`First Choose Weapon flow failed: ${JSON.stringify(firstEquip)}`);
+  await pointerClick(send,'#weaponChoose',{touch});
+  await sleep(650);
+  const firstEquip=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),choices=document.getElementById('weaponChoices'),first=choices.firstElementChild,card=first?.querySelector('.weapon-card'),badge=card?.querySelector('.weapon-equipped-badge');return{hasPreview:p.classList.contains('has-preview'),currentId:weaponUi.currentCard?.dataset.weaponId||null,firstId:first?.dataset.weaponId||null,firstEquipped:first?.classList.contains('is-equipped')||false,firstCardId:card?.dataset.weaponId||null,badgeText:badge?.textContent.trim()||null,badgeDisplay:badge?getComputedStyle(badge).display:null,visibleOptions:[...choices.children].filter(x=>getComputedStyle(x).display!=='none').length,previewCount:document.querySelectorAll('#weaponPreviewHost .weapon-card').length,slotCount:document.querySelectorAll('#weaponSlotHost .weapon-card').length}})()`);
+  if(firstEquip.hasPreview||firstEquip.currentId!=='preview-01'||firstEquip.firstId!=='preview-01'||!firstEquip.firstEquipped||firstEquip.firstCardId!=='preview-01'||firstEquip.badgeText!=='Currently Equipped'||firstEquip.badgeDisplay==='none'||firstEquip.visibleOptions!==7||firstEquip.previewCount!==0||firstEquip.slotCount!==0) throw new Error(`First Choose Weapon / equipped-first contract failed: ${JSON.stringify(firstEquip)}`);
 
-  await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-02"]').click()`);
-  await sleep(540);
-  const secondPreview=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),preview=document.querySelector('#weaponPreviewHost .weapon-card'),current=document.querySelector('#weaponCurrentHost .weapon-card'),source=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-02"]'),pane=document.getElementById('weaponPreviewPane'),choose=document.getElementById('weaponChoose'),paneRect=pane.getBoundingClientRect(),chooseRect=choose.getBoundingClientRect(),panelRect=p.getBoundingClientRect();return{hasPreview:p.classList.contains('has-preview'),previewId:preview?.dataset.weaponId||null,currentId:current?.dataset.weaponId||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),sourceGhost:source?.classList.contains('is-preview-source')||false,pane:{top:paneRect.top,bottom:paneRect.bottom},choose:{top:chooseRect.top,bottom:chooseRect.bottom,height:chooseRect.height},panelBottom:panelRect.bottom}})()`);
-  if(!secondPreview.hasPreview||secondPreview.previewId!=='preview-02'||secondPreview.currentId!=='preview-01'||secondPreview.currentName!=='Weapon 01'||!secondPreview.sourceGhost) throw new Error(`Preview must not replace Current before Choose: ${JSON.stringify(secondPreview)}`);
-  if(secondPreview.choose.height<36||secondPreview.choose.top<secondPreview.pane.top-1||secondPreview.choose.bottom>secondPreview.pane.bottom+1||secondPreview.choose.bottom>secondPreview.panelBottom+1) throw new Error(`Choose Weapon is clipped or outside the preview pane: ${JSON.stringify(secondPreview)}`);
+  await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="preview-02"]',{touch});
+  await sleep(600);
+  const secondPreview=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),preview=document.querySelector('#weaponPreviewHost .weapon-card'),source=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-02"]'),choices=document.getElementById('weaponChoices'),first=choices.firstElementChild,choose=document.getElementById('weaponChoose'),pane=document.getElementById('weaponPreviewPane'),chooseRect=choose.getBoundingClientRect(),paneRect=pane.getBoundingClientRect();return{hasPreview:p.classList.contains('has-preview'),previewId:preview?.dataset.weaponId||null,currentId:weaponUi.currentCard?.dataset.weaponId||null,firstId:first?.dataset.weaponId||null,firstEquipped:first?.classList.contains('is-equipped')||false,sourceGhost:source?.classList.contains('is-preview-source')||false,choose:{top:chooseRect.top,bottom:chooseRect.bottom,height:chooseRect.height},pane:{top:paneRect.top,bottom:paneRect.bottom}}})()`);
+  if(!secondPreview.hasPreview||secondPreview.previewId!=='preview-02'||secondPreview.currentId!=='preview-01'||secondPreview.firstId!=='preview-01'||!secondPreview.firstEquipped||!secondPreview.sourceGhost) throw new Error(`Preview must preserve Currently Equipped as grid item #1: ${JSON.stringify(secondPreview)}`);
+  if(secondPreview.choose.height<36||secondPreview.choose.top<secondPreview.pane.top-1||secondPreview.choose.bottom>secondPreview.pane.bottom+1) throw new Error(`Choose Weapon is clipped or outside Preview: ${JSON.stringify(secondPreview)}`);
   if(capturePath) await capture(send,capturePath);
 
-  await evaluate(send,`document.getElementById('weaponChoose').click()`);
-  await sleep(760);
-  const swapped=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),current=document.querySelector('#weaponCurrentHost .weapon-card'),oldSlot=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-01"]'),newSlot=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="preview-02"]'),oldCard=oldSlot?.querySelector('.weapon-card');return{hasPreview:p.classList.contains('has-preview'),currentId:current?.dataset.weaponId||null,currentName:document.getElementById('weaponCurrentName').textContent.trim(),oldSlotHidden:getComputedStyle(oldSlot).display==='none',oldReturnedId:oldCard?.dataset.weaponId||null,newSlotHidden:getComputedStyle(newSlot).display==='none',newSlotHasCard:!!newSlot.querySelector('.weapon-card'),previewCount:document.querySelectorAll('#weaponPreviewHost .weapon-card').length,visibleOptions:[...document.querySelectorAll('#weaponChoices .weapon-choice')].filter(x=>getComputedStyle(x).display!=='none').length}})()`);
-  if(swapped.hasPreview||swapped.currentId!=='preview-02'||swapped.currentName!=='Weapon 02'||swapped.oldSlotHidden||swapped.oldReturnedId!=='preview-01'||!swapped.newSlotHidden||swapped.newSlotHasCard||swapped.previewCount!==0||swapped.visibleOptions!==6) throw new Error(`Animated Current→grid / Preview→Current swap failed: ${JSON.stringify(swapped)}`);
+  await pointerClick(send,'#weaponChoose',{touch});
+  await sleep(680);
+  const swapped=await evaluate(send,`(()=>{const p=document.getElementById('weaponPanel'),choices=document.getElementById('weaponChoices'),first=choices.children[0],second=choices.children[1],firstCard=first?.querySelector('.weapon-card'),oldCard=second?.querySelector('.weapon-card'),badge=firstCard?.querySelector('.weapon-equipped-badge');return{hasPreview:p.classList.contains('has-preview'),currentId:weaponUi.currentCard?.dataset.weaponId||null,firstId:first?.dataset.weaponId||null,firstCardId:firstCard?.dataset.weaponId||null,firstEquipped:first?.classList.contains('is-equipped')||false,badgeText:badge?.textContent.trim()||null,secondId:second?.dataset.weaponId||null,oldReturnedId:oldCard?.dataset.weaponId||null,visibleOptions:[...choices.children].filter(x=>getComputedStyle(x).display!=='none').length,previewCount:document.querySelectorAll('#weaponPreviewHost .weapon-card').length}})()`);
+  if(swapped.hasPreview||swapped.currentId!=='preview-02'||swapped.firstId!=='preview-02'||swapped.firstCardId!=='preview-02'||!swapped.firstEquipped||swapped.badgeText!=='Currently Equipped'||swapped.secondId!=='preview-01'||swapped.oldReturnedId!=='preview-01'||swapped.visibleOptions!==7||swapped.previewCount!==0) throw new Error(`Flowy Preview→equipped-first / old-current→grid swap failed: ${JSON.stringify(swapped)}`);
 
-  await evaluate(send,`document.getElementById('weaponClose').click()`);
-  await sleep(500);
+  await pointerClick(send,'#weaponClose',{touch});
+  await sleep(110);
+  const closing=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),flight=document.querySelector('body > .weapon-card.is-flying');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),flightId:flight?.dataset.weaponId||null,busy:weaponUi.busy}})()`);
+  if(!closing.mounted||closing.open||closing.hidden!=='false'||closing.flightId!=='preview-02'||!closing.busy) throw new Error(`Equipped Weapon close animation did not fly Current back to Build slot: ${JSON.stringify(closing)}`);
+  await sleep(520);
   const closed=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),c=document.querySelector('#weaponSlotHost .weapon-card');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentId:c?.dataset.weaponId||null,emptyOpacity:getComputedStyle(document.querySelector('#weaponSlotHost .weapon-empty')).opacity}})()`);
   if(closed.mounted||closed.open||closed.hidden!=='true'||closed.expanded!=='false'||closed.parent!=='weaponSlotHost'||closed.currentId!=='preview-02'||Number(closed.emptyOpacity)>.05) throw new Error(`Weapon close/return behavior failed: ${JSON.stringify(closed)}`);
+
+  // Reopen proves the equipped Weapon returns to item #1 instead of a duplicate Current row.
+  await pointerClick(send,'#weaponBtn',{touch});
+  await sleep(650);
+  const reopened=await evaluate(send,`(()=>{const choices=document.getElementById('weaponChoices'),first=choices.firstElementChild;return{firstId:first?.dataset.weaponId||null,firstEquipped:first?.classList.contains('is-equipped')||false,firstCardId:first?.querySelector('.weapon-card')?.dataset.weaponId||null,slotCount:document.querySelectorAll('#weaponSlotHost .weapon-card').length,currentHost:!!document.getElementById('weaponCurrentHost')}})()`);
+  if(reopened.firstId!=='preview-02'||!reopened.firstEquipped||reopened.firstCardId!=='preview-02'||reopened.slotCount!==0||reopened.currentHost) throw new Error(`Reopen did not restore equipped Weapon as grid item #1: ${JSON.stringify(reopened)}`);
+  await pointerClick(send,'#weaponClose',{touch});await sleep(650);
   return {previewed:'Weapon 02',equipped:'Weapon 02'};
 }
 
@@ -317,7 +362,7 @@ try{
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
     console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
-    console.log(`- Weapon selector grid→preview→Choose→Current flow passed on desktop and mobile; equipped: ${desktopWeapon.equipped} / ${mobileWeapon.equipped}.`);
+    console.log(`- Weapon selector real-pointer flow passed: 980x720 desktop, no-current close motion, Preview, equipped-first grid ordering and symmetric close return; equipped: ${desktopWeapon.equipped} / ${mobileWeapon.equipped}.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

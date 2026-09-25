@@ -67,6 +67,29 @@ Canonical v34 visual baseline: `docs/UI_BUILD_HANDOFF_V34.md`.
 
 Use it for the approved visual direction, proportions and parity reference. Do not copy its historical pixel values into new viewport-relative layout hacks.
 
+## Functional PR preview protocol
+
+When the user asks for a UI `preview`, `PR preview`, `test link`, `functional preview` or equivalent, treat that as an explicit review workflow request rather than returning screenshots only.
+
+Required sequence:
+
+1. recover the current active UI PR/branch from GitHub + `PROJECT_STATUS.md` + AI Handoff; never assume an old PR number;
+2. ensure the requested UI work is committed on that active PR branch;
+3. verify the **exact PR head** with the repository's existing Verify/Export workflow; do not present a stale head as current;
+4. for the current standalone New UI prototype entrypoint, construct an immutable exact-head review URL in this form:
+
+   `https://rawcdn.githack.com/bellebing/Bellibing-simulator/<HEAD_SHA>/docs/ui-prototypes/v34-functional.html`
+
+5. return that URL prominently as **Open functional UI preview**, together with the PR number and exact head SHA;
+6. the preview is for interaction review only and must not be described as the deployed Bellibing site or canonical `main`;
+7. do not merge merely to make a preview available.
+
+The raw.githack service serves source-hosted HTML/assets with browser-usable content types. Exact commit URLs are immutable, which makes the review link correspond to one verified PR head. A first browser visit may show the service's HTML safety confirmation before opening the page.
+
+If the UI review entrypoint later moves away from `docs/ui-prototypes/v34-functional.html`, update this protocol in the same change that moves the entrypoint. Do not keep emitting a dead historical URL.
+
+If the external preview service is unavailable, say so explicitly and fall back to the repository-local `npm run build` + `python3 -m http.server 4173 --directory dist` flow. Never claim a clickable preview was verified when it was not.
+
 ## Merge boundary
 
 Do not merge an active UI PR without explicit user authorization.

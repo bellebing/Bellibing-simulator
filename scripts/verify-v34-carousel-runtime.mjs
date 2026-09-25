@@ -183,6 +183,34 @@ async function buildMetrics(send) {
   })()`);
 }
 
+async function verifyWeaponOverlay(send, width, height, capturePath) {
+  const alreadySelected=await evaluate(send,`document.getElementById('buildShell').classList.contains('has-selection')`);
+  if(!alreadySelected){
+    await evaluate(send,`(()=>{const w=document.getElementById('buildWheel'),i=Number(w.dataset.focusIndex),c=w.querySelectorAll('.choice')[i];if(!c)throw new Error('Focused Build card missing');c.click()})()`);
+    await sleep(760);
+  }
+  const slotBefore=await evaluate(send,`(()=>{const b=document.getElementById('weaponBtn'),h=document.getElementById('weaponSlotHost'),c=h.querySelector('.weapon-card');if(!c)throw new Error('Weapon slot card missing');const r=c.getBoundingClientRect();return{width:r.width,height:r.height,expanded:b.getAttribute('aria-expanded')}})()`);
+  await evaluate(send,`document.getElementById('weaponBtn').click()`);
+  await sleep(560);
+  const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel').getBoundingClientRect(),h=document.getElementById('weaponCurrentHost'),c=h.querySelector('.weapon-card'),buttons=[...document.getElementById('weaponPanel').querySelectorAll('button')].map(b=>b.textContent.trim());return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,options:document.querySelectorAll('#weaponChoices .weapon-choice').length,panel:{left:p.left,top:p.top,right:p.right,bottom:p.bottom},current:c?(()=>{const r=c.getBoundingClientRect();return{width:r.width,height:r.height}})():null,actionButtons:buttons.filter(t=>/^(save|apply)$/i.test(t))}})()`);
+  if(!opened.mounted||!opened.open||opened.hidden!=='false'||opened.expanded!=='true') throw new Error(`Weapon overlay did not open at ${width}x${height}: ${JSON.stringify(opened)}`);
+  if(opened.parent!=='weaponCurrentHost'||opened.options!==6||opened.actionButtons.length) throw new Error(`Weapon current/options contract failed: ${JSON.stringify(opened)}`);
+  if(opened.panel.left<-1||opened.panel.top<-1||opened.panel.right>width+1||opened.panel.bottom>height+1) throw new Error(`Weapon overlay escaped viewport at ${width}x${height}: ${JSON.stringify(opened.panel)}`);
+  if(!opened.current||opened.current.height<=slotBefore.height*1.15) throw new Error(`Current Weapon card did not visibly expand: slot=${JSON.stringify(slotBefore)} current=${JSON.stringify(opened.current)}`);
+  if(capturePath) await capture(send,capturePath);
+
+  await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice').click()`);
+  await sleep(440);
+  const switched=await evaluate(send,`({name:document.getElementById('weaponCurrentName').textContent.trim(),currentId:document.querySelector('#weaponCurrentHost .weapon-card')?.dataset.weaponId||null,gridHasOld:[...document.querySelectorAll('#weaponChoices .weapon-card')].some(c=>c.dataset.weaponId==='current')})`);
+  if(switched.name!=='Weapon 01'||switched.currentId!=='preview-01'||!switched.gridHasOld) throw new Error(`Weapon swap behavior failed: ${JSON.stringify(switched)}`);
+
+  await evaluate(send,`document.getElementById('weaponClose').click()`);
+  await sleep(480);
+  const closed=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),c=document.querySelector('#weaponSlotHost .weapon-card');return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),parent:c?.parentElement?.id||null,currentId:c?.dataset.weaponId||null}})()`);
+  if(closed.mounted||closed.open||closed.hidden!=='true'||closed.expanded!=='false'||closed.parent!=='weaponSlotHost'||closed.currentId!=='preview-01') throw new Error(`Weapon close/return behavior failed: ${JSON.stringify(closed)}`);
+  return switched.name;
+}
+
 async function capture(send, path) {
   const shot=await send('Page.captureScreenshot',{format:'png',fromSurface:true});
   mkdirSync('artifacts',{recursive:true});
@@ -235,6 +263,7 @@ try{
     const hoverNames=await buildMetrics(send);
     if(hoverNames.state!=='HOVER_EXPANDED'||!hoverNames.oneLine||!hoverNames.headerFirst||!hoverNames.textMetricsSafe||!hoverNames.descenderMetricsSafe) throw new Error(`Hover-expanded Build typography contract failed: ${JSON.stringify(hoverNames)}`);
     await capture(send,'artifacts/ui-preview-build-names-hover-expanded-1440x900.png');
+    const desktopWeapon=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-overlay-1440x900.png');
 
     await navigate(send);await enterBuild(send);
     const desktopBefore=await buildMetrics(send);
@@ -251,6 +280,7 @@ try{
     await drag(send,'#buildWheel',-1,.72,{touch:true});
     const mobileAfter=await buildMetrics(send);
     if(mobileAfter.focus-mobileBefore.focus<2) throw new Error(`Mobile Build drag did not traverse multiple cards: ${mobileBefore.focus} -> ${mobileAfter.focus}`);
+    const mobileWeapon=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-overlay-390x844.png');
 
     console.log('v34 runtime carousel verification passed in real Chrome.');
     console.log('- Home finite centered shell passed 390x844 through 7680x2160.');
@@ -259,6 +289,7 @@ try{
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
     console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
+    console.log(`- Weapon selector morph/swap/return passed on desktop and mobile; active preview: ${desktopWeapon} / ${mobileWeapon}.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

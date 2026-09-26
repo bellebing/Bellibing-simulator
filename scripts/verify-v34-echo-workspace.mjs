@@ -160,10 +160,9 @@ async function verifyManualCostFilter(send, filter) {
 
 async function assertFixedDock(send, label, active, baseline = null) {
   const dock = await evaluate(send, `(()=>{
-    const host=document.getElementById('echoWorkspaceSlots'),box=host.getBoundingClientRect();
+    const host=document.getElementById('echoWorkspaceSlots');
     return [...host.children].map(node=>{
-      const rect=node.getBoundingClientRect();
-      return {id:Number(node.dataset.echoTarget),label:node.querySelector('.echo-workspace-slot-copy strong')?.textContent.trim(),active:node.classList.contains('active-target'),pressed:node.getAttribute('aria-pressed'),order:getComputedStyle(node).order,x:rect.left-box.left+host.scrollLeft,y:rect.top-box.top+host.scrollTop,width:rect.width,height:rect.height};
+      return {id:Number(node.dataset.echoTarget),label:node.querySelector('.echo-workspace-slot-copy strong')?.textContent.trim(),active:node.classList.contains('active-target'),pressed:node.getAttribute('aria-pressed'),order:getComputedStyle(node).order,x:node.offsetLeft-host.offsetLeft,y:node.offsetTop-host.offsetTop,width:node.offsetWidth,height:node.offsetHeight};
     });
   })()`);
   const ids=dock.map(slot=>slot.id),labels=dock.map(slot=>slot.label);

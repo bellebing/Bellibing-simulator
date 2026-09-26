@@ -181,29 +181,37 @@
 .echo-preview-shell{height:100%;min-height:0;display:flex;flex-direction:column;opacity:0;pointer-events:none}
 .echo-panel.has-preview .echo-preview-empty{display:none}
 .echo-panel.has-preview .echo-preview-shell{opacity:1;pointer-events:auto}
-.echo-preview-art{display:block;width:94px;height:94px;max-width:82%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
-.echo-preview-copy{min-height:0;text-align:center}
-.echo-preview-copy h3{margin:1px 0 5px;font-family:var(--font-display);font-size:22px;font-weight:400}
-.echo-preview-meta-line{display:flex;align-items:center;justify-content:center;gap:9px;color:#9da4ad;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
-.echo-preview-cost-stars{color:#d8af57;font-size:11px;letter-spacing:-.04em}
-.echo-preview-sonata-assignment{margin-top:7px;text-align:left}
+.echo-preview-hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(112px,.82fr);gap:10px;align-items:start;min-width:0}
+.echo-preview-sonata-assignment{min-width:0;padding-top:2px;text-align:left}
 .echo-preview-meta-label{display:block;color:#747c87;font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-.echo-preview-sonata-choices{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.echo-preview-sonata-option{min-width:0;max-width:100%;padding:4px 6px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#151920;color:#bfc5cc;display:flex;align-items:center;gap:5px;font-size:9px;cursor:pointer}
-.echo-preview-sonata-option img{width:20px;height:20px;object-fit:contain;flex:0 0 20px}
+.echo-preview-sonata-choices{display:grid;gap:3px;margin-top:4px}
+.echo-preview-sonata-option{width:100%;min-width:0;min-height:25px;padding:2px 5px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#151920;color:#bfc5cc;display:grid;grid-template-columns:19px minmax(0,1fr);align-items:center;gap:5px;font-size:9px;text-align:left;cursor:pointer}
+.echo-preview-sonata-option img{width:19px;height:19px;object-fit:contain}
 .echo-preview-sonata-option span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5}
+.echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5;box-shadow:0 0 0 1px rgba(224,187,109,.10)}
 .echo-preview-sonata-option:disabled{cursor:default;opacity:1}
-.echo-editor{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-preview-identity{min-width:0;display:grid;justify-items:center;align-content:start;text-align:center}
+.echo-preview-art{display:block;width:92px;height:82px;max-width:100%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
+.echo-preview-copy{min-width:0;width:100%;text-align:center}
+.echo-preview-copy h3{margin:0 0 4px;font-family:var(--font-display);font-size:20px;font-weight:400;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-preview-meta-line{display:flex;align-items:center;justify-content:center;gap:8px;color:#9da4ad;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
+.echo-preview-cost-stars{color:#d8af57;font-size:11px;letter-spacing:-.04em}
+.echo-editor{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
 .echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
 .echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.echo-main-stat-field{margin-bottom:5px}
+.echo-main-stat-field>label{color:#a98a50}
 .echo-editor select{width:100%;min-width:0;height:29px;padding:4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px}
+#echoMainStat{height:38px;padding:4px 28px 4px 8px;border:0;border-bottom:1px solid rgba(224,187,109,.46);border-radius:0;background:rgba(224,187,109,.045);color:#f2e6cf;font-size:15px;font-weight:800;line-height:1.1}
 .echo-editor select:disabled{color:#707783;background:#11141a}
-.echo-secondary-value{height:29px;padding:6px 7px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:#11151b;color:#d8dce2;font-size:10px}
+.echo-secondary-field{margin-bottom:5px}
+.echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35}
+.echo-substats-label{display:block;margin-top:1px}
 .echo-substats{display:grid;gap:4px;margin-top:4px}
 .echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
-.echo-editor-error{min-height:12px;margin-top:4px;color:#d89090;font-size:9px;line-height:1.25}
-.echo-equip{margin-top:6px;width:100%;padding:10px 14px;border:1px solid rgba(207,166,84,.44);border-radius:11px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer;flex:0 0 auto}
+.echo-editor-error{min-height:0;margin:0;color:#d89090;font-size:9px;line-height:1.25}
+.echo-editor-error:not(:empty){min-height:12px;margin-top:4px}
+.echo-equip{display:block;margin-top:8px;width:100%;padding:10px 14px;border:1px solid rgba(207,166,84,.44);border-radius:11px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
 .echo-equip:disabled{cursor:default;background:#15181d;border-color:rgba(255,255,255,.10);color:#747b85}
 @media(max-width:760px){
   .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
@@ -294,20 +302,24 @@
       <aside id="echoPreviewPane" class="echo-preview-pane" aria-hidden="true">
         <div class="echo-preview-empty"><strong>Preview</strong><p>Select an Echo to inspect it here.</p></div>
         <div class="echo-preview-shell">
-          <img id="echoPreviewArt" class="echo-preview-art" alt="">
-          <div class="echo-preview-copy">
-            <h3 id="echoPreviewName">Echo</h3>
-            <div class="echo-preview-meta-line"><span id="echoPreviewCostStars" class="echo-preview-cost-stars">★</span><span id="echoPreviewLevel">Level +0</span></div>
+          <div class="echo-preview-hero">
             <div class="echo-preview-sonata-assignment"><span class="echo-preview-meta-label">Sonata</span><div id="echoPreviewSonataChoices" class="echo-preview-sonata-choices" role="group" aria-label="Owned Echo Sonata assignment"></div></div>
-            <div class="echo-editor" aria-label="Echo stat editor">
-              <div class="echo-editor-field"><label for="echoMainStat">Main Stat</label><select id="echoMainStat"></select></div>
-              <div class="echo-editor-field"><label>Automatic secondary Main Stat</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
-              <span class="echo-substats-label">Substats 1–5</span>
-              <div id="echoSubstats" class="echo-substats"></div>
-              <div id="echoEditorError" class="echo-editor-error" role="status"></div>
+            <div class="echo-preview-identity">
+              <img id="echoPreviewArt" class="echo-preview-art" alt="">
+              <div class="echo-preview-copy">
+                <h3 id="echoPreviewName">Echo</h3>
+                <div class="echo-preview-meta-line"><span id="echoPreviewCostStars" class="echo-preview-cost-stars">★</span><span id="echoPreviewLevel">Level +0</span></div>
+              </div>
             </div>
           </div>
-          <button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button>
+          <div class="echo-editor" aria-label="Echo stat editor">
+            <div class="echo-editor-field echo-main-stat-field"><label for="echoMainStat">MAIN STAT</label><select id="echoMainStat"></select></div>
+            <div class="echo-editor-field echo-secondary-field"><label for="echoSecondaryMainStat">Secondary Stat</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
+            <span class="echo-substats-label">Substats 1–5</span>
+            <div id="echoSubstats" class="echo-substats"></div>
+            <div id="echoEditorError" class="echo-editor-error" role="status"></div>
+            <button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button>
+          </div>
         </div>
       </aside>
     </div>

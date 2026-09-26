@@ -165,14 +165,14 @@
 .echo-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;height:calc(100% - 128px)}
 .echo-browser{min-width:0;height:100%;overflow:auto;padding:8px 10px 18px 6px;scrollbar-width:thin}
 .echo-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
-.echo-choice{position:relative;min-width:0;min-height:132px;padding:8px;border:1px solid rgba(214,174,91,.42);border-radius:14px;background:#11151c;color:#fff;cursor:pointer;display:grid;grid-template-rows:90px auto;row-gap:4px;align-content:start;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
+.echo-choice{position:relative;min-width:0;height:132px;padding:8px;border:1px solid rgba(214,174,91,.42);border-radius:14px;background:#11151c;color:#fff;cursor:pointer;display:block;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
 .echo-choice[hidden]{display:none}
 .echo-choice:hover{z-index:2;transform:translateY(-4px) scale(1.035);border-color:rgba(224,187,109,.76);box-shadow:0 22px 46px rgba(0,0,0,.42)}
 .echo-choice:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .echo-cost-stars{position:absolute;z-index:2;top:7px;left:8px;color:#d8af57;font-size:10px;letter-spacing:-.04em;text-shadow:0 1px 4px rgba(0,0,0,.8)}
-.echo-choice-art{width:100%;height:90px;display:grid;place-items:center;overflow:hidden}
+.echo-choice-art{position:absolute;top:8px;left:8px;right:8px;height:90px;display:grid;place-items:center;overflow:hidden}
 .echo-choice-art img{display:block;width:92%;height:92%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
-.echo-choice-copy{display:block;min-width:0;margin-top:0;padding:5px 2px 2px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
+.echo-choice-copy{position:absolute;top:102px;left:8px;right:8px;display:block;min-width:0;margin:0;padding:5px 2px 2px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:12px;font-weight:400;line-height:1.16;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .echo-preview-pane{position:relative;min-width:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}

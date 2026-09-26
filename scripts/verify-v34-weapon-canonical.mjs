@@ -175,7 +175,7 @@ async function waitForUi(send, expression, message, timeout=4000) {
   throw new Error(message);
 }
 
-async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
+async function visibleWeaponPointerClick(send, weaponId, {touch=false,scrollDelay=80,hoverSettleMs=190}={}) {
   await evaluate(send,`(() => {
     window.__weaponPointerAudit=[];
     if(!window.__weaponSelectOriginal){
@@ -208,9 +208,10 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
     if(!choice) throw new Error('Missing visible Weapon choice: '+${JSON.stringify(weaponId)});
     choice.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
   })()`);
-  await sleep(80);
+  if(scrollDelay>0) await sleep(scrollDelay);
 
-  // Move the real pointer over the rendered visual first so desktop hover transforms settle.
+  // Move the real pointer over the rendered visual first. For the opening-animation
+  // regression we intentionally click promptly instead of waiting for hover to fully settle.
   let point=await evaluate(send,`(() => {
     const choice=document.querySelector(${JSON.stringify(selector)});
     const visible=choice.querySelector('.weapon-rarity-frame')||choice.querySelector('.weapon-card-art img')||choice.querySelector('.weapon-card');
@@ -219,7 +220,7 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
   })()`);
   if(!touch){
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y});
-    await sleep(190);
+    if(hoverSettleMs>0) await sleep(hoverSettleMs);
   }
 
   point=await evaluate(send,`(() => {
@@ -248,7 +249,25 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
     await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.x,y:point.y,button:'left',clickCount:1});
   }
 
-  await waitForUi(send,`weaponUi.previewId===${JSON.stringify(weaponId)}`,`Visible-center Weapon click did not change Preview to ${weaponId}`,3000);
+  let previewChanged=false;
+  const previewDeadline=Date.now()+1000;
+  while(Date.now()<previewDeadline){
+    if(await evaluate(send,`weaponUi.previewId===${JSON.stringify(weaponId)}`)){previewChanged=true;break}
+    await sleep(40);
+  }
+  if(!previewChanged){
+    const failure=await evaluate(send,`(() => ({
+      audit:window.__weaponPointerAudit||[],
+      open:weaponUi.open,
+      busy:weaponUi.busy,
+      panelBusy:weaponUi.panelBusy??null,
+      previewId:weaponUi.previewId,
+      currentId:weaponUi.currentId,
+      mounted:document.getElementById('weaponOverlay').classList.contains('mounted'),
+      panelOpacity:getComputedStyle(document.getElementById('weaponPanel')).opacity
+    }))()`);
+    throw new Error(`Visible-center Weapon click did not change Preview to ${weaponId}: ${JSON.stringify({point,failure})}`);
+  }
   await waitForUi(send,`!weaponUi.busy&&!!document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero')`,`Visible-center Weapon click did not settle the Preview hero for ${weaponId}`,3000);
   const result=await evaluate(send,`(() => {
     const audit=window.__weaponPointerAudit||[];
@@ -412,7 +431,12 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   if(width>760&&(fresh.align.weapon!=='center'||fresh.align.stats!=='center'||fresh.align.echo!=='center')) throw new Error(`Desktop Build section headings must remain centered: ${JSON.stringify(fresh.align)}`);
 
   await pointerClick(send,'#weaponBtn',{touch});
-  await sleep(470);
+  await waitForUi(send,`weaponUi.open&&document.getElementById('weaponOverlay').classList.contains('mounted')&&parseFloat(getComputedStyle(document.getElementById('weaponPanel')).opacity)>0`,'Weapon panel never became visibly interactive',1200);
+  const earlyId=await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice')?.dataset.weaponId||null`);
+  if(!earlyId) throw new Error('Visible Weapon card missing during panel opening');
+  const earlyPointerAudit=await visibleWeaponPointerClick(send,earlyId,{touch,scrollDelay:0,hoverSettleMs:20});
+  await evaluate(send,`weaponUi.clearPreview()`);
+  await waitForUi(send,`!weaponUi.busy`,'Weapon UI did not settle after opening-click audit',3000);
   await waitForUi(send,`(()=>{const images=[...document.querySelectorAll('#weaponChoices .weapon-card-art img,#weaponChoices .weapon-rarity-frame')];return images.length>0&&images.every(img=>img.complete&&img.naturalWidth>0)})()`,'Canonical Weapon card/frame assets did not load',10000);
   const opened=await evaluate(send,`(()=>{const o=document.getElementById('weaponOverlay'),p=document.getElementById('weaponPanel'),scrim=document.querySelector('.weapon-scrim'),browser=document.getElementById('weaponBrowser'),rail=document.getElementById('weaponScrollRail'),thumb=rail?.querySelector('.weapon-scroll-thumb'),r=p.getBoundingClientRect(),ps=getComputedStyle(p),ss=getComputedStyle(scrim),equip=document.getElementById('weaponEquip'),es=getComputedStyle(equip),bs=getComputedStyle(browser),ts=thumb?getComputedStyle(thumb):null,choices=[...document.querySelectorAll('#weaponChoices .weapon-choice')],five=choices.find(x=>x.dataset.rarity==='5'),four=choices.find(x=>x.dataset.rarity==='4'),fallback=choices.find(x=>Number(x.dataset.rarity)<4);const info=choice=>({id:choice?.dataset.weaponId||null,name:choice?.dataset.name||null,type:choice?.dataset.weaponType||null,rarity:choice?.dataset.rarity||null,art:choice?.querySelector('.weapon-card-art img')?.getAttribute('src')||null,artLoaded:choice?.querySelector('.weapon-card-art img')?.naturalWidth||0,frame:choice?.querySelector('.weapon-rarity-frame')?.getAttribute('src')||null,frameLoaded:choice?.querySelector('.weapon-rarity-frame')?.naturalWidth||0});return{mounted:o.classList.contains('mounted'),open:o.classList.contains('open'),hidden:o.getAttribute('aria-hidden'),expanded:document.getElementById('weaponBtn').getAttribute('aria-expanded'),options:choices.length,order:choices.map(x=>x.dataset.weaponId),realIdentity:choices.every(x=>x.dataset.weaponId&&!x.dataset.weaponId.startsWith('preview-')&&x.dataset.name&&!/^Weapon \\d+/.test(x.dataset.name)),types:[...new Set(choices.map(x=>x.dataset.weaponType))],equipped:choices.filter(x=>x.classList.contains('is-equipped')).length,previewLayers:document.querySelectorAll('#weaponPreviewStage .weapon-preview-layer').length,previewHidden:document.getElementById('weaponPreviewPane').getAttribute('aria-hidden'),equipText:equip?.textContent.trim()||null,equipDisabled:equip?.disabled??null,flying:document.querySelectorAll('.weapon-card.is-flying').length,five:info(five),four:info(four),fallback:info(fallback),fallbackFrames:fallback?.querySelectorAll('.weapon-rarity-frame').length??-1,scroll:{browser:!!browser,rail:!!rail,thumb:!!thumb,scrollbarWidth:bs.scrollbarWidth,overflowY:bs.overflowY,hasScroll:rail?.classList.contains('has-scroll')||false,thumbColor:ts?.color||null},equipStyle:{background:es.backgroundImage,bgColor:es.backgroundColor,color:es.color},panel:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},align:{panelTitle:getComputedStyle(document.getElementById('weaponTitle')).textAlign,cardCopy:getComputedStyle(document.querySelector('#weaponChoices .weapon-card-copy')).textAlign,previewCopy:getComputedStyle(document.querySelector('.weapon-preview-copy')).textAlign,previewStats:getComputedStyle(document.querySelector('.weapon-preview-stats')).textAlign},visual:{scrimBackground:ss.backgroundColor,panelBackground:ps.backgroundImage,panelBackdrop:ps.backdropFilter}}})()`);
   if(!opened.mounted||!opened.open||opened.hidden!=='false'||opened.expanded!=='true') throw new Error(`Weapon overlay did not open: ${JSON.stringify(opened)}`);

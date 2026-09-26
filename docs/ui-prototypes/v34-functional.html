@@ -15,12 +15,14 @@
 .weapon-empty{position:absolute;inset:0;display:grid;place-items:center;color:#777;font-size:28px;transition:opacity .18s ease}
 .weapon-slot-host.has-weapon .weapon-empty{opacity:0}
 .weapon-card{position:relative;width:100%;height:100%;min-height:74px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:radial-gradient(circle at 24% 20%,rgba(255,255,255,.10),transparent 34%),linear-gradient(145deg,#1a1e26,#0d0f14 72%);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:13px 14px;text-align:center;transform-origin:center;will-change:transform;box-shadow:0 18px 48px rgba(0,0,0,.28)}
-.weapon-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.72));pointer-events:none}
-.weapon-card-mark{position:absolute;z-index:1;left:50%;top:42%;transform:translate(-50%,-50%);font-size:38px;font-weight:300;color:rgba(255,255,255,.72);text-shadow:0 8px 24px rgba(0,0,0,.55);transition:transform .17s ease-out,color .17s ease-out}
-.weapon-card-copy{position:relative;z-index:2;min-width:0;width:100%;text-align:center}
+.weapon-card::after{content:"";position:absolute;z-index:2;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.76));pointer-events:none}
+.weapon-card-art{position:absolute;z-index:1;inset:10px 10px 28px;display:grid;place-items:center;pointer-events:none}
+.weapon-card-art img{display:block;width:94%;height:94%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.42))}
+.weapon-rarity-frame{position:absolute;z-index:3;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:fill;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.26))}
+.weapon-card-copy{position:relative;z-index:4;min-width:0;width:100%;text-align:center}
 .weapon-card-copy strong{display:block;font-family:var(--font-display);font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.weapon-card-copy small{display:block;margin-top:4px;color:#777f8a;font-size:9px;letter-spacing:.13em;text-transform:uppercase}
-.weapon-equipped-badge{position:absolute;z-index:4;left:50%;top:10px;transform:translateX(-50%);display:none;align-items:center;min-height:21px;padding:4px 7px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,10,14,.86);color:#f5f6f8;font-size:8px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.weapon-card-copy small{display:block;margin-top:4px;color:#a3a9b2;font-size:9px;letter-spacing:.10em;text-transform:uppercase}
+.weapon-equipped-badge{position:absolute;z-index:5;left:50%;top:10px;transform:translateX(-50%);display:none;align-items:center;min-height:21px;padding:4px 7px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,10,14,.86);color:#f5f6f8;font-size:8px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.28)}
 .weapon-card.is-current{border-color:rgba(255,255,255,.34);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 70px rgba(0,0,0,.42)}
 .weapon-overlay{--weapon-ease:cubic-bezier(.16,.84,.24,1);--weapon-panel-ms:380ms;--weapon-grid-ms:440ms;--weapon-preview-in-ms:460ms;--weapon-preview-out-ms:360ms;position:fixed;inset:0;z-index:170;visibility:hidden;pointer-events:none}
 .weapon-overlay.mounted{visibility:visible;pointer-events:auto}
@@ -50,7 +52,7 @@
 .weapon-choice .weapon-card{position:absolute;inset:0;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out,filter .17s ease-out}
 .weapon-choice:hover{z-index:12}
 .weapon-choice:hover .weapon-card{transform:translateY(-7px) scale(1.065);border-color:rgba(255,255,255,.34);box-shadow:0 26px 62px rgba(0,0,0,.48);filter:brightness(1.08)}
-.weapon-choice:hover .weapon-card-mark{transform:translate(-50%,-52%) scale(1.04);color:rgba(255,255,255,.90)}
+.weapon-choice:hover .weapon-card-art{transform:translateY(-1px) scale(1.02)}
 .weapon-choice:focus-visible{outline:2px solid #fff;outline-offset:3px;z-index:13}
 .weapon-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:24px;background:rgba(255,255,255,.025);overflow:hidden}
 .weapon-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783;transition:opacity .24s ease-out}
@@ -64,11 +66,7 @@
 .weapon-preview-layer.is-outgoing{z-index:3}
 .weapon-preview-layer.is-incoming{z-index:2}
 .weapon-preview-hero{position:relative;width:100%;height:100%;display:grid;place-items:center;overflow:visible}
-.weapon-preview-hero svg{width:88%;height:88%;overflow:visible;filter:drop-shadow(0 24px 30px rgba(0,0,0,.48))}
-.weapon-preview-hero .hero-edge{fill:url(#weaponHeroMetal)}
-.weapon-preview-hero .hero-core{fill:url(#weaponHeroCore)}
-.weapon-preview-hero .hero-detail{fill:rgba(255,255,255,.72)}
-.weapon-preview-hero .hero-glow{fill:none;stroke:rgba(255,255,255,.16);stroke-width:5;filter:blur(5px)}
+.weapon-preview-art{display:block;width:94%;height:94%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 24px 30px rgba(0,0,0,.48));pointer-events:none}
 .weapon-preview-copy{padding:12px 4px 0;text-align:center}
 .weapon-preview-copy h3{margin:5px 0 8px;font-family:var(--font-display);font-size:28px;font-weight:400}
 .weapon-preview-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
@@ -89,7 +87,7 @@
   .weapon-browser{height:100%;padding-right:2px}
   .weapon-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:5px}
   .weapon-choice:hover .weapon-card{transform:none;filter:none}
-  .weapon-choice:hover .weapon-card-mark{transform:translate(-50%,-50%)}
+  .weapon-choice:hover .weapon-card-art{transform:none}
   .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:82px;bottom:12px;height:auto;padding:14px;background:rgba(10,12,16,.92);backdrop-filter:blur(5px) saturate(.88);opacity:0;pointer-events:none;transform:translateX(28px) scale(.985);transition:opacity .28s ease-out,transform .42s var(--weapon-ease)}
   .weapon-panel.has-preview .weapon-preview-pane{opacity:1;pointer-events:auto;transform:translateX(0) scale(1)}
   .weapon-preview-empty{display:none}
@@ -125,10 +123,9 @@
             <span class="weapon-eyebrow">Weapon Preview</span>
             <h3 id="weaponPreviewName">Weapon</h3>
             <div class="weapon-preview-stats">
-              <div class="weapon-preview-stat"><span>ATK</span><strong>Preview</strong></div>
-              <div class="weapon-preview-stat"><span>Secondary</span><strong>Preview</strong></div>
+              <div class="weapon-preview-stat"><span>Base ATK</span><strong id="weaponPreviewAtk">—</strong></div>
+              <div class="weapon-preview-stat"><span id="weaponPreviewSecondaryLabel">Secondary</span><strong id="weaponPreviewSecondaryValue">—</strong></div>
             </div>
-            <p class="weapon-preview-effect">Placeholder detail surface for motion review. Canonical Weapon ranking, stats and effects are intentionally not wired in this slice.</p>
           </div>
           <button id="weaponEquip" class="weapon-equip" type="button" disabled>Equip Weapon</button>
         </div>
@@ -148,57 +145,59 @@ function autosave(name,patch={}){if(!name)return;const d=draft(name);d.build={..
 const owned=n=>state.characters.includes(n);
 function addOwned(n){draft(n);if(!owned(n))state.characters.push(n);state.drafts[n].addedToAccountAt=state.drafts[n].addedToAccountAt||new Date().toISOString();save()}
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
-const WEAPON_PREVIEW_ITEMS=[
-  {id:'preview-01',name:'Weapon 01',mark:'◇',score:null,baseRank:1},
-  {id:'preview-02',name:'Weapon 02',mark:'◈',score:null,baseRank:2},
-  {id:'preview-03',name:'Weapon 03',mark:'✦',score:null,baseRank:3},
-  {id:'preview-04',name:'Weapon 04',mark:'⬡',score:null,baseRank:4},
-  {id:'preview-05',name:'Weapon 05',mark:'✧',score:null,baseRank:5},
-  {id:'preview-06',name:'Weapon 06',mark:'◊',score:null,baseRank:6},
-  {id:'preview-07',name:'Weapon 07',mark:'◆',score:null,baseRank:7}
-];
+let weaponCatalog=[];
+let weaponById=new Map();
+let canonicalCharacterById=new Map();
+let weaponDataLoaded=false;
+let weaponDataReady;
+const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
 const WEAPON_MOTION={panel:380,grid:440,previewIn:460,previewOut:360,ease:'cubic-bezier(.16,.84,.24,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nextWeaponFrame=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 const waitWeaponMotion=ms=>new Promise(resolve=>setTimeout(resolve,reducedMotion()?0:ms));
-const weaponItemById=id=>WEAPON_PREVIEW_ITEMS.find(item=>item.id===id)||null;
-function makeWeaponCard(item,{active=false}={}){
-  const card=document.createElement('div');card.className='weapon-card'+(active?' is-current':'');card.dataset.weaponId=item.id;card.dataset.name=item.name;
-  const mark=document.createElement('span');mark.className='weapon-card-mark';mark.textContent=item.mark;
+const weaponItemById=id=>weaponById.get(id)||null;
+const formatWeaponSecondaryValue=value=>value===null||value===undefined?'—':`${Number((value*100).toFixed(2))}%`;
+async function loadWeaponBrowserData(){
+  const [weaponModule,characterModule,manifestResponse]=await Promise.all([
+    import('../assets/data/weapons.js'),
+    import('../assets/data/characters.js'),
+    fetch('assets/weapons/manifest.json',{cache:'no-store'})
+  ]);
+  if(!manifestResponse.ok)throw new Error('weapon manifest '+manifestResponse.status);
+  const manifest=await manifestResponse.json();
+  const iconById=new Map(manifest.icons.map(icon=>[icon.weaponId,icon]));
+  canonicalCharacterById=new Map(characterModule.CHARACTER_CATALOG.map(character=>[character.id,character]));
+  weaponCatalog=weaponModule.WEAPON_CATALOG.filter(weapon=>weapon.releaseStatus==='RELEASED').map((weapon,browseRank)=>{
+    const icon=iconById.get(weapon.id);
+    if(!icon)throw new Error(`Missing canonical Weapon icon for ${weapon.id}`);
+    if(icon.weaponType!==weapon.weaponType||icon.rarity!==weapon.rarity)throw new Error(`Weapon manifest mismatch for ${weapon.id}`);
+    return {...weapon,browseRank,artSrc:toAssetPath(icon.targetPath)};
+  });
+  weaponById=new Map(weaponCatalog.map(weapon=>[weapon.id,weapon]));
+  weaponDataLoaded=true;
+  document.documentElement.dataset.weaponCatalogReady='true';
+  weaponUi.refreshForCharacter();
+}
+function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
+  const card=document.createElement('div');card.className='weapon-card'+(active?' is-current':'');card.dataset.weaponId=item.id;card.dataset.name=item.name;card.dataset.rarity=String(item.rarity);
+  const art=document.createElement('span');art.className='weapon-card-art';
+  const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.appendChild(image);
+  const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
+  const frame=frameSrc?document.createElement('img'):null;
+  if(frame){frame.className='weapon-rarity-frame';frame.src=frameSrc;frame.alt='';frame.draggable=false;frame.dataset.rarity=String(item.rarity)}
   const badge=document.createElement('span');badge.className='weapon-equipped-badge';badge.textContent='Active Weapon';
   const copy=document.createElement('span');copy.className='weapon-card-copy';
   const name=document.createElement('strong');name.textContent=item.name;
-  const note=document.createElement('small');note.textContent='UI preview';
-  copy.append(name,note);card.append(mark,badge,copy);return card;
+  const note=document.createElement('small');note.textContent=item.level90BaseAtk===null?'Base ATK —':`Base ATK ${item.level90BaseAtk}`;
+  copy.append(name,note);card.append(art);if(frame)card.append(frame);card.append(badge,copy);return card;
 }
 function makeWeaponHero(item){
-  const hero=document.createElement('div');hero.className='weapon-preview-hero';hero.dataset.weaponId=item.id;hero.setAttribute('aria-label',`Full Weapon preview placeholder for ${item.name}`);
-  hero.innerHTML=`
-    <svg viewBox="0 0 260 260" role="img" aria-hidden="true">
-      <defs>
-        <linearGradient id="weaponHeroMetal" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#f1f3f5"/>
-          <stop offset=".42" stop-color="#aeb5bf"/>
-          <stop offset="1" stop-color="#555d69"/>
-        </linearGradient>
-        <linearGradient id="weaponHeroCore" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#d8dde4"/>
-          <stop offset="1" stop-color="#7e8794"/>
-        </linearGradient>
-      </defs>
-      <path class="hero-glow" d="M38 220 158 100 183 76 211 48"/>
-      <path class="hero-edge" d="M34 225 149 110 171 88 205 38 222 21 215 54 167 102 52 217 46 234Z"/>
-      <path class="hero-core" d="M49 214 160 103 172 115 61 226Z"/>
-      <path class="hero-detail" d="M142 122 173 91 201 119 191 130 175 114 155 134Z"/>
-      <path class="hero-edge" d="M133 132 151 114 180 143 171 152Z"/>
-      <path class="hero-core" d="M39 214 57 232 44 245 26 227Z"/>
-      <path class="hero-detail" d="m25 228 19 19-7 7-19-19Z"/>
-    </svg>`;
-  return hero;
+  const hero=document.createElement('div');hero.className='weapon-preview-hero';hero.dataset.weaponId=item.id;hero.setAttribute('aria-label',`Full Weapon preview for ${item.name}`);
+  const image=document.createElement('img');image.className='weapon-preview-art';image.src=item.artSrc;image.alt=item.name;image.draggable=false;hero.appendChild(image);return hero;
 }
 const weaponUi={
   overlay:null,panel:null,slotHost:null,previewStage:null,previewPane:null,choices:null,browser:null,scrollRail:null,
-  currentId:null,previewId:null,previewLayer:null,choiceById:new Map(),open:false,busy:false,lastFocus:null,
+  characterName:null,characterId:null,characterWeaponType:null,items:[],currentId:null,previewId:null,previewLayer:null,choiceById:new Map(),open:false,busy:false,lastFocus:null,
   previewMotion:{incomingFrom:.64,incomingTo:1,outgoingFrom:1,outgoingTo:1.24,outgoingOpacity:0,incomingMs:460,outgoingMs:360},lastPreviewTransition:null,
   init(){
     this.overlay=document.getElementById('weaponOverlay');this.panel=document.getElementById('weaponPanel');
@@ -207,35 +206,38 @@ const weaponUi={
     this.browser=document.getElementById('weaponBrowser');this.scrollRail=document.getElementById('weaponScrollRail');
     this.browser.addEventListener('scroll',()=>this.syncScrollbar(),{passive:true});
     if('ResizeObserver'in window)new ResizeObserver(()=>this.syncScrollbar()).observe(this.browser);
-    WEAPON_PREVIEW_ITEMS.forEach(item=>{
+    this.renderBuildSlot();
+  },
+  setCharacter(name){
+    this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
+    if(weaponDataLoaded)this.refreshForCharacter();else this.renderBuildSlot();
+  },
+  refreshForCharacter(){
+    const character=this.characterId?canonicalCharacterById.get(this.characterId):null;
+    this.characterWeaponType=character?.weaponType||null;
+    this.items=character?.weaponType?weaponCatalog.filter(item=>item.weaponType===character.weaponType):[];
+    const savedId=this.characterName?draft(this.characterName).build.weaponId:null;
+    this.currentId=this.items.some(item=>item.id===savedId)?savedId:null;
+    this.rebuildChoices();this.clearPreview();this.syncEquipped();this.renderBuildSlot();
+  },
+  rebuildChoices(){
+    this.choiceById.clear();this.choices.replaceChildren();
+    this.items.forEach(item=>{
       const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';
-      choice.dataset.weaponId=item.id;choice.dataset.name=item.name;choice.dataset.baseRank=String(item.baseRank);choice.setAttribute('aria-label','Select '+item.name);
-      choice.appendChild(makeWeaponCard(item));choice.addEventListener('click',()=>this.select(choice));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
+      choice.dataset.weaponId=item.id;choice.dataset.name=item.name;choice.dataset.rarity=String(item.rarity);choice.dataset.weaponType=item.weaponType;choice.dataset.baseRank=String(item.browseRank);choice.setAttribute('aria-label','Preview '+item.name);
+      choice.appendChild(makeWeaponCard(item,{rarityFrame:true}));choice.addEventListener('click',()=>this.select(choice));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
     });
-    this.syncEquipped();this.renderBuildSlot();
+    this.syncScrollbar();
   },
-  rankedIds(){
-    return [...WEAPON_PREVIEW_ITEMS]
-      .sort((a,b)=>{
-        const as=Number.isFinite(a.score)?a.score:null,bs=Number.isFinite(b.score)?b.score:null;
-        if(as!==null&&bs!==null&&as!==bs)return bs-as;
-        if(as!==null&&bs===null)return-1;
-        if(as===null&&bs!==null)return 1;
-        return a.baseRank-b.baseRank;
-      })
-      .map(item=>item.id);
-  },
-  orderedIds(){
-    const ranked=this.rankedIds().filter(id=>id!==this.currentId);
-    return this.currentId?[this.currentId,...ranked]:ranked;
-  },
+  browseIds(){return this.items.map(item=>item.id)},
+  orderedIds(){const browse=this.browseIds().filter(id=>id!==this.currentId);return this.currentId?[this.currentId,...browse]:browse},
   renderBuildSlot(){
     [...this.slotHost.querySelectorAll('.weapon-card')].forEach(node=>node.remove());
     const item=weaponItemById(this.currentId);
     this.slotHost.classList.toggle('has-weapon',!!item);
     const button=document.getElementById('weaponBtn');
     if(button)button.setAttribute('aria-label',item?`Open Weapon menu. Active: ${item.name}`:'Open Weapon menu');
-    if(item)this.slotHost.appendChild(makeWeaponCard(item,{active:true}));
+    if(item)this.slotHost.appendChild(makeWeaponCard(item,{active:true,rarityFrame:false}));
   },
   syncScrollbar(){
     if(!this.browser||!this.scrollRail)return;
@@ -276,14 +278,16 @@ const weaponUi={
   },
   clearPreview(){
     this.previewId=null;this.previewLayer=null;this.previewStage.replaceChildren();
-    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');document.getElementById('weaponPreviewName').textContent='Weapon';this.syncEquipAction();
+    this.panel.classList.remove('has-preview');this.previewPane.setAttribute('aria-hidden','true');document.getElementById('weaponPreviewName').textContent='Weapon';
+    document.getElementById('weaponPreviewAtk').textContent='—';document.getElementById('weaponPreviewSecondaryLabel').textContent='Secondary';document.getElementById('weaponPreviewSecondaryValue').textContent='—';this.syncEquipAction();
   },
   async transitionPreview(item){
     const old=this.previewLayer;
     this.lastPreviewTransition={from:this.previewId,to:item.id,...this.previewMotion,reduced:reducedMotion()};
     const layer=document.createElement('div');layer.className='weapon-preview-layer is-incoming';layer.dataset.weaponId=item.id;layer.appendChild(makeWeaponHero(item));
     this.previewStage.appendChild(layer);this.previewLayer=layer;this.previewId=item.id;
-    document.getElementById('weaponPreviewName').textContent=item.name;
+    document.getElementById('weaponPreviewName').textContent=item.name;document.getElementById('weaponPreviewAtk').textContent=item.level90BaseAtk??'—';
+    document.getElementById('weaponPreviewSecondaryLabel').textContent=item.secondary?.stat||'Secondary';document.getElementById('weaponPreviewSecondaryValue').textContent=formatWeaponSecondaryValue(item.secondary?.value);
     this.panel.classList.add('has-preview');this.previewPane.setAttribute('aria-hidden','false');this.syncEquipAction();
     if(reducedMotion()){
       old?.remove();layer.classList.remove('is-incoming');return;
@@ -304,7 +308,9 @@ const weaponUi={
     incoming.cancel();outgoing?.cancel();old?.remove();layer.classList.remove('is-incoming');
   },
   async show(){
-    if(this.open||this.busy)return;this.busy=true;this.open=true;this.lastFocus=document.activeElement;
+    if(this.open||this.busy||!this.characterId)return;this.busy=true;await weaponDataReady;
+    if(!this.items.length){this.busy=false;return}
+    this.open=true;this.lastFocus=document.activeElement;
     document.getElementById('weaponBtn').setAttribute('aria-expanded','true');this.clearPreview();this.syncEquipped();await this.reorderChoices({animate:false});
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>{this.overlay.classList.add('open');this.syncScrollbar()});
     await waitWeaponMotion(WEAPON_MOTION.panel);this.busy=false;document.getElementById('weaponClose').focus();
@@ -316,16 +322,17 @@ const weaponUi={
     if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
   },
   async select(choice){
-    if(this.busy)return;const id=choice?.dataset.weaponId,item=weaponItemById(id);if(!item)return;
+    if(this.busy)return;const id=choice?.dataset.weaponId,item=weaponItemById(id);if(!item||!this.items.some(candidate=>candidate.id===id))return;
     this.busy=true;await this.transitionPreview(item);this.busy=false;this.choiceById.get(id)?.focus({preventScroll:true});
   },
   async equipPreview(){
     if(this.busy||!this.previewId||this.previewId===this.currentId)return;
-    this.busy=true;const nextId=this.previewId;this.currentId=nextId;this.syncEquipped();this.renderBuildSlot();
+    this.busy=true;const nextId=this.previewId;this.currentId=nextId;if(this.characterName)autosave(this.characterName,{weaponId:nextId});this.syncEquipped();this.renderBuildSlot();
     await this.reorderChoices({animate:true});this.syncEquipAction();this.busy=false;
     document.getElementById('weaponEquip')?.focus({preventScroll:true});
   }
 };
+weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
 class FreewheelCarousel{
   constructor(viewport,{cards=[...viewport.children],startIndex=0,spacing,onActivate=null}={}){
     this.viewport=viewport;this.cards=cards;this.spacingFn=spacing;this.onActivate=onActivate;
@@ -416,7 +423,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected)return;pending=name;document.getElementById('dialogCopy').textContent='Switch to '+name+'?';document.getElementById('dialogBg').classList.add('open')}
   function closeDialog(){pending=null;document.getElementById('dialogBg').classList.remove('open')}
   function render(){
@@ -427,7 +434,7 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()},closeDialog}

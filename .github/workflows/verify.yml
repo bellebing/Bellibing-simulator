@@ -85,6 +85,8 @@ jobs:
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-ciaccona-owned-build.mjs
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-v34-weapon-canonical.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
 
           mkdir -p artifacts
@@ -118,6 +120,12 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/echoes/manifest.json"
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/weapons/manifest.json"
+          test -s dist/ui-preview/assets/weapons/frames/4-star-square.png
+          test -s dist/ui-preview/assets/weapons/frames/5-star-square.png
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/4-star-square.png"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/5-star-square.png"
 
           test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 819
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6

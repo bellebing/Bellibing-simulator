@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
+import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
 
 type BrowserEcho = {
   id: string;
@@ -19,13 +20,25 @@ const browserData = JSON.parse(
   schemaVersion: number;
   generatedFrom: string[];
   echoes: BrowserEcho[];
-  sonataSets: { id: string; name: string; releaseStatus: string }[];
+  loadoutProfiles: {
+    profileId: string;
+    characterId: string;
+    slotCosts: (1 | 3 | 4)[];
+    sonataSetIds: string[];
+  }[];
+  sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
 };
 
 const manifest = JSON.parse(
   readFileSync(new URL('../docs/ui-prototypes/assets/echoes/manifest.json', import.meta.url), 'utf8'),
 ) as {
   icons: { echoId: string; name: string; releaseStatus: string; targetPath: string }[];
+};
+
+const builderIconManifest = JSON.parse(
+  readFileSync(new URL('../docs/ui-prototypes/assets/builder-icons/manifest.json', import.meta.url), 'utf8'),
+) as {
+  sonataSets: { sonataId: string; sourceId: number; name: string; targetPath: string }[];
 };
 
 test('Echo browser export contains only canonical RELEASED Echoes', () => {
@@ -78,5 +91,36 @@ test('Echo browser Sonata names resolve from canonical released Sonata data', ()
     for (const sonataId of echo.sonataSetIds) {
       assert.equal(browserSonataById.get(sonataId), canonicalSonataById.get(sonataId), `${echo.id}: unresolved ${sonataId}`);
     }
+  }
+});
+
+
+test('Echo browser exports VERIFIED loadout recommendations without UI hardcoding', () => {
+  assert.deepEqual(browserData.loadoutProfiles, projectVerifiedEchoWorkspaceLoadoutProfiles());
+
+  const augusta = browserData.loadoutProfiles.find((profile) => profile.characterId === 'augusta');
+  assert.ok(augusta);
+  assert.deepEqual(augusta.slotCosts, [4, 3, 3, 1, 1]);
+  assert.deepEqual(augusta.sonataSetIds, ['sonata-20', 'sonata-3']);
+
+  assert.equal(browserData.loadoutProfiles.some((profile) => profile.characterId === 'aalto'), false);
+});
+
+test('Echo browser Sonata selector identities and art resolve from canonical catalogs/manifests', () => {
+  const canonicalSonataById = new Map(
+    SONATA_CATALOG.filter((sonata) => sonata.releaseStatus === 'RELEASED').map((sonata) => [sonata.id, sonata]),
+  );
+  const artById = new Map(builderIconManifest.sonataSets.map((sonata) => [sonata.sonataId, sonata]));
+
+  for (const sonata of browserData.sonataSets) {
+    const canonical = canonicalSonataById.get(sonata.id);
+    const art = artById.get(sonata.id);
+    assert.ok(canonical, `${sonata.id}: missing canonical Sonata`);
+    assert.ok(art, `${sonata.id}: missing source-backed Sonata art`);
+    assert.equal(sonata.name, canonical.name);
+    assert.equal(art.name, canonical.name);
+    assert.equal(art.sourceId, canonical.sourceId);
+    assert.equal(sonata.artPath, art.targetPath);
+    assert.match(sonata.artPath, /^docs\/ui-prototypes\/assets\/builder-icons\/sonata\/.*\.webp$/);
   }
 });

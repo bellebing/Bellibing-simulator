@@ -308,6 +308,7 @@ async function verifyDesktop(send) {
       open:echoUi.open,
       allowed:item.sonataSetIds,
       optionIds:[...document.querySelectorAll('#echoPreviewSonataChoices [data-sonata-id]')].map(x=>x.dataset.sonataId),
+      expectedOptionIds:ordered,
       selected:echoUi.editorDraft.selectedSonataSetId,
       expectedDefault:matches[0]||ordered[0],
       level:echoUi.editorDraft.level,
@@ -321,7 +322,8 @@ async function verifyDesktop(send) {
   })()`);
   if (
     preview.savedSlot !== null || preview.storage !== beforePreview || preview.previewId !== firstId || !preview.open
-    || JSON.stringify(new Set(preview.optionIds)) !== JSON.stringify(new Set(preview.allowed))
+    || JSON.stringify(preview.optionIds) !== JSON.stringify(preview.expectedOptionIds)
+    || JSON.stringify([...preview.optionIds].sort()) !== JSON.stringify([...preview.allowed].sort())
     || !preview.allowed.includes(preview.selected) || preview.selected !== preview.expectedDefault
     || preview.level !== 0
     || preview.hasOldEyebrow || preview.hasOldCost || preview.hasOldChips

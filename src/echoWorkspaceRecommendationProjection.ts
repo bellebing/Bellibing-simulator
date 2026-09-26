@@ -10,7 +10,7 @@ export interface EchoWorkspaceLoadoutRecommendation {
 }
 
 export function projectVerifiedEchoWorkspaceLoadoutProfiles(): readonly EchoWorkspaceLoadoutRecommendation[] {
-  const canonicalReleasedSonataIds = new Set(
+  const canonicalReleasedSonataIds = new Set<string>(
     SONATA_CATALOG
       .filter((sonata) => sonata.releaseStatus === 'RELEASED')
       .map((sonata) => sonata.id),

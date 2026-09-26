@@ -361,4 +361,57 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   if(reopened.firstId!==secondId||!reopened.firstEquipped||reopened.currentId!==secondId||reopened.previewId!==null||reopened.previewLayers!==0||reopened.previewHidden!=='true'||reopened.equipText!=='Equip Weapon'||!reopened.equipDisabled||reopened.flying!==0) throw new Error(`Weapon reopen did not preserve canonical Active + reset Preview: ${JSON.stringify(reopened)}`);
   await pointerClick(send,'#weaponClose');await sleep(470);
   return {character:fresh.selected,type:fresh.expectedType,previewed:opened.four.name,equipped:opened.four.name};
-}The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+}
+
+async function capture(send, path) {
+  const shot=await send('Page.captureScreenshot',{format:'png',fromSurface:true});
+  mkdirSync('artifacts',{recursive:true});
+  writeFileSync(path,Buffer.from(shot.data,'base64'));
+}
+
+
+async function selectFocusedCharacterByPointer(send,{touch=false}={}){
+  const label=await evaluate(send,`(()=>{const wheel=document.getElementById('buildWheel'),i=Number(wheel.dataset.focusIndex),card=wheel.querySelectorAll('.choice')[i];return card?.getAttribute('aria-label')||''})()`);
+  if(!label) throw new Error('Focused Character card missing for Weapon gate.');
+  await pointerClick(send,`#buildWheel .choice[aria-label="${label.replace(/"/g,'\\\"')}"]`,{touch});
+  await waitForUi(send,`document.getElementById('buildShell').classList.contains('has-selection')`,'Pointer Character selection did not settle',3000);
+  const selected=await evaluate(send,`document.getElementById('buildName').textContent.trim()`);
+  if(selected!==label) throw new Error(`Pointer Character selection mismatch: expected ${label}, got ${selected}`);
+  return label;
+}
+
+const chrome=spawn(CHROME,[
+  '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
+  `--remote-debugging-port=${DEBUG_PORT}`,'--remote-debugging-address=127.0.0.1',
+  '--user-data-dir=/tmp/bellibing-v34-weapon-canonical','about:blank'
+],{stdio:['ignore','pipe','pipe']});
+let stderr='';chrome.stderr.on('data',chunk=>{stderr+=String(chunk)});
+
+try{
+  await waitForChrome();
+  const page=await createPage();
+  if(!page.webSocketDebuggerUrl) throw new Error('Chrome page has no DevTools websocket URL.');
+  const {socket,send}=cdp(page.webSocketDebuggerUrl);
+  try{
+    await send('Page.enable');await send('Runtime.enable');
+
+    await setViewport(send,1440,900);await navigate(send);
+    await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+    const desktopCharacter=await selectFocusedCharacterByPointer(send);
+    const desktop=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-canonical-1440x900.png');
+
+    await setViewport(send,390,844);await navigate(send);
+    await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+    const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+    const mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+
+    console.log('v34 canonical Weapon focused verification passed in real Chrome.');
+    console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
+    console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
+    console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
+  }finally{socket.close()}
+}catch(error){
+  console.error(error);
+  if(stderr.trim()) console.error(stderr.slice(-4000));
+  process.exitCode=1;
+}finally{chrome.kill('SIGTERM')}

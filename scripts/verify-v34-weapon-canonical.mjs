@@ -61,10 +61,25 @@ async function evaluate(send, expression) {
 
 async function navigate(send) {
   await send('Page.navigate', { url: UI_URL });
-  const deadline = Date.now() + 15000;
+  const deadline = Date.now() + 20000;
+  let externalNoticeOpened=false;
   while (Date.now() < deadline) {
-    const ready = await evaluate(send, `document.readyState === 'complete' && document.querySelectorAll('#homeStage .home-card').length === 3`);
-    if (ready) return;
+    const state=await evaluate(send,`(() => ({
+      ready:document.readyState === 'complete' && document.querySelectorAll('#homeStage .home-card').length === 3,
+      externalNotice:document.title==='External Content Notice | rawgit.hack'&&!!document.querySelector('.url-action-button')
+    }))()`);
+    if(state.ready) return;
+    if(state.externalNotice&&!externalNoticeOpened){
+      const bounds=await evaluate(send,`document.querySelector('.url-action-button').getBoundingClientRect().toJSON()`);
+      const x=bounds.x+bounds.width/2,y=bounds.y+bounds.height/2;
+      await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y});
+      await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',clickCount:1});
+      await sleep(38);
+      await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});
+      externalNoticeOpened=true;
+      await sleep(500);
+      continue;
+    }
     await sleep(100);
   }
   const diagnostic=await evaluate(send,`(() => ({

@@ -452,13 +452,60 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   if(opened.equipStyle.bgColor==='rgb(238, 238, 238)'||opened.equipStyle.color==='rgb(8, 9, 11)') throw new Error(`Disabled Equip Weapon regressed to the old white system-button styling: ${JSON.stringify(opened.equipStyle)}`);
 
   if(width>760){
-    const geometryBefore=await evaluate(send,`[...document.querySelectorAll('#weaponChoices .weapon-choice')].slice(0,5).map(x=>{const r=x.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}})`);
-    const hoverId=opened.four.id;
-    const hr=await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="${hoverId}"]').getBoundingClientRect().toJSON()`);
-    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:hr.x+hr.width/2,y:hr.y+hr.height/2});await sleep(190);
-    const hover=await evaluate(send,`(()=>({transform:getComputedStyle(document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="${hoverId}"] .weapon-card')).transform,geometry:[...document.querySelectorAll('#weaponChoices .weapon-choice')].slice(0,5).map(x=>{const r=x.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}})}))()`);
-    const stable=geometryBefore.every((a,i)=>{const b=hover.geometry[i];return Math.abs(a.x-b.x)<.5&&Math.abs(a.y-b.y)<.5&&Math.abs(a.width-b.width)<.5&&Math.abs(a.height-b.height)<.5});
-    if(!stable||!hover.transform||hover.transform==='none') throw new Error(`Weapon hover bubble reflowed the grid or failed to lift: ${JSON.stringify({stable,transform:hover.transform})}`);
+    await evaluate(send,`document.getElementById('weaponBrowser').scrollTop=0`);
+    await sleep(90);
+    const geometry=await evaluate(send,`(() => {
+      const browser=document.getElementById('weaponBrowser');
+      const choices=[...document.querySelectorAll('#weaponChoices .weapon-choice')];
+      const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+      const info=choice=>{
+        const card=choice?.querySelector('.weapon-card'),frame=choice?.querySelector('.weapon-rarity-frame'),safe=choice?.querySelector('.weapon-content-safe'),art=choice?.querySelector('.weapon-card-art img'),copy=choice?.querySelector('.weapon-card-copy');
+        const style=card?getComputedStyle(card):null;
+        return {id:choice?.dataset.weaponId||null,rarity:Number(choice?.dataset.rarity||0),choice:rect(choice),card:rect(card),frame:rect(frame),safe:rect(safe),art:rect(art),copy:rect(copy),style:style?{borderTopWidth:style.borderTopWidth,borderRadius:style.borderRadius,backgroundImage:style.backgroundImage,backgroundColor:style.backgroundColor}:null};
+      };
+      const five=choices.find(x=>x.dataset.rarity==='5'),four=choices.find(x=>x.dataset.rarity==='4');
+      const minTop=Math.min(...choices.map(x=>x.getBoundingClientRect().top));
+      const topRow=choices.filter(x=>Math.abs(x.getBoundingClientRect().top-minTop)<2);
+      return {browser:rect(browser),five:info(five),four:info(four),topRow:topRow.map(info)};
+    })()`);
+    const problems=[];
+    const near=(a,b,t=1)=>Math.abs(a-b)<=t;
+    const inside=(inner,outer,t=1)=>inner&&outer&&inner.left>=outer.left-t&&inner.top>=outer.top-t&&inner.right<=outer.right+t&&inner.bottom<=outer.bottom+t;
+    for(const item of [geometry.five,geometry.four]){
+      if(!item?.card||!item.frame) problems.push(`missing rarity geometry for ${item?.id||'unknown'}`);
+      else{
+        if(!(near(item.frame.left,item.card.left)&&near(item.frame.top,item.card.top)&&near(item.frame.right,item.card.right)&&near(item.frame.bottom,item.card.bottom))) problems.push(`${item.id} frame does not define full card bounds`);
+        if(!item.safe) problems.push(`${item.id} missing rendered content-safe area`);
+        else{
+          const minX=item.card.width*.10,minTop=item.card.height*.10,minBottom=item.card.height*.08;
+          if(item.safe.left<item.card.left+minX||item.safe.right>item.card.right-minX||item.safe.top<item.card.top+minTop||item.safe.bottom>item.card.bottom-minBottom) problems.push(`${item.id} safe area reaches rarity ornaments`);
+          if(!inside(item.art,item.safe)||!inside(item.copy,item.safe)) problems.push(`${item.id} art/copy escapes rendered safe area`);
+        }
+        const bw=parseFloat(item.style?.borderTopWidth||'0');
+        if(bw>.25||item.style?.borderRadius!=='0px'||item.style?.backgroundImage!=='none'||item.style?.backgroundColor!=='rgba(0, 0, 0, 0)') problems.push(`${item.id} still renders generic card chrome behind rarity frame`);
+      }
+    }
+
+    const baseline=geometry.topRow.map(x=>({id:x.id,choice:x.choice}));
+    const hoverChecks=[];
+    for(const target of [geometry.topRow[0],geometry.topRow.at(-1)]){
+      if(!target?.id)continue;
+      const center={x:target.choice.left+target.choice.width/2,y:target.choice.top+target.choice.height/2};
+      await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:center.x,y:center.y});await sleep(190);
+      const hovered=await evaluate(send,`(() => {
+        const id=${JSON.stringify(target.id)},browser=document.getElementById('weaponBrowser'),choice=document.querySelector('#weaponChoices .weapon-choice[data-weapon-id="'+id+'"]'),card=choice?.querySelector('.weapon-card'),frame=choice?.querySelector('.weapon-rarity-frame'),art=choice?.querySelector('.weapon-card-art img'),copy=choice?.querySelector('.weapon-card-copy');
+        const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+        return {browser:rect(browser),card:rect(card),frame:rect(frame),art:rect(art),copy:rect(copy),transform:card?getComputedStyle(card).transform:null,choices:[...document.querySelectorAll('#weaponChoices .weapon-choice')].filter(x=>Math.abs(x.getBoundingClientRect().top-${target.choice.top})<2).map(x=>({id:x.dataset.weaponId,rect:rect(x) }))};
+      })()`);
+      hoverChecks.push({id:target.id,hovered});
+      if(!hovered.card||hovered.transform==='none') problems.push(`${target.id} hover transform missing`);
+      else if(!inside(hovered.card,hovered.browser,.75)) problems.push(`${target.id} hover visual clips outside browse viewport`);
+      if(hovered.frame&&!inside(hovered.frame,hovered.card,1)) problems.push(`${target.id} frame escapes transformed rarity-card object`);
+      if(hovered.art&&!inside(hovered.art,hovered.card,1)||hovered.copy&&!inside(hovered.copy,hovered.card,1)) problems.push(`${target.id} hover no longer moves frame/art/text as one object`);
+      const stable=baseline.every(a=>{const b=hovered.choices.find(x=>x.id===a.id)?.rect;return b&&near(a.choice.left,b.left,.5)&&near(a.choice.top,b.top,.5)&&near(a.choice.width,b.width,.5)&&near(a.choice.height,b.height,.5)});
+      if(!stable) problems.push(`${target.id} hover reflowed neighboring grid items`);
+    }
+    if(problems.length) throw new Error(`Weapon rarity-card/hover rendered geometry regression: ${JSON.stringify({problems,geometry,hoverChecks})}`);
   }
 
   const baseOrder=opened.order;

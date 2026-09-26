@@ -155,7 +155,7 @@ async function verifyDesktop(send) {
   await navigate(send);
   await prepareBuild(send, 'Augusta');
 
-  await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null});},true);return true})()`);
+  await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');const equip=event.target?.closest?.('#echoEquip');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null,equip:!!equip});},true);return true})()`);
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
@@ -283,10 +283,12 @@ async function verifyDesktop(send) {
   // Equip remains the only commit and Workspace stays open.
   await pointerClick(send, '#echoEquip');
   await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[0]?.echoId===${JSON.stringify(firstId)}`, 'Equip Echo did not commit full slot 1 card');
-  const firstCommit = await evaluate(send, `(()=>{const e=draft(buildPicker.selected).build.echoSets;return{open:echoUi.open,previewId:echoUi.previewId,activeSetId:e.activeSetId,defaultSetId:e.defaultSetId,setName:e.sets?.['set-1']?.name,slot:e.sets?.['set-1']?.slots?.[0]}})()`);
-  if (!firstCommit.open || firstCommit.previewId !== firstId || firstCommit.activeSetId !== 'set-1' || firstCommit.defaultSetId !== 'set-1' || firstCommit.setName !== 'Set 1' || firstCommit.slot !== firstId) {
-    throw new Error(`Equip-only commit / hidden Set 1 architecture failed: ${JSON.stringify(firstCommit)}`);
+  const firstCommit = await evaluate(send, `(()=>{const e=draft(buildPicker.selected).build.echoSets,card=e.sets?.['set-1']?.slots?.[0];return{open:echoUi.open,previewId:echoUi.previewId,activeSetId:e.activeSetId,defaultSetId:e.defaultSetId,setName:e.sets?.['set-1']?.name,card}})()`);
+  if (!firstCommit.open || firstCommit.previewId !== firstId || firstCommit.activeSetId !== 'set-1' || firstCommit.defaultSetId !== 'set-1' || firstCommit.setName !== 'Set 1' || firstCommit.card?.echoId !== firstId || firstCommit.card?.rank !== 5 || firstCommit.card?.level !== 25 || firstCommit.card?.substats?.length !== 1) {
+    throw new Error(`Equip-only full-card commit / hidden Set 1 architecture failed: ${JSON.stringify(firstCommit)}`);
   }
+  const equipAudit=await evaluate(send,`window.__echoPointerAudit.filter(x=>x.equip)`);
+  for(const type of ['pointerdown','pointerup','click'])if(!equipAudit.some(x=>x.type===type))throw new Error('Equip Echo missed physical '+type);
 
   const committedIds=[firstId];
   for(let slot=1;slot<5;slot++){
@@ -300,9 +302,17 @@ async function verifyDesktop(send) {
     await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[${slot}]?.echoId===${JSON.stringify(id)}&&echoUi.open`, `Continuous Equip failed for slot ${slot+1}`);
   }
 
+  await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
+  await waitForUi(send, `echoUi.targetSlot===0&&echoUi.editorDraft?.echoId===${JSON.stringify(firstId)}`, 'Committed slot 1 did not reload into editor');
+  const committedBeforeClose=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
+  const storageBeforeClose=await evaluate(send,`localStorage.getItem('bellibing-ui-checkpoint-v34')`);
+  await evaluate(send,`(()=>{const main=document.getElementById('echoMainStat');const other=[...main.options].find(x=>x.value!==echoUi.editorDraft.mainStat.name);if(other){main.value=other.value;main.dispatchEvent(new Event('change',{bubbles:true}))}return true})()`);
+  if(await evaluate(send,`localStorage.getItem('bellibing-ui-checkpoint-v34')!==${JSON.stringify(storageBeforeClose)}`))throw new Error('Transient edit of equipped Echo leaked before Equip');
   await capture(send, 'artifacts/ui-preview-echo-workspace-1440x900.png');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!echoUi.open&&echoUi.previewId===null`, 'Echo close did not clear transient Preview');
+  const committedAfterClose=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
+  if(committedAfterClose!==committedBeforeClose)throw new Error('Close without Equip overwrote committed Echo stats');
   const closedSlots=await evaluate(send, `draft('Augusta').build.echoSets.sets['set-1'].slots.map(slot=>echoSlotId(slot))`);
   if(JSON.stringify(closedSlots)!==JSON.stringify(committedIds))throw new Error(`Closing Workspace changed committed slots: ${JSON.stringify({closedSlots,committedIds})}`);
 
@@ -328,6 +338,15 @@ async function verifyDesktop(send) {
   if (JSON.stringify(restoredAugusta)!==JSON.stringify(committedIds)) {
     throw new Error(`Augusta committed Echoes did not restore independently: ${JSON.stringify(restoredAugusta)}`);
   }
+
+  const persistedBeforeReload=await evaluate(send,`JSON.stringify(readEchoSets('Augusta').sets['set-1'].slots[0])`);
+  await navigate(send);
+  await prepareBuild(send,'Augusta');
+  const persistedAfterReload=await evaluate(send,`JSON.stringify(readEchoSets('Augusta').sets['set-1'].slots[0])`);
+  if(persistedAfterReload!==persistedBeforeReload)throw new Error('Reload changed committed Echo stat card');
+  await pointerClick(send,'.echo[data-echo-slot="0"]');
+  await waitForUi(send,`echoUi.open&&JSON.stringify(echoUi.editorDraft)===${JSON.stringify(persistedAfterReload)}`,'Reload did not restore committed Echo stats into editor');
+  await pointerClick(send,'#echoClose');
 
   return { ids: committedIds, fallbackEcho: aaltId };
 }
@@ -374,7 +393,7 @@ try {
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
     console.log('v34 Echo Workspace + Stats Editor restack verification passed in real Chrome.');
-    console.log(`- Desktop: profile-backed 4/3/3/1/1 target Costs, Crown of Valor + Void Thunder multi-select union, manual overrides/fallback, Preview-only physical click, Equip-only commit, hidden Set 1 UI and Character isolation passed.`);
+    console.log(`- Desktop: profile-backed 4/3/3/1/1 target Costs, Crown of Valor + Void Thunder union/manual override, source-backed Stats Editor, Preview-only transient edits, physical full-card Equip-only commit, close-preserve, Character isolation and reload restore passed.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     console.log(`- Mobile 390x844: contained scrollable workspace + physical Echo Preview passed (${mobile.previewed}).`);
   } finally {

@@ -1,6 +1,6 @@
 # Bellibing UI Agent Start
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-26
 
 Use this as the first-read contract for a new Bellibing UI-building chat or Codex session.
 
@@ -49,6 +49,7 @@ The user is the designer; implementation should translate approved behavior/comp
 - Character is the desktop Build visual anchor; five Echo slots and S1-bottom→S6-top Sequence rail remain.
 - Motion uses continuity/object permanence: card/portrait/focus states should visually transform into one another where practical.
 - Comparable selector/detail tools reuse the locked Bellibing glass pattern: transparent contextual background/panel, solid item/content layer and non-reflowing hover focus. For the approved Weapon reference, grid cards stay stable, Preview uses an independent clone/tunnel layer, and only `Equip Weapon` commits to Active slot 1. See `UI_UX_STATUS.md#locked-weapon-interaction-reference` and `UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
+- New UI form controls must follow `UI_UX_STATUS.md#locked-new-ui-formcontrol-contract`: no platform-native select popup UI, stat name/value stay separate, deterministic derived values do not fake editability, and identity/art/text regions do not overlap. Primary action/footer composition follows `UI_LAYOUT_MOTION_CONTRACT.md#3a-panel-contentaction-composition`; do not invent a second control or panel system.
 - Major motion is weighted, not abrupt; exact timing bands and reduced-motion behavior live in `UI_LAYOUT_MOTION_CONTRACT.md`.
 - Autosave and `Add to Account` remain separate semantics.
 - Card/hero image framing uses explicit component-local presentation values or reviewed derivatives, never geometric viewport/bounding-box guesses.

@@ -27,6 +27,7 @@ export {
   SUBSTAT_VALUE_PROBABILITIES,
   SUBSTAT_VALUE_TABLE,
   TUNER_RECOVERY_FRACTION,
+  assertExactRank5SubstatRoll,
   checkpointIncrement,
   effectiveRefundAtLevel,
   nextCheckpoint,

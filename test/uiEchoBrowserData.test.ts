@@ -5,6 +5,14 @@ import test from 'node:test';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import {
+  ECHO_STATS_EDITOR_LEVELS,
+  ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  ECHO_STATS_EDITOR_RANK,
+  getEchoStatsEditorSecondaryMainStat,
+  listEchoStatsEditorMainStatOptions,
+  listEchoStatsEditorSubstatOptions,
+} from '../src/echoStatEditor.ts';
 
 type BrowserEcho = {
   id: string;
@@ -31,6 +39,14 @@ const browserData = JSON.parse(
     slotCosts: (1 | 3 | 4)[];
     sonataSetIds: string[];
   }[];
+  statEditor: {
+    rank: number;
+    levels: number[];
+    maxSubstats: number;
+    mainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }[]>>;
+    secondaryMainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }>>;
+    substats: { name: string; values: number[] }[];
+  };
   sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
 };
 
@@ -135,4 +151,51 @@ test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', (
   assert.equal(workspaceHtml.includes('augusta-standard-echoes'), false);
   assert.equal(workspaceHtml.includes("['sonata-20','sonata-3']"), false);
   assert.equal(workspaceHtml.includes('[4,3,3,1,1]'), false);
+});
+
+
+test('Echo browser exports the source-backed checkpoint-aware Echo Stats Editor contract', () => {
+  assert.equal(browserData.statEditor.rank, ECHO_STATS_EDITOR_RANK);
+  assert.deepEqual(browserData.statEditor.levels, [...ECHO_STATS_EDITOR_LEVELS]);
+  assert.equal(browserData.statEditor.maxSubstats, ECHO_STATS_EDITOR_MAX_SUBSTATS);
+  for (const cost of [1, 3, 4] as const) {
+    for (const level of ECHO_STATS_EDITOR_LEVELS) {
+      assert.deepEqual(
+        browserData.statEditor.mainStatsByCostAndLevel[String(cost)][String(level)],
+        listEchoStatsEditorMainStatOptions(cost, level),
+      );
+      assert.deepEqual(
+        browserData.statEditor.secondaryMainStatsByCostAndLevel[String(cost)][String(level)],
+        getEchoStatsEditorSecondaryMainStat(cost, level),
+      );
+    }
+  }
+  assert.deepEqual(browserData.statEditor.substats, listEchoStatsEditorSubstatOptions());
+  assert.ok(browserData.generatedFrom.includes('src/echoStatEditor.ts'));
+});
+
+test('Echo Workspace Correction 2B keeps recommendations profile-backed and exposes compact review UI', () => {
+  assert.ok(workspaceHtml.includes("this.loadoutProfile?.sonataSetIds||[]"));
+  assert.ok(workspaceHtml.includes("Recommended Sonata Sets"));
+  assert.ok(workspaceHtml.includes("Other Sonata Sets"));
+  assert.ok(workspaceHtml.includes("'Multiple Sets Active'"));
+  assert.ok(workspaceHtml.includes("'★'.repeat(item.cost)"));
+  assert.ok(workspaceHtml.includes("selectedSonataSetId"));
+  assert.ok(workspaceHtml.includes("echoPreviewSonataChoices"));
+  assert.ok(workspaceHtml.includes("echoLevelForSubstats"));
+  assert.equal(workspaceHtml.includes('Filter by Sonata Set'), false);
+  assert.equal(workspaceHtml.includes('Echo Preview</span>'), false);
+});
+
+test('Echo browser compatibility badges retain every canonical Sonata identity across 1–4-set Echoes', () => {
+  const canonical = new Map(ECHO_CATALOG.map((echo) => [echo.id, echo.sonataSetIds]));
+  const counts = new Set<number>();
+  for (const echo of browserData.echoes) {
+    assert.deepEqual(echo.sonataSetIds, canonical.get(echo.id), `${echo.id}: compatibility drift`);
+    assert.ok(echo.sonataSetIds.length >= 1 && echo.sonataSetIds.length <= 4);
+    counts.add(echo.sonataSetIds.length);
+  }
+  assert.deepEqual([...counts].sort(), [1, 2, 3, 4]);
+  assert.ok(workspaceHtml.includes('item.sonataSetIds.forEach(id=>'));
+  assert.ok(workspaceHtml.includes('badge.title=sonata.name'));
 });

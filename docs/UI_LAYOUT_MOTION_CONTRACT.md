@@ -1,6 +1,6 @@
 # Bellibing UI Layout & Motion Contract
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-26
 
 This file is the canonical implementation contract for **containment, responsive layout and motion** in the Bellibing New UI.
 
@@ -81,6 +81,22 @@ offsetY
 These values describe composition inside the owning component. They are not viewport coordinates and must not be re-guessed every render.
 
 For already reviewed static portrait assets, the image itself remains the portrait source of truth; do not add unnecessary auto-cropping logic.
+
+## 3A. Panel content/action composition
+
+Panels with a primary commit/action follow one structural flow:
+
+`identity / context → editable or derived content → primary action footer`.
+
+Rules:
+
+- the primary action footer belongs **after** the panel content in document/layout order and anchors to the bottom edge of the owning component when desktop height permits;
+- controls and content may never overlap, sit behind or be visually covered by the primary action footer;
+- spare desktop vertical room is absorbed by the identity/art/context region before the content/action stack, rather than becoming a large dead gap beneath the footer;
+- when the panel needs more height on narrow/mobile layouts, the same component may use contained internal scrolling; the action and every control must remain reachable without forking state or business logic;
+- artwork, icons, identity text, controls and action regions keep separate component-local layout ownership. Do not solve fit by allowing one region to cover another.
+
+The user-facing control presentation inside those regions is owned by the locked form/control contract in `UI_UX_STATUS.md`.
 
 ## 4. Home carousel responsive contract
 
@@ -180,6 +196,10 @@ Prefer transitions where the user's source object visibly leads into the destina
 Do not fake continuity by teleporting the source away and independently popping in an unrelated destination when a shared spatial transition is practical.
 
 ## 8. Motion timing bands
+
+### Echo slot shared-object transition
+
+Opening Echo Workspace starts from the clicked Build Echo slot and promotes it into detail. Closing returns toward the active owning Build slot. Switching slots demotes the current detail toward its owning dock slot while the selected dock slot promotes into detail; Equip links committed artwork to its active dock slot. Use visual transition clones and transforms where practical, without moving gameplay state. Major morphs use the 450–650ms weighted family, initially `cubic-bezier(.16,.84,.24,1)`; reduced motion uses a short crossfade. The destination is always the owning slot or its detail position, never a viewport corner.
 
 These are engineering target bands, not permission to tune every component independently:
 

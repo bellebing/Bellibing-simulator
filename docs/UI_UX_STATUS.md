@@ -1,6 +1,6 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-26
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
@@ -66,6 +66,20 @@ Use the display face for Home card titles, `What Character?`, Character names an
 Short identifying text is **header-first** on cards/selectors: title/name above the subject/art, not casually moved to the bottom as a footer.
 
 Comparable short labels must not wrap inconsistently. Character names/card titles/headings should remain one line; solve fit through component/group sizing or approved responsive typography rather than splitting only the longer peer label.
+
+## Locked New UI form/control contract
+
+Bellibing owns the complete visual and interaction presentation of user-facing New UI form controls.
+
+- user-facing New UI dropdowns/comboboxes must **not** expose platform-native `<select>` popup UI; collapsed and expanded states use a Bellibing-owned dark custom combobox/listbox presentation;
+- related `stat name` and `stat value` are separate fields/columns, never concatenated into one display such as `Name — Value`;
+- Main Stat uses the same control family as Substats, but with a deliberately stronger/larger primary-stat hierarchy;
+- deterministic or read-only values must not falsely present themselves as freely user-editable; a shared control grammar may expose only the source-valid deterministic option when that is the real domain state;
+- non-interactive derived stats use plain information text, not select/input styling, fake carets or fake edit affordances;
+- artwork/icons and text own separate layout regions and may never visually overlap;
+- important identity names remain readable. Prefer reviewed two-line wrapping when needed instead of truncating the meaningful half of a canonical name.
+
+These rules extend the existing locked reusable selector/detail language below; they do not create a second design system. Panel/action composition and responsive placement are owned by `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Locked product semantics
 
@@ -179,6 +193,15 @@ This locks a shared **design system**, not identical gameplay semantics. A futur
 The exact approved glass values, hover/motion rules, containment requirements and responsive implementation contract live in `docs/UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
 
 ## Build a Character layout direction
+
+### Locked Echo Workspace slot interaction
+
+- A clicked Build Echo slot is the source object for opening Echo Workspace. Workspace presents those same five Build slots in a dock; it does not create another target-slot state model.
+- One slot is promoted as the active detail target. The other four remain available in numerical order; switching uses promote/demote continuity and never commits a transient editor change.
+- An empty active slot shows a true empty state without fabricated stats. Browser clicks enter transient Preview only; **Equip Echo** is the only commit.
+- Browser cards display every canonical Sonata compatibility icon for their Echo identity. Those badges do not represent the owned instance's selected Sonata assignment and do not change Cost AND selected-Sonata-union filtering.
+- Sonata completion reads only the `selectedSonataSetId` of committed owned Echo cards in the five slots. Browser Preview and uncommitted editor changes cannot affect it; Equip Echo recomputes it. Each canonical `activationPieces` threshold shows a capped count in gold when reached or muted grey when unreached, without ACTIVE/INACTIVE status text.
+- The Sonata description belongs to a whole committed set, never an individual threshold. A collapsed preview of all its source-reviewed activation sections expands upward within the Preview's right side and collapses in place; the left stat controls and bottom Equip action remain fixed. Source-conflicted effects show pending verification instead of guessed values. Pending combat adapters remain explicit.
 
 After a Character is selected, Character focus and selector are independent layers. Expanding/collapsing the selector must not move, scale or dim the main Character art.
 

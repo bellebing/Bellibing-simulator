@@ -92,4 +92,21 @@ hyphens: none;
 
 If a peer label does not fit, fix the peer-group/container/responsive rule consistently rather than individually shrinking or wrapping one item unless the user explicitly approves an exception.
 
+### Display-label vertical-metric safety
+
+ETNA has meaningful descenders on letters such as `g`, `j`, `p`, `q` and `y`. A label is not visually valid merely because its text node exists, is one line, or fits horizontally.
+
+For constrained Character/card labels:
+
+- reserve an explicit descender-safe line box and bottom breathing room; do not use `line-height: 1` as the default for ETNA labels inside clipped/tightly packed card geometry;
+- keep the text container itself overflow-visible unless a reviewed design explicitly requires clipping;
+- in header-first states, reserve a measurable gap between the complete text line box and the portrait/art region;
+- in compact below-portrait states, reserve a measurable gap between portrait and label rather than hanging the glyph directly against the image boundary;
+- apply typography changes to the peer component/state, never as per-Character offsets;
+- verify the complete released Character roster in every selector presentation state that uses the label. The current Character selector states are `EXPANDED`, `COMPACT` and `HOVER_EXPANDED`;
+- include descender-heavy sentinel names such as `Buling`, `Lingyang` and `Yangyang` in browser regression checks. These are sentinels, not special cases;
+- keep a real-browser visual artifact for meaningful Character-card typography changes so metric assertions do not replace visual review.
+
+Current validated Character-card baseline uses approximately `line-height: 1.22` plus explicit bottom padding. Do not tighten that vertical budget below roughly `1.18` without renewed real-browser proof across the full peer group.
+
 Positioning/containment of typography inside cards/components is governed by `docs/UI_LAYOUT_MOTION_CONTRACT.md`; this file owns font/typographic behavior only.

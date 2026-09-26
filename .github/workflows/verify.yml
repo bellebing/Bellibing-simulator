@@ -84,6 +84,24 @@ jobs:
             node scripts/verify-alpha-upgrade.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
             node scripts/verify-alpha-ciaccona-owned-build.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-v34-weapon-canonical.mjs
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
+            for attempt in {1..30}; do
+              if curl --fail --silent --output /dev/null "$immutable_preview"; then
+                break
+              fi
+              sleep 1
+            done
+            curl --fail --silent --output /dev/null "$immutable_preview"
+            BELLIBING_V34_URL="$immutable_preview" \
+              BELLIBING_V34_CHROME_DEBUG_PORT=9667 \
+              BELLIBING_WEAPON_CLICK_ONLY=1 \
+              node scripts/verify-v34-weapon-canonical.mjs
+          fi
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-v34-carousel-runtime.mjs
 
           mkdir -p artifacts
           for asset in \
@@ -116,6 +134,12 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/echoes/manifest.json"
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/weapons/manifest.json"
+          test -s dist/ui-preview/assets/weapons/frames/4-star-square.png
+          test -s dist/ui-preview/assets/weapons/frames/5-star-square.png
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/4-star-square.png"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/5-star-square.png"
 
           test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 819
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6
@@ -145,7 +169,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-new-ui-home-visual
-          path: artifacts/ui-preview-home-1440x900.png
+          path: |
+            artifacts/ui-preview-home-1440x900.png
+            artifacts/ui-preview-build-names-expanded-1440x900.png
+            artifacts/ui-preview-build-names-hover-expanded-1440x900.png
+            artifacts/ui-preview-weapon-overlay-1440x900.png
+            artifacts/ui-preview-weapon-overlay-390x844.png
           if-no-files-found: error
           retention-days: 7
 

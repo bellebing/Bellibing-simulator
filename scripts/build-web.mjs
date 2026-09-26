@@ -5,6 +5,11 @@ rmSync('dist', { recursive: true, force: true });
 mkdirSync('dist', { recursive: true });
 mkdirSync('dist/ui-preview', { recursive: true });
 
+const weaponBrowserDataCheck = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-ui-weapon-browser-data.ts', '--check',
+], { stdio: 'inherit' });
+if (weaponBrowserDataCheck.status !== 0) process.exit(weaponBrowserDataCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 

@@ -1,6 +1,6 @@
 # Bellibing UI Agent Start
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-09-25
 
 Use this as the first-read contract for a new Bellibing UI-building chat or Codex session.
 
@@ -41,12 +41,14 @@ The user is the designer; implementation should translate approved behavior/comp
 - Home always shows three primary cards in fixed order `Build a Character` / `Improve a Character` / `Build a Team`, with Improve centered by default.
 - Home navigation is not hidden by account count; destination surfaces handle unavailable/empty states.
 - Home uses the same carousel component across desktop/mobile.
+- Shared carousel input must preserve native card clicks: pointer capture starts only after the drag threshold, never on pointerdown alone; physical mouse/touch activation is part of real-browser verification.
 - UI content lives in a centered finite-width AppShell; ultrawide adds gutters rather than unlimited UI spread.
 - Component children are positioned relative to their owning component. A card moves with its title/art/overlays as one unit.
 - Mobile is designed with each component from the start through progressive disclosure; it is not a later separate rewrite.
 - Mobile Build keeps the Character as visual anchor and opens Stats/Weapon/Sequences/Echoes in overlay drawers from compact controls.
 - Character is the desktop Build visual anchor; five Echo slots and S1-bottom→S6-top Sequence rail remain.
 - Motion uses continuity/object permanence: card/portrait/focus states should visually transform into one another where practical.
+- Comparable selector/detail tools reuse the locked Bellibing glass pattern: transparent contextual background/panel, solid item/content layer and non-reflowing hover focus. For the approved Weapon reference, grid cards stay stable, Preview uses an independent clone/tunnel layer, and only `Equip Weapon` commits to Active slot 1. See `UI_UX_STATUS.md#locked-weapon-interaction-reference` and `UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
 - Major motion is weighted, not abrupt; exact timing bands and reduced-motion behavior live in `UI_LAYOUT_MOTION_CONTRACT.md`.
 - Autosave and `Add to Account` remain separate semantics.
 - Card/hero image framing uses explicit component-local presentation values or reviewed derivatives, never geometric viewport/bounding-box guesses.
@@ -65,6 +67,29 @@ Do not substitute another font called Etna, Extended, or a lookalike.
 Canonical v34 visual baseline: `docs/UI_BUILD_HANDOFF_V34.md`.
 
 Use it for the approved visual direction, proportions and parity reference. Do not copy its historical pixel values into new viewport-relative layout hacks.
+
+## Functional PR preview protocol
+
+When the user asks for a UI `preview`, `PR preview`, `test link`, `functional preview` or equivalent, treat that as an explicit review workflow request rather than returning screenshots only.
+
+Required sequence:
+
+1. recover the current active UI PR/branch from GitHub + `PROJECT_STATUS.md` + AI Handoff; never assume an old PR number;
+2. ensure the requested UI work is committed on that active PR branch;
+3. verify the **exact PR head** with the repository's existing Verify/Export workflow; do not present a stale head as current;
+4. for the current standalone New UI prototype entrypoint, construct an immutable exact-head review URL in this form:
+
+   `https://rawcdn.githack.com/bellebing/Bellibing-simulator/<HEAD_SHA>/docs/ui-prototypes/v34-functional.html`
+
+5. return that URL prominently as **Open functional UI preview**, together with the PR number and exact head SHA;
+6. the preview is for interaction review only and must not be described as the deployed Bellibing site or canonical `main`;
+7. do not merge merely to make a preview available.
+
+The raw.githack service serves source-hosted HTML/assets with browser-usable content types. Exact commit URLs are immutable, which makes the review link correspond to one verified PR head. A first browser visit may show the service's HTML safety confirmation before opening the page.
+
+If the UI review entrypoint later moves away from `docs/ui-prototypes/v34-functional.html`, update this protocol in the same change that moves the entrypoint. Do not keep emitting a dead historical URL.
+
+If the external preview service is unavailable, say so explicitly and fall back to the repository-local `npm run build` + `python3 -m http.server 4173 --directory dist` flow. Never claim a clickable preview was verified when it was not.
 
 ## Merge boundary
 

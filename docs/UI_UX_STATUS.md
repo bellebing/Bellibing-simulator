@@ -1,6 +1,6 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-09-25
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
@@ -139,6 +139,44 @@ Panels and minor actions:
 - do not apply the full cinematic transition to every button.
 
 Canonical duration bands, easing, reduced-motion behavior and transform rules live in `docs/UI_LAYOUT_MOTION_CONTRACT.md`.
+
+## Locked reusable selector/detail design language
+
+The user-approved Weapon selector defines the default **selector/detail visual language** for comparable New UI tools.
+
+Use this family for Weapon, Echo and future browse/inspect/select surfaces when their information architecture fits:
+
+- transparent dark glass keeps the Character/Build context visible behind the active tool;
+- the glass/background may be substantially transparent, while item cards, icons/artwork, labels, stats and primary actions remain solid and high-contrast;
+- pointer hover gives the currently targeted card a small non-reflowing bubble/lift;
+- inspection and commitment are separate when the feature semantics require it: Preview does not mutate Current/Equipped state;
+- a stable browse grid is preferred when repeated comparison matters; Preview may use an independent visual clone/detail representation instead of physically removing the source card from the grid;
+- the feature-specific primary action is the commit point;
+- desktop can use browse + right-side detail; mobile can use the same state/component in a drawer/detail presentation;
+- the Character/Build stage remains contextual beneath the glass and does not permanently reflow.
+
+### Locked Weapon interaction reference
+
+The approved desktop Weapon interaction is:
+
+`Grid click → Preview only → Equip Weapon → Active slot 1`
+
+Rules:
+
+- the Active Weapon occupies grid slot 1;
+- clicking another Weapon only changes Preview and must not change Active, Build-slot state or grid ordering;
+- Preview is an independent clone/detail layer; the grid card stays in the grid;
+- repeated Preview browsing uses the approved depth/tunnel transition and does not move Weapon cards through the viewport;
+- `Equip Weapon` is the only commit action;
+- on Equip, the previewed Weapon becomes Active and reorders into slot 1;
+- the previous Active Weapon returns to the remaining ranked/browse order;
+- previewing the already Active Weapon shows a disabled `Active Weapon` action;
+- closing the selector clears Preview but preserves committed Active state;
+- no Weapon card may use a viewport-corner or Build-slot flight path for Preview/open/close.
+
+This locks a shared **design system**, not identical gameplay semantics. A future Echo selector may reuse the same glass, stable-grid, Preview and action hierarchy while still obeying canonical Echo rules. Do not invent gameplay restrictions or confirmation semantics merely to match the visual pattern.
+
+The exact approved glass values, hover/motion rules, containment requirements and responsive implementation contract live in `docs/UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
 
 ## Build a Character layout direction
 

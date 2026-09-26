@@ -401,9 +401,9 @@ async function verifyDesktop(send) {
   await waitForUi(send,`echoUi.editorDraft.mainStat.name===${JSON.stringify(mainPopup.alternativeValue)}`,'Physical Main Stat combobox selection did not apply');
   const mainAfterPhysical=await evaluate(send,`(()=>{
     const item=echoById.get(echoUi.previewId),card=echoUi.editorDraft,canonical=echoMainOptions(item.cost,card.level).find(option=>option.name===card.mainStat.name),valueRoot=document.querySelector('[data-combobox-id="echoMainStatValue"]');
-    return {card:card.mainStat,canonical,valueText:document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim(),valueOptions:[...document.querySelectorAll('#echoMainStatValue-listbox .bb-combobox-option')].map(x=>x.textContent.trim()),deterministic:valueRoot.classList.contains('is-deterministic')};
+    return {card:card.mainStat,canonical,valueText:document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim(),expectedValueText:canonical?echoStatValueText(canonical.name,canonical.value):null,valueOptions:[...document.querySelectorAll('#echoMainStatValue-listbox .bb-combobox-option')].map(x=>x.textContent.trim()),deterministic:valueRoot.classList.contains('is-deterministic')};
   })()`);
-  if(!mainAfterPhysical.canonical||JSON.stringify(mainAfterPhysical.card)!==JSON.stringify(mainAfterPhysical.canonical)||mainAfterPhysical.valueText!==echoStatValueText(mainAfterPhysical.canonical.name,mainAfterPhysical.canonical.value)||mainAfterPhysical.valueOptions.length!==1||mainAfterPhysical.valueOptions[0]!==mainAfterPhysical.valueText||!mainAfterPhysical.deterministic){
+  if(!mainAfterPhysical.canonical||JSON.stringify(mainAfterPhysical.card)!==JSON.stringify(mainAfterPhysical.canonical)||mainAfterPhysical.valueText!==mainAfterPhysical.expectedValueText||mainAfterPhysical.valueOptions.length!==1||mainAfterPhysical.valueOptions[0]!==mainAfterPhysical.valueText||!mainAfterPhysical.deterministic){
     throw new Error(`Main Stat name/value source-backed separation failed after physical selection: ${JSON.stringify(mainAfterPhysical)}`);
   }
   await openBellibingCombo(send,'echoMainStatValue');

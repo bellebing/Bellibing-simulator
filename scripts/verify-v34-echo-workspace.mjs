@@ -218,8 +218,8 @@ async function verifyDesktop(send) {
 
   const cardAudit = await evaluate(send, `(()=>{
     const rows=[...document.querySelectorAll('#echoChoices .echo-choice')].map(card=>{
-      const item=echoById.get(card.dataset.echoId),art=card.querySelector('.echo-choice-art').getBoundingClientRect(),copy=card.querySelector('.echo-choice-copy').getBoundingClientRect();
-      return {id:item.id,cost:item.cost,stars:card.querySelector('.echo-cost-stars')?.textContent||'',overlap:art.bottom>copy.top+1,hasCostText:!!card.querySelector('.echo-choice-copy small')};
+      const item=echoById.get(card.dataset.echoId),artNode=card.querySelector('.echo-choice-art'),copyNode=card.querySelector('.echo-choice-copy'),art=artNode.getBoundingClientRect(),copy=copyNode.getBoundingClientRect(),cardRect=card.getBoundingClientRect(),artStyle=getComputedStyle(artNode),copyStyle=getComputedStyle(copyNode),cardStyle=getComputedStyle(card);
+      return {id:item.id,cost:item.cost,stars:card.querySelector('.echo-cost-stars')?.textContent||'',overlap:art.bottom>copy.top+1,hasCostText:!!card.querySelector('.echo-choice-copy small'),rects:{cardTop:cardRect.top,cardBottom:cardRect.bottom,artTop:art.top,artBottom:art.bottom,copyTop:copy.top,copyBottom:copy.bottom},styles:{cardHeight:cardStyle.height,cardTransform:cardStyle.transform,artTop:artStyle.top,artHeight:artStyle.height,copyTop:copyStyle.top,copyHeight:copyStyle.height}};
     });
     return {badStars:rows.filter(x=>x.stars!=='★'.repeat(x.cost)),overlap:rows.filter(x=>x.overlap),costText:rows.filter(x=>x.hasCostText)};
   })()`);

@@ -106,7 +106,7 @@ try {
   await navigate(send);
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
   try {
-    await waitFor(send, "document.querySelectorAll('#buildWheel .choice').length===57 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
+    await waitFor(send, "releasedCharacters.length===57 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
   } catch (error) {
     const diagnostic = await evaluate(send, "(async()=>({characterCards:document.querySelectorAll('#buildWheel .choice').length,characterManifestError:document.documentElement.dataset.characterManifestError||null,sequenceReady:document.documentElement.dataset.sequenceCatalogReady||null,sequenceError:document.documentElement.dataset.sequenceCatalogError||null,sequencePath:typeof SEQUENCE_RUNTIME_DATA_PATH==='string'?SEQUENCE_RUNTIME_DATA_PATH:null,sequenceFetch:await fetch('assets/sequence-runtime.json',{cache:'no-store'}).then(async r=>({status:r.status,ok:r.ok,text:(await r.text()).slice(0,120)})).catch(e=>({error:String(e)}))}))()");
     throw new Error(error.message + ': ' + JSON.stringify(diagnostic));
@@ -161,7 +161,7 @@ try {
   await pointerClick(send, '#sequenceCommit');
   await waitFor(send, 'sequenceUi.currentLevel===2', 'Chisa Set S2 before reload failed');
   await evaluate(send, 'location.reload()');
-  await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && document.querySelectorAll('#buildWheel .choice').length===57", 'Reload did not restore catalogs', 15000);
+  await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===57", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');
   state = await snapshot(send);

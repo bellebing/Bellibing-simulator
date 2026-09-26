@@ -86,6 +86,9 @@ jobs:
             node scripts/verify-alpha-ciaccona-owned-build.mjs
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-weapon-canonical.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_CHROME_DEBUG_PORT=9670 \
+            node scripts/verify-v34-sequence-runtime.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
             for attempt in {1..30}; do
@@ -99,6 +102,9 @@ jobs:
               BELLIBING_V34_CHROME_DEBUG_PORT=9667 \
               BELLIBING_WEAPON_CLICK_ONLY=1 \
               node scripts/verify-v34-weapon-canonical.mjs
+            BELLIBING_V34_URL="$immutable_preview" \
+              BELLIBING_V34_CHROME_DEBUG_PORT=9671 \
+              node scripts/verify-v34-sequence-runtime.mjs
           fi
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
@@ -149,11 +155,13 @@ jobs:
           test "$(find dist/ui-preview/assets/builder-icons/stats -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 17
           test "$(find dist/ui-preview/assets/builder-icons/echo-cost -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 3
           test -s dist/ui-preview/assets/builder-icons/manifest.json
+          test -s dist/ui-preview/assets/sequence-runtime.json
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/elements/aero.webp"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/sonata/01-freezing-frost.webp"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/chains/aalto/s1.webp"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/echo-cost/cost-4.png"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/manifest.json"
+          curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/sequence-runtime.json"
 
           google-chrome \
             --headless=new \

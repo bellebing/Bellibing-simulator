@@ -10,6 +10,11 @@ const weaponBrowserDataCheck = spawnSync(process.execPath, [
 ], { stdio: 'inherit' });
 if (weaponBrowserDataCheck.status !== 0) process.exit(weaponBrowserDataCheck.status ?? 1);
 
+const characterBuilderSequenceDataCheck = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-ui-character-builder-runtime.ts', '--check',
+], { stdio: 'inherit' });
+if (characterBuilderSequenceDataCheck.status !== 0) process.exit(characterBuilderSequenceDataCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 
@@ -34,3 +39,4 @@ cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/character
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });
 cpSync('docs/ui-prototypes/assets/weapons', 'dist/ui-preview/assets/weapons', { recursive: true });
 cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builder-icons', { recursive: true });
+cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/assets/sequence-runtime.json');

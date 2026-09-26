@@ -1,0 +1,2803 @@
+{
+  "schemaVersion": 1,
+  "role": "character-builder.runtime-sequences",
+  "generatedFrom": [
+    "docs/ui-prototypes/assets/builder-icons/manifest.json",
+    "src/characterBuilderAssets.ts#createCharacterBuilderAssetResolver"
+  ],
+  "characters": [
+    {
+      "characterId": "aalto",
+      "characterName": "Aalto",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 67,
+          "name": "Trickster's Opening Show",
+          "assetId": "chain:aalto:s1",
+          "assetPath": "assets/builder-icons/chains/aalto/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 68,
+          "name": "Mistweaver's Debut",
+          "assetId": "chain:aalto:s2",
+          "assetPath": "assets/builder-icons/chains/aalto/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 69,
+          "name": "Hazey Transition",
+          "assetId": "chain:aalto:s3",
+          "assetPath": "assets/builder-icons/chains/aalto/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 70,
+          "name": "Blake Bloom for Finale",
+          "assetId": "chain:aalto:s4",
+          "assetPath": "assets/builder-icons/chains/aalto/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 71,
+          "name": "Applause of the Lost",
+          "assetId": "chain:aalto:s5",
+          "assetPath": "assets/builder-icons/chains/aalto/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 72,
+          "name": "Broker's Secrets",
+          "assetId": "chain:aalto:s6",
+          "assetPath": "assets/builder-icons/chains/aalto/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "aemeath",
+      "characterName": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 271,
+          "name": "Gilded Glimmer of the First Dawn",
+          "assetId": "chain:aemeath:s1",
+          "assetPath": "assets/builder-icons/chains/aemeath/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 272,
+          "name": "Downy Notes of Snowfluff",
+          "assetId": "chain:aemeath:s2",
+          "assetPath": "assets/builder-icons/chains/aemeath/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 273,
+          "name": "Fervor Sightly Burns Bright as New",
+          "assetId": "chain:aemeath:s3",
+          "assetPath": "assets/builder-icons/chains/aemeath/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 274,
+          "name": "Ethereal Waltz on Binary Tides",
+          "assetId": "chain:aemeath:s4",
+          "assetPath": "assets/builder-icons/chains/aemeath/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 275,
+          "name": "Voyage to the Astral Shore",
+          "assetId": "chain:aemeath:s5",
+          "assetPath": "assets/builder-icons/chains/aemeath/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 276,
+          "name": "A Zephyr-Kissed Journey to You",
+          "assetId": "chain:aemeath:s6",
+          "assetPath": "assets/builder-icons/chains/aemeath/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "augusta",
+      "characterName": "Augusta",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 229,
+          "name": "Stained in Scorched Earth",
+          "assetId": "chain:augusta:s1",
+          "assetPath": "assets/builder-icons/chains/augusta/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 230,
+          "name": "Cleansed in Crimson War",
+          "assetId": "chain:augusta:s2",
+          "assetPath": "assets/builder-icons/chains/augusta/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 231,
+          "name": "Forged in Rot and Ruin",
+          "assetId": "chain:augusta:s3",
+          "assetPath": "assets/builder-icons/chains/augusta/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 232,
+          "name": "Ascent in Sun and Glory",
+          "assetId": "chain:augusta:s4",
+          "assetPath": "assets/builder-icons/chains/augusta/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 233,
+          "name": "Unshaken in Wrathful Tides",
+          "assetId": "chain:augusta:s5",
+          "assetPath": "assets/builder-icons/chains/augusta/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 234,
+          "name": "Engraved in Radiant Light",
+          "assetId": "chain:augusta:s6",
+          "assetPath": "assets/builder-icons/chains/augusta/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "baizhi",
+      "characterName": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 25,
+          "name": "Complex Simplicity",
+          "assetId": "chain:baizhi:s1",
+          "assetPath": "assets/builder-icons/chains/baizhi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 26,
+          "name": "Silent Tundra",
+          "assetId": "chain:baizhi:s2",
+          "assetPath": "assets/builder-icons/chains/baizhi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 27,
+          "name": "Veritas Lux Mea",
+          "assetId": "chain:baizhi:s3",
+          "assetPath": "assets/builder-icons/chains/baizhi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 28,
+          "name": "Eternal Verity",
+          "assetId": "chain:baizhi:s4",
+          "assetPath": "assets/builder-icons/chains/baizhi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 29,
+          "name": "A Wish Answered",
+          "assetId": "chain:baizhi:s5",
+          "assetPath": "assets/builder-icons/chains/baizhi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 30,
+          "name": "Seeker's Devotion",
+          "assetId": "chain:baizhi:s6",
+          "assetPath": "assets/builder-icons/chains/baizhi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "brant",
+      "characterName": "Brant",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 175,
+          "name": "By Currents and Winds",
+          "assetId": "chain:brant:s1",
+          "assetPath": "assets/builder-icons/chains/brant/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 176,
+          "name": "For Smiles and Cheers",
+          "assetId": "chain:brant:s2",
+          "assetPath": "assets/builder-icons/chains/brant/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 177,
+          "name": "Through Storms I Sail",
+          "assetId": "chain:brant:s3",
+          "assetPath": "assets/builder-icons/chains/brant/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 178,
+          "name": "To Freedom I Sing",
+          "assetId": "chain:brant:s4",
+          "assetPath": "assets/builder-icons/chains/brant/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 179,
+          "name": "All the World's an Actor's Stage",
+          "assetId": "chain:brant:s5",
+          "assetPath": "assets/builder-icons/chains/brant/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 180,
+          "name": "All the World's a Captain's Carnevale",
+          "assetId": "chain:brant:s6",
+          "assetPath": "assets/builder-icons/chains/brant/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "buling",
+      "characterName": "Buling",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 247,
+          "name": "Exorcist Gadgets, Lend Me Your Power",
+          "assetId": "chain:buling:s1",
+          "assetPath": "assets/builder-icons/chains/buling/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 248,
+          "name": "Talisman Burns, Spirits Turn",
+          "assetId": "chain:buling:s2",
+          "assetPath": "assets/builder-icons/chains/buling/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 249,
+          "name": "Summoner of Spirits, Seeker of Fate",
+          "assetId": "chain:buling:s3",
+          "assetPath": "assets/builder-icons/chains/buling/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 250,
+          "name": "Wanderer of Solaris, Blessed by Fortune",
+          "assetId": "chain:buling:s4",
+          "assetPath": "assets/builder-icons/chains/buling/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 251,
+          "name": "Forum Ban? New Account!",
+          "assetId": "chain:buling:s5",
+          "assetPath": "assets/builder-icons/chains/buling/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 252,
+          "name": "\"Almighty Forum Lord of Thunder Spell\"",
+          "assetId": "chain:buling:s6",
+          "assetPath": "assets/builder-icons/chains/buling/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "calcharo",
+      "characterName": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 79,
+          "name": "Covert Negotiation",
+          "assetId": "chain:calcharo:s1",
+          "assetPath": "assets/builder-icons/chains/calcharo/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 80,
+          "name": "Zero-Sum Game",
+          "assetId": "chain:calcharo:s2",
+          "assetPath": "assets/builder-icons/chains/calcharo/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 81,
+          "name": "Iron Fist Diplomacy",
+          "assetId": "chain:calcharo:s3",
+          "assetPath": "assets/builder-icons/chains/calcharo/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 82,
+          "name": "Dark Alliance",
+          "assetId": "chain:calcharo:s4",
+          "assetPath": "assets/builder-icons/chains/calcharo/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 83,
+          "name": "Unconventional Compact",
+          "assetId": "chain:calcharo:s5",
+          "assetPath": "assets/builder-icons/chains/calcharo/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 84,
+          "name": "The Ultimatum",
+          "assetId": "chain:calcharo:s6",
+          "assetPath": "assets/builder-icons/chains/calcharo/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "camellya",
+      "characterName": "Camellya",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 73,
+          "name": "Somewhere No One Travelled",
+          "assetId": "chain:camellya:s1",
+          "assetPath": "assets/builder-icons/chains/camellya/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 74,
+          "name": "Calling Upon the Silent Rose",
+          "assetId": "chain:camellya:s2",
+          "assetPath": "assets/builder-icons/chains/camellya/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 75,
+          "name": "A Bud Adorned by Thorns",
+          "assetId": "chain:camellya:s3",
+          "assetPath": "assets/builder-icons/chains/camellya/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 76,
+          "name": "Roots Set Deep In Eternity",
+          "assetId": "chain:camellya:s4",
+          "assetPath": "assets/builder-icons/chains/camellya/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 77,
+          "name": "Infinity Held in Your Palm",
+          "assetId": "chain:camellya:s5",
+          "assetPath": "assets/builder-icons/chains/camellya/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 78,
+          "name": "Bloom For You Thousand Times Over",
+          "assetId": "chain:camellya:s6",
+          "assetPath": "assets/builder-icons/chains/camellya/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "characterName": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 181,
+          "name": "Embrace the Endless Waves",
+          "assetId": "chain:cantarella:s1",
+          "assetPath": "assets/builder-icons/chains/cantarella/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 182,
+          "name": "Surrender to the Illusive Reverie",
+          "assetId": "chain:cantarella:s2",
+          "assetPath": "assets/builder-icons/chains/cantarella/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 183,
+          "name": "Gaze into the Abyss",
+          "assetId": "chain:cantarella:s3",
+          "assetPath": "assets/builder-icons/chains/cantarella/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 184,
+          "name": "Behold Your Own Soul",
+          "assetId": "chain:cantarella:s4",
+          "assetPath": "assets/builder-icons/chains/cantarella/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 185,
+          "name": "Rest in Your Reflection",
+          "assetId": "chain:cantarella:s5",
+          "assetPath": "assets/builder-icons/chains/cantarella/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 186,
+          "name": "Fall, Fall... and Fall Deeper into the Dream",
+          "assetId": "chain:cantarella:s6",
+          "assetPath": "assets/builder-icons/chains/cantarella/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "characterName": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 157,
+          "name": "Beauty Blazes Brightest Before It Fades",
+          "assetId": "chain:carlotta:s1",
+          "assetPath": "assets/builder-icons/chains/carlotta/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 158,
+          "name": "Fallen Petals Give Life to New Blooms",
+          "assetId": "chain:carlotta:s2",
+          "assetPath": "assets/builder-icons/chains/carlotta/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 159,
+          "name": "Adelante, Cortado, Spinning in Grace",
+          "assetId": "chain:carlotta:s3",
+          "assetPath": "assets/builder-icons/chains/carlotta/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 160,
+          "name": "Yesterday's Raindrops Make Finest Wine",
+          "assetId": "chain:carlotta:s4",
+          "assetPath": "assets/builder-icons/chains/carlotta/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 161,
+          "name": "Toast to Past, Today, and Every Day to Come",
+          "assetId": "chain:carlotta:s5",
+          "assetPath": "assets/builder-icons/chains/carlotta/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 162,
+          "name": "As the Curtain Falls, I Remain What I Am",
+          "assetId": "chain:carlotta:s6",
+          "assetPath": "assets/builder-icons/chains/carlotta/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "cartethyia",
+      "characterName": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 211,
+          "name": "Crown Destined by Fate",
+          "assetId": "chain:cartethyia:s1",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 212,
+          "name": "Blade Broken by Tempest",
+          "assetId": "chain:cartethyia:s2",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 213,
+          "name": "Prisoner Hanged in the Tower",
+          "assetId": "chain:cartethyia:s3",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 214,
+          "name": "Sacrifice Made for Salvation",
+          "assetId": "chain:cartethyia:s4",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 215,
+          "name": "Hope Reshaped in Storms",
+          "assetId": "chain:cartethyia:s5",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 216,
+          "name": "Freedom Found in Storm's Wake",
+          "assetId": "chain:cartethyia:s6",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "changli",
+      "characterName": "Changli",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 121,
+          "name": "Hidden Thoughts",
+          "assetId": "chain:changli:s1",
+          "assetPath": "assets/builder-icons/chains/changli/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 122,
+          "name": "Pursuit of Desires",
+          "assetId": "chain:changli:s2",
+          "assetPath": "assets/builder-icons/chains/changli/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 123,
+          "name": "Learned Secrets",
+          "assetId": "chain:changli:s3",
+          "assetPath": "assets/builder-icons/chains/changli/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 124,
+          "name": "Polished Words",
+          "assetId": "chain:changli:s4",
+          "assetPath": "assets/builder-icons/chains/changli/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 125,
+          "name": "Sacrificed Gains",
+          "assetId": "chain:changli:s5",
+          "assetPath": "assets/builder-icons/chains/changli/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 126,
+          "name": "Realized Plans",
+          "assetId": "chain:changli:s6",
+          "assetPath": "assets/builder-icons/chains/changli/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "characterName": "Chisa",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 253,
+          "name": "Wandering Through the Desolate Corridors",
+          "assetId": "chain:chisa:s1",
+          "assetPath": "assets/builder-icons/chains/chisa/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 254,
+          "name": "Into the Web of Endless Bonds",
+          "assetId": "chain:chisa:s2",
+          "assetPath": "assets/builder-icons/chains/chisa/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 255,
+          "name": "Across the Confusion of the Long Night",
+          "assetId": "chain:chisa:s3",
+          "assetPath": "assets/builder-icons/chains/chisa/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 256,
+          "name": "Severing the Endless Cycle of Tragic Fate",
+          "assetId": "chain:chisa:s4",
+          "assetPath": "assets/builder-icons/chains/chisa/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 257,
+          "name": "Thousands of Lights to Guide the Way Home",
+          "assetId": "chain:chisa:s5",
+          "assetPath": "assets/builder-icons/chains/chisa/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 258,
+          "name": "Thus, Hope is Rekindled with the Rising Dawn",
+          "assetId": "chain:chisa:s6",
+          "assetPath": "assets/builder-icons/chains/chisa/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "chixia",
+      "characterName": "Chixia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 7,
+          "name": "No.1 Hero Play Fan",
+          "assetId": "chain:chixia:s1",
+          "assetPath": "assets/builder-icons/chains/chixia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 8,
+          "name": "Leaping Sparkles",
+          "assetId": "chain:chixia:s2",
+          "assetPath": "assets/builder-icons/chains/chixia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 9,
+          "name": "Eternal Flames",
+          "assetId": "chain:chixia:s3",
+          "assetPath": "assets/builder-icons/chains/chixia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 10,
+          "name": "Hero’s Ultimate Move",
+          "assetId": "chain:chixia:s4",
+          "assetPath": "assets/builder-icons/chains/chixia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 11,
+          "name": "Triumphant Explosions",
+          "assetId": "chain:chixia:s5",
+          "assetPath": "assets/builder-icons/chains/chixia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 12,
+          "name": "Easter Egg Performance",
+          "assetId": "chain:chixia:s6",
+          "assetPath": "assets/builder-icons/chains/chixia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "ciaccona",
+      "characterName": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 199,
+          "name": "Where Wind Sings",
+          "assetId": "chain:ciaccona:s1",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 200,
+          "name": "Song of the Four Seasons",
+          "assetId": "chain:ciaccona:s2",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 201,
+          "name": "Starlit Improv",
+          "assetId": "chain:ciaccona:s3",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 202,
+          "name": "Toccata and Fugue",
+          "assetId": "chain:ciaccona:s4",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 203,
+          "name": "Eternal Idyll to Lasting Summer",
+          "assetId": "chain:ciaccona:s5",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 204,
+          "name": "Unending Cadence",
+          "assetId": "chain:ciaccona:s6",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "characterName": "Danjin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 37,
+          "name": "Crimson Heart of Justice",
+          "assetId": "chain:danjin:s1",
+          "assetPath": "assets/builder-icons/chains/danjin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 38,
+          "name": "Dusted Mirror",
+          "assetId": "chain:danjin:s2",
+          "assetPath": "assets/builder-icons/chains/danjin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 39,
+          "name": "Fleeting Blossom",
+          "assetId": "chain:danjin:s3",
+          "assetPath": "assets/builder-icons/chains/danjin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 40,
+          "name": "Solitary Carnation",
+          "assetId": "chain:danjin:s4",
+          "assetPath": "assets/builder-icons/chains/danjin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 41,
+          "name": "Reigning Blade",
+          "assetId": "chain:danjin:s5",
+          "assetPath": "assets/builder-icons/chains/danjin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 42,
+          "name": "Bloodied Jade",
+          "assetId": "chain:danjin:s6",
+          "assetPath": "assets/builder-icons/chains/danjin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "denia",
+      "characterName": "Denia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 295,
+          "name": "Silent Glows in a Dimlit Dream",
+          "assetId": "chain:denia:s1",
+          "assetPath": "assets/builder-icons/chains/denia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 296,
+          "name": "Tossed in the Tides of Reality",
+          "assetId": "chain:denia:s2",
+          "assetPath": "assets/builder-icons/chains/denia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 297,
+          "name": "Through Dark and Wind, the Erlking Follows",
+          "assetId": "chain:denia:s3",
+          "assetPath": "assets/builder-icons/chains/denia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 298,
+          "name": "From the Far Beyond, to the Far Beyond",
+          "assetId": "chain:denia:s4",
+          "assetPath": "assets/builder-icons/chains/denia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 299,
+          "name": "If Lies Patch Up a Heart",
+          "assetId": "chain:denia:s5",
+          "assetPath": "assets/builder-icons/chains/denia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 300,
+          "name": "May You Find Your Sun in the Silence",
+          "assetId": "chain:denia:s6",
+          "assetPath": "assets/builder-icons/chains/denia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "encore",
+      "characterName": "Encore",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 43,
+          "name": "Wooly's Fairy Tale",
+          "assetId": "chain:encore:s1",
+          "assetPath": "assets/builder-icons/chains/encore/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 44,
+          "name": "Sheep-counting Lullaby",
+          "assetId": "chain:encore:s2",
+          "assetPath": "assets/builder-icons/chains/encore/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 45,
+          "name": "Fog? The Black Shores!",
+          "assetId": "chain:encore:s3",
+          "assetPath": "assets/builder-icons/chains/encore/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 46,
+          "name": "Adventure? Let's go!",
+          "assetId": "chain:encore:s4",
+          "assetPath": "assets/builder-icons/chains/encore/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 47,
+          "name": "Hero Takes the Stage!",
+          "assetId": "chain:encore:s5",
+          "assetPath": "assets/builder-icons/chains/encore/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 48,
+          "name": "Woolies Save the World!",
+          "assetId": "chain:encore:s6",
+          "assetPath": "assets/builder-icons/chains/encore/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "galbrena",
+      "characterName": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 241,
+          "name": "Heart of Defiance Ever Ablaze",
+          "assetId": "chain:galbrena:s1",
+          "assetPath": "assets/builder-icons/chains/galbrena/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 242,
+          "name": "Hellbound Dive of Fire and Abyss",
+          "assetId": "chain:galbrena:s2",
+          "assetPath": "assets/builder-icons/chains/galbrena/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 243,
+          "name": "Hunter’s Blood Oath Rekindled",
+          "assetId": "chain:galbrena:s3",
+          "assetPath": "assets/builder-icons/chains/galbrena/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 244,
+          "name": "Carry Forth This Fading Spark",
+          "assetId": "chain:galbrena:s4",
+          "assetPath": "assets/builder-icons/chains/galbrena/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 245,
+          "name": "Though Light Fades, Torment Consumes",
+          "assetId": "chain:galbrena:s5",
+          "assetPath": "assets/builder-icons/chains/galbrena/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 246,
+          "name": "I Remain Who I am, Eternal My Flame",
+          "assetId": "chain:galbrena:s6",
+          "assetPath": "assets/builder-icons/chains/galbrena/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "hiyuki",
+      "characterName": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 289,
+          "name": "Springless",
+          "assetId": "chain:hiyuki:s1",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 290,
+          "name": "To Burn Cold in Silence",
+          "assetId": "chain:hiyuki:s2",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 291,
+          "name": "No Self, No Bound",
+          "assetId": "chain:hiyuki:s3",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 292,
+          "name": "Like Reeds on Tides",
+          "assetId": "chain:hiyuki:s4",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 293,
+          "name": "Vessel of Thousand Wishes",
+          "assetId": "chain:hiyuki:s5",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 294,
+          "name": "Into a Night Without End",
+          "assetId": "chain:hiyuki:s6",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "characterName": "Iuno",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 223,
+          "name": "Wax or Wane, All Gild the Bough",
+          "assetId": "chain:iuno:s1",
+          "assetPath": "assets/builder-icons/chains/iuno/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 224,
+          "name": "Day or Night, Let This Be Eternal",
+          "assetId": "chain:iuno:s2",
+          "assetPath": "assets/builder-icons/chains/iuno/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 225,
+          "name": "I Drink Deep of Their Forgetting",
+          "assetId": "chain:iuno:s3",
+          "assetPath": "assets/builder-icons/chains/iuno/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 226,
+          "name": "Rainy Season Dwell in My Eyes",
+          "assetId": "chain:iuno:s4",
+          "assetPath": "assets/builder-icons/chains/iuno/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 227,
+          "name": "A Thousand Futile Glimpses",
+          "assetId": "chain:iuno:s5",
+          "assetPath": "assets/builder-icons/chains/iuno/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 228,
+          "name": "I Am the Constant in the Chaos",
+          "assetId": "chain:iuno:s6",
+          "assetPath": "assets/builder-icons/chains/iuno/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jianxin",
+      "characterName": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 109,
+          "name": "Verdant Branchlet",
+          "assetId": "chain:jianxin:s1",
+          "assetPath": "assets/builder-icons/chains/jianxin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 110,
+          "name": "Tao Seeker's Journey",
+          "assetId": "chain:jianxin:s2",
+          "assetPath": "assets/builder-icons/chains/jianxin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 111,
+          "name": "Principles of Wuwei",
+          "assetId": "chain:jianxin:s3",
+          "assetPath": "assets/builder-icons/chains/jianxin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 112,
+          "name": "Multitide Reflection",
+          "assetId": "chain:jianxin:s4",
+          "assetPath": "assets/builder-icons/chains/jianxin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 113,
+          "name": "Mirroring Introspection",
+          "assetId": "chain:jianxin:s5",
+          "assetPath": "assets/builder-icons/chains/jianxin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 114,
+          "name": "Truth from Within",
+          "assetId": "chain:jianxin:s6",
+          "assetPath": "assets/builder-icons/chains/jianxin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jinhsi",
+      "characterName": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 115,
+          "name": "Abyssal Ascension",
+          "assetId": "chain:jinhsi:s1",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 116,
+          "name": "Chronofrost Repose",
+          "assetId": "chain:jinhsi:s2",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 117,
+          "name": "Celestial Incarnate",
+          "assetId": "chain:jinhsi:s3",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 118,
+          "name": "Benevolent Grace",
+          "assetId": "chain:jinhsi:s4",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 119,
+          "name": "Frostfire Illumination",
+          "assetId": "chain:jinhsi:s5",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 120,
+          "name": "Thawing Triumph",
+          "assetId": "chain:jinhsi:s6",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jiyan",
+      "characterName": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 61,
+          "name": "Benevolence",
+          "assetId": "chain:jiyan:s1",
+          "assetPath": "assets/builder-icons/chains/jiyan/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 62,
+          "name": "Versatility",
+          "assetId": "chain:jiyan:s2",
+          "assetPath": "assets/builder-icons/chains/jiyan/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 63,
+          "name": "Spectation",
+          "assetId": "chain:jiyan:s3",
+          "assetPath": "assets/builder-icons/chains/jiyan/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 64,
+          "name": "Prudence",
+          "assetId": "chain:jiyan:s4",
+          "assetPath": "assets/builder-icons/chains/jiyan/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 65,
+          "name": "Resolution",
+          "assetId": "chain:jiyan:s5",
+          "assetPath": "assets/builder-icons/chains/jiyan/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 66,
+          "name": "Fortitude",
+          "assetId": "chain:jiyan:s6",
+          "assetPath": "assets/builder-icons/chains/jiyan/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lingyang",
+      "characterName": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 97,
+          "name": "Lion of Light, Blessings Abound",
+          "assetId": "chain:lingyang:s1",
+          "assetPath": "assets/builder-icons/chains/lingyang/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 98,
+          "name": "Dominant and Fierce,\nPower Unbound",
+          "assetId": "chain:lingyang:s2",
+          "assetPath": "assets/builder-icons/chains/lingyang/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 99,
+          "name": "Jaw-Dropping Feats,\nLoud and Wide",
+          "assetId": "chain:lingyang:s3",
+          "assetPath": "assets/builder-icons/chains/lingyang/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 100,
+          "name": "Immortals Bow,\nin Reverence Flawed",
+          "assetId": "chain:lingyang:s4",
+          "assetPath": "assets/builder-icons/chains/lingyang/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 101,
+          "name": "Seven Stars Shine,\nStepped upon High",
+          "assetId": "chain:lingyang:s5",
+          "assetPath": "assets/builder-icons/chains/lingyang/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 102,
+          "name": "Demons Tremble,\nDivine Power Nigh",
+          "assetId": "chain:lingyang:s6",
+          "assetPath": "assets/builder-icons/chains/lingyang/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "characterName": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 301,
+          "name": "Distant Noon",
+          "assetId": "chain:lucilla:s1",
+          "assetPath": "assets/builder-icons/chains/lucilla/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 302,
+          "name": "Slumbering Moonlight",
+          "assetId": "chain:lucilla:s2",
+          "assetPath": "assets/builder-icons/chains/lucilla/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 303,
+          "name": "Days Fade Unheard",
+          "assetId": "chain:lucilla:s3",
+          "assetPath": "assets/builder-icons/chains/lucilla/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 304,
+          "name": "The Past Fades Into Silence",
+          "assetId": "chain:lucilla:s4",
+          "assetPath": "assets/builder-icons/chains/lucilla/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 305,
+          "name": "Time is Like a Stream",
+          "assetId": "chain:lucilla:s5",
+          "assetPath": "assets/builder-icons/chains/lucilla/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 306,
+          "name": "Gazing In the Mist of Time",
+          "assetId": "chain:lucilla:s6",
+          "assetPath": "assets/builder-icons/chains/lucilla/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lucy",
+      "characterName": "Lucy",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 307,
+          "name": "The Moon, a Ticket, and a Dream",
+          "assetId": "chain:lucy:s1",
+          "assetPath": "assets/builder-icons/chains/lucy/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 308,
+          "name": "The Blackwall, the Past, the Escape",
+          "assetId": "chain:lucy:s2",
+          "assetPath": "assets/builder-icons/chains/lucy/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 309,
+          "name": "Cyberpunk",
+          "assetId": "chain:lucy:s3",
+          "assetPath": "assets/builder-icons/chains/lucy/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 310,
+          "name": "No Living Legends in Night City",
+          "assetId": "chain:lucy:s4",
+          "assetPath": "assets/builder-icons/chains/lucy/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 311,
+          "name": "A Broken Path to Hell",
+          "assetId": "chain:lucy:s5",
+          "assetPath": "assets/builder-icons/chains/lucy/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 312,
+          "name": "I Really Want to Stay At Your House",
+          "assetId": "chain:lucy:s6",
+          "assetPath": "assets/builder-icons/chains/lucy/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "characterName": "Lumi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 151,
+          "name": "Parcel To Be Delivered",
+          "assetId": "chain:lumi:s1",
+          "assetPath": "assets/builder-icons/chains/lumi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 152,
+          "name": "Lollo Logistics, Ready to Help",
+          "assetId": "chain:lumi:s2",
+          "assetPath": "assets/builder-icons/chains/lumi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 153,
+          "name": "Priority Parcel In Transit",
+          "assetId": "chain:lumi:s3",
+          "assetPath": "assets/builder-icons/chains/lumi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 154,
+          "name": "Captain Lumi, At Your Service",
+          "assetId": "chain:lumi:s4",
+          "assetPath": "assets/builder-icons/chains/lumi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 155,
+          "name": "Parcel Collected On Time",
+          "assetId": "chain:lumi:s5",
+          "assetPath": "assets/builder-icons/chains/lumi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 156,
+          "name": "Give Me A Five-star Rating",
+          "assetId": "chain:lumi:s6",
+          "assetPath": "assets/builder-icons/chains/lumi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lupa",
+      "characterName": "Lupa",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 205,
+          "name": "Behold the Nameless One",
+          "assetId": "chain:lupa:s1",
+          "assetPath": "assets/builder-icons/chains/lupa/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 206,
+          "name": "Every Ground, Her Hunting Field",
+          "assetId": "chain:lupa:s2",
+          "assetPath": "assets/builder-icons/chains/lupa/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 207,
+          "name": "Wolflame Howls in Her Wake",
+          "assetId": "chain:lupa:s3",
+          "assetPath": "assets/builder-icons/chains/lupa/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 208,
+          "name": "High and Aflame Is Her Banner",
+          "assetId": "chain:lupa:s4",
+          "assetPath": "assets/builder-icons/chains/lupa/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 209,
+          "name": "Embrace the Thunderous Triumph",
+          "assetId": "chain:lupa:s5",
+          "assetPath": "assets/builder-icons/chains/lupa/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 210,
+          "name": "To the Brightest Flaming Star",
+          "assetId": "chain:lupa:s6",
+          "assetPath": "assets/builder-icons/chains/lupa/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "luuk-herssen",
+      "characterName": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 277,
+          "name": "Gold Kindled in Ash",
+          "assetId": "chain:luuk-herssen:s1",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 278,
+          "name": "Avalanche Roaring in Eyes",
+          "assetId": "chain:luuk-herssen:s2",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 279,
+          "name": "Spine Tempered by Golden Rain",
+          "assetId": "chain:luuk-herssen:s3",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 280,
+          "name": "Pulse Thrumming Under Rime",
+          "assetId": "chain:luuk-herssen:s4",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 281,
+          "name": "Through the Stillness of Snowstorm",
+          "assetId": "chain:luuk-herssen:s5",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 282,
+          "name": "Dawn Unfurling over Frostlands",
+          "assetId": "chain:luuk-herssen:s6",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lynae",
+      "characterName": "Lynae",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 265,
+          "name": "Days to be Painted Like a Canvas",
+          "assetId": "chain:lynae:s1",
+          "assetPath": "assets/builder-icons/chains/lynae/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 266,
+          "name": "Into Lights' Vanishing Point",
+          "assetId": "chain:lynae:s2",
+          "assetPath": "assets/builder-icons/chains/lynae/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 267,
+          "name": "For One Brilliant Moment",
+          "assetId": "chain:lynae:s3",
+          "assetPath": "assets/builder-icons/chains/lynae/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 268,
+          "name": "Shadows of a Wind Racer",
+          "assetId": "chain:lynae:s4",
+          "assetPath": "assets/builder-icons/chains/lynae/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 269,
+          "name": "Visions of a Future Unbound",
+          "assetId": "chain:lynae:s5",
+          "assetPath": "assets/builder-icons/chains/lynae/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 270,
+          "name": "Painted in My True Color",
+          "assetId": "chain:lynae:s6",
+          "assetPath": "assets/builder-icons/chains/lynae/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "mornye",
+      "characterName": "Mornye",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 259,
+          "name": "The Silent Observer",
+          "assetId": "chain:mornye:s1",
+          "assetPath": "assets/builder-icons/chains/mornye/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 260,
+          "name": "Morning Star of Entropy",
+          "assetId": "chain:mornye:s2",
+          "assetPath": "assets/builder-icons/chains/mornye/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 261,
+          "name": "Blueprint of Recursion",
+          "assetId": "chain:mornye:s3",
+          "assetPath": "assets/builder-icons/chains/mornye/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 262,
+          "name": "Latent Variables of the Cosmos",
+          "assetId": "chain:mornye:s4",
+          "assetPath": "assets/builder-icons/chains/mornye/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 263,
+          "name": "Time Dilation Effect",
+          "assetId": "chain:mornye:s5",
+          "assetPath": "assets/builder-icons/chains/mornye/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 264,
+          "name": "To the Far Shores of the Stars",
+          "assetId": "chain:mornye:s6",
+          "assetPath": "assets/builder-icons/chains/mornye/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "characterName": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 55,
+          "name": "Solitary Etude",
+          "assetId": "chain:mortefi:s1",
+          "assetPath": "assets/builder-icons/chains/mortefi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 56,
+          "name": "Hypocritical Hymn",
+          "assetId": "chain:mortefi:s2",
+          "assetPath": "assets/builder-icons/chains/mortefi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 57,
+          "name": "Flaming Recitativo",
+          "assetId": "chain:mortefi:s3",
+          "assetPath": "assets/builder-icons/chains/mortefi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 58,
+          "name": "Cathartic Waltz",
+          "assetId": "chain:mortefi:s4",
+          "assetPath": "assets/builder-icons/chains/mortefi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 59,
+          "name": "Funerary Quartet",
+          "assetId": "chain:mortefi:s5",
+          "assetPath": "assets/builder-icons/chains/mortefi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 60,
+          "name": "Apoplectic Instrumental",
+          "assetId": "chain:mortefi:s6",
+          "assetPath": "assets/builder-icons/chains/mortefi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "phoebe",
+      "characterName": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 169,
+          "name": "Warm Light and Bedside Wishes",
+          "assetId": "chain:phoebe:s1",
+          "assetPath": "assets/builder-icons/chains/phoebe/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 170,
+          "name": "A Boat Adrift in Tears",
+          "assetId": "chain:phoebe:s2",
+          "assetPath": "assets/builder-icons/chains/phoebe/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 171,
+          "name": "Daisy Wreaths and Dreams",
+          "assetId": "chain:phoebe:s3",
+          "assetPath": "assets/builder-icons/chains/phoebe/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 172,
+          "name": "Ringing Bells on Wings Aloft",
+          "assetId": "chain:phoebe:s4",
+          "assetPath": "assets/builder-icons/chains/phoebe/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 173,
+          "name": "Prayer to the Distant Light",
+          "assetId": "chain:phoebe:s5",
+          "assetPath": "assets/builder-icons/chains/phoebe/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 174,
+          "name": "Whispering Chirps in Silence",
+          "assetId": "chain:phoebe:s6",
+          "assetPath": "assets/builder-icons/chains/phoebe/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "phrolova",
+      "characterName": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 217,
+          "name": "A Key to Netherworld's Secrets",
+          "assetId": "chain:phrolova:s1",
+          "assetPath": "assets/builder-icons/chains/phrolova/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 218,
+          "name": "A Rope Tied to a Life Beyond",
+          "assetId": "chain:phrolova:s2",
+          "assetPath": "assets/builder-icons/chains/phrolova/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 219,
+          "name": "A Dagger to Cut Clean Obsessions",
+          "assetId": "chain:phrolova:s3",
+          "assetPath": "assets/builder-icons/chains/phrolova/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 220,
+          "name": "A Torch Illuminating the Path",
+          "assetId": "chain:phrolova:s4",
+          "assetPath": "assets/builder-icons/chains/phrolova/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 221,
+          "name": "A Forked Road in Fate's Heartland",
+          "assetId": "chain:phrolova:s5",
+          "assetPath": "assets/builder-icons/chains/phrolova/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 222,
+          "name": "A Night to Depart From Eternal Rest",
+          "assetId": "chain:phrolova:s6",
+          "assetPath": "assets/builder-icons/chains/phrolova/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "qingxiao",
+      "characterName": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 331,
+          "name": "Like Clouds That Meet and Drift Apart",
+          "assetId": "chain:qingxiao:s1",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 332,
+          "name": "Like Petals That Fall Without a Sound",
+          "assetId": "chain:qingxiao:s2",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 333,
+          "name": "Dreams Fade, Sword Abides",
+          "assetId": "chain:qingxiao:s3",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 334,
+          "name": "Wherever the Road Leads, Side by Side",
+          "assetId": "chain:qingxiao:s4",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 335,
+          "name": "Cold Steel That Longs to Warm the Snow",
+          "assetId": "chain:qingxiao:s5",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 336,
+          "name": "Cleanse This Tarnished Age, Till All Runs Clear",
+          "assetId": "chain:qingxiao:s6",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "qiuyuan",
+      "characterName": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 235,
+          "name": "Sword Sheathed, Mind Unclouded",
+          "assetId": "chain:qiuyuan:s1",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 236,
+          "name": "O Blade, I, Who Teach No More",
+          "assetId": "chain:qiuyuan:s2",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 237,
+          "name": "O Blade, I, Who Save No More",
+          "assetId": "chain:qiuyuan:s3",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 238,
+          "name": "O Blade, I, Who Sacrifice No More",
+          "assetId": "chain:qiuyuan:s4",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 239,
+          "name": "O Blade, I, Who Await to be Wielded",
+          "assetId": "chain:qiuyuan:s5",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 240,
+          "name": "Thus I Heard, Thus I Saw, Thus I Spoke",
+          "assetId": "chain:qiuyuan:s6",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rebecca",
+      "characterName": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 313,
+          "name": "Try Not to Get in the Way!",
+          "assetId": "chain:rebecca:s1",
+          "assetPath": "assets/builder-icons/chains/rebecca/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 314,
+          "name": "Oh, Hey Choom!",
+          "assetId": "chain:rebecca:s2",
+          "assetPath": "assets/builder-icons/chains/rebecca/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 315,
+          "name": "Don't Sweat Your Six!",
+          "assetId": "chain:rebecca:s3",
+          "assetPath": "assets/builder-icons/chains/rebecca/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 316,
+          "name": "Got Ya Covered!",
+          "assetId": "chain:rebecca:s4",
+          "assetPath": "assets/builder-icons/chains/rebecca/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 317,
+          "name": "Dreamin' on the Edge",
+          "assetId": "chain:rebecca:s5",
+          "assetPath": "assets/builder-icons/chains/rebecca/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 318,
+          "name": "Maybe, Just Maybe...",
+          "assetId": "chain:rebecca:s6",
+          "assetPath": "assets/builder-icons/chains/rebecca/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "roccia",
+      "characterName": "Roccia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 163,
+          "name": "When Shadows Engulf the Hull",
+          "assetId": "chain:roccia:s1",
+          "assetPath": "assets/builder-icons/chains/roccia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 164,
+          "name": "When the Luceanite Gleams",
+          "assetId": "chain:roccia:s2",
+          "assetPath": "assets/builder-icons/chains/roccia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 165,
+          "name": "When the Heart Sees and Hands Feel",
+          "assetId": "chain:roccia:s3",
+          "assetPath": "assets/builder-icons/chains/roccia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 166,
+          "name": "When Wonders Gather in the Box",
+          "assetId": "chain:roccia:s4",
+          "assetPath": "assets/builder-icons/chains/roccia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 167,
+          "name": "When Dreams Are Reborn on Stage",
+          "assetId": "chain:roccia:s5",
+          "assetPath": "assets/builder-icons/chains/roccia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 168,
+          "name": "When the Golden Wings Fly",
+          "assetId": "chain:roccia:s6",
+          "assetPath": "assets/builder-icons/chains/roccia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-aero",
+      "characterName": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 187,
+          "name": "Storm Subsides in the Void",
+          "assetId": "chain:rover-aero:s1",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 188,
+          "name": "Glimmers Fade into the Dark",
+          "assetId": "chain:rover-aero:s2",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 189,
+          "name": "Illusions Collapse in a Grip",
+          "assetId": "chain:rover-aero:s3",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 190,
+          "name": "Boundaries Shatter in an Instant",
+          "assetId": "chain:rover-aero:s4",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 191,
+          "name": "Life and Death Intertwine",
+          "assetId": "chain:rover-aero:s5",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 192,
+          "name": "All Crumble in the Wind",
+          "assetId": "chain:rover-aero:s6",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "characterName": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 343,
+          "name": "Celestial Ingenuity",
+          "assetId": "chain:rover-electro:s1",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 344,
+          "name": "Thousandfold Artifice",
+          "assetId": "chain:rover-electro:s2",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 345,
+          "name": "Alchemy of Wonders",
+          "assetId": "chain:rover-electro:s3",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 346,
+          "name": "Earthquaking Rumble",
+          "assetId": "chain:rover-electro:s4",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 347,
+          "name": "Principle of Change",
+          "assetId": "chain:rover-electro:s5",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 348,
+          "name": "Mind’s Depths in a Casket",
+          "assetId": "chain:rover-electro:s6",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "characterName": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 103,
+          "name": "Cryptic Insight",
+          "assetId": "chain:rover-havoc:s1",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 104,
+          "name": "Waning Crescent",
+          "assetId": "chain:rover-havoc:s2",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 105,
+          "name": "Surging Resonance",
+          "assetId": "chain:rover-havoc:s3",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 106,
+          "name": "Annihilated Silence",
+          "assetId": "chain:rover-havoc:s4",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 107,
+          "name": "Aeon Symphony",
+          "assetId": "chain:rover-havoc:s5",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 108,
+          "name": "Ebbing Undercurrent",
+          "assetId": "chain:rover-havoc:s6",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "characterName": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 31,
+          "name": "Odyssey of Beginnings",
+          "assetId": "chain:rover-spectro:s1",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 32,
+          "name": "Microcosmic Murmurs",
+          "assetId": "chain:rover-spectro:s2",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 33,
+          "name": "Visages of Dust",
+          "assetId": "chain:rover-spectro:s3",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 34,
+          "name": "Resonating Lamella",
+          "assetId": "chain:rover-spectro:s4",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 35,
+          "name": "Temporal Virtuoso",
+          "assetId": "chain:rover-spectro:s5",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 36,
+          "name": "Echoes of Wanderlust",
+          "assetId": "chain:rover-spectro:s6",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "sanhua",
+      "characterName": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 19,
+          "name": "Solitude's Embrace",
+          "assetId": "chain:sanhua:s1",
+          "assetPath": "assets/builder-icons/chains/sanhua/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 20,
+          "name": "Snowy Clarity",
+          "assetId": "chain:sanhua:s2",
+          "assetPath": "assets/builder-icons/chains/sanhua/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 21,
+          "name": "Anomalous Vision",
+          "assetId": "chain:sanhua:s3",
+          "assetPath": "assets/builder-icons/chains/sanhua/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 22,
+          "name": "Blade Mastery",
+          "assetId": "chain:sanhua:s4",
+          "assetPath": "assets/builder-icons/chains/sanhua/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 23,
+          "name": "Unraveling Fate",
+          "assetId": "chain:sanhua:s5",
+          "assetPath": "assets/builder-icons/chains/sanhua/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 24,
+          "name": "Daybreak Radiance",
+          "assetId": "chain:sanhua:s6",
+          "assetPath": "assets/builder-icons/chains/sanhua/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "sigrika",
+      "characterName": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 283,
+          "name": "The Gleam Meant for Radiance",
+          "assetId": "chain:sigrika:s1",
+          "assetPath": "assets/builder-icons/chains/sigrika/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 284,
+          "name": "The Bitterness Steeped in Hope",
+          "assetId": "chain:sigrika:s2",
+          "assetPath": "assets/builder-icons/chains/sigrika/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 285,
+          "name": "I Flee, Yet I Seek",
+          "assetId": "chain:sigrika:s3",
+          "assetPath": "assets/builder-icons/chains/sigrika/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 286,
+          "name": "I Lose, Yet I Gain",
+          "assetId": "chain:sigrika:s4",
+          "assetPath": "assets/builder-icons/chains/sigrika/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 287,
+          "name": "Until Submerged by the Dark",
+          "assetId": "chain:sigrika:s5",
+          "assetPath": "assets/builder-icons/chains/sigrika/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 288,
+          "name": "True Names Resurfaced, Rising in Light",
+          "assetId": "chain:sigrika:s6",
+          "assetPath": "assets/builder-icons/chains/sigrika/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "characterName": "Suisui",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 325,
+          "name": "Mountains Washed Into Paintings",
+          "assetId": "chain:suisui:s1",
+          "assetPath": "assets/builder-icons/chains/suisui/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 326,
+          "name": "Clouds Pour Like Molten Gold",
+          "assetId": "chain:suisui:s2",
+          "assetPath": "assets/builder-icons/chains/suisui/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 327,
+          "name": "Sparse Curtains Invite Evening Glow",
+          "assetId": "chain:suisui:s3",
+          "assetPath": "assets/builder-icons/chains/suisui/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 328,
+          "name": "Autumn Mountains I Chant Together",
+          "assetId": "chain:suisui:s4",
+          "assetPath": "assets/builder-icons/chains/suisui/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 329,
+          "name": "I Long To Ride The Eastern Wind",
+          "assetId": "chain:suisui:s5",
+          "assetPath": "assets/builder-icons/chains/suisui/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 330,
+          "name": "Staying True To This Splendid Realm",
+          "assetId": "chain:suisui:s6",
+          "assetPath": "assets/builder-icons/chains/suisui/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "taoqi",
+      "characterName": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 49,
+          "name": "Essense of Tranquility",
+          "assetId": "chain:taoqi:s1",
+          "assetPath": "assets/builder-icons/chains/taoqi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 50,
+          "name": "Silent Strength",
+          "assetId": "chain:taoqi:s2",
+          "assetPath": "assets/builder-icons/chains/taoqi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 51,
+          "name": "Keen-eyed Observer",
+          "assetId": "chain:taoqi:s3",
+          "assetPath": "assets/builder-icons/chains/taoqi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 52,
+          "name": "Heavylifting Duty",
+          "assetId": "chain:taoqi:s4",
+          "assetPath": "assets/builder-icons/chains/taoqi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 53,
+          "name": "Benevolent Guardian",
+          "assetId": "chain:taoqi:s5",
+          "assetPath": "assets/builder-icons/chains/taoqi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 54,
+          "name": "Defender of Peace",
+          "assetId": "chain:taoqi:s6",
+          "assetPath": "assets/builder-icons/chains/taoqi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "characterName": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 145,
+          "name": "Unspoken Conjecture",
+          "assetId": "chain:the-shorekeeper:s1",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 146,
+          "name": "Night's Gift and Refusal",
+          "assetId": "chain:the-shorekeeper:s2",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 147,
+          "name": "Infinity Awaits Me",
+          "assetId": "chain:the-shorekeeper:s3",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 148,
+          "name": "Overflowing Quietude",
+          "assetId": "chain:the-shorekeeper:s4",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 149,
+          "name": "Echoes in Silence",
+          "assetId": "chain:the-shorekeeper:s5",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 150,
+          "name": "To the New World",
+          "assetId": "chain:the-shorekeeper:s6",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "verina",
+      "characterName": "Verina",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 13,
+          "name": "Moment of Emergence",
+          "assetId": "chain:verina:s1",
+          "assetPath": "assets/builder-icons/chains/verina/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 14,
+          "name": "Sprouting Reflections",
+          "assetId": "chain:verina:s2",
+          "assetPath": "assets/builder-icons/chains/verina/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 15,
+          "name": "The Choice to Flourish",
+          "assetId": "chain:verina:s3",
+          "assetPath": "assets/builder-icons/chains/verina/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 16,
+          "name": "Blossoming Embrace",
+          "assetId": "chain:verina:s4",
+          "assetPath": "assets/builder-icons/chains/verina/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 17,
+          "name": "Miraculous Blooms",
+          "assetId": "chain:verina:s5",
+          "assetPath": "assets/builder-icons/chains/verina/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 18,
+          "name": "Joyous Harvest",
+          "assetId": "chain:verina:s6",
+          "assetPath": "assets/builder-icons/chains/verina/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "xiangli-yao",
+      "characterName": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 127,
+          "name": "Prodigy of Protégés",
+          "assetId": "chain:xiangli-yao:s1",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 128,
+          "name": "Traces of Predecessors",
+          "assetId": "chain:xiangli-yao:s2",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 129,
+          "name": "Ruins of Ancient",
+          "assetId": "chain:xiangli-yao:s3",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 130,
+          "name": "Vessel of Rebirth",
+          "assetId": "chain:xiangli-yao:s4",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 131,
+          "name": "End of Stars",
+          "assetId": "chain:xiangli-yao:s5",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 132,
+          "name": "Solace of the Ordinary",
+          "assetId": "chain:xiangli-yao:s6",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang",
+      "characterName": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 1,
+          "name": "Sapphire Skies,\nSoaring Sparrows",
+          "assetId": "chain:yangyang:s1",
+          "assetPath": "assets/builder-icons/chains/yangyang/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 2,
+          "name": "Nesting Twigs,\nin Beaks They Harrow",
+          "assetId": "chain:yangyang:s2",
+          "assetPath": "assets/builder-icons/chains/yangyang/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 3,
+          "name": "Nature Sings in Symphony",
+          "assetId": "chain:yangyang:s3",
+          "assetPath": "assets/builder-icons/chains/yangyang/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 4,
+          "name": "Close Your Eyes and Listen in",
+          "assetId": "chain:yangyang:s4",
+          "assetPath": "assets/builder-icons/chains/yangyang/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 5,
+          "name": "Winds Whisper in Harmony",
+          "assetId": "chain:yangyang:s5",
+          "assetPath": "assets/builder-icons/chains/yangyang/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 6,
+          "name": "A Tribute to Life's Sweet Hymn",
+          "assetId": "chain:yangyang:s6",
+          "assetPath": "assets/builder-icons/chains/yangyang/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "characterName": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 319,
+          "name": "At the wind's breath, the blossoms wake",
+          "assetId": "chain:yangyang-xuanling:s1",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 320,
+          "name": "River carries her song away",
+          "assetId": "chain:yangyang-xuanling:s2",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 321,
+          "name": "My grief follows you into the clouds",
+          "assetId": "chain:yangyang-xuanling:s3",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 322,
+          "name": "Across the miles, a letter and my longing",
+          "assetId": "chain:yangyang-xuanling:s4",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 323,
+          "name": "Take wing. Take wing.",
+          "assetId": "chain:yangyang-xuanling:s5",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 324,
+          "name": "Let the azure keep its light",
+          "assetId": "chain:yangyang-xuanling:s6",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "characterName": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 85,
+          "name": "Morality's Crossroads",
+          "assetId": "chain:yinlin:s1",
+          "assetPath": "assets/builder-icons/chains/yinlin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 86,
+          "name": "Ensnarled by Rapport",
+          "assetId": "chain:yinlin:s2",
+          "assetPath": "assets/builder-icons/chains/yinlin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 87,
+          "name": "Unyielding Verdict",
+          "assetId": "chain:yinlin:s3",
+          "assetPath": "assets/builder-icons/chains/yinlin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 88,
+          "name": "Steadfast Conviction",
+          "assetId": "chain:yinlin:s4",
+          "assetPath": "assets/builder-icons/chains/yinlin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 89,
+          "name": "Resounding Will",
+          "assetId": "chain:yinlin:s5",
+          "assetPath": "assets/builder-icons/chains/yinlin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 90,
+          "name": "Pursuit of Justice",
+          "assetId": "chain:yinlin:s6",
+          "assetPath": "assets/builder-icons/chains/yinlin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "youhu",
+      "characterName": "Youhu",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 139,
+          "name": "Waterside Respite",
+          "assetId": "chain:youhu:s1",
+          "assetPath": "assets/builder-icons/chains/youhu/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 140,
+          "name": "Sunroom Siesta",
+          "assetId": "chain:youhu:s2",
+          "assetPath": "assets/builder-icons/chains/youhu/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 141,
+          "name": "Restless Sleep",
+          "assetId": "chain:youhu:s3",
+          "assetPath": "assets/builder-icons/chains/youhu/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 142,
+          "name": "Frosted Lullaby",
+          "assetId": "chain:youhu:s4",
+          "assetPath": "assets/builder-icons/chains/youhu/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 143,
+          "name": "Dreamland Meander",
+          "assetId": "chain:youhu:s5",
+          "assetPath": "assets/builder-icons/chains/youhu/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 144,
+          "name": "Slumber Evermore",
+          "assetId": "chain:youhu:s6",
+          "assetPath": "assets/builder-icons/chains/youhu/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yuanwu",
+      "characterName": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 91,
+          "name": "Steaming Cup of Justice",
+          "assetId": "chain:yuanwu:s1",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 92,
+          "name": "Fierce Heart, Serene Mind",
+          "assetId": "chain:yuanwu:s2",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 93,
+          "name": "Upholder of Integrity",
+          "assetId": "chain:yuanwu:s3",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 94,
+          "name": "Retributive Knuckles",
+          "assetId": "chain:yuanwu:s4",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 95,
+          "name": "Neighborhood Protector",
+          "assetId": "chain:yuanwu:s5",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 96,
+          "name": "Defender of All Realms",
+          "assetId": "chain:yuanwu:s6",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "zani",
+      "characterName": "Zani",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 193,
+          "name": "When the Alarm Clock Rings",
+          "assetId": "chain:zani:s1",
+          "assetPath": "assets/builder-icons/chains/zani/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 194,
+          "name": "Stale Bread With Energy Drink",
+          "assetId": "chain:zani:s2",
+          "assetPath": "assets/builder-icons/chains/zani/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 195,
+          "name": "Each Day A New Commute",
+          "assetId": "chain:zani:s3",
+          "assetPath": "assets/builder-icons/chains/zani/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 196,
+          "name": "More Efficiency, Less Drama",
+          "assetId": "chain:zani:s4",
+          "assetPath": "assets/builder-icons/chains/zani/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 197,
+          "name": "Delivered In Full On Time",
+          "assetId": "chain:zani:s5",
+          "assetPath": "assets/builder-icons/chains/zani/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 198,
+          "name": "First Things First? Clock Out!",
+          "assetId": "chain:zani:s6",
+          "assetPath": "assets/builder-icons/chains/zani/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "characterName": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 133,
+          "name": "Brushwork's Finish",
+          "assetId": "chain:zhezhi:s1",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 134,
+          "name": "Vivid Strokes",
+          "assetId": "chain:zhezhi:s2",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 135,
+          "name": "Reflection's Grace",
+          "assetId": "chain:zhezhi:s3",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 136,
+          "name": "Hue's Spectrum",
+          "assetId": "chain:zhezhi:s4",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 137,
+          "name": "Composition's Clue",
+          "assetId": "chain:zhezhi:s5",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 138,
+          "name": "Infinite Legacy",
+          "assetId": "chain:zhezhi:s6",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s6.webp"
+        }
+      ]
+    }
+  ]
+}

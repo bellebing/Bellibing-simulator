@@ -102,12 +102,13 @@
   .weapon-preview-stage{width:min(100%,300px);height:300px}
   .weapon-preview-copy h3{font-size:25px}
 }
+.seq{z-index:12}.seq h2{display:flex;align-items:center;justify-content:center;gap:7px}.seq-current{font-family:var(--font-ui);font-size:10px;line-height:1;padding:4px 6px;border:1px solid rgba(255,255,255,.12);border-radius:99px;color:#9ca3ad;background:rgba(9,11,15,.76)}.node{overflow:hidden;padding:0;cursor:pointer;isolation:isolate;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,filter .16s ease}.node:disabled{cursor:default;opacity:.35}.node img{position:absolute;z-index:1;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);object-fit:cover;border-radius:50%;opacity:.42;filter:grayscale(.55) brightness(.68);transition:opacity .16s ease,filter .16s ease}.node .seq-tag{position:relative;z-index:2;display:grid;place-items:center;width:100%;height:100%;font-size:9px;font-weight:800;color:#d7d9de;text-shadow:0 1px 4px #000,0 0 8px #000;background:radial-gradient(circle,transparent 32%,rgba(4,5,8,.42) 100%)}.node:not(:disabled):hover{transform:scale(1.06);border-color:rgba(255,255,255,.30)}.node.is-active{border-color:rgba(222,185,107,.72);box-shadow:0 0 0 1px rgba(222,185,107,.18),0 0 22px rgba(222,185,107,.14)}.node.is-active img{opacity:.95;filter:none}.node.is-preview{border-color:#f2f0eb;box-shadow:0 0 0 2px rgba(242,240,235,.22),0 0 26px rgba(255,255,255,.12)}.node.is-preview img{opacity:1;filter:none}.seq-inspector{position:absolute;z-index:20;left:96px;top:34px;width:278px;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:linear-gradient(180deg,rgba(20,23,29,.96),rgba(10,12,16,.96));box-shadow:0 20px 54px rgba(0,0,0,.48);opacity:0;pointer-events:none;transform:translateX(-8px) scale(.985);transition:opacity .17s ease-out,transform .22s cubic-bezier(.16,.84,.24,1)}.seq-inspector.open{opacity:1;pointer-events:auto;transform:translateX(0) scale(1)}.seq-inspector-close{position:absolute;right:8px;top:7px;width:28px;height:28px;border:0;background:transparent;color:#89909a;font-size:20px;cursor:pointer}.seq-inspector-hero{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center;padding-right:22px}.seq-inspector-hero img{width:58px;height:58px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.16);background:#11141a}.seq-inspector-hero div{min-width:0}.seq-inspector-label{display:block;margin-bottom:4px;color:#9da4ae;font-size:11px;font-weight:800;letter-spacing:.08em}.seq-inspector-hero strong{display:block;font-size:13px;line-height:1.3;color:#eceef1}.seq-inspector-actions{display:grid;grid-template-columns:auto 1fr;gap:8px;margin-top:13px}.seq-inspector-actions button{min-height:36px;padding:8px 11px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:#171a20;color:#c7cbd1;font-weight:750;cursor:pointer}.seq-inspector-actions .seq-commit{border-color:rgba(207,166,84,.44);color:#f0ede7}.seq-inspector-actions button:disabled{cursor:default;color:#747b85;border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.035)}@media(max-width:760px){.seq-inspector{position:fixed;left:50%;top:auto;bottom:18px;width:min(320px,calc(100vw - 24px));transform:translate(-50%,8px) scale(.985)}.seq-inspector.open{transform:translate(-50%,0) scale(1)}}
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button type="button" class="node n6">S6</button><button type="button" class="node n5">S5</button><button type="button" class="node n4">S4</button><button type="button" class="node n3">S3</button><button type="button" class="node n2">S2</button><button type="button" class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="Preview S6" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="Preview S5" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="Preview S4" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="Preview S3" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="Preview S2" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="Preview S1" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceInspector" class="seq-inspector" aria-hidden="true"><button id="sequenceInspectorClose" class="seq-inspector-close" type="button" aria-label="Close Sequence preview">×</button><div class="seq-inspector-hero"><img id="sequencePreviewIcon" alt="" draggable="false"><div><span id="sequencePreviewLabel" class="seq-inspector-label">S1</span><strong id="sequencePreviewName">Sequence</strong></div></div><div class="seq-inspector-actions"><button id="sequenceSetZero" type="button">Set S0</button><button id="sequenceCommit" class="seq-commit" type="button" disabled>Set Sequence</button></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="weaponOverlay" class="weapon-overlay" aria-hidden="true">
@@ -157,6 +158,10 @@ let weaponById=new Map();
 let canonicalCharacterById=new Map();
 let weaponDataLoaded=false;
 let weaponDataReady;
+let sequenceRuntimeDataLoaded=false;
+let sequenceDataReady;
+let sequenceAssetsByCharacter=new Map();
+const SEQUENCE_RUNTIME_DATA_PATH='assets/sequence-runtime.json';
 const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
 const WEAPON_MOTION={panel:380,grid:440,previewIn:460,previewOut:360,ease:'cubic-bezier(.16,.84,.24,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -187,6 +192,16 @@ async function loadWeaponBrowserData(){
   weaponDataLoaded=true;
   document.documentElement.dataset.weaponCatalogReady='true';
   weaponUi.refreshForCharacter();
+}
+async function loadSequenceRuntimeData(){
+  const response=await fetch(SEQUENCE_RUNTIME_DATA_PATH,{cache:'no-store'});
+  if(!response.ok)throw new Error('sequence runtime data '+response.status);
+  const payload=await response.json();
+  if(payload.schemaVersion!==1||payload.role!=='character-builder.runtime-sequences'||!Array.isArray(payload.characters))throw new Error('Unsupported Sequence runtime data schema');
+  sequenceAssetsByCharacter=new Map(payload.characters.map(character=>[character.characterId,character]));
+  sequenceRuntimeDataLoaded=true;
+  document.documentElement.dataset.sequenceCatalogReady='true';
+  sequenceUi.refreshForCharacter();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -349,6 +364,53 @@ const weaponUi={
   }
 };
 weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
+const sequenceUi={
+  panel:null,nodes:[],inspector:null,characterName:null,characterId:null,assets:null,currentLevel:0,previewSequence:null,
+  init(){
+    this.panel=document.getElementById('sequencePanel');this.nodes=[...document.querySelectorAll('#sequenceLine .node')];this.inspector=document.getElementById('sequenceInspector');
+    this.nodes.forEach(node=>node.addEventListener('click',()=>this.preview(Number(node.dataset.sequence))));
+    document.getElementById('sequenceInspectorClose').addEventListener('click',()=>this.clearPreview());
+    document.getElementById('sequenceSetZero').addEventListener('click',()=>this.commit(0));
+    document.getElementById('sequenceCommit').addEventListener('click',()=>{if(this.previewSequence)this.commit(this.previewSequence)});
+    this.render();
+  },
+  setCharacter(name){
+    this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.previewSequence=null;
+    if(sequenceRuntimeDataLoaded)this.refreshForCharacter();else{this.assets=null;this.currentLevel=0;this.render()}
+  },
+  normalizeLevel(value){const level=Number(value);return Number.isInteger(level)&&level>=0&&level<=6?level:0},
+  refreshForCharacter(){
+    this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;
+    this.currentLevel=this.characterName?this.normalizeLevel(draft(this.characterName).build.sequenceLevel):0;
+    this.previewSequence=null;this.render();
+  },
+  chain(sequence){return this.assets?.chains?.find(chain=>chain.sequence===sequence)||null},
+  preview(sequence){const chain=this.chain(sequence);if(!chain)return;this.previewSequence=sequence;this.render()},
+  clearPreview(){this.previewSequence=null;this.render()},
+  commit(level){
+    if(!this.characterName)return;const next=this.normalizeLevel(level);if(next>0&&!this.chain(next))return;
+    this.currentLevel=next;autosave(this.characterName,{sequenceLevel:next});if(next===0)this.previewSequence=null;this.render();
+  },
+  render(){
+    const current=document.getElementById('sequenceCurrent');if(current)current.textContent='S'+this.currentLevel;
+    this.nodes.forEach(node=>{
+      const sequence=Number(node.dataset.sequence),chain=this.chain(sequence),active=!!chain&&sequence<=this.currentLevel,preview=!!chain&&sequence===this.previewSequence;
+      node.disabled=!chain;node.classList.toggle('is-active',active);node.classList.toggle('is-preview',preview);node.setAttribute('aria-pressed',active?'true':'false');
+      const image=node.querySelector('img'),tag=node.querySelector('.seq-tag');if(tag)tag.textContent='S'+sequence;
+      if(chain){image.src=chain.assetPath;image.alt='';node.dataset.sequenceName=chain.name;node.setAttribute('aria-label',(active?'Active ':'Preview ')+'S'+sequence+': '+chain.name)}
+      else{image.removeAttribute('src');node.dataset.sequenceName='';node.setAttribute('aria-label','S'+sequence+' unavailable')}
+    });
+    const chain=this.previewSequence?this.chain(this.previewSequence):null,commit=document.getElementById('sequenceCommit'),setZero=document.getElementById('sequenceSetZero');
+    this.inspector?.classList.toggle('open',!!chain);this.inspector?.setAttribute('aria-hidden',chain?'false':'true');
+    if(chain){
+      document.getElementById('sequencePreviewIcon').src=chain.assetPath;document.getElementById('sequencePreviewLabel').textContent='S'+chain.sequence;document.getElementById('sequencePreviewName').textContent=chain.name;
+      const isCurrent=this.currentLevel===chain.sequence;commit.textContent=isCurrent?'Current S'+chain.sequence:'Set S'+chain.sequence;commit.disabled=isCurrent;
+    }else{
+      document.getElementById('sequencePreviewIcon').removeAttribute('src');document.getElementById('sequencePreviewLabel').textContent='Sequence';document.getElementById('sequencePreviewName').textContent='Select a Sequence';commit.textContent='Set Sequence';commit.disabled=true;
+    }
+    if(setZero){setZero.disabled=!this.characterName||this.currentLevel===0;setZero.textContent=this.currentLevel===0?'Current S0':'Set S0'}
+  }
+};
 class FreewheelCarousel{
   constructor(viewport,{cards=[...viewport.children],startIndex=0,spacing,onActivate=null}={}){
     this.viewport=viewport;this.cards=cards;this.spacingFn=spacing;this.onActivate=onActivate;
@@ -439,7 +501,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);sequenceUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected)return;pending=name;document.getElementById('dialogCopy').textContent='Switch to '+name+'?';document.getElementById('dialogBg').classList.add('open')}
   function closeDialog(){pending=null;document.getElementById('dialogBg').classList.remove('open')}
   function render(){
@@ -450,7 +512,7 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);sequenceUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()},closeDialog}
@@ -469,6 +531,8 @@ document.getElementById('cancelSwitch').onclick=()=>{buildPicker.closeDialog();i
 document.getElementById('confirmSwitch').onclick=()=>{if(buildPicker.pending)buildPicker.confirm();else improvePicker.confirm()};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
+sequenceUi.init();
+sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
 renderHome();
 </script>
 </body>

@@ -114,12 +114,38 @@ async function prepareBuild(send, characterName = 'Augusta') {
   await waitForUi(send, `(()=>{const host=document.querySelector('.echoes'),slot=document.querySelector('.echo[data-echo-slot="0"]');if(!host||!slot||parseFloat(getComputedStyle(host).opacity)<.99)return false;const r=slot.getBoundingClientRect();if(r.width<=0||r.height<=0||r.bottom<=0||r.top>=innerHeight)return false;const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return slot===hit||slot.contains(hit)})()`, 'Settled Build Echo slot was not physically hit-testable', 2500);
 }
 
-async function verifyFilter(send, filter) {
-  await pointerClick(send, `[data-echo-filter="${filter}"]`);
-  const result = await evaluate(send, `(()=>{const filter=${JSON.stringify(filter)},all=[...document.querySelectorAll('#echoChoices .echo-choice')],visible=all.filter(x=>!x.hidden),expected=echoCatalog.filter(item=>filter==='all'||String(item.cost)===filter);return{filter,total:all.length,visible:visible.length,expected:expected.length,bad:visible.filter(x=>filter!=='all'&&x.dataset.cost!==filter).map(x=>x.dataset.echoId),active:document.querySelector('.echo-filter.active')?.dataset.echoFilter||null}})()`);
-  if (result.total !== 181 || result.visible !== result.expected || result.bad.length || result.active !== filter) {
-    throw new Error(`Echo Cost filter failed: ${JSON.stringify(result)}`);
+async function readBrowserFilterState(send) {
+  return evaluate(send, `(()=>{
+    const selected=[...echoUi.selectedSonataIds];
+    const all=[...document.querySelectorAll('#echoChoices .echo-choice')];
+    const visible=all.filter(choice=>!choice.hidden);
+    const expected=echoCatalog.filter(item=>{
+      const costMatch=echoUi.filter==='all'||String(item.cost)===echoUi.filter;
+      const sonataMatch=!selected.length||item.sonataSetIds.some(id=>selected.includes(id));
+      return costMatch&&sonataMatch;
+    });
+    return {
+      filter:echoUi.filter,
+      selected,
+      visible:visible.map(choice=>choice.dataset.echoId),
+      expected:expected.map(item=>item.id),
+      activeCost:document.querySelector('.echo-filter.active')?.dataset.echoFilter||null
+    };
+  })()`);
+}
+
+async function verifyCurrentBrowserFilter(send, label) {
+  const result = await readBrowserFilterState(send);
+  if (result.activeCost !== result.filter || JSON.stringify(result.visible) !== JSON.stringify(result.expected)) {
+    throw new Error(`${label} browser filter mismatch: ${JSON.stringify(result)}`);
   }
+  return result;
+}
+
+async function verifyManualCostFilter(send, filter) {
+  await pointerClick(send, `[data-echo-filter="${filter}"]`);
+  await waitForUi(send, `echoUi.filter===${JSON.stringify(filter)}`, `Manual Cost ${filter} filter did not activate`);
+  return verifyCurrentBrowserFilter(send, `Manual Cost ${filter}`);
 }
 
 async function verifyDesktop(send) {
@@ -129,93 +155,173 @@ async function verifyDesktop(send) {
   await navigate(send);
   await prepareBuild(send, 'Augusta');
 
-  await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null});},true);return true})()`);
+  await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null});},true);return true})()`);
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
   await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo artwork did not fully resolve in browser', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===34&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
 
-  const opened = await evaluate(send, `(()=>({target:echoUi.targetSlot,workspaceSlots:document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot').length,cards:document.querySelectorAll('#echoChoices .echo-choice').length,scrollable:document.getElementById('echoBrowser').scrollHeight>document.getElementById('echoBrowser').clientHeight,allArtLoaded:[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0),filter:echoUi.filter,previewId:echoUi.previewId,storage:localStorage.getItem('bellibing-ui-checkpoint-v34')}))()`);
-  if (opened.target !== 0 || opened.workspaceSlots !== 5 || opened.cards !== 181 || !opened.scrollable || !opened.allArtLoaded || opened.filter !== 'all' || opened.previewId !== null) {
-    throw new Error(`Echo Workspace opening contract failed: ${JSON.stringify(opened)}`);
+  const opened = await evaluate(send, `(()=>{
+    const slots=[...document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot')];
+    const slotBox=document.getElementById('echoWorkspaceSlots').getBoundingClientRect();
+    const previewBox=document.getElementById('echoPreviewPane').getBoundingClientRect();
+    const selectorBox=document.getElementById('echoSonataSelector').getBoundingClientRect();
+    const browserBox=document.getElementById('echoBrowser').getBoundingClientRect();
+    return {
+      target:echoUi.targetSlot,
+      workspaceSlots:slots.length,
+      recommendedCosts:slots.map(x=>x.dataset.recommendedCost||null),
+      costLabels:slots.map(x=>x.querySelector('.echo-slot-cost')?.textContent.trim()||null),
+      profileId:echoUi.loadoutProfile?.profileId||null,
+      characterId:echoUi.characterId,
+      filter:echoUi.filter,
+      selected:[...echoUi.selectedSonataIds],
+      previewId:echoUi.previewId,
+      headerText:document.querySelector('.echo-panel-head')?.textContent.trim(),
+      visibleSet1:!!document.querySelector('.echo-panel-head .echo-set-label'),
+      slotsAbovePreview:slotBox.bottom<=previewBox.top+2,
+      slotsOnRight:slotBox.left>=previewBox.left-2,
+      selectorAboveBrowser:selectorBox.bottom<=browserBox.top+2,
+      selectorOnLeft:selectorBox.left<=browserBox.left+4
+    };
+  })()`);
+  if (
+    opened.target !== 0
+    || opened.workspaceSlots !== 5
+    || JSON.stringify(opened.recommendedCosts) !== JSON.stringify(['4','3','3','1','1'])
+    || JSON.stringify(opened.costLabels) !== JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])
+    || opened.profileId !== 'augusta-standard-echoes'
+    || opened.characterId !== 'augusta'
+    || opened.filter !== '4'
+    || JSON.stringify(opened.selected) !== JSON.stringify(['sonata-20','sonata-3'])
+    || opened.previewId !== null
+    || opened.visibleSet1
+    || opened.headerText !== 'Echo Workspace'
+    || !opened.slotsAbovePreview
+    || !opened.slotsOnRight
+    || !opened.selectorAboveBrowser
+    || !opened.selectorOnLeft
+  ) {
+    throw new Error(`Augusta Echo Workspace recommendation/layout contract failed: ${JSON.stringify(opened)}`);
   }
+  await verifyCurrentBrowserFilter(send, 'Augusta Slot 1 recommended');
 
-  await verifyFilter(send, '4');
-  await verifyFilter(send, '3');
-  await verifyFilter(send, '1');
-  await verifyFilter(send, 'all');
-
-  const ids = await evaluate(send, `echoCatalog.slice(0,6).map(item=>item.id)`);
-  if (!Array.isArray(ids) || ids.length < 6) throw new Error('Echo browser did not expose enough canonical cards.');
-
-  const beforePreview = await evaluate(send, `localStorage.getItem('bellibing-ui-checkpoint-v34')`);
-  await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${ids[0]}"]`);
-  await waitForUi(send, `echoUi.previewId===${JSON.stringify(ids[0])}`, 'Physical Echo card click did not enter Preview');
-  const preview = await evaluate(send, `(()=>{const item=echoById.get(${JSON.stringify(ids[0])}),art=document.getElementById('echoPreviewArt');return{previewId:echoUi.previewId,savedSlot:draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[0]??null,storage:localStorage.getItem('bellibing-ui-checkpoint-v34'),cardStillPresent:!!document.querySelector('#echoChoices .echo-choice[data-echo-id="${ids[0]}"]'),artSrc:art.getAttribute('src'),artLoaded:art.complete&&art.naturalWidth>0,name:document.getElementById('echoPreviewName').textContent.trim(),cost:document.getElementById('echoPreviewCost').textContent.trim(),sonatas:[...document.querySelectorAll('#echoPreviewSonatas .echo-sonata-chip')].map(x=>x.textContent.trim()),expectedSonatas:item.sonataSetIds.map(id=>echoSonataById.get(id)?.name)}})()`);
-  if (preview.savedSlot !== null || preview.storage !== beforePreview || !preview.cardStillPresent || !preview.artLoaded || preview.name !== (await evaluate(send, `echoById.get(${JSON.stringify(ids[0])}).name`)) || JSON.stringify(preview.sonatas) !== JSON.stringify(preview.expectedSonatas)) {
-    throw new Error(`Echo grid click mutated committed state or Preview failed: ${JSON.stringify(preview)}`);
-  }
-  const pointerAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.echoId===${JSON.stringify(ids[0])})`);
-  if (!pointerAudit.some(x=>x.type==='pointerdown') || !pointerAudit.some(x=>x.type==='pointerup') || !pointerAudit.some(x=>x.type==='click')) {
-    throw new Error(`Echo card did not receive a physical mouse pointerdown/up/native click chain: ${JSON.stringify(pointerAudit)}`);
-  }
-
-  await pointerClick(send, '#echoEquip');
-  await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[0]===${JSON.stringify(ids[0])}`, 'Equip Echo did not commit slot 1');
-  const firstCommit = await evaluate(send, `(()=>{const e=draft(buildPicker.selected).build.echoSets;return{open:echoUi.open,previewId:echoUi.previewId,activeSetId:e.activeSetId,defaultSetId:e.defaultSetId,setName:e.sets?.['set-1']?.name,slots:e.sets?.['set-1']?.slots,buildHas:document.querySelector('.echo[data-echo-slot="0"]').classList.contains('has-echo')}})()`);
-  if (!firstCommit.open || firstCommit.previewId !== ids[0] || firstCommit.activeSetId !== 'set-1' || firstCommit.defaultSetId !== 'set-1' || firstCommit.setName !== 'Set 1' || firstCommit.slots[0] !== ids[0] || !firstCommit.buildHas) {
-    throw new Error(`Equip Echo commit/state shape failed: ${JSON.stringify(firstCommit)}`);
-  }
-
-  for (let slot = 1; slot < 5; slot++) {
+  // Profile-backed slot clicks own the normal Cost filter: 4 / 3 / 3 / 1 / 1.
+  const expectedCosts=['4','3','3','1','1'];
+  for(let slot=0;slot<5;slot++){
     await pointerClick(send, `#echoWorkspaceSlots [data-echo-target="${slot}"]`);
-    await waitForUi(send, `echoUi.targetSlot===${slot}`, `Echo target slot ${slot + 1} did not activate`);
-    await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${ids[slot]}"]`);
-    await waitForUi(send, `echoUi.previewId===${JSON.stringify(ids[slot])}`, `Echo slot ${slot + 1} Preview did not change`);
-    await pointerClick(send, '#echoEquip');
-    await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[${slot}]===${JSON.stringify(ids[slot])}`, `Equip Echo targeted wrong slot ${slot + 1}`);
+    await waitForUi(send, `echoUi.targetSlot===${slot}&&echoUi.filter===${JSON.stringify(expectedCosts[slot])}`, `Augusta slot ${slot+1} did not apply profile Cost ${expectedCosts[slot]}`);
+    await verifyCurrentBrowserFilter(send, `Augusta Slot ${slot+1}`);
   }
 
-  const committedSlots = await evaluate(send, `draft(buildPicker.selected).build.echoSets.sets['set-1'].slots.slice()`);
-  if (JSON.stringify(committedSlots) !== JSON.stringify(ids.slice(0,5))) {
-    throw new Error(`Five-slot Echo target commit mismatch: ${JSON.stringify({committedSlots,expected:ids.slice(0,5)})}`);
+  // Sonata selector is a user override: recommended two-set union, then deselect/reselect, then All/manual.
+  await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
+  await pointerClick(send, '#echoSonataToggle');
+  await waitForUi(send, `echoUi.sonataMenuOpen&&!document.getElementById('echoSonataMenu').hidden`, 'Physical Sonata selector toggle did not open');
+  const initialUnion = await verifyCurrentBrowserFilter(send, 'Augusta two-Sonata union');
+  if (JSON.stringify(initialUnion.selected) !== JSON.stringify(['sonata-20','sonata-3'])) {
+    throw new Error(`Augusta recommended Sonata defaults drifted: ${JSON.stringify(initialUnion)}`);
+  }
+
+  await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-20"]');
+  await waitForUi(send, `echoUi.selectedSonataIds.size===1&&echoUi.selectedSonataIds.has('sonata-3')`, 'Physical Sonata deselect did not update selection');
+  await verifyCurrentBrowserFilter(send, 'Augusta Sonata deselect');
+
+  await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-20"]');
+  await waitForUi(send, `echoUi.selectedSonataIds.size===2&&echoUi.selectedSonataIds.has('sonata-20')&&echoUi.selectedSonataIds.has('sonata-3')`, 'Physical Sonata reselect did not restore two-set union');
+  await verifyCurrentBrowserFilter(send, 'Augusta Sonata reselect union');
+
+  const sonataAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.sonata)`);
+  for(const type of ['pointerdown','pointerup','click']){
+    if(!sonataAudit.some(x=>x.type===type&&x.sonata==='echoSonataToggle'))throw new Error('Sonata selector toggle missed physical '+type);
+    if(!sonataAudit.some(x=>x.type===type&&x.sonata==='sonata-20'))throw new Error('Sonata option missed physical '+type);
+  }
+
+  await pointerClick(send, '#echoSonataAll');
+  await waitForUi(send, `echoUi.selectedSonataIds.size===0`, 'Sonata All/manual state did not clear selection');
+  await verifyCurrentBrowserFilter(send, 'Sonata All/manual');
+  await verifyManualCostFilter(send, '4');
+  await verifyManualCostFilter(send, '3');
+  await verifyManualCostFilter(send, '1');
+  await verifyManualCostFilter(send, 'all');
+
+  // Returning to a profile-backed slot restores its recommended Cost; manually reselect two Sonata sets.
+  await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
+  await waitForUi(send, `echoUi.filter==='4'`, 'Profile-backed slot did not reclaim Cost filter after manual override');
+  await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-20"]');
+  await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-3"]');
+  await waitForUi(send, `echoUi.selectedSonataIds.size===2`, 'Two Sonata selections were not restored');
+  await verifyCurrentBrowserFilter(send, 'Restored recommended union');
+  await pointerClick(send, '#echoSonataToggle');
+  await waitForUi(send, `!echoUi.sonataMenuOpen`, 'Sonata selector did not close');
+
+  // Echo click remains Preview-only.
+  const firstId = await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
+  if (!firstId) throw new Error('No visible Echo available for Augusta Slot 1 recommendation.');
+  const beforePreview = await evaluate(send, `localStorage.getItem('bellibing-ui-checkpoint-v34')`);
+  await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${firstId}"]`);
+  await waitForUi(send, `echoUi.previewId===${JSON.stringify(firstId)}`, 'Physical Echo card click did not enter Preview');
+  const preview = await evaluate(send, `(()=>({savedSlot:draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[0]??null,storage:localStorage.getItem('bellibing-ui-checkpoint-v34'),previewId:echoUi.previewId,open:echoUi.open}))()`);
+  if (preview.savedSlot !== null || preview.storage !== beforePreview || preview.previewId !== firstId || !preview.open) {
+    throw new Error(`Echo Preview mutated committed state: ${JSON.stringify(preview)}`);
+  }
+
+  const pointerAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.echoId===${JSON.stringify(firstId)})`);
+  if (!pointerAudit.some(x=>x.type==='pointerdown') || !pointerAudit.some(x=>x.type==='pointerup') || !pointerAudit.some(x=>x.type==='click')) {
+    throw new Error(`Echo card did not receive physical pointerdown/up/native click: ${JSON.stringify(pointerAudit)}`);
+  }
+
+  // Equip remains the only commit and Workspace stays open.
+  await pointerClick(send, '#echoEquip');
+  await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[0]===${JSON.stringify(firstId)}`, 'Equip Echo did not commit slot 1');
+  const firstCommit = await evaluate(send, `(()=>{const e=draft(buildPicker.selected).build.echoSets;return{open:echoUi.open,previewId:echoUi.previewId,activeSetId:e.activeSetId,defaultSetId:e.defaultSetId,setName:e.sets?.['set-1']?.name,slot:e.sets?.['set-1']?.slots?.[0]}})()`);
+  if (!firstCommit.open || firstCommit.previewId !== firstId || firstCommit.activeSetId !== 'set-1' || firstCommit.defaultSetId !== 'set-1' || firstCommit.setName !== 'Set 1' || firstCommit.slot !== firstId) {
+    throw new Error(`Equip-only commit / hidden Set 1 architecture failed: ${JSON.stringify(firstCommit)}`);
+  }
+
+  const committedIds=[firstId];
+  for(let slot=1;slot<5;slot++){
+    await pointerClick(send, `#echoWorkspaceSlots [data-echo-target="${slot}"]`);
+    await waitForUi(send, `echoUi.targetSlot===${slot}&&echoUi.filter===${JSON.stringify(expectedCosts[slot])}`, `Slot ${slot+1} Cost recommendation lost during continuous workflow`);
+    const id=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
+    if(!id)throw new Error(`No visible Echo for Augusta slot ${slot+1}`);
+    committedIds.push(id);
+    await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${id}"]`);
+    await pointerClick(send, '#echoEquip');
+    await waitForUi(send, `draft(buildPicker.selected).build.echoSets?.sets?.['set-1']?.slots?.[${slot}]===${JSON.stringify(id)}&&echoUi.open`, `Continuous Equip failed for slot ${slot+1}`);
   }
 
   await capture(send, 'artifacts/ui-preview-echo-workspace-1440x900.png');
   await pointerClick(send, '#echoClose');
-  await waitForUi(send, `!echoUi.open&&!document.getElementById('echoOverlay').classList.contains('mounted')&&echoUi.previewId===null`, 'Echo close did not clear transient Preview');
+  await waitForUi(send, `!echoUi.open&&echoUi.previewId===null`, 'Echo close did not clear transient Preview');
+  const closedSlots=await evaluate(send, `draft('Augusta').build.echoSets.sets['set-1'].slots.slice()`);
+  if(JSON.stringify(closedSlots)!==JSON.stringify(committedIds))throw new Error(`Closing Workspace changed committed slots: ${JSON.stringify({closedSlots,committedIds})}`);
 
-  const closed = await evaluate(send, `(()=>({saved:draft(buildPicker.selected).build.echoSets.sets['set-1'].slots.slice(),buildFilled:[...document.querySelectorAll('.echo[data-echo-slot]')].filter(x=>x.classList.contains('has-echo')).length}))()`);
-  if (JSON.stringify(closed.saved) !== JSON.stringify(ids.slice(0,5)) || closed.buildFilled !== 5) {
-    throw new Error(`Closing Echo Workspace lost committed state: ${JSON.stringify(closed)}`);
-  }
-
+  // A Character without VERIFIED loadout profile gets no invented Cost/Sonata recommendation.
   await evaluate(send, `buildPicker.select('Aalto')`);
   await waitForUi(send, `echoUi.characterName==='Aalto'`, 'Character switch to Aalto did not bind Echo state');
-  const aaltBefore = await evaluate(send, `readEchoSets('Aalto').sets['set-1'].slots.slice()`);
-  if (aaltBefore.some(Boolean)) throw new Error(`Second Character inherited first Character Echoes: ${JSON.stringify(aaltBefore)}`);
-
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Aalto Echo Workspace did not open');
-  await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${ids[5]}"]`);
+  const fallback = await evaluate(send, `(()=>({profile:echoUi.loadoutProfile,filter:echoUi.filter,selected:[...echoUi.selectedSonataIds],costs:[...document.querySelectorAll('#echoWorkspaceSlots .echo-slot-cost')].map(x=>x.textContent.trim()),mode:document.getElementById('echoSlotTargetMode').textContent.trim()}))()`);
+  if (fallback.profile !== null || fallback.filter !== 'all' || fallback.selected.length || fallback.costs.some(x=>x!=='Manual') || fallback.mode !== 'Manual Cost') {
+    throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
+  }
+
+  const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
+  await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${aaltId}"]`);
   await pointerClick(send, '#echoEquip');
-  await waitForUi(send, `draft('Aalto').build.echoSets?.sets?.['set-1']?.slots?.[0]===${JSON.stringify(ids[5])}`, 'Aalto Echo commit failed');
+  await waitForUi(send, `draft('Aalto').build.echoSets?.sets?.['set-1']?.slots?.[0]===${JSON.stringify(aaltId)}`, 'Aalto manual Echo commit failed');
   await pointerClick(send, '#echoClose');
 
   await evaluate(send, `buildPicker.select('Augusta')`);
   await waitForUi(send, `echoUi.characterName==='Augusta'`, 'Character switch back to Augusta did not bind');
   const restoredAugusta = await evaluate(send, `readEchoSets('Augusta').sets['set-1'].slots.slice()`);
-  const buildRestored = await evaluate(send, `[...document.querySelectorAll('.echo[data-echo-slot]')].filter(x=>x.classList.contains('has-echo')).length`);
-  if (JSON.stringify(restoredAugusta) !== JSON.stringify(ids.slice(0,5)) || buildRestored !== 5) {
-    throw new Error(`Augusta draft Echo state did not restore: ${JSON.stringify({restoredAugusta,buildRestored})}`);
-  }
-  await evaluate(send, `buildPicker.select('Aalto')`);
-  const restoredAalto = await evaluate(send, `readEchoSets('Aalto').sets['set-1'].slots.slice()`);
-  if (restoredAalto[0] !== ids[5] || restoredAalto.slice(1).some(Boolean)) {
-    throw new Error(`Aalto draft Echo state did not restore independently: ${JSON.stringify(restoredAalto)}`);
+  if (JSON.stringify(restoredAugusta)!==JSON.stringify(committedIds)) {
+    throw new Error(`Augusta committed Echoes did not restore independently: ${JSON.stringify(restoredAugusta)}`);
   }
 
-  return { ids: ids.slice(0,5), secondCharacterEcho: ids[5] };
+  return { ids: committedIds, fallbackEcho: aaltId };
 }
 
 async function verifyMobileSmoke(send) {
@@ -223,13 +329,17 @@ async function verifyMobileSmoke(send) {
   await navigate(send);
   await prepareBuild(send, 'Augusta');
   await pointerClick(send, '.echo[data-echo-slot="2"]');
-  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2`, 'Mobile Echo Workspace physical slot click failed');
-  const metrics = await evaluate(send, `(()=>{const p=document.getElementById('echoPanel').getBoundingClientRect(),b=document.getElementById('echoBrowser');return{slots:document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot').length,left:p.left,right:p.right,innerWidth,scrollable:b.scrollHeight>b.clientHeight}})()`);
-  if (metrics.slots !== 5 || metrics.left < -1 || metrics.right > metrics.innerWidth + 1 || !metrics.scrollable) {
-    throw new Error(`Mobile Echo Workspace containment/scroll failed: ${JSON.stringify(metrics)}`);
+  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&echoUi.filter==='3'`, 'Mobile profile-backed Echo slot click failed');
+  const metrics = await evaluate(send, `(()=>{
+    const p=document.getElementById('echoPanel').getBoundingClientRect(),b=document.getElementById('echoBrowser');
+    return{slots:document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot').length,left:p.left,right:p.right,innerWidth,scrollable:b.scrollHeight>b.clientHeight,selected:[...echoUi.selectedSonataIds],costs:[...document.querySelectorAll('#echoWorkspaceSlots .echo-slot-cost')].map(x=>x.textContent.trim())};
+  })()`);
+  if (metrics.slots !== 5 || metrics.left < -1 || metrics.right > metrics.innerWidth + 1 || !metrics.scrollable || JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3']) || JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])) {
+    throw new Error(`Mobile Echo Workspace recommendation/containment failed: ${JSON.stringify(metrics)}`);
   }
-  const id = await evaluate(send, `echoCatalog.find(item=>item.cost===4)?.id`);
-  await pointerClick(send, '[data-echo-filter="4"]');
+  await verifyCurrentBrowserFilter(send, 'Mobile Augusta Slot 3');
+  const id = await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
+  if(!id)throw new Error('Mobile filtered Echo browser has no result');
   await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${id}"]`);
   await waitForUi(send, `echoUi.previewId===${JSON.stringify(id)}`, 'Mobile physical Echo card click did not Preview');
   await capture(send, 'artifacts/ui-preview-echo-workspace-390x844.png');
@@ -255,9 +365,9 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Slice 1 verification passed in real Chrome.');
-    console.log(`- Desktop: 181-card browser, canonical Cost filters, Preview-only physical mouse click, five target slots, Equip-only commit, close-preserve and Character draft restore passed.`);
-    console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; independent Aalto slot: ${desktop.secondCharacterEcho}.`);
+    console.log('v34 Echo Workspace Slice 1 user-review correction 1B verification passed in real Chrome.');
+    console.log(`- Desktop: profile-backed 4/3/3/1/1 target Costs, Crown of Valor + Void Thunder multi-select union, manual overrides/fallback, Preview-only physical click, Equip-only commit, hidden Set 1 UI and Character isolation passed.`);
+    console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     console.log(`- Mobile 390x844: contained scrollable workspace + physical Echo Preview passed (${mobile.previewed}).`);
   } finally {
     socket.close();

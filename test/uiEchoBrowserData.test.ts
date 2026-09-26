@@ -6,7 +6,7 @@ import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
 import {
-  ECHO_STATS_EDITOR_LEVEL,
+  ECHO_STATS_EDITOR_LEVELS,
   ECHO_STATS_EDITOR_MAX_SUBSTATS,
   ECHO_STATS_EDITOR_RANK,
   getEchoStatsEditorSecondaryMainStat,
@@ -41,10 +41,10 @@ const browserData = JSON.parse(
   }[];
   statEditor: {
     rank: number;
-    level: number;
+    levels: number[];
     maxSubstats: number;
-    mainStatsByCost: Record<string, { name: string; value: number }[]>;
-    secondaryMainStatsByCost: Record<string, { name: string; value: number }>;
+    mainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }[]>>;
+    secondaryMainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }>>;
     substats: { name: string; values: number[] }[];
   };
   sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
@@ -154,14 +154,35 @@ test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', (
 });
 
 
-test('Echo browser exports the source-backed Echo Stats Editor contract', () => {
+test('Echo browser exports the source-backed checkpoint-aware Echo Stats Editor contract', () => {
   assert.equal(browserData.statEditor.rank, ECHO_STATS_EDITOR_RANK);
-  assert.equal(browserData.statEditor.level, ECHO_STATS_EDITOR_LEVEL);
+  assert.deepEqual(browserData.statEditor.levels, [...ECHO_STATS_EDITOR_LEVELS]);
   assert.equal(browserData.statEditor.maxSubstats, ECHO_STATS_EDITOR_MAX_SUBSTATS);
   for (const cost of [1, 3, 4] as const) {
-    assert.deepEqual(browserData.statEditor.mainStatsByCost[String(cost)], listEchoStatsEditorMainStatOptions(cost));
-    assert.deepEqual(browserData.statEditor.secondaryMainStatsByCost[String(cost)], getEchoStatsEditorSecondaryMainStat(cost));
+    for (const level of ECHO_STATS_EDITOR_LEVELS) {
+      assert.deepEqual(
+        browserData.statEditor.mainStatsByCostAndLevel[String(cost)][String(level)],
+        listEchoStatsEditorMainStatOptions(cost, level),
+      );
+      assert.deepEqual(
+        browserData.statEditor.secondaryMainStatsByCostAndLevel[String(cost)][String(level)],
+        getEchoStatsEditorSecondaryMainStat(cost, level),
+      );
+    }
   }
   assert.deepEqual(browserData.statEditor.substats, listEchoStatsEditorSubstatOptions());
   assert.ok(browserData.generatedFrom.includes('src/echoStatEditor.ts'));
+});
+
+test('Echo Workspace Correction 2B keeps recommendations profile-backed and exposes compact review UI', () => {
+  assert.ok(workspaceHtml.includes("this.loadoutProfile?.sonataSetIds||[]"));
+  assert.ok(workspaceHtml.includes("Recommended Sonata Sets"));
+  assert.ok(workspaceHtml.includes("Other Sonata Sets"));
+  assert.ok(workspaceHtml.includes("'Multiple Sets'"));
+  assert.ok(workspaceHtml.includes("'★'.repeat(item.cost)"));
+  assert.ok(workspaceHtml.includes("selectedSonataSetId"));
+  assert.ok(workspaceHtml.includes("echoPreviewSonataChoices"));
+  assert.ok(workspaceHtml.includes("echoLevelForSubstats"));
+  assert.equal(workspaceHtml.includes('Filter by Sonata Set'), false);
+  assert.equal(workspaceHtml.includes('Echo Preview</span>'), false);
 });

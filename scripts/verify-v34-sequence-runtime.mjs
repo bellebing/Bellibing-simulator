@@ -105,7 +105,12 @@ try {
   const { socket, send } = cdp(page.webSocketDebuggerUrl);
   await navigate(send);
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-  await waitFor(send, "document.querySelectorAll('#buildWheel .choice').length===57 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
+  try {
+    await waitFor(send, "document.querySelectorAll('#buildWheel .choice').length===57 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
+  } catch (error) {
+    const diagnostic = await evaluate(send, "(async()=>({characterCards:document.querySelectorAll('#buildWheel .choice').length,characterManifestError:document.documentElement.dataset.characterManifestError||null,sequenceReady:document.documentElement.dataset.sequenceCatalogReady||null,sequenceError:document.documentElement.dataset.sequenceCatalogError||null,sequencePath:typeof SEQUENCE_RUNTIME_DATA_PATH==='string'?SEQUENCE_RUNTIME_DATA_PATH:null,sequenceFetch:await fetch('assets/sequence-runtime.json',{cache:'no-store'}).then(async r=>({status:r.status,ok:r.ok,text:(await r.text()).slice(0,120)})).catch(e=>({error:String(e)}))}))()");
+    throw new Error(error.message + ': ' + JSON.stringify(diagnostic));
+  }
 
   const coverage = await evaluate(send, "(() => {const c=sequenceAssetsByCharacter.get('chisa'),a=sequenceAssetsByCharacter.get('augusta');return{count:sequenceAssetsByCharacter.size,chisa:c?.chains||[],augusta:a?.chains||[]}})()");
   const validSix = (rows, id) => rows.length === 6 && rows.every((row, index) => row.sequence === index + 1 && row.name && row.assetPath.endsWith('/' + id + '/s' + (index + 1) + '.webp'));

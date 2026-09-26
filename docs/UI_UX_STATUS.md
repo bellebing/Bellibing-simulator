@@ -194,6 +194,13 @@ The exact approved glass values, hover/motion rules, containment requirements an
 
 ## Build a Character layout direction
 
+### Locked Echo Workspace slot interaction
+
+- A clicked Build Echo slot is the source object for opening Echo Workspace. Workspace presents those same five Build slots in a dock; it does not create another target-slot state model.
+- One slot is promoted as the active detail target. The other four remain available in numerical order; switching uses promote/demote continuity and never commits a transient editor change.
+- An empty active slot shows a true empty state without fabricated stats. Browser clicks enter transient Preview only; **Equip Echo** is the only commit.
+- Browser cards display every canonical Sonata compatibility icon for their Echo identity. Those badges do not represent the owned instance's selected Sonata assignment and do not change Cost AND selected-Sonata-union filtering.
+
 After a Character is selected, Character focus and selector are independent layers. Expanding/collapsing the selector must not move, scale or dim the main Character art.
 
 Desktop baseline:

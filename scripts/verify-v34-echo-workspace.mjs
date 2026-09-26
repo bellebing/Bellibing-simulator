@@ -169,7 +169,7 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
-  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo artwork did not fully resolve in browser', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
   await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===34&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
 
   const opened = await evaluate(send, `(()=>{
@@ -181,8 +181,11 @@ async function verifyDesktop(send) {
     return {
       target:echoUi.targetSlot,
       workspaceSlots:slots.length,
-      recommendedCosts:slots.map(x=>x.dataset.recommendedCost||null),
-      costLabels:slots.map(x=>x.querySelector('.echo-slot-cost')?.textContent.trim()||null),
+      indices:slots.map(x=>Number(x.dataset.echoTarget)),
+      recommendedCosts:[0,1,2,3,4].map(i=>slots.find(x=>x.dataset.echoTarget===String(i))?.dataset.recommendedCost||null),
+      costLabels:[0,1,2,3,4].map(i=>slots.find(x=>x.dataset.echoTarget===String(i))?.querySelector('.echo-slot-cost')?.textContent.trim()||null),
+      active:slots.filter(x=>x.classList.contains('active-target')).map(x=>Number(x.dataset.echoTarget)),
+      activeHeight:slots[0].getBoundingClientRect().height,otherHeight:slots[1].getBoundingClientRect().height,
       profileId:echoUi.loadoutProfile?.profileId||null,
       characterId:echoUi.characterId,
       filter:echoUi.filter,
@@ -195,8 +198,10 @@ async function verifyDesktop(send) {
       maxSubstats:echoStatContract?.maxSubstats,
       headerText:document.querySelector('.echo-panel-head')?.textContent.trim(),
       visibleSet1:!!document.querySelector('.echo-panel-head .echo-set-label'),
-      slotsAbovePreview:slotBox.bottom<=previewBox.top+2,
-      slotsOnRight:slotBox.left>=previewBox.left-2,
+      slotsOnRight:slotBox.left>=previewBox.right+2,
+      oldTopSlots:!!document.querySelector('.echo-toolbar .echo-workspace-slots,.echo-slot-target-caption'),
+      empty:document.querySelector('.echo-preview-empty strong')?.textContent.trim(),
+      emptyEditorVisible:getComputedStyle(document.querySelector('.echo-preview-shell')).opacity,
       selectorAboveBrowser:selectorBox.bottom<=browserBox.top+2,
       selectorOnLeft:selectorBox.left<=browserBox.left+4
     };
@@ -204,6 +209,9 @@ async function verifyDesktop(send) {
   if (
     opened.target !== 0
     || opened.workspaceSlots !== 5
+    || JSON.stringify(opened.indices)!==JSON.stringify([0,1,2,3,4])
+    || JSON.stringify(opened.active)!==JSON.stringify([0])
+    || opened.activeHeight<=opened.otherHeight
     || JSON.stringify(opened.recommendedCosts) !== JSON.stringify(['4','3','3','1','1'])
     || JSON.stringify(opened.costLabels) !== JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])
     || opened.profileId !== 'augusta-standard-echoes'
@@ -218,22 +226,32 @@ async function verifyDesktop(send) {
     || opened.maxSubstats !== 5
     || opened.visibleSet1
     || opened.headerText !== 'Echo Workspace'
-    || !opened.slotsAbovePreview
     || !opened.slotsOnRight
+    || opened.oldTopSlots || opened.empty!=='No Echo Equipped' || opened.emptyEditorVisible!=='0'
     || !opened.selectorAboveBrowser
     || !opened.selectorOnLeft
   ) {
     throw new Error(`Augusta Echo Workspace Correction 2B opening contract failed: ${JSON.stringify(opened)}`);
   }
+  await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Build slot did not animate into Echo Workspace');
+  await pointerClick(send, '#echoClose');
+  await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Workspace close did not return to Build slot');
+  await pointerClick(send, '.echo[data-echo-slot="2"]');
+  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&document.querySelector('#echoWorkspaceSlots .echo-workspace-slot')?.dataset.echoTarget==='2'`, 'Build Slot 3 did not promote Slot 3');
+  await pointerClick(send, '#echoClose');
+  await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
+  await pointerClick(send, '.echo[data-echo-slot="0"]');
+  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
 
   const cardAudit = await evaluate(send, `(()=>{
     const rows=[...document.querySelectorAll('#echoChoices .echo-choice')].map(card=>{
       const item=echoById.get(card.dataset.echoId),artNode=card.querySelector('.echo-choice-art'),copyNode=card.querySelector('.echo-choice-copy'),art=artNode.getBoundingClientRect(),copy=copyNode.getBoundingClientRect(),cardRect=card.getBoundingClientRect(),artStyle=getComputedStyle(artNode),copyStyle=getComputedStyle(copyNode),cardStyle=getComputedStyle(card);
-      return {id:item.id,cost:item.cost,stars:card.querySelector('.echo-cost-stars')?.textContent||'',overlap:art.bottom>copy.top+1,hasCostText:!!card.querySelector('.echo-choice-copy small'),rects:{cardTop:cardRect.top,cardBottom:cardRect.bottom,artTop:art.top,artBottom:art.bottom,copyTop:copy.top,copyBottom:copy.bottom},styles:{cardHeight:cardStyle.height,cardTransform:cardStyle.transform,artTop:artStyle.top,artHeight:artStyle.height,copyTop:copyStyle.top,copyHeight:copyStyle.height}};
+      const badges=[...card.querySelectorAll('.echo-choice-sonatas img')],badgeBox=card.querySelector('.echo-choice-sonatas').getBoundingClientRect();
+      return {id:item.id,cost:item.cost,stars:card.querySelector('.echo-cost-stars')?.textContent||'',overlap:art.bottom>copy.top+1||badgeBox.right>art.left+1||badges.some(b=>b.getBoundingClientRect().bottom>copy.top),badges:badges.map(b=>({id:b.dataset.sonataId,name:b.title,src:b.getAttribute('src')})),expected:item.sonataSetIds.map(id=>({id,name:echoSonataById.get(id).name,src:echoSonataById.get(id).artSrc})),hasCostText:!!card.querySelector('.echo-choice-copy small'),rects:{cardTop:cardRect.top,cardBottom:cardRect.bottom,artTop:art.top,artBottom:art.bottom,copyTop:copy.top,copyBottom:copy.bottom},styles:{cardHeight:cardStyle.height,cardTransform:cardStyle.transform,artTop:artStyle.top,artHeight:artStyle.height,copyTop:copyStyle.top,copyHeight:copyStyle.height}};
     });
-    return {badStars:rows.filter(x=>x.stars!=='★'.repeat(x.cost)),overlap:rows.filter(x=>x.overlap),costText:rows.filter(x=>x.hasCostText)};
+    return {badStars:rows.filter(x=>x.stars!=='★'.repeat(x.cost)),badBadges:rows.filter(x=>JSON.stringify(x.badges)!==JSON.stringify(x.expected)),counts:[...new Set(rows.map(x=>x.badges.length))].sort(),overlap:rows.filter(x=>x.overlap),costText:rows.filter(x=>x.hasCostText)};
   })()`);
-  if (cardAudit.badStars.length || cardAudit.overlap.length || cardAudit.costText.length) {
+  if (cardAudit.badStars.length || cardAudit.badBadges.length || JSON.stringify(cardAudit.counts)!==JSON.stringify([1,2,3,4]) || cardAudit.overlap.length || cardAudit.costText.length) {
     throw new Error(`Echo browser card Correction 2B layout failed: ${JSON.stringify(cardAudit)}`);
   }
   await verifyCurrentBrowserFilter(send, 'Augusta Slot 1 recommended');
@@ -242,9 +260,14 @@ async function verifyDesktop(send) {
   for(let slot=0;slot<5;slot++){
     await pointerClick(send, `#echoWorkspaceSlots [data-echo-target="${slot}"]`);
     await waitForUi(send, `echoUi.targetSlot===${slot}&&echoUi.filter===${JSON.stringify(expectedCosts[slot])}`, `Augusta slot ${slot+1} did not apply profile Cost ${expectedCosts[slot]}`);
+    if(slot===1){
+      const swap=await evaluate(send,`(()=>({clones:document.querySelectorAll('.echo-motion-clone').length,order:[...document.querySelectorAll('#echoWorkspaceSlots [data-echo-target]')].map(x=>Number(x.dataset.echoTarget)),active:document.querySelector('.echo-workspace-slot.active-target')?.dataset.echoTarget}))()`);
+      if(swap.clones<2||JSON.stringify(swap.order)!==JSON.stringify([1,0,2,3,4])||swap.active!=='1')throw new Error('Slot 1→2 promote/demote motion did not execute: '+JSON.stringify(swap));
+    }
     await verifyCurrentBrowserFilter(send, `Augusta Slot ${slot+1}`);
   }
   await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
+  await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Shared-object promote/demote motion did not execute');
 
   await pointerClick(send, '#echoSonataToggle');
   await waitForUi(send, `echoUi.sonataMenuOpen&&!document.getElementById('echoSonataMenu').hidden`, 'Physical Sonata selector toggle did not open');
@@ -275,7 +298,7 @@ async function verifyDesktop(send) {
   const thirdSonata = await evaluate(send, `document.querySelector('[data-sonata-group="other"] [data-sonata-id]')?.dataset.sonataId`);
   if(!thirdSonata) throw new Error('No Other Sonata option found');
   await pointerClick(send, `#echoSonataOptions [data-sonata-id="${thirdSonata}"]`);
-  await waitForUi(send, `echoUi.selectedSonataIds.size===3&&document.getElementById('echoSonataSummary').textContent.trim()==='Multiple Sets'&&document.querySelectorAll('#echoSonataToggleIcons img').length===3`, '3+-selected Sonata summary/all-icons failed');
+  await waitForUi(send, `echoUi.selectedSonataIds.size===3&&document.getElementById('echoSonataSummary').textContent.trim()==='Multiple Sets Active'&&document.querySelectorAll('#echoSonataToggleIcons img').length===3`, '3+-selected Sonata summary/all-icons failed');
   await pointerClick(send, `#echoSonataOptions [data-sonata-id="${thirdSonata}"]`);
   await waitForUi(send, `echoUi.selectedSonataIds.size===2`, 'Failed to restore two recommended Sonata filters');
 
@@ -340,13 +363,13 @@ async function verifyDesktop(send) {
   ) throw new Error(`Compact Echo Preview contract failed: ${JSON.stringify(preview)}`);
 
   const layout2d = await evaluate(send, `(()=>{
-    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),copy=pane.querySelector('.echo-preview-copy'),context=pane.querySelector('.echo-preview-context'),artRegion=pane.querySelector('.echo-preview-art-region'),art=document.getElementById('echoPreviewArt'),assignment=pane.querySelector('.echo-preview-sonata-assignment'),name=document.getElementById('echoPreviewName'),mainField=pane.querySelector('.echo-main-stat-field'),mainName=document.querySelector('[data-combobox-id="echoMainStatName"]'),mainValue=document.querySelector('[data-combobox-id="echoMainStatValue"]'),mainNameTrigger=document.getElementById('echoMainStatName-trigger'),secondaryField=pane.querySelector('.echo-secondary-field'),secondary=document.getElementById('echoSecondaryMainStat'),secondaryLabel=secondaryField?.querySelector('label'),firstSubstat=document.getElementById('echoSubstat0Name-trigger'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip');
+    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),copy=pane.querySelector('.echo-preview-copy'),context=pane.querySelector('.echo-preview-context'),artRegion=pane.querySelector('.echo-preview-art-region'),art=document.getElementById('echoPreviewArt'),assignment=pane.querySelector('.echo-preview-sonata-assignment'),name=document.getElementById('echoPreviewName'),mainField=pane.querySelector('.echo-main-stat-field'),mainValue=document.getElementById('echoMainStatValue'),mainNameTrigger=document.getElementById('echoMainStatName-trigger'),secondaryField=pane.querySelector('.echo-secondary-field'),secondary=document.getElementById('echoSecondaryMainStat'),secondaryLabel=secondaryField?.querySelector('label'),firstSubstat=document.getElementById('echoSubstat0Name-trigger'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip');
     const pr=pane.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cr=copy.getBoundingClientRect(),xr=context.getBoundingClientRect(),arr=artRegion.getBoundingClientRect(),ar=art.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),mr=mainField.getBoundingClientRect(),fr=footer.getBoundingClientRect(),er=equip.getBoundingClientRect();
     const mainStyle=getComputedStyle(mainNameTrigger),secondaryStyle=getComputedStyle(secondary),substatStyle=getComputedStyle(firstSubstat),nameStyle=getComputedStyle(name);
     const sonataNames=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>{const style=getComputedStyle(node),line=parseFloat(style.lineHeight);return{text:node.textContent.trim(),clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,clientHeight:node.clientHeight,scrollHeight:node.scrollHeight,lines:Number.isFinite(line)&&line>0?node.scrollHeight/line:null,textOverflow:style.textOverflow,whiteSpace:style.whiteSpace}});
     const mainOptions=[...document.querySelectorAll('#echoMainStatName-listbox .bb-combobox-option')].map(node=>node.textContent.trim());
     const canonical=echoMainOptions(echoById.get(echoUi.previewId).cost,echoUi.editorDraft.level).find(option=>option.name===echoUi.editorDraft.mainStat.name);
-    const mainValueText=document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim()||'';
+    const mainValueText=mainValue?.textContent.trim()||'';
     const nameLine=parseFloat(nameStyle.lineHeight);
     return {
       nativeSelects:pane.querySelectorAll('.echo-editor select').length,
@@ -365,6 +388,8 @@ async function verifyDesktop(send) {
       mainFontSize:parseFloat(mainStyle.fontSize),mainFontWeight:Number(mainStyle.fontWeight)||0,
       substatFontSize:parseFloat(substatStyle.fontSize),substatFontWeight:Number(substatStyle.fontWeight)||0,
       mainOptions,mainValueText,expectedMainValue:canonical?echoStatValueText(canonical.name,canonical.value):null,
+      mainValuePlain:mainValue?.tagName==='SPAN'&&!mainValue.matches('button,input,select,[tabindex],[role="combobox"]')&&!mainValue.querySelector('button,input,select,[tabindex],[role="combobox"]'),
+      substatHeading:!!pane.querySelector('.echo-substats-label'),
       secondaryLabel:secondaryLabel?.textContent.trim()||'',
       secondaryTag:secondary.tagName,
       secondaryInteractive:secondary.matches('input,select,button,a[href],[tabindex]:not([tabindex="-1"])')||!!secondary.querySelector('input,select,button,a[href],[role="combobox"]'),
@@ -377,13 +402,13 @@ async function verifyDesktop(send) {
     };
   })()`);
   if (
-    layout2d.nativeSelects!==0 || layout2d.comboCount!==12 || layout2d.mainControls!==2 || layout2d.substatRows.some(count=>count!==2)
+    layout2d.nativeSelects!==0 || layout2d.comboCount!==11 || layout2d.mainControls!==1 || layout2d.substatRows.some(count=>count!==2)
     || !layout2d.copyAboveContext || !layout2d.artLeftOfSonata || !layout2d.artAndSonataVerticalOverlap || layout2d.artTextOverlap
     || layout2d.nameText!==layout2d.expectedName || layout2d.nameWhiteSpace==='nowrap' || layout2d.nameTextOverflow==='ellipsis' || !layout2d.nameFits || layout2d.nameLines>2.05
     || !layout2d.sonataNames.length || layout2d.sonataNames.some(x=>!x.text||x.textOverflow==='ellipsis'||x.whiteSpace==='nowrap'||x.scrollWidth>x.clientWidth+1||x.scrollHeight>x.clientHeight+1||x.lines>2.05)
     || !layout2d.mainAfterHero || layout2d.mainLabel!=='MAIN STAT'
     || !(layout2d.mainFontSize>=layout2d.substatFontSize+3) || !(layout2d.mainFontWeight>layout2d.substatFontWeight)
-    || layout2d.mainOptions.some(text=>text.includes('—')) || layout2d.mainValueText!==layout2d.expectedMainValue
+    || layout2d.mainOptions.some(text=>text.includes('—')) || layout2d.mainValueText!==layout2d.expectedMainValue || !layout2d.mainValuePlain || layout2d.substatHeading
     || layout2d.secondaryLabel!=='SECONDARY STAT' || layout2d.secondaryTag!=='DIV' || layout2d.secondaryInteractive
     || layout2d.secondaryBorder.some(value=>value!=='0px') || JSON.stringify(layout2d.secondaryParts)!==JSON.stringify(layout2d.secondaryExpected)
     || !layout2d.footerLast || !layout2d.footerBelowEditor || layout2d.footerBottomGap>18
@@ -400,14 +425,12 @@ async function verifyDesktop(send) {
   await pointerClick(send,'#'+mainPopup.alternativeId);
   await waitForUi(send,`echoUi.editorDraft.mainStat.name===${JSON.stringify(mainPopup.alternativeValue)}`,'Physical Main Stat combobox selection did not apply');
   const mainAfterPhysical=await evaluate(send,`(()=>{
-    const item=echoById.get(echoUi.previewId),card=echoUi.editorDraft,canonical=echoMainOptions(item.cost,card.level).find(option=>option.name===card.mainStat.name),valueRoot=document.querySelector('[data-combobox-id="echoMainStatValue"]');
-    return {card:card.mainStat,canonical,valueText:document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim(),expectedValueText:canonical?echoStatValueText(canonical.name,canonical.value):null,valueOptions:[...document.querySelectorAll('#echoMainStatValue-listbox .bb-combobox-option')].map(x=>x.textContent.trim()),deterministic:valueRoot.classList.contains('is-deterministic')};
+    const item=echoById.get(echoUi.previewId),card=echoUi.editorDraft,canonical=echoMainOptions(item.cost,card.level).find(option=>option.name===card.mainStat.name),valueRoot=document.getElementById('echoMainStatValue');
+    return {card:card.mainStat,canonical,valueText:valueRoot?.textContent.trim(),expectedValueText:canonical?echoStatValueText(canonical.name,canonical.value):null,plain:valueRoot?.tagName==='SPAN'&&!valueRoot.hasAttribute('tabindex'),valueControls:document.querySelectorAll('#echoMainStatValue-listbox,#echoMainStatValue-trigger').length};
   })()`);
-  if(!mainAfterPhysical.canonical||JSON.stringify(mainAfterPhysical.card)!==JSON.stringify(mainAfterPhysical.canonical)||mainAfterPhysical.valueText!==mainAfterPhysical.expectedValueText||mainAfterPhysical.valueOptions.length!==1||mainAfterPhysical.valueOptions[0]!==mainAfterPhysical.valueText||!mainAfterPhysical.deterministic){
+  if(!mainAfterPhysical.canonical||JSON.stringify(mainAfterPhysical.card)!==JSON.stringify(mainAfterPhysical.canonical)||mainAfterPhysical.valueText!==mainAfterPhysical.expectedValueText||!mainAfterPhysical.plain||mainAfterPhysical.valueControls!==0){
     throw new Error(`Main Stat name/value source-backed separation failed after physical selection: ${JSON.stringify(mainAfterPhysical)}`);
   }
-  await openBellibingCombo(send,'echoMainStatValue');
-  await pointerClick(send,'#echoMainStatValue-option-0');
 
   const pointerAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.echoId===${JSON.stringify(firstId)})`);
   if (!pointerAudit.some(x=>x.type==='pointerdown') || !pointerAudit.some(x=>x.type==='pointerup') || !pointerAudit.some(x=>x.type==='click')) {
@@ -485,6 +508,17 @@ async function verifyDesktop(send) {
   const equipAudit=await evaluate(send,`window.__echoPointerAudit.filter(x=>x.equip)`);
   for(const type of ['pointerdown','pointerup','click'])if(!equipAudit.some(x=>x.type===type))throw new Error('Equip Echo missed physical '+type);
 
+  const committedBeforeSwap=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
+  const transientId=await evaluate(send,`echoCatalog.find(x=>x.id!==${JSON.stringify(firstId)}&&x.cost===4&&x.sonataSetIds.some(s=>echoUi.selectedSonataIds.has(s)))?.id`);
+  await pointerClick(send,`#echoChoices .echo-choice[data-echo-id="${transientId}"]`);
+  await waitForUi(send,`echoUi.previewId===${JSON.stringify(transientId)}`,'Transient alternative did not Preview');
+  await pointerClick(send,'#echoWorkspaceSlots [data-echo-target="2"]');
+  await waitForUi(send,`echoUi.targetSlot===2&&echoUi.previewId===null`,'Slot 1→3 did not leave true empty Slot 3');
+  const afterSwap=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
+  if(afterSwap!==committedBeforeSwap)throw new Error('Slot switch silently committed transient Slot 1 Preview');
+  await pointerClick(send,'#echoWorkspaceSlots [data-echo-target="0"]');
+  await waitForUi(send,`echoUi.previewId===${JSON.stringify(firstId)}`,'Committed Slot 1 did not restore after transient switch');
+
   const committedIds=[firstId];
   for(let slot=1;slot<5;slot++){
     await pointerClick(send, `#echoWorkspaceSlots [data-echo-target="${slot}"]`);
@@ -526,12 +560,11 @@ async function verifyDesktop(send) {
     filter:echoUi.filter,
     selected:[...echoUi.selectedSonataIds],
     costs:[...document.querySelectorAll('#echoWorkspaceSlots .echo-slot-cost')].map(x=>x.textContent.trim()),
-    mode:document.getElementById('echoSlotTargetMode').textContent.trim(),
     recommendedGroups:document.querySelectorAll('[data-sonata-group="recommended"]').length,
     otherGroups:document.querySelectorAll('[data-sonata-group="other"]').length,
     summary:document.getElementById('echoSonataSummary').textContent.trim()
   }))()`);
-  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='Manual')||fallback.mode!=='Manual Cost'||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.summary!=='All Sonata Sets') {
+  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='Cost —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.summary!=='All Sonata Sets') {
     throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
   }
   const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
@@ -555,7 +588,17 @@ async function verifyDesktop(send) {
   if(persistedAfterReload!==persistedBeforeReload)throw new Error('Reload changed committed Echo stat card');
   await pointerClick(send,'.echo[data-echo-slot="0"]');
   await waitForUi(send,`echoUi.open&&JSON.stringify(echoUi.editorDraft)===${JSON.stringify(persistedAfterReload)}`,'Reload did not restore full committed Echo stat/Sonata card into editor');
+  await setViewport(send,2560,1440);
+  const wide=await evaluate(send,`(()=>{const p=document.getElementById('echoPanel').getBoundingClientRect(),b=document.getElementById('echoBrowser').getBoundingClientRect(),e=document.getElementById('echoPreviewPane').getBoundingClientRect(),d=document.getElementById('echoWorkspaceSlots').getBoundingClientRect();return {center:Math.abs((p.left+p.right)/2-innerWidth/2),width:p.width,order:b.right<e.left&&e.right<d.left}})()`);
+  if(wide.center>2||wide.width>1281||!wide.order)throw new Error('Wide desktop Echo composition escaped centered shell: '+JSON.stringify(wide));
   await pointerClick(send,'#echoClose');
+  await waitForUi(send,`!document.getElementById('echoOverlay').classList.contains('mounted')`,'Wide Workspace did not close');
+  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await pointerClick(send,'.echo[data-echo-slot="2"]');
+  await waitForUi(send,`echoUi.open&&document.documentElement.dataset.echoMotion==='reduced-crossfade'`,'Reduced-motion Echo opening did not crossfade');
+  await pointerClick(send,'#echoClose');
+  await waitForUi(send,`!document.getElementById('echoOverlay').classList.contains('mounted')`,'Reduced-motion close did not finish');
+  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
 
   return { ids: committedIds, fallbackEcho: aaltId, ownedSonata: committedSonata };
 }
@@ -574,10 +617,14 @@ async function verifyMobileSmoke(send) {
       scrollable:b.scrollHeight>b.clientHeight,
       selected:[...echoUi.selectedSonataIds],
       selectedIcons:document.querySelectorAll('#echoSonataToggleIcons img').length,
-      costs:[...document.querySelectorAll('#echoWorkspaceSlots .echo-slot-cost')].map(x=>x.textContent.trim())
+      costs:[0,1,2,3,4].map(i=>document.querySelector('#echoWorkspaceSlots [data-echo-target="'+i+'"] .echo-slot-cost')?.textContent.trim()),
+      first:document.querySelector('#echoWorkspaceSlots .echo-workspace-slot')?.dataset.echoTarget,
+      strip:getComputedStyle(document.getElementById('echoWorkspaceSlots')).flexDirection,
+      dock:document.getElementById('echoWorkspaceSlots').getBoundingClientRect(),
+      detail:document.getElementById('echoPreviewPane').getBoundingClientRect()
     };
   })()`);
-  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])) {
+  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])||metrics.first!=='2'||metrics.strip!=='row'||metrics.dock.bottom>metrics.detail.top) {
     throw new Error(`Mobile Echo Workspace recommendation/containment failed: ${JSON.stringify(metrics)}`);
   }
   await verifyCurrentBrowserFilter(send, 'Mobile Augusta Slot 3');
@@ -629,8 +676,8 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Stats Editor Correction 2D verification passed in real Chrome.');
-    console.log(`- Desktop: Bellibing-owned custom Main/Substat comboboxes, separate Main name/value, full-width Echo identity over art|Sonata context, plain Secondary Stat, five visible Substats and bottom-anchored Equip passed with all 2B functional regressions.`);
+    console.log('v34 Echo Workspace Correction 2E verification passed in real Chrome.');
+    console.log(`- Desktop: five shared Build slots in promoted dock, canonical Sonata badges, shared-object motion, plain derived Main/Secondary values, five Substats and bottom-anchored Equip passed.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     console.log(`- Mobile 390x844: contained identity + art|Sonata hero, Bellibing controls, scrollable editor and physical Echo Preview passed (${mobile.previewed}).`);
   } finally {

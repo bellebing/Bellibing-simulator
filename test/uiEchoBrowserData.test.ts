@@ -178,11 +178,24 @@ test('Echo Workspace Correction 2B keeps recommendations profile-backed and expo
   assert.ok(workspaceHtml.includes("this.loadoutProfile?.sonataSetIds||[]"));
   assert.ok(workspaceHtml.includes("Recommended Sonata Sets"));
   assert.ok(workspaceHtml.includes("Other Sonata Sets"));
-  assert.ok(workspaceHtml.includes("'Multiple Sets'"));
+  assert.ok(workspaceHtml.includes("'Multiple Sets Active'"));
   assert.ok(workspaceHtml.includes("'★'.repeat(item.cost)"));
   assert.ok(workspaceHtml.includes("selectedSonataSetId"));
   assert.ok(workspaceHtml.includes("echoPreviewSonataChoices"));
   assert.ok(workspaceHtml.includes("echoLevelForSubstats"));
   assert.equal(workspaceHtml.includes('Filter by Sonata Set'), false);
   assert.equal(workspaceHtml.includes('Echo Preview</span>'), false);
+});
+
+test('Echo browser compatibility badges retain every canonical Sonata identity across 1–4-set Echoes', () => {
+  const canonical = new Map(ECHO_CATALOG.map((echo) => [echo.id, echo.sonataSetIds]));
+  const counts = new Set<number>();
+  for (const echo of browserData.echoes) {
+    assert.deepEqual(echo.sonataSetIds, canonical.get(echo.id), `${echo.id}: compatibility drift`);
+    assert.ok(echo.sonataSetIds.length >= 1 && echo.sonataSetIds.length <= 4);
+    counts.add(echo.sonataSetIds.length);
+  }
+  assert.deepEqual([...counts].sort(), [1, 2, 3, 4]);
+  assert.ok(workspaceHtml.includes('item.sonataSetIds.forEach(id=>'));
+  assert.ok(workspaceHtml.includes('badge.title=sonata.name'));
 });

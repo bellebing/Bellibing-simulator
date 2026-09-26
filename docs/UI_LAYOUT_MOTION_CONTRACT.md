@@ -197,6 +197,10 @@ Do not fake continuity by teleporting the source away and independently popping 
 
 ## 8. Motion timing bands
 
+### Echo slot shared-object transition
+
+Opening Echo Workspace starts from the clicked Build Echo slot and promotes it into detail. Closing returns toward the active owning Build slot. Switching slots demotes the current detail toward its owning dock slot while the selected dock slot promotes into detail; Equip links committed artwork to its active dock slot. Use visual transition clones and transforms where practical, without moving gameplay state. Major morphs use the 450–650ms weighted family, initially `cubic-bezier(.16,.84,.24,1)`; reduced motion uses a short crossfade. The destination is always the owning slot or its detail position, never a viewport corner.
+
 These are engineering target bands, not permission to tune every component independently:
 
 - micro feedback: approximately **120–180ms**;

@@ -170,14 +170,14 @@
 .echo-choice-copy{display:block;min-width:0;padding-top:5px;text-align:center}
 .echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:13px;font-weight:400;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .echo-choice-copy small{display:block;margin-top:4px;color:#a6adb7;font-size:9px;letter-spacing:.09em;text-transform:uppercase}
-.echo-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
+.echo-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:auto;scrollbar-width:thin}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
 .echo-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
 .echo-preview-shell{height:100%;display:flex;flex-direction:column;opacity:0;pointer-events:none}
 .echo-panel.has-preview .echo-preview-empty{display:none}
 .echo-panel.has-preview .echo-preview-shell{opacity:1;pointer-events:auto}
-.echo-preview-art{display:block;width:210px;height:210px;max-width:90%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 22px 28px rgba(0,0,0,.5))}
+.echo-preview-art{display:block;width:132px;height:132px;max-width:90%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 18px 24px rgba(0,0,0,.5))}
 .echo-preview-copy{text-align:center}
 .echo-preview-copy h3{margin:5px 0 7px;font-family:var(--font-display);font-size:26px;font-weight:400}
 .echo-preview-cost{color:#c6a35f;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
@@ -185,7 +185,16 @@
 .echo-preview-sonata-label{display:block;color:#747c87;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
 .echo-preview-sonatas{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
 .echo-sonata-chip{padding:5px 7px;border:1px solid rgba(255,255,255,.10);border-radius:9px;background:#171b22;color:#d8dce2;font-size:10px}
-.echo-equip{margin-top:auto;width:100%;padding:13px 16px;border:1px solid rgba(207,166,84,.44);border-radius:13px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
+.echo-editor{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-editor-field{display:grid;gap:5px;margin-bottom:9px}
+.echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.echo-editor select{width:100%;min-width:0;padding:8px 9px;border:1px solid rgba(255,255,255,.11);border-radius:9px;background:#151920;color:#e5e7ea;font:inherit;font-size:11px}
+.echo-editor select:disabled{color:#707783;background:#11141a}
+.echo-secondary-value{padding:8px 9px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:#11151b;color:#d8dce2;font-size:11px}
+.echo-substats{display:grid;gap:6px;margin-top:6px}
+.echo-substat-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:6px}
+.echo-editor-error{min-height:15px;margin-top:7px;color:#d89090;font-size:10px;line-height:1.35}
+.echo-equip{margin-top:10px;width:100%;padding:13px 16px;border:1px solid rgba(207,166,84,.44);border-radius:13px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
 .echo-equip:disabled{cursor:default;background:#15181d;border-color:rgba(255,255,255,.10);color:#747b85}
 @media(max-width:760px){
   .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
@@ -282,6 +291,13 @@
             <h3 id="echoPreviewName">Echo</h3>
             <div id="echoPreviewCost" class="echo-preview-cost">Cost —</div>
             <div class="echo-preview-sonata"><span class="echo-preview-sonata-label">Sonata Sets</span><div id="echoPreviewSonatas" class="echo-preview-sonatas"></div></div>
+            <div class="echo-editor" aria-label="Echo stat editor">
+              <div class="echo-editor-field"><label for="echoMainStat">Main Stat</label><select id="echoMainStat"></select></div>
+              <div class="echo-editor-field"><label>Automatic secondary Main Stat</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
+              <span class="echo-substats-label">Substats 1–5</span>
+              <div id="echoSubstats" class="echo-substats"></div>
+              <div id="echoEditorError" class="echo-editor-error" role="status"></div>
+            </div>
           </div>
           <button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button>
         </div>
@@ -300,19 +316,27 @@ function draft(name){if(!state.drafts[name]){state.drafts[name]={character:name,
 function autosave(name,patch={}){if(!name)return;const d=draft(name);d.build={...d.build,...patch};d.updatedAt=new Date().toISOString();save()}
 const ECHO_DEFAULT_SET_ID='set-1';
 const emptyEchoSet=()=>({id:ECHO_DEFAULT_SET_ID,name:'Set 1',slots:[null,null,null,null,null]});
+const isPlainObject=value=>!!value&&typeof value==='object'&&!Array.isArray(value);
+const echoSlotId=slot=>typeof slot==='string'?slot:(typeof slot?.echoId==='string'?slot.echoId:null);
+const cloneEchoSlot=slot=>isPlainObject(slot)?JSON.parse(JSON.stringify(slot)):slot;
 function readEchoSets(name){
   const raw=name?draft(name).build.echoSets:null;
   const rawSets=raw&&typeof raw==='object'&&raw.sets&&typeof raw.sets==='object'?raw.sets:{};
   const activeSetId=typeof raw?.activeSetId==='string'&&rawSets[raw.activeSetId]?raw.activeSetId:ECHO_DEFAULT_SET_ID;
   const defaultSetId=typeof raw?.defaultSetId==='string'&&rawSets[raw.defaultSetId]?raw.defaultSetId:ECHO_DEFAULT_SET_ID;
   const base=rawSets[ECHO_DEFAULT_SET_ID]&&typeof rawSets[ECHO_DEFAULT_SET_ID]==='object'?rawSets[ECHO_DEFAULT_SET_ID]:emptyEchoSet();
-  const slots=Array.from({length:5},(_,index)=>typeof base.slots?.[index]==='string'?base.slots[index]:null);
+  const slots=Array.from({length:5},(_,index)=>{
+    const slot=base.slots?.[index];
+    if(typeof slot==='string')return slot;
+    if(isPlainObject(slot)&&typeof slot.echoId==='string')return cloneEchoSlot(slot);
+    return null;
+  });
   return {schemaVersion:1,activeSetId,defaultSetId,sets:{...rawSets,[ECHO_DEFAULT_SET_ID]:{...base,id:ECHO_DEFAULT_SET_ID,name:typeof base.name==='string'?base.name:'Set 1',slots}}};
 }
-function commitEchoSlot(name,slotIndex,echoId){
+function commitEchoSlot(name,slotIndex,statCard){
   const current=readEchoSets(name);
   const set=current.sets[current.activeSetId]||current.sets[ECHO_DEFAULT_SET_ID];
-  const slots=[...set.slots];slots[slotIndex]=echoId;
+  const slots=[...set.slots];slots[slotIndex]=cloneEchoSlot(statCard);
   const next={...current,sets:{...current.sets,[current.activeSetId]:{...set,slots}}};
   autosave(name,{echoSets:next});
   return next;
@@ -330,6 +354,7 @@ let echoById=new Map();
 let echoSonataById=new Map();
 let echoLoadoutProfiles=[];
 let echoLoadoutByCharacterId=new Map();
+let echoStatContract=null;
 let echoDataLoaded=false;
 let echoDataReady;
 const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
@@ -373,6 +398,14 @@ async function loadEchoBrowserData(){
   const browserData=await browserDataResponse.json();
   const manifest=await manifestResponse.json();
   if(browserData.schemaVersion!==1)throw new Error('Unsupported Echo browser data schema');
+  const statContract=browserData.statEditor;
+  if(!statContract||statContract.rank!==5||statContract.level!==25||statContract.maxSubstats!==5)throw new Error('Unsupported Echo stat editor contract');
+  for(const cost of ['1','3','4']){
+    if(!Array.isArray(statContract.mainStatsByCost?.[cost])||!statContract.mainStatsByCost[cost].length)throw new Error('Missing Echo Main Stat pool for Cost '+cost);
+    if(!statContract.secondaryMainStatsByCost?.[cost])throw new Error('Missing Echo secondary Main Stat for Cost '+cost);
+  }
+  if(!Array.isArray(statContract.substats)||!statContract.substats.length)throw new Error('Missing Echo substat contract');
+  echoStatContract=statContract;
   const iconById=new Map(manifest.icons.map(icon=>[icon.echoId,icon]));
   echoSonataById=new Map(browserData.sonataSets.map(sonata=>{
     if(!sonata.artPath)throw new Error(`Missing source-backed Sonata art: ${sonata.id}`);
@@ -563,151 +596,225 @@ const weaponUi={
   }
 };
 
+const echoStatValueText=(name,value)=>{
+  if(!Number.isFinite(value))return '—';
+  if(String(name).startsWith('Flat '))return String(value);
+  return Number((value*100).toFixed(2))+'%';
+};
+const echoExact=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=1e-12;
+const echoMainOptions=cost=>echoStatContract?.mainStatsByCost?.[String(cost)]||[];
+const echoSecondary=cost=>echoStatContract?.secondaryMainStatsByCost?.[String(cost)]||null;
+const echoSubstatOption=name=>echoStatContract?.substats?.find(option=>option.name===name)||null;
+const sameStringList=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&a.length===b.length&&a.every((value,index)=>value===b[index]);
+function validateEchoStatCard(card,item){
+  if(!echoStatContract||!item||!isPlainObject(card))return 'Missing Echo stat editor data.';
+  if(card.echoId!==item.id||card.cost!==item.cost)return 'Echo identity/COST does not match canonical Preview.';
+  if(card.rank!==echoStatContract.rank||card.level!==echoStatContract.level)return 'Unsupported Echo rank/level.';
+  if(!sameStringList(card.sonataSetIds,item.sonataSetIds))return 'Sonata identity does not match canonical Echo data.';
+  const main=echoMainOptions(item.cost).find(option=>option.name===card.mainStat?.name);
+  if(!main||!echoExact(main.value,card.mainStat?.value))return 'Invalid Main Stat for this Echo COST.';
+  const secondary=echoSecondary(item.cost);
+  if(!secondary||card.secondaryMainStat?.name!==secondary.name||!echoExact(card.secondaryMainStat?.value,secondary.value))return 'Automatic secondary Main Stat mismatch.';
+  if(!Array.isArray(card.substats)||card.substats.length>echoStatContract.maxSubstats)return 'Echo supports at most five substats.';
+  const names=new Set();
+  for(const roll of card.substats){
+    if(!roll||names.has(roll.name))return 'Duplicate substats are not allowed.';
+    const option=echoSubstatOption(roll.name);
+    if(!option||!option.values.some(value=>echoExact(value,roll.value)))return 'Unsupported substat/value combination.';
+    names.add(roll.name);
+  }
+  return '';
+}
+function makeEchoStatCard(item,committed=null){
+  if(isPlainObject(committed)&&committed.echoId===item.id&&!validateEchoStatCard(committed,item))return cloneEchoSlot(committed);
+  const main=echoMainOptions(item.cost)[0];
+  const secondary=echoSecondary(item.cost);
+  if(!main||!secondary)throw new Error('Missing source-backed Echo stat defaults for Cost '+item.cost);
+  return {
+    echoId:item.id,
+    cost:item.cost,
+    sonataSetIds:[...item.sonataSetIds],
+    rank:echoStatContract.rank,
+    level:echoStatContract.level,
+    mainStat:{name:main.name,value:main.value},
+    secondaryMainStat:{name:secondary.name,value:secondary.value},
+    substats:[]
+  };
+}
+const echoCardsEqual=(a,b)=>isPlainObject(a)&&isPlainObject(b)&&JSON.stringify(a)===JSON.stringify(b);
+
 const echoUi={
-  overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
-  characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,filter:'all',selectedSonataIds:new Set(),sonataMenuOpen:false,open:false,lastFocus:null,choiceById:new Map(),
+  overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,characterName:null,currentSets:null,targetSlot:0,previewId:null,editorDraft:null,filter:'all',open:false,lastFocus:null,choiceById:new Map(),
   init(){
     this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
-    this.sonataToggle=document.getElementById('echoSonataToggle');this.sonataMenu=document.getElementById('echoSonataMenu');this.sonataOptions=document.getElementById('echoSonataOptions');
-    this.sonataToggle.onclick=()=>this.setSonataMenuOpen(!this.sonataMenuOpen);
-    document.getElementById('echoSonataAll').onclick=()=>this.selectAllSonatas();
     this.renderBuildSlots();
   },
   setCharacter(name){
     if(this.open)this.hide();
-    this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.currentSets=name?readEchoSets(name):null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;this.targetSlot=0;this.clearPreview();this.renderBuildSlots();
+    this.characterName=name||null;this.currentSets=name?readEchoSets(name):null;this.targetSlot=0;this.clearPreview();this.renderBuildSlots();
     if(echoDataLoaded)this.refreshForCharacter();
   },
   refreshForCharacter(){
-    this.characterId=this.characterName?characterByName.get(this.characterName)?.id||null:null;
-    this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
-    this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();
+    this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.applyFilter();
   },
   activeSet(){
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
-  recommendedCost(index=this.targetSlot){
-    const cost=this.loadoutProfile?.slotCosts?.[index];
-    return [1,3,4].includes(cost)?cost:null;
+  currentSlot(){
+    return this.activeSet().slots?.[this.targetSlot]??null;
   },
   renderBuildSlots(){
-    const ids=this.activeSet().slots||[];
+    const slots=this.activeSet().slots||[];
     document.querySelectorAll('.echo[data-echo-slot]').forEach((slot,index)=>{
       slot.querySelectorAll('.echo-slot-art').forEach(node=>node.remove());
-      const item=echoById.get(ids[index]);
+      const item=echoById.get(echoSlotId(slots[index]));
       slot.classList.toggle('has-echo',!!item);
-      slot.setAttribute('aria-label',item?`Open Echo workspace for slot ${index+1}. Equipped: ${item.name}`:`Open Echo workspace for slot ${index+1}`);
+      slot.setAttribute('aria-label',item?'Open Echo workspace for slot '+(index+1)+'. Equipped: '+item.name:'Open Echo workspace for slot '+(index+1));
       if(item){const image=document.createElement('img');image.className='echo-slot-art';image.src=item.artSrc;image.alt='';image.draggable=false;slot.appendChild(image)}
     });
   },
   renderWorkspaceSlots(){
     if(!this.workspaceSlots)return;
-    const ids=this.activeSet().slots||[];
-    const mode=document.getElementById('echoSlotTargetMode');if(mode)mode.textContent=this.loadoutProfile?'Profile-backed COST':'Manual Cost';
+    const slots=this.activeSet().slots||[];
     this.workspaceSlots.replaceChildren();
     for(let index=0;index<5;index++){
-      const item=echoById.get(ids[index]),recommendedCost=this.recommendedCost(index);
-      const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);
-      if(recommendedCost)button.dataset.recommendedCost=String(recommendedCost);else delete button.dataset.recommendedCost;
-      button.setAttribute('aria-label',recommendedCost?`Target Echo slot ${index+1}, recommended Cost ${recommendedCost}`:`Target Echo slot ${index+1}, manual Cost`);
-      const cost=document.createElement('span');cost.className='echo-slot-cost'+(recommendedCost?'':' manual');cost.textContent=recommendedCost?`Cost ${recommendedCost}`:'Manual';button.appendChild(cost);
+      const item=echoById.get(echoSlotId(slots[index]));
+      const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);button.setAttribute('aria-label','Target Echo slot '+(index+1));
       if(item){const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;button.appendChild(image)}
       const copy=document.createElement('span');copy.className='echo-workspace-slot-copy';
-      const label=document.createElement('strong');label.textContent=`Slot ${index+1}`;const name=document.createElement('small');name.textContent=item?.name||'Empty';
+      const label=document.createElement('strong');label.textContent='Slot '+(index+1);const name=document.createElement('small');name.textContent=item?.name||'Empty';
       copy.append(label,name);button.appendChild(copy);button.addEventListener('click',()=>this.setTarget(index));this.workspaceSlots.appendChild(button);
     }
   },
   rebuildChoices(){
     if(!this.choices)return;this.choiceById.clear();this.choices.replaceChildren();
     echoCatalog.forEach(item=>{
-      const choice=document.createElement('button');choice.type='button';choice.className='echo-choice';choice.dataset.echoId=item.id;choice.dataset.cost=String(item.cost);choice.setAttribute('aria-label',`Preview ${item.name}`);
+      const choice=document.createElement('button');choice.type='button';choice.className='echo-choice';choice.dataset.echoId=item.id;choice.dataset.cost=String(item.cost);choice.setAttribute('aria-label','Preview '+item.name);
       const art=document.createElement('span');art.className='echo-choice-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.appendChild(image);
-      const copy=document.createElement('span');copy.className='echo-choice-copy';const name=document.createElement('strong');name.textContent=item.name;const cost=document.createElement('small');cost.textContent=`Cost ${item.cost}`;copy.append(name,cost);
+      const copy=document.createElement('span');copy.className='echo-choice-copy';const name=document.createElement('strong');name.textContent=item.name;const cost=document.createElement('small');cost.textContent='Cost '+item.cost;copy.append(name,cost);
       choice.append(art,copy);choice.addEventListener('click',()=>this.select(item.id));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
     });
   },
-  setSonataMenuOpen(open){
-    this.sonataMenuOpen=!!open;this.sonataMenu.hidden=!this.sonataMenuOpen;this.sonataToggle.setAttribute('aria-expanded',String(this.sonataMenuOpen));
-  },
-  renderSonataSelector(){
-    if(!this.sonataOptions)return;
-    this.sonataOptions.replaceChildren();
-    echoSonataById.forEach(sonata=>{
-      const button=document.createElement('button');button.type='button';button.className='echo-sonata-option';button.classList.toggle('active',this.selectedSonataIds.has(sonata.id));button.dataset.sonataId=sonata.id;button.setAttribute('aria-pressed',String(this.selectedSonataIds.has(sonata.id)));
-      const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;
-      const label=document.createElement('span');label.textContent=sonata.name;button.append(image,label);button.addEventListener('click',()=>this.toggleSonata(sonata.id));this.sonataOptions.appendChild(button);
-    });
-    const selected=[...this.selectedSonataIds].map(id=>echoSonataById.get(id)).filter(Boolean);
-    const summary=document.getElementById('echoSonataSummary');
-    if(summary)summary.textContent=!selected.length?'All Sonata Sets':selected.length<=2?selected.map(x=>x.name).join(' + '):selected.length+' Sonata Sets';
-    const iconHost=document.getElementById('echoSonataToggleIcons');if(iconHost){iconHost.replaceChildren();selected.slice(0,2).forEach(sonata=>{const img=document.createElement('img');img.src=sonata.artSrc;img.alt='';img.draggable=false;iconHost.appendChild(img)})}
-    document.getElementById('echoSonataAll')?.classList.toggle('active',this.selectedSonataIds.size===0);
-  },
-  toggleSonata(id){
-    if(!echoSonataById.has(id))return;
-    if(this.selectedSonataIds.has(id))this.selectedSonataIds.delete(id);else this.selectedSonataIds.add(id);
-    this.renderSonataSelector();this.applyFilter();if(this.browser)this.browser.scrollTop=0;
-  },
-  selectAllSonatas(){
-    this.selectedSonataIds.clear();this.renderSonataSelector();this.applyFilter();if(this.browser)this.browser.scrollTop=0;
-  },
   applyFilter(){
-    this.choiceById.forEach((choice,id)=>{
-      const item=echoById.get(id);
-      const costMatch=this.filter==='all'||String(item?.cost)===this.filter;
-      const sonataMatch=this.selectedSonataIds.size===0||item?.sonataSetIds?.some(sonataId=>this.selectedSonataIds.has(sonataId));
-      choice.hidden=!(costMatch&&sonataMatch);
-    });
+    this.choiceById.forEach((choice,id)=>{const item=echoById.get(id);choice.hidden=this.filter!=='all'&&String(item?.cost)!==this.filter});
     document.querySelectorAll('[data-echo-filter]').forEach(button=>button.classList.toggle('active',button.dataset.echoFilter===this.filter));
   },
   setFilter(filter){
     if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;
   },
   clearPreview(){
-    this.previewId=null;
+    this.previewId=null;this.editorDraft=null;
     if(this.panel)this.panel.classList.remove('has-preview');
     document.getElementById('echoPreviewPane')?.setAttribute('aria-hidden','true');
     const art=document.getElementById('echoPreviewArt');if(art){art.removeAttribute('src');art.alt=''}
     const name=document.getElementById('echoPreviewName');if(name)name.textContent='Echo';
     const cost=document.getElementById('echoPreviewCost');if(cost)cost.textContent='Cost —';
     document.getElementById('echoPreviewSonatas')?.replaceChildren();
+    document.getElementById('echoMainStat')?.replaceChildren();
+    document.getElementById('echoSubstats')?.replaceChildren();
+    const secondary=document.getElementById('echoSecondaryMainStat');if(secondary)secondary.textContent='—';
+    const error=document.getElementById('echoEditorError');if(error)error.textContent='';
     this.syncEquipAction();
   },
-  select(id){
-    const item=echoById.get(id);if(!item)return;
-    this.previewId=id;const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
-    document.getElementById('echoPreviewName').textContent=item.name;document.getElementById('echoPreviewCost').textContent=`Cost ${item.cost}`;
+  renderIdentity(item){
+    const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
+    document.getElementById('echoPreviewName').textContent=item.name;document.getElementById('echoPreviewCost').textContent='Cost '+item.cost+' · Rank '+echoStatContract.rank+' · +'+echoStatContract.level;
     const sonatas=document.getElementById('echoPreviewSonatas');sonatas.replaceChildren();
     item.sonataSetIds.forEach(sonataId=>{const sonata=echoSonataById.get(sonataId);if(!sonata)return;const chip=document.createElement('span');chip.className='echo-sonata-chip';chip.textContent=sonata.name;sonatas.appendChild(chip)});
-    this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.syncEquipAction();
+  },
+  renderEditor(){
+    const item=echoById.get(this.previewId);const card=this.editorDraft;if(!item||!card)return;
+    const main=document.getElementById('echoMainStat');main.replaceChildren();
+    echoMainOptions(item.cost).forEach(option=>{
+      const node=document.createElement('option');node.value=option.name;node.textContent=option.name+' — '+echoStatValueText(option.name,option.value);node.selected=option.name===card.mainStat.name;main.appendChild(node);
+    });
+    main.onchange=()=>{
+      const option=echoMainOptions(item.cost).find(value=>value.name===main.value);if(!option)return;
+      this.editorDraft.mainStat={name:option.name,value:option.value};this.syncEquipAction();
+    };
+    const secondary=echoSecondary(item.cost);document.getElementById('echoSecondaryMainStat').textContent=secondary?secondary.name+' — '+echoStatValueText(secondary.name,secondary.value):'—';
+
+    const host=document.getElementById('echoSubstats');host.replaceChildren();
+    const used=new Set(card.substats.map(roll=>roll.name));
+    for(let index=0;index<echoStatContract.maxSubstats;index++){
+      const row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
+      const nameSelect=document.createElement('select');nameSelect.setAttribute('aria-label','Substat '+(index+1)+' name');
+      const blank=document.createElement('option');blank.value='';blank.textContent='Substat '+(index+1);nameSelect.appendChild(blank);
+      const current=card.substats[index]||null;
+      echoStatContract.substats.forEach(option=>{
+        const node=document.createElement('option');node.value=option.name;node.textContent=option.name;node.selected=current?.name===option.name;node.disabled=used.has(option.name)&&current?.name!==option.name;nameSelect.appendChild(node);
+      });
+      nameSelect.disabled=index>card.substats.length;
+      const valueSelect=document.createElement('select');valueSelect.setAttribute('aria-label','Substat '+(index+1)+' value');
+      if(current){
+        const option=echoSubstatOption(current.name);
+        option.values.forEach(value=>{const node=document.createElement('option');node.value=String(value);node.textContent=echoStatValueText(current.name,value);node.selected=echoExact(value,current.value);valueSelect.appendChild(node)});
+      }else{
+        const node=document.createElement('option');node.value='';node.textContent='Value';valueSelect.appendChild(node);valueSelect.disabled=true;
+      }
+      nameSelect.onchange=()=>{
+        const next=[...this.editorDraft.substats];
+        if(!nameSelect.value)next.splice(index,1);
+        else{
+          const option=echoSubstatOption(nameSelect.value);if(!option?.values?.length)return;
+          const roll={name:option.name,value:option.values[0]};
+          if(index<next.length)next[index]=roll;else next.push(roll);
+        }
+        this.editorDraft.substats=next.slice(0,echoStatContract.maxSubstats);this.renderEditor();this.syncEquipAction();
+      };
+      valueSelect.onchange=()=>{
+        const roll=this.editorDraft.substats[index];if(!roll)return;
+        const option=echoSubstatOption(roll.name);const value=Number(valueSelect.value);
+        if(!option?.values.some(candidate=>echoExact(candidate,value)))return;
+        this.editorDraft.substats[index]={name:roll.name,value};this.syncEquipAction();
+      };
+      row.append(nameSelect,valueSelect);host.appendChild(row);
+    }
+    this.syncEquipAction();
+  },
+  setPreview(item,committed=null){
+    this.previewId=item.id;this.editorDraft=makeEchoStatCard(item,committed);this.renderIdentity(item);
+    this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
+  },
+  select(id){
+    const item=echoById.get(id);if(!item)return;this.setPreview(item,null);
+  },
+  loadTargetCommitted(){
+    const slot=this.currentSlot();const id=echoSlotId(slot);const item=echoById.get(id);
+    if(!item){this.clearPreview();return}
+    this.setPreview(item,isPlainObject(slot)?slot:null);
   },
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
-    const current=this.activeSet().slots?.[this.targetSlot]||null;const alreadyEquipped=!!this.previewId&&current===this.previewId;
-    button.disabled=!this.previewId||alreadyEquipped;button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
+    const item=echoById.get(this.previewId);const reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
+    const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
+    const committed=this.currentSlot();const alreadyEquipped=!reason&&echoCardsEqual(committed,this.editorDraft);
+    button.disabled=!item||!this.editorDraft||!!reason||alreadyEquipped;
+    button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(!Number.isInteger(index)||index<0||index>4)return;this.targetSlot=index;
     const recommendedCost=this.recommendedCost(index);if(recommendedCost)this.filter=String(recommendedCost);
-    this.renderWorkspaceSlots();this.applyFilter();if(this.browser)this.browser.scrollTop=0;this.syncEquipAction();
+    this.renderWorkspaceSlots();this.applyFilter();if(this.browser)this.browser.scrollTop=0;this.loadTargetCommitted();
   },
   async show(index){
-    if(!this.characterName)return;await echoDataReady;if(!echoCatalog.length)return;
+    if(!this.characterName)return;await echoDataReady;if(!echoCatalog.length||!echoStatContract)return;
     this.characterId=characterByName.get(this.characterName)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
     this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;this.currentSets=readEchoSets(this.characterName);
     this.selectedSonataIds=new Set(this.loadoutProfile?.sonataSetIds||[]);
     const recommendedCost=this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
-    this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();
+    this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>this.overlay.classList.add('open'));this.open=true;
   },
   hide(){
     if(!this.open)return;this.open=false;this.overlay.classList.remove('open');this.setSonataMenuOpen(false);this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
   },
   equipPreview(){
-    if(!this.characterName||!this.previewId)return;const current=this.activeSet().slots?.[this.targetSlot]||null;if(current===this.previewId)return;
-    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.previewId);this.renderBuildSlots();this.renderWorkspaceSlots();this.syncEquipAction();
+    if(!this.characterName||!this.previewId||!this.editorDraft)return;
+    const item=echoById.get(this.previewId);const reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
+    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.renderEditor();this.syncEquipAction();
   }
 };
 

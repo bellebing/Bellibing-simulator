@@ -80,6 +80,18 @@ export const SUBSTAT_VALUE_PROBABILITIES: Readonly<Record<string, readonly numbe
   'Liberation DMG': genericEightProbabilities,
 };
 
+const SUBSTAT_ROLL_EPSILON = 1e-12;
+
+export function assertExactRank5SubstatRoll(roll: StatRoll): void {
+  if (!roll || !SUBSTAT_TYPES.includes(roll.name)) {
+    throw new RangeError(`Unknown Echo substat: ${roll?.name ?? 'missing'}.`);
+  }
+  const values = SUBSTAT_VALUE_TABLE[roll.name];
+  if (!values?.some((value) => Math.abs(value - roll.value) <= SUBSTAT_ROLL_EPSILON)) {
+    throw new RangeError(`${roll.name} value ${roll.value} is not an exact verified Rank-5 roll value.`);
+  }
+}
+
 /**
  * Rank-5 cumulative spend to reach each tuning checkpoint from +0.
  *

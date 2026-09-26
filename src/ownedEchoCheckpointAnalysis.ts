@@ -1,6 +1,7 @@
 import {
   SUBSTAT_TYPES,
   SUBSTAT_VALUE_TABLE,
+  assertExactRank5SubstatRoll,
   createRank5EchoAtLevel0,
   nextCheckpoint,
   withRank5MainStatsAtLevel,
@@ -46,7 +47,6 @@ export interface OwnedEchoCheckpointResult {
 }
 
 export const OWNED_ECHO_CHECKPOINT_LEVELS: readonly OwnedEchoCheckpointLevel[] = [5, 10, 15, 20, 25] as const;
-const EPSILON = 1e-12;
 
 export function listOwnedEchoRollOptions(): readonly OwnedEchoRollOption[] {
   return SUBSTAT_TYPES.map((name) => ({
@@ -62,11 +62,7 @@ function assertCheckpointLevel(level: number): asserts level is OwnedEchoCheckpo
 }
 
 export function assertExactOwnedEchoRoll(roll: StatRoll): void {
-  if (!SUBSTAT_TYPES.includes(roll.name)) throw new RangeError(`Unknown Echo substat: ${roll.name}.`);
-  const values = SUBSTAT_VALUE_TABLE[roll.name];
-  if (!values?.some((value) => Math.abs(value - roll.value) <= EPSILON)) {
-    throw new RangeError(`${roll.name} value ${roll.value} is not an exact verified Rank-5 roll value.`);
-  }
+  assertExactRank5SubstatRoll(roll);
 }
 
 function resolveOwnedEchoInput(input: OwnedEchoCheckpointInput): {

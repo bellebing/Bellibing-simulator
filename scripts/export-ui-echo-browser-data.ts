@@ -3,6 +3,14 @@ import { dirname, resolve } from 'node:path';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import {
+  ECHO_STATS_EDITOR_LEVEL,
+  ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  ECHO_STATS_EDITOR_RANK,
+  getEchoStatsEditorSecondaryMainStat,
+  listEchoStatsEditorMainStatOptions,
+  listEchoStatsEditorSubstatOptions,
+} from '../src/echoStatEditor.ts';
 
 const defaultOutput = 'docs/ui-prototypes/assets/echoes/browser-data.json';
 const check = process.argv.includes('--check');
@@ -11,6 +19,14 @@ const output = resolve(outputArg >= 0 ? process.argv[outputArg + 1] : defaultOut
 
 const releasedEchoes = ECHO_CATALOG.filter((echo) => echo.releaseStatus === 'RELEASED');
 const loadoutProfiles = projectVerifiedEchoWorkspaceLoadoutProfiles();
+const statEditor = {
+  rank: ECHO_STATS_EDITOR_RANK,
+  level: ECHO_STATS_EDITOR_LEVEL,
+  maxSubstats: ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  mainStatsByCost: Object.fromEntries(([1, 3, 4] as const).map((cost) => [String(cost), listEchoStatsEditorMainStatOptions(cost)])),
+  secondaryMainStatsByCost: Object.fromEntries(([1, 3, 4] as const).map((cost) => [String(cost), getEchoStatsEditorSecondaryMainStat(cost)])),
+  substats: listEchoStatsEditorSubstatOptions(),
+};
 const referencedSonataIds = new Set([
   ...releasedEchoes.flatMap((echo) => echo.sonataSetIds),
   ...loadoutProfiles.flatMap((profile) => profile.sonataSetIds),
@@ -53,8 +69,10 @@ const payload = {
     'src/data/sonatas.ts#SONATA_CATALOG',
     'src/data/echoLoadoutProfiles.ts#ECHO_LOADOUT_PROFILES',
     'docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets',
+    'src/echoStatEditor.ts',
   ],
   loadoutProfiles,
+  statEditor,
   echoes: releasedEchoes.map((echo) => ({
     id: echo.id,
     name: echo.name,
@@ -74,7 +92,7 @@ if (check) {
     console.error('Run: node --experimental-strip-types scripts/export-ui-echo-browser-data.ts');
     process.exit(1);
   }
-  console.log(`Canonical Echo browser data verified: ${payload.echoes.length} released Echoes / ${payload.sonataSets.length} referenced Sonata sets / ${payload.loadoutProfiles.length} verified loadout profiles.`);
+  console.log(`Canonical Echo browser data verified: ${payload.echoes.length} released Echoes / ${payload.sonataSets.length} referenced Sonata sets / ${payload.loadoutProfiles.length} verified loadout profiles / source-backed Rank-5 stat editor contract.`);
 } else {
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, serialized);

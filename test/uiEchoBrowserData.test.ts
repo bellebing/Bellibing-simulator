@@ -5,6 +5,14 @@ import test from 'node:test';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import {
+  ECHO_STATS_EDITOR_LEVEL,
+  ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  ECHO_STATS_EDITOR_RANK,
+  getEchoStatsEditorSecondaryMainStat,
+  listEchoStatsEditorMainStatOptions,
+  listEchoStatsEditorSubstatOptions,
+} from '../src/echoStatEditor.ts';
 
 type BrowserEcho = {
   id: string;
@@ -31,6 +39,14 @@ const browserData = JSON.parse(
     slotCosts: (1 | 3 | 4)[];
     sonataSetIds: string[];
   }[];
+  statEditor: {
+    rank: number;
+    level: number;
+    maxSubstats: number;
+    mainStatsByCost: Record<string, { name: string; value: number }[]>;
+    secondaryMainStatsByCost: Record<string, { name: string; value: number }>;
+    substats: { name: string; values: number[] }[];
+  };
   sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
 };
 
@@ -135,4 +151,17 @@ test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', (
   assert.equal(workspaceHtml.includes('augusta-standard-echoes'), false);
   assert.equal(workspaceHtml.includes("['sonata-20','sonata-3']"), false);
   assert.equal(workspaceHtml.includes('[4,3,3,1,1]'), false);
+});
+
+
+test('Echo browser exports the source-backed Echo Stats Editor contract', () => {
+  assert.equal(browserData.statEditor.rank, ECHO_STATS_EDITOR_RANK);
+  assert.equal(browserData.statEditor.level, ECHO_STATS_EDITOR_LEVEL);
+  assert.equal(browserData.statEditor.maxSubstats, ECHO_STATS_EDITOR_MAX_SUBSTATS);
+  for (const cost of [1, 3, 4] as const) {
+    assert.deepEqual(browserData.statEditor.mainStatsByCost[String(cost)], listEchoStatsEditorMainStatOptions(cost));
+    assert.deepEqual(browserData.statEditor.secondaryMainStatsByCost[String(cost)], getEchoStatsEditorSecondaryMainStat(cost));
+  }
+  assert.deepEqual(browserData.statEditor.substats, listEchoStatsEditorSubstatOptions());
+  assert.ok(browserData.generatedFrom.includes('src/echoStatEditor.ts'));
 });

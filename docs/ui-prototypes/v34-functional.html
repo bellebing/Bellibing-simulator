@@ -178,40 +178,60 @@
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
 .echo-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
-.echo-preview-shell{height:100%;min-height:0;display:flex;flex-direction:column;opacity:0;pointer-events:none}
+.echo-preview-shell{height:100%;min-height:0;display:grid;grid-template-rows:minmax(156px,1fr) auto auto;opacity:0;pointer-events:none}
 .echo-panel.has-preview .echo-preview-empty{display:none}
 .echo-panel.has-preview .echo-preview-shell{opacity:1;pointer-events:auto}
-.echo-preview-hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(112px,.82fr);gap:10px;align-items:start;min-width:0}
-.echo-preview-sonata-assignment{min-width:0;padding-top:2px;text-align:left}
-.echo-preview-meta-label{display:block;color:#747c87;font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-.echo-preview-sonata-choices{display:grid;gap:3px;margin-top:4px}
-.echo-preview-sonata-option{width:100%;min-width:0;min-height:25px;padding:2px 5px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#151920;color:#bfc5cc;display:grid;grid-template-columns:19px minmax(0,1fr);align-items:center;gap:5px;font-size:9px;text-align:left;cursor:pointer}
-.echo-preview-sonata-option img{width:19px;height:19px;object-fit:contain}
-.echo-preview-sonata-option span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5;box-shadow:0 0 0 1px rgba(224,187,109,.10)}
-.echo-preview-sonata-option:disabled{cursor:default;opacity:1}
-.echo-preview-identity{min-width:0;display:grid;justify-items:center;align-content:start;text-align:center}
-.echo-preview-art{display:block;width:92px;height:82px;max-width:100%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
+.echo-preview-hero{min-width:0;min-height:0;display:flex;flex-direction:column;gap:7px}
 .echo-preview-copy{min-width:0;width:100%;text-align:center}
-.echo-preview-copy h3{margin:0 0 4px;font-family:var(--font-display);font-size:20px;font-weight:400;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-preview-copy h3{margin:0 0 4px;font-family:var(--font-display);font-size:20px;font-weight:400;line-height:1.08;white-space:normal;overflow-wrap:anywhere}
 .echo-preview-meta-line{display:flex;align-items:center;justify-content:center;gap:8px;color:#9da4ad;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
 .echo-preview-cost-stars{color:#d8af57;font-size:11px;letter-spacing:-.04em}
-.echo-editor{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-preview-context{min-width:0;min-height:0;flex:1;display:grid;grid-template-columns:minmax(110px,1.04fr) minmax(122px,.96fr);gap:10px;align-items:center}
+.echo-preview-art-region{min-width:0;height:100%;display:grid;place-items:center}
+.echo-preview-art{display:block;width:min(132px,100%);height:min(132px,100%);min-height:92px;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
+.echo-preview-sonata-assignment{min-width:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center;text-align:left}
+.echo-preview-meta-label{display:block;color:#747c87;font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.echo-preview-sonata-choices{display:grid;gap:4px;margin-top:4px}
+.echo-preview-sonata-option{width:100%;min-width:0;min-height:28px;padding:3px 5px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#151920;color:#bfc5cc;display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;gap:5px;font-size:9px;line-height:1.12;text-align:left;cursor:pointer}
+.echo-preview-sonata-option img{width:20px;height:20px;object-fit:contain}
+.echo-preview-sonata-option span{min-width:0;white-space:normal;overflow-wrap:anywhere}
+.echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5;box-shadow:0 0 0 1px rgba(224,187,109,.10)}
+.echo-preview-sonata-option:disabled{cursor:default;opacity:1}
+.echo-editor{padding-top:6px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
 .echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
 .echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .echo-main-stat-field{margin-bottom:5px}
 .echo-main-stat-field>label{color:#a98a50}
-.echo-editor select{width:100%;min-width:0;height:29px;padding:4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px}
-#echoMainStat{height:38px;padding:4px 28px 4px 8px;border:0;border-bottom:1px solid rgba(224,187,109,.46);border-radius:0;background:rgba(224,187,109,.045);color:#f2e6cf;font-size:15px;font-weight:800;line-height:1.1}
-.echo-editor select:disabled{color:#707783;background:#11141a}
+.echo-main-stat-controls{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(0,.78fr);gap:5px}
 .echo-secondary-field{margin-bottom:5px}
-.echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35}
+.echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:baseline}
+.echo-secondary-name{min-width:0}
+.echo-secondary-number{font-variant-numeric:tabular-nums;color:#f0e8d8}
 .echo-substats-label{display:block;margin-top:1px}
 .echo-substats{display:grid;gap:4px;margin-top:4px}
 .echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
+.bb-combobox{position:relative;min-width:0}
+.bb-combobox-trigger{position:relative;width:100%;min-width:0;min-height:29px;padding:4px 22px 4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px;line-height:1.08;text-align:left;display:flex;align-items:center;cursor:pointer}
+.bb-combobox-trigger::after{content:'▾';position:absolute;right:7px;top:50%;transform:translateY(-50%);color:#858c96;font-size:9px;transition:transform .14s ease-out}
+.bb-combobox.is-open>.bb-combobox-trigger::after{transform:translateY(-50%) rotate(180deg)}
+.bb-combobox-trigger:focus-visible{outline:1px solid rgba(224,187,109,.82);outline-offset:1px}
+.bb-combobox-value{min-width:0;white-space:normal;overflow-wrap:anywhere}
+.bb-combobox.is-main .bb-combobox-trigger{min-height:38px;padding:5px 24px 5px 8px;border-color:rgba(224,187,109,.28);background:rgba(224,187,109,.055);color:#f2e6cf;font-size:14px;font-weight:800}
+.bb-combobox.is-deterministic .bb-combobox-trigger{border-color:rgba(224,187,109,.18);color:#d9c79f}
+.bb-combobox.is-deterministic .bb-combobox-trigger::after{opacity:.48}
+.bb-combobox.is-disabled .bb-combobox-trigger{cursor:default;color:#656c76;background:#11141a}
+.bb-combobox.is-disabled .bb-combobox-trigger::after{opacity:.28}
+.bb-combobox-listbox{position:absolute;z-index:48;left:0;right:0;top:calc(100% + 4px);max-height:170px;padding:4px;border:1px solid rgba(255,255,255,.14);border-radius:9px;background:rgba(12,15,20,.985);box-shadow:0 14px 30px rgba(0,0,0,.56);backdrop-filter:blur(5px) saturate(.9);overflow:auto}
+.bb-combobox.opens-up>.bb-combobox-listbox{top:auto;bottom:calc(100% + 4px)}
+.bb-combobox-listbox[hidden]{display:none}
+.bb-combobox-option{width:100%;min-width:0;min-height:27px;padding:5px 6px;border:0;border-radius:6px;background:transparent;color:#cfd4db;font:inherit;font-size:9.5px;line-height:1.15;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.bb-combobox-option:hover,.bb-combobox-option:focus-visible{outline:0;background:rgba(255,255,255,.08);color:#fff}
+.bb-combobox-option[aria-selected="true"]{background:#201d17;color:#f2e8d5;box-shadow:inset 0 0 0 1px rgba(224,187,109,.36)}
+.bb-combobox-option:disabled{cursor:default;color:#5f6670;background:transparent}
 .echo-editor-error{min-height:0;margin:0;color:#d89090;font-size:9px;line-height:1.25}
 .echo-editor-error:not(:empty){min-height:12px;margin-top:4px}
-.echo-equip{display:block;margin-top:8px;width:100%;padding:10px 14px;border:1px solid rgba(207,166,84,.44);border-radius:11px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
+.echo-preview-footer{padding-top:7px;align-self:end}
+.echo-equip{display:block;margin:0;width:100%;padding:10px 14px;border:1px solid rgba(207,166,84,.44);border-radius:11px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
 .echo-equip:disabled{cursor:default;background:#15181d;border-color:rgba(255,255,255,.10);color:#747b85}
 @media(max-width:760px){
   .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
@@ -227,7 +247,12 @@
   .echo-workspace-slot img{width:25px;height:25px}
   .echo-main{grid-template-columns:1fr;height:auto;min-height:0}
   .echo-browser{height:42dvh;min-height:280px}
-  .echo-preview-pane{min-height:410px;overflow:auto}
+  .echo-preview-pane{min-height:440px;overflow:auto}
+  .echo-preview-shell{height:auto;min-height:100%;grid-template-rows:auto auto auto}
+  .echo-preview-hero{min-height:172px}
+  .echo-preview-context{grid-template-columns:minmax(118px,1fr) minmax(142px,1fr)}
+  .echo-preview-art{width:min(140px,100%);height:132px}
+  .bb-combobox-listbox{max-height:160px}
   .echo-choices{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
 }
 
@@ -303,23 +328,23 @@
         <div class="echo-preview-empty"><strong>Preview</strong><p>Select an Echo to inspect it here.</p></div>
         <div class="echo-preview-shell">
           <div class="echo-preview-hero">
-            <div class="echo-preview-sonata-assignment"><span class="echo-preview-meta-label">Sonata</span><div id="echoPreviewSonataChoices" class="echo-preview-sonata-choices" role="group" aria-label="Owned Echo Sonata assignment"></div></div>
-            <div class="echo-preview-identity">
-              <img id="echoPreviewArt" class="echo-preview-art" alt="">
-              <div class="echo-preview-copy">
-                <h3 id="echoPreviewName">Echo</h3>
-                <div class="echo-preview-meta-line"><span id="echoPreviewCostStars" class="echo-preview-cost-stars">★</span><span id="echoPreviewLevel">Level +0</span></div>
-              </div>
+            <div class="echo-preview-copy">
+              <h3 id="echoPreviewName">Echo</h3>
+              <div class="echo-preview-meta-line"><span id="echoPreviewCostStars" class="echo-preview-cost-stars">★</span><span id="echoPreviewLevel">Level +0</span></div>
+            </div>
+            <div class="echo-preview-context">
+              <div class="echo-preview-art-region"><img id="echoPreviewArt" class="echo-preview-art" alt=""></div>
+              <div class="echo-preview-sonata-assignment"><span class="echo-preview-meta-label">Sonata</span><div id="echoPreviewSonataChoices" class="echo-preview-sonata-choices" role="group" aria-label="Owned Echo Sonata assignment"></div></div>
             </div>
           </div>
           <div class="echo-editor" aria-label="Echo stat editor">
-            <div class="echo-editor-field echo-main-stat-field"><label for="echoMainStat">MAIN STAT</label><select id="echoMainStat"></select></div>
-            <div class="echo-editor-field echo-secondary-field"><label for="echoSecondaryMainStat">Secondary Stat</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
+            <div class="echo-editor-field echo-main-stat-field"><label>MAIN STAT</label><div id="echoMainStat" class="echo-main-stat-controls"></div></div>
+            <div class="echo-editor-field echo-secondary-field"><label for="echoSecondaryMainStat">SECONDARY STAT</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
             <span class="echo-substats-label">Substats 1–5</span>
             <div id="echoSubstats" class="echo-substats"></div>
             <div id="echoEditorError" class="echo-editor-error" role="status"></div>
-            <button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button>
           </div>
+          <div class="echo-preview-footer"><button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button></div>
         </div>
       </aside>
     </div>
@@ -681,6 +706,62 @@ function makeEchoStatCard(item,selectedSonataSetId,committed=null){
 }
 const echoCardsEqual=(a,b)=>isPlainObject(a)&&isPlainObject(b)&&JSON.stringify(a)===JSON.stringify(b);
 
+function setBellibingComboboxOpen(root,open,{focusOption=false}={}){
+  if(!root)return;
+  const trigger=root.querySelector('.bb-combobox-trigger'),list=root.querySelector('.bb-combobox-listbox');
+  if(!trigger||!list||root.classList.contains('is-disabled'))return;
+  if(open){
+    document.querySelectorAll('.bb-combobox.is-open').forEach(other=>{if(other!==root)setBellibingComboboxOpen(other,false)});
+    root.classList.add('is-open');list.hidden=false;trigger.setAttribute('aria-expanded','true');
+    requestAnimationFrame(()=>{
+      const pane=root.closest('.echo-preview-pane'),rr=root.getBoundingClientRect(),pr=pane?.getBoundingClientRect(),needed=Math.min(170,list.scrollHeight+8);
+      root.classList.toggle('opens-up',!!pr&&(pr.bottom-rr.bottom<needed)&&(rr.top-pr.top>pr.bottom-rr.bottom));
+      if(focusOption){
+        const options=[...list.querySelectorAll('.bb-combobox-option:not(:disabled)')],selected=options.find(option=>option.getAttribute('aria-selected')==='true')||options[0];
+        selected?.focus({preventScroll:true});
+      }
+    });
+  }else{
+    root.classList.remove('is-open','opens-up');list.hidden=true;trigger.setAttribute('aria-expanded','false');
+  }
+}
+function makeBellibingCombobox({id,ariaLabel,value,options,onSelect,placeholder='Select',variant='',disabled=false,deterministic=false}){
+  const root=document.createElement('div');root.className='bb-combobox'+(variant?' '+variant:'')+(disabled?' is-disabled':'')+(deterministic?' is-deterministic':'');root.dataset.comboboxId=id;root.dataset.value=value==null?'':String(value);
+  const trigger=document.createElement('button');trigger.type='button';trigger.id=id+'-trigger';trigger.className='bb-combobox-trigger';trigger.setAttribute('role','combobox');trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');trigger.setAttribute('aria-controls',id+'-listbox');trigger.setAttribute('aria-label',ariaLabel);if(disabled){trigger.disabled=true;trigger.setAttribute('aria-disabled','true')}
+  const normalized=options.map(option=>typeof option==='object'&&option!==null?option:{value:option,label:String(option)});
+  const same=(candidate)=>String(candidate??'')===String(value??'');
+  const selected=normalized.find(option=>same(option.value));
+  const display=document.createElement('span');display.className='bb-combobox-value';display.textContent=selected?.label??placeholder;trigger.appendChild(display);
+  const list=document.createElement('div');list.id=id+'-listbox';list.className='bb-combobox-listbox';list.setAttribute('role','listbox');list.setAttribute('aria-label',ariaLabel+' options');list.hidden=true;
+  normalized.forEach((option,index)=>{
+    const button=document.createElement('button');button.type='button';button.id=id+'-option-'+index;button.className='bb-combobox-option';button.dataset.bbValue=String(option.value??'');button.setAttribute('role','option');button.setAttribute('aria-selected',String(same(option.value)));button.textContent=option.label;button.disabled=!!option.disabled;
+    button.addEventListener('click',()=>{if(button.disabled)return;setBellibingComboboxOpen(root,false);onSelect?.(option.value)});
+    button.addEventListener('keydown',event=>{
+      const enabled=[...list.querySelectorAll('.bb-combobox-option:not(:disabled)')],current=enabled.indexOf(button);
+      if(event.key==='ArrowDown'||event.key==='ArrowUp'||event.key==='Home'||event.key==='End'){
+        event.preventDefault();let next=current;
+        if(event.key==='ArrowDown')next=(current+1)%enabled.length;
+        if(event.key==='ArrowUp')next=(current-1+enabled.length)%enabled.length;
+        if(event.key==='Home')next=0;if(event.key==='End')next=enabled.length-1;
+        enabled[next]?.focus({preventScroll:true});
+      }else if(event.key==='Escape'){event.preventDefault();setBellibingComboboxOpen(root,false);trigger.focus({preventScroll:true})}
+    });
+    list.appendChild(button);
+  });
+  trigger.addEventListener('click',()=>setBellibingComboboxOpen(root,!root.classList.contains('is-open')));
+  trigger.addEventListener('keydown',event=>{
+    if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();setBellibingComboboxOpen(root,true,{focusOption:true})}
+    else if(event.key==='Escape'){event.preventDefault();setBellibingComboboxOpen(root,false)}
+  });
+  root.addEventListener('focusout',()=>setTimeout(()=>{if(root.isConnected&&!root.contains(document.activeElement))setBellibingComboboxOpen(root,false)},0));
+  root.append(trigger,list);
+  return root;
+}
+document.addEventListener('pointerdown',event=>{
+  const inside=event.target?.closest?.('.bb-combobox')||null;
+  document.querySelectorAll('.bb-combobox.is-open').forEach(root=>{if(root!==inside)setBellibingComboboxOpen(root,false)});
+},true);
+
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
   characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),sonataMenuOpen:false,open:false,lastFocus:null,choiceById:new Map(),
@@ -819,7 +900,7 @@ const echoUi={
     const level=document.getElementById('echoPreviewLevel');if(level)level.textContent='Level +0';
     document.getElementById('echoPreviewSonataChoices')?.replaceChildren();
     document.getElementById('echoMainStat')?.replaceChildren();document.getElementById('echoSubstats')?.replaceChildren();
-    const secondary=document.getElementById('echoSecondaryMainStat');if(secondary)secondary.textContent='—';
+    const secondary=document.getElementById('echoSecondaryMainStat');if(secondary){secondary.replaceChildren();secondary.textContent='—'}
     const error=document.getElementById('echoEditorError');if(error)error.textContent='';
     this.syncEquipAction();
   },
@@ -848,27 +929,52 @@ const echoUi={
   renderEditor(){
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
-    const main=document.getElementById('echoMainStat');main.replaceChildren();
-    echoMainOptions(item.cost,card.level).forEach(option=>{
-      const node=document.createElement('option');node.value=option.name;node.textContent=option.name+' — '+echoStatValueText(option.name,option.value);node.selected=option.name===card.mainStat.name;main.appendChild(node);
+    const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
+    const mainOptions=echoMainOptions(item.cost,card.level),currentMain=mainOptions.find(option=>option.name===card.mainStat.name)||mainOptions[0];
+    const mainName=makeBellibingCombobox({
+      id:'echoMainStatName',ariaLabel:'Main Stat name',value:currentMain.name,variant:'is-main',
+      options:mainOptions.map(option=>({value:option.name,label:option.name})),
+      onSelect:(name)=>{const option=echoMainOptions(item.cost,card.level).find(candidate=>candidate.name===name);if(!option)return;card.mainStat={name:option.name,value:option.value};this.renderEditor();this.syncEquipAction()}
     });
-    main.onchange=()=>{const option=echoMainOptions(item.cost,card.level).find(value=>value.name===main.value);if(!option)return;card.mainStat={name:option.name,value:option.value};this.syncEquipAction()};
-    const secondary=echoSecondary(item.cost,card.level);document.getElementById('echoSecondaryMainStat').textContent=secondary?secondary.name+' — '+echoStatValueText(secondary.name,secondary.value):'—';
+    const mainValue=makeBellibingCombobox({
+      id:'echoMainStatValue',ariaLabel:'Main Stat value',value:String(currentMain.value),variant:'is-main',deterministic:true,
+      options:[{value:String(currentMain.value),label:echoStatValueText(currentMain.name,currentMain.value)}],
+      onSelect:()=>{}
+    });
+    mainHost.append(mainName,mainValue);
+
+    const secondary=echoSecondary(item.cost,card.level),secondaryHost=document.getElementById('echoSecondaryMainStat');secondaryHost.replaceChildren();
+    if(secondary){
+      const name=document.createElement('span');name.className='echo-secondary-name';name.textContent=secondary.name;
+      const value=document.createElement('span');value.className='echo-secondary-number';value.textContent=echoStatValueText(secondary.name,secondary.value);
+      secondaryHost.append(name,value);
+    }else secondaryHost.textContent='—';
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
     const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
     for(let index=0;index<echoStatContract.maxSubstats;index++){
       const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
-      const nameSelect=document.createElement('select');nameSelect.setAttribute('aria-label','Substat '+(index+1)+' name');
-      const blank=document.createElement('option');blank.value='';blank.textContent='Substat '+(index+1);nameSelect.appendChild(blank);
-      echoStatContract.substats.forEach(option=>{const node=document.createElement('option');node.value=option.name;node.textContent=option.name;node.selected=current?.name===option.name;node.disabled=used.has(option.name)&&current?.name!==option.name;nameSelect.appendChild(node)});
-      const valueSelect=document.createElement('select');valueSelect.setAttribute('aria-label','Substat '+(index+1)+' value');
-      const valueBlank=document.createElement('option');valueBlank.value='';valueBlank.textContent='Value';valueSelect.appendChild(valueBlank);
-      if(current?.name){const option=echoSubstatOption(current.name);option?.values.forEach(value=>{const node=document.createElement('option');node.value=String(value);node.textContent=echoStatValueText(current.name,value);node.selected=echoExact(value,current.value);valueSelect.appendChild(node)})}
-      valueSelect.disabled=!current?.name;
-      nameSelect.onchange=()=>{if(!nameSelect.value)this.editorSubstatRows[index]=null;else this.editorSubstatRows[index]={name:nameSelect.value,value:current?.name===nameSelect.value?current.value:null};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction()};
-      valueSelect.onchange=()=>{const rowState=this.editorSubstatRows[index];if(!rowState?.name)return;const option=echoSubstatOption(rowState.name),value=valueSelect.value===''?null:Number(valueSelect.value);if(value!==null&&!option?.values.some(candidate=>echoExact(candidate,value)))return;this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction()};
-      row.append(nameSelect,valueSelect);host.appendChild(row);
+      const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name,disabled:used.has(option.name)&&current?.name!==option.name}))];
+      const nameCombo=makeBellibingCombobox({
+        id:'echoSubstat'+index+'Name',ariaLabel:'Substat '+(index+1)+' name',value:current?.name||'',options:nameOptions,
+        onSelect:(nextName)=>{
+          if(!nextName)this.editorSubstatRows[index]=null;
+          else this.editorSubstatRows[index]={name:nextName,value:current?.name===nextName?current.value:null};
+          this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+        }
+      });
+      const option=current?.name?echoSubstatOption(current.name):null;
+      const valueOptions=[{value:'',label:'Value'},...(option?.values||[]).map(value=>({value:String(value),label:echoStatValueText(current.name,value)}))];
+      const valueCombo=makeBellibingCombobox({
+        id:'echoSubstat'+index+'Value',ariaLabel:'Substat '+(index+1)+' value',value:current?.value==null?'':String(current.value),options:valueOptions,disabled:!current?.name,
+        onSelect:(nextValue)=>{
+          const rowState=this.editorSubstatRows[index];if(!rowState?.name)return;
+          const source=echoSubstatOption(rowState.name),value=nextValue===''?null:Number(nextValue);
+          if(value!==null&&!source?.values.some(candidate=>echoExact(candidate,value)))return;
+          this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+        }
+      });
+      row.append(nameCombo,valueCombo);host.appendChild(row);
     }
     this.syncEquipAction();
   },

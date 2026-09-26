@@ -67,7 +67,16 @@ async function navigate(send) {
     if (ready) return;
     await sleep(100);
   }
-  throw new Error('UI preview did not become ready.');
+  const diagnostic=await evaluate(send,`(() => ({
+    href:location.href,
+    title:document.title,
+    readyState:document.readyState,
+    homeCards:document.querySelectorAll('#homeStage .home-card').length,
+    body:document.body?.innerText?.slice(0,240)||'',
+    characterManifestError:document.documentElement.dataset.characterManifestError||null,
+    weaponCatalogError:document.documentElement.dataset.weaponCatalogError||null
+  }))()`).catch(error=>({evaluationError:String(error)}));
+  throw new Error('UI preview did not become ready: '+JSON.stringify(diagnostic));
 }
 
 async function setViewport(send, width, height) {

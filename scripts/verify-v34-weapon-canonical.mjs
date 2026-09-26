@@ -513,6 +513,18 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
   return {character:fresh.selected,type:fresh.expectedType,previewed:opened.four.name,equipped:opened.four.name};
 }
 
+async function verifyOpeningWeaponClickOnly(send,width,height){
+  const touch=width<=760;
+  await waitForUi(send,`document.documentElement.dataset.weaponCatalogReady==='true'&&weaponUi.characterId&&weaponUi.items.length>0`,'Canonical Weapon catalog did not bind for focused click gate',10000);
+  await evaluate(send,`(()=>{const name=buildPicker.selected;if(!name)throw new Error('Build Character missing');delete draft(name).build.weaponId;save();weaponUi.setCharacter(name);return true})()`);
+  await pointerClick(send,'#weaponBtn',{touch});
+  await waitForUi(send,`weaponUi.open&&document.getElementById('weaponOverlay').classList.contains('mounted')&&parseFloat(getComputedStyle(document.getElementById('weaponPanel')).opacity)>0`,'Weapon panel never became visibly interactive',1200);
+  const weaponId=await evaluate(send,`document.querySelector('#weaponChoices .weapon-choice')?.dataset.weaponId||null`);
+  if(!weaponId)throw new Error('Visible Weapon card missing during focused opening-click gate');
+  const audit=await visibleWeaponPointerClick(send,weaponId,{touch,scrollDelay:0,hoverSettleMs:20});
+  return {weaponId,previewId:audit.result.previewId,heroId:audit.result.heroId};
+}
+
 async function capture(send, path) {
   const shot=await send('Page.captureScreenshot',{format:'png',fromSurface:true});
   mkdirSync('artifacts',{recursive:true});
@@ -545,21 +557,39 @@ try{
   try{
     await send('Page.enable');await send('Runtime.enable');
 
-    await setViewport(send,1440,900);await navigate(send);
-    await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-    const desktopCharacter=await selectFocusedCharacterByPointer(send);
-    const desktop=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-canonical-1440x900.png');
+    const clickOnly=process.env.BELLIBING_WEAPON_CLICK_ONLY==='1';
+    if(clickOnly){
+      await setViewport(send,1440,900);await navigate(send);
+      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+      const desktopCharacter=await selectFocusedCharacterByPointer(send);
+      const desktop=await verifyOpeningWeaponClickOnly(send,1440,900);
 
-    await setViewport(send,390,844);await navigate(send);
-    await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-    const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
-    const mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+      await setViewport(send,390,844);await navigate(send);
+      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+      const mobile=await verifyOpeningWeaponClickOnly(send,390,844);
 
-    console.log('v34 canonical Weapon focused verification passed in real Chrome.');
-    console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
-    console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
-    console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on desktop and mobile.');
-    console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
+      console.log('Focused visible Weapon opening-click regression passed in real Chrome.');
+      console.log(`- Desktop 1440x900: ${desktopCharacter}; ${desktop.weaponId} → Preview/hero.`);
+      console.log(`- Mobile 390x844: ${mobileCharacter}; ${mobile.weaponId} → Preview/hero.`);
+      console.log('- pointerdown/up → native click → weaponUi.select → previewId → visible hero all passed while the panel was still opening.');
+    }else{
+      await setViewport(send,1440,900);await navigate(send);
+      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+      const desktopCharacter=await selectFocusedCharacterByPointer(send);
+      const desktop=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-canonical-1440x900.png');
+
+      await setViewport(send,390,844);await navigate(send);
+      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+      const mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+
+      console.log('v34 canonical Weapon focused verification passed in real Chrome.');
+      console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
+      console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
+      console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on desktop and mobile.');
+      console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
+    }
   }finally{socket.close()}
 }catch(error){
   console.error(error);

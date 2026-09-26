@@ -158,6 +158,29 @@ async function verifyManualCostFilter(send, filter) {
   return verifyCurrentBrowserFilter(send, `Manual Cost ${filter}`);
 }
 
+async function assertFixedDock(send, label, active, baseline = null) {
+  const dock = await evaluate(send, `(()=>{
+    const host=document.getElementById('echoWorkspaceSlots'),box=host.getBoundingClientRect();
+    return [...host.children].map(node=>{
+      const rect=node.getBoundingClientRect();
+      return {id:Number(node.dataset.echoTarget),label:node.querySelector('.echo-workspace-slot-copy strong')?.textContent.trim(),active:node.classList.contains('active-target'),pressed:node.getAttribute('aria-pressed'),order:getComputedStyle(node).order,x:rect.left-box.left+host.scrollLeft,y:rect.top-box.top+host.scrollTop,width:rect.width,height:rect.height};
+    });
+  })()`);
+  const ids=dock.map(slot=>slot.id),labels=dock.map(slot=>slot.label);
+  if(JSON.stringify(ids)!==JSON.stringify([0,1,2,3,4])||JSON.stringify(labels)!==JSON.stringify(['Slot 1','Slot 2','Slot 3','Slot 4','Slot 5'])||dock.some((slot,index)=>slot.active!==(index===active)||slot.pressed!==String(index===active)||slot.order!=='0')){
+    throw new Error(`${label} changed dock identity/DOM/CSS order: ${JSON.stringify(dock)}`);
+  }
+  const direction=await evaluate(send,`getComputedStyle(document.getElementById('echoWorkspaceSlots')).flexDirection`);
+  const axis=direction==='column'?'y':direction==='row'?'x':null;
+  if(!axis||dock.some((slot,index)=>index>0&&slot[axis]<=dock[index-1][axis])){
+    throw new Error(`${label} changed visual dock order: ${JSON.stringify({direction,dock})}`);
+  }
+  if(baseline&&dock.some((slot,index)=>['x','y','width','height'].some(key=>Math.abs(slot[key]-baseline[index][key])>1))){
+    throw new Error(`${label} moved a dock socket: ${JSON.stringify({baseline,dock})}`);
+  }
+  return dock;
+}
+
 async function verifyDesktop(send) {
   await setViewport(send, 1440, 900);
   await navigate(send);
@@ -185,7 +208,6 @@ async function verifyDesktop(send) {
       recommendedCosts:[0,1,2,3,4].map(i=>slots.find(x=>x.dataset.echoTarget===String(i))?.dataset.recommendedCost||null),
       costLabels:[0,1,2,3,4].map(i=>slots.find(x=>x.dataset.echoTarget===String(i))?.querySelector('.echo-slot-cost')?.textContent.trim()||null),
       active:slots.filter(x=>x.classList.contains('active-target')).map(x=>Number(x.dataset.echoTarget)),
-      activeHeight:slots[0].getBoundingClientRect().height,otherHeight:slots[1].getBoundingClientRect().height,
       profileId:echoUi.loadoutProfile?.profileId||null,
       characterId:echoUi.characterId,
       filter:echoUi.filter,
@@ -211,7 +233,6 @@ async function verifyDesktop(send) {
     || opened.workspaceSlots !== 5
     || JSON.stringify(opened.indices)!==JSON.stringify([0,1,2,3,4])
     || JSON.stringify(opened.active)!==JSON.stringify([0])
-    || opened.activeHeight<=opened.otherHeight
     || JSON.stringify(opened.recommendedCosts) !== JSON.stringify(['4','3','3','1','1'])
     || JSON.stringify(opened.costLabels) !== JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])
     || opened.profileId !== 'augusta-standard-echoes'
@@ -233,11 +254,13 @@ async function verifyDesktop(send) {
   ) {
     throw new Error(`Augusta Echo Workspace Correction 2B opening contract failed: ${JSON.stringify(opened)}`);
   }
+  const desktopDock=await assertFixedDock(send,'Desktop opening',0);
   await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Build slot did not animate into Echo Workspace');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Workspace close did not return to Build slot');
   await pointerClick(send, '.echo[data-echo-slot="2"]');
-  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&document.querySelector('#echoWorkspaceSlots .echo-workspace-slot')?.dataset.echoTarget==='2'`, 'Build Slot 3 did not promote Slot 3');
+  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&document.querySelector('#echoWorkspaceSlots .echo-workspace-slot.active-target')?.dataset.echoTarget==='2'`, 'Build Slot 3 did not activate Slot 3');
+  await assertFixedDock(send,'Build Slot 3 opening',2,desktopDock);
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
   await pointerClick(send, '.echo[data-echo-slot="0"]');
@@ -260,9 +283,10 @@ async function verifyDesktop(send) {
   for(let slot=0;slot<5;slot++){
     await pointerClick(send, `#echoWorkspaceSlots [data-echo-target="${slot}"]`);
     await waitForUi(send, `echoUi.targetSlot===${slot}&&echoUi.filter===${JSON.stringify(expectedCosts[slot])}`, `Augusta slot ${slot+1} did not apply profile Cost ${expectedCosts[slot]}`);
+    await assertFixedDock(send,`Desktop switch to Slot ${slot+1}`,slot,desktopDock);
     if(slot===1){
       const swap=await evaluate(send,`(()=>({clones:document.querySelectorAll('.echo-motion-clone').length,order:[...document.querySelectorAll('#echoWorkspaceSlots [data-echo-target]')].map(x=>Number(x.dataset.echoTarget)),active:document.querySelector('.echo-workspace-slot.active-target')?.dataset.echoTarget}))()`);
-      if(swap.clones<2||JSON.stringify(swap.order)!==JSON.stringify([1,0,2,3,4])||swap.active!=='1')throw new Error('Slot 1→2 promote/demote motion did not execute: '+JSON.stringify(swap));
+      if(swap.clones<2||JSON.stringify(swap.order)!==JSON.stringify([0,1,2,3,4])||swap.active!=='1')throw new Error('Slot 1→2 promote/demote motion did not execute: '+JSON.stringify(swap));
     }
     await verifyCurrentBrowserFilter(send, `Augusta Slot ${slot+1}`);
   }
@@ -531,8 +555,21 @@ async function verifyDesktop(send) {
     await waitForUi(send, `draft('Augusta').build.echoSets?.sets?.['set-1']?.slots?.[${slot}]?.echoId===${JSON.stringify(id)}&&echoUi.open`, `Continuous Equip failed for slot ${slot+1}`);
   }
 
+  await assertFixedDock(send,'Equipped Slot 5',4,desktopDock);
+  const slot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-visual img')?.getAttribute('src')`);
+  const expectedSlot3Art=await evaluate(send,`echoById.get(${JSON.stringify(committedIds[2])})?.artSrc`);
+  if(slot3Art!==expectedSlot3Art)throw new Error(`Committed Echo left fixed Slot 3 socket: ${JSON.stringify({slot3Art,expectedSlot3Art})}`);
+  await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="2"]');
+  await waitForUi(send,`echoUi.targetSlot===2&&echoUi.previewId===${JSON.stringify(committedIds[2])}`,'Committed Slot 3 did not promote into Preview');
+  await assertFixedDock(send,'Equipped Slot 3 active',2,desktopDock);
+  await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="4"]');
+  await waitForUi(send,`echoUi.targetSlot===4&&echoUi.previewId===${JSON.stringify(committedIds[4])}`,'Committed Slot 5 did not promote into Preview');
+  await assertFixedDock(send,'Equipped Slot 5 active',4,desktopDock);
   await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
   await waitForUi(send, `echoUi.editorDraft?.echoId===${JSON.stringify(firstId)}`, 'Committed slot 1 did not reload into editor');
+  await assertFixedDock(send,'Slot 3 returned after switching to Slot 1',0,desktopDock);
+  const returnedSlot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-visual img')?.getAttribute('src')`);
+  if(returnedSlot3Art!==expectedSlot3Art)throw new Error('Committed Echo did not return to fixed Slot 3 socket');
   const committedBeforeClose=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
   const committedSonata=await evaluate(send,`draft('Augusta').build.echoSets.sets['set-1'].slots[0].selectedSonataSetId`);
   const closeAlternate=await evaluate(send,`echoById.get(${JSON.stringify(firstId)}).sonataSetIds.find(id=>id!==${JSON.stringify(alternateSonata)})||null`);
@@ -624,9 +661,16 @@ async function verifyMobileSmoke(send) {
       detail:document.getElementById('echoPreviewPane').getBoundingClientRect()
     };
   })()`);
-  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])||metrics.first!=='2'||metrics.strip!=='row'||metrics.dock.bottom>metrics.detail.top) {
+  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])||metrics.first!=='0'||metrics.strip!=='row'||metrics.dock.bottom>metrics.detail.top) {
     throw new Error(`Mobile Echo Workspace recommendation/containment failed: ${JSON.stringify(metrics)}`);
   }
+  const mobileDock=await assertFixedDock(send,'Mobile Slot 3 opening',2);
+  await pointerClick(send,'#echoWorkspaceSlots [data-echo-target="4"]');
+  await waitForUi(send,`echoUi.targetSlot===4`,'Mobile Slot 5 did not activate');
+  await assertFixedDock(send,'Mobile switch to Slot 5',4,mobileDock);
+  await pointerClick(send,'#echoWorkspaceSlots [data-echo-target="2"]');
+  await waitForUi(send,`echoUi.targetSlot===2`,'Mobile Slot 3 did not reactivate');
+  await assertFixedDock(send,'Mobile return to Slot 3',2,mobileDock);
   await verifyCurrentBrowserFilter(send, 'Mobile Augusta Slot 3');
   const id = await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
   if(!id)throw new Error('Mobile filtered Echo browser has no result');
@@ -676,7 +720,7 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Correction 2E verification passed in real Chrome.');
+    console.log('v34 Echo Workspace Correction 2F-A verification passed in real Chrome.');
     console.log(`- Desktop: five shared Build slots in promoted dock, canonical Sonata badges, shared-object motion, plain derived Main/Secondary values, five Substats and bottom-anchored Equip passed.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     console.log(`- Mobile 390x844: contained identity + art|Sonata hero, Bellibing controls, scrollable editor and physical Echo Preview passed (${mobile.previewed}).`);

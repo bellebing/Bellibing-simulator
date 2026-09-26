@@ -151,11 +151,10 @@
 .echo-filter.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
 .echo-workspace-slots{min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto;scrollbar-width:thin}
 .echo-workspace-slot{position:relative;min-width:0;min-height:84px;padding:6px 4px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;flex:0 0 auto}
-.echo-workspace-slot.active-target{min-height:126px;border-color:rgba(224,187,109,.7);background:rgba(33,29,23,.94);box-shadow:0 0 0 1px rgba(224,187,109,.13)}
+.echo-workspace-slot.active-target{border-color:rgba(224,187,109,.7);background:rgba(33,29,23,.94);box-shadow:0 0 0 1px rgba(224,187,109,.13)}
 .echo-slot-cost{display:block;color:#c6a35f;font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;line-height:1.1}
 .echo-slot-cost.manual{color:#9299a2}
 .echo-dock-visual{height:42px;width:58px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.09);border-radius:9px;background:#11151c;color:#777;font-size:25px}
-.echo-workspace-slot.active-target .echo-dock-visual{height:69px;width:76px}
 .echo-dock-visual img{width:100%;height:100%;object-fit:contain}
 .echo-workspace-slot-copy strong{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase}
 .echo-main{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.85fr) 96px;gap:14px;flex:1;min-height:0}
@@ -242,9 +241,7 @@
   .echo-filter-bar{justify-content:center}
   .echo-workspace-slots{order:2;flex-direction:row;width:100%;gap:6px;overflow-x:auto;overflow-y:hidden;padding:2px 1px 7px}
   .echo-workspace-slot{width:60px;min-height:76px;padding:4px 2px}
-  .echo-workspace-slot.active-target{width:108px;min-height:91px}
   .echo-dock-visual{height:34px;width:42px}
-  .echo-workspace-slot.active-target .echo-dock-visual{height:49px;width:58px}
   .echo-main{display:flex;flex-direction:column;height:auto;min-height:0;flex:0 0 auto;gap:12px}
   .echo-browser{order:1;height:34dvh;min-height:220px}
   .echo-preview-pane{order:3}
@@ -831,7 +828,7 @@ const echoUi={
     if(!this.workspaceSlots)return;
     const slots=this.activeSet().slots||[];
     this.workspaceSlots.replaceChildren();
-    for(const index of [this.targetSlot,...[0,1,2,3,4].filter(slot=>slot!==this.targetSlot)]){
+    for(let index=0;index<5;index++){
       const item=echoById.get(echoSlotId(slots[index])),recommendedCost=this.recommendedCost(index),cost=recommendedCost??item?.cost;
       const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);
       if(recommendedCost)button.dataset.recommendedCost=String(recommendedCost);else delete button.dataset.recommendedCost;

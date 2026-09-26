@@ -1,6 +1,6 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-26
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
@@ -66,6 +66,20 @@ Use the display face for Home card titles, `What Character?`, Character names an
 Short identifying text is **header-first** on cards/selectors: title/name above the subject/art, not casually moved to the bottom as a footer.
 
 Comparable short labels must not wrap inconsistently. Character names/card titles/headings should remain one line; solve fit through component/group sizing or approved responsive typography rather than splitting only the longer peer label.
+
+## Locked New UI form/control contract
+
+Bellibing owns the complete visual and interaction presentation of user-facing New UI form controls.
+
+- user-facing New UI dropdowns/comboboxes must **not** expose platform-native `<select>` popup UI; collapsed and expanded states use a Bellibing-owned dark custom combobox/listbox presentation;
+- related `stat name` and `stat value` are separate fields/columns, never concatenated into one display such as `Name — Value`;
+- Main Stat uses the same control family as Substats, but with a deliberately stronger/larger primary-stat hierarchy;
+- deterministic or read-only values must not falsely present themselves as freely user-editable; a shared control grammar may expose only the source-valid deterministic option when that is the real domain state;
+- non-interactive derived stats use plain information text, not select/input styling, fake carets or fake edit affordances;
+- artwork/icons and text own separate layout regions and may never visually overlap;
+- important identity names remain readable. Prefer reviewed two-line wrapping when needed instead of truncating the meaningful half of a canonical name.
+
+These rules extend the existing locked reusable selector/detail language below; they do not create a second design system. Panel/action composition and responsive placement are owned by `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Locked product semantics
 

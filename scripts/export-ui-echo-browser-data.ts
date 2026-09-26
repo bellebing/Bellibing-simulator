@@ -4,7 +4,7 @@ import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
 import {
-  ECHO_STATS_EDITOR_LEVEL,
+  ECHO_STATS_EDITOR_LEVELS,
   ECHO_STATS_EDITOR_MAX_SUBSTATS,
   ECHO_STATS_EDITOR_RANK,
   getEchoStatsEditorSecondaryMainStat,
@@ -21,10 +21,26 @@ const releasedEchoes = ECHO_CATALOG.filter((echo) => echo.releaseStatus === 'REL
 const loadoutProfiles = projectVerifiedEchoWorkspaceLoadoutProfiles();
 const statEditor = {
   rank: ECHO_STATS_EDITOR_RANK,
-  level: ECHO_STATS_EDITOR_LEVEL,
+  levels: [...ECHO_STATS_EDITOR_LEVELS],
   maxSubstats: ECHO_STATS_EDITOR_MAX_SUBSTATS,
-  mainStatsByCost: Object.fromEntries(([1, 3, 4] as const).map((cost) => [String(cost), listEchoStatsEditorMainStatOptions(cost)])),
-  secondaryMainStatsByCost: Object.fromEntries(([1, 3, 4] as const).map((cost) => [String(cost), getEchoStatsEditorSecondaryMainStat(cost)])),
+  mainStatsByCostAndLevel: Object.fromEntries(
+    ([1, 3, 4] as const).map((cost) => [
+      String(cost),
+      Object.fromEntries(ECHO_STATS_EDITOR_LEVELS.map((level) => [
+        String(level),
+        listEchoStatsEditorMainStatOptions(cost, level),
+      ])),
+    ]),
+  ),
+  secondaryMainStatsByCostAndLevel: Object.fromEntries(
+    ([1, 3, 4] as const).map((cost) => [
+      String(cost),
+      Object.fromEntries(ECHO_STATS_EDITOR_LEVELS.map((level) => [
+        String(level),
+        getEchoStatsEditorSecondaryMainStat(cost, level),
+      ])),
+    ]),
+  ),
   substats: listEchoStatsEditorSubstatOptions(),
 };
 const referencedSonataIds = new Set([

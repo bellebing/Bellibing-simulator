@@ -120,17 +120,45 @@
 .echo-panel-head{padding-right:52px;text-align:center}
 .echo-panel-head h2{margin:0;font-family:var(--font-display);font-size:34px;font-weight:400}
 .echo-set-label{display:block;margin-top:2px;color:#8d949e;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
-.echo-workspace-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;width:min(560px,72%);margin:12px auto 10px}
-.echo-workspace-slot{position:relative;min-width:0;height:60px;padding:4px 8px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left}
-.echo-workspace-slot.active-target{border-color:rgba(224,187,109,.68);box-shadow:0 0 0 1px rgba(224,187,109,.12)}
-.echo-workspace-slot img{width:42px;height:42px;object-fit:contain;flex:0 0 42px}
-.echo-workspace-slot-copy{min-width:0}
-.echo-workspace-slot-copy strong{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-.echo-workspace-slot-copy small{display:block;margin-top:3px;color:#858c96;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.echo-filter-bar{display:flex;justify-content:center;gap:7px;margin:0 0 10px}
-.echo-filter{padding:7px 12px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(11,14,19,.88);color:#8f96a0;font-size:11px;font-weight:700;cursor:pointer}
+.echo-toolbar{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;align-items:end;margin:10px 0 12px}
+.echo-browser-tools{position:relative;min-width:0;display:flex;align-items:end;gap:10px}
+.echo-sonata-selector{position:relative;min-width:0;flex:1}
+.echo-sonata-toggle{width:100%;min-height:54px;padding:8px 12px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px}
+.echo-sonata-toggle-icon-stack{display:flex;align-items:center;min-width:36px}
+.echo-sonata-toggle-icon-stack img{width:28px;height:28px;object-fit:contain;border-radius:50%;background:#0d1117}
+.echo-sonata-toggle-icon-stack img+img{margin-left:-9px}
+.echo-sonata-toggle-copy{min-width:0;flex:1}
+.echo-sonata-toggle-copy span{display:block;color:#858c96;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.echo-sonata-toggle-copy strong{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
+.echo-sonata-toggle::after{content:'▾';color:#858c96;font-size:13px;transition:transform .16s ease-out}
+.echo-sonata-toggle[aria-expanded="true"]::after{transform:rotate(180deg)}
+.echo-sonata-menu{position:absolute;z-index:12;left:0;top:calc(100% + 7px);width:min(540px,100%);max-height:280px;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:rgba(12,15,20,.98);box-shadow:0 22px 60px rgba(0,0,0,.55);overflow:auto}
+.echo-sonata-menu[hidden]{display:none}
+.echo-sonata-menu-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.echo-sonata-menu-head span{color:#858c96;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.echo-sonata-all{padding:5px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:#171b22;color:#cfd4db;font-size:9px;font-weight:800;cursor:pointer}
+.echo-sonata-all.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
+.echo-sonata-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.echo-sonata-option{min-width:0;padding:6px 8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:#151920;color:#cfd4db;display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer}
+.echo-sonata-option img{width:28px;height:28px;object-fit:contain;flex:0 0 28px}
+.echo-sonata-option span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+.echo-sonata-option.active{border-color:rgba(224,187,109,.62);background:#201d17;color:#f1e6cf}
+.echo-filter-bar{display:flex;gap:5px;flex:0 0 auto}
+.echo-filter{padding:7px 9px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(11,14,19,.88);color:#8f96a0;font-size:10px;font-weight:700;cursor:pointer}
 .echo-filter.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
-.echo-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;height:calc(100% - 154px)}
+.echo-slot-target-shell{min-width:0}
+.echo-slot-target-caption{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 5px;color:#858c96;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.echo-slot-target-mode{font-weight:600;letter-spacing:.05em;color:#6f7782}
+.echo-workspace-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;width:100%;margin:0}
+.echo-workspace-slot{position:relative;min-width:0;height:58px;padding:5px 3px;border:1px solid rgba(255,255,255,.10);border-radius:11px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center}
+.echo-workspace-slot.active-target{border-color:rgba(224,187,109,.68);box-shadow:0 0 0 1px rgba(224,187,109,.12)}
+.echo-slot-cost{display:block;color:#c6a35f;font-size:8px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;line-height:1}
+.echo-slot-cost.manual{color:#747c87}
+.echo-workspace-slot img{width:27px;height:27px;object-fit:contain}
+.echo-workspace-slot-copy{min-width:0;width:100%}
+.echo-workspace-slot-copy strong{display:block;font-size:8px;letter-spacing:.07em;text-transform:uppercase}
+.echo-workspace-slot-copy small{display:none}
+.echo-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;height:calc(100% - 128px)}
 .echo-browser{min-width:0;height:100%;overflow:auto;padding:8px 10px 18px 6px;scrollbar-width:thin}
 .echo-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
 .echo-choice{position:relative;min-width:0;aspect-ratio:.88;padding:9px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:#11151c;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
@@ -162,10 +190,15 @@
 @media(max-width:760px){
   .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
   .echo-overlay.open .echo-panel{transform:translateY(0) scale(1)}
+  .echo-toolbar{grid-template-columns:1fr;gap:9px;margin-top:8px}
+  .echo-browser-tools{align-items:stretch;flex-direction:column}
+  .echo-sonata-toggle{min-height:50px}
+  .echo-sonata-menu{position:relative;top:auto;width:100%;max-height:230px;margin-top:6px}
+  .echo-filter-bar{justify-content:center}
+  .echo-slot-target-shell{order:-1}
   .echo-workspace-slots{width:100%;gap:5px}
-  .echo-workspace-slot{height:54px;justify-content:center;padding:4px}
-  .echo-workspace-slot img{width:38px;height:38px;flex-basis:38px}
-  .echo-workspace-slot-copy small{display:none}
+  .echo-workspace-slot{height:54px;padding:4px 2px}
+  .echo-workspace-slot img{width:25px;height:25px}
   .echo-main{grid-template-columns:1fr;height:auto;min-height:0}
   .echo-browser{height:42dvh;min-height:280px}
   .echo-preview-pane{min-height:410px}
@@ -213,13 +246,30 @@
   <div class="echo-scrim" data-echo-close></div>
   <section id="echoPanel" class="echo-panel" role="dialog" aria-modal="true" aria-labelledby="echoTitle">
     <button id="echoClose" class="echo-close" type="button" aria-label="Close Echo workspace">×</button>
-    <div class="echo-panel-head"><h2 id="echoTitle">Echo Workspace</h2><span class="echo-set-label">Set 1</span></div>
-    <div id="echoWorkspaceSlots" class="echo-workspace-slots" aria-label="Echo slot target"></div>
-    <div class="echo-filter-bar" role="group" aria-label="Echo Cost filters">
-      <button class="echo-filter active" type="button" data-echo-filter="all">All</button>
-      <button class="echo-filter" type="button" data-echo-filter="4">Cost 4</button>
-      <button class="echo-filter" type="button" data-echo-filter="3">Cost 3</button>
-      <button class="echo-filter" type="button" data-echo-filter="1">Cost 1</button>
+    <div class="echo-panel-head"><h2 id="echoTitle">Echo Workspace</h2></div>
+    <div class="echo-toolbar">
+      <div class="echo-browser-tools">
+        <div id="echoSonataSelector" class="echo-sonata-selector">
+          <button id="echoSonataToggle" class="echo-sonata-toggle" type="button" aria-expanded="false" aria-controls="echoSonataMenu">
+            <span id="echoSonataToggleIcons" class="echo-sonata-toggle-icon-stack" aria-hidden="true"></span>
+            <span class="echo-sonata-toggle-copy"><span>Sonata Sets</span><strong id="echoSonataSummary">All Sonata Sets</strong></span>
+          </button>
+          <div id="echoSonataMenu" class="echo-sonata-menu" hidden>
+            <div class="echo-sonata-menu-head"><span>Filter by Sonata Set</span><button id="echoSonataAll" class="echo-sonata-all active" type="button">All</button></div>
+            <div id="echoSonataOptions" class="echo-sonata-options" role="group" aria-label="Sonata Set filters"></div>
+          </div>
+        </div>
+        <div class="echo-filter-bar" role="group" aria-label="Manual Echo Cost filters">
+          <button class="echo-filter active" type="button" data-echo-filter="all">All</button>
+          <button class="echo-filter" type="button" data-echo-filter="4">Cost 4</button>
+          <button class="echo-filter" type="button" data-echo-filter="3">Cost 3</button>
+          <button class="echo-filter" type="button" data-echo-filter="1">Cost 1</button>
+        </div>
+      </div>
+      <div class="echo-slot-target-shell">
+        <div class="echo-slot-target-caption"><span>Target slots</span><span id="echoSlotTargetMode" class="echo-slot-target-mode">Manual Cost</span></div>
+        <div id="echoWorkspaceSlots" class="echo-workspace-slots" aria-label="Echo slot target"></div>
+      </div>
     </div>
     <div class="echo-main">
       <div id="echoBrowser" class="echo-browser"><div id="echoChoices" class="echo-choices"></div></div>

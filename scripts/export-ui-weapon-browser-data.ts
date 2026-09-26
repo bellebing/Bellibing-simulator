@@ -38,8 +38,8 @@ const payload = {
 const serialized = `${JSON.stringify(payload, null, 2)}\n`;
 
 if (check) {
-  const existing = readFileSync(output, 'utf8');
-  if (existing !== serialized) {
+  const existing = JSON.parse(readFileSync(output, 'utf8'));
+  if (JSON.stringify(existing) !== JSON.stringify(payload)) {
     console.error(`Canonical Weapon browser data is stale: ${output}`);
     console.error('Run: node --experimental-strip-types scripts/export-ui-weapon-browser-data.ts');
     process.exit(1);

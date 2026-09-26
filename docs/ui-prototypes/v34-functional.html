@@ -200,7 +200,7 @@ function makeWeaponHero(item){
 }
 const weaponUi={
   overlay:null,panel:null,slotHost:null,previewStage:null,previewPane:null,choices:null,browser:null,scrollRail:null,
-  characterName:null,characterId:null,characterWeaponType:null,items:[],currentId:null,previewId:null,previewLayer:null,choiceById:new Map(),open:false,busy:false,lastFocus:null,
+  characterName:null,characterId:null,characterWeaponType:null,items:[],currentId:null,previewId:null,previewLayer:null,choiceById:new Map(),open:false,busy:false,panelBusy:false,lastFocus:null,
   previewMotion:{incomingFrom:.64,incomingTo:1,outgoingFrom:1,outgoingTo:1.24,outgoingOpacity:0,incomingMs:460,outgoingMs:360},lastPreviewTransition:null,
   init(){
     this.overlay=document.getElementById('weaponOverlay');this.panel=document.getElementById('weaponPanel');
@@ -311,15 +311,16 @@ const weaponUi={
     incoming.cancel();outgoing?.cancel();old?.remove();layer.classList.remove('is-incoming');
   },
   async show(){
-    if(this.open||this.busy||!this.characterId)return;this.busy=true;await weaponDataReady;
-    if(!this.items.length){this.busy=false;return}
+    if(this.open||this.busy||this.panelBusy||!this.characterId)return;this.panelBusy=true;await weaponDataReady;
+    if(!this.items.length){this.panelBusy=false;return}
     this.open=true;this.lastFocus=document.activeElement;
     document.getElementById('weaponBtn').setAttribute('aria-expanded','true');this.clearPreview();this.syncEquipped();await this.reorderChoices({animate:false});
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>{this.overlay.classList.add('open');this.syncScrollbar()});
-    await waitWeaponMotion(WEAPON_MOTION.panel);this.busy=false;document.getElementById('weaponClose').focus();
+    await waitWeaponMotion(WEAPON_MOTION.panel);this.panelBusy=false;
+    if(this.open&&!this.busy)document.getElementById('weaponClose').focus();
   },
   async hide(){
-    if(!this.open||this.busy)return;this.busy=true;this.open=false;document.getElementById('weaponBtn').setAttribute('aria-expanded','false');
+    if(!this.open||this.busy||this.panelBusy)return;this.busy=true;this.open=false;document.getElementById('weaponBtn').setAttribute('aria-expanded','false');
     this.overlay.classList.remove('open');await waitWeaponMotion(WEAPON_MOTION.panel);
     this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.busy=false;
     if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();

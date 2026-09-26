@@ -329,6 +329,44 @@ async function verifyDesktop(send) {
     || preview.hasOldEyebrow || preview.hasOldCost || preview.hasOldChips
   ) throw new Error(`Compact Echo Preview contract failed: ${JSON.stringify(preview)}`);
 
+  const layout2c = await evaluate(send, `(()=>{
+    const pane=document.getElementById('echoPreviewPane'),hero=document.querySelector('#echoPreviewPane .echo-preview-hero'),assignment=document.querySelector('#echoPreviewPane .echo-preview-sonata-assignment'),identity=document.querySelector('#echoPreviewPane .echo-preview-identity'),art=document.getElementById('echoPreviewArt'),copy=document.querySelector('#echoPreviewPane .echo-preview-copy'),mainField=document.querySelector('#echoPreviewPane .echo-main-stat-field'),main=document.getElementById('echoMainStat'),secondaryField=document.querySelector('#echoPreviewPane .echo-secondary-field'),secondary=document.getElementById('echoSecondaryMainStat'),secondaryLabel=secondaryField?.querySelector('label'),firstSubstat=document.querySelector('#echoSubstats .echo-substat-row select');
+    const pr=pane.getBoundingClientRect(),hr=hero.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),ir=identity.getBoundingClientRect(),ar=art.getBoundingClientRect(),mr=mainField.getBoundingClientRect();
+    const mainStyle=getComputedStyle(main),secondaryStyle=getComputedStyle(secondary),substatStyle=getComputedStyle(firstSubstat);
+    const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>({text:node.textContent.trim(),clientWidth:node.clientWidth,scrollWidth:node.scrollWidth}));
+    return {
+      heroContainsAssignment:assignment.parentElement===hero,
+      heroContainsIdentity:identity.parentElement===hero,
+      sonataUnderIdentityCopy:!!copy.querySelector('.echo-preview-sonata-assignment'),
+      besideArtwork:sr.right<=ar.left-4&&Math.min(sr.bottom,ar.bottom)-Math.max(sr.top,ar.top)>20,
+      assignmentBeforeIdentity:sr.right<=ir.left-4,
+      sonataNames:names,
+      mainTopOffset:mr.top-pr.top,
+      mainAfterHero:mr.top>=hr.bottom,
+      mainLabel:mainField.querySelector('label')?.textContent.trim()||'',
+      mainFontSize:parseFloat(mainStyle.fontSize),
+      mainFontWeight:Number(mainStyle.fontWeight)||0,
+      secondaryLabel:secondaryLabel?.textContent.trim()||'',
+      secondaryTag:secondary.tagName,
+      secondaryInteractive:secondary.matches('input,select,button,a[href],[tabindex]:not([tabindex="-1"])'),
+      secondaryBorder:[secondaryStyle.borderTopWidth,secondaryStyle.borderRightWidth,secondaryStyle.borderBottomWidth,secondaryStyle.borderLeftWidth],
+      secondaryBackground:secondaryStyle.backgroundColor,
+      secondaryFontSize:parseFloat(secondaryStyle.fontSize),
+      secondaryFontWeight:Number(secondaryStyle.fontWeight)||0,
+      substatFontSize:parseFloat(substatStyle.fontSize)
+    };
+  })()`);
+  if (
+    !layout2c.heroContainsAssignment || !layout2c.heroContainsIdentity || layout2c.sonataUnderIdentityCopy
+    || !layout2c.besideArtwork || !layout2c.assignmentBeforeIdentity
+    || !layout2c.sonataNames.length || layout2c.sonataNames.some(x=>!x.text||x.clientWidth<80||x.scrollWidth>x.clientWidth+1)
+    || layout2c.mainTopOffset>=150 || !layout2c.mainAfterHero || layout2c.mainLabel!=='MAIN STAT'
+    || !(layout2c.mainFontSize>=layout2c.secondaryFontSize+3) || !(layout2c.mainFontSize>=layout2c.substatFontSize+3)
+    || !(layout2c.mainFontWeight>layout2c.secondaryFontWeight)
+    || layout2c.secondaryLabel!=='Secondary Stat' || layout2c.secondaryTag!=='DIV' || layout2c.secondaryInteractive
+    || layout2c.secondaryBorder.some(value=>value!=='0px') || !['rgba(0, 0, 0, 0)','transparent'].includes(layout2c.secondaryBackground)
+  ) throw new Error(`Echo Preview/Editor Correction 2C hero/stat hierarchy failed: ${JSON.stringify(layout2c)}`);
+
   const pointerAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.echoId===${JSON.stringify(firstId)})`);
   if (!pointerAudit.some(x=>x.type==='pointerdown') || !pointerAudit.some(x=>x.type==='pointerup') || !pointerAudit.some(x=>x.type==='click')) {
     throw new Error(`Echo card did not receive physical pointerdown/up/native click: ${JSON.stringify(pointerAudit)}`);
@@ -365,11 +403,20 @@ async function verifyDesktop(send) {
   for(let index=0;index<5;index++){await setSubstatRow(index);await assertLevel(index+1)}
 
   const desktopFit=await evaluate(send,`(()=>{
-    const pane=document.getElementById('echoPreviewPane'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(x=>x.getBoundingClientRect());
-    return {scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,scrollTop:pane.scrollTop,equipBottom:er.bottom,paneBottom:pr.bottom,rowsInside:rows.every(r=>r.bottom<=pr.bottom+1)}
+    const pane=document.getElementById('echoPreviewPane'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(x=>x.getBoundingClientRect()),last=rows.at(-1);
+    return {
+      scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,scrollTop:pane.scrollTop,
+      equipTop:er.top,equipBottom:er.bottom,paneTop:pr.top,paneBottom:pr.bottom,
+      rowCount:rows.length,rowsInside:rows.every(r=>r.top>=pr.top-1&&r.bottom<=pr.bottom+1&&r.height>0),
+      lastSubstatBottom:last?.bottom??null,equipGap:last?er.top-last.bottom:null,overlap:last?er.top<last.bottom:false
+    }
   })()`);
-  if(desktopFit.scrollHeight>desktopFit.clientHeight+1||desktopFit.scrollTop!==0||desktopFit.equipBottom>desktopFit.paneBottom+1||!desktopFit.rowsInside){
-    throw new Error(`Desktop 1440x900 Preview/Editor requires vertical scrolling: ${JSON.stringify(desktopFit)}`);
+  if(
+    desktopFit.scrollHeight>desktopFit.clientHeight+1||desktopFit.scrollTop!==0
+    ||desktopFit.equipBottom>desktopFit.paneBottom+1||desktopFit.rowCount!==5||!desktopFit.rowsInside
+    ||desktopFit.lastSubstatBottom===null||desktopFit.equipGap<6||desktopFit.overlap
+  ){
+    throw new Error(`Desktop 1440x900 Correction 2C editor flow/Equip separation failed: ${JSON.stringify(desktopFit)}`);
   }
 
   await evaluate(send,`(()=>{const row=document.querySelector('#echoSubstats .echo-substat-row[data-substat-index="4"]'),name=row.querySelectorAll('select')[0];name.value='';name.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
@@ -490,13 +537,22 @@ async function verifyMobileSmoke(send) {
   await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${id}"]`);
   await waitForUi(send, `echoUi.previewId===${JSON.stringify(id)}`, 'Mobile physical Echo card click did not Preview');
   const previewMetrics=await evaluate(send,`(()=>{
-    const pane=document.getElementById('echoPreviewPane'),panel=document.getElementById('echoPanel'),pr=pane.getBoundingClientRect(),wr=panel.getBoundingClientRect();
+    const pane=document.getElementById('echoPreviewPane'),panel=document.getElementById('echoPanel'),hero=document.querySelector('#echoPreviewPane .echo-preview-hero'),assignment=document.querySelector('#echoPreviewPane .echo-preview-sonata-assignment'),identity=document.querySelector('#echoPreviewPane .echo-preview-identity'),pr=pane.getBoundingClientRect(),wr=panel.getBoundingClientRect(),hr=hero.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),ir=identity.getBoundingClientRect();
+    const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>({clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,text:node.textContent.trim()}));
     pane.scrollTop=pane.scrollHeight;
-    const equip=document.getElementById('echoEquip').getBoundingClientRect();
-    return{paneLeft:pr.left,paneRight:pr.right,panelLeft:wr.left,panelRight:wr.right,overflow:getComputedStyle(pane).overflowY,scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,equipVisible:Math.min(equip.bottom,pr.bottom)-Math.max(equip.top,pr.top)>0};
+    const equip=document.getElementById('echoEquip').getBoundingClientRect(),last=document.querySelector('#echoSubstats .echo-substat-row:last-child').getBoundingClientRect();
+    return{
+      paneLeft:pr.left,paneRight:pr.right,panelLeft:wr.left,panelRight:wr.right,overflow:getComputedStyle(pane).overflowY,scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,
+      heroContained:hr.left>=pr.left-1&&hr.right<=pr.right+1,heroColumns:sr.right<=ir.left-2,namesFit:names.every(x=>x.text&&x.clientWidth>55&&x.scrollWidth<=x.clientWidth+1),
+      equipVisible:Math.min(equip.bottom,pr.bottom)-Math.max(equip.top,pr.top)>0,equipGap:equip.top-last.bottom,overlap:equip.top<last.bottom
+    };
   })()`);
-  if(previewMetrics.paneLeft<previewMetrics.panelLeft-1||previewMetrics.paneRight>previewMetrics.panelRight+1||!['auto','scroll'].includes(previewMetrics.overflow)||!previewMetrics.equipVisible){
-    throw new Error(`Mobile compact Preview/Editor is not contained/usable: ${JSON.stringify(previewMetrics)}`);
+  if(
+    previewMetrics.paneLeft<previewMetrics.panelLeft-1||previewMetrics.paneRight>previewMetrics.panelRight+1
+    ||!['auto','scroll'].includes(previewMetrics.overflow)||!previewMetrics.heroContained||!previewMetrics.heroColumns||!previewMetrics.namesFit
+    ||!previewMetrics.equipVisible||previewMetrics.equipGap<6||previewMetrics.overlap
+  ){
+    throw new Error(`Mobile Correction 2C Preview/Editor is not contained/usable: ${JSON.stringify(previewMetrics)}`);
   }
   await capture(send, 'artifacts/ui-preview-echo-workspace-390x844.png');
   await pointerClick(send, '#echoClose');
@@ -521,10 +577,10 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Stats Editor Correction 2B verification passed in real Chrome.');
-    console.log(`- Desktop: compact Sonata header/groups, Cost-star Echo cards, canonical owned-Sonata assignment, 0/5/10/15/20/25 derived levels, no-scroll editor, transient Preview edits, full-card Equip-only commit, close-preserve, Character isolation and reload restore passed.`);
+    console.log('v34 Echo Workspace Stats Editor Correction 2C verification passed in real Chrome.');
+    console.log(`- Desktop: Correction 2C two-column owned-Sonata/Echo hero, primary Main Stat hierarchy, plain Secondary Stat, five visible Substats + separated Equip, plus all 2B Sonata/filter/Cost/level/transient/commit/persistence regressions passed.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
-    console.log(`- Mobile 390x844: contained scrollable workspace + physical Echo Preview passed (${mobile.previewed}).`);
+    console.log(`- Mobile 390x844: contained two-column Echo hero + scrollable editor + physical Echo Preview passed (${mobile.previewed}).`);
   } finally {
     socket.close();
   }

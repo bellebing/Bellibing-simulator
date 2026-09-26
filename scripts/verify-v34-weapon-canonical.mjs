@@ -223,9 +223,10 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
   }
 
   await waitForUi(send,`weaponUi.previewId===${JSON.stringify(weaponId)}`,`Visible-center Weapon click did not change Preview to ${weaponId}`,3000);
+  await waitForUi(send,`!weaponUi.busy&&!!document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero')`,`Visible-center Weapon click did not settle the Preview hero for ${weaponId}`,3000);
   const result=await evaluate(send,`(() => {
     const audit=window.__weaponPointerAudit||[];
-    const hero=document.querySelector('#weaponPreviewStage .weapon-preview-hero');
+    const hero=document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero');
     const art=hero?.querySelector('.weapon-preview-art');
     const r=hero?.getBoundingClientRect();
     return {

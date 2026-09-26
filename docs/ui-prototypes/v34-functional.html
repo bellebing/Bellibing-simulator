@@ -123,27 +123,31 @@
 .echo-toolbar{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;align-items:end;margin:10px 0 12px}
 .echo-browser-tools{position:relative;min-width:0;display:flex;align-items:end;gap:10px}
 .echo-sonata-selector{position:relative;min-width:0;flex:1}
-.echo-sonata-toggle{width:100%;min-height:54px;padding:8px 12px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px}
-.echo-sonata-toggle-icon-stack{display:flex;align-items:center;min-width:36px}
-.echo-sonata-toggle-icon-stack img{width:28px;height:28px;object-fit:contain;border-radius:50%;background:#0d1117}
-.echo-sonata-toggle-icon-stack img+img{margin-left:-9px}
-.echo-sonata-toggle-copy{min-width:0;flex:1}
-.echo-sonata-toggle-copy span{display:block;color:#858c96;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-.echo-sonata-toggle-copy strong{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
-.echo-sonata-toggle::after{content:'▾';color:#858c96;font-size:13px;transition:transform .16s ease-out}
+.echo-sonata-toggle{position:relative;width:100%;min-height:76px;padding:10px 34px 9px 12px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;text-align:left;display:block}
+.echo-sonata-toggle-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0}
+.echo-sonata-toggle-title{color:#858c96;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.echo-sonata-toggle-top strong{min-width:0;color:#c8cdd4;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-sonata-toggle-icon-stack{display:flex;align-items:center;min-height:32px;margin-top:7px;padding-left:1px;overflow:visible}
+.echo-sonata-toggle-icon-stack img{width:30px;height:30px;object-fit:contain;border-radius:50%;background:#0d1117;box-shadow:0 0 0 1px rgba(224,187,109,.24)}
+.echo-sonata-toggle-icon-stack img+img{margin-left:-8px}
+.echo-sonata-toggle::after{content:'▾';position:absolute;right:13px;top:17px;color:#858c96;font-size:13px;transition:transform .16s ease-out}
 .echo-sonata-toggle[aria-expanded="true"]::after{transform:rotate(180deg)}
-.echo-sonata-menu{position:absolute;z-index:12;left:0;top:calc(100% + 7px);width:min(540px,100%);max-height:280px;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:rgba(12,15,20,.98);box-shadow:0 22px 60px rgba(0,0,0,.55);overflow:auto}
+.echo-sonata-menu{position:absolute;z-index:12;left:0;top:calc(100% + 7px);width:min(560px,100%);max-height:330px;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:rgba(12,15,20,.98);box-shadow:0 22px 60px rgba(0,0,0,.55);overflow:auto}
 .echo-sonata-menu[hidden]{display:none}
-.echo-sonata-menu-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.echo-sonata-menu-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
 .echo-sonata-menu-head span{color:#858c96;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .echo-sonata-all{padding:5px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:#171b22;color:#cfd4db;font-size:9px;font-weight:800;cursor:pointer}
 .echo-sonata-all.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
-.echo-sonata-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.echo-sonata-options{display:grid;gap:9px}
+.echo-sonata-group+.echo-sonata-group{padding-top:9px;border-top:1px solid rgba(255,255,255,.09)}
+.echo-sonata-group-title{display:block;margin:0 2px 6px;color:#858c96;font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.echo-sonata-group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .echo-sonata-option{min-width:0;padding:6px 8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:#151920;color:#cfd4db;display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer}
 .echo-sonata-option img{width:28px;height:28px;object-fit:contain;flex:0 0 28px}
-.echo-sonata-option span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+.echo-sonata-option-name{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+.echo-sonata-option-star{margin-left:auto;color:#d8af57;font-size:12px;line-height:1}
 .echo-sonata-option.active{border-color:rgba(224,187,109,.62);background:#201d17;color:#f1e6cf}
-.echo-filter-bar{display:flex;gap:5px;flex:0 0 auto}
+.echo-filter-bar{.echo-filter-bar{display:flex;gap:5px;flex:0 0 auto}
 .echo-filter{padding:7px 9px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(11,14,19,.88);color:#8f96a0;font-size:10px;font-weight:700;cursor:pointer}
 .echo-filter.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
 .echo-slot-target-shell{min-width:0}
@@ -161,47 +165,52 @@
 .echo-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;height:calc(100% - 128px)}
 .echo-browser{min-width:0;height:100%;overflow:auto;padding:8px 10px 18px 6px;scrollbar-width:thin}
 .echo-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
-.echo-choice{position:relative;min-width:0;aspect-ratio:.88;padding:9px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:#11151c;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
+.echo-choice{position:relative;min-width:0;aspect-ratio:.94;padding:8px;border:1px solid rgba(214,174,91,.42);border-radius:14px;background:#11151c;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
 .echo-choice[hidden]{display:none}
-.echo-choice:hover{z-index:2;transform:translateY(-4px) scale(1.035);border-color:rgba(255,255,255,.28);box-shadow:0 22px 46px rgba(0,0,0,.42)}
+.echo-choice:hover{z-index:2;transform:translateY(-4px) scale(1.035);border-color:rgba(224,187,109,.76);box-shadow:0 22px 46px rgba(0,0,0,.42)}
 .echo-choice:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.echo-choice-art{width:100%;min-height:0;flex:1;display:grid;place-items:center}
-.echo-choice-art img{display:block;width:96%;height:96%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
-.echo-choice-copy{display:block;min-width:0;padding-top:5px;text-align:center}
-.echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:13px;font-weight:400;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.echo-choice-copy small{display:block;margin-top:4px;color:#a6adb7;font-size:9px;letter-spacing:.09em;text-transform:uppercase}
-.echo-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:auto;scrollbar-width:thin}
+.echo-cost-stars{position:absolute;z-index:2;top:7px;left:8px;color:#d8af57;font-size:10px;letter-spacing:-.04em;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.echo-choice-art{width:100%;height:94px;flex:0 0 94px;display:grid;place-items:center;overflow:hidden}
+.echo-choice-art img{display:block;width:92%;height:92%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
+.echo-choice-copy{display:block;min-width:0;padding:7px 2px 2px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
+.echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:12px;font-weight:400;line-height:1.16;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-preview-pane{position:relative;min-width:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
 .echo-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
-.echo-preview-shell{height:100%;display:flex;flex-direction:column;opacity:0;pointer-events:none}
+.echo-preview-shell{height:100%;min-height:0;display:flex;flex-direction:column;opacity:0;pointer-events:none}
 .echo-panel.has-preview .echo-preview-empty{display:none}
 .echo-panel.has-preview .echo-preview-shell{opacity:1;pointer-events:auto}
-.echo-preview-art{display:block;width:132px;height:132px;max-width:90%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 18px 24px rgba(0,0,0,.5))}
-.echo-preview-copy{text-align:center}
-.echo-preview-copy h3{margin:5px 0 7px;font-family:var(--font-display);font-size:26px;font-weight:400}
-.echo-preview-cost{color:#c6a35f;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.echo-preview-sonata{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
-.echo-preview-sonata-label{display:block;color:#747c87;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
-.echo-preview-sonatas{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
-.echo-sonata-chip{padding:5px 7px;border:1px solid rgba(255,255,255,.10);border-radius:9px;background:#171b22;color:#d8dce2;font-size:10px}
-.echo-editor{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
-.echo-editor-field{display:grid;gap:5px;margin-bottom:9px}
-.echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-.echo-editor select{width:100%;min-width:0;padding:8px 9px;border:1px solid rgba(255,255,255,.11);border-radius:9px;background:#151920;color:#e5e7ea;font:inherit;font-size:11px}
+.echo-preview-art{display:block;width:94px;height:94px;max-width:82%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
+.echo-preview-copy{min-height:0;text-align:center}
+.echo-preview-copy h3{margin:1px 0 5px;font-family:var(--font-display);font-size:22px;font-weight:400}
+.echo-preview-meta-line{display:flex;align-items:center;justify-content:center;gap:9px;color:#9da4ad;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
+.echo-preview-cost-stars{color:#d8af57;font-size:11px;letter-spacing:-.04em}
+.echo-preview-sonata-assignment{margin-top:7px;text-align:left}
+.echo-preview-meta-label{display:block;color:#747c87;font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.echo-preview-sonata-choices{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.echo-preview-sonata-option{min-width:0;max-width:100%;padding:4px 6px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#151920;color:#bfc5cc;display:flex;align-items:center;gap:5px;font-size:9px;cursor:pointer}
+.echo-preview-sonata-option img{width:20px;height:20px;object-fit:contain;flex:0 0 20px}
+.echo-preview-sonata-option span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5}
+.echo-preview-sonata-option:disabled{cursor:default;opacity:1}
+.echo-editor{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
+.echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.echo-editor select{width:100%;min-width:0;height:29px;padding:4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px}
 .echo-editor select:disabled{color:#707783;background:#11141a}
-.echo-secondary-value{padding:8px 9px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:#11151b;color:#d8dce2;font-size:11px}
-.echo-substats{display:grid;gap:6px;margin-top:6px}
-.echo-substat-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:6px}
-.echo-editor-error{min-height:15px;margin-top:7px;color:#d89090;font-size:10px;line-height:1.35}
-.echo-equip{margin-top:10px;width:100%;padding:13px 16px;border:1px solid rgba(207,166,84,.44);border-radius:13px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
+.echo-secondary-value{height:29px;padding:6px 7px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:#11151b;color:#d8dce2;font-size:10px}
+.echo-substats{display:grid;gap:4px;margin-top:4px}
+.echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
+.echo-editor-error{min-height:12px;margin-top:4px;color:#d89090;font-size:9px;line-height:1.25}
+.echo-equip{margin-top:6px;width:100%;padding:10px 14px;border:1px solid rgba(207,166,84,.44);border-radius:11px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer;flex:0 0 auto}
 .echo-equip:disabled{cursor:default;background:#15181d;border-color:rgba(255,255,255,.10);color:#747b85}
-@media(max-width:760px){
+@media(max-width:760px){@media(max-width:760px){
   .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
   .echo-overlay.open .echo-panel{transform:translateY(0) scale(1)}
   .echo-toolbar{grid-template-columns:1fr;gap:9px;margin-top:8px}
   .echo-browser-tools{align-items:stretch;flex-direction:column}
-  .echo-sonata-toggle{min-height:50px}
+  .echo-sonata-toggle{min-height:70px}
   .echo-sonata-menu{position:relative;top:auto;width:100%;max-height:230px;margin-top:6px}
   .echo-filter-bar{justify-content:center}
   .echo-slot-target-shell{order:-1}
@@ -210,7 +219,7 @@
   .echo-workspace-slot img{width:25px;height:25px}
   .echo-main{grid-template-columns:1fr;height:auto;min-height:0}
   .echo-browser{height:42dvh;min-height:280px}
-  .echo-preview-pane{min-height:410px}
+  .echo-preview-pane{min-height:410px;overflow:auto}
   .echo-choices{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
 }
 
@@ -260,11 +269,11 @@
       <div class="echo-browser-tools">
         <div id="echoSonataSelector" class="echo-sonata-selector">
           <button id="echoSonataToggle" class="echo-sonata-toggle" type="button" aria-expanded="false" aria-controls="echoSonataMenu">
+            <span class="echo-sonata-toggle-top"><span class="echo-sonata-toggle-title">Sonata Sets</span><strong id="echoSonataSummary">All Sonata Sets</strong></span>
             <span id="echoSonataToggleIcons" class="echo-sonata-toggle-icon-stack" aria-hidden="true"></span>
-            <span class="echo-sonata-toggle-copy"><span>Sonata Sets</span><strong id="echoSonataSummary">All Sonata Sets</strong></span>
           </button>
           <div id="echoSonataMenu" class="echo-sonata-menu" hidden>
-            <div class="echo-sonata-menu-head"><span>Filter by Sonata Set</span><button id="echoSonataAll" class="echo-sonata-all active" type="button">All</button></div>
+            <div class="echo-sonata-menu-head"><span>Select Sonata Sets</span><button id="echoSonataAll" class="echo-sonata-all active" type="button">All</button></div>
             <div id="echoSonataOptions" class="echo-sonata-options" role="group" aria-label="Sonata Set filters"></div>
           </div>
         </div>
@@ -287,10 +296,9 @@
         <div class="echo-preview-shell">
           <img id="echoPreviewArt" class="echo-preview-art" alt="">
           <div class="echo-preview-copy">
-            <span class="echo-set-label">Echo Preview</span>
             <h3 id="echoPreviewName">Echo</h3>
-            <div id="echoPreviewCost" class="echo-preview-cost">Cost —</div>
-            <div class="echo-preview-sonata"><span class="echo-preview-sonata-label">Sonata Sets</span><div id="echoPreviewSonatas" class="echo-preview-sonatas"></div></div>
+            <div class="echo-preview-meta-line"><span id="echoPreviewCostStars" class="echo-preview-cost-stars">★</span><span id="echoPreviewLevel">Level +0</span></div>
+            <div class="echo-preview-sonata-assignment"><span class="echo-preview-meta-label">Sonata</span><div id="echoPreviewSonataChoices" class="echo-preview-sonata-choices" role="group" aria-label="Owned Echo Sonata assignment"></div></div>
             <div class="echo-editor" aria-label="Echo stat editor">
               <div class="echo-editor-field"><label for="echoMainStat">Main Stat</label><select id="echoMainStat"></select></div>
               <div class="echo-editor-field"><label>Automatic secondary Main Stat</label><div id="echoSecondaryMainStat" class="echo-secondary-value">—</div></div>
@@ -399,10 +407,10 @@ async function loadEchoBrowserData(){
   const manifest=await manifestResponse.json();
   if(browserData.schemaVersion!==1)throw new Error('Unsupported Echo browser data schema');
   const statContract=browserData.statEditor;
-  if(!statContract||statContract.rank!==5||statContract.level!==25||statContract.maxSubstats!==5)throw new Error('Unsupported Echo stat editor contract');
-  for(const cost of ['1','3','4']){
-    if(!Array.isArray(statContract.mainStatsByCost?.[cost])||!statContract.mainStatsByCost[cost].length)throw new Error('Missing Echo Main Stat pool for Cost '+cost);
-    if(!statContract.secondaryMainStatsByCost?.[cost])throw new Error('Missing Echo secondary Main Stat for Cost '+cost);
+  if(!statContract||statContract.rank!==5||statContract.maxSubstats!==5||JSON.stringify(statContract.levels)!==JSON.stringify([0,5,10,15,20,25]))throw new Error('Unsupported Echo stat editor contract');
+  for(const cost of ['1','3','4'])for(const level of statContract.levels){
+    if(!Array.isArray(statContract.mainStatsByCostAndLevel?.[cost]?.[String(level)])||!statContract.mainStatsByCostAndLevel[cost][String(level)].length)throw new Error('Missing Echo Main Stat pool for Cost '+cost+' at +'+level);
+    if(!statContract.secondaryMainStatsByCostAndLevel?.[cost]?.[String(level)])throw new Error('Missing Echo secondary Main Stat for Cost '+cost+' at +'+level);
   }
   if(!Array.isArray(statContract.substats)||!statContract.substats.length)throw new Error('Missing Echo substat contract');
   echoStatContract=statContract;
@@ -602,50 +610,68 @@ const echoStatValueText=(name,value)=>{
   return Number((value*100).toFixed(2))+'%';
 };
 const echoExact=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=1e-12;
-const echoMainOptions=cost=>echoStatContract?.mainStatsByCost?.[String(cost)]||[];
-const echoSecondary=cost=>echoStatContract?.secondaryMainStatsByCost?.[String(cost)]||null;
+const echoMainOptions=(cost,level)=>echoStatContract?.mainStatsByCostAndLevel?.[String(cost)]?.[String(level)]||[];
+const echoSecondary=(cost,level)=>echoStatContract?.secondaryMainStatsByCostAndLevel?.[String(cost)]?.[String(level)]||null;
 const echoSubstatOption=name=>echoStatContract?.substats?.find(option=>option.name===name)||null;
+const echoLevelForSubstats=substats=>echoStatContract?.levels?.[Array.isArray(substats)?substats.length:0];
 const sameStringList=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&a.length===b.length&&a.every((value,index)=>value===b[index]);
+const isCompleteEchoSubstat=roll=>{
+  const option=roll?.name?echoSubstatOption(roll.name):null;
+  return !!option&&option.values.some(value=>echoExact(value,roll?.value));
+};
 function validateEchoStatCard(card,item){
   if(!echoStatContract||!item||!isPlainObject(card))return 'Missing Echo stat editor data.';
   if(card.echoId!==item.id||card.cost!==item.cost)return 'Echo identity/COST does not match canonical Preview.';
-  if(card.rank!==echoStatContract.rank||card.level!==echoStatContract.level)return 'Unsupported Echo rank/level.';
+  if(card.rank!==echoStatContract.rank||!echoStatContract.levels.includes(card.level))return 'Unsupported Echo rank/level.';
   if(!sameStringList(card.sonataSetIds,item.sonataSetIds))return 'Sonata identity does not match canonical Echo data.';
-  const main=echoMainOptions(item.cost).find(option=>option.name===card.mainStat?.name);
-  if(!main||!echoExact(main.value,card.mainStat?.value))return 'Invalid Main Stat for this Echo COST.';
-  const secondary=echoSecondary(item.cost);
-  if(!secondary||card.secondaryMainStat?.name!==secondary.name||!echoExact(card.secondaryMainStat?.value,secondary.value))return 'Automatic secondary Main Stat mismatch.';
+  if(!item.sonataSetIds.includes(card.selectedSonataSetId))return 'Owned Echo Sonata assignment is not allowed by canonical Echo identity.';
   if(!Array.isArray(card.substats)||card.substats.length>echoStatContract.maxSubstats)return 'Echo supports at most five substats.';
   const names=new Set();
   for(const roll of card.substats){
     if(!roll||names.has(roll.name))return 'Duplicate substats are not allowed.';
-    const option=echoSubstatOption(roll.name);
-    if(!option||!option.values.some(value=>echoExact(value,roll.value)))return 'Unsupported substat/value combination.';
+    if(!isCompleteEchoSubstat(roll))return 'Unsupported substat/value combination.';
     names.add(roll.name);
   }
+  const expectedLevel=echoLevelForSubstats(card.substats);
+  if(card.level!==expectedLevel)return 'Echo level does not match complete substat count.';
+  const main=echoMainOptions(item.cost,card.level).find(option=>option.name===card.mainStat?.name);
+  if(!main||!echoExact(main.value,card.mainStat?.value))return 'Invalid Main Stat for this Echo COST/level.';
+  const secondary=echoSecondary(item.cost,card.level);
+  if(!secondary||card.secondaryMainStat?.name!==secondary.name||!echoExact(card.secondaryMainStat?.value,secondary.value))return 'Automatic secondary Main Stat mismatch.';
   return '';
 }
-function makeEchoStatCard(item,committed=null){
-  if(isPlainObject(committed)&&committed.echoId===item.id&&!validateEchoStatCard(committed,item))return cloneEchoSlot(committed);
-  const main=echoMainOptions(item.cost)[0];
-  const secondary=echoSecondary(item.cost);
-  if(!main||!secondary)throw new Error('Missing source-backed Echo stat defaults for Cost '+item.cost);
+function makeEchoStatCard(item,selectedSonataSetId,committed=null){
+  const used=new Set(),substats=[];
+  if(isPlainObject(committed)&&committed.echoId===item.id&&Array.isArray(committed.substats)){
+    for(const roll of committed.substats){
+      if(substats.length>=echoStatContract.maxSubstats||!isCompleteEchoSubstat(roll)||used.has(roll.name))continue;
+      used.add(roll.name);substats.push({name:roll.name,value:roll.value});
+    }
+  }
+  const level=echoLevelForSubstats(substats);
+  const options=echoMainOptions(item.cost,level);
+  const main=options.find(option=>option.name===committed?.mainStat?.name)||options[0];
+  const secondary=echoSecondary(item.cost,level);
+  const committedSonata=item.sonataSetIds.includes(committed?.selectedSonataSetId)?committed.selectedSonataSetId:null;
+  const selected=committedSonata||selectedSonataSetId;
+  if(!main||!secondary||!selected||!item.sonataSetIds.includes(selected))throw new Error('Missing source-backed Echo editor defaults.');
   return {
     echoId:item.id,
     cost:item.cost,
     sonataSetIds:[...item.sonataSetIds],
+    selectedSonataSetId:selected,
     rank:echoStatContract.rank,
-    level:echoStatContract.level,
+    level,
     mainStat:{name:main.name,value:main.value},
     secondaryMainStat:{name:secondary.name,value:secondary.value},
-    substats:[]
+    substats
   };
 }
 const echoCardsEqual=(a,b)=>isPlainObject(a)&&isPlainObject(b)&&JSON.stringify(a)===JSON.stringify(b);
 
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
-  characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,filter:'all',selectedSonataIds:new Set(),sonataMenuOpen:false,open:false,lastFocus:null,choiceById:new Map(),
+  characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),sonataMenuOpen:false,open:false,lastFocus:null,choiceById:new Map(),
   init(){
     this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
     this.sonataToggle=document.getElementById('echoSonataToggle');this.sonataMenu=document.getElementById('echoSonataMenu');this.sonataOptions=document.getElementById('echoSonataOptions');
@@ -668,9 +694,7 @@ const echoUi={
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
-  currentSlot(){
-    return this.activeSet().slots?.[this.targetSlot]??null;
-  },
+  currentSlot(){return this.activeSet().slots?.[this.targetSlot]??null;},
   recommendedCost(index=this.targetSlot){
     const cost=this.loadoutProfile?.slotCosts?.[index];
     return [1,3,4].includes(cost)?cost:null;
@@ -706,26 +730,42 @@ const echoUi={
     if(!this.choices)return;this.choiceById.clear();this.choices.replaceChildren();
     echoCatalog.forEach(item=>{
       const choice=document.createElement('button');choice.type='button';choice.className='echo-choice';choice.dataset.echoId=item.id;choice.dataset.cost=String(item.cost);choice.setAttribute('aria-label',`Preview ${item.name}`);
+      const stars=document.createElement('span');stars.className='echo-cost-stars';stars.textContent='★'.repeat(item.cost);stars.setAttribute('aria-label',`Cost ${item.cost}`);
       const art=document.createElement('span');art.className='echo-choice-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.appendChild(image);
-      const copy=document.createElement('span');copy.className='echo-choice-copy';const name=document.createElement('strong');name.textContent=item.name;const cost=document.createElement('small');cost.textContent=`Cost ${item.cost}`;copy.append(name,cost);
-      choice.append(art,copy);choice.addEventListener('click',()=>this.select(item.id));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
+      const copy=document.createElement('span');copy.className='echo-choice-copy';const name=document.createElement('strong');name.textContent=item.name;copy.append(name);
+      choice.append(stars,art,copy);choice.addEventListener('click',()=>this.select(item.id));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
     });
   },
   setSonataMenuOpen(open){
     this.sonataMenuOpen=!!open;this.sonataMenu.hidden=!this.sonataMenuOpen;this.sonataToggle.setAttribute('aria-expanded',String(this.sonataMenuOpen));
   },
+  sonataOptionNode(sonata,{recommended=false}={}){
+    const button=document.createElement('button');button.type='button';button.className='echo-sonata-option';button.classList.toggle('active',this.selectedSonataIds.has(sonata.id));button.dataset.sonataId=sonata.id;button.dataset.recommended=String(recommended);button.setAttribute('aria-pressed',String(this.selectedSonataIds.has(sonata.id)));
+    const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;
+    const label=document.createElement('span');label.className='echo-sonata-option-name';label.textContent=sonata.name;button.append(image,label);
+    if(recommended){const star=document.createElement('span');star.className='echo-sonata-option-star';star.textContent='★';star.setAttribute('aria-label','Recommended');button.appendChild(star)}
+    button.addEventListener('click',()=>this.toggleSonata(sonata.id));return button;
+  },
+  renderSonataGroup(title,sonatas,{recommended=false}={}){
+    if(!sonatas.length)return;
+    const group=document.createElement('section');group.className='echo-sonata-group';group.dataset.sonataGroup=recommended?'recommended':'other';
+    const heading=document.createElement('span');heading.className='echo-sonata-group-title';heading.textContent=title;
+    const grid=document.createElement('div');grid.className='echo-sonata-group-grid';sonatas.forEach(sonata=>grid.appendChild(this.sonataOptionNode(sonata,{recommended})));
+    group.append(heading,grid);this.sonataOptions.appendChild(group);
+  },
   renderSonataSelector(){
     if(!this.sonataOptions)return;
     this.sonataOptions.replaceChildren();
-    echoSonataById.forEach(sonata=>{
-      const button=document.createElement('button');button.type='button';button.className='echo-sonata-option';button.classList.toggle('active',this.selectedSonataIds.has(sonata.id));button.dataset.sonataId=sonata.id;button.setAttribute('aria-pressed',String(this.selectedSonataIds.has(sonata.id)));
-      const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;
-      const label=document.createElement('span');label.textContent=sonata.name;button.append(image,label);button.addEventListener('click',()=>this.toggleSonata(sonata.id));this.sonataOptions.appendChild(button);
-    });
+    const recommendedIds=this.loadoutProfile?.sonataSetIds||[];
+    const recommended=recommendedIds.map(id=>echoSonataById.get(id)).filter(Boolean);
+    const recommendedSet=new Set(recommendedIds);
+    const other=[...echoSonataById.values()].filter(sonata=>!recommendedSet.has(sonata.id)).sort((a,b)=>a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en'));
+    if(recommended.length)this.renderSonataGroup('Recommended Sonata Sets',recommended,{recommended:true});
+    this.renderSonataGroup('Other Sonata Sets',other);
     const selected=[...this.selectedSonataIds].map(id=>echoSonataById.get(id)).filter(Boolean);
     const summary=document.getElementById('echoSonataSummary');
-    if(summary)summary.textContent=!selected.length?'All Sonata Sets':selected.length<=2?selected.map(x=>x.name).join(' + '):selected.length+' Sonata Sets';
-    const iconHost=document.getElementById('echoSonataToggleIcons');if(iconHost){iconHost.replaceChildren();selected.slice(0,2).forEach(sonata=>{const img=document.createElement('img');img.src=sonata.artSrc;img.alt='';img.draggable=false;iconHost.appendChild(img)})}
+    if(summary)summary.textContent=!selected.length?'All Sonata Sets':selected.length===1?selected[0].name:selected.length===2?selected.map(x=>x.name).join(' + '):'Multiple Sets';
+    const iconHost=document.getElementById('echoSonataToggleIcons');if(iconHost){iconHost.replaceChildren();selected.forEach(sonata=>{const img=document.createElement('img');img.src=sonata.artSrc;img.alt='';img.draggable=false;img.dataset.sonataId=sonata.id;iconHost.appendChild(img)})}
     document.getElementById('echoSonataAll')?.classList.toggle('active',this.selectedSonataIds.size===0);
   },
   toggleSonata(id){
@@ -748,95 +788,95 @@ const echoUi={
   setFilter(filter){
     if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;
   },
+  orderedAllowedSonataIds(item){
+    const allowed=[...item.sonataSetIds],recommended=this.loadoutProfile?.sonataSetIds||[];
+    const first=recommended.filter(id=>allowed.includes(id));
+    return [...first,...allowed.filter(id=>!first.includes(id))];
+  },
+  defaultSonataSetId(item){
+    const ordered=this.orderedAllowedSonataIds(item);
+    return ordered.find(id=>this.selectedSonataIds.has(id))||ordered[0]||null;
+  },
   clearPreview(){
-    this.previewId=null;this.editorDraft=null;
+    this.previewId=null;this.editorDraft=null;this.editorSubstatRows=null;
     if(this.panel)this.panel.classList.remove('has-preview');
     document.getElementById('echoPreviewPane')?.setAttribute('aria-hidden','true');
     const art=document.getElementById('echoPreviewArt');if(art){art.removeAttribute('src');art.alt=''}
     const name=document.getElementById('echoPreviewName');if(name)name.textContent='Echo';
-    const cost=document.getElementById('echoPreviewCost');if(cost)cost.textContent='Cost —';
-    document.getElementById('echoPreviewSonatas')?.replaceChildren();
-    document.getElementById('echoMainStat')?.replaceChildren();
-    document.getElementById('echoSubstats')?.replaceChildren();
+    const cost=document.getElementById('echoPreviewCostStars');if(cost)cost.textContent='';
+    const level=document.getElementById('echoPreviewLevel');if(level)level.textContent='Level +0';
+    document.getElementById('echoPreviewSonataChoices')?.replaceChildren();
+    document.getElementById('echoMainStat')?.replaceChildren();document.getElementById('echoSubstats')?.replaceChildren();
     const secondary=document.getElementById('echoSecondaryMainStat');if(secondary)secondary.textContent='—';
     const error=document.getElementById('echoEditorError');if(error)error.textContent='';
     this.syncEquipAction();
   },
   renderIdentity(item){
     const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
-    document.getElementById('echoPreviewName').textContent=item.name;document.getElementById('echoPreviewCost').textContent='Cost '+item.cost+' · Rank '+echoStatContract.rank+' · +'+echoStatContract.level;
-    const sonatas=document.getElementById('echoPreviewSonatas');sonatas.replaceChildren();
-    item.sonataSetIds.forEach(sonataId=>{const sonata=echoSonataById.get(sonataId);if(!sonata)return;const chip=document.createElement('span');chip.className='echo-sonata-chip';chip.textContent=sonata.name;sonatas.appendChild(chip)});
+    document.getElementById('echoPreviewName').textContent=item.name;
+    const stars=document.getElementById('echoPreviewCostStars');stars.textContent='★'.repeat(item.cost);stars.setAttribute('aria-label',`Cost ${item.cost}`);
+    document.getElementById('echoPreviewLevel').textContent=`Level +${this.editorDraft?.level??0}`;
+    const host=document.getElementById('echoPreviewSonataChoices');host.replaceChildren();
+    const ordered=this.orderedAllowedSonataIds(item);
+    ordered.forEach(id=>{
+      const sonata=echoSonataById.get(id);if(!sonata)return;
+      const button=document.createElement('button');button.type='button';button.className='echo-preview-sonata-option';button.classList.toggle('active',id===this.editorDraft?.selectedSonataSetId);button.dataset.sonataId=id;button.setAttribute('aria-pressed',String(id===this.editorDraft?.selectedSonataSetId));
+      const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;const label=document.createElement('span');label.textContent=sonata.name;button.append(image,label);
+      button.disabled=ordered.length===1;button.addEventListener('click',()=>{if(!this.editorDraft||!item.sonataSetIds.includes(id))return;this.editorDraft.selectedSonataSetId=id;this.renderIdentity(item);this.syncEquipAction()});host.appendChild(button);
+    });
+  },
+  syncDraftFromSubstatRows(){
+    const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card||!Array.isArray(this.editorSubstatRows))return;
+    const complete=this.editorSubstatRows.filter(row=>isCompleteEchoSubstat(row)).map(row=>({name:row.name,value:row.value}));
+    const level=echoLevelForSubstats(complete);const options=echoMainOptions(item.cost,level);
+    const main=options.find(option=>option.name===card.mainStat?.name)||options[0];const secondary=echoSecondary(item.cost,level);
+    if(!main||!secondary)return;
+    card.level=level;card.mainStat={name:main.name,value:main.value};card.secondaryMainStat={name:secondary.name,value:secondary.value};card.substats=complete;
   },
   renderEditor(){
-    const item=echoById.get(this.previewId);const card=this.editorDraft;if(!item||!card)return;
+    const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
+    this.syncDraftFromSubstatRows();this.renderIdentity(item);
     const main=document.getElementById('echoMainStat');main.replaceChildren();
-    echoMainOptions(item.cost).forEach(option=>{
+    echoMainOptions(item.cost,card.level).forEach(option=>{
       const node=document.createElement('option');node.value=option.name;node.textContent=option.name+' — '+echoStatValueText(option.name,option.value);node.selected=option.name===card.mainStat.name;main.appendChild(node);
     });
-    main.onchange=()=>{
-      const option=echoMainOptions(item.cost).find(value=>value.name===main.value);if(!option)return;
-      this.editorDraft.mainStat={name:option.name,value:option.value};this.syncEquipAction();
-    };
-    const secondary=echoSecondary(item.cost);document.getElementById('echoSecondaryMainStat').textContent=secondary?secondary.name+' — '+echoStatValueText(secondary.name,secondary.value):'—';
+    main.onchange=()=>{const option=echoMainOptions(item.cost,card.level).find(value=>value.name===main.value);if(!option)return;card.mainStat={name:option.name,value:option.value};this.syncEquipAction()};
+    const secondary=echoSecondary(item.cost,card.level);document.getElementById('echoSecondaryMainStat').textContent=secondary?secondary.name+' — '+echoStatValueText(secondary.name,secondary.value):'—';
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
-    const used=new Set(card.substats.map(roll=>roll.name));
+    const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
     for(let index=0;index<echoStatContract.maxSubstats;index++){
-      const row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
+      const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
       const nameSelect=document.createElement('select');nameSelect.setAttribute('aria-label','Substat '+(index+1)+' name');
       const blank=document.createElement('option');blank.value='';blank.textContent='Substat '+(index+1);nameSelect.appendChild(blank);
-      const current=card.substats[index]||null;
-      echoStatContract.substats.forEach(option=>{
-        const node=document.createElement('option');node.value=option.name;node.textContent=option.name;node.selected=current?.name===option.name;node.disabled=used.has(option.name)&&current?.name!==option.name;nameSelect.appendChild(node);
-      });
-      nameSelect.disabled=index>card.substats.length;
+      echoStatContract.substats.forEach(option=>{const node=document.createElement('option');node.value=option.name;node.textContent=option.name;node.selected=current?.name===option.name;node.disabled=used.has(option.name)&&current?.name!==option.name;nameSelect.appendChild(node)});
       const valueSelect=document.createElement('select');valueSelect.setAttribute('aria-label','Substat '+(index+1)+' value');
-      if(current){
-        const option=echoSubstatOption(current.name);
-        option.values.forEach(value=>{const node=document.createElement('option');node.value=String(value);node.textContent=echoStatValueText(current.name,value);node.selected=echoExact(value,current.value);valueSelect.appendChild(node)});
-      }else{
-        const node=document.createElement('option');node.value='';node.textContent='Value';valueSelect.appendChild(node);valueSelect.disabled=true;
-      }
-      nameSelect.onchange=()=>{
-        const next=[...this.editorDraft.substats];
-        if(!nameSelect.value)next.splice(index,1);
-        else{
-          const option=echoSubstatOption(nameSelect.value);if(!option?.values?.length)return;
-          const roll={name:option.name,value:option.values[0]};
-          if(index<next.length)next[index]=roll;else next.push(roll);
-        }
-        this.editorDraft.substats=next.slice(0,echoStatContract.maxSubstats);this.renderEditor();this.syncEquipAction();
-      };
-      valueSelect.onchange=()=>{
-        const roll=this.editorDraft.substats[index];if(!roll)return;
-        const option=echoSubstatOption(roll.name);const value=Number(valueSelect.value);
-        if(!option?.values.some(candidate=>echoExact(candidate,value)))return;
-        this.editorDraft.substats[index]={name:roll.name,value};this.syncEquipAction();
-      };
+      const valueBlank=document.createElement('option');valueBlank.value='';valueBlank.textContent='Value';valueSelect.appendChild(valueBlank);
+      if(current?.name){const option=echoSubstatOption(current.name);option?.values.forEach(value=>{const node=document.createElement('option');node.value=String(value);node.textContent=echoStatValueText(current.name,value);node.selected=echoExact(value,current.value);valueSelect.appendChild(node)})}
+      valueSelect.disabled=!current?.name;
+      nameSelect.onchange=()=>{if(!nameSelect.value)this.editorSubstatRows[index]=null;else this.editorSubstatRows[index]={name:nameSelect.value,value:current?.name===nameSelect.value?current.value:null};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction()};
+      valueSelect.onchange=()=>{const rowState=this.editorSubstatRows[index];if(!rowState?.name)return;const option=echoSubstatOption(rowState.name),value=valueSelect.value===''?null:Number(valueSelect.value);if(value!==null&&!option?.values.some(candidate=>echoExact(candidate,value)))return;this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction()};
       row.append(nameSelect,valueSelect);host.appendChild(row);
     }
     this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.editorDraft=makeEchoStatCard(item,committed);this.renderIdentity(item);
+    this.previewId=item.id;this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);
+    this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
   },
-  select(id){
-    const item=echoById.get(id);if(!item)return;this.setPreview(item,null);
-  },
+  select(id){const item=echoById.get(id);if(!item)return;this.setPreview(item,null);},
   loadTargetCommitted(){
-    const slot=this.currentSlot();const id=echoSlotId(slot);const item=echoById.get(id);
+    const slot=this.currentSlot(),id=echoSlotId(slot),item=echoById.get(id);
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
-    const item=echoById.get(this.previewId);const reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
+    const item=echoById.get(this.previewId),reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
-    const committed=this.currentSlot();const alreadyEquipped=!reason&&echoCardsEqual(committed,this.editorDraft);
-    button.disabled=!item||!this.editorDraft||!!reason||alreadyEquipped;
-    button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
+    const committed=this.currentSlot(),alreadyEquipped=!reason&&echoCardsEqual(committed,this.editorDraft);
+    button.disabled=!item||!this.editorDraft||!!reason||alreadyEquipped;button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(!Number.isInteger(index)||index<0||index>4)return;this.targetSlot=index;
@@ -857,13 +897,12 @@ const echoUi={
   },
   equipPreview(){
     if(!this.characterName||!this.previewId||!this.editorDraft)return;
-    const item=echoById.get(this.previewId);const reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
-    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.renderEditor();this.syncEquipAction();
-
+    const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
+    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.syncEquipAction();
   }
 };
 
-
+weaponDataReady=loadWeaponBrowserData
 
 weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
 echoDataReady=loadEchoBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.echoCatalogError=String(error.message||error)});

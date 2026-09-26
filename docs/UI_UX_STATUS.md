@@ -200,6 +200,8 @@ The exact approved glass values, hover/motion rules, containment requirements an
 - One slot is promoted as the active detail target. The other four remain available in numerical order; switching uses promote/demote continuity and never commits a transient editor change.
 - An empty active slot shows a true empty state without fabricated stats. Browser clicks enter transient Preview only; **Equip Echo** is the only commit.
 - Browser cards display every canonical Sonata compatibility icon for their Echo identity. Those badges do not represent the owned instance's selected Sonata assignment and do not change Cost AND selected-Sonata-union filtering.
+- Sonata completion reads only the `selectedSonataSetId` of committed owned Echo cards in the five slots. Browser Preview and uncommitted editor changes cannot affect it; Equip Echo recomputes it. Each canonical `activationPieces` threshold shows a capped count in gold when reached or muted grey when unreached, without ACTIVE/INACTIVE status text.
+- The Sonata description belongs to a whole committed set, never an individual threshold. A collapsed preview of all its source-reviewed activation sections expands upward within the Preview's right side and collapses in place; the left stat controls and bottom Equip action remain fixed. Source-conflicted effects show pending verification instead of guessed values. Pending combat adapters remain explicit.
 
 After a Character is selected, Character focus and selector are independent layers. Expanding/collapsing the selector must not move, scale or dim the main Character art.
 

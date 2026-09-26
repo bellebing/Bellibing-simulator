@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
+import { projectSonataUiCatalog } from '../src/echoSonataUiProjection.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
 import {
   ECHO_STATS_EDITOR_LEVELS,
@@ -56,6 +57,7 @@ const builderIconManifest = JSON.parse(
 };
 if (builderIconManifest.schemaVersion !== 1) throw new Error('Unsupported builder icon manifest schema.');
 const sonataArtById = new Map(builderIconManifest.sonataSets.map((sonata) => [sonata.sonataId, sonata]));
+const sonataUiById = new Map(projectSonataUiCatalog().map((set) => [set.id, set]));
 
 const sonataSets = SONATA_CATALOG
   .filter((sonata) => sonata.releaseStatus === 'RELEASED' && referencedSonataIds.has(sonata.id))
@@ -64,11 +66,16 @@ const sonataSets = SONATA_CATALOG
     if (!art || art.sourceId !== sonata.sourceId || art.name !== sonata.name) {
       throw new Error(`Canonical Sonata art identity mismatch: ${sonata.id}`);
     }
+    const ui = sonataUiById.get(sonata.id);
+    if (!ui) throw new Error(`Missing reviewed Sonata UI projection: ${sonata.id}`);
     return {
       id: sonata.id,
       name: sonata.name,
       releaseStatus: sonata.releaseStatus,
       artPath: art.targetPath,
+      activationPieces: ui.activationPieces,
+      sections: ui.sections,
+      fullDescription: ui.fullDescription,
     };
   });
 
@@ -86,6 +93,7 @@ const payload = {
     'src/data/echoLoadoutProfiles.ts#ECHO_LOADOUT_PROFILES',
     'docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets',
     'src/echoStatEditor.ts',
+    'src/echoSonataUiProjection.ts',
   ],
   loadoutProfiles,
   statEditor,

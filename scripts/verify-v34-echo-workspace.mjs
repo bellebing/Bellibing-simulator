@@ -675,6 +675,12 @@ async function verifyMobileSmoke(send) {
   if(!id)throw new Error('Mobile filtered Echo browser has no result');
   await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${id}"]`);
   await waitForUi(send, `echoUi.previewId===${JSON.stringify(id)}`, 'Mobile physical Echo card click did not Preview');
+  const mobileSonata=await evaluate(send,`(()=>({groups:document.querySelectorAll('#echoBonusGroups .echo-bonus-set').length,collapsed:!document.getElementById('echoSonataDescription').classList.contains('is-expanded'),cta:document.getElementById('echoDescriptionToggle').textContent.trim(),scroll:getComputedStyle(document.getElementById('echoDescriptionCopy')).overflowY}))()`);
+  if(mobileSonata.groups!==2||!mobileSonata.collapsed||!mobileSonata.cta.startsWith('Click to expand')||mobileSonata.scroll!=='hidden')throw new Error('Mobile committed Sonata summary/preview failed: '+JSON.stringify(mobileSonata));
+  await pointerClick(send,'#echoDescriptionToggle');
+  const mobileExpanded=await evaluate(send,`(()=>{const c=document.getElementById('echoSonataDescription'),t=document.getElementById('echoDescriptionToggle'),e=document.getElementById('echoEquip'),copy=document.getElementById('echoDescriptionCopy');return{expanded:c.classList.contains('is-expanded'),cta:t.textContent.trim(),overflow:getComputedStyle(copy).overflowY,descriptionBottom:c.getBoundingClientRect().bottom,equipTop:e.getBoundingClientRect().top}})()`);
+  if(!mobileExpanded.expanded||!mobileExpanded.cta.startsWith('Click to collapse')||mobileExpanded.overflow==='auto'||mobileExpanded.overflow==='scroll'||mobileExpanded.descriptionBottom>mobileExpanded.equipTop)throw new Error('Mobile full-set description/Equip containment failed: '+JSON.stringify(mobileExpanded));
+  await pointerClick(send,'#echoDescriptionToggle');
   const previewMetrics=await evaluate(send,`(()=>{
     const pane=document.getElementById('echoPreviewPane'),panel=document.getElementById('echoPanel'),hero=pane.querySelector('.echo-preview-hero'),copy=pane.querySelector('.echo-preview-copy'),context=pane.querySelector('.echo-preview-context'),artRegion=pane.querySelector('.echo-preview-art-region'),assignment=pane.querySelector('.echo-preview-sonata-assignment'),pr=pane.getBoundingClientRect(),wr=panel.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cr=copy.getBoundingClientRect(),xr=context.getBoundingClientRect(),ar=artRegion.getBoundingClientRect(),sr=assignment.getBoundingClientRect();
     const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>{const style=getComputedStyle(node),line=parseFloat(style.lineHeight);return{clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,clientHeight:node.clientHeight,scrollHeight:node.scrollHeight,text:node.textContent.trim(),lines:Number.isFinite(line)&&line>0?node.scrollHeight/line:null}});
@@ -701,6 +707,50 @@ async function verifyMobileSmoke(send) {
   return { previewed: id };
 }
 
+async function verifySonataComposition(send){
+  await setViewport(send,1440,900);
+  await navigate(send);
+  await evaluate(send,'localStorage.clear()');
+  await navigate(send);
+  await prepareBuild(send,'Augusta');
+  await pointerClick(send,'.echo[data-echo-slot="0"]');
+  await waitForUi(send,'echoUi.open&&document.documentElement.dataset.echoCatalogReady===\'true\'','Sonata composition workspace did not open');
+  const empty=await evaluate(send,`document.getElementById('echoBonusGroups').textContent.trim()`);
+  if(empty!=='No Sonata bonuses equipped')throw new Error('Empty committed Sonata state failed: '+empty);
+  const seed=async(slot,id)=>{
+    await evaluate(send,`(()=>{echoUi.setTarget(${slot});const item=echoCatalog.find(row=>row.sonataSetIds.includes(${JSON.stringify(id)})&&row.cost===(echoUi.recommendedCost(${slot})||row.cost));if(!item)throw new Error('No eligible Echo for Sonata '+${JSON.stringify(id)});echoUi.select(item.id);echoUi.editorDraft.selectedSonataSetId=${JSON.stringify(id)};echoUi.renderIdentity(item);return item.id})()`);
+    await pointerClick(send,'#echoEquip');
+    await waitForUi(send,`echoUi.activeSet().slots[${slot}]?.selectedSonataSetId===${JSON.stringify(id)}`,'Sonata commit did not persist');
+  };
+  await seed(0,'sonata-20');await seed(1,'sonata-20');
+  const before=await evaluate(send,`(()=>({groups:echoUi.committedSonataGroups().map(x=>[x.set.id,x.count]),badge:document.querySelector('[data-committed-sonata-id="sonata-20"] .echo-bonus-threshold')?.textContent.trim(),reached:document.querySelector('[data-committed-sonata-id="sonata-20"] .echo-bonus-threshold')?.classList.contains('reached')}))()`);
+  if(JSON.stringify(before.groups)!==JSON.stringify([['sonata-20',2]])||before.badge!=='2 / 3'||before.reached)throw new Error('Two committed Crown pieces did not display grey 2/3: '+JSON.stringify(before));
+  await evaluate(send,`(()=>{echoUi.setTarget(2);const item=echoCatalog.find(row=>row.cost===3&&row.sonataSetIds.includes('sonata-20'));echoUi.select(item.id);return true})()`);
+  const transient=await evaluate(send,`(()=>({groups:echoUi.committedSonataGroups().map(x=>[x.set.id,x.count]),badge:document.querySelector('[data-committed-sonata-id="sonata-20"] .echo-bonus-threshold')?.textContent.trim()}))()`);
+  if(JSON.stringify(transient.groups)!==JSON.stringify(before.groups)||transient.badge!=='2 / 3')throw new Error('Browser Preview changed committed Sonata count: '+JSON.stringify(transient));
+  await pointerClick(send,'#echoEquip');
+  await seed(3,'sonata-3');await seed(4,'sonata-3');
+  const mixed=await evaluate(send,`(()=>({groups:[...document.querySelectorAll('#echoBonusGroups .echo-bonus-set')].map(x=>({id:x.dataset.committedSonataId,thresholds:[...x.querySelectorAll('.echo-bonus-threshold')].map(t=>({text:t.textContent.trim(),gold:t.classList.contains('reached')}))})),statusWords:/\\b(ACTIVE|INACTIVE|UNLOCKED|LOCKED)\\b/.test(document.getElementById('echoBonusGroups').textContent),thresholdButtons:document.querySelectorAll('#echoBonusGroups .echo-bonus-threshold button').length}))()`);
+  if(JSON.stringify(mixed.groups)!==JSON.stringify([{id:'sonata-20',thresholds:[{text:'3 / 3',gold:true}]},{id:'sonata-3',thresholds:[{text:'2 / 2',gold:true},{text:'2 / 5',gold:false}]}])||mixed.statusWords||mixed.thresholdButtons)throw new Error('Mixed set threshold status failed: '+JSON.stringify(mixed));
+  await pointerClick(send,'[data-committed-sonata-id="sonata-3"]');
+  const collapsed=await evaluate(send,`(()=>{const c=document.getElementById('echoSonataDescription'),body=document.getElementById('echoDescriptionCopy');return{title:document.getElementById('echoDescriptionTitle').textContent.trim(),body:body.textContent,fade:getComputedStyle(body,'::after').content,scroll:getComputedStyle(body).overflowY,cta:document.getElementById('echoDescriptionToggle').textContent.trim(),height:c.getBoundingClientRect().height}})()`);
+  if(collapsed.title!=='Void Thunder'||!collapsed.body.startsWith('2-PC —')||!collapsed.body.includes('\n5-PC —')||collapsed.fade==='none'||collapsed.scroll!=='hidden'||!collapsed.cta.startsWith('Click to expand'))throw new Error('Collapsed whole-set description failed: '+JSON.stringify(collapsed));
+  const leftBefore=await evaluate(send,`(()=>[...document.querySelectorAll('.echo-editor-stats>.echo-editor-field,#echoSubstats .echo-substat-row')].map(x=>{const r=x.getBoundingClientRect();return[r.x,r.y,r.width,r.height]})())`);
+  const paneHeight=await evaluate(send,`document.getElementById('echoPreviewPane').getBoundingClientRect().height`);
+  await pointerClick(send,'#echoDescriptionToggle');
+  const expanded=await evaluate(send,`(()=>{const c=document.getElementById('echoSonataDescription'),e=document.getElementById('echoEquip'),body=document.getElementById('echoDescriptionCopy');return{top:c.getBoundingClientRect().top,bottom:c.getBoundingClientRect().bottom,editorTop:document.querySelector('.echo-editor').getBoundingClientRect().top,equipTop:e.getBoundingClientRect().top,copyFits:body.scrollHeight<=body.clientHeight+1,scroll:getComputedStyle(body).overflowY,paneHeight:document.getElementById('echoPreviewPane').getBoundingClientRect().height,paneScroll:document.getElementById('echoPreviewPane').scrollHeight>document.getElementById('echoPreviewPane').clientHeight+1,cta:document.getElementById('echoDescriptionToggle').textContent.trim()}})()`);
+  const leftAfter=await evaluate(send,`(()=>[...document.querySelectorAll('.echo-editor-stats>.echo-editor-field,#echoSubstats .echo-substat-row')].map(x=>{const r=x.getBoundingClientRect();return[r.x,r.y,r.width,r.height]})())`);
+  if(expanded.top>=expanded.editorTop||expanded.bottom>expanded.equipTop||!expanded.copyFits||expanded.scroll==='auto'||expanded.scroll==='scroll'||expanded.paneHeight!==paneHeight||expanded.paneScroll||!expanded.cta.startsWith('Click to collapse')||JSON.stringify(leftBefore)!==JSON.stringify(leftAfter))throw new Error('Desktop upward expansion/left stability failed: '+JSON.stringify({expanded,leftBefore,leftAfter}));
+  await capture(send,'artifacts/ui-preview-sonata-expanded-1440x900.png');
+  await pointerClick(send,'#echoDescriptionToggle');
+  const restored=await evaluate(send,`!document.getElementById('echoSonataDescription').classList.contains('is-expanded')&&document.getElementById('echoDescriptionToggle').textContent.startsWith('Click to expand')`);
+  if(!restored)throw new Error('Sonata description did not collapse');
+  await setViewport(send,2560,1440);
+  const wide=await evaluate(send,`(()=>({columns:getComputedStyle(document.querySelector('.echo-editor')).gridTemplateColumns,groups:document.querySelectorAll('#echoBonusGroups .echo-bonus-set').length}))()`);
+  if(wide.groups!==2||wide.columns.split(' ').length!==2)throw new Error('Wide desktop two-column Sonata layout failed: '+JSON.stringify(wide));
+  return mixed;
+}
+
 const chrome = spawn(CHROME, [
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
   `--remote-debugging-port=${DEBUG_PORT}`, '--remote-debugging-address=127.0.0.1',
@@ -718,11 +768,13 @@ try {
     await send('Page.enable');
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
+    const sonata = await verifySonataComposition(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Correction 2F-A verification passed in real Chrome.');
+    console.log('v34 Echo Workspace Correction 2F-B verification passed in real Chrome.');
     console.log(`- Desktop: five shared Build slots in promoted dock, canonical Sonata badges, shared-object motion, plain derived Main/Secondary values, five Substats and bottom-anchored Equip passed.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     console.log(`- Mobile 390x844: contained identity + art|Sonata hero, Bellibing controls, scrollable editor and physical Echo Preview passed (${mobile.previewed}).`);
+    console.log(`- Committed Sonata sets, canonical capped thresholds, grey/gold, full-set descriptions, upward expansion and wide desktop passed (${sonata.groups.length} sets).`);
   } finally {
     socket.close();
   }

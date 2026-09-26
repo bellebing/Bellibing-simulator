@@ -5,7 +5,8 @@
     "src/data/sonatas.ts#SONATA_CATALOG",
     "src/data/echoLoadoutProfiles.ts#ECHO_LOADOUT_PROFILES",
     "docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets",
-    "src/echoStatEditor.ts"
+    "src/echoStatEditor.ts",
+    "src/echoSonataUiProjection.ts"
   ],
   "loadoutProfiles": [
     {
@@ -2654,205 +2655,747 @@
       "id": "sonata-5",
       "name": "Celestial Light",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/05-celestial-light.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/05-celestial-light.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +30%; Trigger: Cast Intro Skill; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Spectro DMG Bonus +10%.\n5-PC — Spectro DMG Bonus +30%; Trigger: Cast Intro Skill; Duration: 15s."
     },
     {
       "id": "sonata-28",
       "name": "Chromatic Foam",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/28-chromatic-foam.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/28-chromatic-foam.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +10%; Trigger: Inflict Fusion Burst; Duration: 15s. Fusion DMG Bonus +25%; Trigger: While Chromatic self-Fusion state is active, cast Outro; incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator."
+        }
+      ],
+      "fullDescription": "2-PC — Fusion DMG Bonus +10%.\n5-PC — Fusion DMG Bonus +10%; Trigger: Inflict Fusion Burst; Duration: 15s. Fusion DMG Bonus +25%; Trigger: While Chromatic self-Fusion state is active, cast Outro; incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator."
     },
     {
       "id": "sonata-20",
       "name": "Crown of Valor",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/20-crown-of-valor.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/20-crown-of-valor.webp",
+      "activationPieces": [
+        3
+      ],
+      "sections": [
+        {
+          "pieces": 3,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +6% per stack; up to 5 stacks; Trigger: Gain Shield; Duration: 4s; Trigger interval: 0.5s. CRIT DMG +4% per stack; up to 5 stacks; Trigger: Gain Shield; Duration: 4s; Trigger interval: 0.5s."
+        }
+      ],
+      "fullDescription": "3-PC — ATK% +6% per stack; up to 5 stacks; Trigger: Gain Shield; Duration: 4s; Trigger interval: 0.5s. CRIT DMG +4% per stack; up to 5 stacks; Trigger: Gain Shield; Duration: 4s; Trigger interval: 0.5s."
     },
     {
       "id": "sonata-19",
       "name": "Dream of the Lost",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/19-dream-of-the-lost.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/19-dream-of-the-lost.webp",
+      "activationPieces": [
+        3
+      ],
+      "sections": [
+        {
+          "pieces": 3,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +20%; Trigger: Resonance Energy equals 0. Echo Skill DMG Bonus +35%; Trigger: Resonance Energy equals 0."
+        }
+      ],
+      "fullDescription": "3-PC — CRIT Rate +20%; Trigger: Resonance Energy equals 0. Echo Skill DMG Bonus +35%; Trigger: Resonance Energy equals 0."
     },
     {
       "id": "sonata-13",
       "name": "Empyrean Anthem",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/13-empyrean-anthem.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/13-empyrean-anthem.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Energy Regen +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Coordinated Attack DMG Bonus +80%. ATK% +20%; Trigger: Coordinated Attack scores a critical hit; Duration: 4s; Applies to: active resonator."
+        }
+      ],
+      "fullDescription": "2-PC — Energy Regen +10%.\n5-PC — Coordinated Attack DMG Bonus +80%. ATK% +20%; Trigger: Coordinated Attack scores a critical hit; Duration: 4s; Applies to: active resonator."
     },
     {
       "id": "sonata-11",
       "name": "Eternal Radiance",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/11-eternal-radiance.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/11-eternal-radiance.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +20%; Trigger: Inflict Spectro Frazzle; Duration: 15s. Spectro DMG Bonus +15%; Trigger: Attack enemy with 10 Spectro Frazzle stacks; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Spectro DMG Bonus +10%.\n5-PC — CRIT Rate +20%; Trigger: Inflict Spectro Frazzle; Duration: 15s. Spectro DMG Bonus +15%; Trigger: Attack enemy with 10 Spectro Frazzle stacks; Duration: 15s."
     },
     {
       "id": "sonata-22",
       "name": "Flamewing's Shadow",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/22-flamewings-shadow.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/22-flamewings-shadow.webp",
+      "activationPieces": [
+        3
+      ],
+      "sections": [
+        {
+          "pieces": 3,
+          "reviewStatus": "MODELED",
+          "description": "Heavy Attack CRIT Rate +20%; Trigger: Deal Echo Skill DMG; Duration: 6s. Echo Skill CRIT Rate +20%; Trigger: Deal Heavy Attack DMG; Duration: 6s. Fusion DMG Bonus +16%; Trigger: Both Flamewing CRIT-rate states are active."
+        }
+      ],
+      "fullDescription": "3-PC — Heavy Attack CRIT Rate +20%; Trigger: Deal Echo Skill DMG; Duration: 6s. Echo Skill CRIT Rate +20%; Trigger: Deal Heavy Attack DMG; Duration: 6s. Fusion DMG Bonus +16%; Trigger: Both Flamewing CRIT-rate states are active."
     },
     {
       "id": "sonata-18",
       "name": "Flaming Clawprint",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/18-flaming-clawprint.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/18-flaming-clawprint.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +15%; Trigger: Cast Resonance Liberation; Duration: 35s; Applies to: team. Resonance Liberation DMG Bonus +20%; Trigger: Cast Resonance Liberation; Duration: 35s."
+        }
+      ],
+      "fullDescription": "2-PC — Fusion DMG Bonus +10%.\n5-PC — Fusion DMG Bonus +15%; Trigger: Cast Resonance Liberation; Duration: 35s; Applies to: team. Resonance Liberation DMG Bonus +20%; Trigger: Cast Resonance Liberation; Duration: 35s."
     },
     {
       "id": "sonata-1",
       "name": "Freezing Frost",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/01-freezing-frost.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/01-freezing-frost.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Glacio DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "SOURCE_CONFLICT",
+          "description": "Effect pending source verification."
+        }
+      ],
+      "fullDescription": "2-PC — Glacio DMG Bonus +10%.\n5-PC — Effect pending source verification."
     },
     {
       "id": "sonata-10",
       "name": "Frosty Resolve",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/10-frosty-resolve.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/10-frosty-resolve.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Resonance Skill DMG Bonus +12%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Glacio DMG Bonus +22.5%; Trigger: Cast Resonance Skill; Duration: 15s. Resonance Skill DMG Bonus +18% per stack; up to 2 stacks; Trigger: Cast Resonance Liberation; Duration: 5s."
+        }
+      ],
+      "fullDescription": "2-PC — Resonance Skill DMG Bonus +12%.\n5-PC — Glacio DMG Bonus +22.5%; Trigger: Cast Resonance Skill; Duration: 15s. Resonance Skill DMG Bonus +18% per stack; up to 2 stacks; Trigger: Cast Resonance Liberation; Duration: 5s."
     },
     {
       "id": "sonata-16",
       "name": "Gusts of Welkin",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/16-gusts-of-welkin.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/16-gusts-of-welkin.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +15%; Trigger: Inflict Aero Erosion; Duration: 20s; Applies to: team. Aero DMG Bonus +15%; Trigger: Inflict Aero Erosion; Duration: 20s."
+        }
+      ],
+      "fullDescription": "2-PC — Aero DMG Bonus +10%.\n5-PC — Aero DMG Bonus +15%; Trigger: Inflict Aero Erosion; Duration: 20s; Applies to: team. Aero DMG Bonus +15%; Trigger: Inflict Aero Erosion; Duration: 20s."
     },
     {
       "id": "sonata-25",
       "name": "Halo of Starry Radiance",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/25-halo-of-starry-radiance.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/25-halo-of-starry-radiance.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Healing Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +0.2% per input percentage point; capped at +25%; Trigger: Heal a Resonator; scale from healer Off-Tune Buildup Rate; Duration: 4s; Applies to: team."
+        }
+      ],
+      "fullDescription": "2-PC — Healing Bonus +10%.\n5-PC — ATK% +0.2% per input percentage point; capped at +25%; Trigger: Heal a Resonator; scale from healer Off-Tune Buildup Rate; Duration: 4s; Applies to: team."
     },
     {
       "id": "sonata-6",
       "name": "Havoc Eclipse",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/06-havoc-eclipse.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/06-havoc-eclipse.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Havoc DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "SOURCE_CONFLICT",
+          "description": "Effect pending source verification."
+        }
+      ],
+      "fullDescription": "2-PC — Havoc DMG Bonus +10%.\n5-PC — Effect pending source verification."
     },
     {
       "id": "sonata-34",
       "name": "Heart of Evil's Purge",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/34-heart-of-evils-purge.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/34-heart-of-evils-purge.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT DMG +20%; Trigger: Inflict Tune Strain - Shifting; Duration: 15s. Aero DMG Bonus +30%; Trigger: Inflict Tune Strain - Shifting; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Aero DMG Bonus +10%.\n5-PC — CRIT DMG +20%; Trigger: Inflict Tune Strain - Shifting; Duration: 15s. Aero DMG Bonus +30%; Trigger: Inflict Tune Strain - Shifting; Duration: 15s."
     },
     {
       "id": "sonata-35",
       "name": "Lamp of Nether Road",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/35-lamp-of-nether-road.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/35-lamp-of-nether-road.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "HP% +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +5% per stack; up to 4 stacks; Trigger: Gain Shield; Duration: 5s; Trigger interval: 0.5s. Fusion DMG Bonus +15%; Trigger: Reach 4 Lamp of Nether Road shield stacks."
+        }
+      ],
+      "fullDescription": "2-PC — HP% +10%.\n5-PC — CRIT Rate +5% per stack; up to 4 stacks; Trigger: Gain Shield; Duration: 5s; Trigger interval: 0.5s. Fusion DMG Bonus +15%; Trigger: Reach 4 Lamp of Nether Road shield stacks."
     },
     {
       "id": "sonata-21",
       "name": "Law of Harmony",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/21-law-of-harmony.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/21-law-of-harmony.webp",
+      "activationPieces": [
+        3
+      ],
+      "sections": [
+        {
+          "pieces": 3,
+          "reviewStatus": "MODELED",
+          "description": "Heavy Attack DMG Bonus +30%; Trigger: Cast Echo Skill; Duration: 4s. Echo Skill DMG Bonus +4% per stack; up to 4 stacks; Trigger: Cast Echo Skill; Duration: 30s; Applies to: team."
+        }
+      ],
+      "fullDescription": "3-PC — Heavy Attack DMG Bonus +30%; Trigger: Cast Echo Skill; Duration: 4s. Echo Skill DMG Bonus +4% per stack; up to 4 stacks; Trigger: Cast Echo Skill; Duration: 30s; Applies to: team."
     },
     {
       "id": "sonata-9",
       "name": "Lingering Tunes",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/09-lingering-tunes.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/09-lingering-tunes.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +5% per stack; up to 4 stacks; Trigger: While on field; Trigger interval: 1.5s. Outro Skill DMG Bonus +60%."
+        }
+      ],
+      "fullDescription": "2-PC — ATK% +10%.\n5-PC — ATK% +5% per stack; up to 4 stacks; Trigger: While on field; Trigger interval: 1.5s. Outro Skill DMG Bonus +60%."
     },
     {
       "id": "sonata-12",
       "name": "Midnight Veil",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/12-midnight-veil.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/12-midnight-veil.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Havoc DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED_WITH_PENDING_DAMAGE_ADAPTER",
+          "description": "Havoc DMG Bonus +15%; Trigger: Trigger Outro Skill; apply to incoming Resonator; Duration: 15s; Applies to: incoming resonator. Additional effect pending combat adapter."
+        }
+      ],
+      "fullDescription": "2-PC — Havoc DMG Bonus +10%.\n5-PC — Havoc DMG Bonus +15%; Trigger: Trigger Outro Skill; apply to incoming Resonator; Duration: 15s; Applies to: incoming resonator. Additional effect pending combat adapter."
     },
     {
       "id": "sonata-2",
       "name": "Molten Rift",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/02-molten-rift.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/02-molten-rift.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +30%; Trigger: Cast Resonance Skill; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Fusion DMG Bonus +10%.\n5-PC — Fusion DMG Bonus +30%; Trigger: Cast Resonance Skill; Duration: 15s."
     },
     {
       "id": "sonata-8",
       "name": "Moonlit Clouds",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/08-moonlit-clouds.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/08-moonlit-clouds.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Energy Regen +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +22.5%; Trigger: Cast Outro Skill; apply to next Resonator; Duration: 15s; Applies to: incoming resonator."
+        }
+      ],
+      "fullDescription": "2-PC — Energy Regen +10%.\n5-PC — ATK% +22.5%; Trigger: Cast Outro Skill; apply to next Resonator; Duration: 15s; Applies to: incoming resonator."
     },
     {
       "id": "sonata-24",
       "name": "Pact of Neonlight Leap",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/24-pact-of-neonlight-leap.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/24-pact-of-neonlight-leap.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +15%; Trigger: Caster uses Outro; incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator. ATK% +0.3% per input percentage point; capped at +15%; Trigger: Same Pact Outro/Intro state; scale from incoming Resonator Tune Break Boost; Duration: 15s; Applies to: incoming resonator."
+        }
+      ],
+      "fullDescription": "2-PC — Spectro DMG Bonus +10%.\n5-PC — ATK% +15%; Trigger: Caster uses Outro; incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator. ATK% +0.3% per input percentage point; capped at +15%; Trigger: Same Pact Outro/Intro state; scale from incoming Resonator Tune Break Boost; Duration: 15s; Applies to: incoming resonator."
     },
     {
       "id": "sonata-31",
       "name": "Reel of Spliced Memories",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/31-reel-of-spliced-memories.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/31-reel-of-spliced-memories.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Tune Break Boost +2000%; Trigger: Inflict Tune Rupture - Shifting or Tune Strain - Shifting; Duration: 30s; Applies to: team."
+        }
+      ],
+      "fullDescription": "2-PC — ATK% +10%.\n5-PC — Tune Break Boost +2000%; Trigger: Inflict Tune Rupture - Shifting or Tune Strain - Shifting; Duration: 30s; Applies to: team."
     },
     {
       "id": "sonata-7",
       "name": "Rejuvenating Glow",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/07-rejuvenating-glow.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/07-rejuvenating-glow.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Healing Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +15%; Trigger: Heal ally; Duration: 30s; Applies to: team."
+        }
+      ],
+      "fullDescription": "2-PC — Healing Bonus +10%.\n5-PC — ATK% +15%; Trigger: Heal ally; Duration: 30s; Applies to: team."
     },
     {
       "id": "sonata-26",
       "name": "Rite of Gilded Revelation",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/26-rite-of-gilded-revelation.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/26-rite-of-gilded-revelation.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Spectro DMG Bonus +10% per stack; up to 3 stacks; Trigger: Deal Basic Attack DMG; Duration: 5s. Basic Attack DMG Bonus +40%; Trigger: At 3 Spectro stacks, cast Resonance Liberation."
+        }
+      ],
+      "fullDescription": "2-PC — Spectro DMG Bonus +10%.\n5-PC — Spectro DMG Bonus +10% per stack; up to 3 stacks; Trigger: Deal Basic Attack DMG; Duration: 5s. Basic Attack DMG Bonus +40%; Trigger: At 3 Spectro stacks, cast Resonance Liberation."
     },
     {
       "id": "sonata-32",
       "name": "Shadow of Shattered Dreams",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/32-shadow-of-shattered-dreams.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/32-shadow-of-shattered-dreams.webp",
+      "activationPieces": [
+        1
+      ],
+      "sections": [
+        {
+          "pieces": 1,
+          "reviewStatus": "MODELED",
+          "description": "Basic Attack DMG Bonus +35%; Trigger: Inflict Hack - Shifting; Duration: 15s. Heavy Attack DMG Bonus +35%; Trigger: Inflict Hack - Shifting; Duration: 15s."
+        }
+      ],
+      "fullDescription": "1-PC — Basic Attack DMG Bonus +35%; Trigger: Inflict Hack - Shifting; Duration: 15s. Heavy Attack DMG Bonus +35%; Trigger: Inflict Hack - Shifting; Duration: 15s."
     },
     {
       "id": "sonata-4",
       "name": "Sierra Gale",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/04-sierra-gale.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/04-sierra-gale.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +30%; Trigger: Cast Intro Skill; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Aero DMG Bonus +10%.\n5-PC — Aero DMG Bonus +30%; Trigger: Cast Intro Skill; Duration: 15s."
     },
     {
       "id": "sonata-33",
       "name": "Song of Feathered Trace",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/33-song-of-feathered-trace.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/33-song-of-feathered-trace.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Energy Regen +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +20%; Trigger: Inflict Havoc Bane; gain Xuanling's Feather; Duration: 15s. Heavy Attack DMG Bonus +35%; Trigger: Inflict Havoc Bane; gain Xuanling's Feather; Duration: 15s. ATK% +0.1% per input percentage point; capped at +25%; Trigger: Inflict Glacio Chafe; gain Chongming's Feather; scale from Resonator Energy Regen percentage points; Duration: 10s; Applies to: team."
+        }
+      ],
+      "fullDescription": "2-PC — Energy Regen +10%.\n5-PC — CRIT Rate +20%; Trigger: Inflict Havoc Bane; gain Xuanling's Feather; Duration: 15s. Heavy Attack DMG Bonus +35%; Trigger: Inflict Havoc Bane; gain Xuanling's Feather; Duration: 15s. ATK% +0.1% per input percentage point; capped at +25%; Trigger: Inflict Glacio Chafe; gain Chongming's Feather; scale from Resonator Energy Regen percentage points; Duration: 10s; Applies to: team."
     },
     {
       "id": "sonata-29",
       "name": "Sound of True Name",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/29-sound-of-true-name.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/29-sound-of-true-name.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Echo Skill CRIT Rate +20%; Trigger: Deal Echo Skill DMG; Duration: 5s. Aero DMG Bonus +15%; Trigger: Deal Echo Skill DMG; Duration: 5s."
+        }
+      ],
+      "fullDescription": "2-PC — Aero DMG Bonus +10%.\n5-PC — Echo Skill CRIT Rate +20%; Trigger: Deal Echo Skill DMG; Duration: 5s. Aero DMG Bonus +15%; Trigger: Deal Echo Skill DMG; Duration: 5s."
     },
     {
       "id": "sonata-23",
       "name": "Thread of Severed Fate",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/23-thread-of-severed-fate.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/23-thread-of-severed-fate.webp",
+      "activationPieces": [
+        3
+      ],
+      "sections": [
+        {
+          "pieces": 3,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +20%; Trigger: Inflict Havoc Bane; Duration: 5s. Resonance Liberation DMG Bonus +30%; Trigger: Inflict Havoc Bane; Duration: 5s."
+        }
+      ],
+      "fullDescription": "3-PC — ATK% +20%; Trigger: Inflict Havoc Bane; Duration: 5s. Resonance Liberation DMG Bonus +30%; Trigger: Inflict Havoc Bane; Duration: 5s."
     },
     {
       "id": "sonata-14",
       "name": "Tidebreaking Courage",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/14-tidebreaking-courage.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/14-tidebreaking-courage.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Energy Regen +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "ATK% +15%. All Attribute DMG Bonus +30%; Trigger: Energy Regen reaches 250%."
+        }
+      ],
+      "fullDescription": "2-PC — Energy Regen +10%.\n5-PC — ATK% +15%. All Attribute DMG Bonus +30%; Trigger: Energy Regen reaches 250%."
     },
     {
       "id": "sonata-27",
       "name": "Trailblazing Star",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/27-trailblazing-star.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/27-trailblazing-star.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Fusion DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +20%; Trigger: Inflict Fusion Burst or Tune Rupture - Shifting; Duration: 8s. Fusion DMG Bonus +20%; Trigger: Inflict Fusion Burst or Tune Rupture - Shifting; Duration: 8s."
+        }
+      ],
+      "fullDescription": "2-PC — Fusion DMG Bonus +10%.\n5-PC — CRIT Rate +20%; Trigger: Inflict Fusion Burst or Tune Rupture - Shifting; Duration: 8s. Fusion DMG Bonus +20%; Trigger: Inflict Fusion Burst or Tune Rupture - Shifting; Duration: 8s."
     },
     {
       "id": "sonata-3",
       "name": "Void Thunder",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/03-void-thunder.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/03-void-thunder.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Electro DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "Electro DMG Bonus +15% per stack; up to 2 stacks; Trigger: Cast Heavy Attack or Resonance Skill; Duration: 15s."
+        }
+      ],
+      "fullDescription": "2-PC — Electro DMG Bonus +10%.\n5-PC — Electro DMG Bonus +15% per stack; up to 2 stacks; Trigger: Cast Heavy Attack or Resonance Skill; Duration: 15s."
     },
     {
       "id": "sonata-17",
       "name": "Windward Pilgrimage",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/17-windward-pilgrimage.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/17-windward-pilgrimage.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Aero DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED",
+          "description": "CRIT Rate +10%; Trigger: Hit target affected by Aero Erosion; Duration: 10s. Aero DMG Bonus +30%; Trigger: Hit target affected by Aero Erosion; Duration: 10s."
+        }
+      ],
+      "fullDescription": "2-PC — Aero DMG Bonus +10%.\n5-PC — CRIT Rate +10%; Trigger: Hit target affected by Aero Erosion; Duration: 10s. Aero DMG Bonus +30%; Trigger: Hit target affected by Aero Erosion; Duration: 10s."
     },
     {
       "id": "sonata-30",
       "name": "Wishes of Quiet Snowfall",
       "releaseStatus": "RELEASED",
-      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/30-wishes-of-quiet-snowfall.webp"
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/30-wishes-of-quiet-snowfall.webp",
+      "activationPieces": [
+        2,
+        5
+      ],
+      "sections": [
+        {
+          "pieces": 2,
+          "reviewStatus": "MODELED",
+          "description": "Glacio DMG Bonus +10%."
+        },
+        {
+          "pieces": 5,
+          "reviewStatus": "MODELED_WITH_PENDING_STATE_ADAPTER",
+          "description": "Glacio DMG Bonus +10%; Trigger: Inflict Glacio Chafe; Duration: 15s. CRIT Rate +25%; Trigger: While Snowfall is active, deal Resonance Liberation DMG and remove Snowfall; Duration: 6s. Glacio DMG Bonus +25%; Trigger: While Snowfall is active, cast Outro, remove Snowfall, then incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator. Additional effect pending combat adapter."
+        }
+      ],
+      "fullDescription": "2-PC — Glacio DMG Bonus +10%.\n5-PC — Glacio DMG Bonus +10%; Trigger: Inflict Glacio Chafe; Duration: 15s. CRIT Rate +25%; Trigger: While Snowfall is active, deal Resonance Liberation DMG and remove Snowfall; Duration: 6s. Glacio DMG Bonus +25%; Trigger: While Snowfall is active, cast Outro, remove Snowfall, then incoming Resonator casts Intro; Duration: 15s; Applies to: incoming resonator. Additional effect pending combat adapter."
     }
   ]
 }

@@ -2,7 +2,96 @@
   "schemaVersion": 1,
   "generatedFrom": [
     "src/data/echoes.ts#ECHO_CATALOG",
-    "src/data/sonatas.ts#SONATA_CATALOG"
+    "src/data/sonatas.ts#SONATA_CATALOG",
+    "src/data/echoLoadoutProfiles.ts#ECHO_LOADOUT_PROFILES",
+    "docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets"
+  ],
+  "loadoutProfiles": [
+    {
+      "profileId": "augusta-standard-echoes",
+      "characterId": "augusta",
+      "slotCosts": [
+        4,
+        3,
+        3,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-20",
+        "sonata-3"
+      ]
+    },
+    {
+      "profileId": "cartethyia-windward-fleurdelys",
+      "characterId": "cartethyia",
+      "slotCosts": [
+        4,
+        4,
+        1,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-17"
+      ]
+    },
+    {
+      "profileId": "ciaccona-gusts-kelpie-cartethyia",
+      "characterId": "ciaccona",
+      "slotCosts": [
+        4,
+        3,
+        3,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-16"
+      ]
+    },
+    {
+      "profileId": "rover-aero-windward-fleurdelys",
+      "characterId": "rover-aero",
+      "slotCosts": [
+        4,
+        3,
+        3,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-17"
+      ]
+    },
+    {
+      "profileId": "iuno-augusta-moonlit-heron",
+      "characterId": "iuno",
+      "slotCosts": [
+        4,
+        3,
+        3,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-8"
+      ]
+    },
+    {
+      "profileId": "shorekeeper-rejuvenating-fallacy",
+      "characterId": "the-shorekeeper",
+      "slotCosts": [
+        4,
+        3,
+        3,
+        1,
+        1
+      ],
+      "sonataSetIds": [
+        "sonata-7"
+      ]
+    }
   ],
   "echoes": [
     {
@@ -1808,172 +1897,206 @@
     {
       "id": "sonata-5",
       "name": "Celestial Light",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/05-celestial-light.webp"
     },
     {
       "id": "sonata-28",
       "name": "Chromatic Foam",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/28-chromatic-foam.webp"
     },
     {
       "id": "sonata-20",
       "name": "Crown of Valor",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/20-crown-of-valor.webp"
     },
     {
       "id": "sonata-19",
       "name": "Dream of the Lost",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/19-dream-of-the-lost.webp"
     },
     {
       "id": "sonata-13",
       "name": "Empyrean Anthem",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/13-empyrean-anthem.webp"
     },
     {
       "id": "sonata-11",
       "name": "Eternal Radiance",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/11-eternal-radiance.webp"
     },
     {
       "id": "sonata-22",
       "name": "Flamewing's Shadow",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/22-flamewings-shadow.webp"
     },
     {
       "id": "sonata-18",
       "name": "Flaming Clawprint",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/18-flaming-clawprint.webp"
     },
     {
       "id": "sonata-1",
       "name": "Freezing Frost",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/01-freezing-frost.webp"
     },
     {
       "id": "sonata-10",
       "name": "Frosty Resolve",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/10-frosty-resolve.webp"
     },
     {
       "id": "sonata-16",
       "name": "Gusts of Welkin",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/16-gusts-of-welkin.webp"
     },
     {
       "id": "sonata-25",
       "name": "Halo of Starry Radiance",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/25-halo-of-starry-radiance.webp"
     },
     {
       "id": "sonata-6",
       "name": "Havoc Eclipse",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/06-havoc-eclipse.webp"
     },
     {
       "id": "sonata-34",
       "name": "Heart of Evil's Purge",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/34-heart-of-evils-purge.webp"
     },
     {
       "id": "sonata-35",
       "name": "Lamp of Nether Road",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/35-lamp-of-nether-road.webp"
     },
     {
       "id": "sonata-21",
       "name": "Law of Harmony",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/21-law-of-harmony.webp"
     },
     {
       "id": "sonata-9",
       "name": "Lingering Tunes",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/09-lingering-tunes.webp"
     },
     {
       "id": "sonata-12",
       "name": "Midnight Veil",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/12-midnight-veil.webp"
     },
     {
       "id": "sonata-2",
       "name": "Molten Rift",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/02-molten-rift.webp"
     },
     {
       "id": "sonata-8",
       "name": "Moonlit Clouds",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/08-moonlit-clouds.webp"
     },
     {
       "id": "sonata-24",
       "name": "Pact of Neonlight Leap",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/24-pact-of-neonlight-leap.webp"
     },
     {
       "id": "sonata-31",
       "name": "Reel of Spliced Memories",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/31-reel-of-spliced-memories.webp"
     },
     {
       "id": "sonata-7",
       "name": "Rejuvenating Glow",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/07-rejuvenating-glow.webp"
     },
     {
       "id": "sonata-26",
       "name": "Rite of Gilded Revelation",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/26-rite-of-gilded-revelation.webp"
     },
     {
       "id": "sonata-32",
       "name": "Shadow of Shattered Dreams",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/32-shadow-of-shattered-dreams.webp"
     },
     {
       "id": "sonata-4",
       "name": "Sierra Gale",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/04-sierra-gale.webp"
     },
     {
       "id": "sonata-33",
       "name": "Song of Feathered Trace",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/33-song-of-feathered-trace.webp"
     },
     {
       "id": "sonata-29",
       "name": "Sound of True Name",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/29-sound-of-true-name.webp"
     },
     {
       "id": "sonata-23",
       "name": "Thread of Severed Fate",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/23-thread-of-severed-fate.webp"
     },
     {
       "id": "sonata-14",
       "name": "Tidebreaking Courage",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/14-tidebreaking-courage.webp"
     },
     {
       "id": "sonata-27",
       "name": "Trailblazing Star",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/27-trailblazing-star.webp"
     },
     {
       "id": "sonata-3",
       "name": "Void Thunder",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/03-void-thunder.webp"
     },
     {
       "id": "sonata-17",
       "name": "Windward Pilgrimage",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/17-windward-pilgrimage.webp"
     },
     {
       "id": "sonata-30",
       "name": "Wishes of Quiet Snowfall",
-      "releaseStatus": "RELEASED"
+      "releaseStatus": "RELEASED",
+      "artPath": "docs/ui-prototypes/assets/builder-icons/sonata/30-wishes-of-quiet-snowfall.webp"
     }
   ]
 }

@@ -100,6 +100,16 @@ async function pointerClick(send, selector) {
   await sleep(70);
 }
 
+async function openBellibingCombo(send, id) {
+  await pointerClick(send, `#${id}-trigger`);
+  await waitForUi(send, `(()=>{const root=document.querySelector('[data-combobox-id="${id}"]'),list=document.getElementById('${id}-listbox');return !!root?.classList.contains('is-open')&&!!list&&!list.hidden&&list.getAttribute('role')==='listbox'})()`, `Bellibing combobox ${id} did not open its owned listbox`);
+}
+
+async function chooseBellibingComboOption(send, id, index) {
+  await openBellibingCombo(send, id);
+  await pointerClick(send, `#${id}-option-${index}`);
+}
+
 async function capture(send, path) {
   const shot = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
   mkdirSync('artifacts', { recursive: true });
@@ -329,43 +339,75 @@ async function verifyDesktop(send) {
     || preview.hasOldEyebrow || preview.hasOldCost || preview.hasOldChips
   ) throw new Error(`Compact Echo Preview contract failed: ${JSON.stringify(preview)}`);
 
-  const layout2c = await evaluate(send, `(()=>{
-    const pane=document.getElementById('echoPreviewPane'),hero=document.querySelector('#echoPreviewPane .echo-preview-hero'),assignment=document.querySelector('#echoPreviewPane .echo-preview-sonata-assignment'),identity=document.querySelector('#echoPreviewPane .echo-preview-identity'),art=document.getElementById('echoPreviewArt'),copy=document.querySelector('#echoPreviewPane .echo-preview-copy'),mainField=document.querySelector('#echoPreviewPane .echo-main-stat-field'),main=document.getElementById('echoMainStat'),secondaryField=document.querySelector('#echoPreviewPane .echo-secondary-field'),secondary=document.getElementById('echoSecondaryMainStat'),secondaryLabel=secondaryField?.querySelector('label'),firstSubstat=document.querySelector('#echoSubstats .echo-substat-row select');
-    const pr=pane.getBoundingClientRect(),hr=hero.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),ir=identity.getBoundingClientRect(),ar=art.getBoundingClientRect(),mr=mainField.getBoundingClientRect();
-    const mainStyle=getComputedStyle(main),secondaryStyle=getComputedStyle(secondary),substatStyle=getComputedStyle(firstSubstat);
-    const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>({text:node.textContent.trim(),clientWidth:node.clientWidth,scrollWidth:node.scrollWidth}));
+  const layout2d = await evaluate(send, `(()=>{
+    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),copy=pane.querySelector('.echo-preview-copy'),context=pane.querySelector('.echo-preview-context'),artRegion=pane.querySelector('.echo-preview-art-region'),art=document.getElementById('echoPreviewArt'),assignment=pane.querySelector('.echo-preview-sonata-assignment'),name=document.getElementById('echoPreviewName'),mainField=pane.querySelector('.echo-main-stat-field'),mainName=document.querySelector('[data-combobox-id="echoMainStatName"]'),mainValue=document.querySelector('[data-combobox-id="echoMainStatValue"]'),mainNameTrigger=document.getElementById('echoMainStatName-trigger'),secondaryField=pane.querySelector('.echo-secondary-field'),secondary=document.getElementById('echoSecondaryMainStat'),secondaryLabel=secondaryField?.querySelector('label'),firstSubstat=document.getElementById('echoSubstat0Name-trigger'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip');
+    const pr=pane.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cr=copy.getBoundingClientRect(),xr=context.getBoundingClientRect(),arr=artRegion.getBoundingClientRect(),ar=art.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),mr=mainField.getBoundingClientRect(),fr=footer.getBoundingClientRect(),er=equip.getBoundingClientRect();
+    const mainStyle=getComputedStyle(mainNameTrigger),secondaryStyle=getComputedStyle(secondary),substatStyle=getComputedStyle(firstSubstat),nameStyle=getComputedStyle(name);
+    const sonataNames=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>{const style=getComputedStyle(node),line=parseFloat(style.lineHeight);return{text:node.textContent.trim(),clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,clientHeight:node.clientHeight,scrollHeight:node.scrollHeight,lines:Number.isFinite(line)&&line>0?node.scrollHeight/line:null,textOverflow:style.textOverflow,whiteSpace:style.whiteSpace}});
+    const mainOptions=[...document.querySelectorAll('#echoMainStatName-listbox .bb-combobox-option')].map(node=>node.textContent.trim());
+    const canonical=echoMainOptions(echoById.get(echoUi.previewId).cost,echoUi.editorDraft.level).find(option=>option.name===echoUi.editorDraft.mainStat.name);
+    const mainValueText=document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim()||'';
+    const nameLine=parseFloat(nameStyle.lineHeight);
     return {
-      heroContainsAssignment:assignment.parentElement===hero,
-      heroContainsIdentity:identity.parentElement===hero,
-      sonataUnderIdentityCopy:!!copy.querySelector('.echo-preview-sonata-assignment'),
-      besideArtwork:sr.right<=ar.left-4&&Math.min(sr.bottom,ar.bottom)-Math.max(sr.top,ar.top)>20,
-      assignmentBeforeIdentity:sr.right<=ir.left-4,
-      sonataNames:names,
-      mainTopOffset:mr.top-pr.top,
+      nativeSelects:pane.querySelectorAll('.echo-editor select').length,
+      comboCount:pane.querySelectorAll('.echo-editor .bb-combobox').length,
+      mainControls:document.querySelectorAll('#echoMainStat>.bb-combobox').length,
+      substatRows:[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(row=>row.querySelectorAll('.bb-combobox').length),
+      copyAboveContext:cr.bottom<=xr.top+1,
+      artLeftOfSonata:arr.right<=sr.left-4,
+      artAndSonataVerticalOverlap:Math.min(arr.bottom,sr.bottom)-Math.max(arr.top,sr.top)>30,
+      artTextOverlap:!(ar.bottom<=cr.top||ar.top>=cr.bottom||ar.right<=cr.left||ar.left>=cr.right),
+      nameText:name.textContent.trim(),expectedName:echoById.get(echoUi.previewId).name,
+      nameWhiteSpace:nameStyle.whiteSpace,nameTextOverflow:nameStyle.textOverflow,nameLines:Number.isFinite(nameLine)&&nameLine>0?name.scrollHeight/nameLine:null,nameFits:name.scrollHeight<=name.clientHeight+1&&name.scrollWidth<=name.clientWidth+1,
+      sonataNames,
       mainAfterHero:mr.top>=hr.bottom,
       mainLabel:mainField.querySelector('label')?.textContent.trim()||'',
-      mainFontSize:parseFloat(mainStyle.fontSize),
-      mainFontWeight:Number(mainStyle.fontWeight)||0,
+      mainFontSize:parseFloat(mainStyle.fontSize),mainFontWeight:Number(mainStyle.fontWeight)||0,
+      substatFontSize:parseFloat(substatStyle.fontSize),substatFontWeight:Number(substatStyle.fontWeight)||0,
+      mainOptions,mainValueText,expectedMainValue:canonical?echoStatValueText(canonical.name,canonical.value):null,
       secondaryLabel:secondaryLabel?.textContent.trim()||'',
       secondaryTag:secondary.tagName,
-      secondaryInteractive:secondary.matches('input,select,button,a[href],[tabindex]:not([tabindex="-1"])'),
+      secondaryInteractive:secondary.matches('input,select,button,a[href],[tabindex]:not([tabindex="-1"])')||!!secondary.querySelector('input,select,button,a[href],[role="combobox"]'),
       secondaryBorder:[secondaryStyle.borderTopWidth,secondaryStyle.borderRightWidth,secondaryStyle.borderBottomWidth,secondaryStyle.borderLeftWidth],
-      secondaryBackground:secondaryStyle.backgroundColor,
-      secondaryFontSize:parseFloat(secondaryStyle.fontSize),
-      secondaryFontWeight:Number(secondaryStyle.fontWeight)||0,
-      substatFontSize:parseFloat(substatStyle.fontSize)
+      secondaryParts:[...secondary.children].map(node=>node.textContent.trim()),
+      secondaryExpected:(()=>{const value=echoSecondary(echoById.get(echoUi.previewId).cost,echoUi.editorDraft.level);return value?[value.name,echoStatValueText(value.name,value.value)]:[]})(),
+      footerLast:shell.lastElementChild===footer,
+      footerBottomGap:pr.bottom-er.bottom,
+      footerBelowEditor:fr.top>=pane.querySelector('.echo-editor').getBoundingClientRect().bottom
     };
   })()`);
   if (
-    !layout2c.heroContainsAssignment || !layout2c.heroContainsIdentity || layout2c.sonataUnderIdentityCopy
-    || !layout2c.besideArtwork || !layout2c.assignmentBeforeIdentity
-    || !layout2c.sonataNames.length || layout2c.sonataNames.some(x=>!x.text||x.clientWidth<80||x.scrollWidth>x.clientWidth+1)
-    || layout2c.mainTopOffset>=150 || !layout2c.mainAfterHero || layout2c.mainLabel!=='MAIN STAT'
-    || !(layout2c.mainFontSize>=layout2c.secondaryFontSize+3) || !(layout2c.mainFontSize>=layout2c.substatFontSize+3)
-    || !(layout2c.mainFontWeight>layout2c.secondaryFontWeight)
-    || layout2c.secondaryLabel!=='Secondary Stat' || layout2c.secondaryTag!=='DIV' || layout2c.secondaryInteractive
-    || layout2c.secondaryBorder.some(value=>value!=='0px') || !['rgba(0, 0, 0, 0)','transparent'].includes(layout2c.secondaryBackground)
-  ) throw new Error(`Echo Preview/Editor Correction 2C hero/stat hierarchy failed: ${JSON.stringify(layout2c)}`);
+    layout2d.nativeSelects!==0 || layout2d.comboCount!==12 || layout2d.mainControls!==2 || layout2d.substatRows.some(count=>count!==2)
+    || !layout2d.copyAboveContext || !layout2d.artLeftOfSonata || !layout2d.artAndSonataVerticalOverlap || layout2d.artTextOverlap
+    || layout2d.nameText!==layout2d.expectedName || layout2d.nameWhiteSpace==='nowrap' || layout2d.nameTextOverflow==='ellipsis' || !layout2d.nameFits || layout2d.nameLines>2.05
+    || !layout2d.sonataNames.length || layout2d.sonataNames.some(x=>!x.text||x.textOverflow==='ellipsis'||x.whiteSpace==='nowrap'||x.scrollWidth>x.clientWidth+1||x.scrollHeight>x.clientHeight+1||x.lines>2.05)
+    || !layout2d.mainAfterHero || layout2d.mainLabel!=='MAIN STAT'
+    || !(layout2d.mainFontSize>=layout2d.substatFontSize+3) || !(layout2d.mainFontWeight>layout2d.substatFontWeight)
+    || layout2d.mainOptions.some(text=>text.includes('—')) || layout2d.mainValueText!==layout2d.expectedMainValue
+    || layout2d.secondaryLabel!=='SECONDARY STAT' || layout2d.secondaryTag!=='DIV' || layout2d.secondaryInteractive
+    || layout2d.secondaryBorder.some(value=>value!=='0px') || JSON.stringify(layout2d.secondaryParts)!==JSON.stringify(layout2d.secondaryExpected)
+    || !layout2d.footerLast || !layout2d.footerBelowEditor || layout2d.footerBottomGap>18
+  ) throw new Error(`Echo Preview/Editor Correction 2D structural/control contract failed: ${JSON.stringify(layout2d)}`);
+
+  await openBellibingCombo(send,'echoMainStatName');
+  const mainPopup=await evaluate(send,`(()=>{
+    const pane=document.getElementById('echoPreviewPane').getBoundingClientRect(),list=document.getElementById('echoMainStatName-listbox'),lr=list.getBoundingClientRect(),style=getComputedStyle(list),root=document.querySelector('[data-combobox-id="echoMainStatName"]'),options=[...list.querySelectorAll('.bb-combobox-option')],current=root.dataset.value,alternative=options.find(node=>!node.disabled&&node.dataset.bbValue!==current);
+    return {role:list.getAttribute('role'),hidden:list.hidden,background:style.backgroundColor,left:lr.left,right:lr.right,top:lr.top,bottom:lr.bottom,paneLeft:pane.left,paneRight:pane.right,paneTop:pane.top,paneBottom:pane.bottom,alternativeId:alternative?.id||null,alternativeValue:alternative?.dataset.bbValue||null};
+  })()`);
+  if(mainPopup.role!=='listbox'||mainPopup.hidden||!/^rgba?\((?:1[0-9]|2[0-9]|3[0-9])[, ]/.test(mainPopup.background)||mainPopup.left<mainPopup.paneLeft-1||mainPopup.right>mainPopup.paneRight+1||mainPopup.top<mainPopup.paneTop-1||mainPopup.bottom>mainPopup.paneBottom+1||!mainPopup.alternativeId){
+    throw new Error(`Bellibing Main Stat popup escaped custom panel contract: ${JSON.stringify(mainPopup)}`);
+  }
+  await pointerClick(send,'#'+mainPopup.alternativeId);
+  await waitForUi(send,`echoUi.editorDraft.mainStat.name===${JSON.stringify(mainPopup.alternativeValue)}`,'Physical Main Stat combobox selection did not apply');
+  const mainAfterPhysical=await evaluate(send,`(()=>{
+    const item=echoById.get(echoUi.previewId),card=echoUi.editorDraft,canonical=echoMainOptions(item.cost,card.level).find(option=>option.name===card.mainStat.name),valueRoot=document.querySelector('[data-combobox-id="echoMainStatValue"]');
+    return {card:card.mainStat,canonical,valueText:document.querySelector('#echoMainStatValue-trigger .bb-combobox-value')?.textContent.trim(),valueOptions:[...document.querySelectorAll('#echoMainStatValue-listbox .bb-combobox-option')].map(x=>x.textContent.trim()),deterministic:valueRoot.classList.contains('is-deterministic')};
+  })()`);
+  if(!mainAfterPhysical.canonical||JSON.stringify(mainAfterPhysical.card)!==JSON.stringify(mainAfterPhysical.canonical)||mainAfterPhysical.valueText!==echoStatValueText(mainAfterPhysical.canonical.name,mainAfterPhysical.canonical.value)||mainAfterPhysical.valueOptions.length!==1||mainAfterPhysical.valueOptions[0]!==mainAfterPhysical.valueText||!mainAfterPhysical.deterministic){
+    throw new Error(`Main Stat name/value source-backed separation failed after physical selection: ${JSON.stringify(mainAfterPhysical)}`);
+  }
+  await openBellibingCombo(send,'echoMainStatValue');
+  await pointerClick(send,'#echoMainStatValue-option-0');
 
   const pointerAudit = await evaluate(send, `window.__echoPointerAudit.filter(x=>x.echoId===${JSON.stringify(firstId)})`);
   if (!pointerAudit.some(x=>x.type==='pointerdown') || !pointerAudit.some(x=>x.type==='pointerup') || !pointerAudit.some(x=>x.type==='click')) {
@@ -385,8 +427,12 @@ async function verifyDesktop(send) {
   }
 
   async function setSubstatRow(index) {
-    await evaluate(send, `(()=>{const row=document.querySelector('#echoSubstats .echo-substat-row[data-substat-index="${index}"]'),name=row.querySelectorAll('select')[0],option=echoStatContract.substats[${index}];name.value=option.name;name.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
-    await evaluate(send, `(()=>{const row=document.querySelector('#echoSubstats .echo-substat-row[data-substat-index="${index}"]'),value=row.querySelectorAll('select')[1],option=echoStatContract.substats[${index}];value.value=String(option.values[0]);value.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+    const expectedName=await evaluate(send,`echoStatContract.substats[${index}].name`);
+    await chooseBellibingComboOption(send,'echoSubstat'+index+'Name',index+1);
+    await waitForUi(send,`echoUi.editorSubstatRows[${index}]?.name===${JSON.stringify(expectedName)}`,`Physical Substat ${index+1} name selection failed`);
+    const expectedValue=await evaluate(send,`String(echoStatContract.substats[${index}].values[0])`);
+    await chooseBellibingComboOption(send,'echoSubstat'+index+'Value',1);
+    await waitForUi(send,`String(echoUi.editorSubstatRows[${index}]?.value)===${JSON.stringify(expectedValue)}`,`Physical Substat ${index+1} value selection failed`);
   }
   async function assertLevel(count) {
     const expected=count*5;
@@ -403,23 +449,25 @@ async function verifyDesktop(send) {
   for(let index=0;index<5;index++){await setSubstatRow(index);await assertLevel(index+1)}
 
   const desktopFit=await evaluate(send,`(()=>{
-    const pane=document.getElementById('echoPreviewPane'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(x=>x.getBoundingClientRect()),last=rows.at(-1);
+    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),editor=pane.querySelector('.echo-editor'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),sr=shell.getBoundingClientRect(),hr=hero.getBoundingClientRect(),dr=editor.getBoundingClientRect(),fr=footer.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(x=>x.getBoundingClientRect()),last=rows.at(-1);
     return {
       scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,scrollTop:pane.scrollTop,
-      equipTop:er.top,equipBottom:er.bottom,paneTop:pr.top,paneBottom:pr.bottom,
+      equipTop:er.top,equipBottom:er.bottom,paneBottom:pr.bottom,shellBottom:sr.bottom,heroHeight:hr.height,editorHeight:dr.height,
       rowCount:rows.length,rowsInside:rows.every(r=>r.top>=pr.top-1&&r.bottom<=pr.bottom+1&&r.height>0),
-      lastSubstatBottom:last?.bottom??null,equipGap:last?er.top-last.bottom:null,overlap:last?er.top<last.bottom:false
+      lastSubstatBottom:last?.bottom??null,equipGap:last?er.top-last.bottom:null,overlap:last?er.top<last.bottom:false,
+      footerAfterEditor:fr.top>=dr.bottom,footerBottomGap:pr.bottom-er.bottom,deadBelowEquip:Math.max(0,pr.bottom-er.bottom)
     }
   })()`);
   if(
     desktopFit.scrollHeight>desktopFit.clientHeight+1||desktopFit.scrollTop!==0
     ||desktopFit.equipBottom>desktopFit.paneBottom+1||desktopFit.rowCount!==5||!desktopFit.rowsInside
-    ||desktopFit.lastSubstatBottom===null||desktopFit.equipGap<6||desktopFit.overlap
+    ||desktopFit.lastSubstatBottom===null||desktopFit.equipGap<6||desktopFit.overlap||!desktopFit.footerAfterEditor
+    ||desktopFit.footerBottomGap>18||desktopFit.deadBelowEquip>18||desktopFit.heroHeight<140
   ){
-    throw new Error(`Desktop 1440x900 Correction 2C editor flow/Equip separation failed: ${JSON.stringify(desktopFit)}`);
+    throw new Error(`Desktop 1440x900 Correction 2D editor/footer composition failed: ${JSON.stringify(desktopFit)}`);
   }
 
-  await evaluate(send,`(()=>{const row=document.querySelector('#echoSubstats .echo-substat-row[data-substat-index="4"]'),name=row.querySelectorAll('select')[0];name.value='';name.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+  await chooseBellibingComboOption(send,'echoSubstat4Name',0);
   await assertLevel(4);
 
   await pointerClick(send, '#echoEquip');
@@ -459,7 +507,8 @@ async function verifyDesktop(send) {
     await waitForUi(send, `echoUi.editorDraft.selectedSonataSetId===${JSON.stringify(closeAlternate)}`, 'Transient Sonata reassignment before Close failed');
   }
   const storageBeforeClose=await evaluate(send,`localStorage.getItem('bellibing-ui-checkpoint-v34')`);
-  await evaluate(send,`(()=>{const main=document.getElementById('echoMainStat'),other=[...main.options].find(x=>x.value!==echoUi.editorDraft.mainStat.name);if(other){main.value=other.value;main.dispatchEvent(new Event('change',{bubbles:true}))}return true})()`);
+  const closeMainOption=await evaluate(send,`(()=>{const root=document.querySelector('[data-combobox-id="echoMainStatName"]'),current=root.dataset.value;return [...document.querySelectorAll('#echoMainStatName-listbox .bb-combobox-option')].find(node=>!node.disabled&&node.dataset.bbValue!==current)?.id||null})()`);
+  if(closeMainOption){await openBellibingCombo(send,'echoMainStatName');await pointerClick(send,'#'+closeMainOption)}
   if(await evaluate(send,`localStorage.getItem('bellibing-ui-checkpoint-v34')!==${JSON.stringify(storageBeforeClose)}`))throw new Error('Transient equipped Echo edit leaked before Equip');
   await capture(send, 'artifacts/ui-preview-echo-workspace-1440x900.png');
   await pointerClick(send, '#echoClose');
@@ -537,22 +586,25 @@ async function verifyMobileSmoke(send) {
   await pointerClick(send, `#echoChoices .echo-choice[data-echo-id="${id}"]`);
   await waitForUi(send, `echoUi.previewId===${JSON.stringify(id)}`, 'Mobile physical Echo card click did not Preview');
   const previewMetrics=await evaluate(send,`(()=>{
-    const pane=document.getElementById('echoPreviewPane'),panel=document.getElementById('echoPanel'),hero=document.querySelector('#echoPreviewPane .echo-preview-hero'),assignment=document.querySelector('#echoPreviewPane .echo-preview-sonata-assignment'),identity=document.querySelector('#echoPreviewPane .echo-preview-identity'),pr=pane.getBoundingClientRect(),wr=panel.getBoundingClientRect(),hr=hero.getBoundingClientRect(),sr=assignment.getBoundingClientRect(),ir=identity.getBoundingClientRect();
-    const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>({clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,text:node.textContent.trim()}));
+    const pane=document.getElementById('echoPreviewPane'),panel=document.getElementById('echoPanel'),hero=pane.querySelector('.echo-preview-hero'),copy=pane.querySelector('.echo-preview-copy'),context=pane.querySelector('.echo-preview-context'),artRegion=pane.querySelector('.echo-preview-art-region'),assignment=pane.querySelector('.echo-preview-sonata-assignment'),pr=pane.getBoundingClientRect(),wr=panel.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cr=copy.getBoundingClientRect(),xr=context.getBoundingClientRect(),ar=artRegion.getBoundingClientRect(),sr=assignment.getBoundingClientRect();
+    const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>{const style=getComputedStyle(node),line=parseFloat(style.lineHeight);return{clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,clientHeight:node.clientHeight,scrollHeight:node.scrollHeight,text:node.textContent.trim(),lines:Number.isFinite(line)&&line>0?node.scrollHeight/line:null}});
+    const combos=[...document.querySelectorAll('#echoPreviewPane .echo-editor .bb-combobox-trigger')].map(node=>node.getBoundingClientRect());
     pane.scrollTop=pane.scrollHeight;
     const equip=document.getElementById('echoEquip').getBoundingClientRect(),last=document.querySelector('#echoSubstats .echo-substat-row:last-child').getBoundingClientRect();
     return{
       paneLeft:pr.left,paneRight:pr.right,panelLeft:wr.left,panelRight:wr.right,overflow:getComputedStyle(pane).overflowY,scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,
-      heroContained:hr.left>=pr.left-1&&hr.right<=pr.right+1,heroColumns:sr.right<=ir.left-2,namesFit:names.every(x=>x.text&&x.clientWidth>55&&x.scrollWidth<=x.clientWidth+1),
+      heroContained:hr.left>=pr.left-1&&hr.right<=pr.right+1,copyAboveContext:cr.bottom<=xr.top+1,artLeftOfSonata:ar.right<=sr.left-2,namesFit:names.every(x=>x.text&&x.scrollWidth<=x.clientWidth+1&&x.scrollHeight<=x.clientHeight+1&&x.lines<=2.05),
+      combosContained:combos.every(r=>r.left>=pr.left-1&&r.right<=pr.right+1),
+      nativeSelects:pane.querySelectorAll('.echo-editor select').length,
       equipVisible:Math.min(equip.bottom,pr.bottom)-Math.max(equip.top,pr.top)>0,equipGap:equip.top-last.bottom,overlap:equip.top<last.bottom
     };
   })()`);
   if(
     previewMetrics.paneLeft<previewMetrics.panelLeft-1||previewMetrics.paneRight>previewMetrics.panelRight+1
-    ||!['auto','scroll'].includes(previewMetrics.overflow)||!previewMetrics.heroContained||!previewMetrics.heroColumns||!previewMetrics.namesFit
+    ||!['auto','scroll'].includes(previewMetrics.overflow)||!previewMetrics.heroContained||!previewMetrics.copyAboveContext||!previewMetrics.artLeftOfSonata||!previewMetrics.namesFit||!previewMetrics.combosContained||previewMetrics.nativeSelects!==0
     ||!previewMetrics.equipVisible||previewMetrics.equipGap<6||previewMetrics.overlap
   ){
-    throw new Error(`Mobile Correction 2C Preview/Editor is not contained/usable: ${JSON.stringify(previewMetrics)}`);
+    throw new Error(`Mobile Correction 2D Preview/Editor is not contained/usable: ${JSON.stringify(previewMetrics)}`);
   }
   await capture(send, 'artifacts/ui-preview-echo-workspace-390x844.png');
   await pointerClick(send, '#echoClose');
@@ -577,10 +629,10 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Stats Editor Correction 2C verification passed in real Chrome.');
-    console.log(`- Desktop: Correction 2C two-column owned-Sonata/Echo hero, primary Main Stat hierarchy, plain Secondary Stat, five visible Substats + separated Equip, plus all 2B Sonata/filter/Cost/level/transient/commit/persistence regressions passed.`);
+    console.log('v34 Echo Workspace Stats Editor Correction 2D verification passed in real Chrome.');
+    console.log(`- Desktop: Bellibing-owned custom Main/Substat comboboxes, separate Main name/value, full-width Echo identity over art|Sonata context, plain Secondary Stat, five visible Substats and bottom-anchored Equip passed with all 2B functional regressions.`);
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
-    console.log(`- Mobile 390x844: contained two-column Echo hero + scrollable editor + physical Echo Preview passed (${mobile.previewed}).`);
+    console.log(`- Mobile 390x844: contained identity + art|Sonata hero, Bellibing controls, scrollable editor and physical Echo Preview passed (${mobile.previewed}).`);
   } finally {
     socket.close();
   }

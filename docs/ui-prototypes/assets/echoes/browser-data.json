@@ -1,0 +1,1979 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": [
+    "src/data/echoes.ts#ECHO_CATALOG",
+    "src/data/sonatas.ts#SONATA_CATALOG"
+  ],
+  "echoes": [
+    {
+      "id": "echo-60000775",
+      "name": "Abyssal Gladius",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-14",
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60000785",
+      "name": "Abyssal Mercator",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-11"
+      ]
+    },
+    {
+      "id": "echo-60000765",
+      "name": "Abyssal Patricius",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60001015",
+      "name": "Aero Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-14",
+        "sonata-16",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000235",
+      "name": "Aero Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-3",
+        "sonata-4"
+      ]
+    },
+    {
+      "id": "echo-60000955",
+      "name": "Aero Prism",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60002055",
+      "name": "Aureate Picket",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-34"
+      ]
+    },
+    {
+      "id": "echo-60000495",
+      "name": "Autopuppet Scout",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60000305",
+      "name": "Baby Roseshroom",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000285",
+      "name": "Baby Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000375",
+      "name": "Bell-Borne Geochelone",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-7",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60002215",
+      "name": "Calamity Effigy",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-34",
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60000945",
+      "name": "Calcified Junrock",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-13",
+        "sonata-14",
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60001045",
+      "name": "Capitaneus",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-16",
+        "sonata-17"
+      ]
+    },
+    {
+      "id": "echo-60000465",
+      "name": "Carapace",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000215",
+      "name": "Chasm Guardian",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-7",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000725",
+      "name": "Chest Mimic",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-12",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60000475",
+      "name": "Chirpuff",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000795",
+      "name": "Chop Chop",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-13",
+        "sonata-14",
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60000645",
+      "name": "Chop Chop: Headless",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000655",
+      "name": "Chop Chop: Leftless",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000665",
+      "name": "Chop Chop: Rightless",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000515",
+      "name": "Clang Bang",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60001205",
+      "name": "Corrosaurus",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-18",
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60000425",
+      "name": "Crownless",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000255",
+      "name": "Cruisewing",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-5",
+        "sonata-7",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000815",
+      "name": "Cuddle Wuddle",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-12"
+      ]
+    },
+    {
+      "id": "echo-60000135",
+      "name": "Cyan-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60001105",
+      "name": "Devotee's Flesh",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-16",
+        "sonata-17",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000415",
+      "name": "Diamondclaw",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-8",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000715",
+      "name": "Diggy Duggy",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000745",
+      "name": "Diurnus Knight",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000845",
+      "name": "Dragon of Dirge",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000535",
+      "name": "Dreamless",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000555",
+      "name": "Dwarf Cassowary",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-7"
+      ]
+    },
+    {
+      "id": "echo-60001025",
+      "name": "Electro Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-16",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000035",
+      "name": "Electro Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60000275",
+      "name": "Excarat",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000675",
+      "name": "Fae Ignis",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-12",
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60000605",
+      "name": "Fallacy of No Return",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-7"
+      ]
+    },
+    {
+      "id": "echo-60000435",
+      "name": "Feilian Beringal",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-4"
+      ]
+    },
+    {
+      "id": "echo-60000025",
+      "name": "Fission Junrock",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-3",
+        "sonata-7",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000195",
+      "name": "Flautist",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-3",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60001755",
+      "name": "Flora Drone",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-26",
+        "sonata-29",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60001815",
+      "name": "Flora Reindeer",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-26",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60002155",
+      "name": "Fog Lionarch",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-33",
+        "sonata-34",
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60002125",
+      "name": "Fog Lionarch: Body",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60002135",
+      "name": "Fog Lionarch: Head",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60002165",
+      "name": "Forbidden Bastion",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-33",
+        "sonata-34",
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60001875",
+      "name": "Frostbite Coleoid",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-25",
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60000635",
+      "name": "Frostscourge Stalker",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-12"
+      ]
+    },
+    {
+      "id": "echo-60001075",
+      "name": "Fusion Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-17",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000365",
+      "name": "Fusion Dreadmane",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-7"
+      ]
+    },
+    {
+      "id": "echo-60000155",
+      "name": "Fusion Prism",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-2",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000045",
+      "name": "Fusion Warrior",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3",
+        "sonata-4"
+      ]
+    },
+    {
+      "id": "echo-60000615",
+      "name": "Galescourge Stalker",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60001775",
+      "name": "Geospider S4",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-25",
+        "sonata-27"
+      ]
+    },
+    {
+      "id": "echo-60001035",
+      "name": "Glacio Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-16",
+        "sonata-17"
+      ]
+    },
+    {
+      "id": "echo-60000565",
+      "name": "Glacio Dreadmane",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000105",
+      "name": "Glacio Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60000145",
+      "name": "Glacio Prism",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-6",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60001955",
+      "name": "Glommoth",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-27",
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60000935",
+      "name": "Golden Junrock",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-11",
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60000115",
+      "name": "Gulpuff",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60001095",
+      "name": "Havoc Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-17",
+        "sonata-18",
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60000355",
+      "name": "Havoc Dreadmane",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000175",
+      "name": "Havoc Prism",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-3",
+        "sonata-5",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000055",
+      "name": "Havoc Warrior",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-5",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000855",
+      "name": "Hecate",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60000345",
+      "name": "Hoartoise",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60000695",
+      "name": "Hocus Pocus",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60000405",
+      "name": "Hoochief",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-7"
+      ]
+    },
+    {
+      "id": "echo-60000385",
+      "name": "Hooscamp",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000975",
+      "name": "Hurriclaw",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-14",
+        "sonata-16",
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60001895",
+      "name": "Hyvatia",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-26"
+      ]
+    },
+    {
+      "id": "echo-60001965",
+      "name": "Iceglint Dancer",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-27",
+        "sonata-30",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60000525",
+      "name": "Impermanence Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000325",
+      "name": "Inferno Rider",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-2"
+      ]
+    },
+    {
+      "id": "echo-60001839",
+      "name": "Ironhoof",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-30",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60000595",
+      "name": "Jué",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60001125",
+      "name": "Kerasaur",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-17",
+        "sonata-18",
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60002075",
+      "name": "Kernel Puppet: Anger",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-34"
+      ]
+    },
+    {
+      "id": "echo-60002115",
+      "name": "Kernel Puppet: Fright",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60002105",
+      "name": "Kernel Puppet: Grief",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60002065",
+      "name": "Kernel Puppet: Joy",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60002095",
+      "name": "Kernel Puppet: Reflection",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-34"
+      ]
+    },
+    {
+      "id": "echo-60002085",
+      "name": "Kernel Puppet: Worry",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-34"
+      ]
+    },
+    {
+      "id": "echo-60001935",
+      "name": "Kronablight",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-27",
+        "sonata-28"
+      ]
+    },
+    {
+      "id": "echo-60000985",
+      "name": "La Guardia",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-16",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60001605",
+      "name": "Lady of the Sea",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60000445",
+      "name": "Lampylumen Myriad",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-1"
+      ]
+    },
+    {
+      "id": "echo-60000545",
+      "name": "Lava Larva",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000585",
+      "name": "Lightcrusher",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60001145",
+      "name": "Lioness of Glory",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000825",
+      "name": "Lorelei",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-12"
+      ]
+    },
+    {
+      "id": "echo-60000705",
+      "name": "Lottie Lost",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-14"
+      ]
+    },
+    {
+      "id": "echo-60000575",
+      "name": "Lumiscale Construct",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60000485",
+      "name": "Mech Abomination",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60001765",
+      "name": "Mining Drone",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-25",
+        "sonata-26",
+        "sonata-29",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60001825",
+      "name": "Mining Reindeer",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60000455",
+      "name": "Mourning Aix",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60002175",
+      "name": "Myriad Snare: Rustfire Chassis",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-34",
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60001925",
+      "name": "Nameless Explorer",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-29",
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60001645",
+      "name": "Nightmare: Aero Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60001705",
+      "name": "Nightmare: Baby Roseshroom",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60001695",
+      "name": "Nightmare: Baby Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60001665",
+      "name": "Nightmare: Chirpuff",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60000905",
+      "name": "Nightmare: Crownless",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60001625",
+      "name": "Nightmare: Cyan-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60001725",
+      "name": "Nightmare: Dwarf Cassowary",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60001635",
+      "name": "Nightmare: Electro Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60000865",
+      "name": "Nightmare: Feilian Beringal",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-4"
+      ]
+    },
+    {
+      "id": "echo-60001185",
+      "name": "Nightmare: Glacio Predator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60001655",
+      "name": "Nightmare: Gulpuff",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60001175",
+      "name": "Nightmare: Havoc Warrior",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60001155",
+      "name": "Nightmare: Hecate",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60000875",
+      "name": "Nightmare: Impermanence Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-12"
+      ]
+    },
+    {
+      "id": "echo-60000915",
+      "name": "Nightmare: Inferno Rider",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-2"
+      ]
+    },
+    {
+      "id": "echo-60001135",
+      "name": "Nightmare: Kelpie",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-16",
+        "sonata-17"
+      ]
+    },
+    {
+      "id": "echo-60001055",
+      "name": "Nightmare: Lampylumen Myriad",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60000925",
+      "name": "Nightmare: Mourning Aix",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-11"
+      ]
+    },
+    {
+      "id": "echo-60001739",
+      "name": "Nightmare: Roseshroom",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60001195",
+      "name": "Nightmare: Tambourinist",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-19"
+      ]
+    },
+    {
+      "id": "echo-60000895",
+      "name": "Nightmare: Tempest Mephis",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-13",
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60000885",
+      "name": "Nightmare: Thundering Mephis",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60001719",
+      "name": "Nightmare: Tick Tack",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60001615",
+      "name": "Nightmare: Violet-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60001685",
+      "name": "Nightmare: Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60000685",
+      "name": "Nimbus Wraith",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-13",
+        "sonata-22"
+      ]
+    },
+    {
+      "id": "echo-60000755",
+      "name": "Nocturnus Knight",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60001115",
+      "name": "Pilgrim's Shell",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-17",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60002035",
+      "name": "Porcelain Picket",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60000735",
+      "name": "Questless Knight",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-10",
+        "sonata-12"
+      ]
+    },
+    {
+      "id": "echo-60000965",
+      "name": "Rage Against the Statue",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-16",
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60001905",
+      "name": "Reactor Husk",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-25",
+        "sonata-28"
+      ]
+    },
+    {
+      "id": "echo-60002015",
+      "name": "Reminiscence - Nightmare: Adam Smasher",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-32"
+      ]
+    },
+    {
+      "id": "echo-60002005",
+      "name": "Reminiscence: Denia",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-28"
+      ]
+    },
+    {
+      "id": "echo-60001165",
+      "name": "Reminiscence: Fenrico",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-19",
+        "sonata-21"
+      ]
+    },
+    {
+      "id": "echo-60001065",
+      "name": "Reminiscence: Fleurdelys",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-16",
+        "sonata-17"
+      ]
+    },
+    {
+      "id": "echo-60001945",
+      "name": "Reminiscence: Kronaclaw",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-27",
+        "sonata-28"
+      ]
+    },
+    {
+      "id": "echo-60001675",
+      "name": "Reminiscence: Threnodian - Leviathan",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-22",
+        "sonata-23"
+      ]
+    },
+    {
+      "id": "echo-60001995",
+      "name": "Reminiscence: Threnodian - Voidborne Construct",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60000245",
+      "name": "Rocksteady Guardian",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-5",
+        "sonata-7"
+      ]
+    },
+    {
+      "id": "echo-60000315",
+      "name": "Roseshroom",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60001865",
+      "name": "Sabercat Prowler",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-25",
+        "sonata-29"
+      ]
+    },
+    {
+      "id": "echo-60001855",
+      "name": "Sabercat Reaver",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-25",
+        "sonata-29"
+      ]
+    },
+    {
+      "id": "echo-60000265",
+      "name": "Sabyr Boar",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-4",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60001005",
+      "name": "Sacerdos",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-16",
+        "sonata-17"
+      ]
+    },
+    {
+      "id": "echo-60000995",
+      "name": "Sagittario",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-16",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000835",
+      "name": "Sentry Construct",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-10"
+      ]
+    },
+    {
+      "id": "echo-60001975",
+      "name": "Shadow Stepper",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-27",
+        "sonata-28",
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60001915",
+      "name": "Sigillum",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-27"
+      ]
+    },
+    {
+      "id": "echo-60002025",
+      "name": "Smiter",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60002145",
+      "name": "Smolder",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60000065",
+      "name": "Snip Snap",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-7",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60001845",
+      "name": "Spacetrek Explorer",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-25",
+        "sonata-28",
+        "sonata-29"
+      ]
+    },
+    {
+      "id": "echo-60000335",
+      "name": "Spearback",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-8",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60001085",
+      "name": "Spectro Drake",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-17",
+        "sonata-18"
+      ]
+    },
+    {
+      "id": "echo-60000165",
+      "name": "Spectro Prism",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3",
+        "sonata-5"
+      ]
+    },
+    {
+      "id": "echo-60002045",
+      "name": "Stone Picket",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-35"
+      ]
+    },
+    {
+      "id": "echo-60000185",
+      "name": "Stonewall Bracer",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-7",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000205",
+      "name": "Tambourinist",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-1",
+        "sonata-6"
+      ]
+    },
+    {
+      "id": "echo-60000395",
+      "name": "Tempest Mephis",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60001215",
+      "name": "The False Sovereign",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-20"
+      ]
+    },
+    {
+      "id": "echo-60002185",
+      "name": "Thousand-Puppet Pavilion",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-33"
+      ]
+    },
+    {
+      "id": "echo-60000225",
+      "name": "Thundering Mephis",
+      "releaseStatus": "RELEASED",
+      "cost": 4,
+      "sonataSetIds": [
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60000095",
+      "name": "Tick Tack",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-6",
+        "sonata-7",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000505",
+      "name": "Traffic Illuminator",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3",
+        "sonata-4"
+      ]
+    },
+    {
+      "id": "echo-60001745",
+      "name": "Tremor Warrior",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-25",
+        "sonata-28",
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60001809",
+      "name": "Twin Nova: Collapsar Blade",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-26",
+        "sonata-27",
+        "sonata-29"
+      ]
+    },
+    {
+      "id": "echo-60001795",
+      "name": "Twin Nova: Nebulous Cannon",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-26",
+        "sonata-28"
+      ]
+    },
+    {
+      "id": "echo-60000015",
+      "name": "Vanguard Junrock",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-3",
+        "sonata-7",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60000125",
+      "name": "Violet-Feathered Heron",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-3"
+      ]
+    },
+    {
+      "id": "echo-60000295",
+      "name": "Viridblaze Saurian",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-2",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60000805",
+      "name": "Vitreum Dancer",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-11",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60001985",
+      "name": "Voidwing Moth",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-31"
+      ]
+    },
+    {
+      "id": "echo-60000625",
+      "name": "Voltscourge Stalker",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-12",
+        "sonata-13"
+      ]
+    },
+    {
+      "id": "echo-60000085",
+      "name": "Whiff Whaff",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-4",
+        "sonata-7",
+        "sonata-8"
+      ]
+    },
+    {
+      "id": "echo-60001885",
+      "name": "Windlash Coleoid",
+      "releaseStatus": "RELEASED",
+      "cost": 3,
+      "sonataSetIds": [
+        "sonata-26",
+        "sonata-30"
+      ]
+    },
+    {
+      "id": "echo-60000075",
+      "name": "Zig Zag",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-5",
+        "sonata-8",
+        "sonata-9"
+      ]
+    },
+    {
+      "id": "echo-60001785",
+      "name": "Zip Zap",
+      "releaseStatus": "RELEASED",
+      "cost": 1,
+      "sonataSetIds": [
+        "sonata-24",
+        "sonata-26",
+        "sonata-28",
+        "sonata-29"
+      ]
+    }
+  ],
+  "sonataSets": [
+    {
+      "id": "sonata-5",
+      "name": "Celestial Light",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-28",
+      "name": "Chromatic Foam",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-20",
+      "name": "Crown of Valor",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-19",
+      "name": "Dream of the Lost",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-13",
+      "name": "Empyrean Anthem",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-11",
+      "name": "Eternal Radiance",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-22",
+      "name": "Flamewing's Shadow",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-18",
+      "name": "Flaming Clawprint",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-1",
+      "name": "Freezing Frost",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-10",
+      "name": "Frosty Resolve",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-16",
+      "name": "Gusts of Welkin",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-25",
+      "name": "Halo of Starry Radiance",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-6",
+      "name": "Havoc Eclipse",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-34",
+      "name": "Heart of Evil's Purge",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-35",
+      "name": "Lamp of Nether Road",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-21",
+      "name": "Law of Harmony",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-9",
+      "name": "Lingering Tunes",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-12",
+      "name": "Midnight Veil",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-2",
+      "name": "Molten Rift",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-8",
+      "name": "Moonlit Clouds",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-24",
+      "name": "Pact of Neonlight Leap",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-31",
+      "name": "Reel of Spliced Memories",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-7",
+      "name": "Rejuvenating Glow",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-26",
+      "name": "Rite of Gilded Revelation",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-32",
+      "name": "Shadow of Shattered Dreams",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-4",
+      "name": "Sierra Gale",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-33",
+      "name": "Song of Feathered Trace",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-29",
+      "name": "Sound of True Name",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-23",
+      "name": "Thread of Severed Fate",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-14",
+      "name": "Tidebreaking Courage",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-27",
+      "name": "Trailblazing Star",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-3",
+      "name": "Void Thunder",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-17",
+      "name": "Windward Pilgrimage",
+      "releaseStatus": "RELEASED"
+    },
+    {
+      "id": "sonata-30",
+      "name": "Wishes of Quiet Snowfall",
+      "releaseStatus": "RELEASED"
+    }
+  ]
+}

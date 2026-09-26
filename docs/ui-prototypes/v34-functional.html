@@ -103,11 +103,80 @@
   .weapon-preview-copy h3{font-size:25px}
 }
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+.echo{position:relative;overflow:hidden;cursor:pointer;padding:5px;display:grid;place-items:center;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
+.echo:hover{border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.045)}
+.echo:active{transform:scale(.97)}
+.echo-slot-plus{position:absolute;inset:0;display:grid;place-items:center;color:#777;font-size:24px}
+.echo.has-echo .echo-slot-plus{display:none}
+.echo-slot-art{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.42));pointer-events:none}
+.echo-overlay{position:fixed;inset:0;z-index:180;visibility:hidden;pointer-events:none}
+.echo-overlay.mounted{visibility:visible;pointer-events:auto}
+.echo-scrim{position:absolute;inset:0;background:rgba(4,5,8,.48);backdrop-filter:blur(2px);opacity:0;transition:opacity .28s cubic-bezier(.16,.84,.24,1)}
+.echo-panel{position:absolute;left:50%;top:50%;width:min(1060px,calc(100vw - 48px));height:min(720px,calc(100dvh - 64px));padding:26px;border:1px solid rgba(255,255,255,.12);border-radius:30px;background:linear-gradient(180deg,rgba(19,22,28,.74),rgba(10,12,16,.70));backdrop-filter:blur(5px) saturate(.88);box-shadow:0 42px 120px rgba(0,0,0,.62);opacity:0;transform:translate(-50%,calc(-50% + 14px)) scale(.985);transition:opacity .28s cubic-bezier(.16,.84,.24,1),transform .28s cubic-bezier(.16,.84,.24,1);overflow:hidden}
+.echo-overlay.open .echo-scrim{opacity:1}
+.echo-overlay.open .echo-panel{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.echo-close{position:absolute;z-index:8;top:16px;right:16px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:#171a20;color:#d9dde3;font-size:24px;line-height:1;cursor:pointer}
+.echo-panel-head{padding-right:52px;text-align:center}
+.echo-panel-head h2{margin:0;font-family:var(--font-display);font-size:34px;font-weight:400}
+.echo-set-label{display:block;margin-top:2px;color:#8d949e;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.echo-workspace-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;width:min(560px,72%);margin:12px auto 10px}
+.echo-workspace-slot{position:relative;min-width:0;height:60px;padding:4px 8px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(12,15,20,.92);color:#d9dde3;cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left}
+.echo-workspace-slot.active-target{border-color:rgba(224,187,109,.68);box-shadow:0 0 0 1px rgba(224,187,109,.12)}
+.echo-workspace-slot img{width:42px;height:42px;object-fit:contain;flex:0 0 42px}
+.echo-workspace-slot-copy{min-width:0}
+.echo-workspace-slot-copy strong{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.echo-workspace-slot-copy small{display:block;margin-top:3px;color:#858c96;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-filter-bar{display:flex;justify-content:center;gap:7px;margin:0 0 10px}
+.echo-filter{padding:7px 12px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(11,14,19,.88);color:#8f96a0;font-size:11px;font-weight:700;cursor:pointer}
+.echo-filter.active{border-color:rgba(255,255,255,.34);background:#e8e7e2;color:#0a0b0e}
+.echo-main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:18px;height:calc(100% - 154px)}
+.echo-browser{min-width:0;height:100%;overflow:auto;padding:8px 10px 18px 6px;scrollbar-width:thin}
+.echo-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.echo-choice{position:relative;min-width:0;aspect-ratio:.88;padding:9px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:#11151c;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out}
+.echo-choice[hidden]{display:none}
+.echo-choice:hover{z-index:2;transform:translateY(-4px) scale(1.035);border-color:rgba(255,255,255,.28);box-shadow:0 22px 46px rgba(0,0,0,.42)}
+.echo-choice:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.echo-choice-art{width:100%;min-height:0;flex:1;display:grid;place-items:center}
+.echo-choice-art img{display:block;width:96%;height:96%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
+.echo-choice-copy{display:block;min-width:0;padding-top:5px;text-align:center}
+.echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:13px;font-weight:400;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.echo-choice-copy small{display:block;margin-top:4px;color:#a6adb7;font-size:9px;letter-spacing:.09em;text-transform:uppercase}
+.echo-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
+.echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
+.echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
+.echo-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
+.echo-preview-shell{height:100%;display:flex;flex-direction:column;opacity:0;pointer-events:none}
+.echo-panel.has-preview .echo-preview-empty{display:none}
+.echo-panel.has-preview .echo-preview-shell{opacity:1;pointer-events:auto}
+.echo-preview-art{display:block;width:210px;height:210px;max-width:90%;margin:0 auto;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 22px 28px rgba(0,0,0,.5))}
+.echo-preview-copy{text-align:center}
+.echo-preview-copy h3{margin:5px 0 7px;font-family:var(--font-display);font-size:26px;font-weight:400}
+.echo-preview-cost{color:#c6a35f;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.echo-preview-sonata{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-preview-sonata-label{display:block;color:#747c87;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.echo-preview-sonatas{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.echo-sonata-chip{padding:5px 7px;border:1px solid rgba(255,255,255,.10);border-radius:9px;background:#171b22;color:#d8dce2;font-size:10px}
+.echo-equip{margin-top:auto;width:100%;padding:13px 16px;border:1px solid rgba(207,166,84,.44);border-radius:13px;background:linear-gradient(180deg,rgba(32,33,37,.98),rgba(16,17,20,.98));color:#f0ede7;font-weight:800;cursor:pointer}
+.echo-equip:disabled{cursor:default;background:#15181d;border-color:rgba(255,255,255,.10);color:#747b85}
+@media(max-width:760px){
+  .echo-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:20px 14px;transform:translateY(14px) scale(.985);border-radius:24px;overflow:auto}
+  .echo-overlay.open .echo-panel{transform:translateY(0) scale(1)}
+  .echo-workspace-slots{width:100%;gap:5px}
+  .echo-workspace-slot{height:54px;justify-content:center;padding:4px}
+  .echo-workspace-slot img{width:38px;height:38px;flex-basis:38px}
+  .echo-workspace-slot-copy small{display:none}
+  .echo-main{grid-template-columns:1fr;height:auto;min-height:0}
+  .echo-browser{height:42dvh;min-height:280px}
+  .echo-preview-pane{min-height:410px}
+  .echo-choices{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+}
+
 </style>
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button type="button" class="node n6">S6</button><button type="button" class="node n5">S5</button><button type="button" class="node n4">S4</button><button type="button" class="node n3">S3</button><button type="button" class="node n2">S2</button><button type="button" class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button type="button" class="node n6">S6</button><button type="button" class="node n5">S5</button><button type="button" class="node n4">S4</button><button type="button" class="node n3">S3</button><button type="button" class="node n2">S2</button><button type="button" class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="weaponOverlay" class="weapon-overlay" aria-hidden="true">
@@ -140,6 +209,36 @@
     </div>
   </section>
 </div>
+<div id="echoOverlay" class="echo-overlay" aria-hidden="true">
+  <div class="echo-scrim" data-echo-close></div>
+  <section id="echoPanel" class="echo-panel" role="dialog" aria-modal="true" aria-labelledby="echoTitle">
+    <button id="echoClose" class="echo-close" type="button" aria-label="Close Echo workspace">×</button>
+    <div class="echo-panel-head"><h2 id="echoTitle">Echo Workspace</h2><span class="echo-set-label">Set 1</span></div>
+    <div id="echoWorkspaceSlots" class="echo-workspace-slots" aria-label="Echo slot target"></div>
+    <div class="echo-filter-bar" role="group" aria-label="Echo Cost filters">
+      <button class="echo-filter active" type="button" data-echo-filter="all">All</button>
+      <button class="echo-filter" type="button" data-echo-filter="4">Cost 4</button>
+      <button class="echo-filter" type="button" data-echo-filter="3">Cost 3</button>
+      <button class="echo-filter" type="button" data-echo-filter="1">Cost 1</button>
+    </div>
+    <div class="echo-main">
+      <div id="echoBrowser" class="echo-browser"><div id="echoChoices" class="echo-choices"></div></div>
+      <aside id="echoPreviewPane" class="echo-preview-pane" aria-hidden="true">
+        <div class="echo-preview-empty"><strong>Preview</strong><p>Select an Echo to inspect it here.</p></div>
+        <div class="echo-preview-shell">
+          <img id="echoPreviewArt" class="echo-preview-art" alt="">
+          <div class="echo-preview-copy">
+            <span class="echo-set-label">Echo Preview</span>
+            <h3 id="echoPreviewName">Echo</h3>
+            <div id="echoPreviewCost" class="echo-preview-cost">Cost —</div>
+            <div class="echo-preview-sonata"><span class="echo-preview-sonata-label">Sonata Sets</span><div id="echoPreviewSonatas" class="echo-preview-sonatas"></div></div>
+          </div>
+          <button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
 <div id="dialogBg" class="dialog-bg"><div class="dialog"><h2>Switch Character?</h2><p id="dialogCopy"></p><div class="dialog-actions"><button id="cancelSwitch" type="button">Cancel</button><button id="confirmSwitch" class="primary" type="button">Switch</button></div></div></div>
 <script>
 const KEY='bellibing-ui-checkpoint-v34';
@@ -149,6 +248,25 @@ let state;try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch{state={}}sta
 const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 function draft(name){if(!state.drafts[name]){state.drafts[name]={character:name,build:{},createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};save()}return state.drafts[name]}
 function autosave(name,patch={}){if(!name)return;const d=draft(name);d.build={...d.build,...patch};d.updatedAt=new Date().toISOString();save()}
+const ECHO_DEFAULT_SET_ID='set-1';
+const emptyEchoSet=()=>({id:ECHO_DEFAULT_SET_ID,name:'Set 1',slots:[null,null,null,null,null]});
+function readEchoSets(name){
+  const raw=name?draft(name).build.echoSets:null;
+  const rawSets=raw&&typeof raw==='object'&&raw.sets&&typeof raw.sets==='object'?raw.sets:{};
+  const activeSetId=typeof raw?.activeSetId==='string'&&rawSets[raw.activeSetId]?raw.activeSetId:ECHO_DEFAULT_SET_ID;
+  const defaultSetId=typeof raw?.defaultSetId==='string'&&rawSets[raw.defaultSetId]?raw.defaultSetId:ECHO_DEFAULT_SET_ID;
+  const base=rawSets[ECHO_DEFAULT_SET_ID]&&typeof rawSets[ECHO_DEFAULT_SET_ID]==='object'?rawSets[ECHO_DEFAULT_SET_ID]:emptyEchoSet();
+  const slots=Array.from({length:5},(_,index)=>typeof base.slots?.[index]==='string'?base.slots[index]:null);
+  return {schemaVersion:1,activeSetId,defaultSetId,sets:{...rawSets,[ECHO_DEFAULT_SET_ID]:{...base,id:ECHO_DEFAULT_SET_ID,name:typeof base.name==='string'?base.name:'Set 1',slots}}};
+}
+function commitEchoSlot(name,slotIndex,echoId){
+  const current=readEchoSets(name);
+  const set=current.sets[current.activeSetId]||current.sets[ECHO_DEFAULT_SET_ID];
+  const slots=[...set.slots];slots[slotIndex]=echoId;
+  const next={...current,sets:{...current.sets,[current.activeSetId]:{...set,slots}}};
+  autosave(name,{echoSets:next});
+  return next;
+}
 const owned=n=>state.characters.includes(n);
 function addOwned(n){draft(n);if(!owned(n))state.characters.push(n);state.drafts[n].addedToAccountAt=state.drafts[n].addedToAccountAt||new Date().toISOString();save()}
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
@@ -157,6 +275,11 @@ let weaponById=new Map();
 let canonicalCharacterById=new Map();
 let weaponDataLoaded=false;
 let weaponDataReady;
+let echoCatalog=[];
+let echoById=new Map();
+let echoSonataById=new Map();
+let echoDataLoaded=false;
+let echoDataReady;
 const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
 const WEAPON_MOTION={panel:380,grid:440,previewIn:460,previewOut:360,ease:'cubic-bezier(.16,.84,.24,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -187,6 +310,33 @@ async function loadWeaponBrowserData(){
   weaponDataLoaded=true;
   document.documentElement.dataset.weaponCatalogReady='true';
   weaponUi.refreshForCharacter();
+}
+async function loadEchoBrowserData(){
+  const [browserDataResponse,manifestResponse]=await Promise.all([
+    fetch('assets/echoes/browser-data.json',{cache:'no-store'}),
+    fetch('assets/echoes/manifest.json',{cache:'no-store'})
+  ]);
+  if(!browserDataResponse.ok)throw new Error('Echo browser data '+browserDataResponse.status);
+  if(!manifestResponse.ok)throw new Error('Echo manifest '+manifestResponse.status);
+  const browserData=await browserDataResponse.json();
+  const manifest=await manifestResponse.json();
+  if(browserData.schemaVersion!==1)throw new Error('Unsupported Echo browser data schema');
+  const iconById=new Map(manifest.icons.map(icon=>[icon.echoId,icon]));
+  echoSonataById=new Map(browserData.sonataSets.map(sonata=>[sonata.id,sonata]));
+  echoCatalog=browserData.echoes.map((echo,browseRank)=>{
+    if(echo.releaseStatus!=='RELEASED')throw new Error(`Non-released Echo leaked into browser data: ${echo.id}`);
+    if(![1,3,4].includes(echo.cost))throw new Error(`Unsupported canonical Echo COST for ${echo.id}`);
+    const icon=iconById.get(echo.id);
+    if(!icon)throw new Error(`Missing canonical Echo art for ${echo.id}`);
+    if(icon.releaseStatus!=='RELEASED'||icon.name!==echo.name)throw new Error(`Echo manifest mismatch for ${echo.id}`);
+    for(const sonataId of echo.sonataSetIds)if(!echoSonataById.has(sonataId))throw new Error(`Missing Sonata name for ${echo.id}: ${sonataId}`);
+    return {...echo,browseRank,artSrc:toAssetPath(icon.targetPath)};
+  });
+  if(echoCatalog.length!==manifest.icons.length)throw new Error('Echo browser/manifest ID coverage mismatch');
+  echoById=new Map(echoCatalog.map(echo=>[echo.id,echo]));
+  echoDataLoaded=true;
+  document.documentElement.dataset.echoCatalogReady='true';
+  echoUi.refreshForCharacter();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -348,7 +498,107 @@ const weaponUi={
     document.getElementById('weaponEquip')?.focus({preventScroll:true});
   }
 };
+
+const echoUi={
+  overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,characterName:null,currentSets:null,targetSlot:0,previewId:null,filter:'all',open:false,lastFocus:null,choiceById:new Map(),
+  init(){
+    this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
+    this.renderBuildSlots();
+  },
+  setCharacter(name){
+    if(this.open)this.hide();
+    this.characterName=name||null;this.currentSets=name?readEchoSets(name):null;this.targetSlot=0;this.clearPreview();this.renderBuildSlots();
+    if(echoDataLoaded)this.refreshForCharacter();
+  },
+  refreshForCharacter(){
+    if(this.characterName)this.currentSets=readEchoSets(this.characterName);
+    this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.applyFilter();
+  },
+  activeSet(){
+    if(!this.currentSets)return emptyEchoSet();
+    return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
+  },
+  renderBuildSlots(){
+    const ids=this.activeSet().slots||[];
+    document.querySelectorAll('.echo[data-echo-slot]').forEach((slot,index)=>{
+      slot.querySelectorAll('.echo-slot-art').forEach(node=>node.remove());
+      const item=echoById.get(ids[index]);
+      slot.classList.toggle('has-echo',!!item);
+      slot.setAttribute('aria-label',item?`Open Echo workspace for slot ${index+1}. Equipped: ${item.name}`:`Open Echo workspace for slot ${index+1}`);
+      if(item){const image=document.createElement('img');image.className='echo-slot-art';image.src=item.artSrc;image.alt='';image.draggable=false;slot.appendChild(image)}
+    });
+  },
+  renderWorkspaceSlots(){
+    if(!this.workspaceSlots)return;
+    const ids=this.activeSet().slots||[];
+    this.workspaceSlots.replaceChildren();
+    for(let index=0;index<5;index++){
+      const item=echoById.get(ids[index]);
+      const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);button.setAttribute('aria-label',`Target Echo slot ${index+1}`);
+      if(item){const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;button.appendChild(image)}
+      const copy=document.createElement('span');copy.className='echo-workspace-slot-copy';
+      const label=document.createElement('strong');label.textContent=`Slot ${index+1}`;const name=document.createElement('small');name.textContent=item?.name||'Empty';
+      copy.append(label,name);button.appendChild(copy);button.addEventListener('click',()=>this.setTarget(index));this.workspaceSlots.appendChild(button);
+    }
+  },
+  rebuildChoices(){
+    if(!this.choices)return;this.choiceById.clear();this.choices.replaceChildren();
+    echoCatalog.forEach(item=>{
+      const choice=document.createElement('button');choice.type='button';choice.className='echo-choice';choice.dataset.echoId=item.id;choice.dataset.cost=String(item.cost);choice.setAttribute('aria-label',`Preview ${item.name}`);
+      const art=document.createElement('span');art.className='echo-choice-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.appendChild(image);
+      const copy=document.createElement('span');copy.className='echo-choice-copy';const name=document.createElement('strong');name.textContent=item.name;const cost=document.createElement('small');cost.textContent=`Cost ${item.cost}`;copy.append(name,cost);
+      choice.append(art,copy);choice.addEventListener('click',()=>this.select(item.id));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
+    });
+  },
+  applyFilter(){
+    this.choiceById.forEach((choice,id)=>{const item=echoById.get(id);choice.hidden=this.filter!=='all'&&String(item?.cost)!==this.filter});
+    document.querySelectorAll('[data-echo-filter]').forEach(button=>button.classList.toggle('active',button.dataset.echoFilter===this.filter));
+  },
+  setFilter(filter){
+    if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;
+  },
+  clearPreview(){
+    this.previewId=null;
+    if(this.panel)this.panel.classList.remove('has-preview');
+    document.getElementById('echoPreviewPane')?.setAttribute('aria-hidden','true');
+    const art=document.getElementById('echoPreviewArt');if(art){art.removeAttribute('src');art.alt=''}
+    const name=document.getElementById('echoPreviewName');if(name)name.textContent='Echo';
+    const cost=document.getElementById('echoPreviewCost');if(cost)cost.textContent='Cost —';
+    document.getElementById('echoPreviewSonatas')?.replaceChildren();
+    this.syncEquipAction();
+  },
+  select(id){
+    const item=echoById.get(id);if(!item)return;
+    this.previewId=id;const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
+    document.getElementById('echoPreviewName').textContent=item.name;document.getElementById('echoPreviewCost').textContent=`Cost ${item.cost}`;
+    const sonatas=document.getElementById('echoPreviewSonatas');sonatas.replaceChildren();
+    item.sonataSetIds.forEach(sonataId=>{const sonata=echoSonataById.get(sonataId);if(!sonata)return;const chip=document.createElement('span');chip.className='echo-sonata-chip';chip.textContent=sonata.name;sonatas.appendChild(chip)});
+    this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.syncEquipAction();
+  },
+  syncEquipAction(){
+    const button=document.getElementById('echoEquip');if(!button)return;
+    const current=this.activeSet().slots?.[this.targetSlot]||null;const alreadyEquipped=!!this.previewId&&current===this.previewId;
+    button.disabled=!this.previewId||alreadyEquipped;button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
+  },
+  setTarget(index){
+    if(!Number.isInteger(index)||index<0||index>4)return;this.targetSlot=index;this.renderWorkspaceSlots();this.syncEquipAction();
+  },
+  async show(index){
+    if(!this.characterName)return;await echoDataReady;if(!echoCatalog.length)return;
+    this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;this.currentSets=readEchoSets(this.characterName);this.filter='all';this.clearPreview();this.rebuildChoices();this.applyFilter();this.renderWorkspaceSlots();
+    this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');requestAnimationFrame(()=>this.overlay.classList.add('open'));this.open=true;
+  },
+  hide(){
+    if(!this.open)return;this.open=false;this.overlay.classList.remove('open');this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
+  },
+  equipPreview(){
+    if(!this.characterName||!this.previewId)return;const current=this.activeSet().slots?.[this.targetSlot]||null;if(current===this.previewId)return;
+    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.previewId);this.renderBuildSlots();this.renderWorkspaceSlots();this.syncEquipAction();
+  }
+};
+
 weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
+echoDataReady=loadEchoBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.echoCatalogError=String(error.message||error)});
 class FreewheelCarousel{
   constructor(viewport,{cards=[...viewport.children],startIndex=0,spacing,onActivate=null}={}){
     this.viewport=viewport;this.cards=cards;this.spacingFn=spacing;this.onActivate=onActivate;
@@ -439,7 +689,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected)return;pending=name;document.getElementById('dialogCopy').textContent='Switch to '+name+'?';document.getElementById('dialogBg').classList.add('open')}
   function closeDialog(){pending=null;document.getElementById('dialogBg').classList.remove('open')}
   function render(){
@@ -450,7 +700,7 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()},closeDialog}
@@ -463,12 +713,18 @@ document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
 document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
 document.getElementById('weaponClose').onclick=()=>weaponUi.hide();
 document.querySelector('[data-weapon-close]').onclick=()=>weaponUi.hide();
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&weaponUi.open){event.preventDefault();weaponUi.hide()}});
+document.querySelectorAll('.echo[data-echo-slot]').forEach(slot=>slot.onclick=()=>echoUi.show(Number(slot.dataset.echoSlot)));
+document.getElementById('echoEquip').onclick=()=>echoUi.equipPreview();
+document.getElementById('echoClose').onclick=()=>echoUi.hide();
+document.querySelector('[data-echo-close]').onclick=()=>echoUi.hide();
+document.querySelectorAll('[data-echo-filter]').forEach(button=>button.onclick=()=>echoUi.setFilter(button.dataset.echoFilter));
+document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(echoUi.open){event.preventDefault();echoUi.hide()}else if(weaponUi.open){event.preventDefault();weaponUi.hide()}});
 document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
 document.getElementById('cancelSwitch').onclick=()=>{buildPicker.closeDialog();improvePicker.closeDialog()};
 document.getElementById('confirmSwitch').onclick=()=>{if(buildPicker.pending)buildPicker.confirm();else improvePicker.confirm()};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
+echoUi.init();
 renderHome();
 </script>
 </body>

@@ -15,10 +15,16 @@
 .weapon-empty{position:absolute;inset:0;display:grid;place-items:center;color:#777;font-size:28px;transition:opacity .18s ease}
 .weapon-slot-host.has-weapon .weapon-empty{opacity:0}
 .weapon-card{position:relative;width:100%;height:100%;min-height:74px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:radial-gradient(circle at 24% 20%,rgba(255,255,255,.10),transparent 34%),linear-gradient(145deg,#1a1e26,#0d0f14 72%);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:13px 14px;text-align:center;transform-origin:center;will-change:transform;box-shadow:0 18px 48px rgba(0,0,0,.28)}
+.weapon-rarity-card{display:block;padding:0;border:0;border-radius:0;background:transparent;overflow:visible;box-shadow:none}
+.weapon-rarity-card::after{display:none}
+.weapon-content-safe{position:absolute;z-index:2;inset:18% 13% 13%;pointer-events:none}
+.weapon-rarity-card .weapon-card-art{inset:0 0 34%}
+.weapon-rarity-card .weapon-card-copy{position:absolute;left:0;right:0;bottom:0;width:auto}
+.weapon-rarity-card.is-current{border:0;box-shadow:none}
 .weapon-card::after{content:"";position:absolute;z-index:2;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.76));pointer-events:none}
 .weapon-card-art{position:absolute;z-index:1;inset:10px 10px 28px;display:grid;place-items:center;pointer-events:none}
 .weapon-card-art img{display:block;width:94%;height:94%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.42))}
-.weapon-rarity-frame{position:absolute;z-index:3;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:fill;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.26))}
+.weapon-rarity-frame{position:absolute;z-index:3;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.26))}
 .weapon-card-copy{position:relative;z-index:4;min-width:0;width:100%;text-align:center}
 .weapon-card-copy strong{display:block;font-family:var(--font-display);font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .weapon-card-copy small{display:block;margin-top:4px;color:#a3a9b2;font-size:9px;letter-spacing:.10em;text-transform:uppercase}
@@ -36,7 +42,7 @@
 .weapon-eyebrow{font-size:10px;letter-spacing:.20em;color:#777f8a;text-transform:uppercase}
 .weapon-main{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(286px,.86fr);gap:20px;height:calc(100% - 62px);margin-top:20px}
 .weapon-browser-shell{position:relative;min-width:0;min-height:0;height:100%}
-.weapon-browser{height:100%;min-width:0;overflow:auto;padding:2px 24px 18px 2px;scrollbar-width:none;-ms-overflow-style:none}
+.weapon-browser{height:100%;min-width:0;overflow:auto;padding:14px 26px 24px 14px;scrollbar-width:none;-ms-overflow-style:none}
 .weapon-browser::-webkit-scrollbar{width:0;height:0}
 .weapon-scroll-rail{--scroll-p:0;position:absolute;z-index:7;right:5px;top:8px;bottom:8px;width:13px;pointer-events:none;opacity:.36;transition:opacity .18s ease}
 .weapon-scroll-rail::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,rgba(5,6,8,.25),rgba(0,0,0,.94) 12%,rgba(0,0,0,.94) 88%,rgba(5,6,8,.25));box-shadow:0 0 0 1px rgba(255,255,255,.015)}
@@ -47,12 +53,14 @@
 .weapon-choice{position:relative;aspect-ratio:1;padding:0;border:0;border-radius:18px;background:transparent;color:#fff;cursor:pointer;isolation:isolate;will-change:transform}
 .weapon-choice::before{content:"";position:absolute;inset:0;border:1px dashed transparent;border-radius:18px;transition:border-color .18s ease-out,background .18s ease-out}
 .weapon-choice.is-equipped::before{border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.025)}
+.weapon-choice.has-rarity-frame.is-equipped::before{border-color:transparent;background:transparent}
 .weapon-choice.is-equipped .weapon-equipped-badge{display:inline-flex}
 .weapon-choice.is-equipped .weapon-card{border-color:rgba(255,255,255,.34);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 70px rgba(0,0,0,.42)}
+.weapon-choice.is-equipped .weapon-rarity-card{border:0;box-shadow:none}
 .weapon-choice .weapon-card{position:absolute;inset:0;transition:transform .17s ease-out,border-color .17s ease-out,box-shadow .17s ease-out,filter .17s ease-out}
 .weapon-choice:hover{z-index:12}
 .weapon-choice:hover .weapon-card{transform:translateY(-7px) scale(1.065);border-color:rgba(255,255,255,.34);box-shadow:0 26px 62px rgba(0,0,0,.48);filter:brightness(1.08)}
-.weapon-choice:hover .weapon-card-art{transform:translateY(-1px) scale(1.02)}
+.weapon-choice.has-rarity-frame:hover .weapon-card{border-color:transparent;box-shadow:none;filter:brightness(1.08) drop-shadow(0 18px 24px rgba(0,0,0,.44))}
 .weapon-choice:focus-visible{outline:2px solid #fff;outline-offset:3px;z-index:13}
 .weapon-preview-pane{position:relative;min-width:0;height:100%;padding:16px;border:1px solid rgba(255,255,255,.09);border-radius:24px;background:rgba(255,255,255,.025);overflow:hidden}
 .weapon-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783;transition:opacity .24s ease-out}
@@ -84,10 +92,9 @@
   .weapon-overlay.open .weapon-panel{transform:translate(0,0) scale(1)}
   .weapon-panel-head h2{font-size:30px}
   .weapon-main{display:block;height:calc(100% - 54px);margin-top:14px}
-  .weapon-browser{height:100%;padding-right:2px}
+  .weapon-browser{height:100%;padding:8px 2px 14px}
   .weapon-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:5px}
   .weapon-choice:hover .weapon-card{transform:none;filter:none}
-  .weapon-choice:hover .weapon-card-art{transform:none}
   .weapon-preview-pane{position:absolute;z-index:6;left:12px;right:12px;top:82px;bottom:12px;height:auto;padding:14px;background:rgba(10,12,16,.92);backdrop-filter:blur(5px) saturate(.88);opacity:0;pointer-events:none;transform:translateX(28px) scale(.985);transition:opacity .28s ease-out,transform .42s var(--weapon-ease)}
   .weapon-panel.has-preview .weapon-preview-pane{opacity:1;pointer-events:auto;transform:translateX(0) scale(1)}
   .weapon-preview-empty{display:none}
@@ -182,17 +189,21 @@ async function loadWeaponBrowserData(){
   weaponUi.refreshForCharacter();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
-  const card=document.createElement('div');card.className='weapon-card'+(active?' is-current':'');card.dataset.weaponId=item.id;card.dataset.name=item.name;card.dataset.rarity=String(item.rarity);
+  const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
+  const card=document.createElement('div');card.className='weapon-card '+(frameSrc?'weapon-rarity-card':'weapon-neutral-card')+(active?' is-current':'');card.dataset.weaponId=item.id;card.dataset.name=item.name;card.dataset.rarity=String(item.rarity);
   const art=document.createElement('span');art.className='weapon-card-art';
   const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.appendChild(image);
-  const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
   const frame=frameSrc?document.createElement('img'):null;
   if(frame){frame.className='weapon-rarity-frame';frame.src=frameSrc;frame.alt='';frame.draggable=false;frame.dataset.rarity=String(item.rarity)}
   const badge=document.createElement('span');badge.className='weapon-equipped-badge';badge.textContent='Active Weapon';
   const copy=document.createElement('span');copy.className='weapon-card-copy';
   const name=document.createElement('strong');name.textContent=item.name;
   const note=document.createElement('small');note.textContent=item.level90BaseAtk===null?'Base ATK —':`Base ATK ${item.level90BaseAtk}`;
-  copy.append(name,note);card.append(art);if(frame)card.append(frame);card.append(badge,copy);return card;
+  copy.append(name,note);
+  if(frame){
+    const safe=document.createElement('span');safe.className='weapon-content-safe';safe.append(art,copy);card.append(frame,safe,badge);
+  }else card.append(art,badge,copy);
+  return card;
 }
 function makeWeaponHero(item){
   const hero=document.createElement('div');hero.className='weapon-preview-hero';hero.dataset.weaponId=item.id;hero.setAttribute('aria-label',`Full Weapon preview for ${item.name}`);
@@ -227,6 +238,7 @@ const weaponUi={
     this.choiceById.clear();this.choices.replaceChildren();
     this.items.forEach(item=>{
       const choice=document.createElement('button');choice.type='button';choice.className='weapon-choice';
+      choice.classList.toggle('has-rarity-frame',!!WEAPON_RARITY_FRAMES[item.rarity]);
       choice.dataset.weaponId=item.id;choice.dataset.name=item.name;choice.dataset.rarity=String(item.rarity);choice.dataset.weaponType=item.weaponType;choice.dataset.baseRank=String(item.browseRank);choice.setAttribute('aria-label','Preview '+item.name);
       choice.appendChild(makeWeaponCard(item,{rarityFrame:true}));choice.addEventListener('click',()=>this.select(choice));this.choiceById.set(item.id,choice);this.choices.appendChild(choice);
     });

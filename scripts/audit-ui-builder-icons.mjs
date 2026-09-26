@@ -158,28 +158,44 @@ if (canonicalCharacters.length !== 60) fail('canonical Character count drift');
 const canonicalExcluded = canonicalCharacters.filter((row) => row.releaseStatus === 'UNRELEASED_WIP').map((row) => row.id).sort();
 if (JSON.stringify(canonicalExcluded) !== JSON.stringify(['hsin', 'suoming'])) fail('canonical pending Character set drift');
 const expectedCharacterIds = new Set(canonicalCharacters.filter((row) => !canonicalExcluded.includes(row.id)).map((row) => row.id));
+const canonicalCharacterById = new Map(canonicalCharacters.map((row) => [row.id, row]));
 if (!Array.isArray(manifest.characters) || manifest.characters.length !== 58) fail('manifest Character kit count drift');
-const manifestCharacterIds = new Set(manifest.characters.map((row) => row.characterId));
+const manifestCharacterIdList = manifest.characters.map((row) => row.characterId);
+const manifestCharacterIds = new Set(manifestCharacterIdList);
+if (manifestCharacterIds.size !== manifestCharacterIdList.length) fail('duplicate Character ID in manifest');
 if (!sameSet(expectedCharacterIds, manifestCharacterIds)) fail('Character kit coverage drift');
 
 const skillTargets = new Set();
 const chainTargets = new Set();
 const normalAttackTargets = new Set();
 for (const row of manifest.characters) {
+  const canonical = canonicalCharacterById.get(row.characterId);
+  if (!canonical) fail('unknown canonical Character ' + row.characterId);
+  if (row.characterName !== canonical.name) fail('Character name drift for ' + row.characterId);
+  if (row.releaseStatus !== canonical.releaseStatus) fail('Character release status drift for ' + row.characterId);
+  if (canonical.releaseStatus === 'UNRELEASED_WIP') fail('pending Character leaked into builder manifest: ' + row.characterId);
+
   const roles = Object.keys(row.skills ?? {}).sort();
   if (JSON.stringify(roles) !== JSON.stringify([...SKILL_ROLES].sort())) fail('skill role coverage drift for ' + row.characterId);
   for (const role of SKILL_ROLES) {
     const targetPath = row.skills[role]?.targetPath;
     const asset = assetByTarget.get(targetPath);
     if (!asset || asset.family !== 'skill') fail('invalid skill reference for ' + row.characterId + ' / ' + role);
+    if (asset.assetId !== row.skills[role]?.assetId) fail('skill assetId mismatch for ' + row.characterId + ' / ' + role);
     skillTargets.add(targetPath);
     if (role === 'normal-attack') normalAttackTargets.add(targetPath);
   }
   if (!Array.isArray(row.chains) || row.chains.length !== 6) fail('chain coverage drift for ' + row.characterId);
   row.chains.forEach((chain, index) => {
-    if (chain.sequence !== index + 1) fail('chain sequence drift for ' + row.characterId);
+    const sequence = index + 1;
+    if (chain.sequence !== sequence) fail('chain sequence drift for ' + row.characterId);
+    const expectedAssetId = 'chain:' + row.characterId + ':s' + sequence;
+    const expectedTargetPath = ROOT + '/chains/' + row.characterId + '/s' + sequence + '.webp';
+    if (chain.assetId !== expectedAssetId) fail('chain assetId identity drift for ' + row.characterId + ' S' + sequence);
+    if (chain.targetPath !== expectedTargetPath) fail('chain folder identity drift for ' + row.characterId + ' S' + sequence);
     const asset = assetByTarget.get(chain.targetPath);
-    if (!asset || asset.family !== 'chain') fail('invalid chain reference for ' + row.characterId + ' S' + (index + 1));
+    if (!asset || asset.family !== 'chain') fail('invalid chain reference for ' + row.characterId + ' S' + sequence);
+    if (asset.assetId !== chain.assetId) fail('chain manifest assetId mismatch for ' + row.characterId + ' S' + sequence);
     chainTargets.add(chain.targetPath);
   });
 }

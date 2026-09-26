@@ -149,6 +149,105 @@ async function waitForUi(send, expression, message, timeout=4000) {
   throw new Error(message);
 }
 
+async function visibleWeaponPointerClick(send, weaponId, {touch=false}={}) {
+  await evaluate(send,`(() => {
+    window.__weaponPointerAudit=[];
+    if(!window.__weaponSelectOriginal){
+      window.__weaponSelectOriginal=weaponUi.select;
+      weaponUi.select=async function(choice){
+        window.__weaponPointerAudit.push({type:'select-enter',weaponId:choice?.dataset.weaponId||null,busy:this.busy,previewId:this.previewId});
+        const result=await window.__weaponSelectOriginal.call(this,choice);
+        window.__weaponPointerAudit.push({type:'select-exit',weaponId:choice?.dataset.weaponId||null,busy:this.busy,previewId:this.previewId});
+        return result;
+      };
+      for(const type of ['pointerdown','pointerup','click']){
+        document.addEventListener(type,event=>{
+          const choice=event.target?.closest?.('.weapon-choice');
+          window.__weaponPointerAudit.push({
+            type,
+            targetTag:event.target?.tagName||null,
+            targetClass:typeof event.target?.className==='string'?event.target.className:null,
+            weaponId:choice?.dataset.weaponId||null,
+            x:event.clientX??null,
+            y:event.clientY??null
+          });
+        },true);
+      }
+    }
+  })()`);
+
+  const selector=`#weaponChoices .weapon-choice[data-weapon-id="${weaponId}"]`;
+  await evaluate(send,`(() => {
+    const choice=document.querySelector(${JSON.stringify(selector)});
+    if(!choice) throw new Error('Missing visible Weapon choice: '+${JSON.stringify(weaponId)});
+    choice.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
+  })()`);
+  await sleep(80);
+
+  // Move the real pointer over the rendered visual first so desktop hover transforms settle.
+  let point=await evaluate(send,`(() => {
+    const choice=document.querySelector(${JSON.stringify(selector)});
+    const visible=choice.querySelector('.weapon-rarity-frame')||choice.querySelector('.weapon-card-art img')||choice.querySelector('.weapon-card');
+    const r=visible.getBoundingClientRect();
+    return {x:r.left+r.width/2,y:r.top+r.height/2};
+  })()`);
+  if(!touch){
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x,y:point.y});
+    await sleep(190);
+  }
+
+  point=await evaluate(send,`(() => {
+    const choice=document.querySelector(${JSON.stringify(selector)});
+    const visible=choice.querySelector('.weapon-rarity-frame')||choice.querySelector('.weapon-card-art img')||choice.querySelector('.weapon-card');
+    const r=visible.getBoundingClientRect();
+    const x=r.left+r.width/2,y=r.top+r.height/2;
+    const hit=document.elementFromPoint(x,y);
+    return {
+      x,y,
+      hitTag:hit?.tagName||null,
+      hitClass:typeof hit?.className==='string'?hit.className:null,
+      hitWeaponId:hit?.closest?.('.weapon-choice')?.dataset.weaponId||null,
+      visibleRect:{left:r.left,top:r.top,width:r.width,height:r.height}
+    };
+  })()`);
+  if(point.hitWeaponId!==weaponId) throw new Error(`Visible Weapon center is not hit-testable for ${weaponId}: ${JSON.stringify(point)}`);
+
+  if(touch){
+    await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:point.x,y:point.y,id:1,radiusX:1,radiusY:1,force:1}]});
+    await sleep(38);
+    await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  }else{
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',x:point.x,y:point.y,button:'left',clickCount:1});
+    await sleep(38);
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.x,y:point.y,button:'left',clickCount:1});
+  }
+
+  await waitForUi(send,`weaponUi.previewId===${JSON.stringify(weaponId)}`,`Visible-center Weapon click did not change Preview to ${weaponId}`,3000);
+  const result=await evaluate(send,`(() => {
+    const audit=window.__weaponPointerAudit||[];
+    const hero=document.querySelector('#weaponPreviewStage .weapon-preview-hero');
+    const art=hero?.querySelector('.weapon-preview-art');
+    const r=hero?.getBoundingClientRect();
+    return {
+      audit,
+      previewId:weaponUi.previewId,
+      busy:weaponUi.busy,
+      heroId:hero?.dataset.weaponId||null,
+      artSrc:art?.getAttribute('src')||null,
+      artLoaded:art?.naturalWidth||0,
+      heroVisible:!!r&&r.width>0&&r.height>0&&getComputedStyle(hero).visibility!=='hidden'
+    };
+  })()`);
+  const down=result.audit.find(event=>event.type==='pointerdown'&&event.weaponId===weaponId);
+  const up=result.audit.find(event=>event.type==='pointerup'&&event.weaponId===weaponId);
+  const click=result.audit.find(event=>event.type==='click'&&event.weaponId===weaponId);
+  const select=result.audit.find(event=>event.type==='select-enter'&&event.weaponId===weaponId);
+  if(!down||!up||!click||!select||result.previewId!==weaponId||result.heroId!==weaponId||!result.artLoaded||!result.heroVisible){
+    throw new Error(`Physical visible-center Weapon click chain failed for ${weaponId}: ${JSON.stringify({point,result})}`);
+  }
+  return {point,result};
+}
+
 async function verifyRealPointerMenus(send) {
   await setViewport(send,1440,900);
   await navigate(send);
@@ -313,7 +412,7 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
 
   const baseOrder=opened.order;
   const firstId=opened.five.id,secondId=opened.four.id;
-  await pointerClick(send,`#weaponChoices .weapon-choice[data-weapon-id="${firstId}"]`,{touch});
+  const firstPointerAudit=await visibleWeaponPointerClick(send,firstId,{touch});
   await waitForUi(send,`!weaponUi.busy&&weaponUi.currentId===null&&weaponUi.previewId==='${firstId}'`,'First canonical Weapon Preview did not settle without equipping',3000);
   const previewOnly=await evaluate(send,`(()=>{const item=weaponItemById('${firstId}'),choices=[...document.querySelectorAll('#weaponChoices .weapon-choice')],equip=document.getElementById('weaponEquip'),preview=document.querySelector('#weaponPreviewStage .weapon-preview-layer'),hero=preview?.querySelector('.weapon-preview-hero'),art=hero?.querySelector('.weapon-preview-art'),stage=document.getElementById('weaponPreviewStage'),hr=hero?.getBoundingClientRect();return{currentId:weaponUi.currentId,previewId:weaponUi.previewId,order:choices.map(x=>x.dataset.weaponId),equipped:choices.filter(x=>x.classList.contains('is-equipped')).length,slotCount:document.querySelectorAll('#weaponSlotHost .weapon-card').length,previewIdDom:preview?.dataset.weaponId||null,heroId:hero?.dataset.weaponId||null,artSrc:art?.getAttribute('src')||null,artLoaded:art?.naturalWidth||0,nestedPreviewCards:stage.querySelectorAll('.weapon-card').length,previewFrames:stage.querySelectorAll('.weapon-rarity-frame').length,previewSvgs:stage.querySelectorAll('svg').length,heroRect:hr?{width:hr.width,height:hr.height}:null,name:document.getElementById('weaponPreviewName').textContent.trim(),atk:document.getElementById('weaponPreviewAtk').textContent.trim(),secondaryLabel:document.getElementById('weaponPreviewSecondaryLabel').textContent.trim(),secondaryValue:document.getElementById('weaponPreviewSecondaryValue').textContent.trim(),expected:{name:item.name,atk:String(item.level90BaseAtk??'—'),secondaryLabel:item.secondary?.stat||'Secondary',secondaryValue:formatWeaponSecondaryValue(item.secondary?.value),art:item.artSrc},equipText:equip.textContent.trim(),equipDisabled:equip.disabled,flying:document.querySelectorAll('.weapon-card.is-flying').length,gridCards:document.querySelectorAll('#weaponChoices .weapon-card').length}})()`);
   if(previewOnly.currentId!==null||previewOnly.previewId!==firstId||previewOnly.equipped!==0||previewOnly.slotCount!==0||previewOnly.previewIdDom!==firstId||previewOnly.heroId!==firstId||!previewOnly.artLoaded||previewOnly.artSrc!==previewOnly.expected.art||previewOnly.nestedPreviewCards!==0||previewOnly.previewFrames!==0||previewOnly.previewSvgs!==0||!previewOnly.heroRect||previewOnly.heroRect.width<200||previewOnly.heroRect.height<200||previewOnly.name!==previewOnly.expected.name||previewOnly.atk!==previewOnly.expected.atk||previewOnly.secondaryLabel!==previewOnly.expected.secondaryLabel||previewOnly.secondaryValue!==previewOnly.expected.secondaryValue||previewOnly.equipText!=='Equip Weapon'||previewOnly.equipDisabled||previewOnly.flying!==0||previewOnly.gridCards!==fresh.itemCount||JSON.stringify(previewOnly.order)!==JSON.stringify(baseOrder)) throw new Error(`Weapon click did not create real frameless Preview without mutating Active/Build: ${JSON.stringify(previewOnly)}`);
@@ -332,7 +431,7 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
     return {character:fresh.selected,type:fresh.expectedType,previewed:opened.five.name,equipped:opened.five.name};
   }
 
-  await pointerClick(send,`#weaponChoices .weapon-choice[data-weapon-id="${secondId}"]`);
+  const secondPointerAudit=await visibleWeaponPointerClick(send,secondId);
   await waitForUi(send,`weaponUi.currentId==='${firstId}'&&weaponUi.previewId==='${secondId}'`,'Second canonical Weapon did not enter Preview while first stayed Active',1200);
   await sleep(55);
   const tunnel=await evaluate(send,`(()=>{const layers=[...document.querySelectorAll('#weaponPreviewStage .weapon-preview-layer')],incoming=layers.find(x=>x.classList.contains('is-incoming')),outgoing=layers.find(x=>x.classList.contains('is-outgoing'));const keyframes=el=>el?.getAnimations?.()[0]?.effect?.getKeyframes?.()||[];const ik=keyframes(incoming),ok=keyframes(outgoing),trace=weaponUi.lastPreviewTransition,spec=weaponUi.previewMotion;return{reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,count:layers.length,currentId:weaponUi.currentId,previewId:weaponUi.previewId,incomingId:incoming?.dataset.weaponId||null,outgoingId:outgoing?.dataset.weaponId||null,incomingArt:incoming?.querySelector('.weapon-preview-art')?.getAttribute('src')||null,outgoingArt:outgoing?.querySelector('.weapon-preview-art')?.getAttribute('src')||null,nestedPreviewCards:document.querySelectorAll('#weaponPreviewStage .weapon-card').length,previewFrames:document.querySelectorAll('#weaponPreviewStage .weapon-rarity-frame').length,incomingFrom:ik[0]?.transform||null,incomingTo:ik.at(-1)?.transform||null,outgoingTo:ok.at(-1)?.transform||null,outgoingOpacity:ok.at(-1)?.opacity??null,spec,trace,firstId:document.querySelector('#weaponChoices .weapon-choice')?.dataset.weaponId||null,buildCardId:document.querySelector('#weaponSlotHost .weapon-card')?.dataset.weaponId||null,flying:document.querySelectorAll('.weapon-card.is-flying').length}})()`);
@@ -408,6 +507,7 @@ try{
     console.log('v34 canonical Weapon focused verification passed in real Chrome.');
     console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
     console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
+    console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on desktop and mobile.');
     console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
   }finally{socket.close()}
 }catch(error){

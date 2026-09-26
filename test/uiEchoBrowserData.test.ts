@@ -14,6 +14,11 @@ type BrowserEcho = {
   sonataSetIds: string[];
 };
 
+const workspaceHtml = readFileSync(
+  new URL('../docs/ui-prototypes/v34-functional.html', import.meta.url),
+  'utf8',
+);
+
 const browserData = JSON.parse(
   readFileSync(new URL('../docs/ui-prototypes/assets/echoes/browser-data.json', import.meta.url), 'utf8'),
 ) as {
@@ -123,4 +128,11 @@ test('Echo browser Sonata selector identities and art resolve from canonical cat
     assert.equal(sonata.artPath, art.targetPath);
     assert.match(sonata.artPath, /^docs\/ui-prototypes\/assets\/builder-icons\/sonata\/.*\.webp$/);
   }
+});
+
+
+test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', () => {
+  assert.equal(workspaceHtml.includes('augusta-standard-echoes'), false);
+  assert.equal(workspaceHtml.includes("['sonata-20','sonata-3']"), false);
+  assert.equal(workspaceHtml.includes('[4,3,3,1,1]'), false);
 });

@@ -85,6 +85,8 @@ async function pointerClick(send, selector) {
   const bounds = await evaluate(send, "document.querySelector(" + selectorJson + ").getBoundingClientRect().toJSON()");
   if (!bounds || bounds.width <= 0 || bounds.height <= 0) throw new Error('Pointer target is not visible: ' + selector);
   const x = bounds.x + bounds.width / 2, y = bounds.y + bounds.height / 2;
+  const hit = await evaluate(send, "(() => {const el=document.elementFromPoint(" + x + "," + y + ");return{tag:el?.tagName||null,id:el?.id||null,className:typeof el?.className==='string'?el.className:null,closest:!!el?.closest?.(" + selectorJson + ")}})()");
+  if (!hit.closest) throw new Error('Pointer center does not hit requested target: ' + selector + ' ' + JSON.stringify({ bounds, hit }));
   await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
   await send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
   await sleep(30);
@@ -118,6 +120,7 @@ try {
 
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.assets?.chains?.length===6 && [...document.querySelectorAll('#sequenceLine .node img')].every(x=>x.naturalWidth>0)", 'Chisa Sequence UI did not bind/load');
+  await sleep(900);
   let state = await snapshot(send);
   if (state.current !== 0 || state.preview !== null || state.saved !== undefined || state.active.length !== 0 || state.loaded.some((x) => x <= 0)) throw new Error('Initial Chisa S0 state failed: ' + JSON.stringify(state));
 
@@ -146,6 +149,7 @@ try {
   if ((await snapshot(send)).preview !== 3) throw new Error('Chisa S3 Preview did not open before Character switch');
   await evaluate(send, "buildPicker.select('Augusta')");
   await waitFor(send, "sequenceUi.characterId==='augusta'", 'Character switch did not bind Augusta');
+  await sleep(900);
   state = await snapshot(send);
   if (state.preview !== null || state.current !== 0 || state.srcs.some((src) => !src?.includes('/augusta/'))) throw new Error('Character switch failed to clear Preview/update icons: ' + JSON.stringify(state));
 
@@ -154,6 +158,7 @@ try {
   await waitFor(send, 'sequenceUi.currentLevel===1', 'Augusta Set S1 failed');
   await evaluate(send, "buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa'", 'Return to Chisa failed');
+  await sleep(900);
   state = await snapshot(send);
   if (state.current !== 0 || state.saved !== 0) throw new Error('Character-independent Chisa state did not restore after Augusta change: ' + JSON.stringify(state));
 
@@ -164,6 +169,7 @@ try {
   await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===57", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');
+  await sleep(900);
   state = await snapshot(send);
   if (state.current !== 2 || state.saved !== 2 || JSON.stringify(state.active) !== JSON.stringify([1,2])) throw new Error('Reload persistence failed: ' + JSON.stringify(state));
 

@@ -158,16 +158,19 @@ const waitWeaponMotion=ms=>new Promise(resolve=>setTimeout(resolve,reducedMotion
 const weaponItemById=id=>weaponById.get(id)||null;
 const formatWeaponSecondaryValue=value=>value===null||value===undefined?'—':`${Number((value*100).toFixed(2))}%`;
 async function loadWeaponBrowserData(){
-  const [weaponModule,characterModule,manifestResponse]=await Promise.all([
-    import('../assets/data/weapons.js'),
-    import('../assets/data/characters.js'),
+  const [browserDataResponse,manifestResponse]=await Promise.all([
+    fetch('assets/weapons/browser-data.json',{cache:'no-store'}),
     fetch('assets/weapons/manifest.json',{cache:'no-store'})
   ]);
+  if(!browserDataResponse.ok)throw new Error('weapon browser data '+browserDataResponse.status);
   if(!manifestResponse.ok)throw new Error('weapon manifest '+manifestResponse.status);
+  const browserData=await browserDataResponse.json();
   const manifest=await manifestResponse.json();
+  if(browserData.schemaVersion!==1)throw new Error('Unsupported Weapon browser data schema');
   const iconById=new Map(manifest.icons.map(icon=>[icon.weaponId,icon]));
-  canonicalCharacterById=new Map(characterModule.CHARACTER_CATALOG.map(character=>[character.id,character]));
-  weaponCatalog=weaponModule.WEAPON_CATALOG.filter(weapon=>weapon.releaseStatus==='RELEASED').map((weapon,browseRank)=>{
+  canonicalCharacterById=new Map(browserData.characters.map(character=>[character.id,character]));
+  weaponCatalog=browserData.weapons.map((weapon,browseRank)=>{
+    if(weapon.releaseStatus!=='RELEASED')throw new Error(`Non-released Weapon leaked into browser data: ${weapon.id}`);
     const icon=iconById.get(weapon.id);
     if(!icon)throw new Error(`Missing canonical Weapon icon for ${weapon.id}`);
     if(icon.weaponType!==weapon.weaponType||icon.rarity!==weapon.rarity)throw new Error(`Weapon manifest mismatch for ${weapon.id}`);

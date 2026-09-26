@@ -1,0 +1,1804 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": [
+    "src/data/weapons.ts#WEAPON_CATALOG",
+    "src/data/characters.ts#CHARACTER_CATALOG"
+  ],
+  "weapons": [
+    {
+      "id": "ages-of-harvest",
+      "name": "Ages of Harvest",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "kumokiri",
+      "name": "Kumokiri",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "lustrous-razor",
+      "name": "Lustrous Razor",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "radiance-cleaver",
+      "name": "Radiance Cleaver",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "starfield-calibrator",
+      "name": "Starfield Calibrator",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 412,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.77
+      }
+    },
+    {
+      "id": "thunderflare-dominion",
+      "name": "Thunderflare Dominion",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 675,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.1215
+      }
+    },
+    {
+      "id": "verdant-summit",
+      "name": "Verdant Summit",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "wildfire-mark",
+      "name": "Wildfire Mark",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "abyss-surges",
+      "name": "Abyss Surges",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "blazing-justice",
+      "name": "Blazing Justice",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "daybreakers-spine",
+      "name": "Daybreaker's Spine",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "moongazers-sigil",
+      "name": "Moongazer's Sigil",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "pulsation-bracer",
+      "name": "Pulsation Bracer",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "solsworn-ciphers",
+      "name": "Solsworn Ciphers",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "tragicomedy",
+      "name": "Tragicomedy",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "veritys-handle",
+      "name": "Verity's Handle",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "lux-and-umbra",
+      "name": "Lux & Umbra",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "phasic-homogenizer",
+      "name": "Phasic Homogenizer",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "skull-thrasher",
+      "name": "Skull Thrasher",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.72
+      }
+    },
+    {
+      "id": "spectral-trigger",
+      "name": "Spectral Trigger",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "spectrum-blaster",
+      "name": "Spectrum Blaster",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "static-mist",
+      "name": "Static Mist",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "the-last-dance",
+      "name": "The Last Dance",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.72
+      }
+    },
+    {
+      "id": "woodland-aria",
+      "name": "Woodland Aria",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "boson-astrolabe",
+      "name": "Boson Astrolabe",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 525,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.388
+      }
+    },
+    {
+      "id": "cosmic-ripples",
+      "name": "Cosmic Ripples",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.54
+      }
+    },
+    {
+      "id": "firstlights-herald",
+      "name": "Firstlight's Herald",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.77
+      }
+    },
+    {
+      "id": "forged-dwarf-star",
+      "name": "Forged Dwarf Star",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "freeze-frame",
+      "name": "Freeze Frame",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "lethean-elegy",
+      "name": "Lethean Elegy",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "luminous-hymn",
+      "name": "Luminous Hymn",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "rime-draped-sprouts",
+      "name": "Rime-Draped Sprouts",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.72
+      }
+    },
+    {
+      "id": "stellar-symphony",
+      "name": "Stellar Symphony",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 412,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.77
+      }
+    },
+    {
+      "id": "stringmaster",
+      "name": "Stringmaster",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "whispers-of-sirens",
+      "name": "Whispers of Sirens",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.72
+      }
+    },
+    {
+      "id": "azure-oath",
+      "name": "Azure Oath",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 588,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "blazing-brilliance",
+      "name": "Blazing Brilliance",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.486
+      }
+    },
+    {
+      "id": "bloodpacts-pledge",
+      "name": "Bloodpact's Pledge",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.388
+      }
+    },
+    {
+      "id": "defiers-thorn",
+      "name": "Defier's Thorn",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 412,
+      "secondary": {
+        "stat": "HP%",
+        "value": 0.722
+      }
+    },
+    {
+      "id": "emerald-sentence",
+      "name": "Emerald Sentence",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "emerald-of-genesis",
+      "name": "Emerald of Genesis",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "everbright-polestar",
+      "name": "Everbright Polestar",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "frostburn",
+      "name": "Frostburn",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "laser-shearer",
+      "name": "Laser Shearer",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.388
+      }
+    },
+    {
+      "id": "red-spring",
+      "name": "Red Spring",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "unflickering-valor",
+      "name": "Unflickering Valor",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 412,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.77
+      }
+    },
+    {
+      "id": "glint-of-clouds",
+      "name": "Glint of Clouds",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 5,
+      "level90BaseAtk": 500,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.36
+      }
+    },
+    {
+      "id": "aureate-zenith",
+      "name": "Aureate Zenith",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.405
+      }
+    },
+    {
+      "id": "autumntrace",
+      "name": "Autumntrace",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.2025
+      }
+    },
+    {
+      "id": "broadblade-41",
+      "name": "Broadblade#41",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.324
+      }
+    },
+    {
+      "id": "dauntless-evernight",
+      "name": "Dauntless Evernight",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "DEF%",
+        "value": 0.6156
+      }
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "helios-cleaver",
+      "name": "Helios Cleaver",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "meditations-on-mercy",
+      "name": "Meditations on Mercy",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "waning-redshift",
+      "name": "Waning Redshift",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "aether-strike",
+      "name": "Aether Strike",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.405
+      }
+    },
+    {
+      "id": "amity-accord",
+      "name": "Amity Accord",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "DEF%",
+        "value": 0.6156
+      }
+    },
+    {
+      "id": "celestial-spiral",
+      "name": "Celestial Spiral",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "gauntlets-21d",
+      "name": "Gauntlets#21D",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.3888
+      }
+    },
+    {
+      "id": "hollow-mirage",
+      "name": "Hollow Mirage",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "legend-of-drunken-hero",
+      "name": "Legend of Drunken Hero",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "marcato",
+      "name": "Marcato",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "stonard",
+      "name": "Stonard",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.2025
+      }
+    },
+    {
+      "id": "cadenza",
+      "name": "Cadenza",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "novaburst",
+      "name": "Novaburst",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "pistols-26",
+      "name": "Pistols#26",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "relativistic-jet",
+      "name": "Relativistic Jet",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "romance-in-farewell",
+      "name": "Romance in Farewell",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "solar-flame",
+      "name": "Solar Flame",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.2025
+      }
+    },
+    {
+      "id": "thunderbolt",
+      "name": "Thunderbolt",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "undying-flame",
+      "name": "Undying Flame",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "augment",
+      "name": "Augment",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.2025
+      }
+    },
+    {
+      "id": "call-of-the-abyss",
+      "name": "Call of the Abyss",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.324
+      }
+    },
+    {
+      "id": "comet-flare",
+      "name": "Comet Flare",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "HP%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "fusion-accretion",
+      "name": "Fusion Accretion",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "jinzhou-keeper",
+      "name": "Jinzhou Keeper",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "oceans-gift",
+      "name": "Ocean's Gift",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "radiant-dawn",
+      "name": "Radiant Dawn",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.405
+      }
+    },
+    {
+      "id": "rectifier-25",
+      "name": "Rectifier#25",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "variation",
+      "name": "Variation",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "waltz-in-masquerade",
+      "name": "Waltz in Masquerade",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "commando-of-conviction",
+      "name": "Commando of Conviction",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "endless-collapse",
+      "name": "Endless Collapse",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",        "value": 0.1823
+      }
+    },
+    {
+      "id": "fables-of-wisdom",
+      "name": "Fables of Wisdom",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "feather-edge",
+      "name": "Feather Edge",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.2025
+      }
+    },
+    {
+      "id": "lumingloss",
+      "name": "Lumingloss",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "lunar-cutter",
+      "name": "Lunar Cutter",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "overture",
+      "name": "Overture",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 338,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.5184
+      }
+    },
+    {
+      "id": "somnoire-anchor",
+      "name": "Somnoire Anchor",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 462,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1823
+      }
+    },
+    {
+      "id": "sword-18",
+      "name": "Sword#18",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 4,
+      "level90BaseAtk": 388,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3645
+      }
+    },
+    {
+      "id": "beguiling-melody",
+      "name": "Beguiling Melody",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "broadblade-of-night",
+      "name": "Broadblade of Night",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "broadblade-of-voyager",
+      "name": "Broadblade of Voyager",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.324
+      }
+    },
+    {
+      "id": "guardian-broadblade",
+      "name": "Guardian Broadblade",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "originite-type-i",
+      "name": "Originite: Type I",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "DEF%",
+        "value": 0.3848
+      }
+    },
+    {
+      "id": "gauntlets-of-night",
+      "name": "Gauntlets of Night",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "gauntlets-of-voyager",
+      "name": "Gauntlets of Voyager",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "DEF%",
+        "value": 0.3078
+      }
+    },
+    {
+      "id": "guardian-gauntlets",
+      "name": "Guardian Gauntlets",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "DEF%",
+        "value": 0.3848
+      }
+    },
+    {
+      "id": "originite-type-iv",
+      "name": "Originite: Type IV",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "CRIT DMG",
+        "value": 0.405
+      }
+    },
+    {
+      "id": "guardian-pistols",
+      "name": "Guardian Pistols",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "originite-type-iii",
+      "name": "Originite: Type III",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "pistols-of-night",
+      "name": "Pistols of Night",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "pistols-of-voyager",
+      "name": "Pistols of Voyager",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "guardian-rectifier",
+      "name": "Guardian Rectifier",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "originite-type-v",
+      "name": "Originite: Type V",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "HP%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "rectifier-of-night",
+      "name": "Rectifier of Night",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "rectifier-of-voyager",
+      "name": "Rectifier of Voyager",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.324
+      }
+    },
+    {
+      "id": "guardian-sword",
+      "name": "Guardian Sword",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "HP%",
+        "value": 0.3038
+      }
+    },
+    {
+      "id": "originite-type-ii",
+      "name": "Originite: Type II",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "sword-of-night",
+      "name": "Sword of Night",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "level90BaseAtk": 325,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.243
+      }
+    },
+    {
+      "id": "sword-of-voyager",
+      "name": "Sword of Voyager",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 3,
+      "level90BaseAtk": 300,
+      "secondary": {
+        "stat": "Energy Regen",
+        "value": 0.324
+      }
+    },
+    {
+      "id": "tyro-broadblade",
+      "name": "Tyro Broadblade",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 2,
+      "level90BaseAtk": 275,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1485
+      }
+    },
+    {
+      "id": "tyro-gauntlets",
+      "name": "Tyro Gauntlets",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 2,
+      "level90BaseAtk": 275,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1485
+      }
+    },
+    {
+      "id": "tyro-pistols",
+      "name": "Tyro Pistols",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 2,
+      "level90BaseAtk": 275,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1485
+      }
+    },
+    {
+      "id": "tyro-rectifier",
+      "name": "Tyro Rectifier",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 2,
+      "level90BaseAtk": 275,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1485
+      }
+    },
+    {
+      "id": "tyro-sword",
+      "name": "Tyro Sword",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 2,
+      "level90BaseAtk": 275,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1485
+      }
+    },
+    {
+      "id": "training-broadblade",
+      "name": "Training Broadblade",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 1,
+      "level90BaseAtk": 250,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1148
+      }
+    },
+    {
+      "id": "training-gauntlets",
+      "name": "Training Gauntlets",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets",
+      "rarity": 1,
+      "level90BaseAtk": 250,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1148
+      }
+    },
+    {
+      "id": "training-pistols",
+      "name": "Training Pistols",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols",
+      "rarity": 1,
+      "level90BaseAtk": 250,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1148
+      }
+    },
+    {
+      "id": "training-rectifier",
+      "name": "Training Rectifier",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 1,
+      "level90BaseAtk": 250,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1148
+      }
+    },
+    {
+      "id": "training-sword",
+      "name": "Training Sword",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword",
+      "rarity": 1,
+      "level90BaseAtk": 250,
+      "secondary": {
+        "stat": "ATK%",
+        "value": 0.1148
+      }
+    }
+  ],
+  "characters": [
+    {
+      "id": "aalto",
+      "name": "Aalto",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "aemeath",
+      "name": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "augusta",
+      "name": "Augusta",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "baizhi",
+      "name": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "brant",
+      "name": "Brant",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "buling",
+      "name": "Buling",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "calcharo",
+      "name": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "camellya",
+      "name": "Camellya",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "cantarella",
+      "name": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "carlotta",
+      "name": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "cartethyia",
+      "name": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "changli",
+      "name": "Changli",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "chisa",
+      "name": "Chisa",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "chixia",
+      "name": "Chixia",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "ciaccona",
+      "name": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "danjin",
+      "name": "Danjin",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "denia",
+      "name": "Denia",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "encore",
+      "name": "Encore",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "galbrena",
+      "name": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "hiyuki",
+      "name": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "iuno",
+      "name": "Iuno",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "jianxin",
+      "name": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "jinhsi",
+      "name": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "jiyan",
+      "name": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "lingyang",
+      "name": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "lucilla",
+      "name": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "lucy",
+      "name": "Lucy",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "lumi",
+      "name": "Lumi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "lupa",
+      "name": "Lupa",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "luuk-herssen",
+      "name": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "lynae",
+      "name": "Lynae",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "mornye",
+      "name": "Mornye",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "mortefi",
+      "name": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "phoebe",
+      "name": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "phrolova",
+      "name": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "qingxiao",
+      "name": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "qiuyuan",
+      "name": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "rebecca",
+      "name": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
+      "id": "roccia",
+      "name": "Roccia",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "rover-aero",
+      "name": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "rover-electro",
+      "name": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "rover-havoc",
+      "name": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "rover-spectro",
+      "name": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "sanhua",
+      "name": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "sigrika",
+      "name": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "suisui",
+      "name": "Suisui",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "taoqi",
+      "name": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
+    },
+    {
+      "id": "the-shorekeeper",
+      "name": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "verina",
+      "name": "Verina",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "xiangli-yao",
+      "name": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "yangyang",
+      "name": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "yangyang-xuanling",
+      "name": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
+    },
+    {
+      "id": "yinlin",
+      "name": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
+      "id": "youhu",
+      "name": "Youhu",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "yuanwu",
+      "name": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "zani",
+      "name": "Zani",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Gauntlets"
+    },
+    {
+      "id": "zhezhi",
+      "name": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    }
+  ]
+}

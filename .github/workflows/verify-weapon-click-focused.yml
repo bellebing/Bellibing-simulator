@@ -1,0 +1,48 @@
+name: Verify Weapon Click Focused
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  weapon-click:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Build focused preview
+        run: npm run build
+
+      - name: Physical visible Weapon click gate
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4173/ui-preview/ >/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          google-chrome --version
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_WEAPON_CLICK_ONLY=1 \
+            node scripts/verify-v34-weapon-canonical.mjs
+
+          immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
+          curl --fail --silent --output /dev/null "$immutable_preview"
+          BELLIBING_V34_URL="$immutable_preview" \
+            BELLIBING_V34_CHROME_DEBUG_PORT=9667 \
+            BELLIBING_WEAPON_CLICK_ONLY=1 \
+            node scripts/verify-v34-weapon-canonical.mjs

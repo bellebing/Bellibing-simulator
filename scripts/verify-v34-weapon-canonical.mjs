@@ -72,7 +72,9 @@ async function navigate(send) {
     title:document.title,
     readyState:document.readyState,
     homeCards:document.querySelectorAll('#homeStage .home-card').length,
-    body:document.body?.innerText?.slice(0,240)||'',
+    body:document.body?.innerText?.slice(0,480)||'',
+    links:[...document.querySelectorAll('a')].slice(0,12).map(a=>({text:a.textContent?.trim()||'',href:a.href})),
+    buttons:[...document.querySelectorAll('button')].slice(0,12).map(b=>({text:b.textContent?.trim()||'',id:b.id||'',className:b.className||''})),
     characterManifestError:document.documentElement.dataset.characterManifestError||null,
     weaponCatalogError:document.documentElement.dataset.weaponCatalogError||null
   }))()`).catch(error=>({evaluationError:String(error)}));

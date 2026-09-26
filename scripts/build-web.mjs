@@ -10,6 +10,11 @@ const weaponBrowserDataCheck = spawnSync(process.execPath, [
 ], { stdio: 'inherit' });
 if (weaponBrowserDataCheck.status !== 0) process.exit(weaponBrowserDataCheck.status ?? 1);
 
+const characterBuilderSequenceDataCheck = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-ui-character-builder-runtime.ts', '--check',
+], { stdio: 'inherit' });
+if (characterBuilderSequenceDataCheck.status !== 0) process.exit(characterBuilderSequenceDataCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 

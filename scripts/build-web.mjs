@@ -39,3 +39,4 @@ cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/character
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });
 cpSync('docs/ui-prototypes/assets/weapons', 'dist/ui-preview/assets/weapons', { recursive: true });
 cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builder-icons', { recursive: true });
+cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/assets/sequence-runtime.json');

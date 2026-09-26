@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { createCharacterBuilderAssetResolver } from '../src/characterBuilderAssets.ts';
 
 const manifestPath = resolve('docs/ui-prototypes/assets/builder-icons/manifest.json');
-const defaultOutput = 'docs/ui-prototypes/assets/builder-icons/runtime-sequences.json';
+const defaultOutput = 'docs/ui-prototypes/assets/sequence-runtime.json';
 const check = process.argv.includes('--check');
 const outputArg = process.argv.indexOf('--output');
 const output = resolve(outputArg >= 0 ? process.argv[outputArg + 1] : defaultOutput);

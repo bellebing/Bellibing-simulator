@@ -131,6 +131,7 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
+  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo artwork did not fully resolve in browser', 12000);
 
   const opened = await evaluate(send, `(()=>({target:echoUi.targetSlot,workspaceSlots:document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot').length,cards:document.querySelectorAll('#echoChoices .echo-choice').length,scrollable:document.getElementById('echoBrowser').scrollHeight>document.getElementById('echoBrowser').clientHeight,allArtLoaded:[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0),filter:echoUi.filter,previewId:echoUi.previewId,storage:localStorage.getItem('bellibing-ui-checkpoint-v34')}))()`);
   if (opened.target !== 0 || opened.workspaceSlots !== 5 || opened.cards !== 181 || !opened.scrollable || !opened.allArtLoaded || opened.filter !== 'all' || opened.previewId !== null) {

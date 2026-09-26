@@ -110,6 +110,7 @@ async function prepareBuild(send, characterName = 'Augusta') {
   await waitForUi(send, `releasedCharacters.length===57&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.weaponCatalogReady==='true'`, 'Canonical UI data did not load', 15000);
   await evaluate(send, `(()=>{show('build');buildPicker.reset();buildPicker.render();buildPicker.select(${JSON.stringify(characterName)});return true})()`);
   await waitForUi(send, `buildPicker.selected===${JSON.stringify(characterName)}&&echoUi.characterName===${JSON.stringify(characterName)}`, 'Build Character did not bind Echo UI');
+  await waitForUi(send, `(()=>{const host=document.querySelector('.echoes'),slot=document.querySelector('.echo[data-echo-slot="0"]');if(!host||!slot||parseFloat(getComputedStyle(host).opacity)<.99)return false;const r=slot.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return slot===hit||slot.contains(hit)})()`, 'Settled Build Echo slot was not physically hit-testable', 2500);
 }
 
 async function verifyFilter(send, filter) {

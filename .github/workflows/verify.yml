@@ -86,6 +86,8 @@ jobs:
             node scripts/verify-alpha-ciaccona-owned-build.mjs
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-weapon-canonical.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-v34-echo-workspace.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
             for attempt in {1..30}; do
@@ -122,6 +124,9 @@ jobs:
           test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
           test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 181
           test "$(find dist/ui-preview/assets/echoes/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 181
+          test -s dist/ui-preview/assets/echoes/browser-data.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/echoes/browser-data.json"
           test "$(find dist/ui-preview/assets/weapons/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 122
           test -s dist/ui-preview/assets/echoes/manifest.json
           test -s dist/ui-preview/assets/echoes/portraits/manifest.json
@@ -175,6 +180,8 @@ jobs:
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png
             artifacts/ui-preview-weapon-overlay-1440x900.png
             artifacts/ui-preview-weapon-overlay-390x844.png
+            artifacts/ui-preview-echo-workspace-1440x900.png
+            artifacts/ui-preview-echo-workspace-390x844.png
           if-no-files-found: error
           retention-days: 7
 

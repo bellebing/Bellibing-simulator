@@ -98,6 +98,10 @@ jobs:
             BELLIBING_V34_CHROME_DEBUG_PORT=9674 \
             node scripts/verify-v34-skills-runtime.mjs
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_CHROME_DEBUG_PORT=9676 \
+            BELLIBING_HERO_CAPTURE=1 \
+            node scripts/verify-v34-character-hero-art.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-echo-workspace.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
@@ -121,6 +125,10 @@ jobs:
             BELLIBING_V34_URL="$immutable_preview" \
               BELLIBING_V34_CHROME_DEBUG_PORT=9675 \
               node scripts/verify-v34-skills-runtime.mjs
+            BELLIBING_V34_URL="$immutable_preview" \
+              BELLIBING_V34_CHROME_DEBUG_PORT=9677 \
+              BELLIBING_HERO_CAPTURE=0 \
+              node scripts/verify-v34-character-hero-art.mjs
           fi
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
@@ -142,6 +150,13 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
 
           test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
+          test "$(find dist/ui-preview/assets/characters/hero-art -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 53
+          test -s dist/ui-preview/assets/characters/hero-art/manifest.json
+          test -s dist/ui-preview/assets/characters/hero-art/runtime-data.json
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/hero-art/augusta.webp"
+          curl --fail --silent --output /dev/null \
+            "http://127.0.0.1:4173/ui-preview/assets/characters/hero-art/runtime-data.json"
           test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 181
           test "$(find dist/ui-preview/assets/echoes/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 181
           test -s dist/ui-preview/assets/echoes/browser-data.json
@@ -210,6 +225,8 @@ jobs:
             artifacts/ui-preview-sequence-hover-1440x900.png
             artifacts/ui-preview-build-stats-expanded-1440x900.png
             artifacts/ui-preview-skills-menu-1440x900.png
+            artifacts/ui-preview-hero-art-*.png
+            artifacts/hero-roster/*.png
           if-no-files-found: error
           retention-days: 7
 

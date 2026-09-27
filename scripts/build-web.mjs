@@ -30,6 +30,11 @@ const buildStatsRuntimeCheck = spawnSync(process.execPath, [
 ], { stdio: 'inherit' });
 if (buildStatsRuntimeCheck.status !== 0) process.exit(buildStatsRuntimeCheck.status ?? 1);
 
+const characterHeroArtRuntimeCheck = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-ui-character-hero-art-runtime.ts', '--check',
+], { stdio: 'inherit' });
+if (characterHeroArtRuntimeCheck.status !== 0) process.exit(characterHeroArtRuntimeCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 

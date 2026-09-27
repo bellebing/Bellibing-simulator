@@ -166,6 +166,15 @@ try {
   state = await snapshot(send);
   if (state.current !== 0 || state.saved !== 0) throw new Error('Character-independent Chisa state did not restore after Augusta change: ' + JSON.stringify(state));
 
+  await pointerClick(send, '#sequenceLine .node[data-sequence="4"]');
+  if ((await snapshot(send)).preview !== 4) throw new Error('Chisa preview did not open before persisted Augusta switch');
+  await evaluate(send, "buildPicker.select('Augusta')");
+  await waitFor(send, "sequenceUi.characterId==='augusta' && sequenceUi.currentLevel===1", 'Persisted Augusta S1 did not restore on Character switch');
+  state = await snapshot(send);
+  if (state.preview !== null || state.saved !== 1 || state.srcs.some((src) => !src?.includes('/augusta/'))) throw new Error('Character switch did not clear Preview/use persisted Augusta state: ' + JSON.stringify(state));
+  await evaluate(send, "buildPicker.select('Chisa')");
+  await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===0", 'Return to Chisa after persisted Augusta check failed');
+
   await pointerClick(send, '#sequenceLine .node[data-sequence="2"]');
   await pointerClick(send, '#sequenceCommit');
   await waitFor(send, 'sequenceUi.currentLevel===2', 'Chisa Set S2 before reload failed');

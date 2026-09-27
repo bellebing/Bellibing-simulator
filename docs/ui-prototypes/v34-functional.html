@@ -8,7 +8,31 @@
 <style>
 :root{--bg:#050608;--panel:#11141a;--text:#f2f0eb;--muted:#8e949d;--line:rgba(255,255,255,.09);--font-display:"Etna",Inter,sans-serif;--font-ui:Inter,ui-sans-serif,system-ui,sans-serif}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-ui);overflow:hidden}button{font:inherit}.page{position:fixed;inset:0;display:none;overflow:hidden}.page.active{display:block}.menu{position:absolute;z-index:90;left:18px;top:16px;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101319;color:#fff;font-size:20px}.dev{position:absolute;z-index:90;right:16px;bottom:14px;border:0;background:transparent;color:#555;font-size:11px}.home-stage{position:absolute;left:50%;top:0;bottom:0;width:min(calc(100% - 32px),1280px);transform:translateX(-50%);display:flex;align-items:center;justify-content:center;perspective:1200px;overflow:hidden;touch-action:pan-y;user-select:none;outline:none}.home-card{--x:0px;--s:1;position:absolute;left:50%;top:50%;width:min(390px,calc(100vw - 64px));height:500px;transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,#171a21,#0c0f13);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#fff;cursor:pointer;overflow:hidden;transition:transform .42s cubic-bezier(.16,.84,.24,1),opacity .35s ease}.home-card-art{position:absolute;inset:0;overflow:hidden;pointer-events:none}.home-card-art img{position:absolute;width:auto;max-width:none}.home-card.card-build img{height:98%;bottom:0;left:50%;transform:translateX(-38%)}.home-card.card-improve img{height:98%;bottom:0;left:50%;transform:translateX(-62.5%)}.home-card.card-team img{height:132%;bottom:-80px;left:50%;transform:translateX(-49%);filter:none;mix-blend-mode:normal}.home-card-title{position:absolute;z-index:2;top:23px;left:10px;right:10px;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:400;line-height:1;white-space:nowrap;text-shadow:0 2px 18px rgba(0,0,0,.72)}.home-leaving .home-card{opacity:0}.home-leaving .home-card.major-source{transform:translate(-50%,-50%) translateX(var(--x)) scale(1.16)}.major-enter .picker-shell,.major-enter .team-placeholder{opacity:0;transform:scale(.84)}.major-enter.go .picker-shell,.major-enter.go .team-placeholder{opacity:1;transform:scale(1);transition:transform .72s cubic-bezier(.16,.84,.24,1),opacity .5s ease}
-.picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{width:100%;flex:1;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#6b4a34;font-size:12px;letter-spacing:.18em}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);height:min(540px,58vh);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:space-between;gap:22px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block h2,.echoes h2,.seq h2{margin:0 0 12px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{height:255px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:20px}.statline{height:11px;border-radius:99px;background:rgba(255,255,255,.06)}.weapon{height:108px;width:100%;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
+.picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{width:100%;flex:1;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#6b4a34;font-size:12px;letter-spacing:.18em}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block{width:100%}.block h2,.echoes h2,.seq h2{margin:0 0 10px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:9px 12px 8px;display:grid;gap:0;transition:border-color .18s ease,background .18s ease}.stats-box.is-expanded{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.026)}.build-stats-rows{display:grid}.build-stat-row{display:grid;grid-template-columns:17px max-content minmax(10px,1fr) minmax(48px,max-content);align-items:center;gap:7px;min-height:23px}.build-stat-row[hidden]{display:none}.build-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.82;filter:drop-shadow(0 2px 5px rgba(0,0,0,.34))}.build-stat-label{min-width:0;color:#a8afb8;font-size:10px;line-height:1.15;white-space:nowrap}.build-stat-leader{height:1px;min-width:8px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.14),rgba(255,255,255,.04))}.build-stat-value{min-width:48px;color:#eef0f3;font-size:10px;font-weight:750;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.build-stats-toggle{margin-top:5px;width:100%;min-height:26px;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#888f99;font-size:10px;font-weight:700;cursor:pointer}.build-stats-toggle:hover{color:#c5cad1}.build-stats-toggle:focus-visible{outline:1px solid rgba(255,255,255,.3);outline-offset:2px}.skills-card{position:relative;width:100%;height:142px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
+.skills-card:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.skills-card:active{transform:scale(.988)}
+.skills-card:disabled{cursor:default;opacity:.45}
+.skills-card:focus-visible{outline:1px solid rgba(255,255,255,.34);outline-offset:2px}
+.skills-mini-tree{position:relative;display:block;width:100%;height:100%}
+.skills-tree-lines{position:absolute;z-index:0;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.skill-link{fill:none;stroke:rgba(155,162,173,.32);stroke-width:1.25;stroke-linecap:round;vector-effect:non-scaling-stroke;transition:stroke .18s ease,filter .18s ease,opacity .18s ease}
+.skill-link.is-active{stroke:url(#skillsCompactGold);stroke-width:2;filter:url(#skillsCompactGlow)}
+.skill-link[hidden]{display:none}
+.skill-mini-node{position:absolute;z-index:1;width:52px;height:35px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;pointer-events:none}
+.skill-mini-node[hidden]{display:none}
+.skill-mini-node img{display:block;width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.16);background:#101319;opacity:.78;filter:grayscale(.28) brightness(.84);box-shadow:0 4px 10px rgba(0,0,0,.28);transition:border-color .18s ease,box-shadow .18s ease,filter .18s ease,opacity .18s ease}
+.skill-mini-node small{display:block;max-width:54px;color:#8e949d;font-size:6.5px;font-weight:700;line-height:1;white-space:nowrap;text-align:center;text-shadow:0 1px 4px #050608}
+.skill-mini-node.is-selected img{opacity:1;filter:none;border-color:rgba(226,181,84,.82);box-shadow:0 0 0 1px rgba(226,181,84,.14),0 0 14px rgba(226,174,71,.22)}
+.skill-mini-node.is-selected small{color:#d8bc7d}
+.skill-mini-inherent-2{left:50%;top:0}
+.skill-mini-inherent-1{left:50%;top:22%}
+.skill-mini-normal{left:10%;top:52%}
+.skill-mini-skill{left:30%;top:52%}
+.skill-mini-circuit{left:50%;top:52%}
+.skill-mini-liberation{left:70%;top:52%}
+.skill-mini-intro{left:90%;top:52%}
+.skill-mini-outro{left:50%;top:78%}
+.weapon{height:108px;width:100%;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
 .weapon:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .weapon:active{transform:scale(.985)}
 .weapon-slot-host{position:relative;display:grid;place-items:center;width:100%;height:100%}
@@ -30,6 +54,64 @@
 .weapon-card-copy small{display:block;margin-top:4px;color:#a3a9b2;font-size:9px;letter-spacing:.10em;text-transform:uppercase}
 .weapon-equipped-badge{position:absolute;z-index:5;left:50%;top:10px;transform:translateX(-50%);display:none;align-items:center;min-height:21px;padding:4px 7px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,10,14,.86);color:#f5f6f8;font-size:8px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.28)}
 .weapon-card.is-current{border-color:rgba(255,255,255,.34);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 70px rgba(0,0,0,.42)}
+.skills-overlay{--skills-ease:cubic-bezier(.16,.84,.24,1);position:fixed;inset:0;z-index:180;visibility:hidden;pointer-events:none}
+.skills-overlay.mounted{visibility:visible;pointer-events:auto}
+.skills-scrim{position:absolute;inset:0;background:rgba(4,5,8,.50);backdrop-filter:blur(2px);opacity:0;transition:opacity .26s ease}
+.skills-panel{position:absolute;left:50%;top:50%;width:min(1120px,calc(100vw - 56px));height:min(720px,calc(100dvh - 66px));padding:28px 30px 30px;border:1px solid rgba(255,255,255,.12);border-radius:30px;background:linear-gradient(180deg,rgba(19,22,28,.76),rgba(10,12,16,.72));backdrop-filter:blur(7px) saturate(.9);box-shadow:0 42px 120px rgba(0,0,0,.64);opacity:0;transform:translate(-50%,calc(-50% + 14px)) scale(.985);transition:opacity .32s var(--skills-ease),transform .36s var(--skills-ease);overflow:hidden}
+.skills-overlay.open .skills-scrim{opacity:1}
+.skills-overlay.open .skills-panel{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.skills-close{position:absolute;z-index:8;top:18px;right:18px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:#171a20;color:#d9dde3;font-size:24px;line-height:1;cursor:pointer}
+.skills-panel-head{padding-right:54px;text-align:center}
+.skills-panel-head h2{margin:0;font-family:var(--font-display);font-size:36px;font-weight:400}
+.skills-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,360px);gap:24px;height:calc(100% - 58px);margin-top:16px}
+.skills-menu-tree{position:relative;min-width:0;min-height:0;border:1px solid rgba(255,255,255,.07);border-radius:24px;background:radial-gradient(circle at 50% 22%,rgba(210,164,73,.055),transparent 39%),rgba(255,255,255,.015);overflow:hidden}
+.skills-menu-tree .skills-tree-lines{inset:4% 4%;width:92%;height:92%}
+.skills-menu-tree .skill-link{stroke:rgba(158,165,176,.34);stroke-width:1.35}
+.skills-menu-tree .skill-link.is-active{stroke:url(#skillsMenuGold);stroke-width:2.2;filter:url(#skillsMenuGlow)}
+.skills-menu-node{position:absolute;z-index:2;width:116px;min-height:104px;transform:translateX(-50%);padding:6px 5px;border:0;background:transparent;color:#a5abb4;cursor:pointer;text-align:center;transition:transform .17s ease,color .17s ease}
+.skills-menu-node[hidden]{display:none}
+.skills-menu-node:hover{transform:translateX(-50%) scale(1.045);color:#e8e9eb}
+.skills-menu-node:focus-visible{outline:1px solid rgba(255,255,255,.34);outline-offset:1px;border-radius:16px}
+.skills-menu-node img{display:block;width:64px;height:64px;margin:0 auto 7px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.16);background:#101319;opacity:.82;filter:grayscale(.18) brightness(.88);box-shadow:0 13px 30px rgba(0,0,0,.35);transition:border-color .17s ease,box-shadow .17s ease,filter .17s ease,opacity .17s ease}
+.skills-menu-node span{display:block;font-size:10px;font-weight:800;line-height:1.16}
+.skills-menu-node.is-selected{color:#e1c17c}
+.skills-menu-node.is-selected img{opacity:1;filter:none;border-color:rgba(226,181,84,.92);box-shadow:0 0 0 2px rgba(226,181,84,.12),0 0 28px rgba(226,174,71,.25),0 16px 34px rgba(0,0,0,.38)}
+.skills-menu-inherent-2{left:50%;top:4%}
+.skills-menu-inherent-1{left:50%;top:25%}
+.skills-menu-normal{left:10%;top:59%}
+.skills-menu-skill{left:30%;top:59%}
+.skills-menu-circuit{left:50%;top:59%}
+.skills-menu-liberation{left:70%;top:59%}
+.skills-menu-intro{left:90%;top:59%}
+.skills-menu-outro{left:50%;top:81%;min-height:88px}
+.skills-menu-outro img{width:54px;height:54px}
+.skills-detail-pane{min-width:0;min-height:0;padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:rgba(255,255,255,.022);display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.skills-detail-kicker{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#777f8a}
+.skills-selected{min-height:104px;display:grid;grid-template-columns:78px minmax(0,1fr);gap:13px;align-items:center;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:14px}
+.skills-selected:not(.has-selection){grid-template-columns:1fr;text-align:center}
+.skills-selected img{display:none;width:72px;height:72px;border-radius:50%;object-fit:cover;border:1px solid rgba(226,181,84,.62);background:#101319;box-shadow:0 0 24px rgba(226,174,71,.16),0 16px 32px rgba(0,0,0,.34)}
+.skills-selected.has-selection img{display:block}
+.skills-selected-copy{min-width:0}
+.skills-selected-type{display:block;color:#9299a3;font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
+.skills-selected strong{display:block;margin-top:5px;font-family:var(--font-display);font-size:21px;font-weight:400;line-height:1.1}
+.skills-selected-level{display:none;width:max-content;margin-top:8px;padding:4px 7px;border:1px solid rgba(226,181,84,.28);border-radius:999px;color:#d8bc7d;font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.skills-selected-level.is-visible{display:inline-flex}
+.skills-detail-body{min-height:0;flex:1;overflow:auto;padding:1px 4px 4px 0;scrollbar-width:thin;scrollbar-color:rgba(205,171,100,.32) transparent}
+.skills-detail-empty,.skills-detail-pending{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;text-align:center;color:#858c96}
+.skills-detail-empty strong,.skills-detail-pending strong{font-family:var(--font-display);font-size:20px;font-weight:400;color:#d5d8dd}
+.skills-detail-empty p,.skills-detail-pending p{margin:8px 0 0;font-size:10px;line-height:1.55}
+.skills-detail-pending strong{color:#d8bc7d}
+.skill-fact-card{padding:12px 12px 11px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.018)}
+.skill-fact-card+.skill-fact-card{margin-top:9px}
+.skill-fact-head{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
+.skill-fact-head strong{font-size:11px;line-height:1.25;color:#e2e5e9}
+.skill-fact-level{flex:none;padding:3px 6px;border:1px solid rgba(255,255,255,.09);border-radius:999px;color:#9ca3ad;font-size:7px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.skill-fact-meta{margin-top:5px;color:#777f8a;font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.skill-fact-copy{margin:8px 0 0;color:#aab0b8;font-size:9px;line-height:1.5}
+.skill-fact-trigger{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.055);color:#858c96;font-size:8px;line-height:1.45}
+.skill-fact-value{margin-top:8px;padding:7px 8px;border:1px solid rgba(226,181,84,.14);border-radius:10px;background:rgba(226,181,84,.035);color:#d9bd81;font-size:9px;font-weight:750;line-height:1.35}
+.skill-fact-value.is-pending{border-color:rgba(255,255,255,.07);background:transparent;color:#777f8a}
+.skill-fact-notes{margin:7px 0 0;padding-left:15px;color:#777f8a;font-size:8px;line-height:1.45}
 .weapon-overlay{--weapon-ease:cubic-bezier(.16,.84,.24,1);--weapon-panel-ms:380ms;--weapon-grid-ms:440ms;--weapon-preview-in-ms:460ms;--weapon-preview-out-ms:360ms;position:fixed;inset:0;z-index:170;visibility:hidden;pointer-events:none}
 .weapon-overlay.mounted{visibility:visible;pointer-events:auto}
 .weapon-scrim{position:absolute;inset:0;background:rgba(4,5,8,.48);backdrop-filter:blur(2px);opacity:0;transition:opacity var(--weapon-panel-ms) var(--weapon-ease)}
@@ -85,8 +167,9 @@
 .weapon-equip:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(39,38,39,.98),rgba(19,19,21,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 14px 34px rgba(0,0,0,.34)}
 .weapon-equip:active:not(:disabled){transform:translateY(0) scale(.985)}
 .weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.10);color:#747b85;box-shadow:none}
-.echoes{position:absolute;right:max(5vw,48px);top:50%;width:132px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:9px}.echo{height:105px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:230;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
-.home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
+.echoes{position:absolute;right:max(5vw,48px);top:50%;width:132px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:9px}.echo{height:105px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{--seq-progress:0;position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;z-index:0;top:28px;bottom:20px;left:50%;width:1px;transform:translateX(-50%);background:rgba(155,162,173,.28)}.seq-line::after{content:"";position:absolute;z-index:0;left:50%;bottom:20px;width:2px;height:calc((100% - 48px) * var(--seq-progress));transform:translateX(-50%);background:linear-gradient(0deg,#b98527 0%,#f0cf82 48%,#fff0b4 72%,#c89432 100%);box-shadow:0 0 5px rgba(229,179,73,.52),0 0 14px rgba(229,179,73,.22);border-radius:99px;transition:height .22s ease}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}
+.seq{z-index:12}.seq h2{display:flex;align-items:center;justify-content:center;gap:7px}.seq-current{font-family:var(--font-ui);font-size:10px;line-height:1;padding:4px 6px;border:1px solid rgba(255,255,255,.12);border-radius:99px;color:#9ca3ad;background:rgba(9,11,15,.76)}.node{overflow:hidden;padding:0;cursor:pointer;isolation:isolate;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,filter .16s ease}.node:disabled{cursor:default;opacity:.35}.node img{position:absolute;z-index:1;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);object-fit:cover;border-radius:50%;opacity:.44;filter:grayscale(.82) brightness(.58) contrast(1.08);transition:opacity .16s ease,filter .16s ease}.node .seq-tag{position:relative;z-index:2;display:grid;place-items:center;width:100%;height:100%;font-size:9px;font-weight:750;color:rgba(255,255,255,.84);text-shadow:0 1px 4px #000,0 0 8px #000;background:radial-gradient(circle,transparent 34%,rgba(4,5,8,.34) 100%)}.node:not(:disabled):hover{transform:scale(1.055);border-color:rgba(214,176,99,.42);filter:brightness(1.04)}.node.is-active{border-color:rgba(214,169,72,.82);box-shadow:0 0 0 1px rgba(214,169,72,.18),0 0 18px rgba(214,169,72,.16)}.node.is-active img{opacity:.94;filter:grayscale(1) sepia(1) saturate(3.4) hue-rotate(356deg) brightness(1.08) contrast(1.12)}.node.is-current-active{border-color:rgb(224,173,69);box-shadow:0 0 0 2px rgba(226,174,71,.28),0 0 25px rgba(226,174,71,.28)}.node.is-current-active img{opacity:1;filter:grayscale(1) sepia(1) saturate(3.6) hue-rotate(356deg) brightness(1.19) contrast(1.12)}.seq-flyout{position:absolute;z-index:30;width:226px;padding:13px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:linear-gradient(180deg,rgba(20,23,29,.96),rgba(10,12,16,.96));backdrop-filter:blur(9px);box-shadow:0 20px 54px rgba(0,0,0,.48);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-8px,7px) scale(.985);transform-origin:0 50%;transition:opacity .14s ease-out,transform .18s cubic-bezier(.16,.84,.24,1),visibility 0s linear .18s}.seq-flyout.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,0) scale(1);transition-delay:0s}.seq-flyout-hero{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center}.seq-flyout-icon{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.15);background:#11141a;opacity:.78;filter:grayscale(.58) brightness(.78)}.seq-flyout.is-active .seq-flyout-icon{opacity:1;filter:grayscale(1) sepia(1) saturate(3.3) hue-rotate(356deg) brightness(1.1) contrast(1.1);border-color:rgba(214,169,72,.74)}.seq-flyout-label{display:block;color:#e4e6ea;font-size:13px;font-weight:800;letter-spacing:.06em}.seq-flyout-content{min-height:28px;margin:10px 0 9px;border-top:1px solid rgba(255,255,255,.055);border-bottom:1px solid rgba(255,255,255,.055);background:linear-gradient(90deg,transparent,rgba(255,255,255,.018),transparent)}.seq-action{width:100%;min-height:36px;padding:8px 11px;border:1px solid rgba(207,166,84,.48);border-radius:10px;background:linear-gradient(180deg,rgba(35,34,36,.96),rgba(17,18,20,.98));color:#f0ede7;font-weight:800;cursor:pointer;transition:transform .14s ease,border-color .14s ease,background .14s ease}.seq-action:hover{transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(42,40,39,.98),rgba(21,20,20,.98))}.seq-action:active{transform:scale(.985)}.seq-consequence{min-height:14px;margin-top:7px;color:#8d949e;font-size:10px;line-height:1.35;text-align:center}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:230;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
+.home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px;transform:none}.seq-line::after{top:50%;bottom:auto;left:20px;width:calc((100% - 40px) * var(--seq-progress));height:2px;transform:translateY(-50%);transition:width .22s ease}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
 @media(max-width:760px){
   .weapon-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:24px 18px;transform:translate(-18px,18px) scale(.985);transform-origin:0 72%;border-radius:24px}
   .weapon-overlay.open .weapon-panel{transform:translate(0,0) scale(1)}
@@ -301,9 +384,34 @@
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button type="button" class="node n6">S6</button><button type="button" class="node n5">S5</button><button type="button" class="node n4">S4</button><button type="button" class="node n3">S3</button><button type="button" class="node n2">S2</button><button type="button" class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"><svg class="skills-tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="skillsCompactGold" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".46" stop-color="#e4b94f"/><stop offset=".68" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="skillsCompactGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="1.15" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="skill-link" data-skill-link="circuit-inherent-1" d="M50 61 L50 34"/><path class="skill-link" data-skill-link="inherent-1-inherent-2" d="M50 30 L50 11"/></svg><span class="skill-mini-node skill-mini-inherent-2" data-skill-role="inherent-2"><img alt="" draggable="false"><small>Inherent II</small></span><span class="skill-mini-node skill-mini-inherent-1" data-skill-role="inherent-1"><img alt="" draggable="false"><small>Inherent I</small></span><span class="skill-mini-node skill-mini-normal" data-skill-role="normal-attack"><img alt="" draggable="false"><small>Normal</small></span><span class="skill-mini-node skill-mini-skill" data-skill-role="skill"><img alt="" draggable="false"><small>Skill</small></span><span class="skill-mini-node skill-mini-circuit" data-skill-role="circuit"><img alt="" draggable="false"><small>Forte</small></span><span class="skill-mini-node skill-mini-liberation" data-skill-role="liberation"><img alt="" draggable="false"><small>Liberation</small></span><span class="skill-mini-node skill-mini-intro" data-skill-role="intro"><img alt="" draggable="false"><small>Intro</small></span><span class="skill-mini-node skill-mini-outro" data-skill-role="outro"><img alt="" draggable="false"><small>Outro</small></span></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
+<div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
+  <div class="skills-scrim" data-skills-close></div>
+  <section id="skillsPanel" class="skills-panel" role="dialog" aria-modal="true" aria-labelledby="skillsTitle">
+    <button id="skillsClose" class="skills-close" type="button" aria-label="Close Skills menu">×</button>
+    <div class="skills-panel-head"><h2 id="skillsTitle">Skills</h2></div>
+    <div class="skills-main">
+      <div id="skillsMenuTree" class="skills-menu-tree">
+        <svg class="skills-tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="skillsMenuGold" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".44" stop-color="#e4b94f"/><stop offset=".68" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="skillsMenuGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="1.35" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="skill-link" data-skill-link="circuit-inherent-1" d="M50 62 L50 35"/><path class="skill-link" data-skill-link="inherent-1-inherent-2" d="M50 31 L50 13"/></svg>
+        <button type="button" class="skills-menu-node skills-menu-inherent-2" data-skill-role="inherent-2"><img alt="" draggable="false"><span>Inherent Skill II</span></button>
+        <button type="button" class="skills-menu-node skills-menu-inherent-1" data-skill-role="inherent-1"><img alt="" draggable="false"><span>Inherent Skill I</span></button>
+        <button type="button" class="skills-menu-node skills-menu-normal" data-skill-role="normal-attack"><img alt="" draggable="false"><span>Normal Attack</span></button>
+        <button type="button" class="skills-menu-node skills-menu-skill" data-skill-role="skill"><img alt="" draggable="false"><span>Resonance Skill</span></button>
+        <button type="button" class="skills-menu-node skills-menu-circuit" data-skill-role="circuit"><img alt="" draggable="false"><span>Forte Circuit</span></button>
+        <button type="button" class="skills-menu-node skills-menu-liberation" data-skill-role="liberation"><img alt="" draggable="false"><span>Resonance Liberation</span></button>
+        <button type="button" class="skills-menu-node skills-menu-intro" data-skill-role="intro"><img alt="" draggable="false"><span>Intro Skill</span></button>
+        <button type="button" class="skills-menu-node skills-menu-outro" data-skill-role="outro"><img alt="" draggable="false"><span>Outro Skill</span></button>
+      </div>
+      <aside class="skills-detail-pane" aria-live="polite">
+        <div class="skills-detail-kicker">Skill Preview</div>
+        <div id="skillsSelected" class="skills-selected"><img id="skillsSelectedIcon" alt="" draggable="false"><div class="skills-selected-copy"><span id="skillsSelectedType" class="skills-selected-type"></span><strong id="skillsSelectedLabel">Select a skill</strong><span id="skillsSelectedLevel" class="skills-selected-level">Lv.10</span></div></div>
+        <div id="skillsDetailBody" class="skills-detail-body"><div class="skills-detail-empty"><strong>Preview</strong><p>Select a source-backed node to inspect canonical Character mechanics. This preview never changes the build.</p></div></div>
+      </aside>
+    </div>
+  </section>
+</div>
 <div id="weaponOverlay" class="weapon-overlay" aria-hidden="true">
   <div class="weapon-scrim" data-weapon-close></div>
   <section id="weaponPanel" class="weapon-panel" role="dialog" aria-modal="true" aria-labelledby="weaponTitle">
@@ -391,6 +499,11 @@
   </section>
 </div>
 <div id="dialogBg" class="dialog-bg"><div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogCopy"><h2 id="dialogTitle">Switch Character?</h2><p id="dialogCopy"></p><div class="dialog-actions"><button id="cancelSwitch" type="button">Cancel</button><button id="confirmSwitch" class="primary" type="button">Switch</button></div></div></div>
+<script type="module">
+import { projectStaticBuildStats } from './assets/build-stats/projection.mjs';
+window.bellibingProjectStaticBuildStats=projectStaticBuildStats;
+window.dispatchEvent(new Event('bellibing-build-stat-projection-ready'));
+</script>
 <script>
 const KEY='bellibing-ui-checkpoint-v34';
 let releasedCharacters=[];
@@ -434,6 +547,12 @@ let weaponById=new Map();
 let canonicalCharacterById=new Map();
 let weaponDataLoaded=false;
 let weaponDataReady;
+let sequenceRuntimeDataLoaded=false;
+let sequenceDataReady;
+let sequenceAssetsByCharacter=new Map();
+const SEQUENCE_RUNTIME_DATA_PATH='assets/sequence-runtime.json';
+const BUILDER_MAIN_SKILL_ROLES=['normal-attack','skill','circuit','liberation','intro'];
+const BUILDER_CORE_SKILL_ROLES=[...BUILDER_MAIN_SKILL_ROLES,'outro'];
 let echoCatalog=[];
 let echoById=new Map();
 let echoSonataById=new Map();
@@ -442,6 +561,16 @@ let echoLoadoutByCharacterId=new Map();
 let echoStatContract=null;
 let echoDataLoaded=false;
 let echoDataReady;
+let buildStatsRuntimeLoaded=false;
+let buildStatsDataReady;
+let buildStatsCharacterById=new Map();
+let buildStatsIconByLabel=new Map();
+let characterMechanicsDataLoaded=false;
+let characterMechanicsDataReady;
+let characterMechanicsFactById=new Map();
+let characterMechanicFactsByCharacterId=new Map();
+let characterActionValuesByFactId=new Map();
+const CHARACTER_DATABASE_PATH='assets/character-database.json';
 const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
 const WEAPON_MOTION={panel:380,grid:440,previewIn:460,previewOut:360,ease:'cubic-bezier(.16,.84,.24,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -449,6 +578,33 @@ const nextWeaponFrame=()=>new Promise(resolve=>requestAnimationFrame(()=>request
 const waitWeaponMotion=ms=>new Promise(resolve=>setTimeout(resolve,reducedMotion()?0:ms));
 const weaponItemById=id=>weaponById.get(id)||null;
 const formatWeaponSecondaryValue=value=>value===null||value===undefined?'—':`${Number((value*100).toFixed(2))}%`;
+async function loadBuildStatsRuntimeData(){
+  const response=await fetch('assets/build-stats/runtime-data.json',{cache:'no-store'});
+  if(!response.ok)throw new Error('Build Stats runtime data '+response.status);
+  const payload=await response.json();
+  if(payload.schemaVersion!==1||payload.role!=='character-builder.static-stats'||!Array.isArray(payload.characters)||!payload.statIcons)throw new Error('Unsupported Build Stats runtime data schema');
+  buildStatsCharacterById=new Map(payload.characters.map(character=>[character.id,character]));
+  buildStatsIconByLabel=new Map(Object.entries(payload.statIcons));
+  buildStatsRuntimeLoaded=true;
+  document.documentElement.dataset.buildStatsReady='true';
+  statsUi.refresh();
+}
+async function loadCharacterMechanicsRuntimeData(){
+  const response=await fetch(CHARACTER_DATABASE_PATH,{cache:'no-store'});
+  if(!response.ok)throw new Error('Character mechanics runtime data '+response.status);
+  const payload=await response.json();
+  if(payload.schemaVersion!==1||payload.sourceAuthority!=='BELLIBING_CANONICAL_CATALOGS'||!Array.isArray(payload.mechanicsFacts)||!Array.isArray(payload.actionValuesAtMaxSkill))throw new Error('Unsupported Character mechanics runtime data schema');
+  characterMechanicsFactById=new Map(payload.mechanicsFacts.map(fact=>[fact.factId,fact]));
+  characterMechanicFactsByCharacterId=new Map();
+  for(const fact of payload.mechanicsFacts){
+    if(!characterMechanicFactsByCharacterId.has(fact.characterId))characterMechanicFactsByCharacterId.set(fact.characterId,[]);
+    characterMechanicFactsByCharacterId.get(fact.characterId).push(fact);
+  }
+  characterActionValuesByFactId=new Map(payload.actionValuesAtMaxSkill.map(row=>[row.factId,row.values]));
+  characterMechanicsDataLoaded=true;
+  document.documentElement.dataset.skillsMechanicsReady='true';
+  skillsUi.refreshForCharacter();
+}
 async function loadWeaponBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
     fetch('assets/weapons/browser-data.json',{cache:'no-store'}),
@@ -472,6 +628,21 @@ async function loadWeaponBrowserData(){
   weaponDataLoaded=true;
   document.documentElement.dataset.weaponCatalogReady='true';
   weaponUi.refreshForCharacter();
+  statsUi.refresh();
+}
+async function loadSequenceRuntimeData(){
+  const response=await fetch(SEQUENCE_RUNTIME_DATA_PATH,{cache:'no-store'});
+  if(!response.ok)throw new Error('sequence runtime data '+response.status);
+  const payload=await response.json();
+  if(payload.schemaVersion!==1||payload.role!=='character-builder.runtime-sequences'||!Array.isArray(payload.characters))throw new Error('Unsupported Sequence runtime data schema');
+  for(const character of payload.characters){
+    if(!character.skills||BUILDER_CORE_SKILL_ROLES.some(role=>!character.skills[role]?.assetPath))throw new Error('Incomplete source-backed Skills runtime for '+character.characterId);
+  }
+  sequenceAssetsByCharacter=new Map(payload.characters.map(character=>[character.characterId,character]));
+  sequenceRuntimeDataLoaded=true;
+  document.documentElement.dataset.sequenceCatalogReady='true';
+  sequenceUi.refreshForCharacter();
+  skillsUi.refreshForCharacter();
 }
 async function loadEchoBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
@@ -522,6 +693,7 @@ async function loadEchoBrowserData(){
   echoDataLoaded=true;
   document.documentElement.dataset.echoCatalogReady='true';
   echoUi.refreshForCharacter();
+  statsUi.refresh();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -678,7 +850,7 @@ const weaponUi={
   },
   async equipPreview(){
     if(this.busy||!this.previewId||this.previewId===this.currentId)return;
-    this.busy=true;const nextId=this.previewId;this.currentId=nextId;if(this.characterName)autosave(this.characterName,{weaponId:nextId});this.syncEquipped();this.renderBuildSlot();
+    this.busy=true;const nextId=this.previewId;this.currentId=nextId;if(this.characterName)autosave(this.characterName,{weaponId:nextId});this.syncEquipped();this.renderBuildSlot();statsUi.refresh();
     await this.reorderChoices({animate:true});this.syncEquipAction();this.busy=false;
     document.getElementById('weaponEquip')?.focus({preventScroll:true});
   }
@@ -1197,13 +1369,412 @@ const echoUi={
     if(!this.characterName||!this.previewId||!this.editorDraft)return;
     const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
-    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
+    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();statsUi.refresh();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
     playEchoMotion(promoted,this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img`));
   }
 };
 
 weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
 echoDataReady=loadEchoBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.echoCatalogError=String(error.message||error)});
+const BUILD_STAT_PRIMARY_ROWS=[
+  {key:'hp',label:'HP',icon:'HP',percent:false},
+  {key:'atk',label:'ATK',icon:'ATK',percent:false},
+  {key:'def',label:'DEF',icon:'DEF',percent:false},
+  {key:'energyRegen',label:'Energy Regen',icon:'Energy Regen',percent:true},
+  {key:'critRate',label:'CRIT Rate',icon:'Crit Rate',percent:true},
+  {key:'critDamage',label:'CRIT DMG',icon:'Crit DMG',percent:true}
+];
+const BUILD_STAT_EXTRA_ROWS=[
+  {key:'elementDamageBonus',labelFrom:'elementDamageLabel',iconFromElement:true,percent:true},
+  {key:'basicAttackDamageBonus',label:'Basic Attack DMG Bonus',icon:'Basic Attack DMG Bonus',percent:true},
+  {key:'heavyAttackDamageBonus',label:'Heavy Attack DMG Bonus',icon:'Heavy Attack DMG Bonus',percent:true},
+  {key:'resonanceSkillDamageBonus',label:'Resonance Skill DMG Bonus',icon:'Resonance Skill DMG Bonus',percent:true},
+  {key:'resonanceLiberationDamageBonus',label:'Resonance Liberation DMG Bonus',icon:'Resonance Liberation DMG Bonus',percent:true},
+  {key:'healingBonus',label:'Healing Bonus',icon:'Healing Bonus',percent:true}
+];
+const statsUi={
+  characterName:null,characterId:null,expanded:false,rowsHost:null,panel:null,toggle:null,lastProjection:null,
+  init(){
+    this.rowsHost=document.getElementById('buildStatsRows');this.panel=document.getElementById('buildStatsPanel');this.toggle=document.getElementById('buildStatsToggle');
+    this.toggle.onclick=()=>{this.expanded=!this.expanded;this.render()};
+    window.addEventListener('bellibing-build-stat-projection-ready',()=>this.refresh(),{passive:true});
+    this.render();
+  },
+  setCharacter(name){
+    this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.refresh();
+  },
+  committedEchoSlots(){
+    if(!this.characterName)return[];
+    const sets=readEchoSets(this.characterName),set=sets.sets[sets.activeSetId]||sets.sets[ECHO_DEFAULT_SET_ID];
+    return Array.from({length:5},(_,index)=>cloneEchoSlot(set?.slots?.[index]??null));
+  },
+  project(){
+    const project=window.bellibingProjectStaticBuildStats;
+    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||typeof project!=='function')return null;
+    const character=buildStatsCharacterById.get(this.characterId);if(!character)return null;
+    const savedWeaponId=this.characterName?draft(this.characterName).build.weaponId:null;
+    const weapon=savedWeaponId?weaponItemById(savedWeaponId):null;
+    try{
+      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract});
+    }catch(error){
+      console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);return null;
+    }
+  },
+  format(value,percent){
+    if(!Number.isFinite(value))return '—';
+    if(percent)return Number((value*100).toFixed(2))+'%';
+    return Number(value.toFixed(2)).toLocaleString('en-US',{maximumFractionDigits:2});
+  },
+  makeRow(spec,projection,character,extra){
+    const row=document.createElement('div');row.className='build-stat-row';row.dataset.statKey=spec.key;if(extra)row.dataset.extra='true';row.hidden=extra&&!this.expanded;
+    const icon=document.createElement('img');icon.className='build-stat-icon';icon.alt='';icon.draggable=false;
+    const iconLabel=spec.iconFromElement?character?.element+' DMG':spec.icon;
+    const iconSrc=buildStatsIconByLabel.get(iconLabel);if(iconSrc)icon.src=iconSrc;
+    const label=document.createElement('span');label.className='build-stat-label';label.textContent=spec.labelFrom?projection?.[spec.labelFrom]||'Element DMG Bonus':spec.label;
+    const leader=document.createElement('span');leader.className='build-stat-leader';leader.setAttribute('aria-hidden','true');
+    const value=document.createElement('strong');value.className='build-stat-value';
+    const raw=projection?.[spec.key];value.textContent=this.format(raw,spec.percent);if(Number.isFinite(raw))value.dataset.raw=String(raw);
+    row.append(icon,label,leader,value);return row;
+  },
+  render(){
+    if(!this.rowsHost||!this.panel||!this.toggle)return;
+    const character=this.characterId?buildStatsCharacterById.get(this.characterId)||null:null;
+    const projection=this.project();this.lastProjection=projection;
+    this.rowsHost.replaceChildren(
+      ...BUILD_STAT_PRIMARY_ROWS.map(spec=>this.makeRow(spec,projection,character,false)),
+      ...BUILD_STAT_EXTRA_ROWS.map(spec=>this.makeRow(spec,projection,character,true))
+    );
+    this.panel.classList.toggle('is-expanded',this.expanded);
+    this.panel.dataset.expanded=String(this.expanded);
+    this.toggle.textContent=this.expanded?'Less stats ▴':'More stats ▾';
+    this.toggle.setAttribute('aria-expanded',String(this.expanded));
+    const block=document.getElementById('buildStatsBlock');if(block)block.dataset.ready=projection?'true':'false';
+  },
+  refresh(){this.render()}
+};
+
+const SKILL_ROLE_LABELS={
+  'normal-attack':'Normal Attack',
+  skill:'Resonance Skill',
+  circuit:'Forte Circuit',
+  liberation:'Resonance Liberation',
+  intro:'Intro Skill',
+  outro:'Outro Skill',
+  'inherent-1':'Inherent Skill I',
+  'inherent-2':'Inherent Skill II'
+};
+const SKILL_SECTION_BY_ROLE={
+  'normal-attack':'BASIC_ATTACK',
+  skill:'RESONANCE_SKILL',
+  circuit:'FORTE_CIRCUIT',
+  liberation:'RESONANCE_LIBERATION',
+  intro:'INTRO_SKILL',
+  outro:'OUTRO_SKILL'
+};
+const SKILL_ACTIVE_LINKS={
+  'normal-attack':[],
+  skill:[],
+  circuit:[],
+  liberation:[],
+  intro:[],
+  outro:[],
+  'inherent-1':['circuit-inherent-1'],
+  'inherent-2':['circuit-inherent-1','inherent-1-inherent-2']
+};
+const formatSkillPercent=value=>{
+  const scaled=Number(value)*100;
+  const text=scaled.toFixed(2).replace(/\.00$/,'').replace(/(\.\d)0$/,'$1');
+  return text+'%';
+};
+const formatSkillNumber=value=>Number(value).toLocaleString('en-US',{maximumFractionDigits:2});
+const skillFactHasLevelCurve=fact=>Array.isArray(fact?.motionValueCurve)||Array.isArray(fact?.motionValueComponents);
+const formatSkillActionValue=(fact,values)=>{
+  if(!values||values.status!=='SOURCE_VALUES')return null;
+  if(values.kind==='FLAT_DAMAGE')return formatSkillNumber(values.damagePerHit)+(values.hitCount>1?' × '+values.hitCount:'');
+  if(values.kind!=='COEFFICIENTS'||!Array.isArray(values.components))return null;
+  return values.components.map(part=>formatSkillPercent(part.coefficient)+(part.hitCount>1?' × '+part.hitCount:'')).join(' + ');
+};
+const skillsUi={
+  button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,
+  init(){
+    this.button=document.getElementById('skillsBtn');
+    this.overlay=document.getElementById('skillsOverlay');
+    this.panel=document.getElementById('skillsPanel');
+    this.detailBody=document.getElementById('skillsDetailBody');
+    this.button.addEventListener('click',()=>this.show());
+    document.getElementById('skillsClose').addEventListener('click',()=>this.hide());
+    document.querySelector('[data-skills-close]').addEventListener('click',()=>this.hide());
+    document.getElementById('skillsMenuTree').addEventListener('click',event=>{
+      const node=event.target.closest('.skills-menu-node[data-skill-role]');
+      if(node)this.select(node.dataset.skillRole);
+    });
+    this.render();
+  },
+  setCharacter(name){
+    this.characterName=name||null;
+    this.characterId=name?characterByName.get(name)?.id||null:null;
+    this.selectedRole=null;
+    if(!name)this.hide();
+    if(sequenceRuntimeDataLoaded)this.refreshForCharacter();
+    else{this.assets=null;this.render()}
+  },
+  refreshForCharacter(){
+    this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;
+    if(this.selectedRole&&!this.assets?.skills?.[this.selectedRole])this.selectedRole=null;
+    this.render();
+  },
+  select(role){
+    if(!this.assets?.skills?.[role])return;
+    this.selectedRole=role;
+    this.render();
+  },
+  show(){
+    if(!this.assets||!this.overlay)return;
+    clearTimeout(this.closeTimer);this.open=true;
+    this.overlay.classList.add('mounted');
+    this.overlay.setAttribute('aria-hidden','false');
+    this.button.setAttribute('aria-expanded','true');
+    requestAnimationFrame(()=>this.overlay.classList.add('open'));
+  },
+  hide(){
+    if(!this.overlay)return;
+    clearTimeout(this.closeTimer);this.open=false;
+    this.overlay.classList.remove('open');
+    this.overlay.setAttribute('aria-hidden','true');
+    this.button?.setAttribute('aria-expanded','false');
+    this.closeTimer=setTimeout(()=>{if(!this.open)this.overlay.classList.remove('mounted')},380);
+  },
+  activeLinks(){
+    return new Set(SKILL_ACTIVE_LINKS[this.selectedRole]||[]);
+  },
+  verifiedFactsForRole(role){
+    if(!this.characterId||!characterMechanicsDataLoaded)return{facts:[],pendingReason:'Character mechanics data is still loading.'};
+    const all=(characterMechanicFactsByCharacterId.get(this.characterId)||[]).filter(fact=>fact.verificationStatus==='VERIFIED');
+    if(role==='inherent-1'||role==='inherent-2'){
+      const inherent=all.filter(fact=>fact.section==='INHERENT_SKILL');
+      const availableRoles=['inherent-1','inherent-2'].filter(candidate=>this.assets?.skills?.[candidate]);
+      if(inherent.length===1&&availableRoles.length===1)return{facts:inherent,pendingReason:null};
+      if(inherent.length===0)return{facts:[],pendingReason:'No verified canonical Inherent Skill mechanic is mapped for this Character yet.'};
+      return{facts:[],pendingReason:'Verified Inherent Skill facts exist, but the current canonical data does not explicitly bind the Inherent I / II icon slots to fact IDs. Bellibing leaves this node pending instead of guessing the mapping.'};
+    }
+    const section=SKILL_SECTION_BY_ROLE[role];
+    const facts=section?all.filter(fact=>fact.section===section&&fact.kind!=='SEQUENCE'):[];
+    return{facts,pendingReason:facts.length?null:'No verified canonical Character mechanic fact is available for this skill yet.'};
+  },
+  renderFact(fact){
+    const card=document.createElement('article');card.className='skill-fact-card';card.dataset.skillFactId=fact.factId;card.dataset.verification=fact.verificationStatus;
+    const head=document.createElement('div');head.className='skill-fact-head';
+    const title=document.createElement('strong');title.textContent=fact.name;
+    const level=document.createElement('span');level.className='skill-fact-level';level.textContent=skillFactHasLevelCurve(fact)?'Lv.10':'Source';
+    head.append(title,level);card.append(head);
+    const meta=document.createElement('div');meta.className='skill-fact-meta';
+    if(fact.kind==='ACTION'){
+      const classes=Array.isArray(fact.damageClasses)?fact.damageClasses.join(' + '):fact.damageClass;
+      meta.textContent='Action'+(classes?' · '+classes+' DMG':'')+(fact.scalingStat&&fact.scalingStat!=='UNKNOWN'?' · '+fact.scalingStat:'');
+    }else if(fact.kind==='PASSIVE')meta.textContent='Mechanic'+(fact.scope?' · '+fact.scope.replaceAll('_',' '):'');
+    else if(fact.kind==='RESOURCE')meta.textContent='Resource';
+    else meta.textContent=fact.kind||'Mechanic';
+    card.append(meta);
+
+    if(fact.kind==='PASSIVE'&&fact.effectSummary){
+      const copy=document.createElement('p');copy.className='skill-fact-copy';copy.textContent=fact.effectSummary;card.append(copy);
+      if(fact.triggerSummary){const trigger=document.createElement('div');trigger.className='skill-fact-trigger';trigger.textContent='Trigger: '+fact.triggerSummary;card.append(trigger)}
+      const sourceBits=[];if(fact.durationSeconds!==null&&fact.durationSeconds!==undefined)sourceBits.push('Duration '+formatSkillNumber(fact.durationSeconds)+'s');if(fact.maxStacks!==null&&fact.maxStacks!==undefined)sourceBits.push('Max stacks '+fact.maxStacks);
+      if(sourceBits.length){const value=document.createElement('div');value.className='skill-fact-value';value.textContent=sourceBits.join(' · ');card.append(value)}
+    }else if(fact.kind==='RESOURCE'&&fact.ruleSummary){
+      const copy=document.createElement('p');copy.className='skill-fact-copy';copy.textContent=fact.ruleSummary;card.append(copy);
+      if(fact.maxValue!==null&&fact.maxValue!==undefined){const value=document.createElement('div');value.className='skill-fact-value';value.textContent='Maximum '+formatSkillNumber(fact.maxValue);card.append(value)}
+    }else if(fact.kind==='ACTION'){
+      const values=characterActionValuesByFactId.get(fact.factId)||null;
+      const formatted=formatSkillActionValue(fact,values);
+      const value=document.createElement('div');value.className='skill-fact-value'+(formatted?'':' is-pending');value.dataset.skillValueStatus=formatted?'source':'pending';
+      value.textContent=formatted?(skillFactHasLevelCurve(fact)?'Lv.10 source value · ':'Source value · ')+formatted:'Source value · Pending';
+      card.append(value);
+    }
+    if(Array.isArray(fact.notes)&&fact.notes.length){
+      const notes=document.createElement('ul');notes.className='skill-fact-notes';
+      fact.notes.forEach(note=>{const item=document.createElement('li');item.textContent=note;notes.append(item)});
+      card.append(notes);
+    }
+    return card;
+  },
+  renderDetail(){
+    const selected=this.assets?.skills?.[this.selectedRole]||null;
+    const selectedHost=document.getElementById('skillsSelected'),selectedIcon=document.getElementById('skillsSelectedIcon'),selectedType=document.getElementById('skillsSelectedType'),selectedLabel=document.getElementById('skillsSelectedLabel'),selectedLevel=document.getElementById('skillsSelectedLevel');
+    selectedHost?.classList.toggle('has-selection',!!selected);
+    if(!selected){
+      selectedIcon?.removeAttribute('src');if(selectedType)selectedType.textContent='';if(selectedLabel)selectedLabel.textContent='Select a skill';selectedLevel?.classList.remove('is-visible');
+      if(this.detailBody){const empty=document.createElement('div');empty.className='skills-detail-empty';const strong=document.createElement('strong');strong.textContent='Preview';const p=document.createElement('p');p.textContent='Select a source-backed node to inspect canonical Character mechanics. This preview never changes the build.';empty.append(strong,p);this.detailBody.replaceChildren(empty)}
+      return;
+    }
+    if(selectedIcon){selectedIcon.src=selected.assetPath;selectedIcon.alt=''}
+    if(selectedType)selectedType.textContent=SKILL_ROLE_LABELS[this.selectedRole]||'Skill';
+    const detail=this.verifiedFactsForRole(this.selectedRole);
+    const levelled=detail.facts.some(skillFactHasLevelCurve);
+    selectedLevel?.classList.toggle('is-visible',levelled);
+    if(selectedLabel)selectedLabel.textContent=detail.facts.length===1?detail.facts[0].name:(SKILL_ROLE_LABELS[this.selectedRole]||'Skill');
+    if(!this.detailBody)return;
+    if(detail.pendingReason){
+      const pending=document.createElement('div');pending.className='skills-detail-pending';pending.dataset.skillDetailStatus='pending';
+      const strong=document.createElement('strong');strong.textContent='Pending';const p=document.createElement('p');p.textContent=detail.pendingReason;pending.append(strong,p);this.detailBody.replaceChildren(pending);return;
+    }
+    const fragment=document.createDocumentFragment();detail.facts.forEach(fact=>fragment.append(this.renderFact(fact)));this.detailBody.replaceChildren(fragment);this.detailBody.dataset.skillDetailStatus='source-backed';
+  },
+  render(){
+    const skills=this.assets?.skills||null;
+    if(this.button)this.button.disabled=!skills;
+    const active=this.activeLinks();
+    const linkAvailable={
+      'circuit-inherent-1':!!skills?.circuit&&!!skills?.['inherent-1'],
+      'inherent-1-inherent-2':!!skills?.['inherent-1']&&!!skills?.['inherent-2']
+    };
+    document.querySelectorAll('#skillsMiniTree .skill-link,#skillsMenuTree .skill-link').forEach(link=>{
+      const available=!!linkAvailable[link.dataset.skillLink];link.hidden=!available;link.classList.toggle('is-active',available&&active.has(link.dataset.skillLink));
+    });
+    document.querySelectorAll('#skillsMiniTree [data-skill-role],#skillsMenuTree [data-skill-role]').forEach(node=>{
+      const role=node.dataset.skillRole,skill=skills?.[role]||null,img=node.querySelector('img');
+      node.hidden=!skill;node.classList.toggle('is-selected',!!skill&&role===this.selectedRole);
+      if(img){if(skill){img.src=skill.assetPath;img.alt=''}else img.removeAttribute('src')}
+      if(node.tagName==='BUTTON')node.disabled=!skill;
+    });
+    this.renderDetail();
+    const block=document.getElementById('skillsBlock');if(block)block.dataset.ready=skills?'true':'false';
+  }
+};
+
+const sequenceUi={
+  panel:null,nodes:[],flyout:null,characterName:null,characterId:null,assets:null,currentLevel:0,openSequence:null,hoverSequence:null,openTimer:0,closeTimer:0,hoverDelay:700,closeDelay:130,
+  init(){
+    this.panel=document.getElementById('sequencePanel');
+    this.nodes=[...document.querySelectorAll('#sequenceLine .node')];
+    this.flyout=document.getElementById('sequenceFlyout');
+    this.nodes.forEach(node=>{
+      const sequence=Number(node.dataset.sequence);
+      node.addEventListener('mouseenter',()=>this.enterNode(sequence));
+      node.addEventListener('mouseleave',()=>this.leaveNode(sequence));
+      node.addEventListener('click',event=>event.preventDefault());
+    });
+    this.flyout?.addEventListener('mouseenter',()=>this.enterFlyout());
+    this.flyout?.addEventListener('mouseleave',()=>this.leaveFlyout());
+    document.getElementById('sequenceAction').addEventListener('click',()=>this.commitAction());
+    window.addEventListener('resize',()=>this.positionFlyout());
+    this.render();
+  },
+  clearTransient(){
+    clearTimeout(this.openTimer);clearTimeout(this.closeTimer);
+    this.openTimer=0;this.closeTimer=0;this.hoverSequence=null;this.openSequence=null;
+  },
+  setCharacter(name){
+    this.clearTransient();
+    this.characterName=name||null;
+    this.characterId=name?characterByName.get(name)?.id||null:null;
+    if(sequenceRuntimeDataLoaded)this.refreshForCharacter();
+    else{this.assets=null;this.currentLevel=0;this.render()}
+  },
+  normalizeLevel(value){const level=Number(value);return Number.isInteger(level)&&level>=0&&level<=6?level:0},
+  refreshForCharacter(){
+    this.clearTransient();
+    this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;
+    this.currentLevel=this.characterName?this.normalizeLevel(draft(this.characterName).build.sequenceLevel):0;
+    this.render();
+  },
+  chain(sequence){return this.assets?.chains?.find(chain=>chain.sequence===sequence)||null},
+  node(sequence){return this.nodes.find(node=>Number(node.dataset.sequence)===sequence)||null},
+  enterNode(sequence){
+    if(!this.chain(sequence))return;
+    clearTimeout(this.closeTimer);clearTimeout(this.openTimer);this.closeTimer=0;this.openTimer=0;
+    this.hoverSequence=sequence;
+    if(this.openSequence!==null&&this.openSequence!==sequence){this.openSequence=null;this.render()}
+    if(this.openSequence===sequence)return;
+    this.openTimer=setTimeout(()=>{
+      this.openTimer=0;
+      if(this.hoverSequence!==sequence||!this.chain(sequence))return;
+      this.openSequence=sequence;this.render();
+      requestAnimationFrame(()=>this.positionFlyout());
+    },this.hoverDelay);
+  },
+  leaveNode(sequence){
+    if(this.hoverSequence===sequence)this.hoverSequence=null;
+    clearTimeout(this.openTimer);this.openTimer=0;
+    if(this.openSequence===sequence)this.scheduleClose();
+  },
+  enterFlyout(){clearTimeout(this.closeTimer);this.closeTimer=0},
+  leaveFlyout(){this.scheduleClose()},
+  scheduleClose(){
+    clearTimeout(this.closeTimer);
+    this.closeTimer=setTimeout(()=>{
+      this.closeTimer=0;
+      const node=this.openSequence?this.node(this.openSequence):null;
+      if(this.flyout?.matches(':hover')||node?.matches(':hover'))return;
+      this.openSequence=null;this.render();
+    },this.closeDelay);
+  },
+  positionFlyout(){
+    if(!this.flyout||!this.panel||!this.openSequence)return;
+    const node=this.node(this.openSequence);if(!node)return;
+    const panelRect=this.panel.getBoundingClientRect(),nodeRect=node.getBoundingClientRect();
+    this.flyout.style.left=(nodeRect.right-panelRect.left+12)+'px';
+    this.flyout.style.top=(nodeRect.top-panelRect.top-10)+'px';
+  },
+  consequence(sequence){
+    if(sequence<=this.currentLevel){
+      return this.currentLevel>sequence?'Also removes S'+(sequence+1)+'–S'+this.currentLevel:'';
+    }
+    return sequence===1?'Activates S1':'Activates S1–S'+sequence;
+  },
+  commitAction(){
+    if(!this.characterName||!this.openSequence)return;
+    const sequence=this.openSequence,active=sequence<=this.currentLevel;
+    this.commit(active?sequence-1:sequence);
+  },
+  commit(level){
+    if(!this.characterName)return;
+    const next=this.normalizeLevel(level);
+    if(next>0&&!this.chain(next))return;
+    this.currentLevel=next;
+    autosave(this.characterName,{sequenceLevel:next});
+    this.render();
+  },
+  render(){
+    const line=document.getElementById('sequenceLine');if(line)line.style.setProperty('--seq-progress',String(Math.max(0,(this.currentLevel-1)/5)));
+    const current=document.getElementById('sequenceCurrent');
+    if(current)current.textContent='S'+this.currentLevel;
+    this.nodes.forEach(node=>{
+      const sequence=Number(node.dataset.sequence),chain=this.chain(sequence),active=!!chain&&sequence<=this.currentLevel,currentActive=active&&sequence===this.currentLevel,open=!!chain&&sequence===this.openSequence;
+      node.disabled=!chain;
+      node.classList.toggle('is-active',active);
+      node.classList.toggle('is-current-active',currentActive);
+      node.setAttribute('aria-pressed',active?'true':'false');
+      node.setAttribute('aria-expanded',open?'true':'false');
+      const image=node.querySelector('img'),tag=node.querySelector('.seq-tag');
+      if(tag)tag.textContent='S'+sequence;
+      if(chain){
+        image.src=chain.assetPath;image.alt='';
+        node.setAttribute('aria-label','S'+sequence+' '+(active?'active':'inactive'));
+      }else{
+        image.removeAttribute('src');
+        node.setAttribute('aria-label','S'+sequence+' unavailable');
+      }
+    });
+    const chain=this.openSequence?this.chain(this.openSequence):null;
+    this.flyout?.classList.toggle('open',!!chain);
+    this.flyout?.classList.toggle('is-active',!!chain&&chain.sequence<=this.currentLevel);
+    this.flyout?.setAttribute('aria-hidden',chain?'false':'true');
+    if(chain){
+      document.getElementById('sequenceFlyoutIcon').src=chain.assetPath;
+      document.getElementById('sequenceFlyoutLabel').textContent='S'+chain.sequence;
+      document.getElementById('sequenceAction').textContent=(chain.sequence<=this.currentLevel?'Remove S':'Set S')+chain.sequence;
+      document.getElementById('sequenceConsequence').textContent=this.consequence(chain.sequence);
+      this.positionFlyout();
+    }else{
+      document.getElementById('sequenceFlyoutIcon').removeAttribute('src');
+      document.getElementById('sequenceFlyoutLabel').textContent='';
+      document.getElementById('sequenceAction').textContent='Set Sequence';
+      document.getElementById('sequenceConsequence').textContent='';
+      if(this.flyout){this.flyout.style.left='';this.flyout.style.top=''}
+    }
+  }
+};
 class FreewheelCarousel{
   constructor(viewport,{cards=[...viewport.children],startIndex=0,spacing,onActivate=null}={}){
     this.viewport=viewport;this.cards=cards;this.spacingFn=spacing;this.onActivate=onActivate;
@@ -1294,7 +1865,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
@@ -1307,7 +1878,7 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,requestSwitch,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm:confirmPickerSwitch,closeDialog}
@@ -1334,7 +1905,7 @@ document.addEventListener('keydown',event=>{
     }
     return;
   }
-  if(event.key==='Escape'){if(echoUi.open){event.preventDefault();echoUi.hide()}else if(weaponUi.open){event.preventDefault();weaponUi.hide()}}
+  if(event.key==='Escape'){if(skillsUi.open){event.preventDefault();skillsUi.hide()}else if(echoUi.open){event.preventDefault();echoUi.hide()}else if(weaponUi.open){event.preventDefault();weaponUi.hide()}}
 });
 document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
 document.getElementById('cancelSwitch').onclick=()=>closeConfirmation();
@@ -1342,6 +1913,12 @@ document.getElementById('confirmSwitch').onclick=()=>closeConfirmation(true);
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
 echoUi.init();
+sequenceUi.init();
+skillsUi.init();
+statsUi.init();
+buildStatsDataReady=loadBuildStatsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);statsUi.render()});
+characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render()});
+sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
 renderHome();
 </script>
 </body>

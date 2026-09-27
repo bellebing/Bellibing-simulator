@@ -47,7 +47,49 @@
           "assetId": "chain:aalto:s6",
           "assetPath": "assets/builder-icons/chains/aalto/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconQiushuiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconQiushuiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconQiushuiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconQiushuiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconQiushuiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconQiushuiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconQiushuiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiushuiD2.webp"
+        }
+      }
     },
     {
       "characterId": "aemeath",
@@ -90,7 +132,49 @@
           "assetId": "chain:aemeath:s6",
           "assetPath": "assets/builder-icons/chains/aemeath/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconAimisiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconAimisiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconAimisiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconAimisiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconAimisiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconAimisiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconAimisiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconAimisiD2.webp"
+        }
+      }
     },
     {
       "characterId": "augusta",
@@ -133,7 +217,49 @@
           "assetId": "chain:augusta:s6",
           "assetPath": "assets/builder-icons/chains/augusta/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconAogusitaB3",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaB3.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconAogusitaC2",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaC2.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconAogusitaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconAogusitaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconAogusitaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconAogusitaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconAogusitaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconAogusitaD2.webp"
+        }
+      }
     },
     {
       "characterId": "baizhi",
@@ -176,7 +302,49 @@
           "assetId": "chain:baizhi:s6",
           "assetPath": "assets/builder-icons/chains/baizhi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconBailianB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconBailianC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconBailianQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconBailianY",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconBailianT",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconBailianD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianD2.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconBailianD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBailianD1.webp"
+        }
+      }
     },
     {
       "characterId": "brant",
@@ -219,7 +387,49 @@
           "assetId": "chain:brant:s6",
           "assetPath": "assets/builder-icons/chains/brant/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconBulanteB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconBulanteC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconBulanteQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconBulanteY",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconBulanteT",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconBulanteD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconBulanteD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulanteD2.webp"
+        }
+      }
     },
     {
       "characterId": "buling",
@@ -262,7 +472,49 @@
           "assetId": "chain:buling:s6",
           "assetPath": "assets/builder-icons/chains/buling/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconBulingB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconBulingC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconBulingQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconBulingC2",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingC2.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconBulingT",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconBulingD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconBulingD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconBulingD2.webp"
+        }
+      }
     },
     {
       "characterId": "calcharo",
@@ -305,7 +557,49 @@
           "assetId": "chain:calcharo:s6",
           "assetPath": "assets/builder-icons/chains/calcharo/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconKakaluoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconKakaluoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconKakaluoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconKakaluoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconKakaluoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconKakaluoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconKakaluoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconKakaluoD2.webp"
+        }
+      }
     },
     {
       "characterId": "camellya",
@@ -348,7 +642,49 @@
           "assetId": "chain:camellya:s6",
           "assetPath": "assets/builder-icons/chains/camellya/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconChunB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconChunC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconChunQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconChunY",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconChunT",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconChunD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconChunD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconChunD2.webp"
+        }
+      }
     },
     {
       "characterId": "cantarella",
@@ -391,7 +727,49 @@
           "assetId": "chain:cantarella:s6",
           "assetPath": "assets/builder-icons/chains/cantarella/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconKanteleilaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconKanteleilaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconKanteleilaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconKanteleilaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconKanteleilaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconKanteleilaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconKanteleilaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconKanteleilaD2.webp"
+        }
+      }
     },
     {
       "characterId": "carlotta",
@@ -434,7 +812,49 @@
           "assetId": "chain:carlotta:s6",
           "assetPath": "assets/builder-icons/chains/carlotta/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconKelaitaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconKelaitaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconKelaitaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconKelaitaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconKelaitaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconKelaitaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconKelaitaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconKelaitaD2.webp"
+        }
+      }
     },
     {
       "characterId": "cartethyia",
@@ -477,7 +897,49 @@
           "assetId": "chain:cartethyia:s6",
           "assetPath": "assets/builder-icons/chains/cartethyia/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconKatixiyaB3",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaB3.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconKatixiyaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconKatixiyaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconKatixiyaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconKatixiyaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconKatixiyaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconKatixiyaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconKatixiyaD2.webp"
+        }
+      }
     },
     {
       "characterId": "changli",
@@ -520,7 +982,49 @@
           "assetId": "chain:changli:s6",
           "assetPath": "assets/builder-icons/chains/changli/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconChangliB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconChangliC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconChangliQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconChangliY",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconChangliT",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconChangliD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliD2.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconChangliD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconChangliD1.webp"
+        }
+      }
     },
     {
       "characterId": "chisa",
@@ -563,7 +1067,49 @@
           "assetId": "chain:chisa:s6",
           "assetPath": "assets/builder-icons/chains/chisa/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconQianxiaoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconQianxiaoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconQianxiaoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconQianxiaoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconQianxiaoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconQianxiaoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconQianxiaoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconQianxiaoD2.webp"
+        }
+      }
     },
     {
       "characterId": "chixia",
@@ -606,7 +1152,49 @@
           "assetId": "chain:chixia:s6",
           "assetPath": "assets/builder-icons/chains/chixia/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconMaxiaofangB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconMaxiaofangC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconMaxiaofangQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconMaxiaofangY",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconMaxiaofangT",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconMaxiaofangD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconMaxiaofangD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconMaxiaofangD2.webp"
+        }
+      }
     },
     {
       "characterId": "ciaccona",
@@ -649,7 +1237,49 @@
           "assetId": "chain:ciaccona:s6",
           "assetPath": "assets/builder-icons/chains/ciaccona/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconXiakongB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconXiakongC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconXiakongQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconXiakongY",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconXiakongT",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconXiakongD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconXiakongD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiakongD2.webp"
+        }
+      }
     },
     {
       "characterId": "danjin",
@@ -692,7 +1322,49 @@
           "assetId": "chain:danjin:s6",
           "assetPath": "assets/builder-icons/chains/danjin/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconMicaiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconMicaiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconMicaiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconMicaiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconMicaiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconMicaiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconMicaiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconMicaiD2.webp"
+        }
+      }
     },
     {
       "characterId": "denia",
@@ -735,7 +1407,49 @@
           "assetId": "chain:denia:s6",
           "assetPath": "assets/builder-icons/chains/denia/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconDaniyaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconDaniyaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconDaniyaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconDaniyaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconDaniyaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconDaniyaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconDaniyaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconDaniyaD2.webp"
+        }
+      }
     },
     {
       "characterId": "encore",
@@ -778,7 +1492,49 @@
           "assetId": "chain:encore:s6",
           "assetPath": "assets/builder-icons/chains/encore/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconAnkeB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconAnkeC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconAnkeQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconAnkeY",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconAnkeT",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconAnkeD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconAnkeD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconAnkeD2.webp"
+        }
+      }
     },
     {
       "characterId": "galbrena",
@@ -821,7 +1577,49 @@
           "assetId": "chain:galbrena:s6",
           "assetPath": "assets/builder-icons/chains/galbrena/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconJiaBeiLiNaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconJiaBeiLiNaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconJiaBeiLiNaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconJiaBeiLiNaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconJiaBeiLiNaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconJiaBeiLiNa1D1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNa1D1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconJiaBeiLiNa2D2",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiaBeiLiNa2D2.webp"
+        }
+      }
     },
     {
       "characterId": "hiyuki",
@@ -864,7 +1662,49 @@
           "assetId": "chain:hiyuki:s6",
           "assetPath": "assets/builder-icons/chains/hiyuki/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconFeixueB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixueB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconFeixueC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixueC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconFeixueQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixueQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconFeixueY",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixueY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconFeixueT",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixueT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconFeixue1D1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixue1D1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconFeixue2D2",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeixue2D2.webp"
+        }
+      }
     },
     {
       "characterId": "iuno",
@@ -907,7 +1747,49 @@
           "assetId": "chain:iuno:s6",
           "assetPath": "assets/builder-icons/chains/iuno/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconYounuoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconYounuoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconYounuoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconYounuoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconYounuoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconYounuoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconYounuoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconYounuoD2.webp"
+        }
+      }
     },
     {
       "characterId": "jianxin",
@@ -950,7 +1832,49 @@
           "assetId": "chain:jianxin:s6",
           "assetPath": "assets/builder-icons/chains/jianxin/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconJianxinB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconJianxinC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconJianxinQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconJianxinY",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconJianxinT",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconJianxinD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconJianxinD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconJianxinD2.webp"
+        }
+      }
     },
     {
       "characterId": "jinhsi",
@@ -993,7 +1917,49 @@
           "assetId": "chain:jinhsi:s6",
           "assetPath": "assets/builder-icons/chains/jinhsi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconJinxiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconJinxiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconJinxiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconJinxiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconJinxiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconJinxiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconJinxiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconJinxiD2.webp"
+        }
+      }
     },
     {
       "characterId": "jiyan",
@@ -1036,7 +2002,49 @@
           "assetId": "chain:jiyan:s6",
           "assetPath": "assets/builder-icons/chains/jiyan/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconJiyanB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconJiyanC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconJiyanQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconJiyanY",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconJiyanT",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconJiyanD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconJiyanD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconJiyanD2.webp"
+        }
+      }
     },
     {
       "characterId": "lingyang",
@@ -1079,7 +2087,49 @@
           "assetId": "chain:lingyang:s6",
           "assetPath": "assets/builder-icons/chains/lingyang/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLingyangB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLingyangC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLingyangQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLingyangY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLingyangT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLingyangD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLingyangD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLingyangD2.webp"
+        }
+      }
     },
     {
       "characterId": "lucilla",
@@ -1122,7 +2172,49 @@
           "assetId": "chain:lucilla:s6",
           "assetPath": "assets/builder-icons/chains/lucilla/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_SkillIconLuoselaB1",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_SkillIconLuoselaC1",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_SkillIconLuoselaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_SkillIconLuoselaY",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_SkillIconLuoselaT",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_SkillIconLuoselaD1",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_SkillIconLuoselaD2",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLuoselaD2.webp"
+        }
+      }
     },
     {
       "characterId": "lucy",
@@ -1165,7 +2257,49 @@
           "assetId": "chain:lucy:s6",
           "assetPath": "assets/builder-icons/chains/lucy/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_SkillIconLucyB1",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_SkillIconLucyC1",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_SkillIconLucyQTE",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_SkillIconLucyY",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_SkillIconLucyT",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_SkillIconLucyD2",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyD2.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_SkillIconLucyB5",
+          "assetPath": "assets/builder-icons/skills/SP_SkillIconLucyB5.webp"
+        }
+      }
     },
     {
       "characterId": "lumi",
@@ -1208,7 +2342,49 @@
           "assetId": "chain:lumi:s6",
           "assetPath": "assets/builder-icons/chains/lumi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconDengdengB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconDengdengC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconDengdengQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconDengdengY",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconDengdengT",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconDengdengD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconDengdengD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconDengdengD2.webp"
+        }
+      }
     },
     {
       "characterId": "lupa",
@@ -1251,7 +2427,49 @@
           "assetId": "chain:lupa:s6",
           "assetPath": "assets/builder-icons/chains/lupa/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLupaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLupaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLupaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLupaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLupaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLupaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLupaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLupaD2.webp"
+        }
+      }
     },
     {
       "characterId": "luuk-herssen",
@@ -1294,7 +2512,49 @@
           "assetId": "chain:luuk-herssen:s6",
           "assetPath": "assets/builder-icons/chains/luuk-herssen/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLuhesiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLuhesiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLuhesiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLuhesiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLuhesiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLuhesiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLuhesiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuhesiD2.webp"
+        }
+      }
     },
     {
       "characterId": "lynae",
@@ -1337,7 +2597,49 @@
           "assetId": "chain:lynae:s6",
           "assetPath": "assets/builder-icons/chains/lynae/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLinNaiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNaiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLinNaiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNaiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLinNaiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNaiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLinNaiY1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNaiY1.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLinNaiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNaiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLinNai1D1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNai1D1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLinNai2D2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLinNai2D2.webp"
+        }
+      }
     },
     {
       "characterId": "mornye",
@@ -1380,7 +2682,49 @@
           "assetId": "chain:mornye:s6",
           "assetPath": "assets/builder-icons/chains/mornye/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconMoNingB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNingB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconMoNingC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNingC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconMoNingQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNingQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconMoNingY1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNingY1.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconMoNingP1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNingP1.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconMoNing1D1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNing1D1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconMoNing2D2",
+          "assetPath": "assets/builder-icons/skills/SP_IconMoNing2D2.webp"
+        }
+      }
     },
     {
       "characterId": "mortefi",
@@ -1423,7 +2767,49 @@
           "assetId": "chain:mortefi:s6",
           "assetPath": "assets/builder-icons/chains/mortefi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconMotefeiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconMotefeiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconMotefeiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconMotefeiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconMotefeiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconMotefeiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconMotefeiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconMotefeiD2.webp"
+        }
+      }
     },
     {
       "characterId": "phoebe",
@@ -1466,7 +2852,49 @@
           "assetId": "chain:phoebe:s6",
           "assetPath": "assets/builder-icons/chains/phoebe/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconFeibiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconFeibiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconFeibiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconFeibiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconFeibiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconFeibiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconFeibiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconFeibiD2.webp"
+        }
+      }
     },
     {
       "characterId": "phrolova",
@@ -1509,7 +2937,49 @@
           "assetId": "chain:phrolova:s6",
           "assetPath": "assets/builder-icons/chains/phrolova/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconFuluoluoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconFuluoluoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconFuluoluoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconFuluoluoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconFuluoluoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconFuluoluoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconFuluoluoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconFuluoluoD2.webp"
+        }
+      }
     },
     {
       "characterId": "qingxiao",
@@ -1552,7 +3022,49 @@
           "assetId": "chain:qingxiao:s6",
           "assetPath": "assets/builder-icons/chains/qingxiao/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconQingxiaoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconQingxiaoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconQingxiaoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconQingxiaoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconQingxiaoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconQingxiaoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconQingxiaoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconQingxiaoD2.webp"
+        }
+      }
     },
     {
       "characterId": "qiuyuan",
@@ -1595,7 +3107,49 @@
           "assetId": "chain:qiuyuan:s6",
           "assetPath": "assets/builder-icons/chains/qiuyuan/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconQiuyuanB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconQiuyuanC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconQiuyuanQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconQiuyuanY",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconQiuyuanT",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconQiuyuanD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconQiuyuanD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconQiuyuanD2.webp"
+        }
+      }
     },
     {
       "characterId": "rebecca",
@@ -1638,7 +3192,49 @@
           "assetId": "chain:rebecca:s6",
           "assetPath": "assets/builder-icons/chains/rebecca/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLibeikaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLibeikaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLibeikaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLibeikaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLibeikaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLibeikaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLibeikaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLibeikaD2.webp"
+        }
+      }
     },
     {
       "characterId": "roccia",
@@ -1681,7 +3277,49 @@
           "assetId": "chain:roccia:s6",
           "assetPath": "assets/builder-icons/chains/roccia/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLuokekeB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLuokekeC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLuokekeQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLuokekeY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLuokekeT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLuokekeD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeD2.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLuokekeD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLuokekeD1.webp"
+        }
+      }
     },
     {
       "characterId": "rover-aero",
@@ -1724,7 +3362,49 @@
           "assetId": "chain:rover-aero:s6",
           "assetPath": "assets/builder-icons/chains/rover-aero/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconFengzhuB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconFengzhuC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconFengzhuQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconFengzhuY",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconFengzhuT",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconFengzhuD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconFengzhuD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconFengzhuD2.webp"
+        }
+      }
     },
     {
       "characterId": "rover-electro",
@@ -1767,7 +3447,49 @@
           "assetId": "chain:rover-electro:s6",
           "assetPath": "assets/builder-icons/chains/rover-electro/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconThunderzhuA1",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuA1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconThunderzhuC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconThunderzhuQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconThunderzhuY1",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuY1.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconThunderzhuT",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconThunderzhuD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconThunderzhuD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconThunderzhuD2.webp"
+        }
+      }
     },
     {
       "characterId": "rover-havoc",
@@ -1810,7 +3532,49 @@
           "assetId": "chain:rover-havoc:s6",
           "assetPath": "assets/builder-icons/chains/rover-havoc/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconZhujueDarkB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconZhujueDarkC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconZhujueDarkQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconZhujueDarkY",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconZhujueDarkT",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconZhujueDarkD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconZhujueDarkD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueDarkD2.webp"
+        }
+      }
     },
     {
       "characterId": "rover-spectro",
@@ -1853,7 +3617,49 @@
           "assetId": "chain:rover-spectro:s6",
           "assetPath": "assets/builder-icons/chains/rover-spectro/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconZhujueB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconZhujueC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconZhujueQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconZhujueY",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconZhujueT",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconZhujueD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconZhujueD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhujueD2.webp"
+        }
+      }
     },
     {
       "characterId": "sanhua",
@@ -1896,7 +3702,49 @@
           "assetId": "chain:sanhua:s6",
           "assetPath": "assets/builder-icons/chains/sanhua/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconSanhuaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconSanhuaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconSanhuaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconSanhuaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconSanhuaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconSanhuaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconSanhuaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconSanhuaD2.webp"
+        }
+      }
     },
     {
       "characterId": "sigrika",
@@ -1939,7 +3787,49 @@
           "assetId": "chain:sigrika:s6",
           "assetPath": "assets/builder-icons/chains/sigrika/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconXigelikaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconXigelikaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconXigelikaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconXigelikaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconXigelikaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconXigelikaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconXigelikaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconXigelikaD2.webp"
+        }
+      }
     },
     {
       "characterId": "suisui",
@@ -1982,7 +3872,49 @@
           "assetId": "chain:suisui:s6",
           "assetPath": "assets/builder-icons/chains/suisui/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconSuisuiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconSuisuiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconSuisuiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconSuisuiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconSuisuiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconSuisuiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconSuisuiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuisuiD2.webp"
+        }
+      }
     },
     {
       "characterId": "taoqi",
@@ -2025,7 +3957,49 @@
           "assetId": "chain:taoqi:s6",
           "assetPath": "assets/builder-icons/chains/taoqi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorSword",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorSword.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconTaoHuaB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconTaoHuaC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconTaoHuaQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconTaoHuaY",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconTaohuaT",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaohuaT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconTaoHuaD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconTaoHuaD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconTaoHuaD2.webp"
+        }
+      }
     },
     {
       "characterId": "the-shorekeeper",
@@ -2068,7 +4042,49 @@
           "assetId": "chain:the-shorekeeper:s6",
           "assetPath": "assets/builder-icons/chains/the-shorekeeper/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconShouanrenB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconShouanrenC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconShouanrenQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconShouanrenY",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconShouanrenT",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconShouanrenD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconShouanrenD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconShouanrenD2.webp"
+        }
+      }
     },
     {
       "characterId": "verina",
@@ -2111,7 +4127,49 @@
           "assetId": "chain:verina:s6",
           "assetPath": "assets/builder-icons/chains/verina/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconJueyuanB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconJueyuanC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconJueyuanQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconJueyuanY",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconJueyuanT",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconJueyuanD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconJueyuanD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconJueyuanD2.webp"
+        }
+      }
     },
     {
       "characterId": "xiangli-yao",
@@ -2154,7 +4212,49 @@
           "assetId": "chain:xiangli-yao:s6",
           "assetPath": "assets/builder-icons/chains/xiangli-yao/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconXiangliyaoB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconXiangliyaoC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconXiangliyaoQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconXiangliyaoY",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconXiangliyaoT",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconXiangliyaoD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconXiangliyaoD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconXiangliyaoD2.webp"
+        }
+      }
     },
     {
       "characterId": "yangyang",
@@ -2197,7 +4297,49 @@
           "assetId": "chain:yangyang:s6",
           "assetPath": "assets/builder-icons/chains/yangyang/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconYangyangB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconYangyangC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconYangyangQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconYangyangY",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconYangyangT",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconYangyangD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconYangyangD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconYangyangD2.webp"
+        }
+      }
     },
     {
       "characterId": "yangyang-xuanling",
@@ -2240,7 +4382,49 @@
           "assetId": "chain:yangyang-xuanling:s6",
           "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconXuanLingB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLingB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconXuanLingC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLingC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconXuanLingQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLingQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconXuanLingY",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLingY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconXuanLingT",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLingT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconXuanLing1D1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLing1D1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconXuanLing2D2",
+          "assetPath": "assets/builder-icons/skills/SP_IconXuanLing2D2.webp"
+        }
+      }
     },
     {
       "characterId": "yinlin",
@@ -2283,7 +4467,49 @@
           "assetId": "chain:yinlin:s6",
           "assetPath": "assets/builder-icons/chains/yinlin/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconYinlinB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconYinlinC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconYinlinQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconYinlinY",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconYinlinT",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconYinlinD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconYinlinD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconYinlinD2.webp"
+        }
+      }
     },
     {
       "characterId": "youhu",
@@ -2326,7 +4552,49 @@
           "assetId": "chain:youhu:s6",
           "assetPath": "assets/builder-icons/chains/youhu/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconYouhuB4",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuB4.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconYouhuC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconYouhuQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconYouhuY",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconYouhuT",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconYouhuD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconYouhuD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconYouhuD2.webp"
+        }
+      }
     },
     {
       "characterId": "yuanwu",
@@ -2369,7 +4637,49 @@
           "assetId": "chain:yuanwu:s6",
           "assetPath": "assets/builder-icons/chains/yuanwu/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconYuanwuB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconYuanwuC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconYuanwuQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconYuanwuY",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconYuanwuT",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconYuanwuD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconYuanwuD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconYuanwuD2.webp"
+        }
+      }
     },
     {
       "characterId": "zani",
@@ -2412,7 +4722,49 @@
           "assetId": "chain:zani:s6",
           "assetPath": "assets/builder-icons/chains/zani/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorFist",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorFist.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconZanniB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconZanniC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconZanniQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconZanniY",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconZanniT",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconZanniD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconZanniD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconZanniD2.webp"
+        }
+      }
     },
     {
       "characterId": "zhezhi",
@@ -2455,7 +4807,49 @@
           "assetId": "chain:zhezhi:s6",
           "assetPath": "assets/builder-icons/chains/zhezhi/s6.webp"
         }
-      ]
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconZhezhiB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconZhezhiC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconZhezhiQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconZhezhiY",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconZhezhiT",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconZhezhiD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconZhezhiD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconZhezhiD2.webp"
+        }
+      }
     }
   ]
 }

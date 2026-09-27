@@ -13,6 +13,15 @@ const resolver = createCharacterBuilderAssetResolver(manifest);
 const characters = [...resolver.listCharacterIds()].sort().map((characterId) => {
   const assets = resolver.resolve(characterId);
   if (!assets) throw new Error('Released Character failed builder resolver: ' + characterId);
+  const skills: Record<string, { role: string; assetId: string; assetPath: string }> = {};
+  for (const [role, skill] of Object.entries(assets.skills)) {
+    if (!skill) continue;
+    skills[role] = {
+      role,
+      assetId: skill.assetId,
+      assetPath: skill.assetPath,
+    };
+  }
   return {
     characterId: assets.characterId,
     characterName: assets.characterName,
@@ -23,6 +32,7 @@ const characters = [...resolver.listCharacterIds()].sort().map((characterId) => 
       assetId: chain.assetId,
       assetPath: chain.assetPath,
     })),
+    skills,
   };
 });
 

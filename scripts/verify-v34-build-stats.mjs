@@ -91,7 +91,7 @@ async function statsSnapshot(send){
 }
 
 async function geometry(send){
-  return evaluate(send,"(() => {const side=document.querySelector('.side-left').getBoundingClientRect(),stats=document.getElementById('buildStatsBlock').getBoundingClientRect(),panel=document.getElementById('buildStatsPanel').getBoundingClientRect(),weaponBlock=document.getElementById('weaponBtn').closest('.block').getBoundingClientRect(),weapon=document.getElementById('weaponBtn').getBoundingClientRect();return{side:side.toJSON(),stats:stats.toJSON(),panel:panel.toJSON(),weaponBlock:weaponBlock.toJSON(),weapon:weapon.toJSON(),innerWidth,innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight}})()");
+  return evaluate(send,"(() => {const side=document.querySelector('.side-left').getBoundingClientRect(),stats=document.getElementById('buildStatsBlock').getBoundingClientRect(),panel=document.getElementById('buildStatsPanel').getBoundingClientRect(),skillsBlock=document.getElementById('skillsBlock').getBoundingClientRect(),skills=document.getElementById('skillsBtn').getBoundingClientRect(),weaponBlock=document.getElementById('weaponBtn').closest('.block').getBoundingClientRect(),weapon=document.getElementById('weaponBtn').getBoundingClientRect();return{side:side.toJSON(),stats:stats.toJSON(),panel:panel.toJSON(),skillsBlock:skillsBlock.toJSON(),skills:skills.toJSON(),weaponBlock:weaponBlock.toJSON(),weapon:weapon.toJSON(),innerWidth,innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight}})()");
 }
 
 function raw(snapshot,key){const value=Number(snapshot.rows[key]?.raw);return Number.isFinite(value)?value:NaN}
@@ -150,15 +150,18 @@ try{
   await waitFor(send,"statsUi.expanded===true&&document.querySelectorAll('#buildStatsRows .build-stat-row:not([hidden])').length===12",'More stats did not expand same Stats panel');
   const expanded=await statsSnapshot(send),expandedGeometry=await geometry(send);
   assert(expanded.toggle==='Less stats ▴'&&Object.values(expanded.rows).every(row=>!row.hidden),'Expanded Stats visibility/toggle failed',expanded);
+  assert(expandedGeometry.skills.top>collapsedGeometry.skills.top+45,'Skills did not visibly move downward when Stats expanded',{collapsed:collapsedGeometry.skills,expanded:expandedGeometry.skills});
   assert(expandedGeometry.weapon.top>collapsedGeometry.weapon.top+45,'Weapon did not visibly move downward when Stats expanded',{collapsed:collapsedGeometry.weapon,expanded:expandedGeometry.weapon});
-  assert(expandedGeometry.stats.bottom<=expandedGeometry.weaponBlock.top+1,'Expanded Stats overlaps Weapon block',expandedGeometry);
-  assert(expandedGeometry.side.top>=0&&expandedGeometry.side.bottom<=expandedGeometry.innerHeight-8,'Expanded Stats + Weapon do not fit 1440×900 viewport',expandedGeometry);
+  assert(expandedGeometry.stats.bottom<=expandedGeometry.skillsBlock.top+1,'Expanded Stats overlaps Skills block',expandedGeometry);
+  assert(expandedGeometry.skillsBlock.bottom<=expandedGeometry.weaponBlock.top+1,'Skills overlaps Weapon block',expandedGeometry);
+  assert(expandedGeometry.side.top>=0&&expandedGeometry.side.bottom<=expandedGeometry.innerHeight-8,'Expanded Stats + Skills + Weapon do not fit 1440×900 viewport',expandedGeometry);
   assert(expandedGeometry.scrollWidth<=expandedGeometry.innerWidth+1&&expandedGeometry.scrollHeight<=expandedGeometry.innerHeight+1,'Expanded Stats caused page scroll at 1440×900',expandedGeometry);
   await capture(send,'artifacts/ui-preview-build-stats-expanded-1440x900.png');
 
   await pointerClick(send,'#buildStatsToggle');
   await waitFor(send,"statsUi.expanded===false",'Less stats did not collapse panel');
   const recollapsedGeometry=await geometry(send);
+  assert(Math.abs(recollapsedGeometry.skills.top-collapsedGeometry.skills.top)<2,'Skills did not return upward after Stats collapse',{initial:collapsedGeometry.skills,after:recollapsedGeometry.skills});
   assert(Math.abs(recollapsedGeometry.weapon.top-collapsedGeometry.weapon.top)<2,'Weapon did not return upward after Stats collapse',{initial:collapsedGeometry.weapon,after:recollapsedGeometry.weapon});
 
   await evaluate(send,"buildPicker.select('Baizhi')");
@@ -211,11 +214,11 @@ try{
     if(!(await evaluate(send,'statsUi.expanded')))await pointerClick(send,'#buildStatsToggle');
     await waitFor(send,"statsUi.expanded===true",'Stats did not expand at '+width+'×'+height);
     const g=await geometry(send);
-    assert(g.stats.bottom<=g.weaponBlock.top+1&&g.side.top>=0&&g.side.bottom<=g.innerHeight-8&&g.scrollWidth<=g.innerWidth+1&&g.scrollHeight<=g.innerHeight+1,'Expanded Stats + Weapon layout failed at '+width+'×'+height,g);
+    assert(g.stats.bottom<=g.skillsBlock.top+1&&g.skillsBlock.bottom<=g.weaponBlock.top+1&&g.side.top>=0&&g.side.bottom<=g.innerHeight-8&&g.scrollWidth<=g.innerWidth+1&&g.scrollHeight<=g.innerHeight+1,'Expanded Stats + Skills + Weapon layout failed at '+width+'×'+height,g);
     await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse at '+width+'×'+height);
   }
 
-  console.log('v34 Build Stats verified in real Chrome: source-backed Character/intrinsic + committed Weapon/Echo static stats, canonical icons, same-panel More/Less flow, Weapon push-down/up, Character switch, Preview-no-change / Equip-change semantics, forbidden-effect exclusions, and 1440/1920/2560 desktop fit.');
+  console.log('v34 Build Stats verified in real Chrome: source-backed Character/intrinsic + committed Weapon/Echo static stats, canonical icons, same-panel More/Less flow, Skills + Weapon natural push-down/up, Character switch, Preview-no-change / Equip-change semantics, forbidden-effect exclusions, and 1440/1920/2560 desktop fit.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

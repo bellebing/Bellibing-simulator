@@ -156,8 +156,8 @@ try{
   let state=await skillSnapshot(send),augusta=byId.get('augusta');
   assert(ALL.every(role=>state.compact[role]?.src===augusta.skills[role].assetPath),'Augusta compact mapping mismatch',state.compact);
   await waitFor(send,"[...document.querySelectorAll('#skillsMiniTree [data-skill-role]:not([hidden]) img')].every(img=>img.naturalWidth>0)",'Augusta compact skill artwork did not load');
-  const neutral=await evaluate(send,"(() => [...document.querySelectorAll('#skillsMiniTree .skill-link:not([hidden])')].map(x=>({active:x.classList.contains('is-active'),stroke:getComputedStyle(x).stroke,filter:getComputedStyle(x).filter})))()");
-  assert(neutral.length===2&&neutral.every(x=>!x.active&&!String(x.stroke).includes('skillsCompactGold')),'Compact Skills neutral connectors are not grey/inactive',neutral);
+  const neutral=await evaluate(send,"(() => [...document.querySelectorAll('#skillsMiniTree .skill-link:not([hidden])')].map(x=>({active:x.classList.contains('is-active'),stroke:getComputedStyle(x).stroke,filter:getComputedStyle(x).filter,zIndex:getComputedStyle(x.closest('svg')).zIndex})))()");
+  assert(neutral.length===2&&neutral.every(x=>!x.active&&!String(x.stroke).includes('skillsCompactGold')&&Number(x.zIndex)>=1),'Compact Skills neutral connectors are not visible grey/inactive lines above the tree background',neutral);
 
   const storageBefore=await evaluate(send,"JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(key=>[key,localStorage.getItem(key)])))");
   await pointerClick(send,'#skillsBtn');

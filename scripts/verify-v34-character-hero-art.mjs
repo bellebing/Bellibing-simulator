@@ -160,6 +160,7 @@ function assertReadyGeometry(s,row,label){
   assert(s.styles.fx===String(row.presentation.focalAnchor.x*100)+'%'&&s.styles.fy===String(row.presentation.focalAnchor.y*100)+'%','Character-local focal anchor was not applied',{label,s,row});
   assert(s.sw<=s.iw+1,'Hero Art integration introduced horizontal page overflow',{label,s});
   assert(s.side.right<=s.art.left+1,'Left Build controls overlap Character art frame',{label,s});
+  assert(s.sequence.right<=s.art.left+1,'Sequence controls overlap Character art frame',{label,s});
   assert(s.art.right<=s.echoes.left+1,'Echo controls overlap Character art frame',{label,s});
 }
 async function captureFull(send,filename){

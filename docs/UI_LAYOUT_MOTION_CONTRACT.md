@@ -6,6 +6,19 @@ This file is the canonical implementation contract for **containment, responsive
 
 It exists to prevent layout drift between chats/agents and to stop viewport-specific pixel fixes from becoming architecture.
 
+## Current phase override — desktop-first functional stabilization
+
+This phase override is authoritative until the user explicitly starts the **Mobile Adaptation Pass**.
+
+- Primary acceptance viewport: **1440×900**.
+- Desktop sanity viewports: **1920×1080** and **2560×1440** when the changed surface is width-sensitive.
+- **390×844 and 768×1024 are not current acceptance gates.** Do not spend a normal desktop feature slice fixing mobile drawers, touch behavior, phone/tablet spacing or narrow-only overflow.
+- Existing mobile/responsive code is preserved; do not rip it out merely to simplify desktop work.
+- State, data, commit semantics and reusable feature components must remain shared. Desktop-first means deferring presentation adaptation, not forking business logic.
+- The mobile/narrow rules retained later in this document are the target for the future Mobile Adaptation Pass. They do not authorize scope creep during the current desktop phase.
+- Extreme-ultrawide polish is also not a slice gate during stabilization; the finite centered AppShell principle remains, while 2560×1440 is sufficient for routine wide-desktop sanity.
+
+
 ## Authority and non-duplication
 
 - `UI_UX_STATUS.md` owns product/interaction semantics.
@@ -118,7 +131,7 @@ Wide/desktop:
 - preserve collectible-card proportions and approved v34 visual intent;
 - carousel spacing comes from component/layout tokens, not unrestricted viewport width.
 
-Narrow/mobile:
+Deferred Mobile Adaptation Pass target (not a current acceptance requirement):
 
 - keep one clear focused card;
 - neighboring cards may remain partially visible as edge peeks;
@@ -157,7 +170,7 @@ Desktop/wide keeps the accepted v34 composition:
 - selector = independent layer;
 - Add to Account = separate action.
 
-Narrow/mobile keeps the Character as the visual anchor and progressively discloses tools:
+Deferred Mobile Adaptation Pass target: narrow/mobile keeps the Character as the visual anchor and progressively discloses tools:
 
 - compact Stats control/icon;
 - compact Weapon control/icon;
@@ -179,8 +192,8 @@ Prefer container/component queries where practical so behavior follows the avail
 The implementation may use measured breakpoints, but the product states are:
 
 - `WIDE` — full desktop composition;
-- `COMPACT` — reduced spacing/scales while preserving the desktop relationship when it still fits;
-- `MOBILE_DISCLOSURE` — focused carousel and tool drawers instead of off-screen side panels.
+- `COMPACT` — reduced desktop spacing/scales while preserving the desktop relationship when it still fits;
+- `MOBILE_DISCLOSURE` — **deferred** until the Mobile Adaptation Pass; focused carousel and tool drawers instead of off-screen side panels.
 
 A breakpoint exists to switch presentation state, not to patch one monitor model.
 
@@ -234,7 +247,7 @@ Character selector expansion/collapse and Character focus are independent layers
 
 ## 10. Overlay/scrim behavior
 
-Mobile drawers use a top-level overlay layer but their content remains the same feature component.
+Deferred Mobile Adaptation Pass: mobile drawers use a top-level overlay layer but their content remains the same feature component. This section is retained as the future target and is not a current desktop-slice gate.
 
 Required behavior:
 
@@ -297,7 +310,7 @@ Do not force an explicit Choose/Apply step on features whose product semantics a
 ### Responsive presentation
 
 - desktop/wide may expose browse/grid and detail/Preview side by side;
-- narrow/mobile uses the same state and feature component but may present Preview as a near-full drawer/detail layer;
+- narrow/mobile presentation is deferred to the Mobile Adaptation Pass; when that pass starts it uses the same state and feature component and may present Preview as a near-full drawer/detail layer;
 - underlying Character/Build context remains visible through the approved glass treatment;
 - mobile presentation must not fork feature data or business logic;
 - entry direction should still respect spatial ownership where meaningful (left-associated tools from left, right-associated tools from right).
@@ -320,42 +333,36 @@ Reduced motion is not permission to skip the final state.
 
 ## 12. Verification matrix
 
-A meaningful layout/motion change is not visually complete until checked in a real browser at representative sizes.
+During desktop-first stabilization, a meaningful layout/motion change is checked in a real browser against the desktop product surface.
 
-Minimum reference matrix:
+Current minimum matrix:
 
-- **390×844** — phone portrait;
-- **768×1024** — tablet/narrow;
-- **1440×900** — normal desktop review baseline;
-- **1920×1080** — standard full-HD desktop;
-- **2560×1440** — wide desktop;
-- **3440×1440** — ultrawide;
-- **7680×2160** — extreme ultrawide/max-spread guard.
+- **1440×900** — primary desktop review and acceptance baseline;
+- **1920×1080** — standard full-HD sanity check when relevant;
+- **2560×1440** — wide-desktop sanity check when relevant.
 
-The exact screenshots do not all need to be committed for every tiny change, but the relevant states must be exercised for a coherent slice.
+**Deferred until the Mobile Adaptation Pass:** 390×844 phone, 768×1024 tablet/narrow, mobile drawers/touch behavior. Extreme-ultrawide 3440×1440 / 7680×2160 may be used for targeted AppShell work but are not routine slice gates during stabilization.
 
 Acceptance checks:
 
-- no important control is off-screen/unreachable;
-- no horizontal page scroll is required for Home navigation;
-- the app shell stays centered and finite on ultrawide;
+- the changed desktop feature is physically reachable and usable with real pointer input;
+- no important desktop control is off-screen/unreachable at the required desktop sizes;
+- the AppShell remains finite/centered through the 2560×1440 sanity check;
 - card-local text/art remain attached to the card through carousel motion;
-- mobile carousel exposes reachable neighbors/focus;
-- mobile Build drawers open/close without moving the underlying Character stage;
-- desktop and mobile use the same underlying state/data;
+- feature state/data/commit semantics remain presentation-independent so the later mobile pass can reuse them;
 - no visual bug is marked fixed from CI alone when live/browser visual verification is required.
 
 ## 13. Home as reference implementation
 
-Before adding more visual complexity, Home carousel is the reference implementation for this contract.
+Home remains the reference implementation for containment and shared component ownership, but the current work order is desktop-first.
 
-Implementation order:
+Implementation order during stabilization:
 
-1. establish the finite centered AppShell;
-2. make Home card children strictly card-local;
-3. verify desktop carousel behavior;
-4. verify mobile focus/peek/swipe behavior;
-5. verify the full responsive matrix including 7680px ultrawide;
-6. only then use the same containment/motion rules for deeper Build surfaces.
+1. establish/preserve the finite centered AppShell;
+2. keep Home card children strictly card-local;
+3. verify desktop carousel behavior at the current desktop matrix;
+4. apply the same containment/motion ownership to deeper Build surfaces;
+5. finish and visually freeze the desktop product flow;
+6. only then start the separate Mobile Adaptation Pass and apply the deferred narrow/mobile rules to the finished components.
 
 This is an architecture/interaction contract. Exact art framing and final pixel tuning still require user visual approval.

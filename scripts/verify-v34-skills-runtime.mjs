@@ -157,7 +157,7 @@ try{
   await capture(send);
 
   await pointerClick(send,'#skillsClose');
-  await waitFor(send,"!skillsUi.open",'Skills menu did not close');
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close',2000);
 
   // Existing Sequence behavior is untouched; only its committed connector gets the same gold/grey visual language.
   await evaluate(send,'sequenceUi.commit(4)');
@@ -187,7 +187,7 @@ try{
     await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open&&document.getElementById('skillsOverlay').classList.contains('open')",'Skills menu did not open at '+width+'×'+height);
     g=await layout(send);
     assert(g.panel.left>=0&&g.panel.top>=0&&g.panel.right<=g.iw&&g.panel.bottom<=g.ih,'Skills panel overflows at '+width+'×'+height,g);
-    await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open",'Skills menu did not close at '+width+'×'+height);
+    await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close at '+width+'×'+height,2000);
   }
 
   console.log('v34 Skills verified in real Chrome: Stats → Skills → Weapon flow, all 57 Character core-icon swaps, compact tree + expanded glass shell, source-backed inherent icons, neutral/gold selected paths, shared Sequence grey/gold connector language, Stats push-down, and 1440/1920/2560 desktop geometry.');

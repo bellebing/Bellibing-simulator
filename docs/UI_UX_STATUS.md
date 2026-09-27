@@ -33,9 +33,9 @@ The preview may use recovered processed v34 Home artwork as **temporary prototyp
 
 ## Product target
 
-Desktop web + desktop app remain the primary composition surface, but **mobile is not a deferred redesign pass**.
+Desktop web + desktop app are the **current product-definition surface**. The project is in a **desktop-first functional stabilization phase**.
 
-Every new UI component must be built from the start with a defined narrow/mobile presentation using the same component state and data. Desktop may expose more context simultaneously; narrow/mobile uses progressive disclosure rather than a separate product flow.
+Until the user explicitly starts the Mobile Adaptation Pass, new UI slices are accepted on desktop first: **1440×900** is the primary review baseline, with **1920×1080** and **2560×1440** as desktop sanity checks. Do not spend slice scope on new phone/tablet layouts, mobile drawers, touch-specific polish or 390×844 / 768×1024 acceptance fixes. Existing mobile code stays in place, and all feature state/data/component logic must remain reusable so mobile can later adapt the frozen desktop product without duplicating business logic. Mobile is **deferred, not abandoned**.
 
 The collectible-card interaction language is intentionally shared across desktop and mobile.
 
@@ -221,7 +221,7 @@ Desktop baseline:
 - S1 bottom → S6 top, circular nodes grow toward S6;
 - `Add to Account` remains separate.
 
-Mobile/narrow baseline:
+Mobile/narrow baseline — **deferred target for the later Mobile Adaptation Pass; do not implement or gate current desktop slices on this section unless explicitly requested**:
 
 - Character remains the primary visual anchor rather than being replaced by a stack of full-width sections;
 - Stats, Weapon, Sequences and Echoes become compact function controls/icons around the Character workspace;
@@ -256,7 +256,7 @@ For each meaningful slice:
 
 Do not make a GitHub commit for every tiny pixel adjustment, but also do not wait until an entire large surface is finished before checkpointing.
 
-A visual slice is not complete because it looks correct at one 1440px screenshot. Relevant narrow, normal desktop, wide and ultrawide checks from `UI_LAYOUT_MOTION_CONTRACT.md` are part of UI verification. Mobile interaction surfaces require real mobile/narrow verification.
+During the current desktop-first phase, a visual slice is not complete from a single screenshot alone: verify the relevant interaction in real Chrome at 1440×900 and sanity-check 1920×1080 / 2560×1440 where layout width matters. Phone/tablet/mobile interaction checks are deliberately deferred and are **not** a current completion gate. The later Mobile Adaptation Pass will re-enable the deferred narrow/mobile contract and its real-device-size verification.
 
 Near-term implementation order is owned by the active UI lane and must be fresh-read before work. Do not assume a historical PR number is still current.
 

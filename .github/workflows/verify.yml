@@ -25,6 +25,19 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
+      - name: Generate Skills runtime handoff
+        run: |
+          mkdir -p artifacts
+          node --experimental-strip-types scripts/export-ui-skills-runtime.ts --output artifacts/skills-runtime.json
+
+      - name: Upload Skills runtime handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-skills-runtime-handoff
+          path: artifacts/skills-runtime.json
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Echo/Sonata raw coverage gate
         env:
           GITHUB_TOKEN: ${{ github.token }}

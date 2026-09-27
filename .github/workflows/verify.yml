@@ -92,6 +92,9 @@ jobs:
             BELLIBING_V34_CHROME_DEBUG_PORT=9670 \
             node scripts/verify-v34-sequence-runtime.mjs
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_CHROME_DEBUG_PORT=9672 \
+            node scripts/verify-v34-build-stats.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-echo-workspace.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
@@ -109,6 +112,9 @@ jobs:
             BELLIBING_V34_URL="$immutable_preview" \
               BELLIBING_V34_CHROME_DEBUG_PORT=9671 \
               node scripts/verify-v34-sequence-runtime.mjs
+            BELLIBING_V34_URL="$immutable_preview" \
+              BELLIBING_V34_CHROME_DEBUG_PORT=9673 \
+              node scripts/verify-v34-build-stats.mjs
           fi
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
@@ -163,7 +169,11 @@ jobs:
           test "$(find dist/ui-preview/assets/builder-icons/echo-cost -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 3
           test -s dist/ui-preview/assets/builder-icons/manifest.json
           test -s dist/ui-preview/assets/sequence-runtime.json
+          test -s dist/ui-preview/assets/build-stats/runtime-data.json
+          test -s dist/ui-preview/assets/build-stats/projection.mjs
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/sequence-runtime.json"
+          curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/build-stats/runtime-data.json"
+          curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/build-stats/projection.mjs"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/elements/aero.webp"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/sonata/01-freezing-frost.webp"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/chains/aalto/s1.webp"
@@ -191,6 +201,7 @@ jobs:
             artifacts/ui-preview-weapon-overlay-1440x900.png
             artifacts/ui-preview-echo-workspace-1440x900.png
             artifacts/ui-preview-sequence-hover-1440x900.png
+            artifacts/ui-preview-build-stats-expanded-1440x900.png
           if-no-files-found: error
           retention-days: 7
 

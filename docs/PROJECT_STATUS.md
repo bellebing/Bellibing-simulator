@@ -1,5 +1,9 @@
 # Bellibing Simulator — Current Project Status
 
+## Active draft Forte UI continuation
+
+PR214 continues the existing Build UI stack with a source-ingested Forte tree, persisted per-skill levels and original English skill previews. See [Forte tree source and state contract](UI_FORTE_TREE_SOURCE.md). This is draft/unmerged UI behavior; existing Stats and combat calculations are unchanged, including the documented Mornye source discrepancy. BUG-030 is unchanged. Final exact-head CI evidence belongs on PR214 and in AI Handoff.
+
 ## Post-PR203 UI asset state
 
 PR #202 and PR #203 are **MERGED, deployed and post-merge verified**. PR #202 normal-merged the source-backed 181/181 Echo portrait library at `c98ea1162757cd1f78261825a95ab666cdf36476`. PR #203 then normal-merged the selective New UI builder icon foundation at `c6b768ad43ebfa84c692ee4bd406d733c323e137`, with reviewed head `1524a58041e7e40393beb45c176616245f78e73a`; the merge tree exactly matches the reviewed head tree.

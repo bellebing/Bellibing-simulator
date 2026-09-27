@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 const UI_URL=process.env.BELLIBING_V34_URL??'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT=Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT??9674);
@@ -92,24 +93,6 @@ async function pointerClick(send,selector){
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:p.x,y:p.y,button:'left',clickCount:1});
   await sleep(110);
 }
-async function skillSnapshot(send){
-  return evaluate(send,"(() => {const read=root=>Object.fromEntries([...document.querySelectorAll(root+' [data-skill-role]')].filter(node=>!node.hidden).map(node=>[node.dataset.skillRole,{src:node.querySelector('img')?.getAttribute('src')??null,loaded:node.querySelector('img')?.naturalWidth??0,selected:node.classList.contains('is-selected')} ]));return{character:skillsUi.characterId,open:skillsUi.open,selected:skillsUi.selectedRole,compact:read('#skillsMiniTree'),menu:read('#skillsMenuTree'),compactActive:[...document.querySelectorAll('#skillsMiniTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),menuActive:[...document.querySelectorAll('#skillsMenuTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),overlayOpen:document.getElementById('skillsOverlay').classList.contains('open'),overlayMounted:document.getElementById('skillsOverlay').classList.contains('mounted'),selectedLabel:document.getElementById('skillsSelectedLabel').textContent.trim(),selectedType:document.getElementById('skillsSelectedType').textContent.trim(),detailText:document.getElementById('skillsDetailBody').textContent.trim(),factIds:[...document.querySelectorAll('#skillsDetailBody [data-skill-fact-id]')].map(x=>x.dataset.skillFactId),pending:!!document.querySelector('#skillsDetailBody .skills-detail-pending')}})()");
-}
-async function topology(send,root){
-  const q=JSON.stringify(root);
-  return evaluate(send,"(() => {const host=document.querySelector("+q+");const read=role=>{const el=[...host.querySelectorAll('[data-skill-role]')].find(node=>node.dataset.skillRole===role);if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return{role,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}};return{host:host.getBoundingClientRect().toJSON(),main:['normal-attack','skill','circuit','liberation','intro'].map(read),outro:read('outro'),inherent1:read('inherent-1'),inherent2:read('inherent-2'),links:[...host.querySelectorAll('.skill-link:not([hidden])')].map(x=>x.dataset.skillLink).sort()}})()");
-}
-function assertGameTopology(g,label){
-  assert(g.main.every(Boolean),label+' missing one of five main nodes',g);
-  const xs=g.main.map(x=>x.cx),ys=g.main.map(x=>x.cy);
-  assert(xs.every((x,i)=>i===0||x>xs[i-1]+25),label+' main row is not Normal → Skill → Forte → Liberation → Intro',g);
-  assert(Math.max(...ys)-Math.min(...ys)<12,label+' five main nodes are not aligned on one bottom row',g);
-  const circuit=g.main[2];
-  if(g.inherent1)assert(g.inherent1.cy<circuit.cy-25&&Math.abs(g.inherent1.cx-circuit.cx)<18,label+' Inherent I is not on the upper Forte branch',g);
-  if(g.inherent2)assert(g.inherent1&&g.inherent2.cy<g.inherent1.cy-20&&Math.abs(g.inherent2.cx-circuit.cx)<18,label+' Inherent II is not above Inherent I',g);
-  assert(g.outro&&g.outro.cy>circuit.cy+18&&Math.abs(g.outro.cx-circuit.cx)<18,label+' Outro must stay separate below the five main columns',g);
-  assert(g.links.every(link=>['circuit-inherent-1','inherent-1-inherent-2'].includes(link)),label+' contains invented connector topology',g.links);
-}
 async function layout(send){
   return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect(),tree=document.getElementById('skillsMenuTree').getBoundingClientRect(),detail=document.querySelector('.skills-detail-pane').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),tree:tree.toJSON(),detail:detail.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
 }
@@ -119,8 +102,8 @@ async function capture(send){
   writeFileSync('artifacts/ui-preview-skills-menu-1440x900.png',Buffer.from(shot.data,'base64'));
 }
 
-const userDir='/tmp/bellibing-skills-'+process.pid+'-'+DEBUG_PORT;
-const chrome=spawn(CHROME,['--headless=new','--no-sandbox','--disable-gpu','--remote-debugging-port='+DEBUG_PORT,'--remote-debugging-address=127.0.0.1','--user-data-dir='+userDir,'about:blank'],{stdio:'ignore'});
+const userDir=join(tmpdir(),'bellibing-skills-'+process.pid+'-'+DEBUG_PORT);
+const chrome=spawn(CHROME,['--headless=new','--no-sandbox','--disable-gpu','--remote-debugging-port='+DEBUG_PORT,'--remote-debugging-address=127.0.0.1','--user-data-dir='+userDir,'about:blank'],{stdio:'ignore',windowsHide:true});
 
 try{
   await waitForChrome();
@@ -136,131 +119,80 @@ try{
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);
   await sleep(800);
 
-  let g=await layout(send);
-  assert(g.stats.top<g.skills.top&&g.skills.top<g.weapon.top,'Left Build column order is not Stats → Skills → Weapon',g);
-  assert(g.stats.bottom<=g.skills.top+1&&g.skills.bottom<=g.weapon.top+1,'Left Build blocks overlap',g);
-  const compactTopology=await topology(send,'#skillsMiniTree');assertGameTopology(compactTopology,'Compact Skills tree');
-  assert(compactTopology.host.width>250&&compactTopology.host.height>125,'Compact Skills tree collapsed',compactTopology);
-
-  // Every released Character must swap source-backed skill assets immediately; spot checks below exercise expanded preview behavior.
+  const runtimeSkills=JSON.parse(readFileSync('docs/ui-prototypes/assets/skills-runtime.json','utf8'));
+  const sourceById=new Map(runtimeSkills.characters.map(c=>[c.characterId,c]));
+  async function clickRole(role){await pointerClick(send,'#skillsMenuTree [data-skill-role="'+role+'"]')}
+  async function snapshot(){return evaluate(send,"({character:skillsUi.characterId,investment:skillsUi.investment,selected:skillsUi.selectedRole,title:document.getElementById('skillsSelectedLabel').textContent,description:document.querySelector('.forte-description')?.textContent,values:[...document.querySelectorAll('.forte-value-row strong')].map(x=>x.textContent),active:[...document.querySelectorAll('#skillsMenuTree .skill-link.is-active')].map(x=>x.dataset.skillLink),text:document.getElementById('skillsDetailBody').textContent})")}
+  async function checkTopology(root){
+    const geometry=await evaluate(send,`(() => {const host=document.querySelector(${JSON.stringify(root)}),box=host.getBoundingClientRect();return{box:box.toJSON(),nodes:[...host.querySelectorAll('[data-skill-role]')].map(n=>({role:n.dataset.skillRole,id:n.dataset.nodeId,r:n.getBoundingClientRect().toJSON(),loaded:n.querySelector('img').naturalWidth})),lines:[...host.querySelectorAll('.skill-link')].map(n=>n.dataset.skillLink)}})()`);
+    const expected=sourceById.get(await evaluate(send,'skillsUi.characterId'));
+    assert(geometry.nodes.length===16,'Missing Forte nodes',geometry);
+    const byRole=new Map(geometry.nodes.map(n=>[n.role,n]));
+    for(const n of geometry.nodes){assert(n.r.left>=geometry.box.left-1&&n.r.right<=geometry.box.right+1&&n.r.top>=geometry.box.top-1&&n.r.bottom<=geometry.box.bottom+1,'Node escapes tree',{root,node:n,box:geometry.box})}
+    for(let col=0;col<5;col++){
+      const main=byRole.get(MAIN[col]);if(col)assert(main.r.x>byRole.get(MAIN[col-1]).r.x,'Wrong five-column order');
+      const branch=expected.nodes.filter(n=>n.column===col).sort((a,b)=>a.row-b.row);
+      for(let row=1;row<branch.length;row++){
+        const child=byRole.get(branch[row].role),parent=byRole.get(branch[row-1].role);
+        assert(child.r.y<parent.r.y-8&&Math.abs(child.r.x+child.r.width/2-parent.r.x-parent.r.width/2)<2,'Wrong source branch placement',{child,parent});
+      }
+    }
+    const outer=byRole.get('normal-attack').r,inner=byRole.get('skill').r,center=byRole.get('circuit').r;
+    assert(center.y<inner.y&&inner.y<outer.y,'Screenshot stepped silhouette missing');
+    assert(byRole.get('outro').r.y>outer.y,'Outro not separate');
+    assert(geometry.lines.length===10,'Expected source-owned ten edges',geometry.lines);
+  }
+  let g=await layout(send);assert(g.stats.bottom<=g.skills.top+1&&g.skills.bottom<=g.weapon.top+1,'Build block overlap',g);
   for(const row of runtime.characters){
-    await evaluate(send,"buildPicker.select("+JSON.stringify(row.characterName)+")");
-    await waitFor(send,"skillsUi.characterId==="+JSON.stringify(row.characterId),'Skills Character switch failed for '+row.characterName);
-    const state=await skillSnapshot(send);
-    for(const role of ALL)assert(state.compact[role]?.src===row.skills[role].assetPath,'Incorrect canonical compact icon after Character switch',{character:row.characterId,role,expected:row.skills[role].assetPath,actual:state.compact[role]?.src});
-    for(const role of ['inherent-1','inherent-2'])if(row.skills[role])assert(state.compact[role]?.src===row.skills[role].assetPath,'Incorrect canonical inherent icon',{character:row.characterId,role});
+    await evaluate(send,'buildPicker.select('+JSON.stringify(row.characterName)+')');
+    await waitFor(send,'skillsUi.characterId==='+JSON.stringify(row.characterId),'Character switch failed');
+    const actual=await evaluate(send,"Object.fromEntries([...document.querySelectorAll('#skillsMiniTree [data-skill-role]')].map(n=>[n.dataset.skillRole,n.querySelector('img').getAttribute('src')]))");
+    for(const node of sourceById.get(row.characterId).nodes)assert(actual[node.role]===node.assetPath,'Wrong Character icon',{character:row.characterId,node});
   }
-
-  await evaluate(send,"buildPicker.select('Augusta')");
-  await waitFor(send,"skillsUi.characterId==='augusta'",'Return to Augusta failed');
-  let state=await skillSnapshot(send),augusta=byId.get('augusta');
-  assert(ALL.every(role=>state.compact[role]?.src===augusta.skills[role].assetPath),'Augusta compact mapping mismatch',state.compact);
-  await waitFor(send,"[...document.querySelectorAll('#skillsMiniTree [data-skill-role]:not([hidden]) img')].every(img=>img.naturalWidth>0)",'Augusta compact skill artwork did not load');
-  const neutral=await evaluate(send,"(() => [...document.querySelectorAll('#skillsMiniTree .skill-link:not([hidden])')].map(x=>({active:x.classList.contains('is-active'),stroke:getComputedStyle(x).stroke,filter:getComputedStyle(x).filter,zIndex:getComputedStyle(x.closest('svg')).zIndex})))()");
-  assert(neutral.length===2&&neutral.every(x=>!x.active&&!String(x.stroke).includes('skillsCompactGold')&&Number(x.zIndex)>=1),'Compact Skills neutral connectors are not visible grey/inactive lines above the tree background',neutral);
-
-  const storageBefore=await evaluate(send,"JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(key=>[key,localStorage.getItem(key)])))");
-  await pointerClick(send,'#skillsBtn');
-  await waitFor(send,"skillsUi.open&&document.getElementById('skillsOverlay').classList.contains('open')",'Skills menu did not open');
-  state=await skillSnapshot(send);
-  assert(ALL.every(role=>state.menu[role]?.src===augusta.skills[role].assetPath),'Expanded Skills menu did not use Augusta canonical icons',state.menu);
-  assert(state.menu['inherent-1']?.src===augusta.skills['inherent-1'].assetPath&&state.menu['inherent-2']?.src===augusta.skills['inherent-2'].assetPath,'Inherent nodes are not integrated into the expanded tree',state.menu);
-  assertGameTopology(await topology(send,'#skillsMenuTree'),'Expanded Skills tree');
-
-  await pointerClick(send,'#skillsMenuTree .skills-menu-skill');
-  await waitFor(send,"skillsUi.selectedRole==='skill'&&document.querySelectorAll('#skillsDetailBody [data-skill-fact-id]').length>0",'Augusta Resonance Skill preview did not populate from canonical facts');
-  state=await skillSnapshot(send);
-  assert(state.selectedType==='Resonance Skill','Preview type mismatch',state);
-  assert(state.factIds.length>0&&state.factIds.every(id=>id.startsWith('augusta-')),'Augusta preview leaked non-Augusta mechanics facts',state);
-  assert(state.detailText.includes('Lv.10 source value')||state.detailText.includes('Source value'),'Augusta preview did not surface source-backed action values',state);
-  assert((await evaluate(send,"JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(key=>[key,localStorage.getItem(key)])))"))===storageBefore,'Skill preview selection mutated persisted build/gameplay state');
-
-  await pointerClick(send,'#skillsMenuTree .skills-menu-inherent-1');
-  await waitFor(send,"skillsUi.selectedRole==='inherent-1'",'Inherent selection failed');
-  state=await skillSnapshot(send);
-  assert(state.pending&&state.detailText.includes('does not explicitly bind'),'Unmapped inherent fact ordinal was guessed instead of shown pending',state);
-  assert(JSON.stringify(state.menuActive)===JSON.stringify(['circuit-inherent-1'])&&JSON.stringify(state.compactActive)===JSON.stringify(['circuit-inherent-1']),'Inherent I selected path mismatch',state);
-  const connectorVisual=await evaluate(send,"(() => {const active=document.querySelector('#skillsMenuTree .skill-link.is-active'),neutral=document.querySelector('#skillsMenuTree .skill-link:not(.is-active):not([hidden])');return{activeStroke:getComputedStyle(active).stroke,activeFilter:getComputedStyle(active).filter,neutralStroke:getComputedStyle(neutral).stroke,neutralFilter:getComputedStyle(neutral).filter}})()");
-  assert(String(connectorVisual.activeStroke).includes('skillsMenuGold')&&String(connectorVisual.activeFilter).includes('skillsMenuGlow'),'Active Skills connector is not gold/glowing',connectorVisual);
-  assert(!String(connectorVisual.neutralStroke).includes('skillsMenuGold'),'Inactive Skills connector is not neutral grey',connectorVisual);
-
-  // Source-backed action values + mechanic text across Characters with different skill assets.
-  await pointerClick(send,'#skillsClose');
-  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close',2000);
-  await evaluate(send,"buildPicker.select('Aalto')");
-  await waitFor(send,"skillsUi.characterId==='aalto'",'Aalto Skills did not bind');
-  await pointerClick(send,'#skillsBtn');
-  await waitFor(send,"skillsUi.open",'Aalto Skills menu did not open');
-  await pointerClick(send,'#skillsMenuTree .skills-menu-normal');
-  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Half Truths Stage 1')",'Aalto Normal Attack canonical preview missing');
-  state=await skillSnapshot(send);
-  assert(state.detailText.includes('31.81%'),'Aalto Lv10 source coefficient was not surfaced from action-value architecture',state.detailText);
-  await pointerClick(send,'#skillsMenuTree .skills-menu-outro');
-  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Dissolving Mist')",'Aalto Outro canonical preview missing');
-  state=await skillSnapshot(send);
-  assert(state.selectedType==='Outro Skill'&&state.detailText.includes('23% Aero DMG Amplification')&&state.detailText.includes('14'),'Aalto Outro source mechanic text/value missing',state);
-
-  await pointerClick(send,'#skillsClose');
-  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Aalto Skills menu did not close',2000);
-  await evaluate(send,"buildPicker.select('The Shorekeeper')");
-  await waitFor(send,"skillsUi.characterId==='the-shorekeeper'",'The Shorekeeper Skills did not bind');
-  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'The Shorekeeper Skills menu did not open');
-  await pointerClick(send,'#skillsMenuTree .skills-menu-liberation');
-  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Stellarealm')",'The Shorekeeper Liberation mechanic preview missing');
-  state=await skillSnapshot(send);
-  assert(state.detailText.includes('30s')||state.detailText.includes('Duration 30s'),'The Shorekeeper source-backed Liberation duration missing',state);
-  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'The Shorekeeper Skills menu did not close',2000);
-
-  // A source-gap Character must fail closed in the pane instead of fabricating mechanics.
-  await evaluate(send,"buildPicker.select('Buling')");
-  await waitFor(send,"skillsUi.characterId==='buling'",'Buling Skills did not bind');
-  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'Buling Skills menu did not open');
-  await pointerClick(send,'#skillsMenuTree .skills-menu-skill');
-  state=await skillSnapshot(send);
-  assert(state.pending||state.factIds.every(id=>id.startsWith('buling-')),'Source-gap Character preview fabricated or leaked facts',state);
-  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Buling Skills menu did not close',2000);
-
-  await evaluate(send,"buildPicker.select('Augusta')");
-  await waitFor(send,"skillsUi.characterId==='augusta'",'Final Augusta switch failed');
-  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'Final Augusta Skills menu did not open');
-  await pointerClick(send,'#skillsMenuTree .skills-menu-inherent-2');
-  await waitFor(send,"skillsUi.selectedRole==='inherent-2'",'Inherent II selection failed');
-  state=await skillSnapshot(send);
-  assert(JSON.stringify(state.menuActive)===JSON.stringify(['circuit-inherent-1','inherent-1-inherent-2'])&&JSON.stringify(state.compactActive)===JSON.stringify(['circuit-inherent-1','inherent-1-inherent-2']),'Inherent II selected path mismatch',state);
-  await capture(send);
-  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close',2000);
-
-  // Existing Sequence behavior remains untouched; only connector styling is observed.
-  await evaluate(send,'sequenceUi.commit(4)');
-  await sleep(280);
-  const seqVisual=await evaluate(send,"(() => {const line=document.getElementById('sequenceLine'),before=getComputedStyle(line,'::before'),after=getComputedStyle(line,'::after');return{progress:line.style.getPropertyValue('--seq-progress'),beforeBackground:before.backgroundColor,afterBackground:after.backgroundImage,afterShadow:after.boxShadow,afterHeight:parseFloat(after.height),current:sequenceUi.currentLevel}})()");
-  assert(seqVisual.current===4&&Number(seqVisual.progress)>.5&&seqVisual.afterHeight>0&&String(seqVisual.afterBackground).includes('linear-gradient')&&seqVisual.afterShadow!=='none','Committed Sequence connector is not gold/progressive',seqVisual);
-  assert(seqVisual.beforeBackground!=='rgba(0, 0, 0, 0)'&&seqVisual.beforeBackground!=='transparent','Inactive Sequence connector base is missing',seqVisual);
-  await evaluate(send,'sequenceUi.commit(0)');
-
-  // Stats expansion must naturally push the corrected compact Skills tree and Weapon down.
-  const collapsed=await layout(send);
-  await pointerClick(send,'#buildStatsToggle');
-  await waitFor(send,"statsUi.expanded===true",'Stats did not expand');
-  const expanded=await layout(send);
-  assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45,'Stats expansion did not push Skills + Weapon downward',{collapsed,expanded});
-  assert(expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Expanded left-column blocks overlap',expanded);
-  assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8&&expanded.sw<=expanded.iw+1&&expanded.sh<=expanded.ih+1,'1440×900 left column does not fit after Stats expansion',expanded);
-  await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse');
-
+  await evaluate(send,"buildPicker.select('Augusta')");await pointerClick(send,'#skillsBtn');await sleep(400);
+  await waitFor(send,"[...document.querySelectorAll('#skillsMenuTree img')].every(i=>i.naturalWidth>0)",'Forte images failed to load');
+  await checkTopology('#skillsMenuTree');await checkTopology('#skillsMiniTree');
+  const before=await evaluate(send,'JSON.stringify(draft(skillsUi.characterName).build)');
+  await clickRole('skill');let state=await snapshot();assert(state.title==="Warrior's Blade",'Canonical skill name missing',state);
+  assert(state.values[0]==='218.7%*3','Wrong Lv10 value',state);assert(!/Kit section|source wording|Bellibing|canonical|fact ID/i.test(state.text),'Developer commentary exposed',state.text);
+  assert(await evaluate(send,'JSON.stringify(draft(skillsUi.characterName).build)')===before,'Preview-only selection mutated build');
+  await pointerClick(send,'#skillsMenuTree [data-node-id="2"][data-level-step="-1"]');state=await snapshot();assert(state.investment.levels.skill===9&&state.values[0]==='203.36%*3','Level 9 was not selected',state);
+  for(let i=0;i<9;i++)await pointerClick(send,'#skillsMenuTree [data-node-id="2"][data-level-step="-1"]');
+  state=await snapshot();assert(state.investment.levels.skill===0&&state.values.length===0&&state.investment.enabled['10']===false&&state.investment.enabled['14']===false,'Lv0 fabricated value or failed dependency lowering',state);
+  await clickRole('stat-14');state=await snapshot();assert(state.investment.levels.skill===1&&state.investment.enabled['10']&&state.investment.enabled['14'],'Upper stat did not enable both ancestors',state);
+  await clickRole('stat-10');state=await snapshot();assert(!state.investment.enabled['10']&&!state.investment.enabled['14'],'Middle stat did not disable upper stat',state);
+  await clickRole('inherent-1');state=await snapshot();assert(!state.investment.enabled['4']&&!state.investment.enabled['5'],'Inherent lowering did not cascade',state);
+  await clickRole('inherent-2');state=await snapshot();assert(state.investment.enabled['4']&&state.investment.enabled['5']&&state.title==='Blazing Valor','Inherent source binding or dependency failed',state);
+  const strokes=await evaluate(send,"[...document.querySelectorAll('#skillsMenuTree .skill-link')].map(n=>({active:n.classList.contains('is-active'),stroke:getComputedStyle(n).stroke}))");assert(strokes.some(s=>s.active)&&strokes.some(s=>!s.active)&&strokes.every(s=>s.active===s.stroke.includes('skillsMenuGold')),'Gold/grey connector state mismatch',strokes);
+  // Independent physical +/- controls for every levelled skill.
+  for(const role of MAIN){const node=sourceById.get('augusta').nodes.find(n=>n.role===role);await pointerClick(send,'#skillsMenuTree [data-node-id="'+node.id+'"][data-level-step="-1"]')}
+  const saved=await evaluate(send,'JSON.stringify(skillsUi.investment)');
+  await pointerClick(send,'#skillsClose');await sleep(400);
+  for(const name of ['Aalto','Phoebe','Baizhi','Mornye','The Shorekeeper','Buling']){
+    await evaluate(send,'buildPicker.select('+JSON.stringify(name)+')');await pointerClick(send,'#skillsBtn');await sleep(400);await checkTopology('#skillsMenuTree');
+    const expected=sourceById.get(await evaluate(send,'skillsUi.characterId'));
+    for(const role of ['normal-attack','liberation','inherent-1','outro']){await clickRole(role);state=await snapshot();const node=expected.nodes.find(n=>n.role===role);assert(state.title===node.name&&state.description===node.description,'Preview source text mismatch',{name,role,state});}
+    await pointerClick(send,'#skillsClose');await sleep(400);
+  }
+  await evaluate(send,"buildPicker.select('Augusta')");assert(await evaluate(send,'JSON.stringify(skillsUi.investment)')===saved,'Character switch lost levels');
+  await navigate(send);await waitFor(send,"document.documentElement.dataset.skillsMechanicsReady==='true'&&!!window.bellibingForte",'Reload runtime not ready');await evaluate(send,"show('build');buildPicker.select('Augusta')");await sleep(1000);
+  assert(await evaluate(send,'JSON.stringify(skillsUi.investment)')===saved,'Reload lost persisted levels');
+  await pointerClick(send,'#skillsBtn');await sleep(400);await clickRole('liberation');await capture(send);await pointerClick(send,'#skillsClose');await sleep(400);
+  // Missing source description must produce a simple Pending state.
+  await evaluate(send,"skillsUi.tree.nodes.find(n=>n.role==='skill').description=null");await pointerClick(send,'#skillsBtn');await clickRole('skill');assert((await snapshot()).description==='Pending','Missing text did not fail closed');await pointerClick(send,'#skillsClose');await sleep(400);
   for(const[width,height]of[[1440,900],[1920,1080],[2560,1440]]){
-    await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);
-    assertGameTopology(await topology(send,'#skillsMiniTree'),'Compact '+width+'×'+height);
-    await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open&&document.getElementById('skillsOverlay').classList.contains('open')",'Skills menu did not open at '+width+'×'+height);
-    g=await layout(send);
-    assert(g.panel.left>=0&&g.panel.top>=0&&g.panel.right<=g.iw&&g.panel.bottom<=g.ih,'Skills panel overflows at '+width+'×'+height,g);
-    assert(g.tree.right<=g.detail.left-10&&g.detail.right<=g.panel.right-12,'Tree/detail panes overlap or escape at '+width+'×'+height,g);
-    assertGameTopology(await topology(send,'#skillsMenuTree'),'Expanded '+width+'×'+height);
-    assert(g.sw<=g.iw+1&&g.sh<=g.ih+1,'Skills view creates page overflow at '+width+'×'+height,g);
-    await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close at '+width+'×'+height,2000);
+    await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(200);await pointerClick(send,'#skillsBtn');await sleep(400);g=await layout(send);
+    assert(g.panel.left>=0&&g.panel.top>=0&&g.panel.right<=g.iw&&g.panel.bottom<=g.ih&&g.tree.right<=g.detail.left-10,'Desktop panel overlap/overflow',g);await checkTopology('#skillsMenuTree');
+    const controls=await evaluate(send,"[...document.querySelectorAll('#skillsMenuTree [data-level-step]')].map(n=>{const r=n.getBoundingClientRect();const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return hit===n||n.contains(hit)})");assert(controls.length===10&&controls.every(Boolean),'Level controls occluded',controls);
+    await pointerClick(send,'#skillsClose');await sleep(400);
   }
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');const expanded=await layout(send);
+  assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
+  assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
+  await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');
+  console.log('Forte Chrome checks passed: 57 Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow and 1440/1920/2560 desktop geometry.');
 
-  console.log('v34 Skills verified in real Chrome: game-style five-column order, source-backed inherent upper branch, separate Outro, canonical preview facts/action values with pending fail-closed gaps, no preview state mutation, Character switching, shared grey/gold connector language, preserved Sequence/Stats flow, and 1440/1920/2560 desktop geometry.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

@@ -57,3 +57,5 @@ cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builde
 cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/assets/sequence-runtime.json');
 cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-stats', { recursive: true });
 cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/skills-runtime.json');
+
+cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');

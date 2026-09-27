@@ -380,11 +380,44 @@
 .echo-motion-clone.has-art{border:0;background:transparent;box-shadow:none;overflow:visible}
 @media(prefers-reduced-motion:reduce){.echo-motion-clone{will-change:opacity}}
 
+/* Source tree: five stepped columns; row and dependency membership come from game records. */
+.skills-menu-tree .skills-tree-lines{inset:0;width:100%;height:100%}
+.forte-node-wrap{position:absolute;z-index:2;width:20%;height:0;text-align:center}
+.forte-node{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:56px;height:56px;padding:9px;border:1px solid #555b65;border-radius:50%;background:#151820;color:#a6acb6;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+.forte-node img{display:block;width:100%;height:100%;object-fit:contain;opacity:.5}
+.forte-node.is-active{border-color:#d9b25d;box-shadow:0 0 17px #d8a63d1c}
+.forte-node.is-active img{opacity:1}
+.forte-node.is-selected{outline:2px solid #f5dda0;outline-offset:4px}
+.forte-node:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.forte-node-wrap.stat .forte-node,.forte-node-wrap.inherent .forte-node{width:42px;height:42px;padding:9px}
+.forte-node-wrap.inherent .forte-node{border-radius:5px;transform:translate(-50%,-50%) rotate(45deg)}
+.forte-node-wrap.inherent img{transform:rotate(-45deg)}
+.forte-caption{position:absolute;left:0;top:36px;transform:translateX(-50%);width:112px;font-size:9px;line-height:1.25;color:#b7bdc7;pointer-events:none}
+.stat .forte-caption,.inherent .forte-caption{top:28px;width:100px;font-size:9px}
+.forte-level{position:absolute;left:0;top:58px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:4px;width:94px;font-size:11px;font-variant-numeric:tabular-nums;color:#ead6a5}
+.forte-level button{width:25px;height:25px;border:1px solid #ffffff24;border-radius:8px;background:#ffffff08;color:#ead6a5;font-size:17px;cursor:pointer}
+.forte-level button:disabled{opacity:.3;cursor:default}
+.forte-node-wrap.outro .forte-node{width:36px;height:36px;padding:6px}
+.outro .forte-caption{top:23px}
+.skills-mini-tree .forte-node{width:22px;height:22px;padding:3px;pointer-events:none}
+.skills-mini-tree .stat .forte-node,.skills-mini-tree .inherent .forte-node{width:16px;height:16px;padding:3px}
+.skills-mini-tree .forte-caption{top:14px;width:58px;font-size:6px}
+.skills-mini-tree .stat .forte-caption,.skills-mini-tree .inherent .forte-caption{display:none}
+.skills-mini-tree .forte-level{top:23px;font-size:6px}
+.skills-mini-tree .outro .forte-node{width:17px;height:17px;padding:2px}
+.skills-mini-tree .outro .forte-caption{top:10px;font-size:5px}
+.forte-description{white-space:pre-wrap;font-size:12px;line-height:1.65;color:#c8cdd5;margin:0 0 20px}
+.forte-toggle{border:1px solid #c8a45770;border-radius:8px;background:#c8a45715;color:#e0c48b;padding:8px 12px;margin-bottom:16px;cursor:pointer}
+.forte-value-row{display:grid;grid-template-columns:1fr auto;gap:14px;padding:10px 0;border-top:1px solid #ffffff0e;font-size:11px;line-height:1.5;color:#aab1bc}
+.forte-value-row strong{max-width:155px;color:#ead6a5;text-align:right;overflow-wrap:anywhere}
+.forte-disabled{color:#a5aab4;font-size:12px}
+
+.forte-metadata{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}.forte-metadata span{padding:4px 6px;border:1px solid #ffffff1a;border-radius:5px;color:#c7b381;font-size:8px;letter-spacing:.04em}
 </style>
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"><svg class="skills-tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="skillsCompactGold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".46" stop-color="#e4b94f"/><stop offset=".68" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="skillsCompactGlow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="120" height="120"><feGaussianBlur stdDeviation="1.15" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="skill-link" data-skill-link="circuit-inherent-1" d="M50 61 L50 34"/><path class="skill-link" data-skill-link="inherent-1-inherent-2" d="M50 30 L50 11"/></svg><span class="skill-mini-node skill-mini-inherent-2" data-skill-role="inherent-2"><img alt="" draggable="false"><small>Inherent II</small></span><span class="skill-mini-node skill-mini-inherent-1" data-skill-role="inherent-1"><img alt="" draggable="false"><small>Inherent I</small></span><span class="skill-mini-node skill-mini-normal" data-skill-role="normal-attack"><img alt="" draggable="false"><small>Normal</small></span><span class="skill-mini-node skill-mini-skill" data-skill-role="skill"><img alt="" draggable="false"><small>Skill</small></span><span class="skill-mini-node skill-mini-circuit" data-skill-role="circuit"><img alt="" draggable="false"><small>Forte</small></span><span class="skill-mini-node skill-mini-liberation" data-skill-role="liberation"><img alt="" draggable="false"><small>Liberation</small></span><span class="skill-mini-node skill-mini-intro" data-skill-role="intro"><img alt="" draggable="false"><small>Intro</small></span><span class="skill-mini-node skill-mini-outro" data-skill-role="outro"><img alt="" draggable="false"><small>Outro</small></span></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
@@ -393,21 +426,11 @@
     <button id="skillsClose" class="skills-close" type="button" aria-label="Close Skills menu">×</button>
     <div class="skills-panel-head"><h2 id="skillsTitle">Skills</h2></div>
     <div class="skills-main">
-      <div id="skillsMenuTree" class="skills-menu-tree">
-        <svg class="skills-tree-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="skillsMenuGold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".44" stop-color="#e4b94f"/><stop offset=".68" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="skillsMenuGlow" filterUnits="userSpaceOnUse" x="-10" y="-10" width="120" height="120"><feGaussianBlur stdDeviation="1.35" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path class="skill-link" data-skill-link="circuit-inherent-1" d="M50 62 L50 35"/><path class="skill-link" data-skill-link="inherent-1-inherent-2" d="M50 31 L50 13"/></svg>
-        <button type="button" class="skills-menu-node skills-menu-inherent-2" data-skill-role="inherent-2"><img alt="" draggable="false"><span>Inherent Skill II</span></button>
-        <button type="button" class="skills-menu-node skills-menu-inherent-1" data-skill-role="inherent-1"><img alt="" draggable="false"><span>Inherent Skill I</span></button>
-        <button type="button" class="skills-menu-node skills-menu-normal" data-skill-role="normal-attack"><img alt="" draggable="false"><span>Normal Attack</span></button>
-        <button type="button" class="skills-menu-node skills-menu-skill" data-skill-role="skill"><img alt="" draggable="false"><span>Resonance Skill</span></button>
-        <button type="button" class="skills-menu-node skills-menu-circuit" data-skill-role="circuit"><img alt="" draggable="false"><span>Forte Circuit</span></button>
-        <button type="button" class="skills-menu-node skills-menu-liberation" data-skill-role="liberation"><img alt="" draggable="false"><span>Resonance Liberation</span></button>
-        <button type="button" class="skills-menu-node skills-menu-intro" data-skill-role="intro"><img alt="" draggable="false"><span>Intro Skill</span></button>
-        <button type="button" class="skills-menu-node skills-menu-outro" data-skill-role="outro"><img alt="" draggable="false"><span>Outro Skill</span></button>
-      </div>
+      <div id="skillsMenuTree" class="skills-menu-tree"></div>
       <aside class="skills-detail-pane" aria-live="polite">
         <div class="skills-detail-kicker">Skill Preview</div>
         <div id="skillsSelected" class="skills-selected"><img id="skillsSelectedIcon" alt="" draggable="false"><div class="skills-selected-copy"><span id="skillsSelectedType" class="skills-selected-type"></span><strong id="skillsSelectedLabel">Select a skill</strong><span id="skillsSelectedLevel" class="skills-selected-level">Lv.10</span></div></div>
-        <div id="skillsDetailBody" class="skills-detail-body"><div class="skills-detail-empty"><strong>Preview</strong><p>Select a source-backed node to inspect canonical Character mechanics. This preview never changes the build.</p></div></div>
+        <div id="skillsDetailBody" class="skills-detail-body"><div class="skills-detail-empty"><strong>Preview</strong><p>Select a node to view its skills and bonuses.</p></div></div>
       </aside>
     </div>
   </section>
@@ -500,6 +523,9 @@
 </div>
 <div id="dialogBg" class="dialog-bg"><div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogCopy"><h2 id="dialogTitle">Switch Character?</h2><p id="dialogCopy"></p><div class="dialog-actions"><button id="cancelSwitch" type="button">Cancel</button><button id="confirmSwitch" class="primary" type="button">Switch</button></div></div></div>
 <script type="module">
+import * as forteModel from './assets/forte-ui.mjs';
+window.bellibingForte=forteModel;
+window.dispatchEvent(new Event('bellibing-forte-ready'));
 import { projectStaticBuildStats } from './assets/build-stats/projection.mjs';
 window.bellibingProjectStaticBuildStats=projectStaticBuildStats;
 window.dispatchEvent(new Event('bellibing-build-stat-projection-ready'));
@@ -591,9 +617,9 @@ async function loadCharacterMechanicsRuntimeData(){
   const response=await fetch(SKILLS_RUNTIME_DATA_PATH,{cache:'no-store'});
   if(!response.ok)throw new Error('Skills runtime data '+response.status);
   const payload=await response.json();
-  if(payload.schemaVersion!==1||payload.role!=='character-builder.runtime-skills'||payload.skillLevelForExactCurves!==10||!Array.isArray(payload.characters))throw new Error('Unsupported Skills runtime data schema');
+  if(payload.schemaVersion!==2||payload.role!=='character-builder.runtime-skills'||!Array.isArray(payload.characters))throw new Error('Unsupported Skills runtime data schema');
   for(const character of payload.characters){
-    if(!character.characterId||!character.roles||BUILDER_CORE_SKILL_ROLES.some(role=>!character.roles[role]))throw new Error('Incomplete canonical Skills preview runtime for '+character.characterId);
+    if(!character.characterId||!Array.isArray(character.nodes))throw new Error('Incomplete canonical Skills preview runtime for '+character.characterId);
   }
   skillsPreviewByCharacterId=new Map(payload.characters.map(character=>[character.characterId,character]));
   characterMechanicsDataLoaded=true;
@@ -1458,175 +1484,96 @@ const SKILL_ROLE_LABELS={
   'inherent-1':'Inherent Skill I',
   'inherent-2':'Inherent Skill II'
 };
-const SKILL_SECTION_BY_ROLE={
-  'normal-attack':'BASIC_ATTACK',
-  skill:'RESONANCE_SKILL',
-  circuit:'FORTE_CIRCUIT',
-  liberation:'RESONANCE_LIBERATION',
-  intro:'INTRO_SKILL',
-  outro:'OUTRO_SKILL'
-};
-const SKILL_ACTIVE_LINKS={
-  'normal-attack':[],
-  skill:[],
-  circuit:[],
-  liberation:[],
-  intro:[],
-  outro:[],
-  'inherent-1':['circuit-inherent-1'],
-  'inherent-2':['circuit-inherent-1','inherent-1-inherent-2']
-};
-const formatSkillPercent=value=>{
-  const scaled=Number(value)*100;
-  const text=scaled.toFixed(2).replace(/\.00$/,'').replace(/(\.\d)0$/,'$1');
-  return text+'%';
-};
-const formatSkillNumber=value=>Number(value).toLocaleString('en-US',{maximumFractionDigits:2});
-const skillFactHasLevelCurve=fact=>fact?.skillLevel===10;
-const formatSkillActionValue=(fact,values)=>{
-  if(!values||values.status!=='SOURCE_VALUES')return null;
-  if(values.kind==='FLAT_DAMAGE')return formatSkillNumber(values.damagePerHit)+(values.hitCount>1?' × '+values.hitCount:'');
-  if(values.kind!=='COEFFICIENTS'||!Array.isArray(values.components))return null;
-  return values.components.map(part=>formatSkillPercent(part.coefficient)+(part.hitCount>1?' × '+part.hitCount:'')).join(' + ');
-};
 const skillsUi={
   button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,
+  get tree(){return skillsPreviewByCharacterId.get(this.characterId)||null},
+  get model(){return window.bellibingForte},
+  get investment(){return this.model.normalizeForteState(this.tree,draft(this.characterName).build.forte)},
   init(){
-    this.button=document.getElementById('skillsBtn');
-    this.overlay=document.getElementById('skillsOverlay');
-    this.panel=document.getElementById('skillsPanel');
-    this.detailBody=document.getElementById('skillsDetailBody');
+    this.button=document.getElementById('skillsBtn');this.overlay=document.getElementById('skillsOverlay');this.panel=document.getElementById('skillsPanel');this.detailBody=document.getElementById('skillsDetailBody');
     this.button.addEventListener('click',()=>this.show());
     document.getElementById('skillsClose').addEventListener('click',()=>this.hide());
     document.querySelector('[data-skills-close]').addEventListener('click',()=>this.hide());
     document.getElementById('skillsMenuTree').addEventListener('click',event=>{
-      const node=event.target.closest('.skills-menu-node[data-skill-role]');
-      if(node)this.select(node.dataset.skillRole);
+      const control=event.target.closest('[data-level-step]');
+      if(control){const n=this.tree.nodes.find(n=>n.id===control.dataset.nodeId);this.commit(n,Math.max(0,Math.min(10,this.investment.levels[n.role]+Number(control.dataset.levelStep))));return}
+      const button=event.target.closest('[data-skill-role]');if(!button)return;
+      const node=this.tree?.nodes.find(n=>n.role===button.dataset.skillRole);if(!node)return;
+      this.selectedRole=node.role;
+      if(node.kind==='stat'||node.kind==='inherent')this.commit(node,!this.model.forteNodeActive(this.tree,this.investment,node.id));
+      else this.render();
     });
+    window.addEventListener('bellibing-forte-ready',()=>{this.render();statsUi.refresh()});
     this.render();
   },
-  setCharacter(name){
-    this.characterName=name||null;
-    this.characterId=name?characterByName.get(name)?.id||null:null;
-    this.selectedRole=null;
-    if(!name)this.hide();
-    if(sequenceRuntimeDataLoaded)this.refreshForCharacter();
-    else{this.assets=null;this.render()}
+  setCharacter(name){this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.selectedRole=null;if(!name)this.hide();this.refreshForCharacter()},
+  refreshForCharacter(){this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;this.render()},
+  select(role){if(this.tree?.nodes.some(n=>n.role===role)){this.selectedRole=role;this.render()}},
+  commit(node,value){
+    if(!this.tree||!this.characterName||!node)return;
+    this.selectedRole=node.role;
+    const focus=document.activeElement?.dataset,restore=focus?.levelStep?`[data-node-id="${node.id}"][data-level-step="${focus.levelStep}"]`:focus?.skillRole?`[data-skill-role="${focus.skillRole}"]`:null;
+    autosave(this.characterName,{forte:this.model.updateForteNode(this.tree,this.investment,node.id,value)});
+    this.render();statsUi.refresh();
+    if(restore)document.querySelector('#skillsMenuTree '+restore)?.focus({preventScroll:true});
   },
-  refreshForCharacter(){
-    this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;
-    if(this.selectedRole&&!this.assets?.skills?.[this.selectedRole])this.selectedRole=null;
-    this.render();
-  },
-  select(role){
-    if(!this.assets?.skills?.[role])return;
-    this.selectedRole=role;
-    this.render();
-  },
-  show(){
-    if(!this.assets||!this.overlay)return;
-    clearTimeout(this.closeTimer);this.open=true;
-    this.overlay.classList.add('mounted');
-    this.overlay.setAttribute('aria-hidden','false');
-    this.button.setAttribute('aria-expanded','true');
-    requestAnimationFrame(()=>this.overlay.classList.add('open'));
-  },
-  hide(){
-    if(!this.overlay)return;
-    clearTimeout(this.closeTimer);this.open=false;
-    this.overlay.classList.remove('open');
-    this.overlay.setAttribute('aria-hidden','true');
-    this.button?.setAttribute('aria-expanded','false');
-    this.closeTimer=setTimeout(()=>{if(!this.open)this.overlay.classList.remove('mounted')},380);
-  },
-  activeLinks(){
-    return new Set(SKILL_ACTIVE_LINKS[this.selectedRole]||[]);
-  },
-  verifiedFactsForRole(role){
-    if(!this.characterId||!characterMechanicsDataLoaded)return{facts:[],pendingReason:'Skills runtime data is still loading.'};
-    const runtime=skillsPreviewByCharacterId.get(this.characterId)||null;
-    const detail=runtime?.roles?.[role]||null;
-    if(!detail)return{facts:[],pendingReason:'No canonical Skills preview mapping is available for this node yet.'};
-    return{facts:Array.isArray(detail.facts)?detail.facts:[],pendingReason:detail.status==='SOURCE_BACKED'?null:(detail.pendingReason||'Pending canonical skill detail.')};
-  },
-  renderFact(fact){
-    const card=document.createElement('article');card.className='skill-fact-card';card.dataset.skillFactId=fact.factId;card.dataset.verification=fact.verificationStatus;
-    const head=document.createElement('div');head.className='skill-fact-head';
-    const title=document.createElement('strong');title.textContent=fact.name;
-    const level=document.createElement('span');level.className='skill-fact-level';level.textContent=skillFactHasLevelCurve(fact)?'Lv.10':'Source';
-    head.append(title,level);card.append(head);
-    const meta=document.createElement('div');meta.className='skill-fact-meta';
-    if(fact.kind==='ACTION'){
-      const classes=Array.isArray(fact.damageClasses)?fact.damageClasses.join(' + '):fact.damageClass;
-      meta.textContent='Action'+(classes?' · '+classes+' DMG':'')+(fact.scalingStat&&fact.scalingStat!=='UNKNOWN'?' · '+fact.scalingStat:'');
-    }else if(fact.kind==='PASSIVE')meta.textContent='Mechanic'+(fact.scope?' · '+fact.scope.replaceAll('_',' '):'');
-    else if(fact.kind==='RESOURCE')meta.textContent='Resource';
-    else meta.textContent=fact.kind||'Mechanic';
-    card.append(meta);
-
-    if(fact.kind==='PASSIVE'&&fact.effectSummary){
-      const copy=document.createElement('p');copy.className='skill-fact-copy';copy.textContent=fact.effectSummary;card.append(copy);
-      if(fact.triggerSummary){const trigger=document.createElement('div');trigger.className='skill-fact-trigger';trigger.textContent='Trigger: '+fact.triggerSummary;card.append(trigger)}
-      const sourceBits=[];if(fact.durationSeconds!==null&&fact.durationSeconds!==undefined)sourceBits.push('Duration '+formatSkillNumber(fact.durationSeconds)+'s');if(fact.maxStacks!==null&&fact.maxStacks!==undefined)sourceBits.push('Max stacks '+fact.maxStacks);
-      if(sourceBits.length){const value=document.createElement('div');value.className='skill-fact-value';value.textContent=sourceBits.join(' · ');card.append(value)}
-    }else if(fact.kind==='RESOURCE'&&fact.ruleSummary){
-      const copy=document.createElement('p');copy.className='skill-fact-copy';copy.textContent=fact.ruleSummary;card.append(copy);
-      if(fact.maxValue!==null&&fact.maxValue!==undefined){const value=document.createElement('div');value.className='skill-fact-value';value.textContent='Maximum '+formatSkillNumber(fact.maxValue);card.append(value)}
-    }else if(fact.kind==='ACTION'){
-      const values=fact.sourceValue||null;
-      const formatted=formatSkillActionValue(fact,values);
-      const value=document.createElement('div');value.className='skill-fact-value'+(formatted?'':' is-pending');value.dataset.skillValueStatus=formatted?'source':'pending';
-      value.textContent=formatted?(skillFactHasLevelCurve(fact)?'Lv.10 source value · ':'Source value · ')+formatted:'Source value · Pending';
-      card.append(value);
+  show(){if(!this.assets||!this.overlay)return;clearTimeout(this.closeTimer);this.open=true;this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.button.setAttribute('aria-expanded','true');requestAnimationFrame(()=>this.overlay.classList.add('open'))},
+  hide(){if(!this.overlay)return;clearTimeout(this.closeTimer);this.open=false;this.overlay.classList.remove('open');this.overlay.setAttribute('aria-hidden','true');this.button?.setAttribute('aria-expanded','false');this.closeTimer=setTimeout(()=>{if(!this.open)this.overlay.classList.remove('mounted')},380)},
+  position(node){return node.kind==='outro'?{x:50,y:90}:{x:10+node.column*20,y:62-node.row*22-[0,4,9,4,0][node.column]}},
+  renderTree(host,compact){
+    host.replaceChildren();if(!this.model||!this.tree?.nodes.length){host.textContent='Pending';return}
+    const state=this.investment,svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
+    svg.classList.add('skills-tree-lines');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
+    const prefix=compact?'skillsCompact':'skillsMenu';
+    svg.innerHTML=`<defs><linearGradient id="${prefix}Gold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".5" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="${prefix}Glow" filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><feGaussianBlur stdDeviation=".25" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+    for(const node of this.tree.nodes)for(const parentId of node.parents){
+      const parent=this.tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
+      line.setAttribute('d',`M${a.x} ${a.y} L${b.x} ${b.y}`);line.classList.add('skill-link');line.dataset.skillLink=parent.role+'-'+node.role;
+      line.classList.toggle('is-active',this.model.forteNodeActive(this.tree,state,node.id)&&this.model.forteNodeActive(this.tree,state,parentId));svg.append(line);
     }
-    if(Array.isArray(fact.notes)&&fact.notes.length){
-      const notes=document.createElement('ul');notes.className='skill-fact-notes';
-      fact.notes.forEach(note=>{const item=document.createElement('li');item.textContent=note;notes.append(item)});
-      card.append(notes);
+    host.append(svg);
+    for(const node of this.tree.nodes){
+      const pos=this.position(node),wrap=document.createElement('div');wrap.className='forte-node-wrap '+node.kind;wrap.style.left=pos.x+'%';wrap.style.top=pos.y+'%';
+      const button=document.createElement(compact?'span':'button');if(!compact)button.type='button';button.className='forte-node';button.dataset.skillRole=node.role;button.dataset.nodeId=node.id;
+      const active=this.model.forteNodeActive(this.tree,state,node.id);button.classList.toggle('is-active',active);button.classList.toggle('is-selected',node.role===this.selectedRole);
+      const label=node.kind==='stat'?node.stat.stat+' +'+node.valueText:SKILL_ROLE_LABELS[node.role];
+      if(!compact){button.setAttribute('aria-label',label+(node.kind==='stat'||node.kind==='inherent'?': '+(active?'enabled':'disabled'):''));if(node.kind==='stat'||node.kind==='inherent')button.setAttribute('aria-pressed',String(active));button.title=node.name||'Pending'}
+      const img=document.createElement('img');img.src=node.assetPath;img.alt='';img.draggable=false;button.append(img);wrap.append(button);
+      const caption=document.createElement('span');caption.className='forte-caption';caption.textContent=label;wrap.append(caption);
+      if(node.kind==='skill'){
+        const controls=document.createElement('div');controls.className='forte-level';
+        if(!compact){const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.dataset.levelStep='-1';minus.dataset.nodeId=node.id;minus.disabled=state.levels[node.role]===0;minus.setAttribute('aria-label','Lower '+label+' level');controls.append(minus)}
+        const level=document.createElement('span');level.textContent='Lv.'+state.levels[node.role];level.dataset.skillLevel=node.role;controls.append(level);
+        if(!compact){const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.dataset.levelStep='1';plus.dataset.nodeId=node.id;plus.disabled=state.levels[node.role]===10;plus.setAttribute('aria-label','Raise '+label+' level');controls.append(plus)}
+        wrap.append(controls);
+      }
+      host.append(wrap);
     }
-    return card;
   },
   renderDetail(){
-    const selected=this.assets?.skills?.[this.selectedRole]||null;
-    const selectedHost=document.getElementById('skillsSelected'),selectedIcon=document.getElementById('skillsSelectedIcon'),selectedType=document.getElementById('skillsSelectedType'),selectedLabel=document.getElementById('skillsSelectedLabel'),selectedLevel=document.getElementById('skillsSelectedLevel');
-    selectedHost?.classList.toggle('has-selection',!!selected);
-    if(!selected){
-      selectedIcon?.removeAttribute('src');if(selectedType)selectedType.textContent='';if(selectedLabel)selectedLabel.textContent='Select a skill';selectedLevel?.classList.remove('is-visible');
-      if(this.detailBody){const empty=document.createElement('div');empty.className='skills-detail-empty';const strong=document.createElement('strong');strong.textContent='Preview';const p=document.createElement('p');p.textContent='Select a source-backed node to inspect canonical Character mechanics. This preview never changes the build.';empty.append(strong,p);this.detailBody.replaceChildren(empty)}
-      return;
+    const node=this.tree?.nodes.find(n=>n.role===this.selectedRole),host=document.getElementById('skillsSelected'),icon=document.getElementById('skillsSelectedIcon'),type=document.getElementById('skillsSelectedType'),label=document.getElementById('skillsSelectedLabel'),level=document.getElementById('skillsSelectedLevel');
+    host.classList.toggle('has-selection',!!node);this.detailBody.replaceChildren();
+    if(!node){icon.removeAttribute('src');type.textContent='';label.textContent='Select a skill';level.classList.remove('is-visible');const p=document.createElement('p');p.className='skills-detail-empty';p.textContent='Select a node to view its skills and bonuses.';this.detailBody.append(p);return}
+    icon.src=node.assetPath;type.textContent=SKILL_ROLE_LABELS[node.role]||'Minor Forte';label.textContent=node.name||'Pending';
+    const selectedLevel=node.kind==='skill'?this.investment.levels[node.role]:1;
+    level.classList.toggle('is-visible',node.kind==='skill');level.textContent='Lv.'+selectedLevel+(selectedLevel===0?' · Disabled':'');
+    const metadata=document.createElement('div');metadata.className='forte-metadata';
+    for(const tag of [...new Set((node.description?.match(/(?:considered as|considered) (?:Basic Attack|Heavy Attack|Resonance Skill|Resonance Liberation) DMG/g)||[]).map(t=>t.replace(/^considered(?: as)? /,'')))]){const badge=document.createElement('span');badge.textContent=tag.toUpperCase();metadata.append(badge)}
+    if(metadata.children.length)this.detailBody.append(metadata);
+    const description=document.createElement('p');description.className='forte-description'+(!node.description?' skills-detail-pending':'');description.textContent=node.description||'Pending';this.detailBody.append(description);
+    if(node.kind==='stat'||node.kind==='inherent'){
+      const toggle=document.createElement('button');toggle.type='button';toggle.className='forte-toggle';const active=this.model.forteNodeActive(this.tree,this.investment,node.id);toggle.textContent=active?'Disable node':'Enable node';toggle.onclick=()=>this.commit(node,!active);this.detailBody.prepend(toggle);
     }
-    if(selectedIcon){selectedIcon.src=selected.assetPath;selectedIcon.alt=''}
-    if(selectedType)selectedType.textContent=SKILL_ROLE_LABELS[this.selectedRole]||'Skill';
-    const detail=this.verifiedFactsForRole(this.selectedRole);
-    const levelled=detail.facts.some(skillFactHasLevelCurve);
-    selectedLevel?.classList.toggle('is-visible',levelled);
-    if(selectedLabel)selectedLabel.textContent=detail.facts.length===1?detail.facts[0].name:(SKILL_ROLE_LABELS[this.selectedRole]||'Skill');
-    if(!this.detailBody)return;
-    if(detail.pendingReason){
-      const pending=document.createElement('div');pending.className='skills-detail-pending';pending.dataset.skillDetailStatus='pending';
-      const strong=document.createElement('strong');strong.textContent='Pending';const p=document.createElement('p');p.textContent=detail.pendingReason;pending.append(strong,p);this.detailBody.replaceChildren(pending);return;
+    if(selectedLevel===0){const p=document.createElement('p');p.className='forte-disabled';p.textContent='Disabled · No level invested';this.detailBody.append(p);return}
+    for(const row of node.values){
+      const card=document.createElement('div');card.className='forte-value-row';card.dataset.sourceValueId=row.id;
+      const name=document.createElement('span');name.textContent=row.name||'Pending';const value=document.createElement('strong');value.textContent=this.model.forteValue(row,selectedLevel)||'Pending';card.append(name,value);this.detailBody.append(card);
     }
-    const fragment=document.createDocumentFragment();detail.facts.forEach(fact=>fragment.append(this.renderFact(fact)));this.detailBody.replaceChildren(fragment);this.detailBody.dataset.skillDetailStatus='source-backed';
   },
   render(){
-    const skills=this.assets?.skills||null;
-    if(this.button)this.button.disabled=!skills;
-    const active=this.activeLinks();
-    const linkAvailable={
-      'circuit-inherent-1':!!skills?.circuit&&!!skills?.['inherent-1'],
-      'inherent-1-inherent-2':!!skills?.['inherent-1']&&!!skills?.['inherent-2']
-    };
-    document.querySelectorAll('#skillsMiniTree .skill-link,#skillsMenuTree .skill-link').forEach(link=>{
-      const available=!!linkAvailable[link.dataset.skillLink];link.hidden=!available;link.classList.toggle('is-active',available&&active.has(link.dataset.skillLink));
-    });
-    document.querySelectorAll('#skillsMiniTree [data-skill-role],#skillsMenuTree [data-skill-role]').forEach(node=>{
-      const role=node.dataset.skillRole,skill=skills?.[role]||null,img=node.querySelector('img');
-      node.hidden=!skill;node.classList.toggle('is-selected',!!skill&&role===this.selectedRole);
-      if(img){if(skill){img.src=skill.assetPath;img.alt=''}else img.removeAttribute('src')}
-      if(node.tagName==='BUTTON')node.disabled=!skill;
-    });
-    this.renderDetail();
-    const block=document.getElementById('skillsBlock');if(block)block.dataset.ready=skills?'true':'false';
+    if(!this.button)return;this.button.disabled=!this.assets;
+    this.renderTree(document.getElementById('skillsMiniTree'),true);this.renderTree(document.getElementById('skillsMenuTree'),false);this.renderDetail();
+    document.getElementById('skillsBlock').dataset.ready=this.tree&&this.model?'true':'false';
   }
 };
 

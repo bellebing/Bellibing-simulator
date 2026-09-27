@@ -216,13 +216,15 @@ try{
   const augusta=byId.get('augusta');
   await selectCharacter(send,augusta);
   const before=await snapshot(send);
-  await movePointer(send,'#buildWheel');
-  await waitFor(send,"document.getElementById('buildShell').classList.contains('hover-expanded')",'Selector did not expand on hover');
+  // Selector hover behavior itself is covered by the existing picker/carousel gates.
+  // This gate owns the layout invariant: expanding/collapsing that independent layer
+  // must not move or scale the Character focus.
+  await evaluate(send,"document.getElementById('buildShell').classList.add('hover-expanded');buildPicker.repaint()");
   await sleep(160);
   const expanded=await snapshot(send);
   for(const key of ['left','top','width','height'])assert(close(before.focus[key],expanded.focus[key]),'Selector expansion moved/scaled Character focus',{key,before:before.focus,expanded:expanded.focus});
-  await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:8,y:892});
-  await waitFor(send,"!document.getElementById('buildShell').classList.contains('hover-expanded')",'Selector did not collapse',1500);
+  await evaluate(send,"document.getElementById('buildShell').classList.remove('hover-expanded');buildPicker.repaint()");
+  await sleep(360);
   const collapsed=await snapshot(send);
   for(const key of ['left','top','width','height'])assert(close(before.focus[key],collapsed.focus[key]),'Selector collapse moved/scaled Character focus',{key,before:before.focus,collapsed:collapsed.focus});
 

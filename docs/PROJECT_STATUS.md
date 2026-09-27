@@ -1,5 +1,9 @@
 # Bellibing Simulator — Current Project Status
 
+## Active draft Character Hero Art integration
+
+PR #216 is a small stacked follow-up based on exact PR #214 head `b2bf583f6729a3cf01b280fca890f73f0d44cd5e`. It reuses PR #215's source-backed `characterHeroArt` resolver/provenance contract and exact IconRolePile blobs, projects that resolver into browser runtime data, and replaces the v34 Build `TEMP CHARACTER ART` center placeholder for 53 READY released Characters. Rover Aero/Electro/Havoc/Spectro remain explicit fail-closed PENDING with no guessed portrait/gender; Jingran/Hsin/Suoming remain excluded. The independent Character focus frame is Sequence-safe and selector expansion/collapse does not move or scale it. Required varied silhouettes and obvious outliers have real-browser visual review evidence; BUG-030 is unchanged. PR #214, #215 and #216 remain draft/unmerged.
+
 ## Active draft Forte UI continuation
 
 PR214 continues the existing Build UI stack with a source-ingested Forte tree, persisted per-skill levels and original English skill previews. See [Forte tree source and state contract](UI_FORTE_TREE_SOURCE.md). This is draft/unmerged UI behavior; existing Stats and combat calculations are unchanged, including the documented Mornye source discrepancy. BUG-030 is unchanged. Final exact-head CI evidence belongs on PR214 and in AI Handoff.

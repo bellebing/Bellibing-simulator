@@ -1,12 +1,12 @@
 # Character Hero Art Foundation
 
-Status: separate asset/runtime workstream. No Build UI integration in this slice.
+Status: integrated into the real v34 Build workspace in stacked draft PR216; PR214 and PR215 remain separate, open, draft and unmerged.
 
 ## Purpose
 
 Provide source-backed Character focal artwork for the large center presentation in the v34 Build workspace without enlarging the 256x256 Character selector portraits.
 
-This workstream intentionally stays out of `v34-functional.html` while the PR214 Skills/Forte lane has completed-but-unpushed work. A small follow-up integration can consume this contract after that lane is pushed.
+PR216 starts from exact PR214 head `b2bf583f6729a3cf01b280fca890f73f0d44cd5e` and consumes this contract without merging PR214 or PR215. The browser-facing projection is generated through `createCharacterHeroArtResolver`; `v34-functional.html` does not reimplement provenance or Rover resolution.
 
 ## Source decision
 
@@ -66,9 +66,9 @@ Each ready mapping carries:
 - `offsetY`
 - `focalAnchor`
 
-Numeric values remain `null` until they are reviewed in the real Build frame. They are not inferred from transparent pixel bounds.
+Every READY row carries explicit safe Build defaults: `CONTAIN`, scale `1`, offsets `0/0`, focal `0.5/0.5`. These values are Character-local presentation metadata and are never inferred from transparent pixel bounds. A row is marked `REVIEWED` only after real rendered inspection.
 
-Source composition was inspected for a deliberately varied sample:
+Real Build-frame presentation was reviewed for the required deliberately varied sample:
 
 - Augusta
 - Jiyan
@@ -78,15 +78,9 @@ Source composition was inspected for a deliberately varied sample:
 - Lupa
 - Zani
 
-These show materially different semantic focal balance from long hair, wide poses, fabric/cape mass and foreground elements. A single blind `object-position: 50% 50%` rule is therefore not treated as reviewed presentation metadata.
+These show materially different composition from long hair, wide poses, fabric/cape mass and foreground elements. They were reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. The safe defaults remained visually correct after the Character focus frame was made Sequence-safe.
 
-When the Build integration is done, review the real component at:
-
-- 1440x900
-- 1920x1080
-- 2560x1440
-
-and store any required Character-specific values in the hero-art presentation mapping.
+The 1440x900 READY-roster evidence was also scanned for obvious outliers; Brant, Lucilla, Phoebe, Qingxiao, Rebecca, Roccia, The Shorekeeper, Yangyang Xuanling and Phrolova received explicit outlier review. Their safe CONTAIN defaults were retained. Other READY Characters keep explicit safe defaults but are not relabelled REVIEWED without an individual review claim.
 
 ## Validation
 
@@ -104,17 +98,14 @@ and store any required Character-specific values in the hero-art presentation ma
 
 The normal web build already copies the complete `docs/ui-prototypes/assets/characters` tree, so the hero-art folder and manifest publish under `/ui-preview/assets/characters/hero-art/` without a new build-path special case.
 
-## Follow-up integration boundary
+## Build integration
 
-After the PR214 Skills/Forte lane is pushed, the smallest safe Build integration is:
+PR216 adds a resolver-derived browser projection at `assets/characters/hero-art/runtime-data.json` and renders READY art in the existing independent center `.focus` layer. Character name remains above the artwork. Selector expansion/collapse does not reposition or scale the focus layer.
 
-1. load the hero-art manifest/resolver alongside released Character identity;
-2. render the selected Character's READY `assetPath` inside the existing center `.focus` art layer;
-3. keep Character name above the art;
-4. preserve Stats / Skills / Weapon / Sequence / Echo layout and behavior;
-5. apply reviewed component-local presentation metadata only;
-6. contain the art behind surrounding Build controls;
-7. leave a clear pending state for unresolved Rover identity rather than substituting a portrait or arbitrary Rover gender;
-8. perform the three desktop live-browser reviews before claiming visual parity.
+The art frame uses a desktop-safe center zone that remains clear of the Sequence rail and Echo stack. The image itself is absolutely contained inside that frame, so `object-fit: contain` cannot silently grow an intrinsic image box beyond the reviewed region.
 
-BUG-030 is not affected by this foundation.
+Rover Aero/Electro/Havoc/Spectro render an explicit `HERO ART PENDING` state with no image source and no guessed gender/portrait substitution. Stats, Skills/Forte, Weapon, Sequence, Echo and Add to Account retain their existing runtime behavior.
+
+Dedicated real-Chrome verification loads all 53 READY mappings, exercises all four Rover pending mappings, checks selector/focus independence, checks Sequence/Echo separation, and reviews 1440x900 / 1920x1080 / 2560x1440. Visual evidence is uploaded for the required sample plus the 53-Character 1440 focus roster.
+
+BUG-030 remains unchanged; this Hero Art slice does not by itself satisfy the wider live/UI parity criteria.

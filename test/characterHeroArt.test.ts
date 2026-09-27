@@ -115,19 +115,21 @@ test('all runtime-ready hero art is byte-identical to its pinned source Git blob
   }
 });
 
-test('Augusta and diverse silhouette samples resolve source-backed hero art with explicit presentation state', () => {
+test('required silhouettes and obvious outliers resolve source-backed hero art with reviewed Build presentation', () => {
   const resolver = createCharacterHeroArtResolver(loadManifest());
-  const inspected = ['augusta', 'jiyan', 'iuno', 'cartethyia', 'calcharo', 'lupa', 'zani'];
+  const required = ['augusta', 'jiyan', 'iuno', 'cartethyia', 'calcharo', 'lupa', 'zani'];
+  const outliers = ['brant', 'lucilla', 'phoebe', 'qingxiao', 'rebecca', 'roccia', 'the-shorekeeper', 'yangyang-xuanling', 'phrolova'];
 
-  for (const characterId of inspected) {
+  for (const characterId of [...required, ...outliers]) {
     const art = resolver.resolve(characterId);
     assert.ok(art, characterId);
     assert.equal(art.presentation.safeFraming, 'CONTAIN');
-    assert.equal(art.presentation.reviewStatus, 'SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING');
+    assert.equal(art.presentation.reviewStatus, 'REVIEWED');
     assert.equal(art.presentation.scale, 1);
     assert.equal(art.presentation.offsetX, 0);
     assert.equal(art.presentation.offsetY, 0);
     assert.deepEqual(art.presentation.focalAnchor, { x: 0.5, y: 0.5 });
+    assert.match(art.presentation.note, /real Build|Build-focus/);
     assert.match(art.sourceAssetPath, /^public\/assets\/UIResources\/Common\/Image\/IconRolePile\/.+\.webp$/);
   }
 

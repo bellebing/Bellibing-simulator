@@ -54,7 +54,7 @@
       "assetPath": "assets/characters/hero-art/augusta.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -62,7 +62,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Tall central bust with broad hair/crown silhouette; source composition was visually inspected. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -90,7 +90,7 @@
       "assetPath": "assets/characters/hero-art/brant.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -98,7 +98,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -126,7 +126,7 @@
       "assetPath": "assets/characters/hero-art/calcharo.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -134,7 +134,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Tall body with long hair mass extending right while the face sits left of image center; semantic focal review is required. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -198,7 +198,7 @@
       "assetPath": "assets/characters/hero-art/cartethyia.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -206,7 +206,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Tall/narrow central silhouette with long fabric reaching the lower corners; source composition was visually inspected. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -378,7 +378,7 @@
       "assetPath": "assets/characters/hero-art/iuno.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -386,7 +386,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Wide arm/hair silhouette reaches both sides; perceived size is sensitive to frame scale. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -432,7 +432,7 @@
       "assetPath": "assets/characters/hero-art/jiyan.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -440,7 +440,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Long hair trails strongly to the right while the face sits left of image center; generic alpha-bound centering would be misleading. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -468,7 +468,7 @@
       "assetPath": "assets/characters/hero-art/lucilla.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -476,7 +476,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -522,7 +522,7 @@
       "assetPath": "assets/characters/hero-art/lupa.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -530,7 +530,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Wide seated/leaning pose with ribbon/cape mass spanning the frame; source composition was visually inspected. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -612,7 +612,7 @@
       "assetPath": "assets/characters/hero-art/phoebe.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -620,7 +620,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -630,7 +630,7 @@
       "assetPath": "assets/characters/hero-art/phrolova.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -638,7 +638,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -648,7 +648,7 @@
       "assetPath": "assets/characters/hero-art/qingxiao.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -656,7 +656,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -684,7 +684,7 @@
       "assetPath": "assets/characters/hero-art/rebecca.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -692,7 +692,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -702,7 +702,7 @@
       "assetPath": "assets/characters/hero-art/roccia.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -710,7 +710,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -820,7 +820,7 @@
       "assetPath": "assets/characters/hero-art/the-shorekeeper.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -828,7 +828,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -892,7 +892,7 @@
       "assetPath": "assets/characters/hero-art/yangyang-xuanling.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -900,7 +900,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {
@@ -964,7 +964,7 @@
       "assetPath": "assets/characters/hero-art/zani.webp",
       "presentation": {
         "safeFraming": "CONTAIN",
-        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "reviewStatus": "REVIEWED",
         "scale": 1,
         "offsetX": 0,
         "offsetY": 0,
@@ -972,7 +972,7 @@
           "x": 0.5,
           "y": 0.5
         },
-        "note": "Horned upper silhouette with asymmetric lower-right foreground mass; source composition was visually inspected. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
       }
     },
     {

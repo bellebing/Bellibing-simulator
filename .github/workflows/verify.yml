@@ -190,6 +190,7 @@ jobs:
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png
             artifacts/ui-preview-weapon-overlay-1440x900.png
             artifacts/ui-preview-echo-workspace-1440x900.png
+            artifacts/ui-preview-sequence-hover-1440x900.png
           if-no-files-found: error
           retention-days: 7
 

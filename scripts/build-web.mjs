@@ -51,3 +51,4 @@ cpSync('docs/ui-prototypes/assets/weapons', 'dist/ui-preview/assets/weapons', { 
 cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builder-icons', { recursive: true });
 cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/assets/sequence-runtime.json');
 cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-stats', { recursive: true });
+cpSync('dist/data/character-database.json', 'dist/ui-preview/assets/character-database.json');

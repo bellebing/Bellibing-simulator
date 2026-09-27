@@ -97,7 +97,7 @@ async function skillSnapshot(send){
 }
 async function topology(send,root){
   const q=JSON.stringify(root);
-  return evaluate(send,"(() => {const host=document.querySelector("+q+");const read=role=>{const el=host.querySelector('[data-skill-role="'+role+'"]');if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return{role,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}};return{host:host.getBoundingClientRect().toJSON(),main:['normal-attack','skill','circuit','liberation','intro'].map(read),outro:read('outro'),inherent1:read('inherent-1'),inherent2:read('inherent-2'),links:[...host.querySelectorAll('.skill-link:not([hidden])')].map(x=>x.dataset.skillLink).sort()}})()");
+  return evaluate(send,"(() => {const host=document.querySelector("+q+");const read=role=>{const el=[...host.querySelectorAll('[data-skill-role]')].find(node=>node.dataset.skillRole===role);if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return{role,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}};return{host:host.getBoundingClientRect().toJSON(),main:['normal-attack','skill','circuit','liberation','intro'].map(read),outro:read('outro'),inherent1:read('inherent-1'),inherent2:read('inherent-2'),links:[...host.querySelectorAll('.skill-link:not([hidden])')].map(x=>x.dataset.skillLink).sort()}})()");
 }
 function assertGameTopology(g,label){
   assert(g.main.every(Boolean),label+' missing one of five main nodes',g);

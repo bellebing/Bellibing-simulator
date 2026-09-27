@@ -192,6 +192,11 @@ try{
 
   assert(await evaluate(send,"!document.documentElement.outerHTML.includes('TEMP CHARACTER ART')"),'TEMP CHARACTER ART remains in HTML');
 
+  // Enter the selected Build workspace once, then let the existing component-local
+  // reveal animation settle before measuring stable geometry for the roster.
+  await selectCharacter(send,ready[0]);
+  await sleep(1100);
+
   // Every READY mapping must physically load in the Build focus and swap identity/source.
   let previousSrc=null;
   for(const row of ready){

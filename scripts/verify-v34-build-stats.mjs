@@ -142,6 +142,7 @@ try{
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'&&document.querySelectorAll('#buildStatsRows .build-stat-value[data-raw]').length===12",'Augusta Stats rows did not render');
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);
+  await sleep(900);
   const base=await assertAugustaBase(send);
 
   const collapsedGeometry=await geometry(send);

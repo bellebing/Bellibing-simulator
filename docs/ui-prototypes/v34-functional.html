@@ -567,10 +567,8 @@ let buildStatsCharacterById=new Map();
 let buildStatsIconByLabel=new Map();
 let characterMechanicsDataLoaded=false;
 let characterMechanicsDataReady;
-let characterMechanicsFactById=new Map();
-let characterMechanicFactsByCharacterId=new Map();
-let characterActionValuesByFactId=new Map();
-const CHARACTER_DATABASE_PATH='assets/character-database.json';
+let skillsPreviewByCharacterId=new Map();
+const SKILLS_RUNTIME_DATA_PATH='assets/skills-runtime.json';
 const WEAPON_RARITY_FRAMES={4:'assets/weapons/frames/4-star-square.png',5:'assets/weapons/frames/5-star-square.png'};
 const WEAPON_MOTION={panel:380,grid:440,previewIn:460,previewOut:360,ease:'cubic-bezier(.16,.84,.24,1)'};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -590,17 +588,14 @@ async function loadBuildStatsRuntimeData(){
   statsUi.refresh();
 }
 async function loadCharacterMechanicsRuntimeData(){
-  const response=await fetch(CHARACTER_DATABASE_PATH,{cache:'no-store'});
-  if(!response.ok)throw new Error('Character mechanics runtime data '+response.status);
+  const response=await fetch(SKILLS_RUNTIME_DATA_PATH,{cache:'no-store'});
+  if(!response.ok)throw new Error('Skills runtime data '+response.status);
   const payload=await response.json();
-  if(payload.schemaVersion!==1||payload.sourceAuthority!=='BELLIBING_CANONICAL_CATALOGS'||!Array.isArray(payload.mechanicsFacts)||!Array.isArray(payload.actionValuesAtMaxSkill))throw new Error('Unsupported Character mechanics runtime data schema');
-  characterMechanicsFactById=new Map(payload.mechanicsFacts.map(fact=>[fact.factId,fact]));
-  characterMechanicFactsByCharacterId=new Map();
-  for(const fact of payload.mechanicsFacts){
-    if(!characterMechanicFactsByCharacterId.has(fact.characterId))characterMechanicFactsByCharacterId.set(fact.characterId,[]);
-    characterMechanicFactsByCharacterId.get(fact.characterId).push(fact);
+  if(payload.schemaVersion!==1||payload.role!=='character-builder.runtime-skills'||payload.skillLevelForExactCurves!==10||!Array.isArray(payload.characters))throw new Error('Unsupported Skills runtime data schema');
+  for(const character of payload.characters){
+    if(!character.characterId||!character.roles||BUILDER_CORE_SKILL_ROLES.some(role=>!character.roles[role]))throw new Error('Incomplete canonical Skills preview runtime for '+character.characterId);
   }
-  characterActionValuesByFactId=new Map(payload.actionValuesAtMaxSkill.map(row=>[row.factId,row.values]));
+  skillsPreviewByCharacterId=new Map(payload.characters.map(character=>[character.characterId,character]));
   characterMechanicsDataLoaded=true;
   document.documentElement.dataset.skillsMechanicsReady='true';
   skillsUi.refreshForCharacter();
@@ -1487,7 +1482,7 @@ const formatSkillPercent=value=>{
   return text+'%';
 };
 const formatSkillNumber=value=>Number(value).toLocaleString('en-US',{maximumFractionDigits:2});
-const skillFactHasLevelCurve=fact=>Array.isArray(fact?.motionValueCurve)||Array.isArray(fact?.motionValueComponents);
+const skillFactHasLevelCurve=fact=>fact?.skillLevel===10;
 const formatSkillActionValue=(fact,values)=>{
   if(!values||values.status!=='SOURCE_VALUES')return null;
   if(values.kind==='FLAT_DAMAGE')return formatSkillNumber(values.damagePerHit)+(values.hitCount>1?' × '+values.hitCount:'');
@@ -1548,18 +1543,11 @@ const skillsUi={
     return new Set(SKILL_ACTIVE_LINKS[this.selectedRole]||[]);
   },
   verifiedFactsForRole(role){
-    if(!this.characterId||!characterMechanicsDataLoaded)return{facts:[],pendingReason:'Character mechanics data is still loading.'};
-    const all=(characterMechanicFactsByCharacterId.get(this.characterId)||[]).filter(fact=>fact.verificationStatus==='VERIFIED');
-    if(role==='inherent-1'||role==='inherent-2'){
-      const inherent=all.filter(fact=>fact.section==='INHERENT_SKILL');
-      const availableRoles=['inherent-1','inherent-2'].filter(candidate=>this.assets?.skills?.[candidate]);
-      if(inherent.length===1&&availableRoles.length===1)return{facts:inherent,pendingReason:null};
-      if(inherent.length===0)return{facts:[],pendingReason:'No verified canonical Inherent Skill mechanic is mapped for this Character yet.'};
-      return{facts:[],pendingReason:'Verified Inherent Skill facts exist, but the current canonical data does not explicitly bind the Inherent I / II icon slots to fact IDs. Bellibing leaves this node pending instead of guessing the mapping.'};
-    }
-    const section=SKILL_SECTION_BY_ROLE[role];
-    const facts=section?all.filter(fact=>fact.section===section&&fact.kind!=='SEQUENCE'):[];
-    return{facts,pendingReason:facts.length?null:'No verified canonical Character mechanic fact is available for this skill yet.'};
+    if(!this.characterId||!characterMechanicsDataLoaded)return{facts:[],pendingReason:'Skills runtime data is still loading.'};
+    const runtime=skillsPreviewByCharacterId.get(this.characterId)||null;
+    const detail=runtime?.roles?.[role]||null;
+    if(!detail)return{facts:[],pendingReason:'No canonical Skills preview mapping is available for this node yet.'};
+    return{facts:Array.isArray(detail.facts)?detail.facts:[],pendingReason:detail.status==='SOURCE_BACKED'?null:(detail.pendingReason||'Pending canonical skill detail.')};
   },
   renderFact(fact){
     const card=document.createElement('article');card.className='skill-fact-card';card.dataset.skillFactId=fact.factId;card.dataset.verification=fact.verificationStatus;
@@ -1585,7 +1573,7 @@ const skillsUi={
       const copy=document.createElement('p');copy.className='skill-fact-copy';copy.textContent=fact.ruleSummary;card.append(copy);
       if(fact.maxValue!==null&&fact.maxValue!==undefined){const value=document.createElement('div');value.className='skill-fact-value';value.textContent='Maximum '+formatSkillNumber(fact.maxValue);card.append(value)}
     }else if(fact.kind==='ACTION'){
-      const values=characterActionValuesByFactId.get(fact.factId)||null;
+      const values=fact.sourceValue||null;
       const formatted=formatSkillActionValue(fact,values);
       const value=document.createElement('div');value.className='skill-fact-value'+(formatted?'':' is-pending');value.dataset.skillValueStatus=formatted?'source':'pending';
       value.textContent=formatted?(skillFactHasLevelCurve(fact)?'Lv.10 source value · ':'Source value · ')+formatted:'Source value · Pending';

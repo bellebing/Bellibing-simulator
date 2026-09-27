@@ -98,6 +98,8 @@ Rules:
 
 The user-facing control presentation inside those regions is owned by the locked form/control contract in `UI_UX_STATUS.md`.
 
+The Echo Preview information card follows the same ownership: collapsed inside the narrow right editor column, expanded relative to the **Preview pane** (leftward/upward over art and stats), with Equip still visible beneath it. Desktop expansion is translucent and does not resize the left stat controls or add an internal card scrollbar. Mobile may scroll the owning Preview/Workspace container to keep full text and Equip reachable.
+
 ## 4. Home carousel responsive contract
 
 Home always contains exactly three navigation cards in fixed logical order:

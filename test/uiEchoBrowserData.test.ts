@@ -5,6 +5,7 @@ import test from 'node:test';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import { projectEchoIdentityUiCatalog } from '../src/echoIdentityUiProjection.ts';
 import {
   ECHO_STATS_EDITOR_LEVELS,
   ECHO_STATS_EDITOR_MAX_SUBSTATS,
@@ -20,6 +21,7 @@ type BrowserEcho = {
   releaseStatus: string;
   cost: 1 | 3 | 4;
   sonataSetIds: string[];
+  skill: { echoId: string; displayName: string; skillDescription: string; cooldownSeconds: number; sourceStatus: string };
 };
 
 const workspaceHtml = readFileSync(
@@ -70,6 +72,16 @@ test('Echo browser export contains only canonical RELEASED Echoes', () => {
     released.map((echo) => echo.id),
   );
   assert.ok(browserData.echoes.every((echo) => echo.releaseStatus === 'RELEASED'));
+});
+
+test('Echo browser export contains source-backed UI-safe Echo Skills for every released identity', () => {
+  const projected = new Map(projectEchoIdentityUiCatalog().map(row => [row.echoId, row]));
+  assert.equal(browserData.echoes.length, projected.size);
+  for (const echo of browserData.echoes) {
+    assert.deepEqual(echo.skill, projected.get(echo.id));
+    assert.equal(echo.skill.sourceStatus, 'VERIFIED');
+    assert.doesNotMatch(echo.skill.skillDescription, /[{}<>]/);
+  }
 });
 
 test('Echo browser canonical IDs match the artwork manifest and every card resolves art', () => {

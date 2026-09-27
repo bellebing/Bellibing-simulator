@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectSonataUiCatalog } from '../src/echoSonataUiProjection.ts';
+import { projectEchoIdentityUiCatalog } from '../src/echoIdentityUiProjection.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
 import {
   ECHO_STATS_EDITOR_LEVELS,
@@ -19,6 +20,7 @@ const outputArg = process.argv.indexOf('--output');
 const output = resolve(outputArg >= 0 ? process.argv[outputArg + 1] : defaultOutput);
 
 const releasedEchoes = ECHO_CATALOG.filter((echo) => echo.releaseStatus === 'RELEASED');
+const echoSkills = new Map(projectEchoIdentityUiCatalog().map(skill => [skill.echoId, skill]));
 const loadoutProfiles = projectVerifiedEchoWorkspaceLoadoutProfiles();
 const statEditor = {
   rank: ECHO_STATS_EDITOR_RANK,
@@ -94,6 +96,8 @@ const payload = {
     'docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets',
     'src/echoStatEditor.ts',
     'src/echoSonataUiProjection.ts',
+    'src/data/echoSkillRaw.ts#ECHO_SKILL_RAW',
+    'src/echoIdentityUiProjection.ts',
   ],
   loadoutProfiles,
   statEditor,
@@ -103,6 +107,7 @@ const payload = {
     releaseStatus: echo.releaseStatus,
     cost: echo.cost,
     sonataSetIds: [...echo.sonataSetIds],
+    skill: echoSkills.get(echo.id),
   })),
   sonataSets,
 };

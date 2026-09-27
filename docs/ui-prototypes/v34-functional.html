@@ -172,6 +172,7 @@
 .echo-choice-copy{position:absolute;top:102px;left:8px;right:8px;display:block;min-width:0;margin:0;padding:5px 2px 2px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .echo-choice-copy strong{display:block;font-family:var(--font-display);font-size:12px;font-weight:400;line-height:1.16;white-space:normal;overflow-wrap:anywhere}
 .echo-preview-pane{position:relative;min-width:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
+.echo-preview-pane:has(.echo-info-card.is-expanded){z-index:3;overflow:visible}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
 .echo-preview-empty p{margin:0 auto;max-width:220px;font-size:11px;line-height:1.5}
@@ -195,28 +196,29 @@
 .echo-preview-sonata-option span{min-width:0;white-space:normal;overflow-wrap:anywhere}
 .echo-preview-sonata-option.active{border-color:rgba(224,187,109,.68);background:#201d17;color:#f2e8d5;box-shadow:0 0 0 1px rgba(224,187,109,.10)}
 .echo-preview-sonata-option:disabled{cursor:default;opacity:1}
-.echo-editor{position:relative;min-width:0;display:grid;grid-template-columns:minmax(0,56fr) minmax(0,44fr);gap:12px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
+.echo-editor{min-width:0;display:grid;grid-template-columns:minmax(0,56fr) minmax(0,44fr);gap:12px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);text-align:left}
 .echo-editor-stats,.echo-editor-sonata{min-width:0}
-.echo-editor-sonata{display:flex;flex-direction:column;gap:8px}
-.echo-bonus-summary{min-height:85px;padding:8px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(20,24,30,.72)}
-.echo-bonus-heading{display:block;margin-bottom:7px;color:#a98a50;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.echo-bonus-empty{color:#9299a2;font-size:10px;line-height:1.4}
-.echo-bonus-set{display:block;width:100%;padding:5px 3px;border:0;border-top:1px solid rgba(255,255,255,.06);background:transparent;color:#dce0e5;text-align:left;font:inherit;cursor:pointer}
-.echo-bonus-set:first-of-type{border-top:0}
-.echo-bonus-set.is-inspected{background:rgba(224,187,109,.06)}
-.echo-bonus-set-name{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-.echo-bonus-set-name img{width:20px;height:20px;object-fit:contain}
-.echo-bonus-thresholds{display:flex;gap:5px;flex-wrap:wrap;margin:3px 0 0 24px}
-.echo-bonus-threshold{color:#838b96;font-size:10px;font-weight:800;font-variant-numeric:tabular-nums}
-.echo-bonus-threshold.reached{color:#d8af57}
-.echo-sonata-description{position:relative;min-height:100px;padding:9px;border:1px solid rgba(224,187,109,.17);border-radius:10px;background:#151920;color:#c7ccd3;display:flex;flex-direction:column;overflow:hidden;transition:background .18s ease-out,border-color .18s ease-out}
-.echo-sonata-description[hidden]{display:none}
-.echo-sonata-description.is-expanded{position:absolute;z-index:5;right:0;bottom:0;width:calc(44% - 6px);height:calc(100% + 155px);background:#1a1d22;border-color:rgba(224,187,109,.55)}
-.echo-description-title{margin:0 0 7px;color:#ebdbb9;font-size:10px;font-weight:800;line-height:1.25}
-.echo-description-copy{position:relative;min-height:0;flex:1;max-height:58px;overflow:hidden;white-space:pre-line;font-size:9px;line-height:1.4}
-.echo-sonata-description:not(.is-expanded) .echo-description-copy::after{content:'';position:absolute;inset:auto 0 0;height:23px;background:linear-gradient(transparent,#151920)}
-.echo-sonata-description.is-expanded .echo-description-copy{max-height:none;overflow:visible}
-.echo-description-toggle{align-self:start;margin-top:6px;padding:2px 0;border:0;background:none;color:#d8af57;font:inherit;font-size:9px;font-weight:800;cursor:pointer}
+.echo-info-card{height:223px;min-width:0;padding:10px;border:1px solid rgba(224,187,109,.22);border-radius:10px;background:rgba(20,24,30,.72);color:#d8dce2;display:flex;flex-direction:column;cursor:pointer}
+.echo-info-card[hidden]{display:none}
+.echo-info-copy{position:relative;flex:1;min-height:0;overflow:hidden}
+.echo-info-card:not(.is-expanded) .echo-info-copy::after{content:'';position:absolute;inset:auto 0 0;height:30px;background:linear-gradient(transparent,rgba(20,24,30,.96));pointer-events:none}
+.echo-info-section+.echo-info-section{margin-top:12px}
+.echo-info-section h4{margin:0 0 5px;color:#e6bf70;font-size:10px;font-weight:800;letter-spacing:.10em}
+.echo-info-section p{margin:0;white-space:pre-line;overflow-wrap:anywhere;font-size:10.5px;line-height:1.45}
+.echo-info-card:not(.is-expanded) #echoSkillCopy{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;white-space:normal}
+.echo-active-effect{margin-top:9px}
+.echo-active-effect:first-child{margin-top:0}
+.echo-active-heading{display:flex;align-items:center;gap:4px;color:#ebcb82;font-size:10.5px;font-weight:800;line-height:1.25;text-transform:uppercase}
+.echo-active-heading img{width:18px;height:18px;object-fit:contain}
+.echo-active-effect p{padding-left:22px;color:#d2d6dc}
+.echo-info-toggle{align-self:start;flex:none;margin-top:6px;padding:2px 0;border:0;background:none;color:#e3bd6b;font:inherit;font-size:10px;font-weight:800;cursor:pointer}
+.echo-info-card.is-expanded{position:absolute;z-index:6;inset:12px 12px 54px -280px;width:auto;height:auto;padding:16px 22px;background:rgba(17,20,26,.72);border-color:rgba(224,187,109,.6);box-shadow:0 22px 55px rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.echo-info-card.is-expanded .echo-info-copy{overflow:hidden}
+.echo-info-card.is-expanded .echo-info-section+.echo-info-section{margin-top:17px}
+.echo-info-card.is-expanded .echo-info-section h4{font-size:14px}
+.echo-info-card.is-expanded .echo-info-section p{font-size:11.5px;line-height:1.45}
+.echo-info-card.is-expanded .echo-active-heading{font-size:13px}
+.echo-info-card.is-expanded .echo-info-toggle{font-size:12px}
 .echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
 .echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .echo-main-stat-field{margin-bottom:5px}
@@ -225,7 +227,7 @@
 .echo-main-stat-controls .bb-combobox{flex:0 1 135px}
 .echo-main-derived-value{color:#f2e6cf;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .echo-secondary-field{margin-bottom:5px}
-.echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:baseline}
+.echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:flex;gap:8px;align-items:baseline}
 .echo-secondary-name{min-width:0}
 .echo-secondary-number{font-variant-numeric:tabular-nums;color:#f0e8d8}
 .echo-substats{display:grid;gap:4px;margin-top:4px}
@@ -268,13 +270,14 @@
   .echo-browser{order:1;height:34dvh;min-height:220px}
   .echo-preview-pane{order:3}
   .echo-preview-pane{min-height:440px;overflow:auto}
+  .echo-preview-pane:has(.echo-info-card.is-expanded){overflow:auto}
   .echo-preview-shell{height:auto;min-height:100%;grid-template-rows:auto auto auto}
   .echo-preview-hero{min-height:172px}
   .echo-preview-context{grid-template-columns:minmax(118px,1fr) minmax(142px,1fr)}
   .echo-preview-art{width:min(140px,100%);height:132px}
   .echo-editor{grid-template-columns:minmax(0,1fr);gap:10px}
-  .echo-sonata-description.is-expanded{position:relative;right:auto;bottom:auto;width:100%;height:auto}
-  .echo-sonata-description.is-expanded .echo-description-copy{flex:none}
+  .echo-info-card.is-expanded{position:relative;inset:auto;width:100%;height:auto;min-height:320px;padding:15px;background:rgba(17,20,26,.72)}
+  .echo-info-card.is-expanded .echo-info-copy{flex:none;overflow:visible}
   .bb-combobox-listbox{max-height:160px}
   .echo-choices{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
 }
@@ -366,10 +369,7 @@
               <div id="echoSubstats" class="echo-substats"></div>
               <div id="echoEditorError" class="echo-editor-error" role="status"></div>
             </div>
-            <div class="echo-editor-sonata">
-              <div id="echoBonusSummary" class="echo-bonus-summary" aria-label="Committed Sonata Set Bonus"><span class="echo-bonus-heading">SONATA SET BONUS</span><div id="echoBonusGroups"></div></div>
-              <div id="echoSonataDescription" class="echo-sonata-description" hidden><h4 id="echoDescriptionTitle" class="echo-description-title"></h4><div id="echoDescriptionCopy" class="echo-description-copy"></div><button id="echoDescriptionToggle" class="echo-description-toggle" type="button" aria-expanded="false">Click to expand ▾</button></div>
-            </div>
+            <div class="echo-editor-sonata"><div id="echoInfoCard" class="echo-info-card" role="group" aria-label="Echo Skill and active Sonata Effect"><div class="echo-info-copy"><section class="echo-info-section"><h4>ECHO SKILL</h4><p id="echoSkillCopy"></p></section><section class="echo-info-section"><h4>SONATA EFFECT</h4><div id="echoActiveEffects"></div></section></div><button id="echoInfoToggle" class="echo-info-toggle" type="button" aria-expanded="false">Click to expand ▾</button></div></div>
           </div>
           <div class="echo-preview-footer"><button id="echoEquip" class="echo-equip" type="button" disabled>Equip Echo</button></div>
         </div>
@@ -817,13 +817,14 @@ function playEchoMotion(snapshot,destination){
 }
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
-  characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),inspectedSonataId:null,descriptionExpanded:false,sonataMenuOpen:false,open:false,closing:false,lastFocus:null,choiceById:new Map(),
+  characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),infoExpanded:false,sonataMenuOpen:false,open:false,closing:false,lastFocus:null,choiceById:new Map(),
   init(){
     this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
     this.sonataToggle=document.getElementById('echoSonataToggle');this.sonataMenu=document.getElementById('echoSonataMenu');this.sonataOptions=document.getElementById('echoSonataOptions');
     this.sonataToggle.onclick=()=>this.setSonataMenuOpen(!this.sonataMenuOpen);
     document.getElementById('echoSonataAll').onclick=()=>this.selectAllSonatas();
-    document.getElementById('echoDescriptionToggle').onclick=()=>{this.descriptionExpanded=!this.descriptionExpanded;this.renderSonataDescription()};
+    document.getElementById('echoInfoToggle').onclick=event=>{event.stopPropagation();this.infoExpanded=!this.infoExpanded;this.renderInfo()};
+    document.getElementById('echoInfoCard').onclick=()=>{this.infoExpanded=!this.infoExpanded;this.renderInfo()};
     this.renderBuildSlots();
   },
   setCharacter(name){
@@ -835,7 +836,7 @@ const echoUi={
     this.characterId=this.characterName?characterByName.get(this.characterName)?.id||null:null;
     this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
-    this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderSonataStatus();
+    this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
   activeSet(){
     if(!this.currentSets)return emptyEchoSet();
@@ -848,33 +849,30 @@ const echoUi={
       const id=isPlainObject(slot)?slot.selectedSonataSetId:null;
       if(id&&echoSonataById.has(id))counts.set(id,(counts.get(id)||0)+1);
     }
-    return [...counts].map(([id,count])=>({set:echoSonataById.get(id),count}))
+    return [...counts].map(([id,count])=>({set:echoSonataById.get(id),effects:echoSonataById.get(id).sections.filter(section=>count>=section.pieces)}))
+      .filter(group=>group.effects.length)
       .sort((a,b)=>a.set.name.localeCompare(b.set.name,'en')||a.set.id.localeCompare(b.set.id,'en'));
   },
-  renderSonataStatus(){
-    const host=document.getElementById('echoBonusGroups');if(!host)return;
+  renderInfo(){
+    const host=document.getElementById('echoActiveEffects');if(!host)return;
     host.replaceChildren();
+    const item=echoById.get(this.previewId);
+    document.getElementById('echoSkillCopy').textContent=item?.skill?.skillDescription||'Echo Skill data pending source verification.';
     const groups=this.committedSonataGroups();
-    if(!groups.length){const empty=document.createElement('span');empty.className='echo-bonus-empty';empty.textContent='No Sonata bonuses equipped';host.appendChild(empty);this.inspectedSonataId=null;this.descriptionExpanded=false;this.renderSonataDescription();return}
-    const preferred=isPlainObject(this.currentSlot())?this.currentSlot().selectedSonataSetId:null;
-    if(!groups.some(group=>group.set.id===this.inspectedSonataId))this.inspectedSonataId=groups.some(group=>group.set.id===preferred)?preferred:groups[0].set.id;
-    for(const {set,count} of groups){
-      const button=document.createElement('button');button.type='button';button.className='echo-bonus-set';button.classList.toggle('is-inspected',set.id===this.inspectedSonataId);button.dataset.committedSonataId=set.id;button.setAttribute('aria-pressed',String(set.id===this.inspectedSonataId));
-      const name=document.createElement('span');name.className='echo-bonus-set-name';
-      const icon=document.createElement('img');icon.src=set.artSrc;icon.alt='';const title=document.createElement('span');title.textContent=set.name;name.append(icon,title);
-      const thresholds=document.createElement('span');thresholds.className='echo-bonus-thresholds';
-      set.activationPieces.forEach(pieces=>{const badge=document.createElement('span');badge.className='echo-bonus-threshold';badge.classList.toggle('reached',count>=pieces);badge.textContent=`${Math.min(count,pieces)} / ${pieces}`;thresholds.appendChild(badge)});
-      button.append(name,thresholds);button.addEventListener('click',()=>{this.inspectedSonataId=set.id;this.descriptionExpanded=false;this.renderSonataStatus()});host.appendChild(button);
+    if(!groups.length){const empty=document.createElement('p');empty.textContent='No active Sonata Effect';host.appendChild(empty)}
+    for(const {set,effects} of groups)for(const effect of effects){
+      const entry=document.createElement('div');entry.className='echo-active-effect';entry.dataset.sonataId=set.id;entry.dataset.pieces=String(effect.pieces);
+      const heading=document.createElement('div');heading.className='echo-active-heading';
+      const check=document.createElement('span');check.textContent='✓';
+      const name=document.createElement('span');name.textContent=set.name;
+      const icon=document.createElement('img');icon.src=set.artSrc;icon.alt='';
+      const count=document.createElement('span');count.textContent=`(${effect.pieces}/${effect.pieces})`;
+      heading.append(check,name,icon,count);
+      const description=document.createElement('p');description.textContent=effect.description;
+      entry.append(heading,description);host.appendChild(entry);
     }
-    this.renderSonataDescription();
-  },
-  renderSonataDescription(){
-    const card=document.getElementById('echoSonataDescription'),set=echoSonataById.get(this.inspectedSonataId);
-    if(!card)return;card.hidden=!set;if(!set)return;
-    document.getElementById('echoDescriptionTitle').textContent=set.activationPieces.length===1?`${set.name} · ${set.activationPieces[0]}-PC`:set.name;
-    document.getElementById('echoDescriptionCopy').textContent=set.fullDescription;
-    card.classList.toggle('is-expanded',this.descriptionExpanded);
-    const toggle=document.getElementById('echoDescriptionToggle');toggle.textContent=this.descriptionExpanded?'Click to collapse ▴':'Click to expand ▾';toggle.setAttribute('aria-expanded',String(this.descriptionExpanded));
+    const card=document.getElementById('echoInfoCard');card.classList.toggle('is-expanded',this.infoExpanded);
+    const toggle=document.getElementById('echoInfoToggle');toggle.textContent=this.infoExpanded?'Click to collapse ▴':'Click to expand ▾';toggle.setAttribute('aria-expanded',String(this.infoExpanded));
   },
   recommendedCost(index=this.targetSlot){
     const cost=this.loadoutProfile?.slotCosts?.[index];
@@ -994,7 +992,7 @@ const echoUi={
     document.getElementById('echoMainStat')?.replaceChildren();document.getElementById('echoSubstats')?.replaceChildren();
     const secondary=document.getElementById('echoSecondaryMainStat');if(secondary){secondary.replaceChildren();secondary.textContent='—'}
     const error=document.getElementById('echoEditorError');if(error)error.textContent='';
-    this.syncEquipAction();
+    this.renderInfo();this.syncEquipAction();
   },
   renderIdentity(item){
     const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
@@ -1065,10 +1063,10 @@ const echoUi={
       });
       row.append(nameCombo,valueCombo);host.appendChild(row);
     }
-    this.syncEquipAction();
+    this.renderInfo();this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);
+    this.previewId=item.id;this.infoExpanded=false;this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);
     this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
   },
@@ -1092,7 +1090,7 @@ const echoUi={
     const incoming=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${index}"] .echo-dock-visual`));
     this.targetSlot=index;
     const recommendedCost=this.recommendedCost(index);if(recommendedCost)this.filter=String(recommendedCost);
-    this.renderWorkspaceSlots();this.applyFilter();if(this.browser)this.browser.scrollTop=0;this.loadTargetCommitted();this.inspectedSonataId=null;this.descriptionExpanded=false;this.renderSonataStatus();
+    this.renderWorkspaceSlots();this.applyFilter();if(this.browser)this.browser.scrollTop=0;this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const demoted=this.workspaceSlots.querySelector(`[data-echo-target="${previous}"] .echo-dock-visual`);
     const detail=this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark');
     Promise.all([playEchoMotion(promoted,demoted),playEchoMotion(incoming,detail)]);
@@ -1103,7 +1101,7 @@ const echoUi={
     this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;this.currentSets=readEchoSets(this.characterName);
     this.selectedSonataIds=new Set(this.loadoutProfile?.sonataSetIds||[]);
     const recommendedCost=this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
-    this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.inspectedSonataId=null;this.descriptionExpanded=false;this.renderSonataStatus();
+    this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
     const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art')||buildSlot?.querySelector('.echo-slot-plus'));
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.open=true;
@@ -1127,7 +1125,7 @@ const echoUi={
     if(!this.characterName||!this.previewId||!this.editorDraft)return;
     const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
-    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.inspectedSonataId=null;this.descriptionExpanded=false;this.renderSonataStatus();this.syncEquipAction();
+    this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
     playEchoMotion(promoted,this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
   }
 };

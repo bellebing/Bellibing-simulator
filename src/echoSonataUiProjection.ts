@@ -20,8 +20,8 @@ export interface SonataUiSet {
 
 export interface CommittedSonataGroup {
   sonataSetId: string;
-  count: number;
-  thresholds: { pieces: number; count: number; reached: boolean }[];
+  name: string;
+  activeEffects: { pieces: number; description: string; reviewStatus: SonataEffectSourceReviewStatus }[];
 }
 
 const pendingText = 'Effect pending source verification.';
@@ -71,22 +71,20 @@ export function projectSonataUiCatalog(): SonataUiSet[] {
 /** Only owned, equipped card assignments count. Identity compatibility is never consulted. */
 export function projectCommittedSonataGroups(
   slots: readonly (null | { selectedSonataSetId?: string | null })[],
-  catalog: readonly Pick<SonataUiSet, 'id' | 'name' | 'activationPieces'>[],
+  catalog: readonly SonataUiSet[],
 ): CommittedSonataGroup[] {
   const counts = new Map<string, number>();
   for (const slot of slots) {
     if (slot?.selectedSonataSetId) counts.set(slot.selectedSonataSetId, (counts.get(slot.selectedSonataSetId) ?? 0) + 1);
   }
-  return catalog.filter(set => counts.has(set.id))
+  return catalog.filter(set => set.activationPieces.some(pieces => (counts.get(set.id) ?? 0) >= pieces))
     .sort((a, b) => a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'))
     .map(set => {
-      const count = counts.get(set.id)!;
       return {
         sonataSetId: set.id,
-        count,
-        thresholds: [...set.activationPieces].sort((a, b) => a - b).map(pieces => ({
-          pieces, count: Math.min(count, pieces), reached: count >= pieces,
-        })),
+        name: set.name,
+        activeEffects: set.sections.filter(section => (counts.get(set.id) ?? 0) >= section.pieces)
+          .map(section => ({ pieces: section.pieces, description: section.description, reviewStatus: section.reviewStatus })),
       };
     });
 }

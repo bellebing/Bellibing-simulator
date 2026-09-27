@@ -100,6 +100,8 @@ The user-facing control presentation inside those regions is owned by the locked
 
 The Echo Preview information card follows the same ownership: collapsed inside the narrow right editor column, expanded relative to the **Preview pane** (leftward/upward over art and stats), with Equip still visible beneath it. Desktop expansion is translucent and does not resize the left stat controls or add an internal card scrollbar. Mobile may scroll the owning Preview/Workspace container to keep full text and Equip reachable.
 
+The Echo browser, fixed Workspace dock and Build stack share the `Cost → portrait with active Sonata rail → name` card geometry. The browser rail reads selected filters; equipped rails read the committed owned assignment. The portrait uses contained source art and owns the shared-object motion source/destination; the Cost, Sonata icon, name and card border stay fixed during promotion/demotion. The dock keeps five physical sockets in order on desktop and in a horizontally scrollable strip on mobile, with enough card height for the portrait and name rather than clipping their bottoms. Reduced motion still crossfades the artwork.
+
 ## 4. Home carousel responsive contract
 
 Home always contains exactly three navigation cards in fixed logical order:

@@ -199,7 +199,7 @@ test('Echo Workspace Correction 2B keeps recommendations profile-backed and expo
   assert.equal(workspaceHtml.includes('Echo Preview</span>'), false);
 });
 
-test('Echo browser compatibility badges retain every canonical Sonata identity across 1–4-set Echoes', () => {
+test('Echo browser export retains full canonical Sonata compatibility across 1–4-set Echoes', () => {
   const canonical = new Map(ECHO_CATALOG.map((echo) => [echo.id, echo.sonataSetIds]));
   const counts = new Set<number>();
   for (const echo of browserData.echoes) {
@@ -208,6 +208,4 @@ test('Echo browser compatibility badges retain every canonical Sonata identity a
     counts.add(echo.sonataSetIds.length);
   }
   assert.deepEqual([...counts].sort(), [1, 2, 3, 4]);
-  assert.ok(workspaceHtml.includes('item.sonataSetIds.forEach(id=>'));
-  assert.ok(workspaceHtml.includes('badge.title=sonata.name'));
 });

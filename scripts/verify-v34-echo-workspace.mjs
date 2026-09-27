@@ -129,24 +129,22 @@ async function readBrowserFilterState(send) {
     const selected=[...echoUi.selectedSonataIds];
     const all=[...document.querySelectorAll('#echoChoices .echo-choice')];
     const visible=all.filter(choice=>!choice.hidden);
-    const expected=echoCatalog.filter(item=>{
-      const costMatch=echoUi.filter==='all'||String(item.cost)===echoUi.filter;
-      const sonataMatch=!selected.length||item.sonataSetIds.some(id=>selected.includes(id));
-      return costMatch&&sonataMatch;
-    });
+    const expected=orderedEchoMatches(echoCatalog,echoUi.filter,echoUi.selectedSonataIds);
     return {
       filter:echoUi.filter,
       selected,
       visible:visible.map(choice=>choice.dataset.echoId),
       expected:expected.map(item=>item.id),
-      activeCost:document.querySelector('.echo-filter.active')?.dataset.echoFilter||null
+      activeCost:document.querySelector('.echo-filter.active')?.dataset.echoFilter||null,
+      railValid:visible.every(choice=>{const item=echoById.get(choice.dataset.echoId);return JSON.stringify([...choice.querySelectorAll('.echo-choice-sonatas img')].map(img=>img.dataset.sonataId))===JSON.stringify(selected.filter(id=>item.sonataSetIds.includes(id)))}),
+      allModeEmpty:selected.length!==0||visible.every(choice=>choice.querySelectorAll('.echo-choice-sonatas img').length===0)
     };
   })()`);
 }
 
 async function verifyCurrentBrowserFilter(send, label) {
   const result = await readBrowserFilterState(send);
-  if (result.activeCost !== result.filter || JSON.stringify(result.visible) !== JSON.stringify(result.expected)) {
+  if (result.activeCost !== result.filter || JSON.stringify(result.visible) !== JSON.stringify(result.expected)||!result.railValid||!result.allModeEmpty) {
     throw new Error(`${label} browser filter mismatch: ${JSON.stringify(result)}`);
   }
   return result;
@@ -158,15 +156,29 @@ async function verifyManualCostFilter(send, filter) {
   return verifyCurrentBrowserFilter(send, `Manual Cost ${filter}`);
 }
 
+async function assertPriorityOrder(send,label,selected,cost='all'){
+  const audit=await evaluate(send,`(()=>{
+    const selected=${JSON.stringify(selected)},visible=[...document.querySelectorAll('#echoChoices .echo-choice:not([hidden])')];
+    const rows=visible.map(node=>{const item=echoById.get(node.dataset.echoId);return{id:item.id,cost:item.cost,rank:item.browseRank,bucket:selected.findIndex(id=>item.sonataSetIds.includes(id)),rail:[...node.querySelectorAll('.echo-choice-sonatas img')].map(icon=>icon.dataset.sonataId),expectedRail:selected.filter(id=>item.sonataSetIds.includes(id))}});
+    const dual=echoCatalog.filter(item=>selected.every(id=>item.sonataSetIds.includes(id))&&(${JSON.stringify(cost)}==='all'||String(item.cost)===${JSON.stringify(cost)})).map(item=>item.id);
+    return{selected:[...echoUi.selectedSonataIds],filter:echoUi.filter,rows,dual,duplicates:rows.length-new Set(rows.map(row=>row.id)).size};
+  })()`);
+  const sorted=[...audit.rows].sort((a,b)=>a.bucket-b.bucket||a.rank-b.rank);
+  if(JSON.stringify(audit.selected)!==JSON.stringify(selected)||audit.filter!==cost||audit.duplicates||!audit.rows.length||audit.rows.some(row=>row.bucket<0||row.cost.toString()!==cost&&cost!=='all'||JSON.stringify(row.rail)!==JSON.stringify(row.expectedRail))||JSON.stringify(audit.rows)!==JSON.stringify(sorted)||audit.dual.some(id=>audit.rows.filter(row=>row.id===id).length!==1)){
+    throw new Error(`${label} priority/filter/rail failed: ${JSON.stringify(audit)}`);
+  }
+  return audit;
+}
+
 async function assertFixedDock(send, label, active, baseline = null) {
   const dock = await evaluate(send, `(()=>{
     const host=document.getElementById('echoWorkspaceSlots');
     return [...host.children].map(node=>{
-      return {id:Number(node.dataset.echoTarget),label:node.querySelector('.echo-workspace-slot-copy strong')?.textContent.trim(),active:node.classList.contains('active-target'),pressed:node.getAttribute('aria-pressed'),order:getComputedStyle(node).order,x:node.offsetLeft-host.offsetLeft,y:node.offsetTop-host.offsetTop,width:node.offsetWidth,height:node.offsetHeight};
+      return {id:Number(node.dataset.echoTarget),visibleSlot:/\bSlot\s+[1-5]\b/i.test(node.textContent),aria:node.getAttribute('aria-label'),active:node.classList.contains('active-target'),pressed:node.getAttribute('aria-pressed'),order:getComputedStyle(node).order,x:node.offsetLeft-host.offsetLeft,y:node.offsetTop-host.offsetTop,width:node.offsetWidth,height:node.offsetHeight};
     });
   })()`);
-  const ids=dock.map(slot=>slot.id),labels=dock.map(slot=>slot.label);
-  if(JSON.stringify(ids)!==JSON.stringify([0,1,2,3,4])||JSON.stringify(labels)!==JSON.stringify(['Slot 1','Slot 2','Slot 3','Slot 4','Slot 5'])||dock.some((slot,index)=>slot.active!==(index===active)||slot.pressed!==String(index===active)||slot.order!=='0')){
+  const ids=dock.map(slot=>slot.id);
+  if(JSON.stringify(ids)!==JSON.stringify([0,1,2,3,4])||dock.some((slot,index)=>slot.visibleSlot||!slot.aria.startsWith(`Echo slot ${index+1}, `)||slot.active!==(index===active)||slot.pressed!==String(index===active)||slot.order!=='0')){
     throw new Error(`${label} changed dock identity/DOM/CSS order: ${JSON.stringify(dock)}`);
   }
   const direction=await evaluate(send,`getComputedStyle(document.getElementById('echoWorkspaceSlots')).flexDirection`);
@@ -180,12 +192,48 @@ async function assertFixedDock(send, label, active, baseline = null) {
   return dock;
 }
 
+async function assertOwnedCardFamily(send,label){
+  const audit=await evaluate(send,`(()=>{
+    const owned=echoUi.activeSet().slots;
+    return owned.map((slot,index)=>{
+      const item=echoById.get(echoSlotId(slot)),set=echoSonataById.get(slot?.selectedSonataSetId);
+      const build=document.querySelector('.echo[data-echo-slot="'+index+'"]'),dock=document.querySelector('#echoWorkspaceSlots [data-echo-target="'+index+'"]');
+      const inspect=(card,costSelector,artSelector,nameSelector)=>{
+        const art=card.querySelector(artSelector),name=card.querySelector(nameSelector),rail=[...card.querySelectorAll('.echo-card-rail img')].map(x=>x.dataset.sonataId);
+        const rect=card.getBoundingClientRect(),ar=art?.getBoundingClientRect(),nr=name?.getBoundingClientRect();
+        return{cost:card.querySelector(costSelector)?.textContent.trim()||null,rail,name:name?.textContent.trim()||null,art:ar?{width:ar.width,height:ar.height,bottom:ar.bottom}:null,nameTop:nr?.top,cardWidth:rect.width,aria:card.getAttribute('aria-label'),visibleSlot:/\\bSlot\\s+[1-5]\\b/i.test(card.textContent)};
+      };
+      return{index,item:item?.name||null,cost:item?.cost??null,set:set?.id||null,
+        build:inspect(build,'.echo-card-cost','.echo-slot-art','.echo-card-name'),
+        dock:inspect(dock,'.echo-slot-cost','.echo-dock-art img','.echo-workspace-slot-copy')};
+    });
+  })()`);
+  if(audit.length!==5||audit.some(row=>{
+    for(const card of [row.build,row.dock]){
+      if(card.visibleSlot||!card.aria.includes(`Echo slot ${row.index+1}`))return true;
+      if(!row.item){if((card===row.build&&card.cost)||card.name||card.rail.length||card.art)return true;continue}
+      if(card.cost!==`COST ${row.cost}`||card.name!==row.item||JSON.stringify(card.rail)!==JSON.stringify([row.set])||!card.aria.includes(row.item)||!card.aria.includes('Sonata:')||!card.art||card.nameTop<card.art.bottom-1)return true;
+      if(card.art.width<65||card.art.height<55||card.art.width<card.cardWidth*.45)return true;
+    }
+    return false;
+  }))throw new Error(`${label} owned Echo cards lost Cost/portrait/committed rail/name or fixed empty slots: ${JSON.stringify(audit)}`);
+  return audit;
+}
+
 async function verifyDesktop(send) {
   await setViewport(send, 1440, 900);
   await navigate(send);
   await evaluate(send, 'localStorage.clear()');
   await navigate(send);
   await prepareBuild(send, 'Augusta');
+  const characterDialog=await evaluate(send,`(()=>{buildPicker.requestSwitch('Aalto');return{kind:activeConfirmation?.kind,title:document.getElementById('dialogTitle').textContent,body:document.getElementById('dialogCopy').textContent,button:document.getElementById('confirmSwitch').textContent,focus:document.activeElement.id,selected:buildPicker.selected}})()`);
+  if(characterDialog.kind!=='character'||characterDialog.title!=='Switch Character?'||characterDialog.body!=='Switch to Aalto?'||characterDialog.button!=='Switch'||characterDialog.focus!=='cancelSwitch'||characterDialog.selected!=='Augusta')throw new Error('Existing Character switch dialog regressed: '+JSON.stringify(characterDialog));
+  await pointerClick(send,'#cancelSwitch');
+  if(await evaluate(send,`!!activeConfirmation||buildPicker.selected!=='Augusta'`))throw new Error('Character switch Cancel regressed');
+  await evaluate(send,`buildPicker.requestSwitch('Aalto')`);
+  await pointerClick(send,'#confirmSwitch');
+  if(await evaluate(send,`!!activeConfirmation||buildPicker.selected!=='Aalto'`))throw new Error('Character switch confirmation regressed');
+  await evaluate(send,`buildPicker.select('Augusta')`);
 
   await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');const equip=event.target?.closest?.('#echoEquip');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null,equip:!!equip});},true);return true})()`);
 
@@ -233,7 +281,7 @@ async function verifyDesktop(send) {
     || JSON.stringify(opened.indices)!==JSON.stringify([0,1,2,3,4])
     || JSON.stringify(opened.active)!==JSON.stringify([0])
     || JSON.stringify(opened.recommendedCosts) !== JSON.stringify(['4','3','3','1','1'])
-    || JSON.stringify(opened.costLabels) !== JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])
+    || JSON.stringify(opened.costLabels) !== JSON.stringify(['COST 4','COST 3','COST 3','COST 1','COST 1'])
     || opened.profileId !== 'augusta-standard-echoes'
     || opened.characterId !== 'augusta'
     || opened.filter !== '4'
@@ -254,6 +302,8 @@ async function verifyDesktop(send) {
     throw new Error(`Augusta Echo Workspace Correction 2B opening contract failed: ${JSON.stringify(opened)}`);
   }
   const desktopDock=await assertFixedDock(send,'Desktop opening',0);
+  await assertOwnedCardFamily(send,'Empty opening');
+  await capture(send,'artifacts/ui-preview-echo-browser-1440x900.png');
   await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Build slot did not animate into Echo Workspace');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Workspace close did not return to Build slot');
@@ -266,15 +316,16 @@ async function verifyDesktop(send) {
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
 
   const cardAudit = await evaluate(send, `(()=>{
-    const rows=[...document.querySelectorAll('#echoChoices .echo-choice')].map(card=>{
+    const rows=[...document.querySelectorAll('#echoChoices .echo-choice:not([hidden])')].map(card=>{
       const item=echoById.get(card.dataset.echoId),artNode=card.querySelector('.echo-choice-art'),copyNode=card.querySelector('.echo-choice-copy'),art=artNode.getBoundingClientRect(),copy=copyNode.getBoundingClientRect(),cardRect=card.getBoundingClientRect(),artStyle=getComputedStyle(artNode),copyStyle=getComputedStyle(copyNode),cardStyle=getComputedStyle(card);
       const badges=[...card.querySelectorAll('.echo-choice-sonatas img')],badgeBox=card.querySelector('.echo-choice-sonatas').getBoundingClientRect();
-      return {id:item.id,cost:item.cost,stars:card.querySelector('.echo-cost-stars')?.textContent||'',overlap:art.bottom>copy.top+1||badgeBox.right>art.left+1||badges.some(b=>b.getBoundingClientRect().bottom>copy.top),badges:badges.map(b=>({id:b.dataset.sonataId,name:b.title,src:b.getAttribute('src')})),expected:item.sonataSetIds.map(id=>({id,name:echoSonataById.get(id).name,src:echoSonataById.get(id).artSrc})),hasCostText:!!card.querySelector('.echo-choice-copy small'),rects:{cardTop:cardRect.top,cardBottom:cardRect.bottom,artTop:art.top,artBottom:art.bottom,copyTop:copy.top,copyBottom:copy.bottom},styles:{cardHeight:cardStyle.height,cardTransform:cardStyle.transform,artTop:artStyle.top,artHeight:artStyle.height,copyTop:copyStyle.top,copyHeight:copyStyle.height}};
+      const expected=[...echoUi.selectedSonataIds].filter(id=>item.sonataSetIds.includes(id)).map(id=>({id,name:echoSonataById.get(id).name,src:echoSonataById.get(id).artSrc}));
+      return {id:item.id,cost:item.cost,costText:card.querySelector('.echo-card-cost')?.textContent.trim(),stars:!!card.querySelector('.echo-cost-stars'),overlap:art.bottom>copy.top+1||badgeBox.right>art.left+parseFloat(artStyle.paddingLeft)+1||badges.some(b=>b.getBoundingClientRect().bottom>copy.top),badges:badges.map(b=>({id:b.dataset.sonataId,name:b.title,src:b.getAttribute('src')})),expected,artWidth:art.width,artHeight:art.height,cardWidth:cardRect.width,cardHeight:cardRect.height,name:copyNode.textContent.trim(),aria:card.getAttribute('aria-label'),rects:{cardTop:cardRect.top,cardBottom:cardRect.bottom,artTop:art.top,artBottom:art.bottom,copyTop:copy.top,copyBottom:copy.bottom},styles:{cardHeight:cardStyle.height,cardTransform:cardStyle.transform,artTop:artStyle.top,artHeight:artStyle.height,copyTop:copyStyle.top,copyHeight:copyStyle.height}};
     });
-    return {badStars:rows.filter(x=>x.stars!=='★'.repeat(x.cost)),badBadges:rows.filter(x=>JSON.stringify(x.badges)!==JSON.stringify(x.expected)),counts:[...new Set(rows.map(x=>x.badges.length))].sort(),overlap:rows.filter(x=>x.overlap),costText:rows.filter(x=>x.hasCostText)};
+    return {badCost:rows.filter(x=>x.costText!=='COST '+x.cost||x.stars),badBadges:rows.filter(x=>JSON.stringify(x.badges)!==JSON.stringify(x.expected)),overlap:rows.filter(x=>x.overlap),smallArt:rows.filter(x=>x.artWidth<80||x.artHeight<105||x.artHeight<x.cardHeight*.55),unnamed:rows.filter(x=>x.name!==echoById.get(x.id).name||!x.aria.includes('Cost '+x.cost))};
   })()`);
-  if (cardAudit.badStars.length || cardAudit.badBadges.length || JSON.stringify(cardAudit.counts)!==JSON.stringify([1,2,3,4]) || cardAudit.overlap.length || cardAudit.costText.length) {
-    throw new Error(`Echo browser card Correction 2B layout failed: ${JSON.stringify(cardAudit)}`);
+  if (cardAudit.badCost.length || cardAudit.badBadges.length || cardAudit.overlap.length || cardAudit.smallArt.length || cardAudit.unnamed.length) {
+    throw new Error(`Echo browser card hierarchy failed: ${JSON.stringify(cardAudit)}`);
   }
   await verifyCurrentBrowserFilter(send, 'Augusta Slot 1 recommended');
 
@@ -310,6 +361,7 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '#echoSonataAll');
   await waitForUi(send, `echoUi.selectedSonataIds.size===0&&document.getElementById('echoSonataSummary').textContent.trim()==='All Sonata Sets'&&document.querySelectorAll('#echoSonataToggleIcons img').length===0`, '0-selected Sonata summary/icons failed');
+  await verifyCurrentBrowserFilter(send,'All mode has an empty active-set rail');
 
   await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-20"]');
   await waitForUi(send, `echoUi.selectedSonataIds.size===1&&document.getElementById('echoSonataSummary').textContent.trim()==='Crown of Valor'&&document.querySelectorAll('#echoSonataToggleIcons img').length===1`, '1-selected Sonata summary/icons failed');
@@ -317,6 +369,13 @@ async function verifyDesktop(send) {
   await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-3"]');
   await waitForUi(send, `echoUi.selectedSonataIds.size===2&&document.getElementById('echoSonataSummary').textContent.trim()==='Crown of Valor + Void Thunder'&&document.querySelectorAll('#echoSonataToggleIcons img').length===2`, '2-selected Sonata summary/icons failed');
   await verifyCurrentBrowserFilter(send, 'Augusta two-Sonata union');
+  await assertPriorityOrder(send,'Crown then Void',['sonata-20','sonata-3'],'4');
+  await evaluate(send,`echoUi.toggleSonata('sonata-20');echoUi.toggleSonata('sonata-20')`);
+  await assertPriorityOrder(send,'Void then Crown after reselect',['sonata-3','sonata-20'],'4');
+  await evaluate(send,`echoUi.setFilter('1')`);
+  await assertPriorityOrder(send,'Cost 1 and Void then Crown',['sonata-3','sonata-20'],'1');
+  await evaluate(send,`echoUi.setFilter('4');echoUi.toggleSonata('sonata-3');echoUi.toggleSonata('sonata-3')`);
+  await assertPriorityOrder(send,'Restored Crown then Void',['sonata-20','sonata-3'],'4');
 
   const thirdSonata = await evaluate(send, `document.querySelector('[data-sonata-group="other"] [data-sonata-id]')?.dataset.sonataId`);
   if(!thirdSonata) throw new Error('No Other Sonata option found');
@@ -465,7 +524,16 @@ async function verifyDesktop(send) {
     return item.sonataSetIds.find(id=>id!==echoUi.editorDraft.selectedSonataSetId)||null
   })()`);
   if(!alternateSonata) throw new Error('Multi-Sonata Echo did not expose an alternate canonical assignment');
+  const currentSonata=await evaluate(send,`echoUi.editorDraft.selectedSonataSetId`);
   await pointerClick(send, `#echoPreviewSonataChoices [data-sonata-id="${alternateSonata}"]`);
+  const pendingSwitch=await evaluate(send,`(()=>({open:!!activeConfirmation,kind:activeConfirmation?.kind,title:document.getElementById('dialogTitle').textContent,body:document.getElementById('dialogCopy').textContent,button:document.getElementById('confirmSwitch').textContent,selected:echoUi.editorDraft.selectedSonataSetId,focus:document.activeElement.id}))()`);
+  if(!pendingSwitch.open||pendingSwitch.kind!=='sonata'||pendingSwitch.title!=='Switch Sonata Set?'||pendingSwitch.button!=='Switch Set'||!pendingSwitch.body.includes('This change stays in Preview until you choose Equip Echo.')||pendingSwitch.selected!==currentSonata||pendingSwitch.focus!=='cancelSwitch')throw new Error('Sonata confirmation did not preserve transient state/focus: '+JSON.stringify(pendingSwitch));
+  await pointerClick(send,'#cancelSwitch');
+  if(await evaluate(send,`!!activeConfirmation||echoUi.editorDraft.selectedSonataSetId!==${JSON.stringify(currentSonata)}`))throw new Error('Cancel changed Sonata Preview');
+  await pointerClick(send,`#echoPreviewSonataChoices [data-sonata-id="${currentSonata}"]`);
+  if(await evaluate(send,`!!activeConfirmation`))throw new Error('Already selected Sonata opened a dialog');
+  await pointerClick(send, `#echoPreviewSonataChoices [data-sonata-id="${alternateSonata}"]`);
+  await pointerClick(send,'#confirmSwitch');
   await waitForUi(send, `echoUi.editorDraft.selectedSonataSetId===${JSON.stringify(alternateSonata)}`, 'Owned Echo Sonata assignment did not change');
   const transientSonata = await evaluate(send, `(()=>({storage:localStorage.getItem('bellibing-ui-checkpoint-v34'),slot:draft('Augusta').build.echoSets?.sets?.['set-1']?.slots?.[0]??null,selected:echoUi.editorDraft.selectedSonataSetId,allowed:echoById.get(${JSON.stringify(firstId)}).sonataSetIds}))()`);
   if(transientSonata.storage!==beforePreview||transientSonata.slot!==null||!transientSonata.allowed.includes(transientSonata.selected)){
@@ -528,6 +596,7 @@ async function verifyDesktop(send) {
     || firstCommit.card?.selectedSonataSetId!==alternateSonata
     || JSON.stringify(firstCommit.card?.sonataSetIds)!==JSON.stringify(firstCommit.allowed)
   ) throw new Error(`Equip-only owned Echo full-card commit failed: ${JSON.stringify(firstCommit)}`);
+  await assertOwnedCardFamily(send,'First equipped Echo');
   const equipAudit=await evaluate(send,`window.__echoPointerAudit.filter(x=>x.equip)`);
   for(const type of ['pointerdown','pointerup','click'])if(!equipAudit.some(x=>x.type===type))throw new Error('Equip Echo missed physical '+type);
 
@@ -555,7 +624,7 @@ async function verifyDesktop(send) {
   }
 
   await assertFixedDock(send,'Equipped Slot 5',4,desktopDock);
-  const slot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-visual img')?.getAttribute('src')`);
+  const slot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-art img')?.getAttribute('src')`);
   const expectedSlot3Art=await evaluate(send,`echoById.get(${JSON.stringify(committedIds[2])})?.artSrc`);
   if(slot3Art!==expectedSlot3Art)throw new Error(`Committed Echo left fixed Slot 3 socket: ${JSON.stringify({slot3Art,expectedSlot3Art})}`);
   await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="2"]');
@@ -567,13 +636,16 @@ async function verifyDesktop(send) {
   await pointerClick(send, '#echoWorkspaceSlots [data-echo-target="0"]');
   await waitForUi(send, `echoUi.editorDraft?.echoId===${JSON.stringify(firstId)}`, 'Committed slot 1 did not reload into editor');
   await assertFixedDock(send,'Slot 3 returned after switching to Slot 1',0,desktopDock);
-  const returnedSlot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-visual img')?.getAttribute('src')`);
+  const returnedSlot3Art=await evaluate(send,`document.querySelector('#echoWorkspaceSlots [data-echo-target="2"] .echo-dock-art img')?.getAttribute('src')`);
   if(returnedSlot3Art!==expectedSlot3Art)throw new Error('Committed Echo did not return to fixed Slot 3 socket');
+  await assertOwnedCardFamily(send,'Five equipped Echoes');
   const committedBeforeClose=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
   const committedSonata=await evaluate(send,`draft('Augusta').build.echoSets.sets['set-1'].slots[0].selectedSonataSetId`);
   const closeAlternate=await evaluate(send,`echoById.get(${JSON.stringify(firstId)}).sonataSetIds.find(id=>id!==${JSON.stringify(alternateSonata)})||null`);
   if(closeAlternate){
     await pointerClick(send, `#echoPreviewSonataChoices [data-sonata-id="${closeAlternate}"]`);
+    await waitForUi(send,`activeConfirmation?.kind==='sonata'`,'Reassignment confirmation before Close did not appear');
+    await pointerClick(send,'#confirmSwitch');
     await waitForUi(send, `echoUi.editorDraft.selectedSonataSetId===${JSON.stringify(closeAlternate)}`, 'Transient Sonata reassignment before Close failed');
   }
   const storageBeforeClose=await evaluate(send,`localStorage.getItem('bellibing-ui-checkpoint-v34')`);
@@ -583,6 +655,7 @@ async function verifyDesktop(send) {
   await capture(send, 'artifacts/ui-preview-echo-workspace-1440x900.png');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!echoUi.open&&echoUi.previewId===null`, 'Echo close did not clear transient Preview');
+  await capture(send,'artifacts/ui-preview-echo-build-cards-1440x900.png');
   const committedAfterClose=await evaluate(send,`JSON.stringify(draft('Augusta').build.echoSets.sets['set-1'].slots[0])`);
   const sonataAfterClose=await evaluate(send,`draft('Augusta').build.echoSets.sets['set-1'].slots[0].selectedSonataSetId`);
   if(committedAfterClose!==committedBeforeClose||sonataAfterClose!==committedSonata)throw new Error('Close without Equip overwrote committed stats/Sonata assignment');
@@ -600,7 +673,7 @@ async function verifyDesktop(send) {
     otherGroups:document.querySelectorAll('[data-sonata-group="other"]').length,
     summary:document.getElementById('echoSonataSummary').textContent.trim()
   }))()`);
-  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='Cost —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.summary!=='All Sonata Sets') {
+  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.summary!=='All Sonata Sets') {
     throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
   }
   const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
@@ -625,6 +698,7 @@ async function verifyDesktop(send) {
   await pointerClick(send,'.echo[data-echo-slot="0"]');
   await waitForUi(send,`echoUi.open&&JSON.stringify(echoUi.editorDraft)===${JSON.stringify(persistedAfterReload)}`,'Reload did not restore full committed Echo stat/Sonata card into editor');
   await setViewport(send,2560,1440);
+  await assertOwnedCardFamily(send,'Wide desktop owned cards');
   const wide=await evaluate(send,`(()=>{const p=document.getElementById('echoPanel').getBoundingClientRect(),b=document.getElementById('echoBrowser').getBoundingClientRect(),e=document.getElementById('echoPreviewPane').getBoundingClientRect(),d=document.getElementById('echoWorkspaceSlots').getBoundingClientRect();return {center:Math.abs((p.left+p.right)/2-innerWidth/2),width:p.width,order:b.right<e.left&&e.right<d.left}})()`);
   if(wide.center>2||wide.width>1281||!wide.order)throw new Error('Wide desktop Echo composition escaped centered shell: '+JSON.stringify(wide));
   await pointerClick(send,'#echoClose');
@@ -657,13 +731,16 @@ async function verifyMobileSmoke(send) {
       first:document.querySelector('#echoWorkspaceSlots .echo-workspace-slot')?.dataset.echoTarget,
       strip:getComputedStyle(document.getElementById('echoWorkspaceSlots')).flexDirection,
       dock:document.getElementById('echoWorkspaceSlots').getBoundingClientRect(),
+      dockCardsContained:[...document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot')].every(slot=>slot.getBoundingClientRect().bottom<=document.getElementById('echoWorkspaceSlots').getBoundingClientRect().bottom+1),
       detail:document.getElementById('echoPreviewPane').getBoundingClientRect()
     };
   })()`);
-  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['Cost 4','Cost 3','Cost 3','Cost 1','Cost 1'])||metrics.first!=='0'||metrics.strip!=='row'||metrics.dock.bottom>metrics.detail.top) {
+  if (metrics.slots!==5||metrics.left<-1||metrics.right>metrics.innerWidth+1||!metrics.scrollable||JSON.stringify(metrics.selected)!==JSON.stringify(['sonata-20','sonata-3'])||metrics.selectedIcons!==2||JSON.stringify(metrics.costs)!==JSON.stringify(['COST 4','COST 3','COST 3','COST 1','COST 1'])||metrics.first!=='0'||metrics.strip!=='row'||!metrics.dockCardsContained||metrics.dock.bottom>metrics.detail.top) {
     throw new Error(`Mobile Echo Workspace recommendation/containment failed: ${JSON.stringify(metrics)}`);
   }
   const mobileDock=await assertFixedDock(send,'Mobile Slot 3 opening',2);
+  await assertOwnedCardFamily(send,'Mobile owned cards');
+  await capture(send,'artifacts/ui-preview-echo-browser-390x844.png');
   await pointerClick(send,'#echoWorkspaceSlots [data-echo-target="4"]');
   await waitForUi(send,`echoUi.targetSlot===4`,'Mobile Slot 5 did not activate');
   await assertFixedDock(send,'Mobile switch to Slot 5',4,mobileDock);
@@ -779,10 +856,11 @@ try {
     const desktop = await verifyDesktop(send);
     const sonata = await verifySonataComposition(send);
     const mobile = await verifyMobileSmoke(send);
-    console.log('v34 Echo Workspace Correction 2F-C verification passed in real Chromium.');
-    console.log(`- Desktop: five shared Build slots in promoted dock, canonical Sonata badges, shared-object motion, plain derived Main/Secondary values, five Substats and bottom-anchored Equip passed.`);
+    console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
+    console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
+    console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
-    console.log(`- Mobile 390x844: contained identity + art|Sonata hero, Bellibing controls, scrollable editor and physical Echo Preview passed (${mobile.previewed}).`);
+    console.log(`- Mobile 390x844: complete horizontal dock cards, browser card hierarchy, contained Preview and physical Echo click passed (${mobile.previewed}).`);
     console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
   } finally {
     socket.close();

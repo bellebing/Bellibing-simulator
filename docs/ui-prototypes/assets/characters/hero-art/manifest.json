@@ -1,0 +1,1278 @@
+{
+  "schemaVersion": 1,
+  "role": "character.hero-art",
+  "importedAt": "2026-09-27",
+  "source": {
+    "repository": "DommyMM/wuwabuild",
+    "commit": "5fa70b11f1d84fb644e4dbed47873708da0fe66f",
+    "characterDataPath": "public/Data/Characters.json",
+    "characterDataBlobSha": "90234b7de08bac368441e24c22ff85c2cf0089e9",
+    "assetRoot": "public/assets/UIResources/Common/Image/IconRolePile/",
+    "mappingField": "Characters.json.icon.banner",
+    "transform": "NONE_BYTE_IDENTICAL_COPY"
+  },
+  "priorAssetInvestigation": {
+    "repositoryHistory": "PR192/PR196 recover v34 Home parity art only; PR205 wires selector/Sequence identity and explicitly leaves center hero art pending.",
+    "recoveredLibraryCollection": "character-5star-user-captures-2026-09-22",
+    "recoveredLibraryCoverage": "42 reviewed 5-star cutout masters; Rover absent; focal/safe-crop metadata pending; masters remain outside normal runtime source tree.",
+    "runtimeDecision": "Use the pinned wuwabuild RolePile family as the canonical runtime foundation because it provides one source-backed field/path family across released non-Rover Characters."
+  },
+  "policy": {
+    "releaseScope": "RELEASED_ONLY",
+    "sourceVerification": "CANONICAL_CHARACTER_ID_TO_PINNED_SOURCE_ID_TO_CHARACTERS_JSON_ICON_BANNER_TO_EXACT_GIT_BLOB",
+    "rover": "FAIL_CLOSED_UNTIL_GENDER_VARIANT_IDENTITY_IS_EXPLICIT",
+    "unreleased": "Jingran CONFIRMED_UPCOMING and Hsin/Suoming UNRELEASED_WIP are excluded.",
+    "presentation": "Explicit reviewed metadata only. Never auto-center from transparent image bounds."
+  },
+  "summary": {
+    "releasedCharacters": 57,
+    "mapped": 53,
+    "pending": 4,
+    "excludedUpcoming": 1,
+    "excludedWip": 2
+  },
+  "visualReview": {
+    "reviewKind": "SOURCE_ART_COMPOSITION",
+    "buildFrameStatus": "PENDING_NO_V34_INTEGRATION_ON_THIS_CONFLICT_AVOIDANCE_WORKSTREAM",
+    "inspectedCharacterIds": [
+      "augusta",
+      "jiyan",
+      "iuno",
+      "cartethyia",
+      "calcharo",
+      "lupa",
+      "zani"
+    ],
+    "desktopTargets": [
+      "1440x900",
+      "1920x1080",
+      "2560x1440"
+    ],
+    "note": "The inspected source art demonstrates materially different semantic focal balance (hair, wide poses, fabric and foreground mass). Numeric scale/offset values remain null until reviewed in the real Build frame after the PR214 Skills lane is pushed."
+  },
+  "characters": [
+    {
+      "characterId": "aalto",
+      "characterName": "Aalto",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1403,
+      "sourceName": "Aalto",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qiushui_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qiushui_UI.webp",
+      "sourceBlobSha": "1af9da9ce400e434b5ee2be17c1a1a9935815ab3",
+      "sourceBytes": 209108,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/aalto.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "aemeath",
+      "characterName": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1210,
+      "sourceName": "Aemeath",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Aimisi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Aimisi_UI.webp",
+      "sourceBlobSha": "7c9d87804c4834bfba73b91a9a96c3a0095993b0",
+      "sourceBytes": 301116,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/aemeath.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "augusta",
+      "characterName": "Augusta",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1306,
+      "sourceName": "Augusta",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_aogusita_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_aogusita_UI.webp",
+      "sourceBlobSha": "812565b9798cf7980582fc57ce6733e6bcbe7379",
+      "sourceBytes": 392378,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/augusta.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Tall central bust with broad hair/crown silhouette; source composition was visually inspected."
+      }
+    },
+    {
+      "characterId": "baizhi",
+      "characterName": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1103,
+      "sourceName": "Baizhi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_bailian_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_bailian_UI.webp",
+      "sourceBlobSha": "80e7e4037d53d7a63b37283af1129a61e7aeffa9",
+      "sourceBytes": 188018,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/baizhi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "brant",
+      "characterName": "Brant",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1206,
+      "sourceName": "Brant",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Bulante_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Bulante_UI.webp",
+      "sourceBlobSha": "2877e22fa25c5f9a019ba4fbb1ae0efa1898eb6e",
+      "sourceBytes": 315296,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/brant.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "buling",
+      "characterName": "Buling",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1307,
+      "sourceName": "Buling",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.webp",
+      "sourceBlobSha": "7e07ea441c089fb5d101fa664341925ff2b819fe",
+      "sourceBytes": 228506,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/buling.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "calcharo",
+      "characterName": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1301,
+      "sourceName": "Calcharo",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kakaluo_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kakaluo_UI.webp",
+      "sourceBlobSha": "66e3ddb1db62e517f989e13735d5f2448567ffb1",
+      "sourceBytes": 218120,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/calcharo.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Tall body with long hair mass extending right while the face sits left of image center; semantic focal review is required."
+      }
+    },
+    {
+      "characterId": "camellya",
+      "characterName": "Camellya",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1603,
+      "sourceName": "Camellya",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_chun_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_chun_UI.webp",
+      "sourceBlobSha": "94fa577aa2829b01b3db3002586de987f09928c9",
+      "sourceBytes": 240000,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/camellya.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "cantarella",
+      "characterName": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1607,
+      "sourceName": "Cantarella",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.webp",
+      "sourceBlobSha": "fccdf5cffc9da6bdbc460fcaf555f7329bd63c9b",
+      "sourceBytes": 257522,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/cantarella.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "carlotta",
+      "characterName": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1107,
+      "sourceName": "Carlotta",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kelaita_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kelaita_UI.webp",
+      "sourceBlobSha": "37f5384ffe9de11d0b6efad9d5854e375f264167",
+      "sourceBytes": 287314,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/carlotta.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "cartethyia",
+      "characterName": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1409,
+      "sourceName": "Cartethyia",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_katixiya_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_katixiya_UI.webp",
+      "sourceBlobSha": "df7dcd05a5c47b0ba7de0c661392a960def9ac04",
+      "sourceBytes": 319480,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/cartethyia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Tall/narrow central silhouette with long fabric reaching the lower corners; source composition was visually inspected."
+      }
+    },
+    {
+      "characterId": "changli",
+      "characterName": "Changli",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1205,
+      "sourceName": "Changli",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_changli_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_changli_UI.webp",
+      "sourceBlobSha": "02d26c165debe2fa3fd09c71bbafdb80794b9edf",
+      "sourceBytes": 239996,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/changli.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "chisa",
+      "characterName": "Chisa",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1508,
+      "sourceName": "Chisa",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qianxiao_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qianxiao_UI.webp",
+      "sourceBlobSha": "41abd6e84d186d8874d4d194a4df8f86b639d415",
+      "sourceBytes": 233330,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/chisa.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "chixia",
+      "characterName": "Chixia",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1202,
+      "sourceName": "Chixia",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.webp",
+      "sourceBlobSha": "b4660ae8056bd13e88da4e40ec438e41f8b65593",
+      "sourceBytes": 194040,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/chixia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "ciaccona",
+      "characterName": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1407,
+      "sourceName": "Ciaccona",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiakong_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiakong_UI.webp",
+      "sourceBlobSha": "3eec305677f6a87fd979fabe90ed051324f72349",
+      "sourceBytes": 284574,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/ciaccona.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "danjin",
+      "characterName": "Danjin",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1602,
+      "sourceName": "Danjin",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.webp",
+      "sourceBlobSha": "9e03d0c2faaf885b6d7c5d0e157f19d6b863bd3f",
+      "sourceBytes": 204712,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/danjin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "denia",
+      "characterName": "Denia",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1211,
+      "sourceName": "Denia",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.webp",
+      "sourceBlobSha": "89ba804666ef0fc75d5dc63044da52ebeb51fc4b",
+      "sourceBytes": 325922,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/denia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "encore",
+      "characterName": "Encore",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1203,
+      "sourceName": "Encore",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_anke_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_anke_UI.webp",
+      "sourceBlobSha": "ac68b3ccd9f94024037d16493b8c2ba59daf69f7",
+      "sourceBytes": 246828,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/encore.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "galbrena",
+      "characterName": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1208,
+      "sourceName": "Galbrena",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiabeilina_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiabeilina_UI.webp",
+      "sourceBlobSha": "65a1d4ba4db76698f7a2ab57acf48881f0b77c22",
+      "sourceBytes": 252184,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/galbrena.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "hiyuki",
+      "characterName": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1108,
+      "sourceName": "Hiyuki",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_FeiXue_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_FeiXue_UI.webp",
+      "sourceBlobSha": "e2e96a09b3c8c47bfd4a6da0811cd6fe8f5aed28",
+      "sourceBytes": 286338,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/hiyuki.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "iuno",
+      "characterName": "Iuno",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1410,
+      "sourceName": "Iuno",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_younuo_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_younuo_UI.webp",
+      "sourceBlobSha": "511a3b8512bf62618af663573a9e46c54eb21900",
+      "sourceBytes": 349964,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/iuno.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Wide arm/hair silhouette reaches both sides; perceived size is sensitive to frame scale."
+      }
+    },
+    {
+      "characterId": "jianxin",
+      "characterName": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1405,
+      "sourceName": "Jianxin",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiexin_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiexin_UI.webp",
+      "sourceBlobSha": "c94085f822ce65595587909807e4cf3a0d2630f2",
+      "sourceBytes": 230432,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/jianxin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "jinhsi",
+      "characterName": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1304,
+      "sourceName": "Jinhsi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jinxi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jinxi_UI.webp",
+      "sourceBlobSha": "8ab5bd38665f1d979a06235c21f9f5994e97deba",
+      "sourceBytes": 235152,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/jinhsi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "jiyan",
+      "characterName": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1404,
+      "sourceName": "Jiyan",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiyan_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiyan_UI.webp",
+      "sourceBlobSha": "a38219de9ac5f6b8cc81529961c65793404dff19",
+      "sourceBytes": 275464,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/jiyan.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Long hair trails strongly to the right while the face sits left of image center; generic alpha-bound centering would be misleading."
+      }
+    },
+    {
+      "characterId": "lingyang",
+      "characterName": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1104,
+      "sourceName": "Lingyang",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.webp",
+      "sourceBlobSha": "aa826f1571e7ff79a8e91de1b39e735a380c9cb3",
+      "sourceBytes": 243390,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lingyang.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "lucilla",
+      "characterName": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1109,
+      "sourceName": "Lucilla",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luosela_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luosela_UI.webp",
+      "sourceBlobSha": "f08952a23550ccd9dc0e8ad904d754175834b880",
+      "sourceBytes": 308956,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lucilla.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "lucy",
+      "characterName": "Lucy",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1511,
+      "sourceName": "Lucy",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luxi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luxi_UI.webp",
+      "sourceBlobSha": "a8ac9106d975f54b4968032f5757ea5255e9d3e5",
+      "sourceBytes": 232126,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lucy.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "lumi",
+      "characterName": "Lumi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1504,
+      "sourceName": "Lumi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_dengdeng_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_dengdeng_UI.webp",
+      "sourceBlobSha": "2ddda5576e20f05ca7ca4805b9376220258d6386",
+      "sourceBytes": 237038,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lumi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "lupa",
+      "characterName": "Lupa",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1207,
+      "sourceName": "Lupa",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lupa_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lupa_UI.webp",
+      "sourceBlobSha": "fe5c89a8147be99508b1ebf0094aef977e5779ba",
+      "sourceBytes": 333106,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lupa.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Wide seated/leaning pose with ribbon/cape mass spanning the frame; source composition was visually inspected."
+      }
+    },
+    {
+      "characterId": "luuk-herssen",
+      "characterName": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1510,
+      "sourceName": "Luuk Herssen",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.webp",
+      "sourceBlobSha": "d9fb574054d5e4bb7fd06a7df14cc40dd2ea183f",
+      "sourceBytes": 251078,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/luuk-herssen.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "lynae",
+      "characterName": "Lynae",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1509,
+      "sourceName": "Lynae",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.webp",
+      "sourceBlobSha": "ecbbe4cec115db642c8fdb53e6e827a9e1cb8673",
+      "sourceBytes": 263518,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lynae.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "mornye",
+      "characterName": "Mornye",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1209,
+      "sourceName": "Mornye",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.webp",
+      "sourceBlobSha": "ca0d65a8d713f4662a1308e956ea41b9ffe32a77",
+      "sourceBytes": 289868,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/mornye.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "mortefi",
+      "characterName": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1204,
+      "sourceName": "Mortefi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.webp",
+      "sourceBlobSha": "29bedd2fbc711bf83e10fe9c848f7e89dc3bf853",
+      "sourceBytes": 231392,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/mortefi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "phoebe",
+      "characterName": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1506,
+      "sourceName": "Phoebe",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feibi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feibi_UI.webp",
+      "sourceBlobSha": "33387cf9e3cfd38b5158843e3fecc3d6bcd88438",
+      "sourceBytes": 289372,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/phoebe.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "phrolova",
+      "characterName": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1608,
+      "sourceName": "Phrolova",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_fuluoluo_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_fuluoluo_UI.webp",
+      "sourceBlobSha": "da3d0bd826acc267d25c8609f9e9a0fa4126c170",
+      "sourceBytes": 260726,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/phrolova.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "qingxiao",
+      "characterName": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1413,
+      "sourceName": "Qingxiao",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qingxiao_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qingxiao_UI.webp",
+      "sourceBlobSha": "1e94101717a080c91e53900d801e982c0681ac05",
+      "sourceBytes": 299816,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/qingxiao.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "qiuyuan",
+      "characterName": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1411,
+      "sourceName": "Qiuyuan",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qiuyuan_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qiuyuan_UI.webp",
+      "sourceBlobSha": "4138c20698551f3b0af271e592d99fade7467f91",
+      "sourceBytes": 278498,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/qiuyuan.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "rebecca",
+      "characterName": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1308,
+      "sourceName": "Rebecca",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_LiBeiKa_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_LiBeiKa_UI.webp",
+      "sourceBlobSha": "dd532737cdf499ce7ab16c5dcda03f14bd540b21",
+      "sourceBytes": 255618,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/rebecca.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "roccia",
+      "characterName": "Roccia",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1606,
+      "sourceName": "Roccia",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luokeke_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luokeke_UI.webp",
+      "sourceBlobSha": "60ea04560bf75d35bebdf9631517b3f8d18f3b1d",
+      "sourceBytes": 270364,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/roccia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "sanhua",
+      "characterName": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1102,
+      "sourceName": "Sanhua",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shanhua_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shanhua_UI.webp",
+      "sourceBlobSha": "7db17ddb686711f3771e2869a29b88f55b59c184",
+      "sourceBytes": 168568,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/sanhua.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "sigrika",
+      "characterName": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1412,
+      "sourceName": "Sigrika",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xigelika_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xigelika_UI.webp",
+      "sourceBlobSha": "7c0167557336d18eb8e21b0e14c7dffaab1eef98",
+      "sourceBytes": 280398,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/sigrika.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "suisui",
+      "characterName": "Suisui",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1110,
+      "sourceName": "Suisui",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Suisui_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_SuiSui_UI.webp",
+      "sourceBlobSha": "f830bfaeb8ee37ca2722c9ce6c9021d80937f855",
+      "sourceBytes": 290258,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/suisui.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "taoqi",
+      "characterName": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1601,
+      "sourceName": "Taoqi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_taohua_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_taohua_UI.webp",
+      "sourceBlobSha": "526a6334bf430145e8acf83fc2f7d5b4adcb4a2a",
+      "sourceBytes": 210526,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/taoqi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "characterName": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1505,
+      "sourceName": "Shorekeeper",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shouanren_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Shouanren_UI.webp",
+      "sourceBlobSha": "16c60d63e434a18cc211ea38f433b9d38f1eb7c6",
+      "sourceBytes": 254344,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/the-shorekeeper.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "verina",
+      "characterName": "Verina",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1503,
+      "sourceName": "Verina",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.webp",
+      "sourceBlobSha": "fb992e38f2a287aefd0d80244f3a6a2cf3eb5039",
+      "sourceBytes": 233410,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/verina.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "xiangli-yao",
+      "characterName": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1305,
+      "sourceName": "Xiangli Yao",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiangliyao_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiangliyao_UI.webp",
+      "sourceBlobSha": "da0b6d5b840097e68a04a7ffc57ada8f6a76db95",
+      "sourceBytes": 204628,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/xiangli-yao.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "yangyang",
+      "characterName": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1402,
+      "sourceName": "Yangyang",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yangyang_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yangyang_UI.webp",
+      "sourceBlobSha": "ae3935ad467ea8c6ddd0d35e12cda3fa801f6580",
+      "sourceBytes": 233004,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/yangyang.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "characterName": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1610,
+      "sourceName": "Yangyang: Xuanling",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xuanling_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_XuanLing_UI.webp",
+      "sourceBlobSha": "bc528a732f52e73b2dc9224dbba5cbea9a9a320a",
+      "sourceBytes": 342000,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/yangyang-xuanling.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "yinlin",
+      "characterName": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1302,
+      "sourceName": "Yinlin",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yinlin_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yinlin_UI.webp",
+      "sourceBlobSha": "f5167fc95b81c4bc2d03c5a265fbae50f9f2ed87",
+      "sourceBytes": 273658,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/yinlin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "youhu",
+      "characterName": "Youhu",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1106,
+      "sourceName": "Youhu",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_youhu_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Youhu_UI.webp",
+      "sourceBlobSha": "390ed0169c146a258b9240e9c3dae142279fd529",
+      "sourceBytes": 166444,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/youhu.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "yuanwu",
+      "characterName": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1303,
+      "sourceName": "Yuanwu",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yuanwu_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yuanwu_UI.webp",
+      "sourceBlobSha": "0194050767f98333d85a77a872eeda01ba022970",
+      "sourceBytes": 183414,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/yuanwu.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    },
+    {
+      "characterId": "zani",
+      "characterName": "Zani",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1507,
+      "sourceName": "Zani",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zanni_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zanni_UI.webp",
+      "sourceBlobSha": "aecd78cd7879c661a8d23a95c445bfb311691fe6",
+      "sourceBytes": 241962,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/zani.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "SOURCE_ART_INSPECTED_BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Horned upper silhouette with asymmetric lower-right foreground mass; source composition was visually inspected."
+      }
+    },
+    {
+      "characterId": "zhezhi",
+      "characterName": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1105,
+      "sourceName": "Zhezhi",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhezhi_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhezhi_UI.webp",
+      "sourceBlobSha": "8c83e8b8e3cab4e6ad04bd9888926eabae560641",
+      "sourceBytes": 273636,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/zhezhi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": null,
+        "offsetX": null,
+        "offsetY": null,
+        "focalAnchor": null,
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds."
+      }
+    }
+  ],
+  "pending": [
+    {
+      "characterId": "rover-aero",
+      "characterName": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit.",
+      "candidates": [
+        {
+          "gender": "M",
+          "sourceCharacterId": 1406,
+          "sourceName": "Rover: Aero",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceBlobSha": "47097b7819107d1df3dae02edd610baafb42238c",
+          "sourceBytes": 190028
+        },
+        {
+          "gender": "F",
+          "sourceCharacterId": 1408,
+          "sourceName": "Rover: Aero",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceBlobSha": "832105a2c5cde6fe2fff0d4873e8f14c8fd53dd0",
+          "sourceBytes": 167510
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "characterName": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit.",
+      "candidates": [
+        {
+          "gender": "M",
+          "sourceCharacterId": 1309,
+          "sourceName": "Rover: Electro",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceBlobSha": "47097b7819107d1df3dae02edd610baafb42238c",
+          "sourceBytes": 190028
+        },
+        {
+          "gender": "F",
+          "sourceCharacterId": 1310,
+          "sourceName": "Rover: Electro",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceBlobSha": "832105a2c5cde6fe2fff0d4873e8f14c8fd53dd0",
+          "sourceBytes": 167510
+        }
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "characterName": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit.",
+      "candidates": [
+        {
+          "gender": "M",
+          "sourceCharacterId": 1605,
+          "sourceName": "Rover: Havoc",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceBlobSha": "47097b7819107d1df3dae02edd610baafb42238c",
+          "sourceBytes": 190028
+        },
+        {
+          "gender": "F",
+          "sourceCharacterId": 1604,
+          "sourceName": "Rover: Havoc",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceBlobSha": "832105a2c5cde6fe2fff0d4873e8f14c8fd53dd0",
+          "sourceBytes": 167510
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "characterName": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit.",
+      "candidates": [
+        {
+          "gender": "M",
+          "sourceCharacterId": 1501,
+          "sourceName": "Rover: Spectro",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.webp",
+          "sourceBlobSha": "47097b7819107d1df3dae02edd610baafb42238c",
+          "sourceBytes": 190028
+        },
+        {
+          "gender": "F",
+          "sourceCharacterId": 1502,
+          "sourceName": "Rover: Spectro",
+          "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.webp",
+          "sourceBlobSha": "832105a2c5cde6fe2fff0d4873e8f14c8fd53dd0",
+          "sourceBytes": 167510
+        }
+      ]
+    }
+  ]
+}

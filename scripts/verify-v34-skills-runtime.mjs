@@ -123,6 +123,9 @@ try{
   let g=await layout(send);
   assert(g.stats.top<g.skills.top&&g.skills.top<g.weapon.top,'Left Build column order is not Stats → Skills → Weapon',g);
   assert(g.stats.bottom<=g.skills.top+1&&g.skills.bottom<=g.weapon.top+1,'Left Build blocks overlap',g);
+  const compactGeometry=await evaluate(send,"(() => {const tree=document.getElementById('skillsMiniTree').getBoundingClientRect(),nodes=[...document.querySelectorAll('#skillsMiniTree [data-skill-role]')].map(node=>{const r=node.getBoundingClientRect();return{role:node.dataset.skillRole,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}});return{tree:tree.toJSON(),nodes,xSpan:Math.max(...nodes.map(x=>x.cx))-Math.min(...nodes.map(x=>x.cx)),ySpan:Math.max(...nodes.map(x=>x.cy))-Math.min(...nodes.map(x=>x.cy))}})()");
+  assert(compactGeometry.tree.width>250&&compactGeometry.tree.height>110&&compactGeometry.xSpan>170&&compactGeometry.ySpan>55,'Compact Skills tree collapsed into an inline/overlapping layout',compactGeometry);
+  assert(compactGeometry.nodes.every(node=>node.left>=compactGeometry.tree.left-1&&node.right<=compactGeometry.tree.right+1&&node.top>=compactGeometry.tree.top-1&&node.bottom<=compactGeometry.tree.bottom+1),'Compact Skills nodes escape their tree card',compactGeometry);
 
   // The real Character-switch path must immediately bind every canonical core icon for all released Characters.
   for(const row of runtime.characters){

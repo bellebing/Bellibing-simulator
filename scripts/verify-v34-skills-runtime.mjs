@@ -161,6 +161,7 @@ try{
 
   // Existing Sequence behavior is untouched; only its committed connector gets the same gold/grey visual language.
   await evaluate(send,'sequenceUi.commit(4)');
+  await sleep(280);
   const seqVisual=await evaluate(send,"(() => {const line=document.getElementById('sequenceLine'),before=getComputedStyle(line,'::before'),after=getComputedStyle(line,'::after');return{progress:line.style.getPropertyValue('--seq-progress'),beforeBackground:before.backgroundColor,afterBackground:after.backgroundImage,afterShadow:after.boxShadow,afterHeight:parseFloat(after.height),current:sequenceUi.currentLevel}})()");
   assert(seqVisual.current===4&&Number(seqVisual.progress)>.5&&seqVisual.afterHeight>0&&String(seqVisual.afterBackground).includes('linear-gradient')&&seqVisual.afterShadow!=='none','Committed Sequence connector is not gold/progressive',seqVisual);
   assert(seqVisual.beforeBackground!=='rgba(0, 0, 0, 0)'&&seqVisual.beforeBackground!=='transparent','Inactive Sequence connector base is missing',seqVisual);

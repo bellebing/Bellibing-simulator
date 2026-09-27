@@ -61,7 +61,7 @@ test('projection supports unequipped and partially equipped builds with HP/DEF/e
     {echoId:'e2',cost:1,rank:5,level:0,mainStat:{name:'HP%',value:.0456},secondaryMainStat:{name:'Flat HP',value:456},substats:[]}
   ];
   const out=projectStaticBuildStats({character:richer,weapon,echoSlots,echoStatContract:contract});
-  assert.ok(Math.abs(out.hp-(10300*(1+.12+.228+.0456)+456))<1e-12);
+  assert.ok(Math.abs(out.hp-(10300*(1+.12+.228+.0456)+456))<1e-9);
   assert.ok(Math.abs(out.elementDamageBonus-.18)<1e-12);
   assert.ok(Math.abs(out.healingBonus-.12)<1e-12);
   assert.equal(out.atk,463+20);

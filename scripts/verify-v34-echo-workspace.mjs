@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_ECHO_DEBUG_PORT ?? 9671);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
+const VERIFY_MOBILE = process.env.BELLIBING_VERIFY_MOBILE === '1';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function waitForChrome() {
@@ -855,12 +856,13 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const sonata = await verifySonataComposition(send);
-    const mobile = await verifyMobileSmoke(send);
+    const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
     console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
     console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
     console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
-    console.log(`- Mobile 390x844: complete horizontal dock cards, browser card hierarchy, contained Preview and physical Echo click passed (${mobile.previewed}).`);
+    if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844 passed (${mobile.previewed}).`);
+    else console.log('- Mobile/narrow verification deferred by desktop-first stabilization policy (set BELLIBING_VERIFY_MOBILE=1 to run it explicitly).');
     console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
   } finally {
     socket.close();

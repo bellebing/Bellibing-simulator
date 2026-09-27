@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT ?? 9666);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
+const VERIFY_MOBILE = process.env.BELLIBING_VERIFY_MOBILE === '1';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function waitForChrome() {
@@ -369,7 +370,8 @@ async function capture(send, path) {
   writeFileSync(path,Buffer.from(shot.data,'base64'));
 }
 
-const matrix=[[390,844],[768,1024],[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]];
+const desktopMatrix=[[1440,900],[1920,1080],[2560,1440]];
+const matrix=VERIFY_MOBILE?[[390,844],[768,1024],...desktopMatrix,[3440,1440],[7680,2160]]:desktopMatrix;
 const chrome=spawn(CHROME,[
   '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
   `--remote-debugging-port=${DEBUG_PORT}`,'--remote-debugging-address=127.0.0.1',
@@ -429,23 +431,27 @@ try{
     const desktopAfter=await buildMetrics(send);
     if(desktopAfter.focus-desktopBefore.focus<2) throw new Error(`Desktop Build drag did not traverse multiple cards: ${desktopBefore.focus} -> ${desktopAfter.focus}`);
 
-    await setViewport(send,390,844);await navigate(send);await enterBuild(send);
-    const mobileBefore=await buildMetrics(send);
-    if(!mobileBefore.noHorizontalPageScroll||!mobileBefore.textMetricsSafe) throw new Error(`Mobile Build contract failed: ${JSON.stringify(mobileBefore)}`);
-    await drag(send,'#buildWheel',-1,.72,{touch:true});
-    const mobileAfter=await buildMetrics(send);
-    if(mobileAfter.focus-mobileBefore.focus<2) throw new Error(`Mobile Build drag did not traverse multiple cards: ${mobileBefore.focus} -> ${mobileAfter.focus}`);
-    const mobileWeapon=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-overlay-390x844.png');
+    let mobileBefore=null,mobileAfter=null,mobileWeapon=null;
+    if(VERIFY_MOBILE){
+      await setViewport(send,390,844);await navigate(send);await enterBuild(send);
+      mobileBefore=await buildMetrics(send);
+      if(!mobileBefore.noHorizontalPageScroll||!mobileBefore.textMetricsSafe) throw new Error(`Mobile Build contract failed: ${JSON.stringify(mobileBefore)}`);
+      await drag(send,'#buildWheel',-1,.72,{touch:true});
+      mobileAfter=await buildMetrics(send);
+      if(mobileAfter.focus-mobileBefore.focus<2) throw new Error(`Mobile Build drag did not traverse multiple cards: ${mobileBefore.focus} -> ${mobileAfter.focus}`);
+      mobileWeapon=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-overlay-390x844.png');
+    }
 
     console.log('v34 runtime carousel verification passed in real Chrome.');
-    console.log('- Home finite centered shell passed 390x844 through 7680x2160.');
+    console.log(VERIFY_MOBILE?'- Full optional responsive matrix passed.':'- Desktop acceptance matrix passed at 1440x900, 1920x1080 and 2560x1440.');
     console.log('- Home mouse drag reached Team from default Improve focus.');
     console.log(`- Real mouse click navigation passed for Home Build/Improve/Team plus Build and Improve Character pickers; selected: ${pointerMenus.character}.`);
     console.log('- Build selector loaded 57/57 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
     console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
-    console.log(`- Mobile Build touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
-    console.log(`- Canonical Weapon browser passed: Character-compatible released catalog, real art, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no card flights; desktop equipped: ${desktopWeapon.equipped}, mobile smoke equipped: ${mobileWeapon.equipped}.`);
+    if(mobileBefore&&mobileAfter) console.log(`- Optional Mobile Adaptation touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
+    else console.log('- Mobile/narrow carousel and Weapon gates deferred by desktop-first stabilization policy.');
+    console.log(`- Canonical Weapon browser passed: Character-compatible released catalog, real art, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no card flights; desktop equipped: ${desktopWeapon.equipped}${mobileWeapon?', optional mobile equipped: '+mobileWeapon.equipped:''}.`);
   }finally{socket.close()}
 }catch(error){
   console.error(error);

@@ -1,0 +1,2461 @@
+{
+  "schemaVersion": 1,
+  "role": "character-builder.runtime-sequences",
+  "generatedFrom": [
+    "docs/ui-prototypes/assets/builder-icons/manifest.json",
+    "src/characterBuilderAssets.ts#createCharacterBuilderAssetResolver"
+  ],
+  "characters": [
+    {
+      "characterId": "aalto",
+      "characterName": "Aalto",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 67,
+          "assetId": "chain:aalto:s1",
+          "assetPath": "assets/builder-icons/chains/aalto/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 68,
+          "assetId": "chain:aalto:s2",
+          "assetPath": "assets/builder-icons/chains/aalto/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 69,
+          "assetId": "chain:aalto:s3",
+          "assetPath": "assets/builder-icons/chains/aalto/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 70,
+          "assetId": "chain:aalto:s4",
+          "assetPath": "assets/builder-icons/chains/aalto/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 71,
+          "assetId": "chain:aalto:s5",
+          "assetPath": "assets/builder-icons/chains/aalto/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 72,
+          "assetId": "chain:aalto:s6",
+          "assetPath": "assets/builder-icons/chains/aalto/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "aemeath",
+      "characterName": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 271,
+          "assetId": "chain:aemeath:s1",
+          "assetPath": "assets/builder-icons/chains/aemeath/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 272,
+          "assetId": "chain:aemeath:s2",
+          "assetPath": "assets/builder-icons/chains/aemeath/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 273,
+          "assetId": "chain:aemeath:s3",
+          "assetPath": "assets/builder-icons/chains/aemeath/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 274,
+          "assetId": "chain:aemeath:s4",
+          "assetPath": "assets/builder-icons/chains/aemeath/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 275,
+          "assetId": "chain:aemeath:s5",
+          "assetPath": "assets/builder-icons/chains/aemeath/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 276,
+          "assetId": "chain:aemeath:s6",
+          "assetPath": "assets/builder-icons/chains/aemeath/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "augusta",
+      "characterName": "Augusta",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 229,
+          "assetId": "chain:augusta:s1",
+          "assetPath": "assets/builder-icons/chains/augusta/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 230,
+          "assetId": "chain:augusta:s2",
+          "assetPath": "assets/builder-icons/chains/augusta/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 231,
+          "assetId": "chain:augusta:s3",
+          "assetPath": "assets/builder-icons/chains/augusta/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 232,
+          "assetId": "chain:augusta:s4",
+          "assetPath": "assets/builder-icons/chains/augusta/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 233,
+          "assetId": "chain:augusta:s5",
+          "assetPath": "assets/builder-icons/chains/augusta/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 234,
+          "assetId": "chain:augusta:s6",
+          "assetPath": "assets/builder-icons/chains/augusta/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "baizhi",
+      "characterName": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 25,
+          "assetId": "chain:baizhi:s1",
+          "assetPath": "assets/builder-icons/chains/baizhi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 26,
+          "assetId": "chain:baizhi:s2",
+          "assetPath": "assets/builder-icons/chains/baizhi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 27,
+          "assetId": "chain:baizhi:s3",
+          "assetPath": "assets/builder-icons/chains/baizhi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 28,
+          "assetId": "chain:baizhi:s4",
+          "assetPath": "assets/builder-icons/chains/baizhi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 29,
+          "assetId": "chain:baizhi:s5",
+          "assetPath": "assets/builder-icons/chains/baizhi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 30,
+          "assetId": "chain:baizhi:s6",
+          "assetPath": "assets/builder-icons/chains/baizhi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "brant",
+      "characterName": "Brant",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 175,
+          "assetId": "chain:brant:s1",
+          "assetPath": "assets/builder-icons/chains/brant/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 176,
+          "assetId": "chain:brant:s2",
+          "assetPath": "assets/builder-icons/chains/brant/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 177,
+          "assetId": "chain:brant:s3",
+          "assetPath": "assets/builder-icons/chains/brant/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 178,
+          "assetId": "chain:brant:s4",
+          "assetPath": "assets/builder-icons/chains/brant/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 179,
+          "assetId": "chain:brant:s5",
+          "assetPath": "assets/builder-icons/chains/brant/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 180,
+          "assetId": "chain:brant:s6",
+          "assetPath": "assets/builder-icons/chains/brant/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "buling",
+      "characterName": "Buling",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 247,
+          "assetId": "chain:buling:s1",
+          "assetPath": "assets/builder-icons/chains/buling/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 248,
+          "assetId": "chain:buling:s2",
+          "assetPath": "assets/builder-icons/chains/buling/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 249,
+          "assetId": "chain:buling:s3",
+          "assetPath": "assets/builder-icons/chains/buling/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 250,
+          "assetId": "chain:buling:s4",
+          "assetPath": "assets/builder-icons/chains/buling/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 251,
+          "assetId": "chain:buling:s5",
+          "assetPath": "assets/builder-icons/chains/buling/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 252,
+          "assetId": "chain:buling:s6",
+          "assetPath": "assets/builder-icons/chains/buling/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "calcharo",
+      "characterName": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 79,
+          "assetId": "chain:calcharo:s1",
+          "assetPath": "assets/builder-icons/chains/calcharo/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 80,
+          "assetId": "chain:calcharo:s2",
+          "assetPath": "assets/builder-icons/chains/calcharo/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 81,
+          "assetId": "chain:calcharo:s3",
+          "assetPath": "assets/builder-icons/chains/calcharo/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 82,
+          "assetId": "chain:calcharo:s4",
+          "assetPath": "assets/builder-icons/chains/calcharo/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 83,
+          "assetId": "chain:calcharo:s5",
+          "assetPath": "assets/builder-icons/chains/calcharo/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 84,
+          "assetId": "chain:calcharo:s6",
+          "assetPath": "assets/builder-icons/chains/calcharo/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "camellya",
+      "characterName": "Camellya",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 73,
+          "assetId": "chain:camellya:s1",
+          "assetPath": "assets/builder-icons/chains/camellya/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 74,
+          "assetId": "chain:camellya:s2",
+          "assetPath": "assets/builder-icons/chains/camellya/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 75,
+          "assetId": "chain:camellya:s3",
+          "assetPath": "assets/builder-icons/chains/camellya/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 76,
+          "assetId": "chain:camellya:s4",
+          "assetPath": "assets/builder-icons/chains/camellya/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 77,
+          "assetId": "chain:camellya:s5",
+          "assetPath": "assets/builder-icons/chains/camellya/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 78,
+          "assetId": "chain:camellya:s6",
+          "assetPath": "assets/builder-icons/chains/camellya/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "characterName": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 181,
+          "assetId": "chain:cantarella:s1",
+          "assetPath": "assets/builder-icons/chains/cantarella/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 182,
+          "assetId": "chain:cantarella:s2",
+          "assetPath": "assets/builder-icons/chains/cantarella/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 183,
+          "assetId": "chain:cantarella:s3",
+          "assetPath": "assets/builder-icons/chains/cantarella/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 184,
+          "assetId": "chain:cantarella:s4",
+          "assetPath": "assets/builder-icons/chains/cantarella/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 185,
+          "assetId": "chain:cantarella:s5",
+          "assetPath": "assets/builder-icons/chains/cantarella/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 186,
+          "assetId": "chain:cantarella:s6",
+          "assetPath": "assets/builder-icons/chains/cantarella/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "characterName": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 157,
+          "assetId": "chain:carlotta:s1",
+          "assetPath": "assets/builder-icons/chains/carlotta/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 158,
+          "assetId": "chain:carlotta:s2",
+          "assetPath": "assets/builder-icons/chains/carlotta/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 159,
+          "assetId": "chain:carlotta:s3",
+          "assetPath": "assets/builder-icons/chains/carlotta/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 160,
+          "assetId": "chain:carlotta:s4",
+          "assetPath": "assets/builder-icons/chains/carlotta/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 161,
+          "assetId": "chain:carlotta:s5",
+          "assetPath": "assets/builder-icons/chains/carlotta/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 162,
+          "assetId": "chain:carlotta:s6",
+          "assetPath": "assets/builder-icons/chains/carlotta/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "cartethyia",
+      "characterName": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 211,
+          "assetId": "chain:cartethyia:s1",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 212,
+          "assetId": "chain:cartethyia:s2",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 213,
+          "assetId": "chain:cartethyia:s3",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 214,
+          "assetId": "chain:cartethyia:s4",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 215,
+          "assetId": "chain:cartethyia:s5",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 216,
+          "assetId": "chain:cartethyia:s6",
+          "assetPath": "assets/builder-icons/chains/cartethyia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "changli",
+      "characterName": "Changli",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 121,
+          "assetId": "chain:changli:s1",
+          "assetPath": "assets/builder-icons/chains/changli/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 122,
+          "assetId": "chain:changli:s2",
+          "assetPath": "assets/builder-icons/chains/changli/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 123,
+          "assetId": "chain:changli:s3",
+          "assetPath": "assets/builder-icons/chains/changli/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 124,
+          "assetId": "chain:changli:s4",
+          "assetPath": "assets/builder-icons/chains/changli/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 125,
+          "assetId": "chain:changli:s5",
+          "assetPath": "assets/builder-icons/chains/changli/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 126,
+          "assetId": "chain:changli:s6",
+          "assetPath": "assets/builder-icons/chains/changli/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "characterName": "Chisa",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 253,
+          "assetId": "chain:chisa:s1",
+          "assetPath": "assets/builder-icons/chains/chisa/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 254,
+          "assetId": "chain:chisa:s2",
+          "assetPath": "assets/builder-icons/chains/chisa/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 255,
+          "assetId": "chain:chisa:s3",
+          "assetPath": "assets/builder-icons/chains/chisa/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 256,
+          "assetId": "chain:chisa:s4",
+          "assetPath": "assets/builder-icons/chains/chisa/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 257,
+          "assetId": "chain:chisa:s5",
+          "assetPath": "assets/builder-icons/chains/chisa/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 258,
+          "assetId": "chain:chisa:s6",
+          "assetPath": "assets/builder-icons/chains/chisa/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "chixia",
+      "characterName": "Chixia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 7,
+          "assetId": "chain:chixia:s1",
+          "assetPath": "assets/builder-icons/chains/chixia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 8,
+          "assetId": "chain:chixia:s2",
+          "assetPath": "assets/builder-icons/chains/chixia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 9,
+          "assetId": "chain:chixia:s3",
+          "assetPath": "assets/builder-icons/chains/chixia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 10,
+          "assetId": "chain:chixia:s4",
+          "assetPath": "assets/builder-icons/chains/chixia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 11,
+          "assetId": "chain:chixia:s5",
+          "assetPath": "assets/builder-icons/chains/chixia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 12,
+          "assetId": "chain:chixia:s6",
+          "assetPath": "assets/builder-icons/chains/chixia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "ciaccona",
+      "characterName": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 199,
+          "assetId": "chain:ciaccona:s1",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 200,
+          "assetId": "chain:ciaccona:s2",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 201,
+          "assetId": "chain:ciaccona:s3",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 202,
+          "assetId": "chain:ciaccona:s4",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 203,
+          "assetId": "chain:ciaccona:s5",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 204,
+          "assetId": "chain:ciaccona:s6",
+          "assetPath": "assets/builder-icons/chains/ciaccona/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "characterName": "Danjin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 37,
+          "assetId": "chain:danjin:s1",
+          "assetPath": "assets/builder-icons/chains/danjin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 38,
+          "assetId": "chain:danjin:s2",
+          "assetPath": "assets/builder-icons/chains/danjin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 39,
+          "assetId": "chain:danjin:s3",
+          "assetPath": "assets/builder-icons/chains/danjin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 40,
+          "assetId": "chain:danjin:s4",
+          "assetPath": "assets/builder-icons/chains/danjin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 41,
+          "assetId": "chain:danjin:s5",
+          "assetPath": "assets/builder-icons/chains/danjin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 42,
+          "assetId": "chain:danjin:s6",
+          "assetPath": "assets/builder-icons/chains/danjin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "denia",
+      "characterName": "Denia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 295,
+          "assetId": "chain:denia:s1",
+          "assetPath": "assets/builder-icons/chains/denia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 296,
+          "assetId": "chain:denia:s2",
+          "assetPath": "assets/builder-icons/chains/denia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 297,
+          "assetId": "chain:denia:s3",
+          "assetPath": "assets/builder-icons/chains/denia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 298,
+          "assetId": "chain:denia:s4",
+          "assetPath": "assets/builder-icons/chains/denia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 299,
+          "assetId": "chain:denia:s5",
+          "assetPath": "assets/builder-icons/chains/denia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 300,
+          "assetId": "chain:denia:s6",
+          "assetPath": "assets/builder-icons/chains/denia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "encore",
+      "characterName": "Encore",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 43,
+          "assetId": "chain:encore:s1",
+          "assetPath": "assets/builder-icons/chains/encore/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 44,
+          "assetId": "chain:encore:s2",
+          "assetPath": "assets/builder-icons/chains/encore/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 45,
+          "assetId": "chain:encore:s3",
+          "assetPath": "assets/builder-icons/chains/encore/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 46,
+          "assetId": "chain:encore:s4",
+          "assetPath": "assets/builder-icons/chains/encore/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 47,
+          "assetId": "chain:encore:s5",
+          "assetPath": "assets/builder-icons/chains/encore/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 48,
+          "assetId": "chain:encore:s6",
+          "assetPath": "assets/builder-icons/chains/encore/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "galbrena",
+      "characterName": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 241,
+          "assetId": "chain:galbrena:s1",
+          "assetPath": "assets/builder-icons/chains/galbrena/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 242,
+          "assetId": "chain:galbrena:s2",
+          "assetPath": "assets/builder-icons/chains/galbrena/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 243,
+          "assetId": "chain:galbrena:s3",
+          "assetPath": "assets/builder-icons/chains/galbrena/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 244,
+          "assetId": "chain:galbrena:s4",
+          "assetPath": "assets/builder-icons/chains/galbrena/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 245,
+          "assetId": "chain:galbrena:s5",
+          "assetPath": "assets/builder-icons/chains/galbrena/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 246,
+          "assetId": "chain:galbrena:s6",
+          "assetPath": "assets/builder-icons/chains/galbrena/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "hiyuki",
+      "characterName": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 289,
+          "assetId": "chain:hiyuki:s1",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 290,
+          "assetId": "chain:hiyuki:s2",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 291,
+          "assetId": "chain:hiyuki:s3",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 292,
+          "assetId": "chain:hiyuki:s4",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 293,
+          "assetId": "chain:hiyuki:s5",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 294,
+          "assetId": "chain:hiyuki:s6",
+          "assetPath": "assets/builder-icons/chains/hiyuki/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "characterName": "Iuno",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 223,
+          "assetId": "chain:iuno:s1",
+          "assetPath": "assets/builder-icons/chains/iuno/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 224,
+          "assetId": "chain:iuno:s2",
+          "assetPath": "assets/builder-icons/chains/iuno/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 225,
+          "assetId": "chain:iuno:s3",
+          "assetPath": "assets/builder-icons/chains/iuno/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 226,
+          "assetId": "chain:iuno:s4",
+          "assetPath": "assets/builder-icons/chains/iuno/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 227,
+          "assetId": "chain:iuno:s5",
+          "assetPath": "assets/builder-icons/chains/iuno/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 228,
+          "assetId": "chain:iuno:s6",
+          "assetPath": "assets/builder-icons/chains/iuno/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jianxin",
+      "characterName": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 109,
+          "assetId": "chain:jianxin:s1",
+          "assetPath": "assets/builder-icons/chains/jianxin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 110,
+          "assetId": "chain:jianxin:s2",
+          "assetPath": "assets/builder-icons/chains/jianxin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 111,
+          "assetId": "chain:jianxin:s3",
+          "assetPath": "assets/builder-icons/chains/jianxin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 112,
+          "assetId": "chain:jianxin:s4",
+          "assetPath": "assets/builder-icons/chains/jianxin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 113,
+          "assetId": "chain:jianxin:s5",
+          "assetPath": "assets/builder-icons/chains/jianxin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 114,
+          "assetId": "chain:jianxin:s6",
+          "assetPath": "assets/builder-icons/chains/jianxin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jinhsi",
+      "characterName": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 115,
+          "assetId": "chain:jinhsi:s1",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 116,
+          "assetId": "chain:jinhsi:s2",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 117,
+          "assetId": "chain:jinhsi:s3",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 118,
+          "assetId": "chain:jinhsi:s4",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 119,
+          "assetId": "chain:jinhsi:s5",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 120,
+          "assetId": "chain:jinhsi:s6",
+          "assetPath": "assets/builder-icons/chains/jinhsi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "jiyan",
+      "characterName": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 61,
+          "assetId": "chain:jiyan:s1",
+          "assetPath": "assets/builder-icons/chains/jiyan/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 62,
+          "assetId": "chain:jiyan:s2",
+          "assetPath": "assets/builder-icons/chains/jiyan/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 63,
+          "assetId": "chain:jiyan:s3",
+          "assetPath": "assets/builder-icons/chains/jiyan/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 64,
+          "assetId": "chain:jiyan:s4",
+          "assetPath": "assets/builder-icons/chains/jiyan/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 65,
+          "assetId": "chain:jiyan:s5",
+          "assetPath": "assets/builder-icons/chains/jiyan/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 66,
+          "assetId": "chain:jiyan:s6",
+          "assetPath": "assets/builder-icons/chains/jiyan/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lingyang",
+      "characterName": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 97,
+          "assetId": "chain:lingyang:s1",
+          "assetPath": "assets/builder-icons/chains/lingyang/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 98,
+          "assetId": "chain:lingyang:s2",
+          "assetPath": "assets/builder-icons/chains/lingyang/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 99,
+          "assetId": "chain:lingyang:s3",
+          "assetPath": "assets/builder-icons/chains/lingyang/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 100,
+          "assetId": "chain:lingyang:s4",
+          "assetPath": "assets/builder-icons/chains/lingyang/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 101,
+          "assetId": "chain:lingyang:s5",
+          "assetPath": "assets/builder-icons/chains/lingyang/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 102,
+          "assetId": "chain:lingyang:s6",
+          "assetPath": "assets/builder-icons/chains/lingyang/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "characterName": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 301,
+          "assetId": "chain:lucilla:s1",
+          "assetPath": "assets/builder-icons/chains/lucilla/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 302,
+          "assetId": "chain:lucilla:s2",
+          "assetPath": "assets/builder-icons/chains/lucilla/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 303,
+          "assetId": "chain:lucilla:s3",
+          "assetPath": "assets/builder-icons/chains/lucilla/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 304,
+          "assetId": "chain:lucilla:s4",
+          "assetPath": "assets/builder-icons/chains/lucilla/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 305,
+          "assetId": "chain:lucilla:s5",
+          "assetPath": "assets/builder-icons/chains/lucilla/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 306,
+          "assetId": "chain:lucilla:s6",
+          "assetPath": "assets/builder-icons/chains/lucilla/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lucy",
+      "characterName": "Lucy",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 307,
+          "assetId": "chain:lucy:s1",
+          "assetPath": "assets/builder-icons/chains/lucy/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 308,
+          "assetId": "chain:lucy:s2",
+          "assetPath": "assets/builder-icons/chains/lucy/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 309,
+          "assetId": "chain:lucy:s3",
+          "assetPath": "assets/builder-icons/chains/lucy/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 310,
+          "assetId": "chain:lucy:s4",
+          "assetPath": "assets/builder-icons/chains/lucy/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 311,
+          "assetId": "chain:lucy:s5",
+          "assetPath": "assets/builder-icons/chains/lucy/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 312,
+          "assetId": "chain:lucy:s6",
+          "assetPath": "assets/builder-icons/chains/lucy/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "characterName": "Lumi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 151,
+          "assetId": "chain:lumi:s1",
+          "assetPath": "assets/builder-icons/chains/lumi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 152,
+          "assetId": "chain:lumi:s2",
+          "assetPath": "assets/builder-icons/chains/lumi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 153,
+          "assetId": "chain:lumi:s3",
+          "assetPath": "assets/builder-icons/chains/lumi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 154,
+          "assetId": "chain:lumi:s4",
+          "assetPath": "assets/builder-icons/chains/lumi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 155,
+          "assetId": "chain:lumi:s5",
+          "assetPath": "assets/builder-icons/chains/lumi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 156,
+          "assetId": "chain:lumi:s6",
+          "assetPath": "assets/builder-icons/chains/lumi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lupa",
+      "characterName": "Lupa",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 205,
+          "assetId": "chain:lupa:s1",
+          "assetPath": "assets/builder-icons/chains/lupa/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 206,
+          "assetId": "chain:lupa:s2",
+          "assetPath": "assets/builder-icons/chains/lupa/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 207,
+          "assetId": "chain:lupa:s3",
+          "assetPath": "assets/builder-icons/chains/lupa/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 208,
+          "assetId": "chain:lupa:s4",
+          "assetPath": "assets/builder-icons/chains/lupa/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 209,
+          "assetId": "chain:lupa:s5",
+          "assetPath": "assets/builder-icons/chains/lupa/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 210,
+          "assetId": "chain:lupa:s6",
+          "assetPath": "assets/builder-icons/chains/lupa/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "luuk-herssen",
+      "characterName": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 277,
+          "assetId": "chain:luuk-herssen:s1",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 278,
+          "assetId": "chain:luuk-herssen:s2",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 279,
+          "assetId": "chain:luuk-herssen:s3",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 280,
+          "assetId": "chain:luuk-herssen:s4",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 281,
+          "assetId": "chain:luuk-herssen:s5",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 282,
+          "assetId": "chain:luuk-herssen:s6",
+          "assetPath": "assets/builder-icons/chains/luuk-herssen/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lynae",
+      "characterName": "Lynae",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 265,
+          "assetId": "chain:lynae:s1",
+          "assetPath": "assets/builder-icons/chains/lynae/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 266,
+          "assetId": "chain:lynae:s2",
+          "assetPath": "assets/builder-icons/chains/lynae/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 267,
+          "assetId": "chain:lynae:s3",
+          "assetPath": "assets/builder-icons/chains/lynae/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 268,
+          "assetId": "chain:lynae:s4",
+          "assetPath": "assets/builder-icons/chains/lynae/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 269,
+          "assetId": "chain:lynae:s5",
+          "assetPath": "assets/builder-icons/chains/lynae/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 270,
+          "assetId": "chain:lynae:s6",
+          "assetPath": "assets/builder-icons/chains/lynae/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "mornye",
+      "characterName": "Mornye",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 259,
+          "assetId": "chain:mornye:s1",
+          "assetPath": "assets/builder-icons/chains/mornye/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 260,
+          "assetId": "chain:mornye:s2",
+          "assetPath": "assets/builder-icons/chains/mornye/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 261,
+          "assetId": "chain:mornye:s3",
+          "assetPath": "assets/builder-icons/chains/mornye/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 262,
+          "assetId": "chain:mornye:s4",
+          "assetPath": "assets/builder-icons/chains/mornye/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 263,
+          "assetId": "chain:mornye:s5",
+          "assetPath": "assets/builder-icons/chains/mornye/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 264,
+          "assetId": "chain:mornye:s6",
+          "assetPath": "assets/builder-icons/chains/mornye/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "characterName": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 55,
+          "assetId": "chain:mortefi:s1",
+          "assetPath": "assets/builder-icons/chains/mortefi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 56,
+          "assetId": "chain:mortefi:s2",
+          "assetPath": "assets/builder-icons/chains/mortefi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 57,
+          "assetId": "chain:mortefi:s3",
+          "assetPath": "assets/builder-icons/chains/mortefi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 58,
+          "assetId": "chain:mortefi:s4",
+          "assetPath": "assets/builder-icons/chains/mortefi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 59,
+          "assetId": "chain:mortefi:s5",
+          "assetPath": "assets/builder-icons/chains/mortefi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 60,
+          "assetId": "chain:mortefi:s6",
+          "assetPath": "assets/builder-icons/chains/mortefi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "phoebe",
+      "characterName": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 169,
+          "assetId": "chain:phoebe:s1",
+          "assetPath": "assets/builder-icons/chains/phoebe/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 170,
+          "assetId": "chain:phoebe:s2",
+          "assetPath": "assets/builder-icons/chains/phoebe/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 171,
+          "assetId": "chain:phoebe:s3",
+          "assetPath": "assets/builder-icons/chains/phoebe/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 172,
+          "assetId": "chain:phoebe:s4",
+          "assetPath": "assets/builder-icons/chains/phoebe/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 173,
+          "assetId": "chain:phoebe:s5",
+          "assetPath": "assets/builder-icons/chains/phoebe/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 174,
+          "assetId": "chain:phoebe:s6",
+          "assetPath": "assets/builder-icons/chains/phoebe/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "phrolova",
+      "characterName": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 217,
+          "assetId": "chain:phrolova:s1",
+          "assetPath": "assets/builder-icons/chains/phrolova/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 218,
+          "assetId": "chain:phrolova:s2",
+          "assetPath": "assets/builder-icons/chains/phrolova/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 219,
+          "assetId": "chain:phrolova:s3",
+          "assetPath": "assets/builder-icons/chains/phrolova/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 220,
+          "assetId": "chain:phrolova:s4",
+          "assetPath": "assets/builder-icons/chains/phrolova/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 221,
+          "assetId": "chain:phrolova:s5",
+          "assetPath": "assets/builder-icons/chains/phrolova/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 222,
+          "assetId": "chain:phrolova:s6",
+          "assetPath": "assets/builder-icons/chains/phrolova/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "qingxiao",
+      "characterName": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 331,
+          "assetId": "chain:qingxiao:s1",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 332,
+          "assetId": "chain:qingxiao:s2",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 333,
+          "assetId": "chain:qingxiao:s3",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 334,
+          "assetId": "chain:qingxiao:s4",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 335,
+          "assetId": "chain:qingxiao:s5",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 336,
+          "assetId": "chain:qingxiao:s6",
+          "assetPath": "assets/builder-icons/chains/qingxiao/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "qiuyuan",
+      "characterName": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 235,
+          "assetId": "chain:qiuyuan:s1",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 236,
+          "assetId": "chain:qiuyuan:s2",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 237,
+          "assetId": "chain:qiuyuan:s3",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 238,
+          "assetId": "chain:qiuyuan:s4",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 239,
+          "assetId": "chain:qiuyuan:s5",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 240,
+          "assetId": "chain:qiuyuan:s6",
+          "assetPath": "assets/builder-icons/chains/qiuyuan/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rebecca",
+      "characterName": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 313,
+          "assetId": "chain:rebecca:s1",
+          "assetPath": "assets/builder-icons/chains/rebecca/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 314,
+          "assetId": "chain:rebecca:s2",
+          "assetPath": "assets/builder-icons/chains/rebecca/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 315,
+          "assetId": "chain:rebecca:s3",
+          "assetPath": "assets/builder-icons/chains/rebecca/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 316,
+          "assetId": "chain:rebecca:s4",
+          "assetPath": "assets/builder-icons/chains/rebecca/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 317,
+          "assetId": "chain:rebecca:s5",
+          "assetPath": "assets/builder-icons/chains/rebecca/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 318,
+          "assetId": "chain:rebecca:s6",
+          "assetPath": "assets/builder-icons/chains/rebecca/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "roccia",
+      "characterName": "Roccia",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 163,
+          "assetId": "chain:roccia:s1",
+          "assetPath": "assets/builder-icons/chains/roccia/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 164,
+          "assetId": "chain:roccia:s2",
+          "assetPath": "assets/builder-icons/chains/roccia/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 165,
+          "assetId": "chain:roccia:s3",
+          "assetPath": "assets/builder-icons/chains/roccia/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 166,
+          "assetId": "chain:roccia:s4",
+          "assetPath": "assets/builder-icons/chains/roccia/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 167,
+          "assetId": "chain:roccia:s5",
+          "assetPath": "assets/builder-icons/chains/roccia/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 168,
+          "assetId": "chain:roccia:s6",
+          "assetPath": "assets/builder-icons/chains/roccia/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-aero",
+      "characterName": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 187,
+          "assetId": "chain:rover-aero:s1",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 188,
+          "assetId": "chain:rover-aero:s2",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 189,
+          "assetId": "chain:rover-aero:s3",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 190,
+          "assetId": "chain:rover-aero:s4",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 191,
+          "assetId": "chain:rover-aero:s5",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 192,
+          "assetId": "chain:rover-aero:s6",
+          "assetPath": "assets/builder-icons/chains/rover-aero/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "characterName": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 343,
+          "assetId": "chain:rover-electro:s1",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 344,
+          "assetId": "chain:rover-electro:s2",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 345,
+          "assetId": "chain:rover-electro:s3",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 346,
+          "assetId": "chain:rover-electro:s4",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 347,
+          "assetId": "chain:rover-electro:s5",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 348,
+          "assetId": "chain:rover-electro:s6",
+          "assetPath": "assets/builder-icons/chains/rover-electro/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "characterName": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 103,
+          "assetId": "chain:rover-havoc:s1",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 104,
+          "assetId": "chain:rover-havoc:s2",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 105,
+          "assetId": "chain:rover-havoc:s3",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 106,
+          "assetId": "chain:rover-havoc:s4",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 107,
+          "assetId": "chain:rover-havoc:s5",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 108,
+          "assetId": "chain:rover-havoc:s6",
+          "assetPath": "assets/builder-icons/chains/rover-havoc/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "characterName": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 31,
+          "assetId": "chain:rover-spectro:s1",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 32,
+          "assetId": "chain:rover-spectro:s2",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 33,
+          "assetId": "chain:rover-spectro:s3",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 34,
+          "assetId": "chain:rover-spectro:s4",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 35,
+          "assetId": "chain:rover-spectro:s5",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 36,
+          "assetId": "chain:rover-spectro:s6",
+          "assetPath": "assets/builder-icons/chains/rover-spectro/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "sanhua",
+      "characterName": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 19,
+          "assetId": "chain:sanhua:s1",
+          "assetPath": "assets/builder-icons/chains/sanhua/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 20,
+          "assetId": "chain:sanhua:s2",
+          "assetPath": "assets/builder-icons/chains/sanhua/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 21,
+          "assetId": "chain:sanhua:s3",
+          "assetPath": "assets/builder-icons/chains/sanhua/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 22,
+          "assetId": "chain:sanhua:s4",
+          "assetPath": "assets/builder-icons/chains/sanhua/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 23,
+          "assetId": "chain:sanhua:s5",
+          "assetPath": "assets/builder-icons/chains/sanhua/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 24,
+          "assetId": "chain:sanhua:s6",
+          "assetPath": "assets/builder-icons/chains/sanhua/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "sigrika",
+      "characterName": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 283,
+          "assetId": "chain:sigrika:s1",
+          "assetPath": "assets/builder-icons/chains/sigrika/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 284,
+          "assetId": "chain:sigrika:s2",
+          "assetPath": "assets/builder-icons/chains/sigrika/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 285,
+          "assetId": "chain:sigrika:s3",
+          "assetPath": "assets/builder-icons/chains/sigrika/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 286,
+          "assetId": "chain:sigrika:s4",
+          "assetPath": "assets/builder-icons/chains/sigrika/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 287,
+          "assetId": "chain:sigrika:s5",
+          "assetPath": "assets/builder-icons/chains/sigrika/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 288,
+          "assetId": "chain:sigrika:s6",
+          "assetPath": "assets/builder-icons/chains/sigrika/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "characterName": "Suisui",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 325,
+          "assetId": "chain:suisui:s1",
+          "assetPath": "assets/builder-icons/chains/suisui/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 326,
+          "assetId": "chain:suisui:s2",
+          "assetPath": "assets/builder-icons/chains/suisui/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 327,
+          "assetId": "chain:suisui:s3",
+          "assetPath": "assets/builder-icons/chains/suisui/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 328,
+          "assetId": "chain:suisui:s4",
+          "assetPath": "assets/builder-icons/chains/suisui/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 329,
+          "assetId": "chain:suisui:s5",
+          "assetPath": "assets/builder-icons/chains/suisui/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 330,
+          "assetId": "chain:suisui:s6",
+          "assetPath": "assets/builder-icons/chains/suisui/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "taoqi",
+      "characterName": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 49,
+          "assetId": "chain:taoqi:s1",
+          "assetPath": "assets/builder-icons/chains/taoqi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 50,
+          "assetId": "chain:taoqi:s2",
+          "assetPath": "assets/builder-icons/chains/taoqi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 51,
+          "assetId": "chain:taoqi:s3",
+          "assetPath": "assets/builder-icons/chains/taoqi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 52,
+          "assetId": "chain:taoqi:s4",
+          "assetPath": "assets/builder-icons/chains/taoqi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 53,
+          "assetId": "chain:taoqi:s5",
+          "assetPath": "assets/builder-icons/chains/taoqi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 54,
+          "assetId": "chain:taoqi:s6",
+          "assetPath": "assets/builder-icons/chains/taoqi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "characterName": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 145,
+          "assetId": "chain:the-shorekeeper:s1",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 146,
+          "assetId": "chain:the-shorekeeper:s2",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 147,
+          "assetId": "chain:the-shorekeeper:s3",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 148,
+          "assetId": "chain:the-shorekeeper:s4",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 149,
+          "assetId": "chain:the-shorekeeper:s5",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 150,
+          "assetId": "chain:the-shorekeeper:s6",
+          "assetPath": "assets/builder-icons/chains/the-shorekeeper/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "verina",
+      "characterName": "Verina",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 13,
+          "assetId": "chain:verina:s1",
+          "assetPath": "assets/builder-icons/chains/verina/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 14,
+          "assetId": "chain:verina:s2",
+          "assetPath": "assets/builder-icons/chains/verina/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 15,
+          "assetId": "chain:verina:s3",
+          "assetPath": "assets/builder-icons/chains/verina/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 16,
+          "assetId": "chain:verina:s4",
+          "assetPath": "assets/builder-icons/chains/verina/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 17,
+          "assetId": "chain:verina:s5",
+          "assetPath": "assets/builder-icons/chains/verina/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 18,
+          "assetId": "chain:verina:s6",
+          "assetPath": "assets/builder-icons/chains/verina/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "xiangli-yao",
+      "characterName": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 127,
+          "assetId": "chain:xiangli-yao:s1",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 128,
+          "assetId": "chain:xiangli-yao:s2",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 129,
+          "assetId": "chain:xiangli-yao:s3",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 130,
+          "assetId": "chain:xiangli-yao:s4",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 131,
+          "assetId": "chain:xiangli-yao:s5",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 132,
+          "assetId": "chain:xiangli-yao:s6",
+          "assetPath": "assets/builder-icons/chains/xiangli-yao/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang",
+      "characterName": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 1,
+          "assetId": "chain:yangyang:s1",
+          "assetPath": "assets/builder-icons/chains/yangyang/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 2,
+          "assetId": "chain:yangyang:s2",
+          "assetPath": "assets/builder-icons/chains/yangyang/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 3,
+          "assetId": "chain:yangyang:s3",
+          "assetPath": "assets/builder-icons/chains/yangyang/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 4,
+          "assetId": "chain:yangyang:s4",
+          "assetPath": "assets/builder-icons/chains/yangyang/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 5,
+          "assetId": "chain:yangyang:s5",
+          "assetPath": "assets/builder-icons/chains/yangyang/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 6,
+          "assetId": "chain:yangyang:s6",
+          "assetPath": "assets/builder-icons/chains/yangyang/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "characterName": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 319,
+          "assetId": "chain:yangyang-xuanling:s1",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 320,
+          "assetId": "chain:yangyang-xuanling:s2",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 321,
+          "assetId": "chain:yangyang-xuanling:s3",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 322,
+          "assetId": "chain:yangyang-xuanling:s4",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 323,
+          "assetId": "chain:yangyang-xuanling:s5",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 324,
+          "assetId": "chain:yangyang-xuanling:s6",
+          "assetPath": "assets/builder-icons/chains/yangyang-xuanling/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "characterName": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 85,
+          "assetId": "chain:yinlin:s1",
+          "assetPath": "assets/builder-icons/chains/yinlin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 86,
+          "assetId": "chain:yinlin:s2",
+          "assetPath": "assets/builder-icons/chains/yinlin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 87,
+          "assetId": "chain:yinlin:s3",
+          "assetPath": "assets/builder-icons/chains/yinlin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 88,
+          "assetId": "chain:yinlin:s4",
+          "assetPath": "assets/builder-icons/chains/yinlin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 89,
+          "assetId": "chain:yinlin:s5",
+          "assetPath": "assets/builder-icons/chains/yinlin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 90,
+          "assetId": "chain:yinlin:s6",
+          "assetPath": "assets/builder-icons/chains/yinlin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "youhu",
+      "characterName": "Youhu",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 139,
+          "assetId": "chain:youhu:s1",
+          "assetPath": "assets/builder-icons/chains/youhu/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 140,
+          "assetId": "chain:youhu:s2",
+          "assetPath": "assets/builder-icons/chains/youhu/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 141,
+          "assetId": "chain:youhu:s3",
+          "assetPath": "assets/builder-icons/chains/youhu/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 142,
+          "assetId": "chain:youhu:s4",
+          "assetPath": "assets/builder-icons/chains/youhu/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 143,
+          "assetId": "chain:youhu:s5",
+          "assetPath": "assets/builder-icons/chains/youhu/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 144,
+          "assetId": "chain:youhu:s6",
+          "assetPath": "assets/builder-icons/chains/youhu/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "yuanwu",
+      "characterName": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 91,
+          "assetId": "chain:yuanwu:s1",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 92,
+          "assetId": "chain:yuanwu:s2",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 93,
+          "assetId": "chain:yuanwu:s3",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 94,
+          "assetId": "chain:yuanwu:s4",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 95,
+          "assetId": "chain:yuanwu:s5",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 96,
+          "assetId": "chain:yuanwu:s6",
+          "assetPath": "assets/builder-icons/chains/yuanwu/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "zani",
+      "characterName": "Zani",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 193,
+          "assetId": "chain:zani:s1",
+          "assetPath": "assets/builder-icons/chains/zani/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 194,
+          "assetId": "chain:zani:s2",
+          "assetPath": "assets/builder-icons/chains/zani/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 195,
+          "assetId": "chain:zani:s3",
+          "assetPath": "assets/builder-icons/chains/zani/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 196,
+          "assetId": "chain:zani:s4",
+          "assetPath": "assets/builder-icons/chains/zani/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 197,
+          "assetId": "chain:zani:s5",
+          "assetPath": "assets/builder-icons/chains/zani/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 198,
+          "assetId": "chain:zani:s6",
+          "assetPath": "assets/builder-icons/chains/zani/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "characterName": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 133,
+          "assetId": "chain:zhezhi:s1",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 134,
+          "assetId": "chain:zhezhi:s2",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 135,
+          "assetId": "chain:zhezhi:s3",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 136,
+          "assetId": "chain:zhezhi:s4",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 137,
+          "assetId": "chain:zhezhi:s5",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 138,
+          "assetId": "chain:zhezhi:s6",
+          "assetPath": "assets/builder-icons/chains/zhezhi/s6.webp"
+        }
+      ]
+    }
+  ]
+}

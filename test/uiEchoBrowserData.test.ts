@@ -49,7 +49,7 @@ const browserData = JSON.parse(
     secondaryMainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }>>;
     substats: { name: string; values: number[] }[];
   };
-  sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
+  sonataSets: { id: string; sourceId: number; name: string; releaseStatus: string; artPath: string }[];
 };
 
 const manifest = JSON.parse(
@@ -151,6 +151,7 @@ test('Echo browser Sonata selector identities and art resolve from canonical cat
     assert.ok(canonical, `${sonata.id}: missing canonical Sonata`);
     assert.ok(art, `${sonata.id}: missing source-backed Sonata art`);
     assert.equal(sonata.name, canonical.name);
+    assert.equal(sonata.sourceId, canonical.sourceId);
     assert.equal(art.name, canonical.name);
     assert.equal(art.sourceId, canonical.sourceId);
     assert.equal(sonata.artPath, art.targetPath);
@@ -158,6 +159,27 @@ test('Echo browser Sonata selector identities and art resolve from canonical cat
   }
 });
 
+
+test('Echo Sonata selector export uses canonical sourceId newest-to-oldest order', () => {
+  const released = SONATA_CATALOG.filter((sonata) => sonata.releaseStatus === 'RELEASED');
+  const expected = [...released].sort(
+    (a, b) => b.sourceId - a.sourceId || a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'),
+  );
+  const alphabetical = [...released].sort(
+    (a, b) => a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'),
+  );
+
+  assert.equal(browserData.sonataSets.length, released.length);
+  assert.equal(new Set(browserData.sonataSets.map((sonata) => sonata.id)).size, released.length);
+  assert.deepEqual(browserData.sonataSets.map((sonata) => sonata.id), expected.map((sonata) => sonata.id));
+  assert.notDeepEqual(browserData.sonataSets.map((sonata) => sonata.id), alphabetical.map((sonata) => sonata.id));
+  assert.equal(browserData.sonataSets[0]?.sourceId, Math.max(...released.map((sonata) => sonata.sourceId)));
+  assert.equal(browserData.sonataSets.at(-1)?.sourceId, Math.min(...released.map((sonata) => sonata.sourceId)));
+
+  assert.ok(workspaceHtml.includes('function compareSonataNewestFirst(a,b)'));
+  assert.ok(workspaceHtml.includes('filter(Boolean).sort(compareSonataNewestFirst)'));
+  assert.ok(workspaceHtml.includes('filter(sonata=>!recommendedSet.has(sonata.id)).sort(compareSonataNewestFirst)'));
+});
 
 test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', () => {
   assert.equal(workspaceHtml.includes('augusta-standard-echoes'), false);

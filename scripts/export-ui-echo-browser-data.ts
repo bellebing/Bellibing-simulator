@@ -63,6 +63,7 @@ const sonataUiById = new Map(projectSonataUiCatalog().map((set) => [set.id, set]
 
 const sonataSets = SONATA_CATALOG
   .filter((sonata) => sonata.releaseStatus === 'RELEASED' && referencedSonataIds.has(sonata.id))
+  .sort((a, b) => b.sourceId - a.sourceId || a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'))
   .map((sonata) => {
     const art = sonataArtById.get(sonata.id);
     if (!art || art.sourceId !== sonata.sourceId || art.name !== sonata.name) {
@@ -72,6 +73,7 @@ const sonataSets = SONATA_CATALOG
     if (!ui) throw new Error(`Missing reviewed Sonata UI projection: ${sonata.id}`);
     return {
       id: sonata.id,
+      sourceId: sonata.sourceId,
       name: sonata.name,
       releaseStatus: sonata.releaseStatus,
       artPath: art.targetPath,

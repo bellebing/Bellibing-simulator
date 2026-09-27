@@ -492,7 +492,10 @@ async function loadEchoBrowserData(){
   if(!Array.isArray(statContract.substats)||!statContract.substats.length)throw new Error('Missing Echo substat contract');
   echoStatContract=statContract;
   const iconById=new Map(manifest.icons.map(icon=>[icon.echoId,icon]));
+  const echoSonataSourceIds=new Set();
   echoSonataById=new Map(browserData.sonataSets.map(sonata=>{
+    if(!Number.isInteger(sonata.sourceId)||sonata.sourceId<=0||echoSonataSourceIds.has(sonata.sourceId))throw new Error(`Invalid source-backed Sonata order identity: ${sonata.id}`);
+    echoSonataSourceIds.add(sonata.sourceId);
     if(!sonata.artPath)throw new Error(`Missing source-backed Sonata art: ${sonata.id}`);
     return [sonata.id,{...sonata,artSrc:toAssetPath(sonata.artPath)}];
   }));
@@ -860,6 +863,9 @@ function appendEchoSonataIcons(host,ids){
     const icon=document.createElement('img');icon.src=sonata.artSrc;icon.alt='';icon.title=sonata.name;icon.dataset.sonataId=id;icon.draggable=false;host.appendChild(icon);
   }
 }
+function compareSonataNewestFirst(a,b){
+  return b.sourceId-a.sourceId||a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en');
+}
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
   characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),infoExpanded:false,sonataMenuOpen:false,open:false,closing:false,lastFocus:null,choiceById:new Map(),
@@ -995,9 +1001,9 @@ const echoUi={
     if(!this.sonataOptions)return;
     this.sonataOptions.replaceChildren();
     const recommendedIds=this.loadoutProfile?.sonataSetIds||[];
-    const recommended=recommendedIds.map(id=>echoSonataById.get(id)).filter(Boolean);
+    const recommended=recommendedIds.map(id=>echoSonataById.get(id)).filter(Boolean).sort(compareSonataNewestFirst);
     const recommendedSet=new Set(recommendedIds);
-    const other=[...echoSonataById.values()].filter(sonata=>!recommendedSet.has(sonata.id)).sort((a,b)=>a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en'));
+    const other=[...echoSonataById.values()].filter(sonata=>!recommendedSet.has(sonata.id)).sort(compareSonataNewestFirst);
     if(recommended.length)this.renderSonataGroup('Recommended Sonata Sets',recommended,{recommended:true});
     this.renderSonataGroup('Other Sonata Sets',other);
     const selected=[...this.selectedSonataIds].map(id=>echoSonataById.get(id)).filter(Boolean);

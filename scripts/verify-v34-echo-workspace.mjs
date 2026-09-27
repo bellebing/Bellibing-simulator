@@ -346,22 +346,49 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '#echoSonataToggle');
   await waitForUi(send, `echoUi.sonataMenuOpen&&!document.getElementById('echoSonataMenu').hidden`, 'Physical Sonata selector toggle did not open');
-  const groups = await evaluate(send, `(()=>({
-    recommended:[...document.querySelectorAll('[data-sonata-group="recommended"] [data-sonata-id]')].map(x=>({id:x.dataset.sonataId,name:x.querySelector('.echo-sonata-option-name')?.textContent.trim(),star:x.querySelector('.echo-sonata-option-star')?.textContent.trim()})),
-    otherCount:document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]').length,
-    order:[...document.querySelectorAll('#echoSonataOptions>.echo-sonata-group')].map(x=>x.dataset.sonataGroup)
-  }))()`);
+  const groups = await evaluate(send, `(()=>{
+    const read=node=>{
+      const id=node.dataset.sonataId,set=echoSonataById.get(id),label=node.querySelector('.echo-sonata-option-name'),starNode=node.querySelector('.echo-sonata-option-star');
+      const starRect=starNode?.getBoundingClientRect(),labelRect=label?.getBoundingClientRect();
+      return{id,name:label?.textContent.trim()||'',sourceId:set?.sourceId??null,star:starNode?.textContent.trim()||null,selected:node.classList.contains('active'),starRight:!starNode||!labelRect||starRect.left>=labelRect.right-1};
+    };
+    const recommended=[...document.querySelectorAll('[data-sonata-group="recommended"] [data-sonata-id]')].map(read);
+    const other=[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(read);
+    const all=[...document.querySelectorAll('#echoSonataOptions [data-sonata-id]')].map(read);
+    const expectedIds=[...echoSonataById.keys()].sort(),actualIds=all.map(x=>x.id);
+    const alphabetical=[...other].sort((a,b)=>a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en')).map(x=>x.id);
+    const descending=rows=>rows.every((row,index)=>index===0||rows[index-1].sourceId>row.sourceId);
+    return{
+      recommended,other,
+      order:[...document.querySelectorAll('#echoSonataOptions>.echo-sonata-group')].map(x=>x.dataset.sonataGroup),
+      recommendedDescending:descending(recommended),
+      otherDescending:descending(other),
+      otherIsAlphabetical:JSON.stringify(other.map(x=>x.id))===JSON.stringify(alphabetical),
+      exactOnce:actualIds.length===expectedIds.length&&new Set(actualIds).size===expectedIds.length&&JSON.stringify([...new Set(actualIds)].sort())===JSON.stringify(expectedIds)
+    };
+  })()`);
   if (
-    JSON.stringify(groups.recommended) !== JSON.stringify([
+    JSON.stringify(groups.recommended.map(({id,name,star})=>({id,name,star}))) !== JSON.stringify([
       {id:'sonata-20',name:'Crown of Valor',star:'★'},
       {id:'sonata-3',name:'Void Thunder',star:'★'},
     ])
-    || groups.otherCount !== 32
+    || groups.other.length !== 32
+    || groups.recommended.some(x=>!x.starRight)
+    || groups.other.some(x=>x.star!==null)
+    || !groups.recommendedDescending
+    || !groups.otherDescending
+    || groups.otherIsAlphabetical
+    || !groups.exactOnce
     || JSON.stringify(groups.order) !== JSON.stringify(['recommended','other'])
-  ) throw new Error(`Augusta recommended Sonata grouping failed: ${JSON.stringify(groups)}`);
+  ) throw new Error(`Augusta recommended/newest-first Sonata grouping failed: ${JSON.stringify(groups)}`);
 
   await pointerClick(send, '#echoSonataAll');
   await waitForUi(send, `echoUi.selectedSonataIds.size===0&&document.getElementById('echoSonataSummary').textContent.trim()==='All Sonata Sets'&&document.querySelectorAll('#echoSonataToggleIcons img').length===0`, '0-selected Sonata summary/icons failed');
+  const recommendationAfterClear=await evaluate(send,`(()=>({
+    recommended:[...document.querySelectorAll('[data-sonata-group="recommended"] [data-sonata-id]')].map(x=>({star:x.querySelector('.echo-sonata-option-star')?.textContent.trim()||null,selected:x.classList.contains('active')})),
+    otherStars:document.querySelectorAll('[data-sonata-group="other"] .echo-sonata-option-star').length
+  }))()`);
+  if(recommendationAfterClear.recommended.some(x=>x.star!=='★'||x.selected)||recommendationAfterClear.otherStars)throw new Error('Recommendation star leaked into selected/filter state: '+JSON.stringify(recommendationAfterClear));
   await verifyCurrentBrowserFilter(send,'All mode has an empty active-set rail');
 
   await pointerClick(send, '#echoSonataOptions [data-sonata-id="sonata-20"]');
@@ -672,9 +699,12 @@ async function verifyDesktop(send) {
     costs:[...document.querySelectorAll('#echoWorkspaceSlots .echo-slot-cost')].map(x=>x.textContent.trim()),
     recommendedGroups:document.querySelectorAll('[data-sonata-group="recommended"]').length,
     otherGroups:document.querySelectorAll('[data-sonata-group="other"]').length,
+    stars:document.querySelectorAll('.echo-sonata-option-star').length,
+    other:[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(x=>({id:x.dataset.sonataId,sourceId:echoSonataById.get(x.dataset.sonataId)?.sourceId??null})),
     summary:document.getElementById('echoSonataSummary').textContent.trim()
   }))()`);
-  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.summary!=='All Sonata Sets') {
+  const fallbackNewestFirst=fallback.other.every((row,index)=>index===0||fallback.other[index-1].sourceId>row.sourceId);
+  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.stars!==0||fallback.other.length!==34||!fallbackNewestFirst||fallback.summary!=='All Sonata Sets') {
     throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
   }
   const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);
@@ -859,6 +889,7 @@ try {
     const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
     console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
     console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
+    console.log('- Sonata selector: canonical sourceId newest→oldest ordering, recommended-first gold stars, exact-once coverage and no-recommendation fallback passed.');
     console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
     console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844 passed (${mobile.previewed}).`);

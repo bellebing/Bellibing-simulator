@@ -1,9 +1,11 @@
 import { spawn } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT ?? 9670);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const assert = (condition, message, detail) => { if (!condition) throw new Error(message + (detail === undefined ? '' : ': ' + JSON.stringify(detail))); };
 
 async function waitForChrome() {
   const deadline = Date.now() + 15000;
@@ -78,24 +80,71 @@ async function navigate(send) {
   throw new Error('Sequence UI preview did not become ready.');
 }
 
-async function pointerClick(send, selector) {
+async function centerOf(send, selector) {
   const selectorJson = JSON.stringify(selector);
-  await evaluate(send, "(() => {const el=document.querySelector(" + selectorJson + ");if(!el)throw new Error('Missing pointer target');el.scrollIntoView({block:'center',inline:'center',behavior:'instant'})})()");
-  await sleep(55);
-  const bounds = await evaluate(send, "document.querySelector(" + selectorJson + ").getBoundingClientRect().toJSON()");
-  if (!bounds || bounds.width <= 0 || bounds.height <= 0) throw new Error('Pointer target is not visible: ' + selector);
-  const x = bounds.x + bounds.width / 2, y = bounds.y + bounds.height / 2;
-  const hit = await evaluate(send, "(() => {const el=document.elementFromPoint(" + x + "," + y + ");return{tag:el?.tagName||null,id:el?.id||null,className:typeof el?.className==='string'?el.className:null,closest:!!el?.closest?.(" + selectorJson + ")}})()");
-  if (!hit.closest) throw new Error('Pointer center does not hit requested target: ' + selector + ' ' + JSON.stringify({ bounds, hit }));
-  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
-  await send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+  const bounds = await evaluate(send, "(() => {const el=document.querySelector(" + selectorJson + ");if(!el)throw new Error('Missing pointer target');return el.getBoundingClientRect().toJSON()})()");
+  assert(bounds && bounds.width > 0 && bounds.height > 0, 'Pointer target is not visible', { selector, bounds });
+  return { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2, bounds };
+}
+
+async function movePointer(send, selector) {
+  const point = await centerOf(send, selector);
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x, y: point.y });
+  return point.bounds;
+}
+
+async function moveAway(send) {
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 24, y: 24 });
+}
+
+async function pointerClick(send, selector) {
+  const point = await centerOf(send, selector);
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x, y: point.y });
+  await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: point.x, y: point.y, button: 'left', clickCount: 1 });
   await sleep(30);
-  await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
+  await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: point.x, y: point.y, button: 'left', clickCount: 1 });
   await sleep(90);
 }
 
+async function hoverNode(send, sequence, duration = 760) {
+  await movePointer(send, '#sequenceLine .node[data-sequence="' + sequence + '"]');
+  await sleep(duration);
+}
+
 async function snapshot(send) {
-  return evaluate(send, "(() => ({character:sequenceUi.characterId,current:sequenceUi.currentLevel,preview:sequenceUi.previewSequence,saved:buildPicker.selected?draft(buildPicker.selected).build.sequenceLevel:null,order:[...document.querySelectorAll('#sequenceLine .node')].map(x=>Number(x.dataset.sequence)),active:[...document.querySelectorAll('#sequenceLine .node.is-active')].map(x=>Number(x.dataset.sequence)).sort((a,b)=>a-b),previewed:[...document.querySelectorAll('#sequenceLine .node.is-preview')].map(x=>Number(x.dataset.sequence)),srcs:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.getAttribute('src')),loaded:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.naturalWidth),inspectorOpen:document.getElementById('sequenceInspector').classList.contains('open'),inspectorHidden:document.getElementById('sequenceInspector').getAttribute('aria-hidden'),commitText:document.getElementById('sequenceCommit').textContent.trim(),s0Text:document.getElementById('sequenceSetZero').textContent.trim()}))()");
+  return evaluate(send, "(() => ({character:sequenceUi.characterId,current:sequenceUi.currentLevel,open:sequenceUi.openSequence,hover:sequenceUi.hoverSequence,hoverDelay:sequenceUi.hoverDelay,closeDelay:sequenceUi.closeDelay,saved:buildPicker.selected?draft(buildPicker.selected).build.sequenceLevel:null,order:[...document.querySelectorAll('#sequenceLine .node')].map(x=>Number(x.dataset.sequence)),active:[...document.querySelectorAll('#sequenceLine .node.is-active')].map(x=>Number(x.dataset.sequence)).sort((a,b)=>a-b),currentActive:[...document.querySelectorAll('#sequenceLine .node.is-current-active')].map(x=>Number(x.dataset.sequence)),srcs:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.getAttribute('src')),loaded:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.naturalWidth),flyoutOpen:document.getElementById('sequenceFlyout').classList.contains('open'),flyoutHidden:document.getElementById('sequenceFlyout').getAttribute('aria-hidden'),actionText:document.getElementById('sequenceAction').textContent.trim(),hint:document.getElementById('sequenceConsequence').textContent.trim(),flyoutLabel:document.getElementById('sequenceFlyoutLabel').textContent.trim(),contentText:document.getElementById('sequenceFlyoutContent').textContent.trim(),currentText:document.getElementById('sequenceCurrent').textContent.trim(),openCount:document.querySelectorAll('.seq-flyout.open').length}))()");
+}
+
+async function flyoutGeometry(send, sequence) {
+  return evaluate(send, "(() => {const node=document.querySelector('#sequenceLine .node[data-sequence=\"" + sequence + "\"]');const fly=document.getElementById('sequenceFlyout');return{node:node.getBoundingClientRect().toJSON(),fly:fly.getBoundingClientRect().toJSON(),vw:innerWidth,vh:innerHeight}})()");
+}
+
+function rgbChannels(value) {
+  const match = String(value).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  return match ? match.slice(1, 4).map(Number) : null;
+}
+
+async function assertGoldVisuals(send) {
+  const visuals = await evaluate(send, "(() => [...document.querySelectorAll('#sequenceLine .node')].map(node=>{const img=node.querySelector('img'),tag=node.querySelector('.seq-tag'),ns=getComputedStyle(node),is=getComputedStyle(img),ts=getComputedStyle(tag);return{sequence:Number(node.dataset.sequence),active:node.classList.contains('is-active'),current:node.classList.contains('is-current-active'),border:ns.borderTopColor,shadow:ns.boxShadow,filter:is.filter,opacity:is.opacity,tagColor:ts.color,tagText:tag.textContent.trim(),tagRect:tag.getBoundingClientRect().toJSON()}}))()");
+  for (const row of visuals) {
+    assert(row.tagText === 'S' + row.sequence && row.tagRect.width > 0 && row.tagRect.height > 0 && !row.tagColor.includes('0, 0, 0, 0'), 'Sequence text overlay is not visible', row);
+    if (row.sequence <= 5) {
+      assert(row.active, 'Expected active Sequence node', row);
+      assert(row.filter.includes('sepia(1)'), 'Active Sequence artwork is not gold-filtered', row);
+      const rgb = rgbChannels(row.border);
+      assert(rgb && rgb[0] > rgb[1] && rgb[1] > rgb[2] && Math.max(...rgb) < 250, 'Active Sequence ring is not gold / is too white', row);
+    } else {
+      assert(!row.active && !row.filter.includes('sepia(1)'), 'Inactive S6 should remain subdued rather than gold', row);
+    }
+  }
+  const s5 = visuals.find((row) => row.sequence === 5), s4 = visuals.find((row) => row.sequence === 4);
+  assert(s5?.current && s5.shadow !== s4?.shadow, 'Highest committed Sequence does not have the stronger gold ring/glow', { s5, s4 });
+}
+
+async function captureSequenceEvidence(send) {
+  mkdirSync('artifacts', { recursive: true });
+  const shot = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false, fromSurface: true });
+  writeFileSync('artifacts/ui-preview-sequence-hover-1440x900.png', Buffer.from(shot.data, 'base64'));
 }
 
 const userDir = '/tmp/bellibing-sequence-' + process.pid + '-' + DEBUG_PORT;
@@ -110,83 +159,158 @@ try {
   try {
     await waitFor(send, "releasedCharacters.length===57 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
   } catch (error) {
-    const diagnostic = await evaluate(send, "(async()=>({characterCards:document.querySelectorAll('#buildWheel .choice').length,characterManifestError:document.documentElement.dataset.characterManifestError||null,sequenceReady:document.documentElement.dataset.sequenceCatalogReady||null,sequenceError:document.documentElement.dataset.sequenceCatalogError||null,sequencePath:typeof SEQUENCE_RUNTIME_DATA_PATH==='string'?SEQUENCE_RUNTIME_DATA_PATH:null,sequenceFetch:await fetch('assets/sequence-runtime.json',{cache:'no-store'}).then(async r=>({status:r.status,ok:r.ok,text:(await r.text()).slice(0,120)})).catch(e=>({error:String(e)}))}))()");
+    const diagnostic = await evaluate(send, "(async()=>({characterCards:document.querySelectorAll('#buildWheel .choice').length,characterManifestError:document.documentElement.dataset.characterManifestError||null,sequenceReady:document.documentElement.dataset.sequenceCatalogReady||null,sequenceError:document.documentElement.dataset.sequenceCatalogError||null,sequenceFetch:await fetch('assets/sequence-runtime.json',{cache:'no-store'}).then(async r=>({status:r.status,ok:r.ok,text:(await r.text()).slice(0,120)})).catch(e=>({error:String(e)}))}))()");
     throw new Error(error.message + ': ' + JSON.stringify(diagnostic));
   }
 
   const coverage = await evaluate(send, "(() => {const invalid=[];for(const [id,row] of sequenceAssetsByCharacter){const chains=row?.chains||[];if(chains.length!==6||chains.some((chain,index)=>chain.sequence!==index+1||!chain.assetId||chain.assetPath!=='assets/builder-icons/chains/'+id+'/s'+(index+1)+'.webp'))invalid.push(id)}return{count:sequenceAssetsByCharacter.size,invalid,samples:['aalto','augusta','chisa','the-shorekeeper'].map(id=>({id,srcs:(sequenceAssetsByCharacter.get(id)?.chains||[]).map(chain=>chain.assetPath)}))}})()");
-  if (coverage.count !== 57 || coverage.invalid.length) throw new Error('Resolver-backed Sequence runtime coverage failed: ' + JSON.stringify(coverage));
-  if (coverage.samples.some(sample => sample.srcs.length !== 6)) throw new Error('Sample Sequence coverage missing: ' + JSON.stringify(coverage.samples));
+  assert(coverage.count === 57 && coverage.invalid.length === 0, 'Resolver-backed Sequence runtime coverage failed', coverage);
+  assert(coverage.samples.every((sample) => sample.srcs.length === 6), 'Sample Sequence coverage missing', coverage.samples);
+
   const fingerprints = await evaluate(send, "(async()=>{const ids=['aalto','augusta','chisa','the-shorekeeper'];const out={};for(const id of ids){out[id]=[];for(const chain of sequenceAssetsByCharacter.get(id).chains){const bytes=await fetch(chain.assetPath,{cache:'no-store'}).then(r=>r.arrayBuffer());const digest=await crypto.subtle.digest('SHA-256',bytes);out[id].push([...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join(''))}}return out})()");
-  for (const [id, hashes] of Object.entries(fingerprints)) if (hashes.length !== 6 || new Set(hashes).size !== 6) throw new Error('Character Sequence icons are not six distinct source assets for ' + id + ': ' + JSON.stringify(hashes));
-  const signatureSet = new Set(Object.values(fingerprints).map(hashes => hashes.join(':')));
-  if (signatureSet.size !== Object.keys(fingerprints).length) throw new Error('Several Character icon sets were not visibly/source-distinct: ' + JSON.stringify(fingerprints));
+  for (const [id, hashes] of Object.entries(fingerprints)) assert(hashes.length === 6 && new Set(hashes).size === 6, 'Character Sequence icons are not six distinct source assets for ' + id, hashes);
+  assert(new Set(Object.values(fingerprints).map((hashes) => hashes.join(':'))).size === Object.keys(fingerprints).length, 'Several Character icon sets were not source-distinct', fingerprints);
 
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.assets?.chains?.length===6 && [...document.querySelectorAll('#sequenceLine .node img')].every(x=>x.naturalWidth>0)", 'Chisa Sequence UI did not bind/load');
   await sleep(900);
+
   let state = await snapshot(send);
-  if (state.current !== 0 || state.preview !== null || state.saved !== undefined || state.active.length !== 0 || state.loaded.some((x) => x <= 0) || JSON.stringify(state.order)!==JSON.stringify([6,5,4,3,2,1])) throw new Error('Initial Chisa S0/order state failed: ' + JSON.stringify(state));
+  assert(state.current === 0 && state.open === null && state.active.length === 0 && state.loaded.every((x) => x > 0), 'Initial Chisa S0 state failed', state);
+  assert(JSON.stringify(state.order) === JSON.stringify([6,5,4,3,2,1]), 'S6→S1 DOM order changed', state.order);
+  assert(state.hoverDelay === 700 && state.closeDelay === 130, 'Sequence hover/grace delays drifted', { hoverDelay: state.hoverDelay, closeDelay: state.closeDelay });
+
+  const initialVisuals = await evaluate(send, "(() => [...document.querySelectorAll('#sequenceLine .node')].map(node=>({sequence:Number(node.dataset.sequence),tag:node.querySelector('.seq-tag').textContent.trim(),tagColor:getComputedStyle(node.querySelector('.seq-tag')).color,imgOpacity:Number(getComputedStyle(node.querySelector('img')).opacity),imgFilter:getComputedStyle(node.querySelector('img')).filter})))()");
+  assert(initialVisuals.every((row) => row.tag === 'S' + row.sequence && row.imgOpacity >= 0.4 && row.imgFilter.includes('grayscale')), 'Inactive Sequence icon/text treatment is not recognizable/subdued', initialVisuals);
+
+  const surfaceContract = await evaluate(send, "(() => ({position:getComputedStyle(document.getElementById('sequenceFlyout')).position,role:document.getElementById('sequenceFlyout').getAttribute('role'),inspectorCount:document.querySelectorAll('.seq-inspector,#sequenceInspector').length,sequenceDialogCount:document.querySelectorAll('#sequencePanel [role=dialog]').length,contentText:document.getElementById('sequenceFlyoutContent').textContent.trim(),panelText:document.getElementById('sequencePanel').textContent.toLowerCase()}))()");
+  assert(surfaceContract.position === 'absolute' && !surfaceContract.role && surfaceContract.inspectorCount === 0 && surfaceContract.sequenceDialogCount === 0, 'Sequence surface regressed to inspector/modal workflow', surfaceContract);
+  assert(surfaceContract.contentText === '' && !/damage|effect|mechanic|description/.test(surfaceContract.panelText), 'Sequence gameplay description/effect text leaked into interaction shell', surfaceContract);
 
   await pointerClick(send, '#sequenceLine .node[data-sequence="6"]');
+  await sleep(120);
   state = await snapshot(send);
-  if (state.preview !== 6 || state.current !== 0 || state.saved !== undefined || !state.inspectorOpen || state.inspectorHidden !== 'false' || state.commitText !== 'Set S6') throw new Error('Physical S6 click mutated state instead of Preview-only: ' + JSON.stringify(state));
+  assert(state.current === 0 && state.open === null && state.active.length === 0, 'Direct Sequence node click committed/opened state', state);
+  await moveAway(send); await sleep(180);
 
-  await pointerClick(send, '#sequenceCommit');
-  await waitFor(send, 'sequenceUi.currentLevel===6', 'Set S6 did not commit');
+  await movePointer(send, '#sequenceLine .node[data-sequence="5"]');
+  await sleep(520);
   state = await snapshot(send);
-  if (state.saved !== 6 || JSON.stringify(state.active) !== JSON.stringify([1,2,3,4,5,6]) || state.commitText !== 'Current S6') throw new Error('Set S6 commit/active range failed: ' + JSON.stringify(state));
+  assert(state.open === null && !state.flyoutOpen && state.current === 0, 'Hover under 700 ms opened flyout or committed state', state);
+  await moveAway(send); await sleep(180);
 
-  await pointerClick(send, '#sequenceLine .node[data-sequence="2"]');
+  await hoverNode(send, 5, 760);
   state = await snapshot(send);
-  if (state.preview !== 2 || state.current !== 6 || state.saved !== 6) throw new Error('S2 Preview changed committed S6 before explicit commit: ' + JSON.stringify(state));
-  await pointerClick(send, '#sequenceCommit');
-  await waitFor(send, 'sequenceUi.currentLevel===2', 'Set S2 did not lower committed Sequence');
-  state = await snapshot(send);
-  if (state.saved !== 2 || JSON.stringify(state.active) !== JSON.stringify([1,2])) throw new Error('S6 -> S2 lowering failed: ' + JSON.stringify(state));
+  assert(state.open === 5 && state.flyoutOpen && state.flyoutHidden === 'false' && state.actionText === 'Set S5' && state.hint === 'Activates S1–S5' && state.flyoutLabel === 'S5' && state.contentText === '', 'Sustained S5 hover did not open correct inactive flyout', state);
+  let geometry = await flyoutGeometry(send, 5);
+  assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top <= geometry.node.top - 4, 'Sequence flyout is not anchored right/up from node', geometry);
 
-  await pointerClick(send, '#sequenceSetZero');
+  await movePointer(send, '#sequenceFlyout');
+  await sleep(220);
   state = await snapshot(send);
-  if (state.current !== 0 || state.saved !== 0 || state.preview !== null || state.active.length !== 0) throw new Error('Explicit Set S0 failed: ' + JSON.stringify(state));
+  assert(state.open === 5 && state.flyoutOpen, 'Flyout closed while pointer travelled node → flyout', state);
 
-  await pointerClick(send, '#sequenceLine .node[data-sequence="3"]');
-  if ((await snapshot(send)).preview !== 3) throw new Error('Chisa S3 Preview did not open before Character switch');
+  await moveAway(send);
+  await sleep(70);
+  state = await snapshot(send);
+  assert(state.open === 5, 'Flyout closed before grace delay elapsed', state);
+  await sleep(100);
+  state = await snapshot(send);
+  assert(state.open === null && !state.flyoutOpen, 'Flyout did not close after leaving node and flyout', state);
+
+  await hoverNode(send, 2, 760);
+  state = await snapshot(send);
+  assert(state.open === 2 && state.openCount === 1, 'S2 flyout failed to open', state);
+  await movePointer(send, '#sequenceLine .node[data-sequence="4"]');
+  await sleep(150);
+  state = await snapshot(send);
+  assert(state.open === null && state.openCount === 0, 'Previous flyout stayed open while switching hover target', state);
+  await sleep(620);
+  state = await snapshot(send);
+  assert(state.open === 4 && state.openCount === 1, 'New hover target did not become the sole open flyout', state);
+  await moveAway(send); await sleep(180);
+
+  await hoverNode(send, 5, 760);
+  state = await snapshot(send);
+  assert(state.actionText === 'Set S5' && state.hint === 'Activates S1–S5', 'Inactive S5 action/hint incorrect before commit', state);
+  await pointerClick(send, '#sequenceAction');
+  await waitFor(send, 'sequenceUi.currentLevel===5', 'Set S5 did not commit level 5');
+  state = await snapshot(send);
+  assert(state.saved === 5 && JSON.stringify(state.active) === JSON.stringify([1,2,3,4,5]) && state.actionText === 'Remove S5' && state.hint === '' && JSON.stringify(state.currentActive) === JSON.stringify([5]), 'Set S5 active range/action state failed', state);
+  await assertGoldVisuals(send);
+  await captureSequenceEvidence(send);
+
+  await hoverNode(send, 3, 760);
+  state = await snapshot(send);
+  assert(state.actionText === 'Remove S3' && state.hint === 'Also removes S4–S5', 'Active S3 remove consequence hint incorrect', state);
+  await pointerClick(send, '#sequenceAction');
+  await waitFor(send, 'sequenceUi.currentLevel===2', 'Remove S3 from S5 did not produce S2');
+  state = await snapshot(send);
+  assert(state.saved === 2 && JSON.stringify(state.active) === JSON.stringify([1,2]), 'Remove S3 did not clear S3 and every higher Sequence', state);
+
+  await hoverNode(send, 5, 760);
+  await pointerClick(send, '#sequenceAction');
+  await waitFor(send, 'sequenceUi.currentLevel===5', 'Second Set S5 did not commit');
+  await hoverNode(send, 1, 760);
+  state = await snapshot(send);
+  assert(state.actionText === 'Remove S1' && state.hint === 'Also removes S2–S5', 'Remove S1 cascade hint incorrect', state);
+  await pointerClick(send, '#sequenceAction');
+  await waitFor(send, 'sequenceUi.currentLevel===0', 'Remove S1 did not produce S0');
+  state = await snapshot(send);
+  assert(state.saved === 0 && state.active.length === 0 && state.currentText === 'S0', 'Remove S1 / S0 state failed', state);
+
+  await hoverNode(send, 2, 760);
+  await pointerClick(send, '#sequenceAction');
+  await waitFor(send, 'sequenceUi.currentLevel===2', 'Chisa Set S2 failed');
+  const chisaState = await snapshot(send);
+  assert(chisaState.saved === 2, 'Chisa S2 did not persist', chisaState);
+
+  await hoverNode(send, 4, 760);
+  assert((await snapshot(send)).open === 4, 'Chisa S4 flyout did not open before Character switch');
   await evaluate(send, "buildPicker.select('Augusta')");
   await waitFor(send, "sequenceUi.characterId==='augusta'", 'Character switch did not bind Augusta');
-  await sleep(900);
+  await sleep(250);
   state = await snapshot(send);
-  if (state.preview !== null || state.current !== 0 || state.srcs.some((src) => !src?.includes('/augusta/'))) throw new Error('Character switch failed to clear Preview/update icons: ' + JSON.stringify(state));
+  assert(state.open === null && !state.flyoutOpen && state.current === 0 && state.srcs.every((src) => src?.includes('/augusta/')), 'Character switch did not close flyout/reset state/use Augusta icons', state);
+  assert(state.srcs.every((src, index) => src !== chisaState.srcs[index]), 'Character switch did not replace all six Character-specific Sequence assets', { chisa: chisaState.srcs, augusta: state.srcs });
 
-  await pointerClick(send, '#sequenceLine .node[data-sequence="1"]');
-  await pointerClick(send, '#sequenceCommit');
+  await hoverNode(send, 1, 760);
+  state = await snapshot(send);
+  assert(state.actionText === 'Set S1', 'Augusta inactive S1 action incorrect', state);
+  await pointerClick(send, '#sequenceAction');
   await waitFor(send, 'sequenceUi.currentLevel===1', 'Augusta Set S1 failed');
-  await evaluate(send, "buildPicker.select('Chisa')");
-  await waitFor(send, "sequenceUi.characterId==='chisa'", 'Return to Chisa failed');
-  await sleep(900);
-  state = await snapshot(send);
-  if (state.current !== 0 || state.saved !== 0) throw new Error('Character-independent Chisa state did not restore after Augusta change: ' + JSON.stringify(state));
+  assert((await snapshot(send)).saved === 1, 'Augusta S1 did not persist');
 
-  await pointerClick(send, '#sequenceLine .node[data-sequence="4"]');
-  if ((await snapshot(send)).preview !== 4) throw new Error('Chisa preview did not open before persisted Augusta switch');
+  await evaluate(send, "buildPicker.select('Chisa')");
+  await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Chisa persisted S2 did not restore');
+  state = await snapshot(send);
+  assert(state.open === null && state.saved === 2 && state.srcs.every((src) => src?.includes('/chisa/')), 'Chisa isolation restore failed', state);
   await evaluate(send, "buildPicker.select('Augusta')");
-  await waitFor(send, "sequenceUi.characterId==='augusta' && sequenceUi.currentLevel===1", 'Persisted Augusta S1 did not restore on Character switch');
-  state = await snapshot(send);
-  if (state.preview !== null || state.saved !== 1 || state.srcs.some((src) => !src?.includes('/augusta/'))) throw new Error('Character switch did not clear Preview/use persisted Augusta state: ' + JSON.stringify(state));
+  await waitFor(send, "sequenceUi.characterId==='augusta' && sequenceUi.currentLevel===1", 'Augusta persisted S1 did not restore');
   await evaluate(send, "buildPicker.select('Chisa')");
-  await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===0", 'Return to Chisa after persisted Augusta check failed');
+  await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Return to Chisa S2 failed');
 
-  await pointerClick(send, '#sequenceLine .node[data-sequence="2"]');
-  await pointerClick(send, '#sequenceCommit');
-  await waitFor(send, 'sequenceUi.currentLevel===2', 'Chisa Set S2 before reload failed');
   await evaluate(send, 'location.reload()');
   await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===57", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');
   await sleep(900);
   state = await snapshot(send);
-  if (state.current !== 2 || state.saved !== 2 || JSON.stringify(state.active) !== JSON.stringify([1,2])) throw new Error('Reload persistence failed: ' + JSON.stringify(state));
+  assert(state.current === 2 && state.saved === 2 && JSON.stringify(state.active) === JSON.stringify([1,2]), 'Reload persistence failed', state);
 
-  console.log('v34 Sequence runtime verified: 57 released Characters × six source-backed icons, distinct multi-Character icon sets, S6→S1 order, physical Preview-only clicks, explicit commit/lowering/S0, Character isolation and reload persistence.');
+  for (const [width, height] of [[1920,1080],[2560,1440]]) {
+    await moveAway(send);
+    await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
+    await sleep(180);
+    await hoverNode(send, 4, 760);
+    state = await snapshot(send);
+    assert(state.open === 4 && state.actionText === 'Set S4', 'Desktop sanity hover failed at ' + width + '×' + height, state);
+    geometry = await flyoutGeometry(send, 4);
+    assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top <= geometry.node.top - 4 && geometry.fly.right <= geometry.vw && geometry.fly.bottom <= geometry.vh, 'Flyout geometry overflow/anchor failed at ' + width + '×' + height, geometry);
+    await moveAway(send); await sleep(180);
+  }
+
+  console.log('v34 Sequence hover runtime verified: gold active S1–S6 treatment, 700ms anchored flyout, node→flyout persistence/grace close, Set/Remove cascade semantics, no node-click commits, Character isolation/assets, reload persistence, empty gameplay-description shell, and 1440/1920/2560 desktop geometry.');
   socket.close();
 } finally {
   chrome.kill('SIGTERM');

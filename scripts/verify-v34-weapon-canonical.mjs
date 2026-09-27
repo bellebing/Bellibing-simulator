@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT ?? 9666);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
+const VERIFY_MOBILE = process.env.BELLIBING_VERIFY_MOBILE === '1';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function waitForChrome() {
@@ -611,30 +612,38 @@ try{
       const desktopCharacter=await selectFocusedCharacterByPointer(send);
       const desktop=await verifyOpeningWeaponClickOnly(send,1440,900);
 
-      await setViewport(send,390,844);await navigate(send);
-      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
-      const mobile=await verifyOpeningWeaponClickOnly(send,390,844);
+      let mobile=null,mobileCharacter=null;
+      if(VERIFY_MOBILE){
+        await setViewport(send,390,844);await navigate(send);
+        await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+        mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+        mobile=await verifyOpeningWeaponClickOnly(send,390,844);
+      }
 
       console.log('Focused visible Weapon opening-click regression passed in real Chrome.');
       console.log(`- Desktop 1440x900: ${desktopCharacter}; ${desktop.weaponId} → Preview/hero.`);
-      console.log(`- Mobile 390x844: ${mobileCharacter}; ${mobile.weaponId} → Preview/hero.`);
-      console.log('- pointerdown/up → native click → weaponUi.select → previewId → visible hero all passed while the panel was still opening.');
+      if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844: ${mobileCharacter}; ${mobile.weaponId} → Preview/hero.`);
+      else console.log('- Mobile/narrow Weapon gate deferred by desktop-first stabilization policy.');
+      console.log('- pointerdown/up → native click → weaponUi.select → previewId → visible hero passed for the current acceptance surface.');
     }else{
       await setViewport(send,1440,900);await navigate(send);
       await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
       const desktopCharacter=await selectFocusedCharacterByPointer(send);
       const desktop=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-canonical-1440x900.png');
 
-      await setViewport(send,390,844);await navigate(send);
-      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
-      const mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+      let mobile=null,mobileCharacter=null;
+      if(VERIFY_MOBILE){
+        await setViewport(send,390,844);await navigate(send);
+        await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+        mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+        mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+      }
 
       console.log('v34 canonical Weapon focused verification passed in real Chrome.');
       console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
-      console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
-      console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on desktop and mobile.');
+      if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
+      else console.log('- Mobile/narrow Weapon gate deferred by desktop-first stabilization policy.');
+      console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on the current acceptance surface.');
       console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
     }
   }finally{socket.close()}

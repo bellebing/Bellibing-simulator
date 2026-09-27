@@ -5,6 +5,15 @@ import test from 'node:test';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import { projectEchoIdentityUiCatalog } from '../src/echoIdentityUiProjection.ts';
+import {
+  ECHO_STATS_EDITOR_LEVELS,
+  ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  ECHO_STATS_EDITOR_RANK,
+  getEchoStatsEditorSecondaryMainStat,
+  listEchoStatsEditorMainStatOptions,
+  listEchoStatsEditorSubstatOptions,
+} from '../src/echoStatEditor.ts';
 
 type BrowserEcho = {
   id: string;
@@ -12,6 +21,7 @@ type BrowserEcho = {
   releaseStatus: string;
   cost: 1 | 3 | 4;
   sonataSetIds: string[];
+  skill: { echoId: string; displayName: string; skillDescription: string; cooldownSeconds: number; sourceStatus: string };
 };
 
 const workspaceHtml = readFileSync(
@@ -31,7 +41,15 @@ const browserData = JSON.parse(
     slotCosts: (1 | 3 | 4)[];
     sonataSetIds: string[];
   }[];
-  sonataSets: { id: string; name: string; releaseStatus: string; artPath: string }[];
+  statEditor: {
+    rank: number;
+    levels: number[];
+    maxSubstats: number;
+    mainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }[]>>;
+    secondaryMainStatsByCostAndLevel: Record<string, Record<string, { name: string; value: number }>>;
+    substats: { name: string; values: number[] }[];
+  };
+  sonataSets: { id: string; sourceId: number; name: string; releaseStatus: string; artPath: string }[];
 };
 
 const manifest = JSON.parse(
@@ -54,6 +72,16 @@ test('Echo browser export contains only canonical RELEASED Echoes', () => {
     released.map((echo) => echo.id),
   );
   assert.ok(browserData.echoes.every((echo) => echo.releaseStatus === 'RELEASED'));
+});
+
+test('Echo browser export contains source-backed UI-safe Echo Skills for every released identity', () => {
+  const projected = new Map(projectEchoIdentityUiCatalog().map(row => [row.echoId, row]));
+  assert.equal(browserData.echoes.length, projected.size);
+  for (const echo of browserData.echoes) {
+    assert.deepEqual(echo.skill, projected.get(echo.id));
+    assert.equal(echo.skill.sourceStatus, 'VERIFIED');
+    assert.doesNotMatch(echo.skill.skillDescription, /[{}<>]/);
+  }
 });
 
 test('Echo browser canonical IDs match the artwork manifest and every card resolves art', () => {
@@ -123,6 +151,7 @@ test('Echo browser Sonata selector identities and art resolve from canonical cat
     assert.ok(canonical, `${sonata.id}: missing canonical Sonata`);
     assert.ok(art, `${sonata.id}: missing source-backed Sonata art`);
     assert.equal(sonata.name, canonical.name);
+    assert.equal(sonata.sourceId, canonical.sourceId);
     assert.equal(art.name, canonical.name);
     assert.equal(art.sourceId, canonical.sourceId);
     assert.equal(sonata.artPath, art.targetPath);
@@ -131,8 +160,74 @@ test('Echo browser Sonata selector identities and art resolve from canonical cat
 });
 
 
+test('Echo Sonata selector export uses canonical sourceId newest-to-oldest order', () => {
+  const released = SONATA_CATALOG.filter((sonata) => sonata.releaseStatus === 'RELEASED');
+  const expected = [...released].sort(
+    (a, b) => b.sourceId - a.sourceId || a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'),
+  );
+  const alphabetical = [...released].sort(
+    (a, b) => a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'),
+  );
+
+  assert.equal(browserData.sonataSets.length, released.length);
+  assert.equal(new Set(browserData.sonataSets.map((sonata) => sonata.id)).size, released.length);
+  assert.deepEqual(browserData.sonataSets.map((sonata) => sonata.id), expected.map((sonata) => sonata.id));
+  assert.notDeepEqual(browserData.sonataSets.map((sonata) => sonata.id), alphabetical.map((sonata) => sonata.id));
+  assert.equal(browserData.sonataSets[0]?.sourceId, Math.max(...released.map((sonata) => sonata.sourceId)));
+  assert.equal(browserData.sonataSets.at(-1)?.sourceId, Math.min(...released.map((sonata) => sonata.sourceId)));
+
+  assert.ok(workspaceHtml.includes('function compareSonataNewestFirst(a,b)'));
+  assert.ok(workspaceHtml.includes('filter(Boolean).sort(compareSonataNewestFirst)'));
+  assert.ok(workspaceHtml.includes('filter(sonata=>!recommendedSet.has(sonata.id)).sort(compareSonataNewestFirst)'));
+});
+
 test('Echo Workspace UI contains no hardcoded Augusta recommendation mapping', () => {
   assert.equal(workspaceHtml.includes('augusta-standard-echoes'), false);
   assert.equal(workspaceHtml.includes("['sonata-20','sonata-3']"), false);
   assert.equal(workspaceHtml.includes('[4,3,3,1,1]'), false);
+});
+
+
+test('Echo browser exports the source-backed checkpoint-aware Echo Stats Editor contract', () => {
+  assert.equal(browserData.statEditor.rank, ECHO_STATS_EDITOR_RANK);
+  assert.deepEqual(browserData.statEditor.levels, [...ECHO_STATS_EDITOR_LEVELS]);
+  assert.equal(browserData.statEditor.maxSubstats, ECHO_STATS_EDITOR_MAX_SUBSTATS);
+  for (const cost of [1, 3, 4] as const) {
+    for (const level of ECHO_STATS_EDITOR_LEVELS) {
+      assert.deepEqual(
+        browserData.statEditor.mainStatsByCostAndLevel[String(cost)][String(level)],
+        listEchoStatsEditorMainStatOptions(cost, level),
+      );
+      assert.deepEqual(
+        browserData.statEditor.secondaryMainStatsByCostAndLevel[String(cost)][String(level)],
+        getEchoStatsEditorSecondaryMainStat(cost, level),
+      );
+    }
+  }
+  assert.deepEqual(browserData.statEditor.substats, listEchoStatsEditorSubstatOptions());
+  assert.ok(browserData.generatedFrom.includes('src/echoStatEditor.ts'));
+});
+
+test('Echo Workspace Correction 2B keeps recommendations profile-backed and exposes compact review UI', () => {
+  assert.ok(workspaceHtml.includes("this.loadoutProfile?.sonataSetIds||[]"));
+  assert.ok(workspaceHtml.includes("Recommended Sonata Sets"));
+  assert.ok(workspaceHtml.includes("Other Sonata Sets"));
+  assert.ok(workspaceHtml.includes("'Multiple Sets Active'"));
+  assert.ok(workspaceHtml.includes("'★'.repeat(item.cost)"));
+  assert.ok(workspaceHtml.includes("selectedSonataSetId"));
+  assert.ok(workspaceHtml.includes("echoPreviewSonataChoices"));
+  assert.ok(workspaceHtml.includes("echoLevelForSubstats"));
+  assert.equal(workspaceHtml.includes('Filter by Sonata Set'), false);
+  assert.equal(workspaceHtml.includes('Echo Preview</span>'), false);
+});
+
+test('Echo browser export retains full canonical Sonata compatibility across 1–4-set Echoes', () => {
+  const canonical = new Map(ECHO_CATALOG.map((echo) => [echo.id, echo.sonataSetIds]));
+  const counts = new Set<number>();
+  for (const echo of browserData.echoes) {
+    assert.deepEqual(echo.sonataSetIds, canonical.get(echo.id), `${echo.id}: compatibility drift`);
+    assert.ok(echo.sonataSetIds.length >= 1 && echo.sonataSetIds.length <= 4);
+    counts.add(echo.sonataSetIds.length);
+  }
+  assert.deepEqual([...counts].sort(), [1, 2, 3, 4]);
 });

@@ -2,7 +2,17 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
+import { projectSonataUiCatalog } from '../src/echoSonataUiProjection.ts';
+import { projectEchoIdentityUiCatalog } from '../src/echoIdentityUiProjection.ts';
 import { projectVerifiedEchoWorkspaceLoadoutProfiles } from '../src/echoWorkspaceRecommendationProjection.ts';
+import {
+  ECHO_STATS_EDITOR_LEVELS,
+  ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  ECHO_STATS_EDITOR_RANK,
+  getEchoStatsEditorSecondaryMainStat,
+  listEchoStatsEditorMainStatOptions,
+  listEchoStatsEditorSubstatOptions,
+} from '../src/echoStatEditor.ts';
 
 const defaultOutput = 'docs/ui-prototypes/assets/echoes/browser-data.json';
 const check = process.argv.includes('--check');
@@ -10,7 +20,32 @@ const outputArg = process.argv.indexOf('--output');
 const output = resolve(outputArg >= 0 ? process.argv[outputArg + 1] : defaultOutput);
 
 const releasedEchoes = ECHO_CATALOG.filter((echo) => echo.releaseStatus === 'RELEASED');
+const echoSkills = new Map(projectEchoIdentityUiCatalog().map(skill => [skill.echoId, skill]));
 const loadoutProfiles = projectVerifiedEchoWorkspaceLoadoutProfiles();
+const statEditor = {
+  rank: ECHO_STATS_EDITOR_RANK,
+  levels: [...ECHO_STATS_EDITOR_LEVELS],
+  maxSubstats: ECHO_STATS_EDITOR_MAX_SUBSTATS,
+  mainStatsByCostAndLevel: Object.fromEntries(
+    ([1, 3, 4] as const).map((cost) => [
+      String(cost),
+      Object.fromEntries(ECHO_STATS_EDITOR_LEVELS.map((level) => [
+        String(level),
+        listEchoStatsEditorMainStatOptions(cost, level),
+      ])),
+    ]),
+  ),
+  secondaryMainStatsByCostAndLevel: Object.fromEntries(
+    ([1, 3, 4] as const).map((cost) => [
+      String(cost),
+      Object.fromEntries(ECHO_STATS_EDITOR_LEVELS.map((level) => [
+        String(level),
+        getEchoStatsEditorSecondaryMainStat(cost, level),
+      ])),
+    ]),
+  ),
+  substats: listEchoStatsEditorSubstatOptions(),
+};
 const referencedSonataIds = new Set([
   ...releasedEchoes.flatMap((echo) => echo.sonataSetIds),
   ...loadoutProfiles.flatMap((profile) => profile.sonataSetIds),
@@ -24,19 +59,27 @@ const builderIconManifest = JSON.parse(
 };
 if (builderIconManifest.schemaVersion !== 1) throw new Error('Unsupported builder icon manifest schema.');
 const sonataArtById = new Map(builderIconManifest.sonataSets.map((sonata) => [sonata.sonataId, sonata]));
+const sonataUiById = new Map(projectSonataUiCatalog().map((set) => [set.id, set]));
 
 const sonataSets = SONATA_CATALOG
   .filter((sonata) => sonata.releaseStatus === 'RELEASED' && referencedSonataIds.has(sonata.id))
+  .sort((a, b) => b.sourceId - a.sourceId || a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'))
   .map((sonata) => {
     const art = sonataArtById.get(sonata.id);
     if (!art || art.sourceId !== sonata.sourceId || art.name !== sonata.name) {
       throw new Error(`Canonical Sonata art identity mismatch: ${sonata.id}`);
     }
+    const ui = sonataUiById.get(sonata.id);
+    if (!ui) throw new Error(`Missing reviewed Sonata UI projection: ${sonata.id}`);
     return {
       id: sonata.id,
+      sourceId: sonata.sourceId,
       name: sonata.name,
       releaseStatus: sonata.releaseStatus,
       artPath: art.targetPath,
+      activationPieces: ui.activationPieces,
+      sections: ui.sections,
+      fullDescription: ui.fullDescription,
     };
   });
 
@@ -53,14 +96,20 @@ const payload = {
     'src/data/sonatas.ts#SONATA_CATALOG',
     'src/data/echoLoadoutProfiles.ts#ECHO_LOADOUT_PROFILES',
     'docs/ui-prototypes/assets/builder-icons/manifest.json#sonataSets',
+    'src/echoStatEditor.ts',
+    'src/echoSonataUiProjection.ts',
+    'src/data/echoSkillRaw.ts#ECHO_SKILL_RAW',
+    'src/echoIdentityUiProjection.ts',
   ],
   loadoutProfiles,
+  statEditor,
   echoes: releasedEchoes.map((echo) => ({
     id: echo.id,
     name: echo.name,
     releaseStatus: echo.releaseStatus,
     cost: echo.cost,
     sonataSetIds: [...echo.sonataSetIds],
+    skill: echoSkills.get(echo.id),
   })),
   sonataSets,
 };
@@ -74,7 +123,7 @@ if (check) {
     console.error('Run: node --experimental-strip-types scripts/export-ui-echo-browser-data.ts');
     process.exit(1);
   }
-  console.log(`Canonical Echo browser data verified: ${payload.echoes.length} released Echoes / ${payload.sonataSets.length} referenced Sonata sets / ${payload.loadoutProfiles.length} verified loadout profiles.`);
+  console.log(`Canonical Echo browser data verified: ${payload.echoes.length} released Echoes / ${payload.sonataSets.length} referenced Sonata sets / ${payload.loadoutProfiles.length} verified loadout profiles / source-backed Rank-5 stat editor contract.`);
 } else {
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, serialized);

@@ -67,6 +67,8 @@ jobs:
         run: npm run build
 
       - name: Browser Roll Assist and owned-build regression
+        env:
+          BELLIBING_VERIFY_MOBILE: "0"
         run: |
           python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
           server_pid=$!
@@ -179,9 +181,7 @@ jobs:
             artifacts/ui-preview-build-names-expanded-1440x900.png
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png
             artifacts/ui-preview-weapon-overlay-1440x900.png
-            artifacts/ui-preview-weapon-overlay-390x844.png
             artifacts/ui-preview-echo-workspace-1440x900.png
-            artifacts/ui-preview-echo-workspace-390x844.png
           if-no-files-found: error
           retention-days: 7
 

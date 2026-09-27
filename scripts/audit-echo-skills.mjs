@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
+import { ECHO_SKILL_RAW } from '../src/data/echoSkillRaw.ts';
 import { ECHO_CHARACTER_RESTRICTED_EFFECTS, ECHO_CHARACTER_RESTRICTION_REVIEWS } from '../src/data/echoCharacterRestrictedEffects.ts';
 import { auditEchoSkillCoverage } from '../src/echoSkillCoverageRegistry.ts';
 import {
@@ -45,7 +46,9 @@ async function main() {
   assertEqual(raw.length, review.expectedReleasedEchoCount, 'source Echo count');
 
   const catalogBySourceId = new Map(ECHO_CATALOG.map((row) => [row.sourceId, row]));
+  const uiRawById = new Map(ECHO_SKILL_RAW.map(row => [row.echoId, row]));
   assertEqual(catalogBySourceId.size, review.expectedReleasedEchoCount, 'Bellibing raw Echo source-id count');
+  assertEqual(uiRawById.size, review.expectedReleasedEchoCount, 'Echo Skill UI source coverage');
 
   let englishDescriptionCount = 0;
   let fiveRankParamRecordCount = 0;
@@ -69,6 +72,11 @@ async function main() {
     }
 
     const description = english(echo?.skill?.description);
+    const uiRaw = uiRawById.get(`echo-${echo.id}`);
+    if (!uiRaw || uiRaw.name !== sourceName || uiRaw.descriptionTemplate !== description
+        || JSON.stringify(uiRaw.rank5Params) !== JSON.stringify(rankValues(echo.skill, 4))) {
+      throw new Error(`Echo Skill UI raw data drift for echo-${echo.id}.`);
+    }
     if (description) englishDescriptionCount += 1;
     if (Object.hasOwn(echo?.skill ?? {}, 'name')) skillNameFieldCount += 1;
     if (/\bDMG\b/.test(description)) damageTextRecordCount += 1;

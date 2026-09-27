@@ -5,7 +5,8 @@ import { join } from 'node:path';
 const UI_URL=process.env.BELLIBING_V34_URL??'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT=Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT??9674);
 const CHROME=process.env.CHROME_BIN??'google-chrome';
-const CORE=['normal-attack','skill','circuit','liberation','intro','outro'];
+const MAIN=['normal-attack','skill','circuit','liberation','intro'];
+const ALL=[...MAIN,'outro'];
 const runtime=JSON.parse(readFileSync('docs/ui-prototypes/assets/sequence-runtime.json','utf8'));
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+(detail===undefined?'':': '+JSON.stringify(detail)))};
@@ -14,7 +15,7 @@ assert(runtime.schemaVersion===1&&runtime.role==='character-builder.runtime-sequ
 assert(runtime.characters.length===57,'Skills runtime must cover all 57 released Characters',runtime.characters.length);
 const byId=new Map(runtime.characters.map(row=>[row.characterId,row]));
 for(const row of runtime.characters){
-  assert(row.skills&&CORE.every(role=>row.skills[role]?.role===role&&row.skills[role]?.assetPath?.startsWith('assets/builder-icons/skills/')),'Incomplete core Skills mapping',row.characterId);
+  assert(row.skills&&ALL.every(role=>row.skills[role]?.role===role&&row.skills[role]?.assetPath?.startsWith('assets/builder-icons/skills/')),'Incomplete source-backed Skills mapping',row.characterId);
   for(const skill of Object.values(row.skills)){
     assert(existsSync(join('docs/ui-prototypes',skill.assetPath)),'Missing published skill asset',{character:row.characterId,path:skill.assetPath});
   }
@@ -89,13 +90,28 @@ async function pointerClick(send,selector){
   await send('Input.dispatchMouseEvent',{type:'mousePressed',x:p.x,y:p.y,button:'left',clickCount:1});
   await sleep(30);
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:p.x,y:p.y,button:'left',clickCount:1});
-  await sleep(95);
+  await sleep(110);
 }
 async function skillSnapshot(send){
-  return evaluate(send,"(() => {const read=root=>Object.fromEntries([...document.querySelectorAll(root+' [data-skill-role]')].map(node=>[node.dataset.skillRole,{src:node.querySelector('img')?.getAttribute('src')??null,loaded:node.querySelector('img')?.naturalWidth??0,selected:node.classList.contains('is-selected')} ]));return{character:skillsUi.characterId,open:skillsUi.open,selected:skillsUi.selectedRole,compact:read('#skillsMiniTree'),menu:read('#skillsMenuTree'),inherent:read('#skillsInherent'),compactActive:[...document.querySelectorAll('#skillsMiniTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),menuActive:[...document.querySelectorAll('#skillsMenuTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),overlayOpen:document.getElementById('skillsOverlay').classList.contains('open'),overlayMounted:document.getElementById('skillsOverlay').classList.contains('mounted'),selectedLabel:document.getElementById('skillsSelectedLabel').textContent.trim()}})()");
+  return evaluate(send,"(() => {const read=root=>Object.fromEntries([...document.querySelectorAll(root+' [data-skill-role]')].filter(node=>!node.hidden).map(node=>[node.dataset.skillRole,{src:node.querySelector('img')?.getAttribute('src')??null,loaded:node.querySelector('img')?.naturalWidth??0,selected:node.classList.contains('is-selected')} ]));return{character:skillsUi.characterId,open:skillsUi.open,selected:skillsUi.selectedRole,compact:read('#skillsMiniTree'),menu:read('#skillsMenuTree'),compactActive:[...document.querySelectorAll('#skillsMiniTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),menuActive:[...document.querySelectorAll('#skillsMenuTree .skill-link.is-active')].map(x=>x.dataset.skillLink).sort(),overlayOpen:document.getElementById('skillsOverlay').classList.contains('open'),overlayMounted:document.getElementById('skillsOverlay').classList.contains('mounted'),selectedLabel:document.getElementById('skillsSelectedLabel').textContent.trim(),selectedType:document.getElementById('skillsSelectedType').textContent.trim(),detailText:document.getElementById('skillsDetailBody').textContent.trim(),factIds:[...document.querySelectorAll('#skillsDetailBody [data-skill-fact-id]')].map(x=>x.dataset.skillFactId),pending:!!document.querySelector('#skillsDetailBody [data-skill-detail-status="pending"]')}})()");
+}
+async function topology(send,root){
+  const q=JSON.stringify(root);
+  return evaluate(send,"(() => {const host=document.querySelector("+q+");const read=role=>{const el=host.querySelector('[data-skill-role="'+role+'"]');if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return{role,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}};return{host:host.getBoundingClientRect().toJSON(),main:['normal-attack','skill','circuit','liberation','intro'].map(read),outro:read('outro'),inherent1:read('inherent-1'),inherent2:read('inherent-2'),links:[...host.querySelectorAll('.skill-link:not([hidden])')].map(x=>x.dataset.skillLink).sort()}})()");
+}
+function assertGameTopology(g,label){
+  assert(g.main.every(Boolean),label+' missing one of five main nodes',g);
+  const xs=g.main.map(x=>x.cx),ys=g.main.map(x=>x.cy);
+  assert(xs.every((x,i)=>i===0||x>xs[i-1]+25),label+' main row is not Normal → Skill → Forte → Liberation → Intro',g);
+  assert(Math.max(...ys)-Math.min(...ys)<12,label+' five main nodes are not aligned on one bottom row',g);
+  const circuit=g.main[2];
+  if(g.inherent1)assert(g.inherent1.cy<circuit.cy-25&&Math.abs(g.inherent1.cx-circuit.cx)<18,label+' Inherent I is not on the upper Forte branch',g);
+  if(g.inherent2)assert(g.inherent1&&g.inherent2.cy<g.inherent1.cy-20&&Math.abs(g.inherent2.cx-circuit.cx)<18,label+' Inherent II is not above Inherent I',g);
+  assert(g.outro&&g.outro.cy>circuit.cy+18&&Math.abs(g.outro.cx-circuit.cx)<18,label+' Outro must stay separate below the five main columns',g);
+  assert(g.links.every(link=>['circuit-inherent-1','inherent-1-inherent-2'].includes(link)),label+' contains invented connector topology',g.links);
 }
 async function layout(send){
-  return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
+  return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect(),tree=document.getElementById('skillsMenuTree').getBoundingClientRect(),detail=document.querySelector('.skills-detail-pane').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),tree:tree.toJSON(),detail:detail.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
 }
 async function capture(send){
   mkdirSync('artifacts',{recursive:true});
@@ -114,7 +130,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'",'Character/Builder runtime did not become ready',15000);
+  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Character/Builder/Skills runtime did not become ready',20000);
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"skillsUi.characterId==='augusta'&&document.getElementById('skillsBlock').dataset.ready==='true'",'Augusta Skills did not bind');
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);
@@ -123,46 +139,98 @@ try{
   let g=await layout(send);
   assert(g.stats.top<g.skills.top&&g.skills.top<g.weapon.top,'Left Build column order is not Stats → Skills → Weapon',g);
   assert(g.stats.bottom<=g.skills.top+1&&g.skills.bottom<=g.weapon.top+1,'Left Build blocks overlap',g);
-  const compactGeometry=await evaluate(send,"(() => {const tree=document.getElementById('skillsMiniTree').getBoundingClientRect(),nodes=[...document.querySelectorAll('#skillsMiniTree [data-skill-role]')].map(node=>{const r=node.getBoundingClientRect();return{role:node.dataset.skillRole,left:r.left,top:r.top,right:r.right,bottom:r.bottom,cx:r.left+r.width/2,cy:r.top+r.height/2}});return{tree:tree.toJSON(),nodes,xSpan:Math.max(...nodes.map(x=>x.cx))-Math.min(...nodes.map(x=>x.cx)),ySpan:Math.max(...nodes.map(x=>x.cy))-Math.min(...nodes.map(x=>x.cy))}})()");
-  assert(compactGeometry.tree.width>250&&compactGeometry.tree.height>110&&compactGeometry.xSpan>170&&compactGeometry.ySpan>55,'Compact Skills tree collapsed into an inline/overlapping layout',compactGeometry);
-  assert(compactGeometry.nodes.every(node=>node.left>=compactGeometry.tree.left-1&&node.right<=compactGeometry.tree.right+1&&node.top>=compactGeometry.tree.top-1&&node.bottom<=compactGeometry.tree.bottom+1),'Compact Skills nodes escape their tree card',compactGeometry);
+  const compactTopology=await topology(send,'#skillsMiniTree');assertGameTopology(compactTopology,'Compact Skills tree');
+  assert(compactTopology.host.width>250&&compactTopology.host.height>125,'Compact Skills tree collapsed',compactTopology);
 
-  // The real Character-switch path must immediately bind every canonical core icon for all released Characters.
+  // Every released Character must swap source-backed skill assets immediately; spot checks below exercise expanded preview behavior.
   for(const row of runtime.characters){
     await evaluate(send,"buildPicker.select("+JSON.stringify(row.characterName)+")");
     await waitFor(send,"skillsUi.characterId==="+JSON.stringify(row.characterId),'Skills Character switch failed for '+row.characterName);
     const state=await skillSnapshot(send);
-    for(const role of CORE)assert(state.compact[role]?.src===row.skills[role].assetPath,'Incorrect canonical compact icon after Character switch',{character:row.characterId,role,expected:row.skills[role].assetPath,actual:state.compact[role]?.src});
+    for(const role of ALL)assert(state.compact[role]?.src===row.skills[role].assetPath,'Incorrect canonical compact icon after Character switch',{character:row.characterId,role,expected:row.skills[role].assetPath,actual:state.compact[role]?.src});
+    for(const role of ['inherent-1','inherent-2'])if(row.skills[role])assert(state.compact[role]?.src===row.skills[role].assetPath,'Incorrect canonical inherent icon',{character:row.characterId,role});
   }
 
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"skillsUi.characterId==='augusta'",'Return to Augusta failed');
   let state=await skillSnapshot(send),augusta=byId.get('augusta');
-  assert(CORE.every(role=>state.compact[role]?.src===augusta.skills[role].assetPath),'Augusta compact core mapping mismatch',state.compact);
-  await waitFor(send,"[...document.querySelectorAll('#skillsMiniTree [data-skill-role] img')].every(img=>img.naturalWidth>0)",'Augusta compact skill artwork did not load');
-  const neutral=await evaluate(send,"(() => [...document.querySelectorAll('#skillsMiniTree .skill-link')].map(x=>({active:x.classList.contains('is-active'),stroke:getComputedStyle(x).stroke,filter:getComputedStyle(x).filter})))()");
-  assert(neutral.length===5&&neutral.every(x=>!x.active&&!String(x.stroke).includes('skillsCompactGold')),'Compact Skills neutral connectors are not grey/inactive',neutral);
+  assert(ALL.every(role=>state.compact[role]?.src===augusta.skills[role].assetPath),'Augusta compact mapping mismatch',state.compact);
+  await waitFor(send,"[...document.querySelectorAll('#skillsMiniTree [data-skill-role]:not([hidden]) img')].every(img=>img.naturalWidth>0)",'Augusta compact skill artwork did not load');
+  const neutral=await evaluate(send,"(() => [...document.querySelectorAll('#skillsMiniTree .skill-link:not([hidden])')].map(x=>({active:x.classList.contains('is-active'),stroke:getComputedStyle(x).stroke,filter:getComputedStyle(x).filter})))()");
+  assert(neutral.length===2&&neutral.every(x=>!x.active&&!String(x.stroke).includes('skillsCompactGold')),'Compact Skills neutral connectors are not grey/inactive',neutral);
 
+  const storageBefore=await evaluate(send,"JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(key=>[key,localStorage.getItem(key)])))");
   await pointerClick(send,'#skillsBtn');
   await waitFor(send,"skillsUi.open&&document.getElementById('skillsOverlay').classList.contains('open')",'Skills menu did not open');
   state=await skillSnapshot(send);
-  assert(CORE.every(role=>state.menu[role]?.src===augusta.skills[role].assetPath),'Expanded Skills menu did not use Augusta canonical icons',state.menu);
-  assert(Object.keys(state.inherent).length===Object.keys(augusta.skills).filter(role=>role.startsWith('inherent-')).length,'Source-backed inherent icon count mismatch',{runtime:augusta.skills,dom:state.inherent});
+  assert(ALL.every(role=>state.menu[role]?.src===augusta.skills[role].assetPath),'Expanded Skills menu did not use Augusta canonical icons',state.menu);
+  assert(state.menu['inherent-1']?.src===augusta.skills['inherent-1'].assetPath&&state.menu['inherent-2']?.src===augusta.skills['inherent-2'].assetPath,'Inherent nodes are not integrated into the expanded tree',state.menu);
+  assertGameTopology(await topology(send,'#skillsMenuTree'),'Expanded Skills tree');
 
-  await pointerClick(send,'#skillsMenuTree .skills-menu-outro');
-  await waitFor(send,"skillsUi.selectedRole==='outro'",'Expanded Skills selection shell did not select Outro');
+  await pointerClick(send,'#skillsMenuTree .skills-menu-skill');
+  await waitFor(send,"skillsUi.selectedRole==='skill'&&document.querySelectorAll('#skillsDetailBody [data-skill-fact-id]').length>0",'Augusta Resonance Skill preview did not populate from canonical facts');
   state=await skillSnapshot(send);
-  assert(JSON.stringify(state.menuActive)===JSON.stringify(['liberation-outro','root-liberation'])&&JSON.stringify(state.compactActive)===JSON.stringify(['liberation-outro','root-liberation']),'Selected skill path did not use expected tree connectors',state);
-  assert(state.selectedLabel==='Outro Skill','Selected role detail shell label mismatch',state);
-  const connectorVisual=await evaluate(send,"(() => {const active=document.querySelector('#skillsMenuTree .skill-link.is-active'),neutral=document.querySelector('#skillsMenuTree .skill-link:not(.is-active)');return{activeStroke:getComputedStyle(active).stroke,activeFilter:getComputedStyle(active).filter,neutralStroke:getComputedStyle(neutral).stroke,neutralFilter:getComputedStyle(neutral).filter}})()");
+  assert(state.selectedType==='Resonance Skill','Preview type mismatch',state);
+  assert(state.factIds.length>0&&state.factIds.every(id=>id.startsWith('augusta-')),'Augusta preview leaked non-Augusta mechanics facts',state);
+  assert(state.detailText.includes('Lv.10 source value')||state.detailText.includes('Source value'),'Augusta preview did not surface source-backed action values',state);
+  assert((await evaluate(send,"JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(key=>[key,localStorage.getItem(key)])))"))===storageBefore,'Skill preview selection mutated persisted build/gameplay state');
+
+  await pointerClick(send,'#skillsMenuTree .skills-menu-inherent-1');
+  await waitFor(send,"skillsUi.selectedRole==='inherent-1'",'Inherent selection failed');
+  state=await skillSnapshot(send);
+  assert(state.pending&&state.detailText.includes('does not explicitly bind'),'Unmapped inherent fact ordinal was guessed instead of shown pending',state);
+  assert(JSON.stringify(state.menuActive)===JSON.stringify(['circuit-inherent-1'])&&JSON.stringify(state.compactActive)===JSON.stringify(['circuit-inherent-1']),'Inherent I selected path mismatch',state);
+  const connectorVisual=await evaluate(send,"(() => {const active=document.querySelector('#skillsMenuTree .skill-link.is-active'),neutral=document.querySelector('#skillsMenuTree .skill-link:not(.is-active):not([hidden])');return{activeStroke:getComputedStyle(active).stroke,activeFilter:getComputedStyle(active).filter,neutralStroke:getComputedStyle(neutral).stroke,neutralFilter:getComputedStyle(neutral).filter}})()");
   assert(String(connectorVisual.activeStroke).includes('skillsMenuGold')&&String(connectorVisual.activeFilter).includes('skillsMenuGlow'),'Active Skills connector is not gold/glowing',connectorVisual);
   assert(!String(connectorVisual.neutralStroke).includes('skillsMenuGold'),'Inactive Skills connector is not neutral grey',connectorVisual);
-  await capture(send);
 
+  // Source-backed action values + mechanic text across Characters with different skill assets.
   await pointerClick(send,'#skillsClose');
   await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close',2000);
+  await evaluate(send,"buildPicker.select('Aalto')");
+  await waitFor(send,"skillsUi.characterId==='aalto'",'Aalto Skills did not bind');
+  await pointerClick(send,'#skillsBtn');
+  await waitFor(send,"skillsUi.open",'Aalto Skills menu did not open');
+  await pointerClick(send,'#skillsMenuTree .skills-menu-normal');
+  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Half Truths Stage 1')",'Aalto Normal Attack canonical preview missing');
+  state=await skillSnapshot(send);
+  assert(state.detailText.includes('31.81%'),'Aalto Lv10 source coefficient was not surfaced from action-value architecture',state.detailText);
+  await pointerClick(send,'#skillsMenuTree .skills-menu-outro');
+  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Dissolving Mist')",'Aalto Outro canonical preview missing');
+  state=await skillSnapshot(send);
+  assert(state.selectedType==='Outro Skill'&&state.detailText.includes('23% Aero DMG Amplification')&&state.detailText.includes('14'),'Aalto Outro source mechanic text/value missing',state);
 
-  // Existing Sequence behavior is untouched; only its committed connector gets the same gold/grey visual language.
+  await pointerClick(send,'#skillsClose');
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Aalto Skills menu did not close',2000);
+  await evaluate(send,"buildPicker.select('The Shorekeeper')");
+  await waitFor(send,"skillsUi.characterId==='the-shorekeeper'",'The Shorekeeper Skills did not bind');
+  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'The Shorekeeper Skills menu did not open');
+  await pointerClick(send,'#skillsMenuTree .skills-menu-liberation');
+  await waitFor(send,"document.getElementById('skillsDetailBody').textContent.includes('Stellarealm')",'The Shorekeeper Liberation mechanic preview missing');
+  state=await skillSnapshot(send);
+  assert(state.detailText.includes('30s')||state.detailText.includes('Duration 30s'),'The Shorekeeper source-backed Liberation duration missing',state);
+  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'The Shorekeeper Skills menu did not close',2000);
+
+  // A source-gap Character must fail closed in the pane instead of fabricating mechanics.
+  await evaluate(send,"buildPicker.select('Buling')");
+  await waitFor(send,"skillsUi.characterId==='buling'",'Buling Skills did not bind');
+  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'Buling Skills menu did not open');
+  await pointerClick(send,'#skillsMenuTree .skills-menu-skill');
+  state=await skillSnapshot(send);
+  assert(state.pending||state.factIds.every(id=>id.startsWith('buling-')),'Source-gap Character preview fabricated or leaked facts',state);
+  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Buling Skills menu did not close',2000);
+
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"skillsUi.characterId==='augusta'",'Final Augusta switch failed');
+  await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open",'Final Augusta Skills menu did not open');
+  await pointerClick(send,'#skillsMenuTree .skills-menu-inherent-2');
+  await waitFor(send,"skillsUi.selectedRole==='inherent-2'",'Inherent II selection failed');
+  state=await skillSnapshot(send);
+  assert(JSON.stringify(state.menuActive)===JSON.stringify(['circuit-inherent-1','inherent-1-inherent-2'])&&JSON.stringify(state.compactActive)===JSON.stringify(['circuit-inherent-1','inherent-1-inherent-2']),'Inherent II selected path mismatch',state);
+  await capture(send);
+  await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close',2000);
+
+  // Existing Sequence behavior remains untouched; only connector styling is observed.
   await evaluate(send,'sequenceUi.commit(4)');
   await sleep(280);
   const seqVisual=await evaluate(send,"(() => {const line=document.getElementById('sequenceLine'),before=getComputedStyle(line,'::before'),after=getComputedStyle(line,'::after');return{progress:line.style.getPropertyValue('--seq-progress'),beforeBackground:before.backgroundColor,afterBackground:after.backgroundImage,afterShadow:after.boxShadow,afterHeight:parseFloat(after.height),current:sequenceUi.currentLevel}})()");
@@ -170,7 +238,7 @@ try{
   assert(seqVisual.beforeBackground!=='rgba(0, 0, 0, 0)'&&seqVisual.beforeBackground!=='transparent','Inactive Sequence connector base is missing',seqVisual);
   await evaluate(send,'sequenceUi.commit(0)');
 
-  // Stats expansion must naturally push both Skills and Weapon down.
+  // Stats expansion must naturally push the corrected compact Skills tree and Weapon down.
   const collapsed=await layout(send);
   await pointerClick(send,'#buildStatsToggle');
   await waitFor(send,"statsUi.expanded===true",'Stats did not expand');
@@ -178,22 +246,21 @@ try{
   assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45,'Stats expansion did not push Skills + Weapon downward',{collapsed,expanded});
   assert(expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Expanded left-column blocks overlap',expanded);
   assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8&&expanded.sw<=expanded.iw+1&&expanded.sh<=expanded.ih+1,'1440×900 left column does not fit after Stats expansion',expanded);
-  await pointerClick(send,'#buildStatsToggle');
-  await waitFor(send,"statsUi.expanded===false",'Stats did not collapse');
+  await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse');
 
-  for(const[width,height]of[[1920,1080],[2560,1440]]){
+  for(const[width,height]of[[1440,900],[1920,1080],[2560,1440]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);
-    await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===true",'Stats did not expand at '+width+'×'+height);
-    g=await layout(send);
-    assert(g.stats.bottom<=g.skills.top+1&&g.skills.bottom<=g.weapon.top+1&&g.side.top>=0&&g.side.bottom<=g.ih-8&&g.sw<=g.iw+1&&g.sh<=g.ih+1,'Build left-column sanity failed at '+width+'×'+height,g);
-    await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse at '+width+'×'+height);
+    assertGameTopology(await topology(send,'#skillsMiniTree'),'Compact '+width+'×'+height);
     await pointerClick(send,'#skillsBtn');await waitFor(send,"skillsUi.open&&document.getElementById('skillsOverlay').classList.contains('open')",'Skills menu did not open at '+width+'×'+height);
     g=await layout(send);
     assert(g.panel.left>=0&&g.panel.top>=0&&g.panel.right<=g.iw&&g.panel.bottom<=g.ih,'Skills panel overflows at '+width+'×'+height,g);
+    assert(g.tree.right<=g.detail.left-10&&g.detail.right<=g.panel.right-12,'Tree/detail panes overlap or escape at '+width+'×'+height,g);
+    assertGameTopology(await topology(send,'#skillsMenuTree'),'Expanded '+width+'×'+height);
+    assert(g.sw<=g.iw+1&&g.sh<=g.ih+1,'Skills view creates page overflow at '+width+'×'+height,g);
     await pointerClick(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills menu did not fully close at '+width+'×'+height,2000);
   }
 
-  console.log('v34 Skills verified in real Chrome: Stats → Skills → Weapon flow, all 57 Character core-icon swaps, compact tree + expanded glass shell, source-backed inherent icons, neutral/gold selected paths, shared Sequence grey/gold connector language, Stats push-down, and 1440/1920/2560 desktop geometry.');
+  console.log('v34 Skills verified in real Chrome: game-style five-column order, source-backed inherent upper branch, separate Outro, canonical preview facts/action values with pending fail-closed gaps, no preview state mutation, Character switching, shared grey/gold connector language, preserved Sequence/Stats flow, and 1440/1920/2560 desktop geometry.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

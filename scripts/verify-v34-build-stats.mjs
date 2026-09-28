@@ -101,10 +101,10 @@ async function assertAugustaBase(send){
   const state=await statsSnapshot(send);
   assert(state.ready==='true'&&state.character==='augusta'&&state.projection,'Augusta Build Stats did not become ready',state);
   assert(near(raw(state,'hp'),10300),'Augusta HP base projection mismatch',state.rows.hp);
-  assert(near(raw(state,'atk'),518.56),'Augusta ATK intrinsic projection mismatch',state.rows.atk);
+  assert(near(raw(state,'atk'),518.56),'Augusta ATK active-Forte projection mismatch',state.rows.atk);
   assert(near(raw(state,'def'),1112),'Augusta DEF base projection mismatch',state.rows.def);
   assert(near(raw(state,'energyRegen'),1),'Augusta Energy Regen base mismatch',state.rows.energyRegen);
-  assert(near(raw(state,'critRate'),.13),'Augusta CRIT Rate intrinsic projection mismatch',state.rows.critRate);
+  assert(near(raw(state,'critRate'),.13),'Augusta CRIT Rate active-Forte projection mismatch',state.rows.critRate);
   assert(near(raw(state,'critDamage'),1.5),'Augusta CRIT DMG base mismatch',state.rows.critDamage);
   assert(state.rows.hp.text==='10,300'&&state.rows.energyRegen.text==='100%'&&state.rows.critRate.text==='13%'&&state.rows.critDamage.text==='150%','Primary Build Stats display formatting mismatch',state.rows);
   assert(Object.values(state.rows).every(row=>row.icon?.startsWith('assets/builder-icons/stats/')&&row.loaded>0),'Canonical stat icon binding/load failed',state.rows);
@@ -114,7 +114,54 @@ async function assertAugustaBase(send){
   const extraKeys=['elementDamageBonus','basicAttackDamageBonus','heavyAttackDamageBonus','resonanceSkillDamageBonus','resonanceLiberationDamageBonus','healingBonus'];
   assert(primaryKeys.every(key=>state.rows[key]&&!state.rows[key].hidden)&&extraKeys.every(key=>state.rows[key]?.hidden),'Collapsed Stats row visibility contract failed',state.rows);
   assert(state.toggle==='More stats ▾'&&!state.expanded,'Collapsed Stats toggle state failed',state);
+  assert(state.projection.includesActiveMinorForteStats===true&&state.projection.includesLegacyIntrinsicTotals===false,'Interactive Stats did not replace legacy intrinsic totals with active Forte stats',state.projection);
   return state;
+}
+
+async function verifyForteFamily(send,{name,id,stat,projectionKey,scaleKey=null}){
+  await evaluate(send,'buildPicker.select('+JSON.stringify(name)+')');
+  await waitFor(send,'statsUi.characterId==='+JSON.stringify(id)+'&&document.getElementById("buildStatsBlock").dataset.ready==="true"','Stats did not bind '+name);
+  const before=await statsSnapshot(send);
+  await pointerClick(send,'#skillsBtn');
+  await waitFor(send,'skillsUi.open','Skills did not open for '+name);
+  const node=await evaluate(send,'(() => {const stat='+JSON.stringify(stat)+',rows=skillsUi.tree.nodes.filter(n=>n.kind==="stat"&&n.stat.stat===stat).sort((a,b)=>b.row-a.row);const n=rows[0],c=buildStatsCharacterById.get(statsUi.characterId);return n?{role:n.role,id:n.id,value:n.stat.value,row:n.row,scale:'+JSON.stringify(scaleKey)+'?c.level90['+JSON.stringify(scaleKey)+']:1}:null})()');
+  assert(node,'Missing Forte stat family '+stat+' for '+name);
+  const previewBefore=await statsSnapshot(send);
+  await pointerClick(send,'#skillsMenuTree [data-skill-role="'+node.role+'"]');
+  const previewAfter=await statsSnapshot(send);
+  assert(JSON.stringify(previewAfter.projection)===JSON.stringify(previewBefore.projection),'Preview selection changed Stats',{name,stat,before:previewBefore.projection,after:previewAfter.projection});
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  const disabled=await statsSnapshot(send),expected=node.value*node.scale;
+  assert(near(raw(before,projectionKey)-raw(disabled,projectionKey),expected,1e-8),'Disabling Forte node changed wrong amount',{name,stat,node,before:raw(before,projectionKey),after:raw(disabled,projectionKey),expected});
+  for(const key of Object.keys(before.rows)){
+    if(key===projectionKey)continue;
+    assert(near(raw(before,key),raw(disabled,key),1e-8),'Disabling '+stat+' changed unrelated stat '+key,{name,stat,key,before:raw(before,key),after:raw(disabled,key)});
+  }
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  const restored=await statsSnapshot(send);
+  assert(JSON.stringify(restored.projection)===JSON.stringify(before.projection),'Re-enabling Forte node did not restore exact projection',{name,stat,before:before.projection,after:restored.projection});
+  await pointerClick(send,'#skillsClose');
+  await waitFor(send,'!skillsUi.open','Skills did not close for '+name);
+}
+
+async function verifyForteCascade(send){
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Augusta Stats did not bind for cascade');
+  const before=await statsSnapshot(send);
+  await pointerClick(send,'#skillsBtn');
+  await waitFor(send,'skillsUi.open','Skills did not open for cascade');
+  const pair=await evaluate(send,"(() => {const nodes=skillsUi.tree.nodes,c=buildStatsCharacterById.get('augusta');for(const upper of nodes.filter(n=>n.kind==='stat'&&n.stat.stat==='ATK%')){const lower=nodes.find(n=>upper.parents.includes(n.id));if(lower?.kind==='stat'&&lower.stat.stat==='ATK%')return{upper:upper.role,lower:lower.role,value:upper.stat.value+lower.stat.value,scale:c.level90.atk}}return null})()");
+  assert(pair,'No Augusta ATK Forte prerequisite pair found');
+  await pointerClick(send,'#skillsMenuTree [data-skill-role="'+pair.lower+'"]');
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  const disabled=await statsSnapshot(send);
+  assert(near(raw(before,'atk')-raw(disabled,'atk'),pair.value*pair.scale,1e-8),'Prerequisite disable cascade did not remove both active ATK nodes',{pair,before:raw(before,'atk'),after:raw(disabled,'atk')});
+  await pointerClick(send,'#skillsMenuTree [data-skill-role="'+pair.upper+'"]');
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  const restored=await statsSnapshot(send);
+  assert(near(raw(restored,'atk'),raw(before,'atk'),1e-8),'Enabling dependent ATK node did not restore prerequisite and Stats',{pair,before:raw(before,'atk'),after:raw(restored,'atk')});
+  await pointerClick(send,'#skillsClose');
+  await waitFor(send,'!skillsUi.open','Skills did not close after cascade');
 }
 
 async function capture(send,path){
@@ -134,7 +181,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&typeof window.bellibingProjectStaticBuildStats==='function'",'Build Stats / Character / Weapon / Echo runtime did not become ready',15000);
+  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&typeof window.bellibingProjectStaticBuildStats==='function'&&typeof window.bellibingForte?.forteStats==='function'",'Build Stats / Character / Weapon / Echo / Forte runtime did not become ready',15000);
 
   const runtime=await evaluate(send,"(() => ({count:buildStatsCharacterById.size,iconCount:buildStatsIconByLabel.size,scopeSource:typeof window.bellibingProjectStaticBuildStats==='function',error:document.documentElement.dataset.buildStatsError||null}))()");
   assert(runtime.count===57&&runtime.iconCount===17&&runtime.scopeSource&&!runtime.error,'Build Stats runtime coverage failed',runtime);
@@ -144,6 +191,54 @@ try{
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);
   await sleep(900);
   const base=await assertAugustaBase(send);
+
+  await verifyForteFamily(send,{name:'Augusta',id:'augusta',stat:'CRIT Rate',projectionKey:'critRate'});
+  await verifyForteFamily(send,{name:'Augusta',id:'augusta',stat:'ATK%',projectionKey:'atk',scaleKey:'atk'});
+  await verifyForteFamily(send,{name:'Baizhi',id:'baizhi',stat:'HP%',projectionKey:'hp',scaleKey:'hp'});
+  await verifyForteFamily(send,{name:'Baizhi',id:'baizhi',stat:'Healing Bonus',projectionKey:'healingBonus'});
+  await verifyForteFamily(send,{name:'Mornye',id:'mornye',stat:'DEF%',projectionKey:'def',scaleKey:'def'});
+  await verifyForteFamily(send,{name:'Aalto',id:'aalto',stat:'Aero DMG',projectionKey:'elementDamageBonus'});
+  await verifyForteCascade(send);
+
+  await evaluate(send,"buildPicker.select('Mornye')");
+  await waitFor(send,"statsUi.characterId==='mornye'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Mornye Stats did not bind');
+  const mornye=await statsSnapshot(send),mornyeSource=await evaluate(send,"(() => {const c=buildStatsCharacterById.get('mornye');return{def:c.level90.def,intrinsicHealing:c.intrinsicStats.find(r=>r.stat==='Healing Bonus')?.value??null}})()");
+  assert(near(raw(mornye,'healingBonus'),.12)&&near(mornyeSource.intrinsicHealing,.10),'Mornye Healing Bonus conflict was not kept explicit',{projection:raw(mornye,'healingBonus'),intrinsic:mornyeSource.intrinsicHealing});
+  assert(near(raw(mornye,'def'),mornyeSource.def*1.152,1e-8),'Mornye active Forte DEF total mismatch',{projection:raw(mornye,'def'),base:mornyeSource.def});
+
+  await evaluate(send,"buildPicker.select('Baizhi')");
+  await waitFor(send,"statsUi.characterId==='baizhi'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Baizhi Stats did not bind for persistence');
+  const persistBefore=await statsSnapshot(send);
+  await pointerClick(send,'#skillsBtn');
+  await waitFor(send,'skillsUi.open','Skills did not open for persistence');
+  const persistNode=await evaluate(send,"(() => {const n=skillsUi.tree.nodes.filter(n=>n.kind==='stat'&&n.stat.stat==='Healing Bonus').sort((a,b)=>b.row-a.row)[0];return n?{role:n.role,value:n.stat.value}:null})()");
+  assert(persistNode,'Missing Baizhi Healing node for persistence');
+  await pointerClick(send,'#skillsMenuTree [data-skill-role="'+persistNode.role+'"]');
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  const persistedDisabled=await statsSnapshot(send);
+  assert(near(raw(persistBefore,'healingBonus')-raw(persistedDisabled,'healingBonus'),persistNode.value),'Persisted Baizhi node did not update Healing Bonus',{persistBefore,persistedDisabled,persistNode});
+  await pointerClick(send,'#skillsClose');
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'",'Switch away from Baizhi failed');
+  await evaluate(send,"buildPicker.select('Baizhi')");
+  await waitFor(send,"statsUi.characterId==='baizhi'",'Switch back to Baizhi failed');
+  const switchedBack=await statsSnapshot(send);
+  assert(near(raw(switchedBack,'healingBonus'),raw(persistedDisabled,'healingBonus')),'Character switching lost Forte-derived Stats persistence',{persistedDisabled,switchedBack});
+
+  await navigate(send);
+  await waitFor(send,"document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&typeof window.bellibingForte?.forteStats==='function'",'Reloaded Forte/Stats runtime did not become ready',15000);
+  await evaluate(send,"show('build');buildPicker.select('Baizhi')");
+  await waitFor(send,"statsUi.characterId==='baizhi'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Reloaded Baizhi Stats did not bind');
+  await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Reloaded Build entrance did not settle',1800);
+  const reloaded=await statsSnapshot(send);
+  assert(near(raw(reloaded,'healingBonus'),raw(persistedDisabled,'healingBonus')),'Reload lost Forte-derived Stats persistence',{persistedDisabled,reloaded});
+  await pointerClick(send,'#skillsBtn');
+  await waitFor(send,'skillsUi.open','Skills did not open after reload');
+  await pointerClick(send,'#skillsMenuTree [data-skill-role="'+persistNode.role+'"]');
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');
+  await pointerClick(send,'#skillsClose');
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9",'Augusta Stats did not restore after persistence test');
 
   const collapsedGeometry=await geometry(send);
   await pointerClick(send,'#buildStatsToggle');
@@ -207,7 +302,7 @@ try{
   await waitFor(send,"!echoUi.open&&!document.getElementById('echoOverlay').classList.contains('mounted')",'Echo Workspace did not close',3000);
 
   const exclusion=afterEchoEquip.projection;
-  assert(exclusion.includesWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Forbidden effect sources leaked into static Stats projection',exclusion);
+  assert(exclusion.includesActiveMinorForteStats===true&&exclusion.includesLegacyIntrinsicTotals===false&&exclusion.includesWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Projection boundary flags are wrong',exclusion);
 
   for(const[width,height]of[[1920,1080],[2560,1440]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);
@@ -218,7 +313,7 @@ try{
     await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse at '+width+'×'+height);
   }
 
-  console.log('v34 Build Stats verified in real Chrome: source-backed Character/intrinsic + committed Weapon/Echo static stats, canonical icons, same-panel More/Less flow, Skills + Weapon natural push-down/up, Character switch, Preview-no-change / Equip-change semantics, forbidden-effect exclusions, and 1440/1920/2560 desktop fit.');
+  console.log('v34 Build Stats verified in real Chrome: active source-backed Minor Forte CRIT/ATK/HP/DEF/Element/Healing stats replace legacy intrinsic totals; selection-only no-op, dependency cascade, Character switch/reload persistence, Mornye explicit 12%/10% conflict, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

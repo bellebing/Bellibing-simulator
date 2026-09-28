@@ -59,13 +59,13 @@ function total(name,...sources){
   return sources.reduce((sum,source)=>sum+(source?.[name]??0),0);
 }
 
-export function projectStaticBuildStats({character,weapon=null,echoSlots=[],echoStatContract}={}){
+export function projectStaticBuildStats({character,weapon=null,echoSlots=[],echoStatContract,activeForteStats=[]}={}){
   if(!character||typeof character.element!=='string') throw new Error('Build stat projection requires a canonical Character');
   const level90=character.level90??{},baseCombat=character.baseCombat??{};
   for(const key of ['hp','atk','def']) if(!finite(level90[key])) throw new Error('Character '+key+' is unresolved');
   for(const key of ['critRate','critDamage','energyRegen']) if(!finite(baseCombat[key])) throw new Error('Character '+key+' is unresolved');
 
-  const intrinsic=rowsToTotals(character.intrinsicStats,'Character intrinsic');
+  const forte=rowsToTotals(activeForteStats,'Active Minor Forte');
   const weaponTotals={};
   let weaponBaseAtk=0;
   if(weapon){
@@ -79,9 +79,9 @@ export function projectStaticBuildStats({character,weapon=null,echoSlots=[],echo
 
   const echoProjection=projectEchoTotals(echoSlots,echoStatContract);
   const echo=echoProjection.totals;
-  const hpPct=total('HP%',intrinsic,weaponTotals,echo);
-  const atkPct=total('ATK%',intrinsic,weaponTotals,echo);
-  const defPct=total('DEF%',intrinsic,weaponTotals,echo);
+  const hpPct=total('HP%',forte,weaponTotals,echo);
+  const atkPct=total('ATK%',forte,weaponTotals,echo);
+  const defPct=total('DEF%',forte,weaponTotals,echo);
   const elementStat=character.element+' DMG';
 
   return Object.freeze({
@@ -90,16 +90,18 @@ export function projectStaticBuildStats({character,weapon=null,echoSlots=[],echo
     atk:(level90.atk+weaponBaseAtk)*(1+atkPct)+total('Flat ATK',echo),
     def:level90.def*(1+defPct)+total('Flat DEF',echo),
     energyRegen:baseCombat.energyRegen+total('Energy Regen',weaponTotals,echo),
-    critRate:baseCombat.critRate+total('CRIT Rate',intrinsic,weaponTotals,echo),
-    critDamage:baseCombat.critDamage+total('CRIT DMG',intrinsic,weaponTotals,echo),
-    elementDamageBonus:total(elementStat,intrinsic,echo),
+    critRate:baseCombat.critRate+total('CRIT Rate',forte,weaponTotals,echo),
+    critDamage:baseCombat.critDamage+total('CRIT DMG',forte,weaponTotals,echo),
+    elementDamageBonus:total(elementStat,forte,echo),
     elementDamageLabel:character.element+' DMG Bonus',
     basicAttackDamageBonus:total('Basic Attack DMG',echo),
     heavyAttackDamageBonus:total('Heavy Attack DMG',echo),
     resonanceSkillDamageBonus:total('Skill DMG',echo),
     resonanceLiberationDamageBonus:total('Liberation DMG',echo),
-    healingBonus:total('Healing Bonus',intrinsic,echo),
+    healingBonus:total('Healing Bonus',forte,echo),
     echoCardCount:echoProjection.cardCount,
+    includesActiveMinorForteStats:true,
+    includesLegacyIntrinsicTotals:false,
     includesWeaponEffects:false,
     includesSonataEffects:false,
     includesEchoSkillEffects:false,

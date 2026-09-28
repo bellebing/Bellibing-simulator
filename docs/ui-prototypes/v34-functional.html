@@ -634,6 +634,7 @@ async function loadCharacterMechanicsRuntimeData(){
   characterMechanicsDataLoaded=true;
   document.documentElement.dataset.skillsMechanicsReady='true';
   skillsUi.refreshForCharacter();
+  statsUi.refresh();
 }
 async function loadWeaponBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
@@ -1439,13 +1440,15 @@ const statsUi={
     return Array.from({length:5},(_,index)=>cloneEchoSlot(set?.slots?.[index]??null));
   },
   project(){
-    const project=window.bellibingProjectStaticBuildStats;
-    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||typeof project!=='function')return null;
+    const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(this.characterId);
+    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
     const character=buildStatsCharacterById.get(this.characterId);if(!character)return null;
     const savedWeaponId=this.characterName?draft(this.characterName).build.weaponId:null;
     const weapon=savedWeaponId?weaponItemById(savedWeaponId):null;
+    const forteState=forte.normalizeForteState(tree,draft(this.characterName).build.forte);
+    const activeForteStats=forte.forteStats(tree,forteState);
     try{
-      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract});
+      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats});
     }catch(error){
       console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);return null;
     }

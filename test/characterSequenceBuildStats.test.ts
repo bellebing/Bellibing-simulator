@@ -48,6 +48,20 @@ test('Qingxiao S1 exposes exactly the reviewed +16% CRIT Rate fact and cumulativ
   assert.deepEqual(activeSequenceBuildStats(qingxiao,3).map(({stat,value})=>({stat,value})),[{stat:'CRIT Rate',value:.16}]);
 });
 
+test('cumulative Sequence activation includes every reviewed static fact up to the selected level exactly once',()=>{
+  const rover=projected.find(c=>c.characterId==='rover-spectro');assert.ok(rover);
+  assert.deepEqual(activeSequenceBuildStats(rover,1).map(({stat,value})=>({stat,value})),[]);
+  assert.deepEqual(activeSequenceBuildStats(rover,2).map(({stat,value})=>({stat,value})),[
+    {stat:'Spectro DMG',value:.20}
+  ]);
+  assert.deepEqual(activeSequenceBuildStats(rover,3).map(({stat,value})=>({stat,value})),[
+    {stat:'Spectro DMG',value:.20},
+    {stat:'Energy Regen',value:.20}
+  ]);
+  assert.equal(activeSequenceBuildStats(rover,6).filter(row=>row.sourceSequence.sourceChainId===32).length,1);
+  assert.equal(activeSequenceBuildStats(rover,6).filter(row=>row.sourceSequence.sourceChainId===33).length,1);
+});
+
 test('conditional, duration, team, stack and skill-specific Sequence mechanics stay outside static projection',()=>{
   const jiyan=projected.find(c=>c.characterId==='jiyan');assert.ok(jiyan);
   const qingxiao=projected.find(c=>c.characterId==='qingxiao');assert.ok(qingxiao);

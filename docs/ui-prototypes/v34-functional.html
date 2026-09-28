@@ -14,7 +14,7 @@
 .focus-art-pending{max-width:320px;padding:18px 22px;border:1px solid rgba(255,255,255,.10);border-radius:15px;background:rgba(11,13,17,.56);text-align:center;color:#aeb4bd;letter-spacing:.11em;line-height:1.4}
 .focus-art-pending[hidden]{display:none}
 .focus-art-pending strong{display:block;font-size:11px;color:#d1d5db;letter-spacing:.17em}
-.focus-art-pending small{display:block;margin-top:7px;font-size:9px;color:#7f8791;letter-spacing:.04em;text-transform:none}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block{width:100%}.block h2,.echoes h2,.seq h2{margin:0 0 10px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:9px 12px 8px;display:grid;gap:0;transition:border-color .18s ease,background .18s ease}.stats-box.is-expanded{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.026)}.build-stats-rows{display:grid}.build-stat-row{display:grid;grid-template-columns:17px max-content minmax(10px,1fr) minmax(48px,max-content);align-items:center;gap:7px;min-height:23px}.build-stat-row[hidden]{display:none}.build-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.82;filter:drop-shadow(0 2px 5px rgba(0,0,0,.34))}.build-stat-label{min-width:0;color:#a8afb8;font-size:10px;line-height:1.15;white-space:nowrap}.build-stat-leader{height:1px;min-width:8px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.14),rgba(255,255,255,.04))}.build-stat-value{min-width:48px;color:#eef0f3;font-size:10px;font-weight:750;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.build-stats-toggle{margin-top:5px;width:100%;min-height:26px;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#888f99;font-size:10px;font-weight:700;cursor:pointer}.build-stats-toggle:hover{color:#c5cad1}.build-stats-toggle:focus-visible{outline:1px solid rgba(255,255,255,.3);outline-offset:2px}.skills-card{position:relative;width:100%;height:142px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
+.focus-art-pending small{display:block;margin-top:7px;font-size:9px;color:#7f8791;letter-spacing:.04em;text-transform:none}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block{width:100%}.block h2,.echoes h2,.seq h2{margin:0 0 10px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:9px 12px 8px;display:grid;gap:0;transition:border-color .18s ease,background .18s ease}.stats-box.is-expanded{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.026)}.build-stats-rows{display:grid}.build-stat-row{display:grid;grid-template-columns:17px max-content minmax(10px,1fr) minmax(48px,max-content);align-items:center;gap:7px;min-height:23px}.build-stat-row[hidden]{display:none}.build-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.82;filter:drop-shadow(0 2px 5px rgba(0,0,0,.34))}.build-stat-label{min-width:0;color:#a8afb8;font-size:10px;line-height:1.15;white-space:nowrap}.build-stat-leader{height:1px;min-width:8px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.14),rgba(255,255,255,.04))}.build-stat-value{min-width:48px;color:#eef0f3;font-size:10px;font-weight:750;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.build-stats-toggle{margin-top:5px;width:100%;min-height:26px;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#888f99;font-size:10px;font-weight:700;cursor:pointer}.build-stats-toggle:hover{color:#c5cad1}.build-stats-toggle:focus-visible{outline:1px solid rgba(255,255,255,.3);outline-offset:2px}.skills-card{position:relative;width:100%;height:142px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;touch-action:manipulation;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
 .skills-card:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .skills-card:active{transform:scale(.988)}
 .skills-card:disabled{cursor:default;opacity:.45}
@@ -1529,13 +1529,25 @@ const SKILL_ROLE_LABELS={
   'inherent-2':'Inherent Skill II'
 };
 const skillsUi={
-  button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,
+  button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,touchPointer:null,touchOrigin:null,touchHandledAt:0,
   get tree(){return skillsPreviewByCharacterId.get(this.characterId)||null},
   get model(){return window.bellibingForte},
   get investment(){return this.model.normalizeForteState(this.tree,draft(this.characterName).build.forte)},
   init(){
     this.button=document.getElementById('skillsBtn');this.overlay=document.getElementById('skillsOverlay');this.panel=document.getElementById('skillsPanel');this.detailBody=document.getElementById('skillsDetailBody');
-    this.button.addEventListener('click',()=>this.show());
+    this.button.addEventListener('pointerdown',event=>{
+      if(event.pointerType!=='touch'||!event.isPrimary)return;
+      this.touchPointer=event.pointerId;this.touchOrigin={x:event.clientX,y:event.clientY};
+    });
+    this.button.addEventListener('pointerup',event=>{
+      if(event.pointerType!=='touch'||event.pointerId!==this.touchPointer||!this.touchOrigin)return;
+      const moved=Math.hypot(event.clientX-this.touchOrigin.x,event.clientY-this.touchOrigin.y);
+      this.touchPointer=null;this.touchOrigin=null;
+      if(moved>10)return;
+      this.touchHandledAt=performance.now();this.show();
+    });
+    this.button.addEventListener('pointercancel',event=>{if(event.pointerId===this.touchPointer){this.touchPointer=null;this.touchOrigin=null}});
+    this.button.addEventListener('click',()=>{if(performance.now()-this.touchHandledAt<500)return;this.show()});
     document.getElementById('skillsClose').addEventListener('click',()=>this.hide());
     document.querySelector('[data-skills-close]').addEventListener('click',()=>this.hide());
     document.getElementById('skillsMenuTree').addEventListener('click',event=>{

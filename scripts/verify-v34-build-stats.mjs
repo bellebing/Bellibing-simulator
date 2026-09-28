@@ -141,7 +141,7 @@ async function verifyForteFamily(send,{name,id,stat,projectionKey,scaleKey=null}
   const restored=await statsSnapshot(send);
   assert(JSON.stringify(restored.projection)===JSON.stringify(before.projection),'Re-enabling Forte node did not restore exact projection',{name,stat,before:before.projection,after:restored.projection});
   await pointerClick(send,'#skillsClose');
-  await waitFor(send,'!skillsUi.open','Skills did not close for '+name);
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills did not fully close for '+name,3000);
 }
 
 async function verifyForteCascade(send){
@@ -161,7 +161,7 @@ async function verifyForteCascade(send){
   const restored=await statsSnapshot(send);
   assert(near(raw(restored,'atk'),raw(before,'atk'),1e-8),'Enabling dependent ATK node did not restore prerequisite and Stats',{pair,before:raw(before,'atk'),after:raw(restored,'atk')});
   await pointerClick(send,'#skillsClose');
-  await waitFor(send,'!skillsUi.open','Skills did not close after cascade');
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills did not fully close after cascade',3000);
 }
 
 async function capture(send,path){
@@ -218,6 +218,7 @@ try{
   const persistedDisabled=await statsSnapshot(send);
   assert(near(raw(persistBefore,'healingBonus')-raw(persistedDisabled,'healingBonus'),persistNode.value),'Persisted Baizhi node did not update Healing Bonus',{persistBefore,persistedDisabled,persistNode});
   await pointerClick(send,'#skillsClose');
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills did not fully close before Character switch',3000);
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'",'Switch away from Baizhi failed');
   await evaluate(send,"buildPicker.select('Baizhi')");
@@ -237,6 +238,7 @@ try{
   await pointerClick(send,'#skillsMenuTree [data-skill-role="'+persistNode.role+'"]');
   await pointerClick(send,'#skillsDetailBody .forte-toggle');
   await pointerClick(send,'#skillsClose');
+  await waitFor(send,"!skillsUi.open&&!document.getElementById('skillsOverlay').classList.contains('mounted')",'Skills did not fully close after reload restore',3000);
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9",'Augusta Stats did not restore after persistence test');
 

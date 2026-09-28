@@ -14,7 +14,7 @@
 .focus-art-pending{max-width:320px;padding:18px 22px;border:1px solid rgba(255,255,255,.10);border-radius:15px;background:rgba(11,13,17,.56);text-align:center;color:#aeb4bd;letter-spacing:.11em;line-height:1.4}
 .focus-art-pending[hidden]{display:none}
 .focus-art-pending strong{display:block;font-size:11px;color:#d1d5db;letter-spacing:.17em}
-.focus-art-pending small{display:block;margin-top:7px;font-size:9px;color:#7f8791;letter-spacing:.04em;text-transform:none}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block{width:100%}.block h2,.echoes h2,.seq h2{margin:0 0 10px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:9px 12px 8px;display:grid;gap:0;transition:border-color .18s ease,background .18s ease}.stats-box.is-expanded{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.026)}.build-stats-rows{display:grid}.build-stat-row{display:grid;grid-template-columns:17px max-content minmax(10px,1fr) minmax(48px,max-content);align-items:center;gap:7px;min-height:23px}.build-stat-row[hidden]{display:none}.build-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.82;filter:drop-shadow(0 2px 5px rgba(0,0,0,.34))}.build-stat-label{min-width:0;color:#a8afb8;font-size:10px;line-height:1.15;white-space:nowrap}.build-stat-leader{height:1px;min-width:8px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.14),rgba(255,255,255,.04))}.build-stat-value{min-width:48px;color:#eef0f3;font-size:10px;font-weight:750;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.build-stats-toggle{margin-top:5px;width:100%;min-height:26px;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#888f99;font-size:10px;font-weight:700;cursor:pointer}.build-stats-toggle:hover{color:#c5cad1}.build-stats-toggle:focus-visible{outline:1px solid rgba(255,255,255,.3);outline-offset:2px}.skills-card{position:relative;width:100%;height:142px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
+.focus-art-pending small{display:block;margin-top:7px;font-size:9px;color:#7f8791;letter-spacing:.04em;text-transform:none}.side-left{position:absolute;left:max(5vw,48px);top:50%;width:min(290px,23vw);transform:translate(-70px,-43%);opacity:0;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;pointer-events:auto}.picker-shell.has-selection .side-left{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .14s,transform .78s cubic-bezier(.16,.84,.24,1) .14s}.block{width:100%}.block h2,.echoes h2,.seq h2{margin:0 0 10px;font-family:var(--font-display);font-size:23px;text-align:center}.stats-box{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);padding:9px 12px 8px;display:grid;gap:0;transition:border-color .18s ease,background .18s ease}.stats-box.is-expanded{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.026)}.build-stats-rows{display:grid}.build-stat-row{display:grid;grid-template-columns:17px max-content minmax(10px,1fr) minmax(48px,max-content);align-items:center;gap:7px;min-height:23px}.build-stat-row[hidden]{display:none}.build-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.82;filter:drop-shadow(0 2px 5px rgba(0,0,0,.34))}.build-stat-label{min-width:0;color:#a8afb8;font-size:10px;line-height:1.15;white-space:nowrap}.build-stat-leader{height:1px;min-width:8px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.14),rgba(255,255,255,.04))}.build-stat-value{min-width:48px;color:#eef0f3;font-size:10px;font-weight:750;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}.build-stats-toggle{margin-top:5px;width:100%;min-height:26px;border:0;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:#888f99;font-size:10px;font-weight:700;cursor:pointer}.build-stats-toggle:hover{color:#c5cad1}.build-stats-toggle:focus-visible{outline:1px solid rgba(255,255,255,.3);outline-offset:2px}.skills-card{position:relative;width:100%;height:142px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.02);color:#fff;cursor:pointer;overflow:hidden;touch-action:manipulation;transition:border-color .17s ease-out,background .17s ease-out,transform .17s ease-out}
 .skills-card:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .skills-card:active{transform:scale(.988)}
 .skills-card:disabled{cursor:default;opacity:.45}
@@ -419,6 +419,41 @@
 .forte-disabled{color:#a5aab4;font-size:12px}
 
 .forte-metadata{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}.forte-metadata span{padding:4px 6px;border:1px solid #ffffff1a;border-radius:5px;color:#c7b381;font-size:8px;letter-spacing:.04em}
+
+/* Mobile reactivation: keep the existing Build state/components; only adapt the Skills/Forte dialog presentation. */
+@media(max-width:760px){
+  .skills-panel{left:8px;right:8px;top:56px;bottom:8px;width:auto;height:auto;padding:14px 12px 12px;border-radius:24px;transform:translateY(14px) scale(.985);transform-origin:50% 72%;overflow:hidden}
+  .skills-overlay.open .skills-panel{transform:translateY(0) scale(1)}
+  .skills-close{top:12px;right:12px;width:38px;height:38px}
+  .skills-panel-head{padding:0 46px}
+  .skills-panel-head h2{font-size:30px}
+  .skills-main{display:flex;flex-direction:column;gap:10px;height:calc(100% - 42px);margin-top:8px;overflow:hidden}
+  .skills-menu-tree{flex:0 0 min(320px,43dvh);min-height:260px;border-radius:18px}
+  .skills-detail-pane{flex:1;min-height:0;padding:11px 12px 10px;border-radius:18px;gap:8px}
+  .skills-detail-kicker{font-size:8px}
+  .skills-selected{min-height:66px;grid-template-columns:52px minmax(0,1fr);gap:10px;padding-bottom:9px}
+  .skills-selected img{width:48px;height:48px}
+  .skills-selected strong{font-size:18px}
+  .skills-selected-level{margin-top:5px}
+  .skills-detail-body{padding-right:2px}
+  .forte-node{width:46px;height:46px;padding:7px}
+  .forte-node-wrap.stat .forte-node,.forte-node-wrap.inherent .forte-node{width:34px;height:34px;padding:7px}
+  .forte-caption{top:30px;width:72px;font-size:7px;line-height:1.15}
+  .stat .forte-caption,.inherent .forte-caption{top:23px;width:68px;font-size:7px}
+  .forte-level{top:49px;width:72px;gap:3px;font-size:9px}
+  .forte-level button{width:28px;height:28px;border-radius:7px;font-size:16px}
+  .forte-node-wrap.outro .forte-node{width:32px;height:32px;padding:5px}
+  .outro .forte-caption{top:21px}
+  .forte-description{font-size:11px;line-height:1.5;margin-bottom:12px}
+  .forte-toggle{min-height:40px;margin-bottom:10px}
+  .forte-value-row{gap:10px;padding:8px 0;font-size:10px}
+  .forte-value-row strong{max-width:145px}
+}
+@media(max-width:420px) and (max-height:760px){
+  .skills-panel{top:48px}
+  .skills-menu-tree{flex-basis:250px;min-height:230px}
+  .skills-selected{min-height:58px}
+}
 </style>
 </head>
 <body>
@@ -1494,29 +1529,66 @@ const SKILL_ROLE_LABELS={
   'inherent-2':'Inherent Skill II'
 };
 const skillsUi={
-  button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,
+  button:null,overlay:null,panel:null,detailBody:null,characterName:null,characterId:null,assets:null,selectedRole:null,open:false,closeTimer:0,touchPointer:null,touchOrigin:null,touchHandledAt:0,treeTouchPointer:null,treeTouchOrigin:null,treeTouchTarget:null,treeTouchHandledAt:0,
   get tree(){return skillsPreviewByCharacterId.get(this.characterId)||null},
   get model(){return window.bellibingForte},
   get investment(){return this.model.normalizeForteState(this.tree,draft(this.characterName).build.forte)},
   init(){
     this.button=document.getElementById('skillsBtn');this.overlay=document.getElementById('skillsOverlay');this.panel=document.getElementById('skillsPanel');this.detailBody=document.getElementById('skillsDetailBody');
-    this.button.addEventListener('click',()=>this.show());
-    document.getElementById('skillsClose').addEventListener('click',()=>this.hide());
-    document.querySelector('[data-skills-close]').addEventListener('click',()=>this.hide());
-    document.getElementById('skillsMenuTree').addEventListener('click',event=>{
-      const control=event.target.closest('[data-level-step]');
-      if(control){const n=this.tree.nodes.find(n=>n.id===control.dataset.nodeId);this.commit(n,Math.max(0,Math.min(10,this.investment.levels[n.role]+Number(control.dataset.levelStep))));return}
-      const button=event.target.closest('[data-skill-role]');if(!button)return;
-      const node=this.tree?.nodes.find(n=>n.role===button.dataset.skillRole);if(!node)return;
-      this.selectedRole=node.role;
-      this.render();
+    this.button.addEventListener('pointerdown',event=>{
+      if(event.pointerType!=='touch'||!event.isPrimary)return;
+      this.touchPointer=event.pointerId;this.touchOrigin={x:event.clientX,y:event.clientY};
     });
+    this.button.addEventListener('pointerup',event=>{
+      if(event.pointerType!=='touch'||event.pointerId!==this.touchPointer||!this.touchOrigin)return;
+      const moved=Math.hypot(event.clientX-this.touchOrigin.x,event.clientY-this.touchOrigin.y);
+      this.touchPointer=null;this.touchOrigin=null;
+      if(moved>10)return;
+      event.preventDefault();this.touchHandledAt=performance.now();this.show();
+    });
+    this.button.addEventListener('pointercancel',event=>{if(event.pointerId===this.touchPointer){this.touchPointer=null;this.touchOrigin=null}});
+    this.button.addEventListener('click',()=>{if(performance.now()-this.touchHandledAt<500)return;this.show()});
+    this.bindTouchActivation(document.getElementById('skillsClose'),()=>this.hide());
+    this.bindTouchActivation(document.querySelector('[data-skills-close]'),()=>this.hide());
+    const tree=document.getElementById('skillsMenuTree');
+    tree.addEventListener('pointerdown',event=>{
+      if(event.pointerType!=='touch'||!event.isPrimary)return;
+      const target=event.target.closest('[data-level-step],[data-skill-role]');if(!target)return;
+      this.treeTouchPointer=event.pointerId;this.treeTouchOrigin={x:event.clientX,y:event.clientY};this.treeTouchTarget=target;
+    });
+    tree.addEventListener('pointerup',event=>{
+      if(event.pointerType!=='touch'||event.pointerId!==this.treeTouchPointer||!this.treeTouchOrigin||!this.treeTouchTarget)return;
+      const moved=Math.hypot(event.clientX-this.treeTouchOrigin.x,event.clientY-this.treeTouchOrigin.y),target=this.treeTouchTarget;
+      this.treeTouchPointer=null;this.treeTouchOrigin=null;this.treeTouchTarget=null;
+      if(moved>10)return;
+      event.preventDefault();this.treeTouchHandledAt=performance.now();this.activateTreeTarget(target);
+    });
+    tree.addEventListener('pointercancel',event=>{if(event.pointerId===this.treeTouchPointer){this.treeTouchPointer=null;this.treeTouchOrigin=null;this.treeTouchTarget=null}});
+    tree.addEventListener('click',event=>{if(performance.now()-this.treeTouchHandledAt<500)return;this.activateTreeTarget(event.target)});
     window.addEventListener('bellibing-forte-ready',()=>{this.render();statsUi.refresh()});
     this.render();
   },
   setCharacter(name){this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.selectedRole=null;if(!name)this.hide();this.refreshForCharacter()},
   refreshForCharacter(){this.assets=this.characterId?sequenceAssetsByCharacter.get(this.characterId)||null:null;this.render()},
   select(role){if(this.tree?.nodes.some(n=>n.role===role)){this.selectedRole=role;this.render()}},
+  activateTreeTarget(target){
+    const control=target?.closest?.('[data-level-step]');
+    if(control){const n=this.tree?.nodes.find(n=>n.id===control.dataset.nodeId);if(n)this.commit(n,Math.max(0,Math.min(10,this.investment.levels[n.role]+Number(control.dataset.levelStep))));return}
+    const button=target?.closest?.('[data-skill-role]');if(!button)return;
+    const node=this.tree?.nodes.find(n=>n.role===button.dataset.skillRole);if(!node)return;
+    this.selectedRole=node.role;this.render();
+  },
+  bindTouchActivation(button,action){
+    let pointer=null,origin=null,handledAt=0;
+    button.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'&&event.isPrimary){pointer=event.pointerId;origin={x:event.clientX,y:event.clientY}}});
+    button.addEventListener('pointerup',event=>{
+      if(event.pointerType!=='touch'||event.pointerId!==pointer||!origin)return;
+      const moved=Math.hypot(event.clientX-origin.x,event.clientY-origin.y);pointer=null;origin=null;if(moved>10)return;
+      event.preventDefault();handledAt=performance.now();action();
+    });
+    button.addEventListener('pointercancel',event=>{if(event.pointerId===pointer){pointer=null;origin=null}});
+    button.addEventListener('click',()=>{if(performance.now()-handledAt<500)return;action()});
+  },
   commit(node,value){
     if(!this.tree||!this.characterName||!node)return;
     this.selectedRole=node.role;
@@ -1570,7 +1642,7 @@ const skillsUi={
     if(metadata.children.length)this.detailBody.append(metadata);
     const description=document.createElement('p');description.className='forte-description'+(!node.description?' skills-detail-pending':'');description.textContent=node.description||'Pending';this.detailBody.append(description);
     if(node.kind==='stat'||node.kind==='inherent'){
-      const toggle=document.createElement('button');toggle.type='button';toggle.className='forte-toggle';const active=this.model.forteNodeActive(this.tree,this.investment,node.id);toggle.textContent=active?'Disable node':'Enable node';toggle.onclick=()=>this.commit(node,!active);this.detailBody.prepend(toggle);
+      const toggle=document.createElement('button');toggle.type='button';toggle.className='forte-toggle';const active=this.model.forteNodeActive(this.tree,this.investment,node.id);toggle.textContent=active?'Disable node':'Enable node';this.bindTouchActivation(toggle,()=>this.commit(node,!active));this.detailBody.prepend(toggle);
     }
     if(selectedLevel===0){const p=document.createElement('p');p.className='forte-disabled';p.textContent='Disabled · No level invested';this.detailBody.append(p);return}
     for(const row of node.values){

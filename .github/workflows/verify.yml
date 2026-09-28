@@ -225,6 +225,7 @@ jobs:
             artifacts/ui-preview-sequence-hover-1440x900.png
             artifacts/ui-preview-build-stats-expanded-1440x900.png
             artifacts/ui-preview-skills-menu-1440x900.png
+            artifacts/ui-preview-skills-menu-390x844.png
             artifacts/ui-preview-hero-art-*.png
             artifacts/hero-roster/*.png
           if-no-files-found: error

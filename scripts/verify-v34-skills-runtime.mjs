@@ -93,6 +93,11 @@ async function pointerClick(send,selector){
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:p.x,y:p.y,button:'left',clickCount:1});
   await sleep(110);
 }
+async function touchTap(send,selector){
+  const p=await centerOf(send,selector);
+  await send('Input.synthesizeTapGesture',{x:p.x,y:p.y,duration:60,gestureSourceType:'touch'});
+  await sleep(150);
+}
 async function layout(send){
   return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect(),tree=document.getElementById('skillsMenuTree').getBoundingClientRect(),detail=document.querySelector('.skills-detail-pane').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),tree:tree.toJSON(),detail:detail.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
 }
@@ -100,6 +105,11 @@ async function capture(send){
   mkdirSync('artifacts',{recursive:true});
   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
   writeFileSync('artifacts/ui-preview-skills-menu-1440x900.png',Buffer.from(shot.data,'base64'));
+}
+async function captureMobile(send){
+  mkdirSync('artifacts',{recursive:true});
+  const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
+  writeFileSync('artifacts/ui-preview-skills-menu-390x844.png',Buffer.from(shot.data,'base64'));
 }
 
 const userDir=join(tmpdir(),'bellibing-skills-'+process.pid+'-'+DEBUG_PORT);
@@ -207,12 +217,40 @@ try{
     const controls=await evaluate(send,"[...document.querySelectorAll('#skillsMenuTree [data-level-step]')].map(n=>{const r=n.getBoundingClientRect();const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return hit===n||n.contains(hit)})");assert(controls.length===10&&controls.every(Boolean),'Level controls occluded',controls);
     await pointerClick(send,'#skillsClose');await sleep(400);
   }
+
+  // Keep mouse-only desktop flow before entering touch emulation.
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
-  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');const expanded=await layout(send);
+  await evaluate(send,'scrollTo(0,0)');await sleep(150);
+  if(await evaluate(send,'statsUi.expanded')){await pointerClick(send,'#buildStatsToggle');await waitFor(send,'!statsUi.expanded','Stats did not return to collapsed setup',1200)}
+  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');await waitFor(send,'statsUi.expanded','Stats did not expand after desktop pointer click',1200);const expanded=await layout(send);
   assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
   assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
   await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');
-  console.log('Forte Chrome checks passed: 57 Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow and 1440/1920/2560 desktop geometry.');
+
+  // Phone portrait: same Skills/Forte state and controls, mobile-only presentation.
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true,screenWidth:390,screenHeight:844});
+  await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
+  await sleep(250);
+  await evaluate(send,"document.querySelector('#skillsBtn').scrollIntoView({block:'center',behavior:'instant'})");await sleep(120);
+  await touchTap(send,'#skillsBtn');await waitFor(send,"document.getElementById('skillsOverlay').classList.contains('open')",'Mobile Skills tap did not open dialog',2000);await sleep(400);g=await layout(send);
+  assert(g.panel.left>=6&&g.panel.top>=40&&g.panel.right<=g.iw-6&&g.panel.bottom<=g.ih-6,'Mobile Skills panel escapes viewport',g);
+  assert(g.tree.left>=g.panel.left&&g.tree.right<=g.panel.right&&g.detail.left>=g.panel.left&&g.detail.right<=g.panel.right&&g.detail.top>=g.tree.bottom-1&&g.detail.bottom<=g.panel.bottom,'Mobile tree/detail layout overlaps or escapes panel',g);
+  await checkTopology('#skillsMenuTree');
+  const mobileControls=await evaluate(send,"[...document.querySelectorAll('#skillsMenuTree [data-level-step]')].map(n=>{const r=n.getBoundingClientRect();const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{w:r.width,h:r.height,hit:hit===n||n.contains(hit)}})");
+  assert(mobileControls.length===10&&mobileControls.every(c=>c.w>=27&&c.h>=27&&c.hit),'Mobile level controls are not reachable',mobileControls);
+  await touchTap(send,'#skillsMenuTree [data-skill-role="normal-attack"]');
+  const mobileBefore=await snapshot(),mobileStep=mobileBefore.investment.levels['normal-attack']<10?1:-1;
+  await touchTap(send,'#skillsMenuTree [data-node-id="1"][data-level-step="'+mobileStep+'"]');
+  let mobileAfter=await snapshot();
+  assert(mobileAfter.investment.levels['normal-attack']===mobileBefore.investment.levels['normal-attack']+mobileStep,'Mobile touch level control did not commit', {mobileBefore,mobileAfter});
+  await touchTap(send,'#skillsMenuTree [data-skill-role="stat-10"]');
+  const mobileStatBefore=await snapshot(),mobileStatEnabled=!!mobileStatBefore.investment.enabled['10'];
+  await touchTap(send,'#skillsDetailBody .forte-toggle');mobileAfter=await snapshot();
+  assert(!!mobileAfter.investment.enabled['10']!==mobileStatEnabled,'Mobile Enable/Disable action did not commit',mobileAfter);
+  await touchTap(send,'#skillsDetailBody .forte-toggle');
+  await captureMobile(send);
+  await touchTap(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&document.getElementById('skillsOverlay').getAttribute('aria-hidden')==='true'",'Mobile Skills touch close did not close dialog',2000);await sleep(400);
+  console.log('Forte Chrome checks passed: 57 Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow, 1440/1920/2560 desktop geometry and 390x844 touch/mobile Skills geometry.');
 
   socket.close();
 }finally{

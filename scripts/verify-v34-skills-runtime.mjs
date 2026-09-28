@@ -240,10 +240,11 @@ try{
   assert(!!mobileAfter.investment.enabled['10']!==mobileStatEnabled,'Mobile Enable/Disable action did not commit',mobileAfter);
   await touchTap(send,'#skillsDetailBody .forte-toggle');
   await captureMobile(send);
-  await touchTap(send,'#skillsClose');await sleep(400);
+  await touchTap(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&document.getElementById('skillsOverlay').getAttribute('aria-hidden')==='true'",'Mobile Skills touch close did not close dialog',2000);await sleep(400);
   await send('Emulation.setTouchEmulationEnabled',{enabled:false,maxTouchPoints:1});
 
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+  await evaluate(send,'scrollTo(0,0)');await sleep(150);
   const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');const expanded=await layout(send);
   assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
   assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);

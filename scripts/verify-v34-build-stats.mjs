@@ -320,7 +320,9 @@ try{
   await navigate(send);
   await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Weapon/Stats runtime did not become ready',15000);
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
-  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'",'Reload lost Augusta Weapon ownership');
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Reload lost Augusta Weapon ownership');
+  await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Reloaded Build entrance did not settle before Echo ownership check',1800);
+  await sleep(180);
 
   const beforeEchoPreview=await statsSnapshot(send);
   await pointerClick(send,'.echo[data-echo-slot="0"]');

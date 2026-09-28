@@ -51,7 +51,9 @@ test('static Build projection combines Character, active Minor Forte, committed 
   assert.equal(out.includesWeaponEffects,false);
   assert.equal(out.includesSonataEffects,false);
   assert.equal(out.includesEchoSkillEffects,false);
-  assert.equal(out.includesSequenceEffects,false);
+  assert.equal(out.includesSequenceEffects,true);
+  assert.equal(out.includesReviewedStaticSequenceStats,true);
+  assert.equal(out.includesConditionalSequenceEffects,false);
   assert.equal(out.includesTeamBuffs,false);
   assert.equal(out.includesCombatUptime,false);
 });
@@ -115,4 +117,46 @@ test('active Minor Forte input projects CRIT/ATK/HP/DEF/Element/Healing families
     });
     assert.ok(Math.abs(out[row.key]-row.expected)<1e-10,row.stat);
   }
+});
+
+
+test('reviewed static Sequence stats are additive, cumulative-ready inputs and remove exactly when the input disappears',()=>{
+  const qingxiao={...character,element:'Aero',level90:{hp:10300,atk:462,def:1112},baseCombat:{critRate:.05,critDamage:1.5,energyRegen:1}};
+  const s0=projectStaticBuildStats({character:qingxiao,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeSequenceStats:[]});
+  const s1=projectStaticBuildStats({character:qingxiao,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeSequenceStats:[{stat:'CRIT Rate',value:.16,sourceSequence:{characterId:'qingxiao',sequence:1,sourceChainId:331}}]});
+  const s3=projectStaticBuildStats({character:qingxiao,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeSequenceStats:[{stat:'CRIT Rate',value:.16,sourceSequence:{characterId:'qingxiao',sequence:1,sourceChainId:331}}]});
+  assert.equal(s0.critRate,.05);
+  assert.ok(Math.abs(s1.critRate-.21)<1e-12);
+  assert.ok(Math.abs(s3.critRate-.21)<1e-12);
+  assert.equal(s1.sequenceStaticStatCount,1);
+  assert.equal(s0.sequenceStaticStatCount,0);
+  assert.equal(s0.critRate,.05);
+});
+
+test('Sequence static stats add with Minor Forte, Weapon secondary and Echo stats without double counting',()=>{
+  const weapon={level90BaseAtk:587,secondary:{stat:'CRIT Rate',value:.243}};
+  const echoSlots=[{
+    echoId:'echo-a',cost:4,rank:5,level:5,
+    mainStat:{name:'CRIT Rate',value:.0792},
+    secondaryMainStat:{name:'Flat ATK',value:54},
+    substats:[{name:'Energy Regen',value:.068}]
+  }];
+  const out=projectStaticBuildStats({
+    character,weapon,echoSlots,echoStatContract:contract,
+    activeForteStats:[{stat:'CRIT Rate',value:.08}],
+    activeSequenceStats:[{stat:'CRIT Rate',value:.16}]
+  });
+  assert.ok(Math.abs(out.critRate-(.05+.08+.243+.0792+.16))<1e-12);
+  assert.equal(out.sequenceStaticStatCount,1);
+});
+
+test('conditional/mechanic prose cannot enter Build Stats and unsupported Sequence stat rows fail closed',()=>{
+  const base=projectStaticBuildStats({character,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeSequenceStats:[]});
+  const noisy=projectStaticBuildStats({
+    character,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeSequenceStats:[],
+    sequenceDescription:'After casting Intro Skill, ATK is increased by 999% for 30s.',
+    conditionalSequenceEffects:[{stat:'ATK%',value:9.99}]
+  });
+  assert.deepEqual(noisy,base);
+  assert.throws(()=>projectStaticBuildStats({character,echoSlots:[],echoStatContract:contract,activeSequenceStats:[{stat:'Target DMG Taken',value:.4}]}),/Reviewed static Sequence/);
 });

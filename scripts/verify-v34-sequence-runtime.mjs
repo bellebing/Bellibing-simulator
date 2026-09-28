@@ -279,7 +279,8 @@ try {
   assert(chisaState.saved === 2, 'Chisa S2 did not persist', chisaState);
 
   await hoverNode(send, 4, 760);
-  assert((await snapshot(send)).open === 4, 'Chisa S4 flyout did not open before Character switch');
+  state=await snapshot(send);
+  assert(state.open === 4, 'Chisa S4 flyout did not open before Character switch');
   const chisaS4Name=state.runtimeName;
   await evaluate(send, "buildPicker.select('Augusta')");
   await waitFor(send, "sequenceUi.characterId==='augusta'", 'Character switch did not bind Augusta');
@@ -287,7 +288,9 @@ try {
   state = await snapshot(send);
   assert(state.open === null && !state.flyoutOpen && state.current === 0 && state.srcs.every((src) => src?.includes('/augusta/')), 'Character switch did not close flyout/reset state/use Augusta icons', state);
   assert(state.srcs.every((src, index) => src !== chisaState.srcs[index]), 'Character switch did not replace all six Character-specific Sequence assets', { chisa: chisaState.srcs, augusta: state.srcs });
-  await hoverNode(send,4,760);state=await snapshot(send);
+  await moveAway(send);await sleep(60);await hoverNode(send,4,760);
+  await waitFor(send,'sequenceUi.openSequence===4','Augusta S4 content did not open after Character switch');
+  state=await snapshot(send);
   assert(state.flyoutTitle===state.runtimeName&&state.description===state.runtimeDescription&&state.flyoutTitle!==chisaS4Name,'Character switch did not immediately replace source-backed Sequence content',{chisaS4Name,augusta:state});
   await moveAway(send);await sleep(180);
 

@@ -327,6 +327,15 @@ function assertWorkspaceBounded(m,baseline,label){
   if(m.scrollWidth>m.innerWidth+1) throw new Error(`${label} introduced horizontal page scroll: ${JSON.stringify(m)}`);
 }
 
+async function waitForFocusedCardCentered(send,wheelId,label){
+  await waitForUi(send,`(() => {
+    const wheel=document.getElementById(${JSON.stringify(wheelId)}),cards=[...wheel.querySelectorAll('.choice')],focus=Number(wheel.dataset.focusIndex),card=cards[focus];
+    if(!card)return false;
+    const wr=wheel.getBoundingClientRect(),cr=card.getBoundingClientRect();
+    return Math.abs((cr.left+cr.width/2)-(wr.left+wr.width/2))<1.5;
+  })()`,label,2200);
+}
+
 async function wheelStep(send,selector,deltaY=180){
   const b=await evaluate(send,`document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);
   await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:b.x+b.width/2,y:b.y+b.height/2});
@@ -385,7 +394,8 @@ async function verifyFiniteAppShell(send){
   start=nav.focus;await keyStep(send,'#buildWheel','ArrowRight');nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
   if(nav.focus===start) throw new Error('Build keyboard navigation did not move focus on extreme ultrawide');
   const lastBuild=await evaluate(send,`releasedCharacters.at(-1).name`);
-  await evaluate(send,`buildPicker.select(${JSON.stringify(lastBuild)})`);await sleep(120);
+  await evaluate(send,`buildPicker.select(${JSON.stringify(lastBuild)})`);
+  await waitForFocusedCardCentered(send,'buildWheel','Build final Character did not settle centered inside bounded selector');
   nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
   if(nav.focus!==56||nav.focusName!==lastBuild||!nav.focusVisible) throw new Error(`Build full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
 
@@ -418,7 +428,8 @@ async function verifyFiniteAppShell(send){
   start=nav.focus;await keyStep(send,'#improveWheel','ArrowRight');nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
   if(nav.focus===start) throw new Error('Improve keyboard navigation did not move focus on extreme ultrawide');
   const lastImprove=await evaluate(send,`releasedCharacters.at(-1).name`);
-  await evaluate(send,`improvePicker.select(${JSON.stringify(lastImprove)})`);await sleep(120);
+  await evaluate(send,`improvePicker.select(${JSON.stringify(lastImprove)})`);
+  await waitForFocusedCardCentered(send,'improveWheel','Improve final Character did not settle centered inside bounded selector');
   nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
   if(nav.focus!==56||nav.focusName!==lastImprove||!nav.focusVisible) throw new Error(`Improve full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
   await evaluate(send,`state.characters=window.__appShellOwnedBefore||[];delete window.__appShellOwnedBefore;save();show('home')`);

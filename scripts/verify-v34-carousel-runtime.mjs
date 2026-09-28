@@ -327,6 +327,16 @@ function assertWorkspaceBounded(m,baseline,label){
   if(m.scrollWidth>m.innerWidth+1) throw new Error(`${label} introduced horizontal page scroll: ${JSON.stringify(m)}`);
 }
 
+async function waitForSelectorSpacing(send,wheelId,expected,label){
+  await waitForUi(send,`(() => {
+    const wheel=document.getElementById(${JSON.stringify(wheelId)}),cards=[...wheel.querySelectorAll('.choice')],focus=Number(wheel.dataset.focusIndex),focused=cards[focus],neighbor=cards[focus===cards.length-1?focus-1:focus+1];
+    if(!focused||!neighbor)return false;
+    const fr=focused.getBoundingClientRect(),nr=neighbor.getBoundingClientRect();
+    const center=r=>r.left+r.width/2;
+    return Math.abs(Math.abs(center(fr)-center(nr))-${expected})<1.5;
+  })()`,label,2200);
+}
+
 async function waitForFocusedCardCentered(send,wheelId,label){
   await waitForUi(send,`(() => {
     const wheel=document.getElementById(${JSON.stringify(wheelId)}),cards=[...wheel.querySelectorAll('.choice')],focus=Number(wheel.dataset.focusIndex),card=cards[focus];
@@ -402,6 +412,7 @@ async function verifyFiniteAppShell(send){
   await setViewport(send,1440,900);
   await evaluate(send,`window.__appShellOwnedBefore=[...state.characters];state.characters=releasedCharacters.map(c=>c.name);save();show('improve')`);
   await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===57`,'Improve full owned roster did not load for AppShell verification',15000);
+  await waitForSelectorSpacing(send,'improveWheel',228,'Improve EXPANDED initial card spacing did not settle');
   for(const[width,height]of sizes){
     await setViewport(send,width,height);await evaluate(send,'improvePicker.repaint()');await sleep(100);
     const expanded=await selectorLayoutMetrics(send,'improveShell','improveWheel');

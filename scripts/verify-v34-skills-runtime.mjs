@@ -245,7 +245,8 @@ try{
 
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'scrollTo(0,0)');await sleep(150);
-  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');const expanded=await layout(send);
+  if(await evaluate(send,'statsUi.expanded')){await pointerClick(send,'#buildStatsToggle');await waitFor(send,'!statsUi.expanded','Stats did not return to collapsed setup',1200)}
+  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');await waitFor(send,'statsUi.expanded','Stats did not expand after desktop pointer click',1200);const expanded=await layout(send);
   assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
   assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
   await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');

@@ -218,6 +218,15 @@ try{
     await pointerClick(send,'#skillsClose');await sleep(400);
   }
 
+  // Keep mouse-only desktop flow before entering touch emulation.
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+  await evaluate(send,'scrollTo(0,0)');await sleep(150);
+  if(await evaluate(send,'statsUi.expanded')){await pointerClick(send,'#buildStatsToggle');await waitFor(send,'!statsUi.expanded','Stats did not return to collapsed setup',1200)}
+  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');await waitFor(send,'statsUi.expanded','Stats did not expand after desktop pointer click',1200);const expanded=await layout(send);
+  assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
+  assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
+  await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');
+
   // Phone portrait: same Skills/Forte state and controls, mobile-only presentation.
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true,screenWidth:390,screenHeight:844});
   await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
@@ -241,15 +250,6 @@ try{
   await touchTap(send,'#skillsDetailBody .forte-toggle');
   await captureMobile(send);
   await touchTap(send,'#skillsClose');await waitFor(send,"!skillsUi.open&&document.getElementById('skillsOverlay').getAttribute('aria-hidden')==='true'",'Mobile Skills touch close did not close dialog',2000);await sleep(400);
-  await send('Emulation.setTouchEmulationEnabled',{enabled:false,maxTouchPoints:1});
-
-  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
-  await evaluate(send,'scrollTo(0,0)');await sleep(150);
-  if(await evaluate(send,'statsUi.expanded')){await pointerClick(send,'#buildStatsToggle');await waitFor(send,'!statsUi.expanded','Stats did not return to collapsed setup',1200)}
-  const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');await waitFor(send,'statsUi.expanded','Stats did not expand after desktop pointer click',1200);const expanded=await layout(send);
-  assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
-  assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
-  await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');
   console.log('Forte Chrome checks passed: 57 Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow, 1440/1920/2560 desktop geometry and 390x844 touch/mobile Skills geometry.');
 
   socket.close();

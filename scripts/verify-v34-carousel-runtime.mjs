@@ -268,6 +268,158 @@ async function buildMetrics(send) {
   })()`);
 }
 
+
+async function selectorLayoutMetrics(send,shellId,wheelId){
+  return evaluate(send,`(() => {
+    const shell=document.getElementById(${JSON.stringify(shellId)}),wheel=document.getElementById(${JSON.stringify(wheelId)});
+    const cards=[...wheel.querySelectorAll('.choice')],focus=Number(wheel.dataset.focusIndex),focused=cards[focus]||null,neighbor=cards[focus===cards.length-1?focus-1:focus+1]||null;
+    const sr=shell.getBoundingClientRect(),wr=wheel.getBoundingClientRect(),fr=focused?.getBoundingClientRect(),nr=neighbor?.getBoundingClientRect();
+    const state=shell.classList.contains('hover-expanded')?'HOVER_EXPANDED':shell.classList.contains('has-selection')?'COMPACT':'EXPANDED';
+    const center=r=>r?r.left+r.width/2:null;
+    return {
+      state,count:cards.length,focus,focusName:focused?.getAttribute('aria-label')||null,
+      shell:sr.toJSON(),wheel:wr.toJSON(),innerWidth,innerHeight,
+      shellCenter:center(sr),viewportCenter:innerWidth/2,
+      spacing:fr&&nr?Math.abs(center(fr)-center(nr)):0,
+      focusCenter:center(fr),focusVisible:!!fr&&center(fr)>=sr.left&&center(fr)<=sr.right,
+      overflowX:getComputedStyle(shell).overflowX,overflowY:getComputedStyle(shell).overflowY,
+      scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight
+    };
+  })()`);
+}
+
+async function buildWorkspaceMetrics(send){
+  return evaluate(send,`(() => {
+    const r=selector=>document.querySelector(selector).getBoundingClientRect();
+    const shell=r('#buildShell'),stage=r('#build .build-stage'),side=r('#build .side-left'),seq=r('#sequencePanel'),focus=r('#build .focus'),art=r('#buildHeroArt'),echoes=r('#build .echoes'),account=r('#accountBtn');
+    return {
+      shell:shell.toJSON(),stage:stage.toJSON(),side:side.toJSON(),seq:seq.toJSON(),focus:focus.toJSON(),art:art.toJSON(),echoes:echoes.toJSON(),account:account.toJSON(),
+      local:{
+        sideLeft:side.left-shell.left,
+        sideRight:side.right-shell.left,
+        seqLeft:seq.left-shell.left,
+        seqRight:seq.right-shell.left,
+        focusCenter:(focus.left+focus.right)/2-shell.left,
+        echoesLeft:echoes.left-shell.left,
+        echoesRight:shell.right-echoes.right,
+        accountRight:shell.right-account.right
+      },
+      innerWidth,innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight
+    };
+  })()`);
+}
+
+function assertSelectorBounded(m,label){
+  const expectedSpacing={EXPANDED:228,COMPACT:98,HOVER_EXPANDED:146}[m.state];
+  if(m.shell.width>1280.5||Math.abs(m.shellCenter-m.viewportCenter)>1.5) throw new Error(`${label} AppShell is not finite/centered: ${JSON.stringify(m)}`);
+  if(Math.abs(m.wheel.width-m.shell.width)>1.5||Math.abs(m.wheel.left-m.shell.left)>1.5) throw new Error(`${label} visual carousel viewport escaped AppShell: ${JSON.stringify(m)}`);
+  if(m.count!==57||!m.focusVisible||Math.abs(m.spacing-expectedSpacing)>2.5) throw new Error(`${label} Character carousel state/spacing drift: ${JSON.stringify(m)}`);
+  if(m.overflowX!=='hidden'||m.scrollWidth>m.innerWidth+1) throw new Error(`${label} did not clip to finite shell / caused horizontal page scroll: ${JSON.stringify(m)}`);
+}
+
+function assertWorkspaceBounded(m,baseline,label){
+  const inside=(r)=>r.left>=m.shell.left-1&&r.right<=m.shell.right+1;
+  if(!inside(m.stage)||!inside(m.side)||!inside(m.seq)||!inside(m.focus)||!inside(m.art)||!inside(m.echoes)||!inside(m.account)) throw new Error(`${label} Build component escaped owning AppShell: ${JSON.stringify(m)}`);
+  if(!(m.local.sideRight<m.local.seqLeft&&m.local.seqLeft<m.local.focusCenter&&m.local.focusCenter<m.local.echoesLeft)) throw new Error(`${label} Build relationship Stats → Sequence → focus → Echoes broke: ${JSON.stringify(m.local)}`);
+  const expected={sideLeft:0,seqLeft:366,focusCenter:m.shell.width/2,echoesRight:0,accountRight:24};
+  for(const [key,value] of Object.entries(expected)) if(Math.abs(m.local[key]-value)>2) throw new Error(`${label} shell-local ${key} drifted: expected ${value}, got ${m.local[key]}`);
+  if(baseline) for(const key of ['sideLeft','seqLeft','focusCenter','echoesRight','accountRight']) if(Math.abs(m.local[key]-baseline.local[key])>2) throw new Error(`${label} Build spacing diverged from 1440 baseline at ${key}: ${JSON.stringify({baseline:baseline.local,current:m.local})}`);
+  if(m.scrollWidth>m.innerWidth+1) throw new Error(`${label} introduced horizontal page scroll: ${JSON.stringify(m)}`);
+}
+
+async function wheelStep(send,selector,deltaY=180){
+  const b=await evaluate(send,`document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:b.x+b.width/2,y:b.y+b.height/2});
+  await send('Input.dispatchMouseEvent',{type:'mouseWheel',x:b.x+b.width/2,y:b.y+b.height/2,deltaX:0,deltaY});
+  await sleep(720);
+}
+
+async function keyStep(send,selector,key='ArrowRight'){
+  await evaluate(send,`document.querySelector(${JSON.stringify(selector)}).focus()`);
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key,code:key});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key,code:key});
+  await sleep(720);
+}
+
+async function verifyFiniteAppShell(send){
+  const sizes=[[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]];
+
+  await setViewport(send,1440,900);await navigate(send);await enterBuild(send);
+  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build roster did not load for AppShell verification',15000);
+  for(const[width,height]of sizes){
+    await setViewport(send,width,height);await evaluate(send,'buildPicker.repaint()');await sleep(100);
+    const expanded=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+    assertSelectorBounded(expanded,`Build EXPANDED ${width}x${height}`);
+  }
+
+  await setViewport(send,1440,900);await evaluate(send,'buildPicker.repaint()');await sleep(80);
+  const label=await evaluate(send,`(()=>{const w=document.getElementById('buildWheel'),i=Number(w.dataset.focusIndex);return w.querySelectorAll('.choice')[i]?.getAttribute('aria-label')||''})()`);
+  await pointerClick(send,`#buildWheel .choice[aria-label="${label.replace(/"/g,'\\"')}"]`);
+  await waitForUi(send,`document.getElementById('buildShell').classList.contains('has-selection')`,'Build selection did not enter COMPACT AppShell state');
+  await sleep(720);
+
+  let baseline=null;
+  for(const[width,height]of sizes){
+    await setViewport(send,width,height);await evaluate(send,'buildPicker.repaint()');await sleep(100);
+    const compact=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+    assertSelectorBounded(compact,`Build COMPACT ${width}x${height}`);
+    const workspace=await buildWorkspaceMetrics(send);
+    if(width===1440)baseline=workspace;
+    assertWorkspaceBounded(workspace,baseline,`Build workspace ${width}x${height}`);
+    const focusBefore=workspace.focus;
+    await evaluate(send,`document.getElementById('buildShell').classList.add('hover-expanded');buildPicker.repaint()`);await sleep(100);
+    const hover=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+    assertSelectorBounded(hover,`Build HOVER_EXPANDED ${width}x${height}`);
+    const hoverWorkspace=await buildWorkspaceMetrics(send);
+    if(Math.abs(hoverWorkspace.focus.left-focusBefore.left)>1||Math.abs(hoverWorkspace.focus.top-focusBefore.top)>1||Math.abs(hoverWorkspace.focus.width-focusBefore.width)>1||Math.abs(hoverWorkspace.focus.height-focusBefore.height)>1) throw new Error(`Build selector expansion moved Hero Art focus at ${width}x${height}: ${JSON.stringify({before:focusBefore,after:hoverWorkspace.focus})}`);
+    await evaluate(send,`document.getElementById('buildShell').classList.remove('hover-expanded');buildPicker.repaint()`);await sleep(80);
+  }
+
+  await setViewport(send,7680,2160);await evaluate(send,'buildPicker.repaint()');await sleep(80);
+  let nav=await selectorLayoutMetrics(send,'buildShell','buildWheel'),start=nav.focus;
+  await wheelStep(send,'#buildWheel',180);nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+  if(nav.focus===start) throw new Error('Build mouse-wheel navigation did not move focus on extreme ultrawide');
+  start=nav.focus;await keyStep(send,'#buildWheel','ArrowRight');nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+  if(nav.focus===start) throw new Error('Build keyboard navigation did not move focus on extreme ultrawide');
+  const lastBuild=await evaluate(send,`releasedCharacters.at(-1).name`);
+  await evaluate(send,`buildPicker.select(${JSON.stringify(lastBuild)})`);await sleep(120);
+  nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
+  if(nav.focus!==56||nav.focusName!==lastBuild||!nav.focusVisible) throw new Error(`Build full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
+
+  await setViewport(send,1440,900);
+  await evaluate(send,`window.__appShellOwnedBefore=[...state.characters];state.characters=releasedCharacters.map(c=>c.name);save();show('improve')`);
+  await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===57`,'Improve full owned roster did not load for AppShell verification',15000);
+  for(const[width,height]of sizes){
+    await setViewport(send,width,height);await evaluate(send,'improvePicker.repaint()');await sleep(100);
+    const expanded=await selectorLayoutMetrics(send,'improveShell','improveWheel');
+    assertSelectorBounded(expanded,`Improve EXPANDED ${width}x${height}`);
+  }
+  await setViewport(send,1440,900);await evaluate(send,'improvePicker.repaint()');await sleep(80);
+  const improveLabel=await evaluate(send,`(()=>{const w=document.getElementById('improveWheel'),i=Number(w.dataset.focusIndex);return w.querySelectorAll('.choice')[i]?.getAttribute('aria-label')||''})()`);
+  await pointerClick(send,`#improveWheel .choice[aria-label="${improveLabel.replace(/"/g,'\\"')}"]`);
+  await waitForUi(send,`document.getElementById('improveShell').classList.contains('has-selection')`,'Improve selection did not enter COMPACT AppShell state');
+  await sleep(720);
+  for(const[width,height]of sizes){
+    await setViewport(send,width,height);await evaluate(send,'improvePicker.repaint()');await sleep(80);
+    assertSelectorBounded(await selectorLayoutMetrics(send,'improveShell','improveWheel'),`Improve COMPACT ${width}x${height}`);
+    await evaluate(send,`document.getElementById('improveShell').classList.add('hover-expanded');improvePicker.repaint()`);await sleep(80);
+    assertSelectorBounded(await selectorLayoutMetrics(send,'improveShell','improveWheel'),`Improve HOVER_EXPANDED ${width}x${height}`);
+    await evaluate(send,`document.getElementById('improveShell').classList.remove('hover-expanded');improvePicker.repaint()`);
+  }
+  await setViewport(send,7680,2160);await evaluate(send,'improvePicker.repaint()');await sleep(80);
+  nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');start=nav.focus;
+  await wheelStep(send,'#improveWheel',180);nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
+  if(nav.focus===start) throw new Error('Improve mouse-wheel navigation did not move focus on extreme ultrawide');
+  start=nav.focus;await keyStep(send,'#improveWheel','ArrowRight');nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
+  if(nav.focus===start) throw new Error('Improve keyboard navigation did not move focus on extreme ultrawide');
+  const lastImprove=await evaluate(send,`releasedCharacters.at(-1).name`);
+  await evaluate(send,`improvePicker.select(${JSON.stringify(lastImprove)})`);await sleep(120);
+  nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
+  if(nav.focus!==56||nav.focusName!==lastImprove||!nav.focusVisible) throw new Error(`Improve full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
+  await evaluate(send,`state.characters=window.__appShellOwnedBefore||[];delete window.__appShellOwnedBefore;save();show('home')`);
+  return {maxShell:1280,sizes:sizes.map(([w,h])=>w+'x'+h)};
+}
+
 async function verifyWeaponOverlay(send, width, height, capturePath) {
   const touch=width<=760;
   const alreadySelected=await evaluate(send,`document.getElementById('buildShell').classList.contains('has-selection')`);
@@ -370,8 +522,8 @@ async function capture(send, path) {
   writeFileSync(path,Buffer.from(shot.data,'base64'));
 }
 
-const desktopMatrix=[[1440,900],[1920,1080],[2560,1440]];
-const matrix=VERIFY_MOBILE?[[390,844],[768,1024],...desktopMatrix,[3440,1440],[7680,2160]]:desktopMatrix;
+const desktopMatrix=[[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]];
+const matrix=VERIFY_MOBILE?[[390,844],[768,1024],...desktopMatrix]:desktopMatrix;
 const chrome=spawn(CHROME,[
   '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
   `--remote-debugging-port=${DEBUG_PORT}`,'--remote-debugging-address=127.0.0.1',
@@ -395,6 +547,7 @@ try{
     }
 
     const pointerMenus=await verifyRealPointerMenus(send);
+    const finiteShell=await verifyFiniteAppShell(send);
 
     await setViewport(send,1440,900);await navigate(send);
     await drag(send,'#homeStage',-1,.62);
@@ -443,7 +596,8 @@ try{
     }
 
     console.log('v34 runtime carousel verification passed in real Chrome.');
-    console.log(VERIFY_MOBILE?'- Full optional responsive matrix passed.':'- Desktop acceptance matrix passed at 1440x900, 1920x1080 and 2560x1440.');
+    console.log(VERIFY_MOBILE?'- Full optional responsive matrix passed.':'- Desktop AppShell matrix passed at 1440x900, 1920x1080, 2560x1440, 3440x1440 and 7680x2160.');
+    console.log(`- Shared Build/Improve Character pickers are centered and capped at ${finiteShell.maxShell}px in EXPANDED, COMPACT and HOVER_EXPANDED states; Build shell-local spacing stays fixed and the final roster card remains centerable.`);
     console.log('- Home mouse drag reached Team from default Improve focus.');
     console.log(`- Real mouse click navigation passed for Home Build/Improve/Team plus Build and Improve Character pickers; selected: ${pointerMenus.character}.`);
     console.log('- Build selector loaded 57/57 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');

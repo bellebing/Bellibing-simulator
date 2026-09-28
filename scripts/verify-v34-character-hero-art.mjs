@@ -235,7 +235,7 @@ try{
   for(const key of ['left','top','width','height'])assert(close(before.focus[key],collapsed.focus[key]),'Selector collapse moved/scaled Character focus',{key,before:before.focus,collapsed:collapsed.focus});
 
   // Varied silhouettes: geometry at all desktop target sizes, full screenshots for human review.
-  for(const[width,height]of[[1440,900],[1920,1080],[2560,1440]]){
+  for(const[width,height]of[[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await sleep(180);
     for(const id of required){
@@ -257,7 +257,7 @@ try{
   assert(await evaluate(send,"typeof weaponUi.show==='function'&&typeof echoUi.show==='function'&&typeof skillsUi.show==='function'&&typeof statsUi.refresh==='function'"),'Surrounding Build controls lost their existing interfaces');
   assert(await evaluate(send,"document.getElementById('accountBtn').textContent==='Add to Account'"),'Add to Account initial state regressed');
 
-  console.log('Character Hero Art Chrome checks passed: 53 READY source swaps, 4 explicit Rover PENDING states, independent selector/focus layers, required varied-silhouette review set, and 1440x900 / 1920x1080 / 2560x1440 containment.');
+  console.log('Character Hero Art Chrome checks passed: 53 READY source swaps, 4 explicit Rover PENDING states, independent selector/focus layers, required varied-silhouette review set, and 1440x900 / 1920x1080 / 2560x1440 / 3440x1440 / 7680x2160 containment.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

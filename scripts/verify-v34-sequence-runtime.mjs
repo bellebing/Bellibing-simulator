@@ -320,7 +320,7 @@ try {
 
   await evaluate(send, "buildPicker.select('Aemeath')");
   await waitFor(send, "sequenceUi.characterId==='aemeath'", 'Aemeath did not bind for desktop long-content sanity');
-  for (const [width, height] of [[1920,1080],[2560,1440]]) {
+  for (const [width, height] of [[1920,1080],[2560,1440],[3440,1440],[7680,2160]]) {
     await moveAway(send);
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     await sleep(180);
@@ -332,7 +332,7 @@ try {
     await moveAway(send); await sleep(180);
   }
 
-  console.log('v34 Sequence hover runtime verified: 57 Characters / 342 source-backed S1-S6 titles+descriptions/icons, read-only hover, gold active treatment, 700ms anchored flyout, contained long descriptions, Set/Remove cascade semantics, Character content isolation, reload persistence and 1440/1920/2560 desktop geometry.');
+  console.log('v34 Sequence hover runtime verified: 57 Characters / 342 source-backed S1-S6 titles+descriptions/icons, read-only hover, gold active treatment, 700ms anchored flyout, contained long descriptions, Set/Remove cascade semantics, Character content isolation, reload persistence and 1440/1920/2560/3440/7680 desktop geometry.');
   socket.close();
 } finally {
   chrome.kill('SIGTERM');

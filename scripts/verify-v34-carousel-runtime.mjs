@@ -346,6 +346,7 @@ async function verifyFiniteAppShell(send){
 
   await setViewport(send,1440,900);await navigate(send);await enterBuild(send);
   await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build roster did not load for AppShell verification',15000);
+  await waitForUi(send,`!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')`,'Build entrance motion did not settle before AppShell measurement',3000);
   for(const[width,height]of sizes){
     await setViewport(send,width,height);await evaluate(send,'buildPicker.repaint()');await sleep(100);
     const expanded=await selectorLayoutMetrics(send,'buildShell','buildWheel');

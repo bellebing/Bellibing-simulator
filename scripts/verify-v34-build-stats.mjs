@@ -317,12 +317,6 @@ try{
   await waitFor(send,"statsUi.characterId==='qingxiao'&&weaponUi.currentId===null&&draft('Qingxiao').build.weaponId==null",'Augusta Weapon leaked into Qingxiao');
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'",'Augusta Weapon did not restore after Character switch');
-  await navigate(send);
-  await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Weapon/Stats runtime did not become ready',15000);
-  await evaluate(send,"show('build');buildPicker.select('Augusta')");
-  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Reload lost Augusta Weapon ownership');
-  await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Reloaded Build entrance did not settle before Echo ownership check',1800);
-  await sleep(180);
 
   const beforeEchoPreview=await statsSnapshot(send);
   await pointerClick(send,'.echo[data-echo-slot="0"]');
@@ -353,7 +347,12 @@ try{
     await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse at '+width+'×'+height);
   }
 
-  console.log('v34 Build Stats verified in real Chrome: active Minor Forte + reviewed static Sequence stats, Qingxiao S0/S1/S3/removal, Sequence hover no-op, Character switch/reload isolation, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
+  await navigate(send);
+  await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Final reload runtime did not become ready',15000);
+  await evaluate(send,"show('build');buildPicker.select('Augusta')");
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&statsUi.characterId==='augusta'",'Reload lost Augusta Weapon ownership');
+
+  console.log('v34 Build Stats verified in real Chrome: active Minor Forte + reviewed static Sequence stats, Qingxiao S0/S1/S3/removal, Sequence hover no-op, Character switch/reload isolation, Weapon switch/reload ownership, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

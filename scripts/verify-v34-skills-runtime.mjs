@@ -95,10 +95,8 @@ async function pointerClick(send,selector){
 }
 async function touchTap(send,selector){
   const p=await centerOf(send,selector);
-  await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:p.x,y:p.y}]});
-  await sleep(35);
-  await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
-  await sleep(130);
+  await send('Input.synthesizeTapGesture',{x:p.x,y:p.y,duration:60,gestureSourceType:'touch'});
+  await sleep(150);
 }
 async function layout(send){
   return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect(),tree=document.getElementById('skillsMenuTree').getBoundingClientRect(),detail=document.querySelector('.skills-detail-pane').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),tree:tree.toJSON(),detail:detail.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
@@ -223,7 +221,7 @@ try{
   // Phone portrait: same Skills/Forte state and controls, mobile-only presentation.
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true,screenWidth:390,screenHeight:844});
   await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
-  await sleep(250);await touchTap(send,'#skillsBtn');await sleep(400);g=await layout(send);
+  await sleep(250);await touchTap(send,'#skillsBtn');await waitFor(send,"document.getElementById('skillsOverlay').classList.contains('open')",'Mobile Skills tap did not open dialog',2000);await sleep(400);g=await layout(send);
   assert(g.panel.left>=6&&g.panel.top>=40&&g.panel.right<=g.iw-6&&g.panel.bottom<=g.ih-6,'Mobile Skills panel escapes viewport',g);
   assert(g.tree.left>=g.panel.left&&g.tree.right<=g.panel.right&&g.detail.left>=g.panel.left&&g.detail.right<=g.panel.right&&g.detail.top>=g.tree.bottom-1&&g.detail.bottom<=g.panel.bottom,'Mobile tree/detail layout overlaps or escapes panel',g);
   await checkTopology('#skillsMenuTree');

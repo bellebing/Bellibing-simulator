@@ -19,7 +19,7 @@ Each released Character currently has eight stat nodes, two Inherent nodes, five
 - `build.forte` stores five independent 0–10 levels and Character-local enabled node IDs in each existing Character/build draft. Existing drafts initialize fully invested, matching the prior Lv10 preview baseline.
 - Enabling a later node recursively enables required nodes; an uninvested root becomes Lv1. Disabling a prerequisite recursively disables all descendants. Lowering a positive skill level preserves enabled descendants; lowering to zero disables them.
 - Lv0 is a UI disabled state. No source array is indexed at zero and no zero multiplier is invented.
-- Grey/gold connectors reflect saved investment, independently of preview selection. Main-skill and Outro selection only previews; upper-node clicks toggle investment and open the corresponding preview.
+- Grey/gold connectors reflect saved investment, independently of preview selection. Clicking any tree node only selects its Skill Preview; stat/Inherent investment changes only from the right-side `Enable node` / `Disable node` action.
 - Names, descriptions, parameters and multiplier strings come from the source snapshot. Formatting tags are stripped and placeholders are substituted only with source parameters. Missing descriptions/values show Pending. Audit notes, mechanic summaries and generated explanations are never rendered. Metadata badges only repeat explicit damage classifications in the description.
 - Stats, Weapon, Echo, Sequence and combat/DPS behavior remain unchanged. Node investment is persisted for this Skills UI; it is not yet applied to the existing static Stats projection or combat calculation.
 

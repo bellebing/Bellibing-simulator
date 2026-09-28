@@ -1509,8 +1509,7 @@ const skillsUi={
       const button=event.target.closest('[data-skill-role]');if(!button)return;
       const node=this.tree?.nodes.find(n=>n.role===button.dataset.skillRole);if(!node)return;
       this.selectedRole=node.role;
-      if(node.kind==='stat'||node.kind==='inherent')this.commit(node,!this.model.forteNodeActive(this.tree,this.investment,node.id));
-      else this.render();
+      this.render();
     });
     window.addEventListener('bellibing-forte-ready',()=>{this.render();statsUi.refresh()});
     this.render();

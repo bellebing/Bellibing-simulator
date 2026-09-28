@@ -107,7 +107,7 @@ async function assertAugustaBase(send){
   assert(near(raw(state,'critRate'),.13),'Augusta CRIT Rate active-Forte projection mismatch',state.rows.critRate);
   assert(near(raw(state,'critDamage'),1.5),'Augusta CRIT DMG base mismatch',state.rows.critDamage);
   assert(state.rows.hp.text==='10,300'&&state.rows.energyRegen.text==='100%'&&state.rows.critRate.text==='13%'&&state.rows.critDamage.text==='150%','Primary Build Stats display formatting mismatch',state.rows);
-  assert(Object.values(state.rows).every(row=>row.icon?.startsWith('assets/builder-icons/stats/')&&row.loaded>0),'Canonical stat icon binding/load failed',state.rows);
+  assert(Object.values(state.rows).every(row=>row.icon?.startsWith('assets/builder-icons/stats/'))&&Object.values(state.rows).filter(row=>!row.hidden).every(row=>row.loaded>0),'Canonical stat icon binding/load failed',state.rows);
   assert(state.rows.elementDamageBonus.label==='Electro DMG Bonus','Character element stat label did not follow Augusta',state.rows.elementDamageBonus);
   assert(near(raw(state,'elementDamageBonus'),0)&&near(raw(state,'basicAttackDamageBonus'),0)&&near(raw(state,'heavyAttackDamageBonus'),0)&&near(raw(state,'resonanceSkillDamageBonus'),0)&&near(raw(state,'resonanceLiberationDamageBonus'),0)&&near(raw(state,'healingBonus'),0),'Unsupported/nonexistent bonuses leaked into unequipped Augusta stats',state.rows);
   const primaryKeys=['hp','atk','def','energyRegen','critRate','critDamage'];

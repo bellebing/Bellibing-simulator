@@ -87,7 +87,7 @@ async function pointerClick(send,selector){
 }
 
 async function statsSnapshot(send){
-  return evaluate(send,"(() => {const rows=[...document.querySelectorAll('#buildStatsRows .build-stat-row')];const map=Object.fromEntries(rows.map(row=>[row.dataset.statKey,{raw:row.querySelector('.build-stat-value')?.dataset.raw??null,text:row.querySelector('.build-stat-value')?.textContent.trim()??'',label:row.querySelector('.build-stat-label')?.textContent.trim()??'',hidden:row.hidden,icon:row.querySelector('.build-stat-icon')?.getAttribute('src')??null,loaded:row.querySelector('.build-stat-icon')?.naturalWidth??0}]));return{character:statsUi.characterId,expanded:statsUi.expanded,ready:document.getElementById('buildStatsBlock')?.dataset.ready??null,toggle:document.getElementById('buildStatsToggle')?.textContent.trim()??'',rows:map,projection:statsUi.lastProjection?JSON.parse(JSON.stringify(statsUi.lastProjection)):null,weaponId:buildPicker.selected?draft(buildPicker.selected).build.weaponId??null:null,echoSlots:buildPicker.selected?(readEchoSets(buildPicker.selected).sets[readEchoSets(buildPicker.selected).activeSetId]?.slots??[]):[]}})()");
+  return evaluate(send,"(() => {const rows=[...document.querySelectorAll('#buildStatsRows .build-stat-row')];const map=Object.fromEntries(rows.map(row=>[row.dataset.statKey,{raw:row.querySelector('.build-stat-value')?.dataset.raw??null,text:row.querySelector('.build-stat-value')?.textContent.trim()??'',label:row.querySelector('.build-stat-label')?.textContent.trim()??'',hidden:row.hidden,icon:row.querySelector('.build-stat-icon')?.getAttribute('src')??null,loaded:row.querySelector('.build-stat-icon')?.naturalWidth??0}]));return{character:statsUi.characterId,expanded:statsUi.expanded,ready:document.getElementById('buildStatsBlock')?.dataset.ready??null,toggle:document.getElementById('buildStatsToggle')?.textContent.trim()??'',rows:map,projection:statsUi.lastProjection?JSON.parse(JSON.stringify(statsUi.lastProjection)):null,weaponId:buildPicker.selected?draft(buildPicker.selected).build.weaponId??null:null,sequenceLevel:sequenceUi.currentLevel,savedSequenceLevel:buildPicker.selected?sequenceUi.normalizeLevel(draft(buildPicker.selected).build.sequenceLevel):0,echoSlots:buildPicker.selected?(readEchoSets(buildPicker.selected).sets[readEchoSets(buildPicker.selected).activeSetId]?.slots??[]):[]}})()");
 }
 
 async function geometry(send){
@@ -278,7 +278,7 @@ try{
   await evaluate(send,"sequenceUi.enterNode(1)");
   await sleep(760);
   const qingxiaoHover=await statsSnapshot(send);
-  assert(JSON.stringify(qingxiaoHover.projection)===hoverBaseline&&sequenceUi.currentLevel===0&&draft('Qingxiao').build.sequenceLevel==null,'Sequence hover/preview changed Build Stats',{before:qingxiaoS0,after:qingxiaoHover});
+  assert(JSON.stringify(qingxiaoHover.projection)===hoverBaseline&&qingxiaoHover.sequenceLevel===0&&qingxiaoHover.savedSequenceLevel===0,'Sequence hover/preview changed Build Stats',{before:qingxiaoS0,after:qingxiaoHover});
   await evaluate(send,"sequenceUi.clearTransient();sequenceUi.render();sequenceUi.commit(1)");
   await waitFor(send,"Math.abs(statsUi.lastProjection.critRate-.21)<1e-12&&draft('Qingxiao').build.sequenceLevel===1",'Qingxiao S1 did not add exactly 16% CRIT Rate');
   const qingxiaoS1=await statsSnapshot(send);
@@ -313,6 +313,14 @@ try{
   assert(near(raw(afterWeaponEquip,'atk'),1176)&&near(raw(afterWeaponEquip,'critRate'),.373),'Equipped Weapon base/secondary did not project correctly',afterWeaponEquip);
   await pointerClick(send,'#weaponClose');
   await waitFor(send,"!weaponUi.open&&!document.getElementById('weaponOverlay').classList.contains('mounted')",'Weapon overlay did not close',3000);
+  await evaluate(send,"buildPicker.select('Qingxiao')");
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&weaponUi.currentId===null&&draft('Qingxiao').build.weaponId==null",'Augusta Weapon leaked into Qingxiao');
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'",'Augusta Weapon did not restore after Character switch');
+  await navigate(send);
+  await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Weapon/Stats runtime did not become ready',15000);
+  await evaluate(send,"show('build');buildPicker.select('Augusta')");
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'",'Reload lost Augusta Weapon ownership');
 
   const beforeEchoPreview=await statsSnapshot(send);
   await pointerClick(send,'.echo[data-echo-slot="0"]');

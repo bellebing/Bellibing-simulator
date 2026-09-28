@@ -1548,8 +1548,8 @@ const skillsUi={
     });
     this.button.addEventListener('pointercancel',event=>{if(event.pointerId===this.touchPointer){this.touchPointer=null;this.touchOrigin=null}});
     this.button.addEventListener('click',()=>{if(performance.now()-this.touchHandledAt<500)return;this.show()});
-    document.getElementById('skillsClose').addEventListener('click',()=>this.hide());
-    document.querySelector('[data-skills-close]').addEventListener('click',()=>this.hide());
+    this.bindTouchActivation(document.getElementById('skillsClose'),()=>this.hide());
+    this.bindTouchActivation(document.querySelector('[data-skills-close]'),()=>this.hide());
     const tree=document.getElementById('skillsMenuTree');
     tree.addEventListener('pointerdown',event=>{
       if(event.pointerType!=='touch'||!event.isPrimary)return;

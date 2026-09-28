@@ -270,6 +270,34 @@ try{
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9",'Return to Augusta Stats failed');
 
+  await evaluate(send,"buildPicker.select('Qingxiao')");
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&Math.abs(statsUi.lastProjection.critRate-.05)<1e-12",'Qingxiao S0 baseline did not project 5% CRIT Rate');
+  const qingxiaoS0=await statsSnapshot(send);
+  assert(near(raw(qingxiaoS0,'critRate'),.05)&&qingxiaoS0.projection.sequenceStaticStatCount===0,'Qingxiao S0 baseline mismatch',qingxiaoS0);
+  const hoverBaseline=JSON.stringify(qingxiaoS0.projection);
+  await evaluate(send,"sequenceUi.enterNode(1)");
+  await sleep(760);
+  const qingxiaoHover=await statsSnapshot(send);
+  assert(JSON.stringify(qingxiaoHover.projection)===hoverBaseline&&sequenceUi.currentLevel===0&&draft('Qingxiao').build.sequenceLevel==null,'Sequence hover/preview changed Build Stats',{before:qingxiaoS0,after:qingxiaoHover});
+  await evaluate(send,"sequenceUi.clearTransient();sequenceUi.render();sequenceUi.commit(1)");
+  await waitFor(send,"Math.abs(statsUi.lastProjection.critRate-.21)<1e-12&&draft('Qingxiao').build.sequenceLevel===1",'Qingxiao S1 did not add exactly 16% CRIT Rate');
+  const qingxiaoS1=await statsSnapshot(send);
+  assert(near(raw(qingxiaoS1,'critRate'),.21)&&qingxiaoS1.projection.sequenceStaticStatCount===1,'Qingxiao S1 projection mismatch',qingxiaoS1);
+  await evaluate(send,"sequenceUi.commit(3)");
+  await waitFor(send,"Math.abs(statsUi.lastProjection.critRate-.21)<1e-12&&draft('Qingxiao').build.sequenceLevel===3",'Cumulative S3 activation double-counted or lost Qingxiao S1');
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.critRate-.13)<1e-12",'Qingxiao Sequence effect leaked into Augusta');
+  await evaluate(send,"buildPicker.select('Qingxiao')");
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&Math.abs(statsUi.lastProjection.critRate-.21)<1e-12&&sequenceUi.currentLevel===3",'Character switch did not restore Qingxiao Sequence-owned build');
+  await navigate(send);
+  await waitFor(send,"document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Sequence/Stats runtime did not become ready',15000);
+  await evaluate(send,"show('build');buildPicker.select('Qingxiao')");
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&sequenceUi.currentLevel===3&&Math.abs(statsUi.lastProjection.critRate-.21)<1e-12",'Reload did not preserve Qingxiao Sequence Build Stats');
+  await evaluate(send,"sequenceUi.commit(0)");
+  await waitFor(send,"Math.abs(statsUi.lastProjection.critRate-.05)<1e-12&&draft('Qingxiao').build.sequenceLevel===0",'Removing Qingxiao S1-S3 did not restore exact 5% baseline');
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9",'Augusta Stats did not restore after Qingxiao Sequence regression');
+
   const beforeWeaponPreview=await statsSnapshot(send);
   await pointerClick(send,'#weaponBtn');
   await waitFor(send,"weaponUi.open&&!weaponUi.panelBusy&&document.getElementById('weaponOverlay').classList.contains('open')",'Weapon overlay did not open');
@@ -304,7 +332,7 @@ try{
   await waitFor(send,"!echoUi.open&&!document.getElementById('echoOverlay').classList.contains('mounted')",'Echo Workspace did not close',3000);
 
   const exclusion=afterEchoEquip.projection;
-  assert(exclusion.includesActiveMinorForteStats===true&&exclusion.includesLegacyIntrinsicTotals===false&&exclusion.includesWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Projection boundary flags are wrong',exclusion);
+  assert(exclusion.includesActiveMinorForteStats===true&&exclusion.includesLegacyIntrinsicTotals===false&&exclusion.includesWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===true&&exclusion.includesReviewedStaticSequenceStats===true&&exclusion.includesConditionalSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Projection boundary flags are wrong',exclusion);
 
   for(const[width,height]of[[1920,1080],[2560,1440]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);
@@ -315,7 +343,7 @@ try{
     await pointerClick(send,'#buildStatsToggle');await waitFor(send,"statsUi.expanded===false",'Stats did not collapse at '+width+'×'+height);
   }
 
-  console.log('v34 Build Stats verified in real Chrome: active source-backed Minor Forte CRIT/ATK/HP/DEF/Element/Healing stats replace legacy intrinsic totals; selection-only no-op, dependency cascade, Character switch/reload persistence, Mornye explicit 12%/10% conflict, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
+  console.log('v34 Build Stats verified in real Chrome: active Minor Forte + reviewed static Sequence stats, Qingxiao S0/S1/S3/removal, Sequence hover no-op, Character switch/reload isolation, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

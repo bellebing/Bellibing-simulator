@@ -357,7 +357,7 @@ async function verifyFiniteAppShell(send){
   const label=await evaluate(send,`(()=>{const w=document.getElementById('buildWheel'),i=Number(w.dataset.focusIndex);return w.querySelectorAll('.choice')[i]?.getAttribute('aria-label')||''})()`);
   await pointerClick(send,`#buildWheel .choice[aria-label="${label.replace(/"/g,'\\"')}"]`);
   await waitForUi(send,`document.getElementById('buildShell').classList.contains('has-selection')`,'Build selection did not enter COMPACT AppShell state');
-  await sleep(720);
+  await waitForUi(send,`Math.abs(document.getElementById('buildWheel').getBoundingClientRect().height-122)<1.5`,'Build COMPACT transition did not settle',1800);
 
   let baseline=null;
   for(const[width,height]of sizes){
@@ -368,12 +368,14 @@ async function verifyFiniteAppShell(send){
     if(width===1440)baseline=workspace;
     assertWorkspaceBounded(workspace,baseline,`Build workspace ${width}x${height}`);
     const focusBefore=workspace.focus;
-    await evaluate(send,`document.getElementById('buildShell').classList.add('hover-expanded');buildPicker.repaint()`);await sleep(100);
+    await evaluate(send,`document.getElementById('buildShell').classList.add('hover-expanded');buildPicker.repaint()`);
+    await waitForUi(send,`Math.abs(document.getElementById('buildWheel').getBoundingClientRect().height-250)<1.5`,'Build HOVER_EXPANDED transition did not settle',1800);
     const hover=await selectorLayoutMetrics(send,'buildShell','buildWheel');
     assertSelectorBounded(hover,`Build HOVER_EXPANDED ${width}x${height}`);
     const hoverWorkspace=await buildWorkspaceMetrics(send);
     if(Math.abs(hoverWorkspace.focus.left-focusBefore.left)>1||Math.abs(hoverWorkspace.focus.top-focusBefore.top)>1||Math.abs(hoverWorkspace.focus.width-focusBefore.width)>1||Math.abs(hoverWorkspace.focus.height-focusBefore.height)>1) throw new Error(`Build selector expansion moved Hero Art focus at ${width}x${height}: ${JSON.stringify({before:focusBefore,after:hoverWorkspace.focus})}`);
-    await evaluate(send,`document.getElementById('buildShell').classList.remove('hover-expanded');buildPicker.repaint()`);await sleep(80);
+    await evaluate(send,`document.getElementById('buildShell').classList.remove('hover-expanded');buildPicker.repaint()`);
+    await waitForUi(send,`Math.abs(document.getElementById('buildWheel').getBoundingClientRect().height-122)<1.5`,'Build COMPACT return transition did not settle',1800);
   }
 
   await setViewport(send,7680,2160);await evaluate(send,'buildPicker.repaint()');await sleep(80);
@@ -399,13 +401,15 @@ async function verifyFiniteAppShell(send){
   const improveLabel=await evaluate(send,`(()=>{const w=document.getElementById('improveWheel'),i=Number(w.dataset.focusIndex);return w.querySelectorAll('.choice')[i]?.getAttribute('aria-label')||''})()`);
   await pointerClick(send,`#improveWheel .choice[aria-label="${improveLabel.replace(/"/g,'\\"')}"]`);
   await waitForUi(send,`document.getElementById('improveShell').classList.contains('has-selection')`,'Improve selection did not enter COMPACT AppShell state');
-  await sleep(720);
+  await waitForUi(send,`Math.abs(document.getElementById('improveWheel').getBoundingClientRect().height-122)<1.5`,'Improve COMPACT transition did not settle',1800);
   for(const[width,height]of sizes){
     await setViewport(send,width,height);await evaluate(send,'improvePicker.repaint()');await sleep(80);
     assertSelectorBounded(await selectorLayoutMetrics(send,'improveShell','improveWheel'),`Improve COMPACT ${width}x${height}`);
-    await evaluate(send,`document.getElementById('improveShell').classList.add('hover-expanded');improvePicker.repaint()`);await sleep(80);
+    await evaluate(send,`document.getElementById('improveShell').classList.add('hover-expanded');improvePicker.repaint()`);
+    await waitForUi(send,`Math.abs(document.getElementById('improveWheel').getBoundingClientRect().height-250)<1.5`,'Improve HOVER_EXPANDED transition did not settle',1800);
     assertSelectorBounded(await selectorLayoutMetrics(send,'improveShell','improveWheel'),`Improve HOVER_EXPANDED ${width}x${height}`);
     await evaluate(send,`document.getElementById('improveShell').classList.remove('hover-expanded');improvePicker.repaint()`);
+    await waitForUi(send,`Math.abs(document.getElementById('improveWheel').getBoundingClientRect().height-122)<1.5`,'Improve COMPACT return transition did not settle',1800);
   }
   await setViewport(send,7680,2160);await evaluate(send,'improvePicker.repaint()');await sleep(80);
   nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');start=nav.focus;

@@ -60,6 +60,9 @@ jobs:
       - name: Profile readiness / Pre-DPS freeze gate
         run: npm run audit:profile-readiness
 
+      - name: Sequence source presentation focused tests
+        run: node --experimental-strip-types --test test/characterSequenceUi.test.ts test/characterBuilderAssets.test.ts
+
       - name: Tests
         run: npm test
 

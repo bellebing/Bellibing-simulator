@@ -12,7 +12,7 @@ const runtime=JSON.parse(readFileSync('docs/ui-prototypes/assets/sequence-runtim
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+(detail===undefined?'':': '+JSON.stringify(detail)))};
 
-assert(runtime.schemaVersion===1&&runtime.role==='character-builder.runtime-sequences','Unexpected builder runtime schema');
+assert(runtime.schemaVersion===2&&runtime.role==='character-builder.runtime-sequences'&&runtime.summary?.releasedCharacters===57,'Unexpected builder runtime schema');
 assert(runtime.characters.length===57,'Skills runtime must cover all 57 released Characters',runtime.characters.length);
 const byId=new Map(runtime.characters.map(row=>[row.characterId,row]));
 for(const row of runtime.characters){

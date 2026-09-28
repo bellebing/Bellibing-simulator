@@ -1544,7 +1544,7 @@ const skillsUi={
       const moved=Math.hypot(event.clientX-this.touchOrigin.x,event.clientY-this.touchOrigin.y);
       this.touchPointer=null;this.touchOrigin=null;
       if(moved>10)return;
-      this.touchHandledAt=performance.now();this.show();
+      event.preventDefault();this.touchHandledAt=performance.now();this.show();
     });
     this.button.addEventListener('pointercancel',event=>{if(event.pointerId===this.touchPointer){this.touchPointer=null;this.touchOrigin=null}});
     this.button.addEventListener('click',()=>{if(performance.now()-this.touchHandledAt<500)return;this.show()});
@@ -1561,7 +1561,7 @@ const skillsUi={
       const moved=Math.hypot(event.clientX-this.treeTouchOrigin.x,event.clientY-this.treeTouchOrigin.y),target=this.treeTouchTarget;
       this.treeTouchPointer=null;this.treeTouchOrigin=null;this.treeTouchTarget=null;
       if(moved>10)return;
-      this.treeTouchHandledAt=performance.now();this.activateTreeTarget(target);
+      event.preventDefault();this.treeTouchHandledAt=performance.now();this.activateTreeTarget(target);
     });
     tree.addEventListener('pointercancel',event=>{if(event.pointerId===this.treeTouchPointer){this.treeTouchPointer=null;this.treeTouchOrigin=null;this.treeTouchTarget=null}});
     tree.addEventListener('click',event=>{if(performance.now()-this.treeTouchHandledAt<500)return;this.activateTreeTarget(event.target)});
@@ -1584,7 +1584,7 @@ const skillsUi={
     button.addEventListener('pointerup',event=>{
       if(event.pointerType!=='touch'||event.pointerId!==pointer||!origin)return;
       const moved=Math.hypot(event.clientX-origin.x,event.clientY-origin.y);pointer=null;origin=null;if(moved>10)return;
-      handledAt=performance.now();action();
+      event.preventDefault();handledAt=performance.now();action();
     });
     button.addEventListener('pointercancel',event=>{if(event.pointerId===pointer){pointer=null;origin=null}});
     button.addEventListener('click',()=>{if(performance.now()-handledAt<500)return;action()});

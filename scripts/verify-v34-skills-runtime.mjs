@@ -221,7 +221,9 @@ try{
   // Phone portrait: same Skills/Forte state and controls, mobile-only presentation.
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true,screenWidth:390,screenHeight:844});
   await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
-  await sleep(250);await touchTap(send,'#skillsBtn');await waitFor(send,"document.getElementById('skillsOverlay').classList.contains('open')",'Mobile Skills tap did not open dialog',2000);await sleep(400);g=await layout(send);
+  await sleep(250);
+  await evaluate(send,"document.querySelector('#skillsBtn').scrollIntoView({block:'center',behavior:'instant'})");await sleep(120);
+  await touchTap(send,'#skillsBtn');await waitFor(send,"document.getElementById('skillsOverlay').classList.contains('open')",'Mobile Skills tap did not open dialog',2000);await sleep(400);g=await layout(send);
   assert(g.panel.left>=6&&g.panel.top>=40&&g.panel.right<=g.iw-6&&g.panel.bottom<=g.ih-6,'Mobile Skills panel escapes viewport',g);
   assert(g.tree.left>=g.panel.left&&g.tree.right<=g.panel.right&&g.detail.left>=g.panel.left&&g.detail.right<=g.panel.right&&g.detail.top>=g.tree.bottom-1&&g.detail.bottom<=g.panel.bottom,'Mobile tree/detail layout overlaps or escapes panel',g);
   await checkTopology('#skillsMenuTree');

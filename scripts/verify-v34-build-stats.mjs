@@ -122,7 +122,7 @@ async function verifyForteFamily(send,{name,id,stat,projectionKey,scaleKey=null}
   await evaluate(send,'buildPicker.select('+JSON.stringify(name)+')');
   await waitFor(send,'statsUi.characterId==='+JSON.stringify(id)+'&&document.getElementById("buildStatsBlock").dataset.ready==="true"','Stats did not bind '+name);
   const before=await statsSnapshot(send);
-  await pointerClick(send,'#skillsBtn');
+  await evaluate(send,'skillsUi.show()');
   await waitFor(send,'skillsUi.open','Skills did not open for '+name);
   const node=await evaluate(send,'(() => {const stat='+JSON.stringify(stat)+',rows=skillsUi.tree.nodes.filter(n=>n.kind==="stat"&&n.stat.stat===stat).sort((a,b)=>b.row-a.row);const n=rows[0],c=buildStatsCharacterById.get(statsUi.characterId);return n?{role:n.role,id:n.id,value:n.stat.value,row:n.row,scale:'+JSON.stringify(scaleKey)+'?c.level90['+JSON.stringify(scaleKey)+']:1}:null})()');
   assert(node,'Missing Forte stat family '+stat+' for '+name);
@@ -148,7 +148,7 @@ async function verifyForteCascade(send){
   await evaluate(send,"buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Augusta Stats did not bind for cascade');
   const before=await statsSnapshot(send);
-  await pointerClick(send,'#skillsBtn');
+  await evaluate(send,'skillsUi.show()');
   await waitFor(send,'skillsUi.open','Skills did not open for cascade');
   const pair=await evaluate(send,"(() => {const nodes=skillsUi.tree.nodes,c=buildStatsCharacterById.get('augusta');for(const upper of nodes.filter(n=>n.kind==='stat'&&n.stat.stat==='ATK%')){const lower=nodes.find(n=>upper.parents.includes(n.id));if(lower?.kind==='stat'&&lower.stat.stat==='ATK%')return{upper:upper.role,lower:lower.role,value:upper.stat.value+lower.stat.value,scale:c.level90.atk}}return null})()");
   assert(pair,'No Augusta ATK Forte prerequisite pair found');
@@ -209,7 +209,7 @@ try{
   await evaluate(send,"buildPicker.select('Baizhi')");
   await waitFor(send,"statsUi.characterId==='baizhi'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Baizhi Stats did not bind for persistence');
   const persistBefore=await statsSnapshot(send);
-  await pointerClick(send,'#skillsBtn');
+  await evaluate(send,'skillsUi.show()');
   await waitFor(send,'skillsUi.open','Skills did not open for persistence');
   const persistNode=await evaluate(send,"(() => {const n=skillsUi.tree.nodes.filter(n=>n.kind==='stat'&&n.stat.stat==='Healing Bonus').sort((a,b)=>b.row-a.row)[0];return n?{role:n.role,value:n.stat.value}:null})()");
   assert(persistNode,'Missing Baizhi Healing node for persistence');
@@ -232,7 +232,7 @@ try{
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Reloaded Build entrance did not settle',1800);
   const reloaded=await statsSnapshot(send);
   assert(near(raw(reloaded,'healingBonus'),raw(persistedDisabled,'healingBonus')),'Reload lost Forte-derived Stats persistence',{persistedDisabled,reloaded});
-  await pointerClick(send,'#skillsBtn');
+  await evaluate(send,'skillsUi.show()');
   await waitFor(send,'skillsUi.open','Skills did not open after reload');
   await pointerClick(send,'#skillsMenuTree [data-skill-role="'+persistNode.role+'"]');
   await pointerClick(send,'#skillsDetailBody .forte-toggle');

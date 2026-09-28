@@ -222,6 +222,7 @@ try{
 
   // Phone portrait: same Skills/Forte state and controls, mobile-only presentation.
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true,screenWidth:390,screenHeight:844});
+  await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
   await sleep(250);await touchTap(send,'#skillsBtn');await sleep(400);g=await layout(send);
   assert(g.panel.left>=6&&g.panel.top>=40&&g.panel.right<=g.iw-6&&g.panel.bottom<=g.ih-6,'Mobile Skills panel escapes viewport',g);
   assert(g.tree.left>=g.panel.left&&g.tree.right<=g.panel.right&&g.detail.left>=g.panel.left&&g.detail.right<=g.panel.right&&g.detail.top>=g.tree.bottom-1&&g.detail.bottom<=g.panel.bottom,'Mobile tree/detail layout overlaps or escapes panel',g);
@@ -233,13 +234,14 @@ try{
   await touchTap(send,'#skillsMenuTree [data-node-id="1"][data-level-step="'+mobileStep+'"]');
   let mobileAfter=await snapshot();
   assert(mobileAfter.investment.levels['normal-attack']===mobileBefore.investment.levels['normal-attack']+mobileStep,'Mobile touch level control did not commit', {mobileBefore,mobileAfter});
-  await touchTap(send,'#skillsMenuTree [data-skill-role="stat-14"]');
-  const mobileStatBefore=await snapshot(),mobileStatEnabled=!!mobileStatBefore.investment.enabled['14'];
+  await touchTap(send,'#skillsMenuTree [data-skill-role="stat-10"]');
+  const mobileStatBefore=await snapshot(),mobileStatEnabled=!!mobileStatBefore.investment.enabled['10'];
   await touchTap(send,'#skillsDetailBody .forte-toggle');mobileAfter=await snapshot();
-  assert(!!mobileAfter.investment.enabled['14']!==mobileStatEnabled,'Mobile Enable/Disable action did not commit',mobileAfter);
+  assert(!!mobileAfter.investment.enabled['10']!==mobileStatEnabled,'Mobile Enable/Disable action did not commit',mobileAfter);
   await touchTap(send,'#skillsDetailBody .forte-toggle');
   await captureMobile(send);
   await touchTap(send,'#skillsClose');await sleep(400);
+  await send('Emulation.setTouchEmulationEnabled',{enabled:false,maxTouchPoints:1});
 
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   const collapsed=await layout(send);await pointerClick(send,'#buildStatsToggle');const expanded=await layout(send);

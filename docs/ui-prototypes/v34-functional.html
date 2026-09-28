@@ -674,8 +674,8 @@ async function loadSequenceRuntimeData(){
   const response=await fetch(SEQUENCE_RUNTIME_DATA_PATH,{cache:'no-store'});
   if(!response.ok)throw new Error('sequence runtime data '+response.status);
   const payload=await response.json();
-  if(payload.schemaVersion!==2||payload.role!=='character-builder.runtime-sequences'||!Array.isArray(payload.characters))throw new Error('Unsupported Sequence runtime data schema');
-  if(payload.summary?.releasedCharacters!==57||payload.summary?.sourceBackedChains+payload.summary?.pendingChains!==342)throw new Error('Unexpected Sequence runtime coverage');
+  if(payload.schemaVersion!==3||payload.role!=='character-builder.runtime-sequences'||!Array.isArray(payload.characters))throw new Error('Unsupported Sequence runtime data schema');
+  if(payload.summary?.releasedCharacters!==57||payload.summary?.sourceBackedChains+payload.summary?.pendingChains!==342||payload.summary?.staticBuildStatSequences+payload.summary?.nonStaticMechanicSequences+payload.summary?.pendingBuildStatReviewSequences!==342)throw new Error('Unexpected Sequence runtime coverage');
   for(const character of payload.characters){
     if(!character.skills||BUILDER_CORE_SKILL_ROLES.some(role=>!character.skills[role]?.assetPath))throw new Error('Incomplete source-backed Skills runtime for '+character.characterId);
     if(!Array.isArray(character.chains)||character.chains.length!==6)throw new Error('Incomplete Sequence runtime for '+character.characterId);
@@ -683,6 +683,10 @@ async function loadSequenceRuntimeData(){
       if(chain.sequence!==index+1||!Number.isInteger(chain.sourceChainId)||!chain.assetId||!chain.assetPath||!['SOURCE_BACKED','PENDING'].includes(chain.contentStatus))throw new Error('Malformed Sequence runtime row for '+character.characterId+' S'+(index+1));
       if(chain.contentStatus==='SOURCE_BACKED'&&(!chain.name||!chain.description))throw new Error('Incomplete source-backed Sequence text for '+character.characterId+' S'+chain.sequence);
       if(chain.contentStatus==='PENDING'&&(chain.name&&chain.description))throw new Error('Pending Sequence content status mismatch for '+character.characterId+' S'+chain.sequence);
+      if(!['STATIC_BUILD_STAT','NON_STATIC_MECHANIC','PENDING'].includes(chain.buildStatClassification)||!Array.isArray(chain.staticBuildStats))throw new Error('Malformed Sequence build-stat review for '+character.characterId+' S'+chain.sequence);
+      if(chain.buildStatClassification==='STATIC_BUILD_STAT'&&!chain.staticBuildStats.length)throw new Error('Static Sequence missing reviewed stat facts for '+character.characterId+' S'+chain.sequence);
+      if(chain.buildStatClassification!=='STATIC_BUILD_STAT'&&chain.staticBuildStats.length)throw new Error('Non-static Sequence carries reviewed stat facts for '+character.characterId+' S'+chain.sequence);
+      for(const fact of chain.staticBuildStats)if(typeof fact.stat!=='string'||!Number.isFinite(fact.value)||fact.sourceSequence?.characterId!==character.characterId||fact.sourceSequence?.sequence!==chain.sequence||fact.sourceSequence?.sourceChainId!==chain.sourceChainId)throw new Error('Malformed reviewed Sequence stat fact for '+character.characterId+' S'+chain.sequence);
     }
   }
   sequenceAssetsByCharacter=new Map(payload.characters.map(character=>[character.characterId,character]));
@@ -690,6 +694,14 @@ async function loadSequenceRuntimeData(){
   document.documentElement.dataset.sequenceCatalogReady='true';
   sequenceUi.refreshForCharacter();
   skillsUi.refreshForCharacter();
+  statsUi.refresh();
+}
+function reviewedStaticSequenceStats(characterId,level){
+  const sequenceLevel=Number(level),character=sequenceAssetsByCharacter.get(characterId);
+  if(!Number.isInteger(sequenceLevel)||sequenceLevel<0||sequenceLevel>6||!character)return[];
+  return character.chains
+    .filter(chain=>chain.sequence<=sequenceLevel&&chain.buildStatClassification==='STATIC_BUILD_STAT')
+    .flatMap(chain=>chain.staticBuildStats.map(fact=>({stat:fact.stat,value:fact.value,sourceSequence:{...fact.sourceSequence},provenance:{...fact.provenance}})));
 }
 async function loadEchoBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
@@ -1457,14 +1469,16 @@ const statsUi={
   },
   project(){
     const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(this.characterId);
-    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
+    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!sequenceRuntimeDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
     const character=buildStatsCharacterById.get(this.characterId);if(!character)return null;
     const savedWeaponId=this.characterName?draft(this.characterName).build.weaponId:null;
     const weapon=savedWeaponId?weaponItemById(savedWeaponId):null;
     const forteState=forte.normalizeForteState(tree,draft(this.characterName).build.forte);
     const activeForteStats=forte.forteStats(tree,forteState);
+    const sequenceLevel=sequenceUi.normalizeLevel(draft(this.characterName).build.sequenceLevel);
+    const activeSequenceStats=reviewedStaticSequenceStats(this.characterId,sequenceLevel);
     try{
-      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats});
+      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats,activeSequenceStats});
     }catch(error){
       console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);return null;
     }
@@ -1696,7 +1710,7 @@ const sequenceUi={
     if(next>0&&!this.chain(next))return;
     this.currentLevel=next;
     autosave(this.characterName,{sequenceLevel:next});
-    this.render();
+    this.render();statsUi.refresh();
   },
   render(){
     const line=document.getElementById('sequenceLine');if(line)line.style.setProperty('--seq-progress',String(Math.max(0,(this.currentLevel-1)/5)));

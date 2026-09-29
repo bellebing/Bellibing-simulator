@@ -293,6 +293,8 @@ try{
   await waitFor(send,"document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Sequence/Stats runtime did not become ready',15000);
   await evaluate(send,"show('build');buildPicker.select('Qingxiao')");
   await waitFor(send,"statsUi.characterId==='qingxiao'&&sequenceUi.currentLevel===3&&Math.abs(statsUi.lastProjection.critRate-.21)<1e-12",'Reload did not preserve Qingxiao Sequence Build Stats');
+  await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Reloaded Qingxiao Build entrance did not settle before Weapon interaction',2200);
+  await sleep(120);
 
   const qingxiaoBeforeWeapon=await statsSnapshot(send);
   await pointerClick(send,'#weaponBtn');

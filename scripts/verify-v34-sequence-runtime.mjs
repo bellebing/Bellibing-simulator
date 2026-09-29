@@ -311,7 +311,7 @@ try {
   await evaluate(send, "buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Return to Chisa S2 failed');
 
-  await evaluate(send, 'location.reload()');
+  await navigate(send);
   await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===57", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');

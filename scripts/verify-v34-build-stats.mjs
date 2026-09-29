@@ -297,6 +297,7 @@ try{
   const qingxiaoBeforeWeapon=await statsSnapshot(send);
   await pointerClick(send,'#weaponBtn');
   await waitFor(send,"weaponUi.open&&!weaponUi.panelBusy&&document.getElementById('weaponOverlay').classList.contains('open')",'Qingxiao Weapon overlay did not open');
+  await evaluate(send,'document.querySelector(\'#weaponChoices .weapon-choice[data-weapon-id="guardian-sword"]\').scrollIntoView({block:"center",inline:"center",behavior:"instant"})');await sleep(80);
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="guardian-sword"]');
   await waitFor(send,"weaponUi.previewId==='guardian-sword'&&!weaponUi.busy",'Guardian Sword Preview did not settle');
   const qingxiaoWeaponPreview=await statsSnapshot(send);
@@ -351,6 +352,7 @@ try{
   const afterWeaponEquip=await statsSnapshot(send);
   assert(near(raw(afterWeaponEquip,'atk'),1176)&&near(raw(afterWeaponEquip,'critRate'),.373)&&near(raw(afterWeaponEquip,'elementDamageBonus'),.12)&&afterWeaponEquip.projection.weaponStaticStatCount===1,'Equipped Weapon base/secondary/static passive did not project exactly once',afterWeaponEquip);
 
+  await evaluate(send,'document.querySelector(\'#weaponChoices .weapon-choice[data-weapon-id="autumntrace"]\').scrollIntoView({block:"center",inline:"center",behavior:"instant"})');await sleep(80);
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="autumntrace"]');
   await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&weaponUi.previewId==='autumntrace'&&!weaponUi.busy",'Conditional-only Weapon Preview did not settle');
   const conditionalPreview=await statsSnapshot(send);
@@ -360,6 +362,7 @@ try{
   const conditionalEquipped=await statsSnapshot(send);
   assert(near(raw(conditionalEquipped,'elementDamageBonus'),0)&&conditionalEquipped.projection.weaponStaticStatCount===0&&conditionalEquipped.projection.includesConditionalWeaponEffects===false,'Conditional/stacking Weapon effect leaked into Build Stats',conditionalEquipped);
 
+  await evaluate(send,'document.querySelector(\'#weaponChoices .weapon-choice[data-weapon-id="ages-of-harvest"]\').scrollIntoView({block:"center",inline:"center",behavior:"instant"})');await sleep(80);
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="ages-of-harvest"]');
   await waitFor(send,"weaponUi.previewId==='ages-of-harvest'&&!weaponUi.busy",'Ages of Harvest re-preview did not settle');
   await pointerClick(send,'#weaponEquip');

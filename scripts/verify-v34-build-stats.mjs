@@ -303,7 +303,7 @@ try{
   const qingxiaoWeaponPreview=await statsSnapshot(send);
   assert(JSON.stringify(qingxiaoWeaponPreview.projection)===JSON.stringify(qingxiaoBeforeWeapon.projection)&&qingxiaoWeaponPreview.weaponId===null,'Guardian Sword Preview changed committed Build Stats',{before:qingxiaoBeforeWeapon,after:qingxiaoWeaponPreview});
   await pointerClick(send,'#weaponEquip');
-  await waitFor(send,"weaponUi.currentId==='guardian-sword'&&draft('Qingxiao').build.weaponId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12",'Guardian Sword static effect did not commit');
+  await waitFor(send,"weaponUi.currentId==='guardian-sword'&&draft('Qingxiao').build.weaponId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12&&!weaponUi.busy",'Guardian Sword static effect did not commit/settle');
   const qingxiaoWeapon=await statsSnapshot(send);
   assert(near(raw(qingxiaoWeapon,'critRate'),.21)&&near(raw(qingxiaoWeapon,'resonanceSkillDamageBonus'),.12)&&qingxiaoWeapon.projection.sequenceStaticStatCount===1&&qingxiaoWeapon.projection.weaponStaticStatCount===1,'Sequence + Weapon static Stats did not compose',qingxiaoWeapon);
   await pointerClick(send,'#weaponClose');
@@ -366,7 +366,7 @@ try{
   await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="ages-of-harvest"]');
   await waitFor(send,"weaponUi.previewId==='ages-of-harvest'&&!weaponUi.busy",'Ages of Harvest re-preview did not settle');
   await pointerClick(send,'#weaponEquip');
-  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&Math.abs(statsUi.lastProjection.elementDamageBonus-.12)<1e-12&&statsUi.lastProjection.weaponStaticStatCount===1",'Replacing conditional Weapon did not restore exact static effect');
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&Math.abs(statsUi.lastProjection.elementDamageBonus-.12)<1e-12&&statsUi.lastProjection.weaponStaticStatCount===1&&!weaponUi.busy",'Replacing conditional Weapon did not restore exact static effect/settle');
   await pointerClick(send,'#weaponClose');
   await waitFor(send,"!weaponUi.open&&!document.getElementById('weaponOverlay').classList.contains('mounted')",'Weapon overlay did not close',3000);
   await evaluate(send,"buildPicker.select('Qingxiao')");

@@ -589,6 +589,7 @@ const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 let weaponCatalog=[];
 let weaponById=new Map();
 let canonicalCharacterById=new Map();
+let weaponBuildStatRank=1;
 let weaponDataLoaded=false;
 let weaponDataReady;
 let sequenceRuntimeDataLoaded=false;
@@ -654,7 +655,9 @@ async function loadWeaponBrowserData(){
   if(!manifestResponse.ok)throw new Error('weapon manifest '+manifestResponse.status);
   const browserData=await browserDataResponse.json();
   const manifest=await manifestResponse.json();
-  if(browserData.schemaVersion!==1)throw new Error('Unsupported Weapon browser data schema');
+  if(browserData.schemaVersion!==2||browserData.role!=='character-builder.weapon-browser'||browserData.buildStatWeaponRank!==1)throw new Error('Unsupported Weapon browser data schema');
+  if(browserData.weaponBuildStatReview?.releasedWeapons!==121||browserData.weaponBuildStatReview?.reviewedEffects!==236||browserData.weaponBuildStatReview?.staticBuildStatEffects!==60||browserData.weaponBuildStatReview?.nonStaticMechanicEffects!==176||browserData.weaponBuildStatReview?.pendingEffects!==0)throw new Error('Unexpected Weapon Build Stats review coverage');
+  weaponBuildStatRank=browserData.buildStatWeaponRank;
   const iconById=new Map(manifest.icons.map(icon=>[icon.weaponId,icon]));
   canonicalCharacterById=new Map(browserData.characters.map(character=>[character.id,character]));
   weaponCatalog=browserData.weapons.map((weapon,browseRank)=>{
@@ -662,6 +665,8 @@ async function loadWeaponBrowserData(){
     const icon=iconById.get(weapon.id);
     if(!icon)throw new Error(`Missing canonical Weapon icon for ${weapon.id}`);
     if(icon.weaponType!==weapon.weaponType||icon.rarity!==weapon.rarity)throw new Error(`Weapon manifest mismatch for ${weapon.id}`);
+    if(!Array.isArray(weapon.staticBuildStats))throw new Error(`Missing reviewed Weapon Build Stats for ${weapon.id}`);
+    for(const fact of weapon.staticBuildStats)if(typeof fact.stat!=='string'||!Number.isFinite(fact.value)||fact.sourceWeaponEffect?.weaponId!==weapon.id||fact.sourceWeaponEffect?.rank!==weaponBuildStatRank||typeof fact.sourceWeaponEffect?.effectId!=='string')throw new Error(`Malformed reviewed Weapon Build Stat for ${weapon.id}`);
     return {...weapon,browseRank,artSrc:toAssetPath(icon.targetPath)};
   });
   weaponById=new Map(weaponCatalog.map(weapon=>[weapon.id,weapon]));
@@ -1473,12 +1478,13 @@ const statsUi={
     const character=buildStatsCharacterById.get(this.characterId);if(!character)return null;
     const savedWeaponId=this.characterName?draft(this.characterName).build.weaponId:null;
     const weapon=savedWeaponId?weaponItemById(savedWeaponId):null;
+    const activeWeaponStats=weapon?.staticBuildStats??[];
     const forteState=forte.normalizeForteState(tree,draft(this.characterName).build.forte);
     const activeForteStats=forte.forteStats(tree,forteState);
     const sequenceLevel=sequenceUi.normalizeLevel(draft(this.characterName).build.sequenceLevel);
     const activeSequenceStats=reviewedStaticSequenceStats(this.characterId,sequenceLevel);
     try{
-      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats,activeSequenceStats});
+      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats});
     }catch(error){
       console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);return null;
     }

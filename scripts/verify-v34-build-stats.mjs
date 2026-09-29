@@ -183,8 +183,8 @@ try{
   await navigate(send);
   await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&typeof window.bellibingProjectStaticBuildStats==='function'&&typeof window.bellibingForte?.forteStats==='function'",'Build Stats / Character / Weapon / Echo / Forte runtime did not become ready',15000);
 
-  const runtime=await evaluate(send,"(() => ({count:buildStatsCharacterById.size,iconCount:buildStatsIconByLabel.size,scopeSource:typeof window.bellibingProjectStaticBuildStats==='function',error:document.documentElement.dataset.buildStatsError||null}))()");
-  assert(runtime.count===57&&runtime.iconCount===17&&runtime.scopeSource&&!runtime.error,'Build Stats runtime coverage failed',runtime);
+  const runtime=await evaluate(send,"(() => ({count:buildStatsCharacterById.size,iconCount:buildStatsIconByLabel.size,scopeSource:typeof window.bellibingProjectStaticBuildStats==='function',weaponRank:weaponBuildStatRank,weaponStaticFacts:weaponCatalog.reduce((sum,weapon)=>sum+(weapon.staticBuildStats?.length??0),0),error:document.documentElement.dataset.buildStatsError||null}))()");
+  assert(runtime.count===57&&runtime.iconCount===17&&runtime.scopeSource&&runtime.weaponRank===1&&runtime.weaponStaticFacts===60&&!runtime.error,'Build Stats runtime coverage failed',runtime);
 
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'&&document.querySelectorAll('#buildStatsRows .build-stat-value[data-raw]').length===12",'Augusta Stats rows did not render');
@@ -293,10 +293,49 @@ try{
   await waitFor(send,"document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded Sequence/Stats runtime did not become ready',15000);
   await evaluate(send,"show('build');buildPicker.select('Qingxiao')");
   await waitFor(send,"statsUi.characterId==='qingxiao'&&sequenceUi.currentLevel===3&&Math.abs(statsUi.lastProjection.critRate-.21)<1e-12",'Reload did not preserve Qingxiao Sequence Build Stats');
-  await evaluate(send,"sequenceUi.commit(0)");
-  await waitFor(send,"Math.abs(statsUi.lastProjection.critRate-.05)<1e-12&&draft('Qingxiao').build.sequenceLevel===0",'Removing Qingxiao S1-S3 did not restore exact 5% baseline');
+
+  const qingxiaoBeforeWeapon=await statsSnapshot(send);
+  await pointerClick(send,'#weaponBtn');
+  await waitFor(send,"weaponUi.open&&!weaponUi.panelBusy&&document.getElementById('weaponOverlay').classList.contains('open')",'Qingxiao Weapon overlay did not open');
+  await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="guardian-sword"]');
+  await waitFor(send,"weaponUi.previewId==='guardian-sword'&&!weaponUi.busy",'Guardian Sword Preview did not settle');
+  const qingxiaoWeaponPreview=await statsSnapshot(send);
+  assert(JSON.stringify(qingxiaoWeaponPreview.projection)===JSON.stringify(qingxiaoBeforeWeapon.projection)&&qingxiaoWeaponPreview.weaponId===null,'Guardian Sword Preview changed committed Build Stats',{before:qingxiaoBeforeWeapon,after:qingxiaoWeaponPreview});
+  await pointerClick(send,'#weaponEquip');
+  await waitFor(send,"weaponUi.currentId==='guardian-sword'&&draft('Qingxiao').build.weaponId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12",'Guardian Sword static effect did not commit');
+  const qingxiaoWeapon=await statsSnapshot(send);
+  assert(near(raw(qingxiaoWeapon,'critRate'),.21)&&near(raw(qingxiaoWeapon,'resonanceSkillDamageBonus'),.12)&&qingxiaoWeapon.projection.sequenceStaticStatCount===1&&qingxiaoWeapon.projection.weaponStaticStatCount===1,'Sequence + Weapon static Stats did not compose',qingxiaoWeapon);
+  await pointerClick(send,'#weaponClose');
+  await waitFor(send,"!weaponUi.open&&!document.getElementById('weaponOverlay').classList.contains('mounted')",'Qingxiao Weapon overlay did not close',3000);
+
+  await pointerClick(send,'.echo[data-echo-slot="0"]');
+  await waitFor(send,"echoUi.open&&document.getElementById('echoOverlay').classList.contains('open')",'Qingxiao Echo Workspace did not open');
+  const qingxiaoEchoChoice=await evaluate(send,"(() => {const choice=[...document.querySelectorAll('#echoChoices .echo-choice')].find(node=>!node.hidden);return choice?choice.dataset.echoId:null})()");
+  assert(qingxiaoEchoChoice,'No Qingxiao Echo Preview choice available');
+  await pointerClick(send,'#echoChoices .echo-choice[data-echo-id="'+qingxiaoEchoChoice+'"]');
+  await waitFor(send,"echoUi.previewId==="+JSON.stringify(qingxiaoEchoChoice)+"&&!!echoUi.editorDraft",'Qingxiao Echo Preview did not bind');
+  await pointerClick(send,'#echoEquip');
+  await waitFor(send,"statsUi.lastProjection?.echoCardCount===1",'Qingxiao Echo did not commit',5000);
+  const qingxiaoComposite=await statsSnapshot(send);
+  assert(near(raw(qingxiaoComposite,'resonanceSkillDamageBonus'),.12)&&qingxiaoComposite.projection.sequenceStaticStatCount===1&&qingxiaoComposite.projection.weaponStaticStatCount===1&&qingxiaoComposite.projection.echoCardCount===1,'Sequence/Forte/Weapon/Echo static composition regressed',qingxiaoComposite);
+  await pointerClick(send,'#echoClose');
+  await waitFor(send,"!echoUi.open&&!document.getElementById('echoOverlay').classList.contains('mounted')",'Qingxiao Echo Workspace did not close',3000);
+
   await evaluate(send,"buildPicker.select('Augusta')");
-  await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9",'Augusta Stats did not restore after Qingxiao Sequence regression');
+  await waitFor(send,"statsUi.characterId==='augusta'&&weaponUi.currentId===null&&statsUi.lastProjection.weaponStaticStatCount===0&&statsUi.lastProjection.sequenceStaticStatCount===0&&statsUi.lastProjection.echoCardCount===0",'Qingxiao static Build state leaked into Augusta');
+  await evaluate(send,"buildPicker.select('Qingxiao')");
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&weaponUi.currentId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12&&statsUi.lastProjection.echoCardCount===1&&sequenceUi.currentLevel===3",'Qingxiao static Build state did not restore on Character switch');
+  await navigate(send);
+  await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Reloaded composite runtime did not become ready',15000);
+  await evaluate(send,"show('build');buildPicker.select('Qingxiao')");
+  await waitFor(send,"weaponUi.currentId==='guardian-sword'&&sequenceUi.currentLevel===3&&statsUi.lastProjection.echoCardCount===1&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12",'Reload did not preserve Qingxiao Weapon/Sequence/Echo state');
+  const qingxiaoBeforeSequenceRemoval=await statsSnapshot(send);
+  await evaluate(send,"sequenceUi.commit(0)");
+  await waitFor(send,"draft('Qingxiao').build.sequenceLevel===0&&statsUi.lastProjection.sequenceStaticStatCount===0",'Removing Qingxiao S1-S3 did not clear reviewed Sequence static facts');
+  const qingxiaoAfterSequenceRemoval=await statsSnapshot(send);
+  assert(near(raw(qingxiaoBeforeSequenceRemoval,'critRate')-raw(qingxiaoAfterSequenceRemoval,'critRate'),.16)&&near(raw(qingxiaoAfterSequenceRemoval,'resonanceSkillDamageBonus'),.12)&&qingxiaoAfterSequenceRemoval.projection.weaponStaticStatCount===1&&qingxiaoAfterSequenceRemoval.projection.echoCardCount===1,'Removing Sequence changed Weapon/Echo static state',{before:qingxiaoBeforeSequenceRemoval,after:qingxiaoAfterSequenceRemoval});
+  await evaluate(send,"buildPicker.select('Augusta')");
+  await waitFor(send,"statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.atk-518.56)<1e-9&&weaponUi.currentId===null",'Augusta Stats did not restore after Qingxiao composite regression');
 
   const beforeWeaponPreview=await statsSnapshot(send);
   await pointerClick(send,'#weaponBtn');
@@ -310,13 +349,27 @@ try{
   await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft(buildPicker.selected).build.weaponId==='ages-of-harvest'&&!weaponUi.busy",'Weapon Equip did not commit Ages of Harvest',8000);
   await waitFor(send,"statsUi.lastProjection&&Math.abs(statsUi.lastProjection.atk-1176)<1e-9",'Weapon Equip did not update Build Stats');
   const afterWeaponEquip=await statsSnapshot(send);
-  assert(near(raw(afterWeaponEquip,'atk'),1176)&&near(raw(afterWeaponEquip,'critRate'),.373),'Equipped Weapon base/secondary did not project correctly',afterWeaponEquip);
+  assert(near(raw(afterWeaponEquip,'atk'),1176)&&near(raw(afterWeaponEquip,'critRate'),.373)&&near(raw(afterWeaponEquip,'elementDamageBonus'),.12)&&afterWeaponEquip.projection.weaponStaticStatCount===1,'Equipped Weapon base/secondary/static passive did not project exactly once',afterWeaponEquip);
+
+  await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="autumntrace"]');
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&weaponUi.previewId==='autumntrace'&&!weaponUi.busy",'Conditional-only Weapon Preview did not settle');
+  const conditionalPreview=await statsSnapshot(send);
+  assert(JSON.stringify(conditionalPreview.projection)===JSON.stringify(afterWeaponEquip.projection),'Conditional-only Weapon Preview changed committed Stats',{before:afterWeaponEquip,after:conditionalPreview});
+  await pointerClick(send,'#weaponEquip');
+  await waitFor(send,"weaponUi.currentId==='autumntrace'&&draft('Augusta').build.weaponId==='autumntrace'&&!weaponUi.busy",'Conditional-only Weapon replacement did not commit');
+  const conditionalEquipped=await statsSnapshot(send);
+  assert(near(raw(conditionalEquipped,'elementDamageBonus'),0)&&conditionalEquipped.projection.weaponStaticStatCount===0&&conditionalEquipped.projection.includesConditionalWeaponEffects===false,'Conditional/stacking Weapon effect leaked into Build Stats',conditionalEquipped);
+
+  await pointerClick(send,'#weaponChoices .weapon-choice[data-weapon-id="ages-of-harvest"]');
+  await waitFor(send,"weaponUi.previewId==='ages-of-harvest'&&!weaponUi.busy",'Ages of Harvest re-preview did not settle');
+  await pointerClick(send,'#weaponEquip');
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&Math.abs(statsUi.lastProjection.elementDamageBonus-.12)<1e-12&&statsUi.lastProjection.weaponStaticStatCount===1",'Replacing conditional Weapon did not restore exact static effect');
   await pointerClick(send,'#weaponClose');
   await waitFor(send,"!weaponUi.open&&!document.getElementById('weaponOverlay').classList.contains('mounted')",'Weapon overlay did not close',3000);
   await evaluate(send,"buildPicker.select('Qingxiao')");
-  await waitFor(send,"statsUi.characterId==='qingxiao'&&weaponUi.currentId===null&&draft('Qingxiao').build.weaponId==null",'Augusta Weapon leaked into Qingxiao');
+  await waitFor(send,"statsUi.characterId==='qingxiao'&&weaponUi.currentId==='guardian-sword'&&draft('Qingxiao').build.weaponId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12",'Augusta Weapon leaked into Qingxiao or Qingxiao Weapon failed to restore');
   await evaluate(send,"buildPicker.select('Augusta')");
-  await waitFor(send,"statsUi.characterId==='augusta'&&weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'",'Augusta Weapon did not restore after Character switch');
+  await waitFor(send,"statsUi.characterId==='augusta'&&weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&Math.abs(statsUi.lastProjection.elementDamageBonus-.12)<1e-12",'Augusta Weapon/static effect did not restore after Character switch');
 
   const beforeEchoPreview=await statsSnapshot(send);
   await pointerClick(send,'.echo[data-echo-slot="0"]');
@@ -336,7 +389,7 @@ try{
   await waitFor(send,"!echoUi.open&&!document.getElementById('echoOverlay').classList.contains('mounted')",'Echo Workspace did not close',3000);
 
   const exclusion=afterEchoEquip.projection;
-  assert(exclusion.includesActiveMinorForteStats===true&&exclusion.includesLegacyIntrinsicTotals===false&&exclusion.includesWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===true&&exclusion.includesReviewedStaticSequenceStats===true&&exclusion.includesConditionalSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Projection boundary flags are wrong',exclusion);
+  assert(exclusion.includesActiveMinorForteStats===true&&exclusion.includesLegacyIntrinsicTotals===false&&exclusion.includesWeaponEffects===true&&exclusion.includesReviewedStaticWeaponStats===true&&exclusion.includesConditionalWeaponEffects===false&&exclusion.includesSonataEffects===false&&exclusion.includesEchoSkillEffects===false&&exclusion.includesSequenceEffects===true&&exclusion.includesReviewedStaticSequenceStats===true&&exclusion.includesConditionalSequenceEffects===false&&exclusion.includesTeamBuffs===false&&exclusion.includesCombatUptime===false,'Projection boundary flags are wrong',exclusion);
 
   for(const[width,height]of[[1920,1080],[2560,1440]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);
@@ -350,9 +403,11 @@ try{
   await navigate(send);
   await waitFor(send,"document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Final reload runtime did not become ready',15000);
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
-  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&statsUi.characterId==='augusta'",'Reload lost Augusta Weapon ownership');
+  await waitFor(send,"weaponUi.currentId==='ages-of-harvest'&&draft('Augusta').build.weaponId==='ages-of-harvest'&&statsUi.characterId==='augusta'&&Math.abs(statsUi.lastProjection.elementDamageBonus-.12)<1e-12&&statsUi.lastProjection.weaponStaticStatCount===1",'Reload lost Augusta Weapon ownership/static effect');
+  await evaluate(send,"buildPicker.select('Qingxiao')");
+  await waitFor(send,"weaponUi.currentId==='guardian-sword'&&draft('Qingxiao').build.weaponId==='guardian-sword'&&Math.abs(statsUi.lastProjection.resonanceSkillDamageBonus-.12)<1e-12&&statsUi.lastProjection.weaponStaticStatCount===1",'Reload/switch lost Qingxiao Weapon static effect');
 
-  console.log('v34 Build Stats verified in real Chrome: active Minor Forte + reviewed static Sequence stats, Qingxiao S0/S1/S3/removal, Sequence hover no-op, Character switch/reload isolation, Weapon switch/reload ownership, committed Weapon/Echo static stats, exclusion boundary and 1440/1920/2560 desktop fit all pass.');
+  console.log('v34 Build Stats verified in real Chrome: active Minor Forte + reviewed static Sequence/Weapon stats, explicit R1 Weapon passive projection, Preview/Equip boundary, static add/remove, conditional-effect exclusion, Character switch/reload isolation, Sequence/Forte/Weapon/Echo composition and 1440/1920/2560 desktop fit all pass.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

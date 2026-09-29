@@ -48,7 +48,9 @@ test('static Build projection combines Character, active Minor Forte, committed 
   assert.equal(out.echoCardCount,1);
   assert.equal(out.includesActiveMinorForteStats,true);
   assert.equal(out.includesLegacyIntrinsicTotals,false);
-  assert.equal(out.includesWeaponEffects,false);
+  assert.equal(out.includesWeaponEffects,true);
+  assert.equal(out.includesReviewedStaticWeaponStats,true);
+  assert.equal(out.includesConditionalWeaponEffects,false);
   assert.equal(out.includesSonataEffects,false);
   assert.equal(out.includesEchoSkillEffects,false);
   assert.equal(out.includesSequenceEffects,true);
@@ -159,4 +161,20 @@ test('conditional/mechanic prose cannot enter Build Stats and unsupported Sequen
   });
   assert.deepEqual(noisy,base);
   assert.throws(()=>projectStaticBuildStats({character,echoSlots:[],echoStatContract:contract,activeSequenceStats:[{stat:'Target DMG Taken',value:.4}]}),/Reviewed static Sequence/);
+});
+
+test('reviewed static Weapon effects add once with Weapon secondary, Sequence, Forte and Echo stats',()=>{
+  const weapon={level90BaseAtk:587,secondary:{stat:'CRIT Rate',value:.243}};
+  const echoSlots=[{echoId:'echo-a',cost:4,rank:5,level:5,mainStat:{name:'CRIT Rate',value:.0792},secondaryMainStat:{name:'Flat ATK',value:54},substats:[{name:'Energy Regen',value:.068}]}];
+  const out=projectStaticBuildStats({character,weapon,echoSlots,echoStatContract:contract,activeForteStats:[{stat:'CRIT Rate',value:.08}],activeSequenceStats:[{stat:'CRIT Rate',value:.16}],activeWeaponStats:[{stat:'CRIT Rate',value:.08,sourceWeaponEffect:{weaponId:'unflickering-valor',effectId:'UV-CR',rank:1}}]});
+  assert.ok(Math.abs(out.critRate-(.05+.08+.243+.0792+.16+.08))<1e-12);assert.equal(out.sequenceStaticStatCount,1);assert.equal(out.weaponStaticStatCount,1);
+});
+test('unconditional Weapon attribute/ATK effects project while arbitrary conditional fields remain ignored',()=>{
+  const weapon={level90BaseAtk:587,secondary:{stat:'CRIT Rate',value:.243}};
+  const staticOut=projectStaticBuildStats({character,weapon,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeWeaponStats:[{stat:'ATK%',value:.12},{stat:'All Attribute DMG',value:.12}]});
+  assert.ok(Math.abs(staticOut.atk-(463+587)*1.12)<1e-12);assert.ok(Math.abs(staticOut.elementDamageBonus-.12)<1e-12);assert.equal(staticOut.weaponStaticStatCount,2);
+  const base=projectStaticBuildStats({character,weapon,echoSlots:[],echoStatContract:contract,activeForteStats:[]});
+  const noisy=projectStaticBuildStats({character,weapon,echoSlots:[],echoStatContract:contract,activeForteStats:[],conditionalWeaponEffects:[{stat:'ATK%',value:9.99}],weaponEffectDescription:'After casting Resonance Skill, ATK increases by 999%.'});
+  assert.deepEqual(noisy,base);
+  assert.throws(()=>projectStaticBuildStats({character,weapon,echoSlots:[],echoStatContract:contract,activeForteStats:[],activeWeaponStats:[{stat:'Target DMG Taken',value:.4}]}),/Reviewed static Weapon/);
 });

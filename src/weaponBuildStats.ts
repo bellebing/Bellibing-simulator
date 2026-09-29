@@ -95,7 +95,7 @@ export function projectWeaponBuildStatReview(
   const projected = sourceEffects.map((effect): ReviewedWeaponBuildStatEffect => {
     const id = key(effect.weaponId, effect.effectId);
     const row = reviewed.get(id);
-    if (!row) fail('Missing review row ' + id);
+    if (row === undefined) throw new Error('Weapon build-stat review: Missing review row ' + id);
     const isStatic = strictStatic(effect);
     const mapped = SOURCE_TO_BUILD_STAT[effect.statOrEffect as keyof typeof SOURCE_TO_BUILD_STAT] ?? null;
     if (isStatic && row.classification !== 'STATIC_BUILD_STAT') fail('Unconditional permanent Build stat was not classified STATIC_BUILD_STAT ' + id);
@@ -103,7 +103,7 @@ export function projectWeaponBuildStatReview(
     if (row.classification === 'STATIC_BUILD_STAT') {
       if (!mapped || row.buildStat !== mapped) fail('Static Build stat mapping mismatch ' + id);
       if (!effect.rankValues.every(value => typeof value === 'number' && Number.isFinite(value))) fail('Static Build stat has unresolved rank value ' + id);
-      return {weaponId:effect.weaponId,effectId:effect.effectId,classification:row.classification,staticBuildStat:{stat:row.buildStat,rankValues:[...effect.rankValues],sourceWeaponEffect:{weaponId:effect.weaponId,effectId:effect.effectId},provenance:{...effect.provenance}}};
+      return {weaponId:effect.weaponId,effectId:effect.effectId,classification:row.classification,staticBuildStat:{stat:mapped,rankValues:[...effect.rankValues],sourceWeaponEffect:{weaponId:effect.weaponId,effectId:effect.effectId},provenance:{...effect.provenance}}};
     }
     if (row.buildStat !== undefined) fail('Non-static/PENDING row carries a Build stat ' + id);
     return {weaponId:effect.weaponId,effectId:effect.effectId,classification:row.classification,staticBuildStat:null};

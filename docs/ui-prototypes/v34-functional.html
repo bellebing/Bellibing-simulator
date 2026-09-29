@@ -85,7 +85,26 @@
 .weapon-equip:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(39,38,39,.98),rgba(19,19,21,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 14px 34px rgba(0,0,0,.34)}
 .weapon-equip:active:not(:disabled){transform:translateY(0) scale(.985)}
 .weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.10);color:#747b85;box-shadow:none}
-.echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
+.echoes{position:absolute;right:max(5vw,48px);top:50%;width:98px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:10px}.echo{aspect-ratio:1;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;top:28px;bottom:20px;left:50%;width:1px;background:rgba(255,255,255,.11)}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;inset:0;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;pointer-events:auto;transition:opacity .35s ease .15s}
+.improve-build-card{position:absolute;left:50%;top:202px;bottom:22px;width:min(1380px,calc(100vw - 48px));transform:translateX(-50%);display:grid;grid-template-columns:270px 292px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 188px;gap:14px;min-height:0}
+.improve-surface{border:1px solid rgba(255,255,255,.09);border-radius:22px;background:linear-gradient(180deg,rgba(20,23,29,.78),rgba(10,12,16,.72));box-shadow:0 22px 62px rgba(0,0,0,.24);backdrop-filter:blur(5px) saturate(.9)}
+.improve-truth{grid-column:1;grid-row:1/3;min-height:0;overflow:hidden;display:grid;grid-template-rows:minmax(230px,1fr) auto auto}
+.improve-truth-art{position:relative;min-height:0;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,rgba(255,156,76,.13),transparent 64%)}
+.improve-truth-art::after{content:"";position:absolute;inset:auto 0 0;height:44%;background:linear-gradient(180deg,transparent,rgba(10,12,16,.88));pointer-events:none}
+.improve-truth-art img{position:absolute;left:50%;bottom:-6%;width:112%;height:112%;max-width:none;object-fit:contain;object-position:50% 100%;transform:translateX(-50%);filter:drop-shadow(0 18px 34px rgba(0,0,0,.36))}
+.improve-truth-name{position:absolute;z-index:3;left:18px;right:18px;top:16px;font-family:var(--font-display);font-size:30px;line-height:1;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.7)}
+.improve-weapon-truth{min-height:88px;margin:0 12px 10px;padding:10px 12px;display:grid;grid-template-columns:68px minmax(0,1fr);align-items:center;gap:10px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(255,255,255,.025)}
+.improve-weapon-art{width:64px;height:64px;display:grid;place-items:center}.improve-weapon-art img{position:static;width:100%;height:100%;object-fit:contain;transform:none;filter:drop-shadow(0 8px 12px rgba(0,0,0,.38))}
+.improve-weapon-copy{min-width:0}.improve-kicker{display:block;margin-bottom:3px;color:#727984;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.improve-weapon-copy strong{display:block;font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.improve-weapon-copy small{display:block;margin-top:4px;color:#8c939c;font-size:10px}
+.improve-skills-truth{padding:0 12px 12px}.improve-skills-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400}.improve-skills-head small{color:#6f7680;font-size:9px;text-transform:uppercase;letter-spacing:.12em}
+.improve-skills-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.improve-skill{min-width:0;text-align:center}.improve-skill-icon{position:relative;width:40px;height:40px;margin:0 auto 5px;border:1px solid rgba(255,255,255,.13);border-radius:50%;display:grid;place-items:center;background:#11151a}.improve-skill.is-active .improve-skill-icon{border-color:rgba(220,181,88,.72);box-shadow:0 0 0 1px rgba(220,181,88,.10),0 0 18px rgba(220,181,88,.09)}.improve-skill-icon img{position:static;width:72%;height:72%;object-fit:contain;transform:none;filter:none}.improve-skill span{display:block;color:#818892;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.improve-skill.is-active span{color:#cfc7b6}
+.improve-stats{grid-column:2;grid-row:1/3;min-height:0;padding:16px 15px;overflow:hidden}.improve-panel-title{margin:0 0 11px;font-family:var(--font-display);font-size:24px;font-weight:400}.improve-stat-head,.improve-stat-row{display:grid;grid-template-columns:minmax(0,1fr) 67px 15px 67px;align-items:center;column-gap:6px}.improve-stat-head{padding:0 2px 7px;border-bottom:1px solid rgba(255,255,255,.07);color:#666e78;font-size:8px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}.improve-stat-head span:nth-child(n+2){text-align:right}.improve-stat-list{display:grid}.improve-stat-row{min-height:35px;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px}.improve-stat-label{color:#9aa1aa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.improve-stat-current,.improve-stat-new{text-align:right;font-weight:800;color:#e7e5df;font-variant-numeric:tabular-nums}.improve-stat-new{color:#7a818b}.improve-stat-arrow{text-align:center;color:#4f5660}.improve-stat-row.is-positive .improve-stat-new{color:#78c79b}.improve-stat-row.is-negative .improve-stat-new{color:#e27676}
+.improve-workspace{grid-column:3;grid-row:1;min-width:0;min-height:0;padding:14px;display:grid;grid-template-columns:minmax(150px,184px) minmax(250px,1fr) minmax(150px,184px);gap:14px;overflow:hidden}.improve-workspace-card{min-width:0;min-height:0;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column}.improve-echo-card-head{padding:10px 11px 7px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#717985;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.improve-current-echo .improve-echo-card-head{color:#c5a65c}.improve-echo-large-art{height:126px;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 67%)}.improve-echo-large-art img{width:84%;height:84%;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(0,0,0,.38))}.improve-echo-large-name{padding:0 11px 9px;text-align:center;font-family:var(--font-display);font-size:18px;line-height:1.04}.improve-echo-substats{display:grid;margin-top:auto;border-top:1px solid rgba(255,255,255,.06)}.improve-echo-substat{min-height:28px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.045);color:#69717b;font-size:9px}.improve-echo-substat strong{color:#858d97}.improve-echo-status{padding:9px 10px;color:#757d87;font-size:9px;text-align:center}.improve-new-empty{flex:1;display:grid;place-items:center;padding:18px}.improve-new-button{width:100%;height:100%;min-height:210px;border:1px dashed rgba(255,255,255,.16);border-radius:16px;background:rgba(255,255,255,.015);color:#737b85;cursor:pointer;transition:border-color .17s ease-out,background .17s ease-out,color .17s ease-out,transform .17s ease-out}.improve-new-button:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.035);color:#b3bac2}.improve-new-button:active{transform:scale(.985)}.improve-new-plus{display:block;margin:0 auto 10px;font-size:31px;font-weight:200}.improve-new-button strong{display:block;font-family:var(--font-display);font-size:20px;font-weight:400}.improve-new-button small{display:block;margin-top:7px;font-size:9px;color:#69717b}
+.improve-helper{min-width:0;min-height:0;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;text-align:center}.improve-helper-step{color:#7c838d;font-size:9px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}.improve-helper h2{margin:8px 0 6px;font-family:var(--font-display);font-size:38px;font-weight:400;line-height:.98}.improve-helper-main{margin:0;color:#b0b6bd;font-size:13px}.improve-helper-action{align-self:center;margin-top:15px;padding:10px 16px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.035);color:#d6d9dd;font-weight:750;cursor:pointer}.improve-helper-action:hover{background:rgba(255,255,255,.06)}.improve-helper-fine{margin:auto 0 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.improve-helper-metric{min-width:0}.improve-helper-metric span{display:block;color:#616973;font-size:8px;line-height:1.15}.improve-helper-metric strong{display:block;margin-top:4px;color:#9299a2;font-size:10px;font-style:italic}.improve-helper-note{margin:10px 0 0;color:#656d77;font-size:9px;font-style:italic;line-height:1.35}
+.improve-echoes-row{grid-column:3;grid-row:2;min-width:0;min-height:0;padding:10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.improve-equipped-echo{min-width:0;position:relative;display:grid;grid-template-columns:62px minmax(0,1fr);grid-template-rows:1fr auto;gap:5px 8px;padding:9px;border:1px solid rgba(255,255,255,.075);border-radius:15px;background:rgba(255,255,255,.018);color:#fff;text-align:left;cursor:pointer;overflow:hidden;transition:transform .17s ease-out,border-color .17s ease-out,background .17s ease-out}.improve-equipped-echo:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.035)}.improve-equipped-echo.is-selected{border-color:rgba(216,177,82,.56);box-shadow:0 0 0 1px rgba(216,177,82,.08),0 12px 26px rgba(0,0,0,.18)}.improve-equipped-art{grid-row:1/3;width:62px;height:62px;align-self:center;display:grid;place-items:center}.improve-equipped-art img{width:100%;height:100%;object-fit:contain}.improve-equipped-copy{min-width:0;align-self:end}.improve-equipped-copy strong{display:block;font-size:10px;line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.improve-equipped-copy small{display:block;margin-top:4px;color:#656d77;font-size:8px}.improve-equipped-cost{align-self:start;color:#777f89;font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.improve-equipped-echo.is-selected .improve-equipped-cost{color:#b99d5b}
+@media(max-width:1180px){.improve-build-card{grid-template-columns:235px 260px minmax(0,1fr)}.improve-workspace{grid-template-columns:150px minmax(210px,1fr) 150px}.improve-helper h2{font-size:32px}.improve-equipped-echo{grid-template-columns:48px minmax(0,1fr)}.improve-equipped-art{width:48px;height:48px}}
+@media(max-width:900px){.improve-build-card{top:196px;width:calc(100vw - 28px);grid-template-columns:220px 245px minmax(0,1fr);gap:10px}.improve-workspace{padding:10px;gap:9px;grid-template-columns:132px minmax(190px,1fr) 132px}.improve-helper{padding:14px 12px}.improve-helper-fine{grid-template-columns:1fr}.improve-helper-note{display:none}.improve-echo-large-art{height:102px}.improve-equipped-echo{display:block;padding:7px;text-align:center}.improve-equipped-art{width:50px;height:50px;margin:0 auto}.improve-equipped-copy small,.improve-equipped-cost{display:none}.improve-equipped-copy strong{margin-top:3px;font-size:8px}}
+@media(max-width:760px){.improve-focus{position:relative;inset:auto;width:100%}.picker-shell.has-selection .improve-focus{padding-top:126px}.improve-build-card{position:relative;left:auto;top:auto;bottom:auto;width:min(560px,calc(100vw - 20px));margin:0 auto 36px;transform:none;display:flex;flex-direction:column;gap:12px}.improve-truth,.improve-stats,.improve-workspace,.improve-echoes-row{grid-column:auto;grid-row:auto}.improve-truth{min-height:560px}.improve-stats{max-height:none}.improve-workspace{min-height:430px;grid-template-columns:132px minmax(0,1fr) 132px}.improve-echoes-row{display:flex;overflow-x:auto;min-height:150px}.improve-equipped-echo{flex:0 0 124px}.improve-stat-head,.improve-stat-row{grid-template-columns:minmax(0,1fr) 78px 18px 78px}}
 .home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}@media(max-width:900px){.focus{width:48vw}.side-left{left:24px;width:190px}.seq{left:245px}.echoes{right:24px;width:82px}}@media(max-width:760px){.home-stage{width:calc(100% - 16px)}html,body{overflow:auto}.page{overflow:auto}.focus,.side-left,.seq,.echoes{position:relative;inset:auto;transform:none!important;width:min(520px,88vw);height:auto;margin:0 auto 22px}.build-stage{position:absolute;inset:0;padding:0}.focus{height:460px}.picker-shell.has-selection .build-stage{position:relative;inset:auto;padding:130px 0 70px;display:flex;flex-direction:column}.side-left,.seq,.echoes{opacity:1}.seq-line{height:auto;flex-direction:row-reverse}.seq-line::before{top:50%;bottom:auto;left:20px;right:20px;width:auto;height:1px}.echo-stack{grid-template-columns:repeat(5,1fr)}.account{position:fixed}.home-card{height:min(500px,calc(100vh - 96px))}.question{font-size:42px}}
 @media(max-width:760px){
   .weapon-panel{left:12px;right:12px;top:70px;bottom:18px;width:auto;height:auto;padding:24px 18px;transform:translate(-18px,18px) scale(.985);transform-origin:0 72%;border-radius:24px}
@@ -108,7 +127,37 @@
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
 <section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div class="focus-art">TEMP CHARACTER ART</div></div><aside class="side-left"><section class="block"><h2>Stats</h2><div class="stats-box"><div class="statline"></div><div class="statline"></div><div class="statline"></div><div class="statline" style="width:68%"></div></div></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside class="seq"><h2>Sequences</h2><div class="seq-line"><button type="button" class="node n6">S6</button><button type="button" class="node n5">S5</button><button type="button" class="node n4">S4</button><button type="button" class="node n3">S3</button><button type="button" class="node n2">S2</button><button type="button" class="node n1">S1</button></div></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button><button type="button" class="echo">+</button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
-<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
+<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
+  <main id="improveBuildCard" class="improve-build-card" aria-label="Character build truth and Echo improvement workspace">
+    <section class="improve-surface improve-truth" aria-label="Character source of truth">
+      <div class="improve-truth-art"><strong id="improveCharacterName" class="improve-truth-name">Augusta</strong><img id="improveCharacterArt" alt="" draggable="false"></div>
+      <div class="improve-weapon-truth"><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false"></span><span class="improve-weapon-copy"><span class="improve-kicker">Weapon</span><strong id="improveWeaponName">Pending</strong><small id="improveWeaponMeta">Current build</small></span></div>
+      <div class="improve-skills-truth"><div class="improve-skills-head"><strong>Skills</strong><small>Current</small></div><div id="improveSkillsGrid" class="improve-skills-grid"></div></div>
+    </section>
+    <section class="improve-surface improve-stats" aria-label="Character stats truth">
+      <h2 class="improve-panel-title">Stats</h2>
+      <div class="improve-stat-head"><span>Stat</span><span>Current</span><span></span><span>New</span></div>
+      <div id="improveStatList" class="improve-stat-list"></div>
+    </section>
+    <section class="improve-surface improve-workspace" aria-label="Live Echo improvement helper">
+      <article id="improveCurrentEcho" class="improve-workspace-card improve-current-echo"></article>
+      <div class="improve-workspace-card improve-helper">
+        <span class="improve-helper-step">Next step</span>
+        <h2 id="improveHelperTitle">Roll to +5</h2>
+        <p id="improveHelperMain" class="improve-helper-main">Enter the first substat.</p>
+        <button id="improveEnterSubstat" class="improve-helper-action" type="button">+ Enter substat</button>
+        <div class="improve-helper-fine">
+          <div class="improve-helper-metric"><span>Chance per Tuner</span><strong>Pending model</strong></div>
+          <div class="improve-helper-metric"><span>Expected Tuners / Upgrade</span><strong>Pending model</strong></div>
+          <div class="improve-helper-metric"><span>Full Send comparison</span><strong>Pending model</strong></div>
+        </div>
+        <p class="improve-helper-note">Bellibing will keep this short: what to roll next, when to stop, and why.</p>
+      </div>
+      <article class="improve-workspace-card improve-new-echo"><div class="improve-echo-card-head"><span>New Echo</span><span>Candidate</span></div><div class="improve-new-empty"><button id="improveNewEcho" class="improve-new-button" type="button"><span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small></button></div></article>
+    </section>
+    <section id="improveEchoRow" class="improve-surface improve-echoes-row" aria-label="Equipped Echoes"></section>
+  </main>
+</div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="weaponOverlay" class="weapon-overlay" aria-hidden="true">
   <div class="weapon-scrim" data-weapon-close></div>
@@ -409,6 +458,106 @@ class FreewheelCarousel{
 }
 
 const toAssetPath=targetPath=>targetPath.replace(/^docs\/ui-prototypes\//,'');
+const IMPROVE_LAYOUT_PREVIEW=new URLSearchParams(location.search).get('improve-layout-preview')==='1';
+const IMPROVE_SAMPLE={
+  character:'Augusta',
+  weaponId:'thunderflare-dominion',
+  stats:[
+    ['HP','13,449.16'],['ATK','1,392.56'],['DEF','1,112'],['Energy Regen','100%'],['CRIT Rate','25.15%'],['CRIT DMG','166.2%'],
+    ['Element DMG','—'],['Basic Attack DMG','—'],['Heavy Attack DMG','—'],['Skill DMG','—'],['Liberation DMG','—'],['Healing Bonus','—']
+  ],
+  echoes:['Sigillum','Twin Nova: Collapsar Blade','Glommoth','Iceglint Dancer','Shadow Stepper'],
+  selectedEcho:'Glommoth'
+};
+let improveEchoByName=new Map(),improveBuilderByCharacterId=new Map(),improveAssetsLoaded=false;
+async function loadImproveVisualAssets(){
+  const [echoResponse,builderResponse]=await Promise.all([
+    fetch('assets/echoes/manifest.json',{cache:'no-store'}),
+    fetch('assets/builder-icons/manifest.json',{cache:'no-store'})
+  ]);
+  if(!echoResponse.ok)throw new Error('Echo manifest '+echoResponse.status);
+  if(!builderResponse.ok)throw new Error('Builder icon manifest '+builderResponse.status);
+  const echoManifest=await echoResponse.json(),builderManifest=await builderResponse.json();
+  improveEchoByName=new Map(echoManifest.icons.filter(item=>item.releaseStatus==='RELEASED').map(item=>[item.name,{...item,src:toAssetPath(item.targetPath)}]));
+  improveBuilderByCharacterId=new Map(builderManifest.characters.filter(item=>item.releaseStatus==='RELEASED').map(item=>[item.characterId,item]));
+  improveAssetsLoaded=true;
+  if(typeof improvePicker!=='undefined'&&improvePicker.selected)renderImproveBuild(improvePicker.selected);
+}
+const improveAssetsReady=loadImproveVisualAssets().catch(error=>{console.error(error);document.documentElement.dataset.improveAssetError=String(error.message||error)});
+function improveStatRowsFor(name){
+  if(IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_SAMPLE.character)return IMPROVE_SAMPLE.stats;
+  return [['HP','Pending'],['ATK','Pending'],['DEF','Pending'],['Energy Regen','Pending'],['CRIT Rate','Pending'],['CRIT DMG','Pending'],['Element DMG','Pending'],['Basic Attack DMG','Pending'],['Heavy Attack DMG','Pending'],['Skill DMG','Pending'],['Liberation DMG','Pending'],['Healing Bonus','Pending']];
+}
+function improveEchoNamesFor(name){
+  if(IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_SAMPLE.character)return IMPROVE_SAMPLE.echoes;
+  return [];
+}
+function improveCurrentWeapon(name){
+  const characterId=characterByName.get(name)?.id||null;
+  const character=characterId?canonicalCharacterById.get(characterId):null;
+  const savedId=state.drafts?.[name]?.build?.weaponId||null;
+  const fallback=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_SAMPLE.character?IMPROVE_SAMPLE.weaponId:null;
+  const id=savedId||fallback;
+  const item=id?weaponItemById(id):null;
+  if(item&&(!character?.weaponType||item.weaponType===character.weaponType))return item;
+  return null;
+}
+function makeImproveSkill(characterId,key,label){
+  const data=improveBuilderByCharacterId.get(characterId)?.skills?.[key]||null;
+  const item=document.createElement('div');item.className='improve-skill'+(data?' is-active':'');
+  const icon=document.createElement('span');icon.className='improve-skill-icon';
+  if(data){const img=document.createElement('img');img.src=toAssetPath(data.targetPath);img.alt='';img.draggable=false;icon.appendChild(img)}
+  const text=document.createElement('span');text.textContent=label;item.append(icon,text);return item;
+}
+function improveEchoLargeMarkup(echo){
+  const art=echo?'<div class="improve-echo-large-art"><img src="'+echo.src+'" alt="" draggable="false"></div>':'<div class="improve-echo-large-art"></div>';
+  const name=echo?.name||'No Echo selected';
+  return '<div class="improve-echo-card-head"><span>Current Echo</span><span>Equipped</span></div>'+art+'<div class="improve-echo-large-name">'+name+'</div><div class="improve-echo-substats">'+[1,2,3,4,5].map(i=>'<div class="improve-echo-substat"><span>Substat '+i+'</span><strong>—</strong></div>').join('')+'</div><div class="improve-echo-status">Current build data</div>';
+}
+function selectImproveEcho(name){
+  const echo=improveEchoByName.get(name)||null;
+  document.getElementById('improveCurrentEcho').innerHTML=improveEchoLargeMarkup(echo);
+  document.querySelectorAll('#improveEchoRow .improve-equipped-echo').forEach(button=>button.classList.toggle('is-selected',button.dataset.echoName===name));
+  document.getElementById('improveHelperTitle').textContent='Roll to +5';
+  document.getElementById('improveHelperMain').textContent='Enter the first substat.';
+}
+function renderImproveEchoRow(name){
+  const row=document.getElementById('improveEchoRow');row.replaceChildren();
+  const names=improveEchoNamesFor(name);
+  const slots=names.length?names:[null,null,null,null,null];
+  slots.forEach((echoName,index)=>{
+    const echo=echoName?improveEchoByName.get(echoName)||null:null;
+    const button=document.createElement('button');button.type='button';button.className='improve-equipped-echo';button.dataset.echoName=echoName||'';
+    const art=document.createElement('span');art.className='improve-equipped-art';
+    if(echo){const img=document.createElement('img');img.src=echo.src;img.alt='';img.draggable=false;art.appendChild(img)}
+    const copy=document.createElement('span');copy.className='improve-equipped-copy';const strong=document.createElement('strong');strong.textContent=echo?.name||('Echo '+(index+1));const small=document.createElement('small');small.textContent=echo?'Current slot':'Not wired yet';copy.append(strong,small);
+    const cost=document.createElement('span');cost.className='improve-equipped-cost';cost.textContent='Upgrade cost · Pending';
+    button.append(art,copy,cost);if(echoName)button.onclick=()=>selectImproveEcho(echoName);row.appendChild(button);
+  });
+  const selected=names.includes(IMPROVE_SAMPLE.selectedEcho)?IMPROVE_SAMPLE.selectedEcho:names[0]||null;
+  selectImproveEcho(selected);
+}
+function renderImproveBuild(name){
+  const character=characterByName.get(name)||null;
+  document.getElementById('improveCharacterName').textContent=name||'Character';
+  const art=document.getElementById('improveCharacterArt');
+  art.src=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_SAMPLE.character?'assets/v34/bellibing-ui-improve-character-augusta.webp':character?.src||'';
+  art.alt=name||'';
+  const weapon=improveCurrentWeapon(name);
+  document.getElementById('improveWeaponName').textContent=weapon?.name||'Pending';
+  document.getElementById('improveWeaponMeta').textContent=weapon?(weapon.level90BaseAtk===null?'Current Weapon':('Base ATK '+weapon.level90BaseAtk)):'Current build data not wired';
+  const weaponArt=document.getElementById('improveWeaponArt');weaponArt.src=weapon?.artSrc||'';weaponArt.style.visibility=weapon?'visible':'hidden';
+  const skills=document.getElementById('improveSkillsGrid');skills.replaceChildren();
+  const characterId=character?.id||null;
+  [['normal-attack','Normal'],['skill','Skill'],['circuit','Forte'],['liberation','Liberation'],['intro','Intro']].forEach(([key,label])=>skills.appendChild(makeImproveSkill(characterId,key,label)));
+  const statList=document.getElementById('improveStatList');statList.replaceChildren();
+  improveStatRowsFor(name).forEach(([label,current])=>{
+    const row=document.createElement('div');row.className='improve-stat-row';
+    row.innerHTML='<span class="improve-stat-label"></span><strong class="improve-stat-current"></strong><span class="improve-stat-arrow">→</span><strong class="improve-stat-new">—</strong>';
+    row.querySelector('.improve-stat-label').textContent=label;row.querySelector('.improve-stat-current').textContent=current;statList.appendChild(row);
+  });
+  renderImproveEchoRow(name);
+}
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
 async function loadReleasedCharacters(){
   const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store'});
@@ -424,7 +573,7 @@ async function loadReleasedCharacters(){
 }
 const characterManifestReady=loadReleasedCharacters().catch(error=>{console.error(error);document.documentElement.dataset.characterManifestError=String(error.message||error)});
 
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render()}}
+function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render();if(IMPROVE_LAYOUT_PREVIEW)requestAnimationFrame(()=>{if(characterByName.has('Augusta'))improvePicker.select('Augusta')})}}
 let majorBusy=false;function major(target,card){if(majorBusy)return;majorBusy=true;const home=document.querySelector('#home');card.classList.add('major-source');home.classList.add('home-leaving');setTimeout(()=>{const dest=document.getElementById(target);dest.classList.add('major-enter');show(target);requestAnimationFrame(()=>requestAnimationFrame(()=>dest.classList.add('go')));setTimeout(()=>{dest.classList.remove('major-enter','go');home.classList.remove('home-leaving');card.classList.remove('major-source');majorBusy=false},650)},450)}
 
 let homeCarousel=null;
@@ -439,7 +588,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name)}else{renderImproveBuild(name);if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected)return;pending=name;document.getElementById('dialogCopy').textContent='Switch to '+name+'?';document.getElementById('dialogBg').classList.add('open')}
   function closeDialog(){pending=null;document.getElementById('dialogBg').classList.remove('open')}
   function render(){
@@ -450,14 +599,14 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null)}else{document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()},closeDialog}
 }
 
 const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()=>releasedCharacters,mode:'build'});
-const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>state.characters.map(name=>characterByName.get(name)).filter(Boolean),mode:'improve'});
+const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get('Augusta');return augusta?[augusta]:ownedItems},mode:'improve'});
 document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()});show('home')});
 document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
 document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
@@ -467,6 +616,8 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&weaponUi.op
 document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
 document.getElementById('cancelSwitch').onclick=()=>{buildPicker.closeDialog();improvePicker.closeDialog()};
 document.getElementById('confirmSwitch').onclick=()=>{if(buildPicker.pending)buildPicker.confirm();else improvePicker.confirm()};
+document.getElementById('improveNewEcho').onclick=()=>{document.getElementById('improveHelperTitle').textContent='Select a new Echo';document.getElementById('improveHelperMain').textContent='Echo picker and candidate stats come in the next wiring slice.'};
+document.getElementById('improveEnterSubstat').onclick=()=>{document.getElementById('improveHelperTitle').textContent='Enter substat';document.getElementById('improveHelperMain').textContent='Live roll input is intentionally not modeled in this layout-only slice.'};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
 renderHome();

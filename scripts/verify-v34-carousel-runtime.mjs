@@ -189,7 +189,7 @@ async function verifyRealPointerMenus(send) {
   await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===1`,'Improve Character picker did not expose the owned Character');
   await pointerClick(send,'#improveWheel .choice');
   await waitForUi(send,`document.getElementById('improveShell').classList.contains('has-selection')`,'Mouse click did not select Character in Improve picker');
-  const improved=await evaluate(send,`document.getElementById('improveFocus').textContent.trim()`);
+  const improved=await evaluate(send,`(document.getElementById('improveCharacterName')?.textContent||document.getElementById('improveFocus').textContent).trim()`);
   if(improved!==buildLabel) throw new Error(`Improve mouse-selected Character mismatch: expected ${buildLabel}, got ${improved}`);
   await pointerClick(send,'#improve [data-home]');
   await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Improve after picker audit');

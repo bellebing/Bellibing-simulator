@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createCharacterBuilderAssetResolver} from '../src/characterBuilderAssets.ts';
-import {FORTE_COLUMNS,projectForteCharacter,normalizeForteState,updateForteNode,forteNodeActive,forteValue,sourceText} from '../src/characterForteUi.mjs';
+import {FORTE_COLUMNS,projectForteCharacter,normalizeForteState,updateForteNode,forteNodeActive,forteStats,forteValue,sourceText} from '../src/characterForteUi.mjs';
+import {CHARACTER_CATALOG} from '../src/data/characters.ts';
 const source=JSON.parse(readFileSync('data/source/character-forte-ui.json','utf8'));
 const manifest=JSON.parse(readFileSync('docs/ui-prototypes/assets/builder-icons/manifest.json','utf8'));
 const resolver=createCharacterBuilderAssetResolver(manifest);
@@ -64,4 +65,28 @@ test('different stat families are source-specific, including Mornye nonstandard 
   assert.ok(stats('baizhi').some(n=>n.stat.stat==='Healing Bonus'));
   assert.ok(stats('mornye').some(n=>n.stat.stat==='DEF%'&&n.valueText==='2.28%'));
   assert.ok(stats('aalto').some(n=>n.stat.stat==='Aero DMG'));
+});
+
+test('all-active Minor Forte stats reconcile to intrinsic totals except the explicit Mornye Healing Bonus conflict',()=>{
+  const sum=rows=>{
+    const out={};
+    for(const row of rows)out[row.stat]=Number(((out[row.stat]??0)+row.value).toFixed(10));
+    return out;
+  };
+  let exact=0;
+  for(const t of trees){
+    const character=CHARACTER_CATALOG.find(c=>c.id===t.characterId&&c.releaseStatus==='RELEASED');
+    assert.ok(character,t.characterId);
+    const active=forteStats(t,normalizeForteState(t,null));
+    assert.equal(active.length,8,t.characterId);
+    const forteTotal=sum(active),intrinsicTotal=sum(character.intrinsicStats);
+    if(t.characterId==='mornye'){
+      assert.deepEqual(forteTotal,{ 'Healing Bonus':0.12,'DEF%':0.152 });
+      assert.deepEqual(intrinsicTotal,{ 'Healing Bonus':0.1,'DEF%':0.152 });
+    }else{
+      assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
+      exact++;
+    }
+  }
+  assert.equal(exact,56);
 });

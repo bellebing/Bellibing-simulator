@@ -112,11 +112,11 @@ async function hoverNode(send, sequence, duration = 760) {
 }
 
 async function snapshot(send) {
-  return evaluate(send, "(() => ({character:sequenceUi.characterId,current:sequenceUi.currentLevel,open:sequenceUi.openSequence,hover:sequenceUi.hoverSequence,hoverDelay:sequenceUi.hoverDelay,closeDelay:sequenceUi.closeDelay,saved:buildPicker.selected?draft(buildPicker.selected).build.sequenceLevel:null,order:[...document.querySelectorAll('#sequenceLine .node')].map(x=>Number(x.dataset.sequence)),active:[...document.querySelectorAll('#sequenceLine .node.is-active')].map(x=>Number(x.dataset.sequence)).sort((a,b)=>a-b),currentActive:[...document.querySelectorAll('#sequenceLine .node.is-current-active')].map(x=>Number(x.dataset.sequence)),srcs:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.getAttribute('src')),loaded:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.naturalWidth),flyoutOpen:document.getElementById('sequenceFlyout').classList.contains('open'),flyoutHidden:document.getElementById('sequenceFlyout').getAttribute('aria-hidden'),actionText:document.getElementById('sequenceAction').textContent.trim(),hint:document.getElementById('sequenceConsequence').textContent.trim(),flyoutLabel:document.getElementById('sequenceFlyoutLabel').textContent.trim(),contentText:document.getElementById('sequenceFlyoutContent').textContent.trim(),currentText:document.getElementById('sequenceCurrent').textContent.trim(),openCount:document.querySelectorAll('.seq-flyout.open').length}))()");
+  return evaluate(send, "(() => {const content=document.getElementById('sequenceFlyoutContent'),desc=content.querySelector('.seq-flyout-description'),chain=sequenceUi.openSequence?sequenceUi.chain(sequenceUi.openSequence):null;return{character:sequenceUi.characterId,current:sequenceUi.currentLevel,open:sequenceUi.openSequence,hover:sequenceUi.hoverSequence,hoverDelay:sequenceUi.hoverDelay,closeDelay:sequenceUi.closeDelay,saved:buildPicker.selected?sequenceUi.normalizeLevel(draft(buildPicker.selected).build.sequenceLevel):null,order:[...document.querySelectorAll('#sequenceLine .node')].map(x=>Number(x.dataset.sequence)),active:[...document.querySelectorAll('#sequenceLine .node.is-active')].map(x=>Number(x.dataset.sequence)).sort((a,b)=>a-b),currentActive:[...document.querySelectorAll('#sequenceLine .node.is-current-active')].map(x=>Number(x.dataset.sequence)),srcs:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.getAttribute('src')),loaded:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.naturalWidth),flyoutOpen:document.getElementById('sequenceFlyout').classList.contains('open'),flyoutHidden:document.getElementById('sequenceFlyout').getAttribute('aria-hidden'),actionText:document.getElementById('sequenceAction').textContent.trim(),hint:document.getElementById('sequenceConsequence').textContent.trim(),flyoutLabel:document.getElementById('sequenceFlyoutLabel').textContent.trim(),contentText:content.textContent.trim(),flyoutTitle:content.querySelector('.seq-flyout-title')?.textContent.trim()??'',description:desc?.textContent??'',contentStatus:chain?.contentStatus??null,runtimeName:chain?.name??null,runtimeDescription:chain?.description??null,contentClientHeight:content.clientHeight,contentScrollHeight:content.scrollHeight,contentOverflow:getComputedStyle(content).overflowY,descriptionWhiteSpace:desc?getComputedStyle(desc).whiteSpace:null,currentText:document.getElementById('sequenceCurrent').textContent.trim(),openCount:document.querySelectorAll('.seq-flyout.open').length}})()");
 }
 
 async function flyoutGeometry(send, sequence) {
-  return evaluate(send, "(() => {const node=document.querySelector('#sequenceLine .node[data-sequence=\"" + sequence + "\"]');const fly=document.getElementById('sequenceFlyout');return{node:node.getBoundingClientRect().toJSON(),fly:fly.getBoundingClientRect().toJSON(),vw:innerWidth,vh:innerHeight}})()");
+  return evaluate(send, "(() => {const node=document.querySelector('#sequenceLine .node[data-sequence=\"" + sequence + "\"]'),fly=document.getElementById('sequenceFlyout'),content=document.getElementById('sequenceFlyoutContent');return{node:node.getBoundingClientRect().toJSON(),fly:fly.getBoundingClientRect().toJSON(),content:content.getBoundingClientRect().toJSON(),contentClientHeight:content.clientHeight,contentScrollHeight:content.scrollHeight,overflowY:getComputedStyle(content).overflowY,vw:innerWidth,vh:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
 }
 
 function rgbChannels(value) {
@@ -163,9 +163,10 @@ try {
     throw new Error(error.message + ': ' + JSON.stringify(diagnostic));
   }
 
-  const coverage = await evaluate(send, "(() => {const invalid=[];for(const [id,row] of sequenceAssetsByCharacter){const chains=row?.chains||[];if(chains.length!==6||chains.some((chain,index)=>chain.sequence!==index+1||!chain.assetId||chain.assetPath!=='assets/builder-icons/chains/'+id+'/s'+(index+1)+'.webp'))invalid.push(id)}return{count:sequenceAssetsByCharacter.size,invalid,samples:['aalto','augusta','chisa','the-shorekeeper'].map(id=>({id,srcs:(sequenceAssetsByCharacter.get(id)?.chains||[]).map(chain=>chain.assetPath)}))}})()");
-  assert(coverage.count === 57 && coverage.invalid.length === 0, 'Resolver-backed Sequence runtime coverage failed', coverage);
-  assert(coverage.samples.every((sample) => sample.srcs.length === 6), 'Sample Sequence coverage missing', coverage.samples);
+  const coverage = await evaluate(send, "(() => {const invalid=[];let sourceBacked=0,pending=0,staticBuild=0,nonStatic=0,pendingReview=0;for(const [id,row] of sequenceAssetsByCharacter){const chains=row?.chains||[];if(chains.length!==6||chains.some((chain,index)=>chain.sequence!==index+1||!Number.isInteger(chain.sourceChainId)||!chain.assetId||chain.assetPath!=='assets/builder-icons/chains/'+id+'/s'+(index+1)+'.webp'||!['SOURCE_BACKED','PENDING'].includes(chain.contentStatus)||!['STATIC_BUILD_STAT','NON_STATIC_MECHANIC','PENDING'].includes(chain.buildStatClassification)||!Array.isArray(chain.staticBuildStats)))invalid.push(id);for(const chain of chains){if(chain.contentStatus==='SOURCE_BACKED'&&chain.name&&chain.description)sourceBacked++;else if(chain.contentStatus==='PENDING'&&(!chain.name||!chain.description))pending++;else invalid.push(id+':S'+chain.sequence);if(chain.buildStatClassification==='STATIC_BUILD_STAT'&&chain.staticBuildStats.length)staticBuild++;else if(chain.buildStatClassification==='NON_STATIC_MECHANIC'&&!chain.staticBuildStats.length)nonStatic++;else if(chain.buildStatClassification==='PENDING'&&!chain.staticBuildStats.length)pendingReview++;else invalid.push(id+':review:S'+chain.sequence)}}const q=sequenceAssetsByCharacter.get('qingxiao')?.chains?.[0];return{count:sequenceAssetsByCharacter.size,invalid:[...new Set(invalid)],sourceBacked,pending,staticBuild,nonStatic,pendingReview,qingxiaoS1:q?{sourceChainId:q.sourceChainId,classification:q.buildStatClassification,stats:q.staticBuildStats.map(x=>({stat:x.stat,value:x.value}))}:null,samples:['aalto','augusta','chisa','the-shorekeeper'].map(id=>({id,chains:(sequenceAssetsByCharacter.get(id)?.chains||[]).map(chain=>({sourceChainId:chain.sourceChainId,name:chain.name,src:chain.assetPath}))}))}})()");
+  assert(coverage.count === 57 && coverage.invalid.length === 0 && coverage.sourceBacked === 342 && coverage.pending === 0 && coverage.staticBuild===20 && coverage.nonStatic===322 && coverage.pendingReview===0, 'Source-backed Sequence runtime/review coverage failed', coverage);
+  assert(coverage.qingxiaoS1?.sourceChainId===331&&coverage.qingxiaoS1?.classification==='STATIC_BUILD_STAT'&&JSON.stringify(coverage.qingxiaoS1.stats)===JSON.stringify([{stat:'CRIT Rate',value:.16}]),'Qingxiao S1 reviewed static fact drifted',coverage.qingxiaoS1);
+  assert(coverage.samples.every((sample) => sample.chains.length === 6 && sample.chains.every(chain=>chain.sourceChainId&&chain.name&&chain.src)), 'Sample Sequence identity/content coverage missing', coverage.samples);
 
   const fingerprints = await evaluate(send, "(async()=>{const ids=['aalto','augusta','chisa','the-shorekeeper'];const out={};for(const id of ids){out[id]=[];for(const chain of sequenceAssetsByCharacter.get(id).chains){const bytes=await fetch(chain.assetPath,{cache:'no-store'}).then(r=>r.arrayBuffer());const digest=await crypto.subtle.digest('SHA-256',bytes);out[id].push([...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join(''))}}return out})()");
   for (const [id, hashes] of Object.entries(fingerprints)) assert(hashes.length === 6 && new Set(hashes).size === 6, 'Character Sequence icons are not six distinct source assets for ' + id, hashes);
@@ -183,9 +184,20 @@ try {
   const initialVisuals = await evaluate(send, "(() => [...document.querySelectorAll('#sequenceLine .node')].map(node=>({sequence:Number(node.dataset.sequence),tag:node.querySelector('.seq-tag').textContent.trim(),tagColor:getComputedStyle(node.querySelector('.seq-tag')).color,imgOpacity:Number(getComputedStyle(node.querySelector('img')).opacity),imgFilter:getComputedStyle(node.querySelector('img')).filter})))()");
   assert(initialVisuals.every((row) => row.tag === 'S' + row.sequence && row.imgOpacity >= 0.4 && row.imgFilter.includes('grayscale')), 'Inactive Sequence icon/text treatment is not recognizable/subdued', initialVisuals);
 
-  const surfaceContract = await evaluate(send, "(() => ({position:getComputedStyle(document.getElementById('sequenceFlyout')).position,role:document.getElementById('sequenceFlyout').getAttribute('role'),inspectorCount:document.querySelectorAll('.seq-inspector,#sequenceInspector').length,sequenceDialogCount:document.querySelectorAll('#sequencePanel [role=dialog]').length,contentText:document.getElementById('sequenceFlyoutContent').textContent.trim(),panelText:document.getElementById('sequencePanel').textContent.toLowerCase()}))()");
+  const surfaceContract = await evaluate(send, "(() => ({position:getComputedStyle(document.getElementById('sequenceFlyout')).position,role:document.getElementById('sequenceFlyout').getAttribute('role'),inspectorCount:document.querySelectorAll('.seq-inspector,#sequenceInspector').length,sequenceDialogCount:document.querySelectorAll('#sequencePanel [role=dialog]').length,contentText:document.getElementById('sequenceFlyoutContent').textContent.trim(),panelText:document.getElementById('sequencePanel').textContent}))()");
   assert(surfaceContract.position === 'absolute' && !surfaceContract.role && surfaceContract.inspectorCount === 0 && surfaceContract.sequenceDialogCount === 0, 'Sequence surface regressed to inspector/modal workflow', surfaceContract);
-  assert(surfaceContract.contentText === '' && !/damage|effect|mechanic|description/.test(surfaceContract.panelText), 'Sequence gameplay description/effect text leaked into interaction shell', surfaceContract);
+  assert(surfaceContract.contentText === '' && !/sourceChainId|canonical|fact ID|Bellibing audit/i.test(surfaceContract.panelText), 'Developer/source commentary leaked into Sequence shell', surfaceContract);
+
+  await evaluate(send, "buildPicker.select('Aemeath')");
+  await waitFor(send, "sequenceUi.characterId==='aemeath' && sequenceUi.assets?.chains?.length===6", 'Aemeath Sequence UI did not bind');
+  await hoverNode(send, 1, 760);
+  let longState=await snapshot(send),longGeometry=await flyoutGeometry(send,1);
+  assert(longState.saved===0&&longState.flyoutTitle==='Gilded Glimmer of the First Dawn'&&longState.description===longState.runtimeDescription&&longState.description.length>1200,'Long source-backed Sequence content did not render unchanged/read-only',longState);
+  assert(longState.contentOverflow==='auto'&&longState.descriptionWhiteSpace==='pre-line'&&longGeometry.contentScrollHeight>longGeometry.contentClientHeight,'Long Sequence description is not contained/readable in its flyout scroll area',{longState,longGeometry});
+  assert(longGeometry.fly.left>=longGeometry.node.right+6&&longGeometry.fly.top>=0&&longGeometry.fly.right<=longGeometry.vw&&longGeometry.fly.bottom<=longGeometry.vh,'Long Sequence flyout escapes 1440x900 viewport',longGeometry);
+  await moveAway(send);await sleep(180);
+  await evaluate(send, "buildPicker.select('Chisa')");
+  await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===0", 'Return to Chisa after long-content check failed');
 
   await pointerClick(send, '#sequenceLine .node[data-sequence="6"]');
   await sleep(120);
@@ -199,9 +211,11 @@ try {
   assert(state.open === null && !state.flyoutOpen && state.current === 0, 'Hover under 700 ms opened flyout or committed state', state);
   await moveAway(send); await sleep(180);
 
+  const beforeReadOnlyHover=await snapshot(send);
   await hoverNode(send, 5, 760);
   state = await snapshot(send);
-  assert(state.open === 5 && state.flyoutOpen && state.flyoutHidden === 'false' && state.actionText === 'Set S5' && state.hint === 'Activates S1–S5' && state.flyoutLabel === 'S5' && state.contentText === '', 'Sustained S5 hover did not open correct inactive flyout', state);
+  assert(state.open === 5 && state.flyoutOpen && state.flyoutHidden === 'false' && state.actionText === 'Set S5' && state.hint === 'Activates S1–S5' && state.flyoutLabel === 'S5' && state.contentStatus === 'SOURCE_BACKED' && state.flyoutTitle === state.runtimeName && state.description === state.runtimeDescription && state.description.length > 0, 'Sustained S5 hover did not open correct source-backed inactive flyout', state);
+  assert(state.saved===beforeReadOnlyHover.saved&&state.current===beforeReadOnlyHover.current,'Hovering/reading Sequence content mutated saved state',{before:beforeReadOnlyHover,after:state});
   let geometry = await flyoutGeometry(send, 5);
   assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top <= geometry.node.top - 4, 'Sequence flyout is not anchored right/up from node', geometry);
 
@@ -266,13 +280,20 @@ try {
   assert(chisaState.saved === 2, 'Chisa S2 did not persist', chisaState);
 
   await hoverNode(send, 4, 760);
-  assert((await snapshot(send)).open === 4, 'Chisa S4 flyout did not open before Character switch');
+  state=await snapshot(send);
+  assert(state.open === 4, 'Chisa S4 flyout did not open before Character switch');
+  const chisaS4Name=state.runtimeName;
   await evaluate(send, "buildPicker.select('Augusta')");
   await waitFor(send, "sequenceUi.characterId==='augusta'", 'Character switch did not bind Augusta');
   await sleep(250);
   state = await snapshot(send);
   assert(state.open === null && !state.flyoutOpen && state.current === 0 && state.srcs.every((src) => src?.includes('/augusta/')), 'Character switch did not close flyout/reset state/use Augusta icons', state);
   assert(state.srcs.every((src, index) => src !== chisaState.srcs[index]), 'Character switch did not replace all six Character-specific Sequence assets', { chisa: chisaState.srcs, augusta: state.srcs });
+  await moveAway(send);await sleep(60);await hoverNode(send,4,760);
+  await waitFor(send,'sequenceUi.openSequence===4','Augusta S4 content did not open after Character switch');
+  state=await snapshot(send);
+  assert(state.flyoutTitle===state.runtimeName&&state.description===state.runtimeDescription&&state.flyoutTitle!==chisaS4Name,'Character switch did not immediately replace source-backed Sequence content',{chisaS4Name,augusta:state});
+  await moveAway(send);await sleep(180);
 
   await hoverNode(send, 1, 760);
   state = await snapshot(send);
@@ -290,7 +311,7 @@ try {
   await evaluate(send, "buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Return to Chisa S2 failed');
 
-  await evaluate(send, 'location.reload()');
+  await navigate(send);
   await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===57", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');
@@ -298,19 +319,21 @@ try {
   state = await snapshot(send);
   assert(state.current === 2 && state.saved === 2 && JSON.stringify(state.active) === JSON.stringify([1,2]), 'Reload persistence failed', state);
 
-  for (const [width, height] of [[1920,1080],[2560,1440]]) {
+  await evaluate(send, "buildPicker.select('Aemeath')");
+  await waitFor(send, "sequenceUi.characterId==='aemeath'", 'Aemeath did not bind for desktop long-content sanity');
+  for (const [width, height] of [[1920,1080],[2560,1440],[3440,1440],[7680,2160]]) {
     await moveAway(send);
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     await sleep(180);
-    await hoverNode(send, 4, 760);
+    await hoverNode(send, 1, 760);
     state = await snapshot(send);
-    assert(state.open === 4 && state.actionText === 'Set S4', 'Desktop sanity hover failed at ' + width + '×' + height, state);
-    geometry = await flyoutGeometry(send, 4);
-    assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top <= geometry.node.top - 4 && geometry.fly.right <= geometry.vw && geometry.fly.bottom <= geometry.vh, 'Flyout geometry overflow/anchor failed at ' + width + '×' + height, geometry);
+    assert(state.open === 1 && state.actionText === 'Set S1' && state.flyoutTitle === 'Gilded Glimmer of the First Dawn' && state.description === state.runtimeDescription, 'Desktop source-backed long-content hover failed at ' + width + '×' + height, state);
+    geometry = await flyoutGeometry(send, 1);
+    assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top >= 0 && geometry.fly.right <= geometry.vw && geometry.fly.bottom <= geometry.vh && geometry.contentScrollHeight > geometry.contentClientHeight, 'Long flyout containment/readability failed at ' + width + '×' + height, geometry);
     await moveAway(send); await sleep(180);
   }
 
-  console.log('v34 Sequence hover runtime verified: gold active S1–S6 treatment, 700ms anchored flyout, node→flyout persistence/grace close, Set/Remove cascade semantics, no node-click commits, Character isolation/assets, reload persistence, empty gameplay-description shell, and 1440/1920/2560 desktop geometry.');
+  console.log('v34 Sequence runtime verified: 57 Characters / 342 source-backed S1-S6, 20 reviewed static Build-stat Sequences / 322 non-static mechanics, Qingxiao S1 provenance, read-only hover, cumulative Set/Remove, Character isolation, reload persistence and desktop geometry.');
   socket.close();
 } finally {
   chrome.kill('SIGTERM');

@@ -12,7 +12,7 @@ const runtime=JSON.parse(readFileSync('docs/ui-prototypes/assets/sequence-runtim
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+(detail===undefined?'':': '+JSON.stringify(detail)))};
 
-assert(runtime.schemaVersion===1&&runtime.role==='character-builder.runtime-sequences','Unexpected builder runtime schema');
+assert(runtime.schemaVersion===3&&runtime.role==='character-builder.runtime-sequences'&&runtime.summary?.releasedCharacters===57&&runtime.summary?.staticBuildStatSequences===20&&runtime.summary?.nonStaticMechanicSequences===322&&runtime.summary?.pendingBuildStatReviewSequences===0,'Unexpected builder runtime schema');
 assert(runtime.characters.length===57,'Skills runtime must cover all 57 released Characters',runtime.characters.length);
 const byId=new Map(runtime.characters.map(row=>[row.characterId,row]));
 for(const row of runtime.characters){
@@ -159,10 +159,31 @@ try{
   await pointerClick(send,'#skillsMenuTree [data-node-id="2"][data-level-step="-1"]');state=await snapshot();assert(state.investment.levels.skill===9&&state.values[0]==='203.36%*3','Level 9 was not selected',state);
   for(let i=0;i<9;i++)await pointerClick(send,'#skillsMenuTree [data-node-id="2"][data-level-step="-1"]');
   state=await snapshot();assert(state.investment.levels.skill===0&&state.values.length===0&&state.investment.enabled['10']===false&&state.investment.enabled['14']===false,'Lv0 fabricated value or failed dependency lowering',state);
-  await clickRole('stat-14');state=await snapshot();assert(state.investment.levels.skill===1&&state.investment.enabled['10']&&state.investment.enabled['14'],'Upper stat did not enable both ancestors',state);
-  await clickRole('stat-10');state=await snapshot();assert(!state.investment.enabled['10']&&!state.investment.enabled['14'],'Middle stat did not disable upper stat',state);
-  await clickRole('inherent-1');state=await snapshot();assert(!state.investment.enabled['4']&&!state.investment.enabled['5'],'Inherent lowering did not cascade',state);
-  await clickRole('inherent-2');state=await snapshot();assert(state.investment.enabled['4']&&state.investment.enabled['5']&&state.title==='Blazing Valor','Inherent source binding or dependency failed',state);
+  const inactiveSelectionBefore=await evaluate(send,'JSON.stringify(skillsUi.investment)'),inactiveLinksBefore=JSON.stringify(state.active);
+  await clickRole('stat-14');state=await snapshot();
+  assert(state.selected==='stat-14'&&state.investment.levels.skill===0&&!state.investment.enabled['10']&&!state.investment.enabled['14'],'Selecting inactive stat mutated investment',state);
+  assert(await evaluate(send,'JSON.stringify(skillsUi.investment)')===inactiveSelectionBefore&&JSON.stringify(state.active)===inactiveLinksBefore,'Inactive preview selection changed saved Forte state or connectors',state);
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');state=await snapshot();
+  assert(state.investment.levels.skill===1&&state.investment.enabled['10']&&state.investment.enabled['14'],'Explicit Enable node did not enable prerequisites',state);
+  const activeSelectionBefore=await evaluate(send,'JSON.stringify(skillsUi.investment)');
+  await clickRole('stat-14');state=await snapshot();
+  assert(state.investment.enabled['10']&&state.investment.enabled['14']&&await evaluate(send,'JSON.stringify(skillsUi.investment)')===activeSelectionBefore,'Selecting active stat mutated investment',state);
+  await clickRole('normal-attack');state=await snapshot();
+  assert(state.selected==='normal-attack'&&state.investment.enabled['10']&&state.investment.enabled['14'],'Enabled node changed while previewing another node',state);
+  await clickRole('stat-10');await pointerClick(send,'#skillsDetailBody .forte-toggle');state=await snapshot();
+  assert(!state.investment.enabled['10']&&!state.investment.enabled['14'],'Explicit Disable node did not cascade to dependent stat',state);
+  const disabledSelectionBefore=await evaluate(send,'JSON.stringify(skillsUi.investment)');
+  await clickRole('stat-10');state=await snapshot();
+  assert(!state.investment.enabled['10']&&!state.investment.enabled['14']&&await evaluate(send,'JSON.stringify(skillsUi.investment)')===disabledSelectionBefore,'Disabled stat changed while selecting it again',state);
+  await clickRole('inherent-1');state=await snapshot();
+  assert(state.investment.enabled['4']&&state.investment.enabled['5'],'Selecting active Inherent node mutated investment',state);
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');state=await snapshot();
+  assert(!state.investment.enabled['4']&&!state.investment.enabled['5'],'Explicit Inherent disable did not cascade',state);
+  const inherentDisabledBefore=await evaluate(send,'JSON.stringify(skillsUi.investment)');
+  await clickRole('inherent-2');state=await snapshot();
+  assert(!state.investment.enabled['4']&&!state.investment.enabled['5']&&state.title==='Blazing Valor'&&await evaluate(send,'JSON.stringify(skillsUi.investment)')===inherentDisabledBefore,'Inactive Inherent preview selection mutated investment',state);
+  await pointerClick(send,'#skillsDetailBody .forte-toggle');state=await snapshot();
+  assert(state.investment.enabled['4']&&state.investment.enabled['5'],'Explicit Inherent enable did not restore prerequisite',state);
   const strokes=await evaluate(send,"[...document.querySelectorAll('#skillsMenuTree .skill-link')].map(n=>({active:n.classList.contains('is-active'),stroke:getComputedStyle(n).stroke}))");assert(strokes.some(s=>s.active)&&strokes.some(s=>!s.active)&&strokes.every(s=>s.active===s.stroke.includes('skillsMenuGold')),'Gold/grey connector state mismatch',strokes);
   // Independent physical +/- controls for every levelled skill.
   for(const role of MAIN){const node=sourceById.get('augusta').nodes.find(n=>n.role===role);await pointerClick(send,'#skillsMenuTree [data-node-id="'+node.id+'"][data-level-step="-1"]')}

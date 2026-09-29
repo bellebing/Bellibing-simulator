@@ -270,6 +270,7 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false,scrollDela
     throw new Error(`Visible-center Weapon click did not change Preview to ${weaponId}: ${JSON.stringify({point,failure})}`);
   }
   await waitForUi(send,`!weaponUi.busy&&!!document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero')`,`Visible-center Weapon click did not settle the Preview hero for ${weaponId}`,3000);
+  await waitForUi(send,`(()=>{const art=document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-art');return !!art&&art.complete&&art.naturalWidth>0})()`,`Visible-center Weapon Preview art did not load for ${weaponId}`,10000);
   const result=await evaluate(send,`(() => {
     const audit=window.__weaponPointerAudit||[];
     const hero=document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero');

@@ -184,11 +184,10 @@
 .improve-truth-name{position:relative;z-index:4;display:block;margin:0;padding:0 4px 7px;font-family:var(--font-display);font-size:28px;font-weight:400;line-height:1.22;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.72)}
 .improve-truth-art img{position:absolute;z-index:1;inset:46px 0 0;width:100%;height:calc(100% - 46px);object-fit:contain;object-position:50% 50%;transform:translate(var(--improve-hero-x,0%),var(--improve-hero-y,0%)) scale(var(--improve-hero-scale,1));transform-origin:var(--improve-hero-focal-x,50%) var(--improve-hero-focal-y,50%);filter:drop-shadow(0 15px 22px rgba(0,0,0,.34));user-select:none;-webkit-user-drag:none}
 .improve-truth-art img[hidden]{display:none}.improve-truth-pending{position:absolute;z-index:3;inset:72px 18px 24px;display:grid;place-items:center;color:#8b929c;font-size:11px;line-height:1.4;text-align:center}.improve-truth-pending[hidden]{display:none}
-.improve-weapon-truth{min-height:82px;padding:9px 7px;display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:8px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}
-.improve-weapon-art{width:56px;height:64px;display:grid;place-items:center}.improve-weapon-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}
-.improve-weapon-copy{min-width:0}.improve-kicker{display:block;margin-bottom:4px;color:#969da7;font-size:9px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.improve-weapon-copy strong{display:block;font-family:var(--font-display);font-size:14px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-copy small{display:block;margin-top:5px;color:#969da7;font-size:10px}
-.improve-skills-truth,.improve-sequence-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}.improve-skills-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.improve-skill{text-align:center;min-width:0}.improve-skill-icon{width:33px;height:33px;margin:0 auto 5px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.14);border-radius:50%;background:#11151a}.improve-skill-icon img{width:72%;height:72%;object-fit:contain;filter:grayscale(.16) brightness(.86);opacity:.82}.improve-skill.is-active .improve-skill-icon{border-color:rgba(220,177,80,.68);box-shadow:0 0 12px rgba(220,177,80,.10)}.improve-skill.is-active .improve-skill-icon img{opacity:1;filter:grayscale(1) sepia(1) saturate(2.4) hue-rotate(356deg) brightness(1.09)}.improve-skill-label{display:block;color:#a0a7b0;font-size:8px;line-height:1.25}.improve-skill-level{display:block;margin-top:3px;color:#a0a7b0;font-size:9px}.improve-skill.is-active .improve-skill-level{color:#c9aa68}
-.improve-sequence-list{list-style:none;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:0;padding:0}.improve-sequence-node{text-align:center;min-width:0;color:#9299a3;font-size:9px}.improve-sequence-icon{display:block;width:28px;height:28px;margin:0 auto 4px;border:1px solid rgba(255,255,255,.16);border-radius:50%;overflow:hidden;background:#11151a}.improve-sequence-icon img{display:block;width:100%;height:100%;object-fit:contain;opacity:.5;filter:grayscale(1)}.improve-sequence-node.is-active{color:#d8b568}.improve-sequence-node.is-active .improve-sequence-icon{border-color:#c3a05b;box-shadow:0 0 10px rgba(216,177,82,.12)}.improve-sequence-node.is-active img{opacity:1;filter:grayscale(1) sepia(1) saturate(3.4) hue-rotate(356deg) brightness(1.08)}
+.improve-character-context{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:3px;align-items:center}
+.improve-sequence-list.seq-line{height:252px;margin:0;align-items:center;width:40px}.improve-sequence-list .node{width:30px;height:30px;min-height:30px;flex:none;cursor:default;pointer-events:none}.improve-sequence-list .n6{width:36px;height:36px}.improve-sequence-list .n5{width:34px;height:34px}.improve-sequence-list .n4{width:32px;height:32px}.improve-sequence-list .seq-tag{font-size:8px}
+.improve-weapon-truth{padding:9px 7px;display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:5px 7px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}.improve-weapon-truth>strong{grid-column:1/-1;font-family:var(--font-display);font-size:15px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-art{width:72px;height:76px;display:grid;place-items:center}.improve-weapon-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}.improve-weapon-facts{display:grid;gap:10px;font-size:10px;color:#a1a8b2}.improve-weapon-facts>div{display:flex;justify-content:space-between;gap:5px}.improve-weapon-facts strong{color:#d2d6dc;font-variant-numeric:tabular-nums;white-space:nowrap}
+.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree{height:156px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
 .improve-stats{grid-column:2;grid-row:1/3;min-width:0;padding:3px 0}.improve-panel-title{margin:0 0 10px;font-family:var(--font-display);font-size:24px;font-weight:400;line-height:1.22}.improve-preview-note{margin:0 0 8px;color:#b5a37e;font-size:9px;line-height:1.35}.improve-preview-note[hidden]{display:none}.improve-stat-head,.improve-stat-row{display:grid;grid-template-columns:minmax(0,1fr) 61px 10px 29px;align-items:center;column-gap:4px}.improve-stat-head{min-height:24px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.09);color:#939ba6;font-size:9px;font-weight:700}.improve-stat-head span:nth-child(n+2){text-align:right}.improve-stat-list{display:grid}.improve-stat-row{min-height:34px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.052);font-size:11px}.improve-stat-icon{width:15px;height:15px;object-fit:contain;opacity:.82;margin-right:5px;vertical-align:-3px}.improve-stat-label{min-width:0;color:#b0b6bf;line-height:1.35}.improve-stat-current,.improve-stat-new{text-align:right;color:#e8e6e1;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-stat-new{color:#939ba6}.improve-stat-arrow{text-align:center;color:#737c89}.improve-stat-row.is-positive .improve-stat-new{color:#79c89c}.improve-stat-row.is-negative .improve-stat-new{color:#e37b7b}
 .improve-workspace{grid-column:3;grid-row:1;min-width:0;display:grid;grid-template-columns:minmax(174px,1fr) minmax(214px,1.4fr) minmax(174px,1fr);gap:10px;align-items:start}
 .improve-workspace-card{min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column;align-self:stretch}
@@ -460,10 +459,9 @@
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <section class="improve-truth" aria-label="Character source of truth">
-      <div class="improve-truth-art"><strong id="improveCharacterName" class="improve-truth-name"></strong><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div>
-      <div class="improve-weapon-truth"><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><span class="improve-weapon-copy"><span class="improve-kicker">Weapon</span><strong id="improveWeaponName">Pending</strong><small id="improveWeaponMeta">Current build</small></span></div>
-      <div class="improve-skills-truth"><div class="improve-skills-head"><strong>Skills</strong><small>Current</small></div><div id="improveSkillsGrid" class="improve-skills-grid"></div></div>
-      <div class="improve-sequence-truth"><div class="improve-skills-head"><strong>Sequence</strong><small id="improveSequenceCurrent">S0</small></div><ol id="improveSequenceList" class="improve-sequence-list" aria-label="Current Sequence"></ol></div>
+      <div class="improve-character-context"><div class="improve-truth-art"><strong id="improveCharacterName" class="improve-truth-name"></strong><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div>
+      <div class="improve-weapon-truth"><strong id="improveWeaponName">Pending</strong><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><div class="improve-weapon-facts"><div><span>Base ATK</span><strong id="improveWeaponAtk">Pending</strong></div><div><span id="improveWeaponSecondaryName">Secondary</span><strong id="improveWeaponSecondaryValue">Pending</strong></div></div></div>
+      <div class="improve-skills-truth"><div class="improve-skills-head"><strong>Skills</strong><small>Current</small></div><div id="improveSkillsTree" class="skills-mini-tree" role="group" aria-label="Current Forte tree (read only)"></div></div>
     </section>
     <section class="improve-stats" aria-label="Character stats of truth">
       <h2 class="improve-panel-title">Stats</h2>
@@ -485,7 +483,7 @@
         </div>
         <p class="improve-helper-note">Build impact · Pending model</p>
       </div>
-      <article class="improve-workspace-card improve-new-echo"><div class="improve-echo-card-head"><span>New Echo</span><span>Candidate</span></div><div class="improve-new-empty"><button id="improveNewEcho" class="improve-new-button" type="button"><span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small></button></div></article>
+      <article id="improveCandidateEcho" class="improve-workspace-card improve-new-echo"><div class="improve-echo-card-head"><span>New Echo</span><span>Candidate</span></div><div class="improve-new-empty"><button id="improveNewEcho" class="improve-new-button" type="button"><span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small></button></div></article>
     </section>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
   </main>
@@ -1160,6 +1158,7 @@ function compareSonataNewestFirst(a,b){
 }
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
+  context:{kind:'equipped'},
   characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),infoExpanded:false,sonataMenuOpen:false,open:false,closing:false,lastFocus:null,choiceById:new Map(),
   init(){
     this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
@@ -1181,7 +1180,11 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
+  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
+  contextValid(){return this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
+  previewCommitted(){return this.context.kind==='candidate'?improveUi.candidate:this.currentSlot()},
   activeSet(){
+    if(this.context.kind==='candidate')return {...emptyEchoSet(),slots:this.context.equippedSlots};
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
@@ -1218,10 +1221,11 @@ const echoUi={
     const toggle=document.getElementById('echoInfoToggle');toggle.textContent=this.infoExpanded?'Click to collapse ▴':'Click to expand ▾';toggle.setAttribute('aria-expanded',String(this.infoExpanded));
   },
   recommendedCost(index=this.targetSlot){
-    const cost=this.loadoutProfile?.slotCosts?.[index];
+    const cost=this.workspaceProfile()?.slotCosts?.[index];
     return [1,3,4].includes(cost)?cost:null;
   },
   renderBuildSlots(){
+    if(this.context.kind==='candidate')return;
     const slots=this.activeSet().slots||[];
     document.querySelectorAll('.echo[data-echo-slot]').forEach((slot,index)=>{
       slot.querySelectorAll('.echo-card-cost,.echo-card-portrait,.echo-card-name').forEach(node=>node.remove());
@@ -1250,7 +1254,7 @@ const echoUi={
       const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);
       if(recommendedCost)button.dataset.recommendedCost=String(recommendedCost);else delete button.dataset.recommendedCost;
       button.setAttribute('aria-label',`Echo slot ${index+1}, ${cost?`Cost ${cost}`:'Cost unknown'}${item?`, equipped: ${item.name}, Sonata: ${sonata?.name||'unknown'}`:', empty'}`);
-      button.setAttribute('aria-pressed',String(index===this.targetSlot));
+      button.setAttribute('aria-pressed',String(index===this.targetSlot));button.disabled=this.context.kind==='candidate';
       const costLabel=document.createElement('span');costLabel.className='echo-slot-cost'+(cost?'':' manual');costLabel.textContent=cost?`COST ${cost}`:'COST —';button.appendChild(costLabel);
       const visual=document.createElement('span');visual.className='echo-dock-visual';
       if(item){const rail=document.createElement('span');rail.className='echo-card-rail';rail.setAttribute('aria-hidden','true');appendEchoSonataIcons(rail,sonata?[sonata.id]:[]);
@@ -1292,7 +1296,7 @@ const echoUi={
   renderSonataSelector(){
     if(!this.sonataOptions)return;
     this.sonataOptions.replaceChildren();
-    const recommendedIds=this.loadoutProfile?.sonataSetIds||[];
+    const recommendedIds=this.workspaceProfile()?.sonataSetIds||[];
     const recommended=recommendedIds.map(id=>echoSonataById.get(id)).filter(Boolean).sort(compareSonataNewestFirst);
     const recommendedSet=new Set(recommendedIds);
     const other=[...echoSonataById.values()].filter(sonata=>!recommendedSet.has(sonata.id)).sort(compareSonataNewestFirst);
@@ -1328,7 +1332,7 @@ const echoUi={
     if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;
   },
   orderedAllowedSonataIds(item){
-    const allowed=[...item.sonataSetIds],recommended=this.loadoutProfile?.sonataSetIds||[];
+    const allowed=[...item.sonataSetIds],recommended=this.workspaceProfile()?.sonataSetIds||[];
     const first=recommended.filter(id=>allowed.includes(id));
     return [...first,...allowed.filter(id=>!first.includes(id))];
   },
@@ -1363,9 +1367,9 @@ const echoUi={
       const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;const label=document.createElement('span');label.textContent=sonata.name;button.append(image,label);
       button.disabled=ordered.length===1;button.addEventListener('click',()=>{
         if(!this.editorDraft||!item.sonataSetIds.includes(id)||id===this.editorDraft.selectedSonataSetId)return;
-        const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId;
-        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose Equip Echo.`,confirm:'Switch Set',onConfirm:()=>{
-          if(this.previewId!==previewId||!this.editorDraft)return;
+        const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId,context=this.context;
+        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='candidate'?'Use as Candidate':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
+          if(this.context!==context||!this.contextValid()||!this.open||this.previewId!==previewId||!this.editorDraft)return;
           this.editorDraft.selectedSonataSetId=id;this.renderIdentity(item);this.syncEquipAction();
           host.querySelector(`[data-sonata-id="${id}"]`)?.focus();
         }});
@@ -1436,7 +1440,7 @@ const echoUi={
   },
   select(id){const item=echoById.get(id);if(!item)return;this.setPreview(item,null);},
   loadTargetCommitted(){
-    const slot=this.currentSlot(),id=echoSlotId(slot),item=echoById.get(id);
+    const slot=this.previewCommitted(),id=echoSlotId(slot),item=echoById.get(id);
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
@@ -1444,11 +1448,11 @@ const echoUi={
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
-    const committed=this.currentSlot(),alreadyEquipped=!reason&&echoCardsEqual(committed,this.editorDraft);
-    button.disabled=!item||!this.editorDraft||!!reason||alreadyEquipped;button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
+    const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||alreadyCommitted;button.textContent=alreadyCommitted?(candidate?'Candidate selected':'Equipped'):(candidate?'Use as Candidate':'Equip Echo');
   },
   setTarget(index){
-    if(!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
+    if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
     const previous=this.targetSlot;
     const promoted=captureEchoMotion(this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark'));
     const incoming=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${index}"] .echo-dock-art img, [data-echo-target="${index}"] .echo-dock-visual`));
@@ -1460,14 +1464,32 @@ const echoUi={
     Promise.all([playEchoMotion(promoted,demoted),playEchoMotion(incoming,detail)]);
   },
   async show(index){
-    if(!this.characterName)return;await echoDataReady;if(!echoCatalog.length||!echoStatContract)return;
-    this.characterId=characterByName.get(this.characterName)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
-    this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;this.currentSets=readEchoSets(this.characterName);
-    this.selectedSonataIds=new Set(this.loadoutProfile?.sonataSetIds||[]);
+    const name=this.characterName;if(!name||this.open||this.closing)return;
+    await echoDataReady;if(name!==this.characterName||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
+    this.context={kind:'equipped'};this.characterId=characterByName.get(name)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
+    this.currentSets=readEchoSets(name);this.openWorkspace(index);
+  },
+  async showCandidate(){
+    const name=improveUi.characterName,version=improveUi.contextVersion;
+    if(!name||this.open||this.closing)return;
+    await echoDataReady;
+    if(name!==improveUi.characterName||version!==improveUi.contextVersion||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
+    // Candidate owns a read-only equipment snapshot; Build keeps its separate binding.
+    this.context={kind:'candidate',characterName:name,characterId:improveUi.characterId,version,equippedSlots:improveEchoSlots(name)};
+    this.openWorkspace(improveUi.selectedEchoIndex);
+  },
+  openWorkspace(index){
+    this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;
+    const candidate=this.context.kind==='candidate';this.overlay.dataset.context=this.context.kind;
+    document.getElementById('echoTitle').textContent=candidate?'Echo Workspace · Candidate':'Echo Workspace';
+    this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
+    document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
+    this.workspaceSlots.setAttribute('aria-label',candidate?'Current equipped Echoes (read only)':'Build Echo slots');
+    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
     const recommendedCost=this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
-    const buildSlot=document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art')||buildSlot?.querySelector('.echo-slot-plus'));
+    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.open=true;
     requestAnimationFrame(()=>{this.overlay.classList.add('open');requestAnimationFrame(()=>{
       const detail=this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark');
@@ -1476,18 +1498,22 @@ const echoUi={
   },
   hide(){
     if(!this.open||this.closing)return;this.open=false;this.closing=true;
-    const source=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
-    const buildSlot=document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const destination=buildSlot?.querySelector('.echo-slot-art')||buildSlot?.querySelector('.echo-slot-plus');
+    if(activeConfirmation?.kind==='sonata')closeConfirmation();
+    const candidate=this.context.kind==='candidate';
+    const source=captureEchoMotion(candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
+    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const destination=buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus');
     this.overlay.classList.remove('open');this.setSonataMenuOpen(false);
     playEchoMotion(source,destination).then(()=>{
-      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;
+      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;this.context={kind:'equipped'};
       if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
     });
   },
   equipPreview(){
-    if(!this.characterName||!this.previewId||!this.editorDraft)return;
+    if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
     const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
+    if(this.context.kind==='candidate'){improveUi.candidate=cloneEchoSlot(this.editorDraft);improveUi.renderCandidate();this.hide();return}
+    if(!this.characterName)return;
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
     this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();statsUi.refresh();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
     playEchoMotion(promoted,this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img`));
@@ -1623,31 +1649,33 @@ const skillsUi={
   show(){if(!this.assets||!this.overlay)return;clearTimeout(this.closeTimer);this.open=true;this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.button.setAttribute('aria-expanded','true');requestAnimationFrame(()=>this.overlay.classList.add('open'))},
   hide(){if(!this.overlay)return;clearTimeout(this.closeTimer);this.open=false;this.overlay.classList.remove('open');this.overlay.setAttribute('aria-hidden','true');this.button?.setAttribute('aria-expanded','false');this.closeTimer=setTimeout(()=>{if(!this.open)this.overlay.classList.remove('mounted')},380)},
   position(node){return node.kind==='outro'?{x:50,y:90}:{x:10+node.column*20,y:62-node.row*22-[0,4,9,4,0][node.column]}},
-  renderTree(host,compact){
-    host.replaceChildren();if(!this.model||!this.tree?.nodes.length){host.textContent='Pending';return}
-    const state=this.investment,svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
+  renderTree(host,compact,presentation=null){
+    const tree=presentation?presentation.tree:this.tree,model=presentation?presentation.model:this.model;
+    host.replaceChildren();if(!model||!tree?.nodes.length){host.textContent='Pending';return}
+    const state=presentation?presentation.state:this.investment,readOnly=presentation?presentation.readOnly:compact,selectedRole=presentation?presentation.selectedRole:this.selectedRole;
+    const svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
     svg.classList.add('skills-tree-lines');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
-    const prefix=compact?'skillsCompact':'skillsMenu';
+    const prefix=host.id==='improveSkillsTree'?'improveSkills':compact?'skillsCompact':'skillsMenu';
     svg.innerHTML=`<defs><linearGradient id="${prefix}Gold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".5" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="${prefix}Glow" filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><feGaussianBlur stdDeviation=".25" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-    for(const node of this.tree.nodes)for(const parentId of node.parents){
-      const parent=this.tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
+    for(const node of tree.nodes)for(const parentId of node.parents){
+      const parent=tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
       line.setAttribute('d',`M${a.x} ${a.y} L${b.x} ${b.y}`);line.classList.add('skill-link');line.dataset.skillLink=parent.role+'-'+node.role;
-      line.classList.toggle('is-active',this.model.forteNodeActive(this.tree,state,node.id)&&this.model.forteNodeActive(this.tree,state,parentId));svg.append(line);
+      line.classList.toggle('is-active',model.forteNodeActive(tree,state,node.id)&&model.forteNodeActive(tree,state,parentId));if(line.classList.contains('is-active')){line.style.stroke=`url(#${prefix}Gold)`;line.style.filter=`url(#${prefix}Glow)`}svg.append(line);
     }
     host.append(svg);
-    for(const node of this.tree.nodes){
+    for(const node of tree.nodes){
       const pos=this.position(node),wrap=document.createElement('div');wrap.className='forte-node-wrap '+node.kind;wrap.style.left=pos.x+'%';wrap.style.top=pos.y+'%';
-      const button=document.createElement(compact?'span':'button');if(!compact)button.type='button';button.className='forte-node';button.dataset.skillRole=node.role;button.dataset.nodeId=node.id;
-      const active=this.model.forteNodeActive(this.tree,state,node.id);button.classList.toggle('is-active',active);button.classList.toggle('is-selected',node.role===this.selectedRole);
+      const button=document.createElement(readOnly?'span':'button');if(!readOnly)button.type='button';button.className='forte-node';button.dataset.skillRole=node.role;button.dataset.nodeId=node.id;
+      const active=model.forteNodeActive(tree,state,node.id);button.classList.toggle('is-active',active);button.classList.toggle('is-selected',node.role===selectedRole);
       const label=node.kind==='stat'?node.stat.stat+' +'+node.valueText:SKILL_ROLE_LABELS[node.role];
-      if(!compact){button.setAttribute('aria-label',label+(node.kind==='stat'||node.kind==='inherent'?': '+(active?'enabled':'disabled'):''));if(node.kind==='stat'||node.kind==='inherent')button.setAttribute('aria-pressed',String(active));button.title=node.name||'Pending'}
+      if(!readOnly){button.setAttribute('aria-label',label+(node.kind==='stat'||node.kind==='inherent'?': '+(active?'enabled':'disabled'):''));if(node.kind==='stat'||node.kind==='inherent')button.setAttribute('aria-pressed',String(active));button.title=node.name||'Pending'}
       const img=document.createElement('img');img.src=node.assetPath;img.alt='';img.draggable=false;button.append(img);wrap.append(button);
       const caption=document.createElement('span');caption.className='forte-caption';caption.textContent=label;wrap.append(caption);
       if(node.kind==='skill'){
         const controls=document.createElement('div');controls.className='forte-level';
-        if(!compact){const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.dataset.levelStep='-1';minus.dataset.nodeId=node.id;minus.disabled=state.levels[node.role]===0;minus.setAttribute('aria-label','Lower '+label+' level');controls.append(minus)}
+        if(!readOnly){const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.dataset.levelStep='-1';minus.dataset.nodeId=node.id;minus.disabled=state.levels[node.role]===0;minus.setAttribute('aria-label','Lower '+label+' level');controls.append(minus)}
         const level=document.createElement('span');level.textContent='Lv.'+state.levels[node.role];level.dataset.skillLevel=node.role;controls.append(level);
-        if(!compact){const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.dataset.levelStep='1';plus.dataset.nodeId=node.id;plus.disabled=state.levels[node.role]===10;plus.setAttribute('aria-label','Raise '+label+' level');controls.append(plus)}
+        if(!readOnly){const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.dataset.levelStep='1';plus.dataset.nodeId=node.id;plus.disabled=state.levels[node.role]===10;plus.setAttribute('aria-label','Raise '+label+' level');controls.append(plus)}
         wrap.append(controls);
       }
       host.append(wrap);
@@ -1912,8 +1940,9 @@ function projectImproveCurrentStats(name){
   catch(error){console.error(error);document.documentElement.dataset.improveStatsError=String(error.message||error);return null}
 }
 const improveUi={
-  characterName:null,characterId:null,selectedEchoIndex:0,
+  characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,
   setCharacter(name){
+    if(name!==this.characterName){this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
     this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
     const slots=improveEchoSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
     this.selectedEchoIndex=previewIndex>=0?previewIndex:Math.max(0,slots.findIndex(slot=>echoById.has(echoSlotId(slot))));
@@ -1940,7 +1969,9 @@ const improveUi={
   renderWeapon(){
     const weapon=this.currentWeapon(),image=document.getElementById('improveWeaponArt');
     document.getElementById('improveWeaponName').textContent=weapon?.name||'Pending';
-    document.getElementById('improveWeaponMeta').textContent=weapon?(weapon.level90BaseAtk===null?'Current Weapon':('Base ATK '+weapon.level90BaseAtk)):'Current Weapon not set';
+    document.getElementById('improveWeaponAtk').textContent=Number.isFinite(weapon?.level90BaseAtk)?weapon.level90BaseAtk:'Pending';
+    document.getElementById('improveWeaponSecondaryName').textContent=weapon?.secondary?.stat||'Secondary';
+    document.getElementById('improveWeaponSecondaryValue').textContent=weapon?.secondary?.stat&&Number.isFinite(weapon.secondary.value)?formatWeaponSecondaryValue(weapon.secondary.value):'Pending';
     if(weapon){image.src=weapon.artSrc;image.hidden=false}else{image.removeAttribute('src');image.hidden=true}
   },
   skillState(){
@@ -1949,30 +1980,19 @@ const improveUi={
     return forte.normalizeForteState(tree,build.forte);
   },
   renderSkills(){
-    const host=document.getElementById('improveSkillsGrid');host.replaceChildren();
-    const runtime=sequenceAssetsByCharacter.get(this.characterId),stateValue=this.skillState();
-    const roles=[['normal-attack','Normal'],['skill','Skill'],['circuit','Forte'],['liberation','Liberation'],['intro','Intro']];
-    for(const [role,label] of roles){
-      const data=runtime?.skills?.[role],level=IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER?10:Number(stateValue?.levels?.[role]??0);
-      const item=document.createElement('div');item.className='improve-skill'+(level>0?' is-active':'');
-      const icon=document.createElement('span');icon.className='improve-skill-icon';if(data?.assetPath){const img=document.createElement('img');img.src=data.assetPath;img.alt='';img.draggable=false;icon.appendChild(img)}
-      const text=document.createElement('span');text.className='improve-skill-label';text.textContent=label;
-      const lv=document.createElement('span');lv.className='improve-skill-level';lv.textContent=data?'Lv.'+level:'Pending';
-      item.append(icon,text,lv);host.appendChild(item);
-    }
+    skillsUi.renderTree(document.getElementById('improveSkillsTree'),true,{tree:skillsPreviewByCharacterId.get(this.characterId),model:window.bellibingForte,state:this.skillState(),readOnly:true,selectedRole:null});
   },
   renderSequence(){
     const host=document.getElementById('improveSequenceList'),runtime=sequenceAssetsByCharacter.get(this.characterId);
     const level=sequenceUi.normalizeLevel(improveBuildState(this.characterName).sequenceLevel);
-    host.replaceChildren();document.getElementById('improveSequenceCurrent').textContent=runtime?'S'+level:'Pending';
-    for(let sequence=1;sequence<=6;sequence++){
+    host.replaceChildren();host.style.setProperty('--seq-progress',String(Math.max(0,(level-1)/5)));host.setAttribute('aria-label',runtime?'Current Sequence S'+level:'Sequence Pending');
+    for(let sequence=6;sequence>=1;sequence--){
       const chain=runtime?.chains?.find(row=>row.sequence===sequence),active=!!chain&&sequence<=level;
-      const item=document.createElement('li');item.className='improve-sequence-node'+(active?' is-active':'');item.dataset.sequence=String(sequence);
+      const item=document.createElement('span');item.className='node n'+sequence+(active?' is-active':'')+(active&&sequence===level?' is-current-active':'');item.dataset.sequence=String(sequence);
       item.setAttribute('aria-label','S'+sequence+' '+(chain?(active?'active':'inactive'):'pending'));
       item.title=chain?.name||'Pending source';
-      const icon=document.createElement('span');icon.className='improve-sequence-icon';
-      if(chain?.assetPath){const image=document.createElement('img');image.src=chain.assetPath;image.alt='';image.draggable=false;icon.appendChild(image)}
-      const label=document.createElement('span');label.textContent='S'+sequence;item.append(icon,label);host.appendChild(item);
+      if(chain?.assetPath){const image=document.createElement('img');image.src=chain.assetPath;image.alt='';image.draggable=false;item.appendChild(image)}
+      const label=document.createElement('span');label.className='seq-tag';label.textContent='S'+sequence;item.append(label);host.appendChild(item);
     }
   },
   echoStats(slot){
@@ -1986,8 +2006,9 @@ const improveUi={
       row.append(label,value);host.appendChild(row);
     });return host;
   },
-  statSpecs(){
-    return [...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS];
+  statSpecs(projection){
+    const bucket=spec=>{const value=projection?.[spec.key];return Number.isFinite(value)?(value!==0?0:1):2};
+    return [...BUILD_STAT_PRIMARY_ROWS,...[...BUILD_STAT_EXTRA_ROWS].sort((a,b)=>bucket(a)-bucket(b))];
   },
   currentStatText(spec,projection){
     if(IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER&&IMPROVE_PREVIEW_STATS.has(spec.key))return IMPROVE_PREVIEW_STATS.get(spec.key);
@@ -1996,12 +2017,12 @@ const improveUi={
   renderStats(){
     document.getElementById('improvePreviewNote').hidden=!(IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER);
     const host=document.getElementById('improveStatList'),projection=projectImproveCurrentStats(this.characterName),character=buildStatsCharacterById.get(this.characterId);host.replaceChildren();
-    for(const spec of this.statSpecs()){
+    for(const spec of this.statSpecs(projection)){
       const row=document.createElement('div');row.className='improve-stat-row';row.dataset.statKey=spec.key;
       const label=document.createElement('span');label.className='improve-stat-label';
       const iconLabel=spec.iconFromElement?character?.element+' DMG':spec.icon,iconSrc=buildStatsIconByLabel.get(iconLabel);
       if(iconSrc){const icon=document.createElement('img');icon.className='improve-stat-icon';icon.src=iconSrc;icon.alt='';icon.draggable=false;label.appendChild(icon)}
-      label.append(document.createTextNode(spec.labelFrom?(projection?.[spec.labelFrom]||'Element DMG Bonus'):spec.label));
+      label.append(document.createTextNode(spec.labelFrom?(projection?.[spec.labelFrom]||(character?.element?character.element+' DMG Bonus':'Element DMG Bonus · Pending')):spec.label));
       const current=document.createElement('strong');current.className='improve-stat-current';current.textContent=this.currentStatText(spec,projection);
       const arrow=document.createElement('span');arrow.className='improve-stat-arrow';arrow.textContent='→';
       const next=document.createElement('strong');next.className='improve-stat-new';next.textContent='—';
@@ -2016,6 +2037,20 @@ const improveUi={
     const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item?.name||'Empty slot';host.insertBefore(title,art);
     const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent=item?('COST '+item.cost+(Number.isFinite(slot?.level)?' · +'+slot.level:'')):'Select an equipped Echo below';host.appendChild(meta);
     host.appendChild(this.echoStats(slot));
+  },
+  renderCandidate(){
+    const host=document.getElementById('improveCandidateEcho'),slot=this.candidate,item=echoById.get(echoSlotId(slot));host.replaceChildren();
+    const head=document.createElement('div');head.className='improve-echo-card-head';head.innerHTML='<span>New Echo</span><span>Candidate</span>';host.appendChild(head);
+    const button=document.createElement('button');button.type='button';button.id='improveNewEcho';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','echoOverlay');button.onclick=()=>echoUi.showCandidate();
+    if(item){
+      const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item.name;
+      const art=document.createElement('div');art.className='improve-echo-large-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.append(image);
+      button.className='improve-candidate-edit';button.textContent='Edit Candidate';head.lastElementChild.replaceWith(button);
+      const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost+' · +'+slot.level;
+      host.append(title,art,meta,this.echoStats(slot));
+    }else{
+      const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
+    }
   },
   selectEcho(index){
     this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();
@@ -2033,7 +2068,7 @@ const improveUi={
   },
   render(){
     if(!this.characterName)return;
-    this.renderHero();this.renderWeapon();this.renderSkills();this.renderSequence();this.renderStats();this.renderEchoRow();this.renderCurrentEcho();
+    this.renderHero();this.renderWeapon();this.renderSkills();this.renderSequence();this.renderStats();this.renderEchoRow();this.renderCurrentEcho();this.renderCandidate();
     document.getElementById('improveHelperTitle').textContent='Roll to +5';document.getElementById('improveHelperMain').textContent='Enter the first substat.';
   },
   refresh(){if(this.characterName)this.render()}
@@ -2178,7 +2213,7 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else{improveUi.characterName=null;improveUi.characterId=null;document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else{improveUi.setCharacter(null);document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,requestSwitch,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm:confirmPickerSwitch,closeDialog}
@@ -2210,7 +2245,7 @@ document.addEventListener('keydown',event=>{
 document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
 document.getElementById('cancelSwitch').onclick=()=>closeConfirmation();
 document.getElementById('confirmSwitch').onclick=()=>closeConfirmation(true);
-document.getElementById('improveNewEcho').onclick=()=>{document.getElementById('improveHelperTitle').textContent='Select New Echo';document.getElementById('improveHelperMain').textContent='Candidate Echo input comes in the next functional slice.'};
+document.getElementById('improveNewEcho').onclick=()=>echoUi.showCandidate();
 document.getElementById('improveEnterSubstat').onclick=()=>{document.getElementById('improveHelperTitle').textContent='Enter substat';document.getElementById('improveHelperMain').textContent='Live roll evaluation is Pending until the model is source-backed.'};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();

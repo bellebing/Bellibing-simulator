@@ -209,7 +209,7 @@ test('Echo browser exports the source-backed checkpoint-aware Echo Stats Editor 
 });
 
 test('Echo Workspace Correction 2B keeps recommendations profile-backed and exposes compact review UI', () => {
-  assert.ok(workspaceHtml.includes("this.loadoutProfile?.sonataSetIds||[]"));
+  assert.ok(workspaceHtml.includes("this.workspaceProfile()?.sonataSetIds||[]"));
   assert.ok(workspaceHtml.includes("Recommended Sonata Sets"));
   assert.ok(workspaceHtml.includes("Other Sonata Sets"));
   assert.ok(workspaceHtml.includes("'Multiple Sets Active'"));

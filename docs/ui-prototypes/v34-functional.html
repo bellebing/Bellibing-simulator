@@ -461,10 +461,11 @@
 
 .forte-metadata{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}.forte-metadata span{padding:4px 6px;border:1px solid #ffffff1a;border-radius:5px;color:#c7b381;font-size:8px;letter-spacing:.04em}
 </style>
+<link rel="stylesheet" href="./assets/character-build-card.css">
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
-<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
+<section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="viewBuildCard" class="view-build-card" type="button" aria-haspopup="dialog" aria-controls="buildCardOverlay" hidden>View Character Card</button><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <section class="improve-truth" aria-label="Character source of truth">
@@ -600,6 +601,14 @@
   </section>
 </div>
 <div id="dialogBg" class="dialog-bg"><div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogCopy"><h2 id="dialogTitle">Switch Character?</h2><p id="dialogCopy"></p><div class="dialog-actions"><button id="cancelSwitch" type="button">Cancel</button><button id="confirmSwitch" class="primary" type="button">Switch</button></div></div></div>
+<div id="buildCardOverlay" class="build-card-overlay" hidden>
+  <section class="build-card-dialog" role="dialog" aria-modal="true" aria-labelledby="buildCardTitle" tabindex="-1">
+    <header class="build-card-heading"><h1 id="buildCardTitle">Here is your Character</h1><button id="buildCardClose" class="build-card-close" type="button" aria-label="Close Character card">×</button></header>
+    <article id="characterBuildCard"></article>
+    <footer class="build-card-footer"><button id="buildCardEdit" type="button">Back to Build</button></footer>
+  </section>
+</div>
+<script src="./assets/character-build-card.js"></script>
 <script type="module">
 import * as forteModel from './assets/forte-ui.mjs';
 window.bellibingForte=forteModel;
@@ -616,7 +625,7 @@ const CHARACTER_HERO_ART_RUNTIME_PATH='assets/characters/hero-art/runtime-data.j
 let characterHeroArtById=new Map();
 let characterHeroArtRuntimeLoaded=false;
 let state;try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch{state={}}state={characters:Array.isArray(state.characters)?state.characters:[],drafts:state.drafts&&typeof state.drafts==='object'?state.drafts:{}};
-const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(state));window.dispatchEvent(new Event('bellibing-build-state-changed'))};
 function draft(name){if(!state.drafts[name]){state.drafts[name]={character:name,build:{},createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};save()}return state.drafts[name]}
 function autosave(name,patch={}){if(!name)return;const d=draft(name);d.build={...d.build,...patch};d.updatedAt=new Date().toISOString();save()}
 const ECHO_DEFAULT_SET_ID='set-1';
@@ -1573,24 +1582,25 @@ const statsUi={
   setCharacter(name){
     this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;this.refresh();
   },
-  committedEchoSlots(){
-    if(!this.characterName)return[];
-    const sets=readEchoSets(this.characterName),set=sets.sets[sets.activeSetId]||sets.sets[ECHO_DEFAULT_SET_ID];
+  committedEchoSlots(name=this.characterName){
+    if(!name)return[];
+    const sets=readEchoSets(name),set=sets.sets[sets.activeSetId]||sets.sets[ECHO_DEFAULT_SET_ID];
     return Array.from({length:5},(_,index)=>cloneEchoSlot(set?.slots?.[index]??null));
   },
-  project(){
-    const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(this.characterId);
-    if(!this.characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!sequenceRuntimeDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
-    const character=buildStatsCharacterById.get(this.characterId);if(!character)return null;
-    const savedWeaponId=this.characterName?draft(this.characterName).build.weaponId:null;
+  project(name=this.characterName){
+    const characterId=characterByName.get(name)?.id||null;
+    const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(characterId);
+    if(!characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!sequenceRuntimeDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
+    const character=buildStatsCharacterById.get(characterId);if(!character)return null;
+    const savedWeaponId=name?draft(name).build.weaponId:null;
     const weapon=savedWeaponId?weaponItemById(savedWeaponId):null;
     const activeWeaponStats=weapon?.staticBuildStats??[];
-    const forteState=forte.normalizeForteState(tree,draft(this.characterName).build.forte);
+    const forteState=forte.normalizeForteState(tree,draft(name).build.forte);
     const activeForteStats=forte.forteStats(tree,forteState);
-    const sequenceLevel=sequenceUi.normalizeLevel(draft(this.characterName).build.sequenceLevel);
-    const activeSequenceStats=reviewedStaticSequenceStats(this.characterId,sequenceLevel);
+    const sequenceLevel=sequenceUi.normalizeLevel(draft(name).build.sequenceLevel);
+    const activeSequenceStats=reviewedStaticSequenceStats(characterId,sequenceLevel);
     try{
-      return project({character,weapon,echoSlots:this.committedEchoSlots(),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats});
+      return project({character,weapon,echoSlots:this.committedEchoSlots(name),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats});
     }catch(error){
       console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);return null;
     }
@@ -1679,7 +1689,7 @@ const skillsUi={
     const state=presentation?presentation.state:this.investment,readOnly=presentation?presentation.readOnly:compact,selectedRole=presentation?presentation.selectedRole:this.selectedRole;
     const svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
     svg.classList.add('skills-tree-lines');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
-    const prefix=host.id==='improveSkillsTree'?'improveSkills':compact?'skillsCompact':'skillsMenu';
+    const prefix=host.id==='improveSkillsTree'?'improveSkills':host.id.startsWith('characterBuildCardSkills')?host.id:compact?'skillsCompact':'skillsMenu';
     svg.innerHTML=`<defs><linearGradient id="${prefix}Gold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".5" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="${prefix}Glow" filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><feGaussianBlur stdDeviation=".25" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
     for(const node of tree.nodes)for(const parentId of node.parents){
       const parent=tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
@@ -2220,7 +2230,7 @@ let characterHeroArtDataReady=loadCharacterHeroArtRuntimeData().catch(error=>{
   heroArtUi.refresh();
 });
 
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render()}}
+function show(id){characterBuildCardUi.hide();document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render()}}
 let majorBusy=false;function major(target,card){if(majorBusy)return;majorBusy=true;const home=document.querySelector('#home');card.classList.add('major-source');home.classList.add('home-leaving');setTimeout(()=>{const dest=document.getElementById(target);dest.classList.add('major-enter');show(target);requestAnimationFrame(()=>requestAnimationFrame(()=>dest.classList.add('go')));setTimeout(()=>{dest.classList.remove('major-enter','go');home.classList.remove('home-leaving');card.classList.remove('major-source');majorBusy=false},650)},450)}
 
 let homeCarousel=null;
@@ -2235,7 +2245,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
@@ -2248,11 +2258,95 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else{improveUi.setCharacter(null);document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
+  function reset(){if(mode==='build')characterBuildCardUi.syncSelection(null);selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else{improveUi.setCharacter(null);document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,requestSwitch,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm:confirmPickerSwitch,closeDialog}
 }
+
+// One presentation adapter over the existing saved build and canonical readers.
+// No card-owned build data, persistence key, or default equipment is introduced.
+const characterBuildCardSource={
+  character:name=>state.drafts[name]?characterByName.get(name):null,
+  hero:id=>characterHeroArtById.get(id),
+  weapon:name=>weaponItemById(state.drafts[name]?.build?.weaponId),
+  weaponSecondary:formatWeaponSecondaryValue,
+  project:name=>statsUi.project(name),
+  statValue:(value,percent)=>statsUi.format(value,percent),
+  statSpecs:projection=>[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS.filter(spec=>Number.isFinite(projection?.[spec.key])&&projection[spec.key]!==0)],
+  statIcon:(spec,id)=>buildStatsIconByLabel.get(spec.iconFromElement?buildStatsCharacterById.get(id)?.element+' DMG':spec.icon),
+  slots:name=>statsUi.committedEchoSlots(name),
+  echo:slot=>echoById.get(echoSlotId(slot)),
+  sonata:slot=>echoById.get(echoSlotId(slot))?.sonataSetIds.includes(slot?.selectedSonataSetId)?echoSonataById.get(slot.selectedSonataSetId):null,
+  sonataIcon:(host,id)=>appendEchoSonataIcons(host,[id]),
+  echoStats(slot){
+    const host=document.createElement('div');host.className='cbc-echo-stats';
+    const entries=[['Main stat',slot?.mainStat]];
+    if(slot?.secondaryMainStat||!slot)entries.push(['Secondary',slot?.secondaryMainStat]);
+    for(const [index,stat] of (slot?.substats||[]).entries())entries.push(['Substat '+(index+1),stat]);
+    for(const [fallback,stat] of entries){
+      const row=document.createElement('div');row.className='cbc-echo-stat';
+      const label=document.createElement('span');label.textContent=stat?.name||fallback;
+      const value=document.createElement('strong');value.textContent=stat?.name&&Number.isFinite(stat.value)?echoStatValueText(stat.name,stat.value):'—';
+      row.append(label,value);host.append(row);
+    }
+    return host;
+  },
+  skills(host,name){
+    if(!characterMechanicsDataLoaded||!window.bellibingForte){host.textContent=document.documentElement.dataset.skillsMechanicsError?'Pending':'Loading Skills…';return}
+    const tree=skillsPreviewByCharacterId.get(characterByName.get(name)?.id),model=window.bellibingForte;
+    skillsUi.renderTree(host,true,{tree,model,state:tree?model.normalizeForteState(tree,state.drafts[name]?.build?.forte):null,readOnly:true,selectedRole:null});
+  },
+  sequence(host,name){
+    const runtime=sequenceAssetsByCharacter.get(characterByName.get(name)?.id),level=sequenceUi.normalizeLevel(state.drafts[name]?.build?.sequenceLevel);
+    host.style.setProperty('--seq-progress',String(Math.max(0,(level-1)/5)));host.setAttribute('aria-label',runtime?'Current Sequence S'+level:'Sequence Pending');
+    for(let sequence=6;sequence>=1;sequence--){
+      const chain=runtime?.chains?.find(row=>row.sequence===sequence),active=!!chain&&sequence<=level;
+      const item=document.createElement('span');item.className='node n'+sequence+(active?' is-active':'')+(active&&sequence===level?' is-current-active':'');item.dataset.sequence=String(sequence);
+      item.setAttribute('aria-label','S'+sequence+' '+(chain?(active?'active':'inactive'):'pending'));item.title=chain?.name||'Pending source';
+      if(chain?.assetPath){const image=document.createElement('img');image.src=chain.assetPath;image.alt='';image.draggable=false;item.append(image)}
+      const label=document.createElement('span');label.className='seq-tag';label.textContent='S'+sequence;item.append(label);host.append(item);
+    }
+  },
+  subscribe(listener){
+    const events=['bellibing-build-state-changed','bellibing-build-sources-ready','bellibing-forte-ready','bellibing-build-stat-projection-ready'];
+    events.forEach(event=>window.addEventListener(event,listener));return()=>events.forEach(event=>window.removeEventListener(event,listener));
+  }
+};
+const characterBuildCardUi={
+  open:false,card:null,
+  init(){
+    this.overlay=document.getElementById('buildCardOverlay');this.dialog=this.overlay.querySelector('.build-card-dialog');
+    this.card=new CharacterBuildCard(document.getElementById('characterBuildCard'),{source:characterBuildCardSource,presentation:'standard'});
+    document.getElementById('buildCardClose').onclick=()=>this.hide();document.getElementById('buildCardEdit').onclick=()=>this.hide();
+    document.getElementById('viewBuildCard').onclick=()=>this.show(buildPicker.selected);
+    this.overlay.addEventListener('click',event=>{if(event.target===this.overlay)this.hide()});
+    this.overlay.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){event.preventDefault();event.stopPropagation();this.hide()}
+      if(event.key==='Tab'){
+        const first=document.getElementById('buildCardClose'),last=document.getElementById('buildCardEdit');
+        if(event.shiftKey&&(document.activeElement===first||document.activeElement===this.dialog)){event.preventDefault();last.focus()}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+      }
+    });
+  },
+  syncSelection(name){
+    if(this.open&&name!==this.card.characterName)this.hide();
+    document.getElementById('viewBuildCard').hidden=!name||!owned(name);
+  },
+  show(name){
+    if(!name||!owned(name)||!characterByName.has(name))return;
+    this.card.setCharacter(name);this.open=true;this.overlay.hidden=false;
+    document.querySelectorAll('.page').forEach(page=>page.inert=true);
+    this.dialog.focus({preventScroll:true});
+    this.dialog.animate(reducedMotion()?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(12px) scale(.98)'},{opacity:1,transform:'none'}],{duration:reducedMotion()?120:520,easing:'cubic-bezier(.16,.84,.24,1)'});
+  },
+  hide(){
+    if(!this.open)return;this.open=false;this.overlay.hidden=true;this.card.setCharacter(null);
+    document.querySelectorAll('.page').forEach(page=>page.inert=false);
+    document.getElementById('viewBuildCard').focus({preventScroll:true});
+  }
+};
 
 const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()=>releasedCharacters,mode:'build'});
 const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get(IMPROVE_PREVIEW_CHARACTER);return augusta?[augusta]:ownedItems},mode:'improve'});
@@ -2277,12 +2371,13 @@ document.addEventListener('keydown',event=>{
   }
   if(event.key==='Escape'){if(skillsUi.open){event.preventDefault();skillsUi.hide()}else if(echoUi.open){event.preventDefault();echoUi.hide()}else if(weaponUi.open){event.preventDefault();weaponUi.hide()}}
 });
-document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
+document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true;characterBuildCardUi.syncSelection(n);characterBuildCardUi.show(n)};
 document.getElementById('cancelSwitch').onclick=()=>closeConfirmation();
 document.getElementById('confirmSwitch').onclick=()=>closeConfirmation(true);
 document.getElementById('improveNewEcho').onclick=()=>echoUi.showCandidate();
 document.getElementById('improveEnterSubstat').onclick=()=>{if(!improveUi.candidate){echoUi.showCandidate();return}document.getElementById('improveHelperTitle').textContent='Enter Main Stat';document.getElementById('improveHelperMain').textContent='Main stat entry is the next step. Roll evaluation is Pending model.'};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
+characterBuildCardUi.init();
 weaponUi.init();
 echoUi.init();
 sequenceUi.init();
@@ -2291,6 +2386,7 @@ statsUi.init();
 buildStatsDataReady=loadBuildStatsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);statsUi.render()});
 characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render();improveUi.refresh()});
 sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
+Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady,characterHeroArtDataReady]).then(()=>window.dispatchEvent(new Event('bellibing-build-sources-ready')));
 renderHome();
 if(IMPROVE_LAYOUT_PREVIEW){
   Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady,characterHeroArtDataReady]).then(()=>{

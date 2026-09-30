@@ -64,3 +64,4 @@ cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-st
 cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/skills-runtime.json');
 
 cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');
+for (const asset of ['character-build-card.js', 'character-build-card.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);

@@ -326,7 +326,9 @@ async function verifyRealPointerMenus(send) {
 
   // Make one owned Character so Improve's second carousel can be audited with a real click too.
   await pointerClick(send,'#accountBtn');
-  await sleep(80);
+  await waitForUi(send,'characterBuildCardUi.open','Add to Account card did not open');
+  await sleep(550);
+  await pointerClick(send,'#buildCardClose');
   await pointerClick(send,'#build [data-home]');
   await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Build to Home');
 

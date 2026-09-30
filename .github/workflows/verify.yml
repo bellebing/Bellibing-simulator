@@ -215,12 +215,25 @@ jobs:
             http://127.0.0.1:4173/ui-preview/
           test -s artifacts/ui-preview-home-1440x900.png
 
+          google-chrome \
+            --headless=new \
+            --no-sandbox \
+            --disable-gpu \
+            --hide-scrollbars \
+            --virtual-time-budget=5000 \
+            --window-size=1440,900 \
+            --screenshot=artifacts/ui-preview-improve-augusta-1440x900.png \
+            "http://127.0.0.1:4173/ui-preview/?improve-layout-preview=1"
+          test -s artifacts/ui-preview-improve-augusta-1440x900.png
+
       - name: Upload New UI Home visual evidence
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-new-ui-home-visual
           path: |
             artifacts/ui-preview-home-1440x900.png
+            artifacts/ui-preview-improve-augusta-1440x900.png
+            artifacts/ui-preview-improve-candidate-*.png
             artifacts/ui-preview-build-names-expanded-1440x900.png
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png
             artifacts/ui-preview-weapon-overlay-1440x900.png

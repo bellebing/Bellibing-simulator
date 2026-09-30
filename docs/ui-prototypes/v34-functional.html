@@ -174,7 +174,31 @@
 .weapon-equip:active:not(:disabled){transform:translateY(0) scale(.985)}
 .weapon-equip:disabled{cursor:default;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.10);color:#747b85;box-shadow:none}
 .echoes{position:absolute;right:max(5vw,48px);top:50%;width:132px;transform:translate(70px,-43%);opacity:0;pointer-events:auto}.picker-shell.has-selection .echoes{opacity:1;transform:translate(0,-43%);transition:opacity .48s ease .2s,transform .78s cubic-bezier(.16,.84,.24,1) .2s}.echo-stack{display:grid;gap:9px}.echo{height:105px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.02);color:#777;font-size:24px}.seq{position:absolute;left:clamp(340px,31vw,470px);top:50%;width:88px;transform:translate(-55px,-40%);opacity:0;pointer-events:auto}.picker-shell.has-selection .seq{opacity:1;transform:translate(0,-40%);transition:opacity .46s ease .18s,transform .76s cubic-bezier(.16,.84,.24,1) .18s}.seq h2{text-align:center;font-size:18px}.seq-line{--seq-progress:0;position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}.seq-line::before{content:"";position:absolute;z-index:0;top:28px;bottom:20px;left:50%;width:1px;transform:translateX(-50%);background:rgba(155,162,173,.28)}.seq-line::after{content:"";position:absolute;z-index:0;left:50%;bottom:20px;width:2px;height:calc((100% - 48px) * var(--seq-progress));transform:translateX(-50%);background:linear-gradient(0deg,#b98527 0%,#f0cf82 48%,#fff0b4 72%,#c89432 100%);box-shadow:0 0 5px rgba(229,179,73,.52),0 0 14px rgba(229,179,73,.22);border-radius:99px;transition:height .22s ease}.node{position:relative;z-index:1;display:grid;place-items:center;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:#14171d;color:#89919a;font-size:10px}.n1{width:34px}.n2{width:38px}.n3{width:42px}.n4{width:47px}.n5{width:52px}.n6{width:58px}
-.seq{z-index:12}.seq h2{display:flex;align-items:center;justify-content:center;gap:7px}.seq-current{font-family:var(--font-ui);font-size:10px;line-height:1;padding:4px 6px;border:1px solid rgba(255,255,255,.12);border-radius:99px;color:#9ca3ad;background:rgba(9,11,15,.76)}.node{overflow:hidden;padding:0;cursor:pointer;isolation:isolate;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,filter .16s ease}.node:disabled{cursor:default;opacity:.35}.node img{position:absolute;z-index:1;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);object-fit:cover;border-radius:50%;opacity:.44;filter:grayscale(.82) brightness(.58) contrast(1.08);transition:opacity .16s ease,filter .16s ease}.node .seq-tag{position:relative;z-index:2;display:grid;place-items:center;width:100%;height:100%;font-size:9px;font-weight:750;color:rgba(255,255,255,.84);text-shadow:0 1px 4px #000,0 0 8px #000;background:radial-gradient(circle,transparent 34%,rgba(4,5,8,.34) 100%)}.node:not(:disabled):hover{transform:scale(1.055);border-color:rgba(214,176,99,.42);filter:brightness(1.04)}.node.is-active{border-color:rgba(214,169,72,.82);box-shadow:0 0 0 1px rgba(214,169,72,.18),0 0 18px rgba(214,169,72,.16)}.node.is-active img{opacity:.94;filter:grayscale(1) sepia(1) saturate(3.4) hue-rotate(356deg) brightness(1.08) contrast(1.12)}.node.is-current-active{border-color:rgb(224,173,69);box-shadow:0 0 0 2px rgba(226,174,71,.28),0 0 25px rgba(226,174,71,.28)}.node.is-current-active img{opacity:1;filter:grayscale(1) sepia(1) saturate(3.6) hue-rotate(356deg) brightness(1.19) contrast(1.12)}.seq-flyout{position:absolute;z-index:30;width:min(360px,calc(100vw - 32px));padding:13px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:linear-gradient(180deg,rgba(20,23,29,.96),rgba(10,12,16,.96));backdrop-filter:blur(9px);box-shadow:0 20px 54px rgba(0,0,0,.48);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-8px,7px) scale(.985);transform-origin:0 50%;transition:opacity .14s ease-out,transform .18s cubic-bezier(.16,.84,.24,1),visibility 0s linear .18s}.seq-flyout.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,0) scale(1);transition-delay:0s}.seq-flyout-hero{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center}.seq-flyout-icon{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.15);background:#11141a;opacity:.78;filter:grayscale(.58) brightness(.78)}.seq-flyout.is-active .seq-flyout-icon{opacity:1;filter:grayscale(1) sepia(1) saturate(3.3) hue-rotate(356deg) brightness(1.1) contrast(1.1);border-color:rgba(214,169,72,.74)}.seq-flyout-label{display:block;color:#e4e6ea;font-size:13px;font-weight:800;letter-spacing:.06em}.seq-flyout-content{max-height:min(320px,42vh);overflow:auto;margin:10px 0 9px;padding:10px 4px 10px 0;border-top:1px solid rgba(255,255,255,.055);border-bottom:1px solid rgba(255,255,255,.055);background:linear-gradient(90deg,transparent,rgba(255,255,255,.018),transparent);scrollbar-width:thin}.seq-flyout-title{display:block;color:#f1eee8;font-size:13px;line-height:1.3;overflow-wrap:anywhere}.seq-flyout-description{margin:7px 0 0;color:#b7bdc5;font-size:11px;line-height:1.48;white-space:pre-line;overflow-wrap:anywhere}.seq-flyout-content.is-pending .seq-flyout-description{color:#8d949e;font-style:italic}.seq-action{width:100%;min-height:36px;padding:8px 11px;border:1px solid rgba(207,166,84,.48);border-radius:10px;background:linear-gradient(180deg,rgba(35,34,36,.96),rgba(17,18,20,.98));color:#f0ede7;font-weight:800;cursor:pointer;transition:transform .14s ease,border-color .14s ease,background .14s ease}.seq-action:hover{transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(42,40,39,.98),rgba(21,20,20,.98))}.seq-action:active{transform:scale(.985)}.seq-consequence{min-height:14px;margin-top:7px;color:#8d949e;font-size:10px;line-height:1.35;text-align:center}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:230;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;font-family:var(--font-display);inset:150px 0 0;display:grid;place-items:center;font-size:52px;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;transition:opacity .35s ease .15s}
+.seq{z-index:12}.seq h2{display:flex;align-items:center;justify-content:center;gap:7px}.seq-current{font-family:var(--font-ui);font-size:10px;line-height:1;padding:4px 6px;border:1px solid rgba(255,255,255,.12);border-radius:99px;color:#9ca3ad;background:rgba(9,11,15,.76)}.node{overflow:hidden;padding:0;cursor:pointer;isolation:isolate;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,filter .16s ease}.node:disabled{cursor:default;opacity:.35}.node img{position:absolute;z-index:1;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);object-fit:cover;border-radius:50%;opacity:.44;filter:grayscale(.82) brightness(.58) contrast(1.08);transition:opacity .16s ease,filter .16s ease}.node .seq-tag{position:relative;z-index:2;display:grid;place-items:center;width:100%;height:100%;font-size:9px;font-weight:750;color:rgba(255,255,255,.84);text-shadow:0 1px 4px #000,0 0 8px #000;background:radial-gradient(circle,transparent 34%,rgba(4,5,8,.34) 100%)}.node:not(:disabled):hover{transform:scale(1.055);border-color:rgba(214,176,99,.42);filter:brightness(1.04)}.node.is-active{border-color:rgba(214,169,72,.82);box-shadow:0 0 0 1px rgba(214,169,72,.18),0 0 18px rgba(214,169,72,.16)}.node.is-active img{opacity:.94;filter:grayscale(1) sepia(1) saturate(3.4) hue-rotate(356deg) brightness(1.08) contrast(1.12)}.node.is-current-active{border-color:rgb(224,173,69);box-shadow:0 0 0 2px rgba(226,174,71,.28),0 0 25px rgba(226,174,71,.28)}.node.is-current-active img{opacity:1;filter:grayscale(1) sepia(1) saturate(3.6) hue-rotate(356deg) brightness(1.19) contrast(1.12)}.seq-flyout{position:absolute;z-index:30;width:min(360px,calc(100vw - 32px));padding:13px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:linear-gradient(180deg,rgba(20,23,29,.96),rgba(10,12,16,.96));backdrop-filter:blur(9px);box-shadow:0 20px 54px rgba(0,0,0,.48);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-8px,7px) scale(.985);transform-origin:0 50%;transition:opacity .14s ease-out,transform .18s cubic-bezier(.16,.84,.24,1),visibility 0s linear .18s}.seq-flyout.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,0) scale(1);transition-delay:0s}.seq-flyout-hero{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center}.seq-flyout-icon{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.15);background:#11141a;opacity:.78;filter:grayscale(.58) brightness(.78)}.seq-flyout.is-active .seq-flyout-icon{opacity:1;filter:grayscale(1) sepia(1) saturate(3.3) hue-rotate(356deg) brightness(1.1) contrast(1.1);border-color:rgba(214,169,72,.74)}.seq-flyout-label{display:block;color:#e4e6ea;font-size:13px;font-weight:800;letter-spacing:.06em}.seq-flyout-content{max-height:min(320px,42vh);overflow:auto;margin:10px 0 9px;padding:10px 4px 10px 0;border-top:1px solid rgba(255,255,255,.055);border-bottom:1px solid rgba(255,255,255,.055);background:linear-gradient(90deg,transparent,rgba(255,255,255,.018),transparent);scrollbar-width:thin}.seq-flyout-title{display:block;color:#f1eee8;font-size:13px;line-height:1.3;overflow-wrap:anywhere}.seq-flyout-description{margin:7px 0 0;color:#b7bdc5;font-size:11px;line-height:1.48;white-space:pre-line;overflow-wrap:anywhere}.seq-flyout-content.is-pending .seq-flyout-description{color:#8d949e;font-style:italic}.seq-action{width:100%;min-height:36px;padding:8px 11px;border:1px solid rgba(207,166,84,.48);border-radius:10px;background:linear-gradient(180deg,rgba(35,34,36,.96),rgba(17,18,20,.98));color:#f0ede7;font-weight:800;cursor:pointer;transition:transform .14s ease,border-color .14s ease,background .14s ease}.seq-action:hover{transform:translateY(-1px);border-color:rgba(226,188,108,.72);background:linear-gradient(180deg,rgba(42,40,39,.98),rgba(21,20,20,.98))}.seq-action:active{transform:scale(.985)}.seq-consequence{min-height:14px;margin-top:7px;color:#8d949e;font-size:10px;line-height:1.35;text-align:center}.account{position:absolute;right:24px;bottom:20px;border:1px solid #eee;border-radius:13px;background:#eee;color:#08090b;padding:13px 18px;font-weight:800;pointer-events:auto}.account.owned{background:#171a20;color:#7e858e;border-color:var(--line)}.dialog-bg{position:fixed;inset:0;z-index:230;background:rgba(0,0,0,.68);display:none;place-items:center}.dialog-bg.open{display:grid}.dialog{width:min(390px,calc(100vw - 32px));padding:26px;border:1px solid var(--line);border-radius:20px;background:#11141a;text-align:center}.dialog h2{margin:0 0 8px}.dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.dialog button{padding:11px 16px;border-radius:11px;border:1px solid var(--line);background:#191d24;color:#fff}.dialog .primary{background:#eee;color:#08090b}.team-placeholder{position:absolute;font-family:var(--font-display);inset:0;display:grid;place-items:center;font-size:52px}.improve-focus{position:absolute;inset:0;opacity:0;pointer-events:none}.picker-shell.has-selection .improve-focus{opacity:1;pointer-events:auto;transition:opacity .35s ease .15s}
+/* Improve owns one content-sized composition inside the existing finite AppShell. */
+.improve-build-card{position:absolute;left:50%;top:220px;width:min(calc(100% - 18px),var(--app-shell-max));transform:translateX(-50%);display:grid;grid-template-columns:216px 274px minmax(0,1fr);grid-template-rows:auto auto;align-items:start;gap:14px 16px;padding:14px;min-height:0}
+.improve-surface{min-width:0;min-height:0;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:linear-gradient(180deg,rgba(20,23,29,.76),rgba(10,12,16,.70));box-shadow:0 22px 62px rgba(0,0,0,.24);backdrop-filter:blur(5px) saturate(.9)}
+.improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:10px;align-content:start}
+.improve-truth-art{position:relative;height:238px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
+.improve-truth-art::after{content:"";position:absolute;z-index:2;left:0;right:0;bottom:0;height:20%;background:linear-gradient(180deg,transparent,rgba(14,16,21,.90));pointer-events:none}
+.improve-truth-name{position:relative;z-index:4;display:block;margin:0;padding:0 4px 7px;font-family:var(--font-display);font-size:28px;font-weight:400;line-height:1.22;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.72)}
+.improve-truth-art img{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 50%;transform:translate(var(--improve-hero-x,0%),var(--improve-hero-y,0%)) scale(var(--improve-hero-scale,1));transform-origin:var(--improve-hero-focal-x,50%) var(--improve-hero-focal-y,50%);filter:drop-shadow(0 15px 22px rgba(0,0,0,.34));user-select:none;-webkit-user-drag:none}
+.improve-truth-art img[hidden]{display:none}.improve-truth-pending{position:absolute;z-index:3;inset:72px 18px 24px;display:grid;place-items:center;color:#8b929c;font-size:11px;line-height:1.4;text-align:center}.improve-truth-pending[hidden]{display:none}
+.improve-character-context{display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:2px;align-items:center}
+.improve-sequence-list.seq-line{height:230px;margin:0;align-items:center;width:28px}.improve-sequence-list .node{width:23px;height:23px;min-height:23px;flex:none;cursor:default;pointer-events:none}.improve-sequence-list .n6{width:28px;height:28px}.improve-sequence-list .n5{width:27px;height:27px}.improve-sequence-list .n4{width:25px;height:25px}.improve-sequence-list .seq-tag{font-size:7px}
+.improve-weapon-truth{padding:7px 9px;display:grid;justify-items:center;gap:3px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}.improve-weapon-truth>strong{width:100%;text-align:center;font-family:var(--font-display);font-size:15px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-art{position:relative;width:100%;height:96px;display:grid;place-items:center}.improve-weapon-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}.improve-weapon-facts{width:100%;display:grid;gap:4px;font-size:10px;color:#a1a8b2}.improve-weapon-facts>div{display:flex;justify-content:space-between;gap:5px}.improve-weapon-facts>div:first-child{color:#d9c595;font-size:11px}.improve-weapon-facts strong{color:#d2d6dc;font-variant-numeric:tabular-nums;white-space:nowrap}
+.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree{height:142px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
+.improve-stats{grid-column:2;grid-row:1/3;min-width:0;padding:3px 0}.improve-panel-title{margin:0 0 10px;font-family:var(--font-display);font-size:24px;font-weight:400;line-height:1.22}.improve-preview-note{margin:0 0 8px;color:#b5a37e;font-size:9px;line-height:1.35}.improve-preview-note[hidden]{display:none}.improve-stat-head,.improve-stat-row{display:grid;grid-template-columns:minmax(0,1fr) 61px 10px 29px;align-items:center;column-gap:4px}.improve-stat-head{min-height:24px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.09);color:#939ba6;font-size:9px;font-weight:700}.improve-stat-head span:nth-child(n+2){text-align:right}.improve-stat-list{display:grid}.improve-stat-row{min-height:34px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.052);font-size:11px}.improve-stat-icon{width:15px;height:15px;object-fit:contain;opacity:.82;margin-right:5px;vertical-align:-3px}.improve-stat-label{min-width:0;color:#b0b6bf;line-height:1.35}.improve-stat-current,.improve-stat-new{text-align:right;color:#e8e6e1;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-stat-new{color:#939ba6}.improve-stat-arrow{text-align:center;color:#737c89}.improve-stat-row.is-positive .improve-stat-new{color:#79c89c}.improve-stat-row.is-negative .improve-stat-new{color:#e37b7b}
+.improve-workspace{grid-column:3;grid-row:1;min-width:0;display:grid;grid-template-columns:minmax(174px,1fr) minmax(214px,1.4fr) minmax(174px,1fr);gap:10px;align-items:start}
+.improve-workspace-card{min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column;align-self:stretch}.improve-new-echo .improve-echo-large-art{flex:1;min-height:106px}
+.improve-echo-card-head{min-height:28px;padding:7px 10px 5px;display:flex;align-items:center;justify-content:space-between;gap:6px;color:#a1a8b2;font-size:9px;font-weight:750}.improve-current-echo .improve-echo-card-head{color:#cfb070}.improve-echo-large-art{position:relative;height:106px;flex:none;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 67%)}.improve-echo-large-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38))}.improve-echo-large-name{min-height:30px;padding:2px 8px 3px;text-align:center;font-family:var(--font-display);font-size:16px;line-height:1.22;overflow-wrap:anywhere}.improve-echo-large-meta{padding:3px 8px 5px;color:#a1a8b2;font-size:10px;text-align:center}.improve-echo-substats{display:grid;border-top:1px solid rgba(255,255,255,.08)}.improve-echo-substat{min-height:22px;padding:3px 8px;display:flex;align-items:center;justify-content:space-between;gap:5px;border-bottom:1px solid rgba(255,255,255,.043);color:#a1a8b2;font-size:10px;line-height:1.3}.improve-echo-substat span{min-width:0;overflow-wrap:anywhere}.improve-echo-substat strong{color:#d2d6dc;font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-echo-substat.is-main{background:rgba(255,255,255,.025);color:#d2d6dc}.improve-echo-substat:last-child{border-bottom:0}
+.improve-helper{align-self:center;padding:16px 10px;border:0;border-radius:0;background:transparent;display:flex;flex-direction:column;align-items:center;text-align:center}.improve-helper-step{color:#a4acb7;font-size:9px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.improve-helper h2{margin:10px 0 8px;font-family:var(--font-display);font-size:30px;font-weight:400;line-height:1.22}.improve-helper-main{margin:0;color:#b5bbc4;font-size:12px;line-height:1.45}.improve-helper-action{margin-top:14px;padding:10px 14px;border:1px solid rgba(216,177,82,.36);border-radius:10px;background:rgba(216,177,82,.06);color:#e4d5b5;font-size:11px;font-weight:700;cursor:pointer}.improve-helper-action:hover{border-color:rgba(216,177,82,.64);background:rgba(216,177,82,.10)}.improve-helper-fine{width:100%;margin-top:22px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);display:grid;gap:7px}.improve-helper-metric{display:flex;justify-content:space-between;gap:6px;min-width:0;font-size:10px;line-height:1.3}.improve-helper-metric span{color:#9aa2ad}.improve-helper-metric strong{color:#a8afb9;font-size:9px;font-style:italic;font-weight:500}.improve-helper-note{margin:10px 0 0;color:#949ca8;font-size:10px;font-style:italic;line-height:1.4}
+.improve-new-empty{flex:1;display:flex;padding:6px 10px 10px}.improve-new-button{width:100%;min-height:220px;border:1px dashed rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.012);color:#a1a8b2;cursor:pointer;transition:border-color .17s ease-out,background .17s ease-out,color .17s ease-out,transform .17s ease-out}.improve-new-button:hover{border-color:rgba(255,255,255,.30);background:rgba(255,255,255,.035);color:#d2d6dc}.improve-new-button:active{transform:scale(.985)}.improve-new-plus{display:block;margin:0 auto 9px;font-size:30px;font-weight:200}.improve-new-button strong{display:block;font-family:var(--font-display);font-size:19px;font-weight:400;line-height:1.22}.improve-new-button small{display:block;margin:8px 8px 0;color:#a1a8b2;font-size:10px;line-height:1.5}
+.improve-echoes-row{grid-column:3;grid-row:2;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.improve-equipped-echo{position:relative;min-width:0;padding:8px 0 0;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);color:#fff;text-align:center;cursor:pointer;overflow:hidden;transition:transform .17s ease-out,border-color .17s ease-out,background .17s ease-out,box-shadow .17s ease-out}.improve-equipped-echo:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.044)}.improve-equipped-echo.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}.improve-equipped-cost{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:3px 7px 5px;color:#a1a8b2;font-size:9px;font-weight:500}.improve-equipped-level{color:#abb2bc;font-weight:500}.improve-equipped-art{position:relative;display:block;height:88px;flex:none;margin:0 3px}.improve-equipped-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 9px rgba(0,0,0,.38))}.improve-equipped-name{display:block;min-height:30px;padding:0 5px 3px;font-family:var(--font-display);font-size:11px;line-height:1.3;overflow-wrap:anywhere}.improve-equipped-echo .improve-echo-substats{margin-top:auto;width:100%;text-align:left}.improve-equipped-echo .improve-echo-substat{min-height:18px;padding:2px 6px;font-size:9px}.improve-equipped-echo .improve-echo-substat strong{font-size:9px}
+.improve-candidate-sonata{display:flex;align-items:center;justify-content:center;gap:5px;margin:7px 8px;color:#cbb883;font-size:10px;line-height:1.3}.improve-candidate-sonata img{width:22px;height:22px;object-fit:contain}.improve-candidate-unbuilt{margin:5px 8px 12px;color:#9ba3ae;font-size:10px;text-align:center}
+.improve-equipped-echo:focus-visible,.improve-helper-action:focus-visible,.improve-new-button:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
+@media(max-width:1180px) and (min-width:761px){.improve-build-card{grid-template-columns:238px 250px minmax(0,1fr);gap:9px}.improve-workspace{grid-template-columns:145px minmax(190px,1fr) 145px;gap:8px;padding:9px}.improve-helper{padding:14px 10px}.improve-helper h2{font-size:32px}.improve-helper-fine{grid-template-columns:1fr}.improve-helper-metric span{min-height:0}.improve-helper-note{display:none}.improve-stat-head,.improve-stat-row{grid-template-columns:minmax(0,1fr) 58px 10px 58px}.improve-truth-name{font-size:27px}.improve-equipped-art{height:58px}}
+@media(max-width:760px){.improve-focus{position:relative;inset:auto;width:100%;font-family:var(--font-ui)}.picker-shell.has-selection .improve-focus{padding-top:126px}.improve-build-card{position:relative;left:auto;top:auto;bottom:auto;width:min(560px,calc(100vw - 20px));margin:0 auto 38px;transform:none;display:flex;flex-direction:column;gap:11px}.improve-truth{min-height:590px}.improve-stats{overflow:visible}.improve-workspace{min-height:440px;grid-template-columns:128px minmax(0,1fr) 128px}.improve-echoes-row{display:flex;overflow-x:auto;min-height:170px}.improve-equipped-echo{flex:0 0 120px}.improve-stat-head,.improve-stat-row{grid-template-columns:minmax(0,1fr) 72px 12px 72px}}
 .home-stage.freewheel-moving .home-card,.wheel.freewheel-moving .choice{transition:none!important}.home-stage:focus-visible,.wheel:focus-visible{outline:1px solid rgba(255,255,255,.38);outline-offset:-3px}
 @media(min-width:901px){
   .picker-shell{left:0;right:0;width:min(calc(100% - 32px),var(--app-shell-max));margin-inline:auto;overflow:hidden}
@@ -327,6 +351,14 @@
 .echo-info-card.is-expanded .echo-info-section p{font-size:11.5px;line-height:1.45}
 .echo-info-card.is-expanded .echo-active-heading{font-size:13px}
 .echo-info-card.is-expanded .echo-info-toggle{font-size:12px}
+#echoOverlay[data-context="candidate"] .echo-main,#echoOverlay[data-context="candidate"] .echo-toolbar{grid-template-columns:minmax(0,1.5fr) minmax(320px,.85fr)}
+#echoOverlay[data-context="candidate"] .echo-workspace-slots,#echoOverlay[data-context="candidate"] .echo-editor-stats,#echoOverlay[data-context="candidate"] .echo-info-section[hidden]{display:none}
+#echoOverlay[data-context="candidate"] .echo-editor{grid-template-columns:minmax(0,1fr)}
+#echoOverlay[data-context="candidate"] .echo-preview-art{width:100%;height:100%;max-height:235px}
+#echoOverlay[data-context="candidate"] .echo-info-card{height:150px}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded{position:static;width:auto;height:200px;padding:10px;box-shadow:none;backdrop-filter:none}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded .echo-info-copy{overflow:auto}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded .echo-info-section p{font-size:11px}
 .echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
 .echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .echo-main-stat-field{margin-bottom:5px}
@@ -433,7 +465,38 @@
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
 <section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
-<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus"></div></div></section>
+<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
+  <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
+    <section class="improve-truth" aria-label="Character source of truth">
+      <div class="improve-character-identity"><strong id="improveCharacterName" class="improve-truth-name"></strong><div class="improve-character-context"><div class="improve-truth-art"><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div></div>
+      <div class="improve-weapon-truth"><strong id="improveWeaponName">Pending</strong><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><div class="improve-weapon-facts"><div><span id="improveWeaponSecondaryName">Secondary</span><strong id="improveWeaponSecondaryValue">Pending</strong></div><div><span>Base ATK</span><strong id="improveWeaponAtk">Pending</strong></div></div></div>
+      <div class="improve-skills-truth"><div class="improve-skills-head"><strong>Skills</strong><small>Current</small></div><div id="improveSkillsTree" class="skills-mini-tree" role="group" aria-label="Current Forte tree (read only)"></div></div>
+    </section>
+    <section class="improve-stats" aria-label="Character stats of truth">
+      <h2 class="improve-panel-title">Stats</h2>
+      <p id="improvePreviewNote" class="improve-preview-note" hidden>Layout preview · sample stats</p>
+      <div class="improve-stat-head"><span>Stat</span><span>Current</span><span></span><span>New</span></div>
+      <div id="improveStatList" class="improve-stat-list"></div>
+    </section>
+    <section class="improve-workspace" aria-label="Echo improvement workspace">
+      <article id="improveCurrentEcho" class="improve-workspace-card improve-current-echo"></article>
+      <div class="improve-workspace-card improve-helper">
+        <span class="improve-helper-step">Next step</span>
+        <h2 id="improveHelperTitle">Roll to +5</h2>
+        <p id="improveHelperMain" class="improve-helper-main">Enter the first substat.</p>
+        <button id="improveEnterSubstat" class="improve-helper-action" type="button">+ Enter substat</button>
+        <div class="improve-helper-fine">
+          <div class="improve-helper-metric"><span>Chance / Tuner</span><strong>Pending model</strong></div>
+          <div class="improve-helper-metric"><span>Tuners / Upgrade</span><strong>Pending model</strong></div>
+          <div class="improve-helper-metric"><span>Full Send +25</span><strong>Pending model</strong></div>
+        </div>
+        <p class="improve-helper-note">Build impact · Pending model</p>
+      </div>
+      <article id="improveCandidateEcho" class="improve-workspace-card improve-new-echo"><div class="improve-echo-card-head"><span>New Echo</span><span>Candidate</span></div><div class="improve-new-empty"><button id="improveNewEcho" class="improve-new-button" type="button"><span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small></button></div></article>
+    </section>
+    <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
+  </main>
+</div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
   <div class="skills-scrim" data-skills-close></div>
@@ -631,6 +694,7 @@ async function loadBuildStatsRuntimeData(){
   buildStatsRuntimeLoaded=true;
   document.documentElement.dataset.buildStatsReady='true';
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadCharacterMechanicsRuntimeData(){
   const response=await fetch(SKILLS_RUNTIME_DATA_PATH,{cache:'no-store'});
@@ -645,6 +709,7 @@ async function loadCharacterMechanicsRuntimeData(){
   document.documentElement.dataset.skillsMechanicsReady='true';
   skillsUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadWeaponBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
@@ -674,6 +739,7 @@ async function loadWeaponBrowserData(){
   document.documentElement.dataset.weaponCatalogReady='true';
   weaponUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadSequenceRuntimeData(){
   const response=await fetch(SEQUENCE_RUNTIME_DATA_PATH,{cache:'no-store'});
@@ -700,6 +766,7 @@ async function loadSequenceRuntimeData(){
   sequenceUi.refreshForCharacter();
   skillsUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 function reviewedStaticSequenceStats(characterId,level){
   const sequenceLevel=Number(level),character=sequenceAssetsByCharacter.get(characterId);
@@ -758,6 +825,7 @@ async function loadEchoBrowserData(){
   document.documentElement.dataset.echoCatalogReady='true';
   echoUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -1102,8 +1170,14 @@ function appendEchoSonataIcons(host,ids){
 function compareSonataNewestFirst(a,b){
   return b.sourceId-a.sourceId||a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en');
 }
+function validateEchoCandidate(candidate,item){
+  if(!item||candidate?.echoId!==item.id)return 'Choose a source-backed Echo.';
+  if(!item.sonataSetIds.includes(candidate.selectedSonataSetId)||!echoSonataById.has(candidate.selectedSonataSetId))return 'Choose an available Sonata Set.';
+  return '';
+}
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
+  context:{kind:'equipped'},
   characterName:null,characterId:null,currentSets:null,loadoutProfile:null,targetSlot:0,previewId:null,editorDraft:null,editorSubstatRows:null,filter:'all',selectedSonataIds:new Set(),infoExpanded:false,sonataMenuOpen:false,open:false,closing:false,lastFocus:null,choiceById:new Map(),
   init(){
     this.overlay=document.getElementById('echoOverlay');this.panel=document.getElementById('echoPanel');this.browser=document.getElementById('echoBrowser');this.choices=document.getElementById('echoChoices');this.workspaceSlots=document.getElementById('echoWorkspaceSlots');
@@ -1125,7 +1199,11 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
+  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
+  contextValid(){return this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
+  previewCommitted(){return this.context.kind==='candidate'?improveUi.candidate:this.currentSlot()},
   activeSet(){
+    if(this.context.kind==='candidate')return emptyEchoSet();
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
@@ -1162,10 +1240,11 @@ const echoUi={
     const toggle=document.getElementById('echoInfoToggle');toggle.textContent=this.infoExpanded?'Click to collapse ▴':'Click to expand ▾';toggle.setAttribute('aria-expanded',String(this.infoExpanded));
   },
   recommendedCost(index=this.targetSlot){
-    const cost=this.loadoutProfile?.slotCosts?.[index];
+    const cost=this.workspaceProfile()?.slotCosts?.[index];
     return [1,3,4].includes(cost)?cost:null;
   },
   renderBuildSlots(){
+    if(this.context.kind==='candidate')return;
     const slots=this.activeSet().slots||[];
     document.querySelectorAll('.echo[data-echo-slot]').forEach((slot,index)=>{
       slot.querySelectorAll('.echo-card-cost,.echo-card-portrait,.echo-card-name').forEach(node=>node.remove());
@@ -1186,15 +1265,15 @@ const echoUi={
   },
   renderWorkspaceSlots(){
     if(!this.workspaceSlots)return;
+    this.workspaceSlots.replaceChildren();if(this.context.kind==='candidate')return;
     const slots=this.activeSet().slots||[];
-    this.workspaceSlots.replaceChildren();
     for(let index=0;index<5;index++){
       const owned=slots[index],item=echoById.get(echoSlotId(owned)),recommendedCost=this.recommendedCost(index),cost=item?.cost??recommendedCost;
       const sonata=echoSonataById.get(owned?.selectedSonataSetId);
       const button=document.createElement('button');button.type='button';button.className='echo-workspace-slot';button.classList.toggle('active-target',index===this.targetSlot);button.dataset.echoTarget=String(index);
       if(recommendedCost)button.dataset.recommendedCost=String(recommendedCost);else delete button.dataset.recommendedCost;
       button.setAttribute('aria-label',`Echo slot ${index+1}, ${cost?`Cost ${cost}`:'Cost unknown'}${item?`, equipped: ${item.name}, Sonata: ${sonata?.name||'unknown'}`:', empty'}`);
-      button.setAttribute('aria-pressed',String(index===this.targetSlot));
+      button.setAttribute('aria-pressed',String(index===this.targetSlot));button.disabled=this.context.kind==='candidate';
       const costLabel=document.createElement('span');costLabel.className='echo-slot-cost'+(cost?'':' manual');costLabel.textContent=cost?`COST ${cost}`:'COST —';button.appendChild(costLabel);
       const visual=document.createElement('span');visual.className='echo-dock-visual';
       if(item){const rail=document.createElement('span');rail.className='echo-card-rail';rail.setAttribute('aria-hidden','true');appendEchoSonataIcons(rail,sonata?[sonata.id]:[]);
@@ -1236,7 +1315,7 @@ const echoUi={
   renderSonataSelector(){
     if(!this.sonataOptions)return;
     this.sonataOptions.replaceChildren();
-    const recommendedIds=this.loadoutProfile?.sonataSetIds||[];
+    const recommendedIds=this.workspaceProfile()?.sonataSetIds||[];
     const recommended=recommendedIds.map(id=>echoSonataById.get(id)).filter(Boolean).sort(compareSonataNewestFirst);
     const recommendedSet=new Set(recommendedIds);
     const other=[...echoSonataById.values()].filter(sonata=>!recommendedSet.has(sonata.id)).sort(compareSonataNewestFirst);
@@ -1272,7 +1351,7 @@ const echoUi={
     if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;
   },
   orderedAllowedSonataIds(item){
-    const allowed=[...item.sonataSetIds],recommended=this.loadoutProfile?.sonataSetIds||[];
+    const allowed=[...item.sonataSetIds],recommended=this.workspaceProfile()?.sonataSetIds||[];
     const first=recommended.filter(id=>allowed.includes(id));
     return [...first,...allowed.filter(id=>!first.includes(id))];
   },
@@ -1298,7 +1377,7 @@ const echoUi={
     const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
     document.getElementById('echoPreviewName').textContent=item.name;
     const stars=document.getElementById('echoPreviewCostStars');stars.textContent='★'.repeat(item.cost);stars.setAttribute('aria-label',`Cost ${item.cost}`);
-    document.getElementById('echoPreviewLevel').textContent=`Level +${this.editorDraft?.level??0}`;
+    document.getElementById('echoPreviewLevel').textContent=this.context.kind==='candidate'?'Unbuilt Echo':`Level +${this.editorDraft?.level??0}`;
     const host=document.getElementById('echoPreviewSonataChoices');host.replaceChildren();
     const ordered=this.orderedAllowedSonataIds(item);
     ordered.forEach(id=>{
@@ -1307,9 +1386,9 @@ const echoUi={
       const image=document.createElement('img');image.src=sonata.artSrc;image.alt='';image.draggable=false;const label=document.createElement('span');label.textContent=sonata.name;button.append(image,label);
       button.disabled=ordered.length===1;button.addEventListener('click',()=>{
         if(!this.editorDraft||!item.sonataSetIds.includes(id)||id===this.editorDraft.selectedSonataSetId)return;
-        const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId;
-        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose Equip Echo.`,confirm:'Switch Set',onConfirm:()=>{
-          if(this.previewId!==previewId||!this.editorDraft)return;
+        const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId,context=this.context;
+        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='candidate'?'Choose Echo':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
+          if(this.context!==context||!this.contextValid()||!this.open||this.previewId!==previewId||!this.editorDraft)return;
           this.editorDraft.selectedSonataSetId=id;this.renderIdentity(item);this.syncEquipAction();
           host.querySelector(`[data-sonata-id="${id}"]`)?.focus();
         }});
@@ -1325,6 +1404,7 @@ const echoUi={
     card.level=level;card.mainStat={name:main.name,value:main.value};card.secondaryMainStat={name:secondary.name,value:secondary.value};card.substats=complete;
   },
   renderEditor(){
+    if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
@@ -1374,25 +1454,27 @@ const echoUi={
     this.renderInfo();this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.infoExpanded=false;this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);
-    this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);
+    this.previewId=item.id;this.infoExpanded=false;
+    if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
+    else{this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null)}
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
   },
   select(id){const item=echoById.get(id);if(!item)return;this.setPreview(item,null);},
   loadTargetCommitted(){
-    const slot=this.currentSlot(),id=echoSlotId(slot),item=echoById.get(id);
+    const slot=this.previewCommitted(),id=echoSlotId(slot),item=echoById.get(id);
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
+  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
-    const item=echoById.get(this.previewId),reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
+    const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
-    const committed=this.currentSlot(),alreadyEquipped=!reason&&echoCardsEqual(committed,this.editorDraft);
-    button.disabled=!item||!this.editorDraft||!!reason||alreadyEquipped;button.textContent=alreadyEquipped?'Equipped':'Equip Echo';
+    const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
-    if(!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
+    if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
     const previous=this.targetSlot;
     const promoted=captureEchoMotion(this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark'));
     const incoming=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${index}"] .echo-dock-art img, [data-echo-target="${index}"] .echo-dock-visual`));
@@ -1404,14 +1486,34 @@ const echoUi={
     Promise.all([playEchoMotion(promoted,demoted),playEchoMotion(incoming,detail)]);
   },
   async show(index){
-    if(!this.characterName)return;await echoDataReady;if(!echoCatalog.length||!echoStatContract)return;
-    this.characterId=characterByName.get(this.characterName)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
-    this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;this.currentSets=readEchoSets(this.characterName);
-    this.selectedSonataIds=new Set(this.loadoutProfile?.sonataSetIds||[]);
-    const recommendedCost=this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
+    const name=this.characterName;if(!name||this.open||this.closing)return;
+    await echoDataReady;if(name!==this.characterName||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
+    this.context={kind:'equipped'};this.characterId=characterByName.get(name)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
+    this.currentSets=readEchoSets(name);this.openWorkspace(index);
+  },
+  async showCandidate(){
+    const name=improveUi.characterName,version=improveUi.contextVersion;
+    if(!name||this.open||this.closing)return;
+    await echoDataReady;
+    if(name!==improveUi.characterName||version!==improveUi.contextVersion||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
+    // Candidate selects identity and Sonata only; Build keeps its equipped binding.
+    this.context={kind:'candidate',characterName:name,characterId:improveUi.characterId,version};
+    this.openWorkspace(improveUi.selectedEchoIndex);
+  },
+  openWorkspace(index){
+    this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;
+    const candidate=this.context.kind==='candidate';this.overlay.dataset.context=this.context.kind;
+    this.workspaceSlots.hidden=candidate;this.panel.querySelector('.echo-editor-stats').hidden=candidate;
+    this.panel.querySelector('#echoActiveEffects').closest('.echo-info-section').hidden=candidate;
+    document.getElementById('echoTitle').textContent=candidate?'Echo Workspace · Candidate':'Echo Workspace';
+    this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
+    document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
+    this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
+    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
+    const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
-    const buildSlot=document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art')||buildSlot?.querySelector('.echo-slot-plus'));
+    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.open=true;
     requestAnimationFrame(()=>{this.overlay.classList.add('open');requestAnimationFrame(()=>{
       const detail=this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark');
@@ -1420,18 +1522,22 @@ const echoUi={
   },
   hide(){
     if(!this.open||this.closing)return;this.open=false;this.closing=true;
-    const source=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
-    const buildSlot=document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const destination=buildSlot?.querySelector('.echo-slot-art')||buildSlot?.querySelector('.echo-slot-plus');
+    if(activeConfirmation?.kind==='sonata')closeConfirmation();
+    const candidate=this.context.kind==='candidate';
+    const source=captureEchoMotion(candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
+    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const destination=buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus');
     this.overlay.classList.remove('open');this.setSonataMenuOpen(false);
     playEchoMotion(source,destination).then(()=>{
-      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;
-      if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
+      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;this.context={kind:'equipped'};
+      const focus=candidate?document.getElementById('improveNewEcho'):this.lastFocus;if(focus&&document.contains(focus))focus.focus({preventScroll:true});
     });
   },
   equipPreview(){
-    if(!this.characterName||!this.previewId||!this.editorDraft)return;
-    const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
+    if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
+    const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
+    if(this.context.kind==='candidate'){improveUi.candidate={echoId:this.editorDraft.echoId,selectedSonataSetId:this.editorDraft.selectedSonataSetId};improveUi.renderCandidate();improveUi.renderHelper();this.hide();return}
+    if(!this.characterName)return;
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
     this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();statsUi.refresh();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
     playEchoMotion(promoted,this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img`));
@@ -1567,31 +1673,33 @@ const skillsUi={
   show(){if(!this.assets||!this.overlay)return;clearTimeout(this.closeTimer);this.open=true;this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.button.setAttribute('aria-expanded','true');requestAnimationFrame(()=>this.overlay.classList.add('open'))},
   hide(){if(!this.overlay)return;clearTimeout(this.closeTimer);this.open=false;this.overlay.classList.remove('open');this.overlay.setAttribute('aria-hidden','true');this.button?.setAttribute('aria-expanded','false');this.closeTimer=setTimeout(()=>{if(!this.open)this.overlay.classList.remove('mounted')},380)},
   position(node){return node.kind==='outro'?{x:50,y:90}:{x:10+node.column*20,y:62-node.row*22-[0,4,9,4,0][node.column]}},
-  renderTree(host,compact){
-    host.replaceChildren();if(!this.model||!this.tree?.nodes.length){host.textContent='Pending';return}
-    const state=this.investment,svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
+  renderTree(host,compact,presentation=null){
+    const tree=presentation?presentation.tree:this.tree,model=presentation?presentation.model:this.model;
+    host.replaceChildren();if(!model||!tree?.nodes.length){host.textContent='Pending';return}
+    const state=presentation?presentation.state:this.investment,readOnly=presentation?presentation.readOnly:compact,selectedRole=presentation?presentation.selectedRole:this.selectedRole;
+    const svgNS='http://www.w3.org/2000/svg',svg=document.createElementNS(svgNS,'svg');
     svg.classList.add('skills-tree-lines');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
-    const prefix=compact?'skillsCompact':'skillsMenu';
+    const prefix=host.id==='improveSkillsTree'?'improveSkills':compact?'skillsCompact':'skillsMenu';
     svg.innerHTML=`<defs><linearGradient id="${prefix}Gold" gradientUnits="userSpaceOnUse" x1="50" y1="100" x2="50" y2="0"><stop offset="0" stop-color="#ad781d"/><stop offset=".5" stop-color="#fff0ae"/><stop offset="1" stop-color="#bd8527"/></linearGradient><filter id="${prefix}Glow" filterUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><feGaussianBlur stdDeviation=".25" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-    for(const node of this.tree.nodes)for(const parentId of node.parents){
-      const parent=this.tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
+    for(const node of tree.nodes)for(const parentId of node.parents){
+      const parent=tree.nodes.find(n=>n.id===parentId),a=this.position(parent),b=this.position(node),line=document.createElementNS(svgNS,'path');
       line.setAttribute('d',`M${a.x} ${a.y} L${b.x} ${b.y}`);line.classList.add('skill-link');line.dataset.skillLink=parent.role+'-'+node.role;
-      line.classList.toggle('is-active',this.model.forteNodeActive(this.tree,state,node.id)&&this.model.forteNodeActive(this.tree,state,parentId));svg.append(line);
+      line.classList.toggle('is-active',model.forteNodeActive(tree,state,node.id)&&model.forteNodeActive(tree,state,parentId));if(line.classList.contains('is-active')){line.style.stroke=`url(#${prefix}Gold)`;line.style.filter=`url(#${prefix}Glow)`}svg.append(line);
     }
     host.append(svg);
-    for(const node of this.tree.nodes){
+    for(const node of tree.nodes){
       const pos=this.position(node),wrap=document.createElement('div');wrap.className='forte-node-wrap '+node.kind;wrap.style.left=pos.x+'%';wrap.style.top=pos.y+'%';
-      const button=document.createElement(compact?'span':'button');if(!compact)button.type='button';button.className='forte-node';button.dataset.skillRole=node.role;button.dataset.nodeId=node.id;
-      const active=this.model.forteNodeActive(this.tree,state,node.id);button.classList.toggle('is-active',active);button.classList.toggle('is-selected',node.role===this.selectedRole);
+      const button=document.createElement(readOnly?'span':'button');if(!readOnly)button.type='button';button.className='forte-node';button.dataset.skillRole=node.role;button.dataset.nodeId=node.id;
+      const active=model.forteNodeActive(tree,state,node.id);button.classList.toggle('is-active',active);button.classList.toggle('is-selected',node.role===selectedRole);
       const label=node.kind==='stat'?node.stat.stat+' +'+node.valueText:SKILL_ROLE_LABELS[node.role];
-      if(!compact){button.setAttribute('aria-label',label+(node.kind==='stat'||node.kind==='inherent'?': '+(active?'enabled':'disabled'):''));if(node.kind==='stat'||node.kind==='inherent')button.setAttribute('aria-pressed',String(active));button.title=node.name||'Pending'}
+      if(!readOnly){button.setAttribute('aria-label',label+(node.kind==='stat'||node.kind==='inherent'?': '+(active?'enabled':'disabled'):''));if(node.kind==='stat'||node.kind==='inherent')button.setAttribute('aria-pressed',String(active));button.title=node.name||'Pending'}
       const img=document.createElement('img');img.src=node.assetPath;img.alt='';img.draggable=false;button.append(img);wrap.append(button);
       const caption=document.createElement('span');caption.className='forte-caption';caption.textContent=label;wrap.append(caption);
       if(node.kind==='skill'){
         const controls=document.createElement('div');controls.className='forte-level';
-        if(!compact){const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.dataset.levelStep='-1';minus.dataset.nodeId=node.id;minus.disabled=state.levels[node.role]===0;minus.setAttribute('aria-label','Lower '+label+' level');controls.append(minus)}
+        if(!readOnly){const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.dataset.levelStep='-1';minus.dataset.nodeId=node.id;minus.disabled=state.levels[node.role]===0;minus.setAttribute('aria-label','Lower '+label+' level');controls.append(minus)}
         const level=document.createElement('span');level.textContent='Lv.'+state.levels[node.role];level.dataset.skillLevel=node.role;controls.append(level);
-        if(!compact){const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.dataset.levelStep='1';plus.dataset.nodeId=node.id;plus.disabled=state.levels[node.role]===10;plus.setAttribute('aria-label','Raise '+label+' level');controls.append(plus)}
+        if(!readOnly){const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.dataset.levelStep='1';plus.dataset.nodeId=node.id;plus.disabled=state.levels[node.role]===10;plus.setAttribute('aria-label','Raise '+label+' level');controls.append(plus)}
         wrap.append(controls);
       }
       host.append(wrap);
@@ -1823,6 +1931,182 @@ class FreewheelCarousel{
 }
 
 const toAssetPath=targetPath=>targetPath.replace(/^docs\/ui-prototypes\//,'');
+const IMPROVE_LAYOUT_PREVIEW=new URLSearchParams(location.search).get('improve-layout-preview')==='1';
+const IMPROVE_PREVIEW_CHARACTER='Augusta';
+const IMPROVE_PREVIEW_WEAPON_ID='thunderflare-dominion';
+const IMPROVE_PREVIEW_ECHO_NAMES=['Sigillum','Twin Nova: Collapsar Blade','Glommoth','Iceglint Dancer','Shadow Stepper'];
+const IMPROVE_PREVIEW_SELECTED_ECHO='Glommoth';
+const IMPROVE_PREVIEW_STATS=new Map([
+  ['hp','13,449.16'],['atk','1,392.56'],['def','1,112'],['energyRegen','100%'],['critRate','25.15%'],['critDamage','166.2%']
+]);
+function improveBuildState(name){return state.drafts?.[name]?.build&&isPlainObject(state.drafts[name].build)?state.drafts[name].build:{}}
+function improveEchoSlots(name){
+  if(IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER){
+    return IMPROVE_PREVIEW_ECHO_NAMES.map(echoName=>{const item=echoCatalog.find(echo=>echo.name===echoName);return item?{echoId:item.id}:null});
+  }
+  const raw=improveBuildState(name).echoSets;
+  const sets=isPlainObject(raw?.sets)?raw.sets:{};
+  const activeId=typeof raw?.activeSetId==='string'&&sets[raw.activeSetId]?raw.activeSetId:ECHO_DEFAULT_SET_ID;
+  const set=sets[activeId]||sets[ECHO_DEFAULT_SET_ID];
+  return Array.from({length:5},(_,index)=>cloneEchoSlot(set?.slots?.[index]??null));
+}
+function projectImproveCurrentStats(name){
+  if(IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER)return null;
+  const characterId=characterByName.get(name)?.id||null;
+  const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(characterId);
+  if(!characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!sequenceRuntimeDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
+  const character=buildStatsCharacterById.get(characterId);if(!character)return null;
+  const build=improveBuildState(name),weapon=build.weaponId?weaponItemById(build.weaponId):null;
+  const activeWeaponStats=weapon?.staticBuildStats??[];
+  const forteState=forte.normalizeForteState(tree,build.forte),activeForteStats=forte.forteStats(tree,forteState);
+  const sequenceLevel=sequenceUi.normalizeLevel(build.sequenceLevel),activeSequenceStats=reviewedStaticSequenceStats(characterId,sequenceLevel);
+  try{return project({character,weapon,echoSlots:improveEchoSlots(name),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats})}
+  catch(error){console.error(error);document.documentElement.dataset.improveStatsError=String(error.message||error);return null}
+}
+const improveUi={
+  characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,
+  setCharacter(name){
+    if(name!==this.characterName){this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
+    this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
+    const slots=improveEchoSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
+    this.selectedEchoIndex=previewIndex>=0?previewIndex:Math.max(0,slots.findIndex(slot=>echoById.has(echoSlotId(slot))));
+    this.render();
+  },
+  currentWeapon(){
+    const build=improveBuildState(this.characterName);
+    const id=IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_WEAPON_ID:build.weaponId;
+    return id?weaponItemById(id):null;
+  },
+  renderHero(){
+    const name=document.getElementById('improveCharacterName'),image=document.getElementById('improveCharacterArt'),pending=document.getElementById('improveCharacterPending');
+    name.textContent=this.characterName||'';
+    image.hidden=true;image.removeAttribute('src');pending.hidden=true;
+    image.style.removeProperty('--improve-hero-scale');image.style.removeProperty('--improve-hero-x');image.style.removeProperty('--improve-hero-y');image.style.removeProperty('--improve-hero-focal-x');image.style.removeProperty('--improve-hero-focal-y');
+    if(!this.characterId||!characterHeroArtRuntimeLoaded){pending.hidden=false;pending.textContent='Character art pending source mapping.';return}
+    const row=characterHeroArtById.get(this.characterId);
+    if(!row||row.status!=='READY'){pending.hidden=false;pending.textContent='Character art pending source mapping.';return}
+    const p=row.presentation;
+    image.style.objectFit=p.safeFraming==='CONTAIN'?'contain':'cover';
+    image.style.setProperty('--improve-hero-scale',String(p.scale));image.style.setProperty('--improve-hero-x',String(p.offsetX)+'%');image.style.setProperty('--improve-hero-y',String(p.offsetY)+'%');image.style.setProperty('--improve-hero-focal-x',String(p.focalAnchor.x*100)+'%');image.style.setProperty('--improve-hero-focal-y',String(p.focalAnchor.y*100)+'%');
+    image.src=row.assetPath;image.hidden=false;
+  },
+  renderWeapon(){
+    const weapon=this.currentWeapon(),image=document.getElementById('improveWeaponArt');
+    document.getElementById('improveWeaponName').textContent=weapon?.name||'Pending';
+    document.getElementById('improveWeaponAtk').textContent=Number.isFinite(weapon?.level90BaseAtk)?weapon.level90BaseAtk:'Pending';
+    document.getElementById('improveWeaponSecondaryName').textContent=weapon?.secondary?.stat||'Secondary';
+    document.getElementById('improveWeaponSecondaryValue').textContent=weapon?.secondary?.stat&&Number.isFinite(weapon.secondary.value)?formatWeaponSecondaryValue(weapon.secondary.value):'Pending';
+    if(weapon){image.src=weapon.artSrc;image.hidden=false}else{image.removeAttribute('src');image.hidden=true}
+  },
+  skillState(){
+    const tree=skillsPreviewByCharacterId.get(this.characterId),forte=window.bellibingForte,build=improveBuildState(this.characterName);
+    if(!tree||typeof forte?.normalizeForteState!=='function')return null;
+    return forte.normalizeForteState(tree,build.forte);
+  },
+  renderSkills(){
+    if(!characterMechanicsDataLoaded||!window.bellibingForte){document.getElementById('improveSkillsTree').textContent=document.documentElement.dataset.skillsMechanicsError?'Pending':'Loading Skills…';return}
+    skillsUi.renderTree(document.getElementById('improveSkillsTree'),true,{tree:skillsPreviewByCharacterId.get(this.characterId),model:window.bellibingForte,state:this.skillState(),readOnly:true,selectedRole:null});
+  },
+  renderSequence(){
+    const host=document.getElementById('improveSequenceList'),runtime=sequenceAssetsByCharacter.get(this.characterId);
+    const level=sequenceUi.normalizeLevel(improveBuildState(this.characterName).sequenceLevel);
+    host.replaceChildren();host.style.setProperty('--seq-progress',String(Math.max(0,(level-1)/5)));host.setAttribute('aria-label',runtime?'Current Sequence S'+level:'Sequence Pending');
+    for(let sequence=6;sequence>=1;sequence--){
+      const chain=runtime?.chains?.find(row=>row.sequence===sequence),active=!!chain&&sequence<=level;
+      const item=document.createElement('span');item.className='node n'+sequence+(active?' is-active':'')+(active&&sequence===level?' is-current-active':'');item.dataset.sequence=String(sequence);
+      item.setAttribute('aria-label','S'+sequence+' '+(chain?(active?'active':'inactive'):'pending'));
+      item.title=chain?.name||'Pending source';
+      if(chain?.assetPath){const image=document.createElement('img');image.src=chain.assetPath;image.alt='';image.draggable=false;item.appendChild(image)}
+      const label=document.createElement('span');label.className='seq-tag';label.textContent='S'+sequence;item.append(label);host.appendChild(item);
+    }
+  },
+  echoStats(slot){
+    const host=document.createElement('span');host.className='improve-echo-substats';
+    const rolls=Array.isArray(slot?.substats)?slot.substats:[];
+    const entries=[['Main stat',slot?.mainStat],['Secondary',slot?.secondaryMainStat],...Array.from({length:5},(_,index)=>['Substat '+(index+1),rolls[index]])];
+    entries.forEach(([fallback,stat],index)=>{
+      const row=document.createElement('span');row.className='improve-echo-substat'+(index<2?' is-main':'');
+      const label=document.createElement('span');label.textContent=stat?.name||fallback;
+      const value=document.createElement('strong');value.textContent=stat?.name&&Number.isFinite(stat.value)?echoStatValueText(stat.name,stat.value):'—';
+      row.append(label,value);host.appendChild(row);
+    });return host;
+  },
+  statSpecs(projection){
+    const bucket=spec=>{const value=projection?.[spec.key];return Number.isFinite(value)?(value!==0?0:1):2};
+    return [...BUILD_STAT_PRIMARY_ROWS,...[...BUILD_STAT_EXTRA_ROWS].sort((a,b)=>bucket(a)-bucket(b))];
+  },
+  currentStatText(spec,projection){
+    if(IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER&&IMPROVE_PREVIEW_STATS.has(spec.key))return IMPROVE_PREVIEW_STATS.get(spec.key);
+    return statsUi.format(projection?.[spec.key],spec.percent);
+  },
+  renderStats(){
+    document.getElementById('improvePreviewNote').hidden=!(IMPROVE_LAYOUT_PREVIEW&&this.characterName===IMPROVE_PREVIEW_CHARACTER);
+    const host=document.getElementById('improveStatList'),projection=projectImproveCurrentStats(this.characterName),character=buildStatsCharacterById.get(this.characterId);host.replaceChildren();
+    for(const spec of this.statSpecs(projection)){
+      const row=document.createElement('div');row.className='improve-stat-row';row.dataset.statKey=spec.key;
+      const label=document.createElement('span');label.className='improve-stat-label';
+      const iconLabel=spec.iconFromElement?character?.element+' DMG':spec.icon,iconSrc=buildStatsIconByLabel.get(iconLabel);
+      if(iconSrc){const icon=document.createElement('img');icon.className='improve-stat-icon';icon.src=iconSrc;icon.alt='';icon.draggable=false;label.appendChild(icon)}
+      label.append(document.createTextNode(spec.labelFrom?(projection?.[spec.labelFrom]||(character?.element?character.element+' DMG Bonus':'Element DMG Bonus · Pending')):spec.label));
+      const current=document.createElement('strong');current.className='improve-stat-current';current.textContent=this.currentStatText(spec,projection);
+      const arrow=document.createElement('span');arrow.className='improve-stat-arrow';arrow.textContent='→';
+      const next=document.createElement('strong');next.className='improve-stat-new';next.textContent='—';
+      row.append(label,current,arrow,next);host.appendChild(row);
+    }
+  },
+  renderCurrentEcho(){
+    const slot=improveEchoSlots(this.characterName)[this.selectedEchoIndex]||null,item=echoById.get(echoSlotId(slot));
+    const host=document.getElementById('improveCurrentEcho');host.replaceChildren();
+    const head=document.createElement('div');head.className='improve-echo-card-head';head.innerHTML='<span>Current Echo</span><span>Equipped</span>';host.appendChild(head);
+    const art=document.createElement('div');art.className='improve-echo-large-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}host.appendChild(art);
+    const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item?.name||'Empty slot';host.insertBefore(title,art);
+    const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent=item?('COST '+item.cost+(Number.isFinite(slot?.level)?' · +'+slot.level:'')):'Select an equipped Echo below';host.appendChild(meta);
+    host.appendChild(this.echoStats(slot));
+  },
+  renderCandidate(){
+    const host=document.getElementById('improveCandidateEcho'),slot=this.candidate,item=echoById.get(echoSlotId(slot));host.replaceChildren();
+    const head=document.createElement('div');head.className='improve-echo-card-head';head.innerHTML='<span>New Echo</span><span>Candidate</span>';host.appendChild(head);
+    const button=document.createElement('button');button.type='button';button.id='improveNewEcho';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','echoOverlay');button.onclick=()=>echoUi.showCandidate();
+    if(item){
+      const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item.name;
+      const art=document.createElement('div');art.className='improve-echo-large-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.append(image);
+      button.className='improve-candidate-edit';button.textContent='Change Echo';head.lastElementChild.replaceWith(button);
+      const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
+      const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
+      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent='Main stat — · Level —';
+      host.append(title,art,meta,sonata,pending);
+    }else{
+      const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
+    }
+  },
+  selectEcho(index){
+    this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();
+    this.renderHelper();
+  },
+  renderEchoRow(){
+    const host=document.getElementById('improveEchoRow'),slots=improveEchoSlots(this.characterName);host.replaceChildren();
+    for(let index=0;index<5;index++){
+      const slot=slots[index]||null,item=echoById.get(echoSlotId(slot));const button=document.createElement('button');button.type='button';button.className='improve-equipped-echo'+(index===this.selectedEchoIndex?' is-selected':'');button.dataset.echoSlot=String(index);button.setAttribute('aria-pressed',String(index===this.selectedEchoIndex));
+      const cost=document.createElement('span');cost.className='improve-equipped-cost';cost.textContent=item?'COST '+item.cost:'EMPTY';const level=document.createElement('span');level.className='improve-equipped-level';level.textContent=Number.isFinite(slot?.level)?'+'+slot.level:'';cost.appendChild(level);
+      const art=document.createElement('span');art.className='improve-equipped-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}
+      const title=document.createElement('span');title.className='improve-equipped-name';title.textContent=item?.name||('Echo '+(index+1));
+      button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);host.appendChild(button);
+    }
+  },
+  render(){
+    if(!this.characterName)return;
+    this.renderHero();this.renderWeapon();this.renderSkills();this.renderSequence();this.renderStats();this.renderEchoRow();this.renderCurrentEcho();this.renderCandidate();
+    this.renderHelper();
+  },
+  renderHelper(){
+    document.getElementById('improveHelperTitle').textContent=this.candidate?'Enter Main Stat':'Choose Echo';
+    document.getElementById('improveHelperMain').textContent=this.candidate?'Start with the main stat of your new Echo.':'Choose the Echo you want to build.';
+    document.getElementById('improveEnterSubstat').textContent=this.candidate?'+ Enter Main Stat':'+ Choose Echo';
+  },
+  refresh(){if(this.characterName)this.render()}
+};
+window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
+window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
 async function loadReleasedCharacters(){
   const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store'});
@@ -1860,6 +2144,7 @@ async function loadCharacterHeroArtRuntimeData(){
   characterHeroArtRuntimeLoaded=true;
   document.documentElement.dataset.characterHeroArtReady='true';
   heroArtUi.refresh();
+  improveUi.refresh();
 }
 const heroArtUi=(()=>{
   const host=document.getElementById('buildHeroArt');
@@ -1950,7 +2235,7 @@ function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{document.getElementById('improveFocus').textContent=name;autosave(name,{lastImprovedAt:new Date().toISOString()})}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
@@ -1963,14 +2248,14 @@ function makePicker({shellId,wheelId,items,mode}){
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;
     carousel=new FreewheelCarousel(wheel,{cards,startIndex,spacing,onActivate:(_card,i)=>{const name=list[i].name;if(shell.classList.contains('has-selection'))requestSwitch(name);else select(name)}});
   }
-  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else document.getElementById('improveFocus').textContent='';closeDialog()}
+  function reset(){selected=null;pending=null;shell.classList.remove('has-selection','hover-expanded');delete shell.dataset.wasSelected;if(mode==='build'){document.getElementById('buildName').textContent='';const btn=document.getElementById('accountBtn');btn.textContent='Add to Account';btn.classList.remove('owned');btn.disabled=false;weaponUi.setCharacter(null);echoUi.setCharacter(null);sequenceUi.setCharacter(null);skillsUi.setCharacter(null);statsUi.setCharacter(null);heroArtUi.setCharacter(null)}else{improveUi.setCharacter(null);document.getElementById('improveCharacterName').textContent='';document.getElementById('improveEchoRow').replaceChildren()}closeDialog()}
   wheel.addEventListener('mouseenter',()=>{if(shell.classList.contains('has-selection')&&matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);shell.classList.add('hover-expanded');carousel?.paint()}});
   wheel.addEventListener('mouseleave',()=>{if(matchMedia('(hover:hover)').matches){clearTimeout(collapseTimer);collapseTimer=setTimeout(()=>{shell.classList.remove('hover-expanded');carousel?.paint()},320)}});
   return{render,reset,select,requestSwitch,repaint(){carousel?.paint()},get selected(){return selected},get pending(){return pending},confirm:confirmPickerSwitch,closeDialog}
 }
 
 const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()=>releasedCharacters,mode:'build'});
-const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>state.characters.map(name=>characterByName.get(name)).filter(Boolean),mode:'improve'});
+const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get(IMPROVE_PREVIEW_CHARACTER);return augusta?[augusta]:ownedItems},mode:'improve'});
 document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()});show('home')});
 document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
 document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
@@ -1995,6 +2280,8 @@ document.addEventListener('keydown',event=>{
 document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;if(!n||owned(n))return;addOwned(n);const b=document.getElementById('accountBtn');b.textContent='On Account';b.classList.add('owned');b.disabled=true};
 document.getElementById('cancelSwitch').onclick=()=>closeConfirmation();
 document.getElementById('confirmSwitch').onclick=()=>closeConfirmation(true);
+document.getElementById('improveNewEcho').onclick=()=>echoUi.showCandidate();
+document.getElementById('improveEnterSubstat').onclick=()=>{if(!improveUi.candidate){echoUi.showCandidate();return}document.getElementById('improveHelperTitle').textContent='Enter Main Stat';document.getElementById('improveHelperMain').textContent='Main stat entry is the next step. Roll evaluation is Pending model.'};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
 echoUi.init();
@@ -2002,9 +2289,15 @@ sequenceUi.init();
 skillsUi.init();
 statsUi.init();
 buildStatsDataReady=loadBuildStatsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);statsUi.render()});
-characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render()});
+characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render();improveUi.refresh()});
 sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
 renderHome();
+if(IMPROVE_LAYOUT_PREVIEW){
+  Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady,characterHeroArtDataReady]).then(()=>{
+    show('improve');
+    requestAnimationFrame(()=>{if(characterByName.has(IMPROVE_PREVIEW_CHARACTER))improvePicker.select(IMPROVE_PREVIEW_CHARACTER)});
+  });
+}
 </script>
 </body>
 </html>

@@ -22,14 +22,16 @@ export async function verifyImproveCandidate({socket,send,evaluate,navigate,setV
   await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
   await wait('echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&releasedCharacters.length===57','Improve canonical sources not ready');
   const pageUrl=await read('location.href');
+  await send('Network.enable');await send('Network.setCacheDisabled',{cacheDisabled:true});
   for(const resource of ['skills-runtime.json','forte-ui.mjs']){
     await read("addOwned('Augusta')");const held=[];
     const listener=event=>{const message=JSON.parse(String(event.data));if(message.method==='Fetch.requestPaused')held.push(message.params.requestId)};
     socket.addEventListener('message',listener);
     await send('Fetch.enable',{patterns:[{urlPattern:'*assets/'+resource,requestStage:'Request'}]});
     try{
+      await read('window.__skillsNavigationMarker=true');
       await send('Page.navigate',{url:pageUrl});
-      await wait('typeof improvePicker!=="undefined"&&releasedCharacters.length===57','Character picker not ready during delayed Skills loading');
+      await wait('!window.__skillsNavigationMarker&&typeof improvePicker!=="undefined"&&releasedCharacters.length===57','Character picker not ready during delayed Skills loading');
       await read("show('improve');improvePicker.select('Augusta')");
       await check('document.getElementById("improveSkillsTree").textContent==="Loading Skills…"','Pending shown before source readiness was known');
       if(!held.length)throw new Error('No delayed '+resource+' request observed');

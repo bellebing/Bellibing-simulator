@@ -42,8 +42,7 @@
         hero.append(image);
       } else hero.append(node('p', 'cbc-pending', 'Character art Pending'));
       const sequence = node('div', 'cbc-sequence seq-line'); s.sequence(sequence, name);
-      context.append(hero, sequence); identity.append(context);
-      const equipment = node('div', 'cbc-equipment');
+      context.append(sequence, hero); identity.append(context);
       const weaponHost = node('section', 'cbc-weapon'), weapon = s.weapon(name);
       weaponHost.append(node('h3', 'cbc-weapon-name', weapon?.name || 'Weapon Pending'));
       const weaponArt = node('div', 'cbc-weapon-art');
@@ -57,7 +56,6 @@
       }
       const skills = node('section', 'cbc-skills'); skills.append(node('h3', '', 'Skills'));
       const tree = node('div', 'skills-mini-tree'); tree.id = this.skillsId; s.skills(tree, name); skills.append(tree);
-      equipment.append(weaponHost, skills);
       const stats = node('section', 'cbc-stats'); stats.append(node('h3', '', 'Character Stats'));
       const projection = s.project(name);
       stats.dataset.status = projection ? 'READY' : 'PENDING';
@@ -69,7 +67,7 @@
         if (Number.isFinite(projection?.[spec.key])) value.dataset.raw = projection[spec.key];
         row.append(node('span', 'cbc-stat-label', label), value); stats.append(row);
       }
-      top.append(identity, equipment, stats);
+      top.append(identity, stats, weaponHost, skills);
       const echoes = node('div', 'cbc-echoes'); echoes.setAttribute('aria-label', 'Five equipped Echoes');
       s.slots(name).forEach((slot, index) => {
         const item = s.echo(slot), card = node('section', 'cbc-echo'); card.dataset.echoSlot = index;

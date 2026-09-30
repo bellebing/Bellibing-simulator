@@ -28,6 +28,12 @@ The same component can be mounted by a future Team, comparison, results or share
 - The six primary Stats always appear in fixed order. Extra rows come from the existing stat specs and appear only when the current projection provides a finite, nonzero value. No Character-specific importance weights are inferred.
 - All five committed Echo slots remain visible together. Identity/art/Cost/Sonata resolve through existing canonical maps; current Main Stat, Secondary Main Stat and every saved Substat use the existing stat formatter. Empty and unresolved values remain explicit; no Echo Score is computed.
 
+## Locked desktop layout
+
+Sequence runs vertically from S6 to S1 immediately left of Character art. The single Stats list sits to the right of the art. Weapon sits below the art, with Skills/Forte below Stats. The upper area stays compact while the card's width supports five readable Echo cards in one horizontal row.
+
+Echo names, Cost, artwork, Sonata, both Main Stats and every saved Substat remain visible directly. The row does not wrap or hide details. Presentation changes retain the same source adapter and saved-build projection.
+
 ## Verification
 
 `node scripts/verify-v34-character-build-card.mjs` runs against `BELLIBING_V34_URL` in real Chrome. It covers physical Add to Account/reopen/close, ownership versus draft semantics, read-only persistence, canonical values, dynamic bonus rows, all five Echo stat cards, multiple consumers, editing through Build, Character switching, reload and desktop geometry at 1440×900, 1920×1080 and 2560×1440. The normal Verify workflow runs it and includes its screenshots in the visual artifact.

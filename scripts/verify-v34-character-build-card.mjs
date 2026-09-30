@@ -145,10 +145,26 @@ try{
   assert(await stateText()===original,'Read-only rendering changed persistent state');
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await settled();await images();
-    const geometry=await read(`(()=>{const card=document.getElementById('characterBuildCard'),dialog=document.querySelector('.build-card-dialog'),r=card.getBoundingClientRect(),d=dialog.getBoundingClientRect(),echoes=[...card.querySelectorAll('.cbc-echo')].map(el=>el.getBoundingClientRect().toJSON());return{card:r.toJSON(),dialog:d.toJSON(),width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,dialogFits:dialog.scrollHeight<=dialog.clientHeight+1,echoes,missing:[...card.querySelectorAll('img')].filter(img=>!img.naturalWidth).length,clipped:[...card.querySelectorAll('.cbc-stat-row,.cbc-echo-stat,.cbc-echo-name,.cbc-sonata,.cbc-weapon-name')].filter(el=>el.scrollWidth>el.clientWidth+1).map(el=>el.textContent)}})()`);
+    const geometry=await read(`(()=>{
+      const card=document.getElementById('characterBuildCard'),dialog=document.querySelector('.build-card-dialog');
+      const rect=selector=>card.querySelector(selector).getBoundingClientRect().toJSON();
+      const echoes=[...card.querySelectorAll('.cbc-echo')].map(el=>el.getBoundingClientRect().toJSON());
+      const labels=[...card.querySelectorAll('.cbc-stat-row,.cbc-stat-label,.cbc-echo-stat,.cbc-echo-stat span,.cbc-echo-name,.cbc-sonata,.cbc-weapon-name,.cbc-weapon-fact,.cbc-name')];
+      return{card:card.getBoundingClientRect().toJSON(),dialog:dialog.getBoundingClientRect().toJSON(),width:innerWidth,height:innerHeight,
+        scrollWidth:document.documentElement.scrollWidth,dialogFits:dialog.scrollHeight<=dialog.clientHeight+1&&dialog.scrollWidth<=dialog.clientWidth+1,
+        dialogScroll:[dialog.scrollWidth,dialog.clientWidth,dialog.scrollHeight,dialog.clientHeight],
+        overflow:[...dialog.querySelectorAll('*')].filter(el=>el.getBoundingClientRect().right>dialog.getBoundingClientRect().right+1).map(el=>el.className),
+        hero:rect('.cbc-hero'),sequence:rect('.cbc-sequence'),stats:rect('.cbc-stats'),weapon:rect('.cbc-weapon'),skills:rect('.cbc-skills'),echoes,
+        echoFontSize:Math.min(...[...card.querySelectorAll('.cbc-echo-stat')].map(el=>parseFloat(getComputedStyle(el).fontSize))),
+        missing:[...card.querySelectorAll('img')].filter(img=>!img.naturalWidth).length,
+        clipped:labels.filter(el=>el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1).map(el=>el.textContent)};
+    })()`);
     await capture(send,'artifacts/ui-preview-character-build-card-'+width+'x'+height+'.png');
     assert(geometry.card.left>=0&&geometry.card.right<=width&&geometry.dialog.top>=0&&geometry.dialog.bottom<=height&&geometry.dialogFits&&geometry.scrollWidth<=width&&geometry.echoes.length===5&&geometry.echoes.every(r=>r.bottom<=geometry.card.bottom)&&geometry.missing===0&&geometry.clipped.length===0,'Card layout failed',geometry);
-
+    const {hero,sequence,stats,weapon,skills,echoes}=geometry;
+    assert(sequence.right<=hero.left&&hero.left-sequence.right<=12&&stats.left>=hero.right&&weapon.top>=hero.bottom&&weapon.left<=hero.left&&weapon.right>=hero.right&&skills.top>=stats.bottom&&Math.abs(skills.left-stats.left)<=1,'Locked upper layout changed',geometry);
+    assert(echoes.every((r,index)=>Math.abs(r.top-echoes[0].top)<=1&&(!index||r.left>=echoes[index-1].right)&&r.top>=Math.max(weapon.bottom,skills.bottom))&&geometry.echoFontSize>=12,'Five readable Echo cards must stay in one row',geometry);
+    console.log('PASS: locked card layout, five readable Echoes in one row, no clipped text at '+width+'x'+height);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   // A second consumer can coexist without owning a second build or duplicate SVG ids.

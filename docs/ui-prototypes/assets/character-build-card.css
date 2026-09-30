@@ -1,6 +1,6 @@
 .build-card-overlay{position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:24px;background:rgba(4,5,8,.64);backdrop-filter:blur(5px)}
 .build-card-overlay[hidden]{display:none}
-.build-card-dialog{width:min(1280px,100%);max-height:100%;overflow:auto;scrollbar-width:thin;outline:none}
+.build-card-dialog{width:min(1050px,100%);max-height:100%;overflow:auto;scrollbar-width:thin;outline:none}
 .build-card-heading{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px;gap:20px}
 .build-card-heading h1{margin:0;font-family:var(--font-display);font-size:28px;font-weight:400;line-height:1.22}
 .build-card-close{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#12151b;color:#cdd1d8;font-size:23px;cursor:pointer}
@@ -8,33 +8,33 @@
 .build-card-footer button,.view-build-card{border:1px solid rgba(213,174,93,.45);border-radius:12px;background:#17181b;color:#e4d2a8;padding:11px 18px;font-weight:700;cursor:pointer}
 .view-build-card{position:absolute;right:185px;bottom:20px;pointer-events:auto}
 .view-build-card[hidden]{display:none}
-.character-build-card{padding:10px 22px;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:linear-gradient(155deg,rgba(23,27,33,.96),rgba(10,12,16,.97));box-shadow:0 24px 70px #0006;color:var(--text);font-family:var(--font-ui);min-width:0}
-.cbc-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"character stats" "weapon skills";gap:10px 32px;align-items:start}
+.character-build-card{padding:12px 28px;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:linear-gradient(155deg,rgba(23,27,33,.96),rgba(10,12,16,.97));box-shadow:0 24px 70px #0006;color:var(--text);font-family:var(--font-ui);min-width:0}
+.cbc-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"character stats" "weapon skills";max-width:880px;margin-inline:auto;gap:8px 28px;align-items:start}
 .cbc-identity{grid-area:character;min-width:0}.cbc-stats{grid-area:stats;min-width:0}.cbc-skills{grid-area:skills;min-width:0}
 .character-build-card h2,.character-build-card h3{font-family:var(--font-display);font-weight:400;line-height:1.22}
 .cbc-name{font-size:28px;margin:0 0 6px;text-align:center}
-.cbc-character-context{display:grid;grid-template-columns:32px minmax(0,1fr);width:230px;margin-inline:auto;gap:6px;align-items:center}
-.cbc-hero{position:relative;height:194px;overflow:hidden;border-radius:14px;background:radial-gradient(ellipse at 50% 48%,#f6b65313,transparent 70%)}
+.cbc-character-context{display:grid;grid-template-columns:32px minmax(0,1fr);width:240px;margin-inline:auto;gap:6px;align-items:center}
+.cbc-hero{position:relative;height:210px;overflow:hidden;border-radius:14px;background:radial-gradient(ellipse at 50% 48%,#f6b65313,transparent 70%)}
 .cbc-hero::after{content:"";position:absolute;inset:80% 0 0;background:linear-gradient(transparent,#13161c);pointer-events:none}
 .cbc-hero-image{position:absolute;inset:0;width:100%;height:100%;object-position:50% 50%;filter:drop-shadow(0 15px 20px #0005)}
 .cbc-sequence.seq-line{height:188px;width:32px;margin:0;align-items:center}
 .cbc-sequence .node{width:25px;height:25px;min-height:25px;flex:none;cursor:default;pointer-events:none}
 .cbc-sequence .n6{width:31px;height:31px}.cbc-sequence .n5{width:29px;height:29px}.cbc-sequence .n4{width:27px;height:27px}
 .cbc-sequence .seq-tag{font-size:8px}
-.cbc-weapon{grid-area:weapon;min-width:0;padding:8px 14px;display:grid;grid-template-columns:minmax(100px,.7fr) minmax(0,1fr);grid-template-rows:auto 1fr 1fr;gap:0 14px;align-items:center;border:1px solid var(--line);border-radius:14px;background:#ffffff03}
+.cbc-weapon{grid-area:weapon;min-width:0;width:min(360px,100%);justify-self:center;padding:6px 10px;display:grid;grid-template-columns:100px minmax(0,1fr);grid-template-rows:auto 1fr 1fr;gap:0 10px;align-items:center;border:1px solid var(--line);border-radius:14px;background:#ffffff03}
 .cbc-weapon-name{grid-column:1/-1;margin:0;text-align:center;font-size:19px;min-height:24px}
-.cbc-weapon-art{grid-column:1;grid-row:2/4;height:78px;position:relative}.cbc-weapon-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.cbc-weapon-art{grid-column:1;grid-row:2/4;height:68px;position:relative}.cbc-weapon-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .cbc-weapon-fact{grid-column:2;display:flex;justify-content:space-between;gap:8px;font-size:12px;line-height:1.65;color:#a5adb8}.cbc-weapon-fact:nth-last-child(2){color:#dcc68f}.cbc-weapon-fact strong{color:#e7e8eb}
 .cbc-skills h3{margin:0 0 4px;font-size:19px}.cbc-skills .skills-mini-tree{height:100px}
 .cbc-skills .forte-node-wrap{width:0}
-.cbc-stats h3{font-size:23px;margin:0 0 6px}.cbc-stat-row{display:grid;grid-template-columns:17px minmax(0,1fr) max-content;gap:8px;align-items:center;min-height:23px;border-bottom:1px solid #ffffff0a;font-size:12px}
+.cbc-stats h3{font-size:23px;margin:0 0 6px}.cbc-stat-row{display:grid;grid-template-columns:17px minmax(0,1fr) max-content;gap:8px;align-items:center;min-height:21px;border-bottom:1px solid #ffffff0a;font-size:12px}
 .cbc-stat-icon{width:17px;height:17px;object-fit:contain;opacity:.85}.cbc-stat-label{color:#b1b7c0;line-height:1.4}.cbc-stat-row strong{font-variant-numeric:tabular-nums}.cbc-stat-row:not(:has(img)) .cbc-stat-label{grid-column:2}
-.cbc-echoes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:auto;gap:12px;margin-top:14px}
-.cbc-echo{min-width:0;padding:10px 10px 8px;border:1px solid var(--line);border-radius:14px;background:#ffffff03}
-.cbc-echo-name{display:flex;justify-content:center;align-items:center;min-height:36px;margin:0 0 6px;text-align:center;font-size:15px;overflow-wrap:anywhere}
-.cbc-echo-art{position:relative;height:66px}.cbc-echo-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.cbc-echo-meta{display:flex;justify-content:space-between;font-size:10px;color:#a2aab6;margin:5px 0}
-.cbc-sonata{display:flex;align-items:center;gap:6px;min-height:31px;margin-bottom:5px;color:#ccb989;font-size:10px;line-height:1.3}
+.cbc-echoes{display:grid;grid-template-columns:repeat(5,190px);grid-template-rows:auto;justify-content:center;gap:10px;margin-top:10px}
+.cbc-echo{min-width:0;padding:8px;border:1px solid var(--line);border-radius:14px;background:#ffffff03}
+.cbc-echo-name{display:flex;justify-content:center;align-items:center;min-height:36px;margin:0 0 2px;text-align:center;font-size:15px;overflow-wrap:anywhere}
+.cbc-echo-art{position:relative;height:60px}.cbc-echo-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.cbc-echo-meta{display:flex;justify-content:space-between;font-size:10px;color:#a2aab6;margin:3px 0}
+.cbc-sonata{display:flex;align-items:center;gap:5px;min-height:26px;margin-bottom:3px;color:#ccb989;font-size:10px;line-height:1.3}
 .cbc-sonata .echo-sonata-icon{width:22px;height:22px;flex:none}.cbc-sonata img{width:22px;height:22px;object-fit:contain}
-.cbc-echo-stats{display:block}.cbc-echo-stat{display:flex;justify-content:space-between;gap:5px;min-height:20px;align-items:center;padding:2px 0;font-size:12px;line-height:1.3;border-top:1px solid #ffffff09;color:#b7bec8}.cbc-echo-stat strong{color:#e0e3e8;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cbc-echo-stats{display:block}.cbc-echo-stat{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:5px;min-height:19px;align-items:center;padding:1px 0;font-size:12px;line-height:1.3;border-top:1px solid #ffffff09;color:#b7bec8}.cbc-echo-stat strong{color:#e0e3e8;white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
 .cbc-pending{display:grid;place-items:center;height:100%;color:#9199a4;font-size:12px}

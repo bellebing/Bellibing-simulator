@@ -109,13 +109,14 @@ try{
       const name=${JSON.stringify(name)},card=document.getElementById('characterBuildCard'),character=characterByName.get(name),build=draft(name).build;
       const projection=statsUi.project(name),weapon=weaponItemById(build.weaponId),slots=statsUi.committedEchoSlots(name),tree=skillsPreviewByCharacterId.get(character.id),forte=window.bellibingForte.normalizeForteState(tree,build.forte);
       const rows=[...card.querySelectorAll('.cbc-stat-row')];
+      const echoLabels={'CRIT Rate':'CR','CRIT DMG':'CD','Flat ATK':'ATK','ATK%':'ATK %','Flat HP':'HP','HP%':'HP %','Flat DEF':'DEF','DEF%':'DEF %','Energy Regen':'ER','Basic Attack DMG':'Basic DMG','Heavy Attack DMG':'Heavy DMG','Skill DMG':'Skill DMG','Liberation DMG':'Lib DMG','Healing Bonus':'Healing'};
       return {
         identity:card.dataset.characterId===character.id&&card.querySelector('.cbc-name').textContent===name&&card.querySelector('.cbc-hero-image')?.getAttribute('src')===characterHeroArtById.get(character.id).assetPath,
         weapon:card.querySelector('.cbc-weapon-name').textContent===weapon?.name&&card.querySelector('.cbc-weapon-art img')?.getAttribute('src')===weapon.artSrc&&card.querySelectorAll('.cbc-weapon-fact')[0].textContent===weapon.secondary.stat+formatWeaponSecondaryValue(weapon.secondary.value)&&card.querySelectorAll('.cbc-weapon-fact')[1].textContent==='Base ATK'+weapon.level90BaseAtk,
         sequence:[...card.querySelectorAll('.cbc-sequence .node')].map(el=>Number(el.dataset.sequence)).join(',')==='6,5,4,3,2,1'&&card.querySelectorAll('.cbc-sequence .is-active').length===sequenceUi.normalizeLevel(build.sequenceLevel),
         forte:tree.nodes.every(node=>{const el=card.querySelector('[data-node-id="'+node.id+'"]');return el&&el.classList.contains('is-active')===window.bellibingForte.forteNodeActive(tree,forte,node.id)})&&[...card.querySelectorAll('[data-skill-level]')].every(el=>el.textContent==='Lv.'+forte.levels[el.dataset.skillLevel]),
         stats:rows.slice(0,6).map(el=>el.dataset.statKey).join(',')==='hp,atk,def,energyRegen,critRate,critDamage'&&rows.every(el=>Number(el.querySelector('strong').dataset.raw)===projection[el.dataset.statKey])&&rows.length===6+BUILD_STAT_EXTRA_ROWS.filter(spec=>Number.isFinite(projection[spec.key])&&projection[spec.key]!==0).length,
-        echoes:slots.length===5&&[...card.querySelectorAll('.cbc-echo')].every((el,index)=>{const slot=slots[index],item=echoById.get(slot.echoId),set=echoSonataById.get(slot.selectedSonataSetId),expected=[slot.mainStat,slot.secondaryMainStat,...slot.substats];return el.dataset.echoId===item.id&&el.querySelector('.cbc-echo-name').textContent===item.name&&el.querySelector('.cbc-echo-art img').getAttribute('src')===item.artSrc&&el.querySelector('.cbc-echo-meta').textContent==='COST '+item.cost+'+'+slot.level&&el.querySelector('.cbc-sonata').textContent===set.name&&[...el.querySelectorAll('.cbc-echo-stat')].every((row,i)=>row.textContent===expected[i].name+echoStatValueText(expected[i].name,expected[i].value))&&el.querySelectorAll('.cbc-echo-stat').length===expected.length}),
+        echoes:slots.length===5&&[...card.querySelectorAll('.cbc-echo')].every((el,index)=>{const slot=slots[index],item=echoById.get(slot.echoId),set=echoSonataById.get(slot.selectedSonataSetId),expected=[slot.mainStat,slot.secondaryMainStat,...slot.substats];return el.dataset.echoId===item.id&&el.querySelector('.cbc-echo-name').textContent===item.name&&el.querySelector('.cbc-echo-art img').getAttribute('src')===item.artSrc&&el.querySelector('.cbc-echo-meta').textContent==='COST '+item.cost+'+'+slot.level&&el.querySelector('.cbc-sonata').textContent===set.name&&[...el.querySelectorAll('.cbc-echo-stat')].every((row,i)=>{const label=row.querySelector('span');return label.dataset.statName===expected[i].name&&label.getAttribute('aria-label')===expected[i].name&&label.textContent===(echoLabels[expected[i].name]||expected[i].name)&&row.querySelector('strong').textContent===echoStatValueText(expected[i].name,expected[i].value)})&&el.querySelectorAll('.cbc-echo-stat').length===expected.length}),
         readOnly:!card.querySelector('button,input,select,textarea,[contenteditable="true"]'),
         stateKeys:Object.keys(state).sort().join(',')==='characters,drafts'
       };
@@ -127,8 +128,14 @@ try{
   // Populate real canonical Echo cards through the same owning save path as Build.
   await read(`(()=>{
     const names=['Sigillum','Twin Nova: Collapsar Blade','Glommoth','Iceglint Dancer','Shadow Stepper'];
-    const rolls=[...echoStatContract.substats.filter(row=>['Heavy Attack DMG','Liberation DMG'].includes(row.name)),...echoStatContract.substats.slice(0,3)].map(row=>({name:row.name,value:row.values[0]}));
-    names.forEach((name,index)=>{const item=echoCatalog.find(row=>row.name===name),card=makeEchoStatCard(item,item.sonataSetIds[0],{echoId:item.id,substats:rolls});const main=echoMainOptions(item.cost,card.level).find(row=>row.name==='Electro DMG');if(main)card.mainStat={...main};commitEchoSlot('Augusta',index,card)});
+    const rollNames=[
+      ['Flat ATK','CRIT DMG','CRIT Rate','Flat DEF','Basic Attack DMG'],
+      ['Heavy Attack DMG','Liberation DMG','ATK%','Energy Regen','Flat HP'],
+      ['Skill DMG','HP%','DEF%','CRIT Rate','CRIT DMG'],
+      ['Heavy Attack DMG','Liberation DMG','Flat ATK','Flat DEF','Energy Regen'],
+      ['Skill DMG','Basic Attack DMG','Flat HP','CRIT Rate','CRIT DMG']
+    ];
+    names.forEach((name,index)=>{const item=echoCatalog.find(row=>row.name===name),rolls=rollNames[index].map(name=>{const row=echoSubstatOption(name);return{name:row.name,value:row.values[0]}}),card=makeEchoStatCard(item,item.sonataSetIds[0],{echoId:item.id,substats:rolls});const main=echoMainOptions(item.cost,card.level).find(row=>row.name===['CRIT DMG','Electro DMG','Electro DMG','ATK%','HP%'][index]);card.mainStat={...main};commitEchoSlot('Augusta',index,card)});
     const tree=skillsPreviewByCharacterId.get('augusta'),node=tree.nodes.find(row=>row.role==='normal-attack');
     autosave('Augusta',{weaponId:'thunderflare-dominion',sequenceLevel:3,forte:window.bellibingForte.updateForteNode(tree,null,node.id,6)});
     show('build');return true;
@@ -164,16 +171,22 @@ try{
     const {hero,sequence,stats,weapon,skills,echoes}=geometry;
     assert(sequence.right<=hero.left&&hero.left-sequence.right<=12&&stats.left>=hero.right&&weapon.top>=hero.bottom&&weapon.left<=hero.left&&weapon.right>=hero.right&&skills.top>=stats.bottom&&Math.abs(skills.left-stats.left)<=1,'Locked upper layout changed',geometry);
     assert(echoes.every((r,index)=>Math.abs(r.top-echoes[0].top)<=1&&(!index||r.left>=echoes[index-1].right)&&r.top>=Math.max(weapon.bottom,skills.bottom))&&geometry.echoFontSize>=12,'Five readable Echo cards must stay in one row',geometry);
-    console.log('PASS: locked card layout, five readable Echoes in one row, no clipped text at '+width+'x'+height);
+    assert(geometry.card.width>=1050&&geometry.card.width<=1100&&echoes.every(r=>r.width>=170&&r.width<=190),'Card or Echo slots stretched beyond compact desktop sizes',geometry);
+    console.log('PASS: compact '+geometry.card.width+'px card, five '+echoes[0].width+'px Echoes in one row, no clipping at '+width+'x'+height);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   // A second consumer can coexist without owning a second build or duplicate SVG ids.
   await read('window.testCardHost=document.createElement("article");document.body.append(testCardHost);window.testCard=new CharacterBuildCard(testCardHost,{source:characterBuildCardSource});testCard.setCharacter("Augusta")');
   await check('new Set([...document.querySelectorAll("linearGradient[id]")].map(n=>n.id)).size===document.querySelectorAll("linearGradient[id]").length','Forte SVG identifiers collided across card instances');
+  await check('[...testCardHost.querySelectorAll(".cbc-echo")].every(el=>el.getBoundingClientRect().width===190)','Echo slots stretched in a wider component host');
   const beforeUnsaved=await stateText();
   await read('testCard.setCharacter("Aalto")');
   assert(await stateText()===beforeUnsaved,'Card created an unsaved Character draft');
   await read('testCard.destroy();testCardHost.remove()');
+  await read('window.savedFirstEcho=JSON.parse(JSON.stringify(statsUi.committedEchoSlots("Augusta")[0]));const slot=JSON.parse(JSON.stringify(savedFirstEcho));slot.mainStat={...echoMainOptions(4,slot.level).find(row=>row.name==="Healing Bonus")};commitEchoSlot("Augusta",0,slot)');
+  await verify('Augusta');
+  await check(`document.querySelector('.cbc-echo-stat [data-stat-name="Healing Bonus"]').textContent==="Healing"`,'Healing label was not compacted');
+  await read('commitEchoSlot("Augusta",0,savedFirstEcho)');
   await read('window.savedForte=draft("Augusta").build.forte;const tree=skillsPreviewByCharacterId.get("augusta");autosave("Augusta",{forte:window.bellibingForte.updateForteNode(tree,savedForte,tree.nodes.find(n=>n.role==="normal-attack").id,0)})');
   await check('document.querySelector("#characterBuildCard [data-skill-level=normal-attack]").textContent==="Lv.0"','Saved Forte change did not update the live card');
   await read('autosave("Augusta",{forte:savedForte})');
@@ -196,6 +209,7 @@ try{
   await check('buildPicker.selected==="Qingxiao"&&document.getElementById("viewBuildCard").hidden&&!owned("Qingxiao")','Switch leaked Augusta ownership');
   await click('#accountBtn');await settled();await images();
   await check('document.querySelector(".cbc-name").textContent==="Qingxiao"&&document.querySelector(".cbc-weapon-name").textContent==="Guardian Sword"&&[...document.querySelectorAll(".cbc-echo")].filter(el=>el.dataset.echoId===String()).length===5&&document.querySelectorAll(".cbc-sequence .is-active").length===1','Character card leaked previous build');
+  await check('[...document.querySelectorAll("#characterBuildCard .cbc-echo")].every(el=>el.getBoundingClientRect().width===190)','Empty Echo slots changed physical width');
   await click('#buildCardClose');
   const persisted=await stateText();await navigate(send);await ready();
   assert(await stateText()===persisted,'Reload modified saved Character state');

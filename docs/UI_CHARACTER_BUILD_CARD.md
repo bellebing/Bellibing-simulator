@@ -34,6 +34,8 @@ Sequence runs vertically from S6 to S1 immediately left of Character art. The si
 
 Echo names, Cost, artwork, Sonata, both Main Stats and every saved Substat remain visible directly. The row does not wrap or hide details. Presentation changes retain the same source adapter and saved-build projection.
 
+The desktop dialog is 1050 px wide. Each Echo uses a fixed 190 px slot, including empty slots and cards mounted in wider hosts. Echo stat text remains 12 px. Card-local display labels shorten CRIT Rate/DMG to CR/CD, Flat ATK/HP/DEF to ATK/HP/DEF, percentage stats to ATK %/HP %/DEF %, Energy Regen to ER, and attack bonuses to Basic/Heavy/Skill/Lib DMG. Healing Bonus displays as Healing. The original canonical name remains the label's accessible name; values and percentage formatting still come from the unchanged adapter. Character Stats keep their full labels.
+
 ## Verification
 
 `node scripts/verify-v34-character-build-card.mjs` runs against `BELLIBING_V34_URL` in real Chrome. It covers physical Add to Account/reopen/close, ownership versus draft semantics, read-only persistence, canonical values, dynamic bonus rows, all five Echo stat cards, multiple consumers, editing through Build, Character switching, reload and desktop geometry at 1440×900, 1920×1080 and 2560×1440. The normal Verify workflow runs it and includes its screenshots in the visual artifact.

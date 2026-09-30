@@ -2,6 +2,16 @@
 // render; this component never persists, clones or edits gameplay state.
 (() => {
   let serial = 0;
+  const echoStatLabels = Object.freeze({
+    'CRIT Rate': 'CR', 'CRIT DMG': 'CD',
+    'Flat ATK': 'ATK', 'ATK%': 'ATK %',
+    'Flat HP': 'HP', 'HP%': 'HP %',
+    'Flat DEF': 'DEF', 'DEF%': 'DEF %',
+    'Energy Regen': 'ER', 'Basic Attack DMG': 'Basic DMG',
+    'Heavy Attack DMG': 'Heavy DMG', 'Resonance Skill DMG': 'Skill DMG',
+    'Resonance Liberation DMG': 'Lib DMG', 'Liberation DMG': 'Lib DMG',
+    'Healing Bonus': 'Healing'
+  });
   const node = (tag, className, text) => {
     const el = document.createElement(tag);
     if (className) el.className = className;
@@ -79,7 +89,14 @@
         const sonata = node('div', 'cbc-sonata'), set = s.sonata(slot);
         if (set) { s.sonataIcon(sonata, set.id); sonata.append(node('span', '', set.name)); }
         else sonata.append(node('span', '', slot ? 'Sonata Pending' : '—'));
-        card.append(sonata, s.echoStats(slot)); echoes.append(card);
+        const echoStats = s.echoStats(slot);
+        for (const label of echoStats.querySelectorAll('.cbc-echo-stat > span')) {
+          const canonicalName = label.textContent;
+          label.dataset.statName = canonicalName;
+          label.textContent = echoStatLabels[canonicalName] || canonicalName;
+          label.setAttribute('aria-label', canonicalName);
+        }
+        card.append(sonata, echoStats); echoes.append(card);
       });
       host.append(top, echoes);
     }

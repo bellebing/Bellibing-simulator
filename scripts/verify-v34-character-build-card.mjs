@@ -109,13 +109,15 @@ try{
       const name=${JSON.stringify(name)},card=document.getElementById('characterBuildCard'),character=characterByName.get(name),build=draft(name).build;
       const projection=statsUi.project(name),weapon=weaponItemById(build.weaponId),slots=statsUi.committedEchoSlots(name),tree=skillsPreviewByCharacterId.get(character.id),forte=window.bellibingForte.normalizeForteState(tree,build.forte);
       const rows=[...card.querySelectorAll('.cbc-stat-row')];
-      const echoLabels={'CRIT Rate':'CR','CRIT DMG':'CD','Flat ATK':'ATK','ATK%':'ATK %','Flat HP':'HP','HP%':'HP %','Flat DEF':'DEF','DEF%':'DEF %','Energy Regen':'ER','Basic Attack DMG':'Basic DMG','Heavy Attack DMG':'Heavy DMG','Skill DMG':'Skill DMG','Liberation DMG':'Lib DMG','Healing Bonus':'Healing'};
+      const echoLabels={'CRIT Rate':'CR','CRIT DMG':'CD','Flat ATK':'ATK','ATK%':'ATK %','Flat HP':'HP','HP%':'HP %','Flat DEF':'DEF','DEF%':'DEF %','Energy Regen':'ER','Basic Attack DMG':'BA DMG','Heavy Attack DMG':'HA DMG','Skill DMG':'Skill DMG','Liberation DMG':'Lib DMG','Healing Bonus':'Healing'};
+      const summaryLabels={...echoLabels,'Basic Attack DMG Bonus':'BA DMG Bonus','Heavy Attack DMG Bonus':'HA DMG Bonus','Resonance Skill DMG Bonus':'Skill DMG Bonus','Resonance Liberation DMG Bonus':'Lib DMG Bonus'};
       return {
         identity:card.dataset.characterId===character.id&&card.querySelector('.cbc-name').textContent===name&&card.querySelector('.cbc-hero-image')?.getAttribute('src')===characterHeroArtById.get(character.id).assetPath,
         weapon:card.querySelector('.cbc-weapon-name').textContent===weapon?.name&&card.querySelector('.cbc-weapon-art img')?.getAttribute('src')===weapon.artSrc&&card.querySelectorAll('.cbc-weapon-fact')[0].textContent===weapon.secondary.stat+formatWeaponSecondaryValue(weapon.secondary.value)&&card.querySelectorAll('.cbc-weapon-fact')[1].textContent==='Base ATK'+weapon.level90BaseAtk,
         sequence:[...card.querySelectorAll('.cbc-sequence .node')].map(el=>Number(el.dataset.sequence)).join(',')==='6,5,4,3,2,1'&&card.querySelectorAll('.cbc-sequence .is-active').length===sequenceUi.normalizeLevel(build.sequenceLevel),
         forte:tree.nodes.every(node=>{const el=card.querySelector('[data-node-id="'+node.id+'"]');return el&&el.classList.contains('is-active')===window.bellibingForte.forteNodeActive(tree,forte,node.id)})&&[...card.querySelectorAll('[data-skill-level]')].every(el=>el.textContent==='Lv.'+forte.levels[el.dataset.skillLevel]),
         stats:rows.slice(0,6).map(el=>el.dataset.statKey).join(',')==='hp,atk,def,energyRegen,critRate,critDamage'&&rows.every(el=>Number(el.querySelector('strong').dataset.raw)===projection[el.dataset.statKey])&&rows.length===6+BUILD_STAT_EXTRA_ROWS.filter(spec=>Number.isFinite(projection[spec.key])&&projection[spec.key]!==0).length,
+        statLabels:rows.every(el=>{const spec=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS].find(spec=>spec.key===el.dataset.statKey),name=spec.labelFrom?projection[spec.labelFrom]:spec.label,label=el.querySelector('.cbc-stat-label');return label.textContent===(summaryLabels[name]||name)&&label.getAttribute('aria-label')===name}),
         echoes:slots.length===5&&[...card.querySelectorAll('.cbc-echo')].every((el,index)=>{const slot=slots[index],item=echoById.get(slot.echoId),set=echoSonataById.get(slot.selectedSonataSetId),expected=[slot.mainStat,slot.secondaryMainStat,...slot.substats];return el.dataset.echoId===item.id&&el.querySelector('.cbc-echo-name').textContent===item.name&&el.querySelector('.cbc-echo-art img').getAttribute('src')===item.artSrc&&el.querySelector('.cbc-echo-meta').textContent==='COST '+item.cost+'+'+slot.level&&el.querySelector('.cbc-sonata').textContent===set.name&&[...el.querySelectorAll('.cbc-echo-stat')].every((row,i)=>{const label=row.querySelector('span');return label.dataset.statName===expected[i].name&&label.getAttribute('aria-label')===expected[i].name&&label.textContent===(echoLabels[expected[i].name]||expected[i].name)&&row.querySelector('strong').textContent===echoStatValueText(expected[i].name,expected[i].value)})&&el.querySelectorAll('.cbc-echo-stat').length===expected.length}),
         readOnly:!card.querySelector('button,input,select,textarea,[contenteditable="true"]'),
         stateKeys:Object.keys(state).sort().join(',')==='characters,drafts'
@@ -161,7 +163,8 @@ try{
         scrollWidth:document.documentElement.scrollWidth,dialogFits:dialog.scrollHeight<=dialog.clientHeight+1&&dialog.scrollWidth<=dialog.clientWidth+1,
         dialogScroll:[dialog.scrollWidth,dialog.clientWidth,dialog.scrollHeight,dialog.clientHeight],
         overflow:[...dialog.querySelectorAll('*')].filter(el=>el.getBoundingClientRect().right>dialog.getBoundingClientRect().right+1).map(el=>el.className),
-        hero:rect('.cbc-hero'),sequence:rect('.cbc-sequence'),stats:rect('.cbc-stats'),weapon:rect('.cbc-weapon'),skills:rect('.cbc-skills'),echoes,
+        identity:rect('.cbc-identity'),hero:rect('.cbc-hero'),sequence:rect('.cbc-sequence'),stats:rect('.cbc-stats'),weapon:rect('.cbc-weapon'),skills:rect('.cbc-skills'),echoes,
+        statRows:[...card.querySelectorAll('.cbc-stat-row')].map(el=>({width:el.getBoundingClientRect().width,font:parseFloat(getComputedStyle(el).fontSize),gap:el.querySelector('strong').getBoundingClientRect().left-el.querySelector('.cbc-stat-label').getBoundingClientRect().right})),
         echoFontSize:Math.min(...[...card.querySelectorAll('.cbc-echo-stat')].map(el=>parseFloat(getComputedStyle(el).fontSize))),
         missing:[...card.querySelectorAll('img')].filter(img=>!img.naturalWidth).length,
         clipped:labels.filter(el=>el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1).map(el=>el.textContent)};
@@ -171,14 +174,15 @@ try{
     const {hero,sequence,stats,weapon,skills,echoes}=geometry;
     assert(sequence.right<=hero.left&&hero.left-sequence.right<=12&&stats.left>=hero.right&&weapon.top>=hero.bottom&&weapon.left<=hero.left&&weapon.right>=hero.right&&skills.top>=stats.bottom&&Math.abs(skills.left-stats.left)<=1,'Locked upper layout changed',geometry);
     assert(echoes.every((r,index)=>Math.abs(r.top-echoes[0].top)<=1&&(!index||r.left>=echoes[index-1].right)&&r.top>=Math.max(weapon.bottom,skills.bottom))&&geometry.echoFontSize>=12,'Five readable Echo cards must stay in one row',geometry);
-    assert(geometry.card.width>=1050&&geometry.card.width<=1100&&echoes.every(r=>r.width>=170&&r.width<=190),'Card or Echo slots stretched beyond compact desktop sizes',geometry);
+    assert(geometry.card.width>=880&&geometry.card.width<=920&&echoes.every(r=>r.width>=160&&r.width<=170),'Card or Echo slots stretched beyond compact desktop sizes',geometry);
+    assert(geometry.identity.width>=280&&geometry.identity.width<=300&&stats.width>=280&&stats.width<=310&&weapon.width<=300&&Math.abs(weapon.left-geometry.identity.left)<=1&&skills.width===stats.width&&stats.left-geometry.identity.right>=20&&stats.left-geometry.identity.right<=28&&geometry.statRows.every(row=>row.width<=280&&row.font>=12&&row.gap>=7&&row.gap<=9),'Upper card did not size around its content',geometry);
     console.log('PASS: compact '+geometry.card.width+'px card, five '+echoes[0].width+'px Echoes in one row, no clipping at '+width+'x'+height);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   // A second consumer can coexist without owning a second build or duplicate SVG ids.
   await read('window.testCardHost=document.createElement("article");document.body.append(testCardHost);window.testCard=new CharacterBuildCard(testCardHost,{source:characterBuildCardSource});testCard.setCharacter("Augusta")');
   await check('new Set([...document.querySelectorAll("linearGradient[id]")].map(n=>n.id)).size===document.querySelectorAll("linearGradient[id]").length','Forte SVG identifiers collided across card instances');
-  await check('[...testCardHost.querySelectorAll(".cbc-echo")].every(el=>el.getBoundingClientRect().width===190)','Echo slots stretched in a wider component host');
+  await check('[...testCardHost.querySelectorAll(".cbc-echo")].every(el=>el.getBoundingClientRect().width===166)','Echo slots stretched in a wider component host');
   const beforeUnsaved=await stateText();
   await read('testCard.setCharacter("Aalto")');
   assert(await stateText()===beforeUnsaved,'Card created an unsaved Character draft');
@@ -209,7 +213,7 @@ try{
   await check('buildPicker.selected==="Qingxiao"&&document.getElementById("viewBuildCard").hidden&&!owned("Qingxiao")','Switch leaked Augusta ownership');
   await click('#accountBtn');await settled();await images();
   await check('document.querySelector(".cbc-name").textContent==="Qingxiao"&&document.querySelector(".cbc-weapon-name").textContent==="Guardian Sword"&&[...document.querySelectorAll(".cbc-echo")].filter(el=>el.dataset.echoId===String()).length===5&&document.querySelectorAll(".cbc-sequence .is-active").length===1','Character card leaked previous build');
-  await check('[...document.querySelectorAll("#characterBuildCard .cbc-echo")].every(el=>el.getBoundingClientRect().width===190)','Empty Echo slots changed physical width');
+  await check('[...document.querySelectorAll("#characterBuildCard .cbc-echo")].every(el=>el.getBoundingClientRect().width===166)','Empty Echo slots changed physical width');
   await click('#buildCardClose');
   const persisted=await stateText();await navigate(send);await ready();
   assert(await stateText()===persisted,'Reload modified saved Character state');

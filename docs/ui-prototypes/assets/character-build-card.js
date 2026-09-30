@@ -2,15 +2,17 @@
 // render; this component never persists, clones or edits gameplay state.
 (() => {
   let serial = 0;
-  const echoStatLabels = Object.freeze({
+  const summaryStatLabels = Object.freeze({
     'CRIT Rate': 'CR', 'CRIT DMG': 'CD',
     'Flat ATK': 'ATK', 'ATK%': 'ATK %',
     'Flat HP': 'HP', 'HP%': 'HP %',
     'Flat DEF': 'DEF', 'DEF%': 'DEF %',
-    'Energy Regen': 'ER', 'Basic Attack DMG': 'Basic DMG',
-    'Heavy Attack DMG': 'Heavy DMG', 'Resonance Skill DMG': 'Skill DMG',
+    'Energy Regen': 'ER', 'Basic Attack DMG': 'BA DMG',
+    'Heavy Attack DMG': 'HA DMG', 'Resonance Skill DMG': 'Skill DMG',
     'Resonance Liberation DMG': 'Lib DMG', 'Liberation DMG': 'Lib DMG',
-    'Healing Bonus': 'Healing'
+    'Healing Bonus': 'Healing',
+    'Basic Attack DMG Bonus': 'BA DMG Bonus', 'Heavy Attack DMG Bonus': 'HA DMG Bonus',
+    'Resonance Skill DMG Bonus': 'Skill DMG Bonus', 'Resonance Liberation DMG Bonus': 'Lib DMG Bonus'
   });
   const node = (tag, className, text) => {
     const el = document.createElement(tag);
@@ -75,7 +77,9 @@
         const label = spec.labelFrom ? projection?.[spec.labelFrom] || 'Pending' : spec.label;
         const value = node('strong', '', projection ? s.statValue(projection[spec.key], spec.percent) : 'Pending');
         if (Number.isFinite(projection?.[spec.key])) value.dataset.raw = projection[spec.key];
-        row.append(node('span', 'cbc-stat-label', label), value); stats.append(row);
+        const displayLabel = node('span', 'cbc-stat-label', summaryStatLabels[label] || label);
+        displayLabel.setAttribute('aria-label', label);
+        row.append(displayLabel, value); stats.append(row);
       }
       top.append(identity, stats, weaponHost, skills);
       const echoes = node('div', 'cbc-echoes'); echoes.setAttribute('aria-label', 'Five equipped Echoes');
@@ -93,7 +97,7 @@
         for (const label of echoStats.querySelectorAll('.cbc-echo-stat > span')) {
           const canonicalName = label.textContent;
           label.dataset.statName = canonicalName;
-          label.textContent = echoStatLabels[canonicalName] || canonicalName;
+          label.textContent = summaryStatLabels[canonicalName] || canonicalName;
           label.setAttribute('aria-label', canonicalName);
         }
         card.append(sonata, echoStats); echoes.append(card);

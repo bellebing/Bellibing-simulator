@@ -34,7 +34,7 @@ Sequence runs vertically from S6 to S1 immediately left of Character art. The si
 
 Echo names, Cost, artwork, Sonata, both Main Stats and every saved Substat remain visible directly. The row does not wrap or hide details. Presentation changes retain the same source adapter and saved-build projection.
 
-The desktop dialog is 1050 px wide. Each Echo uses a fixed 190 px slot, including empty slots and cards mounted in wider hosts. Echo stat text remains 12 px. Card-local display labels shorten CRIT Rate/DMG to CR/CD, Flat ATK/HP/DEF to ATK/HP/DEF, percentage stats to ATK %/HP %/DEF %, Energy Regen to ER, and attack bonuses to Basic/Heavy/Skill/Lib DMG. Healing Bonus displays as Healing. The original canonical name remains the label's accessible name; values and percentage formatting still come from the unchanged adapter. Character Stats keep their full labels.
+The desktop dialog sizes to its content, approximately 900 px. Each Echo uses a fixed 166 px slot, including empty slots and cards mounted in wider hosts. Character/Weapon and Stats/Skills use content-sized columns bounded around 280–300 px and 280–310 px, with a 24 px gap. Character stat rows share intrinsic label/value columns rather than stretching values to the panel edge. Stat text remains 12 px. Card-local display labels shorten CRIT Rate/DMG to CR/CD, Flat ATK/HP/DEF to ATK/HP/DEF, percentage stats to ATK %/HP %/DEF %, Energy Regen to ER, and attack bonuses to BA/HA/Skill/Lib DMG. Healing Bonus displays as Healing. The corresponding Character bonus rows use the same abbreviations. Canonical names remain in label metadata; values and percentage formatting still come from the unchanged adapter.
 
 ## Verification
 

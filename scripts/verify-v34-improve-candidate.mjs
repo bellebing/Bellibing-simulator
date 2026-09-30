@@ -1,6 +1,6 @@
 // Runs inside the existing Echo Workspace browser harness so both commit contexts
-// exercise the same page, editor controls and canonical data.
-export async function verifyImproveCandidate({send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep}) {
+// exercise the same page, browser components and canonical data.
+export async function verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep}) {
   const check=async(expression,message)=>{if(!await evaluate(send,expression))throw new Error(message+' '+JSON.stringify(await evaluate(send,'({character:improveUi.characterName,candidate:improveUi.candidate,build:state.drafts.Augusta?.build})')))};
   const read=expression=>evaluate(send,expression);
   const wait=(expression,message)=>waitForUi(send,expression,message);
@@ -21,6 +21,23 @@ export async function verifyImproveCandidate({send,evaluate,navigate,setViewport
   }
   await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
   await wait('echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&releasedCharacters.length===57','Improve canonical sources not ready');
+  const pageUrl=await read('location.href');
+  for(const resource of ['skills-runtime.json','forte-ui.mjs']){
+    await read("addOwned('Augusta')");const held=[];
+    const listener=event=>{const message=JSON.parse(String(event.data));if(message.method==='Fetch.requestPaused')held.push(message.params.requestId)};
+    socket.addEventListener('message',listener);
+    await send('Fetch.enable',{patterns:[{urlPattern:'*assets/'+resource,requestStage:'Request'}]});
+    try{
+      await send('Page.navigate',{url:pageUrl});
+      await wait('typeof improvePicker!=="undefined"&&releasedCharacters.length===57','Character picker not ready during delayed Skills loading');
+      await read("show('improve');improvePicker.select('Augusta')");
+      await check('document.getElementById("improveSkillsTree").textContent==="Loading Skills…"','Pending shown before source readiness was known');
+      if(!held.length)throw new Error('No delayed '+resource+' request observed');
+      for(const requestId of held)await send('Fetch.continueRequest',{requestId});
+      await send('Fetch.disable');
+      await wait('document.querySelectorAll("#improveSkillsTree .forte-node").length===16&&!document.getElementById("improveSkillsTree").textContent.includes("Pending")','Augusta remained falsely Pending after '+resource+' became ready');
+    }finally{await send('Fetch.disable');socket.removeEventListener('message',listener)}
+  }
   // Fixtures use canonical cards and the existing state paths in an isolated browser profile.
   await read(`(()=>{
     addOwned('Augusta');addOwned('Qingxiao');
@@ -39,48 +56,43 @@ export async function verifyImproveCandidate({send,evaluate,navigate,setViewport
   const snapshot=await stored();
   await check('echoUi.characterName===null','Fixture must exercise Candidate without a Build selection');
   await open();await unchanged(snapshot,'Opening Candidate changed persistent state');
-  await check('document.querySelectorAll("#echoOverlay").length===1&&document.querySelectorAll("#echoWorkspaceSlots button:disabled").length===5&&!echoUi.editorDraft','Candidate did not reuse empty Preview and read-only equipped dock');
+  await check('document.querySelectorAll("#echoOverlay").length===1&&document.querySelectorAll("#echoWorkspaceSlots button").length===0&&getComputedStyle(document.getElementById("echoWorkspaceSlots")).display==="none"&&getComputedStyle(document.querySelector(".echo-editor-stats")).display==="none"&&!echoUi.editorDraft','Candidate exposed equipped dock or completed-Echo editor');
   await click('#echoClose');await closed();await unchanged(snapshot,'Closing empty Candidate changed equipment');
-  await open();
-  await click('#echoSonataToggle');await click('#echoSonataAll');await click('#echoSonataToggle');
+  await open();await click('#echoSonataToggle');await click('#echoSonataAll');await click('#echoSonataToggle');
+  await click('[data-echo-filter="3"]');await check('echoUi.filter==="3"&&[...document.querySelectorAll("#echoChoices .echo-choice:not([hidden])")].every(n=>n.dataset.cost==="3")','Candidate Cost filter failed');
   await click('[data-echo-filter="all"]');
   await check('echoUi.selectedSonataIds.size===0&&echoUi.filter==="all"','Candidate Sonata/Cost filters failed');
   const id=await read('echoCatalog.find(item=>item.sonataSetIds.length>1).id');
   await click('#echoChoices [data-echo-id="'+id+'"]');
-  await wait(`echoUi.previewId===${JSON.stringify(id)}`,'Candidate browser pointer did not select');
-  await chooseBellibingComboOption(send,'echoMainStatName',1);
-  await chooseBellibingComboOption(send,'echoSubstat0Name',1);
-  await chooseBellibingComboOption(send,'echoSubstat0Value',1);
+  await wait('echoUi.previewId==='+JSON.stringify(id),'Candidate browser pointer did not select');
   const alternate=await read('echoById.get(echoUi.previewId).sonataSetIds.find(id=>id!==echoUi.editorDraft.selectedSonataSetId)');
   await click('#echoPreviewSonataChoices [data-sonata-id="'+alternate+'"]');
-  await check('document.getElementById("dialogCopy").textContent.includes("Use as Candidate")','Sonata dialog has wrong commit semantics');
+  await check('document.getElementById("dialogCopy").textContent.includes("Choose Echo")','Sonata dialog has wrong commit semantics');
   await click('#confirmSwitch');
-  await check('echoUi.editorDraft.level===5&&!validateEchoStatCard(echoUi.editorDraft,echoById.get(echoUi.previewId))&&document.getElementById("echoEquip").textContent==="Use as Candidate"','Candidate editor did not use canonical level/stat validation');
-  await unchanged(snapshot,'Browsing/editor changes wrote equipment');
+  await check('!validateEchoCandidate(echoUi.editorDraft,echoById.get(echoUi.previewId))&&document.getElementById("echoEquip").textContent==="Choose Echo"&&JSON.stringify(Object.keys(echoUi.editorDraft).sort())===JSON.stringify(["echoId","selectedSonataSetId"])&&document.querySelectorAll("#echoSubstats .bb-combobox").length===0','Candidate fabricated completed stats or exposed their editors');
+  await unchanged(snapshot,'Browsing/Sonata changes wrote equipment');
   await capture(send,'artifacts/ui-preview-improve-candidate-workspace-1440x900.png');
+  await click('#echoInfoToggle');await check('document.getElementById("echoInfoCard").classList.contains("is-expanded")&&document.getElementById("echoSkillCopy").textContent===echoById.get(echoUi.previewId).skill.skillDescription','Shared Echo Skill info failed');await click('#echoInfoToggle');
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape'});await closed();
   await check('improveUi.candidate===null','Escape committed Candidate');await unchanged(snapshot,'Escape changed equipment');
   await open();await check('echoUi.previewId===null','Canceled Preview restored as Candidate');
   const visible=await read('document.querySelector("#echoChoices .echo-choice:not([hidden])").dataset.echoId');
   await click('#echoChoices [data-echo-id="'+visible+'"]');
-  await chooseBellibingComboOption(send,'echoSubstat0Name',1);await chooseBellibingComboOption(send,'echoSubstat0Value',1);
-  // An invalid draft must fail closed through the same validator as Equip.
-  await read('echoUi.editorDraft.mainStat.value=-123;echoUi.syncEquipAction()');
-  await check('document.getElementById("echoEquip").disabled','Invalid Candidate enabled commit');
-  await read('echoUi.equipPreview()');await check('improveUi.candidate===null','Invalid Candidate committed');
-  await read('echoUi.renderEditor()');
-  const preview=await read('JSON.stringify(echoUi.editorDraft)');
-  await click('#echoEquip');await closed();
-  await check(`JSON.stringify(improveUi.candidate)===${JSON.stringify(preview)}&&document.querySelector('#improveCandidateEcho .improve-echo-large-name').textContent===echoById.get(improveUi.candidate.echoId).name`,'Candidate commit did not render exact card');
-  await unchanged(snapshot,'Candidate commit mutated Current Build');
-  // Reopening clones committed Candidate; edits and close must leave that object untouched.
-  await open();await check(`JSON.stringify(echoUi.editorDraft)===${JSON.stringify(preview)}&&echoUi.editorDraft!==improveUi.candidate`,'Candidate editor aliases committed state');
-  await chooseBellibingComboOption(send,'echoSubstat0Value',2);
-  await check(`JSON.stringify(improveUi.candidate)===${JSON.stringify(preview)}`,'Editing Preview mutated committed Candidate');
-  await click('#echoClose');await closed();
-  await check(`JSON.stringify(improveUi.candidate)===${JSON.stringify(preview)}`,'Close discarded committed Candidate');await unchanged(snapshot,'Candidate cancel wrote equipment');
-  await open();await chooseBellibingComboOption(send,'echoSubstat0Value',2);const updated=await read('JSON.stringify(echoUi.editorDraft)');await click('#echoEquip');await closed();
-  await check(`JSON.stringify(improveUi.candidate)===${JSON.stringify(updated)}&&JSON.stringify(improveUi.candidate)!==${JSON.stringify(preview)}`,'Edit Candidate did not update transient card');await unchanged(snapshot,'Candidate update wrote equipment');
+  const assignment=await read('echoUi.editorDraft.selectedSonataSetId');
+  await read('echoUi.editorDraft.selectedSonataSetId="unknown-set";echoUi.syncEquipAction()');
+  await check('document.getElementById("echoEquip").disabled','Unknown Sonata enabled commit');await read('echoUi.equipPreview()');await check('improveUi.candidate===null','Unknown Sonata committed');
+  await read('echoUi.editorDraft.selectedSonataSetId='+JSON.stringify(assignment)+';echoUi.syncEquipAction()');
+  const preview=await read('JSON.stringify(echoUi.editorDraft)');await click('#echoEquip');await closed();
+  await check('JSON.stringify(improveUi.candidate)==='+JSON.stringify(preview)+'&&document.querySelector("#improveCandidateEcho .improve-echo-large-name").textContent===echoById.get(improveUi.candidate.echoId).name','Choose Echo did not populate Candidate');
+  await check('document.querySelector(".improve-candidate-sonata").textContent===echoSonataById.get(improveUi.candidate.selectedSonataSetId).name&&document.querySelector(".improve-candidate-unbuilt").textContent.includes("Level —")&&!document.querySelector("#improveCandidateEcho .improve-echo-substats")&&document.getElementById("improveHelperTitle").textContent==="Enter Main Stat"','Candidate is not presented as an unfinished Echo');
+  await unchanged(snapshot,'Choose Echo mutated Current Build');
+  await open();await check('JSON.stringify(echoUi.editorDraft)==='+JSON.stringify(preview)+'&&echoUi.editorDraft!==improveUi.candidate','Candidate Preview aliases committed state');
+  const alternative=await read(`[...document.querySelectorAll('#echoChoices .echo-choice:not([hidden])')].find(node=>node.dataset.echoId!==${JSON.stringify(visible)}).dataset.echoId`);
+  await click('#echoChoices [data-echo-id="'+alternative+'"]');
+  await check('JSON.stringify(improveUi.candidate)==='+JSON.stringify(preview),'Browsing mutated Candidate');await click('#echoClose');await closed();
+  await check('JSON.stringify(improveUi.candidate)==='+JSON.stringify(preview),'Close discarded existing Candidate');await unchanged(snapshot,'Cancel wrote equipment');
+  await open();await click('#echoChoices [data-echo-id="'+alternative+'"]');const updated=await read('JSON.stringify(echoUi.editorDraft)');await click('#echoEquip');await closed();
+  await check('JSON.stringify(improveUi.candidate)==='+JSON.stringify(updated)+'&&JSON.stringify(improveUi.candidate)!=='+JSON.stringify(preview),'Choose another Echo did not update Candidate');await unchanged(snapshot,'Candidate replacement wrote equipment');
   // Presentation uses saved state and shared renderer, including disabled Forte ancestors.
   await check(`(()=>{
     const nodes=[...document.querySelectorAll('#improveSkillsTree .forte-node')],tree=skillsPreviewByCharacterId.get('augusta'),investment=improveUi.skillState();
@@ -94,6 +106,12 @@ export async function verifyImproveCandidate({send,evaluate,navigate,setViewport
     await read('Promise.all([...document.querySelectorAll("#improveFocus img[src]")].map(img=>img.decode().catch(()=>{})))');
     await check(`(()=>{const rect=s=>document.querySelector(s).getBoundingClientRect(),outer=rect('#improveBuildCard'),parts=['.improve-truth','.improve-stats','.improve-workspace','#improveEchoRow'],hero=rect('.improve-truth-art'),rail=rect('#improveSequenceList');return document.documentElement.scrollWidth===innerWidth&&outer.bottom<innerHeight&&outer.width<=1280&&parts.every(s=>{const r=rect(s);return r.left>=outer.left&&r.right<=outer.right&&r.bottom<=outer.bottom})&&rail.left>=hero.right&&document.querySelectorAll('#improveEchoRow button').length===5&&[...document.querySelectorAll('#improveFocus img[src]')].every(img=>img.naturalWidth>0)})()`,'Improve layout overflow/broken assets at '+width);
     await capture(send,'artifacts/ui-preview-improve-candidate-'+width+'x'+height+'.png');
+    await check(`(()=>{
+      const rect=n=>n.getBoundingClientRect(),cards=[...document.querySelectorAll('#improveCurrentEcho,#improveCandidateEcho,#improveEchoRow button')];
+      const identities=cards.every(card=>{const name=rect(card.querySelector('.improve-echo-large-name,.improve-equipped-name')),art=rect(card.querySelector('.improve-echo-large-art,.improve-equipped-art')),meta=rect(card.querySelector('.improve-echo-large-meta,.improve-equipped-cost'));return name.bottom<=art.top+1&&art.bottom<=meta.top+1});
+      const art=rect(document.querySelector('.improve-weapon-art')),image=rect(document.getElementById('improveWeaponArt')),facts=rect(document.querySelector('.improve-weapon-facts'));
+      return identities&&image.bottom<=art.bottom+1&&image.top>=art.top-1&&facts.top>=art.bottom-1&&document.querySelector('.improve-weapon-facts>div:first-child #improveWeaponSecondaryName')&&document.querySelector('.improve-weapon-facts>div:last-child #improveWeaponAtk');
+    })()`,'Identity hierarchy or Weapon art containment failed at '+width);
   }
   await setViewport(send,1440,900);await settled();await switchCharacter('qingxiao');
   await check('improveUi.characterName==="Qingxiao"&&improveUi.candidate===null&&document.querySelectorAll("#improveSequenceList .is-active").length===1&&document.getElementById("improveWeaponAtk").textContent==="Pending"','Character switch leaked Candidate or source context');
@@ -113,5 +131,5 @@ export async function verifyImproveCandidate({send,evaluate,navigate,setViewport
   await read(`echoUi.select(${JSON.stringify(visible)})`);await check('document.getElementById("echoEquip").textContent==="Equip Echo"','Equipped action retained Candidate semantics');await click('#echoEquip');
   await check(`echoSlotId(readEchoSets('Qingxiao').sets['set-1'].slots[0])===${JSON.stringify(visible)}&&${buildSnapshot}===${JSON.stringify(equipment)}`,'Equipped commit context regression');
   await click('#echoClose');await closed();
-  console.log('- Improve Candidate: physical New Echo/filter/editor/commit/cancel; invalid/stale rejection; Current isolation; Character/reload isolation; canonical read-only Weapon/Sequence/Forte/stats; 1440/1920/2560 passed.');
+  console.log('- Improve Candidate: shared identity/Sonata selector; physical Choose Echo/cancel; delayed Forte module/runtime readiness; invalid/stale rejection; Current isolation; Character/reload isolation; canonical read-only Weapon/Sequence/Forte/stats; 1440/1920/2560 passed.');
 }

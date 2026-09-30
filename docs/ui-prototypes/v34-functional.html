@@ -178,23 +178,24 @@
 /* Improve owns one content-sized composition inside the existing finite AppShell. */
 .improve-build-card{position:absolute;left:50%;top:220px;width:min(calc(100% - 18px),var(--app-shell-max));transform:translateX(-50%);display:grid;grid-template-columns:216px 274px minmax(0,1fr);grid-template-rows:auto auto;align-items:start;gap:14px 16px;padding:14px;min-height:0}
 .improve-surface{min-width:0;min-height:0;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:linear-gradient(180deg,rgba(20,23,29,.76),rgba(10,12,16,.70));box-shadow:0 22px 62px rgba(0,0,0,.24);backdrop-filter:blur(5px) saturate(.9)}
-.improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:12px;align-content:start}
-.improve-truth-art{position:relative;height:258px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
+.improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:10px;align-content:start}
+.improve-truth-art{position:relative;height:238px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
 .improve-truth-art::after{content:"";position:absolute;z-index:2;left:0;right:0;bottom:0;height:20%;background:linear-gradient(180deg,transparent,rgba(14,16,21,.90));pointer-events:none}
 .improve-truth-name{position:relative;z-index:4;display:block;margin:0;padding:0 4px 7px;font-family:var(--font-display);font-size:28px;font-weight:400;line-height:1.22;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.72)}
-.improve-truth-art img{position:absolute;z-index:1;inset:46px 0 0;width:100%;height:calc(100% - 46px);object-fit:contain;object-position:50% 50%;transform:translate(var(--improve-hero-x,0%),var(--improve-hero-y,0%)) scale(var(--improve-hero-scale,1));transform-origin:var(--improve-hero-focal-x,50%) var(--improve-hero-focal-y,50%);filter:drop-shadow(0 15px 22px rgba(0,0,0,.34));user-select:none;-webkit-user-drag:none}
+.improve-truth-art img{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 50%;transform:translate(var(--improve-hero-x,0%),var(--improve-hero-y,0%)) scale(var(--improve-hero-scale,1));transform-origin:var(--improve-hero-focal-x,50%) var(--improve-hero-focal-y,50%);filter:drop-shadow(0 15px 22px rgba(0,0,0,.34));user-select:none;-webkit-user-drag:none}
 .improve-truth-art img[hidden]{display:none}.improve-truth-pending{position:absolute;z-index:3;inset:72px 18px 24px;display:grid;place-items:center;color:#8b929c;font-size:11px;line-height:1.4;text-align:center}.improve-truth-pending[hidden]{display:none}
-.improve-character-context{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:3px;align-items:center}
-.improve-sequence-list.seq-line{height:252px;margin:0;align-items:center;width:40px}.improve-sequence-list .node{width:30px;height:30px;min-height:30px;flex:none;cursor:default;pointer-events:none}.improve-sequence-list .n6{width:36px;height:36px}.improve-sequence-list .n5{width:34px;height:34px}.improve-sequence-list .n4{width:32px;height:32px}.improve-sequence-list .seq-tag{font-size:8px}
-.improve-weapon-truth{padding:9px 7px;display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:5px 7px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}.improve-weapon-truth>strong{grid-column:1/-1;font-family:var(--font-display);font-size:15px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-art{width:72px;height:76px;display:grid;place-items:center}.improve-weapon-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}.improve-weapon-facts{display:grid;gap:10px;font-size:10px;color:#a1a8b2}.improve-weapon-facts>div{display:flex;justify-content:space-between;gap:5px}.improve-weapon-facts strong{color:#d2d6dc;font-variant-numeric:tabular-nums;white-space:nowrap}
-.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree{height:156px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
+.improve-character-context{display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:2px;align-items:center}
+.improve-sequence-list.seq-line{height:230px;margin:0;align-items:center;width:28px}.improve-sequence-list .node{width:23px;height:23px;min-height:23px;flex:none;cursor:default;pointer-events:none}.improve-sequence-list .n6{width:28px;height:28px}.improve-sequence-list .n5{width:27px;height:27px}.improve-sequence-list .n4{width:25px;height:25px}.improve-sequence-list .seq-tag{font-size:7px}
+.improve-weapon-truth{padding:7px 9px;display:grid;justify-items:center;gap:3px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}.improve-weapon-truth>strong{width:100%;text-align:center;font-family:var(--font-display);font-size:15px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-art{position:relative;width:100%;height:96px;display:grid;place-items:center}.improve-weapon-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}.improve-weapon-facts{width:100%;display:grid;gap:4px;font-size:10px;color:#a1a8b2}.improve-weapon-facts>div{display:flex;justify-content:space-between;gap:5px}.improve-weapon-facts>div:first-child{color:#d9c595;font-size:11px}.improve-weapon-facts strong{color:#d2d6dc;font-variant-numeric:tabular-nums;white-space:nowrap}
+.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree{height:142px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
 .improve-stats{grid-column:2;grid-row:1/3;min-width:0;padding:3px 0}.improve-panel-title{margin:0 0 10px;font-family:var(--font-display);font-size:24px;font-weight:400;line-height:1.22}.improve-preview-note{margin:0 0 8px;color:#b5a37e;font-size:9px;line-height:1.35}.improve-preview-note[hidden]{display:none}.improve-stat-head,.improve-stat-row{display:grid;grid-template-columns:minmax(0,1fr) 61px 10px 29px;align-items:center;column-gap:4px}.improve-stat-head{min-height:24px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.09);color:#939ba6;font-size:9px;font-weight:700}.improve-stat-head span:nth-child(n+2){text-align:right}.improve-stat-list{display:grid}.improve-stat-row{min-height:34px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.052);font-size:11px}.improve-stat-icon{width:15px;height:15px;object-fit:contain;opacity:.82;margin-right:5px;vertical-align:-3px}.improve-stat-label{min-width:0;color:#b0b6bf;line-height:1.35}.improve-stat-current,.improve-stat-new{text-align:right;color:#e8e6e1;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-stat-new{color:#939ba6}.improve-stat-arrow{text-align:center;color:#737c89}.improve-stat-row.is-positive .improve-stat-new{color:#79c89c}.improve-stat-row.is-negative .improve-stat-new{color:#e37b7b}
 .improve-workspace{grid-column:3;grid-row:1;min-width:0;display:grid;grid-template-columns:minmax(174px,1fr) minmax(214px,1.4fr) minmax(174px,1fr);gap:10px;align-items:start}
-.improve-workspace-card{min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column;align-self:stretch}
-.improve-echo-card-head{min-height:32px;padding:9px 10px 7px;display:flex;align-items:center;justify-content:space-between;gap:6px;color:#a1a8b2;font-size:9px;font-weight:750}.improve-current-echo .improve-echo-card-head{color:#cfb070}.improve-echo-large-art{position:relative;height:82px;flex:none;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 67%)}.improve-echo-large-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38))}.improve-echo-large-name{min-height:38px;padding:2px 8px 7px;text-align:center;font-family:var(--font-display);font-size:16px;line-height:1.22;overflow-wrap:anywhere}.improve-echo-large-meta{padding:4px 8px 8px;color:#a1a8b2;font-size:10px;text-align:center}.improve-echo-substats{display:grid;border-top:1px solid rgba(255,255,255,.08)}.improve-echo-substat{min-height:22px;padding:3px 8px;display:flex;align-items:center;justify-content:space-between;gap:5px;border-bottom:1px solid rgba(255,255,255,.043);color:#a1a8b2;font-size:10px;line-height:1.3}.improve-echo-substat span{min-width:0;overflow-wrap:anywhere}.improve-echo-substat strong{color:#d2d6dc;font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-echo-substat.is-main{background:rgba(255,255,255,.025);color:#d2d6dc}.improve-echo-substat:last-child{border-bottom:0}
+.improve-workspace-card{min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column;align-self:stretch}.improve-new-echo .improve-echo-large-art{flex:1;min-height:106px}
+.improve-echo-card-head{min-height:28px;padding:7px 10px 5px;display:flex;align-items:center;justify-content:space-between;gap:6px;color:#a1a8b2;font-size:9px;font-weight:750}.improve-current-echo .improve-echo-card-head{color:#cfb070}.improve-echo-large-art{position:relative;height:106px;flex:none;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 67%)}.improve-echo-large-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.38))}.improve-echo-large-name{min-height:30px;padding:2px 8px 3px;text-align:center;font-family:var(--font-display);font-size:16px;line-height:1.22;overflow-wrap:anywhere}.improve-echo-large-meta{padding:3px 8px 5px;color:#a1a8b2;font-size:10px;text-align:center}.improve-echo-substats{display:grid;border-top:1px solid rgba(255,255,255,.08)}.improve-echo-substat{min-height:22px;padding:3px 8px;display:flex;align-items:center;justify-content:space-between;gap:5px;border-bottom:1px solid rgba(255,255,255,.043);color:#a1a8b2;font-size:10px;line-height:1.3}.improve-echo-substat span{min-width:0;overflow-wrap:anywhere}.improve-echo-substat strong{color:#d2d6dc;font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-echo-substat.is-main{background:rgba(255,255,255,.025);color:#d2d6dc}.improve-echo-substat:last-child{border-bottom:0}
 .improve-helper{align-self:center;padding:16px 10px;border:0;border-radius:0;background:transparent;display:flex;flex-direction:column;align-items:center;text-align:center}.improve-helper-step{color:#a4acb7;font-size:9px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.improve-helper h2{margin:10px 0 8px;font-family:var(--font-display);font-size:30px;font-weight:400;line-height:1.22}.improve-helper-main{margin:0;color:#b5bbc4;font-size:12px;line-height:1.45}.improve-helper-action{margin-top:14px;padding:10px 14px;border:1px solid rgba(216,177,82,.36);border-radius:10px;background:rgba(216,177,82,.06);color:#e4d5b5;font-size:11px;font-weight:700;cursor:pointer}.improve-helper-action:hover{border-color:rgba(216,177,82,.64);background:rgba(216,177,82,.10)}.improve-helper-fine{width:100%;margin-top:22px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);display:grid;gap:7px}.improve-helper-metric{display:flex;justify-content:space-between;gap:6px;min-width:0;font-size:10px;line-height:1.3}.improve-helper-metric span{color:#9aa2ad}.improve-helper-metric strong{color:#a8afb9;font-size:9px;font-style:italic;font-weight:500}.improve-helper-note{margin:10px 0 0;color:#949ca8;font-size:10px;font-style:italic;line-height:1.4}
 .improve-new-empty{flex:1;display:flex;padding:6px 10px 10px}.improve-new-button{width:100%;min-height:220px;border:1px dashed rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.012);color:#a1a8b2;cursor:pointer;transition:border-color .17s ease-out,background .17s ease-out,color .17s ease-out,transform .17s ease-out}.improve-new-button:hover{border-color:rgba(255,255,255,.30);background:rgba(255,255,255,.035);color:#d2d6dc}.improve-new-button:active{transform:scale(.985)}.improve-new-plus{display:block;margin:0 auto 9px;font-size:30px;font-weight:200}.improve-new-button strong{display:block;font-family:var(--font-display);font-size:19px;font-weight:400;line-height:1.22}.improve-new-button small{display:block;margin:8px 8px 0;color:#a1a8b2;font-size:10px;line-height:1.5}
-.improve-echoes-row{grid-column:3;grid-row:2;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.improve-equipped-echo{position:relative;min-width:0;padding:8px 0 0;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);color:#fff;text-align:center;cursor:pointer;overflow:hidden;transition:transform .17s ease-out,border-color .17s ease-out,background .17s ease-out,box-shadow .17s ease-out}.improve-equipped-echo:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.044)}.improve-equipped-echo.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}.improve-equipped-cost{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:0 7px;color:#c9ab70;font-size:9px;font-weight:750}.improve-equipped-level{color:#abb2bc;font-weight:500}.improve-equipped-art{position:relative;display:block;height:62px;flex:none;margin:4px 6px}.improve-equipped-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 9px rgba(0,0,0,.38))}.improve-equipped-name{display:block;min-height:35px;padding:0 5px 7px;font-family:var(--font-display);font-size:11px;line-height:1.3;overflow-wrap:anywhere}.improve-equipped-echo .improve-echo-substats{margin-top:auto;width:100%;text-align:left}.improve-equipped-echo .improve-echo-substat{min-height:18px;padding:2px 6px;font-size:9px}.improve-equipped-echo .improve-echo-substat strong{font-size:9px}
+.improve-echoes-row{grid-column:3;grid-row:2;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.improve-equipped-echo{position:relative;min-width:0;padding:8px 0 0;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);color:#fff;text-align:center;cursor:pointer;overflow:hidden;transition:transform .17s ease-out,border-color .17s ease-out,background .17s ease-out,box-shadow .17s ease-out}.improve-equipped-echo:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.044)}.improve-equipped-echo.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}.improve-equipped-cost{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:3px 7px 5px;color:#a1a8b2;font-size:9px;font-weight:500}.improve-equipped-level{color:#abb2bc;font-weight:500}.improve-equipped-art{position:relative;display:block;height:88px;flex:none;margin:0 3px}.improve-equipped-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 9px rgba(0,0,0,.38))}.improve-equipped-name{display:block;min-height:30px;padding:0 5px 3px;font-family:var(--font-display);font-size:11px;line-height:1.3;overflow-wrap:anywhere}.improve-equipped-echo .improve-echo-substats{margin-top:auto;width:100%;text-align:left}.improve-equipped-echo .improve-echo-substat{min-height:18px;padding:2px 6px;font-size:9px}.improve-equipped-echo .improve-echo-substat strong{font-size:9px}
+.improve-candidate-sonata{display:flex;align-items:center;justify-content:center;gap:5px;margin:7px 8px;color:#cbb883;font-size:10px;line-height:1.3}.improve-candidate-sonata img{width:22px;height:22px;object-fit:contain}.improve-candidate-unbuilt{margin:5px 8px 12px;color:#9ba3ae;font-size:10px;text-align:center}
 .improve-equipped-echo:focus-visible,.improve-helper-action:focus-visible,.improve-new-button:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
 @media(max-width:1180px) and (min-width:761px){.improve-build-card{grid-template-columns:238px 250px minmax(0,1fr);gap:9px}.improve-workspace{grid-template-columns:145px minmax(190px,1fr) 145px;gap:8px;padding:9px}.improve-helper{padding:14px 10px}.improve-helper h2{font-size:32px}.improve-helper-fine{grid-template-columns:1fr}.improve-helper-metric span{min-height:0}.improve-helper-note{display:none}.improve-stat-head,.improve-stat-row{grid-template-columns:minmax(0,1fr) 58px 10px 58px}.improve-truth-name{font-size:27px}.improve-equipped-art{height:58px}}
 @media(max-width:760px){.improve-focus{position:relative;inset:auto;width:100%;font-family:var(--font-ui)}.picker-shell.has-selection .improve-focus{padding-top:126px}.improve-build-card{position:relative;left:auto;top:auto;bottom:auto;width:min(560px,calc(100vw - 20px));margin:0 auto 38px;transform:none;display:flex;flex-direction:column;gap:11px}.improve-truth{min-height:590px}.improve-stats{overflow:visible}.improve-workspace{min-height:440px;grid-template-columns:128px minmax(0,1fr) 128px}.improve-echoes-row{display:flex;overflow-x:auto;min-height:170px}.improve-equipped-echo{flex:0 0 120px}.improve-stat-head,.improve-stat-row{grid-template-columns:minmax(0,1fr) 72px 12px 72px}}
@@ -350,6 +351,14 @@
 .echo-info-card.is-expanded .echo-info-section p{font-size:11.5px;line-height:1.45}
 .echo-info-card.is-expanded .echo-active-heading{font-size:13px}
 .echo-info-card.is-expanded .echo-info-toggle{font-size:12px}
+#echoOverlay[data-context="candidate"] .echo-main,#echoOverlay[data-context="candidate"] .echo-toolbar{grid-template-columns:minmax(0,1.5fr) minmax(320px,.85fr)}
+#echoOverlay[data-context="candidate"] .echo-workspace-slots,#echoOverlay[data-context="candidate"] .echo-editor-stats,#echoOverlay[data-context="candidate"] .echo-info-section[hidden]{display:none}
+#echoOverlay[data-context="candidate"] .echo-editor{grid-template-columns:minmax(0,1fr)}
+#echoOverlay[data-context="candidate"] .echo-preview-art{width:100%;height:100%;max-height:235px}
+#echoOverlay[data-context="candidate"] .echo-info-card{height:150px}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded{position:static;width:auto;height:200px;padding:10px;box-shadow:none;backdrop-filter:none}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded .echo-info-copy{overflow:auto}
+#echoOverlay[data-context="candidate"] .echo-info-card.is-expanded .echo-info-section p{font-size:11px}
 .echo-editor-field{display:grid;gap:3px;margin-bottom:5px}
 .echo-editor-field>label,.echo-substats-label{color:#747c87;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .echo-main-stat-field{margin-bottom:5px}
@@ -459,8 +468,8 @@
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <section class="improve-truth" aria-label="Character source of truth">
-      <div class="improve-character-context"><div class="improve-truth-art"><strong id="improveCharacterName" class="improve-truth-name"></strong><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div>
-      <div class="improve-weapon-truth"><strong id="improveWeaponName">Pending</strong><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><div class="improve-weapon-facts"><div><span>Base ATK</span><strong id="improveWeaponAtk">Pending</strong></div><div><span id="improveWeaponSecondaryName">Secondary</span><strong id="improveWeaponSecondaryValue">Pending</strong></div></div></div>
+      <div class="improve-character-identity"><strong id="improveCharacterName" class="improve-truth-name"></strong><div class="improve-character-context"><div class="improve-truth-art"><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div></div>
+      <div class="improve-weapon-truth"><strong id="improveWeaponName">Pending</strong><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><div class="improve-weapon-facts"><div><span id="improveWeaponSecondaryName">Secondary</span><strong id="improveWeaponSecondaryValue">Pending</strong></div><div><span>Base ATK</span><strong id="improveWeaponAtk">Pending</strong></div></div></div>
       <div class="improve-skills-truth"><div class="improve-skills-head"><strong>Skills</strong><small>Current</small></div><div id="improveSkillsTree" class="skills-mini-tree" role="group" aria-label="Current Forte tree (read only)"></div></div>
     </section>
     <section class="improve-stats" aria-label="Character stats of truth">
@@ -685,6 +694,7 @@ async function loadBuildStatsRuntimeData(){
   buildStatsRuntimeLoaded=true;
   document.documentElement.dataset.buildStatsReady='true';
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadCharacterMechanicsRuntimeData(){
   const response=await fetch(SKILLS_RUNTIME_DATA_PATH,{cache:'no-store'});
@@ -699,6 +709,7 @@ async function loadCharacterMechanicsRuntimeData(){
   document.documentElement.dataset.skillsMechanicsReady='true';
   skillsUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadWeaponBrowserData(){
   const [browserDataResponse,manifestResponse]=await Promise.all([
@@ -728,6 +739,7 @@ async function loadWeaponBrowserData(){
   document.documentElement.dataset.weaponCatalogReady='true';
   weaponUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 async function loadSequenceRuntimeData(){
   const response=await fetch(SEQUENCE_RUNTIME_DATA_PATH,{cache:'no-store'});
@@ -754,6 +766,7 @@ async function loadSequenceRuntimeData(){
   sequenceUi.refreshForCharacter();
   skillsUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 function reviewedStaticSequenceStats(characterId,level){
   const sequenceLevel=Number(level),character=sequenceAssetsByCharacter.get(characterId);
@@ -812,6 +825,7 @@ async function loadEchoBrowserData(){
   document.documentElement.dataset.echoCatalogReady='true';
   echoUi.refreshForCharacter();
   statsUi.refresh();
+  improveUi.refresh();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -1156,6 +1170,11 @@ function appendEchoSonataIcons(host,ids){
 function compareSonataNewestFirst(a,b){
   return b.sourceId-a.sourceId||a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en');
 }
+function validateEchoCandidate(candidate,item){
+  if(!item||candidate?.echoId!==item.id)return 'Choose a source-backed Echo.';
+  if(!item.sonataSetIds.includes(candidate.selectedSonataSetId)||!echoSonataById.has(candidate.selectedSonataSetId))return 'Choose an available Sonata Set.';
+  return '';
+}
 const echoUi={
   overlay:null,panel:null,browser:null,choices:null,workspaceSlots:null,sonataToggle:null,sonataMenu:null,sonataOptions:null,
   context:{kind:'equipped'},
@@ -1184,7 +1203,7 @@ const echoUi={
   contextValid(){return this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
   previewCommitted(){return this.context.kind==='candidate'?improveUi.candidate:this.currentSlot()},
   activeSet(){
-    if(this.context.kind==='candidate')return {...emptyEchoSet(),slots:this.context.equippedSlots};
+    if(this.context.kind==='candidate')return emptyEchoSet();
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
@@ -1246,8 +1265,8 @@ const echoUi={
   },
   renderWorkspaceSlots(){
     if(!this.workspaceSlots)return;
+    this.workspaceSlots.replaceChildren();if(this.context.kind==='candidate')return;
     const slots=this.activeSet().slots||[];
-    this.workspaceSlots.replaceChildren();
     for(let index=0;index<5;index++){
       const owned=slots[index],item=echoById.get(echoSlotId(owned)),recommendedCost=this.recommendedCost(index),cost=item?.cost??recommendedCost;
       const sonata=echoSonataById.get(owned?.selectedSonataSetId);
@@ -1358,7 +1377,7 @@ const echoUi={
     const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
     document.getElementById('echoPreviewName').textContent=item.name;
     const stars=document.getElementById('echoPreviewCostStars');stars.textContent='★'.repeat(item.cost);stars.setAttribute('aria-label',`Cost ${item.cost}`);
-    document.getElementById('echoPreviewLevel').textContent=`Level +${this.editorDraft?.level??0}`;
+    document.getElementById('echoPreviewLevel').textContent=this.context.kind==='candidate'?'Unbuilt Echo':`Level +${this.editorDraft?.level??0}`;
     const host=document.getElementById('echoPreviewSonataChoices');host.replaceChildren();
     const ordered=this.orderedAllowedSonataIds(item);
     ordered.forEach(id=>{
@@ -1368,7 +1387,7 @@ const echoUi={
       button.disabled=ordered.length===1;button.addEventListener('click',()=>{
         if(!this.editorDraft||!item.sonataSetIds.includes(id)||id===this.editorDraft.selectedSonataSetId)return;
         const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId,context=this.context;
-        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='candidate'?'Use as Candidate':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
+        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='candidate'?'Choose Echo':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
           if(this.context!==context||!this.contextValid()||!this.open||this.previewId!==previewId||!this.editorDraft)return;
           this.editorDraft.selectedSonataSetId=id;this.renderIdentity(item);this.syncEquipAction();
           host.querySelector(`[data-sonata-id="${id}"]`)?.focus();
@@ -1385,6 +1404,7 @@ const echoUi={
     card.level=level;card.mainStat={name:main.name,value:main.value};card.secondaryMainStat={name:secondary.name,value:secondary.value};card.substats=complete;
   },
   renderEditor(){
+    if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
@@ -1434,8 +1454,9 @@ const echoUi={
     this.renderInfo();this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.infoExpanded=false;this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);
-    this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);
+    this.previewId=item.id;this.infoExpanded=false;
+    if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
+    else{this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null)}
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
   },
   select(id){const item=echoById.get(id);if(!item)return;this.setPreview(item,null);},
@@ -1444,12 +1465,13 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
+  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
-    const item=echoById.get(this.previewId),reason=item&&this.editorDraft?validateEchoStatCard(this.editorDraft,item):'';
+    const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
     const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
-    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||alreadyCommitted;button.textContent=alreadyCommitted?(candidate?'Candidate selected':'Equipped'):(candidate?'Use as Candidate':'Equip Echo');
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
@@ -1474,19 +1496,21 @@ const echoUi={
     if(!name||this.open||this.closing)return;
     await echoDataReady;
     if(name!==improveUi.characterName||version!==improveUi.contextVersion||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
-    // Candidate owns a read-only equipment snapshot; Build keeps its separate binding.
-    this.context={kind:'candidate',characterName:name,characterId:improveUi.characterId,version,equippedSlots:improveEchoSlots(name)};
+    // Candidate selects identity and Sonata only; Build keeps its equipped binding.
+    this.context={kind:'candidate',characterName:name,characterId:improveUi.characterId,version};
     this.openWorkspace(improveUi.selectedEchoIndex);
   },
   openWorkspace(index){
     this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;
     const candidate=this.context.kind==='candidate';this.overlay.dataset.context=this.context.kind;
+    this.workspaceSlots.hidden=candidate;this.panel.querySelector('.echo-editor-stats').hidden=candidate;
+    this.panel.querySelector('#echoActiveEffects').closest('.echo-info-section').hidden=candidate;
     document.getElementById('echoTitle').textContent=candidate?'Echo Workspace · Candidate':'Echo Workspace';
     this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
     document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
-    this.workspaceSlots.setAttribute('aria-label',candidate?'Current equipped Echoes (read only)':'Build Echo slots');
+    this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
     this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
-    const recommendedCost=this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
+    const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
     const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
@@ -1506,13 +1530,13 @@ const echoUi={
     this.overlay.classList.remove('open');this.setSonataMenuOpen(false);
     playEchoMotion(source,destination).then(()=>{
       this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;this.context={kind:'equipped'};
-      if(this.lastFocus&&document.contains(this.lastFocus))this.lastFocus.focus();
+      const focus=candidate?document.getElementById('improveNewEcho'):this.lastFocus;if(focus&&document.contains(focus))focus.focus({preventScroll:true});
     });
   },
   equipPreview(){
     if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
-    const item=echoById.get(this.previewId),reason=validateEchoStatCard(this.editorDraft,item);if(reason){this.syncEquipAction();return}
-    if(this.context.kind==='candidate'){improveUi.candidate=cloneEchoSlot(this.editorDraft);improveUi.renderCandidate();this.hide();return}
+    const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
+    if(this.context.kind==='candidate'){improveUi.candidate={echoId:this.editorDraft.echoId,selectedSonataSetId:this.editorDraft.selectedSonataSetId};improveUi.renderCandidate();improveUi.renderHelper();this.hide();return}
     if(!this.characterName)return;
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
     this.currentSets=commitEchoSlot(this.characterName,this.targetSlot,this.editorDraft);this.renderBuildSlots();this.renderWorkspaceSlots();statsUi.refresh();this.editorDraft=cloneEchoSlot(this.currentSlot());this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null);this.renderEditor();this.infoExpanded=false;this.renderInfo();this.syncEquipAction();
@@ -1980,6 +2004,7 @@ const improveUi={
     return forte.normalizeForteState(tree,build.forte);
   },
   renderSkills(){
+    if(!characterMechanicsDataLoaded||!window.bellibingForte){document.getElementById('improveSkillsTree').textContent=document.documentElement.dataset.skillsMechanicsError?'Pending':'Loading Skills…';return}
     skillsUi.renderTree(document.getElementById('improveSkillsTree'),true,{tree:skillsPreviewByCharacterId.get(this.characterId),model:window.bellibingForte,state:this.skillState(),readOnly:true,selectedRole:null});
   },
   renderSequence(){
@@ -2045,16 +2070,18 @@ const improveUi={
     if(item){
       const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item.name;
       const art=document.createElement('div');art.className='improve-echo-large-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.append(image);
-      button.className='improve-candidate-edit';button.textContent='Edit Candidate';head.lastElementChild.replaceWith(button);
-      const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost+' · +'+slot.level;
-      host.append(title,art,meta,this.echoStats(slot));
+      button.className='improve-candidate-edit';button.textContent='Change Echo';head.lastElementChild.replaceWith(button);
+      const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
+      const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
+      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent='Main stat — · Level —';
+      host.append(title,art,meta,sonata,pending);
     }else{
       const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
     }
   },
   selectEcho(index){
     this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();
-    document.getElementById('improveHelperTitle').textContent='Roll to +5';document.getElementById('improveHelperMain').textContent='Enter the first substat.';
+    this.renderHelper();
   },
   renderEchoRow(){
     const host=document.getElementById('improveEchoRow'),slots=improveEchoSlots(this.characterName);host.replaceChildren();
@@ -2063,16 +2090,23 @@ const improveUi={
       const cost=document.createElement('span');cost.className='improve-equipped-cost';cost.textContent=item?'COST '+item.cost:'EMPTY';const level=document.createElement('span');level.className='improve-equipped-level';level.textContent=Number.isFinite(slot?.level)?'+'+slot.level:'';cost.appendChild(level);
       const art=document.createElement('span');art.className='improve-equipped-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}
       const title=document.createElement('span');title.className='improve-equipped-name';title.textContent=item?.name||('Echo '+(index+1));
-      button.append(cost,art,title,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);host.appendChild(button);
+      button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);host.appendChild(button);
     }
   },
   render(){
     if(!this.characterName)return;
     this.renderHero();this.renderWeapon();this.renderSkills();this.renderSequence();this.renderStats();this.renderEchoRow();this.renderCurrentEcho();this.renderCandidate();
-    document.getElementById('improveHelperTitle').textContent='Roll to +5';document.getElementById('improveHelperMain').textContent='Enter the first substat.';
+    this.renderHelper();
+  },
+  renderHelper(){
+    document.getElementById('improveHelperTitle').textContent=this.candidate?'Enter Main Stat':'Choose Echo';
+    document.getElementById('improveHelperMain').textContent=this.candidate?'Start with the main stat of your new Echo.':'Choose the Echo you want to build.';
+    document.getElementById('improveEnterSubstat').textContent=this.candidate?'+ Enter Main Stat':'+ Choose Echo';
   },
   refresh(){if(this.characterName)this.render()}
 };
+window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
+window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
 async function loadReleasedCharacters(){
   const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store'});
@@ -2110,6 +2144,7 @@ async function loadCharacterHeroArtRuntimeData(){
   characterHeroArtRuntimeLoaded=true;
   document.documentElement.dataset.characterHeroArtReady='true';
   heroArtUi.refresh();
+  improveUi.refresh();
 }
 const heroArtUi=(()=>{
   const host=document.getElementById('buildHeroArt');
@@ -2246,7 +2281,7 @@ document.getElementById('accountBtn').onclick=()=>{const n=buildPicker.selected;
 document.getElementById('cancelSwitch').onclick=()=>closeConfirmation();
 document.getElementById('confirmSwitch').onclick=()=>closeConfirmation(true);
 document.getElementById('improveNewEcho').onclick=()=>echoUi.showCandidate();
-document.getElementById('improveEnterSubstat').onclick=()=>{document.getElementById('improveHelperTitle').textContent='Enter substat';document.getElementById('improveHelperMain').textContent='Live roll evaluation is Pending until the model is source-backed.'};
+document.getElementById('improveEnterSubstat').onclick=()=>{if(!improveUi.candidate){echoUi.showCandidate();return}document.getElementById('improveHelperTitle').textContent='Enter Main Stat';document.getElementById('improveHelperMain').textContent='Main stat entry is the next step. Roll evaluation is Pending model.'};
 window.addEventListener('resize',()=>{buildPicker.repaint();improvePicker.repaint()});
 weaponUi.init();
 echoUi.init();
@@ -2254,7 +2289,7 @@ sequenceUi.init();
 skillsUi.init();
 statsUi.init();
 buildStatsDataReady=loadBuildStatsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.buildStatsError=String(error.message||error);statsUi.render()});
-characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render()});
+characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render();improveUi.refresh()});
 sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
 renderHome();
 if(IMPROVE_LAYOUT_PREVIEW){

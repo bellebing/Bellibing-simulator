@@ -889,7 +889,7 @@ try {
     await send('Runtime.enable');
     const desktop = await verifyDesktop(send);
     const sonata = await verifySonataComposition(send);
-    await verifyImproveCandidate({send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
+    await verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
     const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
     console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
     console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');

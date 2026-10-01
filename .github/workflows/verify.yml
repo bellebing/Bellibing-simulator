@@ -187,7 +187,7 @@ jobs:
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/5-star-square.png"
 
-          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 819
+          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 822
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6
           test "$(find dist/ui-preview/assets/builder-icons/sonata -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 37
           test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 411

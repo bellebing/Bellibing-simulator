@@ -1,0 +1,36 @@
+export const CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT = {
+  factId: 'cartethyia-inherent-a-hearts-truest-wishes',
+  characterId: 'cartethyia',
+  canonical: {
+    name: "Inherent Skill — A Heart's Truest Wishes",
+    section: 'INHERENT_SKILL',
+    scope: 'TEAM',
+    conditional: true,
+    triggerSummary: 'Inherent Skill is active.',
+    effectSummary: 'Healing received by all Resonators other than Cartethyia/Fleurdelys in the team is increased by 20% and their resistance to interruption is enhanced. If Rover: Aero is in the team, Rover: Aero additionally restores 25 Windstrings upon casting Omega Storm.',
+    durationSeconds: null,
+    maxStacks: null,
+    verificationStatus: 'VERIFIED',
+    modelingStatus: 'RAW_ONLY',
+  },
+  omegaStormWindstringsGain: 25,
+  sourceIdentity: {
+    characterId: 'cartethyia',
+    sourceCharacterId: 1409,
+    moveId: 1003504,
+    moveType: 4,
+    moveName: "A Heart's Truest Wishes",
+    description: 'The healing received by all Resonators other than <color=Highlight>Cartethyia/Fleurdelys</color> in the team is increased by 20% and their resistance to interruption is enhanced. If Rover: Aero is in the team, Rover: Aero additionally restores 25 <color=Highlight>Windstrings</color> upon casting <color=Highlight>Omega Storm</color>.',
+    descriptionParams: ['20%'],
+  },
+  pinnedSkillsForteSource: {
+    repository: 'DommyMM/wuwabuild',
+    commit: '2b57a127b26b062ab58d272cd6735338507de1cd',
+    path: 'public/Data/Characters.json',
+  },
+  canonicalFactProvenance: {
+    checkedAt: '2026-08-29',
+    sourceLabel: 'wuwabuild normalized Character snapshot — exact pinned upstream commit',
+    sourceUrl: 'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json',
+  },
+} as const;

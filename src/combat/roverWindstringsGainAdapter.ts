@@ -2,11 +2,12 @@ import type { CharacterMechanicFact } from '../characterMechanicsDomain.ts';
 import { readCharacterActionValues } from '../characterActionValues.ts';
 import { getCharacterMechanicFact, getCharacterMechanicsProfile } from '../data/characterMechanics.ts';
 import { CHARACTER_CATALOG } from '../data/characters.ts';
+import { CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT } from '../data/characterMechanics/cartethyiaWindstringsSourceContract.ts';
 
 export const ROVER_WINDSTRINGS_GAIN_ID = 'rover-windstrings-explicit-gain-v1';
 const RESOURCE_ID = 'rover-aero-resource-windstrings';
 const OWNER = 'rover-aero';
-const TEAM_SOURCE_ID = 'cartethyia-inherent-a-hearts-truest-wishes';
+const TEAM_SOURCE_ID = CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId;
 const SOURCE = 'https://github.com/DommyMM/wuwabuild/blob/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data/Characters.json';
 const ACTIONS = [
   { factId: 'rover-aero-intro-skill-relentless-squall-skill-dmg', eventKind: 'INTRO_CAST' },
@@ -101,19 +102,38 @@ export function evaluateRoverWindstringsSpend(input: RoverWindstringsSpendInput)
     scope: 'NOMINAL_SPEND_ONLY' as const };
 }
 
-/** Exact existing team fact; its other healing/interruption effects are separate. */
+/** Exact reviewed Cartethyia source contract; healing/interruption effects remain separate.
+ * The data layer owns the source identity and canonical semantic projection. */
 export function readCartethyiaWindstringsGain(fact: CharacterMechanicFact): number {
-  const profile = getCharacterMechanicsProfile('cartethyia');
-  if (fact.factId !== TEAM_SOURCE_ID || fact.characterId !== 'cartethyia' || fact.kind !== 'PASSIVE'
-    || fact.verificationStatus !== 'VERIFIED' || fact.modelingStatus !== 'RAW_ONLY'
-    || fact.scope !== 'TEAM' || fact.conditional !== true || fact.section !== 'INHERENT_SKILL'
-    || fact.triggerSummary !== 'Inherent Skill is active; source-specific team/healing conditions apply.'
-    || fact.provenance.checkedAt !== '2026-08-29' || !fact.provenance.sourceUrls?.includes(SOURCE)
-    || profile?.verificationStatus !== 'VERIFIED' || !profile.factIds.includes(fact.factId)) {
+  const profile = getCharacterMechanicsProfile(CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.characterId);
+  const expected = CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.canonical;
+  const provenance = CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.canonicalFactProvenance;
+  const sourceUrls = fact.provenance.sourceUrls ?? [];
+  const sourceIndex = sourceUrls.indexOf(provenance.sourceUrl);
+  const sourceLabels = fact.provenance.sourceLabels ?? [];
+
+  if (fact.factId !== CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId
+    || fact.characterId !== CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.characterId
+    || fact.kind !== 'PASSIVE'
+    || fact.verificationStatus !== expected.verificationStatus
+    || fact.modelingStatus !== expected.modelingStatus
+    || fact.name !== expected.name
+    || fact.scope !== expected.scope
+    || fact.conditional !== expected.conditional
+    || fact.section !== expected.section
+    || fact.triggerSummary !== expected.triggerSummary
+    || fact.effectSummary !== expected.effectSummary
+    || fact.durationSeconds !== expected.durationSeconds
+    || fact.maxStacks !== expected.maxStacks
+    || fact.provenance.checkedAt !== provenance.checkedAt
+    || sourceIndex < 0
+    || sourceLabels[sourceIndex] !== provenance.sourceLabel
+    || profile?.verificationStatus !== 'VERIFIED'
+    || !profile.factIds.includes(fact.factId)) {
     throw new Error('Unsupported Cartethyia Windstrings source');
   }
-  const match = fact.effectSummary.match(/^Other Resonators in the team gain [0-9]+(?:\.[0-9]+)?% Healing Received and increased interruption resistance\. The current source also states Aero Rover Omega Storm restores ([0-9]+) Windstrings\.$/);
-  const amount = match ? Number(match[1]) : NaN;
+
+  const amount = CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.omegaStormWindstringsGain;
   if (!Number.isSafeInteger(amount) || amount <= 0) throw new Error('Cartethyia Windstrings clause requires renewed review');
   return amount;
 }

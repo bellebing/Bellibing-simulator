@@ -31,7 +31,7 @@ test('released-roster ACTIONS coverage is fail-closed with only exact current-so
   assert.deepEqual(audit.issues, []);
 });
 
-test('ACTIONS-only completion does not promote the three full Character Mechanics profiles', () => {
+test('ACTIONS coverage stays unchanged while Forte completion does not promote the three full Character Mechanics profiles', () => {
   const buling = CHARACTER_MECHANICS_PROFILE_BY_ID.get('buling');
   const danjin = CHARACTER_MECHANICS_PROFILE_BY_ID.get('danjin');
   const xiangli = CHARACTER_MECHANICS_PROFILE_BY_ID.get('xiangli-yao');
@@ -39,8 +39,9 @@ test('ACTIONS-only completion does not promote the three full Character Mechanic
   for (const profile of [buling, danjin, xiangli]) {
     assert.ok(profile);
     assert.equal(profile.verificationStatus, 'PARTIALLY_VERIFIED');
-    assert.equal(profile.coverage.filter((entry) => entry.status === 'VERIFIED').length, profile.characterId === 'danjin' ? 1 : 0);
-    assert.ok(profile.coverage.filter((entry) => entry.area !== 'ACTIONS').every((entry) => entry.status === 'PENDING'));
+    const expectedVerifiedAreas = profile.characterId === 'buling' ? 0 : 1;
+    assert.equal(profile.coverage.filter((entry) => entry.status === 'VERIFIED').length, expectedVerifiedAreas);
+    assert.ok(profile.coverage.filter((entry) => !['ACTIONS', 'FORTE_RULES'].includes(entry.area)).every((entry) => entry.status === 'PENDING'));
   }
 
   assert.equal(buling.coverage.find((entry) => entry.area === 'ACTIONS')?.status, 'PARTIAL');

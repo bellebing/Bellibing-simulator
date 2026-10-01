@@ -1,16 +1,33 @@
 # Bellibing Simulator — Current Project Status
 
-## Draft Character Mechanics ACTIONS roster completion — PR #221
+## Draft Character Mechanics FORTE_RULES roster completion — PR #222
 
-Canonical `main` is `8265666e115dac1396612b6a7656154dcec79bc7`, where PR #220 is merged and post-merge Verify #1724 / run 36831997668 passed **1177/1177 tests**, all source/audit gates, strict build and the full real-Chrome New UI regression. The stale pre-merge PR #220 wording that previously led this file is superseded by this checkpoint.
+Draft PR #222 is the **FORTE_RULES-only** continuation. PR #221 ACTIONS was explicitly approved and normal-merged to `main` as `fbb84dcffebc8d3e8dc590977bf9be6153dbc0fc`; PR #222 is now retargeted to that canonical `main` while preserving its exact reviewed FORTE_RULES payload. The pre-retarget reviewed head was `4abfbf3ade93a729aa5a23354596b1c0a718f5e0`; this documentation sync intentionally creates a fresh PR head so Verify runs against the merged ACTIONS baseline.
 
-Draft PR #221 is the ACTIONS-only Character Mechanics continuation from that exact main base. It reuses the existing Skills/Forte source and Character Mechanics candidate/parser architecture; no second skill model is introduced. The canonical registry now carries ACTION-only partial profiles for the three former unstarted Characters so ACTIONS coverage can be audited independently without promoting unrelated mechanics areas.
+The existing 54 source-complete Character Mechanics profiles keep their already-canonical Forte facts. PR #222 fills only the remaining RELEASED-roster Forte-rule gaps for Buling, Danjin and Xiangli Yao through the existing `ACTION` / `PASSIVE` fact architecture and the existing source-backed Skills/Forte payload. Ten canonical Forte-rule facts are added, bringing the registry total from **1922 to 1932** facts. No parallel skill/Forte model is introduced.
+
+Deterministic RELEASED-roster `FORTE_RULES` coverage is **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. The exact remaining blockers are:
+
+- `FORTE-BULING-1307031-DAMAGE-CLASS` — Five Thunders Spell Array cadence, Electro Flare application, Yin-Yang Balance/Harmony replacement and Thunder Spell team-state progression are source-explicit, but the array's own continuous damage still has no source-explicit Character damage-bonus classification. The separate 10%/25% team Resonance Skill DMG Bonus states are not used to infer it.
+- `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD` — Serene Vigil requires Ruby Blossom to reach **over 120** for the full-power branch while the same source caps Ruby Blossom at **120**. Bellibing does not normalize that contradiction to `>=120` or `=120`.
+
+Xiangli Yao's source-explicit Intuition transformations, 24s source limit, Decipher/Law of Reigns thresholds and replacement relationships, and Revamp follow-up are canonical. The source only says Revamp is available “shortly after” Decipher or Divergence, so no numeric input window is invented; runtime timing remains `PENDING_INTERPRETATION` without changing source verification.
+
+PR #221 ACTIONS coverage is regression-locked and unchanged at **57 / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED** with the same `ACTIONS-BULING-1307031-DAMAGE-CLASS` and `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS` blockers. Full Character Mechanics remains **54/57 VERIFIED**: Buling, Danjin and Xiangli Yao stay `PARTIALLY_VERIFIED` overall. Inherent passives, Outro effects, generic Resource rules, Sequence mechanics, Improve, Team, DPS rotations, profiles/recommendations and Skills/Forte UI/layout remain outside this slice.
+
+See [Character Mechanics FORTE_RULES Coverage](CHARACTER_FORTE_RULES_COVERAGE.md), [Character Mechanics ACTIONS Coverage](CHARACTER_ACTIONS_COVERAGE.md), and [Character Mechanics Source Review Dispositions](CHARACTER_MECHANICS_SOURCE_REVIEW.md). PR #222 must remain **DRAFT / OPEN / UNMERGED** for user review. Final exact-head Verify after this documentation sync is the authoritative review gate.
+
+## Merged Character Mechanics ACTIONS roster completion — PR #221
+
+PR #221 was explicitly approved and normal-merged to canonical `main` as `fbb84dcffebc8d3e8dc590977bf9be6153dbc0fc` from exact reviewed head `ed583460f1be6271654430a0d041bb8772531e49`. Its pre-merge exact-head Verify #1730 passed **1181/1181 tests**, all source/audit/profile gates, strict build and the full real-Chrome regression. The ACTIONS implementation remains the baseline for PR #222.
+
+PR #221 is the ACTIONS-only Character Mechanics continuation from the prior PR #220 main base. It reuses the existing Skills/Forte source and Character Mechanics candidate/parser architecture; no second skill model is introduced. The canonical registry now carries ACTION-only partial profiles for the three former unstarted Characters so ACTIONS coverage can be audited independently without promoting unrelated mechanics areas.
 
 Deterministic RELEASED-roster ACTIONS coverage is **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. Danjin's ACTIONS are fully source-verified, including exact Lv1-Lv10 enhanced Chaoscleave/Scatterbloom curves, while the contradictory Ruby Blossom `over 120` vs max-120 trigger remains outside ACTIONS as the existing full-profile RESOURCE_RULES/source-review blocker. Buling remains ACTIONS-blocked only by `ACTIONS-BULING-1307031-DAMAGE-CLASS` (Five Thunders Spell Array Continuous DMG classification). Xiangli Yao remains ACTIONS-blocked only by `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS` (Pivot - Impale stages 1-3 classification). Exact curves/components/hit shapes/scaling that current sources do support are preserved; the missing damage classes are not inferred.
 
 PR #221 also adds the required shared-system Tune Break ACTION contract for Buling, Danjin and Xiangli Yao, a fail-closed roster-wide ACTIONS audit, a deterministic checked-in coverage report and a regression that derives the newly promoted curves/components through the existing Character Mechanics source parser. Full Character Mechanics verification remains **54/57**: Buling, Danjin and Xiangli Yao are `PARTIALLY_VERIFIED` overall, and all non-ACTIONS coverage areas added by this slice stay `PENDING`.
 
-Scope is intentionally narrow. PR #221 does **not** implement Improve, Team, DPS rotations, profiles/recommendations, UI/layout, Forte rules, resource rules, Inherent passives or Sequence mechanics. It does not reinterpret the V9.15 spreadsheet as current architecture. Exact-head Verify on the draft PR remains the merge gate; the PR must stay **DRAFT / OPEN / UNMERGED** for user review.
+Scope is intentionally narrow. PR #221 does **not** implement Improve, Team, DPS rotations, profiles/recommendations, UI/layout, Forte rules, resource rules, Inherent passives or Sequence mechanics. It does not reinterpret the V9.15 spreadsheet as current architecture. PR #221 is **MERGED / CLOSED**. Its two source blockers remain explicit and are not changed by merge status.
 
 See [Character Mechanics ACTIONS Coverage](CHARACTER_ACTIONS_COVERAGE.md) and [Character Mechanics Source Review Dispositions](CHARACTER_MECHANICS_SOURCE_REVIEW.md).
 

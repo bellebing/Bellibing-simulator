@@ -33,7 +33,9 @@
     "audit:ui-echo-portraits": "node scripts/audit-ui-echo-portraits.mjs",
     "audit:ui-builder-icons": "node scripts/audit-ui-builder-icons.mjs",
     "report:character-actions": "node --experimental-strip-types scripts/report-character-actions.ts",
-    "audit:character-actions": "node --experimental-strip-types scripts/report-character-actions.ts --check"
+    "audit:character-actions": "node --experimental-strip-types scripts/report-character-actions.ts --check",
+    "report:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts",
+    "audit:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts --check"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

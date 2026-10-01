@@ -10,7 +10,8 @@ import { ROVER_ELECTRO_CHARACTER_MECHANIC_FACTS } from './characterMechanics/rov
 import { SUISUI_CHARACTER_MECHANIC_FACTS } from './characterMechanics/suisuiRawFacts.ts';
 import { FINAL_BLOCKER_RESOLVED_TUNE_BREAK_FACTS } from './characterMechanics/finalBlockerResolvedTuneBreakFacts.ts';
 import { FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES } from './characterMechanics/finalBlockerResolvedProfiles.ts';
-import { ROSTER_ACTION_COMPLETION_FACTS, ROSTER_ACTION_COMPLETION_PROFILES } from './characterMechanics/rosterActionCompletion.ts';
+import { ROSTER_ACTION_COMPLETION_FACTS } from './characterMechanics/rosterActionCompletion.ts';
+import { ROSTER_FORTE_COMPLETION_FACTS, ROSTER_FORTE_COMPLETION_PROFILES } from './characterMechanics/rosterForteCompletion.ts';
 
 export * from './characterMechanicsBase.ts';
 export {
@@ -35,6 +36,7 @@ export {
   SUISUI_TUNE_BREAK_FACT,
 } from './characterMechanics/finalBlockerResolvedTuneBreakFacts.ts';
 export * from './characterMechanics/rosterActionCompletion.ts';
+export * from './characterMechanics/rosterForteCompletion.ts';
 export {
   FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES,
   ROVER_ELECTRO_CHARACTER_MECHANICS_PROFILE,
@@ -47,6 +49,7 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...SUISUI_CHARACTER_MECHANIC_FACTS,
   ...FINAL_BLOCKER_RESOLVED_TUNE_BREAK_FACTS,
   ...ROSTER_ACTION_COMPLETION_FACTS,
+  ...ROSTER_FORTE_COMPLETION_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -70,7 +73,7 @@ export function getCharacterActionFact(factId: string) {
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   ...BASE_CHARACTER_MECHANICS_PROFILES,
   ...FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES,
-  ...ROSTER_ACTION_COMPLETION_PROFILES,
+  ...ROSTER_FORTE_COMPLETION_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

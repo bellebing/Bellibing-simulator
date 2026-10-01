@@ -53,6 +53,28 @@ test('new Inherent Skill facts preserve the pinned source values for the three p
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.get('xiangli-yao-inherent-focus')?.verificationStatus, 'VERIFIED');
 });
 
+test('legacy Inherent Skill drift is normalized to exact pinned source identities and explicit values', () => {
+  const expectedNames = new Map([
+    ['cantarella-inherent-cure', 'Inherent Skill — "Cure"'],
+    ['cantarella-inherent-poison', 'Inherent Skill — "Poison"'],
+    ['cartethyia-inherent-a-hearts-truest-wishes', "Inherent Skill — A Heart's Truest Wishes"],
+    ['cartethyia-inherent-winds-indelible-imprint', "Inherent Skill — Wind's Indelible Imprint"],
+    ['hiyuki-forte-glacio-bite-and-fine-snow', 'Inherent Skill — Fine Snow'],
+    ['lupa-inherent-applause-of-victory', 'Inherent Skill — Applause of Victory'],
+    ['lynae-inherent-colors-never-fade', 'Inherent Skill — Colors Never Fade!'],
+    ['lynae-inherent-adaptive-optics', 'Inherent Skill — "Adaptive Optics: Everyday Applications"'],
+    ['rebecca-inherent-tag-youre-it', "Inherent Skill — Tag, You're It!"],
+  ]);
+
+  for (const [factId, name] of expectedNames) {
+    assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.get(factId)?.name, name, factId);
+  }
+
+  assert.match(CHARACTER_MECHANIC_FACT_BY_ID.get('hiyuki-forte-glacio-bite-and-fine-snow')?.effectSummary ?? '', /30%.*40%.*102%.*30%/);
+  assert.match(CHARACTER_MECHANIC_FACT_BY_ID.get('lynae-inherent-colors-never-fade')?.effectSummary ?? '', /600.*20% Lumiflow per second/);
+  assert.match(CHARACTER_MECHANIC_FACT_BY_ID.get('lynae-inherent-adaptive-optics')?.effectSummary ?? '', /25%.*9s.*15s/);
+});
+
 test('INHERENT_PASSIVES completion does not change ACTIONS or FORTE_RULES coverage', () => {
   const actions = auditCharacterActionsCoverage();
   const forte = auditCharacterForteRulesCoverage();

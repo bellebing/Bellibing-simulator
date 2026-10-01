@@ -1,5 +1,16 @@
 # Bellibing Simulator — Current Project Status
 
+## Draft Character Mechanics INHERENT_PASSIVES roster completion — stacked on PR #222
+
+This slice is stacked on the exact current head of still-open draft PR #222, `0c9061728a64630997c8b12ae14267be093b89c3`; it does not bypass the FORTE_RULES lineage. Scope is **INHERENT_PASSIVES only**. The existing Character Mechanics architecture and pinned Skills/Forte payload are reused; ACTIONS and FORTE_RULES behavior are regression-locked unchanged.
+
+The pinned Skills/Forte payload contains exactly **114 Inherent Skill rows** across **57 RELEASED Characters** — exactly two per Character. The canonical roster-wide INHERENT_PASSIVES audit requires those two source names to be linked by each Character profile as source-`VERIFIED` `PASSIVE` facts in `INHERENT_SKILL`. Buling, Danjin and Xiangli Yao receive the six missing canonical facts with exact source-backed triggers, values and conditions; underspecified runtime semantics remain `PENDING_INTERPRETATION` instead of being inferred.
+
+Deterministic INHERENT_PASSIVES coverage is **57 total / 57 VERIFIED / 0 PARTIAL / 0 BLOCKED**. There are no remaining INHERENT_PASSIVES source blockers. Existing independent blockers remain unchanged: Buling and Xiangli Yao stay ACTIONS-blocked on missing damage classification, while Buling and Danjin stay FORTE_RULES-blocked on the existing array damage-class / contradictory Ruby Blossom threshold issues. Full Character Mechanics verification therefore remains **54/57**; Buling, Danjin and Xiangli Yao stay `PARTIALLY_VERIFIED`, with Outro effects, generic Resource rules and Sequences still pending.
+
+A deterministic checked-in [Character Mechanics INHERENT_PASSIVES Coverage](CHARACTER_INHERENT_PASSIVES_COVERAGE.md) report and Verify gate cross-check every RELEASED Character against the pinned source payload. No Improve, Team, DPS rotation, profile/recommendation or UI work is included. Exact-head Verify remains the review gate; this continuation must stay **DRAFT / OPEN / UNMERGED**.
+
+
 ## Draft Character Mechanics FORTE_RULES roster completion — PR #222
 
 Draft PR #222 is the **FORTE_RULES-only** continuation. PR #221 ACTIONS was explicitly approved and normal-merged to `main` as `fbb84dcffebc8d3e8dc590977bf9be6153dbc0fc`; PR #222 is now retargeted to that canonical `main` while preserving its exact reviewed FORTE_RULES payload. The pre-retarget reviewed head was `4abfbf3ade93a729aa5a23354596b1c0a718f5e0`; this documentation sync intentionally creates a fresh PR head so Verify runs against the merged ACTIONS baseline.

@@ -1,5 +1,5 @@
-// GENERATED from DommyMM/wuwabuild/public/Data/Echoes.json at 5fa70b11f1d84fb644e4dbed47873708da0fe66f.
-// Pinned Git blob: cca1563ce0491a3de80ac7359344112631329224. Raw Rank-5 text and parameters; no combat model.
+// GENERATED from DommyMM/wuwabuild/public/Data/Echoes.json at 49222fe53b2bb2060f235152ee78ad332ea44c37.
+// Pinned Git blob: 99f1dd922f529757074778426070a40ebacfa05a. Raw Rank-5 text and parameters; no combat model.
 export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000375",
@@ -8,8 +8,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "145.92%",
       "15",
-      "50.00%",
-      "10.00%",
+      "50%",
+      "10%",
       "3",
       "20"
     ]
@@ -19,9 +19,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Calamity Effigy",
     "descriptionTemplate": "Transform into Calamity Effigy to deal {0} Aero DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Aero DMG Bonus, and additionally gains {2} Aero DMG Bonus for {3}s when inflicting Tune Strain - Shifting on the target.\nCD: {4}s",
     "rank5Params": [
-      "405.00%",
-      "10.00%",
-      "10.00%",
+      "405%",
+      "10%",
+      "10%",
       "15",
       "25"
     ]
@@ -34,8 +34,8 @@ export const ECHO_SKILL_RAW = [
       "134.08%",
       "100.56%",
       "67.04%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -46,8 +46,8 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Transform into Dragon of Dirge and summon a Grief Rift lasting for 5s. Periodically deal {0} Fusion DMG to enemies within the area of effect.\nThe Resonator with this Echo equipped in the main slot gains {1} Fusion DMG Bonus and {2} Basic Attack DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
       "36.81%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -57,9 +57,9 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Transform into Dreamless and perform 6 consecutive strikes. The first 5 strikes deal {0} Havoc DMG each, and the last strike deal {1} Havoc DMG.\nThe DMG of this Echo Skill is increased by {3} during the first {2}s after Rover: Havoc casts Resonance Liberation: Deadening Abyss.\n\nCD: {4}s",
     "rank5Params": [
       "54.08%",
-      "270.40%",
+      "270.4%",
       "5",
-      "50.00%",
+      "50%",
       "20"
     ]
   },
@@ -77,12 +77,12 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000435",
     "name": "Feilian Beringal",
-    "descriptionTemplate": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals {0} Aero DMG, and the follow-up strike deals {1} Aero DMG.\r\n\r\nAfter the follow-up strike hits, the current character's Aero DMG increases by {2}, and the Heavy Attack DMG increases by {3} for {4}s\r\n\r\nCD: {5}s",
+    "descriptionTemplate": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals {0} Aero DMG, and the follow-up strike deals {1} Aero DMG.\n\nAfter the follow-up strike hits, the current character's Aero DMG increases by {2}, and the Heavy Attack DMG increases by {3} for {4}s\n\nCD: {5}s",
     "rank5Params": [
       "231.84%",
       "283.36%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -93,7 +93,7 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Summon 3 twirling Crescent Servants around you. Crescent Servants attack enemies with their spinning blades, dealing {0} Havoc DMG. Triggering a Counterattack with the Echo attacks resets the Crescent Servants' duration.\nThe Resonator with this Echo equipped in the main slot has their Coordinated Attack DMG increased by {1}.\nCD: {2}s.",
     "rank5Params": [
       "45.59%",
-      "40.00%",
+      "40%",
       "20"
     ]
   },
@@ -104,7 +104,7 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "27.36%",
       "15",
-      "10.00%",
+      "10%",
       "15",
       "20"
     ]
@@ -124,11 +124,11 @@ export const ECHO_SKILL_RAW = [
     "name": "Inferno Rider",
     "descriptionTemplate": "Transform into the Inferno Rider to launch up to 3 consecutive slashes in a row, each slash dealing {0}, {1}, and {2} Fusion DMG respectively.\n\nAfter the final hit, increase the current Resonator's Fusion DMG by {3} and Basic Attack DMG by {4} for {5}s.\n\nLong press the Echo Skill to transform into the Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal {2} Fusion DMG to enemies in front.\n\nCD: {6}s",
     "rank5Params": [
-      "242.40%",
-      "282.80%",
-      "282.80%",
-      "12.00%",
-      "12.00%",
+      "242.4%",
+      "282.8%",
+      "282.8%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -142,8 +142,8 @@ export const ECHO_SKILL_RAW = [
       "19.46%",
       "48.64%",
       "15",
-      "16.00%",
-      "16.00%",
+      "16%",
+      "16%",
       "15",
       "20"
     ]
@@ -155,8 +155,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "13.68%",
       "164.16%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -168,8 +168,8 @@ export const ECHO_SKILL_RAW = [
       "200.16%",
       "200.16%",
       "266.88%",
-      "4.00%",
-      "4.00%",
+      "4%",
+      "4%",
       "15",
       "20"
     ]
@@ -181,8 +181,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "82.08%",
       "191.52%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -191,21 +191,21 @@ export const ECHO_SKILL_RAW = [
     "name": "Lorelei",
     "descriptionTemplate": "Transform into Lorelei and attack surrounding enemies, dealing {0} Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Havoc DMG Bonus and {2} Basic Attack DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "405.00%",
-      "12.00%",
-      "12.00%",
+      "405%",
+      "12%",
+      "12%",
       "25"
     ]
   },
   {
     "echoId": "echo-60000485",
     "name": "Mech Abomination",
-    "descriptionTemplate": "Strike enemies in front, dealing {0} Electro DMG, and summon Mech Waste to attack. Mech Waste deals {1} Electro DMG on hit and explodes after a while, dealing {2} Electro DMG.\n\nAfter casting this Echo Skill, increase the current character's ATK by {3} for {4}s. \nDamage dealt by Mech Waste equals to the Resonator's Outro Skill DMG. \n\nCD: {5}s",
+    "descriptionTemplate": "Strike enemies in front, dealing {0} Electro DMG, and summon Mech Waste to attack. Mech Waste deals {1} Electro DMG on hit and explodes after a while, dealing {2} Electro DMG.\n\nAfter casting this Echo Skill, increase the current character's ATK by {3} for {4}s.\nDamage dealt by Mech Waste equals to the Resonator's Outro Skill DMG.\n\nCD: {5}s",
     "rank5Params": [
       "48.64%",
-      "320.00%",
-      "160.00%",
-      "12.00%",
+      "320%",
+      "160%",
+      "12%",
       "15",
       "20"
     ]
@@ -217,8 +217,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "157.44%",
       "236.16%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -226,12 +226,14 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60002175",
     "name": "Myriad Snare: Rustfire Chassis",
-    "descriptionTemplate": "Use Echo Skill to summon Myriad Snare: Rustfire Chassis, dealing up to 3 stages of Fusion DMG equal to {0} of the Resonator's Max HP.\n\nResonators with this Echo equipped in the main slot gain {1} Fusion DMG Bonus and {2} Heavy Attack DMG Bonus.\n\nCD: {3}s",
+    "descriptionTemplate": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to {0} of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to {5} times, dealing Fusion DMG equal to {1} of the Max HP each time.\n\nResonators with this Echo equipped in the main slot gain {2} Fusion DMG Bonus and {3} Heavy Attack DMG Bonus.\n\nCD: {4}s",
     "rank5Params": [
-      "4.14%",
-      "12.00%",
-      "12.00%",
-      "20"
+      "10.2%",
+      "0.37%",
+      "12%",
+      "12%",
+      "20",
+      "19"
     ]
   },
   {
@@ -239,9 +241,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Nameless Explorer",
     "descriptionTemplate": "Summon Nameless Explorer to attack enemies along its path, dealing {0} Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Aero DMG Bonus and {2} Echo Skill DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "273.60%",
-      "12.00%",
-      "20.00%",
+      "273.6%",
+      "12%",
+      "20%",
       "20"
     ]
   },
@@ -250,13 +252,13 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Crownless",
     "descriptionTemplate": "Transform into Nightmare: Crownless and attack enemies in front, dealing {0} Havoc DMG. The Resonator with this Echo equipped in their main slot gains {1} Havoc DMG Bonus and {2} Basic Attack DMG Bonus.\nThis skill has {3} initial charges, replenished once every {4}s, max {5} charges. When Nightmare: Crownless hits a target, DMG dealt by this skill is increased by {6}. This effect lasts for {7}s and does not stack.\nCD: {4}s.",
     "rank5Params": [
-      "264.60%",
-      "12.00%",
-      "12.00%",
+      "264.6%",
+      "12%",
+      "12%",
       "3",
       "12",
       "3",
-      "20.00%",
+      "20%",
       "2"
     ]
   },
@@ -267,8 +269,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "164.16%",
       "21.89%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -278,8 +280,8 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Transform into Nightmare: Hecate. Leap up and smash down, dealing 3 stages of damage, each dealing Havoc DMG equal to {0} of her ATK.\nThe Resonator with the Echo equipped in the main slot gains {1} Havoc DMG Bonus and {2} Echo Skill DMG Bonus.\nCD: {3}s",
     "rank5Params": [
       "152.39%",
-      "12.00%",
-      "20.00%",
+      "12%",
+      "20%",
       "25"
     ]
   },
@@ -288,9 +290,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Impermanence Heron",
     "descriptionTemplate": "Transform into Nightmare: Impermanence Heron and deliver up to 10 consecutive strikes to surrounding enemies, each dealing {0} Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Havoc DMG Bonus and {2} Heavy Attack DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "40.50%",
-      "12.00%",
-      "12.00%",
+      "40.5%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -299,10 +301,10 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Inferno Rider",
     "descriptionTemplate": "Transform into Nightmare: Inferno Rider and jump to attack enemies in front, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Fusion DMG Bonus and {2} Resonance Skill DMG Bonus.\nHold Echo Skill to transform into Nightmare: Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal {3} Fusion DMG to enemies in front.\nCD: {4}s.",
     "rank5Params": [
-      "405.00%",
-      "12.00%",
-      "12.00%",
-      "283.50%",
+      "405%",
+      "12%",
+      "12%",
+      "283.5%",
       "25"
     ]
   },
@@ -311,10 +313,10 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Kelpie",
     "descriptionTemplate": "Transform into Nightmare: Kelpie to attack nearby targets, dealing {0} Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains {2} Glacio DMG Bonus and {3} Aero DMG Bonus. Switching out the Resonator with Outro Skill summons Nightmare: Kelpie to deal {1} Aero DMG.\nCD: {4}s",
     "rank5Params": [
-      "405.00%",
-      "405.00%",
-      "12.00%",
-      "12.00%",
+      "405%",
+      "405%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -323,9 +325,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Lampylumen Myriad",
     "descriptionTemplate": "Summon Nightmare: Lampylumen Myriad and attack surrounding enemies, dealing {0} Glacio DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Glacio DMG Bonus and deals {2} more Coordinated Attack DMG.\nCD: {3}s.",
     "rank5Params": [
-      "273.60%",
-      "12.00%",
-      "30.00%",
+      "273.6%",
+      "12%",
+      "30%",
       "20"
     ]
   },
@@ -334,9 +336,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Mourning Aix",
     "descriptionTemplate": "Summon a Nightmare: Mourning Aix to attack surrounding enemies, dealing {0} Spectro DMG. DMG dealt to enemies inflicted by Spectro Frazzle is increased by {1}.\nThe Resonator with this Echo equipped in their main slot gains {2} Spectro DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "273.60%",
-      "100.00%",
-      "12.00%",
+      "273.6%",
+      "100%",
+      "12%",
       "20"
     ]
   },
@@ -345,9 +347,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Tempest Mephis",
     "descriptionTemplate": "Transform into Nightmare: Tempest Mephis and attack surrounding enemies, dealing {0} Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Electro DMG Bonus and {2} Resonance Skill DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "405.00%",
-      "12.00%",
-      "12.00%",
+      "405%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -356,19 +358,19 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Thundering Mephis",
     "descriptionTemplate": "Transform into Nightmare: Thundering Mephis and attack enemies in front, dealing {0} Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Electro DMG Bonus and {2} Resonance Liberation DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "405.00%",
-      "12.00%",
-      "12.00%",
+      "405%",
+      "12%",
+      "12%",
       "25"
     ]
   },
   {
     "echoId": "echo-60001905",
     "name": "Reactor Husk",
-    "descriptionTemplate": "Transform into a Reactor Husk, jumping into the air and unleashing a heavy slash that deals {0} Fusion DMG to enemies.\n \nThe Resonator with this Echo equipped in their main slot gain {1} Energy Regen.\n \n CD: {4}s.",
+    "descriptionTemplate": "Transform into a Reactor Husk, jumping into the air and unleashing a heavy slash that deals {0} Fusion DMG to enemies.\n\nThe Resonator with this Echo equipped in their main slot gain {1} Energy Regen.\n\n CD: {4}s.",
     "rank5Params": [
-      "351.00%",
-      "10.00%",
+      "351%",
+      "10%",
       "10%",
       "20",
       "20"
@@ -377,10 +379,10 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60002015",
     "name": "Reminiscence - Nightmare: Adam Smasher",
-    "descriptionTemplate": "Cast Echo Skill to deal 16 instances of Physical DMG equal to {2} of ATK to enemies within range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by {4} and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to {1} of ATK to enemies.\nCD: {3}s",
+    "descriptionTemplate": "Cast Echo Skill to deal 16 instances of Physical DMG equal to {2} of ATK to enemies within range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by {4} and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- Press the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to {1} of ATK to enemies.\nCD: {3}s",
     "rank5Params": [
-      "273.60%",
-      "17.10%",
+      "273.6%",
+      "17.1%",
       "10.26%",
       "20",
       "15%"
@@ -391,9 +393,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Reminiscence: Denia",
     "descriptionTemplate": "Summon \"Trickster\" to deal {0} Fusion DMG to enemies. Within the next {1}s, casting Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.\nCD: {4}s",
     "rank5Params": [
-      "273.60%",
+      "273.6%",
       "15",
-      "12.00%",
+      "12%",
       "15",
       "20"
     ]
@@ -403,9 +405,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Reminiscence: Fenrico",
     "descriptionTemplate": "Summon the Talons of Decree to attack nearby enemies, dealing {0} Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Aero DMG Bonus and {2} Heavy Attack DMG Bonus.\nCD: {3}s.",
     "rank5Params": [
-      "273.60%",
-      "12.00%",
-      "12.00%",
+      "273.6%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -415,16 +417,31 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Summon Windcleaver and attack the target, dealing {0} Aero DMG 8 times and {1} Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains {2} Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain {3} more Aero DMG Bonus.\nCD: {4}s.",
     "rank5Params": [
       "27.36%",
-      "136.80%",
-      "10.00%",
-      "10.00%",
+      "136.8%",
+      "10%",
+      "10%",
+      "20"
+    ]
+  },
+  {
+    "echoId": "echo-60002255",
+    "name": "Reminiscence: Suhsin the Inevitable",
+    "descriptionTemplate": "Cast Echo Skill to deal 4 instances of {0} Electro DMG and 1 instance of {1} Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of {2} Electro DMG and 1 instance of {3} Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains {4} Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra {5} Electro DMG Bonus for {6}s.\nCD: {7}s",
+    "rank5Params": [
+      "27.36%",
+      "164.16%",
+      "8.2%",
+      "232.56%",
+      "10%",
+      "10%",
+      "30",
       "20"
     ]
   },
   {
     "echoId": "echo-60001675",
     "name": "Reminiscence: Threnodian - Leviathan",
-    "descriptionTemplate": "Summon a Collapsing Horizon, dealing two instances of {0} Havoc DMG to the nearby enemies and obtaining the Core of Collapse for {1}s.\n\nWhile it lasts, Core of Collapse deals {2} Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every {4}s, up to <SapTag=3>{3}</SapTag> {Cus:Sap,S=time P=times SapTag=3}. Enemies with Havoc Bane take {5} more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Havoc DMG Bonus and {7} Resonance Liberation DMG Bonus.\n\nCD: {8}s",
+    "descriptionTemplate": "Summon a Collapsing Horizon, dealing two instances of {0} Havoc DMG to the nearby enemies and obtaining the Core of Collapse for {1}s.\n\nWhile it lasts, Core of Collapse deals {2} Havoc DMG when the active Resonator in the team deals damage. This effect can be triggered once every {4}s, up to {3} times. Enemies with Havoc Bane take {5} more DMG from this effect.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Havoc DMG Bonus and {7} Resonance Liberation DMG Bonus.\n\nCD: {8}s",
     "rank5Params": [
       "131.04%",
       "15",
@@ -432,8 +449,8 @@ export const ECHO_SKILL_RAW = [
       "8",
       "0.5",
       "100%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -444,8 +461,8 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "21.88%",
       "164.16%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -454,10 +471,10 @@ export const ECHO_SKILL_RAW = [
     "name": "Sentry Construct",
     "descriptionTemplate": "Transform into Sentry Construct and attack enemies in front, dealing {0} Glacio DMG. Each time the Resonator with this Echo casts Resonance Liberation, it charges the Strike Capacitor.\nOnce Strike Capacitor is at max level, the Echo Skill cooldown will be reset. Use Echo Skill to transform into Sentry Construct and dive into enemies from the air, dealing {1} Glacio DMG and freezing the target.\nThe Resonator with this Echo equipped in their main slot gains {2} Glacio DMG Bonus and {3} Resonance Skill DMG Bonus.\nCD: {4}s.",
     "rank5Params": [
-      "405.00%",
-      "405.00%",
-      "12.00%",
-      "12.00%",
+      "405%",
+      "405%",
+      "12%",
+      "12%",
       "25"
     ]
   },
@@ -466,21 +483,21 @@ export const ECHO_SKILL_RAW = [
     "name": "Sigillum",
     "descriptionTemplate": "Summon Sigillum to unleash two attacks, dealing {0} and {1} Fusion DMG respectively.\nWhen equipped in the main slot by Aemeath, it grants {2} Resonance Liberation DMG Bonus.\nCD: {3}s",
     "rank5Params": [
-      "68.40%",
-      "205.20%",
-      "25.00%",
+      "68.4%",
+      "205.2%",
+      "25%",
       "20"
     ]
   },
   {
     "echoId": "echo-60000395",
     "name": "Tempest Mephis",
-    "descriptionTemplate": "Transform into Tempest Mephis to perform tail swing attacks followed by a claw attack. The lightning strike summoned by the tail swing deals {0} Electro DMG each time, while the claw attack deals {1} Electro DMG.\r\n\r\nAfter the claw hit, increase the current character's Electro DMG by {2} and Heavy Attack DMG by {3} for {4}s.\r\n\r\nCD: {5}s",
+    "descriptionTemplate": "Transform into Tempest Mephis to perform tail swing attacks followed by a claw attack. The lightning strike summoned by the tail swing deals {0} Electro DMG each time, while the claw attack deals {1} Electro DMG.\n\nAfter the claw hit, increase the current character's Electro DMG by {2} and Heavy Attack DMG by {3} for {4}s.\n\nCD: {5}s",
     "rank5Params": [
       "102.48%",
       "175.68%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -491,9 +508,9 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Transform into the False Sovereign and dash forward in a spinning strike, dealing {0} Electro DMG 4 times.\nThe Resonator with this Echo equipped in the main slot gains {1} Electro DMG Bonus and {2} Heavy Attack DMG Bonus. Upon casting Intro Skill, the False Sovereign is also summoned to deal {3} Electro DMG.\nStart with {4} charges. Gain 1 charge every {5}s, up to {6} charges.\nCD: {7}s",
     "rank5Params": [
       "55.35%",
-      "12.00%",
-      "12.00%",
-      "405.00%",
+      "12%",
+      "12%",
+      "405%",
       "2",
       "8",
       "2",
@@ -503,12 +520,12 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60002185",
     "name": "Thousand-Puppet Pavilion",
-    "descriptionTemplate": "Use Echo Skill to attack nearby enemies, dealing {1} Havoc DMG and summoning 4 Blades of Thousand Memories that last {5}s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal {0} Havoc DMG once to the target. This effect can be triggered once every {6}s.\n\nResonators with this Echo equipped in the main slot gain {2} Havoc DMG and {3} Heavy Attack DMG.\n\nCD: {4}s",
+    "descriptionTemplate": "Use Echo Skill to attack nearby enemies, dealing {1} Havoc DMG and summoning 4 Blades of Thousand Memories that last {5}s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal {0} Havoc DMG once to the target. This effect can be triggered once every {6}s.\n\nResonators with this Echo equipped in the main slot gain {2} Havoc DMG and {3} Heavy Attack DMG bonuses.\n\nCD: {4}s",
     "rank5Params": [
       "41.04%",
       "109.44%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "20",
       "15",
       "1"
@@ -522,8 +539,8 @@ export const ECHO_SKILL_RAW = [
       "132.61%",
       "189.44%",
       "31.57%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "15",
       "20"
     ]
@@ -533,9 +550,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Abyssal Gladius",
     "descriptionTemplate": "Transform into Abyssal Gladius and attack enemies in front of you with the sword, dealing {0} Glacio DMG.\nHold the Echo Skill to maintain the Echo form for a while to slash enemies and cast a ranged attack forward, dealing {1} and {2} Glacio DMG respectively.\nCD: {3}s.",
     "rank5Params": [
-      "268.20%",
-      "268.20%",
-      "670.50%",
+      "268.2%",
+      "268.2%",
+      "670.5%",
       "15"
     ]
   },
@@ -553,17 +570,17 @@ export const ECHO_SKILL_RAW = [
     "name": "Abyssal Patricius",
     "descriptionTemplate": "Transform into Abyssal Patricius and charge forward to attack enemies, dealing {0} Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Glacio DMG Bonus.\nCD: {2}s.",
     "rank5Params": [
-      "268.20%",
-      "12.00%",
+      "268.2%",
+      "12%",
       "15"
     ]
   },
   {
     "echoId": "echo-60000495",
     "name": "Autopuppet Scout",
-    "descriptionTemplate": "Transform into Autopuppet Scout, dealing {0} Glacio DMG to the surroundings, and generate up to 3 Ice Walls to block off the enemies.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Transform into Autopuppet Scout, dealing {0} Glacio DMG to the surroundings, and generate up to 3 Ice Walls to block off the enemies.\n\nCD: {1}s",
     "rank5Params": [
-      "272.00%",
+      "272%",
       "15"
     ]
   },
@@ -572,10 +589,10 @@ export const ECHO_SKILL_RAW = [
     "name": "Capitaneus",
     "descriptionTemplate": "Summon a Capitaneus to jump up and smash enemies, dealing {0} Spectro DMG. This attack generates 4 extra Merciless Judgements, each dealing {1} Spectro DMG.\nThe Resonator with this Echo equipped in their main slot gains {2} Spectro DMG Bonus and {3} Heavy Attack DMG Bonus.\nCD: {4}s.",
     "rank5Params": [
-      "118.80%",
-      "59.40%",
-      "12.00%",
-      "12.00%",
+      "118.8%",
+      "59.4%",
+      "12%",
+      "12%",
       "20"
     ]
   },
@@ -584,20 +601,20 @@ export const ECHO_SKILL_RAW = [
     "name": "Carapace",
     "descriptionTemplate": "Transform into Carapace to perform a spinning attack that deals {0} Aero DMG, followed by a slash that deals {1} Aero DMG.\n\nCD: {2}s",
     "rank5Params": [
-      "112.00%",
-      "168.00%",
+      "112%",
+      "168%",
       "15"
     ]
   },
   {
     "echoId": "echo-60000215",
     "name": "Chasm Guardian",
-    "descriptionTemplate": "Transform into Chasm Guardian to perform a Leap Strike that deals {0} Havoc DMG on hit. Current character loses {1} HP after the hit lands. Periodically restore current character's HP after {2}s for up to {3} of their Max HP.\r\n\r\nCD: {4}s",
+    "descriptionTemplate": "Transform into Chasm Guardian to perform a Leap Strike that deals {0} Havoc DMG on hit. Current character loses {1} HP after the hit lands. Periodically restore current character's HP after {2}s for up to {3} of their Max HP.\n\nCD: {4}s",
     "rank5Params": [
-      "273.60%",
-      "10.00%",
+      "273.6%",
+      "10%",
       "5",
-      "10.00%",
+      "10%",
       "15"
     ]
   },
@@ -616,9 +633,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Corrosaurus",
     "descriptionTemplate": "Summon a Corrosaurus to attack enemies, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Fusion DMG Bonus and {2} Echo Skill DMG Bonus.\nCD: {3}s",
     "rank5Params": [
-      "273.60%",
-      "12.00%",
-      "20.00%",
+      "273.6%",
+      "12%",
+      "20%",
       "20"
     ]
   },
@@ -635,9 +652,9 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000135",
     "name": "Cyan-Feathered Heron",
-    "descriptionTemplate": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n \nCD: {1}s",
+    "descriptionTemplate": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n\nCD: {1}s",
     "rank5Params": [
-      "236.80%",
+      "236.8%",
       "15"
     ]
   },
@@ -646,15 +663,15 @@ export const ECHO_SKILL_RAW = [
     "name": "Diurnus Knight",
     "descriptionTemplate": "Transform into Diurnus Knight and charge forward to attack enemies with the sword, dealing {0} Spectro DMG. DMG dealt to enemies inflicted by Spectro Frazzle is increased by {1}.\nCD: {2}s.",
     "rank5Params": [
-      "268.20%",
-      "100.00%",
+      "268.2%",
+      "100%",
       "15"
     ]
   },
   {
     "echoId": "echo-60000195",
     "name": "Flautist",
-    "descriptionTemplate": "Transform into Flautist, continuously emitting Electro lasers, dealing {0} Electro DMG for a total of 10 times. Gain {1} Concerto Energy every time a hit lands.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Transform into Flautist, continuously emitting Electro lasers, dealing {0} Electro DMG for a total of 10 times. Gain {1} Concerto Energy every time a hit lands.\n\nCD: {2}s",
     "rank5Params": [
       "53.28%",
       "1",
@@ -666,7 +683,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Flora Reindeer",
     "descriptionTemplate": "Summon a Flora Reindeer to attack enemies within a large range, dealing {0} Aero DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
     ]
   },
@@ -684,9 +701,19 @@ export const ECHO_SKILL_RAW = [
     "name": "Forbidden Bastion",
     "descriptionTemplate": "Use Echo Skill to summon Forbidden Bastion to bash over enemies, dealing {0} Glacio DMG.\n\nResonators with this Echo equipped in the main slot gain {2} Healing Bonus.\n\nCD: {1}s",
     "rank5Params": [
-      "237.60%",
+      "237.6%",
       "20",
-      "10.00%"
+      "10%"
+    ]
+  },
+  {
+    "echoId": "echo-60002235",
+    "name": "Formrender",
+    "descriptionTemplate": "Use Echo Skill to summon a Formrender, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Energy Regen.\nCD: {2}s",
+    "rank5Params": [
+      "273.6%",
+      "10%",
+      "20"
     ]
   },
   {
@@ -694,7 +721,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Frostbite Coleoid",
     "descriptionTemplate": "Summon a Frostbite Coleoid to punch enemies, dealing {0} Glacio DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
     ]
   },
@@ -703,9 +730,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Glacio Dreadmane",
     "descriptionTemplate": "Lacerate enemies as a Glacio Dreadmane, dealing {0} Glacio DMG on each hit. Equipped with 2 charges and can be cast mid-air. Glacio Dreadmane deals {1} more DMG while in mid-air and generates 6 Icicles upon landing, each dealing {2} Glacio DMG.\n\nCD: {3}s",
     "rank5Params": [
-      "214.40%",
-      "20.00%",
-      "32.00%",
+      "214.4%",
+      "20%",
+      "32%",
       "20"
     ]
   },
@@ -714,9 +741,9 @@ export const ECHO_SKILL_RAW = [
     "name": "Glommoth",
     "descriptionTemplate": "Summon a Glommoth to stomp enemies, dealing {0} Glacio DMG.\nCasting Outro Skill within {1}s after summoning Glommoth grants {2} Glacio DMG Bonus to the incoming Resonator for {3}s.\nCD: {4}s.",
     "rank5Params": [
-      "273.60%",
+      "273.6%",
       "15",
-      "12.00%",
+      "12%",
       "15",
       "20"
     ]
@@ -736,7 +763,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Hoochief",
     "descriptionTemplate": "Transform into Hoochief and smack the enemies, dealing {0} Aero DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -745,8 +772,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Hurriclaw",
     "descriptionTemplate": "Transform into Hurriclaw and charge forward, dealing {0} Aero DMG upon hit plus {1} Aero DMG with a sweep attack. Hold the Echo Skill to continue charging forward. Use Echo Skill again while charging to perform a sweep attack.\nCD: {2}s.",
     "rank5Params": [
-      "156.60%",
-      "156.60%",
+      "156.6%",
+      "156.6%",
       "20"
     ]
   },
@@ -766,10 +793,10 @@ export const ECHO_SKILL_RAW = [
     "name": "Kerasaur",
     "descriptionTemplate": "Transform into Kerasaur to leap into the air and slam down, dealing {0} Aero DMG. Shortly after hitting the target, cast Echo Skill again to charge at the target, dealing {1} Aero DMG.\nThe Resonator with this Echo equipped in the main slot gains {2} Aero DMG Bonus and {3} Resonance Liberation DMG Bonus.\nCD: {4}s",
     "rank5Params": [
-      "268.20%",
-      "268.20%",
-      "12.00%",
-      "12.00%",
+      "268.2%",
+      "268.2%",
+      "12%",
+      "12%",
       "15"
     ]
   },
@@ -778,7 +805,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kronablight",
     "descriptionTemplate": "Transform into a Kronablight, soar into the air, and dive to deal {0} Electro DMG to the enemies.\nCD: {1}s",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -798,8 +825,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Lumiscale Construct",
     "descriptionTemplate": "Transform into a Lumiscale Construct and enter a Parry Stance. If you are not attacked during the Parry Stance, slash to deal {0} Glacio DMG when the stance finishes. If attacked, counterattack instantly, dealing {1} Glacio DMG. When hit with a <color=Highlight>Special Skill</color> attack while in the Parry Stance, break the <color=Highlight>Special Skill</color> and counterattack, dealing {1} Glacio DMG.\n\nCD: {2}s",
     "rank5Params": [
-      "553.60%",
-      "553.60%+276.80%",
+      "553.6%",
+      "553.6%+276.8%",
       "15"
     ]
   },
@@ -808,23 +835,23 @@ export const ECHO_SKILL_RAW = [
     "name": "Mining Reindeer",
     "descriptionTemplate": "Summon a Mining Reindeer to launch a charged attack at enemies, dealing {0} Electro DMG.\n\n CD: {1}s.",
     "rank5Params": [
-      "237.60%",
+      "237.6%",
       "20"
     ]
   },
   {
     "echoId": "echo-60001625",
     "name": "Nightmare: Cyan-Feathered Heron",
-    "descriptionTemplate": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n \nCD: {1}s",
+    "descriptionTemplate": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n\nCD: {1}s",
     "rank5Params": [
-      "236.80%",
+      "236.8%",
       "15"
     ]
   },
   {
     "echoId": "echo-60001739",
     "name": "Nightmare: Roseshroom",
-    "descriptionTemplate": "Summon a Roseshroom that fires a laser, dealing {1} Havoc DMG up to {0} times.\n \nCD: {2}s",
+    "descriptionTemplate": "Summon a Roseshroom that fires a laser, dealing {1} Havoc DMG up to {0} times.\n\nCD: {2}s",
     "rank5Params": [
       "3",
       "57.07%",
@@ -836,7 +863,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Tambourinist",
     "descriptionTemplate": "Summon a Tambourinist that plays out Melodies of Annihilation. Any Resonator on the team gains the following effect for 10s upon obtaining a Melody of Annihilation: When the Resonator hits a target, the Tambourinist deals {0} Havoc DMG to the target, up to 10 times.\n\nCD: {1}s",
     "rank5Params": [
-      "14.40%",
+      "14.4%",
       "15"
     ]
   },
@@ -845,7 +872,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Violet-Feathered Heron",
     "descriptionTemplate": "Transform into Violet-Feathered Heron and enter a Parry Stance. Counterattack when the Parry stance is over, dealing {0} Electro DMG. If attacked during Parry Stance, you can counterattack in advance and additionally recover {1} Concerto Energy.\n\nCD: {2}s",
     "rank5Params": [
-      "288.00%",
+      "288%",
       "5",
       "15"
     ]
@@ -853,7 +880,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001685",
     "name": "Nightmare: Viridblaze Saurian",
-    "descriptionTemplate": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\n\nCD: {1}s",
     "rank5Params": [
       "17.12%",
       "15"
@@ -864,7 +891,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nocturnus Knight",
     "descriptionTemplate": "Transform into Nocturnus Knight and strike enemies in front of you from the air, dealing {0} Havoc DMG.\nCD: {1}s.",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -873,7 +900,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Pilgrim's Shell",
     "descriptionTemplate": "Transform into a Pilgrim's Shell to attack nearby enemies, dealing {0} Aero DMG.\nCD: {1}s",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -882,7 +909,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Questless Knight",
     "descriptionTemplate": "Transform into Questless Knight and smash the surrounding enemies, dealing {0} Electro DMG.\nCD: {1}s.",
     "rank5Params": [
-      "313.20%",
+      "313.2%",
       "20"
     ]
   },
@@ -891,8 +918,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Rage Against the Statue",
     "descriptionTemplate": "Transform into Rage Against the Statue to attack enemies, dealing {0} Spectro DMG. Hold the Echo Skill to maintain the Echo form and charge towards enemies, dealing {1} Spectro DMG.\nCD: {2}s.",
     "rank5Params": [
-      "313.20%",
-      "469.80%",
+      "313.2%",
+      "469.8%",
       "20"
     ]
   },
@@ -910,7 +937,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000245",
     "name": "Rocksteady Guardian",
-    "descriptionTemplate": "Transform into Rocksteady Guardian and enter a Parry State. Upon being attacked, deal Spectro DMG equal to {0} of the Resonator's Max HP, and perform a follow-up attack that deals Spectro DMG equal to {0} of the Resonator's Max HP.\n \nUse the Echo Skill again to exit the transformation.\n \nIf the attack received is a <color=Highlight>Special Skill</color> attack, interrupt the enemy's <color=Highlight>Special Skill</color>, gain a Shield equal to 30% Max HP, and perform a two-stage follow-up attack, each dealing Spectro DMG equal to {1} of the Resonator's Max HP. These follow-up attacks simultaneously launch three ground-breaking waves, each dealing Spectro DMG equal to {2} of the Resonator's Max HP.\n \nCD: {3}s",
+    "descriptionTemplate": "Transform into Rocksteady Guardian and enter a Parry State. Upon being attacked, deal Spectro DMG equal to {0} of the Resonator's Max HP, and perform a follow-up attack that deals Spectro DMG equal to {0} of the Resonator's Max HP.\n\nUse the Echo Skill again to exit the transformation.\n\nIf the attack received is a <color=Highlight>Special Skill</color> attack, interrupt the enemy's <color=Highlight>Special Skill</color>, gain a Shield equal to 30% Max HP, and perform a two-stage follow-up attack, each dealing Spectro DMG equal to {1} of the Resonator's Max HP. These follow-up attacks simultaneously launch three ground-breaking waves, each dealing Spectro DMG equal to {2} of the Resonator's Max HP.\n\nCD: {3}s",
     "rank5Params": [
       "8.29%",
       "5.52%",
@@ -921,7 +948,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000315",
     "name": "Roseshroom",
-    "descriptionTemplate": "Summon a Roseshroom that fires a laser, dealing {1} Havoc DMG up to {0} times.\n \nCD: {2}s",
+    "descriptionTemplate": "Summon a Roseshroom that fires a laser, dealing {1} Havoc DMG up to {0} times.\n\nCD: {2}s",
     "rank5Params": [
       "3",
       "57.07%",
@@ -933,7 +960,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Sabercat Prowler",
     "descriptionTemplate": "Summon a Sabercat Prowler to fire beams at enemies, dealing {0} Havoc DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
     ]
   },
@@ -942,8 +969,29 @@ export const ECHO_SKILL_RAW = [
     "name": "Sabercat Reaver",
     "descriptionTemplate": "Summon a Sabercat Reaver to attack enemies, dealing {0} Fusion DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
+    ]
+  },
+  {
+    "echoId": "echo-60002205",
+    "name": "Skywatch Lancer",
+    "descriptionTemplate": "Summon a Skywatch Lancer to attack the target, dealing {0} Aero DMG 6 times.\nCD: {1}s",
+    "rank5Params": [
+      "32.09%",
+      "15"
+    ]
+  },
+  {
+    "echoId": "echo-60002245",
+    "name": "Soulfrayer",
+    "descriptionTemplate": "Use Echo Skill to summon a Soulfrayer, dealing {0} Electro DMG 3 times.\nCasting Outro Skill within {1}s after summoning Soulfrayer grants {2} Electro DMG Bonus to the incoming Resonator for {3}s.\nCD: {4}s",
+    "rank5Params": [
+      "91.18%",
+      "15",
+      "12%",
+      "15",
+      "20"
     ]
   },
   {
@@ -959,7 +1007,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000335",
     "name": "Spearback",
-    "descriptionTemplate": "Summon a Spearback to perform 5 consecutive attacks. The first 4 attacks deal {0} Physical DMG, and the last deals {1} Physical DMG.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Spearback to perform 5 consecutive attacks. The first 4 attacks deal {0} Physical DMG, and the last deals {1} Physical DMG.\n\nCD: {2}s",
     "rank5Params": [
       "29.96%",
       "51.36%",
@@ -973,7 +1021,7 @@ export const ECHO_SKILL_RAW = [
     "rank5Params": [
       "112.64%",
       "168.96%",
-      "10.00%",
+      "10%",
       "7",
       "15"
     ]
@@ -983,14 +1031,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Tambourinist",
     "descriptionTemplate": "Summon a Tambourinist that plays out Melodies of Annihilation. Any Resonator on the team gains the following effect for 10s upon obtaining a Melody of Annihilation: When the Resonator hits a target, the Tambourinist deals {0} Havoc DMG to the target, up to 10 times.\n\nCD: {1}s",
     "rank5Params": [
-      "14.40%",
+      "14.4%",
       "15"
     ]
   },
   {
     "echoId": "echo-60001809",
     "name": "Twin Nova: Collapsar Blade",
-    "descriptionTemplate": "Transform into a Twin Nova: Collapsar Blade to rapidly fire at enemies for 5s, with each attack dealing {0} Electro DMG.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Electro DMG Bonus and {7} Basic Attack DMG Bonus.\n\nCD: {11}s.\n\nIf Twin Nova: Nebulous Cannon is equipped in another slot on the Resonator:\n- Casting Echo Skill in succession transforms you into Collapsar Blade and Nebulous Cannon alternately and is considered casting Echo skills of the same name.\n- DMG dealt by Twin Nova: Collapsar Blade becomes Spectro DMG. The Electro DMG Bonus gained from equipping it in the main slot is turned into Spectro DMG Bonus.\n- Casting Basic Attacks grants <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of Dyad Origins. Casting Resonance Skill grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of Dyad Origins. Dyad Origins can stack up to {3} times and lasts for {4}s. Each stack increases Echo Skill DMG by {5}, and all stacks are cleared after this Echo Skill ends.\n- This skill is capped at {10} uses. Initially, this skill can be used {8} times, with 1 use added every {9}s.",
+    "descriptionTemplate": "Transform into a Twin Nova: Collapsar Blade to rapidly fire at enemies for 5s, with each attack dealing {0} Electro DMG.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Electro DMG Bonus and {7} Basic Attack DMG Bonus.\n\nCD: {11}s.\n\nIf Twin Nova: Nebulous Cannon is equipped in another slot on the Resonator:\n- Casting Echo Skill in succession transforms you into Collapsar Blade and Nebulous Cannon alternately and is considered casting Echo skills of the same name.\n- DMG dealt by Twin Nova: Collapsar Blade becomes Spectro DMG. The Electro DMG Bonus gained from equipping it in the main slot is turned into Spectro DMG Bonus.\n- Casting Basic Attacks grants {1} stacks of Dyad Origins. Casting Resonance Skill grants {2} stacks of Dyad Origins. Dyad Origins can stack up to {3} times and lasts for {4}s. Each stack increases Echo Skill DMG by {5}, and all stacks are cleared after this Echo Skill ends.\n- This skill is capped at {10} uses. Initially, this skill can be used {8} times, with 1 use added every {9}s.",
     "rank5Params": [
       "2.01%",
       "1",
@@ -998,8 +1046,8 @@ export const ECHO_SKILL_RAW = [
       "6",
       "8",
       "10%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "2",
       "8",
       "2",
@@ -1009,7 +1057,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001795",
     "name": "Twin Nova: Nebulous Cannon",
-    "descriptionTemplate": "Transform into a Twin Nova: Nebulous Cannon to slash enemies twice, with each attack dealing {0} Spectro DMG.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Spectro DMG Bonus and {7} Basic Attack DMG Bonus.\n\nCD: {11}s.\n\nIf Twin Nova: Collapsar Blade is equipped in another slot on the Resonator:\n- Casting Echo Skill in succession transforms you into Nebulous Cannon and Collapsar Blade alternately and is considered casting Echo skills of the same name. The DMG Bonus from the Echo in the main slot remains unchanged.\n- DMG dealt by Twin Nova: Collapsar Blade becomes Spectro DMG.\n- Casting Basic Attacks grants <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of Dyad Origins. Casting Resonance Skill grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of Dyad Origins. Dyad Origins can stack up to {3} times and lasts for {4}s. Each stack increases Echo Skill DMG by {5}, and all stacks are cleared after this Echo Skill ends.\n-This skill is capped at {10} uses. Initially, this skill can be used {8} times, with 1 use added every {9}s.",
+    "descriptionTemplate": "Transform into a Twin Nova: Nebulous Cannon to slash enemies twice, with each attack dealing {0} Spectro DMG.\n\nThe Resonator with this Echo equipped in the main slot gains {6} Spectro DMG Bonus and {7} Basic Attack DMG Bonus.\n\nCD: {11}s.\n\nIf Twin Nova: Collapsar Blade is equipped in another slot on the Resonator:\n- Casting Echo Skill in succession transforms you into Nebulous Cannon and Collapsar Blade alternately and is considered casting Echo skills of the same name. The DMG Bonus from the Echo in the main slot remains unchanged.\n- DMG dealt by Twin Nova: Collapsar Blade becomes Spectro DMG.\n- Casting Basic Attacks grants {1} stacks of Dyad Origins. Casting Resonance Skill grants {2} stacks of Dyad Origins. Dyad Origins can stack up to {3} times and lasts for {4}s. Each stack increases Echo Skill DMG by {5}, and all stacks are cleared after this Echo Skill ends.\n-This skill is capped at {10} uses. Initially, this skill can be used {8} times, with 1 use added every {9}s.",
     "rank5Params": [
       "80.51%",
       "1",
@@ -1017,8 +1065,8 @@ export const ECHO_SKILL_RAW = [
       "6",
       "8",
       "10%",
-      "12.00%",
-      "12.00%",
+      "12%",
+      "12%",
       "2",
       "8",
       "2",
@@ -1030,7 +1078,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Violet-Feathered Heron",
     "descriptionTemplate": "Transform into Violet-Feathered Heron and enter a Parry Stance. Counterattack when the Parry stance is over, dealing {0} Electro DMG. If attacked during Parry Stance, you can counterattack in advance and additionally recover {1} Concerto Energy.\n\nCD: {2}s",
     "rank5Params": [
-      "288.00%",
+      "288%",
       "5",
       "15"
     ]
@@ -1038,7 +1086,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000295",
     "name": "Viridblaze Saurian",
-    "descriptionTemplate": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\n\nCD: {1}s",
     "rank5Params": [
       "17.12%",
       "15"
@@ -1049,20 +1097,20 @@ export const ECHO_SKILL_RAW = [
     "name": "Vitreum Dancer",
     "descriptionTemplate": "Transform into Vitreum Dancer and attack surrounding enemies, dealing {0} Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Electro DMG Bonus.\nCD: {2}s.",
     "rank5Params": [
-      "313.20%",
-      "12.00%",
+      "313.2%",
+      "12%",
       "20"
     ]
   },
   {
     "echoId": "echo-60001985",
     "name": "Voidwing Moth",
-    "descriptionTemplate": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Echo Skill to transform into Voidwing Moth, dealing {0} Spectro DMG to nearby enemies.\nHold Echo Skill to continuously attack, dealing up to 12 instances of {1} Spectro DMG.\nWithin {2}s after using this Echo skill, casting Outro Skill increases the incoming Resonator's ATK by {3} for {4}s.\nCD: {5}s",
+    "descriptionTemplate": "Press Echo Skill to transform into Voidwing Moth, dealing {0} Spectro DMG to nearby enemies.\nHold Echo Skill to continuously attack, dealing up to 12 instances of {1} Spectro DMG.\nWithin {2}s after using this Echo skill, casting Outro Skill increases the incoming Resonator's ATK by {3} for {4}s.\nCD: {5}s",
     "rank5Params": [
-      "405.00%",
+      "405%",
       "49.33%",
       "15",
-      "12.00%",
+      "12%",
       "15",
       "25"
     ]
@@ -1072,7 +1120,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Windlash Coleoid",
     "descriptionTemplate": "Transform into a Windlash Coleoid to kick enemies, dealing {0} Aero DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -1081,7 +1129,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Aero Drake",
     "descriptionTemplate": "Summon an Aero Drake to attack enemies, dealing {0} Aero DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1090,7 +1138,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Aero Predator",
     "descriptionTemplate": "Summon an Aero Predator that throws a dart forward. The dart will bounce between enemies up to three times, dealing {0} Aero DMG each time it hits.\n\nCD: {1}s",
     "rank5Params": [
-      "28.80%",
+      "28.8%",
       "8"
     ]
   },
@@ -1108,7 +1156,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Aureate Picket",
     "descriptionTemplate": "Use Echo Skill to transform into an Aureate Picket, immediately recover {1} HP times plus an additional instance of {2} points of HP, then bash into enemies and deal {0} Aero DMG.\n\nCD: {3}s",
     "rank5Params": [
-      "153.90%",
+      "153.9%",
       "0.55%",
       "24",
       "8"
@@ -1119,7 +1167,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Baby Roseshroom",
     "descriptionTemplate": "Summon a Baby Roseshroom that fires a laser, dealing {0} Havoc DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1128,6 +1176,17 @@ export const ECHO_SKILL_RAW = [
     "name": "Baby Viridblaze Saurian",
     "descriptionTemplate": "Transform into Baby Viridblaze Saurian to rest in place, and slowly restore HP.\n\nCD: {0}s",
     "rank5Params": [
+      "8"
+    ]
+  },
+  {
+    "echoId": "echo-60002225",
+    "name": "Bloomburst Puppet",
+    "descriptionTemplate": "Summon a Bloomburst Puppet to startle the target, dealing 1 instance of {0} Glacio DMG, followed by 2 instances of {1} Glacio DMG and 1 instance of {2} Glacio DMG.\nCD: {3}s",
+    "rank5Params": [
+      "25.92%",
+      "12.96%",
+      "77.76%",
       "8"
     ]
   },
@@ -1152,10 +1211,10 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000475",
     "name": "Chirpuff",
-    "descriptionTemplate": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\n\nCD: {2}s",
     "rank5Params": [
       "3",
-      "38.40%",
+      "38.4%",
       "8"
     ]
   },
@@ -1164,7 +1223,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Chop Chop: Headless",
     "descriptionTemplate": "Summon a Chop Chop: Headless to attack enemies, dealing {0} Fusion DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1173,7 +1232,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Chop Chop: Leftless",
     "descriptionTemplate": "Summon a Chop Chop: Leftless to attack enemies, dealing {0} Spectro DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1182,7 +1241,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Chop Chop: Rightless",
     "descriptionTemplate": "Summon a Chop Chop: Rightless to attack enemies, dealing {0} Havoc DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1191,16 +1250,16 @@ export const ECHO_SKILL_RAW = [
     "name": "Clang Bang",
     "descriptionTemplate": "Summon a Clang Bang that follows the enemy and eventually self-combusts, dealing {0} Glacio DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
   {
     "echoId": "echo-60000255",
     "name": "Cruisewing",
-    "descriptionTemplate": "Summon a Cruisewing that restores HP for all current team characters by {0} of their Max HPs plus an additional {1} points of HP, up to 4 times.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Cruisewing that restores HP for all current team characters by {0} of their Max HPs plus an additional {1} points of HP, up to 4 times.\n\nCD: {2}s",
     "rank5Params": [
-      "1.80%",
+      "1.8%",
       "80",
       "8"
     ]
@@ -1210,7 +1269,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Devotee's Flesh",
     "descriptionTemplate": "Summon a Devotee's Flesh to attack enemies, dealing {0} Aero DMG 3 times.\nCD: {1}s",
     "rank5Params": [
-      "43.20%",
+      "43.2%",
       "8"
     ]
   },
@@ -1219,7 +1278,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Diamondclaw",
     "descriptionTemplate": "Transform into Crystal Scorpion and enter a Parry State. Counterattack when the Parry State is over, dealing {0} Physical DMG.\nCD: {1}s",
     "rank5Params": [
-      "48.00%+96",
+      "48%+96",
       "8"
     ]
   },
@@ -1228,7 +1287,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Diggy Duggy",
     "descriptionTemplate": "Transform into Diggy Duggy and jump up into the air to smash onto enemies, dealing {0} Physical DMG.\nCD: {1}s.",
     "rank5Params": [
-      "268.20%",
+      "268.2%",
       "15"
     ]
   },
@@ -1238,9 +1297,9 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Summon a Dwarf Cassowary that tracks and attacks the enemy, dealing {1} Physical DMG {0} time(s).\n\nCooldown: {2}s",
     "rank5Params": [
       "3",
-      "38.40%",
+      "38.4%",
       "8",
-      "0.00%"
+      "0%"
     ]
   },
   {
@@ -1248,14 +1307,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Electro Drake",
     "descriptionTemplate": "Summon an Electro Drake to attack enemies, dealing {0} Electro DMG 3 times.\nCD: {1}s.",
     "rank5Params": [
-      "43.20%",
+      "43.2%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000035",
     "name": "Electro Predator",
-    "descriptionTemplate": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\n\nCD: {2}s",
     "rank5Params": [
       "17.28%",
       "46.08%",
@@ -1275,7 +1334,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Fae Ignis",
     "descriptionTemplate": "Summon a Fae Ignis to attack enemies, dealing {0} Havoc DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1293,8 +1352,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Flora Drone",
     "descriptionTemplate": "Summon a Flora Drone, dealing {0} Aero DMG to enemies and healing Resonators within range by {1} of their Max HP plus an additional {2} HP.\n\nCD: {3}s",
     "rank5Params": [
-      "64.80%",
-      "3.60%",
+      "64.8%",
+      "3.6%",
       "160",
       "8"
     ]
@@ -1304,7 +1363,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Fog Lionarch: Body",
     "descriptionTemplate": "Use Echo Skill to summon Fog Lionarch: Body to ram into enemies, dealing {0} Fusion DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
     ]
   },
@@ -1313,7 +1372,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Fog Lionarch: Head",
     "descriptionTemplate": "Use Echo Skill to summon Fog Lionarch: Head to dart toward enemies, dealing {0} Fusion DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1322,7 +1381,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Frostscourge Stalker",
     "descriptionTemplate": "Summon a Frostscourge Stalker to attack enemies, dealing {0} Glacio DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1338,18 +1397,18 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000365",
     "name": "Fusion Dreadmane",
-    "descriptionTemplate": "Summon a Fusion Dreadmane that fiercely strikes the enemy, dealing {0} Fusion DMG.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Fusion Dreadmane that fiercely strikes the enemy, dealing {0} Fusion DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
   {
     "echoId": "echo-60000155",
     "name": "Fusion Prism",
-    "descriptionTemplate": "Summon a Fusion Prism to fire a crystal shard, dealing {0} Fusion DMG.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Fusion Prism to fire a crystal shard, dealing {0} Fusion DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1358,8 +1417,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Fusion Warrior",
     "descriptionTemplate": "Transform into Fusion Warrior to perform a Counterattack. If the Counterattack is successful, the cooldown time of this skill will be reduced by {0}, and {1} Fusion DMG will be dealt.\n\nCD: {2}s",
     "rank5Params": [
-      "70.00%",
-      "288.00%",
+      "70%",
+      "288%",
       "15"
     ]
   },
@@ -1368,14 +1427,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Galescourge Stalker",
     "descriptionTemplate": "Summon a Galescourge Stalker that restores nearby party members' HP by {0} of their Max HP, up to 3 times.\nCD: {1}s.",
     "rank5Params": [
-      "2.70%",
+      "2.7%",
       "8"
     ]
   },
   {
     "echoId": "echo-60001775",
     "name": "Geospider S4",
-    "descriptionTemplate": "Summon a Geospider S4 to attack enemies, dealing {0} Spectro DMG once and {1} Spectro DMG once.\n \n CD: {2}s.",
+    "descriptionTemplate": "Summon a Geospider S4 to attack enemies, dealing {0} Spectro DMG once and {1} Spectro DMG once.\n\n CD: {2}s.",
     "rank5Params": [
       "51.84%",
       "77.76%",
@@ -1407,7 +1466,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Glacio Prism",
     "descriptionTemplate": "Summon a Glacio Prism that continuously fires three crystal shards, each dealing {0} Glacio DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "38.40%",
+      "38.4%",
       "8"
     ]
   },
@@ -1416,14 +1475,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Golden Junrock",
     "descriptionTemplate": "Summon a Golden Junrock that charges forward, dealing {0} Spectro DMG to enemies in its path.\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000115",
     "name": "Gulpuff",
-    "descriptionTemplate": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\n\nCD: {2}s",
     "rank5Params": [
       "5",
       "23.04%",
@@ -1435,14 +1494,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Havoc Drake",
     "descriptionTemplate": "Summon a Havoc Drake to attack enemies, dealing {0} Havoc DMG 3 times.\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000175",
     "name": "Havoc Prism",
-    "descriptionTemplate": "Summon a Havoc Prism to fire five crystal shards, each dealing {0} Havoc DMG.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Havoc Prism to fire five crystal shards, each dealing {0} Havoc DMG.\n\nCD: {1}s",
     "rank5Params": [
       "23.04%",
       "8"
@@ -1451,7 +1510,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000055",
     "name": "Havoc Warrior",
-    "descriptionTemplate": "Transform into Havoc Warrior to attack up to 3 times, dealing {0} Havoc DMG each time.\n \nCD: {1}s",
+    "descriptionTemplate": "Transform into Havoc Warrior to attack up to 3 times, dealing {0} Havoc DMG each time.\n\nCD: {1}s",
     "rank5Params": [
       "171.73%",
       "15"
@@ -1470,7 +1529,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Hocus Pocus",
     "descriptionTemplate": "Summon a Hocus Pocus to attack enemies with 3 consecutive strikes, each dealing {0} Havoc DMG.\nCD: {1}s.",
     "rank5Params": [
-      "43.20%",
+      "43.2%",
       "8"
     ]
   },
@@ -1479,7 +1538,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Hooscamp",
     "descriptionTemplate": "Transform into Hooscamp Flinger and pounce at the enemies, dealing {0} Aero DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "48.00%+96",
+      "48%+96",
       "8"
     ]
   },
@@ -1488,7 +1547,17 @@ export const ECHO_SKILL_RAW = [
     "name": "Iceglint Dancer",
     "descriptionTemplate": "Transform into an Iceglint Dancer to attack enemies, dealing {0} Glacio DMG.\nCD: {1}s.",
     "rank5Params": [
-      "205.20%",
+      "205.2%",
+      "8"
+    ]
+  },
+  {
+    "echoId": "echo-60002195",
+    "name": "Jade Nether Serpent",
+    "descriptionTemplate": "Summon a Jade Nether Serpent that bombards the target with fireballs, dealing {0} Fusion DMG 5 times, then {1} Fusion DMG once.\nCD: {2}s",
+    "rank5Params": [
+      "12.96%",
+      "64.8%",
       "8"
     ]
   },
@@ -1497,7 +1566,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kernel Puppet: Anger",
     "descriptionTemplate": "Use Echo Skill to summon Kernel Puppet: Worry to attack enemies, dealing {0} Fusion DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1516,7 +1585,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kernel Puppet: Grief",
     "descriptionTemplate": "Use Echo Skill to summon Kernel Puppet: Grief to attack enemies, dealing {0} Spectro DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1525,7 +1594,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kernel Puppet: Joy",
     "descriptionTemplate": "Use Echo Skill to summon Kernel Puppet: Joy to attack enemies, dealing {0} Physical DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1534,7 +1603,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kernel Puppet: Reflection",
     "descriptionTemplate": "Use Echo Skill to summon Kernel Puppet: Reflection to attack enemies, dealing {0} Electro DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "64.80%",
+      "64.8%",
       "8"
     ]
   },
@@ -1543,7 +1612,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Kernel Puppet: Worry",
     "descriptionTemplate": "Use Echo Skill to summon Kernel Puppet: Worry to attack enemies, dealing {0} Glacio DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "64.80%",
+      "64.8%",
       "8"
     ]
   },
@@ -1552,8 +1621,8 @@ export const ECHO_SKILL_RAW = [
     "name": "La Guardia",
     "descriptionTemplate": "Transform into La Guardia and attack nearby targets, dealing {0} Physical DMG.\nHold the Echo Skill to maintain the Echo form for a while to slash enemies and cast a ranged attack forward. The slash deals {1} Physical DMG, and the ranged attack deals {3} Physical DMG up to {2} times.\nCD: {4}s.",
     "rank5Params": [
-      "268.20%",
-      "268.20%",
+      "268.2%",
+      "268.2%",
       "15",
       "17.87%",
       "15"
@@ -1564,7 +1633,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Lava Larva",
     "descriptionTemplate": "Summon a Lava Larva that continuously attacks enemies, dealing {0} Fusion DMG with each hit. The Lava Larva disappears when the summoner is switched out or moves too far away.\n\nCD: {1}s",
     "rank5Params": [
-      "38.40%",
+      "38.4%",
       "8"
     ]
   },
@@ -1573,7 +1642,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Lottie Lost",
     "descriptionTemplate": "Summon a Lottie Lost to attack enemies, dealing {0} Spectro DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1582,7 +1651,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Mining Drone",
     "descriptionTemplate": "Transform into a Mining Drone to attack enemies, dealing {0} Havoc DMG twice.\nCD: {1}s.",
     "rank5Params": [
-      "102.60%",
+      "102.6%",
       "8"
     ]
   },
@@ -1591,7 +1660,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Aero Predator",
     "descriptionTemplate": "Summon an Aero Predator that throws a dart forward. The dart will bounce between enemies up to three times, dealing {0} Aero DMG each time it hits.\n\nCD: {1}s",
     "rank5Params": [
-      "28.80%",
+      "28.8%",
       "8"
     ]
   },
@@ -1600,7 +1669,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nightmare: Baby Roseshroom",
     "descriptionTemplate": "Summon a Baby Roseshroom that fires a laser, dealing {0} Havoc DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1615,10 +1684,10 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001665",
     "name": "Nightmare: Chirpuff",
-    "descriptionTemplate": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\n\nCD: {2}s",
     "rank5Params": [
       "3",
-      "38.40%",
+      "38.4%",
       "8"
     ]
   },
@@ -1628,15 +1697,15 @@ export const ECHO_SKILL_RAW = [
     "descriptionTemplate": "Summon a Dwarf Cassowary that tracks and attacks the enemy, dealing {1} Physical DMG {0} time(s).\n\nCooldown: {2}s",
     "rank5Params": [
       "3",
-      "38.40%",
+      "38.4%",
       "8",
-      "0.00%"
+      "0%"
     ]
   },
   {
     "echoId": "echo-60001635",
     "name": "Nightmare: Electro Predator",
-    "descriptionTemplate": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\n\nCD: {2}s",
     "rank5Params": [
       "17.28%",
       "46.08%",
@@ -1657,7 +1726,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001655",
     "name": "Nightmare: Gulpuff",
-    "descriptionTemplate": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\n\nCD: {2}s",
     "rank5Params": [
       "5",
       "23.04%",
@@ -1667,7 +1736,7 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001175",
     "name": "Nightmare: Havoc Warrior",
-    "descriptionTemplate": "Transform into Havoc Warrior to attack up to 3 times, dealing {0} Havoc DMG each time.\n \nCD: {1}s",
+    "descriptionTemplate": "Transform into Havoc Warrior to attack up to 3 times, dealing {0} Havoc DMG each time.\n\nCD: {1}s",
     "rank5Params": [
       "171.73%",
       "15"
@@ -1676,12 +1745,12 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60001719",
     "name": "Nightmare: Tick Tack",
-    "descriptionTemplate": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\r\n\r\nCD: {4}s",
+    "descriptionTemplate": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\n\nCD: {4}s",
     "rank5Params": [
       "68.48%",
       "102.72%",
       "5",
-      "5.00%",
+      "5%",
       "15"
     ]
   },
@@ -1690,7 +1759,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Nimbus Wraith",
     "descriptionTemplate": "Summon a Nimbus Wraith that restores the active Resonator's HP by {0} of their Max HP, up to 4 times.\nCD: {1}s.",
     "rank5Params": [
-      "2.70%",
+      "2.7%",
       "15"
     ]
   },
@@ -1707,9 +1776,9 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60000265",
     "name": "Sabyr Boar",
-    "descriptionTemplate": "Summon a Sabyr Boar to headbutt the enemy into the air, dealing {0} Physical DMG.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Sabyr Boar to headbutt the enemy into the air, dealing {0} Physical DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1718,7 +1787,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Sacerdos",
     "descriptionTemplate": "Summon a Sacerdos to attack enemies, dealing {0} Aero DMG 2 times.\nCD: {1}s.",
     "rank5Params": [
-      "64.80%",
+      "64.8%",
       "8"
     ]
   },
@@ -1727,8 +1796,8 @@ export const ECHO_SKILL_RAW = [
     "name": "Sagittario",
     "descriptionTemplate": "Transform into Sagittario to move a certain distance and perform a ranged attack, dealing {0} Spectro DMG.\nGetting attacked while moving in the Sagittario form triggers form triggers a damage avoiding enhanced Dodge Counter, dealing {1} Spectro DMG once and {2} Spectro DMG 5 times.\nCD: {3}s.",
     "rank5Params": [
-      "268.20%",
-      "268.20%",
+      "268.2%",
+      "268.2%",
       "53.64%",
       "15"
     ]
@@ -1738,7 +1807,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Shadow Stepper",
     "descriptionTemplate": "Summon a Shadow Stepper to attack enemies, dealing {0} Havoc DMG.\nCD: {1}s.",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
@@ -1755,18 +1824,18 @@ export const ECHO_SKILL_RAW = [
   {
     "echoId": "echo-60002145",
     "name": "Smolder",
-    "descriptionTemplate": "Use Echo Skill to summon Smolder to hurl fireballs toward enemies, dealing {0} Fusion DMG.\n\nCD: {1}s",
+    "descriptionTemplate": "Use Echo Skill to summon Smolder to hurl fireballs toward enemies, dealing {0} Fusion DMG. If the fireball hits the ground, it explodes to deal {0} Fusion DMG to all enemies within the range.\n\nCD: {1}s",
     "rank5Params": [
-      "192.60%",
+      "192.6%",
       "15"
     ]
   },
   {
     "echoId": "echo-60000065",
     "name": "Snip Snap",
-    "descriptionTemplate": "Summon a Snip Snap that throws fireballs at the enemy, dealing {0} Fusion DMG on-hit.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Snip Snap that throws fireballs at the enemy, dealing {0} Fusion DMG on-hit.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1775,17 +1844,17 @@ export const ECHO_SKILL_RAW = [
     "name": "Spectro Drake",
     "descriptionTemplate": "Summon a Spectro Drake to attack enemies, dealing {0} Spectro DMG 3 times.\nCD: {1}s",
     "rank5Params": [
-      "43.20%",
+      "43.2%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000165",
     "name": "Spectro Prism",
-    "descriptionTemplate": "Summon a Spectro Prism to emit a laser that hits the enemy up to {0} times, dealing {1} Spectro DMG each time.\r\n\r\nCD: {2}s",
+    "descriptionTemplate": "Summon a Spectro Prism to emit a laser that hits the enemy up to {0} times, dealing {1} Spectro DMG each time.\n\nCD: {2}s",
     "rank5Params": [
       "8",
-      "14.40%",
+      "14.4%",
       "8"
     ]
   },
@@ -1794,26 +1863,26 @@ export const ECHO_SKILL_RAW = [
     "name": "Stone Picket",
     "descriptionTemplate": "Use Echo Skill to summon a Stone Picket, dealing {0} Aero DMG.\n\nCD: {1}s",
     "rank5Params": [
-      "129.60%",
+      "129.6%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000095",
     "name": "Tick Tack",
-    "descriptionTemplate": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\r\n\r\nCD: {4}s",
+    "descriptionTemplate": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\n\nCD: {4}s",
     "rank5Params": [
       "68.48%",
       "102.72%",
       "5",
-      "5.00%",
+      "5%",
       "15"
     ]
   },
   {
     "echoId": "echo-60000505",
     "name": "Traffic Illuminator",
-    "descriptionTemplate": "Summon a Traffic Illuminator, immobilizing enemies for up to {0}s. The immobilization will be lifted once the enemy is hit.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Traffic Illuminator, immobilizing enemies for up to {0}s. The immobilization will be lifted once the enemy is hit.\n\nCD: {1}s",
     "rank5Params": [
       "1",
       "15"
@@ -1824,16 +1893,16 @@ export const ECHO_SKILL_RAW = [
     "name": "Tremor Warrior",
     "descriptionTemplate": "Transform into a Tremor Warrior and viciously attack enemies in the front, dealing {0} Electro DMG.\n\nCD: {1}s.",
     "rank5Params": [
-      "205.20%",
+      "205.2%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000015",
     "name": "Vanguard Junrock",
-    "descriptionTemplate": "Summon a Vanguard Junrock that charges forward, dealing {0} Physical DMG to enemies in its path.\r\n\r\nCD: {1}s",
+    "descriptionTemplate": "Summon a Vanguard Junrock that charges forward, dealing {0} Physical DMG to enemies in its path.\n\nCD: {1}s",
     "rank5Params": [
-      "32.00%+64",
+      "32%+64",
       "8"
     ]
   },
@@ -1842,14 +1911,14 @@ export const ECHO_SKILL_RAW = [
     "name": "Voltscourge Stalker",
     "descriptionTemplate": "Summon a Voltscourge Stalker to perform 3 stages of attacks on enemies, each dealing {0} Electro DMG.\nCD: {1}s.",
     "rank5Params": [
-      "43.20%",
+      "43.2%",
       "8"
     ]
   },
   {
     "echoId": "echo-60000085",
     "name": "Whiff Whaff",
-    "descriptionTemplate": "Summon a Whiff Whaff that triggers an air explosion, dealing {0} Aero DMG and produce a Low-pressure Zone. The Low-pressure Zone continuously pulls enemies nearby towards the center for {1}s, dealing {2} Aero DMG up to 6 times.\r\n\r\nCD: {3}s",
+    "descriptionTemplate": "Summon a Whiff Whaff that triggers an air explosion, dealing {0} Aero DMG and produce a Low-pressure Zone. The Low-pressure Zone continuously pulls enemies nearby towards the center for {1}s, dealing {2} Aero DMG up to 6 times.\n\nCD: {3}s",
     "rank5Params": [
       "51.36%",
       "2",
@@ -1862,7 +1931,7 @@ export const ECHO_SKILL_RAW = [
     "name": "Zig Zag",
     "descriptionTemplate": "Summon a Zig Zag that detonates Spectro energy, dealing {0} Spectro DMG and creating a Stagnation Zone that lasts 1.8s.\nCD: {1}s",
     "rank5Params": [
-      "48.00%+96",
+      "48%+96",
       "15"
     ]
   },

@@ -243,8 +243,8 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
-  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
-  await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===34&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===187&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===37&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
 
   const opened = await evaluate(send, `(()=>{
     const slots=[...document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot')];

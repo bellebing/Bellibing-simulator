@@ -163,8 +163,8 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/characters/hero-art/augusta.webp"
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/characters/hero-art/runtime-data.json"
-          test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 181
-          test "$(find dist/ui-preview/assets/echoes/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 181
+          test "$(find dist/ui-preview/assets/echoes/icons -maxdepth 1 -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 187
+          test "$(find dist/ui-preview/assets/echoes/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 187
           test -s dist/ui-preview/assets/echoes/browser-data.json
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/echoes/browser-data.json"
@@ -189,7 +189,7 @@ jobs:
 
           test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 819
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6
-          test "$(find dist/ui-preview/assets/builder-icons/sonata -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 34
+          test "$(find dist/ui-preview/assets/builder-icons/sonata -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 37
           test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 411
           test "$(find dist/ui-preview/assets/builder-icons/chains -type f -name '*.webp' | wc -l)" -eq 348
           test "$(find dist/ui-preview/assets/builder-icons/stats -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 17

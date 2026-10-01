@@ -10,10 +10,24 @@ const SOURCE_PROVENANCE = {
   ],
 } as const;
 
+const SOURCE_PROVENANCE_V37 = {
+  sourceLabels: ['DommyMM/wuwabuild Version 3.7 pinned Fetters.json'],
+  sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data/Fetters.json'],
+  checkedAt: '2026-10-01',
+  notes: [
+    'Version 3.7 additions are source-reviewed without assuming trigger uptime.',
+    'A pending state-adapter disposition keeps source-explicit values visible while preventing invented execution semantics.',
+  ],
+} as const;
+
 type ReviewInput = Omit<SonataActivationSourceReview, 'provenance'>;
 
 function review(input: ReviewInput): SonataActivationSourceReview {
   return { ...input, provenance: SOURCE_PROVENANCE };
+}
+
+function review37(input: ReviewInput): SonataActivationSourceReview {
+  return { ...input, provenance: SOURCE_PROVENANCE_V37 };
 }
 
 /** Exactly one source-review disposition per released Sonata activation tuple. */
@@ -451,5 +465,47 @@ export const SONATA_EFFECT_SOURCE_REVIEWS: readonly SonataActivationSourceReview
     status: 'MODELED',
     expectedModeledEffectCount: 2,
     notes: 'All source-explicit stat/effect branches for this activation are represented by SonataEffectModel rows.',
+  }),
+  review37({
+    sonataSetId: 'sonata-36',
+    pieces: 2,
+    status: 'MODELED',
+    expectedModeledEffectCount: 1,
+    notes: 'Version 3.7 source-explicit 2-piece Electro DMG bonus.',
+  }),
+  review37({
+    sonataSetId: 'sonata-36',
+    pieces: 5,
+    status: 'MODELED',
+    expectedModeledEffectCount: 2,
+    notes: 'CRIT Rate and Electro DMG source branches share the explicit Electro Flare/Unison trigger and 30s duration; uptime is not assumed.',
+  }),
+  review37({
+    sonataSetId: 'sonata-37',
+    pieces: 2,
+    status: 'MODELED',
+    expectedModeledEffectCount: 1,
+    notes: 'Version 3.7 source-explicit 2-piece Electro DMG bonus.',
+  }),
+  review37({
+    sonataSetId: 'sonata-37',
+    pieces: 5,
+    status: 'MODELED',
+    expectedModeledEffectCount: 2,
+    notes: 'Self and incoming Electro DMG branches are source-explicit; the incoming branch preserves its Outro/Intro dependency.',
+  }),
+  review37({
+    sonataSetId: 'sonata-38',
+    pieces: 2,
+    status: 'MODELED',
+    expectedModeledEffectCount: 1,
+    notes: 'Version 3.7 source-explicit 2-piece Healing Bonus.',
+  }),
+  review37({
+    sonataSetId: 'sonata-38',
+    pieces: 5,
+    status: 'MODELED_WITH_PENDING_STATE_ADAPTER',
+    expectedModeledEffectCount: 2,
+    notes: 'Team ATK healing trigger and the additional Unison-bound self ATK value are source-explicit. The second branch is state-bound to the first effect and remains non-executable without a state adapter.',
   }),
 ]);

@@ -36,53 +36,62 @@ export interface EchoRawSourceReviewContract {
 }
 
 /**
- * Frozen Version 3.6 source-review contract for the raw Echo/Sonata layer.
+ * Frozen Version 3.7 source-review contract for the raw Echo/Sonata layer.
  *
- * The repository snapshot remains pinned to 0a2e49c because the later reviewed
- * upstream head projects to the same Bellibing raw fields: Echoes.json is
- * unchanged, while Fetters.json only gained displayBonuses metadata that this
- * raw identity/source-text layer intentionally does not import.
+ * The repository snapshot is pinned to the reviewed current 3.7 source commit.
+ * Live audit still resolves upstream main independently and fails closed on any
+ * missing, stale/wrong or extra raw projection.
  *
  * `sourceConflicts` is the explicit escape hatch for genuinely contradictory
  * current sources. A registered conflict is excluded from VERIFIED_CURRENT
  * counts, and a conflicted repository record may never be marked VERIFIED.
  */
-export const ECHO_RAW_SOURCE_REVIEW_V36: EchoRawSourceReviewContract = {
-  patch: '3.6',
-  checkedAt: '2026-08-29',
-  expectedCatalogCount: 181,
-  expectedReleasedEchoCount: 181,
-  expectedSonataCount: 34,
-  expectedReleasedSonataCount: 34,
+export const ECHO_RAW_SOURCE_REVIEW_V37: EchoRawSourceReviewContract = {
+  patch: '3.7',
+  checkedAt: '2026-10-01',
+  expectedCatalogCount: 187,
+  expectedReleasedEchoCount: 187,
+  expectedSonataCount: 37,
+  expectedReleasedSonataCount: 37,
   expectedUpcomingEchoIds: [],
   expectedUpcomingSonataIds: [],
   expectedWipEchoIds: [],
   expectedWipSonataIds: [],
-  currentPatchReleasedEchoIds: ['echo-60002215'],
+  currentPatchReleasedEchoIds: [
+    'echo-60002195',
+    'echo-60002205',
+    'echo-60002225',
+    'echo-60002235',
+    'echo-60002245',
+    'echo-60002255',
+  ],
   expectedSnapshotSourceRepository: 'DommyMM/wuwabuild',
-  expectedSnapshotSourceCommit: '0a2e49c649c857c690be709577e6ce98832b2d43',
-  reviewedCurrentSourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-  freshnessGate: 'Calamity Effigy',
+  expectedSnapshotSourceCommit: '49222fe53b2bb2060f235152ee78ad332ea44c37',
+  reviewedCurrentSourceCommit: '49222fe53b2bb2060f235152ee78ad332ea44c37',
+  freshnessGate: 'Formrender',
   sourceConflicts: [],
   sourceLabels: [
-    'Kuro Games Version 3.6 release announcement',
+    'Kuro Games Version 3.7 release/maintenance announcement',
     'DommyMM/wuwabuild normalized live-data snapshot',
     'Wuthery / Encore upstream raw game data',
     'Current published Echo/Sonata references used as independent cross-checks',
   ],
   sourceUrls: [
-    'https://steamcommunity.com/app/3513350/announcements/',
-    'https://github.com/DommyMM/wuwabuild/tree/5fa70b11f1d84fb644e4dbed47873708da0fe66f/public/Data',
+    'https://wutheringwaves.kurogames.com/en/main/news/detail/3790',
+    'https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data',
     'https://api-v2.encore.moe/api',
     'https://files.wuthery.com',
   ],
   notes: [
-    'Version 3.6 officially adds Calamity Effigy as the new Echo; the current normalized raw snapshot contains it as COST 4 with Sonata memberships 34 and 35.',
-    'The reviewed current upstream head does not change Echoes.json relative to the pinned Bellibing snapshot.',
-    'The reviewed Fetters.json change adds displayBonuses metadata only; Bellibing raw Sonata identity, activation thresholds and raw effect-description projection remain unchanged.',
-    'Raw roster verification does not imply Sonata effect, Echo Skill, recommendation, rotation or DPS coverage.',
+    'Version 3.7 is live as of 2026-09-30; the reviewed live snapshot contains 187 released Echoes and 37 Sonata sets.',
+    'The six newly covered 3.7 Echo identities are Reminiscence: Suhsin the Inevitable, Formrender, Skywatch Lancer, Soulfrayer, Bloomburst Puppet and Jade Nether Serpent.',
+    'The three newly covered Sonata identities are Heart of Sworn Vigil, Flash of Electric Reflection and Flower of Tinged Yearning.',
+    'Raw roster verification does not imply Sonata effect, Echo Skill, recommendation, rotation or DPS execution coverage.',
   ],
 };
+
+/** Backward-compatible import alias for older call sites; payload is the current 3.7 contract. */
+export const ECHO_RAW_SOURCE_REVIEW_V36 = ECHO_RAW_SOURCE_REVIEW_V37;
 
 export type EchoRawAuditIssueCode =
   | 'CATALOG_COUNT_MISMATCH'

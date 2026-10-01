@@ -8,16 +8,16 @@ import {
 } from '../src/data/echoSkillSourceReview.ts';
 import { auditEchoSkillCoverage } from '../src/echoSkillCoverageRegistry.ts';
 
-test('Version 3.6 Echo skill source review is roster-wide and execution-explicit', () => {
+test('Version 3.7 Echo skill source review is roster-wide and execution-explicit', () => {
   const review = ECHO_SKILL_SOURCE_REVIEW_V36;
-  assert.equal(review.expectedReleasedEchoCount, 181);
-  assert.equal(review.expectedEnglishDescriptionCount, 181);
-  assert.equal(review.expectedFiveRankParamRecordCount, 181);
-  assert.equal(review.expectedCooldownRecordCount, 181);
+  assert.equal(review.expectedReleasedEchoCount, 187);
+  assert.equal(review.expectedEnglishDescriptionCount, 187);
+  assert.equal(review.expectedFiveRankParamRecordCount, 187);
+  assert.equal(review.expectedCooldownRecordCount, 187);
   assert.equal(review.expectedSkillNameFieldCount, 0);
-  assert.equal(review.expectedDamageTextRecordCount, 170);
+  assert.equal(review.expectedDamageTextRecordCount, 176);
   assert.equal(review.expectedNoDamageTextRecordCount, 11);
-  assert.equal(review.expectedModeledEffectRowCount, 66);
+  assert.equal(review.expectedModeledEffectRowCount, 69);
   assert.equal(review.expectedAttackProfileCount, 8);
   assert.equal(review.expectedAttackFactCount, 10);
 });
@@ -25,12 +25,12 @@ test('Version 3.6 Echo skill source review is roster-wide and execution-explicit
 test('Echo skill coverage audit fails closed around modeled and pending boundaries', () => {
   const summary = auditEchoSkillCoverage();
   assert.deepEqual(summary, {
-    releasedEchoCount: 181,
-    modeledEffectRowCount: 66,
-    modeledEffectEchoCount: 40,
+    releasedEchoCount: 187,
+    modeledEffectRowCount: 69,
+    modeledEffectEchoCount: 43,
     attackProfileCount: 8,
     attackFactCount: 10,
-    pendingAdapterFactCount: 4,
+    pendingAdapterFactCount: 5,
     sourceUnusedParamRecordCount: 3,
   });
 });
@@ -47,7 +47,7 @@ test('known source parameter discrepancies stay explicit instead of being interp
 });
 
 test('specialized Echo effect semantics remain explicit pending adapter facts', () => {
-  assert.equal(ECHO_SKILL_PENDING_ADAPTER_FACTS.length, 4);
+  assert.equal(ECHO_SKILL_PENDING_ADAPTER_FACTS.length, 5);
   assert.equal(
     ECHO_SKILL_PENDING_ADAPTER_FACTS.some((row) => row.echoId === 'echo-60001065' && row.kind === 'CHARACTER_RESTRICTION'),
     false,

@@ -87,7 +87,7 @@ test('source-only, conditional, special-system and unverified semantics are not 
     /unsupported/);
   const db = buildCharacterDatabase();
   assert.deepEqual(db.hitPrimitives.directHits, listCharacterDirectHitSupport());
-  assert.equal(db.mechanicsFacts.length, 1932);
+  assert.equal(db.mechanicsFacts.length, 1938);
   assert.equal(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').length, 2);
   assert.equal(db.referenceTeam01.dpsReady, false);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);

@@ -1,21 +1,43 @@
 # Bellibing Simulator — Current Project Status
 
-## Draft Character Mechanics FORTE_RULES roster completion — PR #222
+## Character Mechanics INHERENT_PASSIVES closeout — PR #223
 
-Draft PR #222 is the **FORTE_RULES-only** continuation. PR #221 ACTIONS was explicitly approved and normal-merged to `main` as `fbb84dcffebc8d3e8dc590977bf9be6153dbc0fc`; PR #222 is now retargeted to that canonical `main` while preserving its exact reviewed FORTE_RULES payload. The pre-retarget reviewed head was `4abfbf3ade93a729aa5a23354596b1c0a718f5e0`; this documentation sync intentionally creates a fresh PR head so Verify runs against the merged ACTIONS baseline.
+PR #222 is **MERGED / CLOSED** on canonical `main` as `eaaa4b0f4b5942ee6392cb72d5e95386305399ae`, from reviewed FORTE_RULES head `0c9061728a64630997c8b12ae14267be093b89c3`. PR #223 is the current **INHERENT_PASSIVES closeout** on top of that merged baseline. It does not duplicate or replace the already-integrated ACTIONS/FORTE_RULES work.
 
-The existing 54 source-complete Character Mechanics profiles keep their already-canonical Forte facts. PR #222 fills only the remaining RELEASED-roster Forte-rule gaps for Buling, Danjin and Xiangli Yao through the existing `ACTION` / `PASSIVE` fact architecture and the existing source-backed Skills/Forte payload. Ten canonical Forte-rule facts are added, bringing the registry total from **1922 to 1932** facts. No parallel skill/Forte model is introduced.
+Scope remains **INHERENT_PASSIVES only**, plus the required Cartethyia/Rover Windstrings compatibility fix exposed by exact-head verification. No new Character Mechanics area is started. No UI work has started as part of this closeout, and Improve / the decision engine remain untouched.
 
-Deterministic RELEASED-roster `FORTE_RULES` coverage is **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. The exact remaining blockers are:
+The pinned Skills/Forte payload contains exactly **114 Inherent Skill rows** across **57 RELEASED Characters** — exactly two per Character. Deterministic RELEASED-roster INHERENT_PASSIVES coverage is **57 VERIFIED / 0 PARTIAL / 0 BLOCKED**. Buling, Danjin and Xiangli Yao receive the six previously missing source-backed Inherent Skill facts; source-explicit triggers/effects/values are preserved and unstated runtime semantics remain `PENDING_INTERPRETATION`.
+
+### Cartethyia Windstrings compatibility checkpoint
+
+PR #223 preserves the source-normalized canonical Cartethyia Inherent Skill fact and fixes the downstream Rover Windstrings consumer contract that still matched an older Bellibing paraphrase. The canonical fact remains source-backed by pinned Skills/Forte move `1003504` (`A Heart's Truest Wishes`): with Rover: Aero in the team, casting `Omega Storm` restores exactly **25 Windstrings**.
+
+The compatibility boundary is explicit and fail-closed. `cartethyiaWindstringsSourceContract.ts` owns the reviewed canonical projection plus pinned source identity/provenance, while `readCartethyiaWindstringsGain()` validates that exact contract instead of regex-parsing stale prose. Wrong Character/fact/name/section/scope/semantic text/provenance/source identity still rejects; existing Rover nominal-gain, team-proof and readiness semantics are unchanged.
+
+Existing independent blockers remain unchanged and fail-closed:
+
+- ACTIONS: **55 VERIFIED / 0 PARTIAL / 2 BLOCKED** — `ACTIONS-BULING-1307031-DAMAGE-CLASS` and `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS`.
+- FORTE_RULES: **55 VERIFIED / 0 PARTIAL / 2 BLOCKED** — `FORTE-BULING-1307031-DAMAGE-CLASS` and `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD`.
+- Full Character Mechanics: **54/57 VERIFIED** — Buling, Danjin and Xiangli Yao remain `PARTIALLY_VERIFIED`; Outro effects, generic Resource rules and Sequences remain pending for those profiles.
+
+The checked-in [Character Mechanics INHERENT_PASSIVES Coverage](CHARACTER_INHERENT_PASSIVES_COVERAGE.md) report and Verify gate cross-check every RELEASED Character against the pinned source payload. Exact-head Verify remains the merge gate; final review-head and run identifiers belong in the external AI Handoff so this living status file does not become self-referential.
+
+## Merged Character Mechanics FORTE_RULES roster completion — PR #222
+
+PR #222 was normal-merged to canonical `main` as `eaaa4b0f4b5942ee6392cb72d5e95386305399ae` from exact reviewed head `0c9061728a64630997c8b12ae14267be093b89c3`. Its FORTE_RULES payload is now baseline truth for PR #223.
+
+The existing 54 source-complete Character Mechanics profiles keep their already-canonical Forte facts. PR #222 filled only the remaining RELEASED-roster Forte-rule gaps for Buling, Danjin and Xiangli Yao through the existing `ACTION` / `PASSIVE` fact architecture and pinned Skills/Forte payload. Deterministic RELEASED-roster `FORTE_RULES` coverage is **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**.
+
+The exact remaining FORTE_RULES blockers are:
 
 - `FORTE-BULING-1307031-DAMAGE-CLASS` — Five Thunders Spell Array cadence, Electro Flare application, Yin-Yang Balance/Harmony replacement and Thunder Spell team-state progression are source-explicit, but the array's own continuous damage still has no source-explicit Character damage-bonus classification. The separate 10%/25% team Resonance Skill DMG Bonus states are not used to infer it.
 - `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD` — Serene Vigil requires Ruby Blossom to reach **over 120** for the full-power branch while the same source caps Ruby Blossom at **120**. Bellibing does not normalize that contradiction to `>=120` or `=120`.
 
-Xiangli Yao's source-explicit Intuition transformations, 24s source limit, Decipher/Law of Reigns thresholds and replacement relationships, and Revamp follow-up are canonical. The source only says Revamp is available “shortly after” Decipher or Divergence, so no numeric input window is invented; runtime timing remains `PENDING_INTERPRETATION` without changing source verification.
+Xiangli Yao's source-explicit Intuition transformations, 24s source limit, Decipher/Law of Reigns thresholds and replacement relationships, and Revamp follow-up are canonical. The source only says Revamp is available “shortly after” Decipher or Divergence, so no numeric input window is invented; runtime timing remains `PENDING_INTERPRETATION`.
 
-PR #221 ACTIONS coverage is regression-locked and unchanged at **57 / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED** with the same `ACTIONS-BULING-1307031-DAMAGE-CLASS` and `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS` blockers. Full Character Mechanics remains **54/57 VERIFIED**: Buling, Danjin and Xiangli Yao stay `PARTIALLY_VERIFIED` overall. Inherent passives, Outro effects, generic Resource rules, Sequence mechanics, Improve, Team, DPS rotations, profiles/recommendations and Skills/Forte UI/layout remain outside this slice.
+PR #221 ACTIONS coverage remains regression-locked at **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. Full Character Mechanics remains **54/57 VERIFIED**. PR #222 is **MERGED / CLOSED**; its source blockers remain explicit and unchanged.
 
-See [Character Mechanics FORTE_RULES Coverage](CHARACTER_FORTE_RULES_COVERAGE.md), [Character Mechanics ACTIONS Coverage](CHARACTER_ACTIONS_COVERAGE.md), and [Character Mechanics Source Review Dispositions](CHARACTER_MECHANICS_SOURCE_REVIEW.md). PR #222 must remain **DRAFT / OPEN / UNMERGED** for user review. Final exact-head Verify after this documentation sync is the authoritative review gate.
+See [Character Mechanics FORTE_RULES Coverage](CHARACTER_FORTE_RULES_COVERAGE.md), [Character Mechanics ACTIONS Coverage](CHARACTER_ACTIONS_COVERAGE.md), and [Character Mechanics Source Review Dispositions](CHARACTER_MECHANICS_SOURCE_REVIEW.md).
 
 ## Merged Character Mechanics ACTIONS roster completion — PR #221
 

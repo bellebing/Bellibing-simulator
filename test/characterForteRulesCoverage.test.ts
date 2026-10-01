@@ -57,7 +57,7 @@ test('Forte completion does not promote the three partial full mechanics profile
   assert.equal(xiangli?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
 
   for (const profile of [buling, danjin, xiangli]) {
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'PENDING');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'PENDING');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'PENDING');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'PENDING');

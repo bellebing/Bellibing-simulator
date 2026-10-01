@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { getCharacterMechanicFact } from '../src/data/characterMechanics.ts';
 import { buildCharacterDatabase } from '../src/characterDatabase.ts';
 import { evaluateRoverWindstringsGain as evaluate, readRoverWindstringsGains, readCartethyiaWindstringsGain,
   listRoverWindstringsGainSupport, type RoverWindstringsGainInput } from '../src/combat/roverWindstringsGainAdapter.ts';
+import { CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT } from '../src/data/characterMechanics/cartethyiaWindstringsSourceContract.ts';
 
 function input(index = 0): RoverWindstringsGainInput {
   const binding = listRoverWindstringsGainSupport()[index];
@@ -88,6 +90,60 @@ test('database exposes four identity-only resource bindings for the existing Rov
   database.resourceGainSupport[0].characterId = 'mutated';
   assert.equal(buildCharacterDatabase().resourceGainSupport[0].characterId, 'rover-aero');
   assert.equal(database.referenceTeam01.unresolvedDependencies.length, 6);
+  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+});
+
+test('current canonical Cartethyia Inherent source contract is accepted and keeps exact pinned 25 Windstrings truth', async () => {
+  const fact = getCharacterMechanicFact(CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId)!;
+  assert.equal(readCartethyiaWindstringsGain(fact), 25);
+
+  const source = JSON.parse(await readFile('data/source/character-forte-ui.json', 'utf8'));
+  assert.equal(source.provenance.characters.repository, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.pinnedSkillsForteSource.repository);
+  assert.equal(source.provenance.characters.commit, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.pinnedSkillsForteSource.commit);
+  assert.equal(source.provenance.characters.path, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.pinnedSkillsForteSource.path);
+  const sourceCharacter = source.characters.find((character: { characterId: string }) =>
+    character.characterId === CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.characterId);
+  assert.equal(sourceCharacter?.sourceId, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.sourceCharacterId);
+  const sourceMove = sourceCharacter?.moves.find((move: { id: number }) =>
+    move.id === CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.moveId);
+  assert.equal(sourceMove?.type, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.moveType);
+  assert.equal(sourceMove?.name, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.moveName);
+  assert.equal(sourceMove?.description, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.description);
+  assert.deepEqual(sourceMove?.descriptionParams, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.sourceIdentity.descriptionParams);
+  assert.equal(CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.omegaStormWindstringsGain, 25);
+});
+
+test('Cartethyia Windstrings source identity, provenance and semantics fail closed under drift', () => {
+  const fact = getCharacterMechanicFact(CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId)!;
+  assert.equal(fact.kind, 'PASSIVE');
+  if (fact.kind !== 'PASSIVE') throw new Error('passive required');
+  const provenance = CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.canonicalFactProvenance;
+  const sourceIndex = fact.provenance.sourceUrls?.indexOf(provenance.sourceUrl) ?? -1;
+  assert.ok(sourceIndex >= 0);
+  const wrongLabels = [...fact.provenance.sourceLabels];
+  wrongLabels[sourceIndex] = 'wrong source identity';
+
+  for (const altered of [
+    { ...fact, characterId: 'rover-aero' },
+    { ...fact, factId: 'cartethyia-inherent-other' },
+    { ...fact, name: 'Inherent Skill — Wrong Source' },
+    { ...fact, section: 'FORTE_CIRCUIT' as const },
+    { ...fact, scope: 'SELF' as const },
+    { ...fact, triggerSummary: 'Omega Storm is cast.' },
+    { ...fact, effectSummary: fact.effectSummary.replace('25 Windstrings', '30 Windstrings') },
+    { ...fact, effectSummary: fact.effectSummary.replace('Omega Storm', 'Cloudburst Dance') },
+    { ...fact, provenance: { ...fact.provenance, checkedAt: '2026-09-12' } },
+    { ...fact, provenance: { ...fact.provenance, sourceUrls: (fact.provenance.sourceUrls ?? []).filter((url) => url !== provenance.sourceUrl) } },
+    { ...fact, provenance: { ...fact.provenance, sourceLabels: wrongLabels } },
+  ]) assert.throws(() => readCartethyiaWindstringsGain(altered), /Unsupported Cartethyia Windstrings source/);
+});
+
+test('character database accepts the current Cartethyia Windstrings contract without changing readiness', () => {
+  assert.doesNotThrow(() => buildCharacterDatabase());
+  const database = buildCharacterDatabase();
+  const omega = database.resourceGainSupport.find((binding) =>
+    binding.actionFactId === 'rover-aero-resonance-liberation-omega-storm-skill-dmg');
+  assert.equal(omega?.requiredTeamSourceFactId, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId);
   assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
 });
 

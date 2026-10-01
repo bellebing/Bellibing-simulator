@@ -359,10 +359,12 @@ async function verifyDesktop(send) {
     const other=[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(read);
     const all=[...document.querySelectorAll('#echoSonataOptions [data-sonata-id]')].map(read);
     const expectedIds=[...echoSonataById.keys()].sort(),actualIds=all.map(x=>x.id);
+    const recommendedIds=new Set(['sonata-20','sonata-3']);
+    const expectedOtherCount=[...echoSonataById.keys()].filter(id=>!recommendedIds.has(id)).length;
     const alphabetical=[...other].sort((a,b)=>a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en')).map(x=>x.id);
     const descending=rows=>rows.every((row,index)=>index===0||rows[index-1].sourceId>row.sourceId);
     return{
-      recommended,other,
+      recommended,other,expectedOtherCount,
       order:[...document.querySelectorAll('#echoSonataOptions>.echo-sonata-group')].map(x=>x.dataset.sonataGroup),
       recommendedDescending:descending(recommended),
       otherDescending:descending(other),
@@ -375,7 +377,7 @@ async function verifyDesktop(send) {
       {id:'sonata-20',name:'Crown of Valor',star:'★'},
       {id:'sonata-3',name:'Void Thunder',star:'★'},
     ])
-    || groups.other.length !== 32
+    || groups.other.length !== groups.expectedOtherCount
     || groups.recommended.some(x=>!x.starRight)
     || groups.other.some(x=>x.star!==null)
     || !groups.recommendedDescending

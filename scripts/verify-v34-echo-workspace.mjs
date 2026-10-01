@@ -705,11 +705,12 @@ async function verifyDesktop(send) {
     recommendedGroups:document.querySelectorAll('[data-sonata-group="recommended"]').length,
     otherGroups:document.querySelectorAll('[data-sonata-group="other"]').length,
     stars:document.querySelectorAll('.echo-sonata-option-star').length,
+    expectedOtherCount:echoSonataById.size,
     other:[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(x=>({id:x.dataset.sonataId,sourceId:echoSonataById.get(x.dataset.sonataId)?.sourceId??null})),
     summary:document.getElementById('echoSonataSummary').textContent.trim()
   }))()`);
   const fallbackNewestFirst=fallback.other.every((row,index)=>index===0||fallback.other[index-1].sourceId>row.sourceId);
-  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.stars!==0||fallback.other.length!==34||!fallbackNewestFirst||fallback.summary!=='All Sonata Sets') {
+  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.stars!==0||fallback.other.length!==fallback.expectedOtherCount||!fallbackNewestFirst||fallback.summary!=='All Sonata Sets') {
     throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
   }
   const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);

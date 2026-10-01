@@ -136,7 +136,8 @@ test('source completeness never grants a new DPS engine or closes Reference Team
     ['augusta', 'ciaccona']);
   for (const id of ['buling', 'danjin', 'xiangli-yao']) {
     const character = db.characters.find((row) => row.id === id)!;
-    assert.equal(character.mechanics, null);
+    assert.ok(character.mechanics);
+    assert.equal(character.mechanics.verificationStatus, 'PARTIALLY_VERIFIED');
     assert.ok(character.sourceBlocker?.reason);
     assert.equal(character.readiness?.disposition, 'CHARACTER_MECHANICS_SOURCE_BLOCKED');
   }

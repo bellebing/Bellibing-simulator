@@ -31,7 +31,7 @@ test('one reader preserves exact per-hit curves across the complete canonical Ch
       }
     }
   }
-  assert.equal(owners.size, 54);
+  assert.equal(owners.size, 57);
 });
 
 test('mixed hits are retained and flat damage cannot be consumed as an ATK coefficient', () => {

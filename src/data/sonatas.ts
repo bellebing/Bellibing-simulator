@@ -15,11 +15,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -54,11 +54,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -93,11 +93,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -127,11 +127,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -161,11 +161,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -200,11 +200,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -239,11 +239,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -273,11 +273,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -301,6 +301,84 @@ export const SONATA_CATALOG = [
   },
   {
     kind: 'ECHO_SET',
+    "id": "sonata-37",
+    "name": "Flash of Electric Reflection",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
+      ]
+    },
+    "sourceId": 37,
+    "activationPieces": [
+      2,
+      5
+    ],
+    "rawPieceEffects": [
+      {
+        "pieces": 2,
+        "description": "Electro DMG + {0}"
+      },
+      {
+        "pieces": 5,
+        "description": "When the Resonator inflicts Electro Flare on enemies, they gain the following effects: Gain {0} Electro DMG Bonus for {1}s. While this effect is active, casting Outro Skill grants the incoming Resonator {2} Electro DMG Bonus for {3}s."
+      }
+    ]
+  },
+  {
+    kind: 'ECHO_SET',
+    "id": "sonata-38",
+    "name": "Flower of Tinged Yearning",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
+      ]
+    },
+    "sourceId": 38,
+    "activationPieces": [
+      2,
+      5
+    ],
+    "rawPieceEffects": [
+      {
+        "pieces": 2,
+        "description": "Healing + {0}"
+      },
+      {
+        "pieces": 5,
+        "description": "Healing a Resonator in the team increases the ATK of all Resonators in the team by {0} for {1}s. Effects of the same name cannot be stacked. While the effect is active, if the Resonator gains Unison or triggers Unison Response, their ATK is further increased by {2}."
+      }
+    ]
+  },
+  {
+    kind: 'ECHO_SET',
     "id": "sonata-1",
     "name": "Freezing Frost",
     "releaseStatus": "RELEASED",
@@ -312,11 +390,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -351,11 +429,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -390,11 +468,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -429,11 +507,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -468,11 +546,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -507,11 +585,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -535,6 +613,45 @@ export const SONATA_CATALOG = [
   },
   {
     kind: 'ECHO_SET',
+    "id": "sonata-36",
+    "name": "Heart of Sworn Vigil",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
+      ]
+    },
+    "sourceId": 36,
+    "activationPieces": [
+      2,
+      5
+    ],
+    "rawPieceEffects": [
+      {
+        "pieces": 2,
+        "description": "Electro DMG + {0}"
+      },
+      {
+        "pieces": 5,
+        "description": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by {0} and grants them {1} Electro DMG for {2}s."
+      }
+    ]
+  },
+  {
+    kind: 'ECHO_SET',
     "id": "sonata-35",
     "name": "Lamp of Nether Road",
     "releaseStatus": "RELEASED",
@@ -546,16 +663,14 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
-        "https://github.com/DommyMM/wuwabuild/blob/8d8cbdee3ff14a0a384102e1771b4af96ac1d69f/public/Data/Fetters.json",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-09-09",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
-        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation.",
-        "Reviewed raw-text-only refresh: upstream adds the missing s after the 5pc duration placeholder. All source parameters and existing modeled effects are unchanged. Fetters Git blob b441635dde76ba117eb015ae0eeb43bdabb266e7 was verified; no stack lifecycle or readiness is inferred."
+        "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
       ]
     },
     "sourceId": 35,
@@ -587,11 +702,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -621,11 +736,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -660,11 +775,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -699,11 +814,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -738,11 +853,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -777,11 +892,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -816,11 +931,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -855,11 +970,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -894,11 +1009,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -933,11 +1048,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -967,11 +1082,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1006,11 +1121,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1045,11 +1160,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1084,11 +1199,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1118,11 +1233,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1157,11 +1272,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1196,11 +1311,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1235,11 +1350,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."
@@ -1274,11 +1389,11 @@ export const SONATA_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Raw effect text is stored for audit only; it is not a modeled trigger/uptime/stacks implementation."

@@ -12,36 +12,37 @@ export interface EchoSkillPendingAdapterFact {
   readonly reason: string;
 }
 
-export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
-  patch: '3.6',
-  checkedAt: '2026-09-08',
+export const ECHO_SKILL_SOURCE_REVIEW_V37 = {
+  patch: '3.7',
+  checkedAt: '2026-10-01',
   sourceRepository: 'DommyMM/wuwabuild',
-  sourceCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-  sourceBlobSha: 'cca1563ce0491a3de80ac7359344112631329224',
+  sourceCommit: '49222fe53b2bb2060f235152ee78ad332ea44c37',
+  sourceBlobSha: '99f1dd922f529757074778426070a40ebacfa05a',
   sourcePath: 'public/Data/Echoes.json',
-  expectedReleasedEchoCount: 181,
-  expectedEnglishDescriptionCount: 181,
-  expectedFiveRankParamRecordCount: 181,
-  expectedCooldownRecordCount: 181,
+  expectedReleasedEchoCount: 187,
+  expectedEnglishDescriptionCount: 187,
+  expectedFiveRankParamRecordCount: 187,
+  expectedCooldownRecordCount: 187,
   expectedSkillNameFieldCount: 0,
-  expectedDamageTextRecordCount: 170,
+  expectedDamageTextRecordCount: 176,
   expectedNoDamageTextRecordCount: 11,
-  expectedMainSlotTextRecordCount: 36,
-  expectedStructuredBonusEchoCount: 35,
-  expectedStructuredBonusRowCount: 58,
+  expectedMainSlotTextRecordCount: 38,
+  expectedStructuredBonusEchoCount: 37,
+  expectedStructuredBonusRowCount: 60,
   expectedCharacterConditionBonusRowCount: 3,
   expectedUnusedParamRecordCount: 3,
-  expectedModeledEffectRowCount: 66,
-  expectedModeledEffectEchoCount: 40,
+  expectedModeledEffectRowCount: 69,
+  expectedModeledEffectEchoCount: 43,
   expectedAttackProfileCount: 8,
   expectedAttackFactCount: 10,
   notes: [
+    '2026-10-01 Version 3.7 source refresh: roster skill text is pinned to the current live snapshot; the upstream parameter key is now arrayString and the source audit fails closed on that exact schema.',
     '2026-09-10 Voidwing Moth supplemental Rank-5 effect review adds the independently stated use-to-Outro incoming ATK transfer. It does not promote press/hold attack damage or assert a profile timeline.',
     '2026-09-10 Sentry Construct damage-only review: two alternative Rank-5 ACTIVE_CAST facts share the existing exact reader/kernel. ATK/Glacio scaling is explicit for both damage entries; no Strike Capacitor, reset or freeze state is modeled.',
     '2026-09-10 bounded supplemental review: Lorelei and Nightmare: Lampylumen Myriad each have an exact single active component. Their Wuthering Wiki Echo damage entries explicitly prove ATK scaling; per-profile provenance records the URLs and review date separately from the pinned roster inventory.',
     'Adam Smasher Lucy/Rebecca CRIT Rate and Sigillum Aemeath Liberation bonus now use the existing static wielder-identity primitive. Their source values/restrictions were already verified; no active attack, profile rotation or recommendation is promoted.',
     'The upstream Echo record has no dedicated skill-name field. Bellibing therefore keeps the Echo identity plus source skill description and never invents a separate skill name.',
-    'All 181 released Version 3.6 Echo records have English active-skill text, five rank parameter rows, and a source-explicit cooldown placeholder that resolves at Rank 5.',
+    'All 187 released Version 3.7 Echo records have English active-skill text, five rank parameter rows, and a source-explicit cooldown placeholder that resolves at Rank 5.',
     'Source review completeness does not imply executable combat coverage. Damage prose is not promoted to an attack profile when scaling, hit decomposition, variants, or state semantics cannot be proven in the current attack domain.',
     'Fallacy of No Return normal activation is a partial safe exception: Rank-5 source proves one 15.86% max-HP Spectro blast, while its hold/release variant remains explicitly outside exact execution coverage.',
     'Nightmare: Thundering Mephis is now an exact safe attack-profile case: independent current sources resolve its Rank-5 active cast to one 405% ATK Electro hit with a 25-second cooldown. The profile cast event and timeline remain separate execution claims.',
@@ -51,6 +52,9 @@ export const ECHO_SKILL_SOURCE_REVIEW_V36 = {
     'Exact Echo attack data does not close any profile active-damage dependency by itself; an executable rotation must still prove the exact Echo cast event.',
   ],
 } as const;
+
+/** Backward-compatible import alias for older call sites; payload is the current 3.7 review. */
+export const ECHO_SKILL_SOURCE_REVIEW_V36 = ECHO_SKILL_SOURCE_REVIEW_V37;
 
 export const ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS = [
   {
@@ -74,6 +78,12 @@ export const ECHO_SKILL_SOURCE_UNUSED_PARAM_RECORDS = [
 ] as const;
 
 export const ECHO_SKILL_PENDING_ADAPTER_FACTS: readonly EchoSkillPendingAdapterFact[] = [
+  {
+    echoId: 'echo-60002255',
+    fact: 'Additional 10% Electro DMG Bonus for 30s after inflicting Electro Flare, gaining Unison, or triggering Unison Response',
+    kind: 'TRIGGER_STATE',
+    reason: 'The current Echo effect activation enum has no target-state/Unison trigger primitive; the permanent main-slot 10% Electro bonus is modeled separately.',
+  },
   {
     echoId: 'echo-60001809',
     fact: 'Twin Nova: Collapsar Blade main-slot 12% Electro DMG Bonus changes to 12% Spectro DMG Bonus when Twin Nova: Nebulous Cannon is equipped in another slot',

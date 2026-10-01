@@ -17,9 +17,9 @@
     "deferred": "Full-art reveal, parallax/living-still motion and functional Echo UI wiring are outside this asset slice."
   },
   "summary": {
-    "releasedCanonical": 181,
-    "imported": 181,
-    "byteIdenticalSourceMatches": 181,
+    "releasedCanonical": 187,
+    "imported": 187,
+    "byteIdenticalSourceMatches": 187,
     "unmatched": 0
   },
   "portraits": [
@@ -142,6 +142,18 @@
       "sourceSha": "b6eb97b4be2469a92c2b1b75a2ac1cbcaad05ac9",
       "sourceBytes": 216313,
       "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60000375.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
+      "echoId": "echo-60002225",
+      "sourceId": "60002225",
+      "name": "Bloomburst Puppet",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_31104_UI.png",
+      "sourceSha": "0025282621ff3af2ea03edb1efe77ee2cf1f00e9",
+      "sourceBytes": 150263,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002225.png",
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
@@ -563,6 +575,18 @@
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
+      "echoId": "echo-60002235",
+      "sourceId": "60002235",
+      "name": "Formrender",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_32070_UI.png",
+      "sourceSha": "dc8f38efe92c2ead6e29f7e644fc51d72539dd3c",
+      "sourceBytes": 330396,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002235.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
       "echoId": "echo-60001875",
       "sourceId": "60001875",
       "name": "Frostbite Coleoid",
@@ -890,6 +914,18 @@
       "sourceSha": "95c2a3a05de8e74d2dffd57aaa96eccd2074143b",
       "sourceBytes": 246511,
       "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60001839.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
+      "echoId": "echo-60002195",
+      "sourceId": "60002195",
+      "name": "Jade Nether Serpent",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_31103_UI.png",
+      "sourceSha": "35b9b206039d57227adb81a0183bc2c9b5e2a797",
+      "sourceBytes": 206302,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002195.png",
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
@@ -1564,6 +1600,18 @@
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
+      "echoId": "echo-60002255",
+      "sourceId": "60002255",
+      "name": "Reminiscence: Suhsin the Inevitable",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_34033_2_UI.png",
+      "sourceSha": "12d005821b5de219731cc9807c70a683cbbe0183",
+      "sourceBytes": 143230,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002255.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
       "echoId": "echo-60001675",
       "sourceId": "60001675",
       "name": "Reminiscence: Threnodian - Leviathan",
@@ -1696,6 +1744,18 @@
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
+      "echoId": "echo-60002205",
+      "sourceId": "60002205",
+      "name": "Skywatch Lancer",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_32069_UI.png",
+      "sourceSha": "b16afc3c27095d4439ba1b1241fe0de8202a9a9b",
+      "sourceBytes": 194817,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002205.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
       "echoId": "echo-60002025",
       "sourceId": "60002025",
       "name": "Smiter",
@@ -1726,6 +1786,18 @@
       "sourceSha": "79ed6e95c15207b609cb68547837e39ecc58a86e",
       "sourceBytes": 149406,
       "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60000065.png",
+      "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
+    },
+    {
+      "echoId": "echo-60002245",
+      "sourceId": "60002245",
+      "name": "Soulfrayer",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "tomy37",
+      "sourcePath": "UIResources/Common/Image/IconMonsterHead732/T_IconMonsterHead732_32071_UI.png",
+      "sourceSha": "f8da015ec4f17cb21cc8097d17d93b3e2427d4fd",
+      "sourceBytes": 167059,
+      "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60002245.png",
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     },
     {
@@ -2014,5 +2086,14 @@
       "targetPath": "docs/ui-prototypes/assets/echoes/portraits/echo-60001785.png",
       "mappingStatus": "BYTE_IDENTICAL_GIT_BLOB"
     }
-  ]
+  ],
+  "additionalSources": {
+    "tomy37": {
+      "repository": "TomyJan/WutheringWaves-UIResources",
+      "branch": "3.7",
+      "commit": "b522ab00cde87fbd32c06e20c4176bd7d4d909cb",
+      "path": "UIResources/Common/Image/IconMonsterHead732/",
+      "importedAt": "2026-10-01"
+    }
+  }
 }

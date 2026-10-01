@@ -1,6 +1,6 @@
 # Bellibing UI Agent Start
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-27
 
 Use this as the first-read contract for a new Bellibing UI-building chat or Codex session.
 
@@ -23,7 +23,7 @@ Do **not** hardcode an active PR number or branch in this onboarding file. The a
 ## Authority map
 
 - `UI_UX_STATUS.md` = product/interaction semantics.
-- `UI_LAYOUT_MOTION_CONTRACT.md` = containment, responsive presentation, mobile disclosure, motion and viewport verification.
+- `UI_LAYOUT_MOTION_CONTRACT.md` = containment, the current desktop-first acceptance phase, deferred mobile targets, motion and viewport verification.
 - `UI_BUILD_HANDOFF_V34.md` = accepted v34 visual/composition reference and parity measurements.
 - `UI_TYPOGRAPHY.md` = font truth.
 - `PROJECT_STATUS.md` + AI Handoff = current implementation/lane state.
@@ -40,19 +40,21 @@ The user is the designer; implementation should translate approved behavior/comp
 
 - Home always shows three primary cards in fixed order `Build a Character` / `Improve a Character` / `Build a Team`, with Improve centered by default.
 - Home navigation is not hidden by account count; destination surfaces handle unavailable/empty states.
-- Home uses the same carousel component across desktop/mobile.
-- Shared carousel input must preserve native card clicks: pointer capture starts only after the drag threshold, never on pointerdown alone; physical mouse/touch activation is part of real-browser verification.
-- UI content lives in a centered finite-width AppShell; ultrawide adds gutters rather than unlimited UI spread.
+- Home keeps one shared component/state model; current acceptance is desktop-first.
+- Shared carousel input must preserve native card clicks: pointer capture starts only after the drag threshold, never on pointerdown alone; physical **mouse** activation is part of the current real-browser gate. Touch-specific verification is deferred with mobile.
+- UI content lives in a centered finite-width AppShell; desktop widening adds gutters rather than unlimited UI spread.
 - Component children are positioned relative to their owning component. A card moves with its title/art/overlays as one unit.
-- Mobile is designed with each component from the start through progressive disclosure; it is not a later separate rewrite.
-- Mobile Build keeps the Character as visual anchor and opens Stats/Weapon/Sequences/Echoes in overlay drawers from compact controls.
+- **Current phase: desktop-first functional stabilization.** Primary UI acceptance is 1440×900; 1920×1080 and 2560×1440 are desktop sanity checks.
+- Do not add or repair 390×844 / 768×1024 mobile layouts, progressive-disclosure drawers, touch-only behavior or mobile-specific polish unless the user explicitly starts the Mobile Adaptation Pass.
+- Preserve existing mobile code and keep feature state/data/component logic reusable. Do not create desktop-only business logic that would force a second implementation later.
 - Character is the desktop Build visual anchor; five Echo slots and S1-bottom→S6-top Sequence rail remain.
 - Motion uses continuity/object permanence: card/portrait/focus states should visually transform into one another where practical.
 - Comparable selector/detail tools reuse the locked Bellibing glass pattern: transparent contextual background/panel, solid item/content layer and non-reflowing hover focus. For the approved Weapon reference, grid cards stay stable, Preview uses an independent clone/tunnel layer, and only `Equip Weapon` commits to Active slot 1. See `UI_UX_STATUS.md#locked-weapon-interaction-reference` and `UI_LAYOUT_MOTION_CONTRACT.md#10a-locked-reusable-glass-selectordetail-pattern`.
+- New UI form controls must follow `UI_UX_STATUS.md#locked-new-ui-formcontrol-contract`: no platform-native select popup UI, stat name/value stay separate, deterministic derived values do not fake editability, and identity/art/text regions do not overlap. Primary action/footer composition follows `UI_LAYOUT_MOTION_CONTRACT.md#3a-panel-contentaction-composition`; do not invent a second control or panel system.
 - Major motion is weighted, not abrupt; exact timing bands and reduced-motion behavior live in `UI_LAYOUT_MOTION_CONTRACT.md`.
 - Autosave and `Add to Account` remain separate semantics.
 - Card/hero image framing uses explicit component-local presentation values or reviewed derivatives, never geometric viewport/bounding-box guesses.
-- Real-browser responsive verification is required before visual completion claims.
+- Real-browser **desktop** verification is required before visual completion claims in the current phase. Mobile/narrow verification is not a completion gate until the Mobile Adaptation Pass is explicitly reopened.
 
 ## Typography shortcut
 

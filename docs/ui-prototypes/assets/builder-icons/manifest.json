@@ -17,6 +17,14 @@
       "branch": "3.6",
       "commit": "5b3d1d128ed3938cbb8e5260ba07b075b321a7c6",
       "path": "UIResources/UiInventory/Image/"
+    },
+    "wuwabuild37": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "49222fe53b2bb2060f235152ee78ad332ea44c37",
+      "dataPaths": [
+        "public/Data/Fetters.json"
+      ],
+      "assetRoot": "public/assets/"
     }
   },
   "importedAt": "2026-09-23",
@@ -32,7 +40,7 @@
     "genericUi": "Rarity stars, locks, plus/minus and generic buttons remain CSS/SVG/UI rather than imported game assets."
   },
   "summary": {
-    "physicalAssets": 819,
+    "physicalAssets": 822,
     "upstreamCharacterRows": 62,
     "logicalCharacterKits": 58,
     "upstreamSkillReferences": 496,
@@ -43,7 +51,7 @@
     "chainReferences": 348,
     "chains": 348,
     "elements": 6,
-    "sonataSets": 34,
+    "sonataSets": 37,
     "statLabels": 20,
     "stats": 17,
     "echoCosts": 3
@@ -318,6 +326,27 @@
       "name": "Lamp of Nether Road",
       "assetId": "sonata:35",
       "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/35-lamp-of-nether-road.webp"
+    },
+    {
+      "sonataId": "sonata-36",
+      "sourceId": 36,
+      "name": "Heart of Sworn Vigil",
+      "assetId": "sonata:36",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/36-heart-of-sworn-vigil.webp"
+    },
+    {
+      "sonataId": "sonata-37",
+      "sourceId": 37,
+      "name": "Flash of Electric Reflection",
+      "assetId": "sonata:37",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/37-flash-of-electric-reflection.webp"
+    },
+    {
+      "sonataId": "sonata-38",
+      "sourceId": 38,
+      "name": "Flower of Tinged Yearning",
+      "assetId": "sonata:38",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/38-flower-of-tinged-yearning.webp"
     }
   ],
   "stats": [
@@ -12589,6 +12618,33 @@
       "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/35-lamp-of-nether-road.webp",
       "sourceBytes": 4046,
       "sourceSha": "66d41f7fe987d9b3af2c0bfa1caa01063bedf784"
+    },
+    {
+      "assetId": "sonata:36",
+      "family": "sonata",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconElementAttri/T_IconElementAttriXin.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/36-heart-of-sworn-vigil.webp",
+      "sourceBytes": 2764,
+      "sourceSha": "b5b07eced16dfe5464d871529125200dfeadabf4"
+    },
+    {
+      "assetId": "sonata:37",
+      "family": "sonata",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunderError.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/37-flash-of-electric-reflection.webp",
+      "sourceBytes": 2248,
+      "sourceSha": "0807ef794ccb96c59bb5d0cae7326770dd01c40b"
+    },
+    {
+      "assetId": "sonata:38",
+      "family": "sonata",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCureA.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/sonata/38-flower-of-tinged-yearning.webp",
+      "sourceBytes": 2500,
+      "sourceSha": "3301b751b7f844cb688adef44b67445d19eb4043"
     },
     {
       "assetId": "stat:T_Iconpropertygreencure_UI",

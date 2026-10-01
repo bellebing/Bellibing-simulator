@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT ?? 9666);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
+const VERIFY_MOBILE = process.env.BELLIBING_VERIFY_MOBILE === '1';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function waitForChrome() {
@@ -269,6 +270,7 @@ async function visibleWeaponPointerClick(send, weaponId, {touch=false,scrollDela
     throw new Error(`Visible-center Weapon click did not change Preview to ${weaponId}: ${JSON.stringify({point,failure})}`);
   }
   await waitForUi(send,`!weaponUi.busy&&!!document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero')`,`Visible-center Weapon click did not settle the Preview hero for ${weaponId}`,3000);
+  await waitForUi(send,`(()=>{const art=document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-art');return !!art&&art.complete&&art.naturalWidth>0})()`,`Visible-center Weapon Preview art did not load for ${weaponId}`,10000);
   const result=await evaluate(send,`(() => {
     const audit=window.__weaponPointerAudit||[];
     const hero=document.querySelector('#weaponPreviewStage .weapon-preview-layer[data-weapon-id="${weaponId}"] .weapon-preview-hero');
@@ -324,7 +326,9 @@ async function verifyRealPointerMenus(send) {
 
   // Make one owned Character so Improve's second carousel can be audited with a real click too.
   await pointerClick(send,'#accountBtn');
-  await sleep(80);
+  await waitForUi(send,'characterBuildCardUi.open','Add to Account card did not open');
+  await sleep(550);
+  await pointerClick(send,'#buildCardClose');
   await pointerClick(send,'#build [data-home]');
   await waitForUi(send,`document.getElementById('home').classList.contains('active')`,'Mouse click did not return from Build to Home');
 
@@ -422,6 +426,8 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
     await sleep(760);
   }
   await waitForUi(send,`document.documentElement.dataset.weaponCatalogReady==='true'&&weaponUi.characterId&&weaponUi.items.length>0`,'Canonical Weapon catalog did not bind to selected Character',10000);
+  await waitForUi(send,`!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')`,'Build entrance animation did not settle before Weapon geometry verification',1800);
+  await sleep(40);
   await evaluate(send,`(()=>{const name=buildPicker.selected;if(!name)throw new Error('Build Character missing');delete draft(name).build.weaponId;save();weaponUi.setCharacter(name);return true})()`);
 
   const fresh=await evaluate(send,`(()=>{const h=document.getElementById('weaponSlotHost'),b=document.getElementById('weaponBtn'),wr=b.getBoundingClientRect(),selected=buildPicker.selected,portrait=characterByName.get(selected),canonical=canonicalCharacterById.get(portrait?.id),weaponHeading=b.closest('.block')?.querySelector('h2'),statsHeading=document.querySelector('.side-left .block h2'),echoHeading=document.querySelector('.echoes h2');return{selected,characterId:portrait?.id||null,expectedType:canonical?.weaponType||null,actualType:weaponUi.characterWeaponType,itemCount:weaponUi.items.length,allReleased:weaponUi.items.every(item=>item.releaseStatus==='RELEASED'),allTypeMatch:weaponUi.items.every(item=>item.weaponType===canonical?.weaponType),slotCount:h.querySelectorAll('.weapon-card').length,currentId:weaponUi.currentId,previewId:weaponUi.previewId,button:{width:wr.width,height:wr.height},align:{weapon:weaponHeading?getComputedStyle(weaponHeading).textAlign:null,stats:statsHeading?getComputedStyle(statsHeading).textAlign:null,echo:echoHeading?getComputedStyle(echoHeading).textAlign:null}}})()`);
@@ -611,30 +617,38 @@ try{
       const desktopCharacter=await selectFocusedCharacterByPointer(send);
       const desktop=await verifyOpeningWeaponClickOnly(send,1440,900);
 
-      await setViewport(send,390,844);await navigate(send);
-      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
-      const mobile=await verifyOpeningWeaponClickOnly(send,390,844);
+      let mobile=null,mobileCharacter=null;
+      if(VERIFY_MOBILE){
+        await setViewport(send,390,844);await navigate(send);
+        await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+        mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+        mobile=await verifyOpeningWeaponClickOnly(send,390,844);
+      }
 
       console.log('Focused visible Weapon opening-click regression passed in real Chrome.');
       console.log(`- Desktop 1440x900: ${desktopCharacter}; ${desktop.weaponId} → Preview/hero.`);
-      console.log(`- Mobile 390x844: ${mobileCharacter}; ${mobile.weaponId} → Preview/hero.`);
-      console.log('- pointerdown/up → native click → weaponUi.select → previewId → visible hero all passed while the panel was still opening.');
+      if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844: ${mobileCharacter}; ${mobile.weaponId} → Preview/hero.`);
+      else console.log('- Mobile/narrow Weapon gate deferred by desktop-first stabilization policy.');
+      console.log('- pointerdown/up → native click → weaponUi.select → previewId → visible hero passed for the current acceptance surface.');
     }else{
       await setViewport(send,1440,900);await navigate(send);
       await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
       const desktopCharacter=await selectFocusedCharacterByPointer(send);
       const desktop=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-canonical-1440x900.png');
 
-      await setViewport(send,390,844);await navigate(send);
-      await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
-      const mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
-      const mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+      let mobile=null,mobileCharacter=null;
+      if(VERIFY_MOBILE){
+        await setViewport(send,390,844);await navigate(send);
+        await evaluate(send,`localStorage.clear()`);await navigate(send);await enterBuild(send);
+        mobileCharacter=await selectFocusedCharacterByPointer(send,{touch:true});
+        mobile=await verifyWeaponOverlay(send,390,844,'artifacts/ui-preview-weapon-canonical-390x844.png');
+      }
 
       console.log('v34 canonical Weapon focused verification passed in real Chrome.');
       console.log(`- Desktop 1440x900: ${desktopCharacter} / ${desktop.type}; committed ${desktop.equipped}.`);
-      console.log(`- Mobile 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
-      console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on desktop and mobile.');
+      if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844: ${mobileCharacter} / ${mobile.type}; committed ${mobile.equipped}.`);
+      else console.log('- Mobile/narrow Weapon gate deferred by desktop-first stabilization policy.');
+      console.log('- Physical visible-center Weapon pointerdown/up/native click → weaponUi.select → previewId/hero change passed on the current acceptance surface.');
       console.log('- Real canonical IDs/names/assets, released/type filtering, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no flights all passed.');
     }
   }finally{socket.close()}

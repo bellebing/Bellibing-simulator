@@ -15,11 +15,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -47,11 +47,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -78,11 +78,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -109,11 +109,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -141,11 +141,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -172,11 +172,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -203,11 +203,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -217,7 +217,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-34"
+      "sonata-34",
+      "sonata-37"
     ]
   },
   {
@@ -233,11 +234,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -264,11 +265,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -295,11 +296,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -327,11 +328,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -347,6 +348,36 @@ export const ECHO_CATALOG = [
   },
   {
     kind: 'ECHO',
+    "id": "echo-60002225",
+    "name": "Bloomburst Puppet",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002225,
+    "cost": 1,
+    "threatClass": "COMMON",
+    "sonataSetIds": [
+      "sonata-36"
+    ]
+  },
+  {
+    kind: 'ECHO',
     "id": "echo-60002215",
     "name": "Calamity Effigy",
     "releaseStatus": "RELEASED",
@@ -358,11 +389,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -389,11 +420,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -421,11 +452,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -453,11 +484,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -484,11 +515,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -515,11 +546,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -547,11 +578,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -578,11 +609,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -610,11 +641,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -641,11 +672,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -672,11 +703,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -703,11 +734,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -734,11 +765,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -765,11 +796,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -795,11 +826,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -827,11 +858,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -858,11 +889,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -889,11 +920,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -921,11 +952,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -952,11 +983,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -983,11 +1014,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1014,11 +1045,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1044,11 +1075,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1074,11 +1105,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1105,11 +1136,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1137,11 +1168,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1168,11 +1199,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1199,11 +1230,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1231,11 +1262,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1261,11 +1292,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1291,11 +1322,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1323,11 +1354,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1354,11 +1385,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1387,11 +1418,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1418,11 +1449,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1450,11 +1481,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1464,7 +1495,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-33"
+      "sonata-33",
+      "sonata-36"
     ]
   },
   {
@@ -1480,11 +1512,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1494,7 +1526,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-33"
+      "sonata-33",
+      "sonata-36"
     ]
   },
   {
@@ -1510,11 +1543,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1531,6 +1564,37 @@ export const ECHO_CATALOG = [
   },
   {
     kind: 'ECHO',
+    "id": "echo-60002235",
+    "name": "Formrender",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002235,
+    "cost": 3,
+    "threatClass": "ELITE",
+    "sonataSetIds": [
+      "sonata-36",
+      "sonata-38"
+    ]
+  },
+  {
+    kind: 'ECHO',
     "id": "echo-60001875",
     "name": "Frostbite Coleoid",
     "releaseStatus": "RELEASED",
@@ -1542,11 +1606,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1573,11 +1637,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1604,11 +1668,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1635,11 +1699,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1666,11 +1730,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1698,11 +1762,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1730,11 +1794,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1761,11 +1825,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1793,11 +1857,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1824,11 +1888,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1855,11 +1919,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1886,11 +1950,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1918,11 +1982,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1949,11 +2013,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -1981,11 +2045,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2012,11 +2076,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2044,11 +2108,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2075,11 +2139,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2107,11 +2171,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2138,11 +2202,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2168,11 +2232,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2199,11 +2263,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2230,11 +2294,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2261,11 +2325,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2292,11 +2356,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2324,11 +2388,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2355,11 +2419,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2387,11 +2451,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2417,11 +2481,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2447,11 +2511,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2468,6 +2532,36 @@ export const ECHO_CATALOG = [
   },
   {
     kind: 'ECHO',
+    "id": "echo-60002195",
+    "name": "Jade Nether Serpent",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002195,
+    "cost": 1,
+    "threatClass": "COMMON",
+    "sonataSetIds": [
+      "sonata-36"
+    ]
+  },
+  {
+    kind: 'ECHO',
     "id": "echo-60000595",
     "name": "Jué",
     "releaseStatus": "RELEASED",
@@ -2479,11 +2573,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2509,11 +2603,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2541,11 +2635,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2555,7 +2649,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-34"
+      "sonata-34",
+      "sonata-38"
     ]
   },
   {
@@ -2571,11 +2666,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2585,7 +2680,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-35"
+      "sonata-35",
+      "sonata-38"
     ]
   },
   {
@@ -2601,11 +2697,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2615,7 +2711,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-35"
+      "sonata-35",
+      "sonata-38"
     ]
   },
   {
@@ -2631,11 +2728,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2645,7 +2742,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-33"
+      "sonata-33",
+      "sonata-36"
     ]
   },
   {
@@ -2661,11 +2759,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2675,7 +2773,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-34"
+      "sonata-34",
+      "sonata-38"
     ]
   },
   {
@@ -2691,11 +2790,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2705,7 +2804,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-34"
+      "sonata-34",
+      "sonata-37"
     ]
   },
   {
@@ -2721,11 +2821,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2752,11 +2852,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2784,11 +2884,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2814,11 +2914,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2844,11 +2944,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2875,11 +2975,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2905,11 +3005,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2935,11 +3035,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2965,11 +3065,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -2996,11 +3096,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3027,11 +3127,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3057,11 +3157,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3090,11 +3190,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3121,11 +3221,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3151,11 +3251,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3182,11 +3282,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3213,11 +3313,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3243,11 +3343,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3273,11 +3373,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3303,11 +3403,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3333,11 +3433,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3363,11 +3463,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3393,11 +3493,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3423,11 +3523,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3453,11 +3553,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3483,11 +3583,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3513,11 +3613,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3543,11 +3643,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3573,11 +3673,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3603,11 +3703,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3633,11 +3733,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3663,11 +3763,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3694,11 +3794,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3725,11 +3825,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3755,11 +3855,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3785,11 +3885,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3815,11 +3915,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3846,11 +3946,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3876,11 +3976,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3906,11 +4006,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3936,11 +4036,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3966,11 +4066,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -3998,11 +4098,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4029,11 +4129,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4060,11 +4160,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4074,7 +4174,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-35"
+      "sonata-35",
+      "sonata-37"
     ]
   },
   {
@@ -4090,11 +4191,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4121,11 +4222,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4153,11 +4254,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4184,11 +4285,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4214,11 +4315,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4244,11 +4345,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4275,11 +4376,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4306,11 +4407,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4326,6 +4427,37 @@ export const ECHO_CATALOG = [
   },
   {
     kind: 'ECHO',
+    "id": "echo-60002255",
+    "name": "Reminiscence: Suhsin the Inevitable",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002255,
+    "cost": 4,
+    "threatClass": null,
+    "sonataSetIds": [
+      "sonata-36",
+      "sonata-37"
+    ]
+  },
+  {
+    kind: 'ECHO',
     "id": "echo-60001675",
     "name": "Reminiscence: Threnodian - Leviathan",
     "releaseStatus": "RELEASED",
@@ -4337,11 +4469,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4368,11 +4500,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4398,11 +4530,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4429,11 +4561,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4460,11 +4592,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4492,11 +4624,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4524,11 +4656,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4556,11 +4688,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4587,11 +4719,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4619,11 +4751,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4649,11 +4781,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4681,11 +4813,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4696,6 +4828,37 @@ export const ECHO_CATALOG = [
     "threatClass": null,
     "sonataSetIds": [
       "sonata-27"
+    ]
+  },
+  {
+    kind: 'ECHO',
+    "id": "echo-60002205",
+    "name": "Skywatch Lancer",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002205,
+    "cost": 3,
+    "threatClass": "ELITE",
+    "sonataSetIds": [
+      "sonata-37",
+      "sonata-38"
     ]
   },
   {
@@ -4711,11 +4874,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4741,11 +4904,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4771,11 +4934,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4792,6 +4955,37 @@ export const ECHO_CATALOG = [
   },
   {
     kind: 'ECHO',
+    "id": "echo-60002245",
+    "name": "Soulfrayer",
+    "releaseStatus": "RELEASED",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "integrationStatus": "DATA_ONLY",
+    "provenance": {
+      "sourceLabels": [
+        "wuwabuild normalized game-data snapshot",
+        "Wuthery / Encore upstream raw game data"
+      ],
+      "sourceUrls": [
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
+        "https://api-v2.encore.moe/api",
+        "https://files.wuthery.com"
+      ],
+      "checkedAt": "2026-10-01",
+      "notes": [
+        "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
+        "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
+      ]
+    },
+    "sourceId": 60002245,
+    "cost": 3,
+    "threatClass": "ELITE",
+    "sonataSetIds": [
+      "sonata-36",
+      "sonata-37"
+    ]
+  },
+  {
+    kind: 'ECHO',
     "id": "echo-60001845",
     "name": "Spacetrek Explorer",
     "releaseStatus": "RELEASED",
@@ -4803,11 +4997,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4835,11 +5029,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4866,11 +5060,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4897,11 +5091,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4929,11 +5123,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4943,7 +5137,8 @@ export const ECHO_CATALOG = [
     "cost": 1,
     "threatClass": "COMMON",
     "sonataSetIds": [
-      "sonata-35"
+      "sonata-35",
+      "sonata-37"
     ]
   },
   {
@@ -4959,11 +5154,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -4990,11 +5185,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5021,11 +5216,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5051,11 +5246,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5081,11 +5276,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5095,7 +5290,8 @@ export const ECHO_CATALOG = [
     "cost": 4,
     "threatClass": null,
     "sonataSetIds": [
-      "sonata-33"
+      "sonata-33",
+      "sonata-38"
     ]
   },
   {
@@ -5111,11 +5307,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5141,11 +5337,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5173,11 +5369,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5205,11 +5401,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5237,11 +5433,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5269,11 +5465,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5300,11 +5496,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5332,11 +5528,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5363,11 +5559,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5394,11 +5590,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5425,11 +5621,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5455,11 +5651,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5486,11 +5682,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5518,11 +5714,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5549,11 +5745,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."
@@ -5581,11 +5777,11 @@ export const ECHO_CATALOG = [
         "Wuthery / Encore upstream raw game data"
       ],
       "sourceUrls": [
-        "https://github.com/DommyMM/wuwabuild/tree/0a2e49c649c857c690be709577e6ce98832b2d43/public/Data",
+        "https://github.com/DommyMM/wuwabuild/tree/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data",
         "https://api-v2.encore.moe/api",
         "https://files.wuthery.com"
       ],
-      "checkedAt": "2026-08-23",
+      "checkedAt": "2026-10-01",
       "notes": [
         "Bellibing imports only a compact raw identity snapshot; upstream combat/scoring code is not copied.",
         "Release roster is sourced from the deployed normalized live-data snapshot; official patch notes are used as patch freshness gates."

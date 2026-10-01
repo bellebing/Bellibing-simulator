@@ -1,0 +1,1268 @@
+{
+  "schemaVersion": 1,
+  "role": "character-builder.weapon-build-stat-review",
+  "source": {
+    "effectCatalog": "src/data/weaponEffectCatalog.ts#WEAPON_EFFECT_CATALOG",
+    "releasedWeaponCatalog": "src/data/weapons.ts#WEAPON_CATALOG"
+  },
+  "policy": {
+    "classifications": [
+      "STATIC_BUILD_STAT",
+      "NON_STATIC_MECHANIC",
+      "PENDING"
+    ],
+    "identityJoin": "weaponId + effectId",
+    "projection": "Only explicit STATIC_BUILD_STAT rows project. Weapon effect prose is never parsed at runtime.",
+    "staticDefinition": "Permanent, unconditional, self-only additive Character Build Stats while the Weapon is equipped. Triggered, timed, stacking, state/HP/target/team/proc/resource and combat-uptime mechanics remain outside Build Stats.",
+    "buildStateRank": "The current Character Builder Weapon state stores weaponId only, so this UI projection is explicitly R1 until Weapon rank becomes a first-class Build-state field."
+  },
+  "summary": {
+    "releasedWeapons": 121,
+    "reviewedEffects": 236,
+    "staticBuildStatEffects": 60,
+    "nonStaticMechanicEffects": 176,
+    "pendingEffects": 0
+  },
+  "effects": [
+    {
+      "weaponId": "freeze-frame",
+      "effectId": "FF-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "freeze-frame",
+      "effectId": "FF-GLACIO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "freeze-frame",
+      "effectId": "FF-TEAM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "azure-oath",
+      "effectId": "AO-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "azure-oath",
+      "effectId": "AO-HEAVY-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "azure-oath",
+      "effectId": "AO-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "stringmaster",
+      "effectId": "SM-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "stringmaster",
+      "effectId": "SM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lethean-elegy",
+      "effectId": "LE-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "lethean-elegy",
+      "effectId": "LE-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lethean-elegy",
+      "effectId": "LE-ECHO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lethean-elegy",
+      "effectId": "LE-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "whispers-of-sirens",
+      "effectId": "WS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "whispers-of-sirens",
+      "effectId": "WS-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "whispers-of-sirens",
+      "effectId": "WS-HAVOC-RES",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rime-draped-sprouts",
+      "effectId": "RDS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "rime-draped-sprouts",
+      "effectId": "RDS-BASIC-STACK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rime-draped-sprouts",
+      "effectId": "RDS-OFFFIELD",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "forged-dwarf-star",
+      "effectId": "FDS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "forged-dwarf-star",
+      "effectId": "FDS-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "forged-dwarf-star",
+      "effectId": "FDS-TEAM",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "wildfire-mark",
+      "effectId": "WM-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "wildfire-mark",
+      "effectId": "WM-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "wildfire-mark",
+      "effectId": "WM-FUSION",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lustrous-razor",
+      "effectId": "LR-ER",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Energy Regen"
+    },
+    {
+      "weaponId": "lustrous-razor",
+      "effectId": "LR-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "ages-of-harvest",
+      "effectId": "AH-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "ages-of-harvest",
+      "effectId": "AH-INTRO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "ages-of-harvest",
+      "effectId": "AH-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "verdant-summit",
+      "effectId": "VS-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "verdant-summit",
+      "effectId": "VS-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "autumntrace",
+      "effectId": "AT-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "helios-cleaver",
+      "effectId": "HC-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "kumokiri",
+      "effectId": "KUMO-TEAM",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "spectrum-blaster",
+      "effectId": "SB-TEAM",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "starfield-calibrator",
+      "effectId": "SC-TEAM-CD",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "relativistic-jet",
+      "effectId": "RJ-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "relativistic-jet",
+      "effectId": "RJ-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "woodland-aria",
+      "effectId": "WA-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "woodland-aria",
+      "effectId": "WA-AERO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "woodland-aria",
+      "effectId": "WA-AERO-RES",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "cadenza",
+      "effectId": "CAD-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pistols-of-voyager",
+      "effectId": "POV-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pistols-of-night",
+      "effectId": "PON-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "guardian-pistols",
+      "effectId": "GP-SKILL",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Skill DMG"
+    },
+    {
+      "weaponId": "originite-type-iii",
+      "effectId": "O3-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tyro-pistols",
+      "effectId": "TYRO-P-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "training-pistols",
+      "effectId": "TRAIN-P-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "undying-flame",
+      "effectId": "UF-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "novaburst",
+      "effectId": "NB-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thunderbolt",
+      "effectId": "TB-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lux-and-umbra",
+      "effectId": "LU-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "lux-and-umbra",
+      "effectId": "LU-HEAVY-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lux-and-umbra",
+      "effectId": "LU-ECHO-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lux-and-umbra",
+      "effectId": "LU-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "phasic-homogenizer",
+      "effectId": "PH-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "phasic-homogenizer",
+      "effectId": "PH-ATTR",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "skull-thrasher",
+      "effectId": "SKT-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "skull-thrasher",
+      "effectId": "SKT-INTRO-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "skull-thrasher",
+      "effectId": "SKT-HACK-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "skull-thrasher",
+      "effectId": "SKT-HACK-TEAM",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "spectral-trigger",
+      "effectId": "SPT-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "spectral-trigger",
+      "effectId": "SPT-SPECTRO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "spectral-trigger",
+      "effectId": "SPT-HEAVY-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "spectral-trigger",
+      "effectId": "SPT-HEAVY-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "static-mist",
+      "effectId": "STM-ER",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Energy Regen"
+    },
+    {
+      "weaponId": "static-mist",
+      "effectId": "STM-NEXT-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "the-last-dance",
+      "effectId": "TLD-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "the-last-dance",
+      "effectId": "TLD-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pistols-26",
+      "effectId": "P26-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pistols-26",
+      "effectId": "P26-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pistols-26",
+      "effectId": "P26-STACK-LOSS",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "romance-in-farewell",
+      "effectId": "RIF-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "solar-flame",
+      "effectId": "SF-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "solar-flame",
+      "effectId": "SF-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "boson-astrolabe",
+      "effectId": "BOS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "boson-astrolabe",
+      "effectId": "BOS-TUNE-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "boson-astrolabe",
+      "effectId": "BOS-TUNE-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "cosmic-ripples",
+      "effectId": "COS-ER",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Energy Regen"
+    },
+    {
+      "weaponId": "cosmic-ripples",
+      "effectId": "COS-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "firstlights-herald",
+      "effectId": "FH-HP",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "HP%"
+    },
+    {
+      "weaponId": "firstlights-herald",
+      "effectId": "FH-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "firstlights-herald",
+      "effectId": "FH-TEAM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "luminous-hymn",
+      "effectId": "LH-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "luminous-hymn",
+      "effectId": "LH-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "luminous-hymn",
+      "effectId": "LH-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "luminous-hymn",
+      "effectId": "LH-FRAZZLE-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "stellar-symphony",
+      "effectId": "SSY-HP",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "HP%"
+    },
+    {
+      "weaponId": "stellar-symphony",
+      "effectId": "SSY-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "stellar-symphony",
+      "effectId": "SSY-TEAM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "augment",
+      "effectId": "AUG-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "call-of-the-abyss",
+      "effectId": "COA-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "comet-flare",
+      "effectId": "CF-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "fusion-accretion",
+      "effectId": "FA-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "fusion-accretion",
+      "effectId": "FA-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "jinzhou-keeper",
+      "effectId": "JK-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "jinzhou-keeper",
+      "effectId": "JK-HP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "oceans-gift",
+      "effectId": "OG-SPECTRO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "radiant-dawn",
+      "effectId": "RD-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "radiant-dawn",
+      "effectId": "RD-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rectifier-25",
+      "effectId": "R25-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rectifier-25",
+      "effectId": "R25-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "variation",
+      "effectId": "VAR-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "waltz-in-masquerade",
+      "effectId": "WIM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "guardian-rectifier",
+      "effectId": "GR-BASIC",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Basic Attack DMG"
+    },
+    {
+      "weaponId": "guardian-rectifier",
+      "effectId": "GR-HEAVY",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Heavy Attack DMG"
+    },
+    {
+      "weaponId": "originite-type-v",
+      "effectId": "O5-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rectifier-of-night",
+      "effectId": "RON-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "rectifier-of-voyager",
+      "effectId": "ROV-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tyro-rectifier",
+      "effectId": "TYRO-R-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "training-rectifier",
+      "effectId": "TRAIN-R-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "radiance-cleaver",
+      "effectId": "RC-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "radiance-cleaver",
+      "effectId": "RC-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thunderflare-dominion",
+      "effectId": "TFD-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "thunderflare-dominion",
+      "effectId": "TFD-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thunderflare-dominion",
+      "effectId": "TFD-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "aureate-zenith",
+      "effectId": "AZ-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "aureate-zenith",
+      "effectId": "AZ-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "broadblade-41",
+      "effectId": "BB41-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "broadblade-41",
+      "effectId": "BB41-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "dauntless-evernight",
+      "effectId": "DE-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "dauntless-evernight",
+      "effectId": "DE-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "discord",
+      "effectId": "DIS-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "meditations-on-mercy",
+      "effectId": "MOM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "waning-redshift",
+      "effectId": "WR-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "waning-redshift",
+      "effectId": "WR-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "beguiling-melody",
+      "effectId": "BM-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "beguiling-melody",
+      "effectId": "BM-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "broadblade-of-night",
+      "effectId": "BON-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "broadblade-of-voyager",
+      "effectId": "BOV-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "guardian-broadblade",
+      "effectId": "GB-BASIC",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Basic Attack DMG"
+    },
+    {
+      "weaponId": "guardian-broadblade",
+      "effectId": "GB-HEAVY",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Heavy Attack DMG"
+    },
+    {
+      "weaponId": "originite-type-i",
+      "effectId": "O1-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tyro-broadblade",
+      "effectId": "TYRO-BB-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "training-broadblade",
+      "effectId": "TRAIN-BB-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "abyss-surges",
+      "effectId": "AS-ER",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Energy Regen"
+    },
+    {
+      "weaponId": "abyss-surges",
+      "effectId": "AS-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "abyss-surges",
+      "effectId": "AS-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "blazing-justice",
+      "effectId": "BJ-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "blazing-justice",
+      "effectId": "BJ-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "blazing-justice",
+      "effectId": "BJ-FRAZZLE",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "daybreakers-spine",
+      "effectId": "DBS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "daybreakers-spine",
+      "effectId": "DBS-SPECTRO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "daybreakers-spine",
+      "effectId": "DBS-BASIC-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "daybreakers-spine",
+      "effectId": "DBS-BASIC-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "moongazers-sigil",
+      "effectId": "MGS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "moongazers-sigil",
+      "effectId": "MGS-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "moongazers-sigil",
+      "effectId": "MGS-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "moongazers-sigil",
+      "effectId": "MGS-MAX-STACK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "pulsation-bracer",
+      "effectId": "PB-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "pulsation-bracer",
+      "effectId": "PB-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "solsworn-ciphers",
+      "effectId": "SCIP-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "solsworn-ciphers",
+      "effectId": "SCIP-ECHO-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "solsworn-ciphers",
+      "effectId": "SCIP-AERO-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tragicomedy",
+      "effectId": "TC-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "tragicomedy",
+      "effectId": "TC-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "veritys-handle",
+      "effectId": "VH-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "veritys-handle",
+      "effectId": "VH-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "veritys-handle",
+      "effectId": "VH-EXTEND",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "aether-strike",
+      "effectId": "AETH-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "aether-strike",
+      "effectId": "AETH-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "amity-accord",
+      "effectId": "AA-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "celestial-spiral",
+      "effectId": "CS-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "celestial-spiral",
+      "effectId": "CS-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "gauntlets-21d",
+      "effectId": "G21D-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "gauntlets-21d",
+      "effectId": "G21D-COUNTER",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "gauntlets-21d",
+      "effectId": "G21D-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "hollow-mirage",
+      "effectId": "HM-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "hollow-mirage",
+      "effectId": "HM-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "hollow-mirage",
+      "effectId": "HM-GAIN",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "hollow-mirage",
+      "effectId": "HM-LOSS",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "legend-of-drunken-hero",
+      "effectId": "LDH-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "marcato",
+      "effectId": "MAR-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "stonard",
+      "effectId": "ST-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "gauntlets-of-night",
+      "effectId": "GON-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "gauntlets-of-voyager",
+      "effectId": "GOV-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "guardian-gauntlets",
+      "effectId": "GG-LIB",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Liberation DMG"
+    },
+    {
+      "weaponId": "originite-type-iv",
+      "effectId": "O4-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tyro-gauntlets",
+      "effectId": "TYRO-G-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "training-gauntlets",
+      "effectId": "TRAIN-G-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "blazing-brilliance",
+      "effectId": "BBR-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "blazing-brilliance",
+      "effectId": "BBR-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "blazing-brilliance",
+      "effectId": "BBR-SKILL-CAST-STACKS",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "bloodpacts-pledge",
+      "effectId": "BPP-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "bloodpacts-pledge",
+      "effectId": "BPP-TEAM-AERO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "defiers-thorn",
+      "effectId": "DT-HP",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "HP%"
+    },
+    {
+      "weaponId": "defiers-thorn",
+      "effectId": "DT-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "defiers-thorn",
+      "effectId": "DT-AERO-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "emerald-sentence",
+      "effectId": "ES-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "emerald-sentence",
+      "effectId": "ES-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "emerald-sentence",
+      "effectId": "ES-TEAM-ECHO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "emerald-of-genesis",
+      "effectId": "EOG-ER",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Energy Regen"
+    },
+    {
+      "weaponId": "emerald-of-genesis",
+      "effectId": "EOG-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "everbright-polestar",
+      "effectId": "EP-ATTR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "everbright-polestar",
+      "effectId": "EP-LIB-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "everbright-polestar",
+      "effectId": "EP-LIB-FUSION-RES",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "frostburn",
+      "effectId": "FB-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "frostburn",
+      "effectId": "FB-GLACIO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "frostburn",
+      "effectId": "FB-LIB-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "frostburn",
+      "effectId": "FB-CHAFE-AMP",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "glint-of-clouds",
+      "effectId": "GOC-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "glint-of-clouds",
+      "effectId": "GOC-AERO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "glint-of-clouds",
+      "effectId": "GOC-DURATION",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "glint-of-clouds",
+      "effectId": "GOC-DEF",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "laser-shearer",
+      "effectId": "LS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "laser-shearer",
+      "effectId": "LS-SKILL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "red-spring",
+      "effectId": "RS-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "red-spring",
+      "effectId": "RS-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "red-spring",
+      "effectId": "RS-CONCERTO-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "unflickering-valor",
+      "effectId": "UV-CR",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "CRIT Rate"
+    },
+    {
+      "weaponId": "unflickering-valor",
+      "effectId": "UV-LIB-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "unflickering-valor",
+      "effectId": "UV-BASIC-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "commando-of-conviction",
+      "effectId": "COC-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "endless-collapse",
+      "effectId": "EC-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "endless-collapse",
+      "effectId": "EC-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "fables-of-wisdom",
+      "effectId": "FOW-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "feather-edge",
+      "effectId": "FE-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "feather-edge",
+      "effectId": "FE-LIB",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lumingloss",
+      "effectId": "LL-BASIC",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lumingloss",
+      "effectId": "LL-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lunar-cutter",
+      "effectId": "LC-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lunar-cutter",
+      "effectId": "LC-ENTER",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lunar-cutter",
+      "effectId": "LC-DECAY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "lunar-cutter",
+      "effectId": "LC-DEFEAT",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "overture",
+      "effectId": "OVT-CONCERTO",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "somnoire-anchor",
+      "effectId": "SA-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "somnoire-anchor",
+      "effectId": "SA-CR",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "somnoire-anchor",
+      "effectId": "SA-CLEAR",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "sword-18",
+      "effectId": "S18-HEAVY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "sword-18",
+      "effectId": "S18-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "guardian-sword",
+      "effectId": "GS-SKILL",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "Skill DMG"
+    },
+    {
+      "weaponId": "originite-type-ii",
+      "effectId": "O2-HEAL",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "sword-of-night",
+      "effectId": "SON-ATK",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "sword-of-voyager",
+      "effectId": "SOV-ENERGY",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "tyro-sword",
+      "effectId": "TYRO-S-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "training-sword",
+      "effectId": "TRAIN-S-ATK",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "ATK%"
+    }
+  ]
+}

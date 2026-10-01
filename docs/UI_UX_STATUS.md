@@ -1,6 +1,6 @@
 # Bellibing UI/UX Status
 
-Last reconciled: 2026-09-25
+Last reconciled: 2026-09-26
 
 This document is the product/interaction source of truth for the **Bellibing New UI direction**. New UI is the product/design authority. The older Alpha UI is legacy runtime/regression material only and must not constrain New UI design decisions.
 
@@ -33,9 +33,9 @@ The preview may use recovered processed v34 Home artwork as **temporary prototyp
 
 ## Product target
 
-Desktop web + desktop app remain the primary composition surface, but **mobile is not a deferred redesign pass**.
+Desktop web + desktop app are the **current product-definition surface**. The project is in a **desktop-first functional stabilization phase**.
 
-Every new UI component must be built from the start with a defined narrow/mobile presentation using the same component state and data. Desktop may expose more context simultaneously; narrow/mobile uses progressive disclosure rather than a separate product flow.
+Until the user explicitly starts the Mobile Adaptation Pass, new UI slices are accepted on desktop first: **1440×900** is the primary review baseline, with **1920×1080** and **2560×1440** as desktop sanity checks. Do not spend slice scope on new phone/tablet layouts, mobile drawers, touch-specific polish or 390×844 / 768×1024 acceptance fixes. Existing mobile code stays in place, and all feature state/data/component logic must remain reusable so mobile can later adapt the frozen desktop product without duplicating business logic. Mobile is **deferred, not abandoned**.
 
 The collectible-card interaction language is intentionally shared across desktop and mobile.
 
@@ -66,6 +66,20 @@ Use the display face for Home card titles, `What Character?`, Character names an
 Short identifying text is **header-first** on cards/selectors: title/name above the subject/art, not casually moved to the bottom as a footer.
 
 Comparable short labels must not wrap inconsistently. Character names/card titles/headings should remain one line; solve fit through component/group sizing or approved responsive typography rather than splitting only the longer peer label.
+
+## Locked New UI form/control contract
+
+Bellibing owns the complete visual and interaction presentation of user-facing New UI form controls.
+
+- user-facing New UI dropdowns/comboboxes must **not** expose platform-native `<select>` popup UI; collapsed and expanded states use a Bellibing-owned dark custom combobox/listbox presentation;
+- related `stat name` and `stat value` are separate fields/columns, never concatenated into one display such as `Name — Value`;
+- Main Stat uses the same control family as Substats, but with a deliberately stronger/larger primary-stat hierarchy;
+- deterministic or read-only values must not falsely present themselves as freely user-editable; a shared control grammar may expose only the source-valid deterministic option when that is the real domain state;
+- non-interactive derived stats use plain information text, not select/input styling, fake carets or fake edit affordances;
+- artwork/icons and text own separate layout regions and may never visually overlap;
+- important identity names remain readable. Prefer reviewed two-line wrapping when needed instead of truncating the meaningful half of a canonical name.
+
+These rules extend the existing locked reusable selector/detail language below; they do not create a second design system. Panel/action composition and responsive placement are owned by `UI_LAYOUT_MOTION_CONTRACT.md`.
 
 ## Locked product semantics
 
@@ -180,6 +194,22 @@ The exact approved glass values, hover/motion rules, containment requirements an
 
 ## Build a Character layout direction
 
+### Locked Echo Workspace slot interaction
+
+- A clicked Build Echo slot is the source object for opening Echo Workspace. Workspace presents those same five Build slots in a dock; it does not create another target-slot state model.
+- One slot is promoted as the active detail target. The other four remain available in numerical order; switching uses promote/demote continuity and never commits a transient editor change.
+- An empty active slot shows a true empty state without fabricated stats. Browser clicks enter transient Preview only; **Equip Echo** is the only commit.
+- Echo browser, Workspace dock and Build stack share one card hierarchy: `COST N` at upper-left, a large contained portrait with a circular Sonata icon rail on its left, and the readable Echo name directly below. Slot numbers remain in accessibility labels, not visible card copy. Empty Build slots contain no fabricated Cost, icon or name.
+- Browser card rails contain only the active selected Sonata filters compatible with that Echo, in filter-selection order. `All Sonata Sets` has no active rail. Preview still offers every canonical Sonata assignment allowed for that Echo; the browser filter does not remove those choices.
+- Browser results obey Cost AND selected-Sonata union, then group by Sonata selection priority: the first selected set's matches appear first, followed by remaining matches from later selected sets. A dual-compatible Echo appears once in its earliest matching group; each group preserves canonical browse order. Deselecting and reselecting a set makes it later priority.
+- The Sonata selector orders identities newest→oldest by canonical `sourceId` descending. Provenance is the pinned upstream `DommyMM/wuwabuild` `Fetters.json` snapshot at `0a2e49c649c857c690be709577e6ce98832b2d43`: its raw Fetters order is strictly ascending by source ID, and upstream patch history extends that tail with IDs 30/31 in patch 3.3, 32 in 3.4 and 33–35 in 3.5. No release dates are invented. Verified `loadoutProfile.sonataSetIds` are partitioned into the Recommended section first, but Recommended and Other both use the same newest→oldest comparator. The gold `★` marks recommendation metadata only; it is independent of selected/filter state, and Characters without a verified profile get no recommendation stars.
+- Equipped Workspace dock and Build cards show only the owned Echo's committed `selectedSonataSetId` icon. Filter context never changes their rails, names, Cost or fixed slot order. Active target styling does not resize the card. The shared moving object is the portrait artwork, while card chrome stays in place.
+- Choosing a different Sonata assignment in Preview opens the Bellibing `Switch Sonata Set?` confirmation. Cancel retains the draft; Switch Set changes only the transient Preview assignment; Equip Echo remains the sole commit. Clicking the already selected assignment does nothing. Character switching retains its own `Switch Character?` confirmation; only one dialog can open at once.
+- This card correction leaves Preview artwork, name, Sonata list, stats, Echo Skill/Sonata Effect information, expansion and Equip visual composition unchanged.
+- The right editor column contains **one shared Echo information card**. Echo Skill appears first and Sonata Effect immediately below it, separated by heading/space only: no divider, nested card or second surface. The compact card previews both; its one expand control opens the entire card as a translucent reading overlay growing leftward and upward across the Echo Preview, above the Equip footer. No nested information-card scrollbar.
+- Echo Skill display text and Rank-5 cooldown come from the pinned, source-audited Echo skill snapshot through a separate identity/UI projection. Missing facts say pending source verification; display coverage never implies Echo DPS/combat execution. No gameplay facts are guessed.
+- Sonata Effect reads only `selectedSonataSetId` of committed owned Echo cards in the five slots. Browser Preview and uncommitted editor changes cannot affect it; Equip Echo recomputes it. Only **reached** canonical `activationPieces` are displayed, each with checkmark, set icon/name, exact `(N/N)` and its source-reviewed effect directly underneath. Multiple reached thresholds and sets all appear together. No future threshold progress, inspected-set/threshold selector or ACTIVE/INACTIVE/LOCKED/UNLOCKED wording. Source conflicts show pending verification; pending combat adapters remain explicit.
+
 After a Character is selected, Character focus and selector are independent layers. Expanding/collapsing the selector must not move, scale or dim the main Character art.
 
 Desktop baseline:
@@ -192,7 +222,7 @@ Desktop baseline:
 - S1 bottom → S6 top, circular nodes grow toward S6;
 - `Add to Account` remains separate.
 
-Mobile/narrow baseline:
+Mobile/narrow baseline — **deferred target for the later Mobile Adaptation Pass; do not implement or gate current desktop slices on this section unless explicitly requested**:
 
 - Character remains the primary visual anchor rather than being replaced by a stack of full-width sections;
 - Stats, Weapon, Sequences and Echoes become compact function controls/icons around the Character workspace;
@@ -227,7 +257,7 @@ For each meaningful slice:
 
 Do not make a GitHub commit for every tiny pixel adjustment, but also do not wait until an entire large surface is finished before checkpointing.
 
-A visual slice is not complete because it looks correct at one 1440px screenshot. Relevant narrow, normal desktop, wide and ultrawide checks from `UI_LAYOUT_MOTION_CONTRACT.md` are part of UI verification. Mobile interaction surfaces require real mobile/narrow verification.
+During the current desktop-first phase, a visual slice is not complete from a single screenshot alone: verify the relevant interaction in real Chrome at 1440×900 and sanity-check 1920×1080 / 2560×1440 where layout width matters. Phone/tablet/mobile interaction checks are deliberately deferred and are **not** a current completion gate. The later Mobile Adaptation Pass will re-enable the deferred narrow/mobile contract and its real-device-size verification.
 
 Near-term implementation order is owned by the active UI lane and must be fresh-read before work. Do not assume a historical PR number is still current.
 

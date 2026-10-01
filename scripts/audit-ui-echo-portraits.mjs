@@ -7,7 +7,7 @@ const SOURCE_REPOSITORY = 'TomyJan/WutheringWaves-UIResources';
 const SOURCE_BRANCH = '3.6';
 const SOURCE_COMMIT = '5b3d1d128ed3938cbb8e5260ba07b075b321a7c6';
 const SOURCE_PATH = 'UIResources/Common/Image/IconMonsterHead732/';
-const EXPECTED_COUNT = 181;
+const EXPECTED_COUNT = 187;
 
 function fail(message) {
   throw new Error(`Echo portrait audit failed: ${message}`);
@@ -51,6 +51,11 @@ if (manifest.source?.branch !== SOURCE_BRANCH) fail('source branch drift');
 if (manifest.source?.commit !== SOURCE_COMMIT) fail('source commit drift');
 if (manifest.source?.path !== SOURCE_PATH) fail('source path drift');
 if (manifest.policy?.transform !== 'NONE_BYTE_IDENTICAL_COPY') fail('transform policy drift');
+const currentPatchSource = manifest.additionalSources?.tomy37;
+if (currentPatchSource?.repository !== SOURCE_REPOSITORY ||
+    currentPatchSource?.branch !== '3.7' ||
+    currentPatchSource?.commit !== 'b522ab00cde87fbd32c06e20c4176bd7d4d909cb' ||
+    currentPatchSource?.path !== SOURCE_PATH) fail('Version 3.7 portrait source pin drift');
 
 const files = readdirSync(PORTRAIT_DIR).filter((name) => name.endsWith('.png')).sort();
 if (files.length !== EXPECTED_COUNT) fail(`portrait file count is ${files.length}, expected ${EXPECTED_COUNT}`);
@@ -61,7 +66,7 @@ if (manifest.summary?.releasedCanonical !== EXPECTED_COUNT ||
     manifest.summary?.imported !== EXPECTED_COUNT ||
     manifest.summary?.byteIdenticalSourceMatches !== EXPECTED_COUNT ||
     manifest.summary?.unmatched !== 0) {
-  fail('summary counts do not match the locked 181/181 import');
+  fail('summary counts do not match the locked 187/187 import');
 }
 
 const canonicalById = new Map(released.map((row) => [row.echoId, row]));
@@ -78,6 +83,8 @@ for (const row of released) {
   if (entry.name !== row.name) fail(`${row.echoId} name mismatch`);
   if (entry.releaseStatus !== 'RELEASED') fail(`${row.echoId} releaseStatus mismatch`);
   if (entry.mappingStatus !== 'BYTE_IDENTICAL_GIT_BLOB') fail(`${row.echoId} mappingStatus mismatch`);
+  const currentPatch = ["echo-60002255","echo-60002235","echo-60002205","echo-60002245","echo-60002225","echo-60002195"].includes(row.echoId);
+  if (currentPatch ? entry.sourceKey !== 'tomy37' : entry.sourceKey != null) fail(`${row.echoId} source provenance generation mismatch`);
 
   const expectedTarget = `${PORTRAIT_DIR}/${row.echoId}.png`;
   if (entry.targetPath !== expectedTarget) fail(`${row.echoId} targetPath mismatch`);

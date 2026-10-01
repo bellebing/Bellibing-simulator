@@ -1,5 +1,22 @@
 # Bellibing Simulator — Current Project Status
 
+## Draft Character Mechanics FORTE_RULES roster completion — PR #222
+
+Draft PR #222 is the **FORTE_RULES-only** continuation, intentionally stacked on exact draft PR #221 head `ed583460f1be6271654430a0d041bb8772531e49` instead of bypassing its still-unmerged ACTIONS work. Canonical `main` remains `8265666e115dac1396612b6a7656154dcec79bc7`. The implementation checkpoint before this status sync is `83987d0e33ecaa7ce486c19bd03c0ef8dff1f043`.
+
+The existing 54 source-complete Character Mechanics profiles keep their already-canonical Forte facts. PR #222 fills only the remaining RELEASED-roster Forte-rule gaps for Buling, Danjin and Xiangli Yao through the existing `ACTION` / `PASSIVE` fact architecture and the existing source-backed Skills/Forte payload. Ten canonical Forte-rule facts are added, bringing the registry total from **1922 to 1932** facts. No parallel skill/Forte model is introduced.
+
+Deterministic RELEASED-roster `FORTE_RULES` coverage is **57 total / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. The exact remaining blockers are:
+
+- `FORTE-BULING-1307031-DAMAGE-CLASS` — Five Thunders Spell Array cadence, Electro Flare application, Yin-Yang Balance/Harmony replacement and Thunder Spell team-state progression are source-explicit, but the array's own continuous damage still has no source-explicit Character damage-bonus classification. The separate 10%/25% team Resonance Skill DMG Bonus states are not used to infer it.
+- `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD` — Serene Vigil requires Ruby Blossom to reach **over 120** for the full-power branch while the same source caps Ruby Blossom at **120**. Bellibing does not normalize that contradiction to `>=120` or `=120`.
+
+Xiangli Yao's source-explicit Intuition transformations, 24s source limit, Decipher/Law of Reigns thresholds and replacement relationships, and Revamp follow-up are canonical. The source only says Revamp is available “shortly after” Decipher or Divergence, so no numeric input window is invented; runtime timing remains `PENDING_INTERPRETATION` without changing source verification.
+
+PR #221 ACTIONS coverage is regression-locked and unchanged at **57 / 55 VERIFIED / 0 PARTIAL / 2 BLOCKED** with the same `ACTIONS-BULING-1307031-DAMAGE-CLASS` and `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS` blockers. Full Character Mechanics remains **54/57 VERIFIED**: Buling, Danjin and Xiangli Yao stay `PARTIALLY_VERIFIED` overall. Inherent passives, Outro effects, generic Resource rules, Sequence mechanics, Improve, Team, DPS rotations, profiles/recommendations and Skills/Forte UI/layout remain outside this slice.
+
+See [Character Mechanics FORTE_RULES Coverage](CHARACTER_FORTE_RULES_COVERAGE.md), [Character Mechanics ACTIONS Coverage](CHARACTER_ACTIONS_COVERAGE.md), and [Character Mechanics Source Review Dispositions](CHARACTER_MECHANICS_SOURCE_REVIEW.md). PR #222 must remain **DRAFT / OPEN / UNMERGED** for user review. Final exact-head Verify after this documentation sync is the authoritative review gate.
+
 ## Draft Character Mechanics ACTIONS roster completion — PR #221
 
 Canonical `main` is `8265666e115dac1396612b6a7656154dcec79bc7`, where PR #220 is merged and post-merge Verify #1724 / run 36831997668 passed **1177/1177 tests**, all source/audit gates, strict build and the full real-Chrome New UI regression. The stale pre-merge PR #220 wording that previously led this file is superseded by this checkpoint.

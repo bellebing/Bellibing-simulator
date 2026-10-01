@@ -1,5 +1,17 @@
 # Bellibing Simulator — Current Project Status
 
+## Draft New UI integration candidate through PR219 — PR #220
+
+Draft PR #220 is the clean final-integration candidate for the accepted New UI stack. It targets exact current `main` base `2c7e1bb19df62c75d49f9f3e8efe4f2c7e6cc2f9` and preserves the exact reviewed PR #219 product tree from `4c32d02e9f2ec2e51709450b151077875312ba7c` (tree `307cc722991571967d7413d1a10dcd2b17264df8`). The first integration commit is `0cd26de54bf5f95eaa112752578f4ad657c374a8`: it has current main as its single parent and that exact PR219 tree, so the candidate reconciles the reviewed stack onto today's main without mechanically merging old stacked history.
+
+The accepted functional chain is **#211 → #213 → #214 → #216 → #218 → #219**. PR #212 remains donor-only and its older Build/Echo implementation is superseded by the accepted #214 continuation. PR #215's required source-backed Character Hero Art resolver/assets are incorporated by #216 and therefore by #219. PR #217 is a separate mobile-only Skills/Forte branch from an older #216 checkpoint; it is not an ancestor of #219 and is intentionally excluded. This integration does **not** start the Mobile Adaptation pass or Improve policy/model work.
+
+The candidate preserves the reviewed product behavior for **Echo Workspace, Echo Stats Editor, Forte / Skills, Sequence, Build Stats, Character Hero Art, Improve a Character, Candidate Echo flow and Character Build Card**, together with the current **Version 3.7 Echo/Sonata source reconciliation**. Current-main PR #210's `src/characterBuilderAssets.ts` and `test/characterBuilderAssets.test.ts` are blob-identical in PR219; the builder-icon audit intentionally advances to the reviewed Version 3.7 coverage rather than restoring the older count.
+
+PR #219 exact head passed **Verify #1721 / run 36817264072**. PR #220 must pass a fresh exact-head Verify against the current-main parent before it is considered integration-ready; that run owns the final source/audit gates, full tests, strict web build and real-Chrome Build/Improve/Echo/Forte/Sequence/Build Stats/Hero Art/CharacterBuildCard verification.
+
+Known issue status is deliberately conservative until integration/live closure: **BUG-030 remains open** pending canonical main/live parity; **BUG-035, BUG-036 and BUG-037 remain FIX IN PR** with their accepted fixes present in this candidate. No bug is closed merely because the integration architecture exists. PR #220 is **DRAFT / OPEN / UNMERGED**. No merge is authorized without explicit user approval.
+
 ## Character Build Card — first reusable read-only presentation
 
 The new `ui/character-build-card-pr218` slice starts from current draft PR218 head `c1709692cbf29d1d544216e7a6eeb06e2f276924`. `Add to Account` retains its existing ownership-promotion semantics and then reveals the newly added Character's build card. The same card can be reopened from Build after edits or reload. It reads the existing saved Character build, canonical Hero Art/Weapon/Echo identities, existing compact read-only Forte renderer and Build Stats projection; no second build model or card persistence is introduced. All five Echoes show their committed stats directly. Primary Stats remain fixed, while finite nonzero bonus rows appear/disappear with saved build changes.
@@ -82,7 +94,7 @@ At the historical PR195 checkpoint, PR197 was the separate draft backend candida
 
 Earlier candidate and stop statements below are historical checkpoints; they do not override the post-PR198 integrated state above.
 
-Last reconciled: 2026-09-24
+Last reconciled: 2026-10-01
 
 This is the canonical living roadmap for repository `main`. The repository `main` branch head is authoritative implementation/runtime truth. This document intentionally does not hardcode the live branch-head SHA, because a docs commit would make that value stale by construction.
 

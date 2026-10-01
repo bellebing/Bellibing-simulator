@@ -88,7 +88,7 @@ export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceR
   }
 
   const sourceBlockedCharacterIds = [...blockerIds]
-    .filter((characterId) => missingProfileIds.has(characterId))
+    .filter((characterId) => unresolvedCharacterIds.has(characterId))
     .sort();
   const unreviewedCharacterIds = [...coverage.partialCharacterIds, ...coverage.unstartedCharacterIds]
     .filter((characterId) => !blockerIds.has(characterId))

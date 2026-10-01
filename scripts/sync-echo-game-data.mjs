@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
 const UPSTREAM_REPO = 'DommyMM/wuwabuild';
-const REQUIRED_CURRENT_ECHO = 'Calamity Effigy';
+const REQUIRED_CURRENT_ECHO = 'Formrender';
 const SYNC_DATE = process.env.BELLIBING_SYNC_DATE ?? new Date().toISOString().slice(0, 10);
 
 async function fetchJson(url) {

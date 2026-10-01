@@ -13,8 +13,8 @@
     "extras": "Source variants not mapped to a canonical released Echo remain excluded."
   },
   "summary": {
-    "releasedCanonical": 181,
-    "imported": 181
+    "releasedCanonical": 187,
+    "imported": 187
   },
   "icons": [
     {
@@ -126,6 +126,18 @@
       "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000375.png",
       "bytes": 123475,
       "sha256": "dba489aa8e6d0c6991f68e886c81a5c4ef1fdd9b90ed6b303bdc41efcd779f0f"
+    },
+    {
+      "echoId": "echo-60002225",
+      "sourceId": "60002225",
+      "name": "Bloomburst Puppet",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31104_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002225.webp",
+      "bytes": 15732,
+      "sha256": "4e99f769ec363e1a9f133379b120088b4da18b9e1b1810204410d9333c571419",
+      "sourceSha": "d3df935836b18d3012780ffd395691fe18da7183"
     },
     {
       "echoId": "echo-60002215",
@@ -508,6 +520,18 @@
       "sha256": "1eab1b4f48ee8f5f747bc92f777ffc8eb29d7bb81a942fdacbaf8830075d355d"
     },
     {
+      "echoId": "echo-60002235",
+      "sourceId": "60002235",
+      "name": "Formrender",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32070_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002235.webp",
+      "bytes": 29936,
+      "sha256": "1e8de8f902765f92a5108265388227cbff523ff97a9da02b39592f7b861a17e5",
+      "sourceSha": "304e1b1840290d5c93695c6dc80b4b3a3d593f69"
+    },
+    {
       "echoId": "echo-60001875",
       "sourceId": "60001875",
       "name": "Frostbite Coleoid",
@@ -806,6 +830,18 @@
       "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60001839.webp",
       "bytes": 29102,
       "sha256": "677fdbc2ce43ff6d0478e17f8524d580d8300f6fe25504e3e40c9812a7fcd42d"
+    },
+    {
+      "echoId": "echo-60002195",
+      "sourceId": "60002195",
+      "name": "Jade Nether Serpent",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31103_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002195.webp",
+      "bytes": 19154,
+      "sha256": "cd2fee7a89fb9d8cad788a5b93b57a6afeacabad135d976e960cce43bcf5a5bf",
+      "sourceSha": "d8860176b187ef950322dafce93d7ecb751accaf"
     },
     {
       "echoId": "echo-60000595",
@@ -1418,6 +1454,18 @@
       "sha256": "f15ec5ff6c340510716ce48548f31393e69f1a9a378771f990554054f26afc10"
     },
     {
+      "echoId": "echo-60002255",
+      "sourceId": "60002255",
+      "name": "Reminiscence: Suhsin the Inevitable",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_2_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002255.webp",
+      "bytes": 15044,
+      "sha256": "c93349ba7a3e5713eb5c6ff88b141fa756bb3cfd950c967080b7a344727eb39b",
+      "sourceSha": "fde46b945719bff5b8c51191e28ef025470fcccc"
+    },
+    {
       "echoId": "echo-60001675",
       "sourceId": "60001675",
       "name": "Reminiscence: Threnodian - Leviathan",
@@ -1538,6 +1586,18 @@
       "sha256": "70dd9388c2cabdf71c3ba32733c5e44184e7615148e383dcb0cde40df08c9b48"
     },
     {
+      "echoId": "echo-60002205",
+      "sourceId": "60002205",
+      "name": "Skywatch Lancer",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32069_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002205.webp",
+      "bytes": 14560,
+      "sha256": "da06c720cb1837741daee8507d941add0a59d560855a45c2666ce3a8756f766b",
+      "sourceSha": "d07ed730402e74aec9bf9352e69131f1a2db2467"
+    },
+    {
       "echoId": "echo-60002025",
       "sourceId": "60002025",
       "name": "Smiter",
@@ -1566,6 +1626,18 @@
       "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60000065.png",
       "bytes": 93984,
       "sha256": "e7bc8899ee4c49a1461cf3002ab0cd5f742db42ba8db44c138d9f03fbc01c13e"
+    },
+    {
+      "echoId": "echo-60002245",
+      "sourceId": "60002245",
+      "name": "Soulfrayer",
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild37",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32071_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/echoes/icons/echo-60002245.webp",
+      "bytes": 18300,
+      "sha256": "c4b6107ccf5788e5322caee01aaa58f46f4bbc18072102546ac2581b600477a7",
+      "sourceSha": "f632d3499681bc7f09e22f48453024b8897b655c"
     },
     {
       "echoId": "echo-60001845",
@@ -1827,5 +1899,13 @@
       "bytes": 23060,
       "sha256": "71a28b8e95118e40bf65a20b54c2c2f551073e7302a1e22f45aec2c579744f3f"
     }
-  ]
+  ],
+  "additionalSources": {
+    "wuwabuild37": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "49222fe53b2bb2060f235152ee78ad332ea44c37",
+      "path": "public/assets/UIResources/Common/Image/IconMonsterHead/",
+      "importedAt": "2026-10-01"
+    }
+  }
 }

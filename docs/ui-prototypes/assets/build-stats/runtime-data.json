@@ -1,0 +1,1513 @@
+{
+  "schemaVersion": 1,
+  "role": "character-builder.static-stats",
+  "generatedFrom": [
+    "src/data/characters.ts#CHARACTER_CATALOG",
+    "src/data/characterIntrinsicStats.ts#CHARACTER_INTRINSIC_PROFILES",
+    "docs/ui-prototypes/assets/builder-icons/manifest.json#stats",
+    "src/buildStatProjection.mjs"
+  ],
+  "statIcons": {
+    "HP": "assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
+    "ATK": "assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+    "DEF": "assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
+    "Energy Regen": "assets/builder-icons/stats/T_Iconpropertygreenenergy_UI.webp",
+    "Crit Rate": "assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+    "Crit DMG": "assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
+    "Aero DMG": "assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
+    "Electro DMG": "assets/builder-icons/stats/T_Iconpropertyredmine_UI.webp",
+    "Fusion DMG": "assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
+    "Glacio DMG": "assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
+    "Havoc DMG": "assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
+    "Spectro DMG": "assets/builder-icons/stats/T_Iconpropertyredlight_UI.webp",
+    "Healing Bonus": "assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
+    "Basic Attack DMG Bonus": "assets/builder-icons/stats/T_Iconpropertyredphysics_UI.webp",
+    "Heavy Attack DMG Bonus": "assets/builder-icons/stats/T_Iconpropertyredfoco_UI.webp",
+    "Resonance Skill DMG Bonus": "assets/builder-icons/stats/T_Iconpropertyredspeed_UI.webp",
+    "Resonance Liberation DMG Bonus": "assets/builder-icons/stats/T_Iconpropertyredskill_UI.webp"
+  },
+  "characters": [
+    {
+      "id": "aalto",
+      "name": "Aalto",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 9850,
+        "atk": 263,
+        "def": 1075
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Aero DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "aemeath",
+      "name": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "augusta",
+      "name": "Augusta",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "baizhi",
+      "name": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 12813,
+        "atk": 213,
+        "def": 1002
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "HP%",
+          "value": 0.12
+        },
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "brant",
+      "name": "Brant",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 11675,
+        "atk": 375,
+        "def": 1308
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "buling",
+      "name": "Buling",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10625,
+        "atk": 225,
+        "def": 1259
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "calcharo",
+      "name": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10500,
+        "atk": 438,
+        "def": 1185
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "camellya",
+      "name": "Camellya",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 10325,
+        "atk": 450,
+        "def": 1161
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "cantarella",
+      "name": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 11600,
+        "atk": 400,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "carlotta",
+      "name": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 12450,
+        "atk": 463,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "cartethyia",
+      "name": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 14800,
+        "atk": 313,
+        "def": 611
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "HP%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "changli",
+      "name": "Changli",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 10388,
+        "atk": 463,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "chisa",
+      "name": "Chisa",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "chixia",
+      "name": "Chixia",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 9088,
+        "atk": 300,
+        "def": 953
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Fusion DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "ciaccona",
+      "name": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "danjin",
+      "name": "Danjin",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 9438,
+        "atk": 263,
+        "def": 1149
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Havoc DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "denia",
+      "name": "Denia",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "encore",
+      "name": "Encore",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 10513,
+        "atk": 425,
+        "def": 1246
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Fusion DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "galbrena",
+      "name": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "hiyuki",
+      "name": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "iuno",
+      "name": "Iuno",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10525,
+        "atk": 450,
+        "def": 1124
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "jianxin",
+      "name": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 14113,
+        "atk": 338,
+        "def": 1124
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "jinhsi",
+      "name": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "jiyan",
+      "name": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10488,
+        "atk": 438,
+        "def": 1185
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lingyang",
+      "name": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 10388,
+        "atk": 438,
+        "def": 1210
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Glacio DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lucilla",
+      "name": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lucy",
+      "name": "Lucy",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lumi",
+      "name": "Lumi",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 8500,
+        "atk": 338,
+        "def": 880
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lupa",
+      "name": "Lupa",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 11913,
+        "atk": 388,
+        "def": 1185
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "luuk-herssen",
+      "name": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lynae",
+      "name": "Lynae",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "mornye",
+      "name": "Mornye",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 15375,
+        "atk": 288,
+        "def": 1356
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Healing Bonus",
+          "value": 0.1
+        },
+        {
+          "stat": "DEF%",
+          "value": 0.152
+        }
+      ]
+    },
+    {
+      "id": "mortefi",
+      "name": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "element": "Fusion",
+      "level90": {
+        "hp": 10025,
+        "atk": 250,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Fusion DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "phoebe",
+      "name": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "phrolova",
+      "name": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "qingxiao",
+      "name": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "qiuyuan",
+      "name": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "rebecca",
+      "name": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 11600,
+        "atk": 400,
+        "def": 1173
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "roccia",
+      "name": "Roccia",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 12250,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "rover-aero",
+      "name": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "rover-electro",
+      "name": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "rover-havoc",
+      "name": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Havoc DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "rover-spectro",
+      "name": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 11400,
+        "atk": 375,
+        "def": 1369
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Spectro DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "sanhua",
+      "name": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 10063,
+        "atk": 275,
+        "def": 941
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Glacio DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "sigrika",
+      "name": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "suisui",
+      "name": "Suisui",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 16713,
+        "atk": 288,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        },
+        {
+          "stat": "HP%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "taoqi",
+      "name": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 8950,
+        "atk": 225,
+        "def": 1564
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Havoc DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "DEF%",
+          "value": 0.152
+        }
+      ]
+    },
+    {
+      "id": "the-shorekeeper",
+      "name": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 16713,
+        "atk": 288,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "HP%",
+          "value": 0.12
+        },
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "verina",
+      "name": "Verina",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 14238,
+        "atk": 338,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        },
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "xiangli-yao",
+      "name": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10625,
+        "atk": 425,
+        "def": 1222
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT DMG",
+          "value": 0.16
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "yangyang",
+      "name": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "element": "Aero",
+      "level90": {
+        "hp": 10200,
+        "atk": 250,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Aero DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "yangyang-xuanling",
+      "name": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "element": "Havoc",
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "yinlin",
+      "name": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 11000,
+        "atk": 400,
+        "def": 1283
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "youhu",
+      "name": "Youhu",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 9975,
+        "atk": 263,
+        "def": 1051
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        }
+      ]
+    },
+    {
+      "id": "yuanwu",
+      "name": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 8525,
+        "atk": 225,
+        "def": 1637
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Electro DMG",
+          "value": 0.12
+        },
+        {
+          "stat": "DEF%",
+          "value": 0.152
+        }
+      ]
+    },
+    {
+      "id": "zani",
+      "name": "Zani",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1136
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "zhezhi",
+      "name": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "element": "Glacio",
+      "level90": {
+        "hp": 12250,
+        "atk": 375,
+        "def": 1198
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,997 @@
+{
+  "schemaVersion": 1,
+  "role": "character.hero-art.runtime",
+  "generatedFrom": [
+    "docs/ui-prototypes/assets/characters/hero-art/manifest.json",
+    "src/characterHeroArt.ts#createCharacterHeroArtResolver"
+  ],
+  "summary": {
+    "releasedCharacters": 57,
+    "ready": 53,
+    "pending": 4
+  },
+  "characters": [
+    {
+      "characterId": "aalto",
+      "characterName": "Aalto",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/aalto.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "aemeath",
+      "characterName": "Aemeath",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/aemeath.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "augusta",
+      "characterName": "Augusta",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/augusta.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "baizhi",
+      "characterName": "Baizhi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/baizhi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "brant",
+      "characterName": "Brant",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/brant.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "buling",
+      "characterName": "Buling",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/buling.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "calcharo",
+      "characterName": "Calcharo",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/calcharo.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "camellya",
+      "characterName": "Camellya",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/camellya.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "cantarella",
+      "characterName": "Cantarella",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/cantarella.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "carlotta",
+      "characterName": "Carlotta",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/carlotta.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "cartethyia",
+      "characterName": "Cartethyia",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/cartethyia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "changli",
+      "characterName": "Changli",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/changli.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "chisa",
+      "characterName": "Chisa",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/chisa.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "chixia",
+      "characterName": "Chixia",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/chixia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "ciaccona",
+      "characterName": "Ciaccona",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/ciaccona.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "danjin",
+      "characterName": "Danjin",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/danjin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "denia",
+      "characterName": "Denia",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/denia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "encore",
+      "characterName": "Encore",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/encore.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "galbrena",
+      "characterName": "Galbrena",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/galbrena.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "hiyuki",
+      "characterName": "Hiyuki",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/hiyuki.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "iuno",
+      "characterName": "Iuno",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/iuno.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "jianxin",
+      "characterName": "Jianxin",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/jianxin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "jinhsi",
+      "characterName": "Jinhsi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/jinhsi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "jiyan",
+      "characterName": "Jiyan",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/jiyan.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "lingyang",
+      "characterName": "Lingyang",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lingyang.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "lucilla",
+      "characterName": "Lucilla",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lucilla.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "lucy",
+      "characterName": "Lucy",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lucy.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "lumi",
+      "characterName": "Lumi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lumi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "lupa",
+      "characterName": "Lupa",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lupa.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "luuk-herssen",
+      "characterName": "Luuk Herssen",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/luuk-herssen.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "lynae",
+      "characterName": "Lynae",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lynae.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "mornye",
+      "characterName": "Mornye",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/mornye.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "mortefi",
+      "characterName": "Mortefi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/mortefi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "phoebe",
+      "characterName": "Phoebe",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/phoebe.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "phrolova",
+      "characterName": "Phrolova",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/phrolova.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "qingxiao",
+      "characterName": "Qingxiao",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/qingxiao.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "qiuyuan",
+      "characterName": "Qiuyuan",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/qiuyuan.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "rebecca",
+      "characterName": "Rebecca",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/rebecca.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "roccia",
+      "characterName": "Roccia",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/roccia.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "rover-aero",
+      "characterName": "Rover (Aero)",
+      "status": "PENDING",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit."
+    },
+    {
+      "characterId": "rover-electro",
+      "characterName": "Rover (Electro)",
+      "status": "PENDING",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit."
+    },
+    {
+      "characterId": "rover-havoc",
+      "characterName": "Rover (Havoc)",
+      "status": "PENDING",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit."
+    },
+    {
+      "characterId": "rover-spectro",
+      "characterName": "Rover (Spectro)",
+      "status": "PENDING",
+      "reasonCode": "ROVER_VARIANT_IDENTITY_UNRESOLVED",
+      "reason": "Bellibing canonical Rover IDs encode element but not gender; upstream exposes distinct M/F hero art. Runtime mapping stays null until Character visual identity is explicit."
+    },
+    {
+      "characterId": "sanhua",
+      "characterName": "Sanhua",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/sanhua.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "sigrika",
+      "characterName": "Sigrika",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/sigrika.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "suisui",
+      "characterName": "Suisui",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/suisui.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "taoqi",
+      "characterName": "Taoqi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/taoqi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "characterName": "The Shorekeeper",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/the-shorekeeper.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "verina",
+      "characterName": "Verina",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/verina.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "xiangli-yao",
+      "characterName": "Xiangli Yao",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/xiangli-yao.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "yangyang",
+      "characterName": "Yangyang",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/yangyang.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "characterName": "Yangyang: Xuanling",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/yangyang-xuanling.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed as an obvious wide/asymmetric outlier in real 1440x900 Build-focus evidence. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "yinlin",
+      "characterName": "Yinlin",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/yinlin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "youhu",
+      "characterName": "Youhu",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/youhu.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "yuanwu",
+      "characterName": "Yuanwu",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/yuanwu.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "zani",
+      "characterName": "Zani",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/zani.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "REVIEWED",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "zhezhi",
+      "characterName": "Zhezhi",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/zhezhi.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    }
+  ]
+}

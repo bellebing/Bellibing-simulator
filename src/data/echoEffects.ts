@@ -22,6 +22,26 @@ export const VOIDWING_MOTH_TRANSFER_EFFECT = {
   },
 } as const satisfies EchoEffectModel;
 
+export const SOULFRAYER_INCOMING_ELECTRO_EFFECT = {
+  effectId: 'SOULFRAYER_INCOMING_ELECTRO',
+  echoId: 'echo-60002245',
+  statOrEffect: 'Electro DMG Bonus',
+  value: 0.12,
+  activation: 'TRANSFER_WINDOW',
+  trigger: 'Within 15s after summoning Soulfrayer, the wielder casts Outro Skill',
+  activationWindowSeconds: 15,
+  durationSeconds: 15,
+  appliesTo: 'INCOMING_RESONATOR',
+  mechanicsStatus: 'VERIFIED_CONDITIONAL',
+  notes: 'Version 3.7 Rank-5 source explicitly grants the incoming Resonator 12% Electro DMG for 15s when Outro is cast within 15s after summoning Soulfrayer. No automatic uptime is inferred.',
+  provenance: {
+    sourceLabels: ['wuwabuild Version 3.7 Echo skill rendered English text'],
+    sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data/Echoes.json'],
+    checkedAt: '2026-10-01',
+    notes: ['Pinned source text and Rank-5 parameters; the transfer requires an actual Echo summon followed by Outro inside the source window.'],
+  },
+} as const satisfies EchoEffectModel;
+
 function p(sourceLabels: readonly string[], sourceUrls: readonly string[]) {
   return {
     sourceLabels: ['V9.15 DPS Buffs', 'Bellibing raw Echo snapshot', ...sourceLabels],
@@ -41,6 +61,7 @@ function p(sourceLabels: readonly string[], sourceUrls: readonly string[]) {
  */
 export const ECHO_EFFECT_MODELS: readonly EchoEffectModel[] = [
   VOIDWING_MOTH_TRANSFER_EFFECT,
+  SOULFRAYER_INCOMING_ELECTRO_EFFECT,
   {
     effectId: 'FALLACY_TEAM_ATK',
     echoId: 'echo-60000605',

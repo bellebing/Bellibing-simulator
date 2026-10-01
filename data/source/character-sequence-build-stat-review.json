@@ -1,0 +1,2387 @@
+{
+  "schemaVersion": 1,
+  "role": "character-builder.sequence-build-stat-review",
+  "provenance": {
+    "sequenceSource": "data/source/character-sequence-ui.json",
+    "pinnedCharacters": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+      "path": "public/Data/Characters.json",
+      "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8"
+    }
+  },
+  "policy": {
+    "classifications": [
+      "STATIC_BUILD_STAT",
+      "NON_STATIC_MECHANIC",
+      "PENDING"
+    ],
+    "projection": "Only explicit staticBuildStats facts are projected. Description prose is never parsed at runtime.",
+    "staticDefinition": "Permanent/unconditional additive Character Build Stats only; conditional, duration, stack, target/team, skill-specific multiplier and combat-state mechanics stay outside Build Stats.",
+    "cumulativeSequenceLevels": "Sx activates reviewed static facts from S1 through Sx exactly once."
+  },
+  "summary": {
+    "releasedCharacters": 57,
+    "reviewedSequences": 342,
+    "staticBuildStatSequences": 20,
+    "nonStaticMechanicSequences": 322,
+    "pendingSequences": 0
+  },
+  "characters": [
+    {
+      "characterId": "aalto",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 67,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 68,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 69,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 70,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 71,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 72,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "aemeath",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 271,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 272,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 273,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 274,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 275,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 276,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "augusta",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 229,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 230,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 231,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 232,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 233,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 234,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "baizhi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 25,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 26,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 27,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 28,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 29,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 30,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "brant",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 175,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 176,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 177,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 178,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 179,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 180,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "buling",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 247,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 248,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 249,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 250,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Healing Bonus",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "buling",
+                "sequence": 4,
+                "sourceChainId": 250
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Buling gains 20% Healing Bonus."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 251,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 252,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "calcharo",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 79,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 80,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 81,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 82,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 83,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 84,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "camellya",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 73,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 74,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 75,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 76,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 77,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 78,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 181,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 182,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 183,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 184,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 185,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 186,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 157,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 158,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 159,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 160,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 161,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 162,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "cartethyia",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 211,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 212,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 213,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 214,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 215,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 216,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "changli",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 121,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 122,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 123,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 124,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 125,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 126,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 253,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 254,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 255,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 256,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 257,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 258,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "chixia",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 7,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 8,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 9,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 10,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 11,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 12,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "ciaccona",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 199,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 200,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 201,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 202,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 203,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Liberation DMG",
+              "value": 0.4,
+              "sourceSequence": {
+                "characterId": "ciaccona",
+                "sequence": 5,
+                "sourceChainId": 203
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Gain 40% Resonance Liberation DMG Bonus;"
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 204,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 37,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 38,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 39,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Liberation DMG",
+              "value": 0.3,
+              "sourceSequence": {
+                "characterId": "danjin",
+                "sequence": 3,
+                "sourceChainId": 39
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Resonance Liberation DMG Bonus is increased by 30%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 40,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 41,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Havoc DMG",
+              "value": 0.15,
+              "sourceSequence": {
+                "characterId": "danjin",
+                "sequence": 5,
+                "sourceChainId": 41
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Danjin's Havoc DMG Bonus is increased by 15%"
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 42,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "denia",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 295,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "CRIT DMG",
+              "value": 0.3,
+              "sourceSequence": {
+                "characterId": "denia",
+                "sequence": 1,
+                "sourceChainId": 295
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Crit. DMG is increased by 30%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 296,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 297,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 298,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 299,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 300,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "encore",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 43,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 44,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 45,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 46,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 47,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Skill DMG",
+              "value": 0.35,
+              "sourceSequence": {
+                "characterId": "encore",
+                "sequence": 5,
+                "sourceChainId": 47
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Resonance Skill DMG Bonus is increased by 35%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 48,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "galbrena",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 241,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 242,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 243,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 244,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 245,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 246,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "hiyuki",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 289,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 290,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 291,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 292,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 293,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 294,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 223,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 224,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 225,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 226,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 227,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Liberation DMG",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "iuno",
+                "sequence": 5,
+                "sourceChainId": 227
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Iuno gains 20% Resonance Liberation DMG Bonus."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 228,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "jianxin",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 109,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 110,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 111,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 112,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 113,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 114,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "jinhsi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 115,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 116,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 117,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 118,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 119,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 120,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "jiyan",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 61,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 62,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 63,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 64,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 65,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 66,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lingyang",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 97,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 98,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 99,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 100,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 101,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 102,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 301,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 302,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 303,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 304,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 305,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 306,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lucy",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 307,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 308,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 309,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 310,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 311,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 312,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 151,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 152,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 153,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 154,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Basic Attack DMG",
+              "value": 0.3,
+              "sourceSequence": {
+                "characterId": "lumi",
+                "sequence": 4,
+                "sourceChainId": 154
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Gain 30% Basic Attack DMG Bonus."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 155,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 156,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lupa",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 205,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 206,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 207,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 208,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 209,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 210,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "luuk-herssen",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 277,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 278,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 279,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 280,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 281,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 282,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "lynae",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 265,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 266,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 267,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 268,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "ATK%",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "lynae",
+                "sequence": 4,
+                "sourceChainId": 268
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "ATK is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 269,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 270,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "mornye",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 259,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 260,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 261,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 262,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 263,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 264,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 55,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 56,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 57,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 58,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 59,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 60,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "phoebe",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 169,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 170,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 171,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 172,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 173,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 174,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "phrolova",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 217,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 218,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 219,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 220,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 221,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 222,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "qingxiao",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 331,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "CRIT Rate",
+              "value": 0.16,
+              "sourceSequence": {
+                "characterId": "qingxiao",
+                "sequence": 1,
+                "sourceChainId": 331
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Crit. Rate is increased by 16%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 332,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 333,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 334,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 335,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 336,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "qiuyuan",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 235,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "CRIT Rate",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "qiuyuan",
+                "sequence": 1,
+                "sourceChainId": 235
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Qiuyuan gains 20% Crit. Rate increase."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 236,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 237,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 238,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "ATK%",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "qiuyuan",
+                "sequence": 4,
+                "sourceChainId": 238
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "ATK is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 239,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 240,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "rebecca",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 313,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 314,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 315,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 316,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 317,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 318,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "roccia",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 163,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 164,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 165,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 166,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 167,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 168,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-aero",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 187,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 188,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 189,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Aero DMG",
+              "value": 0.15,
+              "sourceSequence": {
+                "characterId": "rover-aero",
+                "sequence": 3,
+                "sourceChainId": 189
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Aero DMG Bonus is increased by 15%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 190,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 191,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 192,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 343,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 344,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 345,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 346,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 347,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 348,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 103,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Skill DMG",
+              "value": 0.3,
+              "sourceSequence": {
+                "characterId": "rover-havoc",
+                "sequence": 1,
+                "sourceChainId": 103
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Resonance Skill DMG Bonus is increased by 30%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 104,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 105,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 106,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 107,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 108,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 31,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 32,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Spectro DMG",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "rover-spectro",
+                "sequence": 2,
+                "sourceChainId": 32
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Rover's Spectro DMG Bonus is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 33,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Energy Regen",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "rover-spectro",
+                "sequence": 3,
+                "sourceChainId": 33
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Rover's Energy Regen is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 34,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 35,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Liberation DMG",
+              "value": 0.4,
+              "sourceSequence": {
+                "characterId": "rover-spectro",
+                "sequence": 5,
+                "sourceChainId": 35
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Rover's Resonance Liberation DMG Bonus is increased by 40%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 36,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "sanhua",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 19,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 20,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 21,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 22,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 23,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 24,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "sigrika",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 283,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 284,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 285,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 286,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 287,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 288,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 325,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 326,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 327,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 328,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 329,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 330,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "taoqi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 49,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 50,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 51,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 52,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 53,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 54,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 145,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 146,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 147,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 148,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 149,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 150,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "verina",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 13,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 14,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 15,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 16,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 17,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 18,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "xiangli-yao",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 127,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 128,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 129,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 130,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 131,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 132,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 1,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 2,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 3,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "Skill DMG",
+              "value": 0.4,
+              "sourceSequence": {
+                "characterId": "yangyang",
+                "sequence": 3,
+                "sourceChainId": 3
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Resonance Skill DMG Bonus is increased by 40%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 4,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 5,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 6,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 319,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 320,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 321,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 322,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 323,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 324,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 85,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 86,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 87,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 88,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 89,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 90,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "youhu",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 139,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 140,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 141,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "ATK%",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "youhu",
+                "sequence": 3,
+                "sourceChainId": 141
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Youhu's ATK is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 142,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 143,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 144,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "yuanwu",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 91,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 92,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 93,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 94,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 95,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 96,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "zani",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 193,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 194,
+          "classification": "STATIC_BUILD_STAT",
+          "staticBuildStats": [
+            {
+              "stat": "CRIT Rate",
+              "value": 0.2,
+              "sourceSequence": {
+                "characterId": "zani",
+                "sequence": 2,
+                "sourceChainId": 194
+              },
+              "provenance": {
+                "repository": "DommyMM/wuwabuild",
+                "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+                "path": "public/Data/Characters.json",
+                "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+                "sourceText": "Crit. Rate is increased by 20%."
+              }
+            }
+          ]
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 195,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 196,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 197,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 198,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 133,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 134,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 135,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 136,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 137,
+          "classification": "NON_STATIC_MECHANIC"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 138,
+          "classification": "NON_STATIC_MECHANIC"
+        }
+      ]
+    }
+  ]
+}

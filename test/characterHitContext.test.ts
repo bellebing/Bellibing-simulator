@@ -65,9 +65,9 @@ function withMainEcho(echoId: string, f = fixture()) {
   return f;
 }
 
-test('all 50 VERIFIED_MODELED main-Echo stat facts reuse canonical values', () => {
+test('all 52 VERIFIED_MODELED main-Echo stat facts reuse canonical values', () => {
   const support = listStaticEchoContextSupport();
-  assert.equal(support.length, 50);
+  assert.equal(support.length, 52);
   for (const s of support) {
     const characterId = s.wielderCharacterIds?.[0] ?? 'ciaccona';
     const character = CHARACTER_CATALOG.find(c => c.id === characterId)!;
@@ -154,7 +154,7 @@ test('actual Ciaccona preset equipment reproduces existing owned-build static ar
 
 test('static Sonata family reads canonical values only after complete species/set assignment', () => {
   const support = listStaticSonataContextSupport();
-  assert.equal(support.length, 30); // Coordinated damage is deliberately outside this selected-hit taxonomy.
+  assert.equal(support.length, 33); // Coordinated damage and conditional branches are deliberately outside this selected-hit taxonomy.
   for (const s of support) {
     const f = withSet(s.sonataSetId), a = assembleCharacterHitContext(f.selection, f.current);
     const fact = SONATA_EFFECT_MODELS.find(e => e.effectId === s.effectId)!;

@@ -60,6 +60,12 @@ jobs:
       - name: Profile readiness / Pre-DPS freeze gate
         run: npm run audit:profile-readiness
 
+      - name: Character ACTIONS coverage gate
+        run: npm run audit:character-actions
+
+      - name: Character FORTE_RULES coverage gate
+        run: npm run audit:character-forte-rules
+
       - name: Sequence source presentation focused tests
         run: node --experimental-strip-types --test test/characterSequenceUi.test.ts test/characterBuilderAssets.test.ts
 

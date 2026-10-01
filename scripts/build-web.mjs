@@ -35,6 +35,11 @@ const characterHeroArtRuntimeCheck = spawnSync(process.execPath, [
 ], { stdio: 'inherit' });
 if (characterHeroArtRuntimeCheck.status !== 0) process.exit(characterHeroArtRuntimeCheck.status ?? 1);
 
+const improveSettingsCheck = spawnSync(process.execPath, [
+  '--experimental-strip-types', 'scripts/export-ui-improve-settings.ts', '--check',
+], { stdio: 'inherit' });
+if (improveSettingsCheck.status !== 0) process.exit(improveSettingsCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 
@@ -65,3 +70,4 @@ cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/
 
 cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');
 for (const asset of ['character-build-card.js', 'character-build-card.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
+for (const asset of ['improve-settings.js', 'improve-settings.css', 'improve-settings']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset, { recursive: true });

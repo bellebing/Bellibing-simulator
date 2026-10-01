@@ -1,5 +1,15 @@
 # Bellibing Simulator — Current Project Status
 
+## Improve Simple Settings — draft UI checkpoint
+
+Fresh GitHub/main and AI Handoff confirm PR #223 **MERGED / CLOSED** on `b2c160333c4391988f02ae01fab5309791e47bd4`. The historical stack descriptions below do not override that integrated baseline. This new branch adds only the first Improve Simple Settings UI and its source/state/verification boundary.
+
+Improve now presents **Character selector → Improve Settings → existing workspace**. The full selector hover envelope is reserved; compact Gate / Valuable Stats / Roll Quality controls expand inline with the weighted panel motion. The workspace moves downward in normal flow and remains reachable through the owning Improve document's vertical scroll, without shrinking its contents. Gate includes +25. Valuable Stats uses current verified default Character StatTargetProfiles (**44 READY / 13 PENDING**), with selectable chips, a real required count and an actual N-of-M summary. The count starts unset. All Rolls / Mid+ / High+ are presentation-policy selections with **Pending threshold mapping**; canonical roll values supply no verified universal cutoff for these labels.
+
+Settings persist per Character in a separate Improve-owned store. They do not mutate saved equipment or Candidate state and do not implement an evaluator. Build a Character, Advanced Settings, gameplay mechanics, scoring, probabilities, forecasting, DPS and Team remain outside this slice. See [Improve Simple Settings](UI_IMPROVE_SIMPLE_SETTINGS.md) for source identities, state ownership and interaction details.
+
+Local validation: **1203/1203 tests**, strict build and whitespace pass. Focused real Chrome covers **1440×900 / 1920×1080 / 2560×1440**, compact/aligned controls, inline expansion/collapse, selector collision, source-backed/Pending state, Character/reload isolation, keyboard/reduced motion and unchanged Candidate equipment ownership. Full Verify also runs the Improve checks against the immutable PR head; the exact SHA and final remote result are recorded on the draft PR and AI Handoff. **DRAFT / UNMERGED — stop for visual review.**
+
 ## Character Mechanics INHERENT_PASSIVES closeout — PR #223
 
 PR #222 is **MERGED / CLOSED** on canonical `main` as `eaaa4b0f4b5942ee6392cb72d5e95386305399ae`, from reviewed FORTE_RULES head `0c9061728a64630997c8b12ae14267be093b89c3`. PR #223 is the current **INHERENT_PASSIVES closeout** on top of that merged baseline. It does not duplicate or replace the already-integrated ACTIONS/FORTE_RULES work.

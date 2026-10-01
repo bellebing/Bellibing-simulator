@@ -1,0 +1,96 @@
+export async function verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep }) {
+  const read = expression => evaluate(send, expression);
+  const check = async (expression, message) => { if (!await read(expression)) throw new Error('Improve Settings: ' + message + ' ' + JSON.stringify(await read(`({settings:document.getElementById('improveSettings').getBoundingClientRect().toJSON(),card:document.getElementById('improveBuildCard').getBoundingClientRect().toJSON(),echoes:document.getElementById('improveEchoRow').getBoundingClientRect().toJSON(),scroll:document.getElementById('improveShell').scrollTop,scrollHeight:document.getElementById('improveShell').scrollHeight,height:innerHeight})`))); };
+  const wait = (expression, message) => waitForUi(send, expression, message);
+  const click = async selector => {
+    const box = await read(`document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);
+    const visible = await read(`innerHeight>${box.bottom}&&${box.top}>=0`);
+    if (!visible) return pointerClick(send, selector);
+    const point = { x:box.x+box.width/2, y:box.y+box.height/2 };
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',...point,button:'left',clickCount:1}); await sleep(70);
+  };
+  const trigger = id => '#improve-setting-' + id;
+  const option = (id, value) => `[data-setting="${id}"] [data-setting-value="${value}"]`;
+  const summary = id => `document.querySelector('[data-setting="${id}"] .improve-setting-summary').textContent`;
+  const state = 'window.bellibingImproveSettings.getState()';
+  const settle = async () => { await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 20, y: 800 }); await sleep(750); };
+  await setViewport(send, 1440, 900); await navigate(send); await read('localStorage.clear()'); await navigate(send);
+  await wait('releasedCharacters.length===57&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Improve settings sources not ready');
+  const sources = await read("fetch('assets/improve-settings/sources.json').then(r=>r.json())");
+  const augusta = sources.characters.find(row => row.characterId === 'augusta');
+  const pendingId = sources.characters.find(row => row.status === 'PENDING').characterId;
+  const other = sources.characters.find(row => row.status === 'READY' && row.stats.some(stat => stat.name === 'HP%'));
+  await read(`addOwned('Augusta');addOwned(characterByName.size&&releasedCharacters.find(row=>row.id===${JSON.stringify(other.characterId)}).name);show('improve');improvePicker.select('Augusta')`); await settle();
+  const equipment = await read('localStorage.getItem(KEY)');
+  for (const [width, height] of [[1440,900], [1920,1080], [2560,1440]]) {
+    await setViewport(send, width, height); await read('document.getElementById("improveShell").scrollTop=0'); await settle();
+    await check(`(()=>{const box=s=>document.querySelector(s).getBoundingClientRect(),settings=box('#improveSettings'),card=box('#improveBuildCard');return settings.top<card.top&&Math.abs(settings.left-card.left)<1&&Math.abs(settings.width-card.width)<1&&settings.height<120&&[...document.querySelectorAll('.improve-setting-trigger')].every(node=>node.getBoundingClientRect().width<240)&&settings.width<=1280&&document.documentElement.scrollWidth===innerWidth})()`, 'collapsed geometry at ' + width);
+    const wheel = await read('document.querySelector("#improveWheel .choice").getBoundingClientRect().toJSON()');
+    await send('Input.dispatchMouseEvent', { type:'mouseMoved', x:wheel.x+wheel.width/2, y:wheel.y+wheel.height/2 }); await sleep(850);
+    await check(`document.getElementById('improveShell').classList.contains('hover-expanded')&&[...document.querySelectorAll('#improveWheel .choice')].every(node=>node.getBoundingClientRect().bottom+8<=document.getElementById('improveSettings').getBoundingClientRect().top)`, 'hover selector collision at ' + width);
+    await capture(send, `artifacts/ui-preview-improve-settings-hover-${width}x${height}.png`); await settle();
+    const top = await read('document.getElementById("improveBuildCard").getBoundingClientRect().top');
+    await click(trigger('gate')); await sleep(380);
+    await check(`JSON.stringify([...document.querySelectorAll('[data-setting="gate"] .improve-setting-choice')].map(node=>node.textContent))==='["+5","+10","+15","+20","+25"]'`, 'Gate options');
+    await check(`document.getElementById('improveBuildCard').getBoundingClientRect().top>${top}+20`, 'Gate did not push workspace downward');
+    await check(`(()=>{const root=document.getElementById('improveSettings');return !root.querySelector('select,[role="dialog"],[role="listbox"],[popover]')&&[...root.querySelectorAll('.improve-setting-expansion')].every(node=>!['absolute','fixed'].includes(getComputedStyle(node).position)&&getComputedStyle(node).overflowY!=='auto')})()`, 'popup/scroll menu appeared');
+    await click(option('gate', 25)); await sleep(380);
+    await check(`${state}.gate===25&&${summary('gate')}==='+25'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Gate choose/summary/collapse');
+    await check(`Math.abs(document.getElementById('improveBuildCard').getBoundingClientRect().top-${top})<1`, 'collapse did not restore layout');
+    await click(trigger('valuable')); await sleep(380);
+    const shown = await read(`Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,node=>node.textContent)`);
+    if (JSON.stringify(shown) !== JSON.stringify(augusta.stats.map(stat => stat.name))) throw new Error('Valuable Stats source mismatch');
+    await capture(send, `artifacts/ui-preview-improve-settings-valuable-${width}x${height}.png`);
+    await click(option('valuable', 2)); await sleep(380);
+    await check(`${summary('valuable')}==='2 of ${augusta.stats.length}'&&${state}.valuableStats.requiredCount===2`, 'Valuable summary does not match state');
+    await click(trigger('gate')); await sleep(350); await click(trigger('quality')); await sleep(380);
+    await check(`document.querySelectorAll('.improve-setting.is-expanded').length===1&&document.querySelector('[data-setting="quality"]').classList.contains('is-expanded')&&document.getElementById('improve-setting-gate-choices').inert`, 'more than one accessible choice area');
+    await check(`JSON.stringify([...document.querySelectorAll('[data-setting="quality"] .improve-setting-choice')].map(node=>node.textContent))==='["All Rolls","Mid+","High+"]'`, 'quality choices');
+    await click(option('quality', 'High+')); await sleep(380);
+    await check(`${summary('quality')}==='High+'&&${state}.rollQualityMappingStatus==='PENDING'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'quality summary/pending/collapse');
+    await capture(send, `artifacts/ui-preview-improve-settings-collapsed-${width}x${height}.png`);
+    // The enlarged composition scrolls as one document; the full existing workspace stays reachable.
+    await read('document.getElementById("improveEchoRow").scrollIntoView({block:"end",behavior:"instant"})');
+    await check(`document.getElementById('improveEchoRow').getBoundingClientRect().bottom<=innerHeight+1&&document.getElementById('improveShell').scrollHeight>=document.getElementById('improveBuildCard').offsetHeight`, 'equipped Echoes unreachable');
+    console.log('- Improve Settings ' + width + 'x' + height + ': compact/aligned, hover clear, inline expansion/selection, one open group, workspace scroll reachable.');
+  }
+  await setViewport(send,1440,900); await click(trigger('valuable')); await sleep(380);
+  await click(option('valuable', augusta.stats[0].name));
+  await check(`${state}.valuableStats.selectedStats.length===${augusta.stats.length-1}&&${summary('valuable')}==='2 of ${augusta.stats.length-1}'`, 'chip configuration not reflected');
+  await click(option('valuable', 1)); await sleep(380);
+  await check(`${summary('valuable')}==='1 of ${augusta.stats.length-1}'`, 'required count not reflected');
+  await click(trigger('quality')); await sleep(350); await click(option('quality', 'Mid+')); await sleep(350);
+  const saved = await read(`JSON.stringify(${state})`);
+  await check('localStorage.getItem(KEY)==='+JSON.stringify(equipment), 'settings mutated equipped build storage');
+  await click(trigger('gate')); await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape'}); await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape'});
+  await check('document.activeElement.id==="improve-setting-gate"&&document.querySelectorAll(".improve-setting.is-expanded").length===0', 'Escape focus/collapse');
+  await sleep(380);
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r'}); await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+  await check('document.getElementById("improve-setting-gate").getAttribute("aria-expanded")==="true"', 'keyboard activation');
+  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]}); await click(option('gate',25));
+  await check(`getComputedStyle(document.getElementById('improve-setting-gate-choices')).transitionProperty==='opacity'`, 'reduced motion');
+  await send('Emulation.setEmulatedMedia',{features:[]});
+  await read(`improveUi.setCharacter(releasedCharacters.find(row=>row.id===${JSON.stringify(other.characterId)}).name)`);
+  await check(`${state}.valuableStats.requiredCount===null&&${summary('valuable')}==='Choose'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Character settings leaked');
+  await click(trigger('valuable')); await sleep(350);
+  await check(`JSON.stringify(Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,n=>n.textContent))===${JSON.stringify(JSON.stringify(other.stats.map(stat=>stat.name)))}`, 'second Character pool');
+  await read(`improveUi.setCharacter(releasedCharacters.find(row=>row.id===${JSON.stringify(pendingId)}).name)`);
+  await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.selectedStats.length===0&&${state}.valuableStats.requiredCount===null`, 'unsupported Character invented pool');
+  await read("improveUi.setCharacter('Augusta')"); await check(`JSON.stringify(${state})===${JSON.stringify(saved)}`, 'Character restore');
+  await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Reload source readiness');
+  await read("show('improve');improvePicker.select('Augusta')"); await check(`JSON.stringify(${state})===${JSON.stringify(saved)}`, 'reload persistence');
+  await send('Network.enable'); await send('Network.setCacheDisabled',{cacheDisabled:true});
+  await send('Network.setBlockedURLs',{urls:['*improve-settings/sources.json']});
+  try {
+    await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus==="PENDING"','Unavailable source must become Pending');
+    await read("show('improve');improvePicker.select('Augusta')"); await settle();
+    await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.requiredCount===null`, 'failed fetch invented a pool');
+    await click(trigger('gate')); await sleep(350); await click(option('gate',10));
+  } finally { await send('Network.setBlockedURLs',{urls:[]}); }
+  await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Source recovery');
+  await read("show('improve');improvePicker.select('Augusta')");
+  await check(`${state}.gate===10&&JSON.stringify(${state}.valuableStats)===${JSON.stringify(JSON.stringify(JSON.parse(saved).valuableStats))}`, 'source outage erased saved configuration');
+  console.log('- Improve Settings source-backed chips, count, Pending, detached per-Character state, reload, keyboard and reduced motion passed.');
+}

@@ -1,0 +1,2529 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": [
+    "src/data/profileCatalogs.ts#PROFILE_REGISTRY",
+    "src/echoCoreRules.ts#SUBSTAT_TYPES"
+  ],
+  "maxSubstats": 5,
+  "rollQualityMappingStatus": "PENDING",
+  "characters": [
+    {
+      "characterId": "aalto",
+      "status": "READY",
+      "presetId": "aalto-hybrid-jiyan",
+      "profileId": "aalto-hybrid-jiyan-build-stats",
+      "profileName": "Aalto — Hybrid / Jiyan Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Aalto current build/profile",
+          "Game8 Aalto Jiyan team"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/aalto",
+          "https://game8.co/games/Wuthering-Waves/archives/454214"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Prydwen explicitly supports both Main DPS and Hybrid Aalto, but its current ratings and fixed endgame rotation are Hybrid-oriented.",
+          "Prydwen identifies Static Mist as the best Hybrid weapon and Moonlit Clouds / Impermanence Heron as the supportive Echo path.",
+          "Prydwen gives 145%-160% Energy Regen for Hybrid/support contexts and explicitly ties the upper estimate to Jiyan + Shorekeeper; this profile therefore uses 160% for that exact team context.",
+          "Game8 independently exposes the Jiyan / Aalto / Shorekeeper team flow and has Aalto charge Concerto before switching to Jiyan for the Aero buff.",
+          "The separate Main DPS Aalto mode remains real source truth but is intentionally not promoted here because the reviewed current sources do not provide a fixed Aalto DPS action sequence suitable for Bellibing canonical rotation transcription."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "aemeath",
+      "status": "READY",
+      "presetId": "aemeath-standard",
+      "profileId": "aemeath-standard-build-stats",
+      "profileName": "Aemeath — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Aemeath build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/aemeath"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "augusta",
+      "status": "READY",
+      "presetId": "augusta-standard",
+      "profileId": "augusta-recommended-targets-v915-current",
+      "profileName": "Augusta — Recommended Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "V9.15 Build Simulator",
+          "V9.15 Strategy Cache",
+          "V9.15 DPS Contexts",
+          "Prydwen Augusta build"
+        ],
+        "sourceUrls": [
+          "https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit",
+          "https://www.prydwen.gg/wuthering-waves/characters/augusta"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats.",
+          "Build-stat priority is kept here; Roll Assistant minimum-roll thresholds and 2 Core + Any 1 Useful stopping requirements live separately in AUGUSTA_RECOMMENDED_V915.",
+          "The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": "Until the source-backed total ER requirement is satisfied."
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "baizhi",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "brant",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "buling",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "calcharo",
+      "status": "READY",
+      "presetId": "calcharo-standard",
+      "profileId": "calcharo-standard-stats",
+      "profileName": "Calcharo — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Calcharo current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/calcharo"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: standard; Reviewed Main DPS calculation/stat context with Lynae + The Shorekeeper.",
+          "Reviewed Echo shell: Void Thunder / Nightmare: Thundering Mephis.",
+          "120% is the source lower ER estimate explicitly tied to Lynae + The Shorekeeper; the higher quickswap estimate is not applied here.",
+          "Reviewed source rotation context: Current source optimized burst; warmup alternatives remain source notes and are not converted into executable timing.",
+          "Source also publishes two warmup alternatives. Their existence is preserved by the research refresh and does not change this primary source sequence.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": "Flat ATK = Liberation DMG after ATK%"
+        },
+        {
+          "name": "Flat ATK",
+          "note": "Flat ATK = Liberation DMG after ATK%"
+        },
+        {
+          "name": "Liberation DMG",
+          "note": "Flat ATK = Liberation DMG after ATK%"
+        }
+      ]
+    },
+    {
+      "characterId": "camellya",
+      "status": "READY",
+      "presetId": "camellya-standard",
+      "profileId": "camellya-standard-build-stats",
+      "profileName": "Camellya — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Camellya build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/camellya"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "status": "READY",
+      "presetId": "cantarella-standard",
+      "profileId": "cantarella-standard-stats",
+      "profileName": "Cantarella — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Cantarella current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/cantarella"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: standard; Reviewed Hybrid calculation context with Phrolova + Qiuyuan; Havoc teammate context resolves Midnight Veil.",
+          "Reviewed Echo shell: Midnight Veil / Lorelei.",
+          "No exact numeric Energy Regen gate is claimed for this reviewed team/set context.",
+          "Reviewed source rotation context: Current standard sequence with source-explicit Lorelei end placement/swap cancel.",
+          "The source ER examples span 120%-140% across different Midnight/Havoc and Moonlit/non-Havoc contexts, but no exact numeric gate is fabricated for the reviewed Phrolova + Qiuyuan trio.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": "Flat ATK = Basic Attack DMG after ATK%"
+        },
+        {
+          "name": "Flat ATK",
+          "note": "Flat ATK = Basic Attack DMG after ATK%"
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": "Flat ATK = Basic Attack DMG after ATK%"
+        }
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "status": "READY",
+      "presetId": "carlotta-standard",
+      "profileId": "carlotta-standard-stats",
+      "profileName": "Carlotta — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Carlotta current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/carlotta"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: standard; Reviewed Hyper Carry DPS calculation context with Zhezhi + The Shorekeeper.",
+          "Reviewed Echo shell: Frosty Resolve / Sentry Construct.",
+          "108% is the source lower ER estimate explicitly tied to Zhezhi + The Shorekeeper; the higher Cantarella-team estimate is not applied here.",
+          "Reviewed source rotation context: Current source burst; zero-Substance warmup remains a separate source alternative and no resource timing is invented.",
+          "Current source calls Frosty Resolve Carlotta’s best set bar none and Sentry Construct its best main Echo.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "cartethyia",
+      "status": "READY",
+      "presetId": "cartethyia-aero-erosion",
+      "profileId": "cartethyia-aero-erosion-build-stats",
+      "profileName": "Cartethyia — Aero Erosion Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Cartethyia build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/cartethyia"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > HP% > Basic Attack DMG% = Liberation DMG% > HP.",
+          "This is build-stat priority only; no Bellibing Roll Assistant minimum-roll or required-hit policy is inferred from it."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "HP%",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "Flat HP",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "changli",
+      "status": "READY",
+      "presetId": "changli-standard",
+      "profileId": "changli-standard-stats",
+      "profileName": "Changli — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Changli current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/changli"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: standard; Reviewed Mono Fusion Hybrid context with Brant + Lupa.",
+          "Reviewed Echo shell: Molten Rift / Nightmare: Inferno Rider.",
+          "108% is the source lower Mono Fusion ER condition; the reviewed Changli + Brant + Lupa trio is explicitly all Fusion.",
+          "Reviewed source rotation context: Current source Standard Rotation explicitly highlighted for Changli + Brant + Lupa.",
+          "The optional Ultimate -> Flaming Sacrifice opener remains a source alternative; no timing is inferred.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "status": "READY",
+      "presetId": "chisa-standard",
+      "profileId": "chisa-standard-stats",
+      "profileName": "Chisa — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Chisa current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/chisa"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: standard; Reviewed Negative Status Support calculation context with Aemeath + Denia.",
+          "Reviewed Echo shell: Rejuvenating Glow / Fallacy of No Return.",
+          "125%+ is the source ER target in the same Aemeath + Denia calculation context used by this profile.",
+          "Reviewed source rotation context: Current loop rotation with source-explicit Rejuvenating Glow/Fallacy placement before Outro and source cancel relationships.",
+          "The separate opener remains source-audited in the research refresh; no cancel frame or animation duration is inferred.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "chixia",
+      "status": "READY",
+      "presetId": "chixia-standard",
+      "profileId": "chixia-standard-stats",
+      "profileName": "Chixia — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/chixia"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: chixia:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current source calls Dual DPS Chixia her true meta role and identifies Lupa + Brant as her newest best team archetype; this reviewed default uses that exact trio.",
+          "Reviewed Echo context: Prydwen current source calls Dual DPS Chixia her true meta role and identifies Lupa + Brant as her newest best team archetype; this reviewed default uses that exact trio. Selected deterministic source candidates chixia:sonata:1 + chixia:main-echo:1:nightmare-inferno-rider.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Burst Combo; Echo is explicitly used before the combo and the exact Forte/Ultimate sequence is preserved without timing inference.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+          "Exact snapshot endgame stat source: HP: 14500+",
+          "Exact snapshot endgame stat source: DEF: 950+",
+          "Exact snapshot endgame stat source: ATK: 1900-2100+",
+          "Exact snapshot endgame stat source: CRIT Rate: 55-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-280%+",
+          "Exact snapshot endgame stat source: Energy Regen: 115%+",
+          "Exact snapshot endgame stat source: Fusion DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 115%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source role lead is DPS and explicitly says Chixia is best suited to Dual DPS in the current meta.",
+          "Lupa + Brant is source-described as Chixia’s newest best team archetype.",
+          "Molten Rift + Nightmare: Inferno Rider are the source-leading build shell from the pinned accelerator snapshot.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "ciaccona",
+      "status": "READY",
+      "presetId": "ciaccona-cartethyia-aero",
+      "profileId": "ciaccona-cartethyia-aero-build-stats",
+      "profileName": "Ciaccona — Cartethyia Aero Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Ciaccona build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/ciaccona"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% > ATK.",
+          "Bellibing maps source flat ATK substat wording to the existing Flat ATK StatName.",
+          "This is build-stat priority only; no Roll Assistant stopping thresholds are inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "denia",
+      "status": "READY",
+      "presetId": "denia-fusion-burst-aemeath",
+      "profileId": "denia-fusion-burst-stats",
+      "profileName": "Denia — Fusion Burst Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Denia current build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/denia"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Denia is a 5-star Hybrid whose Resonance Mode is configured before combat and explicitly changes her Fusion Burst versus Tune Strain team-facing kit.",
+          "The reviewed source calls Aemeath the best and only DPS choice for Fusion Burst Denia and the main reason to get/use Denia; Tune Strain Denia is the Luuk Herssen path when Aemeath already has a strong team but Luuk needs the premium upgrade.",
+          "Forged Dwarf Star R1 is the 100% current reference weapon in both source calculation columns.",
+          "The source standard rotation covers both Resonance Modes; Echo timing differs by mode.",
+          "The published 108%-122% Energy Regen range is explicitly estimated from Aemeath + Lupa and Aemeath + Shorekeeper. It is therefore not promoted as a numeric gate for the exact Aemeath + Chisa or Luuk + Mornye presets below.",
+          "Current source endgame recommendations use S0 for 5-star characters unless otherwise specified."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": "Source priority is Energy Regen until satisfied. No numeric total-ER gate is promoted for this exact selected team context."
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": "The source writes Liberation DMG% ≥ ATK% overall, then notes ATK% is equal/slightly stronger outside Tune Strain. Equal priority preserves the non-strict/contextual relationship instead of inventing a universal strict ordering."
+        },
+        {
+          "name": "ATK%",
+          "note": "The source writes Liberation DMG% ≥ ATK% overall, then notes ATK% is equal/slightly stronger outside Tune Strain. Equal priority preserves the non-strict/contextual relationship instead of inventing a universal strict ordering."
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "encore",
+      "status": "READY",
+      "presetId": "encore-standard",
+      "profileId": "encore-standard-stats",
+      "profileName": "Encore — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/encore"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: encore:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current source calls Lupa Encore’s new best teammate in most situations and Mornye the best generalist Support when Encore + Lupa are available together.",
+          "Reviewed Echo context: Prydwen current source calls Lupa Encore’s new best teammate in most situations and Mornye the best generalist Support when Encore + Lupa are available together. Selected deterministic source candidates encore:sonata:1 + encore:main-echo:1:nightmare-inferno-rider.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Easy & Basic Burst Combo for teams that focus on Encore’s Ultimate; exact source actions are retained without durations.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Basic DMG% > Skill DMG%",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1200+",
+          "Exact snapshot endgame stat source: ATK: 2000-2400+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-75%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-285%+",
+          "Exact snapshot endgame stat source: Energy Regen: 105-130%",
+          "Exact snapshot endgame stat source: Lower end was estimated using the optimized rotation, Higher end was estimated using the simple rotation",
+          "Exact snapshot endgame stat source: Fusion DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 105-130%",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source role lead is DPS.",
+          "Lupa is explicitly Encore’s new best teammate in most situations and Mornye is explicitly the best generalist Support for the Encore + Lupa synergy when available.",
+          "Molten Rift + Nightmare: Inferno Rider remain the source-leading pinned build shell.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "galbrena",
+      "status": "READY",
+      "presetId": "galbrena-standard",
+      "profileId": "galbrena-standard-build-stats",
+      "profileName": "Galbrena — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Galbrena build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/galbrena"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "hiyuki",
+      "status": "READY",
+      "presetId": "hiyuki-standard",
+      "profileId": "hiyuki-standard-build-stats",
+      "profileName": "Hiyuki — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Hiyuki build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/hiyuki"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "Source equality applies until the documented 75% CRIT Rate target."
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "status": "READY",
+      "presetId": "iuno-augusta-hybrid",
+      "profileId": "iuno-augusta-hybrid-build-stats",
+      "profileName": "Iuno — Augusta Hybrid Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Iuno build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/iuno"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current Hybrid/Sub DPS source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > Resonance Liberation DMG% ≥ ATK% > ATK.",
+          "The source ≥ relation is preserved conservatively as Liberation DMG ahead of ATK%, not silently converted into an exact tie.",
+          "This is build-stat priority only; no Roll Assistant stopping thresholds are inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "jianxin",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "jinhsi",
+      "status": "READY",
+      "presetId": "jinhsi-standard-opener",
+      "profileId": "jinhsi-standard-build-stats",
+      "profileName": "Jinhsi — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Jinhsi build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/jinhsi"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "jiyan",
+      "status": "READY",
+      "presetId": "jiyan-standard",
+      "profileId": "jiyan-standard-stats",
+      "profileName": "Jiyan — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/jiyan"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: jiyan:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current Iuno + Ciaccona Jiyan context; the source explicitly estimates Jiyan's ER around this trio and presents Ciaccona as the third member with Iuno.",
+          "Reviewed Echo context: Prydwen current Iuno + Ciaccona Jiyan context; the source explicitly estimates Jiyan's ER around this trio and presents Ciaccona as the third member with Iuno. Selected deterministic source candidates jiyan:sonata:1 + jiyan:main-echo:1:nightmare-kelpie.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Burst Combo sequence. Echo placement and the Lance-P1 Skill interrupt remain source-sequence semantics only.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK = Heavy DMG%",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1900-2700+",
+          "Exact snapshot endgame stat source: CRIT Rate: 65-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 115-125%+",
+          "Exact snapshot endgame stat source: A Iuno+Ciaccona team requires around 117% Energy Regen, but in Shorekeeper/Verina teams more Energy Regen will be required.",
+          "Exact snapshot endgame stat source: Aero DMG Bonus: 20-80%+",
+          "Exact snapshot endgame stat source: Aero ATK is technically optimal, but Aero Aero still works as a 3 cost option which may cause this stat to vary significantly.",
+          "Exact snapshot ER source: Energy Regen: 115-125%+",
+          "Exact snapshot ER source: A Iuno+Ciaccona team requires around 117% Energy Regen, but in Shorekeeper/Verina teams more Energy Regen will be required.",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source presents Jiyan as DPS and gives a concrete Iuno + Ciaccona team context.",
+          "Windward Pilgrimage + Nightmare: Kelpie are the source-leading Echo shell for the reviewed context.",
+          "The published Burst Combo provides a fixed source sequence without an executable duration.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": "Flat ATK = Heavy Attack DMG"
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": "Flat ATK = Heavy Attack DMG"
+        }
+      ]
+    },
+    {
+      "characterId": "lingyang",
+      "status": "READY",
+      "presetId": "lingyang-standard",
+      "profileId": "lingyang-standard-stats",
+      "profileName": "Lingyang — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lingyang"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: lingyang:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current Zhezhi + The Shorekeeper Lingyang calculation/ER context.",
+          "Reviewed Echo context: Prydwen current Zhezhi + The Shorekeeper Lingyang calculation/ER context. Selected deterministic source candidates lingyang:sonata:1 + lingyang:main-echo:1:mech-abomination. Reviewer-confirmed source-name mapping Endless Resonance -> Lingering Tunes (sonata-9); Current Prydwen labels the reviewed set Endless Resonance. Bellibing canonical sonata-9 is named Lingering Tunes and has the same reviewed effect identity: 2-piece ATK +10%; 5-piece on-field ATK +5% every 1.5s up to 4 stacks; Outro Skill DMG +60%. This is treated as source-name drift only; no effect or trigger semantics are changed by the mapping.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Burst Combo sequence for Lingyang; no action duration or cancel window is inferred.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 2100-2500+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 120-125%+",
+          "Exact snapshot endgame stat source: Estimated in a Zhezhi+Shorekeeper team.",
+          "Exact snapshot endgame stat source: Glacio DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 120-125%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source treats Lingyang as a DPS/Main DPS and provides an exact Zhezhi + Shorekeeper source context.",
+          "Endless Resonance + Mech Abomination are the source-leading reviewed shell.",
+          "The Burst Combo is source-fixed enough for SOURCE_SEQUENCE_ONLY staging.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "status": "READY",
+      "presetId": "lucilla-standard",
+      "profileId": "lucilla-standard-stats",
+      "profileName": "Lucilla — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lucilla"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: lucilla:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen August 2026 source calls Hiyuki Lucilla’s best partner overall, calls Wishes of Quiet Snowfall her overall best Echo-set choice, and uses Hiyuki + Chisa as the explicit Glacio Chafe calculation context.",
+          "Reviewed Echo context: Prydwen August 2026 source calls Hiyuki Lucilla’s best partner overall, calls Wishes of Quiet Snowfall her overall best Echo-set choice, and uses Hiyuki + Chisa as the explicit Glacio Chafe calculation context. Selected deterministic source candidates lucilla:sonata:1 + lucilla:main-echo:1:glommoth.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Standard Rotation; the same action skeleton is used across modes, while this reviewed default is explicitly scoped to the source-leading Glacio Chafe context.",
+          "Exact snapshot stat priority: Substats: CRIT Rate = CRIT DMG > ATK% > ATK = Basic DMG%",
+          "Exact snapshot endgame stat source: HP: 16000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1900-2200b+",
+          "Exact snapshot endgame stat source: CRIT Rate: 65-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-280%+",
+          "Exact snapshot endgame stat source: Energy Regen: 100%",
+          "Exact snapshot endgame stat source: Glacio DMG Bonus: 30-70%+",
+          "Exact snapshot ER source: Energy Regen: 100%",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Newer August source evidence breaks the previous default tie: Hiyuki is named Lucilla’s best partner overall and Wishes of Quiet Snowfall is named her overall best set.",
+          "The reviewed default is Glacio Chafe with Hiyuki + Chisa, matching the source calculation context.",
+          "Echo Skill mode remains a legitimate alternate mode and is not erased; this tranche promotes only the source-leading recommended starting context.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": "Flat ATK = Basic Attack DMG"
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": "Flat ATK = Basic Attack DMG"
+        }
+      ]
+    },
+    {
+      "characterId": "lucy",
+      "status": "READY",
+      "presetId": "lucy-standard",
+      "profileId": "lucy-standard-stats",
+      "profileName": "Lucy — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lucy"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: lucy:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current Lucy calculation/synergy context using Rebecca + Mornye, with Rebecca called Lucy's best synergy and Mornye the ideal third slot for the reviewed Hack-focused context.",
+          "Reviewed Echo context: Prydwen current Lucy calculation/synergy context using Rebecca + Mornye, with Rebecca called Lucy's best synergy and Mornye the ideal third slot for the reviewed Hack-focused context. Selected deterministic source candidates lucy:sonata:1 + lucy:main-echo:1:reminiscence-nightmare-adam-smasher.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Loop Rotation. The source opener is retained as an alternative rather than merged into the loop.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > Heavy DMG% > ATK",
+          "Exact snapshot endgame stat source: HP: 15500+",
+          "Exact snapshot endgame stat source: DEF: 1100+",
+          "Exact snapshot endgame stat source: ATK: 2100-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 65%+ (Before Adam Smasher)",
+          "Exact snapshot endgame stat source: CRIT DMG: 210%+",
+          "Exact snapshot endgame stat source: Energy Regen: 125%",
+          "Exact snapshot endgame stat source: Suitable for Mornye, Shorekeeper and Verina team variants. With Mornye, Lucy can get away with 121%, but Lucy will be short on Energy if some attacks miss.",
+          "Exact snapshot endgame stat source: Spectro DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 125%",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source gives a concrete Rebecca + Mornye context for Lucy.",
+          "Shadow of Shattered Dreams + Reminiscence - Nightmare: Adam Smasher are source-leading for the reviewed build.",
+          "The loop is published as an explicit source sequence; cancel semantics remain textual.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status.",
+          "Source rotation alternative retained for audit — Opener: Ultimate (first 5 Programs) (Prydwen source opener before settling into the reviewed loop; no duration is inferred.)"
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "status": "READY",
+      "presetId": "lumi-hybrid",
+      "profileId": "lumi-hybrid-stats",
+      "profileName": "Lumi — hybrid Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Lumi current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lumi"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: hybrid; Reviewed Hybrid calculation/stat context with Carlotta + The Shorekeeper.",
+          "Reviewed Echo shell: Moonlit Clouds / Impermanence Heron.",
+          "142% is the source lower ER estimate explicitly tied to Carlotta + The Shorekeeper; the 150% Phrolova-team estimate is not applied here.",
+          "Reviewed source rotation context: Current Prydwen Hybrid sequence; optional swap cancels stay textual rather than timed.",
+          "Current source presents Hybrid as Lumi’s primary practical use and dedicated Main DPS as a separate non-optimal path.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "lupa",
+      "status": "READY",
+      "presetId": "lupa-standard",
+      "profileId": "lupa-standard-stats",
+      "profileName": "Lupa — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lupa"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: lupa:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen current Lupa calculation context using Aemeath + Mornye.",
+          "Reviewed Echo context: Prydwen current Lupa calculation context using Aemeath + Mornye. Selected deterministic source candidates lupa:sonata:1 + lupa:main-echo:1:lioness-of-glory.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Loop Rotation; Lioness of Glory is a summon Echo the source allows throughout the rotation and is not assigned fabricated timing.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Liberation ATK DMG%",
+          "Exact snapshot endgame stat source: HP: 16000+",
+          "Exact snapshot endgame stat source: DEF: 1100+",
+          "Exact snapshot endgame stat source: ATK: 1800-2500+",
+          "Exact snapshot endgame stat source: CRIT Rate: 65-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 115-130%+",
+          "Exact snapshot endgame stat source: Lower end was estimated in a team with Changli+Brant, higher end was estimated in a team with Encore+Shorekeeper.",
+          "Exact snapshot endgame stat source: Fusion DMG Bonus: 50-80%+",
+          "Exact snapshot ER source: Energy Regen: 115-130%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source rates Lupa as Hybrid and gives an exact Aemeath + Mornye calculation context.",
+          "Flaming Clawprint + Lioness of Glory are the source-leading shell.",
+          "A concrete Loop Rotation is published while summon-Echo placement stays non-timed.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status.",
+          "Source rotation alternative retained for audit — Opener: Skill: Shewolf's Hunt -> Ultimate -> Skill: Foebreaker -> Mid-air Attack 1 -> Mid-air Attack 2 -> Skill: Firestrike -> Skill: Wolf's Claw -> Dance With the Wolf - Climax -> Outro (Prydwen source opener variant; no duration is inferred.)"
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "luuk-herssen",
+      "status": "READY",
+      "presetId": "luuk-herssen-standard",
+      "profileId": "luuk-herssen-standard-build-stats",
+      "profileName": "Luuk Herssen — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Luuk Herssen build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "lynae",
+      "status": "READY",
+      "presetId": "lynae-standard",
+      "profileId": "lynae-standard-build-stats",
+      "profileName": "Lynae — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Lynae build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/lynae"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "mornye",
+      "status": "READY",
+      "presetId": "mornye-standard",
+      "profileId": "mornye-standard-stats",
+      "profileName": "Mornye — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/mornye"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: mornye:standard.",
+          "Reviewed role/team context: SUPPORT; Prydwen current Mornye source explicitly names Lucy/Rebecca/Mornye as a relevant loop team, and the current Lucy source independently uses Rebecca + Mornye as its reviewed calculation/synergy context.",
+          "Reviewed Echo context: Prydwen current Mornye source explicitly names Lucy/Rebecca/Mornye as a relevant loop team, and the current Lucy source independently uses Rebecca + Mornye as its reviewed calculation/synergy context. Selected deterministic source candidates mornye:sonata:1 + mornye:main-echo:1:reactor-husk.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Loop Rotation with Reactor Husk placed after Ultimate per the source Echo-timing instruction; no action duration is inferred.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until 260%) >>> Liberation DMG% > CRIT DMG > DEF% > CRIT Rate (until 20%) > ATK% > DEF > ATK",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: ATK: 1000+",
+          "Exact snapshot endgame stat source: DEF: 3000+",
+          "Exact snapshot endgame stat source: CRIT Rate: 20%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 220%+",
+          "Exact snapshot endgame stat source: Energy Regen: 240% (Before Echo and Passive)",
+          "Exact snapshot endgame stat source: Fusion DMG Bonus: 0-30%",
+          "Exact snapshot endgame stat source: Only possible with Signature equipped.",
+          "Exact snapshot ER source: Energy Regen: 240% (Before Echo and Passive)",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Mornye’s raw DEF Minor-Forte discrepancy is resolved separately from profile semantics using node-level 2.28% + 5.32% on each of her two DEF strands, totaling 15.20%.",
+          "Prydwen publishes a fixed Loop Rotation and explicitly names Lucy/Rebecca/Mornye as a relevant team context.",
+          "Halo of Starry Radiance + Reactor Husk + Starfield Calibrator are the source-leading pinned build shell.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "DEF%",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat DEF",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "status": "READY",
+      "presetId": "mortefi-standard",
+      "profileId": "mortefi-standard-stats",
+      "profileName": "Mortefi — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/mortefi"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: mortefi:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen current Mono Fusion synergy context: Mortefi is identified as one of Galbrena's best partners, particularly together with Lupa.",
+          "Reviewed Echo context: Prydwen current Mono Fusion synergy context: Mortefi is identified as one of Galbrena's best partners, particularly together with Lupa. Selected deterministic source candidates mortefi:sonata:1 + mortefi:main-echo:1:impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current fixed Mortefi rotation with Ultimate and Outro paired before the swap; Heron remains SOURCE_SEQUENCE_ONLY.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1100+",
+          "Exact snapshot endgame stat source: ATK: 1900-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60%-80%",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 115%-130%+",
+          "Exact snapshot endgame stat source: At S2, Mortefi’s requirement will be 120% in most teams with 113% using Augusta due to her rotation extension, without S2 this will increase by ~11%.",
+          "Exact snapshot endgame stat source: Fusion DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 115%-130%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Mortefi as Hybrid and gives a concrete Galbrena + Lupa Mono Fusion synergy context.",
+          "Moonlit Clouds + Impermanence Heron are the preferred source shell for his current support/hybrid role.",
+          "The source publishes a fixed rotation; numeric ER remains source text because the reviewed trio is not the numeric anchor.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "phoebe",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "phrolova",
+      "status": "READY",
+      "presetId": "phrolova-standard",
+      "profileId": "phrolova-standard-stats",
+      "profileName": "Phrolova — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/phrolova"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: phrolova:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current Best Team condition: Lucilla is the best second slot only with Qiuyuan as the third member.",
+          "Reviewed Echo context: Prydwen current Best Team condition: Lucilla is the best second slot only with Qiuyuan as the third member. Selected deterministic source candidates phrolova:sonata:1 + phrolova:main-echo:1:nightmare-hecate.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Loop Rotation. The source's choice between equivalent Forte Basic/Skill actions remains explicit source branching, not fabricated engine timing.",
+          "Exact snapshot stat priority: Substats: CRIT RATE = CRIT DMG > ATK% > Skill DMG% > ATK",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1100+",
+          "Exact snapshot endgame stat source: ATK: 2000-2500+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60%+ (before Echo set bonuses)",
+          "Exact snapshot endgame stat source: CRIT DMG: 215-260%+ (before any Aftersound stacks)",
+          "Exact snapshot endgame stat source: Energy Regen 100%",
+          "Exact snapshot endgame stat source: Avoid any Energy Regen substats on Phrolova as her Ultimate does not cost any Energy.",
+          "Exact snapshot endgame stat source: Havoc DMG Bonus: 30-70%+",
+          "Exact snapshot ER source: Energy Regen 100%",
+          "Exact snapshot ER source: Avoid any Energy Regen substats on Phrolova as her Ultimate does not cost any Energy.",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source treats Phrolova as DPS and explicitly closes Lucilla + Qiuyuan as a Best Team arrangement.",
+          "Dream of the Lost + Nightmare: Hecate are the source-leading shell.",
+          "The loop is published; Echo placement guidance is preserved in provenance rather than converted to timing.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "qingxiao",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "qiuyuan",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "rebecca",
+      "status": "READY",
+      "presetId": "rebecca-standard",
+      "profileId": "rebecca-standard-stats",
+      "profileName": "Rebecca — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/rebecca"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: rebecca:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen current Rebecca calculation context using Lucy + Mornye; the reviewed non-quickswap context selects Bell-Borne Geochelone.",
+          "Reviewed Echo context: Prydwen current Rebecca calculation context using Lucy + Mornye; the reviewed non-quickswap context selects Bell-Borne Geochelone. Selected deterministic source candidates rebecca:sonata:1 + rebecca:main-echo:1:bell-borne-geochelone.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Loop Rotation for the non-quickswap Bell-Borne context; the automatic swap is preserved as source text only.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > Basic DMG% > ATK% > ATK",
+          "Exact snapshot endgame stat source: HP: 16000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 2000-2300+",
+          "Exact snapshot endgame stat source: CRIT Rate: 65-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-280%+ (Before Huntress Buff)",
+          "Exact snapshot endgame stat source: Energy Regen: 117-118%+",
+          "Exact snapshot endgame stat source: Generally suitable for all Rebecca teams.",
+          "Exact snapshot endgame stat source: Electro DMG Bonus: 30-60%+",
+          "Exact snapshot ER source: Energy Regen: 117-118%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Rebecca as Hybrid and gives an exact Lucy + Mornye calculation context.",
+          "Moonlit Clouds is source-leading, while Bell-Borne is explicitly optimal when Rebecca is not being played as a quickswap unit.",
+          "The reviewed loop and Echo placement are source-explicit without timing claims.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status.",
+          "Source rotation alternative retained for audit — Opener: Intro: Huntress -> Huntress Basic attacks -> Forte Heavy: Huntress -> Echo: Bell-Borne Geochelone -> Ultimate -> Boom! Fireworks (automatic swap) -> Outro (Prydwen opener variant retained separately from the selected loop.)"
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "roccia",
+      "status": "READY",
+      "presetId": "roccia-standard",
+      "profileId": "roccia-standard-stats",
+      "profileName": "Roccia — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/roccia"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: roccia:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen current source explicitly identifies Roccia as the best third member for the Phrolova + Cantarella trio.",
+          "Reviewed Echo context: Prydwen current source explicitly identifies Roccia as the best third member for the Phrolova + Cantarella trio. Selected deterministic source candidates roccia:sonata:1 + roccia:main-echo:1:nightmare-impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Standard Rotation. Source-explicit cancels are retained without animation timing.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate > CRIT DMG > ATK% > Heavy ATK DMG% > ATK",
+          "Exact snapshot endgame stat source: HP: 16500+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1900-2600+",
+          "Exact snapshot endgame stat source: CRIT Rate: 70%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 120-130%+",
+          "Exact snapshot endgame stat source: Lower end was estimated in a team with Phrolova+Cantarella, higher end was estimated in a team with Camellya+Shorekeeper.",
+          "Exact snapshot endgame stat source: Havoc DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 120-130%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Roccia as Hybrid and closes a concrete Phrolova + Cantarella team.",
+          "Midnight Veil + Nightmare: Impermanence Heron are the source-leading shell.",
+          "The Standard Rotation is fixed enough for source-sequence staging only.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "rover-aero",
+      "status": "READY",
+      "presetId": "rover-aero-cartethyia-ciaccona",
+      "profileId": "rover-aero-cartethyia-ciaccona-build-stats",
+      "profileName": "Rover (Aero) — Cartethyia + Ciaccona Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Rover (Aero) build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/rover-aero"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current source priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% > Resonance Skill DMG% > ATK.",
+          "The source ER band is 128%-138%; it places Cartethyia + Ciaccona at the higher end. The profile therefore records 138% for this exact team context instead of applying the lower band globally.",
+          "Bloodpact’s Pledge supplies enough source-listed ER that the guide does not require ER substats in this exact setup; this does not become a Roll Assistant rule."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "rover-havoc",
+      "status": "READY",
+      "presetId": "rover-havoc-standard",
+      "profileId": "rover-havoc-standard-stats",
+      "profileName": "Rover (Havoc) — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: rover-havoc:standard.",
+          "Reviewed role/team context: MAIN_DPS; Prydwen current source names Roccia Havoc Rover’s best buffer; its published ER requirement explicitly covers the Roccia + Shorekeeper trio, closing an exact Main DPS support context.",
+          "Reviewed Echo context: Prydwen current source names Roccia Havoc Rover’s best buffer; its published ER requirement explicitly covers the Roccia + Shorekeeper trio, closing an exact Main DPS support context. Selected deterministic source candidates rover-havoc:sonata:1 + rover-havoc:main-echo:1:dreamless.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Medium Burst Combo, explicitly described for Havoc Rover as the sole damage dealer with two supportive characters; selected for the Roccia + Shorekeeper reviewed context.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Basic DMG% > Liberation DMG%",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1250+",
+          "Exact snapshot endgame stat source: ATK: 1800-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-75%+ (Before S6 buff)",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 140%+",
+          "Exact snapshot endgame stat source: This requirement applies across Phrolova+Cantarella, Danjin+Shorekeeper and Roccia+Shorekeeper.",
+          "Exact snapshot endgame stat source: Havoc DMG Bonus: 40-70%+",
+          "Exact snapshot ER source: Energy Regen: 140%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source treats Havoc Rover as a strong Main DPS carry as well as a flexible Dual DPS option.",
+          "Roccia is explicitly named Havoc Rover’s best buffer, and Roccia + Shorekeeper is one of the exact source ER contexts.",
+          "The Medium Burst Combo is explicitly the source option for one damage dealer plus two supports, matching this reviewed default.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "status": "READY",
+      "presetId": "rover-spectro-standard",
+      "profileId": "rover-spectro-standard-stats",
+      "profileName": "Rover (Spectro) — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: rover-spectro:standard.",
+          "Reviewed role/team context: SUPPORT; Prydwen current meta Support context for Phoebe + Zani; the source also anchors the high-end ER estimate to this exact trio.",
+          "Reviewed Echo context: Prydwen current meta Support context for Phoebe + Zani; the source also anchors the high-end ER estimate to this exact trio. Selected deterministic source candidates rover-spectro:sonata:1 + rover-spectro:main-echo:1:impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Burst Combo for Spectro Rover Support. The source swap/wait instruction remains qualitative and no wait duration is invented.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Skill DMG% > Liberation DMG%",
+          "Exact snapshot endgame stat source: HP: 15500+",
+          "Exact snapshot endgame stat source: DEF: 1350+",
+          "Exact snapshot endgame stat source: ATK: 1800-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-75%+ (Before S1)",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 120%-123%+",
+          "Exact snapshot endgame stat source: Lower end estimated using Phoebe+Lynae, Higher end estimated using Zani+Phoebe.",
+          "Exact snapshot endgame stat source: Spectro DMG Bonus: 40-80%+",
+          "Exact snapshot endgame stat source: Spectro Rover gains 20% Spectro Damage Bonus on S2",
+          "Exact snapshot ER source: Energy Regen: 120%-123%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Spectro Rover as Support and specifically supports the Phoebe + Zani core.",
+          "Moonlit Clouds + Impermanence Heron match the reviewed support context.",
+          "The Burst Combo is explicit; wait/cooldown text does not create an executable timeline.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "sanhua",
+      "status": "READY",
+      "presetId": "sanhua-standard",
+      "profileId": "sanhua-standard-stats",
+      "profileName": "Sanhua — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/sanhua"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: sanhua:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen calls Sanhua + Phoebe + Spectro Rover the best casual Phoebe trio for the reviewed context.",
+          "Reviewed Echo context: Prydwen calls Sanhua + Phoebe + Spectro Rover the best casual Phoebe trio for the reviewed context. Selected deterministic source candidates sanhua:sonata:1 + sanhua:main-echo:1:impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen Heavy Attack Concerto Rotation, which the current source says sees far more play overall. Heron is placed at the end before Outro as source guidance.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1800-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 100%",
+          "Exact snapshot endgame stat source: On Moonlit Clouds, her only meta set which also gives a lot of extra Energy, Sanhua requires no additional Energy Regen.",
+          "Exact snapshot endgame stat source: Glacio DMG Bonus: 30-60%+",
+          "Exact snapshot ER source: Energy Regen: 100%",
+          "Exact snapshot ER source: On Moonlit Clouds, her only meta set which also gives a lot of extra Energy, Sanhua requires no additional Energy Regen.",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Sanhua as Hybrid and gives an explicit Phoebe + Spectro Rover trio.",
+          "Moonlit Clouds + Impermanence Heron are the source meta shell.",
+          "The Heavy Attack variant is the source's more-played rotation and stays SOURCE_SEQUENCE_ONLY.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "sigrika",
+      "status": "READY",
+      "presetId": "sigrika-standard",
+      "profileId": "sigrika-standard-build-stats",
+      "profileName": "Sigrika — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Sigrika build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/sigrika"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": "Primary source ER gate first; source also discusses further ER optimization after the gate, which is not promoted as a second hard gate."
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "taoqi",
+      "status": "READY",
+      "presetId": "taoqi-standard",
+      "profileId": "taoqi-standard-stats",
+      "profileName": "Taoqi — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/taoqi"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: taoqi:standard.",
+          "Reviewed role/team context: HYBRID; Prydwen Moonlit context explicitly estimates pre-S5 Taoqi ER at 126% in a Carlotta + The Shorekeeper team; this review selects Moonlit + Impermanence Heron for that exact context.",
+          "Reviewed Echo context: Prydwen Moonlit context explicitly estimates pre-S5 Taoqi ER at 126% in a Carlotta + The Shorekeeper team; this review selects Moonlit + Impermanence Heron for that exact context. Selected deterministic source candidates taoqi:sonata:2 + taoqi:main-echo:2:impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen SAMPLE TAOQI ROTATION. It is retained explicitly as a source sample sequence, never as executable/default timing.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > DEF% > DEF",
+          "Exact snapshot endgame stat source: Keep in mind that even when optimized, Taoqi deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1800-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 100%-126%+",
+          "Exact snapshot endgame stat source: On Moonlit Clouds Taoqi requires no Energy Regen at S5, Before S5 the estimate is 126% in a Carlotta+Shorekeeper team.",
+          "Exact snapshot endgame stat source: Havoc DMG Bonus: 30-60%+",
+          "Exact snapshot ER source: Keep in mind that even when optimized, Taoqi deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+          "Exact snapshot ER source: Energy Regen: 100%-126%+",
+          "Exact snapshot ER source: On Moonlit Clouds Taoqi requires no Energy Regen at S5, Before S5 the estimate is 126% in a Carlotta+Shorekeeper team.",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source role lead is Hybrid and gives an exact Carlotta + Shorekeeper Moonlit context.",
+          "The review deliberately selects source candidate rank 2 Moonlit + Heron instead of the general Rejuvenating rank-1 shell.",
+          "Prydwen says Taoqi rotations are not clear-cut but provides this sample; the sample is sufficient only for SOURCE_SEQUENCE_ONLY truth.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "DEF%",
+          "note": null
+        },
+        {
+          "name": "Flat DEF",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "status": "READY",
+      "presetId": "shorekeeper-augusta-support",
+      "profileId": "shorekeeper-augusta-iuno-build-stats",
+      "profileName": "The Shorekeeper — Augusta + Iuno Support Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen The Shorekeeper build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Current source priority: Energy Regen until 230% > CRIT DMG ≥ Resonance Liberation DMG% > HP% > CRIT Rate > HP > ATK% = ATK.",
+          "The source ≥ relation is preserved conservatively as CRIT DMG ahead of Liberation DMG, while ATK% = flat ATK remains an explicit tie.",
+          "The 230% target is explicitly before the +10% Fallacy of No Return Echo effect and Shorekeeper’s +10% passive contribution; the profile note preserves that source semantic instead of treating 230% as a post-buff universal threshold."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "HP%",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "Flat HP",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "verina",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "xiangli-yao",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "yangyang",
+      "status": "READY",
+      "presetId": "yangyang-standard",
+      "profileId": "yangyang-standard-stats",
+      "profileName": "Yangyang — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/yangyang"
+        ],
+        "checkedAt": "2026-08-31",
+        "notes": [
+          "Cohort 01 semantic promotion: yangyang:standard.",
+          "Reviewed role/team context: HYBRID; The pinned source explicitly estimates Yangyang’s Energy Regen in a Xiangli Yao + Shorekeeper team using Moonlit Clouds; current source also publishes the standard support rotation and Moonlit/Heron usage.",
+          "Reviewed Echo context: The pinned source explicitly estimates Yangyang’s Energy Regen in a Xiangli Yao + Shorekeeper team using Moonlit Clouds; current source also publishes the standard support rotation and Moonlit/Heron usage. Selected deterministic source candidates yangyang:sonata:1 + yangyang:main-echo:1:impermanence-heron.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen current Standard Concerto Rotation with its support Echo guidance applied at the source-prescribed end of the rotation before Outro.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Liberation DMG% > Basic DMG%",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1150+",
+          "Exact snapshot endgame stat source: ATK: 1800-2200+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 107%+",
+          "Exact snapshot endgame stat source: Estimated in a Xiangli Yao+Shorekeeper team using Moonlit Clouds.",
+          "Exact snapshot endgame stat source: Aero DMG Bonus: 30-60%+",
+          "Exact snapshot ER source: Energy Regen: 107%+",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source role lead is Hybrid and explicitly publishes a standard concerto rotation.",
+          "The exact Xiangli Yao + Shorekeeper Moonlit context is already present in the pinned accelerator snapshot’s ER source text.",
+          "Moonlit Clouds + Impermanence Heron are the source support shell for this reviewed context.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Liberation DMG",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "status": "READY",
+      "presetId": "yangyang-xuanling-standard",
+      "profileId": "yangyang-xuanling-standard-build-stats",
+      "profileName": "Yangyang (Xuanling) — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Yangyang (Xuanling) build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Heavy Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "status": "READY",
+      "presetId": "yinlin-moonlit",
+      "profileId": "yinlin-moonlit-stats",
+      "profileName": "Yinlin — moonlit Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Yinlin current build/profile",
+          "Cohort 01 semantic promotion review"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/yinlin"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Semantic approval source: data/research/profile-cohort-01-semantic-promotion-review-2026-08-30.json.",
+          "Reviewed mode/team context: moonlit; Reviewed Hybrid Moonlit context with Xiangli Yao + The Shorekeeper.",
+          "Reviewed Echo shell: Moonlit Clouds / Impermanence Heron.",
+          "128%+ is explicitly estimated in Xiangli Yao + The Shorekeeper, exactly matching the reviewed Moonlit team.",
+          "Reviewed source rotation context: Current source standard Yinlin sequence with explicit Heavy endlag and Heron swap cancels.",
+          "Current source says Hybrid Yinlin will nearly always use Moonlit Clouds in optimal sets and explicitly warns against Main DPS use.",
+          "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": "Flat ATK = Resonance Skill DMG after ATK%"
+        },
+        {
+          "name": "Flat ATK",
+          "note": "Flat ATK = Resonance Skill DMG after ATK%"
+        },
+        {
+          "name": "Skill DMG",
+          "note": "Flat ATK = Resonance Skill DMG after ATK%"
+        }
+      ]
+    },
+    {
+      "characterId": "youhu",
+      "status": "READY",
+      "presetId": "youhu-standard",
+      "profileId": "youhu-standard-stats",
+      "profileName": "Youhu — standard Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen current character build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/youhu"
+        ],
+        "checkedAt": "2026-08-30",
+        "notes": [
+          "Cohort 01 semantic promotion: youhu:standard.",
+          "Reviewed role/team context: SUPPORT; Prydwen current coordinated-attack Support context: Yinlin is the natural coordinated attacker and Calcharo is the presented Main DPS in the Best Team example.",
+          "Reviewed Echo context: Prydwen current coordinated-attack Support context: Yinlin is the natural coordinated attacker and Calcharo is the presented Main DPS in the Best Team example. Selected deterministic source candidates youhu:sonata:1 + youhu:main-echo:1:fallacy-of-no-return.",
+          "Reviewed Stats/ER context: No exact numeric ER gate is claimed for this reviewed context.",
+          "Reviewed source rotation context: Prydwen Rotation 1, which the source says can loop indefinitely; Rotation 2 is explicitly optional/disregardable. No source duration is materialized.",
+          "Exact snapshot stat priority: Substats: Energy Regen (Until Satisfied) > CRIT Rate = CRIT DMG > ATK% > ATK > Skill DMG%",
+          "Exact snapshot endgame stat source: Keep in mind Youhu is a Support who deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+          "Exact snapshot endgame stat source: HP: 15000+",
+          "Exact snapshot endgame stat source: DEF: 1050+",
+          "Exact snapshot endgame stat source: ATK: 1300+",
+          "Exact snapshot endgame stat source: CRIT Rate: 60%-80%+",
+          "Exact snapshot endgame stat source: CRIT DMG: 210-260%+",
+          "Exact snapshot endgame stat source: Energy Regen: 100%",
+          "Exact snapshot endgame stat source: Glacio DMG Bonus: 0-60%+",
+          "Exact snapshot ER source: Keep in mind Youhu is a Support who deals very low personal damage, meaning investing in her damage is fully skippable. Energy Regen requirements are by far the most important stat shown.",
+          "Exact snapshot ER source: Energy Regen: 100%",
+          "No numeric ER gate is materialized in this tranche; endgame/ER text remains source context unless a later exact-context review promotes a number.",
+          "Reviewer-approved source sequence only; no duration, uptime, frame timing, or engine model is authorized.",
+          "Current source classifies Youhu as Support and gives a concrete Yinlin + Calcharo team example.",
+          "Rejuvenating Glow + Fallacy of No Return are selected from the source-leading shell; Fallacy is the stronger party-buff choice among the listed main Echoes.",
+          "Marcato is source-ranked R5 and its rank must be preserved by the materializer; no 6.5-second source timing is promoted.",
+          "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "CRIT DMG",
+          "note": "CRIT Rate = CRIT DMG"
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        },
+        {
+          "name": "Skill DMG",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "yuanwu",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "stats": []
+    },
+    {
+      "characterId": "zani",
+      "status": "READY",
+      "presetId": "zani-standard",
+      "profileId": "zani-standard-build-stats",
+      "profileName": "Zani — Standard Build Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Zani build"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/zani"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": []
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "status": "READY",
+      "presetId": "zhezhi-empyrean-endgame",
+      "profileId": "zhezhi-empyrean-endgame-stats",
+      "profileName": "Zhezhi — Endgame Empyrean Stats",
+      "provenance": {
+        "sourceLabels": [
+          "Prydwen Zhezhi current build/profile"
+        ],
+        "sourceUrls": [
+          "https://www.prydwen.gg/wuthering-waves/characters/zhezhi"
+        ],
+        "checkedAt": "2026-08-29",
+        "notes": [
+          "Prydwen explicitly treats Zhezhi as Hybrid and gives one standard action sequence with set-specific Echo timing.",
+          "Empyrean Anthem is better than Moonlit Clouds if and only if the build has endgame Echo investment with 9 or 10 CRIT substats total and a 5-star weapon equipped; otherwise Moonlit Clouds is better.",
+          "Rime-Draped Sprouts R1 is the reviewed 5-star default weapon and the calculation context is Carlotta + The Shorekeeper.",
+          "The reviewed Energy Regen range is 116%-128% in the Carlotta + Shorekeeper context: 116% for Moonlit Clouds and 128% for Empyrean Anthem.",
+          "The two presets below preserve that source condition instead of averaging the sets or pretending one universal build is optimal for every investment level."
+        ]
+      },
+      "stats": [
+        {
+          "name": "Energy Regen",
+          "note": null
+        },
+        {
+          "name": "CRIT Rate",
+          "note": null
+        },
+        {
+          "name": "CRIT DMG",
+          "note": null
+        },
+        {
+          "name": "ATK%",
+          "note": null
+        },
+        {
+          "name": "Basic Attack DMG",
+          "note": null
+        },
+        {
+          "name": "Flat ATK",
+          "note": null
+        }
+      ]
+    }
+  ]
+}

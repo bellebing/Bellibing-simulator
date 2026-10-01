@@ -147,6 +147,10 @@ jobs:
               BELLIBING_V34_CHROME_DEBUG_PORT=9677 \
               BELLIBING_HERO_CAPTURE=0 \
               node scripts/verify-v34-character-hero-art.mjs
+            BELLIBING_V34_URL="$immutable_preview" \
+              BELLIBING_V34_ECHO_DEBUG_PORT=9688 \
+              BELLIBING_IMPROVE_ONLY=1 \
+              node scripts/verify-v34-echo-workspace.mjs
           fi
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
@@ -249,6 +253,7 @@ jobs:
             artifacts/ui-preview-home-1440x900.png
             artifacts/ui-preview-improve-augusta-1440x900.png
             artifacts/ui-preview-improve-candidate-*.png
+            artifacts/ui-preview-improve-settings-*.png
             artifacts/ui-preview-character-build-card-*.png
             artifacts/ui-preview-build-names-expanded-1440x900.png
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png

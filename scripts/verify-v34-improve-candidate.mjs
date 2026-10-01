@@ -12,6 +12,7 @@ export async function verifyImproveCandidate({socket,send,evaluate,navigate,setV
   const open=async()=>{await settled();await click('#improveNewEcho');await wait('echoUi.open&&echoUi.context.kind==="candidate"','Physical New Echo click did not open Candidate Workspace');await sleep(550)};
   async function switchCharacter(id) {
     const selector='#improveWheel [data-character-id="'+id+'"]';
+    await read('document.getElementById("improveShell").scrollTop=0');await settled();
     const r=await read(`document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:r.x+r.width/2,y:r.y+r.height/2});await sleep(850);
     await click(selector);await sleep(650);
@@ -105,6 +106,9 @@ export async function verifyImproveCandidate({socket,send,evaluate,navigate,setV
   await check(`(()=>{const p=projectImproveCurrentStats('Augusta'),rows=[...document.querySelectorAll('#improveStatList .improve-stat-row')],keys=rows.map(r=>r.dataset.statKey),extras=keys.slice(6);let zero=false;return JSON.stringify(keys.slice(0,6))===JSON.stringify(BUILD_STAT_PRIMARY_ROWS.map(r=>r.key))&&rows.every(r=>r.querySelector('.improve-stat-current').textContent===statsUi.format(p[r.dataset.statKey],improveUi.statSpecs(p).find(s=>s.key===r.dataset.statKey).percent))&&extras.every(key=>{if(!p[key])zero=true;return !zero||!p[key]})&&document.querySelector('[data-stat-key="elementDamageBonus"] .improve-stat-label').textContent.trim()==='Electro DMG Bonus'})()`,'Stats labels/order/values differ from source projection');
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
     await setViewport(send,width,height);await settled();
+    // Settings reserves the full hover envelope. The owning Improve document
+    // scrolls to the unchanged workspace; no scale-to-fit or clipped controls.
+    await read('document.getElementById("improveBuildCard").scrollIntoView({block:"start",behavior:"instant"})');
     await read('Promise.all([...document.querySelectorAll("#improveFocus img[src]")].map(img=>img.decode().catch(()=>{})))');
     await check(`(()=>{const rect=s=>document.querySelector(s).getBoundingClientRect(),outer=rect('#improveBuildCard'),parts=['.improve-truth','.improve-stats','.improve-workspace','#improveEchoRow'],hero=rect('.improve-truth-art'),rail=rect('#improveSequenceList');return document.documentElement.scrollWidth===innerWidth&&outer.bottom<innerHeight&&outer.width<=1280&&parts.every(s=>{const r=rect(s);return r.left>=outer.left&&r.right<=outer.right&&r.bottom<=outer.bottom})&&rail.left>=hero.right&&document.querySelectorAll('#improveEchoRow button').length===5&&[...document.querySelectorAll('#improveFocus img[src]')].every(img=>img.naturalWidth>0)})()`,'Improve layout overflow/broken assets at '+width);
     await capture(send,'artifacts/ui-preview-improve-candidate-'+width+'x'+height+'.png');

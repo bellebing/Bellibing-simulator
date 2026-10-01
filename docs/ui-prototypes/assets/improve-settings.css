@@ -1,0 +1,31 @@
+/* Reserve the selector's full 250px hover envelope in its owning Improve shell.
+   Settings and the accepted workspace then share ordinary vertical document flow. */
+#improveShell.has-selection { display:block; overflow-y:auto; overflow-x:hidden; padding-top:74px; scrollbar-gutter:stable both-edges; scrollbar-width:thin; scrollbar-color:#4b4942 transparent; }
+#improveShell.has-selection > .wheel { position:absolute; top:74px; left:0; right:0; }
+#improveShell .improve-focus { display:none; }
+#improveShell.has-selection .improve-focus { position:relative; inset:auto; display:flex; flex-direction:column; gap:14px; width:calc(100% - 18px); margin:266px auto 32px; padding:0; }
+#improveShell .improve-build-card { position:relative; inset:auto; width:100%; margin:0; transform:none; flex:none; }
+.improve-settings { padding:14px 18px; flex:none; overflow-anchor:none; }
+.improve-settings-heading { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+.improve-settings-heading h2 { margin:0; font-family:var(--font-display); font-size:22px; font-weight:400; line-height:1.22; }
+.improve-settings-heading > span { color:#949ca8; font-size:10px; }
+.improve-settings-controls { display:flex; flex-wrap:wrap; align-items:flex-start; gap:12px 28px; }
+.improve-setting { flex:0 1 auto; width:max-content; max-width:380px; min-width:0; }
+.improve-setting-trigger { display:flex; align-items:center; gap:14px; width:max-content; max-width:100%; min-height:36px; padding:7px 10px; border:1px solid rgba(255,255,255,.13); border-radius:9px; background:rgba(255,255,255,.02); color:#b7bec8; cursor:pointer; font-size:12px; }
+.improve-setting-summary { font-weight:600; color:#ede5d4; white-space:nowrap; }
+.improve-setting-caret { color:#9d947e; transition:transform 320ms cubic-bezier(.16,.84,.24,1); }
+.improve-setting.is-expanded .improve-setting-caret { transform:rotate(180deg); }
+.improve-setting.is-expanded .improve-setting-trigger { border-color:rgba(216,177,82,.6); background:rgba(216,177,82,.07); }
+.improve-setting-expansion { display:grid; grid-template-rows:0fr; opacity:0; visibility:hidden; transition:grid-template-rows 320ms cubic-bezier(.16,.84,.24,1),opacity 160ms ease,visibility 0s 320ms; }
+.improve-setting.is-expanded .improve-setting-expansion { grid-template-rows:1fr; opacity:1; visibility:visible; transition-delay:0s; }
+.improve-setting-clip { min-height:0; overflow:hidden; }
+.improve-setting-options { padding:10px 1px 2px; }
+.improve-setting-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.improve-setting-choice { min-height:30px; padding:5px 9px; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:rgba(7,9,13,.55); color:#b7bec8; font-size:11px; cursor:pointer; }
+.improve-setting-choice[aria-pressed="true"] { border-color:rgba(216,177,82,.55); color:#e4d5b5; background:rgba(216,177,82,.08); }
+.improve-setting-choice:hover,.improve-setting-trigger:hover { border-color:rgba(216,177,82,.65); }
+.improve-setting-choice:focus-visible,.improve-setting-trigger:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
+.improve-setting-note { margin:0 0 8px; color:#949ca8; font-size:11px; line-height:1.45; }
+.improve-setting-chips + .improve-setting-note { margin-top:9px; }
+.improve-setting-options > :last-child { margin-bottom:0; }
+@media(prefers-reduced-motion:reduce) { .improve-setting-expansion { transition:opacity 100ms ease; } .improve-setting-caret { transition:none; } }

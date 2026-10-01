@@ -26,7 +26,7 @@ function gitBlobSha(buffer) {
 }
 
 function rankValues(skill, rankIndex) {
-  const values = skill?.params?.[rankIndex]?.ArrayString;
+  const values = skill?.params?.[rankIndex]?.arrayString;
   return Array.isArray(values) ? values : [];
 }
 
@@ -82,7 +82,7 @@ async function main() {
     if (/\bDMG\b/.test(description)) damageTextRecordCount += 1;
     if (/main slot/i.test(description)) mainSlotTextRecordCount += 1;
 
-    if (Array.isArray(echo?.skill?.params) && echo.skill.params.length === 5 && echo.skill.params.every((rank) => Array.isArray(rank?.ArrayString))) {
+    if (Array.isArray(echo?.skill?.params) && echo.skill.params.length === 5 && echo.skill.params.every((rank) => Array.isArray(rank?.arrayString))) {
       fiveRankParamRecordCount += 1;
     }
 
@@ -129,7 +129,7 @@ async function main() {
     }
   }
 
-  const expectedCooldownDistribution = new Map([[8, 69], [12, 1], [15, 56], [20, 43], [25, 12]]);
+  const expectedCooldownDistribution = new Map([[8, 71], [12, 1], [15, 57], [20, 46], [25, 12]]);
   for (const [seconds, expectedCount] of expectedCooldownDistribution) {
     assertEqual(cooldownDistribution.get(seconds) ?? 0, expectedCount, `${seconds}s Echo cooldown count`);
   }

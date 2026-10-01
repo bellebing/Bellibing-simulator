@@ -106,4 +106,46 @@ function toEffect(row: MainSlotSourceRow): EchoEffectModel {
   };
 }
 
-export const ECHO_MAIN_SLOT_EFFECT_MODELS: readonly EchoEffectModel[] = MAIN_SLOT_SOURCE_ROWS.map(toEffect);
+const V37_MAIN_SLOT_EFFECT_MODELS: readonly EchoEffectModel[] = [
+  {
+    effectId: 'ECHO_60002255_ELECTRO_DMG',
+    echoId: 'echo-60002255',
+    statOrEffect: 'Electro DMG Bonus',
+    value: 0.10,
+    activation: 'MAIN_SLOT_PASSIVE',
+    trigger: 'Reminiscence: Suhsin the Inevitable equipped in the main Echo slot',
+    durationSeconds: null,
+    appliesTo: 'WIELDER',
+    mechanicsStatus: 'VERIFIED_MODELED',
+    notes: 'Version 3.7 source-explicit permanent main-slot bonus. The separate Electro Flare/Unison conditional bonus remains pending its trigger-state adapter.',
+    provenance: {
+      sourceLabels: ['wuwabuild Echo skill structured bonus'],
+      sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data/Echoes.json'],
+      checkedAt: '2026-10-01',
+      notes: ['Pinned Version 3.7 upstream source commit 49222fe53b2bb2060f235152ee78ad332ea44c37.'],
+    },
+  },
+  {
+    effectId: 'ECHO_60002235_ENERGY_REGEN',
+    echoId: 'echo-60002235',
+    statOrEffect: 'Energy Regen',
+    value: 0.10,
+    activation: 'MAIN_SLOT_PASSIVE',
+    trigger: 'Formrender equipped in the main Echo slot',
+    durationSeconds: null,
+    appliesTo: 'WIELDER',
+    mechanicsStatus: 'VERIFIED_MODELED',
+    notes: 'Version 3.7 source-explicit permanent main-slot bonus.',
+    provenance: {
+      sourceLabels: ['wuwabuild Echo skill structured bonus'],
+      sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/49222fe53b2bb2060f235152ee78ad332ea44c37/public/Data/Echoes.json'],
+      checkedAt: '2026-10-01',
+      notes: ['Pinned Version 3.7 upstream source commit 49222fe53b2bb2060f235152ee78ad332ea44c37.'],
+    },
+  },
+];
+
+export const ECHO_MAIN_SLOT_EFFECT_MODELS: readonly EchoEffectModel[] = [
+  ...MAIN_SLOT_SOURCE_ROWS.map(toEffect),
+  ...V37_MAIN_SLOT_EFFECT_MODELS,
+];

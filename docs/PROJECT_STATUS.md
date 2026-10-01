@@ -1,5 +1,13 @@
 # Bellibing Simulator — Current Project Status
 
+## Character Build Card — first reusable read-only presentation
+
+The new `ui/character-build-card-pr218` slice starts from current draft PR218 head `c1709692cbf29d1d544216e7a6eeb06e2f276924`. `Add to Account` retains its existing ownership-promotion semantics and then reveals the newly added Character's build card. The same card can be reopened from Build after edits or reload. It reads the existing saved Character build, canonical Hero Art/Weapon/Echo identities, existing compact read-only Forte renderer and Build Stats projection; no second build model or card persistence is introduced. All five Echoes show their committed stats directly. Primary Stats remain fixed, while finite nonzero bonus rows appear/disappear with saved build changes.
+
+See [Character Build Card contract](UI_CHARACTER_BUILD_CARD.md) for the component API, state ownership and verification. The new real-Chrome gate covers account semantics, canonical presentation, live changes, zero/nonzero rows, five Echoes, multiple card instances, Character isolation, reload and 1440×900 / 1920×1080 / 2560×1440. Existing Improve, Echo Workspace, Team and gameplay/evaluation scope are preserved. Review screenshots use isolated canonical test builds.
+
+This is a **DRAFT / UNMERGED** slice awaiting user visual review. PR218's Verify #1711 is blocked by upstream Echo/Sonata raw coverage drift (six missing Echoes, three missing Sonatas and twelve changed mappings). That source reconciliation is outside this UI slice; the gate remains intact. The continuation PR records its exact head and current Verify result. No merge is authorized.
+
 ## PR216 Sequence static Build Stats / Chrome lifecycle stabilization checkpoint
 
 Draft PR #216 now also contains the reviewed **Sequence static Build Stats** projection. The review covers all **57 released Characters / 342 S1–S6 chains** and classifies exactly **20** Sequence levels as permanent/unconditional static Build-stat contributions, **322** as non-static mechanics, and **0** as pending review. Static facts are cumulative: selecting Sx applies reviewed static facts from **S1 through Sx exactly once**. Qingxiao S1 is explicitly reviewed as **+16% CRIT Rate** (sourceChainId 331). Conditional/duration/stack/target/team/skill-specific/combat-state mechanics remain outside Build Stats and fail closed. Sequence state remains Character-owned alongside Weapon, Echo and Forte state; Character switching and reload restore each Character's committed build independently.

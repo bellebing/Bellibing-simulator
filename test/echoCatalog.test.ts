@@ -5,11 +5,11 @@ import { ECHO_CATALOG_META } from '../src/data/echoCatalogMeta.ts';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 
-test('3.6 Echo snapshot has stable unique identities and expected catalog size', () => {
-  assert.equal(ECHO_CATALOG.length, 181);
+test('3.7 Echo snapshot has stable unique identities and expected catalog size', () => {
+  assert.equal(ECHO_CATALOG.length, 187);
   assert.equal(ECHO_CATALOG_META.echoCount, ECHO_CATALOG.length);
   assert.match(ECHO_CATALOG_META.sourceCommit, /^[0-9a-f]{40}$/);
-  assert.equal(ECHO_CATALOG_META.freshnessGate, 'Calamity Effigy');
+  assert.equal(ECHO_CATALOG_META.freshnessGate, 'Formrender');
 
   assert.equal(new Set(ECHO_CATALOG.map((echo) => echo.id)).size, ECHO_CATALOG.length);
   assert.equal(new Set(ECHO_CATALOG.map((echo) => echo.sourceId)).size, ECHO_CATALOG.length);
@@ -44,7 +44,7 @@ test('raw Echo records never contain build recommendations or modeled skill payl
 });
 
 test('all Echo Sonata references resolve to independent Sonata records', () => {
-  assert.equal(SONATA_CATALOG.length, 34);
+  assert.equal(SONATA_CATALOG.length, 37);
   assert.equal(ECHO_CATALOG_META.sonataCount, SONATA_CATALOG.length);
   assert.equal(new Set(SONATA_CATALOG.map((set) => set.id)).size, SONATA_CATALOG.length);
   assert.equal(new Set(SONATA_CATALOG.map((set) => set.sourceId)).size, SONATA_CATALOG.length);

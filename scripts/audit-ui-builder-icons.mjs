@@ -6,9 +6,10 @@ const ROOT = 'docs/ui-prototypes/assets/builder-icons';
 const MANIFEST = join(ROOT, 'manifest.json');
 const WUWABUILD_COMMIT = '5fa70b11f1d84fb644e4dbed47873708da0fe66f';
 const TOMY_COMMIT = '5b3d1d128ed3938cbb8e5260ba07b075b321a7c6';
+const WUWABUILD_V37_COMMIT = '49222fe53b2bb2060f235152ee78ad332ea44c37';
 const EXPECTED_FAMILIES = {
   element: 6,
-  sonata: 34,
+  sonata: 37,
   chain: 348,
   skill: 411,
   stat: 17,
@@ -96,12 +97,13 @@ const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
 if (manifest.schemaVersion !== 1 || manifest.role !== 'builder.icon-foundation') fail('manifest identity drift');
 if (manifest.sources?.wuwabuild?.commit !== WUWABUILD_COMMIT) fail('wuwabuild source pin drift');
 if (manifest.sources?.tomy?.commit !== TOMY_COMMIT || manifest.sources?.tomy?.branch !== '3.6') fail('Tomy source pin drift');
+if (manifest.sources?.wuwabuild37?.commit !== WUWABUILD_V37_COMMIT) fail('Version 3.7 wuwabuild source pin drift');
 if (manifest.policy?.transform !== 'NONE_BYTE_IDENTICAL_COPY') fail('asset transform policy drift');
 if (manifest.policy?.materials?.startsWith('PENDING_SOURCE_MAPPING') !== true) fail('materials must remain pending until source-mapped');
 if (JSON.stringify(manifest.policy?.excludedCharacters) !== JSON.stringify(['hsin', 'suoming'])) fail('pending Character exclusion drift');
 
 const summaryExpected = {
-  physicalAssets: 819,
+  physicalAssets: 822,
   upstreamCharacterRows: 62,
   logicalCharacterKits: 58,
   upstreamSkillReferences: 496,
@@ -112,7 +114,7 @@ const summaryExpected = {
   chainReferences: 348,
   chains: 348,
   elements: 6,
-  sonataSets: 34,
+  sonataSets: 37,
   statLabels: 20,
   stats: 17,
   echoCosts: 3,
@@ -121,7 +123,7 @@ for (const [key, value] of Object.entries(summaryExpected)) {
   if (manifest.summary?.[key] !== value) fail('summary drift for ' + key + ': ' + manifest.summary?.[key]);
 }
 
-if (!Array.isArray(manifest.assets) || manifest.assets.length !== 819) fail('expected 819 manifest assets');
+if (!Array.isArray(manifest.assets) || manifest.assets.length !== 822) fail('expected 822 manifest assets');
 const targetPaths = new Set();
 const familyCounts = {};
 const assetByTarget = new Map();
@@ -150,7 +152,7 @@ if (Object.keys(familyCounts).length !== Object.keys(EXPECTED_FAMILIES).length) 
 
 const actualAssetFiles = listFiles(ROOT).filter((path) => path !== MANIFEST).sort();
 const manifestAssetFiles = [...targetPaths].sort();
-if (actualAssetFiles.length !== 819) fail('physical file count drift: ' + actualAssetFiles.length);
+if (actualAssetFiles.length !== 822) fail('physical file count drift: ' + actualAssetFiles.length);
 if (JSON.stringify(actualAssetFiles) !== JSON.stringify(manifestAssetFiles)) fail('asset directory contains unmanifested or missing files');
 
 const canonicalCharacters = parseCharacters();
@@ -192,12 +194,14 @@ if (JSON.stringify(manifest.elements.map((row) => row.element).sort()) !== JSON.
 for (const row of manifest.elements) if (assetByTarget.get(row.targetPath)?.family !== 'element') fail('invalid element asset reference ' + row.element);
 
 const canonicalSonatas = parseSonatas();
-if (canonicalSonatas.length !== 34 || manifest.sonataSets?.length !== 34) fail('Sonata count drift');
+if (canonicalSonatas.length !== 37 || manifest.sonataSets?.length !== 37) fail('Sonata count drift');
 const canonicalSonataMap = new Map(canonicalSonatas.map((row) => [row.sourceId, row]));
 for (const row of manifest.sonataSets) {
   const canonical = canonicalSonataMap.get(row.sourceId);
   if (!canonical || canonical.id !== row.sonataId || canonical.name !== row.name) fail('Sonata identity drift for sourceId ' + row.sourceId);
-  if (assetByTarget.get(row.targetPath)?.family !== 'sonata') fail('invalid Sonata asset reference ' + row.sonataId);
+  const sonataAsset = assetByTarget.get(row.targetPath);
+  if (sonataAsset?.family !== 'sonata') fail('invalid Sonata asset reference ' + row.sonataId);
+  if (row.sourceId >= 36 ? sonataAsset.sourceKey !== 'wuwabuild37' : sonataAsset.sourceKey === 'wuwabuild37') fail('Sonata source generation drift for ' + row.sonataId);
 }
 
 if (!Array.isArray(manifest.stats) || manifest.stats.length !== 20) fail('stat label count drift');

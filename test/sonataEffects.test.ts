@@ -13,17 +13,17 @@ const registry = createSonataEffectRegistry(SONATA_EFFECT_MODELS);
 
 test('Sonata effect source coverage is roster-wide and fail-closed', () => {
   const summary = auditSonataEffectCoverage();
-  assert.equal(summary.releasedSonataCount, 34);
-  assert.equal(summary.reviewedActivationCount, 62);
-  assert.equal(summary.modeledEffectCount, 86);
+  assert.equal(summary.releasedSonataCount, 37);
+  assert.equal(summary.reviewedActivationCount, 68);
+  assert.equal(summary.modeledEffectCount, 95);
   assert.deepEqual(summary.statusCounts, {
-    MODELED: 58,
+    MODELED: 63,
     SOURCE_CONFLICT: 2,
     MODELED_WITH_PENDING_DAMAGE_ADAPTER: 1,
-    MODELED_WITH_PENDING_STATE_ADAPTER: 1,
+    MODELED_WITH_PENDING_STATE_ADAPTER: 2,
   });
-  assert.equal(new Set(SONATA_EFFECT_MODELS.map((row) => row.sonataSetId)).size, 34);
-  assert.equal(registry.byId.size, 86);
+  assert.equal(new Set(SONATA_EFFECT_MODELS.map((row) => row.sonataSetId)).size, 37);
+  assert.equal(registry.byId.size, 95);
 });
 
 test('source-conflicted activations stay unmodeled instead of receiving guessed values', () => {

@@ -243,8 +243,8 @@ async function verifyDesktop(send) {
 
   await pointerClick(send, '.echo[data-echo-slot="0"]');
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
-  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===181&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
-  await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===34&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===187&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
+  await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===37&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
 
   const opened = await evaluate(send, `(()=>{
     const slots=[...document.querySelectorAll('#echoWorkspaceSlots .echo-workspace-slot')];
@@ -359,10 +359,12 @@ async function verifyDesktop(send) {
     const other=[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(read);
     const all=[...document.querySelectorAll('#echoSonataOptions [data-sonata-id]')].map(read);
     const expectedIds=[...echoSonataById.keys()].sort(),actualIds=all.map(x=>x.id);
+    const recommendedIds=new Set(['sonata-20','sonata-3']);
+    const expectedOtherCount=[...echoSonataById.keys()].filter(id=>!recommendedIds.has(id)).length;
     const alphabetical=[...other].sort((a,b)=>a.name.localeCompare(b.name,'en')||a.id.localeCompare(b.id,'en')).map(x=>x.id);
     const descending=rows=>rows.every((row,index)=>index===0||rows[index-1].sourceId>row.sourceId);
     return{
-      recommended,other,
+      recommended,other,expectedOtherCount,
       order:[...document.querySelectorAll('#echoSonataOptions>.echo-sonata-group')].map(x=>x.dataset.sonataGroup),
       recommendedDescending:descending(recommended),
       otherDescending:descending(other),
@@ -375,7 +377,7 @@ async function verifyDesktop(send) {
       {id:'sonata-20',name:'Crown of Valor',star:'★'},
       {id:'sonata-3',name:'Void Thunder',star:'★'},
     ])
-    || groups.other.length !== 32
+    || groups.other.length !== groups.expectedOtherCount
     || groups.recommended.some(x=>!x.starRight)
     || groups.other.some(x=>x.star!==null)
     || !groups.recommendedDescending
@@ -703,11 +705,12 @@ async function verifyDesktop(send) {
     recommendedGroups:document.querySelectorAll('[data-sonata-group="recommended"]').length,
     otherGroups:document.querySelectorAll('[data-sonata-group="other"]').length,
     stars:document.querySelectorAll('.echo-sonata-option-star').length,
+    expectedOtherCount:echoSonataById.size,
     other:[...document.querySelectorAll('[data-sonata-group="other"] [data-sonata-id]')].map(x=>({id:x.dataset.sonataId,sourceId:echoSonataById.get(x.dataset.sonataId)?.sourceId??null})),
     summary:document.getElementById('echoSonataSummary').textContent.trim()
   }))()`);
   const fallbackNewestFirst=fallback.other.every((row,index)=>index===0||fallback.other[index-1].sourceId>row.sourceId);
-  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.stars!==0||fallback.other.length!==34||!fallbackNewestFirst||fallback.summary!=='All Sonata Sets') {
+  if (fallback.profile!==null||fallback.filter!=='all'||fallback.selected.length||fallback.costs.some(x=>x!=='COST —')||fallback.recommendedGroups!==0||fallback.otherGroups!==1||fallback.stars!==0||fallback.other.length!==fallback.expectedOtherCount||!fallbackNewestFirst||fallback.summary!=='All Sonata Sets') {
     throw new Error(`Aalto received invented Echo recommendations: ${JSON.stringify(fallback)}`);
   }
   const aaltId=await evaluate(send, `document.querySelector('#echoChoices .echo-choice:not([hidden])')?.dataset.echoId`);

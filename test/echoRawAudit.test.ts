@@ -9,15 +9,15 @@ import { ECHO_CATALOG_META } from '../src/data/echoCatalogMeta.ts';
 import { ECHO_CATALOG } from '../src/data/echoes.ts';
 import { SONATA_CATALOG } from '../src/data/sonatas.ts';
 
-test('Version 3.6 Echo/Sonata raw roster is fully current with no source conflicts', () => {
+test('Version 3.7 Echo/Sonata raw roster is fully current with no source conflicts', () => {
   const audit = auditEchoRawRoster();
 
-  assert.equal(audit.echoCatalogCount, 181);
-  assert.equal(audit.releasedEchoCount, 181);
-  assert.equal(audit.sonataCatalogCount, 34);
-  assert.equal(audit.releasedSonataCount, 34);
-  assert.equal(audit.verifiedCurrentEchoCount, 181);
-  assert.equal(audit.verifiedCurrentSonataCount, 34);
+  assert.equal(audit.echoCatalogCount, 187);
+  assert.equal(audit.releasedEchoCount, 187);
+  assert.equal(audit.sonataCatalogCount, 37);
+  assert.equal(audit.releasedSonataCount, 37);
+  assert.equal(audit.verifiedCurrentEchoCount, 187);
+  assert.equal(audit.verifiedCurrentSonataCount, 37);
   assert.equal(audit.sourceConflictCount, 0);
   assert.deepEqual(audit.issues, []);
 });
@@ -71,7 +71,7 @@ test('registered source conflicts are explicit and cannot count as VERIFIED_CURR
   const audit = auditEchoRawRoster(ECHO_CATALOG, SONATA_CATALOG, ECHO_CATALOG_META, review);
 
   assert.equal(audit.sourceConflictCount, 1);
-  assert.equal(audit.verifiedCurrentEchoCount, 180);
+  assert.equal(audit.verifiedCurrentEchoCount, 186);
   assert.equal(audit.issues.some((issue) => issue.code === 'SOURCE_CONFLICT_MARKED_VERIFIED'), false);
 
   const falselyVerified = ECHO_CATALOG.map((echo) => echo.id === conflict.recordId

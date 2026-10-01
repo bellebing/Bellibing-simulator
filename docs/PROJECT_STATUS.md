@@ -2,6 +2,14 @@
 
 ## Draft Character Mechanics INHERENT_PASSIVES roster completion — stacked on PR #222
 
+### Cartethyia Windstrings compatibility checkpoint
+
+PR #223 preserves the source-normalized canonical Cartethyia Inherent Skill fact and fixes the downstream Rover Windstrings consumer contract that still matched an older Bellibing paraphrase. The canonical fact remains source-backed by pinned Skills/Forte move `1003504` (`A Heart's Truest Wishes`): when Rover: Aero is in the team, casting `Omega Storm` restores exactly **25 Windstrings**.
+
+The compatibility boundary is now explicit and fail-closed. `cartethyiaWindstringsSourceContract.ts` owns the reviewed canonical projection plus pinned source identity/provenance, while `readCartethyiaWindstringsGain()` validates that exact contract instead of regex-parsing stale prose. Wrong Character/fact/name/section/scope/semantic text/provenance/source identity still rejects; the existing Rover nominal-gain primitive, team proof, readiness and gameplay values are unchanged.
+
+Functional checkpoint `f42d89f1b67390f3b00767cc1c581f076aac011e` passed Verify **#1749 / run 36890291321** with the dedicated Cartethyia/Rover Windstrings regression, **1197/1197 full tests**, strict web build, full browser regression, visual-artifact upload and whitespace gate all green. INHERENT_PASSIVES remains **57 RELEASED / 57 VERIFIED / 0 PARTIAL / 0 BLOCKED**; ACTIONS remains **55 VERIFIED / 0 PARTIAL / 2 BLOCKED**, FORTE_RULES remains **55 VERIFIED / 0 PARTIAL / 2 BLOCKED**, and full Character Mechanics remains **54/57 VERIFIED**. No new Character Mechanics area, DPS readiness, Team or recommendation behavior is introduced.
+
 This slice is stacked on the exact current head of still-open draft PR #222, `0c9061728a64630997c8b12ae14267be093b89c3`; it does not bypass the FORTE_RULES lineage. Scope is **INHERENT_PASSIVES only**. The existing Character Mechanics architecture and pinned Skills/Forte payload are reused; ACTIONS and FORTE_RULES behavior are regression-locked unchanged.
 
 The pinned Skills/Forte payload contains exactly **114 Inherent Skill rows** across **57 RELEASED Characters** — exactly two per Character. The canonical roster-wide INHERENT_PASSIVES audit requires those two source names to be linked by each Character profile as source-`VERIFIED` `PASSIVE` facts in `INHERENT_SKILL`. Buling, Danjin and Xiangli Yao receive the six missing canonical facts with exact source-backed triggers, values and conditions; underspecified runtime semantics remain `PENDING_INTERPRETATION` instead of being inferred.

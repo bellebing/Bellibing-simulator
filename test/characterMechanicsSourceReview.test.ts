@@ -13,8 +13,8 @@ test('roster-wide Character Mechanics source review distinguishes verified, sour
 
   assert.equal(coverage.releasedCount, 57);
   assert.equal(coverage.verifiedCharacterIds.length, 54);
-  assert.deepEqual(coverage.partialCharacterIds, []);
-  assert.deepEqual(coverage.unstartedCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
+  assert.deepEqual(coverage.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
+  assert.deepEqual(coverage.unstartedCharacterIds, []);
   assert.equal(review.verifiedCharacterIds.length, 54);
   assert.deepEqual(review.sourceBlockedCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.deepEqual(review.unreviewedCharacterIds, []);

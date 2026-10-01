@@ -59,7 +59,7 @@ export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSou
 
 export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceReviewAudit {
   const coverage = auditCharacterMechanicsCoverage();
-  const missingProfileIds = new Set(coverage.unstartedCharacterIds);
+  const unresolvedCharacterIds = new Set([...coverage.partialCharacterIds, ...coverage.unstartedCharacterIds]);
   const blockerIds = new Set<string>();
   const issues: string[] = [];
 
@@ -70,8 +70,8 @@ export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceR
     }
     blockerIds.add(blocker.characterId);
 
-    if (!missingProfileIds.has(blocker.characterId)) {
-      issues.push(`source blocker ${blocker.characterId} does not correspond to a released character without a canonical mechanics profile`);
+    if (!unresolvedCharacterIds.has(blocker.characterId)) {
+      issues.push(`source blocker ${blocker.characterId} does not correspond to a released Character with unresolved full mechanics coverage`);
     }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(blocker.checkedAt)) {
       issues.push(`source blocker ${blocker.characterId} has invalid checkedAt`);
@@ -88,9 +88,9 @@ export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceR
   }
 
   const sourceBlockedCharacterIds = [...blockerIds]
-    .filter((characterId) => missingProfileIds.has(characterId))
+    .filter((characterId) => unresolvedCharacterIds.has(characterId))
     .sort();
-  const unreviewedCharacterIds = coverage.unstartedCharacterIds
+  const unreviewedCharacterIds = [...coverage.partialCharacterIds, ...coverage.unstartedCharacterIds]
     .filter((characterId) => !blockerIds.has(characterId))
     .sort();
 
@@ -99,8 +99,7 @@ export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceR
     sourceBlockedCharacterIds,
     unreviewedCharacterIds,
     sourceReviewComplete:
-      coverage.partialCharacterIds.length === 0
-      && unreviewedCharacterIds.length === 0
+      unreviewedCharacterIds.length === 0
       && issues.length === 0,
     issues,
   };

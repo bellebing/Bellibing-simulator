@@ -113,7 +113,7 @@ test('Hiyuki keeps Glacio Bite and the Snowforged modifier out of Character ACTI
   assert.match(modifier.effectSummary, /not standalone damage/i);
   const bite = factById(HIYUKI_PASSIVE_FACTS, 'hiyuki-forte-glacio-bite-and-fine-snow');
   assert.equal(bite.modelingStatus, 'PENDING_INTERPRETATION');
-  assert.match(bite.effectSummary, /Negative-Status\/system damage mechanic/i);
+  assert.match(bite.effectSummary, /Negative-Status\/system damage/i);
   assert.deepEqual(HIYUKI_RESOURCE_FACTS.map((fact) => [fact.resourceName, fact.maxValue]), [
     ['Dedication', 300],
     ['Frostheart', 300],
@@ -182,13 +182,13 @@ test('tenth-batch Tune Break facts remain at the shared-system boundary', () => 
   }
 });
 
-test('tenth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 0 unstarted / 1932 facts', () => {
+test('tenth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 0 unstarted / 1938 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
   assert.equal(audit.profileCount, 57);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 0);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1932);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['denia', 'hiyuki', 'qingxiao', 'rover-aero', 'yangyang-xuanling']) {

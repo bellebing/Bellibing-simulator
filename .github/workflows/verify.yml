@@ -72,6 +72,9 @@ jobs:
       - name: Sequence source presentation focused tests
         run: node --experimental-strip-types --test test/characterSequenceUi.test.ts test/characterBuilderAssets.test.ts
 
+      - name: Cartethyia / Rover Windstrings focused regression
+        run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
+
       - name: Tests
         run: npm test
 

@@ -37,7 +37,9 @@
     "report:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts",
     "audit:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts --check",
     "report:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts",
-    "audit:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts --check"
+    "audit:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts --check",
+    "report:character-outro-effects": "node --experimental-strip-types scripts/report-character-outro-effects.ts",
+    "audit:character-outro-effects": "node --experimental-strip-types scripts/report-character-outro-effects.ts --check"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

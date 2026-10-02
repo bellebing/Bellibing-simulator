@@ -98,7 +98,7 @@ test('INHERENT_PASSIVES completion does not change ACTIONS or FORTE_RULES covera
   ]);
 });
 
-test('the three partial full mechanics profiles stay partial while only INHERENT_PASSIVES advances', () => {
+test('the three partial full mechanics profiles stay partial while INHERENT_PASSIVES and OUTRO_EFFECT are verified', () => {
   const expected = {
     buling: { actions: 'PARTIAL', forte: 'PARTIAL' },
     danjin: { actions: 'VERIFIED', forte: 'PARTIAL' },
@@ -111,7 +111,7 @@ test('the three partial full mechanics profiles stay partial while only INHERENT
     assert.equal(profile?.coverage.find((entry) => entry.area === 'ACTIONS')?.status, states.actions);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, states.forte);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'PENDING');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'PENDING');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'PENDING');
   }

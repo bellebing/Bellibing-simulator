@@ -1,5 +1,28 @@
 # Bellibing Simulator — Current Project Status
 
+## Character Mechanics OUTRO_EFFECT roster completion — Draft PR #225
+
+PR #225 is the isolated **OUTRO_EFFECT-only** continuation from canonical `main` `b2c160333c4391988f02ae01fab5309791e47bd4`. The branch was created directly from current main and does not stack on, modify or depend on independent draft PR #224 / Improve Simple Settings.
+
+The existing 54 fully verified Character Mechanics profiles remain unchanged. Only Buling, Danjin and Xiangli Yao receive the missing released-roster Outro evidence through the existing Character `PASSIVE` / `ACTION` fact architecture and the already-pinned Skills/Forte source chain:
+
+- **Buling — Exorcism Spell:** source-VERIFIED `PASSIVE`; heals the active team Resonator by **18% of Buling's ATK per second for 16s** and Amplifies all nearby team Resonators' DMG by **15% for 30s**. The split source durations remain explicit; no stack/refresh/switch behavior is inferred.
+- **Danjin — Duality:** source-VERIFIED `PASSIVE`; the incoming Resonator has Havoc DMG Amplified by **23% for 14s or until switched out**. No unstated stacking or refresh semantics are added.
+- **Xiangli Yao — Chain Rule:** OUTRO_EFFECT reuses the already-completed ACTIONS fact `xiangli-yao-outro-chain-rule` **unchanged** for Character-owned `OUTRO` damage, `ATK` scaling and the exact source-fixed **237.63% ATK** per-trigger coefficient. A separate raw `PASSIVE` fact records the source-explicit **8s** trigger window, **once every 2s**, **up to 3 triggers** on the first target hit by the incoming Resonator's Basic Attack. Bellibing does not pre-expand that cadence into assumed runtime hits or timing.
+
+Deterministic RELEASED-roster OUTRO_EFFECT coverage is now **57 total / 57 VERIFIED / 0 PARTIAL / 0 BLOCKED**, matching exactly **57 pinned source Outro Skill rows**. No new OUTRO source blocker was discovered.
+
+Existing independent source blockers remain unchanged and fail-closed:
+
+- ACTIONS: **55 VERIFIED / 0 PARTIAL / 2 BLOCKED** — `ACTIONS-BULING-1307031-DAMAGE-CLASS` and `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS`.
+- FORTE_RULES: **55 VERIFIED / 0 PARTIAL / 2 BLOCKED** — `FORTE-BULING-1307031-DAMAGE-CLASS` and `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD`.
+- INHERENT_PASSIVES: **57 VERIFIED / 0 PARTIAL / 0 BLOCKED**.
+- Full Character Mechanics: still **54/57 VERIFIED**. Buling, Danjin and Xiangli Yao remain `PARTIALLY_VERIFIED`; **RESOURCE_RULES and SEQUENCES were not started and remain PENDING**.
+
+This slice changes raw Character Mechanics source coverage only. It adds no runtime adapter and changes no combat/DPS result, profile readiness, team readiness, Character/Echo recommendation, Build Stats, UI, account/build state or candidate evaluation. **PR #224 / Improve Simple Settings files, PROFILE_REGISTRY / StatTargetProfile data and settings/profile behavior are untouched.**
+
+See [Character Mechanics OUTRO_EFFECT Coverage](CHARACTER_OUTRO_EFFECT_COVERAGE.md). Exact final PR head and Verify evidence belong in the external AI Handoff after the final workflow succeeds.
+
 ## Character Mechanics INHERENT_PASSIVES closeout — PR #223
 
 PR #222 is **MERGED / CLOSED** on canonical `main` as `eaaa4b0f4b5942ee6392cb72d5e95386305399ae`, from reviewed FORTE_RULES head `0c9061728a64630997c8b12ae14267be093b89c3`. PR #223 is the current **INHERENT_PASSIVES closeout** on top of that merged baseline. It does not duplicate or replace the already-integrated ACTIONS/FORTE_RULES work.

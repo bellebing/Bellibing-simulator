@@ -14,7 +14,7 @@ const FINAL_FOUR = ['lucy', 'luuk-herssen', 'rebecca', 'zani'] as const;
 test('final four source-reviewed profiles remain clean while three source-blocked profiles stay partial', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1941);
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.deepEqual(audit.unstartedCharacterIds, []);

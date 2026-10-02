@@ -2,8 +2,8 @@ import type {
   CharacterMechanicFact,
   CharacterMechanicsProfile,
   CharacterPassiveFact,
-  ContentProvenance,
 } from '../../characterMechanicsDomain.ts';
+import type { ContentProvenance } from '../../contentRegistry.ts';
 import {
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
@@ -77,6 +77,29 @@ export const DANJIN_OUTRO_EFFECT_FACTS: readonly CharacterPassiveFact[] = [
   }),
 ] as const;
 
+export const XIANGLI_YAO_OUTRO_EFFECT_FACTS: readonly CharacterPassiveFact[] = [
+  passive({
+    factId: 'xiangli-yao-outro-chain-rule-trigger-window',
+    characterId: 'xiangli-yao',
+    kind: 'PASSIVE',
+    name: 'Outro Skill — Chain Rule',
+    section: 'OUTRO_SKILL',
+    verificationStatus: 'VERIFIED',
+    modelingStatus: 'PENDING_INTERPRETATION',
+    conditional: true,
+    provenance: XIANGLI_YAO_OUTRO_PROVENANCE,
+    scope: 'TARGET',
+    triggerSummary: "During Chain Rule's 8s window, the incoming Resonator's Basic Attack hits its first target.",
+    effectSummary: "Xiangli Yao calls down a laser beam on that area, dealing Electro DMG equal to 237.63% of Xiangli Yao's ATK. The effect can trigger once every 2s, up to 3 times.",
+    durationSeconds: 8,
+    maxStacks: null,
+    notes: [
+      'Source move 1002309. The 8s duration, once-every-2s cadence and up-to-3 trigger limit are source-explicit. Up to 3 triggers is not represented as maxStacks.',
+      'The Character-owned damage coefficient/classification remains represented by the pre-existing VERIFIED ACTION fact xiangli-yao-outro-chain-rule from the completed ACTIONS area; this OUTRO_EFFECT slice does not modify that fact.',
+    ],
+  }),
+] as const;
+
 export interface CharacterOutroEffectSourceBlocker {
   blockerId: string;
   characterId: string;
@@ -128,7 +151,7 @@ export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEf
 
 export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
   XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
-  [],
+  XIANGLI_YAO_OUTRO_EFFECT_FACTS,
   XIANGLI_YAO_OUTRO_PROVENANCE,
   'Chain Rule already exists as the source-VERIFIED Character-owned OUTRO ACTION from the completed ACTIONS area: exact 237.63% ATK per-trigger coefficient plus source-explicit 8s / once-per-2s / up-to-3 trigger semantics. OUTRO_EFFECT reuses that fact unchanged. The independent Pivot — Impale ACTIONS blocker remains unchanged.',
 );
@@ -136,6 +159,7 @@ export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOu
 export const ROSTER_OUTRO_COMPLETION_FACTS: readonly CharacterMechanicFact[] = [
   ...BULING_OUTRO_EFFECT_FACTS,
   ...DANJIN_OUTRO_EFFECT_FACTS,
+  ...XIANGLI_YAO_OUTRO_EFFECT_FACTS,
 ] as const;
 
 export const ROSTER_OUTRO_COMPLETION_PROFILES: readonly CharacterMechanicsProfile[] = [

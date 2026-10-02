@@ -38,4 +38,6 @@ The accepted Improve card, Dynamic Live Build Helper, Current/New Stats, five eq
 - The headless launcher declares desktop pointer capabilities, matching [Playwright's Chromium launch configuration](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/chromium/chromium.ts). The test asserts `(hover:hover)` and `(pointer:fine)` before physical mouse input; activation failures and geometry failures have separate diagnostics.
 - Full Verify and Export use the exact PR head. Functional review uses the built `bellibing-web-dist` artifact: extract it and run `START_UI_PREVIEW.bat`. Its PowerShell server serves directory indexes and `.mjs` modules. `review-build.json` identifies the head and dirty state. Rawcdn source HTML and the seeded layout query do not establish functional account-flow acceptance. Exact remote head/run/result belongs on the draft PR and external AI Handoff.
 
-Stop for user visual review. No merge is authorized.
+The repaired implementation passed [full Verify #1758](https://github.com/bellebing/Bellibing-simulator/actions/runs/36964129738) and [Export #1480](https://github.com/bellebing/Bellibing-simulator/actions/runs/36964129740), including 1203/1203 tests, strict build and every browser gate. The draft PR records the final documentation head and its checks.
+
+Stop for user review. No merge is authorized.

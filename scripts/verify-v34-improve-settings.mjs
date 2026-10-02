@@ -29,7 +29,8 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`(()=>{const box=s=>document.querySelector(s).getBoundingClientRect(),settings=box('#improveSettings'),card=box('#improveBuildCard');return settings.top<card.top&&Math.abs(settings.left-card.left)<1&&Math.abs(settings.width-card.width)<1&&settings.height<120&&[...document.querySelectorAll('.improve-setting-trigger')].every(node=>node.getBoundingClientRect().width<240)&&settings.width<=1280&&document.documentElement.scrollWidth===innerWidth})()`, 'collapsed geometry at ' + width);
     const wheel = await read('document.querySelector("#improveWheel .choice").getBoundingClientRect().toJSON()');
     await send('Input.dispatchMouseEvent', { type:'mouseMoved', x:wheel.x+wheel.width/2, y:wheel.y+wheel.height/2 }); await sleep(850);
-    await check(`document.getElementById('improveShell').classList.contains('hover-expanded')&&[...document.querySelectorAll('#improveWheel .choice')].every(node=>node.getBoundingClientRect().bottom+8<=document.getElementById('improveSettings').getBoundingClientRect().top)`, 'hover selector collision at ' + width);
+    await check(`document.getElementById('improveShell').classList.contains('hover-expanded')`, 'physical hover did not activate at ' + width);
+    await check(`[...document.querySelectorAll('#improveWheel .choice')].every(node=>node.getBoundingClientRect().bottom+8<=document.getElementById('improveSettings').getBoundingClientRect().top)`, 'hover selector collision at ' + width);
     await capture(send, `artifacts/ui-preview-improve-settings-hover-${width}x${height}.png`); await settle();
     const top = await read('document.getElementById("improveBuildCard").getBoundingClientRect().top');
     await click(trigger('gate')); await sleep(380);

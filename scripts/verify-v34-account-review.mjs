@@ -20,6 +20,7 @@ export async function verifyAccountReview({socket,send,evaluate,navigate,setView
   await send('Fetch.enable',{patterns:[{urlPattern:'*characters/portraits/manifest.json',requestStage:'Request'}]});
   try{
     await navigate(send);
+    await check('matchMedia("(hover:hover)").matches&&matchMedia("(pointer:fine)").matches','Chrome must expose a desktop mouse for physical hover checks');
     await check('localStorage.length===0&&state.characters.length===0','profile must begin empty');
     await open('improve');
     await check('document.querySelector("#improveShell .question").textContent==="No Characters yet"&&document.querySelectorAll("#improveWheel .choice").length===0','empty Improve account');
@@ -56,7 +57,7 @@ export async function verifyAccountReview({socket,send,evaluate,navigate,setView
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:20,y:height-40});await sleep(850);
     const box=await read('document.querySelector("#improveWheel [data-character-id=augusta]").getBoundingClientRect().toJSON()');
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:box.x+box.width/2,y:box.y+box.height/2});
-    await wait('document.getElementById("improveShell").classList.contains("hover-expanded")','physical hover expansion');
+    await wait('document.getElementById("improveShell").classList.contains("hover-expanded")','physical hover expansion at '+width+' '+JSON.stringify(await read('({hover:matchMedia("(hover:hover)").matches,hit:document.elementFromPoint('+ (box.x+box.width/2) +','+ (box.y+box.height/2) +')?.outerHTML.slice(0,200),shell:document.getElementById("improveShell").className})')));
     await sleep(850);
     await check('getComputedStyle(document.querySelector("#improveWheel .choice")).width==="160px"&&getComputedStyle(document.querySelector("#improveWheel .choice")).height==="210px"','accepted hover card dimensions');
     await capture(send,`artifacts/ui-preview-account-review-${width}x${height}.png`);

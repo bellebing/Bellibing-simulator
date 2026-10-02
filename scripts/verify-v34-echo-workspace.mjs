@@ -878,6 +878,10 @@ async function verifySonataComposition(send){
 
 const chrome = spawn(CHROME, [
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
+  // Headless Linux has no physical pointing device. Declare the desktop mouse
+  // capabilities (as Playwright's Chromium launcher does), then send real CDP
+  // mouse events. Do not force app classes or replace matchMedia in the page.
+  '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
   `--remote-debugging-port=${DEBUG_PORT}`, '--remote-debugging-address=127.0.0.1',
   '--user-data-dir='+join(tmpdir(),'bellibing-v34-echo-workspace-'+process.pid), 'about:blank',
 ], { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });

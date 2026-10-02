@@ -125,7 +125,10 @@ test('new Outro facts preserve ownership, section, source kind and source-explic
     assert.equal(xiangli.motionValueComponents ?? null, null);
     assert.equal(xiangli.sourceFixedMotionValueComponents ?? null, null);
     assert.equal(xiangli.sourceFixedFlatDamage ?? null, null);
-    assert.match(xiangli.notes?.join(' ') ?? '', /8s.*once every 2s.*up to 3/i);
+    const xiangliNotes = xiangli.notes?.join(' ') ?? '';
+    assert.match(xiangliNotes, /\b8s\b/i);
+    assert.match(xiangliNotes, /once every 2s/i);
+    assert.match(xiangliNotes, /up to 3/i);
   }
 });
 

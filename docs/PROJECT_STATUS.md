@@ -8,7 +8,7 @@ The existing 54 fully verified Character Mechanics profiles remain unchanged. On
 
 - **Buling — Exorcism Spell:** source-VERIFIED `PASSIVE`; heals the active team Resonator by **18% of Buling's ATK per second for 16s** and Amplifies all nearby team Resonators' DMG by **15% for 30s**. The split source durations remain explicit; no stack/refresh/switch behavior is inferred.
 - **Danjin — Duality:** source-VERIFIED `PASSIVE`; the incoming Resonator has Havoc DMG Amplified by **23% for 14s or until switched out**. No unstated stacking or refresh semantics are added.
-- **Xiangli Yao — Chain Rule:** source-VERIFIED Character-owned `ACTION` with `damageClass: 'OUTRO'`, `scalingStat: 'ATK'` and exact source-fixed **237.63% ATK** per-trigger representation. The pinned source explicitly gives an **8s** window, **once every 2s**, **up to 3 triggers** on the first target hit by the incoming Resonator's Basic Attack. Bellibing does not pre-expand that into assumed runtime hits or timing.
+- **Xiangli Yao — Chain Rule:** OUTRO_EFFECT reuses the already-completed ACTIONS fact `xiangli-yao-outro-chain-rule` **unchanged** for Character-owned `OUTRO` damage, `ATK` scaling and the exact source-fixed **237.63% ATK** per-trigger coefficient. A separate raw `PASSIVE` fact records the source-explicit **8s** trigger window, **once every 2s**, **up to 3 triggers** on the first target hit by the incoming Resonator's Basic Attack. Bellibing does not pre-expand that cadence into assumed runtime hits or timing.
 
 Deterministic RELEASED-roster OUTRO_EFFECT coverage is now **57 total / 57 VERIFIED / 0 PARTIAL / 0 BLOCKED**, matching exactly **57 pinned source Outro Skill rows**. No new OUTRO source blocker was discovered.
 

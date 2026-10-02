@@ -1,8 +1,8 @@
 import type {
-  CharacterActionFact,
   CharacterMechanicFact,
   CharacterMechanicsProfile,
   CharacterPassiveFact,
+  ContentProvenance,
 } from '../../characterMechanicsDomain.ts';
 import {
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
@@ -34,10 +34,6 @@ export const DANJIN_OUTRO_PROVENANCE = outroProvenance('Danjin');
 export const XIANGLI_YAO_OUTRO_PROVENANCE = outroProvenance('Xiangli Yao');
 
 function passive(input: CharacterPassiveFact): CharacterPassiveFact {
-  return input;
-}
-
-function action(input: CharacterActionFact): CharacterActionFact {
   return input;
 }
 
@@ -81,33 +77,6 @@ export const DANJIN_OUTRO_EFFECT_FACTS: readonly CharacterPassiveFact[] = [
   }),
 ] as const;
 
-export const XIANGLI_YAO_OUTRO_EFFECT_FACTS: readonly CharacterActionFact[] = [
-  action({
-    factId: 'xiangli-yao-outro-chain-rule',
-    characterId: 'xiangli-yao',
-    kind: 'ACTION',
-    name: 'Outro Skill — Chain Rule',
-    section: 'OUTRO_SKILL',
-    verificationStatus: 'VERIFIED',
-    modelingStatus: 'PENDING_INTERPRETATION',
-    conditional: true,
-    provenance: XIANGLI_YAO_OUTRO_PROVENANCE,
-    actionKind: 'OUTRO',
-    actionRole: 'DAMAGE',
-    damageClass: 'OUTRO',
-    scalingStat: 'ATK',
-    motionValue: null,
-    motionValueContext: 'Current pinned source-fixed Outro coefficient declared directly in kit text; no Lv1-Lv10 table exists for Chain Rule.',
-    sourceFixedMotionValue: 2.3763,
-    hitCount: 1,
-    notes: [
-      "Source move 1002309. The pinned Outro row states that the first target hit by the incoming Resonator's Basic Attack calls down a laser beam dealing area Electro DMG equal to 237.63% of Xiangli Yao's ATK.",
-      'The trigger window lasts 8s, can trigger once every 2s and can trigger up to 3 times. The raw action keeps 237.63% as the per-trigger source coefficient and does not pre-expand it into three hits or invent runtime event timing.',
-      "The incoming Resonator's Basic Attack is the trigger, not the damage classification of Xiangli Yao's Character-owned Outro hit; the source row itself is the canonical Outro Skill damage source.",
-    ],
-  }),
-] as const;
-
 export interface CharacterOutroEffectSourceBlocker {
   blockerId: string;
   characterId: string;
@@ -120,7 +89,8 @@ export const CHARACTER_OUTRO_EFFECT_SOURCE_BLOCKERS: readonly CharacterOutroEffe
 
 function withVerifiedOutroEffect(
   base: CharacterMechanicsProfile,
-  facts: readonly CharacterMechanicFact[],
+  newFacts: readonly CharacterMechanicFact[],
+  provenance: ContentProvenance,
   notes: string,
 ): CharacterMechanicsProfile {
   return {
@@ -128,11 +98,11 @@ function withVerifiedOutroEffect(
     coverage: base.coverage.map((entry) => entry.area === 'OUTRO_EFFECT'
       ? { area: 'OUTRO_EFFECT', status: 'VERIFIED', notes }
       : entry),
-    factIds: [...base.factIds, ...facts.map((fact) => fact.factId)],
+    factIds: [...base.factIds, ...newFacts.map((fact) => fact.factId)],
     provenance: {
       ...base.provenance,
-      sourceLabels: [...new Set([...base.provenance.sourceLabels, ...facts[0].provenance.sourceLabels])],
-      sourceUrls: [...new Set([...(base.provenance.sourceUrls ?? []), ...(facts[0].provenance.sourceUrls ?? [])])],
+      sourceLabels: [...new Set([...base.provenance.sourceLabels, ...provenance.sourceLabels])],
+      sourceUrls: [...new Set([...(base.provenance.sourceUrls ?? []), ...(provenance.sourceUrls ?? [])])],
       checkedAt: CHECKED_AT,
       notes: [
         ...(base.provenance.notes ?? []),
@@ -145,25 +115,27 @@ function withVerifiedOutroEffect(
 export const BULING_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   BULING_OUTRO_EFFECT_FACTS,
+  BULING_OUTRO_PROVENANCE,
   'Exorcism Spell healing and team DMG Amplification are source-mapped with their explicit 16s/30s windows. Existing ACTIONS/FORTE blockers remain unchanged.',
 );
 
 export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   DANJIN_OUTRO_EFFECT_FACTS,
+  DANJIN_OUTRO_PROVENANCE,
   'Duality is source-mapped as 23% incoming-Resonator Havoc DMG Amplification for 14s or until switch-out. The Ruby Blossom threshold contradiction remains unchanged.',
 );
 
 export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
   XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
-  XIANGLI_YAO_OUTRO_EFFECT_FACTS,
-  'Chain Rule is source-mapped as Character-owned Outro damage with the exact 237.63% ATK per-trigger coefficient and source-explicit 8s / once-per-2s / up-to-3 trigger semantics. The independent Pivot — Impale ACTIONS blocker remains unchanged.',
+  [],
+  XIANGLI_YAO_OUTRO_PROVENANCE,
+  'Chain Rule already exists as the source-VERIFIED Character-owned OUTRO ACTION from the completed ACTIONS area: exact 237.63% ATK per-trigger coefficient plus source-explicit 8s / once-per-2s / up-to-3 trigger semantics. OUTRO_EFFECT reuses that fact unchanged. The independent Pivot — Impale ACTIONS blocker remains unchanged.',
 );
 
 export const ROSTER_OUTRO_COMPLETION_FACTS: readonly CharacterMechanicFact[] = [
   ...BULING_OUTRO_EFFECT_FACTS,
   ...DANJIN_OUTRO_EFFECT_FACTS,
-  ...XIANGLI_YAO_OUTRO_EFFECT_FACTS,
 ] as const;
 
 export const ROSTER_OUTRO_COMPLETION_PROFILES: readonly CharacterMechanicsProfile[] = [

@@ -186,7 +186,7 @@ test('third Character Mechanics batch remains valid inside the current roster re
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 0);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1941);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['taoqi', 'verina', 'encore']) {

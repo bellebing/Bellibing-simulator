@@ -12,7 +12,10 @@ import {
 import { CHARACTER_MECHANICS_PROFILES as BASE_CHARACTER_MECHANICS_PROFILES } from '../src/data/characterMechanicsBase.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 import { FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES } from '../src/data/characterMechanics/finalBlockerResolvedProfiles.ts';
-import { CHARACTER_ACTION_SOURCE_BLOCKERS } from '../src/data/characterMechanics/rosterActionCompletion.ts';
+import {
+  CHARACTER_ACTION_SOURCE_BLOCKERS,
+  XIANGLI_YAO_ACTION_FACTS,
+} from '../src/data/characterMechanics/rosterActionCompletion.ts';
 import { CHARACTER_FORTE_RULE_SOURCE_BLOCKERS } from '../src/data/characterMechanics/rosterForteCompletion.ts';
 import { CHARACTER_INHERENT_PASSIVE_SOURCE_BLOCKERS } from '../src/data/characterMechanics/rosterInherentPassiveCompletion.ts';
 import {
@@ -107,6 +110,8 @@ test('new Outro facts preserve ownership, section, source kind and source-explic
   }
 
   const xiangli = CHARACTER_MECHANIC_FACT_BY_ID.get('xiangli-yao-outro-chain-rule');
+  const preExistingXiangliOutro = XIANGLI_YAO_ACTION_FACTS.find((fact) => fact.factId === 'xiangli-yao-outro-chain-rule');
+  assert.strictEqual(xiangli, preExistingXiangliOutro, 'OUTRO_EFFECT must reuse the pre-existing ACTIONS fact unchanged');
   assert.equal(xiangli?.kind, 'ACTION');
   if (xiangli?.kind === 'ACTION') {
     assert.equal(xiangli.actionKind, 'OUTRO');

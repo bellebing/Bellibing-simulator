@@ -3,7 +3,7 @@
 #improveShell.has-selection { display:block; overflow-y:auto; overflow-x:hidden; padding-top:74px; scrollbar-gutter:stable both-edges; scrollbar-width:thin; scrollbar-color:#4b4942 transparent; }
 #improveShell.has-selection > .wheel { position:absolute; top:74px; left:0; right:0; }
 #improveShell .improve-focus { display:none; }
-#improveShell.has-selection .improve-focus { position:relative; inset:auto; display:flex; flex-direction:column; gap:14px; width:calc(100% - 18px); margin:266px auto 32px; padding:0; }
+#improveShell.has-selection .improve-focus { position:relative; inset:auto; display:flex; flex-direction:column; gap:14px; width:calc(100% - 18px); margin:var(--improve-selector-clearance,266px) auto 32px; padding:0; }
 #improveShell .improve-build-card { position:relative; inset:auto; width:100%; margin:0; transform:none; flex:none; }
 .improve-settings { padding:14px 18px; flex:none; overflow-anchor:none; }
 .improve-settings-heading { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }

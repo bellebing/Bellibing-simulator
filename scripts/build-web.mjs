@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 rmSync('dist', { recursive: true, force: true });
@@ -58,6 +58,13 @@ cpSync('web/roll-assistant.html', 'dist/roll-assistant.html');
 cpSync('web/roll-assistant.css', 'dist/roll-assistant.css');
 cpSync('web/START_BELLIBING_TEST.bat', 'dist/START_BELLIBING_TEST.bat');
 cpSync('web/serve.ps1', 'dist/serve.ps1');
+cpSync('web/START_UI_PREVIEW.bat', 'dist/START_UI_PREVIEW.bat');
+const revision = spawnSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' });
+if (revision.status !== 0) throw new Error('Cannot identify the review build revision');
+const changes = spawnSync('git', ['status', '--porcelain', '--untracked-files=no'], { encoding: 'utf8' });
+if (changes.status !== 0) throw new Error('Cannot identify review build working tree');
+writeFileSync('dist/review-build.json', JSON.stringify({ headSha: revision.stdout.trim(), workingTreeDirty: !!changes.stdout.trim(), entrypoint: '/ui-preview/' }, null, 2)+'\n');
+writeFileSync('dist/REVIEW_UI_PREVIEW.txt', 'Extract the whole artifact, then run START_UI_PREVIEW.bat.\nThe server opens /ui-preview/ with all built runtime modules and assets.\nReview Home > Improve (empty) > Home > Build > Augusta > Add to Account > Home > Improve > Augusta.\nUse a fresh Chrome profile for an empty account. review-build.json identifies the source head.\nFor macOS/Linux: python3 -m http.server 8765 --bind 127.0.0.1, then open http://127.0.0.1:8765/ui-preview/.\nThe optional ?improve-layout-preview=1 is supplemental layout evidence only.\n');
 cpSync('docs/ui-prototypes/v34-functional.html', 'dist/ui-preview/index.html');
 cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursive: true });
 cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/characters', { recursive: true });

@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
+import { verifyAccountReview } from './verify-v34-account-review.mjs';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_ECHO_DEBUG_PORT ?? 9671);
@@ -892,6 +893,7 @@ try {
     await send('Page.enable');
     await send('Runtime.enable');
     const improveOnly = process.env.BELLIBING_IMPROVE_ONLY === '1';
+    await verifyAccountReview({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     const desktop = improveOnly ? null : await verifyDesktop(send);
     const sonata = improveOnly ? null : await verifySonataComposition(send);
     await verifyImproveSettings({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});

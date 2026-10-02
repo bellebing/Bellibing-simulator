@@ -2123,8 +2123,15 @@ window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));
 window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
+let characterManifestStatus='PENDING';
 async function loadReleasedCharacters(){
-  const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store'});
+  characterManifestStatus='PENDING';
+  document.documentElement.dataset.characterManifestStatus=characterManifestStatus;
+  delete document.documentElement.dataset.characterManifestError;
+  try{
+  // This deadline aborts the real request, including body consumption. It does not
+  // manufacture readiness or leave a failed request displayed as loading.
+  const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store',signal:AbortSignal.timeout(15000)});
   if(!response.ok)throw new Error('portrait manifest '+response.status);
   const manifest=await response.json();
   const direct=manifest.portraits.filter(item=>item.releaseStatus==='RELEASED'&&item.uiEligible===true).map(item=>({id:item.characterId,name:item.characterName,src:toAssetPath(item.targetPath)}));
@@ -2132,10 +2139,18 @@ async function loadReleasedCharacters(){
   const characters=[...direct,...rovers].sort((a,b)=>a.name.localeCompare(b.name,'en'));
   if(characters.length!==57)throw new Error('expected 57 released Character cards, got '+characters.length);
   releasedCharacters=characters;characterByName.clear();characters.forEach(item=>characterByName.set(item.name,item));
+  characterManifestStatus='READY';
+  }catch(error){
+    characterManifestStatus='ERROR';
+    console.error(error);
+    document.documentElement.dataset.characterManifestError=String(error.message||error);
+  }finally{
+  document.documentElement.dataset.characterManifestStatus=characterManifestStatus;
   if(document.getElementById('build').classList.contains('active'))buildPicker.render();
   if(document.getElementById('improve').classList.contains('active'))improvePicker.render();
+  }
 }
-const characterManifestReady=loadReleasedCharacters().catch(error=>{console.error(error);document.documentElement.dataset.characterManifestError=String(error.message||error)});
+const characterManifestReady=loadReleasedCharacters();
 
 async function loadCharacterHeroArtRuntimeData(){
   const response=await fetch(CHARACTER_HERO_ART_RUNTIME_PATH,{cache:'no-store'});
@@ -2248,16 +2263,37 @@ function renderHome(){
 
 function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
+  let clearanceFrame=0;
+  function reserveImproveSelectorSpace(){
+    if(mode!=='improve')return;
+    cancelAnimationFrame(clearanceFrame);
+    if(!shell.classList.contains('has-selection')){shell.style.removeProperty('--improve-selector-clearance');return}
+    // Reserve the rendered envelope during the existing entrance/hover motion,
+    // including scaled cards. Keep all selector sizes, spacing and easing intact.
+    const bottom=Math.max(wheel.getBoundingClientRect().bottom,...cards.map(card=>card.getBoundingClientRect().bottom));
+    const origin=shell.getBoundingClientRect().top+74-shell.scrollTop;
+    shell.style.setProperty('--improve-selector-clearance',Math.max(266,bottom-origin+16)+'px');
+    if(wheel.getAnimations({subtree:true}).some(animation=>animation.playState==='running'))clearanceFrame=requestAnimationFrame(reserveImproveSelectorSpace);
+  }
+  wheel.addEventListener('transitionrun',reserveImproveSelectorSpace);
+  if(mode==='improve')new MutationObserver(reserveImproveSelectorSpace).observe(shell,{attributes:true,attributeFilter:['class']});
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint();reserveImproveSelectorSpace()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
   function confirmPickerSwitch(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()}
   function render(){
     list=source().filter(Boolean);carousel?.destroy();carousel=null;wheel.innerHTML='';cards=[];
-    if(!list.length){shell.querySelector('.question').textContent=mode==='build'&&!releasedCharacters.length?'Loading Characters…':'No Characters yet';delete wheel.dataset.focusIndex;return}
+    if(!list.length){
+      const needsCatalog=mode==='build'||state.characters.length>0;
+      shell.querySelector('.question').textContent=needsCatalog&&characterManifestStatus==='PENDING'?'Loading Characters…':needsCatalog&&characterManifestStatus==='ERROR'?'Character catalog unavailable. Reload to retry.':'No Characters yet';
+      shell.dataset.catalogStatus=characterManifestStatus;
+      shell.querySelector('.question').setAttribute('role','status');
+      delete wheel.dataset.focusIndex;return;
+    }
+    shell.dataset.catalogStatus=characterManifestStatus;
     shell.querySelector('.question').textContent='What Character?';
     cards=list.map((item)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.characterId=item.id;b.setAttribute('aria-label',item.name);b.innerHTML='<strong class="choice-name"></strong><span class="choice-portrait"><img alt="" draggable="false"></span>';b.querySelector('.choice-name').textContent=item.name;b.querySelector('img').src=item.src;wheel.appendChild(b);return b});
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;

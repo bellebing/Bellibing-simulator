@@ -1,3 +1,4 @@
+param([string]$StartPath = '/', [switch]$NoBrowser)
 $ErrorActionPreference = 'Stop'
 $port = 8765
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -8,9 +9,12 @@ function Get-ContentType([string]$path) {
     '.html' { return 'text/html; charset=utf-8' }
     '.css'  { return 'text/css; charset=utf-8' }
     '.js'   { return 'text/javascript; charset=utf-8' }
+    '.mjs'  { return 'text/javascript; charset=utf-8' }
     '.json' { return 'application/json; charset=utf-8' }
     '.svg'  { return 'image/svg+xml' }
     '.png'  { return 'image/png' }
+    '.webp' { return 'image/webp' }
+    '.woff2' { return 'font/woff2' }
     '.ico'  { return 'image/x-icon' }
     default { return 'application/octet-stream' }
   }
@@ -21,11 +25,11 @@ $listener.Start()
 
 Write-Host ''
 Write-Host 'Bellibing Echo Lab test server is running.' -ForegroundColor Green
-Write-Host "Opening http://localhost:$port/" -ForegroundColor Cyan
+Write-Host "Opening http://localhost:$port$StartPath" -ForegroundColor Cyan
 Write-Host 'Keep this window open while testing. Close it to stop the app.' -ForegroundColor DarkGray
 Write-Host ''
 
-Start-Process "http://localhost:$port/"
+if (-not $NoBrowser) { Start-Process "http://localhost:$port$StartPath" }
 
 try {
   while ($true) {
@@ -49,9 +53,10 @@ try {
       $rawPath = $rawTarget.Split('?')[0]
       $relative = [System.Uri]::UnescapeDataString($rawPath.TrimStart('/'))
       if ([string]::IsNullOrWhiteSpace($relative)) { $relative = 'index.html' }
+      elseif ($relative.EndsWith('/')) { $relative += 'index.html' }
 
       $candidate = [System.IO.Path]::GetFullPath((Join-Path $rootFull $relative))
-      $insideRoot = $candidate.StartsWith($rootFull, [System.StringComparison]::OrdinalIgnoreCase)
+      $insideRoot = $candidate.StartsWith($rootFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)
 
       if (-not $insideRoot -or -not (Test-Path -LiteralPath $candidate -PathType Leaf)) {
         $body = [System.Text.Encoding]::UTF8.GetBytes('404 Not Found')

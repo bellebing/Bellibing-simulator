@@ -31,6 +31,8 @@
           "The separate Main DPS Aalto mode remains real source truth but is intentionally not promoted here because the reviewed current sources do not provide a fixed Aalto DPS action sequence suitable for Bellibing canonical rotation transcription."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -78,6 +80,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -129,6 +133,8 @@
           "The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -159,6 +165,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -168,6 +176,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -177,6 +187,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -204,6 +216,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -247,6 +261,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -299,6 +315,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -351,6 +369,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -397,6 +417,8 @@
           "This is build-stat priority only; no Bellibing Roll Assistant minimum-roll or required-hit policy is inferred from it."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -453,6 +475,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -505,6 +529,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -569,6 +595,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -612,6 +640,8 @@
           "This is build-stat priority only; no Roll Assistant stopping thresholds are inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -642,6 +672,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -667,6 +699,8 @@
           "Current source endgame recommendations use S0 for 5-star characters unless otherwise specified."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -732,6 +766,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -779,6 +815,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -822,6 +860,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -869,6 +909,8 @@
           "This is build-stat priority only; no Roll Assistant stopping thresholds are inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -903,6 +945,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -921,6 +965,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -988,6 +1034,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1053,6 +1101,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1113,6 +1163,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "CRIT Rate",
@@ -1175,6 +1227,8 @@
           "Source rotation alternative retained for audit — Opener: Ultimate (first 5 Programs) (Prydwen source opener before settling into the reviewed loop; no duration is inferred.)"
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1227,6 +1281,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1289,6 +1345,8 @@
           "Source rotation alternative retained for audit — Opener: Skill: Shewolf's Hunt -> Ultimate -> Skill: Foebreaker -> Mid-air Attack 1 -> Mid-air Attack 2 -> Skill: Firestrike -> Skill: Wolf's Claw -> Dance With the Wolf - Climax -> Outro (Prydwen source opener variant; no duration is inferred.)"
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1332,6 +1390,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1375,6 +1435,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1440,6 +1502,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1513,6 +1577,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1543,6 +1609,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -1584,6 +1652,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "CRIT Rate",
@@ -1614,6 +1684,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -1623,6 +1695,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -1664,6 +1738,8 @@
           "Source rotation alternative retained for audit — Opener: Intro: Huntress -> Huntress Basic attacks -> Forte Heavy: Huntress -> Echo: Bell-Borne Geochelone -> Ultimate -> Boom! Fireworks (automatic swap) -> Outro (Prydwen opener variant retained separately from the selected loop.)"
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1729,6 +1805,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1776,6 +1854,8 @@
           "Bloodpact’s Pledge supplies enough source-listed ER that the guide does not require ER substats in this exact setup; this does not become a Roll Assistant rule."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1810,6 +1890,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -1850,6 +1932,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1920,6 +2004,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -1990,6 +2076,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2029,6 +2117,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2059,6 +2149,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -2102,6 +2194,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2145,6 +2239,8 @@
           "The 230% target is explicitly before the +10% Fallacy of No Return Echo effect and Shorekeeper’s +10% passive contribution; the profile note preserves that source semantic instead of treating 230% as a post-buff universal threshold."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2187,6 +2283,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -2196,6 +2294,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -2236,6 +2336,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2283,6 +2385,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2335,6 +2439,8 @@
           "SOURCE_SEQUENCE_ONLY is verified source transcription, not ENGINE_MODELED execution; no duration, uptime or animation-frame timing is inferred."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2401,6 +2507,8 @@
           "Rotation source truth remains SOURCE_SEQUENCE_ONLY and does not claim executable timing, uptime, animation frames, or ENGINE_MODELED status."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2435,6 +2543,8 @@
       "profileId": null,
       "profileName": null,
       "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": []
     },
     {
@@ -2453,6 +2563,8 @@
         "checkedAt": "2026-08-29",
         "notes": []
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",
@@ -2498,6 +2610,8 @@
           "The two presets below preserve that source condition instead of averaging the sets or pretending one universal build is optimal for every investment level."
         ]
       },
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
       "stats": [
         {
           "name": "Energy Regen",

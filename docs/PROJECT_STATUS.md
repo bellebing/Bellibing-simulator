@@ -1,8 +1,16 @@
 # Bellibing Simulator — Current Project Status
 
-## Improve Simple Settings — PR #224 functional review repair
+## Improve Valuable Stats v2 — PR #224
 
-Canonical main remains `b2c160333c4391988f02ae01fab5309791e47bd4` (PR #223 merged). PR #224 remains **DRAFT / UNMERGED**. Its original head `67ea031cc0660de4cf55146a15fd595b4676cda2` failed **Verify #1755** with `Improve Settings: hover selector collision at 1440`. The earlier local pass did not establish a green full Verify.
+PR #224 remains OPEN / DRAFT / UNMERGED. The Valuable Stats-only continuation replaces the required-hit count model with ordered Active and derived Available vertical lists, Manual selection/reordering, accessible up/down actions and Reset to Recommended. Gate, Roll Quality and the accepted Improve workspace/selector clearance are preserved.
+
+Current verified profiles provide **44 READY / 13 PENDING** stat pools, but no static v2 DPR ranking or default Active set. Recommended ranking remains **PENDING**; baseline Active is empty (**0 of M selected**) and Available uses neutral canonical/source order. No ER, tier, DPR or evaluator logic is introduced.
+
+Versioned v2 storage preserves valid Gate/Quality, discards semantically incompatible v1 eligible-pool/count settings, migrates Characters independently and retains deferred legacy or valid v2 configuration during temporary source failure. Binding/profile/provenance drift fails closed. See [Valuable Stats v2 contract](UI_IMPROVE_SIMPLE_SETTINGS.md) for exact migration and source boundaries. Final verification evidence and exact review head belong on PR #224 and AI Handoff. Stop for visual review; do not merge or start another slice.
+
+## Historical Improve Simple Settings — PR #224 functional review repair
+
+Canonical main at the functional-repair checkpoint was `b2c160333c4391988f02ae01fab5309791e47bd4` (PR #223 merged). PR #224 remains **DRAFT / UNMERGED**. Its original head `67ea031cc0660de4cf55146a15fd595b4676cda2` failed **Verify #1755** with `Improve Settings: hover selector collision at 1440`. The earlier local pass did not establish a green full Verify.
 
 The functional review target is now the exact-head **built `bellibing-web-dist` artifact**, opened through `START_UI_PREVIEW.bat` at `/ui-preview/`. `review-build.json` identifies its commit and working-tree state. Both Verify and Export check out the PR head explicitly. Rawcdn source HTML is no longer the functional review target; `?improve-layout-preview=1` remains supplemental layout evidence only.
 

@@ -19,7 +19,11 @@ export function projectImproveSettingsSources() {
       profileId: ready ? profile.id : null,
       profileName: ready ? profile.name : null,
       provenance: ready ? profile.provenance : null,
-      // Preserve canonical order and conditional notes. Priority does not become a weight.
+      // Guide build priorities include conditional ER and ties; they do not verify
+      // a static Valuable Stats DPR ranking or an Active/default selected set.
+      recommendedOrderStatus: 'PENDING',
+      recommendedActiveStats: [],
+      // Neutral canonical/source order only. No priority/weight inference.
       stats: ready ? profile.targetRules.map(rule => ({ name: rule.stat, note: rule.notes ?? null })) : [],
     };
   });

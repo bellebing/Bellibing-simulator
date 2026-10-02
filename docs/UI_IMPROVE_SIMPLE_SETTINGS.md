@@ -1,43 +1,44 @@
-# Improve Simple Settings
+# Improve Simple Settings — Valuable Stats v2
 
-First UI/interaction slice, based on canonical main `b2c160333c4391988f02ae01fab5309791e47bd4`. Draft for desktop visual review.
+Draft PR #224, for desktop visual review. Only Valuable Stats changes in this slice. Gate remains +5 / +10 / +15 / +20 / +25. Roll Quality remains All Rolls / Mid+ / High+, with numeric threshold mapping **PENDING**.
 
 ## Presentation and interaction
 
-The account-owned Character selector is followed by **Improve Settings**, then the existing Improve workspace. The Improve shell reserves the selector's complete 250px hover envelope plus a 16px gap, and follows its actual rendered bounds during entrance/hover motion. Card sizes and selector motion remain unchanged. Settings and workspace share a normal vertical document flow, the same width and the existing glass panel treatment. The larger composition scrolls vertically at 1440×900; the workspace and its contents retain their sizes.
+The account-owned Character selector is followed by Improve Settings and the existing workspace, in normal vertical document flow at the same width. The selector's full hover envelope and motion-aware clearance remain intact. Cards/workspace retain their dimensions. One inline choice area opens at a time, pushes content down and uses the existing 320ms weighted transition. Escape closes it and restores trigger focus; reduced motion uses a short opacity transition. No native select, floating menu, popover or internally scrolling option list is introduced.
 
-Three compact controls expose component-local choices. Only one choice area is open at a time. Expansion pushes the workspace down using the 320ms Bellibing weighted panel transition. Selection closes the choice area and restores focus to its trigger. Escape also closes it. Reduced motion uses a short opacity transition. There are no native selects, popovers, floating lists or internally scrolling option menus.
+Collapsed Valuable Stats shows **N of M selected**: N is Active count; M is the current verified available source pool size. Expanded content has ordering mode controls, then a vertical **Active** list followed by **Available**. Activating appends to Active; deactivating returns the stat to Available in neutral source order. The groups are disjoint. Selection stays inline and open for repeated edits. There is no separate count setting or count control.
 
-- **Gate:** +5, +10, +15, +20, +25. Initial UI selection: +5. No gate mechanics are attached.
-- **Valuable Stats:** selectable chips for the current profile's available stats, followed by required-count buttons. Chips change the selected pool; choosing a count commits it and closes the area. The summary is the actual required count out of the actual selected pool. Initially the count is unset (`Choose`), so no suggested requirement is fabricated. Removing too many stats clears an invalid count. Count capacity reuses the canonical Echo Stats Editor maximum.
-- **Roll Quality:** All Rolls, Mid+, High+. Initial UI selection: All Rolls. Threshold mapping remains explicitly Pending.
+Any selection or order customization enters **Manual**. Active rows can be dragged vertically; labeled Move up / Move down buttons provide the keyboard alternative. Reordering changes only Active, never the canonical source pool. Focus follows the same action after render, falling back to that stat's selection button when the move action reaches a disabled boundary.
 
-## Source boundary
+**Reset to Recommended**, or choosing Recommended mode, discards the current manual selection/order and restores the current source-backed baseline. Gate and Roll Quality are preserved. Current verified sources supply no v2 default selected set, so Recommended Active is empty: **0 of M selected**. Explicitly choosing Manual can retain that empty selection.
 
-`src/improveSettingsProjection.ts` joins each RELEASED Character to the existing `PROFILE_REGISTRY` default UI-selectable preset and its `StatTargetProfile`. Both preset and target profile must be VERIFIED. It exports exact canonical target-rule stat names, conditional notes, profile identity and provenance. It does not derive a new rank, weight, stat priority, ER-satisfaction decision or profile.
+## Source and ranking boundary
 
-The current projection has **44 READY / 13 PENDING** Characters. Augusta's five available names come from `augusta-recommended-targets-v915-current`; they are not hardcoded in the UI. The projection also supports the other current profiles, including HP/DEF stat families. Missing/unverified profiles and failed source loading show Pending and supply no count or invented pool. The generated source is checked by the strict build.
+`src/improveSettingsProjection.ts` continues to join RELEASED Characters to `PROFILE_REGISTRY` through `getDefaultBuildPreset()` and the existing VERIFIED `StatTargetProfile`. Exact canonical names, conditional notes, profile identities and provenance are exported. Current availability is **44 READY / 13 PENDING** Characters. No Character stat names are hardcoded in the UI.
 
-Canonical roll values exist in `src/echoCoreRules.ts` (`ROLL_VALUES`), exposed through the existing Echo Stats Editor. They do **not** define universal `All Rolls` / `Mid+` / `High+` tier cutoffs. The legacy Augusta V9.15 minimums are a separate policy and are not reused as those presets. This slice stores the selected label and `rollQualityMappingStatus: PENDING`, without numeric thresholds.
+Source review inspected `src/profileDomain.ts#TargetStatRule`, `src/data/statTargetProfiles.ts`, the registry/default presets and the separate `targetCheckpointPolicy.ts` roll policy. Reviewed target priorities are **build-guide priorities**, with ties and conditional ER-until-satisfied rules. They do not verify an unconditional Valuable Stats v2 DPR order or default Active selection. Augusta's historical Core/Useful stopping policy is a different contract and does not establish v2 defaults. Applying conditional ER rules would require the deferred build/ER logic. Consequently **recommendedOrderStatus: PENDING** for all Characters. Available uses canonical/source order only as stable neutral display order; no weights, DPR values, tier mapping or gameplay evaluation are inferred. The UI explicitly says Recommended ranking is pending.
 
-## State and integration
+## Versioned state, persistence and migration
 
-`src/improveSimpleSettings.mjs` owns only presentation settings. Its generated browser copy is checked for parity. `window.bellibingImproveSettings.getState()` returns a detached snapshot with Character identity, gate, selected stat names, required count, profile binding and roll-quality preset/status. A future consumer must respect Pending and an unset required count.
+`src/improveSimpleSettings.mjs` owns presentation state and the storage boundary; the generated browser module is checked for exact parity. Detached `window.bellibingImproveSettings.getState()` exposes schema version 2, Character identity, Gate, Roll Quality/status, and Valuable Stats version, source status/binding, preset/profile IDs, ordering mode, recommended-order status, ordered `activeStats` and derived `availableStats`. No legacy count field is present in v2 runtime state.
 
-The UI stores per-Character settings under `bellibing.improve.simple-settings.v1`, separately from saved Character builds and the transient Candidate. Switching Characters closes choices and restores their settings; reload also restores them. Changed profile/pool bindings clear the old count/configuration. A temporary source outage keeps the live view Pending while retaining the saved configuration for recovery.
+The new key is **bellibing.improve.simple-settings.v2**. The envelope has version 2 and independent Character records. Binding includes Character, preset/profile, provenance and the exact pool/conditional notes. Reload and switching restore each Character independently. Invalid names/duplicates are removed while preserving valid manual order. Any binding drift resets Valuable Stats to the current empty Recommended baseline while preserving valid Gate/Quality.
 
-The accepted Improve card, Dynamic Live Build Helper, Current/New Stats, five equipped Echoes, Candidate and shared Echo Workspace keep their current behavior. Settings do not feed them gameplay decisions. The shared Character loader now distinguishes a pending request from READY (57) and ERROR; failure provides a reload instruction. No Build redesign, Advanced Settings, evaluator, scoring, probabilities, tuner forecasting, DPS or Team logic are included.
+Explicit v1 → v2 migration:
+
+- Read **bellibing.improve.simple-settings.v1** only when no v2 envelope exists. Keep that legacy key untouched as a recovery copy.
+- Preserve valid Gate and Roll Quality for every Character; invalid labels normalize to +5 / All Rolls.
+- Discard old stat selections and the old count. A v1 selected pool was eligibility for a required-hit policy, not an explicit v2 Active set; even an identical saved profile binding cannot prove equivalent semantics. Never reinterpret the old count.
+- Migrate each Character when its verified source becomes available. Until then, keep its original v1 record under `pendingV1Characters` in the v2 envelope; Gate/Quality edits update those labels without removing its legacy data. Unvisited Characters remain independent deferred records.
+- During a temporary source failure, live Valuable Stats is PENDING with no Active/Available pool. Retain an existing valid saved v2 binding/order separately while persisting Gate/Quality edits; source recovery restores it. Do not persist the masked live selection over the saved one.
+- Storage write failure shows an explicit save notice and does not falsely mark the in-memory storage record committed.
+
+Settings never write account-owned equipment, saved Character builds, Candidate, or evaluator policy. The accepted Improve Character Build, Current/New Stats, Dynamic Live Build Helper, Current/Candidate Echoes, five equipped Echoes and Echo Workspace remain unchanged. No Advanced Settings, tier/ER/ranking engine, DPR calculation or mobile adaptation is included.
 
 ## Verification
 
-- Six focused source/state tests, included in the full **1203/1203** passing test suite.
-- Strict web build checks exact generated source/state parity; whitespace check passes.
-- `verify-v34-improve-settings.mjs` runs through the existing real-Chrome Echo Workspace harness. It covers compact width, inline layout movement, every available option, actual state summaries, one accessible open area, hover collision, two different source pools, Pending, isolated persistence, source-failure recovery, keyboard focus and reduced motion.
-- Desktop matrix: **1440×900**, **1920×1080**, **2560×1440**. Captures include collapsed, Valuable Stats expanded and Character hover-expanded states. The existing Candidate suite scrolls to the unchanged workspace and verifies its layout/ownership/commit behavior at the same sizes.
-- `verify-v34-account-review.mjs` runs first in a fresh Chrome profile. It physically navigates empty Improve → Build → Augusta → S1 → Add to Account → Improve → Simple Settings; tests paused/failed/recovered manifest loading; samples entrance/hover collision every frame; checks unchanged equipment and Candidate ownership.
-- The headless launcher declares desktop pointer capabilities, matching [Playwright's Chromium launch configuration](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/chromium/chromium.ts). The test asserts `(hover:hover)` and `(pointer:fine)` before physical mouse input; activation failures and geometry failures have separate diagnostics.
-- Full Verify and Export use the exact PR head. Functional review uses the built `bellibing-web-dist` artifact: extract it and run `START_UI_PREVIEW.bat`. Its PowerShell server serves directory indexes and `.mjs` modules. `review-build.json` identifies the head and dirty state. Rawcdn source HTML and the seeded layout query do not establish functional account-flow acceptance. Exact remote head/run/result belongs on the draft PR and external AI Handoff.
+Focused state/source/storage tests cover exact source parity, 0-of-M baseline, activate/deactivate/append/Manual, reorder/reset, v1 migration, Character isolation/reload, profile/provenance/note/pool drift, invalid names and temporary source outage recovery with Gate/Quality edits.
 
-The repaired implementation passed [full Verify #1758](https://github.com/bellebing/Bellibing-simulator/actions/runs/36964129738) and [Export #1480](https://github.com/bellebing/Bellibing-simulator/actions/runs/36964129740), including 1203/1203 tests, strict build and every browser gate. The draft PR records the final documentation head and its checks.
+The existing real-Chrome Improve harness covers physical activation and vertical drag, keyboard reorder/focus, empty/reset states, one accessible inline expansion, normal layout displacement, Gate/Quality options, source failure/recovery, v1 migration and binding drift. Desktop matrix: **1440×900 / 1920×1080 / 2560×1440**, with collapsed, empty/Active Valuable Stats and hover-expanded screenshots. Fresh-account review and unchanged Candidate/Echo Workspace checks remain required. Full tests, strict build, whitespace and exact-head repository Verify remain required. Final head/run/result evidence belongs on PR #224 and the external AI Handoff.
 
-Stop for user review. No merge is authorized.
+Stop for visual review. Keep PR #224 OPEN / DRAFT / UNMERGED. Do not start another slice.

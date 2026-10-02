@@ -26,7 +26,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   const equipment = await read('localStorage.getItem(KEY)');
   for (const [width, height] of [[1440,900], [1920,1080], [2560,1440]]) {
     await setViewport(send, width, height); await read('document.getElementById("improveShell").scrollTop=0'); await settle();
-    await check(`(()=>{const box=s=>document.querySelector(s).getBoundingClientRect(),settings=box('#improveSettings'),card=box('#improveBuildCard');return settings.top<card.top&&Math.abs(settings.left-card.left)<1&&Math.abs(settings.width-card.width)<1&&settings.height<120&&[...document.querySelectorAll('.improve-setting-trigger')].every(node=>node.getBoundingClientRect().width<240)&&settings.width<=1280&&document.documentElement.scrollWidth===innerWidth})()`, 'collapsed geometry at ' + width);
+    await check(`(()=>{const box=s=>document.querySelector(s).getBoundingClientRect(),settings=box('#improveSettings'),card=box('#improveBuildCard');return settings.top<card.top&&Math.abs(settings.left-card.left)<1&&Math.abs(settings.width-card.width)<1&&settings.height<120&&[...document.querySelectorAll('.improve-setting-trigger')].every(node=>node.getBoundingClientRect().width<280)&&settings.width<=1280&&document.documentElement.scrollWidth===innerWidth})()`, 'collapsed geometry at ' + width);
     const wheel = await read('document.querySelector("#improveWheel .choice").getBoundingClientRect().toJSON()');
     await send('Input.dispatchMouseEvent', { type:'mouseMoved', x:wheel.x+wheel.width/2, y:wheel.y+wheel.height/2 }); await sleep(850);
     await check(`document.getElementById('improveShell').classList.contains('hover-expanded')`, 'physical hover did not activate at ' + width);
@@ -41,11 +41,33 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`${state}.gate===25&&${summary('gate')}==='+25'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Gate choose/summary/collapse');
     await check(`Math.abs(document.getElementById('improveBuildCard').getBoundingClientRect().top-${top})<1`, 'collapse did not restore layout');
     await click(trigger('valuable')); await sleep(380);
-    const shown = await read(`Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,node=>node.textContent)`);
+    const shown = await read(`Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,node=>node.dataset.statName)`);
     if (JSON.stringify(shown) !== JSON.stringify(augusta.stats.map(stat => stat.name))) throw new Error('Valuable Stats source mismatch');
     await capture(send, `artifacts/ui-preview-improve-settings-valuable-${width}x${height}.png`);
-    await click(option('valuable', 2)); await sleep(380);
-    await check(`${summary('valuable')}==='2 of ${augusta.stats.length}'&&${state}.valuableStats.requiredCount===2`, 'Valuable summary does not match state');
+    await check(`${summary('valuable')}==='0 of ${augusta.stats.length} selected'&&${state}.valuableStats.orderingMode==='RECOMMENDED'`, 'empty Recommended baseline');
+    await check(`!JSON.stringify(${state}).includes('requiredCount')&&!document.querySelector('[aria-label="Valuable Stats Required"]')&&[...document.querySelectorAll('[data-setting="valuable"] button')].every(node=>!/^([1-5])$/.test(node.textContent))`, 'old count model remains');
+    await click(option('valuable', augusta.stats[2].name)); await click(option('valuable', augusta.stats[0].name));
+    await check(`${summary('valuable')}==='2 of ${augusta.stats.length} selected'&&JSON.stringify(${state}.valuableStats.activeStats)===${JSON.stringify(JSON.stringify([augusta.stats[2].name,augusta.stats[0].name]))}&&${state}.valuableStats.orderingMode==='MANUAL'`, 'activation/append/Manual');
+    await check(`(()=>{const active=document.querySelector('[aria-label="Active valuable stats"]'),available=document.querySelector('[aria-label="Available valuable stats"]');return active.getBoundingClientRect().bottom<available.getBoundingClientRect().top&&[...active.children].every((row,i,rows)=>!i||rows[i-1].getBoundingClientRect().bottom<=row.getBoundingClientRect().top)&&active.children.length+available.children.length===${augusta.stats.length}})()`, 'vertical Active/Available layout');
+    // Actual mouse drag invokes HTML drag/drop in Chrome, not a synthetic reorder callback.
+    const rows = await read(`[...document.querySelector('[aria-label="Active valuable stats"]').children].map(n=>n.getBoundingClientRect().toJSON())`);
+    const from = {x:rows[1].x+8,y:rows[1].y+rows[1].height/2}, to = {x:rows[0].x+8,y:rows[0].y+rows[0].height/2};
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',...from});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',...from,button:'left',buttons:1,clickCount:1});
+    for (let i=1;i<=8;i++) { await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:from.x+(to.x-from.x)*i/8,y:from.y+(to.y-from.y)*i/8,button:'left',buttons:1}); await sleep(25); }
+    await sleep(250); await send('Input.dispatchMouseEvent',{type:'mouseMoved',...to,button:'left',buttons:1}); await sleep(100);
+    await send('Input.dispatchMouseEvent',{type:'mouseReleased',...to,button:'left',clickCount:1}); await sleep(150);
+    await check(`JSON.stringify(${state}.valuableStats.activeStats)===${JSON.stringify(JSON.stringify([augusta.stats[0].name,augusta.stats[2].name]))}`, 'physical drag reorder');
+    // Focus the accessible move-down button and activate via keyboard.
+    await read(`document.querySelector('[aria-label="Move ${augusta.stats[0].name} down"]').focus()`);
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r'});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+    await check(`JSON.stringify(${state}.valuableStats.activeStats)===${JSON.stringify(JSON.stringify([augusta.stats[2].name,augusta.stats[0].name]))}`, 'keyboard reorder');
+    await check(`document.activeElement.getAttribute('aria-label')==='Deactivate ${augusta.stats[0].name}'`, 'reorder focus lost');
+    await capture(send, `artifacts/ui-preview-improve-settings-active-${width}x${height}.png`);
+    const beforeReset = await read(state);
+    await click('[data-focus-key="reset:"]');
+    await check(`${state}.valuableStats.activeStats.length===0&&${state}.valuableStats.orderingMode==='RECOMMENDED'&&${state}.gate===${beforeReset.gate}&&${state}.rollQuality===${JSON.stringify(beforeReset.rollQuality)}`, 'reset must affect Valuable Stats only');
     await click(trigger('gate')); await sleep(350); await click(trigger('quality')); await sleep(380);
     await check(`document.querySelectorAll('.improve-setting.is-expanded').length===1&&document.querySelector('[data-setting="quality"]').classList.contains('is-expanded')&&document.getElementById('improve-setting-gate-choices').inert`, 'more than one accessible choice area');
     await check(`JSON.stringify([...document.querySelectorAll('[data-setting="quality"] .improve-setting-choice')].map(node=>node.textContent))==='["All Rolls","Mid+","High+"]'`, 'quality choices');
@@ -58,10 +80,10 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     console.log('- Improve Settings ' + width + 'x' + height + ': compact/aligned, hover clear, inline expansion/selection, one open group, workspace scroll reachable.');
   }
   await setViewport(send,1440,900); await click(trigger('valuable')); await sleep(380);
+  await click(option('valuable', augusta.stats[0].name)); await click(option('valuable', augusta.stats[1].name));
   await click(option('valuable', augusta.stats[0].name));
-  await check(`${state}.valuableStats.selectedStats.length===${augusta.stats.length-1}&&${summary('valuable')}==='2 of ${augusta.stats.length-1}'`, 'chip configuration not reflected');
-  await click(option('valuable', 1)); await sleep(380);
-  await check(`${summary('valuable')}==='1 of ${augusta.stats.length-1}'`, 'required count not reflected');
+  await check(`${state}.valuableStats.activeStats.length===1&&${summary('valuable')}==='1 of ${augusta.stats.length} selected'`, 'deactivation not reflected');
+  await click(trigger('valuable')); await sleep(380);
   await click(trigger('quality')); await sleep(350); await click(option('quality', 'Mid+')); await sleep(350);
   const saved = await read(`JSON.stringify(${state})`);
   await check('localStorage.getItem(KEY)==='+JSON.stringify(equipment), 'settings mutated equipped build storage');
@@ -74,11 +96,11 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`getComputedStyle(document.getElementById('improve-setting-gate-choices')).transitionProperty==='opacity'`, 'reduced motion');
   await send('Emulation.setEmulatedMedia',{features:[]});
   await read(`improveUi.setCharacter(releasedCharacters.find(row=>row.id===${JSON.stringify(other.characterId)}).name)`);
-  await check(`${state}.valuableStats.requiredCount===null&&${summary('valuable')}==='Choose'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Character settings leaked');
+  await check(`${state}.valuableStats.activeStats.length===0&&${summary('valuable')}==='0 of ${other.stats.length} selected'&&document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Character settings leaked');
   await click(trigger('valuable')); await sleep(350);
-  await check(`JSON.stringify(Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,n=>n.textContent))===${JSON.stringify(JSON.stringify(other.stats.map(stat=>stat.name)))}`, 'second Character pool');
+  await check(`JSON.stringify(Array.from(document.querySelector('[aria-label="Available valuable stats"]').children,n=>n.dataset.statName))===${JSON.stringify(JSON.stringify(other.stats.map(stat=>stat.name)))}`, 'second Character pool');
   await read(`improveUi.setCharacter(releasedCharacters.find(row=>row.id===${JSON.stringify(pendingId)}).name)`);
-  await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.selectedStats.length===0&&${state}.valuableStats.requiredCount===null`, 'unsupported Character invented pool');
+  await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.activeStats.length===0&&${state}.valuableStats.recommendedOrderStatus==='PENDING'`, 'unsupported Character invented pool');
   await read("improveUi.setCharacter('Augusta')"); await check(`JSON.stringify(${state})===${JSON.stringify(saved)}`, 'Character restore');
   await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Reload source readiness');
   await read("show('improve');improvePicker.select('Augusta')"); await check(`JSON.stringify(${state})===${JSON.stringify(saved)}`, 'reload persistence');
@@ -87,11 +109,22 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   try {
     await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus==="PENDING"','Unavailable source must become Pending');
     await read("show('improve');improvePicker.select('Augusta')"); await settle();
-    await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.requiredCount===null`, 'failed fetch invented a pool');
+    await check(`${summary('valuable')}==='Pending'&&${state}.valuableStats.activeStats.length===0`, 'failed fetch invented a pool');
     await click(trigger('gate')); await sleep(350); await click(option('gate',10));
   } finally { await send('Network.setBlockedURLs',{urls:[]}); }
   await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Source recovery');
   await read("show('improve');improvePicker.select('Augusta')");
   await check(`${state}.gate===10&&JSON.stringify(${state}.valuableStats)===${JSON.stringify(JSON.stringify(JSON.parse(saved).valuableStats))}`, 'source outage erased saved configuration');
-  console.log('- Improve Settings source-backed chips, count, Pending, detached per-Character state, reload, keyboard and reduced motion passed.');
+  // Integration migration: old pool/count is never treated as v2 Active.
+  const legacy = {version:1,characters:{augusta:{gate:20,rollQuality:'High+',valuableStats:{sourceBinding:JSON.stringify([augusta.presetId,augusta.profileId,augusta.stats.map(stat=>stat.name)]),selectedStats:[augusta.stats[0].name],requiredCount:2}}}};
+  await read(`localStorage.removeItem('bellibing.improve.simple-settings.v2');localStorage.setItem('bellibing.improve.simple-settings.v1',${JSON.stringify(JSON.stringify(legacy))})`);
+  await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Migration source readiness');
+  await read("show('improve');improvePicker.select('Augusta')");
+  await check(`${state}.gate===20&&${state}.rollQuality==='High+'&&${state}.valuableStats.activeStats.length===0&&${summary('valuable')}==='0 of ${augusta.stats.length} selected'`, 'v1 migration semantics/Gate/Quality');
+  await click(trigger('valuable')); await sleep(380); await click(option('valuable',augusta.stats[0].name));
+  await read(`(()=>{const key='bellibing.improve.simple-settings.v2',saved=JSON.parse(localStorage.getItem(key));saved.characters.augusta.valuableStats.sourceBinding='stale';localStorage.setItem(key,JSON.stringify(saved))})()`);
+  await navigate(send); await wait('releasedCharacters.length===57&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Drift source readiness');
+  await read("show('improve');improvePicker.select('Augusta')");
+  await check(`${state}.valuableStats.activeStats.length===0&&${state}.valuableStats.orderingMode==='RECOMMENDED'&&${state}.gate===20&&${state}.rollQuality==='High+'`, 'binding drift did not fail closed');
+  console.log('- Improve Settings vertical Active/Available, physical drag, keyboard reorder, reset, Pending, detached per-Character state, reload, keyboard and reduced motion passed.');
 }

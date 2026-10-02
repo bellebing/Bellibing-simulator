@@ -29,3 +29,16 @@
 .improve-setting-chips + .improve-setting-note { margin-top:9px; }
 .improve-setting-options > :last-child { margin-bottom:0; }
 @media(prefers-reduced-motion:reduce) { .improve-setting-expansion { transition:opacity 100ms ease; } .improve-setting-caret { transition:none; } }
+/* Valuable Stats v2: one ordered vertical Active list, then the derived Available list. */
+.improve-setting[data-setting="valuable"].is-expanded { width:360px; }
+.improve-valuable-section { margin:14px 0; }
+.improve-valuable-section h3 { margin:0 0 7px; font-size:12px; color:#ede5d4; font-weight:600; }
+.improve-valuable-list { display:flex; flex-direction:column; gap:6px; }
+.improve-valuable-row { display:flex; align-items:center; gap:6px; min-height:32px; }
+.improve-valuable-row > .improve-setting-choice:first-of-type { flex:1; text-align:left; }
+.improve-valuable-handle { color:#949ca8; cursor:grab; }
+.improve-valuable-row.is-dragging { opacity:.5; }
+.improve-valuable-row[draggable="true"] { cursor:grab; }
+.improve-setting-choice:disabled { opacity:.4; cursor:default; }
+.improve-valuable-row[draggable="true"] { user-select:none; -webkit-user-drag:element; }
+.improve-valuable-handle { display:flex; align-items:center; justify-content:center; width:20px; min-height:28px; flex:none; user-select:none; }

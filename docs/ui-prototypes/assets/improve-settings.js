@@ -1,11 +1,11 @@
-import { SIMPLE_GATES, ROLL_QUALITY_PRESETS, normalizeSimpleSettings, updateSimpleSettings } from './improve-settings/state.mjs';
+import { SIMPLE_GATES, ROLL_QUALITY_PRESETS, normalizeSimpleSettings, updateSimpleSettings,
+  loadSimpleSettingsStorage, savedCharacterSettings, persistSimpleSettings } from './improve-settings/state.mjs';
 
-const KEY = 'bellibing.improve.simple-settings.v1';
 const root = document.getElementById('improveSettings');
-let saved = {};
-try { const value = JSON.parse(localStorage.getItem(KEY)); if (value?.version === 1 && value.characters && typeof value.characters === 'object') saved = value.characters; } catch {}
-let characterId = null, source = null, sources = [], maxSubstats = 0, loaded = false, expanded = null;
-let settings = normalizeSimpleSettings(null, null, 0);
+const saved = loadSimpleSettingsStorage(localStorage);
+let characterId = null, source = null, sources = [], loaded = false, expanded = null;
+let settings = normalizeSimpleSettings(null, null);
+let drag = null;
 const groups = new Map();
 const heading = document.createElement('div'); heading.className = 'improve-settings-heading';
 const title = document.createElement('h2'); title.id = 'improveSettingsTitle'; title.textContent = 'Improve Settings';
@@ -18,19 +18,24 @@ function button(label, action, selected) {
   const node = document.createElement('button'); node.type = 'button'; node.textContent = label;
   node.className = 'improve-setting-choice'; node.dataset.settingValue = String(action.value);
   node.setAttribute('aria-pressed', String(selected));
-  node.onclick = () => {
-    settings = updateSimpleSettings(settings, action, source, maxSubstats);
-    // Unavailable source data must not erase a previously saved configuration.
-    // getState() still exposes Pending until that source binding is verified again.
-    saved[characterId] = source?.status !== 'READY' && saved[characterId]?.valuableStats
-      ? { ...settings, valuableStats: saved[characterId].valuableStats } : settings;
-    try { localStorage.setItem(KEY, JSON.stringify({ version: 1, characters: saved })); saveNote.hidden = true; }
-    catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; }
-    if (action.type === 'stat') {
-      render(); groups.get('valuable').content.querySelectorAll('[data-setting-value]').forEach(item => { if (item.dataset.settingValue === action.value) item.focus({ preventScroll: true }); });
-    } else { setExpanded(null); render(); groups.get(action.type === 'count' ? 'valuable' : action.type).trigger.focus({ preventScroll: true }); }
-  };
+  node.onclick = () => commit(action, node.dataset.focusKey);
+  node.dataset.focusKey = action.type + ':' + (action.value ?? '');
   return node;
+}
+function save() {
+  try { persistSimpleSettings(saved, settings, localStorage); saveNote.hidden = true; }
+  catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; }
+}
+function commit(action, focusKey) {
+  settings = updateSimpleSettings(settings, action, source, characterId); save();
+  if (['gate', 'quality'].includes(action.type)) {
+    setExpanded(null); render(); groups.get(action.type).trigger.focus({ preventScroll: true });
+  } else {
+    render();
+    const target = [...groups.get('valuable').content.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey);
+    const fallback = [...groups.get('valuable').content.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === 'stat:' + action.value);
+    (target && !target.disabled ? target : fallback ?? groups.get('valuable').trigger).focus({ preventScroll: true });
+  }
 }
 function setExpanded(next, restoreFocus = false) {
   const previous = expanded; expanded = next;
@@ -70,32 +75,63 @@ function render() {
   const presets = choices('Minimum Roll Quality'); ROLL_QUALITY_PRESETS.forEach(value => presets.append(button(value, { type: 'quality', value }, value === settings.rollQuality)));
   quality.content.append(presets, note('Threshold mapping pending.'));
   const valuable = groups.get('valuable'), config = settings.valuableStats;
-  valuable.summary.textContent = !loaded ? 'Loading…' : config.status === 'PENDING' ? 'Pending' : config.requiredCount === null ? 'Choose' : config.requiredCount + ' of ' + config.selectedStats.length;
+  valuable.summary.textContent = !loaded ? 'Loading…' : config.status === 'PENDING' ? 'Pending' : config.activeStats.length + ' of ' + source.stats.length + ' selected';
   if (config.status === 'PENDING') { valuable.content.append(note(loaded ? 'Valuable stats pending for this Character.' : 'Loading Character profile…')); return; }
-  valuable.content.append(note('Choose valuable stats, then how many are required.'));
-  const stats = choices('Available valuable stats');
-  source.stats.forEach(stat => {
-    const chip = button(stat.name, { type: 'stat', value: stat.name }, config.selectedStats.includes(stat.name));
-    if (stat.note) chip.title = stat.note; stats.append(chip);
-  });
-  valuable.content.append(stats, note(config.selectedStats.length + ' of ' + source.stats.length + ' available stats selected'));
-  const counts = choices('Valuable Stats Required');
-  for (let value = 1; value <= Math.min(maxSubstats, config.selectedStats.length); value++) counts.append(button(String(value), { type: 'count', value }, value === config.requiredCount));
-  valuable.content.append(counts);
-  if (!config.selectedStats.length) valuable.content.append(note('Select at least one stat.'));
-  valuable.content.append(note(source.profileName));
+  const modes = choices('Valuable Stats ordering mode');
+  for (const [value, label] of [['RECOMMENDED', 'Recommended'], ['MANUAL', 'Manual']]) modes.append(button(label, { type: 'mode', value }, config.orderingMode === value));
+  valuable.content.append(modes, note('Recommended ranking pending. Available uses source order.'));
+  for (const [label, names] of [['Active', config.activeStats], ['Available', config.availableStats]]) {
+    const section = document.createElement('section'); section.className = 'improve-valuable-section';
+    const heading = document.createElement('h3'); heading.textContent = label;
+    const list = document.createElement('div'); list.className = 'improve-valuable-list'; list.setAttribute('role', 'list'); list.setAttribute('aria-label', label + ' valuable stats');
+    names.forEach((name, index) => {
+      const row = document.createElement('div'); row.className = 'improve-valuable-row'; row.dataset.statName = name; row.setAttribute('role', 'listitem');
+      const select = button(name, { type: 'stat', value: name }, label === 'Active');
+      select.setAttribute('aria-label', (label === 'Active' ? 'Deactivate ' : 'Activate ') + name);
+      const stat = source.stats.find(stat => stat.name === name); if (stat.note) select.title = stat.note;
+      if (label === 'Active') {
+        const handle = document.createElement('span'); handle.className = 'improve-valuable-handle'; handle.textContent = '⠿'; handle.setAttribute('aria-hidden', 'true'); row.append(handle);
+        row.draggable = config.orderingMode === 'MANUAL';
+        row.addEventListener('dragstart', event => {
+          drag = { characterId, name }; event.dataTransfer.setData('text/plain', name); event.dataTransfer.effectAllowed = 'move'; row.classList.add('is-dragging');
+        });
+        row.addEventListener('dragend', () => { drag = null; row.classList.remove('is-dragging'); });
+        row.addEventListener('dragover', event => { if (drag?.characterId === characterId) { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; } });
+        row.addEventListener('drop', event => {
+          if (drag?.characterId !== characterId) return;
+          event.preventDefault(); const name = drag.name; drag = null;
+          commit({ type: 'reorder', value: name, to: index }, 'stat:' + name);
+        });
+      }
+      row.append(select);
+      if (label === 'Active') for (const [offset, text] of [[-1, '↑'], [1, '↓']]) {
+        const move = button(text, { type: 'reorder', value: name, to: index + offset }, false);
+        move.removeAttribute('aria-pressed'); move.setAttribute('aria-label', 'Move ' + name + (offset < 0 ? ' up' : ' down'));
+        move.dataset.focusKey = 'reorder:' + name + ':' + offset;
+        move.disabled = config.orderingMode !== 'MANUAL' || index + offset < 0 || index + offset >= names.length;
+        row.append(move);
+      }
+      list.append(row);
+    });
+    section.append(heading, list); if (!names.length) section.append(note(label === 'Active' ? 'No active stats.' : 'All available stats are active.'));
+    valuable.content.append(section);
+  }
+  const reset = button('Reset to Recommended', { type: 'reset' }, false); reset.removeAttribute('aria-pressed');
+  valuable.content.append(reset, note(source.profileName));
 }
+
 function setCharacter(id) {
-  if (characterId !== id) setExpanded(null);
+  if (characterId !== id) { setExpanded(null); drag = null; }
   characterId = id; source = sources.find(row => row.characterId === id) ?? null;
-  settings = normalizeSimpleSettings(saved[id], source, maxSubstats); render();
+  settings = normalizeSimpleSettings(savedCharacterSettings(saved, id), source, id);
+  if (id && loaded) save(); render();
 }
 // Detached snapshots are the future consumer boundary; no equipment or evaluator coupling.
-window.bellibingImproveSettings = { setCharacter, getState: () => structuredClone({ characterId, ...settings }) };
+window.bellibingImproveSettings = { setCharacter, getState: () => structuredClone(settings) };
 setExpanded(null); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' })
   .then(response => { if (!response.ok) throw new Error('Improve profile source unavailable'); return response.json(); })
   .then(data => {
     if (data.schemaVersion !== 1 || !Array.isArray(data.characters) || !Number.isInteger(data.maxSubstats)) throw new Error('Unsupported Improve profile source');
-    sources = data.characters; maxSubstats = data.maxSubstats; loaded = true; setCharacter(characterId);
+    sources = data.characters; loaded = true; setCharacter(characterId);
   }).catch(() => { sources = []; loaded = true; setCharacter(characterId); });

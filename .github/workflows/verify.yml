@@ -69,6 +69,12 @@ jobs:
       - name: Character INHERENT_PASSIVES coverage gate
         run: npm run audit:character-inherent-passives
 
+      - name: Character OUTRO_EFFECT coverage gate
+        run: npm run audit:character-outro-effects
+
+      - name: Character OUTRO_EFFECT focused tests
+        run: node --experimental-strip-types --test test/characterOutroEffectsCoverage.test.ts
+
       - name: Sequence source presentation focused tests
         run: node --experimental-strip-types --test test/characterSequenceUi.test.ts test/characterBuilderAssets.test.ts
 

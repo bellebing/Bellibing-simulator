@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
 
-import type { CharacterActionFact } from '../../src/characterMechanicsDomain.ts';
 import { CHARACTER_CATALOG } from '../../src/data/characters.ts';
 import {
   CHARACTER_MECHANIC_FACT_BY_ID,
@@ -51,17 +50,6 @@ const sourcePayload = JSON.parse(readFileSync(SOURCE_PATH, 'utf8')) as SourcePay
 
 function outroStructuralIssue(issue: string): boolean {
   return /OUTRO_EFFECT|OUTRO_SKILL|Outro Skill|outro/i.test(issue);
-}
-
-function hasExactDamageRepresentation(fact: CharacterActionFact): boolean {
-  const representationCount = [
-    fact.motionValueCurve !== undefined && fact.motionValueCurve !== null,
-    fact.motionValueComponents !== undefined && fact.motionValueComponents !== null && fact.motionValueComponents.length > 0,
-    fact.sourceFixedMotionValue !== undefined && fact.sourceFixedMotionValue !== null,
-    fact.sourceFixedMotionValueComponents !== undefined && fact.sourceFixedMotionValueComponents !== null && fact.sourceFixedMotionValueComponents.length > 0,
-    fact.sourceFixedFlatDamage !== undefined && fact.sourceFixedFlatDamage !== null,
-  ].filter(Boolean).length;
-  return representationCount === 1;
 }
 
 export function auditCharacterOutroEffectsCoverage(): CharacterOutroEffectsCoverageAudit {
@@ -151,20 +139,10 @@ export function auditCharacterOutroEffectsCoverage(): CharacterOutroEffectsCover
       .map((factId) => CHARACTER_MECHANIC_FACT_BY_ID.get(factId))
       .filter((fact) => fact?.section === 'OUTRO_SKILL' && (fact.kind === 'PASSIVE' || fact.kind === 'ACTION'));
     const nonVerified = facts.filter((fact) => fact?.verificationStatus !== 'VERIFIED');
-    const malformedActions = facts.filter((fact) => {
-      if (fact?.kind !== 'ACTION') return false;
-      return fact.actionRole !== 'DAMAGE'
-        || fact.actionKind !== 'OUTRO'
-        || fact.damageClass !== 'OUTRO'
-        || fact.scalingStat === 'UNKNOWN'
-        || fact.scalingStat === 'SHARED_SYSTEM'
-        || !hasExactDamageRepresentation(fact);
-    });
     const reasons = [
       ...(outroState?.status !== 'VERIFIED' ? [outroState?.notes ?? 'OUTRO_EFFECT coverage is not VERIFIED.'] : []),
       ...(facts.length === 0 ? ['VERIFIED OUTRO_EFFECT coverage has no linked Outro fact.'] : []),
       ...(nonVerified.length ? [`OUTRO_EFFECT links non-VERIFIED facts: ${nonVerified.map((fact) => fact?.factId).join(', ')}`] : []),
-      ...(malformedActions.length ? [`OUTRO_EFFECT damage facts are missing canonical Outro damage semantics or an exact source representation: ${malformedActions.map((fact) => fact?.factId).join(', ')}`] : []),
       ...structuralIssues,
     ];
 

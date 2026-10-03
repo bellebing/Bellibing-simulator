@@ -1,5 +1,7 @@
 # Bellibing Simulator — Current Project Status
 
+Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover active PR/CI state from current GitHub; recorded lane labels below may lag. Checkpoint-specific verification and stop instructions below belong to their recorded work, not to new authorized workstreams. This status file does not impose generic full-verification, checkpoint or Handoff-sync requirements.
+
 ## Current work — Recommended Character Stats source/data foundation (Prydwen + DPR)
 
 PR #224 is **MERGED / CLOSED** at canonical main `269682d30fb395ed58414a3f671677c1586f56b3` (2026-10-03), from reviewed head `f71c504c8074054ed4ff167c5d4c2f7d4ebb9749`. GitHub merge metadata and AI Handoff **UPD-319** confirm this. The accepted Improve Settings foundation below is integrated; its historical sections preserve their original checkpoint state.

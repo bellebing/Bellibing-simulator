@@ -12,6 +12,28 @@ Use for development work in `bellebing/Bellibing-simulator`.
 3. **Preserve boundaries:** raw/source data → effects/mechanics → profiles/recommendations → combat/DPS → UI/presentation. Do not move gameplay math into UI or duplicate canonical models.
 4. **Keep the requested slice narrow.** Do not automatically start adjacent workstreams, redesign unrelated accepted UI, or alter unrelated mechanics, profile, or settings data.
 5. **Follow branch/PR discipline.** Start from the explicitly required current base; keep unrelated parallel PRs isolated; inspect changed files before closeout. Use **DRAFT** PRs unless explicitly told otherwise. Never merge without explicit user approval.
-6. **Verify the change.** Run focused tests, the full test suite, strict build, and the repository **Verify** workflow using current repository commands. Never weaken tests to pass. UI changes require real browser/live verification where applicable. Never mark a bug fixed without verification; report checks that fail or cannot run as blockers. Do not treat green architecture/tests as proof that required data coverage is complete; verify the actual required coverage.
-7. **Document meaningful verified work.** Update `docs/PROJECT_STATUS.md` when appropriate. Update the AI Handoff update log and bug register with exact state, head SHA, test/Verify evidence, and remaining blockers. Do not claim coverage complete while required data is incomplete.
-8. **Close out with evidence:** exact head SHA; changed files; what was implemented; remaining PENDING/blockers; focused/full test results; strict build/Verify result; and Handoff update ID when applicable.
+6. **Use staged verification.** Follow ITERATION MODE during draft exploration and CHECKPOINT MODE at acceptance/readiness/closure boundaries below.
+7. **Document and close out at checkpoints.** Record meaningful verified work and evidence where appropriate; iteration alone does not require PROJECT_STATUS or AI Handoff closeout.
+
+## Staged verification policy
+
+### ITERATION MODE — default inside an active DRAFT PR
+
+- Treat the PR as an iterative workspace: **edit → focused check → user review → adjust**.
+- For small/local changes, run only focused tests/checks relevant to the changed slice. For UI iteration, normally review in a real browser at **1440×900** first. Run a targeted build/typecheck only when relevant to the changed files.
+- Do not repeatedly run the full test suite, full desktop viewport matrix, repository **Verify**, **Export**, PROJECT_STATUS closeout or AI Handoff closeout after every micro-change.
+- An iteration pass is not a completion claim.
+
+### CHECKPOINT MODE
+
+Use when the user accepts the current slice; before merge/review readiness, claiming a bug fixed or claiming required data coverage complete; or earlier for genuinely cross-cutting/high-risk source, domain, state, migration or build-pipeline changes.
+
+- Run the full applicable verification with current repository commands: focused tests, full test suite, strict build, required real-browser desktop matrix, repository **Verify**, **Export** where applicable, and changed-file review.
+- Complete PROJECT_STATUS / AI Handoff / bug-register closeout where appropriate, recording exact head SHA, changed files, implemented scope, check results, remaining PENDING/blockers and Handoff update ID when applicable. Report failed or unavailable required checks as blockers.
+- Avoid duplicate full verification on an unchanged checkpoint head. After a checkpoint, return to ITERATION MODE for the next exploratory slice.
+
+### Rules in both modes
+
+- Never weaken tests.
+- UI bugs require real UI/live verification before being called fixed.
+- Do not infer data completeness from green architecture/tests; verify actual required coverage before claiming it complete.

@@ -1,5 +1,28 @@
 # Bellibing Simulator — Current Project Status
 
+## Permanent development workflow — staged verification
+
+### ITERATION MODE — default inside an active DRAFT PR
+
+- Treat the PR as an iterative workspace: **edit → focused check → user review → adjust**.
+- For small/local changes, run only focused tests/checks relevant to the changed slice. For UI iteration, normally review in a real browser at **1440×900** first. Run a targeted build/typecheck only when relevant to the changed files.
+- Do not repeatedly run the full test suite, full desktop viewport matrix, repository **Verify**, **Export**, PROJECT_STATUS closeout or AI Handoff closeout after every micro-change.
+- An iteration pass is not a completion claim.
+
+### CHECKPOINT MODE
+
+Use when the user accepts the current slice; before merge/review readiness, claiming a bug fixed or claiming required data coverage complete; or earlier for genuinely cross-cutting/high-risk source, domain, state, migration or build-pipeline changes.
+
+- Run the full applicable verification with current repository commands: focused tests, full test suite, strict build, required real-browser desktop matrix, repository **Verify**, **Export** where applicable, and changed-file review.
+- Complete PROJECT_STATUS / AI Handoff / bug-register closeout where appropriate, recording exact head SHA, changed files, implemented scope, check results, remaining PENDING/blockers and Handoff update ID when applicable. Report failed or unavailable required checks as blockers.
+- Avoid duplicate full verification on an unchanged checkpoint head. After a checkpoint, return to ITERATION MODE for the next exploratory slice.
+
+### Rules in both modes
+
+- Never weaken tests.
+- UI bugs require real UI/live verification before being called fixed.
+- Do not infer data completeness from green architecture/tests; verify actual required coverage before claiming it complete.
+
 ## Character Mechanics INHERENT_PASSIVES closeout — PR #223
 
 PR #222 is **MERGED / CLOSED** on canonical `main` as `eaaa4b0f4b5942ee6392cb72d5e95386305399ae`, from reviewed FORTE_RULES head `0c9061728a64630997c8b12ae14267be093b89c3`. PR #223 is the current **INHERENT_PASSIVES closeout** on top of that merged baseline. It does not duplicate or replace the already-integrated ACTIONS/FORTE_RULES work.

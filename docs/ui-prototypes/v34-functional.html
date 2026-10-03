@@ -462,11 +462,14 @@
 .forte-metadata{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}.forte-metadata span{padding:4px 6px;border:1px solid #ffffff1a;border-radius:5px;color:#c7b381;font-size:8px;letter-spacing:.04em}
 </style>
 <link rel="stylesheet" href="./assets/character-build-card.css">
+<link rel="stylesheet" href="./assets/improve-settings.css">
+<script type="module" src="./assets/improve-settings.js"></script>
 </head>
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
 <section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="viewBuildCard" class="view-build-card" type="button" aria-haspopup="dialog" aria-controls="buildCardOverlay" hidden>View Character Card</button><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
+  <section id="improveSettings" class="improve-settings improve-surface" aria-labelledby="improveSettingsTitle"></section>
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <section class="improve-truth" aria-label="Character source of truth">
       <div class="improve-character-identity"><strong id="improveCharacterName" class="improve-truth-name"></strong><div class="improve-character-context"><div class="improve-truth-art"><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div></div>
@@ -1979,6 +1982,7 @@ const improveUi={
     if(name!==this.characterName){this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
     this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
     const slots=improveEchoSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
+    window.bellibingImproveSettings?.setCharacter(this.characterId);
     this.selectedEchoIndex=previewIndex>=0?previewIndex:Math.max(0,slots.findIndex(slot=>echoById.has(echoSlotId(slot))));
     this.render();
   },
@@ -2116,10 +2120,18 @@ const improveUi={
   refresh(){if(this.characterName)this.render()}
 };
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
+window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));
 window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
+let characterManifestStatus='PENDING';
 async function loadReleasedCharacters(){
-  const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store'});
+  characterManifestStatus='PENDING';
+  document.documentElement.dataset.characterManifestStatus=characterManifestStatus;
+  delete document.documentElement.dataset.characterManifestError;
+  try{
+  // This deadline aborts the real request, including body consumption. It does not
+  // manufacture readiness or leave a failed request displayed as loading.
+  const response=await fetch('assets/characters/portraits/manifest.json',{cache:'no-store',signal:AbortSignal.timeout(15000)});
   if(!response.ok)throw new Error('portrait manifest '+response.status);
   const manifest=await response.json();
   const direct=manifest.portraits.filter(item=>item.releaseStatus==='RELEASED'&&item.uiEligible===true).map(item=>({id:item.characterId,name:item.characterName,src:toAssetPath(item.targetPath)}));
@@ -2127,10 +2139,18 @@ async function loadReleasedCharacters(){
   const characters=[...direct,...rovers].sort((a,b)=>a.name.localeCompare(b.name,'en'));
   if(characters.length!==57)throw new Error('expected 57 released Character cards, got '+characters.length);
   releasedCharacters=characters;characterByName.clear();characters.forEach(item=>characterByName.set(item.name,item));
+  characterManifestStatus='READY';
+  }catch(error){
+    characterManifestStatus='ERROR';
+    console.error(error);
+    document.documentElement.dataset.characterManifestError=String(error.message||error);
+  }finally{
+  document.documentElement.dataset.characterManifestStatus=characterManifestStatus;
   if(document.getElementById('build').classList.contains('active'))buildPicker.render();
   if(document.getElementById('improve').classList.contains('active'))improvePicker.render();
+  }
 }
-const characterManifestReady=loadReleasedCharacters().catch(error=>{console.error(error);document.documentElement.dataset.characterManifestError=String(error.message||error)});
+const characterManifestReady=loadReleasedCharacters();
 
 async function loadCharacterHeroArtRuntimeData(){
   const response=await fetch(CHARACTER_HERO_ART_RUNTIME_PATH,{cache:'no-store'});
@@ -2243,16 +2263,37 @@ function renderHome(){
 
 function makePicker({shellId,wheelId,items,mode}){
   const shell=document.getElementById(shellId),wheel=document.getElementById(wheelId);let list=[],cards=[],selected=null,pending=null,collapseTimer=null,carousel=null;
+  let clearanceFrame=0;
+  function reserveImproveSelectorSpace(){
+    if(mode!=='improve')return;
+    cancelAnimationFrame(clearanceFrame);
+    if(!shell.classList.contains('has-selection')){shell.style.removeProperty('--improve-selector-clearance');return}
+    // Reserve the rendered envelope during the existing entrance/hover motion,
+    // including scaled cards. Keep all selector sizes, spacing and easing intact.
+    const bottom=Math.max(wheel.getBoundingClientRect().bottom,...cards.map(card=>card.getBoundingClientRect().bottom));
+    const origin=shell.getBoundingClientRect().top+74-shell.scrollTop;
+    shell.style.setProperty('--improve-selector-clearance',Math.max(266,bottom-origin+16)+'px');
+    if(wheel.getAnimations({subtree:true}).some(animation=>animation.playState==='running'))clearanceFrame=requestAnimationFrame(reserveImproveSelectorSpace);
+  }
+  wheel.addEventListener('transitionrun',reserveImproveSelectorSpace);
+  if(mode==='improve')new MutationObserver(reserveImproveSelectorSpace).observe(shell,{attributes:true,attributeFilter:['class']});
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint()}
+  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint();reserveImproveSelectorSpace()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
   function confirmPickerSwitch(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()}
   function render(){
     list=source().filter(Boolean);carousel?.destroy();carousel=null;wheel.innerHTML='';cards=[];
-    if(!list.length){shell.querySelector('.question').textContent=mode==='build'&&!releasedCharacters.length?'Loading Characters…':'No Characters yet';delete wheel.dataset.focusIndex;return}
+    if(!list.length){
+      const needsCatalog=mode==='build'||state.characters.length>0;
+      shell.querySelector('.question').textContent=needsCatalog&&characterManifestStatus==='PENDING'?'Loading Characters…':needsCatalog&&characterManifestStatus==='ERROR'?'Character catalog unavailable. Reload to retry.':'No Characters yet';
+      shell.dataset.catalogStatus=characterManifestStatus;
+      shell.querySelector('.question').setAttribute('role','status');
+      delete wheel.dataset.focusIndex;return;
+    }
+    shell.dataset.catalogStatus=characterManifestStatus;
     shell.querySelector('.question').textContent='What Character?';
     cards=list.map((item)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.characterId=item.id;b.setAttribute('aria-label',item.name);b.innerHTML='<strong class="choice-name"></strong><span class="choice-portrait"><img alt="" draggable="false"></span>';b.querySelector('.choice-name').textContent=item.name;b.querySelector('img').src=item.src;wheel.appendChild(b);return b});
     const startIndex=selected?Math.max(0,list.findIndex(item=>item.name===selected)):mode==='build'?Math.max(0,list.findIndex(item=>item.id==='augusta')):0;

@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -75,6 +76,9 @@ jobs:
       - name: Cartethyia / Rover Windstrings focused regression
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
+      - name: Improve policy focused regression
+        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts
+
       - name: Tests
         run: npm test
 
@@ -87,12 +91,23 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
           server_pid=$!
-          trap 'kill $server_pid' EXIT
+          python3 -m http.server 4174 --directory . >/tmp/bellibing-source-http.log 2>&1 &
+          source_server_pid=$!
+          trap 'kill $server_pid $source_server_pid' EXIT
           for attempt in {1..20}; do
             if curl --fail --silent http://127.0.0.1:4173/roll-assistant.html >/dev/null; then
               break
             fi
             sleep 0.25
+          done
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html >/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          for module in echoCoreRules.js improvePolicyState.js improvePolicyPresentation.js; do
+            curl --fail --silent --output /dev/null "http://127.0.0.1:4174/docs/assets/$module"
           done
           google-chrome --version
           BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
@@ -119,34 +134,29 @@ jobs:
             BELLIBING_V34_CHROME_DEBUG_PORT=9676 \
             BELLIBING_HERO_CAPTURE=1 \
             node scripts/verify-v34-character-hero-art.mjs
+          echo "Verify source/GitHack-relative Improve runtime"
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9691 \
+            node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 \
+            node scripts/verify-improve-roll-minimum.mjs
+          echo "Verify built Export Improve runtime"
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 \
+            node scripts/verify-improve-roll-minimum.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            immutable_preview="https://rawcdn.githack.com/bellebing/Bellibing-simulator/${{ github.event.pull_request.head.sha }}/docs/ui-prototypes/v34-functional.html"
-            for attempt in {1..30}; do
-              if curl --fail --silent --output /dev/null "$immutable_preview"; then
-                break
-              fi
-              sleep 1
-            done
-            curl --fail --silent --output /dev/null "$immutable_preview"
-            BELLIBING_V34_URL="$immutable_preview" \
+            # Verify the exact PR head's built runtime, the same tree uploaded for review.
+            node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('dist/review-build.json')); if(r.headSha!=='${{ github.event.pull_request.head.sha }}'||r.workingTreeDirty) throw new Error('Review build revision mismatch')"
+            review_preview="http://127.0.0.1:4173/ui-preview/"
+            BELLIBING_V34_URL="$review_preview" \
               BELLIBING_V34_CHROME_DEBUG_PORT=9667 \
               BELLIBING_WEAPON_CLICK_ONLY=1 \
               node scripts/verify-v34-weapon-canonical.mjs
-            BELLIBING_V34_URL="$immutable_preview" \
-              BELLIBING_V34_CHROME_DEBUG_PORT=9671 \
-              node scripts/verify-v34-sequence-runtime.mjs
-            BELLIBING_V34_URL="$immutable_preview" \
-              BELLIBING_V34_CHROME_DEBUG_PORT=9673 \
-              node scripts/verify-v34-build-stats.mjs
-            BELLIBING_V34_URL="$immutable_preview" \
-              BELLIBING_V34_CHROME_DEBUG_PORT=9675 \
-              node scripts/verify-v34-skills-runtime.mjs
-            BELLIBING_V34_URL="$immutable_preview" \
-              BELLIBING_V34_CHROME_DEBUG_PORT=9677 \
-              BELLIBING_HERO_CAPTURE=0 \
-              node scripts/verify-v34-character-hero-art.mjs
+            # Sequence, Stats, Skills, Hero and Improve were already verified above
+            # against this same exact-head built runtime.
           fi
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-carousel-runtime.mjs
@@ -249,6 +259,8 @@ jobs:
             artifacts/ui-preview-home-1440x900.png
             artifacts/ui-preview-improve-augusta-1440x900.png
             artifacts/ui-preview-improve-candidate-*.png
+            artifacts/ui-preview-improve-settings-*.png
+            artifacts/ui-preview-account-review-*.png
             artifacts/ui-preview-character-build-card-*.png
             artifacts/ui-preview-build-names-expanded-1440x900.png
             artifacts/ui-preview-build-names-hover-expanded-1440x900.png

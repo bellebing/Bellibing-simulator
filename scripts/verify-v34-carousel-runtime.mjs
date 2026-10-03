@@ -1,5 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_CHROME_DEBUG_PORT ?? 9666);
@@ -281,6 +283,7 @@ async function selectorLayoutMetrics(send,shellId,wheelId){
     return {
       state,count:cards.length,focus,focusName:focused?.getAttribute('aria-label')||null,
       shell:sr.toJSON(),wheel:wr.toJSON(),innerWidth,innerHeight,
+      contentLeft:sr.left+shell.clientLeft,contentWidth:shell.clientWidth,
       shellCenter:center(sr),viewportCenter:innerWidth/2,
       spacing:fr&&nr?Math.abs(center(fr)-center(nr)):0,
       focusCenter:center(fr),focusVisible:!!fr&&center(fr)>=sr.left&&center(fr)<=sr.right,
@@ -314,7 +317,9 @@ async function buildWorkspaceMetrics(send){
 function assertSelectorBounded(m,label){
   const expectedSpacing={EXPANDED:228,COMPACT:98,HOVER_EXPANDED:146}[m.state];
   if(m.shell.width>1280.5||Math.abs(m.shellCenter-m.viewportCenter)>1.5) throw new Error(`${label} AppShell is not finite/centered: ${JSON.stringify(m)}`);
-  if(Math.abs(m.wheel.width-m.shell.width)>1.5||Math.abs(m.wheel.left-m.shell.left)>1.5) throw new Error(`${label} visual carousel viewport escaped AppShell: ${JSON.stringify(m)}`);
+  // A scrolling Improve shell reserves native scrollbar gutters. The wheel
+  // must fill its actual content box and retain the same AppShell center.
+  if(Math.abs(m.wheel.width-m.contentWidth)>1.5||Math.abs(m.wheel.left-m.contentLeft)>1.5||Math.abs(m.wheel.left+m.wheel.width/2-m.shellCenter)>1.5) throw new Error(`${label} visual carousel viewport escaped AppShell content box: ${JSON.stringify(m)}`);
   if(m.count!==57||!m.focusVisible||Math.abs(m.spacing-expectedSpacing)>2.5) throw new Error(`${label} Character carousel state/spacing drift: ${JSON.stringify(m)}`);
   if(m.overflowX!=='hidden'||m.scrollWidth>m.innerWidth+1) throw new Error(`${label} did not clip to finite shell / caused horizontal page scroll: ${JSON.stringify(m)}`);
 }
@@ -556,7 +561,7 @@ const matrix=VERIFY_MOBILE?[[390,844],[768,1024],...desktopMatrix]:desktopMatrix
 const chrome=spawn(CHROME,[
   '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
   `--remote-debugging-port=${DEBUG_PORT}`,'--remote-debugging-address=127.0.0.1',
-  '--user-data-dir=/tmp/bellibing-v34-carousel-runtime','about:blank'
+  '--user-data-dir='+join(tmpdir(),'bellibing-v34-carousel-runtime-'+process.pid),'about:blank'
 ],{stdio:['ignore','pipe','pipe']});
 let stderr='';chrome.stderr.on('data',chunk=>{stderr+=String(chunk)});
 

@@ -3,6 +3,8 @@ import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
+import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
+import { verifyAccountReview } from './verify-v34-account-review.mjs';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_ECHO_DEBUG_PORT ?? 9671);
@@ -876,6 +878,10 @@ async function verifySonataComposition(send){
 
 const chrome = spawn(CHROME, [
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
+  // Headless Linux has no physical pointing device. Declare the desktop mouse
+  // capabilities (as Playwright's Chromium launcher does), then send real CDP
+  // mouse events. Do not force app classes or replace matchMedia in the page.
+  '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
   `--remote-debugging-port=${DEBUG_PORT}`, '--remote-debugging-address=127.0.0.1',
   '--user-data-dir='+join(tmpdir(),'bellibing-v34-echo-workspace-'+process.pid), 'about:blank',
 ], { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
@@ -890,18 +896,24 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    const desktop = await verifyDesktop(send);
-    const sonata = await verifySonataComposition(send);
+    const improveOnly = process.env.BELLIBING_IMPROVE_ONLY === '1';
+    await verifyAccountReview({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+    const desktop = improveOnly ? null : await verifyDesktop(send);
+    const sonata = improveOnly ? null : await verifySonataComposition(send);
+    await verifyImproveSettings({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     await verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
     const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
+    if(improveOnly) console.log('v34 focused Improve Settings and Candidate verification passed in real Chrome.');
+    else {
     console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
     console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
     console.log('- Sonata selector: canonical sourceId newest→oldest ordering, recommended-first gold stars, exact-once coverage and no-recommendation fallback passed.');
     console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
-    console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
+    if(desktop) console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
     if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844 passed (${mobile.previewed}).`);
     else console.log('- Mobile/narrow verification deferred by desktop-first stabilization policy (set BELLIBING_VERIFY_MOBILE=1 to run it explicitly).');
-    console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
+    if(sonata) console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
+    }
   } finally {
     socket.close();
   }

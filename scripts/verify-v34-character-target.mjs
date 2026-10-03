@@ -123,5 +123,6 @@ try {
 } finally {
   socket?.close(); chrome.kill('SIGTERM');
   await new Promise(resolve => chrome.once('exit', resolve));
-  rmSync(profile, { recursive: true, force: true });
+  // Chrome subprocesses may finish profile writes after the parent exits.
+  rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
 }

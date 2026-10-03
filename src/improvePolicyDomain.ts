@@ -28,7 +28,7 @@ export interface CharacterStatTarget {
   readonly minimum: number;
   readonly preferred?: number;
   readonly basis: {
-    readonly kind: 'SOURCE_DESCRIBED';
+    readonly kind: 'SOURCE_DESCRIBED' | 'USER_DEFINED';
     readonly description: string | null;
     /** Source validity does not prove comparability with static Build Stats. */
     readonly comparisonStatus: 'PENDING';
@@ -86,10 +86,11 @@ export interface EchoRequirements {
   readonly requiredOnEveryEcho: readonly EchoStatRequirement[];
   readonly groups: readonly EchoRequirementGroup[];
   /** Additional source acceptance semantics, not another scoring model. */
+  /** null means no additional user-defined acceptance constraints. */
   readonly acceptanceConstraints: {
     readonly nonTargetRoles: CharacterRollProfile['nonTargetRoles'];
     readonly maximumDeadStats: number;
-  };
+  } | null;
 }
 
 export interface EchoPolicyProfile {

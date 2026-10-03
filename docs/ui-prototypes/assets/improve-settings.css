@@ -29,16 +29,42 @@
 .improve-setting-chips + .improve-setting-note { margin-top:9px; }
 .improve-setting-options > :last-child { margin-bottom:0; }
 @media(prefers-reduced-motion:reduce) { .improve-setting-expansion { transition:opacity 100ms ease; } .improve-setting-caret { transition:none; } }
-/* Valuable Stats v2: one ordered vertical Active list, then the derived Available list. */
-.improve-setting[data-setting="valuable"].is-expanded { width:360px; }
-.improve-valuable-section { margin:14px 0; }
-.improve-valuable-section h3 { margin:0 0 7px; font-size:12px; color:#ede5d4; font-weight:600; }
-.improve-valuable-list { display:flex; flex-direction:column; gap:6px; }
-.improve-valuable-row { display:flex; align-items:center; gap:6px; min-height:32px; }
-.improve-valuable-row > .improve-setting-choice:first-of-type { flex:1; text-align:left; }
-.improve-valuable-handle { color:#949ca8; cursor:grab; }
-.improve-valuable-row.is-dragging { opacity:.5; }
-.improve-valuable-row[draggable="true"] { cursor:grab; }
-.improve-setting-choice:disabled { opacity:.4; cursor:default; }
-.improve-valuable-row[draggable="true"] { user-select:none; -webkit-user-drag:element; }
-.improve-valuable-handle { display:flex; align-items:center; justify-content:center; width:20px; min-height:28px; flex:none; user-select:none; }
+/* Four compact controls; each expansion spans the owning Settings width. */
+.improve-settings-heading { align-items:center; flex-wrap:wrap; justify-content:space-between; }
+.improve-settings-controls { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,.55fr) minmax(0,1.05fr) minmax(0,.8fr); gap:0 10px; }
+.improve-setting { display:contents; }
+.improve-setting-trigger { width:100%; justify-content:space-between; gap:8px; grid-row:1; }
+.improve-setting-trigger > span:first-child { white-space:nowrap; }
+.improve-setting-summary { white-space:normal; text-align:right; }
+.improve-setting[data-setting="target"] .improve-setting-trigger { grid-column:1; }
+.improve-setting[data-setting="gate"] .improve-setting-trigger { grid-column:2; }
+.improve-setting[data-setting="echo"] .improve-setting-trigger { grid-column:3; }
+.improve-setting[data-setting="quality"] .improve-setting-trigger { grid-column:4; }
+.improve-setting-expansion { grid-column:1/-1; grid-row:2; width:100%; }
+.improve-setting-options { padding:16px 2px 2px; }
+.improve-policy-section { margin:0 0 18px; }
+.improve-policy-section h3 { margin:0; font-size:13px; font-weight:600; color:#ede5d4; }
+.improve-policy-section h4 { margin:10px 0 8px; font-size:12px; color:#c5cbd3; }
+.improve-policy-section-heading { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:10px; }
+.improve-policy-origin { font-size:11px; color:#b8ae91; }
+.improve-policy-section-heading .improve-setting-choice { margin-left:auto; }
+.improve-policy-stat,.improve-policy-target { display:flex; flex-wrap:wrap; align-items:center; gap:12px; min-height:34px; padding:6px 10px; margin:5px 0; border-radius:7px; background:rgba(255,255,255,.025); color:#b7bec8; font-size:12px; }
+.improve-policy-stat > strong { min-width:150px; flex:1; color:#ede5d4; font-weight:500; }
+.improve-policy-target > strong { min-width:120px; color:#ede5d4; font-weight:500; }
+.improve-policy-target > span { min-width:140px; }
+.improve-policy-target + .improve-setting-note { margin-top:6px; }
+.improve-policy-priority { font-size:12px; color:#ede5d4; margin:10px 0 4px; }
+.improve-target-editor { margin:14px 0; padding:14px; border:1px solid rgba(255,255,255,.1); border-radius:9px; }
+.improve-target-editor h4 { margin-top:0; }
+.improve-target-fields { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0; }
+.improve-target-field { display:flex; flex-direction:column; gap:6px; font-size:11px; color:#b7bec8; }
+.improve-target-field input { box-sizing:border-box; width:210px; max-width:100%; min-height:34px; background:rgba(7,9,13,.55); color:#ede5d4; border:1px solid rgba(255,255,255,.18); border-radius:7px; padding:7px 10px; font:inherit; font-size:12px; }
+.improve-target-field input:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
+.improve-target-field input[aria-invalid="true"] { border-color:#ce9e7b; }
+.improve-target-editor .improve-setting-note { margin-top:8px; }
+.improve-policy-review { color:#d9ba87; }
+.improve-policy-preferences { display:flex; flex-direction:column; gap:3px; }
+.improve-policy-stat[draggable="true"] { user-select:none; -webkit-user-drag:element; cursor:grab; }
+.improve-policy-handle { width:20px; flex:none; color:#949ca8; cursor:grab; }
+.improve-policy-stat.is-dragging { opacity:.5; }
+.improve-setting-choice:disabled,.improve-setting-trigger:disabled { opacity:.45; cursor:default; }

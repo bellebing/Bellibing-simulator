@@ -1,6 +1,18 @@
 # Bellibing Simulator — Current Project Status
 
-## Improve policy state and v2 migration — PR #224
+## Improve policy UI integration — PR #224
+
+PR #224 remains **OPEN / DRAFT / UNMERGED**, awaiting **visual review**. Improve Settings now uses global Recommended / Manual mode with four compact controls: Character Target, Gate, Echo Policy and Roll Quality. The visible v2 Valuable Stats model and Simple badge are retired; compiled shared v3 state and a pure TypeScript adapter now drive the browser. Generated reviewed policy JSON is parity-checked by the strict build. v1/v2 storage and migration assets remain untouched recovery inputs.
+
+Augusta distinctly shows whole-build ER **116% minimum / 125% preferred**, conditional ER-first priorities and CRIT/ATK ties. Echo Policy separately displays **CRIT Rate ≥9.3%, CRIT DMG ≥21%**, plus **at least one** of ATK% ≥6.4%, ER ≥6.8%, Heavy Attack DMG ≥6.4%. Recommended Echo preference ordering remains Pending. Source coverage remains numeric targets 24/57, canonical priorities 44/57, Echo requirements 1/57 and Echo preferences 0/57.
+
+Manual supports six numeric target metrics with canonical ratio/point storage, validation, USER_DEFINED basis and Pending comparison; requirements without invented thresholds; sparse section inheritance/reset; explicit empty preferences; physical drag and keyboard preference ordering. Combination groups stay intact. Build priorities remain read-only and generic group authoring is deferred visibly. Temporary source failures preserve intent; context drift surfaces Needs review. Gate, Quality, CharacterBuildState, Candidate, selector clearance and accepted workspace dimensions remain intact.
+
+Validation: **57/57 focused tests**, **1254/1254 full tests**, standard `npm test` (**210 files**), strict web build/generated parity and whitespace. Real Google Chrome verifies 1440×900, 1920×1080 and 2560×1440, including physical account/selector entry, exact source values, Manual editors/order, invalid inputs, unit round-trips, sparse/empty overrides, reset, Escape/reduced motion, Character/reload isolation, UI-path migration and untouched v2 recovery, source failure/recovery and drift. Final exact-head repository Verify/Export evidence is recorded on PR #224 and AI Handoff. See [current UI contract](UI_IMPROVE_SIMPLE_SETTINGS.md).
+
+**BUG-042 remains KNOWN GAP**; its description now refers to missing roster-wide reviewed Echo policy/preference coverage rather than retired v2 selection/ranking defaults. Build Need, comparison/ER satisfaction, replacement evaluation, DPR/DPS, weights, probabilities, Roll Quality mapping, Team and mobile remain **PENDING**. Do not merge or automatically start the evaluation slice; stop for visual review.
+
+## Historical Improve policy state and v2 migration — PR #224
 
 PR #224 remains **OPEN / DRAFT / UNMERGED**. The authorized continuation adds a DOM-free policy state/reducer and explicit migration API only. The accepted visible Valuable Stats v2 UI and its original storage/module remain unchanged. CharacterBuildState is still the sole equipment/build truth; no Build Need, ER satisfaction, deficit, score, replacement ranking, Roll Quality threshold, Team or mobile logic is added.
 

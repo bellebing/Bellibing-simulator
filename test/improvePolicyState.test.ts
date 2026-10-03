@@ -60,7 +60,7 @@ test('sparse overrides inherit independently and explicit empty is distinct from
 
 test('every override section supports set/clear and keeps unrelated source sections intact', () => {
   const targets = [{ metric: 'TOTAL_ATK', unit: 'POINTS', minimum: 1800,
-    basis: { kind: 'SOURCE_DESCRIBED', description: 'Explicit user intent', comparisonStatus: 'PENDING' } }] as const;
+    basis: { kind: 'USER_DEFINED', description: 'Explicit user intent', comparisonStatus: 'PENDING' } }] as const;
   const priorities = [{ stat: 'CRIT Rate', priorityGroup: 1, sourceNotes: null },
     { stat: 'CRIT DMG', priorityGroup: 1, sourceNotes: null }] as const;
   const requirements = recommended.echoPolicy.requirements.value!;

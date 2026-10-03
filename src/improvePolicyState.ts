@@ -85,7 +85,7 @@ function validOverride(section: PolicyOverrideSection, value: unknown): boolean 
       const basis = record(row.basis);
       return (ratio && row.unit === 'RATIO' || points && row.unit === 'POINTS') && nonnegative(row.minimum)
         && (row.preferred === undefined || nonnegative(row.preferred) && row.preferred >= row.minimum)
-        && basis.kind === 'SOURCE_DESCRIBED' && basis.comparisonStatus === 'PENDING'
+        && basis.kind === 'USER_DEFINED' && basis.comparisonStatus === 'PENDING'
         && (basis.description === null || typeof basis.description === 'string');
     }, 'metric');
   }
@@ -96,11 +96,11 @@ function validOverride(section: PolicyOverrideSection, value: unknown): boolean 
     && list(requirements.groups, row => typeof row.id === 'string' && row.id.length > 0
       && list(row.members, validRequirement, 'stat') && positiveInteger(row.minimumHits)
       && (row.minimumHits as number) <= (row.members as unknown[]).length, 'id')
-    && nonnegative(constraints.maximumDeadStats) && Number.isInteger(constraints.maximumDeadStats)
+    && (requirements.acceptanceConstraints === null || nonnegative(constraints.maximumDeadStats) && Number.isInteger(constraints.maximumDeadStats)
     && constraints.maximumDeadStats <= 5 && own(constraints, 'nonTargetRoles')
     && constraints.nonTargetRoles !== null && typeof constraints.nonTargetRoles === 'object'
     && !Array.isArray(constraints.nonTargetRoles)
-    && Object.entries(record(constraints.nonTargetRoles)).every(([name, role]) => stat(name) && (role === 'FILLER' || role === 'DEAD'));
+    && Object.entries(record(constraints.nonTargetRoles)).every(([name, role]) => stat(name) && (role === 'FILLER' || role === 'DEAD')));
 }
 
 export function createImprovePolicyState(characterId: string, recommended: ResolvedImprovePolicy): ImprovePolicyState {

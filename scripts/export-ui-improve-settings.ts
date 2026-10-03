@@ -1,9 +1,11 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { projectImproveSettingsSources } from '../src/improveSettingsProjection.ts';
+import { projectReleasedImprovePolicies } from '../src/improvePolicySources.ts';
 import { ECHO_STATS_EDITOR_MAX_SUBSTATS } from '../src/echoStatEditor.ts';
 
 const directory = 'docs/ui-prototypes/assets/improve-settings';
 const files = new Map([
+  [directory + '/policies.json', JSON.stringify({ schemaVersion: 1, characters: await projectReleasedImprovePolicies() }, null, 2) + '\n'],
   [directory + '/sources.json', JSON.stringify({
     schemaVersion: 1,
     generatedFrom: ['src/data/profileCatalogs.ts#PROFILE_REGISTRY', 'src/echoCoreRules.ts#SUBSTAT_TYPES'],

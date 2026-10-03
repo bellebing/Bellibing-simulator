@@ -39,7 +39,8 @@ export interface CharacterStatPriority {
   readonly stat: StatName;
   /** Lower numbers come first; equal numbers are explicit ties, not weights. */
   readonly priorityGroup: number;
-  readonly condition: { readonly kind: 'SOURCE_DESCRIBED'; readonly text: string } | null;
+  /** Verbatim conditions/relations; prose is not an executable predicate. */
+  readonly sourceNotes: string | null;
 }
 
 export interface PolicySourceEvidence {

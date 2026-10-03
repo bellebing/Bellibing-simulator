@@ -44,11 +44,11 @@ test('Augusta separates numeric ER targets from priorities without inventing CRI
       description: resolveBuildPreset(PROFILE_REGISTRY, 'augusta-standard').statTarget.gates[0]!.notes } }]);
   assert.deepEqual(content(result.characterTarget.priorities), [
     { stat: 'Energy Regen', priorityGroup: 1,
-      condition: { kind: 'SOURCE_DESCRIBED', text: 'Until the source-backed total ER requirement is satisfied.' } },
-    { stat: 'CRIT Rate', priorityGroup: 2, condition: null },
-    { stat: 'CRIT DMG', priorityGroup: 2, condition: null },
-    { stat: 'ATK%', priorityGroup: 3, condition: null },
-    { stat: 'Heavy Attack DMG', priorityGroup: 3, condition: null },
+      sourceNotes: 'Until the source-backed total ER requirement is satisfied.' },
+    { stat: 'CRIT Rate', priorityGroup: 2, sourceNotes: null },
+    { stat: 'CRIT DMG', priorityGroup: 2, sourceNotes: null },
+    { stat: 'ATK%', priorityGroup: 3, sourceNotes: null },
+    { stat: 'Heavy Attack DMG', priorityGroup: 3, sourceNotes: null },
   ]);
   assert.ok(numeric.every(row => !row.metric.includes('CRIT')));
 });

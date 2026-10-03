@@ -121,7 +121,7 @@ export async function projectRecommendedImprovePolicy(
       && new Set(statTarget.targetRules.map(rule => rule.stat)).size === statTarget.targetRules.length;
     priorities = rulesValid ? verified(statTarget.targetRules.map(rule => ({
       stat: rule.stat, priorityGroup: rule.priority,
-      condition: rule.notes ? { kind: 'SOURCE_DESCRIBED', text: rule.notes } : null,
+      sourceNotes: rule.notes ?? null,
     })), targetSource) : pending('Build priorities have unsupported names or no reviewed content.');
   }
   let echoPolicy = result.echoPolicy;

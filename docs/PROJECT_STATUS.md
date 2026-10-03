@@ -1,6 +1,32 @@
 # Bellibing Simulator — Current Project Status
 
-## Improve Valuable Stats v2 — PR #224
+## Improve policy domain/source contract — PR #224
+
+PR #224 remains **OPEN / DRAFT / UNMERGED**. The approved continuation adds only the separate Improve policy domain/source contract: Character numeric targets, Character build priorities, finished-candidate Echo requirements and Echo preferences have independent readiness/origin. The contract defines one `RECOMMENDED` / `MANUAL` mode and sparse user override sections; omitted sections inherit Recommended policy. This slice introduces no Manual editor, persistence migration or UI adapter.
+
+`src/improvePolicyDomain.ts` owns the unambiguous types; `src/improvePolicySources.ts` projects current verified registry data against the explicit source review in `src/data/improvePolicySourceReview.ts`. Numeric gates preserve minimum/preferred and source-described basis separately from priorities. Priority groups preserve ties; source conditions/relations remain verbatim notes/provenance, never parsed into executable predicates or numeric deficits. Source-valid targets do not yet establish comparability with static Build Stats: comparison remains **PENDING**.
+
+Default RELEASED-roster coverage is independently audited:
+
+| Concept | Verified projection | Remaining scope |
+| --- | --- | --- |
+| Numeric total-stat targets | **24/57**, all existing ER-total gates | No CRIT/ATK/HP targets inferred from prose; missing gates PENDING |
+| Build-stat priorities | **44/57** canonical projections | 45 verified default source profiles exist; Qiuyuan's `Heavy Attack DMG%` is unsupported and remains PENDING |
+| Finished-Echo requirements | **1/57**, matching Augusta standard context | Other 56 Characters PENDING; no inference from build priorities |
+| Echo preference order/ties | **0/57** | Core/Useful roles do not establish preference ordering |
+| Build Need / replacement evaluation | **Not implemented** | Requires a later qualified CharacterBuildState comparison/evaluation slice |
+
+Augusta's Character Target retains **116% ER minimum / 125% preferred** with the recorded context/basis. CRIT Rate = CRIT DMG and ATK% = Heavy Attack DMG remain tied build priorities without invented numeric total targets. Its explicitly approved registered `AUGUSTA_RECOMMENDED_V915` supplies **CRIT Rate ≥9.3% + CRIT DMG ≥21%** on a finished candidate Echo, plus **minimumHits=1** from ATK% ≥6.4%, ER ≥6.8%, Heavy Attack DMG ≥6.4%. Existing non-target roles, final dead-stat constraint, Echo shell applicability, checkpoint reference and provenance remain separate from whole-build targets. No checkpoint/evaluator is executed by this projection, and V9.15 remains a bounded reference rather than current architecture.
+
+Reviewed SHA-256 bindings cover composition, exact source values, notes and provenance for 47 verified presets and the one registered Echo policy. Drift or unavailable sources fail closed to **PENDING with null content**. Explicitly verified-empty is representable but no current missing section is promoted to it. Source pins are not refreshed automatically by builds.
+
+The existing PR224 Valuable Stats v2 UI, state/storage, source export and persisted user settings remain unchanged. CharacterBuildState remains the sole equipment/build truth. No new layout/controls, Build Need, ER satisfaction, DPR, scores/weights, weakest/cheapest replacement, Roll Quality mapping, Advanced Settings, Team logic or mobile adaptation is introduced.
+
+Verified implementation checkpoint: `38852d70a11dc7bc9aeefb046bf4342ace5b9c57`; **13/13 focused domain/source tests**, **1221/1221 full tests**, standard `npm test` (208 test files), strict web build and whitespace PASS. [Verify #1785 / run 37084181317](https://github.com/bellebing/Bellibing-simulator/actions/runs/37084181317) and [Export #1507 / run 37084181315](https://github.com/bellebing/Bellibing-simulator/actions/runs/37084181315) are **SUCCESS** on that exact implementation head, including the existing full browser regression. The final closeout head and its exact Verify/Export evidence belong on PR #224 and AI Handoff to avoid self-referential status commits.
+
+**Stop for domain/source review. Do not merge or automatically start the UI/state or evaluation slice.**
+
+## Historical Improve Valuable Stats v2 foundation — PR #224
 
 PR #224 remains OPEN / DRAFT / UNMERGED. The Valuable Stats-only continuation replaces the required-hit count model with ordered Active and derived Available vertical lists, Manual selection/reordering, accessible up/down actions and Reset to Recommended. Gate, Roll Quality and the accepted Improve workspace/selector clearance are preserved.
 

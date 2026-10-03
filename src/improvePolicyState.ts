@@ -19,6 +19,7 @@ type LegacySource = ReturnType<typeof projectImproveSettingsSources>[number];
 /** Only legacy intent/bindings survive migration; never Active's derived Available pool. */
 interface V2Intent {
   readonly schemaVersion: unknown;
+  readonly valuableStatsSchemaVersion: unknown;
   readonly characterId: unknown;
   readonly presetId: unknown;
   readonly profileId: unknown;
@@ -116,6 +117,7 @@ export function migrateV2ImprovePolicy(characterId: string, saved: unknown, reco
   const initial = { ...createImprovePolicyState(characterId, recommended), gate: gate(old.gate), rollQuality: quality(old.rollQuality) };
   if (valuable.orderingMode !== 'MANUAL') return initial;
   const intent: V2Intent = { schemaVersion: old.schemaVersion, characterId: old.characterId,
+    valuableStatsSchemaVersion: valuable.schemaVersion,
     presetId: valuable.presetId, profileId: valuable.profileId, sourceBinding: valuable.sourceBinding,
     activeStats: structuredClone(valuable.activeStats ?? null) };
   return resumeMigration({ ...initial, mode: 'MANUAL', presetId: typeof intent.presetId === 'string' ? intent.presetId : null,
@@ -134,7 +136,7 @@ function resumeMigration(state: ImprovePolicyState, recommended: ResolvedImprove
     && JSON.stringify(priorities.value.map(row => ({ name: row.stat, note: row.sourceNotes }))) === JSON.stringify(source.stats);
   if (!ready || !source) return { ...state, migration: { ...migration, status: 'PENDING', reason: 'Source/context unavailable; original v2 intent retained.' } };
   const binding = JSON.stringify([state.characterId, source.presetId, source.profileId, source.provenance, source.stats]);
-  const same = intent.schemaVersion === 2 && intent.characterId === state.characterId
+  const same = intent.schemaVersion === 2 && intent.valuableStatsSchemaVersion === 2 && intent.characterId === state.characterId
     && intent.presetId === source.presetId && intent.profileId === source.profileId
     && source.presetId === recommended.presetId && intent.sourceBinding === binding;
   if (!same || !Array.isArray(intent.activeStats)) return { ...state,
@@ -258,9 +260,17 @@ export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): I
     const state = record(rawState), valuable = record(state.valuableStats);
     pendingV2Characters[id] = { schemaVersion: state.schemaVersion, characterId: state.characterId,
       gate: state.gate, rollQuality: state.rollQuality, valuableStats: {
+        schemaVersion: valuable.schemaVersion,
         presetId: valuable.presetId, profileId: valuable.profileId, sourceBinding: valuable.sourceBinding,
         orderingMode: valuable.orderingMode, activeStats: structuredClone(valuable.activeStats ?? null),
       } };
+  }
+  // A v2 envelope may still carry deferred v1 records. Only their independent
+  // labels are compatible; selected pools/counts are never v2 Active intent.
+  if (old.version === 2) for (const [id, rawState] of Object.entries(record(old.pendingV1Characters))) {
+    if (own(pendingV2Characters, id)) continue;
+    const state = record(rawState);
+    pendingV2Characters[id] = { gate: state.gate, rollQuality: state.rollQuality };
   }
   return { version: 3, characters: {}, pendingV2Characters };
 }

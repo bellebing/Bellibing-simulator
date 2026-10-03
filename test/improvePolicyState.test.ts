@@ -327,3 +327,31 @@ test('all-invalid legacy Active is suspended rather than reinterpreted as user-d
   assert.deepEqual(state.migration?.intent.activeStats, ['unknown', 'Heavy Attack DMG%']);
   assert.equal(resolveImprovePolicyState(state, recommended).policy.echoPolicy.preferences.status, 'PENDING');
 });
+
+test('nested Valuable Stats schema must be v2 before Manual Active receives new preference semantics', () => {
+  const old = oldManual(); old.valuableStats.schemaVersion = 1;
+  const state = migrateV2ImprovePolicy('augusta', old, recommended, legacy);
+  assert.equal(state.migration?.status, 'REVIEW_REQUIRED'); assert.deepEqual(state.overrides, {});
+  assert.equal(state.gate, 20); assert.equal(state.rollQuality, 'High+');
+  assert.equal(resolveImprovePolicyState(state, recommended).policy.echoPolicy.preferences.status, 'PENDING');
+});
+
+test('deferred v1 records inside v2 carry labels forward without reinterpreting old selections or count', async () => {
+  const storage = memory(), other = await projectRecommendedImprovePolicy({ characterId: 'chixia' });
+  const v2 = JSON.stringify({ version: 2, characters: { augusta: oldManual() }, pendingV1Characters: {
+    chixia: { gate: 15, rollQuality: 'Mid+', valuableStats: { selectedStats: ['CRIT Rate'], requiredCount: 2, orderingMode: 'MANUAL' } },
+    augusta: { gate: 5, rollQuality: 'All Rolls' },
+  } });
+  storage.setItem(IMPROVE_POLICY_V2_KEY, v2);
+  let store = loadImprovePolicyStorage(storage);
+  const state = readImprovePolicyState(store, 'chixia', other);
+  assert.equal(state.gate, 15); assert.equal(state.rollQuality, 'Mid+');
+  assert.equal(state.mode, 'RECOMMENDED'); assert.deepEqual(state.overrides, {}); assert.equal(state.migration, null);
+  store = persistImprovePolicyState(store, state, storage);
+  const restored = readImprovePolicyState(loadImprovePolicyStorage(storage), 'chixia', other);
+  assert.deepEqual(restored, state);
+  assert.equal(readImprovePolicyState(store, 'augusta', recommended, legacy).gate, 20);
+  assert.equal(storage.getItem(IMPROVE_POLICY_V2_KEY), v2);
+  assert.equal(storage.getItem(IMPROVE_POLICY_STORAGE_KEY)!.includes('selectedStats'), false);
+  assert.equal(storage.getItem(IMPROVE_POLICY_STORAGE_KEY)!.includes('requiredCount'), false);
+});

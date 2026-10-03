@@ -10,20 +10,15 @@ const directory = 'docs/ui-prototypes/assets/improve-settings';
 const browserDirectory = 'docs/assets';
 const browserModules = ['echoCoreRules.js', 'improvePolicyState.js', 'improvePolicyPresentation.js'] as const;
 const check = process.argv.includes('--check');
-let compiledDirectory = 'dist/assets';
-let temporaryDirectory: string | null = null;
-
-if (!browserModules.every((name) => existsSync(join(compiledDirectory, name)))) {
-  temporaryDirectory = mkdtempSync(join(tmpdir(), 'bellibing-improve-settings-'));
-  compiledDirectory = join(temporaryDirectory, 'assets');
-  const compile = spawnSync('tsc', ['-p', 'tsconfig.web.json', '--outDir', compiledDirectory], {
-    stdio: 'inherit',
-    shell: true,
-  });
-  if (compile.status !== 0) {
-    rmSync(temporaryDirectory, { recursive: true, force: true });
-    process.exit(compile.status ?? 1);
-  }
+const temporaryDirectory = mkdtempSync(join(tmpdir(), 'bellibing-improve-settings-'));
+const compiledDirectory = join(temporaryDirectory, 'assets');
+const compile = spawnSync('tsc', ['-p', 'tsconfig.web.json', '--outDir', compiledDirectory], {
+  stdio: 'inherit',
+  shell: true,
+});
+if (compile.status !== 0) {
+  rmSync(temporaryDirectory, { recursive: true, force: true });
+  process.exit(compile.status ?? 1);
 }
 
 try {
@@ -55,7 +50,7 @@ try {
     }
   }
 } finally {
-  if (temporaryDirectory) rmSync(temporaryDirectory, { recursive: true, force: true });
+  rmSync(temporaryDirectory, { recursive: true, force: true });
 }
 
 console.log('Improve Settings source/state/browser export verified; roll-quality threshold mapping PENDING.');

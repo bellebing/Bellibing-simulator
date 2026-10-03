@@ -30,12 +30,15 @@
 .improve-setting-options > :last-child { margin-bottom:0; }
 @media(prefers-reduced-motion:reduce) { .improve-setting-expansion { transition:opacity 100ms ease; } .improve-setting-caret { transition:none; } }
 /* Stable, bounded columns: each setting owns its trigger and vertical expansion. */
-.improve-settings-heading { align-items:center; flex-wrap:wrap; justify-content:space-between; }
+.improve-settings-heading { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; }
+.improve-settings-heading h2 { grid-column:2; text-align:center; }
+.improve-settings-heading > .improve-setting-chips { grid-column:3; justify-self:end; }
 .improve-settings-controls { display:grid; grid-template-columns:minmax(0,340px) minmax(0,120px) minmax(0,310px) minmax(0,175px); align-items:start; gap:0 10px; }
 .improve-setting { display:flex; flex-direction:column; width:auto; max-width:none; min-width:0; }
 .improve-setting-trigger { width:max-content; max-width:100%; justify-content:space-between; gap:8px; }
-.improve-setting-trigger > span:first-child { white-space:nowrap; }
-.improve-setting-summary { white-space:normal; text-align:right; }
+.improve-setting-label { margin-bottom:6px; color:#b7bec8; font-size:12px; line-height:16px; }
+.improve-setting-list,.improve-target-editor .improve-setting-chips { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+.improve-setting-summary { white-space:nowrap; }
 .improve-setting-expansion { width:100%; min-width:0; overflow-wrap:anywhere; }
 .improve-setting-options { padding:16px 2px 2px; }
 .improve-policy-section { margin:0 0 18px; }

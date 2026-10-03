@@ -6,7 +6,8 @@ import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveHumanNumber,
 const root = document.getElementById('improveSettings');
 let store, storageError = null;
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
-let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = null, settings = null, resolved = null;
+let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
+let settingsOpener = 'target';
 let drag = null, selectedMetric = 'TOTAL_ENERGY_REGEN';
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
@@ -29,32 +30,34 @@ function save() {
   try { store = persistImprovePolicyState(store, settings, localStorage); saveNote.hidden = true; }
   catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; }
 }
-function commit(change, focusKey, close) {
+function commit(change, focusKey) {
   try { settings = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source); }
   catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
-  save(); if (close) setExpanded(null); render();
+  save(); render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
-  (target ?? groups.get(expanded ?? close ?? 'echo').trigger).focus({ preventScroll: true });
+  (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
 function setExpanded(next, restore = false) {
-  const previous = expanded; expanded = next;
-  for (const [id, group] of groups) {
-    const open = id === expanded; group.host.classList.toggle('is-expanded', open);
+  expanded = !!next;
+  for (const group of groups.values()) {
+    const open = expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
   }
-  if (restore && previous) groups.get(previous).trigger.focus({ preventScroll: true });
+  if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
 for (const [id, label] of [['target', 'Character Target'], ['gate', 'Gate'], ['echo', 'Echo Policy'], ['quality', 'Roll Quality']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
+  const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
   const summary = element('strong', undefined, 'improve-setting-summary');
-  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(element('span', label), summary, caret);
-  const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', trigger.id);
-  trigger.setAttribute('aria-controls', panel.id); trigger.onclick = () => setExpanded(expanded === id ? null : id);
+  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
+  const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
+  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-echo-choices improve-setting-quality-choices');
+  trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
-  clip.append(content); panel.append(clip); host.append(trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
+  clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
 }
-root.addEventListener('keydown', event => { if (event.key === 'Escape' && expanded) { event.preventDefault(); event.stopPropagation(); setExpanded(null, true); } });
+root.addEventListener('keydown', event => { if (event.key === 'Escape' && expanded) { event.preventDefault(); event.stopPropagation(); setExpanded(false, true); } });
 function origin(section, key) {
   if (resolved.compatibility.suspendedSections.includes(key)) return resolved.compatibility.status === 'REVIEW_REQUIRED' ? 'Needs review' : 'Pending';
   if (section.status === 'PENDING') return 'Pending';
@@ -80,10 +83,7 @@ function targetLabel(target) {
 }
 function renderTargets() {
   const group = groups.get('target'), policy = resolved.policy.characterTarget;
-  group.summary.textContent = policy.numericTargets.status === 'USER_DEFINED' ? 'Custom'
-    : policy.numericTargets.value?.length ? policy.numericTargets.value.map(row => { const x = targetLabel(row); return (x.name === 'Energy Regen' ? 'ER' : x.name) + ' ' + x.min + ' min' + (x.pref ? ' · ' + x.pref + ' pref' : ''); }).join(' · ')
-    : policy.priorities.value?.length ? 'Priorities only' : 'Pending';
-  if (resolved.compatibility.suspendedSections.includes('numericTargets')) group.summary.textContent = origin(policy.numericTargets, 'numericTargets');
+  group.summary.textContent = policy.numericTargets.status === 'USER_DEFINED' || policy.priorities.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
   const targets = section('Total-stat Targets', policy.numericTargets, 'numericTargets', group.content);
   empty(targets, policy.numericTargets, 'No reviewed numeric total-stat targets are available. Pending source policy.');
   for (const row of policy.numericTargets.value ?? []) {
@@ -136,9 +136,7 @@ function renderTargetEditor(parent) {
 const threshold = row => row.minimum === undefined ? 'No per-roll minimum' : '≥ ' + improveHumanNumber(row.minimum * (row.stat.startsWith('Flat ') ? 1 : 100)) + (row.stat.startsWith('Flat ') ? ' points' : '%');
 function renderEcho() {
   const group = groups.get('echo'), policy = resolved.policy.echoPolicy, req = policy.requirements, pref = policy.preferences;
-  group.summary.textContent = req.status === 'USER_DEFINED' || pref.status === 'USER_DEFINED' ? 'Custom' : req.value
-    ? req.value.requiredOnEveryEcho.length + ' required' + req.value.groups.map(x => ' · ' + x.minimumHits + ' of ' + x.members.length).join('') : 'Pending';
-  if (resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key))) group.summary.textContent = resolved.compatibility.status === 'REVIEW_REQUIRED' ? 'Needs review' : 'Pending';
+  group.summary.textContent = req.status === 'USER_DEFINED' || pref.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
   const editable = settings.mode === 'MANUAL' && source.applicability && resolved.compatibility.context === 'MATCH' && !storageError;
   const required = section('Required on Every Echo', req, 'echoRequirements', group.content);
   empty(required, req, 'Requirements for a finished candidate Echo are Pending source verification.');
@@ -206,12 +204,12 @@ function render() {
   reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
   renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
-  const gateChoices = element('div', undefined, 'improve-setting-chips'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, null, 'gate'), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
+  const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
   const quality = groups.get('quality'); quality.summary.textContent = settings.rollQuality;
-  const choices = element('div', undefined, 'improve-setting-chips'); for (const value of ['All Rolls', 'Mid+', 'High+']) { const node = button(value, () => commit({ type: 'quality', value }, null, 'quality'), 'quality:' + value, value === settings.rollQuality); node.dataset.settingValue = value; choices.append(node); } quality.content.append(choices, note('Threshold mapping Pending.'));
+  const choices = element('div', undefined, 'improve-setting-list'); for (const value of ['All Rolls', 'Mid+', 'High+']) { const node = button(value, () => commit({ type: 'quality', value }, 'quality:' + value), 'quality:' + value, value === settings.rollQuality); node.dataset.settingValue = value; choices.append(node); } quality.content.append(choices, note('Threshold mapping Pending.'));
 }
 function setCharacter(id) {
-  if (characterId !== id) { setExpanded(null); drag = null; }
+  if (characterId !== id) { setExpanded(false); drag = null; }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }
   try { settings = store ? readImprovePolicyState(store, id, source, legacySources.find(row => row.characterId === id)) : createImprovePolicyState(id, source); }
@@ -220,7 +218,7 @@ function setCharacter(id) {
 }
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? structuredClone({ ...settings, effectivePolicy: resolved.policy,
   compatibility: resolved.compatibility, rollQualityMappingStatus: 'PENDING' }) : null };
-setExpanded(null); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
+setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])
   .then(([policyResult, legacyResult]) => {

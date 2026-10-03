@@ -203,7 +203,7 @@ function render() {
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
   if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
-  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved intent is retained. ' + resolved.compatibility.reasons.join(' ');
+  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
   renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-chips'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, null, 'gate'), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);

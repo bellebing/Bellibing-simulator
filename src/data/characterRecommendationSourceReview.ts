@@ -227,30 +227,42 @@ export const CHARACTER_RECOMMENDATION_REVIEWS: readonly CharacterRecommendationR
       },
       {
         "metric": "TOTAL_ATK",
-        "decision": "REVIEW_REQUIRED",
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
         "evidenceIds": [
           "augusta-prydwen-total_atk-2026-10-03"
         ],
-        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
-        "interpretation": null
+        "reason": "Exact captured primary wording is explicitly reviewed as an open-ended band: minimum recommendation endpoint and upper reference with trailing + preserved; no maximum, preferred target or evaluator behavior inferred.",
+        "interpretation": {
+          "kind": "OPEN_ENDED_BAND",
+          "minimum": 2000,
+          "upperReference": 2800
+        }
       },
       {
         "metric": "TOTAL_CRIT_RATE",
-        "decision": "REVIEW_REQUIRED",
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
         "evidenceIds": [
           "augusta-prydwen-total_crit_rate-2026-10-03"
         ],
-        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
-        "interpretation": null
+        "reason": "Exact captured primary wording is explicitly reviewed as an open-ended band: minimum recommendation endpoint and upper reference with trailing + preserved; no maximum, preferred target or evaluator behavior inferred.",
+        "interpretation": {
+          "kind": "OPEN_ENDED_BAND",
+          "minimum": 0.65,
+          "upperReference": 0.8
+        }
       },
       {
         "metric": "TOTAL_CRIT_DAMAGE",
-        "decision": "REVIEW_REQUIRED",
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
         "evidenceIds": [
           "augusta-prydwen-total_crit_damage-2026-10-03"
         ],
-        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
-        "interpretation": null
+        "reason": "Exact captured primary wording is explicitly reviewed as an open-ended band: minimum recommendation endpoint and upper reference with trailing + preserved; no maximum, preferred target or evaluator behavior inferred.",
+        "interpretation": {
+          "kind": "OPEN_ENDED_BAND",
+          "minimum": 2.1,
+          "upperReference": 2.6
+        }
       },
       {
         "metric": "TOTAL_ENERGY_REGEN",
@@ -267,12 +279,16 @@ export const CHARACTER_RECOMMENDATION_REVIEWS: readonly CharacterRecommendationR
       },
       {
         "metric": "ELECTRO_DMG_BONUS",
-        "decision": "REVIEW_REQUIRED",
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
         "evidenceIds": [
           "augusta-prydwen-electro_dmg_bonus-2026-10-03"
         ],
-        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
-        "interpretation": null
+        "reason": "Exact captured primary wording is explicitly reviewed as an open-ended band: minimum recommendation endpoint and upper reference with trailing + preserved; no maximum, preferred target or evaluator behavior inferred.",
+        "interpretation": {
+          "kind": "OPEN_ENDED_BAND",
+          "minimum": 0.4,
+          "upperReference": 0.7
+        }
       }
     ]
   }

@@ -29,18 +29,22 @@ async function project(f: Awaited<ReturnType<typeof fixture>>) {
   return projectRecommendedCharacterStats('synthetic', { sources: [f.source], reviews: [f.review] });
 }
 
-test('Augusta review verifies only HP, DEF and ER with explicit values', async () => {
+test('Augusta review verifies all seven explicitly reviewed values', async () => {
   const result = await projectRecommendedCharacterStats('augusta');
-  assert.equal(result.sourceReviewStatus, 'REVIEW_REQUIRED');
+  assert.equal(result.sourceReviewStatus, 'CURRENT');
   assert.deepEqual(result.rows.map(row => row.metric), ['TOTAL_HP', 'TOTAL_DEF', 'TOTAL_ATK', 'TOTAL_CRIT_RATE',
     'TOTAL_CRIT_DAMAGE', 'TOTAL_ENERGY_REGEN', 'ELECTRO_DMG_BONUS']);
   const expected = new Map<string, RecommendationValue>([
     ['TOTAL_HP', { kind: 'MINIMUM', minimum: 14500 }],
     ['TOTAL_DEF', { kind: 'MINIMUM', minimum: 1100 }],
+    ['TOTAL_ATK', { kind: 'OPEN_ENDED_BAND', minimum: 2000, upperReference: 2800 }],
+    ['TOTAL_CRIT_RATE', { kind: 'OPEN_ENDED_BAND', minimum: .65, upperReference: .80 }],
+    ['TOTAL_CRIT_DAMAGE', { kind: 'OPEN_ENDED_BAND', minimum: 2.10, upperReference: 2.60 }],
+    ['ELECTRO_DMG_BONUS', { kind: 'OPEN_ENDED_BAND', minimum: .40, upperReference: .70 }],
     ['TOTAL_ENERGY_REGEN', { kind: 'BOUNDED_RANGE', minimum: 1.16, upper: 1.25 }],
   ]);
   for (const row of result.rows) {
-    assert.equal(row.status, expected.has(row.metric) ? 'VERIFIED' : 'REVIEW_REQUIRED');
+    assert.equal(row.status, 'VERIFIED');
     assert.deepEqual(row.value, expected.get(row.metric) ?? null);
     assert.equal(row.unit, CHARACTER_RECOMMENDATION_UNITS[row.metric]);
     assert.equal(row.comparisonStatus, 'PENDING');
@@ -76,23 +80,32 @@ for (const [metric, wording] of [
   ['TOTAL_ATK', '2000-2800+'], ['TOTAL_CRIT_RATE', '65-80%+'],
   ['TOTAL_CRIT_DAMAGE', '210-260%+'], ['ELECTRO_DMG_BONUS', '40-70%+'],
 ] as const) {
-  test(`Augusta ${wording} stays unresolved even if an approval attempts a hard range`, async () => {
+  test(`Augusta ${wording} preserves its open band and rejects lossy or mismatched interpretations`, async () => {
     const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
     const review = CHARACTER_RECOMMENDATION_REVIEWS[0]!;
     const result = await projectRecommendedCharacterStats('augusta');
     const row = result.rows.find(item => item.metric === metric)!;
     assert.equal(row.evidence[0]!.originalText, wording);
-    assert.equal(row.status, 'REVIEW_REQUIRED'); assert.equal(row.value, null);
+    assert.equal(row.status, 'VERIFIED');
     const parsed = interpretRecommendationText(wording, row.unit);
-    assert.equal(parsed.status, 'UNRESOLVED');
-    assert.ok('sourceEndpoints' in parsed);
-    const [minimum, upper] = parsed.sourceEndpoints!;
-    const forced = await projectRecommendedCharacterStats('augusta', { sources: [source], reviews: [{ ...review,
-      rows: review.rows.map(item => item.metric === metric ? { ...item,
-        decision: 'APPROVED_FOR_CANONICAL_VERIFIED', interpretation: { kind: 'BOUNDED_RANGE', minimum, upper } } : item),
-    }] });
-    assert.equal(forced.rows.find(item => item.metric === metric)!.status, 'REVIEW_REQUIRED');
-    assert.equal(forced.rows.find(item => item.metric === metric)!.value, null);
+    assert.equal(parsed.status, 'NORMALIZED');
+    if (parsed.status !== 'NORMALIZED' || parsed.value.kind !== 'OPEN_ENDED_BAND') assert.fail('Expected open-ended band');
+    assert.deepEqual(row.value, parsed.value);
+    const { minimum, upperReference: upper } = parsed.value;
+    const invalidInterpretations: RecommendationValue[] = [
+      { kind: 'BOUNDED_RANGE', minimum, upper },
+      { kind: 'MINIMUM', minimum },
+      { kind: 'EXACT', target: upper },
+      { kind: 'OPEN_ENDED_BAND', minimum, upperReference: upper + 1 },
+    ];
+    for (const interpretation of invalidInterpretations) {
+      const forced = await projectRecommendedCharacterStats('augusta', { sources: [source], reviews: [{ ...review,
+        rows: review.rows.map(item => item.metric === metric ? { ...item,
+          decision: 'APPROVED_FOR_CANONICAL_VERIFIED', interpretation } : item),
+      }] });
+      assert.equal(forced.rows.find(item => item.metric === metric)!.status, 'REVIEW_REQUIRED');
+      assert.equal(forced.rows.find(item => item.metric === metric)!.value, null);
+    }
   });
 }
 
@@ -127,12 +140,14 @@ test('Augusta direct-fetch failures remain separate from external capture and ol
 
 test('Augusta canonical evidence drift fails closed including current context and endpoint teams', async () => {
   const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
-  for (const key of ['originalText', 'sourceIdentity', 'sourceUrl', 'checkedAt', 'context'] as const) {
-    const changed = { ...source, evidence: source.evidence.map(item => item.metric === 'TOTAL_ENERGY_REGEN'
-      && item.evidenceClass === 'PRIMARY_SOURCE_CAPTURE' ? { ...item, [key]: key === 'context'
-        ? { ...item.context, description: 'Changed patch context', conditions: ['Changed endpoint team'] } : 'changed' } : item) };
-    const result = await projectRecommendedCharacterStats('augusta', { sources: [changed] });
-    assert.ok(result.rows.every(row => row.status === 'REVIEW_REQUIRED' && row.value === null));
+  for (const metric of ['TOTAL_ENERGY_REGEN', 'TOTAL_ATK'] as const) {
+    for (const key of ['originalText', 'sourceIdentity', 'sourceUrl', 'checkedAt', 'context'] as const) {
+      const changed = { ...source, evidence: source.evidence.map(item => item.metric === metric
+        && item.evidenceClass === 'PRIMARY_SOURCE_CAPTURE' ? { ...item, [key]: key === 'context'
+          ? { ...item.context, description: 'Changed patch context', conditions: ['Changed endpoint team'] } : 'changed' } : item) };
+      const result = await projectRecommendedCharacterStats('augusta', { sources: [changed] });
+      assert.ok(result.rows.every(row => row.status === 'REVIEW_REQUIRED' && row.value === null));
+    }
   }
 });
 
@@ -176,12 +191,16 @@ for (const [text, unit, value] of [
     assert.deepEqual(interpretRecommendationText(text, unit), { status: 'NORMALIZED', value });
   });
 }
-for (const [text, unit] of [['2000-2800+', 'POINTS'], ['65-80%+', 'RATIO'], ['210-260%+', 'RATIO'], ['116%-125%+', 'RATIO'], ['40-70%+', 'RATIO']] as const) {
-  test(`trailing plus range ${text} has no fabricated minimum/preferred/maximum`, () => {
+for (const [text, unit, minimum, upperReference] of [
+  ['2000-2800+', 'POINTS', 2000, 2800], ['65-80%+', 'RATIO', .65, .80],
+  ['210-260%+', 'RATIO', 2.10, 2.60], ['40-70%+', 'RATIO', .40, .70],
+  ['116%-125%+', 'RATIO', 1.16, 1.25],
+] as const) {
+  test(`trailing plus range ${text} preserves open-ended guidance without maximum/preferred/target`, () => {
     const parsed = interpretRecommendationText(text, unit);
-    assert.equal(parsed.status, 'UNRESOLVED');
-    assert.ok('sourceEndpoints' in parsed);
-    assert.ok(!('value' in parsed));
+    assert.deepEqual(parsed, { status: 'NORMALIZED', value: { kind: 'OPEN_ENDED_BAND', minimum, upperReference } });
+    if (parsed.status !== 'NORMALIZED') assert.fail('Expected normalization');
+    for (const key of ['upper', 'maximum', 'preferred', 'target', 'cap']) assert.ok(!(key in parsed.value));
   });
 }
 test('unsupported text, unit mismatches, reversed endpoints and nonfinite values fail closed', () => {
@@ -223,7 +242,7 @@ test('Electro bonus is a distinct whole-build ratio metric, never an Echo roll o
 
 for (const evidenceClass of ['CANDIDATE_ONLY', 'LEGACY_PROFILE_REFERENCE'] as const) {
   test(`${evidenceClass} cannot become VERIFIED even with matching pin and approval`, async () => {
-    const f = await fixture();
+    const f = await fixture('65-80%+', { kind: 'OPEN_ENDED_BAND', minimum: .65, upperReference: .8 });
     f.source = { ...f.source, evidence: f.source.evidence.map(item => ({ ...item, evidenceClass })) };
     f.review = { ...f.review, sourceBinding: await improvePolicySourceBinding(f.source) };
     const result = await project(f);
@@ -245,10 +264,10 @@ test('source text, provenance, context and research binding drift fail closed', 
   }
 });
 
-test('disagreement is recorded as review required, without choosing or averaging', async () => {
-  const f = await fixture();
+test('current open-band source disagreement requires review without choosing or averaging', async () => {
+  const f = await fixture('65-80%+', { kind: 'OPEN_ENDED_BAND', minimum: .65, upperReference: .8 });
   f.source = { ...f.source, evidence: [...f.source.evidence, { ...f.source.evidence[0]!,
-    id: 'synthetic-other-source', sourceIdentity: 'Synthetic independent source', originalText: '120-130%', excerpt: '120-130%' }] };
+    id: 'synthetic-other-source', sourceIdentity: 'Synthetic independent current source', originalText: '65-85%+', excerpt: '65-85%+' }] };
   f.review = { ...f.review, sourceBinding: await improvePolicySourceBinding(f.source),
     rows: f.review.rows.map(row => ({ ...row, evidenceIds: ['synthetic-er', 'synthetic-other-source'] })) };
   const result = await project(f);
@@ -296,8 +315,8 @@ test('projection outputs are detached and cannot mutate later source resolution'
   assert.equal(next.rows[5]!.evidence[0]!.context.conditions.length, 2);
 });
 
-test('parseable primary evidence stays Pending until explicit semantic approval', async () => {
-  const f = await fixture();
+test('parseable open-ended primary evidence stays Pending until explicit semantic approval', async () => {
+  const f = await fixture('65-80%+', { kind: 'OPEN_ENDED_BAND', minimum: .65, upperReference: .8 });
   f.review = { ...f.review, rows: f.review.rows.map(row => ({ ...row, decision: 'PENDING', interpretation: null })) };
   const result = await project(f);
   assert.equal(result.rows[0]!.status, 'PENDING'); assert.equal(result.rows[0]!.value, null);

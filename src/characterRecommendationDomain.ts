@@ -14,6 +14,8 @@ export const CHARACTER_RECOMMENDATION_UNITS: Readonly<Record<CharacterRecommenda
 export type RecommendationValue =
   | { readonly kind: 'MINIMUM'; readonly minimum: number }
   | { readonly kind: 'BOUNDED_RANGE'; readonly minimum: number; readonly upper: number }
+  /** Trailing + leaves guidance open above this reference; no evaluator meaning. */
+  | { readonly kind: 'OPEN_ENDED_BAND'; readonly minimum: number; readonly upperReference: number }
   | { readonly kind: 'EXACT'; readonly target: number };
 
 export type RecommendationTextInterpretation =

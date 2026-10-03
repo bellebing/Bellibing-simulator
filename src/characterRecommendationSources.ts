@@ -20,8 +20,8 @@ export function interpretRecommendationText(text: string, unit: RecommendationUn
     return { status: 'UNRESOLVED', reason: 'Invalid numeric endpoints.' };
   }
   if (upper !== undefined && match[5]) {
-    return { status: 'UNRESOLVED', sourceEndpoints: [lower, upper],
-      reason: 'Trailing plus on a range does not establish a minimum/preferred/upper contract.' };
+    return { status: 'NORMALIZED',
+      value: { kind: 'OPEN_ENDED_BAND', minimum: lower, upperReference: upper } };
   }
   return { status: 'NORMALIZED', value: upper !== undefined
     ? { kind: 'BOUNDED_RANGE', minimum: lower, upper }

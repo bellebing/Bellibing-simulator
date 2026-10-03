@@ -1,0 +1,12583 @@
+// Generated semantic extraction; regenerate with scripts/generate-dpr-character-stat-references.ts.
+import type { DprExtraction } from '../dprCharacterStatExtraction.ts';
+export const DPR_CHARACTER_STAT_EXTRACTION = {
+  "normalizationVersion": "DPR_NATIVE_SEMANTIC_V1",
+  "extractionDate": "2026-10-03",
+  "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+  "spreadsheetTitle": "DPR Calc Results",
+  "sourceClass": "USER_APPROVED_PROJECT_SOURCE",
+  "sheetInventory": [
+    {
+      "sheetId": 0,
+      "sheetTitle": "Phoebe",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 19849676,
+      "sheetTitle": "Iuno",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 42687801,
+      "sheetTitle": "Camellya",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 112501585,
+      "sheetTitle": "Qiuyuan",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 165470003,
+      "sheetTitle": "Aerover",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 393339180,
+      "sheetTitle": "Whiwa HP Info",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 518211711,
+      "sheetTitle": "Yessys's Aemeath Rotation Compilation",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "G2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "G14",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 548630837,
+      "sheetTitle": "Carte Rotation Guide",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 554917505,
+      "sheetTitle": "Carlotta",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "F2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "F10",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "F2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "F10",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 892019155,
+      "sheetTitle": "Buling (WIP)",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 954037527,
+      "sheetTitle": "Zhezhi",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 977043986,
+      "sheetTitle": "Copy of Copy of sigrika ER sk",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E12",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1073312992,
+      "sheetTitle": "Set Shorthand",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1166992763,
+      "sheetTitle": "sidew37's Looping Rotation Compilation",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1226917518,
+      "sheetTitle": "ToA HP Charts",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1236971630,
+      "sheetTitle": "Lupa",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1278534723,
+      "sheetTitle": "Zani Rotation Guide",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1305653737,
+      "sheetTitle": "Read me",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "hidden": true,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1365322142,
+      "sheetTitle": "Roccia",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1381269410,
+      "sheetTitle": "Whiwa HP Charts (WIP)",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "G2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "G9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1401214302,
+      "sheetTitle": "Qiuyuan MDPS(WIP EN TL)",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1416923300,
+      "sheetTitle": "Cantarella",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "G2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "G9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E13",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1550476759,
+      "sheetTitle": "Readme",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1562590303,
+      "sheetTitle": "Jinhsi (WIP)",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1591212959,
+      "sheetTitle": "Zani",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1594526381,
+      "sheetTitle": "ToA HP Info",
+      "hidden": true,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1601409732,
+      "sheetTitle": "Changli (WIP)",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "F2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "F9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1662689774,
+      "sheetTitle": "Ciaconna",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E13",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "F2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "F9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1894504747,
+      "sheetTitle": "XLY",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "F2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "F9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "G2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "G11",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    },
+    {
+      "sheetId": 1975296818,
+      "sheetTitle": "Brant",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 1979736009,
+      "sheetTitle": "Index",
+      "hidden": false,
+      "sectionHeaders": []
+    },
+    {
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "hidden": false,
+      "sectionHeaders": [
+        {
+          "cell": "E2",
+          "label": "General Stat Recommendation"
+        },
+        {
+          "cell": "E9",
+          "label": "Stats used for Calcs"
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "58.50%",
+      "effectiveValue": {
+        "numberValue": 0.585
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.585,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "277.60%",
+      "effectiveValue": {
+        "numberValue": 2.776
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.776,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2161.986",
+      "effectiveValue": {
+        "numberValue": 2161.986
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2161.986,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "1.40%",
+      "effectiveValue": {
+        "numberValue": 0.013999999999999985
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.013999999999999985,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.00%",
+      "effectiveValue": {
+        "numberValue": 1.18
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.18,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "64.50%",
+      "effectiveValue": {
+        "numberValue": 0.645
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.645,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "289.60%",
+      "effectiveValue": {
+        "numberValue": 2.896
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.896,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2252.372",
+      "effectiveValue": {
+        "numberValue": 2252.3720000000003
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2252.3720000000003,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2121.986",
+      "effectiveValue": {
+        "numberValue": 2121.986
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2121.986,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.00%",
+      "effectiveValue": {
+        "numberValue": 1.18
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.18,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2252.372",
+      "effectiveValue": {
+        "numberValue": 2252.3720000000003
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2252.3720000000003,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "luuk-herssen",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2121.986",
+      "effectiveValue": {
+        "numberValue": 2121.986
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2121.986,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.00%",
+      "effectiveValue": {
+        "numberValue": 1.09
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.09,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2292.372",
+      "effectiveValue": {
+        "numberValue": 2292.3720000000003
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2292.3720000000003,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "hiyuki",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G4:H4",
+      "labelCell": "G4",
+      "valueCell": "H4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G5:H5",
+      "labelCell": "G5",
+      "valueCell": "H5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G6:H6",
+      "labelCell": "G6",
+      "valueCell": "H6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2311.166",
+      "effectiveValue": {
+        "numberValue": 2311.166
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2311.166,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G7:H7",
+      "labelCell": "G7",
+      "valueCell": "H7",
+      "originalStatLabel": "Skill DMG%",
+      "metric": "RESONANCE_SKILL_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Skill DMG%",
+        "effectiveValue": {
+          "stringValue": "Skill DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G8:H8",
+      "labelCell": "G8",
+      "valueCell": "H8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "108.00%",
+      "effectiveValue": {
+        "numberValue": 1.08
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.08,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G14",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G16:H16",
+      "labelCell": "G16",
+      "valueCell": "H16",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G14",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G17:H17",
+      "labelCell": "G17",
+      "valueCell": "H17",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G14",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G18:H18",
+      "labelCell": "G18",
+      "valueCell": "H18",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2481.552",
+      "effectiveValue": {
+        "numberValue": 2481.552
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2481.552,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G14",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G19:H19",
+      "labelCell": "G19",
+      "valueCell": "H19",
+      "originalStatLabel": "Skill DMG%",
+      "metric": "RESONANCE_SKILL_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Skill DMG%",
+        "effectiveValue": {
+          "stringValue": "Skill DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G14",
+      "characterId": "hsin",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G20:H20",
+      "labelCell": "G20",
+      "valueCell": "H20",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F4:G4",
+      "labelCell": "F4",
+      "valueCell": "G4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "20.00%",
+      "effectiveValue": {
+        "numberValue": 0.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F5:G5",
+      "labelCell": "F5",
+      "valueCell": "G5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "207.00%",
+      "effectiveValue": {
+        "numberValue": 2.07
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.07,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F6:G6",
+      "labelCell": "F6",
+      "valueCell": "G6",
+      "originalStatLabel": "Total DEF (ER/DEF, DEF 4c)",
+      "metric": "TOTAL_DEF",
+      "formattedValue": "2349.844",
+      "effectiveValue": {
+        "numberValue": 2349.844
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total DEF (ER/DEF, DEF 4c)",
+        "effectiveValue": {
+          "stringValue": "Total DEF (ER/DEF, DEF 4c)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2349.844,
+      "unit": "POINTS",
+      "configurationContext": "ER/DEF, DEF 4c",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F7:G7",
+      "labelCell": "F7",
+      "valueCell": "G7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "0.00%",
+      "effectiveValue": {
+        "numberValue": 0
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F8:G8",
+      "labelCell": "F8",
+      "valueCell": "G8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "260.00%",
+      "effectiveValue": {
+        "numberValue": 2.6
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.6,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F12:G12",
+      "labelCell": "F12",
+      "valueCell": "G12",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "50.00%",
+      "effectiveValue": {
+        "numberValue": 0.5
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.5,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F13:G13",
+      "labelCell": "F13",
+      "valueCell": "G13",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "225.00%",
+      "effectiveValue": {
+        "numberValue": 2.25
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.25,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F14:G14",
+      "labelCell": "F14",
+      "valueCell": "G14",
+      "originalStatLabel": "Total DEF (ER/DEF, DEF 4c)",
+      "metric": "TOTAL_DEF",
+      "formattedValue": "2872.172",
+      "effectiveValue": {
+        "numberValue": 2872.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total DEF (ER/DEF, DEF 4c)",
+        "effectiveValue": {
+          "stringValue": "Total DEF (ER/DEF, DEF 4c)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2872.172,
+      "unit": "POINTS",
+      "configurationContext": "ER/DEF, DEF 4c",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F15:G15",
+      "labelCell": "F15",
+      "valueCell": "G15",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "8.60%",
+      "effectiveValue": {
+        "numberValue": 0.086
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.086,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "mornye",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F16:G16",
+      "labelCell": "F16",
+      "valueCell": "G16",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "297.04%",
+      "effectiveValue": {
+        "numberValue": 2.9704
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.9704,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2159.836",
+      "effectiveValue": {
+        "numberValue": 2159.8360000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2159.8360000000002,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Skill DMG%",
+      "metric": "RESONANCE_SKILL_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Skill DMG%",
+        "effectiveValue": {
+          "stringValue": "Skill DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "0.00%",
+      "effectiveValue": {
+        "numberValue": 0
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2248.072",
+      "effectiveValue": {
+        "numberValue": 2248.072
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2248.072,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Skill DMG%",
+      "metric": "RESONANCE_SKILL_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Skill DMG%",
+        "effectiveValue": {
+          "stringValue": "Skill DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "phrolova",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "0.00%",
+      "effectiveValue": {
+        "numberValue": 0
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2240.258",
+      "effectiveValue": {
+        "numberValue": 2240.258
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2240.258,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2407.376",
+      "effectiveValue": {
+        "numberValue": 2407.376
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2407.376,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "FUSION_BURST",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F4:G4",
+      "labelCell": "F4",
+      "valueCell": "G4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "10.00%",
+      "effectiveValue": {
+        "numberValue": 0.1
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.1,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F5:G5",
+      "labelCell": "F5",
+      "valueCell": "G5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "213.00%",
+      "effectiveValue": {
+        "numberValue": 2.13
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.13,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F6:G6",
+      "labelCell": "F6",
+      "valueCell": "G6",
+      "originalStatLabel": "Total HP (ELE/ER)",
+      "metric": "TOTAL_HP",
+      "formattedValue": "27448",
+      "effectiveValue": {
+        "numberValue": 27447.734
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP (ELE/ER)",
+        "effectiveValue": {
+          "stringValue": "Total HP (ELE/ER)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 27447.734,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ER",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F7:G7",
+      "labelCell": "F7",
+      "valueCell": "G7",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "260.00%",
+      "effectiveValue": {
+        "numberValue": 2.6
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.6,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F12:G12",
+      "labelCell": "F12",
+      "valueCell": "G12",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "50.00%",
+      "effectiveValue": {
+        "numberValue": 0.5
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.5,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F13:G13",
+      "labelCell": "F13",
+      "valueCell": "G13",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "225.00%",
+      "effectiveValue": {
+        "numberValue": 2.25
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.25,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F14:G14",
+      "labelCell": "F14",
+      "valueCell": "G14",
+      "originalStatLabel": "Total HP (ELE/ER)",
+      "metric": "TOTAL_HP",
+      "formattedValue": "34634",
+      "effectiveValue": {
+        "numberValue": 34634.324
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP (ELE/ER)",
+        "effectiveValue": {
+          "stringValue": "Total HP (ELE/ER)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 34634.324,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ER",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F10",
+      "characterId": "suisui",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F15:G15",
+      "labelCell": "F15",
+      "valueCell": "G15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "287.04%",
+      "effectiveValue": {
+        "numberValue": 2.8704
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.8704,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "44.50%",
+      "effectiveValue": {
+        "numberValue": 0.445
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.445,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "301.00%",
+      "effectiveValue": {
+        "numberValue": 3.01
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 3.01,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2,826",
+      "effectiveValue": {
+        "numberValue": 2826
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2826,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Total HP",
+      "metric": "TOTAL_HP",
+      "formattedValue": "50,000.00",
+      "effectiveValue": {
+        "numberValue": 50000
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP",
+        "effectiveValue": {
+          "stringValue": "Total HP"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 50000,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.00%",
+      "effectiveValue": {
+        "numberValue": 1.18
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.18,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E12",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "50.50%",
+      "effectiveValue": {
+        "numberValue": 0.505
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.505,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "E19",
+          "text": "Your goal is to get around 47000-50000 HP",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E12",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "313.00%",
+      "effectiveValue": {
+        "numberValue": 3.13
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 3.13,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "E19",
+          "text": "Your goal is to get around 47000-50000 HP",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E12",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E16:F16",
+      "labelCell": "E16",
+      "valueCell": "F16",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2,928",
+      "effectiveValue": {
+        "numberValue": 2928.436
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2928.436,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "E19",
+          "text": "Your goal is to get around 47000-50000 HP",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E12",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E17:F17",
+      "labelCell": "E17",
+      "valueCell": "F17",
+      "originalStatLabel": "Total HP",
+      "metric": "TOTAL_HP",
+      "formattedValue": "50,289.25",
+      "effectiveValue": {
+        "numberValue": 50289.25
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP",
+        "effectiveValue": {
+          "stringValue": "Total HP"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 50289.25,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "E19",
+          "text": "Your goal is to get around 47000-50000 HP",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E12",
+      "characterId": "jingran",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E18:F18",
+      "labelCell": "E18",
+      "valueCell": "F18",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "E19",
+          "text": "Your goal is to get around 47000-50000 HP",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "66.50%",
+      "effectiveValue": {
+        "numberValue": 0.665
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.665,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "261.60%",
+      "effectiveValue": {
+        "numberValue": 2.6159999999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.6159999999999997,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE or ER)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2387.636",
+      "effectiveValue": {
+        "numberValue": 2387.636
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE or ER)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE or ER)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2387.636,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE or ER",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "72.50%",
+      "effectiveValue": {
+        "numberValue": 0.725
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.725,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "273.60%",
+      "effectiveValue": {
+        "numberValue": 2.7359999999999998
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.7359999999999998,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE or ER)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2555.872",
+      "effectiveValue": {
+        "numberValue": 2555.872
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE or ER)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE or ER)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2555.872,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE or ER",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "sigrika",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "ER (3c ER)",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "150.40%",
+      "effectiveValue": {
+        "numberValue": 1.504
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER (3c ER)",
+        "effectiveValue": {
+          "stringValue": "ER (3c ER)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.504,
+      "unit": "RATIO",
+      "configurationContext": "3c ER",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "78.70%",
+      "effectiveValue": {
+        "numberValue": 0.7869999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.7869999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "213.00%",
+      "effectiveValue": {
+        "numberValue": 2.13
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.13,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2268.668",
+      "effectiveValue": {
+        "numberValue": 2268.6679999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2268.6679999999997,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "21.30%",
+      "effectiveValue": {
+        "numberValue": 0.21299999999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.21299999999999997,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "84.70%",
+      "effectiveValue": {
+        "numberValue": 0.847
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.847,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "225.00%",
+      "effectiveValue": {
+        "numberValue": 2.25
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.25,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2406.536",
+      "effectiveValue": {
+        "numberValue": 2406.536
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2406.536,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "29.20%",
+      "effectiveValue": {
+        "numberValue": 0.292
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.292,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "augusta",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "58.50%",
+      "effectiveValue": {
+        "numberValue": 0.585
+      },
+      "rawValue": {
+        "numberValue": 0.585
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": {
+          "stringValue": "Crit Rate"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.585,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "277.60%",
+      "effectiveValue": {
+        "numberValue": 2.776
+      },
+      "rawValue": {
+        "numberValue": 2.776
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": {
+          "stringValue": "Crit Damage"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.776,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2192.95",
+      "effectiveValue": {
+        "numberValue": 2192.95
+      },
+      "rawValue": {
+        "numberValue": 2192.95
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": {
+          "stringValue": "Total ATK"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2192.95,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "0.00%",
+      "effectiveValue": {
+        "numberValue": 0
+      },
+      "rawValue": {
+        "numberValue": 0
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": {
+        "numberValue": 1.2
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": {
+          "stringValue": "ER"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "64.50%",
+      "effectiveValue": {
+        "numberValue": 0.645
+      },
+      "rawValue": {
+        "numberValue": 0.645
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": {
+          "stringValue": "Crit Rate"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.645,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "289.60%",
+      "effectiveValue": {
+        "numberValue": 2.896
+      },
+      "rawValue": {
+        "numberValue": 2.896
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": {
+          "stringValue": "Crit Damage"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.896,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2275.9",
+      "effectiveValue": {
+        "numberValue": 2275.9
+      },
+      "rawValue": {
+        "numberValue": 2275.9
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": {
+          "stringValue": "Total ATK"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2275.9,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "15.80%",
+      "effectiveValue": {
+        "numberValue": 0.158
+      },
+      "rawValue": {
+        "numberValue": 0.158
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.158,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "galbrena",
+      "variantKey": "WIP_EN_TL",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": {
+        "numberValue": 1.2
+      },
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": {
+          "stringValue": "ER"
+        },
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP",
+        "EN_TL"
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "rawValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "formula": null,
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G4:H4",
+      "labelCell": "G4",
+      "valueCell": "H4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "72.50%",
+      "effectiveValue": {
+        "numberValue": 0.7249999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.7249999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G5:H5",
+      "labelCell": "G5",
+      "valueCell": "H5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "273.00%",
+      "effectiveValue": {
+        "numberValue": 2.73
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.73,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G6:H6",
+      "labelCell": "G6",
+      "valueCell": "H6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1909.55",
+      "effectiveValue": {
+        "numberValue": 1909.55
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1909.55,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G7:H7",
+      "labelCell": "G7",
+      "valueCell": "H7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G8:H8",
+      "labelCell": "G8",
+      "valueCell": "H8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G11:H11",
+      "labelCell": "G11",
+      "valueCell": "H11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "78.50%",
+      "effectiveValue": {
+        "numberValue": 0.7849999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.7849999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G12:H12",
+      "labelCell": "G12",
+      "valueCell": "H12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "285.00%",
+      "effectiveValue": {
+        "numberValue": 2.85
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.85,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G13:H13",
+      "labelCell": "G13",
+      "valueCell": "H13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2029.1",
+      "effectiveValue": {
+        "numberValue": 2029.1
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2029.1,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G14:H14",
+      "labelCell": "G14",
+      "valueCell": "H14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "denia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G15:H15",
+      "labelCell": "G15",
+      "valueCell": "H15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "122.00%",
+      "effectiveValue": {
+        "numberValue": 1.22
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.22,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate (CR 4c)",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "94.50%",
+      "effectiveValue": {
+        "numberValue": 0.9449999999999998
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate (CR 4c)",
+        "effectiveValue": {
+          "stringValue": "Crit Rate (CR 4c)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.9449999999999998,
+      "unit": "RATIO",
+      "configurationContext": "CR 4c",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "229.00%",
+      "effectiveValue": {
+        "numberValue": 2.29
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.29,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2262.518",
+      "effectiveValue": {
+        "numberValue": 2262.518
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2262.518,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "0.00%",
+      "effectiveValue": {
+        "numberValue": 0
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "117.00%",
+      "effectiveValue": {
+        "numberValue": 1.17
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.17,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate (CR 4c)",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "100.50%",
+      "effectiveValue": {
+        "numberValue": 1.005
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate (CR 4c)",
+        "effectiveValue": {
+          "stringValue": "Crit Rate (CR 4c)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.005,
+      "unit": "RATIO",
+      "configurationContext": "CR 4c",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "241.00%",
+      "effectiveValue": {
+        "numberValue": 2.41
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.41,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2385.336",
+      "effectiveValue": {
+        "numberValue": 2385.3360000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2385.3360000000002,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qingxiao",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "Minimum ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "111.00%",
+      "effectiveValue": {
+        "numberValue": 1.11
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Minimum ER",
+        "effectiveValue": {
+          "stringValue": "Minimum ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.11,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G4:H4",
+      "labelCell": "G4",
+      "valueCell": "H4",
+      "originalStatLabel": "Crit Rate (44111 CR/CD)",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "66.50%",
+      "effectiveValue": {
+        "numberValue": 0.665
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate (44111 CR/CD)",
+        "effectiveValue": {
+          "stringValue": "Crit Rate (44111 CR/CD)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.665,
+      "unit": "RATIO",
+      "configurationContext": "44111 CR/CD",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G5:H5",
+      "labelCell": "G5",
+      "valueCell": "H5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G6:H6",
+      "labelCell": "G6",
+      "valueCell": "H6",
+      "originalStatLabel": "Total HP",
+      "metric": "TOTAL_HP",
+      "formattedValue": "48422.4",
+      "effectiveValue": {
+        "numberValue": 48422.4
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP",
+        "effectiveValue": {
+          "stringValue": "Total HP"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 48422.4,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G7:H7",
+      "labelCell": "G7",
+      "valueCell": "H7",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "1.40%",
+      "effectiveValue": {
+        "numberValue": 0.013999999999999985
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.013999999999999985,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G8:H8",
+      "labelCell": "G8",
+      "valueCell": "H8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G11:H11",
+      "labelCell": "G11",
+      "valueCell": "H11",
+      "originalStatLabel": "Crit Rate (44111 CR/CD)",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "72.50%",
+      "effectiveValue": {
+        "numberValue": 0.725
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate (44111 CR/CD)",
+        "effectiveValue": {
+          "stringValue": "Crit Rate (44111 CR/CD)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.725,
+      "unit": "RATIO",
+      "configurationContext": "44111 CR/CD",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G12:H12",
+      "labelCell": "G12",
+      "valueCell": "H12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G13:H13",
+      "labelCell": "G13",
+      "valueCell": "H13",
+      "originalStatLabel": "Total HP",
+      "metric": "TOTAL_HP",
+      "formattedValue": "49406.4",
+      "effectiveValue": {
+        "numberValue": 49406.4
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total HP",
+        "effectiveValue": {
+          "stringValue": "Total HP"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 49406.4,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G14:H14",
+      "labelCell": "G14",
+      "valueCell": "H14",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G9",
+      "characterId": "cartethyia",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G15:H15",
+      "labelCell": "G15",
+      "valueCell": "H15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "66.50%",
+      "effectiveValue": {
+        "numberValue": 0.665
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.665,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "285.00%",
+      "effectiveValue": {
+        "numberValue": 2.8499999999999996
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.8499999999999996,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1,867.40",
+      "effectiveValue": {
+        "numberValue": 1867.3999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1867.3999999999999,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "122.00%",
+      "effectiveValue": {
+        "numberValue": 1.22
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.22,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "72.50%",
+      "effectiveValue": {
+        "numberValue": 0.725
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.725,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E16:F16",
+      "labelCell": "E16",
+      "valueCell": "F16",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "297.00%",
+      "effectiveValue": {
+        "numberValue": 2.9699999999999998
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.9699999999999998,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E17:F17",
+      "labelCell": "E17",
+      "valueCell": "F17",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1,984.80",
+      "effectiveValue": {
+        "numberValue": 1984.8
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1984.8,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E18:F18",
+      "labelCell": "E18",
+      "valueCell": "F18",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "rebecca",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E19:F19",
+      "labelCell": "E19",
+      "valueCell": "F19",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "127.60%",
+      "effectiveValue": {
+        "numberValue": 1.276
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.276,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2262.518",
+      "effectiveValue": {
+        "numberValue": 2262.518
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2262.518,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "21.30%",
+      "effectiveValue": {
+        "numberValue": 0.21299999999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.21299999999999997,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2425.336",
+      "effectiveValue": {
+        "numberValue": 2425.3360000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2425.3360000000002,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "29.20%",
+      "effectiveValue": {
+        "numberValue": 0.292
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.292,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "qiuyuan",
+      "variantKey": "TWO_FORTE",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2240.258",
+      "effectiveValue": {
+        "numberValue": 2240.258
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2240.258,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "112.20%",
+      "effectiveValue": {
+        "numberValue": 1.122
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.122,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2367.376",
+      "effectiveValue": {
+        "numberValue": 2367.376
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2367.376,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "aemeath",
+      "variantKey": "RUPTURE",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F4:G4",
+      "labelCell": "F4",
+      "valueCell": "G4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F5:G5",
+      "labelCell": "F5",
+      "valueCell": "G5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "242.00%",
+      "effectiveValue": {
+        "numberValue": 2.42
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.42,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F6:G6",
+      "labelCell": "F6",
+      "valueCell": "G6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2262.518",
+      "effectiveValue": {
+        "numberValue": 2262.518
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2262.518,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F7:G7",
+      "labelCell": "F7",
+      "valueCell": "G7",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F8:G8",
+      "labelCell": "F8",
+      "valueCell": "G8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "122.00%",
+      "effectiveValue": {
+        "numberValue": 1.22
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.22,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F11:G11",
+      "labelCell": "F11",
+      "valueCell": "G11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F12:G12",
+      "labelCell": "F12",
+      "valueCell": "G12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "254.00%",
+      "effectiveValue": {
+        "numberValue": 2.54
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.54,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F13:G13",
+      "labelCell": "F13",
+      "valueCell": "G13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2385.336",
+      "effectiveValue": {
+        "numberValue": 2385.3360000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2385.3360000000002,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F14:G14",
+      "labelCell": "F14",
+      "valueCell": "G14",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lynae",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F15:G15",
+      "labelCell": "F15",
+      "valueCell": "G15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "122.00%",
+      "effectiveValue": {
+        "numberValue": 1.22
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.22,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "80.50%",
+      "effectiveValue": {
+        "numberValue": 0.8049999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.8049999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1891.468",
+      "effectiveValue": {
+        "numberValue": 1891.4679999999998
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1891.4679999999998,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "86.50%",
+      "effectiveValue": {
+        "numberValue": 0.865
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.865,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK (ATK/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2052.136",
+      "effectiveValue": {
+        "numberValue": 2052.136
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ATK/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ATK/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2052.136,
+      "unit": "POINTS",
+      "configurationContext": "ATK/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "chisa",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "120.00%",
+      "effectiveValue": {
+        "numberValue": 1.2
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.2,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "66.50%",
+      "effectiveValue": {
+        "numberValue": 0.665
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.665,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "261.60%",
+      "effectiveValue": {
+        "numberValue": 2.6159999999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.6159999999999997,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2,057.92",
+      "effectiveValue": {
+        "numberValue": 2057.9179999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2057.9179999999997,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.00%",
+      "effectiveValue": {
+        "numberValue": 1.18
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.18,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "72.50%",
+      "effectiveValue": {
+        "numberValue": 0.725
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.725,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E16:F16",
+      "labelCell": "E16",
+      "valueCell": "F16",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "273.60%",
+      "effectiveValue": {
+        "numberValue": 2.7359999999999998
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.7359999999999998,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E17:F17",
+      "labelCell": "E17",
+      "valueCell": "F17",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2,185.04",
+      "effectiveValue": {
+        "numberValue": 2185.036
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2185.036,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E18:F18",
+      "labelCell": "E18",
+      "valueCell": "F18",
+      "originalStatLabel": "Heavy DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Heavy DMG%",
+        "effectiveValue": {
+          "stringValue": "Heavy DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E13",
+      "characterId": "lucy",
+      "variantKey": "DEFAULT",
+      "sourceRange": "E19:F19",
+      "labelCell": "E19",
+      "valueCell": "F19",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F4:G4",
+      "labelCell": "F4",
+      "valueCell": "G4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F5:G5",
+      "labelCell": "F5",
+      "valueCell": "G5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F6:G6",
+      "labelCell": "F6",
+      "valueCell": "G6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1936.358",
+      "effectiveValue": {
+        "numberValue": 1936.358
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1936.358,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F7:G7",
+      "labelCell": "F7",
+      "valueCell": "G7",
+      "originalStatLabel": "HA DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "HA DMG%",
+        "effectiveValue": {
+          "stringValue": "HA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F8:G8",
+      "labelCell": "F8",
+      "valueCell": "G8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "116.00%",
+      "effectiveValue": {
+        "numberValue": 1.16
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.16,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F11:G11",
+      "labelCell": "F11",
+      "valueCell": "G11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F12:G12",
+      "labelCell": "F12",
+      "valueCell": "G12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F13:G13",
+      "labelCell": "F13",
+      "valueCell": "G13",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2103.476",
+      "effectiveValue": {
+        "numberValue": 2103.476
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2103.476,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F14:G14",
+      "labelCell": "F14",
+      "valueCell": "G14",
+      "originalStatLabel": "HA DMG%",
+      "metric": "HEAVY_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "HA DMG%",
+        "effectiveValue": {
+          "stringValue": "HA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "yangyang-xuanling",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F15:G15",
+      "labelCell": "F15",
+      "valueCell": "G15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "118.40%",
+      "effectiveValue": {
+        "numberValue": 1.1840000000000002
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1840000000000002,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F4:G4",
+      "labelCell": "F4",
+      "valueCell": "G4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "68.80%",
+      "effectiveValue": {
+        "numberValue": 0.688
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.688,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F5:G5",
+      "labelCell": "F5",
+      "valueCell": "G5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F6:G6",
+      "labelCell": "F6",
+      "valueCell": "G6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1,973.62",
+      "effectiveValue": {
+        "numberValue": 1973.618
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1973.618,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F7:G7",
+      "labelCell": "F7",
+      "valueCell": "G7",
+      "originalStatLabel": "BA DMG% ",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "9.30%",
+      "effectiveValue": {
+        "numberValue": 0.09299999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG% ",
+        "effectiveValue": {
+          "stringValue": "BA DMG% "
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.09299999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "F2",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F8:G8",
+      "labelCell": "F8",
+      "valueCell": "G8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "100.00%",
+      "effectiveValue": {
+        "numberValue": 1
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F11:G11",
+      "labelCell": "F11",
+      "valueCell": "G11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "74.80%",
+      "effectiveValue": {
+        "numberValue": 0.748
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.748,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "F16",
+          "text": "Ignore BA DMG in Echo Mode",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F12:G12",
+      "labelCell": "F12",
+      "valueCell": "G12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "F16",
+          "text": "Ignore BA DMG in Echo Mode",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F13:G13",
+      "labelCell": "F13",
+      "valueCell": "G13",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2,136.44",
+      "effectiveValue": {
+        "numberValue": 2136.4359999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2136.4359999999997,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [
+        {
+          "cell": "F16",
+          "text": "Ignore BA DMG in Echo Mode",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F14:G14",
+      "labelCell": "F14",
+      "valueCell": "G14",
+      "originalStatLabel": "BA DMG%",
+      "metric": "BASIC_ATTACK_DMG_BONUS",
+      "formattedValue": "17.20%",
+      "effectiveValue": {
+        "numberValue": 0.172
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "BA DMG%",
+        "effectiveValue": {
+          "stringValue": "BA DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.172,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "F16",
+          "text": "Ignore BA DMG in Echo Mode",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "F9",
+      "characterId": "lucilla",
+      "variantKey": "DEFAULT",
+      "sourceRange": "F15:G15",
+      "labelCell": "F15",
+      "valueCell": "G15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "109.20%",
+      "effectiveValue": {
+        "numberValue": 1.092
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.092,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [
+        {
+          "cell": "F16",
+          "text": "Ignore BA DMG in Echo Mode",
+          "formula": null
+        }
+      ],
+      "contextMarkers": [],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G4:H4",
+      "labelCell": "G4",
+      "valueCell": "H4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G5:H5",
+      "labelCell": "G5",
+      "valueCell": "H5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G6:H6",
+      "labelCell": "G6",
+      "valueCell": "H6",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G7:H7",
+      "labelCell": "G7",
+      "valueCell": "H7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "G2",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G8:H8",
+      "labelCell": "G8",
+      "valueCell": "H8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G11",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G13:H13",
+      "labelCell": "G13",
+      "valueCell": "H13",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G11",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G14:H14",
+      "labelCell": "G14",
+      "valueCell": "H14",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G11",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G15:H15",
+      "labelCell": "G15",
+      "valueCell": "H15",
+      "originalStatLabel": "Total ATK (ELE/ELE)",
+      "metric": "TOTAL_ATK",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK (ELE/ELE)",
+        "effectiveValue": {
+          "stringValue": "Total ATK (ELE/ELE)"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "POINTS",
+      "configurationContext": "ELE/ELE",
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G11",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G16:H16",
+      "labelCell": "G16",
+      "valueCell": "H16",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "G11",
+      "characterId": "suoming",
+      "variantKey": "DEFAULT",
+      "sourceRange": "G17:H17",
+      "labelCell": "G17",
+      "valueCell": "H17",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": null,
+      "effectiveValue": null,
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": null,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")",
+        "note": null
+      },
+      "extractionStatus": "UNAVAILABLE"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E4:F4",
+      "labelCell": "E4",
+      "valueCell": "F4",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "80.50%",
+      "effectiveValue": {
+        "numberValue": 0.8049999999999999
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.8049999999999999,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E5:F5",
+      "labelCell": "E5",
+      "valueCell": "F5",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "257.00%",
+      "effectiveValue": {
+        "numberValue": 2.57
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.57,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E6:F6",
+      "labelCell": "E6",
+      "valueCell": "F6",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "1951.7",
+      "effectiveValue": {
+        "numberValue": 1951.7
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1951.7,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E7:F7",
+      "labelCell": "E7",
+      "valueCell": "F7",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "21.30%",
+      "effectiveValue": {
+        "numberValue": 0.21299999999999997
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.21299999999999997,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "GENERAL_RECOMMENDATION",
+      "sectionLabel": "General Stat Recommendation",
+      "sectionCell": "E2",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E8:F8",
+      "labelCell": "E8",
+      "valueCell": "F8",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "110.00%",
+      "effectiveValue": {
+        "numberValue": 1.1
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E11:F11",
+      "labelCell": "E11",
+      "valueCell": "F11",
+      "originalStatLabel": "Crit Rate",
+      "metric": "TOTAL_CRIT_RATE",
+      "formattedValue": "86.50%",
+      "effectiveValue": {
+        "numberValue": 0.865
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Rate",
+        "effectiveValue": {
+          "stringValue": "Crit Rate"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.865,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E12:F12",
+      "labelCell": "E12",
+      "valueCell": "F12",
+      "originalStatLabel": "Crit Damage",
+      "metric": "TOTAL_CRIT_DAMAGE",
+      "formattedValue": "269.00%",
+      "effectiveValue": {
+        "numberValue": 2.69
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Crit Damage",
+        "effectiveValue": {
+          "stringValue": "Crit Damage"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2.69,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E13:F13",
+      "labelCell": "E13",
+      "valueCell": "F13",
+      "originalStatLabel": "Total ATK",
+      "metric": "TOTAL_ATK",
+      "formattedValue": "2113.4",
+      "effectiveValue": {
+        "numberValue": 2113.4
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Total ATK",
+        "effectiveValue": {
+          "stringValue": "Total ATK"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 2113.4,
+      "unit": "POINTS",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E14:F14",
+      "labelCell": "E14",
+      "valueCell": "F14",
+      "originalStatLabel": "Lib DMG%",
+      "metric": "RESONANCE_LIBERATION_DMG_BONUS",
+      "formattedValue": "29.20%",
+      "effectiveValue": {
+        "numberValue": 0.292
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "Lib DMG%",
+        "effectiveValue": {
+          "stringValue": "Lib DMG%"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 0.292,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    },
+    {
+      "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+      "spreadsheetTitle": "DPR Calc Results",
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "sectionRole": "CALC_BENCHMARK",
+      "sectionLabel": "Stats used for Calcs",
+      "sectionCell": "E9",
+      "characterId": "iuno",
+      "variantKey": "MDPS_WIP",
+      "sourceRange": "E15:F15",
+      "labelCell": "E15",
+      "valueCell": "F15",
+      "originalStatLabel": "ER",
+      "metric": "TOTAL_ENERGY_REGEN",
+      "formattedValue": "110.00%",
+      "effectiveValue": {
+        "numberValue": 1.1
+      },
+      "rawValue": null,
+      "formula": null,
+      "labelProvenance": {
+        "formattedValue": "ER",
+        "effectiveValue": {
+          "stringValue": "ER"
+        },
+        "rawValue": null,
+        "formula": null,
+        "note": null
+      },
+      "normalizedNumericValue": 1.1,
+      "unit": "RATIO",
+      "configurationContext": null,
+      "sourceNotes": [],
+      "contextMarkers": [
+        "WIP"
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        },
+        "rawValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "formula": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")",
+        "note": null
+      },
+      "extractionStatus": "MAPPED_NUMERIC"
+    }
+  ],
+  "issues": [],
+  "counts": {
+    "discoveredSheetCount": 56,
+    "characterSourceSheetCount": 25,
+    "characterIdentityCount": 23,
+    "characterVariantCount": 25,
+    "mappedNumericRows": 236,
+    "unavailableRows": 10,
+    "ambiguousSkippedRows": 0
+  },
+  "semanticSha256": "d3ca38885f16cadf82aa86ea5e48318e205dd9f3a42e4e1037a8c341fdcb0a8d"
+} as const satisfies DprExtraction;

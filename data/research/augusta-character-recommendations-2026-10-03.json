@@ -1,0 +1,92 @@
+{
+  "kind": "CHARACTER_RECOMMENDATION_RESEARCH",
+  "characterId": "augusta",
+  "checkedAt": "2026-10-03",
+  "verificationStatus": "NOT_VERIFIED",
+  "automationMayApproveSemanticTruth": false,
+  "baselineMain": "269682d30fb395ed58414a3f671677c1586f56b3",
+  "sourceAccess": [
+    {
+      "sourceIdentity": "Prydwen Augusta build",
+      "url": "https://www.prydwen.gg/wuthering-waves/characters/augusta/",
+      "result": "BLOCKED_NETWORK_POLICY",
+      "observation": "curl: (56) CONNECT tunnel failed, response 403; no source payload captured."
+    },
+    {
+      "sourceIdentity": "WutheringWaves.gg Augusta guide discovery",
+      "url": "https://wutheringwaves.gg/augusta-guide/",
+      "result": "BLOCKED_NETWORK_POLICY",
+      "observation": "curl: (56) CONNECT tunnel failed, response 403; page existence/content not verified."
+    },
+    {
+      "id": "augusta-prydwen-external-capture-2026-10-03",
+      "sourceIdentity": "Prydwen Augusta build",
+      "url": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "result": "CAPTURED",
+      "retrievalMethod": "EXTERNALLY_SUPPLIED_SOURCE_CAPTURE",
+      "captureDate": "2026-10-03",
+      "reviewDate": "2026-10-03",
+      "pageUpdatedAt": "2026-09-10",
+      "patch": "3.6",
+      "level": 90,
+      "rarity": "5-star",
+      "sequence": "S0",
+      "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party.",
+      "originalStatLine": "HP: 14500+; DEF: 1100+; ATK: 2000-2800+; CRIT Rate: 65-80%+; CRIT DMG: 210-260%+; Energy Regen: 116%-125%; Electro DMG Bonus: 40-70%+",
+      "statLines": {
+        "TOTAL_HP": "14500+",
+        "TOTAL_DEF": "1100+",
+        "TOTAL_ATK": "2000-2800+",
+        "TOTAL_CRIT_RATE": "65-80%+",
+        "TOTAL_CRIT_DAMAGE": "210-260%+",
+        "TOTAL_ENERGY_REGEN": "116%-125%",
+        "ELECTRO_DMG_BONUS": "40-70%+"
+      },
+      "energyRegenConditions": [
+        "Lower endpoint 116% corresponds to Mortefi + Shorekeeper.",
+        "Higher endpoint 125% corresponds to Iuno + Shorekeeper."
+      ],
+      "observation": "Current direct Prydwen page capture supplied externally by the user for repository review; Codex did not fetch this page."
+    }
+  ],
+  "candidateResearch": {
+    "artifact": "data/research/profile-horizontal-source-candidates-2026-08-31.json",
+    "sha256": "82346dbb3c0242b6b992e81c3e1ed3930a5d0c8efc5d5318ca31815a4418455b",
+    "importStatus": "CANDIDATE_ONLY",
+    "verificationStatus": "NOT_VERIFIED",
+    "augustaPresent": false,
+    "associatedReviews": [
+      "data/research/profile-horizontal-semantic-review-2026-08-31.json",
+      "data/research/profile-horizontal-canonical-mappings-2026-08-31.json"
+    ],
+    "finding": "Neither candidate file nor its scoped semantic review establishes Augusta whole-build recommendations."
+  },
+  "legacyEvidence": {
+    "artifact": "src/data/statTargetProfiles.ts",
+    "locator": "augusta-recommended-targets-v915-current / gates[0].notes",
+    "captureCheckedAt": "2026-08-29",
+    "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+    "excerpt": "Current Prydwen endgame band is 116%-125%; higher end is estimated for Iuno + Shorekeeper, matching the existing standard context.",
+    "originalSourceText": null,
+    "finding": "Existing reviewed legacy ER gate is retained for its existing purpose. Its repository paraphrase is discovery evidence, not a verbatim primary-source capture for this new dataset."
+  },
+  "reviewOutcome": "Explicit review verifies HP MINIMUM 14500, DEF MINIMUM 1100, and ER BOUNDED_RANGE 1.16–1.25 with team endpoint conditions. Four trailing-plus ranges remain REVIEW_REQUIRED with null canonical values. Research and candidate artifacts cannot auto-promote semantic truth.",
+  "historicalComparison": {
+    "sourceIdentity": "WWPlus Augusta 2.8 guide",
+    "sourceUrl": "https://wwplus.net/augusta/",
+    "recordedAt": "2026-10-03",
+    "retrievalMethod": "EXTERNALLY_SUPPLIED_RESEARCH_CONTEXT",
+    "evidenceClass": "HISTORICAL_NON_CURRENT",
+    "patch": "2.8",
+    "pageUpdatedAt": null,
+    "measurementBasis": null,
+    "recommendations": {
+      "TOTAL_ATK": ">=2200",
+      "TOTAL_CRIT_RATE": ">=70%",
+      "TOTAL_CRIT_DAMAGE": ">=270%",
+      "TOTAL_ENERGY_REGEN": ">=110%",
+      "ELECTRO_DMG_BONUS": "40%-70%"
+    },
+    "finding": "Materially different older-patch recommendations; preserve source, patch/time and measurement context. Not equal-current corroboration or disagreement for Patch 3.6, not averaged, and not cited by current canonical metric reviews."
+  }
+}

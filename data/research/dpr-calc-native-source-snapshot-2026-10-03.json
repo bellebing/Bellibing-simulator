@@ -1,0 +1,6109 @@
+{
+  "spreadsheetId": "1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs",
+  "spreadsheetTitle": "DPR Calc Results",
+  "extractionDate": "2026-10-03",
+  "scanMethod": "NATIVE_SHEETS_FULL_GRID",
+  "sheets": [
+    {
+      "sheetId": 1305653737,
+      "sheetTitle": "Read me",
+      "hidden": true,
+      "scanRange": "A1:Z1000",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1979736009,
+      "sheetTitle": "Index",
+      "hidden": false,
+      "scanRange": "A1:Z1000",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1550476759,
+      "sheetTitle": "Readme",
+      "hidden": false,
+      "scanRange": "A1:Z993",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 545700642,
+      "sheetTitle": "Hsin (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z1007",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 6,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2311.166",
+                "effectiveValue": {
+                  "numberValue": 2311.166
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Skill DMG%",
+                "effectiveValue": {
+                  "stringValue": "Skill DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "108.00%",
+                "effectiveValue": {
+                  "numberValue": 1.08
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 13,
+            "column": 6,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 16,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 17,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2481.552",
+                "effectiveValue": {
+                  "numberValue": 2481.552
+                }
+              }
+            },
+            {
+              "row": 18,
+              "label": {
+                "formattedValue": "Skill DMG%",
+                "effectiveValue": {
+                  "stringValue": "Skill DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 19,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Hsin Beta Ver 3.7.3",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hsin!A1200:H1330\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Hsin Beta Ver 3.7.3"
+        }
+      }
+    },
+    {
+      "sheetId": 1971497208,
+      "sheetTitle": "Suoming (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z996",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 6,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {}
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 10,
+            "column": 6,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 16,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {}
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Suoming Beta Ver 3.7.3",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suoming!A1200:G1330\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Suoming Beta Ver 3.7.3"
+        }
+      }
+    },
+    {
+      "sheetId": 1562590303,
+      "sheetTitle": "Jinhsi (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 852222230,
+      "sheetTitle": "Suisui",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 5,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "10.00%",
+                "effectiveValue": {
+                  "numberValue": 0.1
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "213.00%",
+                "effectiveValue": {
+                  "numberValue": 2.13
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total HP (ELE/ER)",
+                "effectiveValue": {
+                  "stringValue": "Total HP (ELE/ER)"
+                }
+              },
+              "value": {
+                "formattedValue": "27448",
+                "effectiveValue": {
+                  "numberValue": 27447.734
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "260.00%",
+                "effectiveValue": {
+                  "numberValue": 2.6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 9,
+            "column": 5,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "50.00%",
+                "effectiveValue": {
+                  "numberValue": 0.5
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "225.00%",
+                "effectiveValue": {
+                  "numberValue": 2.25
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Total HP (ELE/ER)",
+                "effectiveValue": {
+                  "stringValue": "Total HP (ELE/ER)"
+                }
+              },
+              "value": {
+                "formattedValue": "34634",
+                "effectiveValue": {
+                  "numberValue": 34634.324
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "287.04%",
+                "effectiveValue": {
+                  "numberValue": 2.8704
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Suisui Ver 3.5.6",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Suisui!A1000:G1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Suisui Ver 3.5.6"
+        }
+      }
+    },
+    {
+      "sheetId": 1855419816,
+      "sheetTitle": "Xuanling",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 5,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1936.358",
+                "effectiveValue": {
+                  "numberValue": 1936.358
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "HA DMG%",
+                "effectiveValue": {
+                  "stringValue": "HA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "116.00%",
+                "effectiveValue": {
+                  "numberValue": 1.16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 5,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2103.476",
+                "effectiveValue": {
+                  "numberValue": 2103.476
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "HA DMG%",
+                "effectiveValue": {
+                  "stringValue": "HA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Xuanling Beta Ver 3.5.6",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Xuanling!A1000:G1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Xuanling Beta Ver 3.5.6"
+        }
+      }
+    },
+    {
+      "sheetId": 1408409723,
+      "sheetTitle": "Qingxiao",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate (CR 4c)",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate (CR 4c)"
+                }
+              },
+              "value": {
+                "formattedValue": "94.50%",
+                "effectiveValue": {
+                  "numberValue": 0.9449999999999998
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "229.00%",
+                "effectiveValue": {
+                  "numberValue": 2.29
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2262.518",
+                "effectiveValue": {
+                  "numberValue": 2262.518
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "0.00%",
+                "effectiveValue": {
+                  "numberValue": 0
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "117.00%",
+                "effectiveValue": {
+                  "numberValue": 1.17
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate (CR 4c)",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate (CR 4c)"
+                }
+              },
+              "value": {
+                "formattedValue": "100.50%",
+                "effectiveValue": {
+                  "numberValue": 1.005
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "241.00%",
+                "effectiveValue": {
+                  "numberValue": 2.41
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2385.336",
+                "effectiveValue": {
+                  "numberValue": 2385.3360000000002
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Minimum ER",
+                "effectiveValue": {
+                  "stringValue": "Minimum ER"
+                }
+              },
+              "value": {
+                "formattedValue": "111.00%",
+                "effectiveValue": {
+                  "numberValue": 1.11
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Qingxiao Beta Ver 3.6.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qingxiao!A1000:F1211\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Qingxiao Beta Ver 3.6.7"
+        }
+      }
+    },
+    {
+      "sheetId": 992501543,
+      "sheetTitle": "Jingran (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z998",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "44.50%",
+                "effectiveValue": {
+                  "numberValue": 0.445
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "301.00%",
+                "effectiveValue": {
+                  "numberValue": 3.01
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2,826",
+                "effectiveValue": {
+                  "numberValue": 2826
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Total HP",
+                "effectiveValue": {
+                  "stringValue": "Total HP"
+                }
+              },
+              "value": {
+                "formattedValue": "50,000.00",
+                "effectiveValue": {
+                  "numberValue": 50000
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.00%",
+                "effectiveValue": {
+                  "numberValue": 1.18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 11,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "50.50%",
+                "effectiveValue": {
+                  "numberValue": 0.505
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "313.00%",
+                "effectiveValue": {
+                  "numberValue": 3.13
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2,928",
+                "effectiveValue": {
+                  "numberValue": 2928.436
+                }
+              }
+            },
+            {
+              "row": 16,
+              "label": {
+                "formattedValue": "Total HP",
+                "effectiveValue": {
+                  "stringValue": "Total HP"
+                }
+              },
+              "value": {
+                "formattedValue": "50,289.25",
+                "effectiveValue": {
+                  "numberValue": 50289.25
+                }
+              }
+            },
+            {
+              "row": 17,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            },
+            {
+              "row": 18,
+              "label": {
+                "formattedValue": "Your goal is to get around 47000-50000 HP",
+                "effectiveValue": {
+                  "stringValue": "Your goal is to get around 47000-50000 HP"
+                }
+              },
+              "value": {}
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Jingran Beta Ver 3.6.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Jingran!A1000:F1211\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Jingran Beta Ver 3.6.7"
+        }
+      }
+    },
+    {
+      "sheetId": 499832498,
+      "sheetTitle": "Hiyuki",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2121.986",
+                "effectiveValue": {
+                  "numberValue": 2121.986
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.00%",
+                "effectiveValue": {
+                  "numberValue": 1.09
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2292.372",
+                "effectiveValue": {
+                  "numberValue": 2292.3720000000003
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Hiyuki Beta Ver 3.3.4",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Hiyuki!A1500:F1631\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Hiyuki Beta Ver 3.3.4"
+        }
+      }
+    },
+    {
+      "sheetId": 792440634,
+      "sheetTitle": "Aemeath (Fusion Burst)",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2240.258",
+                "effectiveValue": {
+                  "numberValue": 2240.258
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2407.376",
+                "effectiveValue": {
+                  "numberValue": 2407.376
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.3.3",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath(FB)!A1000:G1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.3.3"
+        }
+      }
+    },
+    {
+      "sheetId": 1614736469,
+      "sheetTitle": "Aemeath (Rupture)",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2240.258",
+                "effectiveValue": {
+                  "numberValue": 2240.258
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "112.20%",
+                "effectiveValue": {
+                  "numberValue": 1.122
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2367.376",
+                "effectiveValue": {
+                  "numberValue": 2367.376
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Aemeath Ver 3.1.6",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Aemeath!A1000:F1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Aemeath Ver 3.1.6"
+        }
+      }
+    },
+    {
+      "sheetId": 1848653994,
+      "sheetTitle": "Lucy",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "66.50%",
+                "effectiveValue": {
+                  "numberValue": 0.665
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "261.60%",
+                "effectiveValue": {
+                  "numberValue": 2.6159999999999997
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2,057.92",
+                "effectiveValue": {
+                  "numberValue": 2057.9179999999997
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.00%",
+                "effectiveValue": {
+                  "numberValue": 1.18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 12,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "72.50%",
+                "effectiveValue": {
+                  "numberValue": 0.725
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "273.60%",
+                "effectiveValue": {
+                  "numberValue": 2.7359999999999998
+                }
+              }
+            },
+            {
+              "row": 16,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2,185.04",
+                "effectiveValue": {
+                  "numberValue": 2185.036
+                }
+              }
+            },
+            {
+              "row": 17,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 18,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Lucy Beta Ver 3.4.3",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucy!A1000:G1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Lucy Beta Ver 3.4.3"
+        }
+      }
+    },
+    {
+      "sheetId": 1282397672,
+      "sheetTitle": "Sigrika",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "66.50%",
+                "effectiveValue": {
+                  "numberValue": 0.665
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "261.60%",
+                "effectiveValue": {
+                  "numberValue": 2.6159999999999997
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE or ER)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE or ER)"
+                }
+              },
+              "value": {
+                "formattedValue": "2387.636",
+                "effectiveValue": {
+                  "numberValue": 2387.636
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "72.50%",
+                "effectiveValue": {
+                  "numberValue": 0.725
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "273.60%",
+                "effectiveValue": {
+                  "numberValue": 2.7359999999999998
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE or ER)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE or ER)"
+                }
+              },
+              "value": {
+                "formattedValue": "2555.872",
+                "effectiveValue": {
+                  "numberValue": 2555.872
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "ER (3c ER)",
+                "effectiveValue": {
+                  "stringValue": "ER (3c ER)"
+                }
+              },
+              "value": {
+                "formattedValue": "150.40%",
+                "effectiveValue": {
+                  "numberValue": 1.504
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Sigrika Ver 3.2",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Sigrika!A1000:G1132\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Sigrika Ver 3.2"
+        }
+      }
+    },
+    {
+      "sheetId": 355223730,
+      "sheetTitle": "Luuk",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2121.986",
+                "effectiveValue": {
+                  "numberValue": 2121.986
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.00%",
+                "effectiveValue": {
+                  "numberValue": 1.18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2252.372",
+                "effectiveValue": {
+                  "numberValue": 2252.3720000000003
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Luuk Ver 3.3",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Luuk!A1000:G1130\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Luuk Ver 3.3"
+        }
+      }
+    },
+    {
+      "sheetId": 1418397119,
+      "sheetTitle": "Cartethiya",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 6,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate (44111 CR/CD)",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate (44111 CR/CD)"
+                }
+              },
+              "value": {
+                "formattedValue": "66.50%",
+                "effectiveValue": {
+                  "numberValue": 0.665
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total HP",
+                "effectiveValue": {
+                  "stringValue": "Total HP"
+                }
+              },
+              "value": {
+                "formattedValue": "48422.4",
+                "effectiveValue": {
+                  "numberValue": 48422.4
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "1.40%",
+                "effectiveValue": {
+                  "numberValue": 0.013999999999999985
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 6,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate (44111 CR/CD)",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate (44111 CR/CD)"
+                }
+              },
+              "value": {
+                "formattedValue": "72.50%",
+                "effectiveValue": {
+                  "numberValue": 0.725
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total HP",
+                "effectiveValue": {
+                  "stringValue": "Total HP"
+                }
+              },
+              "value": {
+                "formattedValue": "49406.4",
+                "effectiveValue": {
+                  "numberValue": 49406.4
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Cartethiya Calcs Ver 2.4",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Cartethiya!A1000:H1103\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Cartethiya Calcs Ver 2.4"
+        }
+      }
+    },
+    {
+      "sheetId": 1282888305,
+      "sheetTitle": "Augusta",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "78.70%",
+                "effectiveValue": {
+                  "numberValue": 0.7869999999999999
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "213.00%",
+                "effectiveValue": {
+                  "numberValue": 2.13
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2268.668",
+                "effectiveValue": {
+                  "numberValue": 2268.6679999999997
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "21.30%",
+                "effectiveValue": {
+                  "numberValue": 0.21299999999999997
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "84.70%",
+                "effectiveValue": {
+                  "numberValue": 0.847
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "225.00%",
+                "effectiveValue": {
+                  "numberValue": 2.25
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2406.536",
+                "effectiveValue": {
+                  "numberValue": 2406.536
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "29.20%",
+                "effectiveValue": {
+                  "numberValue": 0.292
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Augusta Calcs Ver 2.6.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Augusta!A1200:F1320\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Augusta Calcs Ver 2.6.7"
+        }
+      }
+    },
+    {
+      "sheetId": 242841769,
+      "sheetTitle": "Galbrena",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "58.50%",
+                "effectiveValue": {
+                  "numberValue": 0.585
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "277.60%",
+                "effectiveValue": {
+                  "numberValue": 2.776
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2161.986",
+                "effectiveValue": {
+                  "numberValue": 2161.986
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "1.40%",
+                "effectiveValue": {
+                  "numberValue": 0.013999999999999985
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.00%",
+                "effectiveValue": {
+                  "numberValue": 1.18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "64.50%",
+                "effectiveValue": {
+                  "numberValue": 0.645
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "289.60%",
+                "effectiveValue": {
+                  "numberValue": 2.896
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2252.372",
+                "effectiveValue": {
+                  "numberValue": 2252.3720000000003
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "118.40%",
+                "effectiveValue": {
+                  "numberValue": 1.1840000000000002
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Galbrena!A1400:F1531\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        }
+      }
+    },
+    {
+      "sheetId": 756614663,
+      "sheetTitle": "Phrolova",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2159.836",
+                "effectiveValue": {
+                  "numberValue": 2159.8360000000002
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Skill DMG%",
+                "effectiveValue": {
+                  "stringValue": "Skill DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "0.00%",
+                "effectiveValue": {
+                  "numberValue": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2248.072",
+                "effectiveValue": {
+                  "numberValue": 2248.072
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Skill DMG%",
+                "effectiveValue": {
+                  "stringValue": "Skill DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "0.00%",
+                "effectiveValue": {
+                  "numberValue": 0
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Phrolova Calcs Ver 2.5.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Phrolova!A1200:F1330\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Phrolova Calcs Ver 2.5.7"
+        }
+      }
+    },
+    {
+      "sheetId": 1591212959,
+      "sheetTitle": "Zani",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1620593290,
+      "sheetTitle": "Lynae",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 5,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "242.00%",
+                "effectiveValue": {
+                  "numberValue": 2.42
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2262.518",
+                "effectiveValue": {
+                  "numberValue": 2262.518
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "122.00%",
+                "effectiveValue": {
+                  "numberValue": 1.22
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 5,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "254.00%",
+                "effectiveValue": {
+                  "numberValue": 2.54
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2385.336",
+                "effectiveValue": {
+                  "numberValue": 2385.3360000000002
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "122.00%",
+                "effectiveValue": {
+                  "numberValue": 1.22
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Lynae Ver 3.0.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lynae!A1000:G1132\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Lynae Ver 3.0.7"
+        }
+      }
+    },
+    {
+      "sheetId": 1914593085,
+      "sheetTitle": "Lucilla",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 5,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1,973.62",
+                "effectiveValue": {
+                  "numberValue": 1973.618
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "BA DMG% ",
+                "effectiveValue": {
+                  "stringValue": "BA DMG% "
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "100.00%",
+                "effectiveValue": {
+                  "numberValue": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 5,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2,136.44",
+                "effectiveValue": {
+                  "numberValue": 2136.4359999999997
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "109.20%",
+                "effectiveValue": {
+                  "numberValue": 1.092
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Ignore BA DMG in Echo Mode",
+                "effectiveValue": {
+                  "stringValue": "Ignore BA DMG in Echo Mode"
+                }
+              },
+              "value": {}
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Lucilla Beta Ver 3.4.2",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Lucilla!A1000:G1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Lucilla Beta Ver 3.4.2"
+        }
+      }
+    },
+    {
+      "sheetId": 1383332983,
+      "sheetTitle": "Denia",
+      "hidden": false,
+      "scanRange": "A1:Z991",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 6,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "72.50%",
+                "effectiveValue": {
+                  "numberValue": 0.7249999999999999
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "273.00%",
+                "effectiveValue": {
+                  "numberValue": 2.73
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1909.55",
+                "effectiveValue": {
+                  "numberValue": 1909.55
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 6,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "78.50%",
+                "effectiveValue": {
+                  "numberValue": 0.7849999999999999
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "285.00%",
+                "effectiveValue": {
+                  "numberValue": 2.85
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2029.1",
+                "effectiveValue": {
+                  "numberValue": 2029.1
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "122.00%",
+                "effectiveValue": {
+                  "numberValue": 1.22
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Denia Ver 3.3.4",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Denia!A1000:H1132\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Denia Ver 3.3.4"
+        }
+      }
+    },
+    {
+      "sheetId": 1437027930,
+      "sheetTitle": "Rebecca",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "66.50%",
+                "effectiveValue": {
+                  "numberValue": 0.665
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "285.00%",
+                "effectiveValue": {
+                  "numberValue": 2.8499999999999996
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1,867.40",
+                "effectiveValue": {
+                  "numberValue": 1867.3999999999999
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "122.00%",
+                "effectiveValue": {
+                  "numberValue": 1.22
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 12,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "72.50%",
+                "effectiveValue": {
+                  "numberValue": 0.725
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "297.00%",
+                "effectiveValue": {
+                  "numberValue": 2.9699999999999998
+                }
+              }
+            },
+            {
+              "row": 16,
+              "label": {
+                "formattedValue": "Total ATK (ELE/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ELE/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1,984.80",
+                "effectiveValue": {
+                  "numberValue": 1984.8
+                }
+              }
+            },
+            {
+              "row": 17,
+              "label": {
+                "formattedValue": "BA DMG%",
+                "effectiveValue": {
+                  "stringValue": "BA DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 18,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "127.60%",
+                "effectiveValue": {
+                  "numberValue": 1.276
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Rebecca Beta Ver 3.3.4",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Rebecca!A1000:G1130\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Rebecca Beta Ver 3.3.4"
+        }
+      }
+    },
+    {
+      "sheetId": 892019155,
+      "sheetTitle": "Buling (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 569723282,
+      "sheetTitle": "Mornye",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 5,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "20.00%",
+                "effectiveValue": {
+                  "numberValue": 0.2
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "207.00%",
+                "effectiveValue": {
+                  "numberValue": 2.07
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total DEF (ER/DEF, DEF 4c)",
+                "effectiveValue": {
+                  "stringValue": "Total DEF (ER/DEF, DEF 4c)"
+                }
+              },
+              "value": {
+                "formattedValue": "2349.844",
+                "effectiveValue": {
+                  "numberValue": 2349.844
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "0.00%",
+                "effectiveValue": {
+                  "numberValue": 0
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "260.00%",
+                "effectiveValue": {
+                  "numberValue": 2.6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 9,
+            "column": 5,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "50.00%",
+                "effectiveValue": {
+                  "numberValue": 0.5
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "225.00%",
+                "effectiveValue": {
+                  "numberValue": 2.25
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Total DEF (ER/DEF, DEF 4c)",
+                "effectiveValue": {
+                  "stringValue": "Total DEF (ER/DEF, DEF 4c)"
+                }
+              },
+              "value": {
+                "formattedValue": "2872.172",
+                "effectiveValue": {
+                  "numberValue": 2872.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "8.60%",
+                "effectiveValue": {
+                  "numberValue": 0.086
+                }
+              }
+            },
+            {
+              "row": 15,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "297.04%",
+                "effectiveValue": {
+                  "numberValue": 2.9704
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Mornye Ver 3.0.4",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Mornye!A1000:G1130\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Mornye Ver 3.0.4"
+        }
+      }
+    },
+    {
+      "sheetId": 1683772964,
+      "sheetTitle": "Chisa",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "80.50%",
+                "effectiveValue": {
+                  "numberValue": 0.8049999999999999
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "1891.468",
+                "effectiveValue": {
+                  "numberValue": 1891.4679999999998
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "9.30%",
+                "effectiveValue": {
+                  "numberValue": 0.09299999999999999
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "86.50%",
+                "effectiveValue": {
+                  "numberValue": 0.865
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2052.136",
+                "effectiveValue": {
+                  "numberValue": 2052.136
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "17.20%",
+                "effectiveValue": {
+                  "numberValue": 0.172
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Chisa Ver 2.8.5",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Chisa!A1000:F1132\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Chisa Ver 2.8.5"
+        }
+      }
+    },
+    {
+      "sheetId": 1524396531,
+      "sheetTitle": "Qiuyuan 2x Forte",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "68.80%",
+                "effectiveValue": {
+                  "numberValue": 0.688
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2262.518",
+                "effectiveValue": {
+                  "numberValue": 2262.518
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "21.30%",
+                "effectiveValue": {
+                  "numberValue": 0.21299999999999997
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "74.80%",
+                "effectiveValue": {
+                  "numberValue": 0.748
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK (ATK/ELE)",
+                "effectiveValue": {
+                  "stringValue": "Total ATK (ATK/ELE)"
+                }
+              },
+              "value": {
+                "formattedValue": "2425.336",
+                "effectiveValue": {
+                  "numberValue": 2425.3360000000002
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "29.20%",
+                "effectiveValue": {
+                  "numberValue": 0.292
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Qiuyuan 2x Forte Ver 2.7.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Qiuyuan(DPS)!A1000:F1131\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Qiuyuan 2x Forte Ver 2.7.7"
+        }
+      }
+    },
+    {
+      "sheetId": 112501585,
+      "sheetTitle": "Qiuyuan",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1363912139,
+      "sheetTitle": "Galbrena (WIP EN TL)",
+      "hidden": true,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "userEnteredValue": {
+                  "stringValue": "General Stat Recommendation"
+                },
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "userEnteredValue": {
+                  "stringValue": "Stat"
+                },
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "userEnteredValue": {
+                  "stringValue": "Value"
+                },
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "userEnteredValue": {
+                  "stringValue": "Crit Rate"
+                },
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "58.50%",
+                "userEnteredValue": {
+                  "numberValue": 0.585
+                },
+                "effectiveValue": {
+                  "numberValue": 0.585
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "userEnteredValue": {
+                  "stringValue": "Crit Damage"
+                },
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "277.60%",
+                "userEnteredValue": {
+                  "numberValue": 2.776
+                },
+                "effectiveValue": {
+                  "numberValue": 2.776
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "userEnteredValue": {
+                  "stringValue": "Total ATK"
+                },
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2192.95",
+                "userEnteredValue": {
+                  "numberValue": 2192.95
+                },
+                "effectiveValue": {
+                  "numberValue": 2192.95
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "userEnteredValue": {
+                  "stringValue": "Heavy DMG%"
+                },
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "0.00%",
+                "userEnteredValue": {
+                  "numberValue": 0
+                },
+                "effectiveValue": {
+                  "numberValue": 0
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "userEnteredValue": {
+                  "stringValue": "ER"
+                },
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "userEnteredValue": {
+                  "numberValue": 1.2
+                },
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "userEnteredValue": {
+                  "stringValue": "Stats used for Calcs"
+                },
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "userEnteredValue": {
+                  "stringValue": "Stat"
+                },
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "userEnteredValue": {
+                  "stringValue": "Value"
+                },
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "userEnteredValue": {
+                  "stringValue": "Crit Rate"
+                },
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "64.50%",
+                "userEnteredValue": {
+                  "numberValue": 0.645
+                },
+                "effectiveValue": {
+                  "numberValue": 0.645
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "userEnteredValue": {
+                  "stringValue": "Crit Damage"
+                },
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "289.60%",
+                "userEnteredValue": {
+                  "numberValue": 2.896
+                },
+                "effectiveValue": {
+                  "numberValue": 2.896
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK",
+                "userEnteredValue": {
+                  "stringValue": "Total ATK"
+                },
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2275.9",
+                "userEnteredValue": {
+                  "numberValue": 2275.9
+                },
+                "effectiveValue": {
+                  "numberValue": 2275.9
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Heavy DMG%",
+                "userEnteredValue": {
+                  "stringValue": "Heavy DMG%"
+                },
+                "effectiveValue": {
+                  "stringValue": "Heavy DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "15.80%",
+                "userEnteredValue": {
+                  "numberValue": 0.158
+                },
+                "effectiveValue": {
+                  "numberValue": 0.158
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "userEnteredValue": {
+                  "stringValue": "ER"
+                },
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "120.00%",
+                "userEnteredValue": {
+                  "numberValue": 1.2
+                },
+                "effectiveValue": {
+                  "numberValue": 1.2
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Galbrena Calcs Ver 2.7.6",
+        "userEnteredValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        },
+        "effectiveValue": {
+          "stringValue": "Galbrena Calcs Ver 2.7.6"
+        }
+      }
+    },
+    {
+      "sheetId": 1401214302,
+      "sheetTitle": "Qiuyuan MDPS(WIP EN TL)",
+      "hidden": true,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 2003543625,
+      "sheetTitle": "Iuno MDPS (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [
+        {
+          "header": {
+            "row": 1,
+            "column": 4,
+            "label": "General Stat Recommendation"
+          },
+          "rows": [
+            {
+              "row": 1,
+              "label": {
+                "formattedValue": "General Stat Recommendation",
+                "effectiveValue": {
+                  "stringValue": "General Stat Recommendation"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 2,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 3,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "80.50%",
+                "effectiveValue": {
+                  "numberValue": 0.8049999999999999
+                }
+              }
+            },
+            {
+              "row": 4,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "257.00%",
+                "effectiveValue": {
+                  "numberValue": 2.57
+                }
+              }
+            },
+            {
+              "row": 5,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "1951.7",
+                "effectiveValue": {
+                  "numberValue": 1951.7
+                }
+              }
+            },
+            {
+              "row": 6,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "21.30%",
+                "effectiveValue": {
+                  "numberValue": 0.21299999999999997
+                }
+              }
+            },
+            {
+              "row": 7,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "110.00%",
+                "effectiveValue": {
+                  "numberValue": 1.1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "header": {
+            "row": 8,
+            "column": 4,
+            "label": "Stats used for Calcs"
+          },
+          "rows": [
+            {
+              "row": 8,
+              "label": {
+                "formattedValue": "Stats used for Calcs",
+                "effectiveValue": {
+                  "stringValue": "Stats used for Calcs"
+                }
+              },
+              "value": {}
+            },
+            {
+              "row": 9,
+              "label": {
+                "formattedValue": "Stat",
+                "effectiveValue": {
+                  "stringValue": "Stat"
+                }
+              },
+              "value": {
+                "formattedValue": "Value",
+                "effectiveValue": {
+                  "stringValue": "Value"
+                }
+              }
+            },
+            {
+              "row": 10,
+              "label": {
+                "formattedValue": "Crit Rate",
+                "effectiveValue": {
+                  "stringValue": "Crit Rate"
+                }
+              },
+              "value": {
+                "formattedValue": "86.50%",
+                "effectiveValue": {
+                  "numberValue": 0.865
+                }
+              }
+            },
+            {
+              "row": 11,
+              "label": {
+                "formattedValue": "Crit Damage",
+                "effectiveValue": {
+                  "stringValue": "Crit Damage"
+                }
+              },
+              "value": {
+                "formattedValue": "269.00%",
+                "effectiveValue": {
+                  "numberValue": 2.69
+                }
+              }
+            },
+            {
+              "row": 12,
+              "label": {
+                "formattedValue": "Total ATK",
+                "effectiveValue": {
+                  "stringValue": "Total ATK"
+                }
+              },
+              "value": {
+                "formattedValue": "2113.4",
+                "effectiveValue": {
+                  "numberValue": 2113.4
+                }
+              }
+            },
+            {
+              "row": 13,
+              "label": {
+                "formattedValue": "Lib DMG%",
+                "effectiveValue": {
+                  "stringValue": "Lib DMG%"
+                }
+              },
+              "value": {
+                "formattedValue": "29.20%",
+                "effectiveValue": {
+                  "numberValue": 0.292
+                }
+              }
+            },
+            {
+              "row": 14,
+              "label": {
+                "formattedValue": "ER",
+                "effectiveValue": {
+                  "stringValue": "ER"
+                }
+              },
+              "value": {
+                "formattedValue": "110.00%",
+                "effectiveValue": {
+                  "numberValue": 1.1
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "origin": {
+        "formattedValue": "Iuno Calcs Ver 2.6.7",
+        "userEnteredValue": {
+          "formulaValue": "=IMPORTRANGE(\"https://docs.google.com/spreadsheets/d/1zuPKV6GpCA_3y1p87WjaYfi-SJu4acguUg1XqGnaNlM\",\"Iuno(DPS)!A800:F931\")"
+        },
+        "effectiveValue": {
+          "stringValue": "Iuno Calcs Ver 2.6.7"
+        }
+      }
+    },
+    {
+      "sheetId": 0,
+      "sheetTitle": "Phoebe",
+      "hidden": false,
+      "scanRange": "A1:Z1002",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1975296818,
+      "sheetTitle": "Brant",
+      "hidden": false,
+      "scanRange": "A1:Z1002",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1365322142,
+      "sheetTitle": "Roccia",
+      "hidden": true,
+      "scanRange": "A1:Z999",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 954037527,
+      "sheetTitle": "Zhezhi",
+      "hidden": false,
+      "scanRange": "A1:Z991",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 554917505,
+      "sheetTitle": "Carlotta",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1601409732,
+      "sheetTitle": "Changli (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z999",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 42687801,
+      "sheetTitle": "Camellya",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1894504747,
+      "sheetTitle": "XLY",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 165470003,
+      "sheetTitle": "Aerover",
+      "hidden": true,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1662689774,
+      "sheetTitle": "Ciaconna",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1416923300,
+      "sheetTitle": "Cantarella",
+      "hidden": false,
+      "scanRange": "A1:Z994",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1236971630,
+      "sheetTitle": "Lupa",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 19849676,
+      "sheetTitle": "Iuno",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1166992763,
+      "sheetTitle": "sidew37's Looping Rotation Compilation",
+      "hidden": false,
+      "scanRange": "A1:Z1052",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1278534723,
+      "sheetTitle": "Zani Rotation Guide",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 518211711,
+      "sheetTitle": "Yessys's Aemeath Rotation Compilation",
+      "hidden": false,
+      "scanRange": "A1:Z1000",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 548630837,
+      "sheetTitle": "Carte Rotation Guide",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1073312992,
+      "sheetTitle": "Set Shorthand",
+      "hidden": false,
+      "scanRange": "A1:Z992",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1226917518,
+      "sheetTitle": "ToA HP Charts",
+      "hidden": false,
+      "scanRange": "A1:Z314",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1381269410,
+      "sheetTitle": "Whiwa HP Charts (WIP)",
+      "hidden": false,
+      "scanRange": "A1:Z314",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 1594526381,
+      "sheetTitle": "ToA HP Info",
+      "hidden": true,
+      "scanRange": "A1:J330",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 393339180,
+      "sheetTitle": "Whiwa HP Info",
+      "hidden": true,
+      "scanRange": "A1:J20",
+      "sections": [],
+      "origin": null
+    },
+    {
+      "sheetId": 977043986,
+      "sheetTitle": "Copy of Copy of sigrika ER sk",
+      "hidden": true,
+      "scanRange": "A1:U1008",
+      "sections": [],
+      "origin": null
+    }
+  ]
+}

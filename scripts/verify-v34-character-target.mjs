@@ -78,9 +78,13 @@ try {
     for (const [name, id] of [['Augusta', 'augusta'], ['Galbrena', 'galbrena'], ['Chixia', 'chixia'], ['Aemeath', 'aemeath']]) {
       await evaluate(`improvePicker.select(${JSON.stringify(name)})`); await sleep(800);
       if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
-      const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent,secondary:n.querySelector('small')?.textContent??null}))");
+      const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
       const projected = expected.find(item => item.characterId === id);
-      assert.deepEqual(rows, projected.rows.map(row => ({ metric: row.metric, status: row.status, label: row.label, value: row.displayValue, secondary: row.secondaryDisplay })), kind + ' ' + name);
+      assert.deepEqual(rows, projected.rows.map(row => ({ metric: row.metric, status: row.status, label: row.label, value: row.displayValue })), kind + ' ' + name);
+      assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===2&&n.querySelector('dd').children.length===1&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' one value per row, no source subline');
+      if (id === 'augusta') assert.deepEqual(rows.map(row => [row.label, row.value]), [
+        ['ATK', '2,407'], ['CRIT Rate', '84.7%'], ['CRIT DMG', '225%'], ['Energy Regen', '120%'], ['Heavy Attack DMG', '29.2%'],
+      ]);
       assert.equal(await evaluate("document.querySelector('.improve-build-need p').textContent"), 'Pending');
       if (!rows.length) assert.equal(await evaluate("document.querySelector('[data-policy-section=numericTargets] p').textContent"), 'Pending');
       assert.ok(await evaluate(`(()=>{const col=document.querySelector('[data-setting=target]'),r=col.getBoundingClientRect();return document.documentElement.scrollWidth===innerWidth&&[...col.querySelectorAll('.improve-setting-options *')].every(n=>{const b=n.getBoundingClientRect();return !b.width||(b.left>=r.left-1&&b.right<=r.right+1&&n.scrollWidth<=n.clientWidth+1)})})()`), kind + ' ' + name + ' target overflow');
@@ -109,7 +113,7 @@ try {
     await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');
     assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), undefined, 'Use Recommended clears custom targets');
     await click('[data-focus-key="mode:RECOMMENDED"]');
-    assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 8, 'Recommended rows return');
+    assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Recommended rows return');
     assert.equal(await evaluate(snapshot), originalEquipment, 'equipment and Candidate unchanged');
     console.log(kind + ': Customize add/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
   }

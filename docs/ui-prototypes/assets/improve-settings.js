@@ -2,6 +2,7 @@ import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicySt
   updateImprovePolicyState, persistImprovePolicyState } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveHumanNumber, improveTargetInput, parseImproveTarget,
   improveRelevantStats, editImproveTarget, assignImproveEchoStat, reorderImprovePreferences } from '../../assets/improvePolicyPresentation.js';
+import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
 let store, storageError = null;
@@ -76,11 +77,6 @@ function empty(sectionNode, policy, label) {
   if (policy.status === 'PENDING') sectionNode.append(note(origin(policy, sectionNode.dataset.policySection) === 'Needs review' ? 'Needs review. Saved intent is retained; use Recommended to clear this override.' : label));
   else if (policy.content === 'EXPLICITLY_EMPTY') sectionNode.append(note('Explicitly empty policy.'));
 }
-function targetLabel(target) {
-  const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === target.metric), suffix = target.unit === 'RATIO' ? '%' : '';
-  return { name: spec?.label ?? target.metric, min: improveTargetInput(target, target.minimum) + suffix,
-    pref: target.preferred === undefined ? null : improveTargetInput(target, target.preferred) + suffix };
-}
 function renderTargets() {
   const group = groups.get('target'), policy = resolved.policy.characterTarget.numericTargets;
   group.summary.textContent = policy.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
@@ -103,15 +99,17 @@ function renderTargets() {
     if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
     return;
   }
-  const rows = policy.value ?? [];
-  if (!rows.length) targets.append(note('Unavailable.'));
+  const rows = recommendedCharacterStatsPresentation(characterId);
+  if (!rows.length) targets.append(note('Pending'));
+  const table = element('dl', undefined, 'improve-recommended-stats');
   for (const row of rows) {
-    const x = targetLabel(row), item = element('div', undefined, 'improve-policy-target'); item.dataset.metric = row.metric;
-    const values = element('div', undefined, 'improve-target-values');
-    values.append(element('span', x.min + ' minimum'));
-    if (x.pref) values.append(element('span', x.pref + ' preferred'));
-    item.append(element('strong', x.name), values); targets.append(item);
+    const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
+    const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
+    item.dataset.status = ready ? 'READY' : 'PENDING';
+    item.append(element('dt', row.label), element('dd', ready ? row.displayValue : 'Pending'));
+    table.append(item);
   }
+  targets.append(table);
 }
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);

@@ -73,6 +73,11 @@
 [data-setting="target"] .improve-policy-target { display:flex; align-items:flex-start; gap:12px; padding:8px 0; background:none; }
 [data-setting="target"] .improve-policy-target > strong { min-width:0; }
 .improve-target-values { display:flex; flex-direction:column; gap:4px; }
+.improve-recommended-stats { margin:10px 0 0; font-size:12px; }
+.improve-recommended-stat { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:baseline; gap:12px; padding:5px 0; line-height:16px; }
+.improve-recommended-stat dt { color:#ede5d4; }
+.improve-recommended-stat dd { margin:0; text-align:right; color:#ede5d4; }
+.improve-recommended-stat[data-status="PENDING"] dd { color:#949ca8; }
 [data-setting="target"] .improve-target-editor { margin:10px 0; padding:0 0 10px; border:0; border-bottom:1px solid rgba(255,255,255,.1); border-radius:0; }
 [data-setting="target"] .improve-target-fields { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px; margin:8px 0; }
 [data-setting="target"] .improve-target-field { min-width:0; }

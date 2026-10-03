@@ -76,6 +76,7 @@ const list = (value: unknown, valid: (row: Record<string, unknown>) => boolean, 
 function validOverride(section: PolicyOverrideSection, value: unknown): boolean {
   if (section === 'echoPreferences' || section === 'priorities') {
     return list(value, row => stat(row.stat) && positiveInteger(row.priorityGroup)
+      && (section !== 'echoPreferences' || row.minimum === undefined || nonnegative(row.minimum))
       && (section !== 'priorities' || row.sourceNotes === null || typeof row.sourceNotes === 'string'), 'stat');
   }
   if (section === 'numericTargets') {

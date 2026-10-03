@@ -1,3 +1,4 @@
+import { SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 import { resolveImprovePolicyState, updateImprovePolicyState } from "./improvePolicyState.js";
 export function pendingImprovePolicySource(characterId) {
     const section = () => ({ status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Source unavailable.' });
@@ -104,5 +105,22 @@ export function reorderImprovePreferences(state, source, name, to) {
     const [moved] = preferences.splice(from, 1);
     preferences.splice(to, 0, moved);
     return updateImprovePolicyState(state, { type: 'set', section: 'echoPreferences',
-        value: preferences.map((row, index) => ({ stat: row.stat, priorityGroup: index + 1 })) }, source);
+        value: preferences.map((row, index) => ({ ...row, priorityGroup: index + 1 })) }, source);
+}
+/** Source-backed minimum, or the lowest verified tier for user-created intent. */
+export function initialImproveRollMinimum(source, name) {
+    const policy = source.echoPolicy;
+    const requirements = policy.requirements.status === 'VERIFIED' ? policy.requirements.value : null;
+    const preference = policy.preferences.status === 'VERIFIED' ? policy.preferences.value.find(row => row.stat === name) : null;
+    const minimum = requirements?.requiredOnEveryEcho.find(row => row.stat === name)?.minimum
+        ?? preference?.minimum ?? requirements?.groups.flatMap(group => group.members).find(row => row.stat === name)?.minimum;
+    return minimum ?? SUBSTAT_VALUE_TABLE[name][0];
+}
+/** Decimal display only; canonical persisted ratios/points never change units. */
+export function improveRollValueText(name, value) {
+    return improveHumanNumber(name.startsWith('Flat ') ? value : value * 100) + (name.startsWith('Flat ') ? '' : '%');
+}
+export function improveRollControl(name, minimum) {
+    const values = SUBSTAT_VALUE_TABLE[name] ?? [];
+    return { values, index: values.indexOf(minimum), text: improveRollValueText(name, minimum) };
 }

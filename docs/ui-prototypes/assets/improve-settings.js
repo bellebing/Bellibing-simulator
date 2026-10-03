@@ -2,7 +2,7 @@ import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicySt
   updateImprovePolicyState, persistImprovePolicyState } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
-import { echoPolicyPresentation, editEchoPolicy, reorderFlexStats, resetEchoPolicy } from './echo-policy-presentation.mjs';
+import { echoPolicyPresentation, editEchoPolicy, reorderFlexStats, resetEchoPolicy, echoRollControl, editEchoRollMinimum } from './echo-policy-presentation.mjs';
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
@@ -32,10 +32,12 @@ function save() {
   try { store = persistImprovePolicyState(store, settings, localStorage); saveNote.hidden = true; }
   catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; }
 }
-function commit(change, focusKey) {
+function commit(change, focusKey, refresh = true) {
   try { settings = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source); }
   catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
-  save(); render();
+  save();
+  if (!refresh) { resolved = resolveImprovePolicyState(settings, source); return; }
+  render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
@@ -47,14 +49,14 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Character Target'], ['gate', 'Gate'], ['every', 'Every Echo'], ['flex', 'Flex Stats'], ['quality', 'Roll Quality']]) {
+for (const [id, label] of [['target', 'Character Target'], ['gate', 'Gate'], ['every', 'Every Echo'], ['flex', 'Flex Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
   const summary = element('strong', undefined, 'improve-setting-summary');
   const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
   const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
-  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices improve-setting-quality-choices');
+  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
   clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
@@ -171,6 +173,31 @@ function renderEcho() {
         move.disabled = index + offset < 0 || index + offset >= view.flex.length; item.append(move);
       }
     } else item.append(toggle);
+    if (active) {
+      const control = echoRollControl(view, source, list, name);
+      const slider = element('input', undefined, 'improve-roll-slider'); slider.type = 'range';
+      slider.min = '0'; slider.max = String(control.values.length - 1); slider.step = '1';
+      slider.value = String(Math.max(0, control.index)); slider.disabled = !editable || control.index < 0;
+      slider.dataset.focusKey = 'roll:' + list + ':' + name;
+      slider.setAttribute('aria-label', (list === 'every' ? 'Every Echo ' : 'Flex ') + name + ' minimum roll');
+      const value = element('output', control.text, 'improve-roll-value');
+      const show = () => {
+        const text = echoRollControl(echoPolicyPresentation(settings, source, canonicalStats), source, list, name).text;
+        value.textContent = text; slider.setAttribute('aria-valuetext', text);
+        slider.style.setProperty('--roll-position', (Number(slider.value) / Number(slider.max) * 100) + '%');
+      };
+      slider.oninput = () => {
+        commit(state => editEchoRollMinimum(state, source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
+        show(); groups.get(list).summary.textContent = 'Custom';
+      };
+      slider.onchange = () => commit(state => state, slider.dataset.focusKey);
+      // Range dragging owns the pointer; row dragging remains available elsewhere.
+      if (item.draggable) {
+        slider.onpointerdown = () => { item.draggable = false; };
+        slider.onpointerup = slider.onblur = () => { item.draggable = true; };
+      }
+      item.append(slider, value); show();
+    }
     parent.append(item);
   }
   const every = groups.get('every').content;
@@ -196,7 +223,7 @@ function renderEcho() {
 }
 
 function render() {
-  root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING'; root.dataset.rollQualityMapping = 'PENDING';
+  root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
   modes.replaceChildren();
   for (const [value, label] of [['RECOMMENDED', 'Recommended'], ['MANUAL', 'Customize']]) {
     const node = button(label, () => commit({ type: 'mode', value }, 'mode:' + value), 'mode:' + value, settings?.mode === value); node.disabled = !characterId || !!storageError; modes.append(node);
@@ -208,8 +235,6 @@ function render() {
   renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
-  const quality = groups.get('quality'); quality.summary.textContent = settings.rollQuality;
-  const choices = element('div', undefined, 'improve-setting-list'); for (const value of ['All Rolls', 'Mid+', 'High+']) { const node = button(value, () => commit({ type: 'quality', value }, 'quality:' + value), 'quality:' + value, value === settings.rollQuality); node.dataset.settingValue = value; choices.append(node); } quality.content.append(choices, note('Threshold mapping Pending.'));
 }
 function setCharacter(id) {
   if (characterId !== id) { setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false; }
@@ -220,7 +245,7 @@ function setCharacter(id) {
   if (loaded) save(); render();
 }
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? structuredClone({ ...settings, effectivePolicy: resolved.policy,
-  compatibility: resolved.compatibility, rollQualityMappingStatus: 'PENDING' }) : null };
+  compatibility: resolved.compatibility }) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),

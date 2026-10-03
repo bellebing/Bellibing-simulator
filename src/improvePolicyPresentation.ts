@@ -1,4 +1,5 @@
 import type { BuildStatMetric, CharacterStatTarget, EchoRequirements, PolicySection, ResolvedImprovePolicy } from './improvePolicyDomain.ts';
+import { SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type { ImprovePolicyState } from './improvePolicyState.ts';
 import { resolveImprovePolicyState, updateImprovePolicyState } from './improvePolicyState.ts';
@@ -95,5 +96,25 @@ export function reorderImprovePreferences(state: ImprovePolicyState, source: Res
   if (from < 0 || !Number.isInteger(to) || to < 0 || to >= preferences.length || from === to) return state;
   const [moved] = preferences.splice(from, 1); preferences.splice(to, 0, moved!);
   return updateImprovePolicyState(state, { type: 'set', section: 'echoPreferences',
-    value: preferences.map((row, index) => ({ stat: row.stat, priorityGroup: index + 1 })) }, source);
+    value: preferences.map((row, index) => ({ ...row, priorityGroup: index + 1 })) }, source);
+}
+
+/** Source-backed minimum, or the lowest verified tier for user-created intent. */
+export function initialImproveRollMinimum(source: ResolvedImprovePolicy, name: StatName): number {
+  const policy = source.echoPolicy;
+  const requirements = policy.requirements.status === 'VERIFIED' ? policy.requirements.value : null;
+  const preference = policy.preferences.status === 'VERIFIED' ? policy.preferences.value.find(row => row.stat === name) : null;
+  const minimum = requirements?.requiredOnEveryEcho.find(row => row.stat === name)?.minimum
+    ?? preference?.minimum ?? requirements?.groups.flatMap(group => group.members).find(row => row.stat === name)?.minimum;
+  return minimum ?? SUBSTAT_VALUE_TABLE[name]![0]!;
+}
+/** Decimal display only; canonical persisted ratios/points never change units. */
+export function improveRollValueText(name: StatName, value: number): string {
+  return improveHumanNumber(name.startsWith('Flat ') ? value : value * 100) + (name.startsWith('Flat ') ? '' : '%');
+}
+export function improveRollControl(name: StatName, minimum: number): {
+  values: readonly number[]; index: number; text: string;
+} {
+  const values = SUBSTAT_VALUE_TABLE[name] ?? [];
+  return { values, index: values.indexOf(minimum), text: improveRollValueText(name, minimum) };
 }

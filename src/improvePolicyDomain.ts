@@ -79,6 +79,8 @@ export interface EchoRequirementGroup {
 
 export interface EchoStatPreference {
   readonly stat: StatName;
+  /** Minimum accepted per-roll value; independent of preference order. */
+  readonly minimum?: number;
   readonly priorityGroup: number;
 }
 

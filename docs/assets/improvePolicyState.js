@@ -18,6 +18,7 @@ const list = (value, valid, key) => Array.isArray(value) && unique(value, key) &
 function validOverride(section, value) {
     if (section === 'echoPreferences' || section === 'priorities') {
         return list(value, row => stat(row.stat) && positiveInteger(row.priorityGroup)
+            && (section !== 'echoPreferences' || row.minimum === undefined || nonnegative(row.minimum))
             && (section !== 'priorities' || row.sourceNotes === null || typeof row.sourceNotes === 'string'), 'stat');
     }
     if (section === 'numericTargets') {

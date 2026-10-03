@@ -8,7 +8,7 @@ let store, storageError = null;
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
-let drag = null, selectedMetric = 'TOTAL_ENERGY_REGEN';
+let drag = null, selectedMetric = null;
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
@@ -82,53 +82,65 @@ function targetLabel(target) {
     pref: target.preferred === undefined ? null : improveTargetInput(target, target.preferred) + suffix };
 }
 function renderTargets() {
-  const group = groups.get('target'), policy = resolved.policy.characterTarget;
-  group.summary.textContent = policy.numericTargets.status === 'USER_DEFINED' || policy.priorities.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
-  const targets = section('Total-stat Targets', policy.numericTargets, 'numericTargets', group.content);
-  empty(targets, policy.numericTargets, 'No reviewed numeric total-stat targets are available. Pending source policy.');
-  for (const row of policy.numericTargets.value ?? []) {
+  const group = groups.get('target'), policy = resolved.policy.characterTarget.numericTargets;
+  group.summary.textContent = policy.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
+  const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
+  targets.append(element('h3', settings.mode === 'MANUAL' ? 'Character Stats' : 'Recommended Character Stats'));
+  group.content.append(targets);
+  if (settings.mode === 'MANUAL') {
+    // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.
+    for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
+    if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
+    if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { selectedMetric = null; commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
+    const add = element('details', undefined, 'improve-target-add');
+    add.append(element('summary', 'Add stat'));
+    const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
+    const defined = new Set((policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).map(row => row.metric));
+    for (const spec of IMPROVE_TARGET_METRICS.filter(row => !defined.has(row.metric))) metrics.append(button(spec.label, () => {
+      selectedMetric = spec.metric; render(); root.querySelector('[data-editor-metric="' + spec.metric + '"] input').focus({ preventScroll: true });
+    }, 'metric:' + spec.metric));
+    if (metrics.children.length) { add.append(metrics); targets.append(add); }
+    if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
+    return;
+  }
+  const rows = policy.value ?? [];
+  if (!rows.length) targets.append(note('Unavailable.'));
+  for (const row of rows) {
     const x = targetLabel(row), item = element('div', undefined, 'improve-policy-target'); item.dataset.metric = row.metric;
-    item.append(element('strong', x.name), element('span', 'Minimum ' + x.min), element('span', x.pref ? 'Preferred ' + x.pref : 'No preferred value'));
-    if (settings.mode === 'MANUAL' && resolved.compatibility.context === 'MATCH') item.append(button('Remove', () => commit(state => editImproveTarget(state, source, row.metric, null), 'metric:' + row.metric), 'remove:' + row.metric));
-    targets.append(item); if (row.basis.description) targets.append(note(row.basis.description));
-    targets.append(note(row.basis.kind === 'USER_DEFINED' ? 'User-defined target · comparison Pending.' : 'Source-described target · comparison Pending.'));
+    const values = element('div', undefined, 'improve-target-values');
+    values.append(element('span', x.min + ' minimum'));
+    if (x.pref) values.append(element('span', x.pref + ' preferred'));
+    item.append(element('strong', x.name), values); targets.append(item);
   }
-  if (policy.numericTargets.status === 'VERIFIED') {
-    const a = policy.numericTargets.source.applicability;
-    targets.append(note('Reviewed preset: ' + a.presetId + ' · ' + a.modeKey + ' · S' + a.sequence + ' · ' + a.teamProfileId));
-  }
-  if (settings.mode === 'MANUAL') renderTargetEditor(targets);
-  const priorities = section('Build Priorities', policy.priorities, 'priorities', group.content);
-  empty(priorities, policy.priorities, 'Build priorities Pending source verification.');
-  const ties = new Map(); for (const row of policy.priorities.value ?? []) { if (!ties.has(row.priorityGroup)) ties.set(row.priorityGroup, []); ties.get(row.priorityGroup).push(row); }
-  for (const [rank, rows] of [...ties].sort((a, b) => a[0] - b[0])) {
-    priorities.append(element('p', rank + '. ' + rows.map(row => row.stat).join(' = '), 'improve-policy-priority'));
-    for (const text of [...new Set(rows.map(row => row.sourceNotes).filter(Boolean))]) priorities.append(note(text));
-  }
-  if (settings.mode === 'MANUAL') priorities.append(note('Build priorities are read-only in this slice. No weights or satisfaction calculation.'));
 }
-function renderTargetEditor(parent) {
-  const editor = element('form', undefined, 'improve-target-editor'); editor.noValidate = true;
-  editor.append(element('h4', 'Custom total-stat target'));
-  const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
-  for (const spec of IMPROVE_TARGET_METRICS) metrics.append(button(spec.label, () => { selectedMetric = spec.metric; render(); root.querySelector('[data-focus-key="metric:' + spec.metric + '"]').focus(); }, 'metric:' + spec.metric, selectedMetric === spec.metric));
-  editor.append(metrics);
-  const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === selectedMetric), existing = resolved.policy.characterTarget.numericTargets.value?.find(row => row.metric === selectedMetric);
+function renderTargetEditor(parent, metric, existing) {
+  const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
+  const editor = element('form', undefined, 'improve-target-editor'); editor.noValidate = true; editor.dataset.editorMetric = metric;
+  editor.append(element('h4', spec.label));
   const fields = element('div', undefined, 'improve-target-fields');
   const input = (label, id, value) => {
-    const holder = element('label', undefined, 'improve-target-field'); holder.append(element('span', label + (spec.unit === 'RATIO' ? ' (%)' : ' (points)')));
-    const node = element('input'); node.type = 'text'; node.inputMode = 'decimal'; node.id = id; node.autocomplete = 'off'; node.value = value ?? ''; node.setAttribute('aria-label', label + ' ' + spec.label); holder.append(node); fields.append(holder); return node;
+    const holder = element('label', undefined, 'improve-target-field'); holder.append(element('span', label));
+    const control = element('div', undefined, 'improve-target-input');
+    const node = element('input'); node.type = 'text'; node.inputMode = 'decimal'; node.id = id; node.autocomplete = 'off'; node.value = value ?? ''; node.setAttribute('aria-label', label + ' ' + spec.label);
+    control.append(node); if (spec.unit === 'RATIO') control.append(element('span', '%'));
+    holder.append(control); fields.append(holder); return node;
   };
-  const min = input('Minimum', 'improve-target-minimum', existing ? improveTargetInput(existing, existing.minimum) : '');
-  const pref = input('Preferred (optional)', 'improve-target-preferred', existing?.preferred !== undefined ? improveTargetInput(existing, existing.preferred) : '');
+  const min = input('Minimum', 'improve-target-minimum-' + metric, existing ? improveTargetInput(existing, existing.minimum) : '');
+  const pref = input('Preferred (optional)', 'improve-target-preferred-' + metric, existing?.preferred !== undefined ? improveTargetInput(existing, existing.preferred) : '');
   editor.append(fields);
-  const error = note(''); error.setAttribute('role', 'alert'); error.id = 'improve-target-error'; error.hidden = true; min.setAttribute('aria-describedby', error.id); pref.setAttribute('aria-describedby', error.id);
-  const save = element('button', 'Save target', 'improve-setting-choice'); save.type = 'submit'; save.dataset.focusKey = 'save-target';
+  const error = note(''); error.setAttribute('role', 'alert'); error.id = 'improve-target-error-' + metric; error.hidden = true; min.setAttribute('aria-describedby', error.id); pref.setAttribute('aria-describedby', error.id);
+  const actions = element('div', undefined, 'improve-setting-chips');
+  const save = element('button', 'Save', 'improve-setting-choice'); save.type = 'submit'; save.dataset.focusKey = 'save-target:' + metric;
   save.disabled = resolved.compatibility.context !== 'MATCH' || source.applicability === null || resolved.compatibility.suspendedSections.includes('numericTargets') || !!storageError;
-  editor.append(save, error, note('Whole-build target only. Comparison remains Pending.'));
+  actions.append(save);
+  if (existing) {
+    const remove = button('Remove', () => commit(state => editImproveTarget(state, source, metric, null), 'metric:' + metric), 'remove:' + metric);
+    remove.disabled = save.disabled; actions.append(remove);
+  }
+  editor.append(actions, error);
   editor.onsubmit = event => {
     event.preventDefault();
-    try { const target = parseImproveTarget(selectedMetric, min.value, pref.value); commit(state => editImproveTarget(state, source, selectedMetric, target), 'save-target'); }
+    try { const target = parseImproveTarget(metric, min.value, pref.value); selectedMetric = null; commit(state => editImproveTarget(state, source, metric, target), 'save-target:' + metric); }
     catch (failure) { error.textContent = failure.message; error.hidden = false; min.setAttribute('aria-invalid', 'true'); pref.setAttribute('aria-invalid', 'true'); }
   };
   parent.append(editor);
@@ -209,7 +221,7 @@ function render() {
   const choices = element('div', undefined, 'improve-setting-list'); for (const value of ['All Rolls', 'Mid+', 'High+']) { const node = button(value, () => commit({ type: 'quality', value }, 'quality:' + value), 'quality:' + value, value === settings.rollQuality); node.dataset.settingValue = value; choices.append(node); } quality.content.append(choices, note('Threshold mapping Pending.'));
 }
 function setCharacter(id) {
-  if (characterId !== id) { setExpanded(false); drag = null; }
+  if (characterId !== id) { setExpanded(false); drag = null; selectedMetric = null; }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }
   try { settings = store ? readImprovePolicyState(store, id, source, legacySources.find(row => row.characterId === id)) : createImprovePolicyState(id, source); }

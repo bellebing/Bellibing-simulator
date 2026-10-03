@@ -11,7 +11,7 @@
 .improve-settings-heading > span { color:#949ca8; font-size:10px; }
 .improve-settings-controls { display:flex; flex-wrap:wrap; align-items:flex-start; gap:12px 28px; }
 .improve-setting { flex:0 1 auto; width:max-content; max-width:380px; min-width:0; }
-.improve-setting-trigger { display:flex; align-items:center; gap:14px; width:max-content; max-width:100%; min-height:36px; padding:7px 10px; border:1px solid rgba(255,255,255,.13); border-radius:9px; background:rgba(255,255,255,.02); color:#b7bec8; cursor:pointer; font-size:12px; }
+.improve-setting-trigger { display:flex; align-items:center; gap:14px; width:100%; box-sizing:border-box; max-width:100%; min-height:36px; padding:7px 10px; border:1px solid rgba(255,255,255,.13); border-radius:9px; background:rgba(255,255,255,.02); color:#b7bec8; cursor:pointer; font-size:12px; }
 .improve-setting-summary { font-weight:600; color:#ede5d4; white-space:nowrap; }
 .improve-setting-caret { color:#9d947e; transition:transform 320ms cubic-bezier(.16,.84,.24,1); }
 .improve-setting.is-expanded .improve-setting-caret { transform:rotate(180deg); }
@@ -35,7 +35,7 @@
 .improve-settings-heading > .improve-setting-chips { grid-column:3; justify-self:end; }
 .improve-settings-controls { display:grid; grid-template-columns:minmax(0,340px) minmax(0,120px) minmax(0,310px) minmax(0,175px); align-items:start; gap:0 10px; }
 .improve-setting { display:flex; flex-direction:column; width:auto; max-width:none; min-width:0; }
-.improve-setting-trigger { width:max-content; max-width:100%; justify-content:space-between; gap:8px; }
+.improve-setting-trigger { width:100%; box-sizing:border-box; max-width:100%; justify-content:space-between; gap:8px; }
 .improve-setting-label { margin-bottom:6px; color:#b7bec8; font-size:12px; line-height:16px; }
 .improve-setting-list,.improve-target-editor .improve-setting-chips { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
 .improve-setting-summary { white-space:nowrap; }
@@ -67,3 +67,18 @@
 .improve-policy-handle { width:20px; flex:none; color:#949ca8; cursor:grab; }
 .improve-policy-stat.is-dragging { opacity:.5; }
 .improve-setting-choice:disabled,.improve-setting-trigger:disabled { opacity:.45; cursor:default; }
+
+/* Controls and their expansion share the owning setting column. */
+.improve-setting-clip,.improve-setting-options { min-width:0; max-width:100%; box-sizing:border-box; }
+[data-setting="target"] .improve-policy-target { display:flex; align-items:flex-start; gap:12px; padding:8px 0; background:none; }
+[data-setting="target"] .improve-policy-target > strong { min-width:0; }
+.improve-target-values { display:flex; flex-direction:column; gap:4px; }
+[data-setting="target"] .improve-target-editor { margin:10px 0; padding:0 0 10px; border:0; border-bottom:1px solid rgba(255,255,255,.1); border-radius:0; }
+[data-setting="target"] .improve-target-fields { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px; margin:8px 0; }
+[data-setting="target"] .improve-target-field { min-width:0; }
+.improve-target-input { display:flex; align-items:center; gap:5px; min-width:0; }
+[data-setting="target"] .improve-target-field input { width:100%; min-width:0; }
+.improve-target-add { margin-top:10px; font-size:12px; color:#b7bec8; }
+.improve-target-add summary { cursor:pointer; width:fit-content; }
+.improve-target-add .improve-setting-chips { margin-top:8px; }
+[data-setting="target"] .improve-target-editor .improve-setting-chips { flex-direction:row; }

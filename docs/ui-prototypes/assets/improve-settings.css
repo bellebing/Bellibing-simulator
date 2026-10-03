@@ -29,18 +29,14 @@
 .improve-setting-chips + .improve-setting-note { margin-top:9px; }
 .improve-setting-options > :last-child { margin-bottom:0; }
 @media(prefers-reduced-motion:reduce) { .improve-setting-expansion { transition:opacity 100ms ease; } .improve-setting-caret { transition:none; } }
-/* Four compact controls; each expansion spans the owning Settings width. */
+/* Stable, bounded columns: each setting owns its trigger and vertical expansion. */
 .improve-settings-heading { align-items:center; flex-wrap:wrap; justify-content:space-between; }
-.improve-settings-controls { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,.55fr) minmax(0,1.05fr) minmax(0,.8fr); gap:0 10px; }
-.improve-setting { display:contents; }
-.improve-setting-trigger { width:100%; justify-content:space-between; gap:8px; grid-row:1; }
+.improve-settings-controls { display:grid; grid-template-columns:minmax(0,340px) minmax(0,120px) minmax(0,310px) minmax(0,175px); align-items:start; gap:0 10px; }
+.improve-setting { display:flex; flex-direction:column; width:auto; max-width:none; min-width:0; }
+.improve-setting-trigger { width:max-content; max-width:100%; justify-content:space-between; gap:8px; }
 .improve-setting-trigger > span:first-child { white-space:nowrap; }
 .improve-setting-summary { white-space:normal; text-align:right; }
-.improve-setting[data-setting="target"] .improve-setting-trigger { grid-column:1; }
-.improve-setting[data-setting="gate"] .improve-setting-trigger { grid-column:2; }
-.improve-setting[data-setting="echo"] .improve-setting-trigger { grid-column:3; }
-.improve-setting[data-setting="quality"] .improve-setting-trigger { grid-column:4; }
-.improve-setting-expansion { grid-column:1/-1; grid-row:2; width:100%; }
+.improve-setting-expansion { width:100%; min-width:0; overflow-wrap:anywhere; }
 .improve-setting-options { padding:16px 2px 2px; }
 .improve-policy-section { margin:0 0 18px; }
 .improve-policy-section h3 { margin:0; font-size:13px; font-weight:600; color:#ede5d4; }

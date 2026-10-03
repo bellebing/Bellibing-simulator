@@ -34,6 +34,27 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:wheel.x+wheel.width/2,y:wheel.y+wheel.height/2}); await sleep(850);
     await check(`document.getElementById('improveShell').classList.contains('hover-expanded')&&[...document.querySelectorAll('#improveWheel .choice')].every(n=>n.getBoundingClientRect().bottom+8<=document.getElementById('improveSettings').getBoundingClientRect().top)`, 'physical hover/selector collision '+width);
     await capture(send,`artifacts/ui-preview-improve-settings-hover-${width}x${height}.png`); await settle();
+    const triggerPositions = await read(`[...document.querySelectorAll('.improve-setting-trigger')].map(n=>n.getBoundingClientRect().toJSON())`);
+    await capture(send,`artifacts/ui-preview-improve-settings-collapsed-${width}x${height}.png`);
+    for (const id of ['target','gate','echo','quality']) {
+      await click(trigger(id)); await read('document.getElementById("improveShell").scrollTop=0'); await settle();
+      await check(`(()=>{
+        const rect=n=>n.getBoundingClientRect(), settings=rect(document.getElementById('improveSettings'));
+        const owners=[...document.querySelectorAll('.improve-setting')], triggers=owners.map(n=>rect(n.querySelector('.improve-setting-trigger')));
+        const baseline=${JSON.stringify(triggerPositions)}, owner=owners.find(n=>n.dataset.setting===${JSON.stringify(id)});
+        const expansion=rect(owner.querySelector('.improve-setting-expansion')), own=rect(owner), button=rect(owner.querySelector('.improve-setting-trigger'));
+        return owners.every(n=>getComputedStyle(n).display!=='contents')&&owners.filter(n=>n.classList.contains('is-expanded')).length===1
+          &&triggers.every((r,i)=>r.left>=settings.left&&r.right<=settings.right&&r.top>=0&&r.bottom<=innerHeight&&Math.abs(r.left-baseline[i].left)<1&&Math.abs(r.width-baseline[i].width)<1&&Math.abs(r.top-baseline[i].top)<1&&(!i||triggers[i-1].right<=r.left))
+          &&Math.abs(expansion.left-button.left)<1&&expansion.top>=button.bottom&&expansion.width<=own.width+1&&expansion.width<settings.width/2
+          &&owners.every((n,i)=>!i||rect(owners[i-1]).right<=rect(n).left)
+          &&[...owner.querySelectorAll('.improve-setting-options *')].every(n=>{const r=rect(n);return r.width===0||(r.left>=own.left-1&&r.right<=own.right+1)})
+          &&rect(document.getElementById('improveBuildCard')).top>=settings.bottom
+          &&[...document.querySelectorAll('#improveWheel .choice')].every(n=>rect(n).bottom+8<=settings.top);
+      })()`, 'owned expansion/stable visible triggers/no overlap/selector clearance '+id+' '+width);
+      await capture(send,`artifacts/ui-preview-improve-settings-owned-${id}-${width}x${height}.png`);
+      await click(trigger(id)); await settle();
+    }
+    console.log('- Improve Settings owned expansions '+width+'x'+height+': collapsed + Target/Gate/Echo/Quality; stable visible triggers, bounded ownership, no overlap, flow and selector clearance PASS.');
     const top = await read('document.getElementById("improveBuildCard").getBoundingClientRect().top');
     await click(trigger('target')); await sleep(380);
     await check(`${summary('target')}==='ER 116% min · 125% pref'&&document.querySelector('[data-metric="TOTAL_ENERGY_REGEN"]').innerText.includes('Minimum 116%')&&document.querySelector('[data-metric="TOTAL_ENERGY_REGEN"]').innerText.includes('Preferred 125%')&&document.querySelectorAll('[data-metric]').length===1`, 'Augusta distinct numeric min/preferred');

@@ -17,6 +17,36 @@
       "url": "https://wutheringwaves.gg/augusta-guide/",
       "result": "BLOCKED_NETWORK_POLICY",
       "observation": "curl: (56) CONNECT tunnel failed, response 403; page existence/content not verified."
+    },
+    {
+      "id": "augusta-prydwen-external-capture-2026-10-03",
+      "sourceIdentity": "Prydwen Augusta build",
+      "url": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "result": "CAPTURED",
+      "retrievalMethod": "EXTERNALLY_SUPPLIED_SOURCE_CAPTURE",
+      "captureDate": "2026-10-03",
+      "reviewDate": "2026-10-03",
+      "pageUpdatedAt": "2026-09-10",
+      "patch": "3.6",
+      "level": 90,
+      "rarity": "5-star",
+      "sequence": "S0",
+      "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party.",
+      "originalStatLine": "HP: 14500+; DEF: 1100+; ATK: 2000-2800+; CRIT Rate: 65-80%+; CRIT DMG: 210-260%+; Energy Regen: 116%-125%; Electro DMG Bonus: 40-70%+",
+      "statLines": {
+        "TOTAL_HP": "14500+",
+        "TOTAL_DEF": "1100+",
+        "TOTAL_ATK": "2000-2800+",
+        "TOTAL_CRIT_RATE": "65-80%+",
+        "TOTAL_CRIT_DAMAGE": "210-260%+",
+        "TOTAL_ENERGY_REGEN": "116%-125%",
+        "ELECTRO_DMG_BONUS": "40-70%+"
+      },
+      "energyRegenConditions": [
+        "Lower endpoint 116% corresponds to Mortefi + Shorekeeper.",
+        "Higher endpoint 125% corresponds to Iuno + Shorekeeper."
+      ],
+      "observation": "Current direct Prydwen page capture supplied externally by the user for repository review; Codex did not fetch this page."
     }
   ],
   "candidateResearch": {
@@ -40,5 +70,23 @@
     "originalSourceText": null,
     "finding": "Existing reviewed legacy ER gate is retained for its existing purpose. Its repository paraphrase is discovery evidence, not a verbatim primary-source capture for this new dataset."
   },
-  "reviewOutcome": "All seven Augusta scaffold metrics remain PENDING. No additional source-backed whole-build metric was captured. No source disagreement can be determined without primary payloads; do not infer agreement from access failure."
+  "reviewOutcome": "Explicit review verifies HP MINIMUM 14500, DEF MINIMUM 1100, and ER BOUNDED_RANGE 1.16–1.25 with team endpoint conditions. Four trailing-plus ranges remain REVIEW_REQUIRED with null canonical values. Research and candidate artifacts cannot auto-promote semantic truth.",
+  "historicalComparison": {
+    "sourceIdentity": "WWPlus Augusta 2.8 guide",
+    "sourceUrl": "https://wwplus.net/augusta/",
+    "recordedAt": "2026-10-03",
+    "retrievalMethod": "EXTERNALLY_SUPPLIED_RESEARCH_CONTEXT",
+    "evidenceClass": "HISTORICAL_NON_CURRENT",
+    "patch": "2.8",
+    "pageUpdatedAt": null,
+    "measurementBasis": null,
+    "recommendations": {
+      "TOTAL_ATK": ">=2200",
+      "TOTAL_CRIT_RATE": ">=70%",
+      "TOTAL_CRIT_DAMAGE": ">=270%",
+      "TOTAL_ENERGY_REGEN": ">=110%",
+      "ELECTRO_DMG_BONUS": "40%-70%"
+    },
+    "finding": "Materially different older-patch recommendations; preserve source, patch/time and measurement context. Not equal-current corroboration or disagreement for Patch 3.6, not averaged, and not cited by current canonical metric reviews."
+  }
 }

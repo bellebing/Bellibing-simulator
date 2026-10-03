@@ -6,7 +6,7 @@ export const CHARACTER_RECOMMENDATION_SOURCES: readonly CharacterRecommendationS
     "id": "augusta-character-recommendation-sources-2026-10-03",
     "characterId": "augusta",
     "researchArtifact": "data/research/augusta-character-recommendations-2026-10-03.json",
-    "researchBinding": "498032147dda7afe895f74f371d53c42065b910f0d7581669a1464146b1989d2",
+    "researchBinding": "051671a89b3dcc6fff287c4865e7c77a8e79692cd28ee30323587ad788f673e8",
     "evidence": [
       {
         "id": "augusta-legacy-er-reference",
@@ -31,6 +31,163 @@ export const CHARACTER_RECOMMENDATION_SOURCES: readonly CharacterRecommendationS
           "rotation": null,
           "measurementBasis": null
         }
+      },
+      {
+        "id": "augusta-prydwen-total_hp-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_HP",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_HP",
+        "originalText": "14500+",
+        "excerpt": "HP: 14500+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-total_def-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_DEF",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_DEF",
+        "originalText": "1100+",
+        "excerpt": "DEF: 1100+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-total_atk-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_ATK",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_ATK",
+        "originalText": "2000-2800+",
+        "excerpt": "ATK: 2000-2800+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-total_crit_rate-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_CRIT_RATE",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_CRIT_RATE",
+        "originalText": "65-80%+",
+        "excerpt": "CRIT Rate: 65-80%+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-total_crit_damage-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_CRIT_DAMAGE",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_CRIT_DAMAGE",
+        "originalText": "210-260%+",
+        "excerpt": "CRIT DMG: 210-260%+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-total_energy_regen-2026-10-03",
+        "characterId": "augusta",
+        "metric": "TOTAL_ENERGY_REGEN",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.TOTAL_ENERGY_REGEN",
+        "originalText": "116%-125%",
+        "excerpt": "Energy Regen: 116%-125%",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [
+            "Lower endpoint 116% corresponds to Mortefi + Shorekeeper.",
+            "Higher endpoint 125% corresponds to Iuno + Shorekeeper."
+          ],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
+      },
+      {
+        "id": "augusta-prydwen-electro_dmg_bonus-2026-10-03",
+        "characterId": "augusta",
+        "metric": "ELECTRO_DMG_BONUS",
+        "sourceIdentity": "Prydwen Augusta build",
+        "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+        "checkedAt": "2026-10-03",
+        "evidenceClass": "PRIMARY_SOURCE_CAPTURE",
+        "artifact": "data/research/augusta-character-recommendations-2026-10-03.json",
+        "locator": "sourceAccess[2].statLines.ELECTRO_DMG_BONUS",
+        "originalText": "40-70%+",
+        "excerpt": "Electro DMG Bonus: 40-70%+",
+        "context": {
+          "description": "Externally supplied current Prydwen capture, reviewed 2026-10-03; page updated 2026-09-10; Patch 3.6 Level 90 endgame recommendations for a 5-star at S0. Codex direct fetch was blocked.",
+          "conditions": [],
+          "team": null,
+          "weapon": null,
+          "sequence": "S0",
+          "rotation": null,
+          "measurementBasis": "Total stats shown in the in-game stat screen while the Character is out of combat but active in the party."
+        }
       }
     ]
   }
@@ -42,57 +199,79 @@ export const CHARACTER_RECOMMENDATION_REVIEWS: readonly CharacterRecommendationR
     "characterId": "augusta",
     "sourceId": "augusta-character-recommendation-sources-2026-10-03",
     "checkedAt": "2026-10-03",
-    "sourceBinding": "dfd4512a5715d4f27c29babb339fffa1de92acc3ba5982fd051d6851991246de",
+    "sourceBinding": "d0fbfd02fa424cfe553c44e61655a34dc17433e88a8eada428bbda8eea135ea4",
     "rows": [
       {
         "metric": "TOTAL_HP",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
-        "interpretation": null
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+        "evidenceIds": [
+          "augusta-prydwen-total_hp-2026-10-03"
+        ],
+        "reason": "Exact current externally supplied Prydwen wording supports this explicit Bellibing interpretation; ER endpoints retain team conditions as prose.",
+        "interpretation": {
+          "kind": "MINIMUM",
+          "minimum": 14500
+        }
       },
       {
         "metric": "TOTAL_DEF",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
-        "interpretation": null
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
+        "evidenceIds": [
+          "augusta-prydwen-total_def-2026-10-03"
+        ],
+        "reason": "Exact current externally supplied Prydwen wording supports this explicit Bellibing interpretation; ER endpoints retain team conditions as prose.",
+        "interpretation": {
+          "kind": "MINIMUM",
+          "minimum": 1100
+        }
       },
       {
         "metric": "TOTAL_ATK",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
+        "decision": "REVIEW_REQUIRED",
+        "evidenceIds": [
+          "augusta-prydwen-total_atk-2026-10-03"
+        ],
+        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
         "interpretation": null
       },
       {
         "metric": "TOTAL_CRIT_RATE",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
+        "decision": "REVIEW_REQUIRED",
+        "evidenceIds": [
+          "augusta-prydwen-total_crit_rate-2026-10-03"
+        ],
+        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
         "interpretation": null
       },
       {
         "metric": "TOTAL_CRIT_DAMAGE",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
+        "decision": "REVIEW_REQUIRED",
+        "evidenceIds": [
+          "augusta-prydwen-total_crit_damage-2026-10-03"
+        ],
+        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
         "interpretation": null
       },
       {
         "metric": "TOTAL_ENERGY_REGEN",
-        "decision": "PENDING",
+        "decision": "APPROVED_FOR_CANONICAL_VERIFIED",
         "evidenceIds": [
-          "augusta-legacy-er-reference"
+          "augusta-prydwen-total_energy_regen-2026-10-03"
         ],
-        "reason": "Primary-source access blocked; legacy ER paraphrase lacks exact wording and measurement basis for this dedicated review.",
-        "interpretation": null
+        "reason": "Exact current externally supplied Prydwen wording supports this explicit Bellibing interpretation; ER endpoints retain team conditions as prose.",
+        "interpretation": {
+          "kind": "BOUNDED_RANGE",
+          "minimum": 1.16,
+          "upper": 1.25
+        }
       },
       {
         "metric": "ELECTRO_DMG_BONUS",
-        "decision": "PENDING",
-        "evidenceIds": [],
-        "reason": "No Augusta primary-source total-stat statement captured; presentation scaffolding is not evidence.",
+        "decision": "REVIEW_REQUIRED",
+        "evidenceIds": [
+          "augusta-prydwen-electro_dmg_bonus-2026-10-03"
+        ],
+        "reason": "Captured trailing-plus recommendation band cannot be represented without information loss by the current domain; no hard upper bound or preferred target inferred.",
         "interpretation": null
       }
     ]

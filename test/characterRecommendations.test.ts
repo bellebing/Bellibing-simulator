@@ -29,29 +29,126 @@ async function project(f: Awaited<ReturnType<typeof fixture>>) {
   return projectRecommendedCharacterStats('synthetic', { sources: [f.source], reviews: [f.review] });
 }
 
-test('Augusta explicit pilot review keeps seven rows Pending with no guessed values', async () => {
+test('Augusta review verifies only HP, DEF and ER with explicit values', async () => {
   const result = await projectRecommendedCharacterStats('augusta');
-  assert.equal(result.sourceReviewStatus, 'PENDING');
+  assert.equal(result.sourceReviewStatus, 'REVIEW_REQUIRED');
   assert.deepEqual(result.rows.map(row => row.metric), ['TOTAL_HP', 'TOTAL_DEF', 'TOTAL_ATK', 'TOTAL_CRIT_RATE',
     'TOTAL_CRIT_DAMAGE', 'TOTAL_ENERGY_REGEN', 'ELECTRO_DMG_BONUS']);
+  const expected = new Map<string, RecommendationValue>([
+    ['TOTAL_HP', { kind: 'MINIMUM', minimum: 14500 }],
+    ['TOTAL_DEF', { kind: 'MINIMUM', minimum: 1100 }],
+    ['TOTAL_ENERGY_REGEN', { kind: 'BOUNDED_RANGE', minimum: 1.16, upper: 1.25 }],
+  ]);
   for (const row of result.rows) {
-    assert.equal(row.status, 'PENDING'); assert.equal(row.value, null);
+    assert.equal(row.status, expected.has(row.metric) ? 'VERIFIED' : 'REVIEW_REQUIRED');
+    assert.deepEqual(row.value, expected.get(row.metric) ?? null);
     assert.equal(row.unit, CHARACTER_RECOMMENDATION_UNITS[row.metric]);
     assert.equal(row.comparisonStatus, 'PENDING');
+    assert.equal(row.evidence.length, 1);
   }
-  assert.equal(result.rows.filter(row => row.evidence.length).length, 1);
 });
 
-test('Augusta provenance retains capture date, exact legacy paraphrase and conditional context', async () => {
+test('Augusta primary provenance retains externally supplied current capture and ER endpoint conditions', async () => {
   const result = await projectRecommendedCharacterStats('augusta');
+  for (const row of result.rows) {
+    const evidence = row.evidence[0]!;
+    assert.equal(evidence.checkedAt, '2026-10-03');
+    assert.equal(evidence.evidenceClass, 'PRIMARY_SOURCE_CAPTURE');
+    assert.equal(evidence.sourceIdentity, 'Prydwen Augusta build');
+    assert.equal(evidence.sourceUrl, 'https://www.prydwen.gg/wuthering-waves/characters/augusta');
+    assert.match(evidence.context.description, /Externally supplied.*2026-09-10.*Patch 3.6 Level 90/);
+    assert.equal(evidence.context.sequence, 'S0');
+    assert.equal(evidence.context.measurementBasis,
+      'Total stats shown in the in-game stat screen while the Character is out of combat but active in the party.');
+  }
   const er = result.rows.find(row => row.metric === 'TOTAL_ENERGY_REGEN')!;
-  assert.equal(er.evidence[0]!.checkedAt, '2026-08-29');
-  assert.equal(er.evidence[0]!.originalText, null);
-  assert.equal(er.evidence[0]!.evidenceClass, 'LEGACY_PROFILE_REFERENCE');
-  assert.equal(er.evidence[0]!.context.team, 'Iuno + Shorekeeper');
-  assert.match(er.evidence[0]!.excerpt, /116%-125%/);
+  assert.equal(er.evidence[0]!.originalText, '116%-125%');
+  assert.deepEqual(er.evidence[0]!.context.conditions, [
+    'Lower endpoint 116% corresponds to Mortefi + Shorekeeper.',
+    'Higher endpoint 125% corresponds to Iuno + Shorekeeper.',
+  ]);
+  assert.equal(er.evidence[0]!.context.team, null); // Neither endpoint is a universal team predicate.
   assert.equal(er.sourceBinding, CHARACTER_RECOMMENDATION_REVIEWS[0]!.sourceBinding);
   assert.equal(await improvePolicySourceBinding(CHARACTER_RECOMMENDATION_SOURCES[0]), er.sourceBinding);
+});
+
+for (const [metric, wording] of [
+  ['TOTAL_ATK', '2000-2800+'], ['TOTAL_CRIT_RATE', '65-80%+'],
+  ['TOTAL_CRIT_DAMAGE', '210-260%+'], ['ELECTRO_DMG_BONUS', '40-70%+'],
+] as const) {
+  test(`Augusta ${wording} stays unresolved even if an approval attempts a hard range`, async () => {
+    const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
+    const review = CHARACTER_RECOMMENDATION_REVIEWS[0]!;
+    const result = await projectRecommendedCharacterStats('augusta');
+    const row = result.rows.find(item => item.metric === metric)!;
+    assert.equal(row.evidence[0]!.originalText, wording);
+    assert.equal(row.status, 'REVIEW_REQUIRED'); assert.equal(row.value, null);
+    const parsed = interpretRecommendationText(wording, row.unit);
+    assert.equal(parsed.status, 'UNRESOLVED');
+    assert.ok('sourceEndpoints' in parsed);
+    const [minimum, upper] = parsed.sourceEndpoints!;
+    const forced = await projectRecommendedCharacterStats('augusta', { sources: [source], reviews: [{ ...review,
+      rows: review.rows.map(item => item.metric === metric ? { ...item,
+        decision: 'APPROVED_FOR_CANONICAL_VERIFIED', interpretation: { kind: 'BOUNDED_RANGE', minimum, upper } } : item),
+    }] });
+    assert.equal(forced.rows.find(item => item.metric === metric)!.status, 'REVIEW_REQUIRED');
+    assert.equal(forced.rows.find(item => item.metric === metric)!.value, null);
+  });
+}
+
+test('Augusta direct-fetch failures remain separate from external capture and older WWPlus context', async () => {
+  const research = JSON.parse(readFileSync(new URL('../data/research/augusta-character-recommendations-2026-10-03.json', import.meta.url), 'utf8'));
+  assert.equal(research.sourceAccess.length, 3);
+  for (const attempt of research.sourceAccess.slice(0, 2)) {
+    assert.equal(attempt.result, 'BLOCKED_NETWORK_POLICY'); assert.match(attempt.observation, /403/);
+    assert.equal(attempt.originalStatLine, undefined);
+  }
+  const capture = research.sourceAccess[2];
+  assert.equal(capture.result, 'CAPTURED');
+  assert.equal(capture.retrievalMethod, 'EXTERNALLY_SUPPLIED_SOURCE_CAPTURE');
+  assert.equal(capture.captureDate, '2026-10-03'); assert.equal(capture.reviewDate, '2026-10-03');
+  assert.equal(capture.pageUpdatedAt, '2026-09-10'); assert.equal(capture.patch, '3.6');
+  assert.equal(capture.level, 90); assert.equal(capture.sequence, 'S0');
+  assert.equal(capture.originalStatLine, 'HP: 14500+; DEF: 1100+; ATK: 2000-2800+; CRIT Rate: 65-80%+; CRIT DMG: 210-260%+; Energy Regen: 116%-125%; Electro DMG Bonus: 40-70%+');
+  const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
+  for (const evidence of source.evidence.filter(item => item.evidenceClass === 'PRIMARY_SOURCE_CAPTURE')) {
+    assert.equal(evidence.originalText, capture.statLines[evidence.metric]);
+    assert.equal(evidence.sourceUrl, capture.url); assert.equal(evidence.checkedAt, capture.captureDate);
+  }
+  assert.equal(research.historicalComparison.evidenceClass, 'HISTORICAL_NON_CURRENT');
+  assert.equal(research.historicalComparison.patch, '2.8');
+  assert.deepEqual(research.historicalComparison.recommendations, {
+    TOTAL_ATK: '>=2200', TOTAL_CRIT_RATE: '>=70%', TOTAL_CRIT_DAMAGE: '>=270%',
+    TOTAL_ENERGY_REGEN: '>=110%', ELECTRO_DMG_BONUS: '40%-70%',
+  });
+  assert.ok((await projectRecommendedCharacterStats('augusta')).rows.every(row =>
+    row.evidence.every(item => !item.sourceUrl.includes('wwplus'))));
+});
+
+test('Augusta canonical evidence drift fails closed including current context and endpoint teams', async () => {
+  const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
+  for (const key of ['originalText', 'sourceIdentity', 'sourceUrl', 'checkedAt', 'context'] as const) {
+    const changed = { ...source, evidence: source.evidence.map(item => item.metric === 'TOTAL_ENERGY_REGEN'
+      && item.evidenceClass === 'PRIMARY_SOURCE_CAPTURE' ? { ...item, [key]: key === 'context'
+        ? { ...item.context, description: 'Changed patch context', conditions: ['Changed endpoint team'] } : 'changed' } : item) };
+    const result = await projectRecommendedCharacterStats('augusta', { sources: [changed] });
+    assert.ok(result.rows.every(row => row.status === 'REVIEW_REQUIRED' && row.value === null));
+  }
+});
+
+test('Augusta legacy ER gate remains historical discovery and cannot replace the primary capture', async () => {
+  const source = CHARACTER_RECOMMENDATION_SOURCES[0]!;
+  const legacy = source.evidence.find(item => item.id === 'augusta-legacy-er-reference')!;
+  assert.equal(legacy.checkedAt, '2026-08-29');
+  assert.equal(legacy.originalText, null);
+  assert.equal(legacy.evidenceClass, 'LEGACY_PROFILE_REFERENCE');
+  const review = CHARACTER_RECOMMENDATION_REVIEWS[0]!;
+  const result = await projectRecommendedCharacterStats('augusta', { reviews: [{ ...review,
+    rows: review.rows.map(row => row.metric === 'TOTAL_ENERGY_REGEN'
+      ? { ...row, evidenceIds: [legacy.id] } : row),
+  }] });
+  const er = result.rows.find(row => row.metric === 'TOTAL_ENERGY_REGEN')!;
+  assert.equal(er.status, 'REVIEW_REQUIRED'); assert.equal(er.value, null);
 });
 
 test('research artifact pin and candidate provenance are exact and remain NOT_VERIFIED', () => {
@@ -70,6 +167,7 @@ test('research artifact pin and candidate provenance are exact and remain NOT_VE
 
 for (const [text, unit, value] of [
   ['14500+', 'POINTS', { kind: 'MINIMUM', minimum: 14500 }],
+  ['116%-125%', 'RATIO', { kind: 'BOUNDED_RANGE', minimum: 1.16, upper: 1.25 }],
   ['116-125%', 'RATIO', { kind: 'BOUNDED_RANGE', minimum: 1.16, upper: 1.25 }],
   ['100%', 'RATIO', { kind: 'EXACT', target: 1 }],
   ['2000-2800', 'POINTS', { kind: 'BOUNDED_RANGE', minimum: 2000, upper: 2800 }],
@@ -78,7 +176,7 @@ for (const [text, unit, value] of [
     assert.deepEqual(interpretRecommendationText(text, unit), { status: 'NORMALIZED', value });
   });
 }
-for (const [text, unit] of [['2000-2800+', 'POINTS'], ['65-80%+', 'RATIO'], ['40-70%+', 'RATIO']] as const) {
+for (const [text, unit] of [['2000-2800+', 'POINTS'], ['65-80%+', 'RATIO'], ['210-260%+', 'RATIO'], ['116%-125%+', 'RATIO'], ['40-70%+', 'RATIO']] as const) {
   test(`trailing plus range ${text} has no fabricated minimum/preferred/maximum`, () => {
     const parsed = interpretRecommendationText(text, unit);
     assert.equal(parsed.status, 'UNRESOLVED');
@@ -87,10 +185,11 @@ for (const [text, unit] of [['2000-2800+', 'POINTS'], ['65-80%+', 'RATIO'], ['40
   });
 }
 test('unsupported text, unit mismatches, reversed endpoints and nonfinite values fail closed', () => {
-  for (const text of ['65-80%+ (before S6)', '1900-2200b+', '-1%', '125-116%', 'Infinity%', '100', 'NaN%']) {
+  for (const text of ['65-80%+ (before S6)', '1900-2200b+', '-1%', '125-116%', 'Infinity%', '100', 'NaN%', '116%-125', '116%%-125%', '116%-125%%']) {
     assert.equal(interpretRecommendationText(text, 'RATIO').status, 'UNRESOLVED');
   }
   assert.equal(interpretRecommendationText('100%', 'POINTS').status, 'UNRESOLVED');
+  assert.equal(interpretRecommendationText('116%-125%', 'POINTS').status, 'UNRESOLVED');
   assert.equal(interpretRecommendationText('9'.repeat(400) + '+', 'POINTS').status, 'UNRESOLVED');
 });
 
@@ -194,7 +293,7 @@ test('projection outputs are detached and cannot mutate later source resolution'
   const result = await projectRecommendedCharacterStats('augusta');
   (result.rows[5]!.evidence[0]!.context.conditions as string[]).push('mutation');
   const next = await projectRecommendedCharacterStats('augusta');
-  assert.equal(next.rows[5]!.evidence[0]!.context.conditions.length, 1);
+  assert.equal(next.rows[5]!.evidence[0]!.context.conditions.length, 2);
 });
 
 test('parseable primary evidence stays Pending until explicit semantic approval', async () => {

@@ -9,23 +9,23 @@ import { improvePolicySourceBinding } from './improvePolicySources.ts';
 
 /** Syntax normalization is discovery only; this function cannot approve evidence. */
 export function interpretRecommendationText(text: string, unit: RecommendationUnit): RecommendationTextInterpretation {
-  const match = /^(\d+(?:\.\d+)?)(?:-(\d+(?:\.\d+)?))?(%)?(\+)?$/.exec(text.trim());
-  if (!match || (unit === 'RATIO') !== Boolean(match[3])) {
+  const match = /^(\d+(?:\.\d+)?)(?:(%)?-(\d+(?:\.\d+)?))?(%)?(\+)?$/.exec(text.trim());
+  if (!match || (unit === 'RATIO') !== Boolean(match[4]) || (unit === 'POINTS' && Boolean(match[2]))) {
     return { status: 'UNRESOLVED', reason: 'Unsupported wording or unit; explicit semantic review required.' };
   }
   const scale = unit === 'RATIO' ? 100 : 1;
   const lower = Number(match[1]) / scale;
-  const upper = match[2] === undefined ? undefined : Number(match[2]) / scale;
+  const upper = match[3] === undefined ? undefined : Number(match[3]) / scale;
   if (!Number.isFinite(lower) || upper !== undefined && (!Number.isFinite(upper) || upper < lower)) {
     return { status: 'UNRESOLVED', reason: 'Invalid numeric endpoints.' };
   }
-  if (upper !== undefined && match[4]) {
+  if (upper !== undefined && match[5]) {
     return { status: 'UNRESOLVED', sourceEndpoints: [lower, upper],
       reason: 'Trailing plus on a range does not establish a minimum/preferred/upper contract.' };
   }
   return { status: 'NORMALIZED', value: upper !== undefined
     ? { kind: 'BOUNDED_RANGE', minimum: lower, upper }
-    : match[4] ? { kind: 'MINIMUM', minimum: lower } : { kind: 'EXACT', target: lower } };
+    : match[5] ? { kind: 'MINIMUM', minimum: lower } : { kind: 'EXACT', target: lower } };
 }
 
 export interface CharacterRecommendationDependencies {

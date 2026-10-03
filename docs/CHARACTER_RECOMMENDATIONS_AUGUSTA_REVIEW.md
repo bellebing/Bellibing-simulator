@@ -34,26 +34,40 @@ The existing `CharacterStatTarget` minimum/preferred contract is not changed or 
 
 ## Augusta evidence and outcome
 
-Direct Prydwen Augusta guide access returned `curl: (56) CONNECT tunnel failed, response 403`. An independent guide discovery attempt at WutheringWaves.gg returned the same policy denial; page existence/content was not established. No source payload from either was captured, so neither counts as current checked evidence or independent corroboration. The research artifact records the attempt date separately.
+Codex direct Prydwen Augusta guide access returned `curl: (56) CONNECT tunnel failed, response 403`. An independent guide discovery attempt at WutheringWaves.gg returned the same policy denial; page existence/content was not established. These failed retrieval observations remain unchanged in the research artifact. They do not establish source unavailability.
 
-`data/research/profile-horizontal-source-candidates-2026-08-31.json` remains **CANDIDATE_ONLY / NOT_VERIFIED**. It has no Augusta row. Its semantic review and canonical mappings concern other scoped Characters; they do not approve Augusta recommendations. The checked-in August 30 candidates and associated cohort semantic promotion review were inspected as context; they do not supply an Augusta primary total-stat capture either. The original candidate artifact/provenance is unchanged and its bytes are pinned in the new research record.
+A current direct Prydwen capture was subsequently supplied **externally** by the user for repository review on 2026-10-03. Codex did not fetch the page. Its separate successful evidence record is `CAPTURED / EXTERNALLY_SUPPLIED_SOURCE_CAPTURE`. The current guide context is **Patch 3.6**, page/profile updated **2026-09-10**. It recommends Level 90 endgame total stats for a 5-star at S0, measured in the in-game stat screen while the Character is out of combat but active in the party. Exact captured wording and surrounding context are checked in, pinned by the research artifact SHA-256 and the source package binding. Canonical review can therefore proceed.
 
-Available Augusta evidence is a legacy repository ER-gate **paraphrase**, captured 2026-08-29, in `src/data/statTargetProfiles.ts` at `augusta-recommended-targets-v915-current / gates[0].notes`. Its Prydwen attribution is preserved independently from the legacy V9.15 provenance. This review does not read values from V9.15 or infer targets from that gate's `minimum`/`preferred` fields. Exact primary wording and measurement basis are not available for the new dataset. The existing legacy gate remains valid for its existing consumer; its existence is not complete recommendation coverage.
+Exact captured stat line:
 
-| Metric | Canonical numeric value | Original source wording | Available source/reference | Conditions | Status |
-| --- | --- | --- | --- | --- | --- |
-| HP / TOTAL_HP | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
-| DEF / TOTAL_DEF | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
-| ATK / TOTAL_ATK | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
-| CRIT Rate / TOTAL_CRIT_RATE | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
-| CRIT DMG / TOTAL_CRIT_DAMAGE | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
-| Energy Regen / TOTAL_ENERGY_REGEN | null; legacy paraphrase suggests 1.16–1.25, unpromoted | Not captured. Repository excerpt: “Current Prydwen endgame band is 116%-125%; higher end is estimated for Iuno + Shorekeeper, matching the existing standard context.” | Legacy Prydwen-attributed repository reference, checked 2026-08-29 | Higher end estimated for Iuno + Shorekeeper; weapon/sequence/rotation/measurement basis not captured | PENDING |
-| Electro DMG Bonus / ELECTRO_DMG_BONUS | null | Not captured | No Augusta total-stat evidence | Unknown | PENDING |
+`HP: 14500+; DEF: 1100+; ATK: 2000-2800+; CRIT Rate: 65-80%+; CRIT DMG: 210-260%+; Energy Regen: 116%-125%; Electro DMG Bonus: 40-70%+`
 
-No additional source-backed whole-build metric was captured. No Flat ATK recommendation is added. Source disagreements cannot be determined without primary payloads; lack of access is not agreement. **0/7 VERIFIED, 7/7 PENDING** is the actual pilot coverage. The model/tests are complete for review; Augusta numeric sourcing remains blocked. Next source step is an authorized primary guide capture with surrounding context, independent relevant comparison when available, and explicit metric review. No roster or UI continuation is started.
+`data/research/profile-horizontal-source-candidates-2026-08-31.json` remains **CANDIDATE_ONLY / NOT_VERIFIED**. It has no Augusta row; its bytes and provenance remain pinned independently. Neither it nor the research artifact automatically approves semantic truth. Explicit per-metric review below approves only unambiguous source syntax.
+
+The legacy repository ER-gate paraphrase, captured 2026-08-29 in `src/data/statTargetProfiles.ts`, remains discovery evidence in the source package. It lacks verbatim primary wording and is not cited by these canonical rows. The existing legacy gate continues serving its existing consumer; its minimum/preferred values are not the dedicated canonical source.
+
+All seven rows below cite the externally supplied current Prydwen capture and share the Level 90 / S0 / out-of-combat active-party total stat-screen basis. Unknown weapon and rotation remain null. ER team endpoints are preserved as source conditions, without executable predicates or a universal team assumption.
+
+| Metric | Exact source wording | Bellibing canonical value | Additional source conditions | Status |
+| --- | --- | --- | --- | --- |
+| HP / TOTAL_HP | `14500+` | MINIMUM 14500 POINTS | None supplied | VERIFIED |
+| DEF / TOTAL_DEF | `1100+` | MINIMUM 1100 POINTS | None supplied | VERIFIED |
+| ATK / TOTAL_ATK | `2000-2800+` | null | Trailing-plus band unresolved | REVIEW_REQUIRED |
+| CRIT Rate / TOTAL_CRIT_RATE | `65-80%+` | null | Trailing-plus band unresolved | REVIEW_REQUIRED |
+| CRIT DMG / TOTAL_CRIT_DAMAGE | `210-260%+` | null | Trailing-plus band unresolved | REVIEW_REQUIRED |
+| Energy Regen / TOTAL_ENERGY_REGEN | `116%-125%` | BOUNDED_RANGE 1.16–1.25 RATIO | 1.16: Mortefi + Shorekeeper; 1.25: Iuno + Shorekeeper | VERIFIED |
+| Electro DMG Bonus / ELECTRO_DMG_BONUS | `40-70%+` | null | Trailing-plus band unresolved | REVIEW_REQUIRED |
+
+**3 VERIFIED, 0 PENDING, 4 REVIEW_REQUIRED**. All seven comparison statuses remain PENDING and aggregate source review status is REVIEW_REQUIRED. ER's upper endpoint is a recommendation endpoint, never a maximum. The parser now recognizes the captured percentage marker on both ER endpoints (`116%-125%`) as well as its existing single-marker spelling; provenance, binding, approval and trailing-plus checks remain fail-closed.
+
+The externally supplied historical comparison is the [WWPlus Augusta 2.8 guide](https://wwplus.net/augusta/): ATK >=2200, CRIT Rate >=70%, CRIT DMG >=270%, Energy Regen >=110%, Electro DMG Bonus 40%–70%. Its page update date and measurement basis were not supplied and remain null. It is recorded as HISTORICAL_NON_CURRENT research context, not equal-current corroboration or disagreement for Patch 3.6, and is not cited by canonical metric reviews. No averaging occurs. Its materially different recommendations illustrate why source identity, patch/time and measurement context must remain attached to evidence.
+
+Source binding: `d0fbfd02fa424cfe553c44e61655a34dc17433e88a8eada428bbda8eea135ea4`.
+
+Unresolved semantic question: How should an open-ended recommendation band such as `2000-2800+` preserve both source endpoints and the trailing `+` without treating the upper number as a maximum or inventing a preferred target? The current domain cannot express that meaning without loss, so these four rows remain unresolved by design. This iteration stops for that semantic review; no domain redesign, additional metric, roster expansion or UI continuation is started.
 
 ## Validation and unchanged boundaries
 
-Focused command: `node --experimental-strip-types --test --test-isolation=none test/characterRecommendations.test.ts test/improvePolicySources.test.ts`: **37/37 PASS** (24 new recommendation tests, 13 existing Improve source tests). Synthetic fixtures are clearly labelled contract tests and never enter canonical gameplay data. Tests cover provenance/date/conditions/pins, units, minimum/range/exact and trailing-plus semantics, candidate rejection, disagreements, missing evidence, drift, detached results, unsupported roster and unchanged legacy/UI projection.
+Focused command: `node --experimental-strip-types --test --test-isolation=none test/characterRecommendations.test.ts test/improvePolicySources.test.ts`: **47/47 PASS** (34 Character Recommendation tests, 13 existing Improve source tests). Synthetic fixtures are clearly labelled contract tests and never enter canonical gameplay data. Tests cover provenance/date/conditions/pins, units, minimum/range/exact and trailing-plus semantics, candidate rejection, disagreements, missing evidence, drift, detached results, unsupported roster and unchanged legacy/UI projection.
 
 `npx tsc -p tsconfig.web.json --noEmit`: PASS. Strict `npm run build`: PASS, including generated Improve-module/data parity. Whitespace check: PASS. No full suite, browser matrix or repository Verify/Export workflow is run under the user's iteration constraint. UI assets, generated Improve policy data, presentation adapter, persistence and existing contracts remain unchanged. The unrelated post-merge Sequence spacing observation in Verify #1803 remains unresolved and outside scope.

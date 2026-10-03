@@ -1,0 +1,44 @@
+{
+  "kind": "CHARACTER_RECOMMENDATION_RESEARCH",
+  "characterId": "augusta",
+  "checkedAt": "2026-10-03",
+  "verificationStatus": "NOT_VERIFIED",
+  "automationMayApproveSemanticTruth": false,
+  "baselineMain": "269682d30fb395ed58414a3f671677c1586f56b3",
+  "sourceAccess": [
+    {
+      "sourceIdentity": "Prydwen Augusta build",
+      "url": "https://www.prydwen.gg/wuthering-waves/characters/augusta/",
+      "result": "BLOCKED_NETWORK_POLICY",
+      "observation": "curl: (56) CONNECT tunnel failed, response 403; no source payload captured."
+    },
+    {
+      "sourceIdentity": "WutheringWaves.gg Augusta guide discovery",
+      "url": "https://wutheringwaves.gg/augusta-guide/",
+      "result": "BLOCKED_NETWORK_POLICY",
+      "observation": "curl: (56) CONNECT tunnel failed, response 403; page existence/content not verified."
+    }
+  ],
+  "candidateResearch": {
+    "artifact": "data/research/profile-horizontal-source-candidates-2026-08-31.json",
+    "sha256": "82346dbb3c0242b6b992e81c3e1ed3930a5d0c8efc5d5318ca31815a4418455b",
+    "importStatus": "CANDIDATE_ONLY",
+    "verificationStatus": "NOT_VERIFIED",
+    "augustaPresent": false,
+    "associatedReviews": [
+      "data/research/profile-horizontal-semantic-review-2026-08-31.json",
+      "data/research/profile-horizontal-canonical-mappings-2026-08-31.json"
+    ],
+    "finding": "Neither candidate file nor its scoped semantic review establishes Augusta whole-build recommendations."
+  },
+  "legacyEvidence": {
+    "artifact": "src/data/statTargetProfiles.ts",
+    "locator": "augusta-recommended-targets-v915-current / gates[0].notes",
+    "captureCheckedAt": "2026-08-29",
+    "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+    "excerpt": "Current Prydwen endgame band is 116%-125%; higher end is estimated for Iuno + Shorekeeper, matching the existing standard context.",
+    "originalSourceText": null,
+    "finding": "Existing reviewed legacy ER gate is retained for its existing purpose. Its repository paraphrase is discovery evidence, not a verbatim primary-source capture for this new dataset."
+  },
+  "reviewOutcome": "All seven Augusta scaffold metrics remain PENDING. No additional source-backed whole-build metric was captured. No source disagreement can be determined without primary payloads; do not infer agreement from access failure."
+}

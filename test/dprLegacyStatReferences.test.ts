@@ -212,12 +212,12 @@ test('canonical legacy outputs are detached and missing approval or source class
   assert.ok(!(await projectDprCalcScenarioReferences('brant'))[0]!.rows[0]!.sourceNotes.some(n=>n.cell==='mutation'));
 });
 
-test('Augusta Prydwen and modern DPR stay independently CURRENT while visible Character Target remains Pending',async()=>{
+test('Augusta sources stay independently CURRENT while legacy-only Character Targets remain Pending',async()=>{
   const prydwen=await projectRecommendedCharacterStats('augusta');
   assert.equal(prydwen.sourceReviewStatus,'CURRENT');assert.equal(prydwen.rows.filter(r=>r.status==='VERIFIED').length,7);
   const dpr=await projectDprAllCharacterStatReferences('augusta');
   assert.equal(dpr.modernProfiles[0]!.sourceReviewStatus,'CURRENT');assert.equal(dpr.modernProfiles[0]!.rows.length,10);
   assert.deepEqual(dpr.legacyScenarios,[]);
   const ui=await import('../docs/ui-prototypes/assets/character-target-presentation.js');
-  for(const id of ['augusta','brant','rover-aero'])assert.ok(ui.recommendedCharacterStatsPresentation(id).every((r:{status:string})=>r.status==='PENDING'));
+  for(const id of ['brant','rover-aero'])assert.deepEqual(ui.recommendedCharacterStatsPresentation(id),[]);
 });

@@ -220,10 +220,10 @@ test('Augusta Prydwen stays independently CURRENT with seven unchanged verified 
   assert.deepEqual(prydwen.rows.find(r=>r.metric === 'TOTAL_ATK')!.value,{kind:'OPEN_ENDED_BAND',minimum:2000,upperReference:2800});
 });
 
-test('visible Character Target stays Pending; reference projections are detached and unknown Characters have no inferred rows', async () => {
+test('default DPR presentation is source-backed; reference projections are detached and unknown Characters have no inferred rows', async () => {
   const ui = await import('../docs/ui-prototypes/assets/character-target-presentation.js');
   for(const id of ['augusta','hsin','galbrena'])
-    assert.ok(ui.recommendedCharacterStatsPresentation(id).every((r:{status:string})=>r.status === 'PENDING'));
+    assert.ok(ui.recommendedCharacterStatsPresentation(id).every((r:{status:string})=>r.status === 'READY'));
   const [profile] = await projectDprCharacterStatReferences('hsin');
   (profile!.rows[0]!.sourceNotes as any[]).push({text:'mutation'});
   assert.ok((await projectDprCharacterStatReferences('hsin'))[0]!.rows.every(r=>!r.sourceNotes.some(n=>n.text === 'mutation')));

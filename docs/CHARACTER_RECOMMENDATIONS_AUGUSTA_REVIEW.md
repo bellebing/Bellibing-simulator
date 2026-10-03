@@ -1,6 +1,6 @@
 # Recommended Character Stats — Augusta pilot source review
 
-Reviewed 2026-10-03 from canonical main `269682d30fb395ed58414a3f671677c1586f56b3`, after PR224 merged. Iteration scope ends at a dedicated source/domain projection. No visible UI changes, Build Need, Improvement Cost or evaluator; no roster expansion. AI Handoff UPD-319 was read and remains unedited.
+Reviewed 2026-10-03 from canonical main `269682d30fb395ed58414a3f671677c1586f56b3`, after PR224 merged. Iteration scope ends at a dedicated source/domain projection. The original pilot had no roster expansion. The subsequent [DPR iteration](CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md) adds an independent reference family; this Prydwen source/review remains intact. No visible UI changes, Build Need, Improvement Cost or evaluator. AI Handoff UPD-319 was read and remains unedited.
 
 ## Proposed canonical schema
 

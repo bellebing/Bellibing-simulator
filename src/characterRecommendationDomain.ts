@@ -1,14 +1,22 @@
 import type { BuildStatMetric } from './improvePolicyDomain.ts';
 
 /** Dedicated whole-build recommendation metrics; does not extend Customize. */
-export type CharacterRecommendationMetric = BuildStatMetric | 'ELECTRO_DMG_BONUS';
+export type CharacterRecommendationMetric = BuildStatMetric | 'ELECTRO_DMG_BONUS'
+  | 'BASIC_ATTACK_DMG_BONUS' | 'HEAVY_ATTACK_DMG_BONUS'
+  | 'RESONANCE_SKILL_DMG_BONUS' | 'RESONANCE_LIBERATION_DMG_BONUS';
 export type RecommendationUnit = 'POINTS' | 'RATIO';
 
 export const CHARACTER_RECOMMENDATION_UNITS: Readonly<Record<CharacterRecommendationMetric, RecommendationUnit>> = {
   TOTAL_HP: 'POINTS', TOTAL_DEF: 'POINTS', TOTAL_ATK: 'POINTS',
   TOTAL_CRIT_RATE: 'RATIO', TOTAL_CRIT_DAMAGE: 'RATIO', TOTAL_ENERGY_REGEN: 'RATIO',
   ELECTRO_DMG_BONUS: 'RATIO',
+  BASIC_ATTACK_DMG_BONUS: 'RATIO', HEAVY_ATTACK_DMG_BONUS: 'RATIO',
+  RESONANCE_SKILL_DMG_BONUS: 'RATIO', RESONANCE_LIBERATION_DMG_BONUS: 'RATIO',
 };
+
+/** Project reference authority does not imply official game-mechanics authority. */
+export type CharacterRecommendationSourceClass = 'EXTERNAL_SOURCE' | 'USER_APPROVED_PROJECT_SOURCE';
+export type DprReferenceRole = 'GENERAL_RECOMMENDATION' | 'CALC_BENCHMARK';
 
 /** Upper is a recommendation endpoint, never a gameplay maximum. */
 export type RecommendationValue =

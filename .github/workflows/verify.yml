@@ -76,6 +76,9 @@ jobs:
       - name: Cartethyia / Rover Windstrings focused regression
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
+      - name: Improve policy focused regression
+        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts
+
       - name: Tests
         run: npm test
 

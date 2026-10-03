@@ -1,4 +1,57 @@
-# Improve Settings — policy UI v3
+# Improve Settings — accepted desktop checkpoint
+
+PR #224's Improve Settings UX is **visually accepted**, based on runtime head `8a592765a67488c22dc5fddd2ed4e6bd7ed20a31`. Keep the PR **OPEN / DRAFT / UNMERGED** for final user merge review. The current model below supersedes the preserved historical v3 UI checkpoint. No new product functionality or evaluator belongs to this checkpoint.
+
+## Current presentation and interaction
+
+Four controls: **Character Target / Gate / Every Echo / Flex Stats**. One global visible mode: **Recommended / Customize** (`MANUAL` internally). All four sections share one inline expansion, opened/closed by any trigger; their content stays in its owning column and moves the workspace down. Escape closes the shared menu and restores opener focus. The accepted layout, motion, selector clearance, Current/Candidate ownership and five equipped Echoes remain intact.
+
+**Roll Quality is no longer a visible setting.** All Rolls/Mid+/High+ have no new threshold mapping. Existing persisted labels and v1/v2 recovery copies remain compatibility data; do not recreate the retired control.
+
+## Every Echo and Flex Stats
+
+**Every Echo** contains hard per-Echo stat requirements. **Flex Stats** contains relevant/value-producing stats; it does **not** mean “at least one required.” Active stat rows carry the gold highlight without checkboxes. In Customize, toggles edit sparse user intent, stats active in Every Echo cannot also be active Flex stats, and active Flex stats have explicit order with drag, Alt+Arrow Up/Down and Move up/down controls. Order carries no score/weight. **Show other stats** exposes less-relevant canonical stats; selecting one keeps its identity unique in the active list.
+
+Recommended Every Echo/Flex display derives from reviewed source requirements/group membership/preferences where available. Reviewed combination groups and acceptance constraints remain unchanged domain evidence; projecting group members as relevant Flex stats does not execute their minimumHits condition or claim a reviewed preference ranking. Missing coverage stays Pending; source array order is neutral presentation order.
+
+Each active stat has its own **discrete minimum-roll slider**. Values come only from canonical Rank-5 `SUBSTAT_VALUE_TABLE`; the range selects an integer tier, never an arbitrary percentage. Recommended keeps a **grey read-only track and grey thumb**, default cursor, no gold hover/focus affordance, exact position and readable slightly muted threshold number. The active stat row remains gold. Customize immediately restores the existing gold editable sliders without changing their threshold values. Native keyboard/pointer editing snaps to canonical tiers; ratio/point intent persists independently of Flex order. New user-created intent starts at its reviewed source minimum, or the lowest verified canonical tier when no source minimum exists.
+
+Augusta source-backed baseline:
+
+| Column | Stat | Minimum |
+| --- | --- | --- |
+| Every Echo | CRIT Rate | 9.3% |
+| Every Echo | CRIT DMG | 21% |
+| Flex Stats | ATK% | 6.4% |
+| Flex Stats | Energy Regen | 6.8% |
+| Flex Stats | Heavy Attack DMG | 6.4% |
+
+Reset to Recommended clears Echo requirement/preference overrides and restores inherited selections, minimums and neutral source order. Global Recommended clears policy overrides; Gate and legacy labels stay unchanged. Customize alone creates no overrides.
+
+## Character Target and Gate
+
+**Dedicated canonical Recommended Character Stats coverage is Pending.** Recommended presents a Pending scaffold rather than promoting legacy ER guidance into a complete Character recommendation. Augusta lists HP, DEF, ATK, CRIT Rate, CRIT DMG, Energy Regen and Electro DMG Bonus, all Pending. Other unsupported Characters remain Pending. This presentation adapter owns no canonical recommendation values and does not write state or evaluate a build.
+
+Customize user-defined targets are separate: Energy Regen/CRIT Rate/CRIT DMG use canonical ratios; ATK/HP/DEF use points. Minimum is finite and nonnegative; optional preferred is finite, nonnegative and at least minimum. Invalid values are rejected. Custom targets retain USER_DEFINED basis and Pending comparison readiness. Gate remains **+5/+10/+15/+20/+25**.
+
+## State, sources and remaining work
+
+The shared schema/envelope v3 lives at `bellibing.improve.policy.v3`; state resolution/reducer/persistence remain DOM-free. Sparse sections inherit Recommended; explicit empty sections retain user intent. Source outages/context drift preserve saved intent and fail closed, with Needs review for incompatible context. v1/v2 recovery storage remains untouched. Settings does not own equipment or Candidate state.
+
+Generated `docs/assets/echoCoreRules.js`, `improvePolicyState.js` and `improvePolicyPresentation.js` are compiler outputs from canonical TypeScript, verified by strict build; there is no second hand-maintained policy database. Source/GitHack preview and built Export preview are supported. The build must include both Character-target and Echo-policy presentation adapters.
+
+**Build Need is Pending. Improvement Cost and the new Improve evaluator are not implemented.** Dedicated Character recommendation data, roster-wide reviewed Echo policies/preferences, comparison/ER satisfaction, deficits, replacement ranking, DPR/DPS, weights/probabilities, Team and mobile remain Pending. BUG-042 remains **MEDIUM / KNOWN GAP**: reviewed Echo requirements 1/57, reviewed Recommended Echo preference order 0/57. Historical numeric-source coverage 24/57 and priorities 44/57 do not establish dedicated Character recommendation completeness.
+
+## Checkpoint verification
+
+Final checkpoint verification covers focused Improve policy/state/presentation/roll tests, the full suite, strict build/generated-module parity and whitespace. The repository Verify serves source and built previews separately; real Chrome covers **1440×900 / 1920×1080 / 2560×1440** for shared expansion, Pending Character Target/Build Need, Gate, grey read-only source minimums, other stats, gold Customize, toggles/exclusivity, drag/keyboard ordering, discrete tier editing, persistence/reload/reset, selector clearance, Current/Candidate and five equipped Echo/workspace ownership. Existing validation, migration, outage/recovery and review-drift coverage remains. Exact final head, outcomes and Verify/Export run IDs are recorded externally on PR #224 and AI Handoff after execution; no result is inferred from older checkpoints.
+
+---
+
+## Historical policy UI v3 checkpoint — superseded presentation
+
+The following records the earlier v3 integration. Its Echo Policy/Roll Quality labels, one-section expansion, ER-only presentation and “at least one” UI are historical, not the current accepted UX.
+
 
 Draft PR #224 is ready for desktop visual review. Improve Settings now has global **Recommended / Manual** mode beside its heading and four compact controls: **Character Target, Gate, Echo Policy, Roll Quality**. The former Simple badge, Valuable Stats selection counts and local mode are retired.
 

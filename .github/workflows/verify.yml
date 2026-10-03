@@ -77,7 +77,7 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts
+        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts
 
       - name: Tests
         run: npm test
@@ -138,9 +138,15 @@ jobs:
           BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
             BELLIBING_V34_ECHO_DEBUG_PORT=9691 \
             node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 \
+            node scripts/verify-improve-roll-minimum.mjs
           echo "Verify built Export Improve runtime"
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 \
+            node scripts/verify-improve-roll-minimum.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             # Verify the exact PR head's built runtime, the same tree uploaded for review.
             node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('dist/review-build.json')); if(r.headSha!=='${{ github.event.pull_request.head.sha }}'||r.workingTreeDirty) throw new Error('Review build revision mismatch')"

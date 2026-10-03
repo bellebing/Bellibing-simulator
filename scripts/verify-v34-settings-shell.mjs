@@ -1,3 +1,4 @@
+import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
@@ -125,46 +126,8 @@ try {
   const { socket, send } = cdp(page.webSocketDebuggerUrl);
   try {
     await send('Page.enable'); await send('Runtime.enable');
-    await setViewport(send,1440,900); await navigate(send);
-    await evaluate(send,'localStorage.clear()'); await navigate(send);
-    await waitForUi(send, 'releasedCharacters.length===57&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings sources not ready');
-    await evaluate(send,"addOwned('Augusta');show('improve');improvePicker.select('Augusta')");
-    const settle = async () => { await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:20,y:800}); await evaluate(send,'document.getElementById("improveShell").scrollTop=0'); await sleep(850); };
-    const check = async (expression,message) => { if (!await evaluate(send,expression)) throw new Error(message); };
-    const geometry = () => evaluate(send,`({settings:document.getElementById('improveSettings').getBoundingClientRect().toJSON(),card:document.getElementById('improveBuildCard').getBoundingClientRect().toJSON(),fields:[...document.querySelectorAll('.improve-setting-trigger')].map(n=>n.getBoundingClientRect().toJSON())})`);
-    await settle();
-    const baseline = await geometry();
-    await check(`document.querySelectorAll('.improve-setting.is-expanded').length===0&&[...document.querySelectorAll('.improve-setting-expansion')].every(n=>n.inert&&n.getAttribute('aria-hidden')==='true')`, 'Collapsed state');
-    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))==='["Character Target","Gate","Echo Policy","Roll Quality"]'&&[...document.querySelectorAll('.improve-setting')].every(n=>n.querySelector('label').getBoundingClientRect().bottom<=n.querySelector('button').getBoundingClientRect().top&&n.querySelector('button').children.length===2)&&[...document.querySelectorAll('.improve-setting-trigger')].every(n=>n.getBoundingClientRect().width<150)`, 'Labels above compact fields');
-    await check(`(()=>{const h=document.getElementById('improveSettingsTitle').getBoundingClientRect(),s=document.getElementById('improveSettings').getBoundingClientRect();return Math.abs((h.left+h.right-s.left-s.right)/2)<1})()`, 'Heading true center');
-    await check(`document.querySelector('[data-setting="target"] strong').textContent==='Recommended'&&document.querySelector('[data-setting="echo"] strong').textContent==='Recommended'`, 'Concise policy fields');
-    const wheel = await evaluate(send,'document.querySelector("#improveWheel .choice").getBoundingClientRect().toJSON()');
-    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:wheel.x+wheel.width/2,y:wheel.y+wheel.height/2}); await sleep(850);
-    await check(`document.getElementById('improveShell').classList.contains('hover-expanded')&&[...document.querySelectorAll('#improveWheel .choice')].every(n=>n.getBoundingClientRect().bottom+8<=document.getElementById('improveSettings').getBoundingClientRect().top)`, 'Physical selector hover clearance');
-    await settle(); await capture(send,'artifacts/settings-shell-collapsed-1440x900.png');
-    for (const id of ['target','gate','echo','quality']) {
-      await pointerClick(send,'#improve-setting-'+id); await settle();
-      await check(`document.querySelectorAll('.improve-setting.is-expanded').length===4&&[...document.querySelectorAll('.improve-setting-expansion')].every(n=>!n.inert&&getComputedStyle(n).visibility==='visible')`, 'All four sections open from '+id);
-      const expanded = await geometry();
-      if (expanded.card.top<=baseline.card.top+50||expanded.card.top<expanded.settings.bottom||expanded.card.width!==baseline.card.width||expanded.card.height!==baseline.card.height) throw new Error('Workspace flow/size');
-      if (!expanded.fields.every((r,i)=>Math.abs(r.x-baseline.fields[i].x)<1&&Math.abs(r.y-baseline.fields[i].y)<1&&Math.abs(r.width-baseline.fields[i].width)<1)) throw new Error('Fields shifted on open');
-      await check(`(()=>{const owners=[...document.querySelectorAll('.improve-setting')];return owners.every(n=>{const r=n.getBoundingClientRect(),p=n.querySelector('.improve-setting-expansion').getBoundingClientRect();return Math.abs(p.left-r.left)<1&&p.width<=r.width+1&&[...n.querySelectorAll('.improve-setting-options *')].every(c=>{const b=c.getBoundingClientRect();return !b.width||(b.left>=r.left-1&&b.right<=r.right+1)})})&&document.documentElement.scrollWidth===innerWidth})()`, 'Owned columns contain content');
-      await pointerClick(send,'#improve-setting-'+id); await settle();
-      await check(`document.querySelectorAll('.improve-setting.is-expanded').length===0`, 'Shared close from '+id);
-    }
-    await pointerClick(send,'#improve-setting-gate'); await settle();
-    for (const [id,labels] of [['gate',['+5','+10','+15','+20','+25']],['quality',['All Rolls','Mid+','High+']]]) {
-      await check(`(()=>{const nodes=[...document.querySelectorAll('[data-setting="${id}"] .improve-setting-list button')],r=nodes.map(n=>n.getBoundingClientRect());return JSON.stringify(nodes.map(n=>n.textContent))===${JSON.stringify(JSON.stringify(labels))}&&r.every((b,i)=>Math.abs(b.left-r[0].left)<1&&(!i||b.top>=r[i-1].bottom))})()`, 'Vertical '+id+' choices');
-    }
-    for (const [id,value] of [['gate','10'],['quality','Mid+']]) {
-      await pointerClick(send,`[data-setting="${id}"] [data-setting-value="${value}"]`); await settle();
-      await check(`document.querySelectorAll('.improve-setting.is-expanded').length===4&&document.querySelector('[data-setting="${id}"] [data-setting-value="${value}"]').getAttribute('aria-pressed')==='true'&&document.querySelector('[data-setting="${id}"] .improve-setting-summary').textContent===${JSON.stringify(id==='gate'?'+10':'Mid+')}&&document.activeElement.dataset.focusKey===${JSON.stringify(id+':'+value)}`, 'Selection remains open/highlighted '+id);
-    }
-    await check(`document.querySelector('[data-metric="TOTAL_ENERGY_REGEN"]').innerText.includes('Minimum 116%')&&document.querySelector('[data-policy-section="combinations"]').innerText.includes('At least 1 of:')`, 'Existing policy content retained');
-    await capture(send,'artifacts/settings-shell-expanded-1440x900.png');
-    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27}); await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27}); await settle();
-    await check(`document.querySelectorAll('.improve-setting.is-expanded').length===0&&document.activeElement.id==='improve-setting-gate'`, 'Escape closes and restores opener focus');
-    console.log('PASS: real Google Chrome 1440×900; collapsed/shared expansion, all four openers, labels/compact fields, centered heading, vertical choices, +10/Mid+ retained open with highlight/focus, owned columns, workspace flow/size, selector hover clearance, Escape/focus.');
+    await verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep });
+    console.log('PASS: accepted shared Settings shell and policy regression at all three desktop sizes.');
   } finally { socket.close(); }
 } catch(error) { console.error(error); if(stderr.trim()) console.error(stderr.slice(-2000)); process.exitCode=1; }
 finally { chrome.kill('SIGTERM'); }

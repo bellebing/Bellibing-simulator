@@ -1,6 +1,29 @@
 # Bellibing Simulator — Current Project Status
 
-## Improve policy domain/source contract — PR #224
+## Improve policy state and v2 migration — PR #224
+
+PR #224 remains **OPEN / DRAFT / UNMERGED**. The authorized continuation adds a DOM-free policy state/reducer and explicit migration API only. The accepted visible Valuable Stats v2 UI and its original storage/module remain unchanged. CharacterBuildState is still the sole equipment/build truth; no Build Need, ER satisfaction, deficit, score, replacement ranking, Roll Quality threshold, Team or mobile logic is added.
+
+`src/improvePolicyState.ts` introduces **schema/envelope version 3**, stored separately at **`bellibing.improve.policy.v3`**. Per-Character intent includes preset/reviewed context binding, one `RECOMMENDED` / `MANUAL` mode, sparse numeric-target / Character-priority / Echo-requirement / Echo-preference overrides, Gate, Roll Quality and migration-review information. Domain section types are reused. Recommended has no user overrides and resolves current reviewed sources on every read; missing sections remain PENDING. Choosing Manual alone creates no overrides. Absent sections inherit Recommended; explicit empty arrays remain user-defined empty sections. Reset or Manual → Recommended clears policy intent, preserves Gate/Quality and cannot resurrect deferred legacy intent.
+
+The source contract now exposes reviewed `applicability` independently of section readiness and distinguishes current source review, temporary unavailability and review-required drift. Manual overrides retain their original Character/preset/context binding. Mismatched contexts and invalid saved section content suspend effective overrides while preserving their original saved intent. Compatible overrides survive independent source-section drift; untouched Recommended sections fail closed. Temporary context failure masks effective sections without overwriting saved mode/overrides, so reload and Gate/Quality edits survive and recovery restores compatible intent. Compatibility/review reasons are available to the later UI.
+
+Explicit v2 → v3 migration leaves **`bellibing.improve.simple-settings.v2` untouched as the recovery copy**:
+
+- Preserve valid Gate and Roll Quality; invalid legacy labels normalize to +5 / All Rolls.
+- v2 Recommended → Recommended with no overrides; its old empty Active list is not policy content.
+- Validate the exact v2 Character/preset/profile/provenance/pool/notes binding against the old projection and current reviewed source context. Valid Manual Active order becomes **Echo preferences only**, with unique eligible canonical stat names in saved order and deterministic priority groups 1…N. No weights, thresholds, Echo requirements, Character targets/priorities or Build Need are inferred.
+- Explicitly empty Manual Active becomes Manual with an explicit empty Echo-preference override. Invalid/duplicate names are excluded effectively with original order retained for review; all-invalid nonempty intent is suspended rather than reinterpreted as explicit empty.
+- Unverifiable/incompatible bindings retain original migration intent as PENDING or REVIEW_REQUIRED with effective user preferences suspended. Gate/Quality edits and reload preserve that intent; only matching source recovery may complete migration. Reset/clear explicitly discards the deferred preference intent.
+- Unvisited Characters stay independently deferred. Persistence writes only intent/bindings/review information, never Recommended projections, Available pools, builds, totals, deficits or evaluations. Writes are immutable and failed writes do not mark a store committed. Unknown/corrupt new versions fail closed rather than falling back over saved state.
+
+API: `loadImprovePolicyStorage`, `readImprovePolicyState`, `resolveImprovePolicyState`, `updateImprovePolicyState`, `persistImprovePolicyState`, plus explicit create/migrate functions. Reducer actions set/clear each section, select mode/reset and edit Gate/Quality; no UI adapter calls them in this slice.
+
+Validation: **21/21 new state/migration tests**, **45/45 combined state/source/v2 focused tests**, **1242/1242 full tests**, standard `npm test` (**209 files**), strict web build and whitespace **PASS**. Exact final head and repository Verify/Export evidence are recorded on [PR #224](https://github.com/bellebing/Bellibing-simulator/pull/224) and AI Handoff to avoid self-referential status commits; the existing full Chrome regression remains required.
+
+**Stop for state/migration review. Do not merge or automatically start the UI/evaluation slice.** UI integration/controls, measurement-basis comparison, missing numeric targets, Qiuyuan canonical naming, Echo requirements for other 56 Characters, Recommended Echo preferences for all 57 and Roll Quality mapping remain **PENDING**. **BUG-042 is unchanged**; migration does not establish the missing v2 ranking/default recommendation data.
+
+## Historical Improve policy domain/source contract — PR #224
 
 PR #224 remains **OPEN / DRAFT / UNMERGED**. The approved continuation adds only the separate Improve policy domain/source contract: Character numeric targets, Character build priorities, finished-candidate Echo requirements and Echo preferences have independent readiness/origin. The contract defines one `RECOMMENDED` / `MANUAL` mode and sparse user override sections; omitted sections inherit Recommended policy. This slice introduces no Manual editor, persistence migration or UI adapter.
 

@@ -43,8 +43,8 @@ function verified<T>(value: T, source: PolicySourceEvidence): PolicySection<T> {
   return { status: 'VERIFIED', content: 'PRESENT', origin: 'PROFILE', value, source };
 }
 
-function pendingPolicy(characterId: string, presetId: string | null, reason: string): ResolvedImprovePolicy {
-  return { characterId, presetId, mode: 'RECOMMENDED',
+function pendingPolicy(characterId: string, presetId: string | null, reason: string, reviewRequired = false): ResolvedImprovePolicy {
+  return { characterId, presetId, applicability: null, sourceReviewStatus: reviewRequired ? 'REVIEW_REQUIRED' : 'PENDING', mode: 'RECOMMENDED',
     characterTarget: { numericTargets: pending(reason), priorities: pending(reason) },
     echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: pending(reason),
       preferences: pending(reason), checkpointReference: null } };
@@ -82,11 +82,11 @@ export async function projectRecommendedImprovePolicy(
   const { preset, statTarget } = resolved;
   const review = IMPROVE_POLICY_SOURCE_REVIEW.find(row => row.presetId === preset.id);
   if (!review || preset.characterId !== characterId || preset.verificationStatus !== 'VERIFIED') {
-    return pendingPolicy(characterId, preset.id, 'No reviewed verified preset for this Character.');
+    return pendingPolicy(characterId, preset.id, 'No reviewed verified preset for this Character.', true);
   }
   const contextBinding = await improvePolicySourceBinding(improvePolicyContextSource(resolved));
   if (contextBinding !== review.contextBinding) {
-    return pendingPolicy(characterId, preset.id, 'Reviewed context/provenance drift; source review required.');
+    return pendingPolicy(characterId, preset.id, 'Reviewed context/provenance drift; source review required.', true);
   }
   const applicability: ImprovePolicyApplicability = {
     characterId, presetId: preset.id, modeKey: preset.modeKey, sequence: preset.sequence,
@@ -98,6 +98,7 @@ export async function projectRecommendedImprovePolicy(
   const targetBinding = await improvePolicySourceBinding(statTarget);
   const targetValid = statTarget.verificationStatus === 'VERIFIED'
     && statTarget.characterId === characterId && targetBinding === review.statTargetBinding;
+  let sourceReviewStatus: ResolvedImprovePolicy['sourceReviewStatus'] = targetValid ? 'CURRENT' : 'REVIEW_REQUIRED';
   const targetSource: PolicySourceEvidence = { reviewId: review.reviewId, sourceId: statTarget.id,
     sourceBinding: targetBinding, applicability, provenance: statTarget.provenance };
   let numericTargets: PolicySection<readonly CharacterStatTarget[]>;
@@ -134,6 +135,7 @@ export async function projectRecommendedImprovePolicy(
       && binding.policy.targetMode === 'RECOMMENDED'
       && await improvePolicySourceBinding(binding) === review.rollPolicyBinding;
     if (!rollValid || !binding) {
+      sourceReviewStatus = 'REVIEW_REQUIRED';
       echoPolicy = { ...echoPolicy, requirements: pending('Registered Echo policy source/provenance drift; source review required.') };
     } else {
       const policy = binding.policy;
@@ -145,6 +147,7 @@ export async function projectRecommendedImprovePolicy(
       // mapping, not a generic inference about other CharacterRollProfiles.
       if (!validThresholds || core.length !== policy.requiredCoreHits || core.length === 0
         || policy.requiredUsefulHits < 1 || policy.requiredUsefulHits > useful.length) {
+        sourceReviewStatus = 'REVIEW_REQUIRED';
         echoPolicy = { ...echoPolicy, requirements: pending('Registered Echo requirements cannot be mapped exactly.') };
       } else {
         const requirement = (row: typeof core[number]): EchoStatRequirement => ({ stat: row.name, minimum: row.minimum });
@@ -163,7 +166,7 @@ export async function projectRecommendedImprovePolicy(
       }
     }
   }
-  return { ...result, characterTarget: { numericTargets, priorities }, echoPolicy };
+  return { ...result, applicability, sourceReviewStatus, characterTarget: { numericTargets, priorities }, echoPolicy };
 }
 
 export async function projectReleasedImprovePolicies(): Promise<readonly ResolvedImprovePolicy[]> {

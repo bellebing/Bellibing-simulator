@@ -101,9 +101,9 @@ export interface EchoPolicyProfile {
 }
 
 /**
- * Future user-owned state: only supplied sections replace Recommended sections.
+ * User-owned intent: only supplied sections replace Recommended sections.
  * Omitted sections inherit; explicit empty sections are intentional overrides.
- * No persistence/migration or Manual editor is introduced by this contract.
+ * Persistence is owned separately by improvePolicyState; no Manual editor here.
  */
 export interface ImprovePolicyOverrides {
   readonly characterId: string;
@@ -118,6 +118,10 @@ export interface ImprovePolicyOverrides {
 export interface ResolvedImprovePolicy {
   readonly characterId: string;
   readonly presetId: string | null;
+  /** Reviewed context remains independent of individual section readiness. */
+  readonly applicability: ImprovePolicyApplicability | null;
+  /** Missing sources are retryable; drift needs an explicit source review. */
+  readonly sourceReviewStatus: 'CURRENT' | 'PENDING' | 'REVIEW_REQUIRED';
   readonly mode: ImprovePolicyMode;
   readonly characterTarget: CharacterTargetPolicy;
   readonly echoPolicy: EchoPolicyProfile;

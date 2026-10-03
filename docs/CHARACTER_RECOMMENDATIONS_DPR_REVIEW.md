@@ -1,8 +1,10 @@
 # DPR Calc Results — native Character stat reference review
 
+Current second pass: **DPR_NATIVE_SEMANTIC_V2** adds reviewed legacy scenario references and a complete Character-tab coverage manifest while retaining the accepted modern V1 extraction, module, review pin and source values byte-for-byte. Combined coverage is **236 VERIFIED modern + 36 VERIFIED legacy / 10 blank PENDING**, with **one unpromoted ambiguous layout (Aerover)**. Stop for data review; no checkpoint.
+
 Reviewed 2026-10-03 for draft PR #228, continuing exact prior head `97c49a64df1e9fea74601b254a7be16c2c1427f9`. This extends the source/data foundation with an independent DPR family. It does not change the existing Augusta Prydwen source/review or visible UI. Stop for data review; no checkpoint or merge.
 
-## Authority and semantic source pin
+## Authority and accepted modern V1 semantic source pin
 
 Authoritative source: native [DPR Calc Results](https://docs.google.com/spreadsheets/d/1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs/edit), spreadsheet ID `1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs`, title **DPR Calc Results**. The user explicitly approves this source as **USER_APPROVED_PROJECT_SOURCE** for Bellibing's DPR recommendation/calc-reference layer. Exact extracted reference facts may be VERIFIED after deterministic extraction, metric, Character and context mapping review without external corroboration. This is neither an official Kuro source nor universal game-mechanics truth. Existing primary/external-source approval requirements remain unchanged.
 
@@ -115,4 +117,124 @@ Focused validation: DPR extraction/reference tests, existing Character Recommend
 
 Augusta Prydwen remains intact and CURRENT with 7 VERIFIED recommendations; DPR adds 10 independent Augusta reference rows. Existing source/review/research bytes are untouched. Character Target visible presentation remains Pending, and UI/prototype/persistence/generated Improve assets have no diff. UI wiring, Build Need, Improvement Cost and evaluator remain Pending. BUG-042 and the unrelated Sequence spacing observation are unchanged. AI Handoff was read (including UPD-319) and remains unedited.
 
-Validation result: **65/65 focused tests PASS** (18 DPR extraction/reference + 34 Character Recommendation + 13 Improve source-binding); **strict type check PASS**, **strict build PASS** including existing generated source/browser parity, **deterministic DPR extraction JSON/module parity PASS**, **whitespace PASS**. Commands: `node --experimental-strip-types --test --test-isolation=none test/dprCharacterStatReferences.test.ts test/characterRecommendations.test.ts test/improvePolicySources.test.ts`; `npx tsc -p tsconfig.web.json --noEmit`; `npm run build`; `node --experimental-strip-types scripts/generate-dpr-character-stat-references.ts --check`; `git diff --check`. Build-internal canonical data generation is part of strict build; no GitHub Verify/Export workflow was run. The normal iteration commit uses `[skip ci]`, retaining the user's no-checkpoint boundary.
+Accepted modern V1 iteration validation: **65/65 focused tests PASS** (18 DPR extraction/reference + 34 Character Recommendation + 13 Improve source-binding); **strict type check PASS**, **strict build PASS** including existing generated source/browser parity, **deterministic DPR extraction JSON/module parity PASS**, **whitespace PASS**. Commands: `node --experimental-strip-types --test --test-isolation=none test/dprCharacterStatReferences.test.ts test/characterRecommendations.test.ts test/improvePolicySources.test.ts`; `npx tsc -p tsconfig.web.json --noEmit`; `npm run build`; `node --experimental-strip-types scripts/generate-dpr-character-stat-references.ts --check`; `git diff --check`. Build-internal canonical data generation is part of strict build; no GitHub Verify/Export workflow was run. The normal iteration commit uses `[skip ci]`, retaining the user's no-checkpoint boundary.
+
+## Second pass — complete legacy discovery and V2 semantic manifest
+
+Every mapped Character tab without an accepted modern block was inspected across its complete metadata-defined native grid with formatted/effective/user-entered values and notes: **18 tabs**, including hidden tabs and cells below row 40. The checked-in sparse native snapshot retains all **2,878 populated CellData records**, full scan bounds, all 56 inventory identities and the formula/import provenance. It is a full-grid discovery capture, not a list of preselected stat cells. Blank grid tail is omitted from storage.
+
+Native source tracing found imported visible results through external IMPORTRANGE formulas. The Brant tuples are explicit visible text and their A1 import origin is retained. No deterministic internal workbook stat-reference chain was found elsewhere that could safely fill missing total stats. Imported damage totals, coefficients and sensitivity outputs are not reversed into Character stats. External referenced workbooks were not expanded into this source scope.
+
+**Substat Value is marginal contribution/sensitivity data, not Character total stats.** The extractor rejects the full paired Substat / Substat Value columns before stat discovery, even when a row says ER, CR, CD or a known damage bonus. Damage, sequence/weapon/set comparison percentages, team totals and rDPR are likewise excluded. Setup names such as ELE/ELE or CR/CD describe equipment context without providing numeric Character totals. WIP source markers never change canonical roster release truth.
+
+The only newly verified legacy structure is Brant's explicit **ER / CR / CD** setup column: **1 Character+variant profile, 12 scenarios, 36 numeric rows**, all CALC_SCENARIO_REFERENCE. No legacy General or modern Calc Benchmark rows are manufactured. Only ER, CR and CD are present; ATK, HP, DEF and damage bonuses stay unavailable. Neither table ranks nor 100% damage values select a recommended/default/winning scenario.
+
+Aerover is **AMBIGUOUS_REVIEW_REQUIRED**. It has ATK% / Flat ATK / DMG% headers at **E8:G8** and component values around **E2:G12**, including the E2 import from Aerover!P500:R510. The visible native layout does not deterministically bind them to a named Character build/scenario or distinguish the generic DMG% component into a typed damage-bonus class. These components are not total ATK. Their native labels, adjacent values and full source snapshot are retained for review; **zero Aerover canonical stat rows** are promoted. This one ambiguous source layout does not invalidate independent Brant or accepted modern references.
+
+### Why normalization is V2
+
+V1 semantics are unchanged. The V1 modern semantic pin remains `d3ca38885f16cadf82aa86ea5e48318e205dd9f3a42e4e1037a8c341fdcb0a8d`, with 25 profiles / 236 numeric / 10 blank rows.
+
+V2 manifest/scenario semantic SHA-256: `ee779803e784355bd1de45a954b43cf54cfc4f7a25475886a7825bca42fd5698`. V2 hashes its normalized semantic payload, including a transitive reference to the exact V1 pin, new legacy rows, original tuple tokens, native cells/formulas, separate scenario context/identity, the complete 43-tab classification and ambiguity evidence. Self-digest/capture date are excluded. It intentionally expands source facts and coverage semantics and therefore has its own explicit normalization version and independent static source-review pin. V1 artifacts and approval are not rewritten.
+
+V2 runtime verifies its semantic hash against the separate source review and validates the referenced V1 semantic binding. Changing a source stat, setup, table context or relevant formula requires new review. Changing an excluded damage/ranking/sensitivity value does not change the stat-reference semantic pin. Raw XLSX archive hashes remain transport-only and never gate either version.
+
+Scenario keys use Character + variant + stat-header cell + setup-row cell, e.g. `brant:DEFAULT:B25:A26`. Thus identical setup labels in the 1x/2x Forte tables remain separate. Setup/rotation/team labels are preserved verbatim as source context, including footnotes; no executable team, rotation or applicability is inferred. Tuple punctuation such as `276.%` and `225 %` stays verbatim while ratios are normalized deterministically to 2.76 and 2.25.
+
+`projectDprCalcScenarioReferences()` returns every reviewed scenario separately. `projectDprAllCharacterStatReferences()` exposes modern profiles, legacy scenarios and source coverage together without averaging or choosing defaults. The existing modern API and Augusta Prydwen projection retain their accepted behavior.
+
+### All Character-oriented tabs
+
+**43 Character-oriented tabs / 38 distinct Character identities.** All 25 modern tabs retain General/Calc sections. The other 18 full grids produce one explicit legacy tab, 16 NO_CHARACTER_STAT_REFERENCES tabs and one ambiguous tab. No grid is wholly empty, so EMPTY/WIP is supported but not assigned merely because a title says WIP.
+
+At least one usable numeric DPR reference: **23 Character identities** — `aemeath`, `augusta`, `brant`, `cartethyia`, `chisa`, `denia`, `galbrena`, `hiyuki`, `hsin`, `iuno`, `jingran`, `lucilla`, `lucy`, `luuk-herssen`, `lynae`, `mornye`, `phrolova`, `qingxiao`, `qiuyuan`, `rebecca`, `sigrika`, `suisui`, `yangyang-xuanling`.
+
+No usable numeric DPR reference: **15 Character identities** — `buling`, `camellya`, `cantarella`, `carlotta`, `changli`, `ciaccona`, `jinhsi`, `lupa`, `phoebe`, `roccia`, `rover-aero`, `suoming`, `xiangli-yao`, `zani`, `zhezhi`. Suoming has explicit modern labels but all ten values blank; Aerover is ambiguous; the other 13 have no usable explicit stat assumptions. Iuno DEFAULT and Qiuyuan DEFAULT/MDPS lack source rows while other variants of those Characters are independently covered. This is not complete 57-Character recommendation coverage.
+
+Metric abbreviations: HP=TOTAL_HP, DEF=TOTAL_DEF, ATK=TOTAL_ATK, CR=TOTAL_CRIT_RATE, CD=TOTAL_CRIT_DAMAGE, ER=TOTAL_ENERGY_REGEN, BA=BASIC_ATTACK_DMG_BONUS, HA=HEAVY_ATTACK_DMG_BONUS, Skill=RESONANCE_SKILL_DMG_BONUS, Lib=RESONANCE_LIBERATION_DMG_BONUS. Metrics describe explicit source labels; Suoming's listed metrics remain blank/PENDING.
+
+| Native tab | Character ID | Variant | Modern General / Calc | Legacy | Metrics found | Status / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Aemeath (Fusion Burst) | `aemeath` | `FUSION_BURST` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Aemeath (Rupture) | `aemeath` | `RUPTURE` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Aerover | `rover-aero` | `DEFAULT` | No / No | No | — | AMBIGUOUS: stat components lack setup/typed-total context |
+| Augusta | `augusta` | `DEFAULT` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Brant | `brant` | `DEFAULT` | No / No | Yes (12 scenarios) | CD, CR, ER | 12 explicit scenarios; partial ER/CR/CD only |
+| Buling (WIP) | `buling` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Camellya | `camellya` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only; main import #REF! |
+| Cantarella | `cantarella` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Carlotta | `carlotta` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Cartethiya | `cartethyia` | `DEFAULT` | Yes / Yes | No | BA, CD, CR, ER, HP | Modern CURRENT |
+| Changli (WIP) | `changli` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Chisa | `chisa` | `DEFAULT` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Ciaconna | `ciaccona` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Denia | `denia` | `DEFAULT` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Galbrena | `galbrena` | `DEFAULT` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Galbrena (WIP EN TL) | `galbrena` | `WIP_EN_TL` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Hiyuki | `hiyuki` | `DEFAULT` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Hsin (WIP) | `hsin` | `DEFAULT` | Yes / Yes | No | Skill, ATK, CD, CR, ER | Modern CURRENT |
+| Iuno | `iuno` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Iuno MDPS (WIP) | `iuno` | `MDPS_WIP` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Jingran (WIP) | `jingran` | `DEFAULT` | Yes / Yes | No | ATK, CD, CR, ER, HP | Modern CURRENT |
+| Jinhsi (WIP) | `jinhsi` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Lucilla | `lucilla` | `DEFAULT` | Yes / Yes | No | BA, ATK, CD, CR, ER | Modern CURRENT |
+| Lucy | `lucy` | `DEFAULT` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Lupa | `lupa` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Luuk | `luuk-herssen` | `DEFAULT` | Yes / Yes | No | BA, ATK, CD, CR, ER | Modern CURRENT |
+| Lynae | `lynae` | `DEFAULT` | Yes / Yes | No | BA, ATK, CD, CR, ER | Modern CURRENT |
+| Mornye | `mornye` | `DEFAULT` | Yes / Yes | No | Lib, CD, CR, DEF, ER | Modern CURRENT |
+| Phoebe | `phoebe` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Phrolova | `phrolova` | `DEFAULT` | Yes / Yes | No | Skill, ATK, CD, CR, ER | Modern CURRENT |
+| Qingxiao | `qingxiao` | `DEFAULT` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern CURRENT |
+| Qiuyuan | `qiuyuan` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Qiuyuan 2x Forte | `qiuyuan` | `TWO_FORTE` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Qiuyuan MDPS(WIP EN TL) | `qiuyuan` | `MDPS_WIP_EN_TL` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Rebecca | `rebecca` | `DEFAULT` | Yes / Yes | No | BA, ATK, CD, CR, ER | Modern CURRENT |
+| Roccia | `roccia` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Sigrika | `sigrika` | `DEFAULT` | Yes / Yes | No | ATK, CD, CR, ER | Modern CURRENT |
+| Suisui | `suisui` | `DEFAULT` | Yes / Yes | No | CD, CR, ER, HP | Modern CURRENT |
+| Suoming (WIP) | `suoming` | `DEFAULT` | Yes / Yes | No | Lib, ATK, CD, CR, ER | Modern labels; all values blank/PENDING |
+| XLY | `xiangli-yao` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+| Xuanling | `yangyang-xuanling` | `DEFAULT` | Yes / Yes | No | HA, ATK, CD, CR, ER | Modern CURRENT |
+| Zani | `zani` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only; auxiliary imports #REF! |
+| Zhezhi | `zhezhi` | `DEFAULT` | No / No | No | — | NO_CHARACTER_STAT_REFERENCES: damage/sensitivity/setup prose only |
+
+### Exact Brant scenario coverage
+
+B25 table context (A24): `Brant Personal damage S0R1 + S6 Sanhua, S0R1 SK (2x forte)`.
+
+B34 table context (A33): `Brant S0R1 Personal damage 0 to 100 concerto, S0R1 SK (1x forte)*`.
+
+| Stat header | Setup row | Exact source setup | Exact ER / CR / CD text | Normalized ER / CR / CD |
+| --- | --- | --- | --- | --- |
+| B25 | A26 | TBC 43311 ER/ER | `276.% \| 73% \| 225%` | 2.76 / 0.73 / 2.25 |
+| B25 | A27 | TBC 43311 Ele/ER | `253.% \| 66% \| 225%` | 2.53 / 0.66 / 2.25 |
+| B25 | A28 | Molten Rift 43311 ER/ER (NRider) | `266% \| 73% \| 225 %` | 2.66 / 0.73 / 2.25 |
+| B25 | A29 | 2pc2Pc MC/TBC (Dragon, healer on Bell) | `231.% \| 66% \| 225%` | 2.31 / 0.66 / 2.25 |
+| B25 | A30 | 2pc2Pc MC/TBC (Fallacy, healer on Bell) | `231.% \| 66% \| 225%` | 2.31 / 0.66 / 2.25 |
+| B25 | A31 | Molten Rift 43311 ER/ER (Rider)** | `266% \| 73% \| 225 %` | 2.66 / 0.73 / 2.25 |
+| B34 | A35 | TBC 43311 ER/ER | `276.% \| 73% \| 225%` | 2.76 / 0.73 / 2.25 |
+| B34 | A36 | TBC 43311 Ele/ER | `253.% \| 66% \| 225%` | 2.53 / 0.66 / 2.25 |
+| B34 | A37 | MR 43311 ER/ER (Nightmare Rider) | `266% \| 73% \| 225%` | 2.66 / 0.73 / 2.25 |
+| B34 | A38 | 2pc2Pc MC/TBC (Dragon, healer on Bell) | `231.% \| 66% \| 225%` | 2.31 / 0.66 / 2.25 |
+| B34 | A39 | 2pc2Pc MC/TBC (Fallacy, healer on Bell) | `231.% \| 66% \| 225%` | 2.31 / 0.66 / 2.25 |
+| B34 | A40 | MR 43311 ER/ER (Rider)** | `266% \| 73% \| 225%` | 2.66 / 0.73 / 2.25 |
+
+All 12 scenarios remain separate even when setup names or stat values repeat. Footnotes A41:A44 remain prose context. Each has exactly 3 verified source rows, all comparison statuses PENDING. No missing metric is borrowed from another setup.
+
+### Replay and validation
+
+```sh
+node --experimental-strip-types scripts/generate-dpr-character-stat-references.ts --check
+node --experimental-strip-types scripts/generate-dpr-legacy-stat-references.ts --check
+```
+
+For a refresh, ground the complete native metadata, dynamically select every mapped tab without a modern block, and read each full bounded grid with all relevant CellData fields. `captureDprLegacyNativeSource()` converts native full-grid responses plus full metadata into the sparse capture; extraction fails if any required tab is missing or inventory identity drifts.
+
+```sh
+node --experimental-strip-types scripts/generate-dpr-legacy-stat-references.ts --native-input /path/to/full-legacy-celldata.json --inventory-input /path/to/full-native-metadata.json --date 2026-10-03 --capture-output data/research/dpr-calc-legacy-native-source-snapshot-2026-10-03.json
+```
+
+Current second-pass validation: **83/83 focused tests PASS** (18 legacy + 18 modern DPR + 34 Character Recommendation + 13 source-binding). Strict type check, strict build with existing generated runtime parity, V1+V2 extraction/module parity and whitespace **PASS**. No full suite, browser matrix, Verify or Export workflow.
+
+Augusta Prydwen remains CURRENT with 7 VERIFIED recommendations. Augusta modern DPR retains 10 independent rows across General/Calc. Accepted V1 source snapshot/extraction/module/review bytes, Prydwen source/research/review, visible UI assets and generated Improve browser assets have no diff. Character Target remains Pending. UI wiring, Build Need, Improvement Cost and evaluator remain Pending; BUG-042 and AI Handoff are unedited. Stop for data review; no checkpoint or merge.

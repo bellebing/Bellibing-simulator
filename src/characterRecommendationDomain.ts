@@ -16,7 +16,7 @@ export const CHARACTER_RECOMMENDATION_UNITS: Readonly<Record<CharacterRecommenda
 
 /** Project reference authority does not imply official game-mechanics authority. */
 export type CharacterRecommendationSourceClass = 'EXTERNAL_SOURCE' | 'USER_APPROVED_PROJECT_SOURCE';
-export type DprReferenceRole = 'GENERAL_RECOMMENDATION' | 'CALC_BENCHMARK';
+export type DprReferenceRole = 'GENERAL_RECOMMENDATION' | 'CALC_BENCHMARK' | 'CALC_SCENARIO_REFERENCE';
 
 /** Upper is a recommendation endpoint, never a gameplay maximum. */
 export type RecommendationValue =

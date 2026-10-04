@@ -31,4 +31,3 @@ export function subtractCost(a: ResourceCost, b: ResourceCost): ResourceCost {
   }
   return base;
 }
-

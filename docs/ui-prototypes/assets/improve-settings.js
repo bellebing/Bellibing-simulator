@@ -97,7 +97,9 @@ function renderTargets() {
     const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
     const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
     item.dataset.status = ready ? 'READY' : 'PENDING';
-    item.append(element('dt', row.label), element('dd', ready ? row.displayValue : 'Pending'));
+    const value = element('dd');
+    value.append(element('span', ready ? row.displayValue : 'Pending'));
+    item.append(element('dt', row.label), value);
     table.append(item);
   }
   targets.append(table);

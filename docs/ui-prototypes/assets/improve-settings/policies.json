@@ -4,24 +4,18 @@
     {
       "characterId": "aalto",
       "presetId": "aalto-hybrid-jiyan",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "aalto",
         "presetId": "aalto-hybrid-jiyan",
-        "modeKey": "hybrid-jiyan",
-        "sequence": 6,
-        "weaponRecommendationProfileId": "aalto-hybrid-jiyan-weapons",
-        "echoLoadoutProfileId": "aalto-hybrid-moonlit-heron",
-        "teamProfileId": "jiyan-aalto-shorekeeper",
-        "rotationProfileId": "aalto-hybrid-jiyan-shorekeeper",
         "contextBinding": "bca0b0f8eeee8bf2724cacf99993e4978186d15e6f10dec366de0bd5bb1cfafb"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -36,20 +30,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "aalto-hybrid-jiyan-build-stats",
-            "sourceBinding": "983be862c0729d4c56052061e887d882beccd8c66aac0ba1a80b499b3a36c747",
-            "applicability": {
-              "characterId": "aalto",
-              "presetId": "aalto-hybrid-jiyan",
-              "modeKey": "hybrid-jiyan",
-              "sequence": 6,
-              "weaponRecommendationProfileId": "aalto-hybrid-jiyan-weapons",
-              "echoLoadoutProfileId": "aalto-hybrid-moonlit-heron",
-              "teamProfileId": "jiyan-aalto-shorekeeper",
-              "rotationProfileId": "aalto-hybrid-jiyan-shorekeeper",
-              "contextBinding": "bca0b0f8eeee8bf2724cacf99993e4978186d15e6f10dec366de0bd5bb1cfafb"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Aalto current build/profile",
@@ -72,8 +53,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -112,20 +93,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "aalto-hybrid-jiyan-build-stats",
-            "sourceBinding": "983be862c0729d4c56052061e887d882beccd8c66aac0ba1a80b499b3a36c747",
-            "applicability": {
-              "characterId": "aalto",
-              "presetId": "aalto-hybrid-jiyan",
-              "modeKey": "hybrid-jiyan",
-              "sequence": 6,
-              "weaponRecommendationProfileId": "aalto-hybrid-jiyan-weapons",
-              "echoLoadoutProfileId": "aalto-hybrid-moonlit-heron",
-              "teamProfileId": "jiyan-aalto-shorekeeper",
-              "rotationProfileId": "aalto-hybrid-jiyan-shorekeeper",
-              "contextBinding": "bca0b0f8eeee8bf2724cacf99993e4978186d15e6f10dec366de0bd5bb1cfafb"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Aalto current build/profile",
@@ -153,38 +121,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "aemeath",
       "presetId": "aemeath-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "aemeath",
         "presetId": "aemeath-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "aemeath-standard-weapons",
-        "echoLoadoutProfileId": "aemeath-standard-echoes",
-        "teamProfileId": "aemeath-denia-chisa",
-        "rotationProfileId": "aemeath-standard-source-sequence",
         "contextBinding": "772e15e5fcf94089613890594c248730b9fbbf32476748391da4b830e6939ef2"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -199,20 +160,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "aemeath-standard-build-stats",
-            "sourceBinding": "0b6b9034bf069ab8b2cf2a74e5b45c067c838384cd269b2d8c98197fd98bfb7a",
-            "applicability": {
-              "characterId": "aemeath",
-              "presetId": "aemeath-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "aemeath-standard-weapons",
-              "echoLoadoutProfileId": "aemeath-standard-echoes",
-              "teamProfileId": "aemeath-denia-chisa",
-              "rotationProfileId": "aemeath-standard-source-sequence",
-              "contextBinding": "772e15e5fcf94089613890594c248730b9fbbf32476748391da4b830e6939ef2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Aemeath build"
@@ -227,8 +175,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -262,20 +210,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "aemeath-standard-build-stats",
-            "sourceBinding": "0b6b9034bf069ab8b2cf2a74e5b45c067c838384cd269b2d8c98197fd98bfb7a",
-            "applicability": {
-              "characterId": "aemeath",
-              "presetId": "aemeath-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "aemeath-standard-weapons",
-              "echoLoadoutProfileId": "aemeath-standard-echoes",
-              "teamProfileId": "aemeath-denia-chisa",
-              "rotationProfileId": "aemeath-standard-source-sequence",
-              "contextBinding": "772e15e5fcf94089613890594c248730b9fbbf32476748391da4b830e6939ef2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Aemeath build"
@@ -295,38 +230,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "augusta",
       "presetId": "augusta-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "augusta",
         "presetId": "augusta-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "augusta-standard-weapons",
-        "echoLoadoutProfileId": "augusta-standard-echoes",
-        "teamProfileId": "augusta-iuno-shorekeeper",
-        "rotationProfileId": "augusta-standard-iuno-shorekeeper",
         "contextBinding": "39fdfcb56f24932271c0fcfc6f24f25c36ca7fe8faa8b8ecd146080d7ce0e923"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -341,44 +269,25 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "augusta-recommended-targets-v915-current",
-            "sourceBinding": "c455e5ddedd686a9c05695d5a9f6831c55c7974ad44956ce8b51eb911671d930",
-            "applicability": {
-              "characterId": "augusta",
-              "presetId": "augusta-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "augusta-standard-weapons",
-              "echoLoadoutProfileId": "augusta-standard-echoes",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "augusta-standard-iuno-shorekeeper",
-              "contextBinding": "39fdfcb56f24932271c0fcfc6f24f25c36ca7fe8faa8b8ecd146080d7ce0e923"
-            },
             "provenance": {
               "sourceLabels": [
-                "V9.15 Build Simulator",
-                "V9.15 Strategy Cache",
-                "V9.15 DPS Contexts",
                 "Prydwen Augusta build"
               ],
               "sourceUrls": [
-                "https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit",
                 "https://www.prydwen.gg/wuthering-waves/characters/augusta"
               ],
               "checkedAt": "2026-08-29",
               "notes": [
-                "Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats.",
-                "Build-stat priority is kept here; Roll Assistant minimum-roll thresholds and 2 Core + Any 1 Useful stopping requirements live separately in AUGUSTA_RECOMMENDED_V915.",
-                "The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy."
+                "Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats."
               ]
             }
           }
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -407,36 +316,17 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "augusta-recommended-targets-v915-current",
-            "sourceBinding": "c455e5ddedd686a9c05695d5a9f6831c55c7974ad44956ce8b51eb911671d930",
-            "applicability": {
-              "characterId": "augusta",
-              "presetId": "augusta-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "augusta-standard-weapons",
-              "echoLoadoutProfileId": "augusta-standard-echoes",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "augusta-standard-iuno-shorekeeper",
-              "contextBinding": "39fdfcb56f24932271c0fcfc6f24f25c36ca7fe8faa8b8ecd146080d7ce0e923"
-            },
             "provenance": {
               "sourceLabels": [
-                "V9.15 Build Simulator",
-                "V9.15 Strategy Cache",
-                "V9.15 DPS Contexts",
                 "Prydwen Augusta build"
               ],
               "sourceUrls": [
-                "https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit",
                 "https://www.prydwen.gg/wuthering-waves/characters/augusta"
               ],
               "checkedAt": "2026-08-29",
               "notes": [
-                "Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats.",
-                "Build-stat priority is kept here; Roll Assistant minimum-roll thresholds and 2 Core + Any 1 Useful stopping requirements live separately in AUGUSTA_RECOMMENDED_V915.",
-                "The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy."
+                "Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats."
               ]
             }
           }
@@ -445,166 +335,37 @@
       "echoPolicy": {
         "scope": "FINISHED_CANDIDATE_ECHO",
         "requirements": {
-          "status": "VERIFIED",
-          "content": "PRESENT",
+          "status": "PENDING",
           "origin": "PROFILE",
-          "value": {
-            "requiredOnEveryEcho": [
-              {
-                "stat": "CRIT DMG",
-                "minimum": 0.21
-              },
-              {
-                "stat": "CRIT Rate",
-                "minimum": 0.093
-              }
-            ],
-            "groups": [
-              {
-                "id": "AUGUSTA_RECOMMENDED_V915:USEFUL",
-                "minimumHits": 1,
-                "members": [
-                  {
-                    "stat": "ATK%",
-                    "minimum": 0.064
-                  },
-                  {
-                    "stat": "Energy Regen",
-                    "minimum": 0.068
-                  },
-                  {
-                    "stat": "Heavy Attack DMG",
-                    "minimum": 0.064
-                  }
-                ]
-              }
-            ],
-            "acceptanceConstraints": {
-              "nonTargetRoles": {
-                "Flat ATK": "FILLER",
-                "Basic Attack DMG": "FILLER",
-                "Skill DMG": "FILLER",
-                "Liberation DMG": "FILLER",
-                "HP%": "DEAD",
-                "Flat HP": "DEAD",
-                "DEF%": "DEAD",
-                "Flat DEF": "DEAD"
-              },
-              "maximumDeadStats": 1
-            }
-          },
-          "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
-            "sourceId": "AUGUSTA_RECOMMENDED_V915",
-            "sourceBinding": "a4a9dae9fd657a36fa47b93c8fd9e113e9fb2a239c4d5b19f476607bef167b9c",
-            "applicability": {
-              "characterId": "augusta",
-              "presetId": "augusta-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "augusta-standard-weapons",
-              "echoLoadoutProfileId": "augusta-standard-echoes",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "augusta-standard-iuno-shorekeeper",
-              "contextBinding": "39fdfcb56f24932271c0fcfc6f24f25c36ca7fe8faa8b8ecd146080d7ce0e923"
-            },
-            "provenance": "Current V9.15 Build Simulator Recommended profile (2 Core + Any 1 Useful) + V1.2.13 Bellibing Budget checkpoint policy, verified 2026-08-25."
-          }
+          "value": null,
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "Core/Useful roles do not establish preference ordering or ties."
-        },
-        "checkpointReference": {
-          "id": "AUGUSTA_RECOMMENDED_V915",
-          "characterId": "Augusta",
-          "targetMode": "RECOMMENDED",
-          "firstCheckLevel": 5,
-          "requiredCoreHits": 2,
-          "requiredUsefulHits": 1,
-          "targets": [
-            {
-              "name": "CRIT DMG",
-              "role": "CORE",
-              "minimum": 0.21
-            },
-            {
-              "name": "CRIT Rate",
-              "role": "CORE",
-              "minimum": 0.093
-            },
-            {
-              "name": "ATK%",
-              "role": "USEFUL",
-              "minimum": 0.064
-            },
-            {
-              "name": "Energy Regen",
-              "role": "USEFUL",
-              "minimum": 0.068
-            },
-            {
-              "name": "Heavy Attack DMG",
-              "role": "USEFUL",
-              "minimum": 0.064
-            }
-          ],
-          "nonTargetRoles": {
-            "Flat ATK": "FILLER",
-            "Basic Attack DMG": "FILLER",
-            "Skill DMG": "FILLER",
-            "Liberation DMG": "FILLER",
-            "HP%": "DEAD",
-            "Flat HP": "DEAD",
-            "DEF%": "DEAD",
-            "Flat DEF": "DEAD"
-          },
-          "slots": [
-            {
-              "cost": 4,
-              "primaryMain": "CRIT Rate"
-            },
-            {
-              "cost": 3,
-              "primaryMain": "Electro DMG"
-            },
-            {
-              "cost": 3,
-              "primaryMain": "Electro DMG"
-            },
-            {
-              "cost": 1,
-              "primaryMain": "ATK%"
-            },
-            {
-              "cost": 1,
-              "primaryMain": "ATK%"
-            }
-          ],
-          "provenance": "Current V9.15 Build Simulator Recommended profile (2 Core + Any 1 Useful) + V1.2.13 Bellibing Budget checkpoint policy, verified 2026-08-25."
+          "reason": "Runtime unavailable."
         }
       }
     },
     {
       "characterId": "baizhi",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -613,35 +374,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "brant",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -650,35 +410,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "buling",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -687,38 +446,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "calcharo",
       "presetId": "calcharo-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "calcharo",
         "presetId": "calcharo-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "calcharo-standard-weapons",
-        "echoLoadoutProfileId": "calcharo-standard-echoes",
-        "teamProfileId": "calcharo-standard-team",
-        "rotationProfileId": "calcharo-standard-rotation",
         "contextBinding": "79f5b54f8d7b128c08b84952dab585702b7c5ba6d1ecd2beb39c3aac7cba7a63"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -733,20 +485,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "calcharo-standard-stats",
-            "sourceBinding": "196d3d39cfcbed78998a2126012e8ece587e312b246db4388a802a58ca21a04a",
-            "applicability": {
-              "characterId": "calcharo",
-              "presetId": "calcharo-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "calcharo-standard-weapons",
-              "echoLoadoutProfileId": "calcharo-standard-echoes",
-              "teamProfileId": "calcharo-standard-team",
-              "rotationProfileId": "calcharo-standard-rotation",
-              "contextBinding": "79f5b54f8d7b128c08b84952dab585702b7c5ba6d1ecd2beb39c3aac7cba7a63"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Calcharo current build/profile",
@@ -770,8 +509,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -805,20 +544,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "calcharo-standard-stats",
-            "sourceBinding": "196d3d39cfcbed78998a2126012e8ece587e312b246db4388a802a58ca21a04a",
-            "applicability": {
-              "characterId": "calcharo",
-              "presetId": "calcharo-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "calcharo-standard-weapons",
-              "echoLoadoutProfileId": "calcharo-standard-echoes",
-              "teamProfileId": "calcharo-standard-team",
-              "rotationProfileId": "calcharo-standard-rotation",
-              "contextBinding": "79f5b54f8d7b128c08b84952dab585702b7c5ba6d1ecd2beb39c3aac7cba7a63"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Calcharo current build/profile",
@@ -847,38 +573,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "camellya",
       "presetId": "camellya-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "camellya",
         "presetId": "camellya-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "camellya-standard-weapons",
-        "echoLoadoutProfileId": "camellya-standard-echoes",
-        "teamProfileId": "camellya-lynae-mornye",
-        "rotationProfileId": "camellya-standard-source-sequence",
         "contextBinding": "635ae8f18eed900306cfeb6453b6449a529ef73460fe893af79cbc1fd62771e5"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -893,20 +612,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "camellya-standard-build-stats",
-            "sourceBinding": "843e5e9fc9be80752af60e618b08efbc9caae7f6665f411f0a9fe96026e5a441",
-            "applicability": {
-              "characterId": "camellya",
-              "presetId": "camellya-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "camellya-standard-weapons",
-              "echoLoadoutProfileId": "camellya-standard-echoes",
-              "teamProfileId": "camellya-lynae-mornye",
-              "rotationProfileId": "camellya-standard-source-sequence",
-              "contextBinding": "635ae8f18eed900306cfeb6453b6449a529ef73460fe893af79cbc1fd62771e5"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Camellya build"
@@ -921,8 +627,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -956,20 +662,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "camellya-standard-build-stats",
-            "sourceBinding": "843e5e9fc9be80752af60e618b08efbc9caae7f6665f411f0a9fe96026e5a441",
-            "applicability": {
-              "characterId": "camellya",
-              "presetId": "camellya-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "camellya-standard-weapons",
-              "echoLoadoutProfileId": "camellya-standard-echoes",
-              "teamProfileId": "camellya-lynae-mornye",
-              "rotationProfileId": "camellya-standard-source-sequence",
-              "contextBinding": "635ae8f18eed900306cfeb6453b6449a529ef73460fe893af79cbc1fd62771e5"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Camellya build"
@@ -989,44 +682,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "cantarella",
       "presetId": "cantarella-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "cantarella",
         "presetId": "cantarella-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "cantarella-standard-weapons",
-        "echoLoadoutProfileId": "cantarella-standard-echoes",
-        "teamProfileId": "cantarella-standard-team",
-        "rotationProfileId": "cantarella-standard-rotation",
         "contextBinding": "ee0f40bb76b2998682f9e28dab0e1982d1cc312bee7b7bca60c56b7ab15fb5c7"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1060,20 +746,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "cantarella-standard-stats",
-            "sourceBinding": "6302f3ebf1478992a5d4119c0fa17fd67fe591264c8ab1dbadee6c6301dfc796",
-            "applicability": {
-              "characterId": "cantarella",
-              "presetId": "cantarella-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "cantarella-standard-weapons",
-              "echoLoadoutProfileId": "cantarella-standard-echoes",
-              "teamProfileId": "cantarella-standard-team",
-              "rotationProfileId": "cantarella-standard-rotation",
-              "contextBinding": "ee0f40bb76b2998682f9e28dab0e1982d1cc312bee7b7bca60c56b7ab15fb5c7"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Cantarella current build/profile",
@@ -1102,38 +775,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "carlotta",
       "presetId": "carlotta-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "carlotta",
         "presetId": "carlotta-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "carlotta-standard-weapons",
-        "echoLoadoutProfileId": "carlotta-standard-echoes",
-        "teamProfileId": "carlotta-standard-team",
-        "rotationProfileId": "carlotta-standard-rotation",
         "contextBinding": "dbfe7851357c0e16f4854312bbdc71b557eafcd753387815087f339facdb5bb0"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -1148,20 +814,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "carlotta-standard-stats",
-            "sourceBinding": "69a5cd9d9dfbe9fa3d7161201e478e75eb85154da3e3a441cc1ec96d571ec6de",
-            "applicability": {
-              "characterId": "carlotta",
-              "presetId": "carlotta-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "carlotta-standard-weapons",
-              "echoLoadoutProfileId": "carlotta-standard-echoes",
-              "teamProfileId": "carlotta-standard-team",
-              "rotationProfileId": "carlotta-standard-rotation",
-              "contextBinding": "dbfe7851357c0e16f4854312bbdc71b557eafcd753387815087f339facdb5bb0"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Carlotta current build/profile",
@@ -1185,8 +838,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1220,20 +873,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "carlotta-standard-stats",
-            "sourceBinding": "69a5cd9d9dfbe9fa3d7161201e478e75eb85154da3e3a441cc1ec96d571ec6de",
-            "applicability": {
-              "characterId": "carlotta",
-              "presetId": "carlotta-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "carlotta-standard-weapons",
-              "echoLoadoutProfileId": "carlotta-standard-echoes",
-              "teamProfileId": "carlotta-standard-team",
-              "rotationProfileId": "carlotta-standard-rotation",
-              "contextBinding": "dbfe7851357c0e16f4854312bbdc71b557eafcd753387815087f339facdb5bb0"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Carlotta current build/profile",
@@ -1262,38 +902,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "cartethyia",
       "presetId": "cartethyia-aero-erosion",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "cartethyia",
         "presetId": "cartethyia-aero-erosion",
-        "modeKey": "aero-erosion",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "cartethyia-aero-erosion-weapons",
-        "echoLoadoutProfileId": "cartethyia-windward-fleurdelys",
-        "teamProfileId": "cartethyia-ciaccona-rover-aero",
-        "rotationProfileId": "cartethyia-basic-ciaccona-rover-aero",
         "contextBinding": "7e11d339595e5621752b7997dadba4f452fc158df4382d74640754eb176e2a1f"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -1307,20 +940,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "cartethyia-aero-erosion-build-stats",
-            "sourceBinding": "ec160ee3962a62462153a547c01ead9c6e8a423923ebb71b0a05640a28ffcba6",
-            "applicability": {
-              "characterId": "cartethyia",
-              "presetId": "cartethyia-aero-erosion",
-              "modeKey": "aero-erosion",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "cartethyia-aero-erosion-weapons",
-              "echoLoadoutProfileId": "cartethyia-windward-fleurdelys",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "cartethyia-basic-ciaccona-rover-aero",
-              "contextBinding": "7e11d339595e5621752b7997dadba4f452fc158df4382d74640754eb176e2a1f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Cartethyia build"
@@ -1338,8 +958,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1378,20 +998,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "cartethyia-aero-erosion-build-stats",
-            "sourceBinding": "ec160ee3962a62462153a547c01ead9c6e8a423923ebb71b0a05640a28ffcba6",
-            "applicability": {
-              "characterId": "cartethyia",
-              "presetId": "cartethyia-aero-erosion",
-              "modeKey": "aero-erosion",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "cartethyia-aero-erosion-weapons",
-              "echoLoadoutProfileId": "cartethyia-windward-fleurdelys",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "cartethyia-basic-ciaccona-rover-aero",
-              "contextBinding": "7e11d339595e5621752b7997dadba4f452fc158df4382d74640754eb176e2a1f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Cartethyia build"
@@ -1414,38 +1021,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "changli",
       "presetId": "changli-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "changli",
         "presetId": "changli-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "changli-standard-weapons",
-        "echoLoadoutProfileId": "changli-standard-echoes",
-        "teamProfileId": "changli-standard-team",
-        "rotationProfileId": "changli-standard-rotation",
         "contextBinding": "613d7fb709cb414336bfac9382de1ab849a30938bbd0e8583315462a134a40d5"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -1460,20 +1060,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "changli-standard-stats",
-            "sourceBinding": "69e1428a18a3c242486cc9afb3a5a91fa9191c9ff8904783d2dfb1484ff95964",
-            "applicability": {
-              "characterId": "changli",
-              "presetId": "changli-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "changli-standard-weapons",
-              "echoLoadoutProfileId": "changli-standard-echoes",
-              "teamProfileId": "changli-standard-team",
-              "rotationProfileId": "changli-standard-rotation",
-              "contextBinding": "613d7fb709cb414336bfac9382de1ab849a30938bbd0e8583315462a134a40d5"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Changli current build/profile",
@@ -1497,8 +1084,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1532,20 +1119,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "changli-standard-stats",
-            "sourceBinding": "69e1428a18a3c242486cc9afb3a5a91fa9191c9ff8904783d2dfb1484ff95964",
-            "applicability": {
-              "characterId": "changli",
-              "presetId": "changli-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "changli-standard-weapons",
-              "echoLoadoutProfileId": "changli-standard-echoes",
-              "teamProfileId": "changli-standard-team",
-              "rotationProfileId": "changli-standard-rotation",
-              "contextBinding": "613d7fb709cb414336bfac9382de1ab849a30938bbd0e8583315462a134a40d5"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Changli current build/profile",
@@ -1574,38 +1148,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "chisa",
       "presetId": "chisa-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "chisa",
         "presetId": "chisa-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "chisa-standard-weapons",
-        "echoLoadoutProfileId": "chisa-standard-echoes",
-        "teamProfileId": "chisa-standard-team",
-        "rotationProfileId": "chisa-standard-rotation",
         "contextBinding": "b1390c8461e6f7695d6493ba203ae27e4aed6b77d3f36b8a60641de1a7e906d2"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -1620,20 +1187,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "chisa-standard-stats",
-            "sourceBinding": "629c81f25228f1a984c4a3190cd7452c1964b1a10341785066eb8f4ce4c3bf05",
-            "applicability": {
-              "characterId": "chisa",
-              "presetId": "chisa-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "chisa-standard-weapons",
-              "echoLoadoutProfileId": "chisa-standard-echoes",
-              "teamProfileId": "chisa-standard-team",
-              "rotationProfileId": "chisa-standard-rotation",
-              "contextBinding": "b1390c8461e6f7695d6493ba203ae27e4aed6b77d3f36b8a60641de1a7e906d2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Chisa current build/profile",
@@ -1657,8 +1211,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1692,20 +1246,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "chisa-standard-stats",
-            "sourceBinding": "629c81f25228f1a984c4a3190cd7452c1964b1a10341785066eb8f4ce4c3bf05",
-            "applicability": {
-              "characterId": "chisa",
-              "presetId": "chisa-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "chisa-standard-weapons",
-              "echoLoadoutProfileId": "chisa-standard-echoes",
-              "teamProfileId": "chisa-standard-team",
-              "rotationProfileId": "chisa-standard-rotation",
-              "contextBinding": "b1390c8461e6f7695d6493ba203ae27e4aed6b77d3f36b8a60641de1a7e906d2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Chisa current build/profile",
@@ -1734,44 +1275,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "chixia",
       "presetId": "chixia-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "chixia",
         "presetId": "chixia-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "chixia-standard-weapons",
-        "echoLoadoutProfileId": "chixia-standard-echoes",
-        "teamProfileId": "chixia-standard-team",
-        "rotationProfileId": "chixia-standard-rotation",
         "contextBinding": "24e67f0d533a45629903b34db3c7010fa5257aaa40c8f27faa8881e839e82912"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1800,20 +1334,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "chixia-standard-stats",
-            "sourceBinding": "d7dc1a9cd2548a53d2d3a02891ba74bf356723275d2f6c30442196425a198077",
-            "applicability": {
-              "characterId": "chixia",
-              "presetId": "chixia-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "chixia-standard-weapons",
-              "echoLoadoutProfileId": "chixia-standard-echoes",
-              "teamProfileId": "chixia-standard-team",
-              "rotationProfileId": "chixia-standard-rotation",
-              "contextBinding": "24e67f0d533a45629903b34db3c7010fa5257aaa40c8f27faa8881e839e82912"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -1854,38 +1375,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "ciaccona",
       "presetId": "ciaccona-cartethyia-aero",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "ciaccona",
         "presetId": "ciaccona-cartethyia-aero",
-        "modeKey": "cartethyia-aero",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "ciaccona-cartethyia-aero-weapons",
-        "echoLoadoutProfileId": "ciaccona-gusts-kelpie-cartethyia",
-        "teamProfileId": "cartethyia-ciaccona-rover-aero",
-        "rotationProfileId": "ciaccona-basic-cartethyia-rover-aero",
         "contextBinding": "39c186b81759ec80c54a38780cf0902778fd2883598d98ea5fbc8d08b3bae3ed"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -1899,20 +1413,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "ciaccona-cartethyia-aero-build-stats",
-            "sourceBinding": "98b23079a03b7d9bd1cb628f1c432c47207cc9471d92b6d7ad09dcf117c2c662",
-            "applicability": {
-              "characterId": "ciaccona",
-              "presetId": "ciaccona-cartethyia-aero",
-              "modeKey": "cartethyia-aero",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "ciaccona-cartethyia-aero-weapons",
-              "echoLoadoutProfileId": "ciaccona-gusts-kelpie-cartethyia",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "ciaccona-basic-cartethyia-rover-aero",
-              "contextBinding": "39c186b81759ec80c54a38780cf0902778fd2883598d98ea5fbc8d08b3bae3ed"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Ciaccona build"
@@ -1931,8 +1432,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -1961,20 +1462,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "ciaccona-cartethyia-aero-build-stats",
-            "sourceBinding": "98b23079a03b7d9bd1cb628f1c432c47207cc9471d92b6d7ad09dcf117c2c662",
-            "applicability": {
-              "characterId": "ciaccona",
-              "presetId": "ciaccona-cartethyia-aero",
-              "modeKey": "cartethyia-aero",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "ciaccona-cartethyia-aero-weapons",
-              "echoLoadoutProfileId": "ciaccona-gusts-kelpie-cartethyia",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "ciaccona-basic-cartethyia-rover-aero",
-              "contextBinding": "39c186b81759ec80c54a38780cf0902778fd2883598d98ea5fbc8d08b3bae3ed"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Ciaccona build"
@@ -1998,35 +1486,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "danjin",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -2035,44 +1522,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "denia",
       "presetId": "denia-fusion-burst-aemeath",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "denia",
         "presetId": "denia-fusion-burst-aemeath",
-        "modeKey": "fusion-burst",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "denia-multimode-weapons",
-        "echoLoadoutProfileId": "denia-fusion-burst-echoes",
-        "teamProfileId": "aemeath-denia-chisa",
-        "rotationProfileId": "denia-fusion-burst-aemeath-standard",
         "contextBinding": "7b4ebac6d1b95f136413b8b719fdf499badd17a428149ab670356cab03ff160a"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2106,20 +1586,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "denia-fusion-burst-stats",
-            "sourceBinding": "7e349c0d12c4a8e91f23bb9fdd263fcfddf13a1ae4bb329e0fe0c131b3acdf4d",
-            "applicability": {
-              "characterId": "denia",
-              "presetId": "denia-fusion-burst-aemeath",
-              "modeKey": "fusion-burst",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "denia-multimode-weapons",
-              "echoLoadoutProfileId": "denia-fusion-burst-echoes",
-              "teamProfileId": "aemeath-denia-chisa",
-              "rotationProfileId": "denia-fusion-burst-aemeath-standard",
-              "contextBinding": "7b4ebac6d1b95f136413b8b719fdf499badd17a428149ab670356cab03ff160a"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Denia current build/profile"
@@ -2146,44 +1613,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "encore",
       "presetId": "encore-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "encore",
         "presetId": "encore-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "encore-standard-weapons",
-        "echoLoadoutProfileId": "encore-standard-echoes",
-        "teamProfileId": "encore-standard-team",
-        "rotationProfileId": "encore-standard-rotation",
         "contextBinding": "25ca66439f2d5bd68bed1563c8ad68627a7691d101cb8554512656bd702fb9a9"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2222,20 +1682,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "encore-standard-stats",
-            "sourceBinding": "8fbab93852f9c9177668e5333db01ad9ea96edc0e600c6dfbd601aaaf48afedc",
-            "applicability": {
-              "characterId": "encore",
-              "presetId": "encore-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "encore-standard-weapons",
-              "echoLoadoutProfileId": "encore-standard-echoes",
-              "teamProfileId": "encore-standard-team",
-              "rotationProfileId": "encore-standard-rotation",
-              "contextBinding": "25ca66439f2d5bd68bed1563c8ad68627a7691d101cb8554512656bd702fb9a9"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -2277,38 +1724,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "galbrena",
       "presetId": "galbrena-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "galbrena",
         "presetId": "galbrena-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "galbrena-standard-weapons",
-        "echoLoadoutProfileId": "galbrena-standard-echoes",
-        "teamProfileId": "galbrena-qiuyuan-shorekeeper",
-        "rotationProfileId": "galbrena-standard-source-sequence",
         "contextBinding": "66744f68e3d4f8aa4dfbd2c2e303f76b249754282ef2351b0b939b71335cac5d"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -2323,20 +1763,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "galbrena-standard-build-stats",
-            "sourceBinding": "f845d782b01345eec90c2c70b427c3f7e69b529da29d246eb2e3ae5f0df9b0ec",
-            "applicability": {
-              "characterId": "galbrena",
-              "presetId": "galbrena-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "galbrena-standard-weapons",
-              "echoLoadoutProfileId": "galbrena-standard-echoes",
-              "teamProfileId": "galbrena-qiuyuan-shorekeeper",
-              "rotationProfileId": "galbrena-standard-source-sequence",
-              "contextBinding": "66744f68e3d4f8aa4dfbd2c2e303f76b249754282ef2351b0b939b71335cac5d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Galbrena build"
@@ -2351,8 +1778,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2386,20 +1813,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "galbrena-standard-build-stats",
-            "sourceBinding": "f845d782b01345eec90c2c70b427c3f7e69b529da29d246eb2e3ae5f0df9b0ec",
-            "applicability": {
-              "characterId": "galbrena",
-              "presetId": "galbrena-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "galbrena-standard-weapons",
-              "echoLoadoutProfileId": "galbrena-standard-echoes",
-              "teamProfileId": "galbrena-qiuyuan-shorekeeper",
-              "rotationProfileId": "galbrena-standard-source-sequence",
-              "contextBinding": "66744f68e3d4f8aa4dfbd2c2e303f76b249754282ef2351b0b939b71335cac5d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Galbrena build"
@@ -2419,38 +1833,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "hiyuki",
       "presetId": "hiyuki-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "hiyuki",
         "presetId": "hiyuki-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "hiyuki-standard-weapons",
-        "echoLoadoutProfileId": "hiyuki-standard-echoes",
-        "teamProfileId": "hiyuki-lucilla-chisa",
-        "rotationProfileId": "hiyuki-standard-source-sequence",
         "contextBinding": "6f61fca9f48560a29bb944e560ae6da3a07941e4bdf1a0e001ccab20d4b2f5c7"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -2465,20 +1872,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "hiyuki-standard-build-stats",
-            "sourceBinding": "bae7358f19a118dd1c11f459571c24109cfa91637b21576fdb183a7eddd273ea",
-            "applicability": {
-              "characterId": "hiyuki",
-              "presetId": "hiyuki-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "hiyuki-standard-weapons",
-              "echoLoadoutProfileId": "hiyuki-standard-echoes",
-              "teamProfileId": "hiyuki-lucilla-chisa",
-              "rotationProfileId": "hiyuki-standard-source-sequence",
-              "contextBinding": "6f61fca9f48560a29bb944e560ae6da3a07941e4bdf1a0e001ccab20d4b2f5c7"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Hiyuki build"
@@ -2493,8 +1887,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2528,20 +1922,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "hiyuki-standard-build-stats",
-            "sourceBinding": "bae7358f19a118dd1c11f459571c24109cfa91637b21576fdb183a7eddd273ea",
-            "applicability": {
-              "characterId": "hiyuki",
-              "presetId": "hiyuki-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "hiyuki-standard-weapons",
-              "echoLoadoutProfileId": "hiyuki-standard-echoes",
-              "teamProfileId": "hiyuki-lucilla-chisa",
-              "rotationProfileId": "hiyuki-standard-source-sequence",
-              "contextBinding": "6f61fca9f48560a29bb944e560ae6da3a07941e4bdf1a0e001ccab20d4b2f5c7"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Hiyuki build"
@@ -2561,38 +1942,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "iuno",
       "presetId": "iuno-augusta-hybrid",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "iuno",
         "presetId": "iuno-augusta-hybrid",
-        "modeKey": "augusta-hybrid",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "iuno-augusta-hybrid-weapons",
-        "echoLoadoutProfileId": "iuno-augusta-moonlit-heron",
-        "teamProfileId": "augusta-iuno-shorekeeper",
-        "rotationProfileId": "iuno-augusta-sub-dps-standard",
         "contextBinding": "5431a34322f37ed90bb527ece667b792f9de1926cf52c0e05a7c77c661648d68"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -2607,20 +1981,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "iuno-augusta-hybrid-build-stats",
-            "sourceBinding": "70913527ad053b7da45737c3f80ca11168393fcbd8fb110fd2c8ece36252f453",
-            "applicability": {
-              "characterId": "iuno",
-              "presetId": "iuno-augusta-hybrid",
-              "modeKey": "augusta-hybrid",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "iuno-augusta-hybrid-weapons",
-              "echoLoadoutProfileId": "iuno-augusta-moonlit-heron",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "iuno-augusta-sub-dps-standard",
-              "contextBinding": "5431a34322f37ed90bb527ece667b792f9de1926cf52c0e05a7c77c661648d68"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Iuno build"
@@ -2639,8 +2000,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2674,20 +2035,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "iuno-augusta-hybrid-build-stats",
-            "sourceBinding": "70913527ad053b7da45737c3f80ca11168393fcbd8fb110fd2c8ece36252f453",
-            "applicability": {
-              "characterId": "iuno",
-              "presetId": "iuno-augusta-hybrid",
-              "modeKey": "augusta-hybrid",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "iuno-augusta-hybrid-weapons",
-              "echoLoadoutProfileId": "iuno-augusta-moonlit-heron",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "iuno-augusta-sub-dps-standard",
-              "contextBinding": "5431a34322f37ed90bb527ece667b792f9de1926cf52c0e05a7c77c661648d68"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Iuno build"
@@ -2711,35 +2059,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "jianxin",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -2748,38 +2095,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "jinhsi",
       "presetId": "jinhsi-standard-opener",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "jinhsi",
         "presetId": "jinhsi-standard-opener",
-        "modeKey": "standard-opener",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "jinhsi-standard-weapons",
-        "echoLoadoutProfileId": "jinhsi-standard-echoes",
-        "teamProfileId": "jinhsi-zhezhi-verina",
-        "rotationProfileId": "jinhsi-standard-opener-source-sequence",
         "contextBinding": "69f0af4fae8753a0bfdb9e8d9414273677b6c25c2bf60ad51e3861113c31802f"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -2794,20 +2134,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "jinhsi-standard-build-stats",
-            "sourceBinding": "afaa18d7fd82b141abf58195371ae85f0f451203b1d6aebbb2d479c88714aca2",
-            "applicability": {
-              "characterId": "jinhsi",
-              "presetId": "jinhsi-standard-opener",
-              "modeKey": "standard-opener",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "jinhsi-standard-weapons",
-              "echoLoadoutProfileId": "jinhsi-standard-echoes",
-              "teamProfileId": "jinhsi-zhezhi-verina",
-              "rotationProfileId": "jinhsi-standard-opener-source-sequence",
-              "contextBinding": "69f0af4fae8753a0bfdb9e8d9414273677b6c25c2bf60ad51e3861113c31802f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Jinhsi build"
@@ -2822,8 +2149,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2857,20 +2184,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "jinhsi-standard-build-stats",
-            "sourceBinding": "afaa18d7fd82b141abf58195371ae85f0f451203b1d6aebbb2d479c88714aca2",
-            "applicability": {
-              "characterId": "jinhsi",
-              "presetId": "jinhsi-standard-opener",
-              "modeKey": "standard-opener",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "jinhsi-standard-weapons",
-              "echoLoadoutProfileId": "jinhsi-standard-echoes",
-              "teamProfileId": "jinhsi-zhezhi-verina",
-              "rotationProfileId": "jinhsi-standard-opener-source-sequence",
-              "contextBinding": "69f0af4fae8753a0bfdb9e8d9414273677b6c25c2bf60ad51e3861113c31802f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Jinhsi build"
@@ -2890,44 +2204,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "jiyan",
       "presetId": "jiyan-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "jiyan",
         "presetId": "jiyan-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "jiyan-standard-weapons",
-        "echoLoadoutProfileId": "jiyan-standard-echoes",
-        "teamProfileId": "jiyan-standard-team",
-        "rotationProfileId": "jiyan-standard-rotation",
         "contextBinding": "206028a3e7e0bc96dbea0b2da02bacf90f73ddb38d38e756e4846759ca78582d"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -2961,20 +2268,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "jiyan-standard-stats",
-            "sourceBinding": "54b1175cda88467cf21b5605486e828198a8988fc1efed779adf97c1ebae4ae7",
-            "applicability": {
-              "characterId": "jiyan",
-              "presetId": "jiyan-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "jiyan-standard-weapons",
-              "echoLoadoutProfileId": "jiyan-standard-echoes",
-              "teamProfileId": "jiyan-standard-team",
-              "rotationProfileId": "jiyan-standard-rotation",
-              "contextBinding": "206028a3e7e0bc96dbea0b2da02bacf90f73ddb38d38e756e4846759ca78582d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -3018,44 +2312,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lingyang",
       "presetId": "lingyang-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lingyang",
         "presetId": "lingyang-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lingyang-standard-weapons",
-        "echoLoadoutProfileId": "lingyang-standard-echoes",
-        "teamProfileId": "lingyang-standard-team",
-        "rotationProfileId": "lingyang-standard-rotation",
         "contextBinding": "65c145d211c45b92d33de1ad67664ced47137cfe8d2d34fc8b60dba04e7e4289"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3084,20 +2371,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lingyang-standard-stats",
-            "sourceBinding": "baae0846c9635deeed5f9cac5849d6ed260e38a800415a5b26d6be10270a9b9b",
-            "applicability": {
-              "characterId": "lingyang",
-              "presetId": "lingyang-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lingyang-standard-weapons",
-              "echoLoadoutProfileId": "lingyang-standard-echoes",
-              "teamProfileId": "lingyang-standard-team",
-              "rotationProfileId": "lingyang-standard-rotation",
-              "contextBinding": "65c145d211c45b92d33de1ad67664ced47137cfe8d2d34fc8b60dba04e7e4289"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -3139,44 +2413,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lucilla",
       "presetId": "lucilla-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lucilla",
         "presetId": "lucilla-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lucilla-standard-weapons",
-        "echoLoadoutProfileId": "lucilla-standard-echoes",
-        "teamProfileId": "lucilla-standard-team",
-        "rotationProfileId": "lucilla-standard-rotation",
         "contextBinding": "cd3daab3afbd868adf089b0a3bafdc0a66d0c8edd4e11df553ff684c215bab73"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "CRIT Rate",
@@ -3205,20 +2472,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lucilla-standard-stats",
-            "sourceBinding": "91546f24cc9e90efa77841e814632c9bb3c8802be409f730c238def51a6be8dd",
-            "applicability": {
-              "characterId": "lucilla",
-              "presetId": "lucilla-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lucilla-standard-weapons",
-              "echoLoadoutProfileId": "lucilla-standard-echoes",
-              "teamProfileId": "lucilla-standard-team",
-              "rotationProfileId": "lucilla-standard-rotation",
-              "contextBinding": "cd3daab3afbd868adf089b0a3bafdc0a66d0c8edd4e11df553ff684c215bab73"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -3259,44 +2513,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lucy",
       "presetId": "lucy-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lucy",
         "presetId": "lucy-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lucy-standard-weapons",
-        "echoLoadoutProfileId": "lucy-standard-echoes",
-        "teamProfileId": "lucy-standard-team",
-        "rotationProfileId": "lucy-standard-rotation",
         "contextBinding": "82614ea8b5877fcf38c7ef291508bb2582fce2b6b923cc360d54c2f0d690d054"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3330,20 +2577,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lucy-standard-stats",
-            "sourceBinding": "fc60d2be5d775e6e3409de45d843735074fdeacd5b761170c420c54731101748",
-            "applicability": {
-              "characterId": "lucy",
-              "presetId": "lucy-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lucy-standard-weapons",
-              "echoLoadoutProfileId": "lucy-standard-echoes",
-              "teamProfileId": "lucy-standard-team",
-              "rotationProfileId": "lucy-standard-rotation",
-              "contextBinding": "82614ea8b5877fcf38c7ef291508bb2582fce2b6b923cc360d54c2f0d690d054"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -3386,38 +2620,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lumi",
       "presetId": "lumi-hybrid",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lumi",
         "presetId": "lumi-hybrid",
-        "modeKey": "hybrid",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lumi-hybrid-weapons",
-        "echoLoadoutProfileId": "lumi-hybrid-echoes",
-        "teamProfileId": "lumi-hybrid-team",
-        "rotationProfileId": "lumi-hybrid-rotation",
         "contextBinding": "190a5e5cb17af789b59a26f35b7370fc9dae1470cc401b55d9fe4b09367fb3cf"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -3432,20 +2659,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lumi-hybrid-stats",
-            "sourceBinding": "47dbc8db69d1755069170d15ed29acbaaba0c2f303c5da21da47e7be8d9b063b",
-            "applicability": {
-              "characterId": "lumi",
-              "presetId": "lumi-hybrid",
-              "modeKey": "hybrid",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lumi-hybrid-weapons",
-              "echoLoadoutProfileId": "lumi-hybrid-echoes",
-              "teamProfileId": "lumi-hybrid-team",
-              "rotationProfileId": "lumi-hybrid-rotation",
-              "contextBinding": "190a5e5cb17af789b59a26f35b7370fc9dae1470cc401b55d9fe4b09367fb3cf"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Lumi current build/profile",
@@ -3469,8 +2683,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3499,20 +2713,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lumi-hybrid-stats",
-            "sourceBinding": "47dbc8db69d1755069170d15ed29acbaaba0c2f303c5da21da47e7be8d9b063b",
-            "applicability": {
-              "characterId": "lumi",
-              "presetId": "lumi-hybrid",
-              "modeKey": "hybrid",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lumi-hybrid-weapons",
-              "echoLoadoutProfileId": "lumi-hybrid-echoes",
-              "teamProfileId": "lumi-hybrid-team",
-              "rotationProfileId": "lumi-hybrid-rotation",
-              "contextBinding": "190a5e5cb17af789b59a26f35b7370fc9dae1470cc401b55d9fe4b09367fb3cf"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Lumi current build/profile",
@@ -3541,44 +2742,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lupa",
       "presetId": "lupa-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lupa",
         "presetId": "lupa-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lupa-standard-weapons",
-        "echoLoadoutProfileId": "lupa-standard-echoes",
-        "teamProfileId": "lupa-standard-team",
-        "rotationProfileId": "lupa-standard-rotation",
         "contextBinding": "86fe4476e5d0e04856080c6b474907b28c640ca21d44676af8951aac354682b9"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3612,20 +2806,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lupa-standard-stats",
-            "sourceBinding": "301e4510a5633c356c89941c25ec6c6f254509381c145ab719bae3a9b3fa8796",
-            "applicability": {
-              "characterId": "lupa",
-              "presetId": "lupa-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lupa-standard-weapons",
-              "echoLoadoutProfileId": "lupa-standard-echoes",
-              "teamProfileId": "lupa-standard-team",
-              "rotationProfileId": "lupa-standard-rotation",
-              "contextBinding": "86fe4476e5d0e04856080c6b474907b28c640ca21d44676af8951aac354682b9"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -3668,38 +2849,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "luuk-herssen",
       "presetId": "luuk-herssen-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "luuk-herssen",
         "presetId": "luuk-herssen-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "luuk-herssen-standard-weapons",
-        "echoLoadoutProfileId": "luuk-herssen-standard-echoes",
-        "teamProfileId": "luuk-herssen-denia-mornye",
-        "rotationProfileId": "luuk-herssen-standard-source-sequence",
         "contextBinding": "81a1af1eb86648d3847f1da2c8ca680383541deac513e754be8d0f3730bd04b3"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -3714,20 +2888,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "luuk-herssen-standard-build-stats",
-            "sourceBinding": "ce3ed5a096865a2372b422ea4a2ec6f795859d6a8821c99f7f5bb878c5a6284a",
-            "applicability": {
-              "characterId": "luuk-herssen",
-              "presetId": "luuk-herssen-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "luuk-herssen-standard-weapons",
-              "echoLoadoutProfileId": "luuk-herssen-standard-echoes",
-              "teamProfileId": "luuk-herssen-denia-mornye",
-              "rotationProfileId": "luuk-herssen-standard-source-sequence",
-              "contextBinding": "81a1af1eb86648d3847f1da2c8ca680383541deac513e754be8d0f3730bd04b3"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Luuk Herssen build"
@@ -3742,8 +2903,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3777,20 +2938,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "luuk-herssen-standard-build-stats",
-            "sourceBinding": "ce3ed5a096865a2372b422ea4a2ec6f795859d6a8821c99f7f5bb878c5a6284a",
-            "applicability": {
-              "characterId": "luuk-herssen",
-              "presetId": "luuk-herssen-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "luuk-herssen-standard-weapons",
-              "echoLoadoutProfileId": "luuk-herssen-standard-echoes",
-              "teamProfileId": "luuk-herssen-denia-mornye",
-              "rotationProfileId": "luuk-herssen-standard-source-sequence",
-              "contextBinding": "81a1af1eb86648d3847f1da2c8ca680383541deac513e754be8d0f3730bd04b3"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Luuk Herssen build"
@@ -3810,38 +2958,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "lynae",
       "presetId": "lynae-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "lynae",
         "presetId": "lynae-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "lynae-standard-weapons",
-        "echoLoadoutProfileId": "lynae-standard-echoes",
-        "teamProfileId": "lynae-aemeath-mornye",
-        "rotationProfileId": "lynae-standard-source-sequence",
         "contextBinding": "b3c2b46254f65a0876745f1e63970afe2a12d04c7780eca68c1e4bcc6558a697"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -3856,20 +2997,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lynae-standard-build-stats",
-            "sourceBinding": "d88b68a6e71d43741b0cb0133e8ff1122073621ee7c76404ba581f37503c68e0",
-            "applicability": {
-              "characterId": "lynae",
-              "presetId": "lynae-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lynae-standard-weapons",
-              "echoLoadoutProfileId": "lynae-standard-echoes",
-              "teamProfileId": "lynae-aemeath-mornye",
-              "rotationProfileId": "lynae-standard-source-sequence",
-              "contextBinding": "b3c2b46254f65a0876745f1e63970afe2a12d04c7780eca68c1e4bcc6558a697"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Lynae build"
@@ -3884,8 +3012,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -3919,20 +3047,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "lynae-standard-build-stats",
-            "sourceBinding": "d88b68a6e71d43741b0cb0133e8ff1122073621ee7c76404ba581f37503c68e0",
-            "applicability": {
-              "characterId": "lynae",
-              "presetId": "lynae-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "lynae-standard-weapons",
-              "echoLoadoutProfileId": "lynae-standard-echoes",
-              "teamProfileId": "lynae-aemeath-mornye",
-              "rotationProfileId": "lynae-standard-source-sequence",
-              "contextBinding": "b3c2b46254f65a0876745f1e63970afe2a12d04c7780eca68c1e4bcc6558a697"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Lynae build"
@@ -3952,44 +3067,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "mornye",
       "presetId": "mornye-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "mornye",
         "presetId": "mornye-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "mornye-standard-weapons",
-        "echoLoadoutProfileId": "mornye-standard-echoes",
-        "teamProfileId": "mornye-standard-team",
-        "rotationProfileId": "mornye-standard-rotation",
         "contextBinding": "d788e0cf093cfc9fa28d96e756209b10728337622908c04f42a15eab2f894798"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4033,20 +3141,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "mornye-standard-stats",
-            "sourceBinding": "491a87911c4b76b3e6535e8c84f7c743b84264ef5a8c9675869064a04ae07d0e",
-            "applicability": {
-              "characterId": "mornye",
-              "presetId": "mornye-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "mornye-standard-weapons",
-              "echoLoadoutProfileId": "mornye-standard-echoes",
-              "teamProfileId": "mornye-standard-team",
-              "rotationProfileId": "mornye-standard-rotation",
-              "contextBinding": "d788e0cf093cfc9fa28d96e756209b10728337622908c04f42a15eab2f894798"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -4088,44 +3183,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "mortefi",
       "presetId": "mortefi-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "mortefi",
         "presetId": "mortefi-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "mortefi-standard-weapons",
-        "echoLoadoutProfileId": "mortefi-standard-echoes",
-        "teamProfileId": "mortefi-standard-team",
-        "rotationProfileId": "mortefi-standard-rotation",
         "contextBinding": "d6abab9928e7a4627c04df0b518c1ad19d4b59e5ef8968390ea545339655d56d"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4154,20 +3242,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "mortefi-standard-stats",
-            "sourceBinding": "34f3aa7e42bfe0e246a109f36f5a094889146e462546ac32ed470a1898a2b2ca",
-            "applicability": {
-              "characterId": "mortefi",
-              "presetId": "mortefi-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "mortefi-standard-weapons",
-              "echoLoadoutProfileId": "mortefi-standard-echoes",
-              "teamProfileId": "mortefi-standard-team",
-              "rotationProfileId": "mortefi-standard-rotation",
-              "contextBinding": "d6abab9928e7a4627c04df0b518c1ad19d4b59e5ef8968390ea545339655d56d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -4209,35 +3284,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "phoebe",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -4246,44 +3320,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "phrolova",
       "presetId": "phrolova-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "phrolova",
         "presetId": "phrolova-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "phrolova-standard-weapons",
-        "echoLoadoutProfileId": "phrolova-standard-echoes",
-        "teamProfileId": "phrolova-standard-team",
-        "rotationProfileId": "phrolova-standard-rotation",
         "contextBinding": "5c9cfa6efd7adc4408e0354f48b76003077d324ac6f8a45c66ca64ae77c5a0fd"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "CRIT Rate",
@@ -4312,20 +3379,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "phrolova-standard-stats",
-            "sourceBinding": "8c1915b93506752672abc82e11ead1ab2344f574c5c16eb123a9fcac819a9a94",
-            "applicability": {
-              "characterId": "phrolova",
-              "presetId": "phrolova-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "phrolova-standard-weapons",
-              "echoLoadoutProfileId": "phrolova-standard-echoes",
-              "teamProfileId": "phrolova-standard-team",
-              "rotationProfileId": "phrolova-standard-rotation",
-              "contextBinding": "5c9cfa6efd7adc4408e0354f48b76003077d324ac6f8a45c66ca64ae77c5a0fd"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -4368,35 +3422,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "qingxiao",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -4405,45 +3458,38 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "qiuyuan",
       "presetId": "qiuyuan-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "qiuyuan",
         "presetId": "qiuyuan-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "qiuyuan-standard-weapons",
-        "echoLoadoutProfileId": "qiuyuan-standard-echoes",
-        "teamProfileId": "qiuyuan-standard-team",
-        "rotationProfileId": "qiuyuan-standard-rotation",
         "contextBinding": "4c80ea7cbade64ca8856a5da309962ff28ed5dfbae8d3d7a80142d1589b492a8"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "Build priorities have unsupported names or no reviewed content."
+          "reason": "Build priorities have unsupported names or no reviewed content.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -4452,44 +3498,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "rebecca",
       "presetId": "rebecca-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "rebecca",
         "presetId": "rebecca-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "rebecca-standard-weapons",
-        "echoLoadoutProfileId": "rebecca-standard-echoes",
-        "teamProfileId": "rebecca-standard-team",
-        "rotationProfileId": "rebecca-standard-rotation",
         "contextBinding": "1e7f5886298c85404884b0ba9d49dd357a4eee32648248e691daba009477bf61"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4523,20 +3562,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "rebecca-standard-stats",
-            "sourceBinding": "7c1500342af742a585df27996568fb3d345941cc03460a8aceebeadd8b634914",
-            "applicability": {
-              "characterId": "rebecca",
-              "presetId": "rebecca-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "rebecca-standard-weapons",
-              "echoLoadoutProfileId": "rebecca-standard-echoes",
-              "teamProfileId": "rebecca-standard-team",
-              "rotationProfileId": "rebecca-standard-rotation",
-              "contextBinding": "1e7f5886298c85404884b0ba9d49dd357a4eee32648248e691daba009477bf61"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -4579,44 +3605,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "roccia",
       "presetId": "roccia-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "roccia",
         "presetId": "roccia-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "roccia-standard-weapons",
-        "echoLoadoutProfileId": "roccia-standard-echoes",
-        "teamProfileId": "roccia-standard-team",
-        "rotationProfileId": "roccia-standard-rotation",
         "contextBinding": "6ea79b114053555fcec87d0ab56e27a401d20f88d75b3afc8b7738ccf2cb7fd9"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4650,20 +3669,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "roccia-standard-stats",
-            "sourceBinding": "5de526325fe6ae6091ea6857109dea491216d45e9aba947ffc5ba1ad60709aab",
-            "applicability": {
-              "characterId": "roccia",
-              "presetId": "roccia-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "roccia-standard-weapons",
-              "echoLoadoutProfileId": "roccia-standard-echoes",
-              "teamProfileId": "roccia-standard-team",
-              "rotationProfileId": "roccia-standard-rotation",
-              "contextBinding": "6ea79b114053555fcec87d0ab56e27a401d20f88d75b3afc8b7738ccf2cb7fd9"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -4705,38 +3711,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "rover-aero",
       "presetId": "rover-aero-cartethyia-ciaccona",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "rover-aero",
         "presetId": "rover-aero-cartethyia-ciaccona",
-        "modeKey": "cartethyia-ciaccona-support",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "rover-aero-cartethyia-ciaccona-weapons",
-        "echoLoadoutProfileId": "rover-aero-windward-fleurdelys",
-        "teamProfileId": "cartethyia-ciaccona-rover-aero",
-        "rotationProfileId": "rover-aero-cartethyia-ciaccona-standard",
         "contextBinding": "0b67e1e8a7d6bb972a8a91c8d0012c5c2af5b1363d569badf400feebd0f02781"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -4750,20 +3749,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "rover-aero-cartethyia-ciaccona-build-stats",
-            "sourceBinding": "55ab98ee3aad22b71f4adc82c16611c1200311f1f90f277ec9106f7b86f8ef80",
-            "applicability": {
-              "characterId": "rover-aero",
-              "presetId": "rover-aero-cartethyia-ciaccona",
-              "modeKey": "cartethyia-ciaccona-support",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "rover-aero-cartethyia-ciaccona-weapons",
-              "echoLoadoutProfileId": "rover-aero-windward-fleurdelys",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "rover-aero-cartethyia-ciaccona-standard",
-              "contextBinding": "0b67e1e8a7d6bb972a8a91c8d0012c5c2af5b1363d569badf400feebd0f02781"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Rover (Aero) build"
@@ -4782,8 +3768,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4817,20 +3803,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "rover-aero-cartethyia-ciaccona-build-stats",
-            "sourceBinding": "55ab98ee3aad22b71f4adc82c16611c1200311f1f90f277ec9106f7b86f8ef80",
-            "applicability": {
-              "characterId": "rover-aero",
-              "presetId": "rover-aero-cartethyia-ciaccona",
-              "modeKey": "cartethyia-ciaccona-support",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "rover-aero-cartethyia-ciaccona-weapons",
-              "echoLoadoutProfileId": "rover-aero-windward-fleurdelys",
-              "teamProfileId": "cartethyia-ciaccona-rover-aero",
-              "rotationProfileId": "rover-aero-cartethyia-ciaccona-standard",
-              "contextBinding": "0b67e1e8a7d6bb972a8a91c8d0012c5c2af5b1363d569badf400feebd0f02781"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Rover (Aero) build"
@@ -4854,35 +3827,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "rover-electro",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -4891,44 +3863,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "rover-havoc",
       "presetId": "rover-havoc-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "rover-havoc",
         "presetId": "rover-havoc-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "rover-havoc-standard-weapons",
-        "echoLoadoutProfileId": "rover-havoc-standard-echoes",
-        "teamProfileId": "rover-havoc-standard-team",
-        "rotationProfileId": "rover-havoc-standard-rotation",
         "contextBinding": "7c82899fd518e79923dec85b302dc09ebe9f49c586c543db12a9e6da2ff77d3c"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -4967,20 +3932,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "rover-havoc-standard-stats",
-            "sourceBinding": "6ce097492be013b54c2554f6c3f0df51790ebc1f5f13c087dafad1b5e1d9f502",
-            "applicability": {
-              "characterId": "rover-havoc",
-              "presetId": "rover-havoc-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "rover-havoc-standard-weapons",
-              "echoLoadoutProfileId": "rover-havoc-standard-echoes",
-              "teamProfileId": "rover-havoc-standard-team",
-              "rotationProfileId": "rover-havoc-standard-rotation",
-              "contextBinding": "7c82899fd518e79923dec85b302dc09ebe9f49c586c543db12a9e6da2ff77d3c"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -5022,44 +3974,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "rover-spectro",
       "presetId": "rover-spectro-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "rover-spectro",
         "presetId": "rover-spectro-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "rover-spectro-standard-weapons",
-        "echoLoadoutProfileId": "rover-spectro-standard-echoes",
-        "teamProfileId": "rover-spectro-standard-team",
-        "rotationProfileId": "rover-spectro-standard-rotation",
         "contextBinding": "3692ed1eea5eb7263988d193dd1811f105b720826e2db6186fc584cba87ca528"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5098,20 +4043,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "rover-spectro-standard-stats",
-            "sourceBinding": "a6de3402144400208d8b70a3f9826a2a5ab3d4213daded85b29c66f7005cfa83",
-            "applicability": {
-              "characterId": "rover-spectro",
-              "presetId": "rover-spectro-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "rover-spectro-standard-weapons",
-              "echoLoadoutProfileId": "rover-spectro-standard-echoes",
-              "teamProfileId": "rover-spectro-standard-team",
-              "rotationProfileId": "rover-spectro-standard-rotation",
-              "contextBinding": "3692ed1eea5eb7263988d193dd1811f105b720826e2db6186fc584cba87ca528"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -5154,44 +4086,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "sanhua",
       "presetId": "sanhua-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "sanhua",
         "presetId": "sanhua-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "sanhua-standard-weapons",
-        "echoLoadoutProfileId": "sanhua-standard-echoes",
-        "teamProfileId": "sanhua-standard-team",
-        "rotationProfileId": "sanhua-standard-rotation",
         "contextBinding": "26b18f4bc090b76a72fe543157800c49e9317d7c93a10cf6b38b1bcf173400b2"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5220,20 +4145,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "sanhua-standard-stats",
-            "sourceBinding": "18e061e40566ae096a0cdd0c0f6cb0c6f9206d4bcc44c8561ed4d6c8a6b9b710",
-            "applicability": {
-              "characterId": "sanhua",
-              "presetId": "sanhua-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "sanhua-standard-weapons",
-              "echoLoadoutProfileId": "sanhua-standard-echoes",
-              "teamProfileId": "sanhua-standard-team",
-              "rotationProfileId": "sanhua-standard-rotation",
-              "contextBinding": "26b18f4bc090b76a72fe543157800c49e9317d7c93a10cf6b38b1bcf173400b2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -5276,38 +4188,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "sigrika",
       "presetId": "sigrika-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "sigrika",
         "presetId": "sigrika-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "sigrika-standard-weapons",
-        "echoLoadoutProfileId": "sigrika-standard-echoes",
-        "teamProfileId": "sigrika-qiuyuan-ciaccona",
-        "rotationProfileId": "sigrika-standard-source-sequence",
         "contextBinding": "57b5b2973c5176b28cdd1c0201dd2a22a3e63769a51fd81bfa859737d48d894e"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -5322,20 +4227,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "sigrika-standard-build-stats",
-            "sourceBinding": "5b0edf36788a69ba3baea19541ed07f5aa5a3c94e103e57952dd3b31729a4270",
-            "applicability": {
-              "characterId": "sigrika",
-              "presetId": "sigrika-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "sigrika-standard-weapons",
-              "echoLoadoutProfileId": "sigrika-standard-echoes",
-              "teamProfileId": "sigrika-qiuyuan-ciaccona",
-              "rotationProfileId": "sigrika-standard-source-sequence",
-              "contextBinding": "57b5b2973c5176b28cdd1c0201dd2a22a3e63769a51fd81bfa859737d48d894e"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Sigrika build"
@@ -5350,8 +4242,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5380,20 +4272,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "sigrika-standard-build-stats",
-            "sourceBinding": "5b0edf36788a69ba3baea19541ed07f5aa5a3c94e103e57952dd3b31729a4270",
-            "applicability": {
-              "characterId": "sigrika",
-              "presetId": "sigrika-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "sigrika-standard-weapons",
-              "echoLoadoutProfileId": "sigrika-standard-echoes",
-              "teamProfileId": "sigrika-qiuyuan-ciaccona",
-              "rotationProfileId": "sigrika-standard-source-sequence",
-              "contextBinding": "57b5b2973c5176b28cdd1c0201dd2a22a3e63769a51fd81bfa859737d48d894e"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Sigrika build"
@@ -5413,35 +4292,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "suisui",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -5450,44 +4328,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "taoqi",
       "presetId": "taoqi-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "taoqi",
         "presetId": "taoqi-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "taoqi-standard-weapons",
-        "echoLoadoutProfileId": "taoqi-standard-echoes",
-        "teamProfileId": "taoqi-standard-team",
-        "rotationProfileId": "taoqi-standard-rotation",
         "contextBinding": "5332d403184543418190dcd5e2f0006f82530a94c0fb28491c0f91076d72f5a2"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5516,20 +4387,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "taoqi-standard-stats",
-            "sourceBinding": "41d472560c1b5f9609a2190243ea911f805827cfbfccb4bc75c3d8049081d7c3",
-            "applicability": {
-              "characterId": "taoqi",
-              "presetId": "taoqi-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "taoqi-standard-weapons",
-              "echoLoadoutProfileId": "taoqi-standard-echoes",
-              "teamProfileId": "taoqi-standard-team",
-              "rotationProfileId": "taoqi-standard-rotation",
-              "contextBinding": "5332d403184543418190dcd5e2f0006f82530a94c0fb28491c0f91076d72f5a2"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -5574,38 +4432,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "the-shorekeeper",
       "presetId": "shorekeeper-augusta-support",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "the-shorekeeper",
         "presetId": "shorekeeper-augusta-support",
-        "modeKey": "augusta-iuno-support",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "shorekeeper-augusta-iuno-weapons",
-        "echoLoadoutProfileId": "shorekeeper-rejuvenating-fallacy",
-        "teamProfileId": "augusta-iuno-shorekeeper",
-        "rotationProfileId": "shorekeeper-augusta-support-standard",
         "contextBinding": "f5d75d978ef7629ffb575051e1a99a8425db60b7c2bc91e11a9f4506b3e70b7f"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -5619,20 +4470,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "shorekeeper-augusta-iuno-build-stats",
-            "sourceBinding": "21d9f172bb177e5eaef85b03c7d92ad55e30b0277d8046a8f009c9cb7424fad2",
-            "applicability": {
-              "characterId": "the-shorekeeper",
-              "presetId": "shorekeeper-augusta-support",
-              "modeKey": "augusta-iuno-support",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "shorekeeper-augusta-iuno-weapons",
-              "echoLoadoutProfileId": "shorekeeper-rejuvenating-fallacy",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "shorekeeper-augusta-support-standard",
-              "contextBinding": "f5d75d978ef7629ffb575051e1a99a8425db60b7c2bc91e11a9f4506b3e70b7f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen The Shorekeeper build"
@@ -5651,8 +4489,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5696,20 +4534,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "shorekeeper-augusta-iuno-build-stats",
-            "sourceBinding": "21d9f172bb177e5eaef85b03c7d92ad55e30b0277d8046a8f009c9cb7424fad2",
-            "applicability": {
-              "characterId": "the-shorekeeper",
-              "presetId": "shorekeeper-augusta-support",
-              "modeKey": "augusta-iuno-support",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "shorekeeper-augusta-iuno-weapons",
-              "echoLoadoutProfileId": "shorekeeper-rejuvenating-fallacy",
-              "teamProfileId": "augusta-iuno-shorekeeper",
-              "rotationProfileId": "shorekeeper-augusta-support-standard",
-              "contextBinding": "f5d75d978ef7629ffb575051e1a99a8425db60b7c2bc91e11a9f4506b3e70b7f"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen The Shorekeeper build"
@@ -5733,35 +4558,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "verina",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -5770,35 +4594,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "xiangli-yao",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -5807,44 +4630,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "yangyang",
       "presetId": "yangyang-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "yangyang",
         "presetId": "yangyang-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "yangyang-standard-weapons",
-        "echoLoadoutProfileId": "yangyang-standard-echoes",
-        "teamProfileId": "yangyang-standard-team",
-        "rotationProfileId": "yangyang-standard-rotation",
         "contextBinding": "c5276cfa32620eadb91112ca33a97aebb0c48e0eb740caf497a6251df39d77ef"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -5883,20 +4699,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "yangyang-standard-stats",
-            "sourceBinding": "4f910270591aaa40ad67f22d0703fe2484e278a72fa2a5c50e11559ba4b86bab",
-            "applicability": {
-              "characterId": "yangyang",
-              "presetId": "yangyang-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "yangyang-standard-weapons",
-              "echoLoadoutProfileId": "yangyang-standard-echoes",
-              "teamProfileId": "yangyang-standard-team",
-              "rotationProfileId": "yangyang-standard-rotation",
-              "contextBinding": "c5276cfa32620eadb91112ca33a97aebb0c48e0eb740caf497a6251df39d77ef"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -5938,38 +4741,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "yangyang-xuanling",
       "presetId": "yangyang-xuanling-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "yangyang-xuanling",
         "presetId": "yangyang-xuanling-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "yangyang-xuanling-standard-weapons",
-        "echoLoadoutProfileId": "yangyang-xuanling-standard-echoes",
-        "teamProfileId": "yangyang-xuanling-lynae-chisa",
-        "rotationProfileId": "yangyang-xuanling-standard-source-sequence",
         "contextBinding": "e12154571f458bdeb0a0eb8ee58dc188bd907d4c3ced42cfdf1a2c08c3539b36"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -5984,20 +4780,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "yangyang-xuanling-standard-build-stats",
-            "sourceBinding": "1755ecd7b6bb1d4e2b7876f0bc39672050fff5294e1946b282246c96b9615fef",
-            "applicability": {
-              "characterId": "yangyang-xuanling",
-              "presetId": "yangyang-xuanling-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "yangyang-xuanling-standard-weapons",
-              "echoLoadoutProfileId": "yangyang-xuanling-standard-echoes",
-              "teamProfileId": "yangyang-xuanling-lynae-chisa",
-              "rotationProfileId": "yangyang-xuanling-standard-source-sequence",
-              "contextBinding": "e12154571f458bdeb0a0eb8ee58dc188bd907d4c3ced42cfdf1a2c08c3539b36"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Yangyang (Xuanling) build"
@@ -6012,8 +4795,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -6047,20 +4830,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "yangyang-xuanling-standard-build-stats",
-            "sourceBinding": "1755ecd7b6bb1d4e2b7876f0bc39672050fff5294e1946b282246c96b9615fef",
-            "applicability": {
-              "characterId": "yangyang-xuanling",
-              "presetId": "yangyang-xuanling-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "yangyang-xuanling-standard-weapons",
-              "echoLoadoutProfileId": "yangyang-xuanling-standard-echoes",
-              "teamProfileId": "yangyang-xuanling-lynae-chisa",
-              "rotationProfileId": "yangyang-xuanling-standard-source-sequence",
-              "contextBinding": "e12154571f458bdeb0a0eb8ee58dc188bd907d4c3ced42cfdf1a2c08c3539b36"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Yangyang (Xuanling) build"
@@ -6080,38 +4850,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "yinlin",
       "presetId": "yinlin-moonlit",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "yinlin",
         "presetId": "yinlin-moonlit",
-        "modeKey": "moonlit",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "yinlin-moonlit-weapons",
-        "echoLoadoutProfileId": "yinlin-moonlit-echoes",
-        "teamProfileId": "yinlin-moonlit-team",
-        "rotationProfileId": "yinlin-moonlit-rotation",
         "contextBinding": "98eb1fe835260c94d6c6ac67e2f6aa6499a20551bfe1775458619ac4c2545d7b"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -6126,20 +4889,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "yinlin-moonlit-stats",
-            "sourceBinding": "9bae7cd9206a0e1527b53fc57f44dbf12895bf995c90c321c7b959d73d62bbf6",
-            "applicability": {
-              "characterId": "yinlin",
-              "presetId": "yinlin-moonlit",
-              "modeKey": "moonlit",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "yinlin-moonlit-weapons",
-              "echoLoadoutProfileId": "yinlin-moonlit-echoes",
-              "teamProfileId": "yinlin-moonlit-team",
-              "rotationProfileId": "yinlin-moonlit-rotation",
-              "contextBinding": "98eb1fe835260c94d6c6ac67e2f6aa6499a20551bfe1775458619ac4c2545d7b"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Yinlin current build/profile",
@@ -6163,8 +4913,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -6198,20 +4948,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "yinlin-moonlit-stats",
-            "sourceBinding": "9bae7cd9206a0e1527b53fc57f44dbf12895bf995c90c321c7b959d73d62bbf6",
-            "applicability": {
-              "characterId": "yinlin",
-              "presetId": "yinlin-moonlit",
-              "modeKey": "moonlit",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "yinlin-moonlit-weapons",
-              "echoLoadoutProfileId": "yinlin-moonlit-echoes",
-              "teamProfileId": "yinlin-moonlit-team",
-              "rotationProfileId": "yinlin-moonlit-rotation",
-              "contextBinding": "98eb1fe835260c94d6c6ac67e2f6aa6499a20551bfe1775458619ac4c2545d7b"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Yinlin current build/profile",
@@ -6240,44 +4977,37 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "youhu",
       "presetId": "youhu-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "youhu",
         "presetId": "youhu-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "youhu-standard-weapons",
-        "echoLoadoutProfileId": "youhu-standard-echoes",
-        "teamProfileId": "youhu-standard-team",
-        "rotationProfileId": "youhu-standard-rotation",
         "contextBinding": "6b0a326bfe8b018b2d69e1cdb8e046235c6b9a8bdf7d6f12d0b1dc14b079d1e1"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty."
+          "reason": "No reviewed numeric total-stat gate/metric mapping; absence is not verified-empty.",
+          "value": null
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -6311,20 +5041,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "youhu-standard-stats",
-            "sourceBinding": "7faf9e217f8716bf001acc973ffed97013416ad5814abe9e4367626670a4fab9",
-            "applicability": {
-              "characterId": "youhu",
-              "presetId": "youhu-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "youhu-standard-weapons",
-              "echoLoadoutProfileId": "youhu-standard-echoes",
-              "teamProfileId": "youhu-standard-team",
-              "rotationProfileId": "youhu-standard-rotation",
-              "contextBinding": "6b0a326bfe8b018b2d69e1cdb8e046235c6b9a8bdf7d6f12d0b1dc14b079d1e1"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen current character build/profile"
@@ -6367,35 +5084,34 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "yuanwu",
       "presetId": null,
-      "applicability": null,
-      "sourceReviewStatus": "PENDING",
       "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
       "characterTarget": {
         "numericTargets": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         },
         "priorities": {
           "status": "PENDING",
           "origin": "PROFILE",
-          "value": null,
-          "reason": "No verified default preset."
+          "reason": "No verified default preset.",
+          "value": null
         }
       },
       "echoPolicy": {
@@ -6404,38 +5120,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No verified default preset."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "zani",
       "presetId": "zani-standard",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "zani",
         "presetId": "zani-standard",
-        "modeKey": "standard",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "zani-standard-weapons",
-        "echoLoadoutProfileId": "zani-standard-echoes",
-        "teamProfileId": "zani-phoebe-rover-spectro",
-        "rotationProfileId": "zani-standard-source-sequence",
         "contextBinding": "1614c1c3183966794dfed0afb75956bcc51669274a9fae08e0fcfe35e2b38156"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -6449,20 +5158,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "zani-standard-build-stats",
-            "sourceBinding": "fe443f8d4bb1f5a1e938ebec4ecd0f381f432003d0c551604de202eef583e6a7",
-            "applicability": {
-              "characterId": "zani",
-              "presetId": "zani-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "zani-standard-weapons",
-              "echoLoadoutProfileId": "zani-standard-echoes",
-              "teamProfileId": "zani-phoebe-rover-spectro",
-              "rotationProfileId": "zani-standard-source-sequence",
-              "contextBinding": "1614c1c3183966794dfed0afb75956bcc51669274a9fae08e0fcfe35e2b38156"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Zani build"
@@ -6477,8 +5173,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -6507,20 +5203,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "zani-standard-build-stats",
-            "sourceBinding": "fe443f8d4bb1f5a1e938ebec4ecd0f381f432003d0c551604de202eef583e6a7",
-            "applicability": {
-              "characterId": "zani",
-              "presetId": "zani-standard",
-              "modeKey": "standard",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "zani-standard-weapons",
-              "echoLoadoutProfileId": "zani-standard-echoes",
-              "teamProfileId": "zani-phoebe-rover-spectro",
-              "rotationProfileId": "zani-standard-source-sequence",
-              "contextBinding": "1614c1c3183966794dfed0afb75956bcc51669274a9fae08e0fcfe35e2b38156"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Zani build"
@@ -6540,38 +5223,31 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     },
     {
       "characterId": "zhezhi",
       "presetId": "zhezhi-empyrean-endgame",
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "CURRENT",
       "applicability": {
         "characterId": "zhezhi",
         "presetId": "zhezhi-empyrean-endgame",
-        "modeKey": "empyrean-endgame",
-        "sequence": 0,
-        "weaponRecommendationProfileId": "zhezhi-carlotta-weapons",
-        "echoLoadoutProfileId": "zhezhi-empyrean-endgame-echoes",
-        "teamProfileId": "carlotta-zhezhi-shorekeeper",
-        "rotationProfileId": "zhezhi-empyrean-carlotta-standard",
         "contextBinding": "60b8ffc435f1d15193602123c57d988bdafa863aea0fe06210e86c289f7ca54d"
       },
-      "sourceReviewStatus": "CURRENT",
-      "mode": "RECOMMENDED",
       "characterTarget": {
         "numericTargets": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "metric": "TOTAL_ENERGY_REGEN",
@@ -6586,20 +5262,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "zhezhi-empyrean-endgame-stats",
-            "sourceBinding": "18052aa29b08b7584198ed4b5a18ef78118b78dc13adae4f816ecfb115acf9ac",
-            "applicability": {
-              "characterId": "zhezhi",
-              "presetId": "zhezhi-empyrean-endgame",
-              "modeKey": "empyrean-endgame",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "zhezhi-carlotta-weapons",
-              "echoLoadoutProfileId": "zhezhi-empyrean-endgame-echoes",
-              "teamProfileId": "carlotta-zhezhi-shorekeeper",
-              "rotationProfileId": "zhezhi-empyrean-carlotta-standard",
-              "contextBinding": "60b8ffc435f1d15193602123c57d988bdafa863aea0fe06210e86c289f7ca54d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Zhezhi current build/profile"
@@ -6620,8 +5283,8 @@
         },
         "priorities": {
           "status": "VERIFIED",
-          "content": "PRESENT",
           "origin": "PROFILE",
+          "content": "PRESENT",
           "value": [
             {
               "stat": "Energy Regen",
@@ -6655,20 +5318,7 @@
             }
           ],
           "source": {
-            "reviewId": "IMPROVE-POLICY-SOURCE-2026-10-03",
             "sourceId": "zhezhi-empyrean-endgame-stats",
-            "sourceBinding": "18052aa29b08b7584198ed4b5a18ef78118b78dc13adae4f816ecfb115acf9ac",
-            "applicability": {
-              "characterId": "zhezhi",
-              "presetId": "zhezhi-empyrean-endgame",
-              "modeKey": "empyrean-endgame",
-              "sequence": 0,
-              "weaponRecommendationProfileId": "zhezhi-carlotta-weapons",
-              "echoLoadoutProfileId": "zhezhi-empyrean-endgame-echoes",
-              "teamProfileId": "carlotta-zhezhi-shorekeeper",
-              "rotationProfileId": "zhezhi-empyrean-carlotta-standard",
-              "contextBinding": "60b8ffc435f1d15193602123c57d988bdafa863aea0fe06210e86c289f7ca54d"
-            },
             "provenance": {
               "sourceLabels": [
                 "Prydwen Zhezhi current build/profile"
@@ -6694,15 +5344,14 @@
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
+          "reason": "Runtime unavailable."
         },
         "preferences": {
           "status": "PENDING",
           "origin": "PROFILE",
           "value": null,
-          "reason": "No reviewed Echo policy."
-        },
-        "checkpointReference": null
+          "reason": "Runtime unavailable."
+        }
       }
     }
   ]

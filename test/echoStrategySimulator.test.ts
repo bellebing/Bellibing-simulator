@@ -1,3 +1,4 @@
+import { simulateDesiredSubstatStrategy, type DesiredSubstatStrategy } from '../src/echoStrategySimulator.ts';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -5,8 +6,6 @@ import {
   SeededRng,
   VerifiedWuwaEchoRuntime,
   createRank5EchoAtLevel0,
-  simulateDesiredSubstatStrategy,
-  type DesiredSubstatStrategy,
 } from '../src/echoCore.ts';
 
 const template = createRank5EchoAtLevel0({

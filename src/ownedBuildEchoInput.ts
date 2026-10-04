@@ -8,7 +8,7 @@ import {
   type StatRoll,
 } from './echoCore.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
-import { assertExactOwnedEchoRoll } from './ownedEchoCheckpointAnalysis.ts';
+import { assertExactRank5SubstatRoll } from './echoCoreRules.ts';
 import { resolveBuildPreset } from './profileRegistry.ts';
 
 export type OwnedBuildEchoInputLevel = Exclude<EchoLevel, 0>;
@@ -23,14 +23,7 @@ export interface OwnedBuildEchoInput {
 
 const CHECKPOINT_LEVELS: readonly OwnedBuildEchoInputLevel[] = [5, 10, 15, 20, 25] as const;
 
-/**
- * Build one exact Rank-5 Echo card from canonical profile slot data only.
- *
- * This boundary deliberately does not require a Roll Assist policy. Roll Assist
- * owns stopping decisions; canonical owned-build input owns COST/main-stat shell
- * plus exact game roll values. Candidate economics may reuse this card later only
- * when the profile has a verified owned-build DPS binding.
- */
+/** Build an exact user-owned Rank-5 card from canonical slot/main-stat and roll data. */
 export function buildOwnedBuildEchoFromCanonicalInput(input: OwnedBuildEchoInput): Echo {
   if (!CHECKPOINT_LEVELS.includes(input.level)) {
     throw new RangeError(`Owned-build Echo input requires +5/+10/+15/+20/+25, got +${input.level}.`);
@@ -52,7 +45,7 @@ export function buildOwnedBuildEchoFromCanonicalInput(input: OwnedBuildEchoInput
   for (const roll of input.substats) {
     if (seen.has(roll.name)) throw new Error(`Duplicate Echo substat: ${roll.name}.`);
     seen.add(roll.name);
-    assertExactOwnedEchoRoll(roll);
+    assertExactRank5SubstatRoll(roll);
   }
 
   const level0 = createRank5EchoAtLevel0({

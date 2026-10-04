@@ -5,8 +5,6 @@ import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from './echoCore.ts';
 import { getDefaultBuildPreset, resolveBuildPreset } from './profileRegistry.ts';
 import type { ProfileRegistry } from './profileRegistry.ts';
 import type { ResolvedBuildPreset } from './profileDomain.ts';
-import { resolveRollAssistProfileBinding } from './rollAssistProfileRegistry.ts';
-import type { RollAssistProfileBinding } from './rollAssistProfileRegistry.ts';
 import type {
   CharacterStatPriority, CharacterStatTarget, EchoRequirements, EchoStatRequirement,
   ImprovePolicyApplicability, PolicySection, PolicySourceEvidence, ResolvedImprovePolicy,
@@ -47,12 +45,11 @@ function pendingPolicy(characterId: string, presetId: string | null, reason: str
   return { characterId, presetId, applicability: null, sourceReviewStatus: reviewRequired ? 'REVIEW_REQUIRED' : 'PENDING', mode: 'RECOMMENDED',
     characterTarget: { numericTargets: pending(reason), priorities: pending(reason) },
     echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: pending(reason),
-      preferences: pending(reason), checkpointReference: null } };
+      preferences: pending(reason) } };
 }
 
 export interface ImprovePolicySourceDependencies {
   readonly registry?: ProfileRegistry;
-  readonly rollBinding?: (presetId: string) => RollAssistProfileBinding | null;
 }
 
 /**
@@ -64,7 +61,6 @@ export async function projectRecommendedImprovePolicy(
   dependencies: ImprovePolicySourceDependencies = {},
 ): Promise<ResolvedImprovePolicy> {
   const registry = dependencies.registry ?? PROFILE_REGISTRY;
-  const resolveRoll = dependencies.rollBinding ?? resolveRollAssistProfileBinding;
   const { characterId } = input;
   if (!CHARACTER_CATALOG.some(character => character.id === characterId && character.releaseStatus === 'RELEASED')) {
     return pendingPolicy(characterId, input.presetId ?? null, 'Character is not in the RELEASED roster.');
@@ -126,46 +122,6 @@ export async function projectRecommendedImprovePolicy(
     })), targetSource) : pending('Build priorities have unsupported names or no reviewed content.');
   }
   let echoPolicy = result.echoPolicy;
-  if (review.rollPolicyBinding !== null) {
-    let binding: RollAssistProfileBinding | null;
-    try { binding = resolveRoll(preset.id); } catch { binding = null; }
-    binding = binding ? structuredClone(binding) : null;
-    const rollValid = binding !== null && binding.presetId === preset.id
-      && binding.characterId === characterId && binding.policy.characterId === binding.characterName
-      && binding.policy.targetMode === 'RECOMMENDED'
-      && await improvePolicySourceBinding(binding) === review.rollPolicyBinding;
-    if (!rollValid || !binding) {
-      sourceReviewStatus = 'REVIEW_REQUIRED';
-      echoPolicy = { ...echoPolicy, requirements: pending('Registered Echo policy source/provenance drift; source review required.') };
-    } else {
-      const policy = binding.policy;
-      const core = policy.targets.filter(row => row.role === 'CORE');
-      const useful = policy.targets.filter(row => row.role === 'USEFUL');
-      const validThresholds = policy.targets.every(row => SUBSTAT_TYPES.includes(row.name)
-        && SUBSTAT_VALUE_TABLE[row.name].includes(row.minimum));
-      // This registration approves the existing Augusta full-Core/any-Useful
-      // mapping, not a generic inference about other CharacterRollProfiles.
-      if (!validThresholds || core.length !== policy.requiredCoreHits || core.length === 0
-        || policy.requiredUsefulHits < 1 || policy.requiredUsefulHits > useful.length) {
-        sourceReviewStatus = 'REVIEW_REQUIRED';
-        echoPolicy = { ...echoPolicy, requirements: pending('Registered Echo requirements cannot be mapped exactly.') };
-      } else {
-        const requirement = (row: typeof core[number]): EchoStatRequirement => ({ stat: row.name, minimum: row.minimum });
-        const requirements: EchoRequirements = {
-          requiredOnEveryEcho: core.map(requirement),
-          groups: [{ id: policy.id + ':USEFUL', minimumHits: policy.requiredUsefulHits, members: useful.map(requirement) }],
-          // Existing +25 KEEP requires deadCount < 2. Keep this additional
-          // policy fact; this projection does not execute KEEP/TEMP/DISCARD.
-          acceptanceConstraints: { nonTargetRoles: policy.nonTargetRoles, maximumDeadStats: 1 },
-        };
-        echoPolicy = { ...echoPolicy, requirements: verified(requirements, {
-          reviewId: review.reviewId, sourceId: policy.id, sourceBinding: review.rollPolicyBinding,
-          applicability, provenance: policy.provenance,
-        }), preferences: pending('Core/Useful roles do not establish preference ordering or ties.'),
-        checkpointReference: policy };
-      }
-    }
-  }
   return { ...result, applicability, sourceReviewStatus, characterTarget: { numericTargets, priorities }, echoPolicy };
 }
 

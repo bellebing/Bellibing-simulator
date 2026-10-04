@@ -1,3 +1,4 @@
+import { publicImproveSettingsSource } from '../src/publicImproveSettingsSource.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -10,7 +11,7 @@ const initial = () => createImprovePolicyState('augusta', source);
 
 test('browser reviewed policy export has exact source parity and legacy recovery modules remain intact', async () => {
   const file = JSON.parse(readFileSync('docs/ui-prototypes/assets/improve-settings/policies.json', 'utf8'));
-  assert.equal(file.schemaVersion, 1); assert.deepEqual(file.characters, await projectReleasedImprovePolicies());
+  assert.equal(file.schemaVersion, 1); assert.deepEqual(file.characters, (await projectReleasedImprovePolicies()).map(publicImproveSettingsSource));
   assert.equal(readFileSync('docs/ui-prototypes/assets/improve-settings/state.mjs', 'utf8'), readFileSync('src/improveSimpleSettings.mjs', 'utf8'));
 });
 test('percentage and point targets round-trip as canonical values with user basis and Pending comparison', () => {
@@ -48,19 +49,18 @@ test('relevant pool contains reviewed Character stats only; priority-only policy
   assert.ok(improveRelevantStats(other).length > 0); assert.equal(other.echoPolicy.requirements.status, 'PENDING');
   const pending = await projectRecommendedImprovePolicy({ characterId: 'baizhi' }); assert.deepEqual(improveRelevantStats(pending), []);
 });
-test('first requirement edit copies exact inherited groups/constraints and adds no inferred minimum', () => {
+test('first requirement edit creates only user intent and adds no inferred minimum', () => {
   const original = structuredClone(source);
   const state = assignImproveEchoStat(initial(), source, 'Energy Regen', 'REQUIRED');
   assert.equal(state.mode, 'MANUAL'); assert.equal(state.overrides.echoPreferences, undefined);
-  assert.deepEqual(state.overrides.echoRequirements?.groups, source.echoPolicy.requirements.value?.groups);
-  assert.deepEqual(state.overrides.echoRequirements?.acceptanceConstraints, source.echoPolicy.requirements.value?.acceptanceConstraints);
+  assert.deepEqual(state.overrides.echoRequirements?.groups, []);
   assert.deepEqual(state.overrides.echoRequirements?.requiredOnEveryEcho.at(-1), { stat: 'Energy Regen' });
   assert.equal(state.overrides.numericTargets, undefined); assert.deepEqual(source, original);
 });
 test('manual requirements with no reviewed base use explicit user requirements and no fabricated constraints', async () => {
   const other = await projectRecommendedImprovePolicy({ characterId: 'chixia' }), name = improveRelevantStats(other)[0]!;
   const state = assignImproveEchoStat(createImprovePolicyState('chixia', other), other, name, 'REQUIRED');
-  assert.deepEqual(state.overrides.echoRequirements, { requiredOnEveryEcho: [{ stat: name }], groups: [], acceptanceConstraints: null });
+  assert.deepEqual(state.overrides.echoRequirements, { requiredOnEveryEcho: [{ stat: name }], groups: [] });
   assert.equal(resolveImprovePolicyState(state, other).policy.echoPolicy.requirements.status, 'USER_DEFINED');
 });
 test('preferences edit independently, moving a requirement preserves combination semantics and removing last is explicit empty', () => {
@@ -68,7 +68,7 @@ test('preferences edit independently, moving a requirement preserves combination
   assert.equal(state.overrides.echoRequirements, undefined);
   state = assignImproveEchoStat(state, source, 'CRIT Rate', 'PREFERRED');
   assert.ok(!state.overrides.echoRequirements?.requiredOnEveryEcho.some(row => row.stat === 'CRIT Rate'));
-  assert.deepEqual(state.overrides.echoRequirements?.groups, source.echoPolicy.requirements.value?.groups);
+  assert.equal(state.overrides.echoRequirements, undefined);
   state = assignImproveEchoStat(state, source, 'ATK%', 'AVAILABLE'); state = assignImproveEchoStat(state, source, 'CRIT Rate', 'AVAILABLE');
   assert.deepEqual(state.overrides.echoPreferences, []);
   assert.equal(resolveImprovePolicyState(state, source).policy.echoPolicy.preferences.content, 'EXPLICITLY_EMPTY');

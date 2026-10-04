@@ -88,5 +88,5 @@ test('exact preset Echo consumers discover attack facts while all execution edge
   }
   assert.equal(queue.summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), []);
 });

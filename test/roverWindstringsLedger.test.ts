@@ -108,7 +108,7 @@ test('partial state discovery joins the exact preset and canonical facts without
   assert.equal(buildCharacterDatabase().resourceStateSupport[0].spendActionFactIds.length, 2);
   assert.equal(buildProfileExecutionWorkQueue().summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), []);
 });
 
 function offField(): Input {

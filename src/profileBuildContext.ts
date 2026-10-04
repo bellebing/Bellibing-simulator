@@ -1,3 +1,4 @@
+import { hasRotationEngineModel } from './rotationEngineRegistry.ts';
 import type { BuildContext, Echo } from './domain.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
 import { resolveVerifiedProfileSelection } from './verifiedProfileSelection.ts';
@@ -19,6 +20,10 @@ export function buildContextFromVerifiedPreset(
   const { resolved, defaultWeapon } = resolveVerifiedProfileSelection(PROFILE_REGISTRY, presetId);
   if (resolved.rotation.executionStatus !== 'ENGINE_MODELED' || !resolved.rotation.engineModelId) {
     throw new Error(`${presetId}: rotation ${resolved.rotation.id} is not ENGINE_MODELED`);
+  }
+
+  if (!hasRotationEngineModel(resolved.rotation.engineModelId, resolved.preset.characterId)) {
+    throw new Error('Pending: private runtime unavailable.');
   }
 
   return {

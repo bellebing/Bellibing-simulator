@@ -8,9 +8,6 @@ import { validateShorekeeperHealingSupportContracts } from '../combat/shorekeepe
 import { validateShorekeeperOutroTeamWindowContract } from '../combat/shorekeeperOutroTeamWindowAdapter.ts';
 import { validateShorekeeperStellarealmContract } from '../combat/shorekeeperStellarealmState.ts';
 import { validateSonataOutroTransferContracts } from '../combat/sonataOutroTransferAdapter.ts';
-import { validateReferenceTeam01IunoAugustaWindowCoverage } from '../referenceTeam01IunoAugustaWindowCoverage.ts';
-import { validateReferenceTeam01ShorekeeperOutroAugustaCoverage } from '../referenceTeam01ShorekeeperOutroAugustaCoverage.ts';
-import { validateReferenceTeam01ShorekeeperStellarealmAugustaCoverage } from '../referenceTeam01ShorekeeperStellarealmAugustaCoverage.ts';
 import {
   resolveTeamExecutionContext,
   type ResolvedTeamExecutionContext,
@@ -295,10 +292,7 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   if (iunoOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Outro transfer contract: ${iunoOutroIssues.join('; ')}`);
   }
-  const iunoAugustaCoverageIssues = validateReferenceTeam01IunoAugustaWindowCoverage();
-  if (iunoAugustaCoverageIssues.length > 0) {
-    throw new Error(`Reference Team 01: invalid Iuno -> Augusta window coverage: ${iunoAugustaCoverageIssues.join('; ')}`);
-  }
+
   const iunoWanLightIssues = validateIunoWanLightRecipientContract();
   if (iunoWanLightIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Iuno Wan Light recipient contract: ${iunoWanLightIssues.join('; ')}`);
@@ -315,24 +309,14 @@ function assertReferenceTeam01CanonicalSources(context: ResolvedTeamExecutionCon
   if (shorekeeperOutroIssues.length > 0) {
     throw new Error(`Reference Team 01: invalid canonical Shorekeeper Outro team-window contract: ${shorekeeperOutroIssues.join('; ')}`);
   }
-  const shorekeeperOutroAugustaCoverageIssues = validateReferenceTeam01ShorekeeperOutroAugustaCoverage();
-  if (shorekeeperOutroAugustaCoverageIssues.length > 0) {
-    throw new Error(
-      `Reference Team 01: invalid Shorekeeper Outro -> Augusta coverage: ${shorekeeperOutroAugustaCoverageIssues.join('; ')}`,
-    );
-  }
+
   const shorekeeperStellarealmIssues = validateShorekeeperStellarealmContract();
   if (shorekeeperStellarealmIssues.length > 0) {
     throw new Error(
       `Reference Team 01: invalid canonical Shorekeeper Stellarealm contract: ${shorekeeperStellarealmIssues.join('; ')}`,
     );
   }
-  const shorekeeperStellarealmAugustaCoverageIssues = validateReferenceTeam01ShorekeeperStellarealmAugustaCoverage();
-  if (shorekeeperStellarealmAugustaCoverageIssues.length > 0) {
-    throw new Error(
-      `Reference Team 01: invalid Shorekeeper Stellarealm -> Augusta coverage: ${shorekeeperStellarealmAugustaCoverageIssues.join('; ')}`,
-    );
-  }
+
 
   if (shorekeeper.defaultWeapon.id !== 'stellar-symphony') {
     throw new Error(`Reference Team 01: selected Shorekeeper weapon is ${shorekeeper.defaultWeapon.id}, expected stellar-symphony`);

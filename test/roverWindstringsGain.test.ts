@@ -90,7 +90,7 @@ test('database exposes four identity-only resource bindings for the existing Rov
   database.resourceGainSupport[0].characterId = 'mutated';
   assert.equal(buildCharacterDatabase().resourceGainSupport[0].characterId, 'rover-aero');
   assert.equal(database.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), []);
 });
 
 test('current canonical Cartethyia Inherent source contract is accepted and keeps exact pinned 25 Windstrings truth', async () => {
@@ -144,7 +144,7 @@ test('character database accepts the current Cartethyia Windstrings contract wit
   const omega = database.resourceGainSupport.find((binding) =>
     binding.actionFactId === 'rover-aero-resonance-liberation-omega-storm-skill-dmg');
   assert.equal(omega?.requiredTeamSourceFactId, CARTETHYIA_WINDSTRINGS_SOURCE_CONTRACT.factId);
-  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), []);
 });
 
 test('Omega Storm requires the actual Cartethyia team/passive and grants only Rover nominal Windstrings', () => {

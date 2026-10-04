@@ -78,7 +78,7 @@ test('Denia Tune discovers exact transfer capability while attack scaling and al
   assert.equal(edges.find((e) => e.pendingExecutionId.endsWith('voidwing-moth-active-skill-damage-adapter'))?.semanticStatus, 'UNREVIEWED');
   assert.equal(q.summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), []);
 });
 
 test('Voidwing rejects changed effect semantics and missing reviewed provenance in caller catalogs', () => {

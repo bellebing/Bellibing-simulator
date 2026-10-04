@@ -90,18 +90,14 @@ function validOverride(section: PolicyOverrideSection, value: unknown): boolean 
         && (basis.description === null || typeof basis.description === 'string');
     }, 'metric');
   }
-  const requirements = record(value), constraints = record(requirements.acceptanceConstraints);
+  const requirements = record(value);
+  if (Object.keys(requirements).some(key => !['requiredOnEveryEcho', 'groups'].includes(key))) return false;
   const validRequirement = (row: Record<string, unknown>): boolean => stat(row.stat)
     && (row.minimum === undefined || nonnegative(row.minimum));
   return list(requirements.requiredOnEveryEcho, validRequirement, 'stat')
     && list(requirements.groups, row => typeof row.id === 'string' && row.id.length > 0
-      && list(row.members, validRequirement, 'stat') && positiveInteger(row.minimumHits)
-      && (row.minimumHits as number) <= (row.members as unknown[]).length, 'id')
-    && (requirements.acceptanceConstraints === null || nonnegative(constraints.maximumDeadStats) && Number.isInteger(constraints.maximumDeadStats)
-    && constraints.maximumDeadStats <= 5 && own(constraints, 'nonTargetRoles')
-    && constraints.nonTargetRoles !== null && typeof constraints.nonTargetRoles === 'object'
-    && !Array.isArray(constraints.nonTargetRoles)
-    && Object.entries(record(constraints.nonTargetRoles)).every(([name, role]) => stat(name) && (role === 'FILLER' || role === 'DEAD')));
+      && Object.keys(row).every(key => ['id', 'members'].includes(key))
+      && list(row.members, validRequirement, 'stat'), 'id');
 }
 
 export function createImprovePolicyState(characterId: string, recommended: ResolvedImprovePolicy): ImprovePolicyState {
@@ -210,7 +206,7 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
     const deferred = state.mode === 'MANUAL' && key === 'echoPreferences' && state.migration !== null && state.migration.status !== 'MIGRATED';
     if (hasOverride && context === 'MATCH' && state.contextBinding !== null && validOverride(key, state.overrides[key])) {
       const value = structuredClone(state.overrides[key]) as T;
-      // EchoRequirements includes acceptance constraints, so it is always content.
+      // User settings are content, never an evaluation result.
       return { status: 'USER_DEFINED', origin: 'USER', content: Array.isArray(value) && value.length === 0 ? 'EXPLICITLY_EMPTY' : 'PRESENT', value };
     }
     if (hasOverride || deferred) {
@@ -226,7 +222,6 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
     characterTarget: { numericTargets: section('numericTargets', recommended.characterTarget.numericTargets),
       priorities: section('priorities', recommended.characterTarget.priorities) },
     echoPolicy: { ...structuredClone(recommended.echoPolicy),
-      checkpointReference: recommended.characterId === state.characterId ? structuredClone(recommended.echoPolicy.checkpointReference) : null,
       requirements: section('echoRequirements', recommended.echoPolicy.requirements),
       preferences: section('echoPreferences', recommended.echoPolicy.preferences) } };
   const review = recommended.sourceReviewStatus === 'REVIEW_REQUIRED' || context === 'MISMATCH' || suspended.length > 0 && context !== 'UNAVAILABLE'

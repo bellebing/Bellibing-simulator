@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { AUGUSTA_STANDARD_ACTIONS } from '../src/characters/augustaStandard.ts';
-import { AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID } from '../src/characters/augustaStandardMotionValues.ts';
 import type { CharacterActionFact } from '../src/characterMechanicsDomain.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 import {
@@ -112,46 +110,6 @@ test('Augusta verified non-action raw facts cover resources, passives and all si
   assert.match(s6.effectSummary, /Heavy Attack DMG/);
 });
 
-test('Augusta Standard keeps exact selected-level parity values separate from current raw source curves', () => {
-  const step2 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '2');
-  const step5 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '5');
-  const step3 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '3');
-  const step6 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '6');
-  const step12 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '12');
-  assert.ok(step2 && step5 && step3 && step6 && step12);
-  assert.equal(step2.sourceFactId, 'augusta-heavy-thunderoar-backstep');
-  assert.equal(step5.sourceFactId, step2.sourceFactId);
-  assert.equal(step2.motionValue, AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.get(step2.sourceFactId));
-  assert.equal(step3.sourceFactId, 'augusta-heavy-thunderoar-spinslash');
-  assert.equal(step6.sourceFactId, step3.sourceFactId);
-  assert.equal(step3.motionValue, AUGUSTA_STANDARD_PARITY_MOTION_VALUE_BY_FACT_ID.get(step3.sourceFactId));
-
-  const rawBackstep = getCharacterActionFact(step2.sourceFactId);
-  const rawSunborne = getCharacterActionFact(step12.sourceFactId ?? '');
-  assert.ok(rawBackstep && rawSunborne);
-  assert.equal(rawBackstep.motionValue, null);
-  assertNear(sourceMotionValueAt(rawBackstep, 9), .5368);
-  assertNear(sourceMotionValueAt(rawSunborne, 9), 1.1929);
-  assert.equal(step12.motionValue, 10.7361, 'V9.15 parity keeps the nine-cast Sunborne aggregate');
-});
-
-test('Augusta rotation consumes canonical False Sovereign Echo attack facts', () => {
-  const registry = createEchoAttackRegistry(ECHO_ATTACK_PROFILES);
-  const intro = registry.attackById.get('FALSE_SOV_INTRO_SUMMON');
-  const active = registry.attackById.get('FALSE_SOV_ACTIVE_SPIN');
-  assert.ok(intro && active);
-
-  const step1E = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '1E');
-  const step14 = AUGUSTA_STANDARD_ACTIONS.find((action) => action.step === '14');
-  assert.ok(step1E && step14);
-  assert.equal(step1E.sourceFactId, intro.attackId);
-  assert.equal(step1E.motionValue, totalMotionValue(intro));
-  assert.equal(step1E.motionValue, 4.05);
-  assert.equal(step14.sourceFactId, active.attackId);
-  assert.equal(step14.motionValue, totalMotionValue(active));
-  assert.equal(step14.motionValue, 2.214);
-});
-
 test('mechanics coverage reports fifty-four released characters fully source-complete with three partial ACTION profiles', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 57);
@@ -183,13 +141,13 @@ test('VERIFIED mechanics coverage requires linked source-verified supporting fac
   assert.deepEqual(audit.partialCharacterIds, ['augusta']);
 });
 
-test('Augusta rotation declares coherent modeled versus source-verified assumed mechanics', () => {
+test('historical rotation dependencies retain game facts while the retired runtime fails closed', () => {
   const rotation = ROTATION_PROFILES.find((profile) => profile.id === 'augusta-standard-iuno-shorekeeper');
   assert.ok(rotation);
   const audit = auditRotationMechanicDependencies(rotation);
   assert.equal(audit.modeledFactCount, 12);
   assert.equal(audit.assumedFactCount, 8);
-  assert.deepEqual(audit.issues, []);
+  assert.deepEqual(audit.issues, [{ factId: '*', issue: 'unknown engine model AUGUSTA_STD_V1' }]);
 
   assert.deepEqual(
     findRotationsDependingOnMechanicFact('augusta-resource-majesty', ROTATION_PROFILES).map((profile) => profile.id),
@@ -211,7 +169,7 @@ test('executable preflight recognizes Augusta raw mechanics as source-complete w
   assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
   assert.deepEqual(raw.blockers, []);
 
-  assert.equal(dps.checks.find((check) => check.area === 'COMBAT_MODEL')?.status, 'PASS');
+  assert.equal(dps.checks.find((check) => check.area === 'COMBAT_MODEL')?.status, 'PENDING');
 });
 
 test('preflight preserves named raw pending fields for current released characters', () => {

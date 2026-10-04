@@ -57,12 +57,5 @@ export {
   type EchoLabAcquisitionRequest,
   type EchoLabSession,
 } from './echoCoreLab.ts';
-export {
-  ECHO_STRATEGY_SIMULATOR_PROVENANCE,
-  simulateDesiredSubstatStrategy,
-  type DesiredSubstatStrategy,
-  type EchoStrategySimulationResult,
-  type StrategyCheckpoint,
-} from './echoStrategySimulator.ts';
 export { createSeededRng, SeededRng, seedFromString } from './seededRng.ts';
 export { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';

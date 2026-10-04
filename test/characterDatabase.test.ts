@@ -133,7 +133,7 @@ test('batch export preserves canonical identities, source provenance and relatio
 test('source completeness never grants a new DPS engine or closes Reference Team pending', () => {
   const db = buildCharacterDatabase();
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),
-    ['augusta', 'ciaccona']);
+    []);
   for (const id of ['buling', 'danjin', 'xiangli-yao']) {
     const character = db.characters.find((row) => row.id === id)!;
     assert.ok(character.mechanics);

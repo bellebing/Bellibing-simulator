@@ -31,7 +31,7 @@ Exact unrounded Calc references remain source data underneath the formatted UI v
 
 Customize target metrics, minimum/preferred semantics, source/context recovery and existing migration behavior remain intact. The accepted current UI contract is [Improve Simple Settings](UI_IMPROVE_SIMPLE_SETTINGS.md).
 
-**BUG-042 remains MEDIUM / KNOWN GAP**: roster-wide reviewed Echo requirements/preferences are incomplete. Reviewed finished-Echo requirements remain 1/57 and reviewed Recommended preference rankings remain 0/57. Legacy numeric targets and build priorities do not establish complete dedicated Character recommendations.
+**BUG-042 remains MEDIUM / KNOWN GAP**: roster-wide reviewed Echo requirements/preferences are incomplete. Public Recommended Echo requirements/preferences remain Pending. Legacy numeric targets and build priorities do not establish complete dedicated Character recommendations.
 
 ### Character / Build workspace
 
@@ -60,12 +60,11 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 ## Nearest roadmap
 
-1. **Build Need** — compare current CharacterBuildState against the source-valid Character Target basis without inventing comparability or filling missing metrics from other source families.
-2. **Improvement Cost** — only after Build Need has a truthful comparison contract.
-3. **Character comparison** — preserve source-family and comparability boundaries.
-4. **New Improve evaluator** — only on executable, source-valid inputs.
+1. Establish the confidential engine boundary before any new evaluator work.
+2. Build Need / Improvement Cost / evaluator remain Pending until a private runtime and a source-valid contract exist.
+3. Character comparison and Best Available Teams remain downstream and Pending.
 
-Best Available Teams remains downstream of truthful compatibility/context composition and executable/modelable team output. Do not start the large team UI before the contract in [BEST_AVAILABLE_TEAMS_DIRECTION.md](BEST_AVAILABLE_TEAMS_DIRECTION.md) is satisfied.
+Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces are currently Pending. Echo Lab retains verified mechanics; Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 

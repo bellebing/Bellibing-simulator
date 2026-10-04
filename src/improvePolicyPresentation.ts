@@ -8,7 +8,7 @@ export function pendingImprovePolicySource(characterId: string): ResolvedImprove
   const section = <T>(): PolicySection<T> => ({ status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Source unavailable.' });
   return { characterId, presetId: null, applicability: null, sourceReviewStatus: 'PENDING', mode: 'RECOMMENDED',
     characterTarget: { numericTargets: section(), priorities: section() },
-    echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: section(), preferences: section(), checkpointReference: null } };
+    echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: section(), preferences: section() } };
 }
 
 export const IMPROVE_TARGET_METRICS: readonly { metric: BuildStatMetric; label: string; unit: 'RATIO' | 'POINTS' }[] = [
@@ -71,7 +71,7 @@ export function assignImproveEchoStat(state: ImprovePolicyState, source: Resolve
   if (!improveRelevantStats(source).includes(name)) throw new Error('Stat is not in this reviewed Character pool.');
   const effective = resolveImprovePolicyState(state, source).policy.echoPolicy;
   const requirements = editable<EchoRequirements>(effective.requirements,
-    { requiredOnEveryEcho: [], groups: [], acceptanceConstraints: null });
+    { requiredOnEveryEcho: [], groups: [] });
   let preferences = [...editable(effective.preferences, [])];
   let next = state;
   const required = requirements.requiredOnEveryEcho.some(row => row.stat === name);

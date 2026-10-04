@@ -1,3 +1,4 @@
+import { publicSettingsView } from '../../assets/publicSettingsView.js';
 import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicyState, resolveImprovePolicyState,
   updateImprovePolicyState, persistImprovePolicyState } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
@@ -140,8 +141,8 @@ function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
   const editable = settings.mode === 'MANUAL' && source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
-  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
-  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
+  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Pending';
+  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Pending';
   const buildNeed = element('section', undefined, 'improve-policy-section improve-build-need');
   buildNeed.append(element('h3', 'Build Need'), note('Pending')); groups.get('flex').content.append(buildNeed);
   const flexSection = element('section', undefined, 'improve-policy-section');
@@ -246,8 +247,7 @@ function setCharacter(id) {
   catch { storageError = 'Saved policy needs review. Recovery data has been retained.'; settings = createImprovePolicyState(id, source); }
   if (loaded) save(); render();
 }
-window.bellibingImproveSettings = { setCharacter, getState: () => settings ? structuredClone({ ...settings, effectivePolicy: resolved.policy,
-  compatibility: resolved.compatibility }) : null };
+window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),

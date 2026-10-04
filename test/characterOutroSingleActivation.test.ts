@@ -155,7 +155,7 @@ test('nine current presets across eight Characters discover one canonical bindin
     assert.ok(bindings.some((binding) => members.some((member) => member.characterId === binding.characterId)));
     assert.equal(db.profiles.rotations.find((r) => r.id === preset.rotationProfileId)!.executionStatus, 'SOURCE_SEQUENCE_ONLY');
   }
-  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter((c) => c.readiness?.disposition === 'DPS_READY').map((c) => c.id), []);
   assert.equal(buildProfileExecutionWorkQueue().summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
 });

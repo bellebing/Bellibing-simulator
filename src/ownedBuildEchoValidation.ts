@@ -4,7 +4,7 @@ import {
   type Echo,
 } from './echoCore.ts';
 import { PROFILE_REGISTRY } from './data/profileCatalogs.ts';
-import { assertExactOwnedEchoRoll } from './ownedEchoCheckpointAnalysis.ts';
+import { assertExactRank5SubstatRoll } from './echoCoreRules.ts';
 import { resolveBuildPreset } from './profileRegistry.ts';
 
 const EPSILON = 1e-12;
@@ -48,7 +48,7 @@ export function validateOwnedBuildEchoSlot(input: {
   for (const roll of input.echo.substats) {
     if (names.has(roll.name)) throw new Error(`${input.presetId}: Echo ${input.slotIndex + 1} contains duplicate substat ${roll.name}.`);
     names.add(roll.name);
-    assertExactOwnedEchoRoll(roll);
+    assertExactRank5SubstatRoll(roll);
   }
 }
 

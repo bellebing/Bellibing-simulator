@@ -9,7 +9,6 @@ import { ECHO_EFFECT_MODELS } from '../src/data/echoEffects.ts';
 import { listCharacterDirectHitSupport, evaluateCharacterDirectHit } from '../src/combat/characterDirectHitAdapter.ts';
 import { createRank5EchoAtLevel0, withRank5MainStatsAtLevel, SUBSTAT_VALUE_TABLE, type PrimaryMainStatName } from '../src/echoCore.ts';
 import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
-import { ciacconaInputsFromEchoes } from '../src/characters/ciacconaEchoEvaluator.ts';
 import { assembleCharacterHitContext, compareCharacterHitWithAssembledContext,
   listStaticWeaponContextSupport, listStaticSonataContextSupport, listStaticEchoContextSupport,
   type CharacterHitContextSelection, type RemainingHitContext } from '../src/combat/characterHitContext.ts';
@@ -119,37 +118,6 @@ test('main-Echo pending state and source activation drift stay out of automatic 
     assert.ok(!changed.contributions.some(c => c.sourceId === `echo:${effect.effectId}`));
     assert.throws(() => compareCharacterHitWithAssembledContext(original), /fresh per-build/);
   } finally { effect.activation = old; }
-});
-
-test('actual Ciaccona preset equipment reproduces existing owned-build static arithmetic for a qualified Basic hit', () => {
-  const f = fixture(), preset = PROFILE_CATALOGS.presets.find(p => p.id === 'ciaccona-cartethyia-aero')!;
-  const shell = PROFILE_CATALOGS.echoLoadouts.find(p => p.id === preset.echoLoadoutProfileId)!;
-  const species = [shell.mainEchoId!, 'echo-60001045', 'echo-60000975', 'echo-60001015', 'echo-60001105'];
-  // The preset supplies configuration identity; exact rolls here are regression
-  // fixtures derived from the existing source table, not a claim about user gear.
-  f.current = shell.slots.map((slot, i) => ({ ...withRank5MainStatsAtLevel(createRank5EchoAtLevel0({
-    id: `ciaccona-regression-${i}`, cost: slot.cost, primaryMainStat: slot.primaryMainStats[0].stat as PrimaryMainStatName }), 25),
-    substats: ['Flat HP', 'Flat DEF', 'HP%', 'DEF%', 'Basic Attack DMG'].map(name => ({ name, value: SUBSTAT_VALUE_TABLE[name][0] })) }));
-  f.candidate = structuredClone(f.current);
-  f.candidate[0].substats[0] = { name: 'CRIT DMG', value: SUBSTAT_VALUE_TABLE['CRIT DMG'][0] };
-  f.selection.hit = { ...f.selection.hit, factId: listCharacterDirectHitSupport()
-    .find(h => h.characterId === 'ciaccona' && h.sourceDamageClass === 'BASIC')!.factId };
-  f.selection.echoEquipment = { evidenceId: `canonical-configuration:${preset.id};synthetic-rolls`, mainSlotIndex: 0,
-    slots: species.map(echoId => ({ echoId, sonataSetId: shell.sonataSetIds[0] })) };
-  const zero = { enemyDefense: 0, enemyAeroResistance: 0.2, attackPercent: 0, flatAttack: 0, critRate: 0, critDamage: 0,
-    aeroDamageBonus: 0, basicAttackDamageBonus: 0, heavyAttackDamageBonus: 0, resonanceSkillDamageBonus: 0,
-    resonanceLiberationDamageBonus: 0, introSkillDamageBonus: 0, allDamageAmplification: 0, energyRegen: 0 };
-  const result = compareCharacterHitWithAssembledContext(comparison(f)).comparison;
-  assert.equal(result.status, 'EVALUATED_HIT_COMPARISON');
-  if (result.status !== 'EVALUATED_HIT_COMPARISON') return;
-  for (const [cards, actual] of [[f.current, result.current], [f.candidate, result.candidate]] as const) {
-    const expected = ciacconaInputsFromEchoes(cards, zero).inputs;
-    for (const [x, y] of [[actual.snapshot.totalScalingStat, expected.totalAttack],
-      [actual.snapshot.critRate, expected.critRate], [actual.snapshot.critDamage, expected.critDamage],
-      [actual.snapshot.damageBonus, expected.aeroDamageBonus + expected.basicAttackDamageBonus]]) {
-      assert.ok(Math.abs(x - y) < 1e-10, `${x} != ${y}`);
-    }
-  }
 });
 
 test('static Sonata family reads canonical values only after complete species/set assignment', () => {

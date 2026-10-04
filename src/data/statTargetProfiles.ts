@@ -8,16 +8,13 @@ export const STAT_TARGET_PROFILES: readonly StatTargetProfile[] = [
     characterId: 'augusta',
     verificationStatus: 'VERIFIED',
     provenance: {
-      sourceLabels: ['V9.15 Build Simulator', 'V9.15 Strategy Cache', 'V9.15 DPS Contexts', 'Prydwen Augusta build'],
+      sourceLabels: ['Prydwen Augusta build'],
       sourceUrls: [
-        'https://docs.google.com/spreadsheets/d/1E_6YNe3OED6kihXWK6IQ8D-DcwdkuuAXvlG3ZtgkbP0/edit',
         'https://www.prydwen.gg/wuthering-waves/characters/augusta',
       ],
       checkedAt: '2026-08-29',
       notes: [
         'Current Prydwen build priority is Energy Regen (until satisfied) > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG% before lower-priority stats.',
-        'Build-stat priority is kept here; Roll Assistant minimum-roll thresholds and 2 Core + Any 1 Useful stopping requirements live separately in AUGUSTA_RECOMMENDED_V915.',
-        'The V9.15 Strategy Cache live/cached fingerprint remains the historical parity evidence for that separate Roll policy.',
       ],
     },
     targetRules: [

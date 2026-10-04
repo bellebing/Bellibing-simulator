@@ -246,16 +246,7 @@ Static portrait/icon asset identity is separate from card/hero presentation fram
 
 Continue from the accepted v34 baseline rather than rebuilding from old Alpha or from prose alone.
 
-For each meaningful slice:
-
-1. fresh-read current `main`, current UI PR(s), this document and the layout/motion contract;
-2. build/preview quickly;
-3. verify in a real browser at the relevant responsive sizes;
-4. get user approval;
-5. checkpoint the coherent slice in GitHub;
-6. continue.
-
-Do not make a GitHub commit for every tiny pixel adjustment, but also do not wait until an entire large surface is finished before checkpointing.
+[Development Process v2](DEVELOPMENT_PROCESS.md) owns source recovery, authorized scope, review, verification levels, autonomy and checkpoint timing. This document owns product/interaction semantics.
 
 During the current desktop-first phase, a visual slice is not complete from a single screenshot alone: verify the relevant interaction in real Chrome at 1440×900 and sanity-check 1920×1080 / 2560×1440 where layout width matters. Phone/tablet/mobile interaction checks are deliberately deferred and are **not** a current completion gate. The later Mobile Adaptation Pass will re-enable the deferred narrow/mobile contract and its real-device-size verification.
 

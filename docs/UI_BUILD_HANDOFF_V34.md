@@ -15,17 +15,7 @@ Exact values below are retained where they are useful to reproduce the accepted 
 
 ## Working rule
 
-Do not redesign the accepted composition from memory or from the old Alpha UI. Fresh-read current GitHub `main`, active UI PR(s), the current preview and the canonical contracts before changing UI.
-
-Work one coherent user-approved slice at a time:
-
-1. prototype/preview the slice;
-2. verify visually in a real browser at relevant responsive sizes;
-3. user approves the slice;
-4. checkpoint the coherent slice in GitHub;
-5. continue.
-
-Do not commit every tiny pixel adjustment, and do not wait until the whole app is finished before checkpointing.
+Do not redesign the accepted composition from memory or from the old Alpha UI. Use [Development Process v2](DEVELOPMENT_PROCESS.md) for source recovery, authorized scope, review, verification and checkpoint timing. This document owns the visual baseline, not worker process.
 
 ## Product target and responsive priority
 
@@ -221,9 +211,7 @@ Canonical timing bands, easing, transform rules and reduced-motion behavior live
 
 For visual changes, green CI alone is insufficient.
 
-Use:
-
-`preview → real browser responsive check → user approval → coherent GitHub checkpoint`
+Use [Development Process v2](DEVELOPMENT_PROCESS.md) to choose verification level and checkpoint timing.
 
 Verify typography, artwork crop/framing, selector state changes and composition in a real browser. Relevant sizes and the extreme-ultrawide max-spread guard are defined in `UI_LAYOUT_MOTION_CONTRACT.md`.
 

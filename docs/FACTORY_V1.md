@@ -249,11 +249,11 @@ Milestone 05 code/test/docs payload before the final proof-reference-only docume
 - Factory Provider Refresh #7 — SUCCESS against real `FrequencyManager/master` on the current runtime-code payload;
 - direct artifact inspection — SUCCESS with `NO_REVIEW_REQUIRED`, `attentionRequired=false`, exact SHA and baseline/current provenance.
 
-The final proof-reference-only documentation sync changes only Factory docs and must retain full Verify/Export on the final review head. Factory fast-path remains an iteration accelerator only and does not replace full Verify. No correctness gate is weakened.
+The historical Milestone 05 proof-reference-only documentation sync was required to retain full Verify/Export on its final review head. Current iteration, review and merge verification follow [Development Process v2](DEVELOPMENT_PROCESS.md); this historical requirement is not a standing rule for Factory documentation edits.
 
 ## Handoff
 
-The external Bellibing Echo Tool — AI Handoff records final exact review-head SHA and final verification identifiers after the review head is green. This avoids the self-referential living-doc SHA problem.
+For the historical Milestone 05 closeout, the external Bellibing Echo Tool — AI Handoff recorded final exact review-head SHA and verification identifiers to avoid the self-referential living-doc SHA problem. Future documentation and evidence placement follow Development Process v2.
 
 No Handoff write changes canonical GitHub implementation/runtime truth.
 

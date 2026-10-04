@@ -1,6 +1,6 @@
 # Improve Settings — accepted desktop checkpoint
 
-PR #224's Improve Settings UX is **visually accepted**, based on runtime head `8a592765a67488c22dc5fddd2ed4e6bd7ed20a31`. PR #224 is merged. The Character Target Recommended presentation wiring below is a new draft iteration for visual/data review; comparison and evaluator work remain Pending. The current model supersedes the preserved historical v3 UI checkpoint.
+PR #224's Improve Settings UX is **visually accepted**, based on runtime head `8a592765a67488c22dc5fddd2ed4e6bd7ed20a31`. PR #224 is merged. The Character Target Recommended presentation wiring below is integrated through merged PR #229; comparison and evaluator work remain Pending. Recover current PR/CI state from GitHub. The current model supersedes the preserved historical v3 UI checkpoint.
 
 ## Current presentation and interaction
 
@@ -45,6 +45,8 @@ Generated `docs/assets/echoCoreRules.js`, `improvePolicyState.js` and `improvePo
 **Build Need is Pending. Improvement Cost and the new Improve evaluator are not implemented.** Dedicated Character recommendation data, roster-wide reviewed Echo policies/preferences, comparison/ER satisfaction, deficits, replacement ranking, DPR/DPS, weights/probabilities, Team and mobile remain Pending. BUG-042 remains **MEDIUM / KNOWN GAP**: reviewed Echo requirements 1/57, reviewed Recommended Echo preference order 0/57. Historical numeric-source coverage 24/57 and priorities 44/57 do not establish dedicated Character recommendation completeness.
 
 ## Historical PR #224 checkpoint verification
+
+The following records that checkpoint's verification scope. It is not a standing instruction for future iterations; [Development Process v2](DEVELOPMENT_PROCESS.md) owns current verification and stop rules.
 
 Final checkpoint verification covers focused Improve policy/state/presentation/roll tests, the full suite, strict build/generated-module parity and whitespace. The repository Verify serves source and built previews separately; real Chrome covers **1440×900 / 1920×1080 / 2560×1440** for shared expansion, Pending Character Target/Build Need, Gate, grey read-only source minimums, other stats, gold Customize, toggles/exclusivity, drag/keyboard ordering, discrete tier editing, persistence/reload/reset, selector clearance, Current/Candidate and five equipped Echo/workspace ownership. Existing validation, migration, outage/recovery and review-drift coverage remains. Exact final head, outcomes and Verify/Export run IDs are recorded externally on PR #224 and AI Handoff after execution; no result is inferred from older checkpoints.
 

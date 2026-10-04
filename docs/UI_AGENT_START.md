@@ -2,23 +2,9 @@
 
 Last reconciled: 2026-09-27
 
-Use this as the first-read contract for a new Bellibing UI-building chat or Codex session.
+Start from [AGENTS.md](../AGENTS.md) and [Development Process v2](DEVELOPMENT_PROCESS.md) for source order, scope, verification, autonomy and documentation. This file is the UI product-contract index. Read the relevant contracts below for the authorized UI work.
 
-## Source order
-
-Before UI work:
-
-1. fresh-read GitHub `main` and all current active UI branch/PR candidates;
-2. read `docs/PROJECT_STATUS.md`;
-3. read `docs/UI_UX_STATUS.md`;
-4. read `docs/UI_LAYOUT_MOTION_CONTRACT.md`;
-5. read `docs/UI_BUILD_HANDOFF_V34.md`;
-6. read `docs/UI_TYPOGRAPHY.md`;
-7. read the Bellibing Echo Tool — AI Handoff for the latest UI update/bug evidence.
-
-GitHub current implementation beats old chat context.
-
-Do **not** hardcode an active PR number or branch in this onboarding file. The active lane changes; recover it from current GitHub + PROJECT_STATUS + AI Handoff every time.
+Do **not** hardcode an active PR number or branch in this onboarding file; recover the relevant lane from current GitHub.
 
 ## Authority map
 
@@ -26,7 +12,7 @@ Do **not** hardcode an active PR number or branch in this onboarding file. The a
 - `UI_LAYOUT_MOTION_CONTRACT.md` = containment, the current desktop-first acceptance phase, deferred mobile targets, motion and viewport verification.
 - `UI_BUILD_HANDOFF_V34.md` = accepted v34 visual/composition reference and parity measurements.
 - `UI_TYPOGRAPHY.md` = font truth.
-- `PROJECT_STATUS.md` + AI Handoff = current implementation/lane state.
+- GitHub = current implementation/PR/CI state; `PROJECT_STATUS.md` and AI Handoff = product status, decisions and blockers.
 
 If an old v34 measurement conflicts with the newer layout/motion contract, preserve the accepted visual intent while following the newer containment/responsive rule. Do not invent a second parallel layout system.
 
@@ -74,20 +60,15 @@ Use it for the approved visual direction, proportions and parity reference. Do n
 
 When the user asks for a UI `preview`, `PR preview`, `test link`, `functional preview` or equivalent, treat that as an explicit review workflow request rather than returning screenshots only.
 
-Required sequence:
+Follow Development Process v2's REVIEW level and identify the preview revision and relevant checks. Use a local preview, an existing build artifact or an immutable source URL; a preview request does not require a commit or full Verify/Export by itself.
 
-1. recover the current active UI PR/branch from GitHub + `PROJECT_STATUS.md` + AI Handoff; never assume an old PR number;
-2. ensure the requested UI work is committed on that active PR branch;
-3. verify the **exact PR head** with the repository's existing Verify/Export workflow; do not present a stale head as current;
-4. for the current standalone New UI prototype entrypoint, construct an immutable exact-head review URL in this form:
+For a committed standalone New UI source entrypoint, the immutable URL format is:
 
-   `https://rawcdn.githack.com/bellebing/Bellibing-simulator/<HEAD_SHA>/docs/ui-prototypes/v34-functional.html`
+`https://rawcdn.githack.com/bellebing/Bellibing-simulator/<HEAD_SHA>/docs/ui-prototypes/v34-functional.html`
 
-5. return that URL prominently as **Open functional UI preview**, together with the PR number and exact head SHA;
-6. the preview is for interaction review only and must not be described as the deployed Bellibing site or canonical `main`;
-7. do not merge merely to make a preview available.
+Return the usable review path prominently as **Open functional UI preview**, with the revision and PR when applicable. A candidate preview is interaction-review evidence, separate from deployed main. Do not merge merely to make a preview available.
 
-The raw.githack service serves source-hosted HTML/assets with browser-usable content types. Exact commit URLs are immutable, which makes the review link correspond to one verified PR head. A first browser visit may show the service's HTML safety confirmation before opening the page.
+The raw.githack service serves source-hosted HTML/assets with browser-usable content types. Exact commit URLs are immutable, which identifies the source revision; verification evidence is reported separately. A first browser visit may show the service's HTML safety confirmation before opening the page.
 
 If the UI review entrypoint later moves away from `docs/ui-prototypes/v34-functional.html`, update this protocol in the same change that moves the entrypoint. Do not keep emitting a dead historical URL.
 

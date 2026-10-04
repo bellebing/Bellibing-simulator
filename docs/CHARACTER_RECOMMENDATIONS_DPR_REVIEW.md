@@ -1,6 +1,8 @@
 # DPR Calc Results — native Character stat reference review
 
-Current second pass: **DPR_NATIVE_SEMANTIC_V2** adds reviewed legacy scenario references and a complete Character-tab coverage manifest while retaining the accepted modern V1 extraction, module, review pin and source values byte-for-byte. Combined coverage is **236 VERIFIED modern + 36 VERIFIED legacy / 10 blank PENDING**, with **one unpromoted ambiguous layout (Aerover)**. Stop for data review; no checkpoint.
+Process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). The PR #228 iteration/checkpoint validation and stop instructions below are historical review records, not instructions for new workstreams. Source trust, semantic pins and domain boundaries remain applicable.
+
+PR #228 second-pass snapshot: **DPR_NATIVE_SEMANTIC_V2** adds reviewed legacy scenario references and a complete Character-tab coverage manifest while retaining the accepted modern V1 extraction, module, review pin and source values byte-for-byte. Combined coverage is **236 VERIFIED modern + 36 VERIFIED legacy / 10 blank PENDING**, with **one unpromoted ambiguous layout (Aerover)**. Stop for data review; no checkpoint.
 
 Reviewed 2026-10-03 for draft PR #228, continuing exact prior head `97c49a64df1e9fea74601b254a7be16c2c1427f9`. This extends the source/data foundation with an independent DPR family. It does not change the existing Augusta Prydwen source/review or visible UI. Stop for data review; no checkpoint or merge.
 

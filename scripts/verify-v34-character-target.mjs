@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -15,12 +16,23 @@ const chrome = spawn(process.env.CHROME_BIN ?? 'google-chrome', [
   '--remote-debugging-address=127.0.0.1', '--remote-debugging-port=' + debugPort,
   '--user-data-dir=' + profile, 'about:blank',
 ], { stdio: ['ignore', 'ignore', 'pipe'] });
-let stderr = '', socket;
+let stderr = '', socket, send, verificationFailed = false;
 chrome.stderr.on('data', data => stderr += data);
-const expected = (await import('../docs/ui-prototypes/assets/improve-settings/character-targets.mjs')).CHARACTER_TARGET_PRESENTATIONS;
+// Listen before shutdown (or an early startup exit), so exit cannot be missed.
+const chromeExit = new Promise(resolve => {
+  chrome.once('exit', resolve);
+  chrome.on('error', error => { stderr += error.message; if (!chrome.pid) resolve(); });
+});
+const chromeClosed = new Promise(resolve => chrome.once('close', resolve));
+const bounded = (operation, message) => new Promise((resolve, reject) => {
+  const timer = setTimeout(() => reject(new Error(message)), 5000);
+  Promise.resolve().then(operation).then(value => { clearTimeout(timer); resolve(value); }, error => { clearTimeout(timer); reject(error); });
+});
 try {
+  const expected = (await import('../docs/ui-prototypes/assets/improve-settings/character-targets.mjs')).CHARACTER_TARGET_PRESENTATIONS;
   let browser;
   for (let i = 0; i < 150; i++) {
+    if (!chrome.pid || chrome.exitCode !== null || chrome.signalCode !== null) break;
     try { browser = await (await fetch(`http://127.0.0.1:${debugPort}/json/version`)).json(); break; } catch { await sleep(100); }
   }
   assert.ok(browser, 'Chrome did not start: ' + stderr);
@@ -34,7 +46,7 @@ try {
     const message = JSON.parse(String(event.data)), waiter = pending.get(message.id);
     if (waiter) { pending.delete(message.id); message.error ? waiter.reject(new Error(message.error.message)) : waiter.resolve(message.result); }
   });
-  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++serial; pending.set(id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
+  send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++serial; pending.set(id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
   const evaluate = async expression => {
     const result = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
     if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description ?? result.exceptionDetails.text);
@@ -120,9 +132,34 @@ try {
     }
   }
   console.log('Character Target checkpoint matrix PASS (source + built; 1440x900, 1920x1080, 2560x1440).');
+} catch (error) {
+  verificationFailed = true;
+  throw error;
 } finally {
-  socket?.close(); chrome.kill('SIGTERM');
-  await new Promise(resolve => chrome.once('exit', resolve));
-  // Chrome subprocesses may finish profile writes after the parent exits.
-  rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+  let cleanupError;
+  try {
+    if (chrome.pid && chrome.exitCode === null && chrome.signalCode === null) {
+      try {
+        if (!send || socket?.readyState !== WebSocket.OPEN) throw new Error('Chrome CDP unavailable');
+        await bounded(() => Promise.all([send('Browser.close'), chromeExit]), 'Chrome CDP shutdown timed out');
+      } catch {
+        await bounded(() => { chrome.kill('SIGTERM'); return chromeExit; }, 'Chrome did not exit after SIGTERM');
+      }
+    }
+    // Subprocesses can retain stderr and finish profile writes after exit.
+    await bounded(() => chromeClosed, 'Chrome stdio did not close after exit');
+  } catch (error) {
+    cleanupError = error;
+  }
+  socket?.close();
+  try {
+    // Async retries traverse again if subprocesses created late profile files.
+    await rm(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+  } catch (error) {
+    cleanupError = cleanupError ? new AggregateError([cleanupError, error], 'Chrome shutdown and profile cleanup failed') : error;
+  }
+  if (cleanupError) {
+    if (verificationFailed) console.error('Chrome cleanup also failed:', cleanupError);
+    else throw cleanupError;
+  } else console.log('Character Target Chrome shutdown and profile cleanup PASS.');
 }

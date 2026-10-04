@@ -115,8 +115,61 @@ async function snapshot(send) {
   return evaluate(send, "(() => {const content=document.getElementById('sequenceFlyoutContent'),desc=content.querySelector('.seq-flyout-description'),chain=sequenceUi.openSequence?sequenceUi.chain(sequenceUi.openSequence):null;return{character:sequenceUi.characterId,current:sequenceUi.currentLevel,open:sequenceUi.openSequence,hover:sequenceUi.hoverSequence,hoverDelay:sequenceUi.hoverDelay,closeDelay:sequenceUi.closeDelay,saved:buildPicker.selected?sequenceUi.normalizeLevel(draft(buildPicker.selected).build.sequenceLevel):null,order:[...document.querySelectorAll('#sequenceLine .node')].map(x=>Number(x.dataset.sequence)),active:[...document.querySelectorAll('#sequenceLine .node.is-active')].map(x=>Number(x.dataset.sequence)).sort((a,b)=>a-b),currentActive:[...document.querySelectorAll('#sequenceLine .node.is-current-active')].map(x=>Number(x.dataset.sequence)),srcs:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.getAttribute('src')),loaded:[...document.querySelectorAll('#sequenceLine .node img')].map(x=>x.naturalWidth),flyoutOpen:document.getElementById('sequenceFlyout').classList.contains('open'),flyoutHidden:document.getElementById('sequenceFlyout').getAttribute('aria-hidden'),actionText:document.getElementById('sequenceAction').textContent.trim(),hint:document.getElementById('sequenceConsequence').textContent.trim(),flyoutLabel:document.getElementById('sequenceFlyoutLabel').textContent.trim(),contentText:content.textContent.trim(),flyoutTitle:content.querySelector('.seq-flyout-title')?.textContent.trim()??'',description:desc?.textContent??'',contentStatus:chain?.contentStatus??null,runtimeName:chain?.name??null,runtimeDescription:chain?.description??null,contentClientHeight:content.clientHeight,contentScrollHeight:content.scrollHeight,contentOverflow:getComputedStyle(content).overflowY,descriptionWhiteSpace:desc?getComputedStyle(desc).whiteSpace:null,currentText:document.getElementById('sequenceCurrent').textContent.trim(),openCount:document.querySelectorAll('.seq-flyout.open').length}})()");
 }
 
-async function flyoutGeometry(send, sequence) {
-  return evaluate(send, "(() => {const node=document.querySelector('#sequenceLine .node[data-sequence=\"" + sequence + "\"]'),fly=document.getElementById('sequenceFlyout'),content=document.getElementById('sequenceFlyoutContent');return{node:node.getBoundingClientRect().toJSON(),fly:fly.getBoundingClientRect().toJSON(),content:content.getBoundingClientRect().toJSON(),contentClientHeight:content.clientHeight,contentScrollHeight:content.scrollHeight,overflowY:getComputedStyle(content).overflowY,vw:innerWidth,vh:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
+async function flyoutGeometry(send, sequence, timeout = 8000) {
+  // Opening state precedes the CSS transition. Measure only its settled endpoint;
+  // readiness deliberately does not depend on the geometric assertions below.
+  return evaluate(send, `new Promise((resolve, reject) => {
+    const expectedSequence = ${JSON.stringify(sequence)};
+    const node = document.querySelector('#sequenceLine .node[data-sequence="' + expectedSequence + '"]');
+    const fly = document.getElementById('sequenceFlyout');
+    const content = document.getElementById('sequenceFlyoutContent');
+    let fontsReady = false, previous = null, stableSamples = 0, frame = 0, finished = false;
+    const styles = (element) => {
+      const style = getComputedStyle(element);
+      return { opacity: style.opacity, transform: style.transform, visibility: style.visibility,
+        transitionProperty: style.transitionProperty, transitionDuration: style.transitionDuration,
+        transitionDelay: style.transitionDelay };
+    };
+    const animations = (element) => element.getAnimations().map(animation => ({
+      property: animation.transitionProperty ?? null, playState: animation.playState,
+      pending: animation.pending, currentTime: animation.currentTime,
+      timing: animation.effect?.getComputedTiming()
+    }));
+    const sample = () => ({
+      expectedSequence, openSequence: sequenceUi.openSequence, hoverSequence: sequenceUi.hoverSequence,
+      character: sequenceUi.characterId, flyoutOpen: fly.classList.contains('open'),
+      flyoutHidden: fly.getAttribute('aria-hidden'), nodeExpanded: node.getAttribute('aria-expanded'),
+      fontsReady, fontsStatus: document.fonts.status, stableSamples,
+      nodeStyle: styles(node), flyoutStyle: styles(fly),
+      nodeAnimations: animations(node), flyoutAnimations: animations(fly),
+      geometry: { node: node.getBoundingClientRect().toJSON(), fly: fly.getBoundingClientRect().toJSON(),
+        content: content.getBoundingClientRect().toJSON(), contentClientHeight: content.clientHeight,
+        contentScrollHeight: content.scrollHeight, overflowY: getComputedStyle(content).overflowY,
+        vw: innerWidth, vh: innerHeight, sw: document.documentElement.scrollWidth, sh: document.documentElement.scrollHeight }
+    });
+    const finish = (error, geometry) => {
+      if (finished) return;
+      finished = true; clearTimeout(timer); cancelAnimationFrame(frame);
+      if (error) reject(error); else resolve(geometry);
+    };
+    const timer = setTimeout(() => finish(new Error('Sequence flyout readiness timed out: ' + JSON.stringify(sample()))), ${JSON.stringify(timeout)});
+    document.fonts.ready.then(() => { fontsReady = true; }, error => finish(error));
+    const poll = () => {
+      if (finished) return;
+      const state = sample(), style = state.flyoutStyle;
+      const ready = state.openSequence === expectedSequence && state.flyoutOpen && state.flyoutHidden === 'false'
+        && state.nodeExpanded === 'true' && fontsReady && state.fontsStatus === 'loaded'
+        && style.visibility === 'visible' && Number(style.opacity) === 1
+        && (style.transform === 'none' || new DOMMatrixReadOnly(style.transform).isIdentity)
+        && ![...state.nodeAnimations, ...state.flyoutAnimations].some(animation => animation.pending || animation.playState === 'running');
+      const rects = JSON.stringify([state.geometry.node, state.geometry.fly]);
+      stableSamples = ready ? (rects === previous ? stableSamples + 1 : 1) : 0;
+      previous = ready ? rects : null;
+      if (stableSamples >= 3) finish(null, state.geometry);
+      else frame = requestAnimationFrame(poll);
+    };
+    frame = requestAnimationFrame(poll);
+  })`);
 }
 
 function rgbChannels(value) {
@@ -190,8 +243,8 @@ try {
 
   await evaluate(send, "buildPicker.select('Aemeath')");
   await waitFor(send, "sequenceUi.characterId==='aemeath' && sequenceUi.assets?.chains?.length===6", 'Aemeath Sequence UI did not bind');
-  await hoverNode(send, 1, 760);
-  let longState=await snapshot(send),longGeometry=await flyoutGeometry(send,1);
+  await movePointer(send, '#sequenceLine .node[data-sequence="1"]');
+  let longGeometry=await flyoutGeometry(send,1),longState=await snapshot(send);
   assert(longState.saved===0&&longState.flyoutTitle==='Gilded Glimmer of the First Dawn'&&longState.description===longState.runtimeDescription&&longState.description.length>1200,'Long source-backed Sequence content did not render unchanged/read-only',longState);
   assert(longState.contentOverflow==='auto'&&longState.descriptionWhiteSpace==='pre-line'&&longGeometry.contentScrollHeight>longGeometry.contentClientHeight,'Long Sequence description is not contained/readable in its flyout scroll area',{longState,longGeometry});
   assert(longGeometry.fly.left>=longGeometry.node.right+6&&longGeometry.fly.top>=0&&longGeometry.fly.right<=longGeometry.vw&&longGeometry.fly.bottom<=longGeometry.vh,'Long Sequence flyout escapes 1440x900 viewport',longGeometry);
@@ -325,10 +378,10 @@ try {
     await moveAway(send);
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     await sleep(180);
-    await hoverNode(send, 1, 760);
+    await movePointer(send, '#sequenceLine .node[data-sequence="1"]');
+    geometry = await flyoutGeometry(send, 1);
     state = await snapshot(send);
     assert(state.open === 1 && state.actionText === 'Set S1' && state.flyoutTitle === 'Gilded Glimmer of the First Dawn' && state.description === state.runtimeDescription, 'Desktop source-backed long-content hover failed at ' + width + '×' + height, state);
-    geometry = await flyoutGeometry(send, 1);
     assert(geometry.fly.left >= geometry.node.right + 6 && geometry.fly.top >= 0 && geometry.fly.right <= geometry.vw && geometry.fly.bottom <= geometry.vh && geometry.contentScrollHeight > geometry.contentClientHeight, 'Long flyout containment/readability failed at ' + width + '×' + height, geometry);
     await moveAway(send); await sleep(180);
   }

@@ -305,7 +305,7 @@ test('unreviewed roster remains Pending without universal rows or legacy inferen
   const implementation = readFileSync(new URL('../src/characterRecommendationSources.ts', import.meta.url), 'utf8');
   assert.doesNotMatch(implementation, /statTarget\.gates|targetRules|projectRecommendedImprovePolicy|SUBSTAT_VALUE_TABLE/);
   const ui = await import('../docs/ui-prototypes/assets/character-target-presentation.js');
-  assert.ok(ui.recommendedCharacterStatsPresentation('augusta').every((row: { status: string }) => row.status === 'PENDING'));
+  assert.deepEqual(ui.recommendedCharacterStatsPresentation('not-a-character'), []);
 });
 
 test('projection outputs are detached and cannot mutate later source resolution', async () => {

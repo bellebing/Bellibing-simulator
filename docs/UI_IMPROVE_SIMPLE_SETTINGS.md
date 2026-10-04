@@ -1,6 +1,6 @@
 # Improve Settings — accepted desktop checkpoint
 
-PR #224's Improve Settings UX is **visually accepted**, based on runtime head `8a592765a67488c22dc5fddd2ed4e6bd7ed20a31`. Keep the PR **OPEN / DRAFT / UNMERGED** for final user merge review. The current model below supersedes the preserved historical v3 UI checkpoint. No new product functionality or evaluator belongs to this checkpoint.
+PR #224's Improve Settings UX is **visually accepted**, based on runtime head `8a592765a67488c22dc5fddd2ed4e6bd7ed20a31`. PR #224 is merged. The Character Target Recommended presentation wiring below is a new draft iteration for visual/data review; comparison and evaluator work remain Pending. The current model supersedes the preserved historical v3 UI checkpoint.
 
 ## Current presentation and interaction
 
@@ -30,7 +30,9 @@ Reset to Recommended clears Echo requirement/preference overrides and restores i
 
 ## Character Target and Gate
 
-**Dedicated canonical Recommended Character Stats coverage is Pending.** Recommended presents a Pending scaffold rather than promoting legacy ER guidance into a complete Character recommendation. Augusta lists HP, DEF, ATK, CRIT Rate, CRIT DMG, Energy Regen and Electro DMG Bonus, all Pending. Other unsupported Characters remain Pending. This presentation adapter owns no canonical recommendation values and does not write state or evaluate a build.
+Recommended Character Stats uses the source-owned `src/characterTargetPresentation.ts` adapter and one user-selected Bellibing target basis: **verified CALC_BENCHMARK rows from exactly one safe modern DPR DEFAULT profile**. The source role stays CALC_BENCHMARK; choosing it as the displayed target does not rewrite DPR's evidence semantics. Prydwen recommendations and DPR General remain preserved source evidence, and neither is displayed or used to fill missing Calc metrics. Legacy scenarios and variant-only profiles stay Pending. Suoming retains its explicitly blank Calc Pending rows; Characters without safe modern Calc data show overall Pending.
+
+Each visible row has a stat label and one value, with no source badge, tooltip or secondary annotation. Augusta displays ATK **2,407**, CRIT Rate **84.7%**, CRIT DMG **225%**, Energy Regen **120%**, Heavy Attack DMG **29.2%**. HP/DEF/Electro do not appear merely because Prydwen supplies them. Points/percentages are formatted for presentation while exact canonical Calc values remain unrounded underneath. Build Need and evaluator remain Pending.
 
 Customize user-defined targets are separate: Energy Regen/CRIT Rate/CRIT DMG use canonical ratios; ATK/HP/DEF use points. Minimum is finite and nonnegative; optional preferred is finite, nonnegative and at least minimum. Invalid values are rejected. Custom targets retain USER_DEFINED basis and Pending comparison readiness. Gate remains **+5/+10/+15/+20/+25**.
 
@@ -38,11 +40,11 @@ Customize user-defined targets are separate: Energy Regen/CRIT Rate/CRIT DMG use
 
 The shared schema/envelope v3 lives at `bellibing.improve.policy.v3`; state resolution/reducer/persistence remain DOM-free. Sparse sections inherit Recommended; explicit empty sections retain user intent. Source outages/context drift preserve saved intent and fail closed, with Needs review for incompatible context. v1/v2 recovery storage remains untouched. Settings does not own equipment or Candidate state.
 
-Generated `docs/assets/echoCoreRules.js`, `improvePolicyState.js` and `improvePolicyPresentation.js` are compiler outputs from canonical TypeScript, verified by strict build; there is no second hand-maintained policy database. Source/GitHack preview and built Export preview are supported. The build must include both Character-target and Echo-policy presentation adapters.
+Generated `docs/assets/echoCoreRules.js`, `improvePolicyState.js` and `improvePolicyPresentation.js` are compiler outputs from canonical TypeScript, verified by strict build; there is no second hand-maintained policy database. Source/GitHack preview and built Export preview are supported. The build includes both presentation adapters and `improve-settings/character-targets.mjs`, deterministically generated from canonical source projections by `scripts/export-ui-improve-settings.ts`. Strict build fails on artifact drift; source/GitHack and built previews consume identical data.
 
 **Build Need is Pending. Improvement Cost and the new Improve evaluator are not implemented.** Dedicated Character recommendation data, roster-wide reviewed Echo policies/preferences, comparison/ER satisfaction, deficits, replacement ranking, DPR/DPS, weights/probabilities, Team and mobile remain Pending. BUG-042 remains **MEDIUM / KNOWN GAP**: reviewed Echo requirements 1/57, reviewed Recommended Echo preference order 0/57. Historical numeric-source coverage 24/57 and priorities 44/57 do not establish dedicated Character recommendation completeness.
 
-## Checkpoint verification
+## Historical PR #224 checkpoint verification
 
 Final checkpoint verification covers focused Improve policy/state/presentation/roll tests, the full suite, strict build/generated-module parity and whitespace. The repository Verify serves source and built previews separately; real Chrome covers **1440×900 / 1920×1080 / 2560×1440** for shared expansion, Pending Character Target/Build Need, Gate, grey read-only source minimums, other stats, gold Customize, toggles/exclusivity, drag/keyboard ordering, discrete tier editing, persistence/reload/reset, selector clearance, Current/Candidate and five equipped Echo/workspace ownership. Existing validation, migration, outage/recovery and review-drift coverage remains. Exact final head, outcomes and Verify/Export run IDs are recorded externally on PR #224 and AI Handoff after execution; no result is inferred from older checkpoints.
 

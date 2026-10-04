@@ -47,7 +47,7 @@ Manual user review is valid visual acceptance for low-risk presentation work. Ad
 
 ### MERGE — final candidate or earlier high risk
 
-For a merge-intended final candidate, satisfy the current repository contract: full tests/audits, strict build, required real-browser gates, whitespace and Verify/Export/artifacts where required. Run this level earlier when high-risk work requires it; a tiny source-bound change can still use focused iteration before its final gate.
+For a merge-intended final candidate, satisfy the current repository contract: full tests/audits, strict build, required real-browser gates, whitespace and successful FULL Verify with its exact-head web/visual artifacts. Manual Export is build/artifact tooling, not FULL or MERGE evidence. Run this level earlier when high-risk work requires it; a tiny source-bound change can still use focused iteration before its final gate.
 
 Use automatic CI evidence for the exact candidate head. Do not duplicate full CI locally without a concrete need such as reproducing a failure, diagnosing environment differences or covering a missing gate. Reuse an existing successful run on an unchanged head when its inputs remain applicable; relevant external source drift invalidates that assumption. Check automatic post-merge evidence where relevant rather than automatically launching duplicate runs.
 

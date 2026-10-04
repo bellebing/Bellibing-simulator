@@ -1,10 +1,7 @@
 name: Export Bellibing Web Artifact
 
+# Manual build/export only; not FULL or MERGE readiness evidence.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -27,25 +24,22 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Echo/Sonata raw coverage gate
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: npm run audit:echo-raw
-
-      - name: Sonata effect source coverage gate
-        run: npm run audit:sonata-effects
-
-      - name: Echo skill source coverage gate
-        run: npm run audit:echo-skills
-
-      - name: Profile readiness / Pre-DPS freeze gate
-        run: npm run audit:profile-readiness
-
-      - name: Tests
-        run: npm test
-
       - name: Build web app
         run: npm run build
+
+      - name: Exact-head artifact identity
+        env:
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const revision = process.env.EXPECTED_REVISION;
+          const build = JSON.parse(fs.readFileSync('dist/review-build.json', 'utf8'));
+          if (!/^[0-9a-f]{40}$/.test(revision) || build.headSha !== revision || build.workingTreeDirty !== false) {
+            throw new Error('Review build revision/clean-tree mismatch');
+          }
+          console.log(`Verified clean dist for ${revision}`);
+          NODE
 
       - name: Upload compiled web artifact
         uses: actions/upload-artifact@v4

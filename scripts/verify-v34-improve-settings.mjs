@@ -4,7 +4,15 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   const check = async (expression, message) => {
     if (!await read(expression)) throw new Error('Improve Settings: ' + message + ' ' + JSON.stringify(await read(`({state:${state},text:document.getElementById('improveSettings').innerText})`)));
   };
-  const click = async selector => { await pointerClick(send, selector); await sleep(100); };
+  const click = async selector => {
+    // Hover can expand the active input column and move its controls. Settle it
+    // before the caller's physical click, then require an actual visible hit.
+    await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',inline:'center',behavior:'instant'})`);
+    const point = await read(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+    await send('Input.dispatchMouseEvent', { type:'mouseMoved', ...point }); await sleep(600);
+    await waitForUi(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)}),r=el.getBoundingClientRect();return r.width>0&&r.height>0&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})()`, 'Settings pointer target covered: '+selector);
+    await pointerClick(send, selector); await sleep(100);
+  };
   const focus = key => '#improveSettings [data-focus-key=' + JSON.stringify(key) + ']';
   const slider = (list, name) => '[data-setting=' + list + '] .improve-echo-row[data-stat-name=' + JSON.stringify(name) + '] .improve-roll-slider';
   const wait = () => waitForUi(send, 'releasedCharacters.length===57&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings not ready', 15000);

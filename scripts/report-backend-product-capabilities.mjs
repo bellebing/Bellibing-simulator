@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { writeFileSync } from 'node:fs';
 import { buildCharacterDatabase } from '../src/characterDatabase.ts';
 import { buildProfileExecutionWorkQueue } from '../src/profileExecutionWorkQueue.ts';
-import { listOwnedBuildDpsBindings } from '../src/ownedBuildAnalysis.ts';
 
 const db = buildCharacterDatabase();
 const queue = buildProfileExecutionWorkQueue();
@@ -15,7 +14,7 @@ const unique = (rows, key) => [...new Set(rows.map(r => r[key]))].sort();
 const count = (rows, key) => Object.fromEntries([...new Set(rows.map(r => r[key]))].sort()
   .map(value => [value, rows.filter(r => r[key] === value).length]));
 const rotations = db.profiles.rotations.filter(r => r.executionStatus === 'ENGINE_MODELED');
-const owned = listOwnedBuildDpsBindings().map(({ presetId, characterId, engineModelId }) => ({ presetId, characterId, engineModelId }));
+const owned = [];
 const result = {
   sourceAuthority: db.sourceAuthority,
   scope: 'PRODUCT_CAPABILITY_AUDIT_NOT_GAMEPLAY_OR_READINESS_APPROVAL',

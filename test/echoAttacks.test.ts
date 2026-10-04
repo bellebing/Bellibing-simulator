@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { AUGUSTA_STANDARD_ACTIONS } from '../src/characters/augustaStandard.ts';
 import { ECHO_ATTACK_PROFILES } from '../src/data/echoAttacks.ts';
 import { totalMotionValue } from '../src/echoAttackDomain.ts';
 import { createEchoAttackRegistry } from '../src/echoAttackRegistry.ts';
@@ -79,9 +78,6 @@ test('False Sovereign active Rank-5 cast is 55.35% x4 = exact Augusta 2.214 moti
   assert.equal(active.components[0]?.hits, 4);
   assert.ok(Math.abs(totalMotionValue(active) - 2.214) < 1e-12);
 
-  const augustaAction = AUGUSTA_STANDARD_ACTIONS.find((row) => row.step === '14')!;
-  assert.equal(augustaAction.actor, 'The False Sovereign');
-  assert.ok(Math.abs(totalMotionValue(active) - augustaAction.motionValue) < 1e-12);
 });
 
 test('False Sovereign Intro summon is exact Augusta 4.05 motion value', () => {
@@ -89,9 +85,6 @@ test('False Sovereign Intro summon is exact Augusta 4.05 motion value', () => {
   const intro = profile.attacks.find((row) => row.attackId === 'FALSE_SOV_INTRO_SUMMON')!;
   assert.equal(totalMotionValue(intro), 4.05);
 
-  const augustaAction = AUGUSTA_STANDARD_ACTIONS.find((row) => row.step === '1E')!;
-  assert.equal(augustaAction.actor, 'The False Sovereign');
-  assert.equal(totalMotionValue(intro), augustaAction.motionValue);
 });
 
 test('False Sovereign charge/cooldown mechanics are stored as Echo facts, not rotation assumptions', () => {

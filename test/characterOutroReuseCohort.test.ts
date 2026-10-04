@@ -95,7 +95,7 @@ test('Lupa is discoverable through five existing canonical teams without grantin
   }
   assert.equal(buildProfileExecutionWorkQueue().summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), []);
 });
 
 test('Qiuyuan exposes only the canonical incoming Echo amplification and retains unknown repeated-activation semantics', () => {
@@ -173,7 +173,7 @@ test('Qiuyuan binding is exported for five existing team consumers with unchange
   assert.equal(buildCharacterDatabase().outroTransferSupport.find(s => s.factId === qiuyuanId)!.amplifications[0].value, .5);
   assert.equal(buildProfileExecutionWorkQueue().summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), []);
 });
 
 const cappedFacts = ['lynae-outro-lets-hit-the-road-amplification', 'cantarella-outro-gentle-tentacles'];
@@ -273,5 +273,5 @@ test('the complete four-owner follow-up is discoverable from fifteen Characters 
   }
   assert.equal(buildProfileExecutionWorkQueue().summary.totalEdges, 83);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id), []);
 });

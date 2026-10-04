@@ -1,3 +1,5 @@
+import { compilePublicBrowserModules } from './public-web-boundary.mjs';
+import { verifyPublicArtifact } from './verify-public-artifact.mjs';
 import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
@@ -42,6 +44,7 @@ if (improveSettingsCheck.status !== 0) process.exit(improveSettingsCheck.status 
 
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
+compilePublicBrowserModules('dist/assets');
 
 const characterExport = spawnSync(process.execPath, [
   '--experimental-strip-types', 'scripts/export-character-database.ts',
@@ -78,3 +81,5 @@ cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/
 cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');
 for (const asset of ['character-build-card.js', 'character-build-card.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
 for (const asset of ['improve-settings.js', 'improve-settings.css', 'character-target-presentation.js', 'echo-policy-presentation.mjs', 'improve-settings']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset, { recursive: true });
+
+verifyPublicArtifact();

@@ -92,5 +92,5 @@ test('team amplification composes with existing direct-hit kernel without granti
   assert.deepEqual(WEAPON_TEAM_AMPLIFY_WINDOW_REVIEW.closesPendingExecutionIds, []);
   const database = buildCharacterDatabase();
   assert.equal(database.referenceTeam01.dpsReady, false);
-  assert.equal(database.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').length, 2);
+  assert.equal(database.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').length, 0);
 });

@@ -53,7 +53,7 @@ test('Eternal Radiance uses the existing Zani stack view without manufacturing i
   assert.equal(queue.edges.find((edge) => edge.pendingExecutionId === 'sonata:sonata-11:S11_5PC_SPECTRO:target-stack-timeline-adapter')?.semanticStatus,
     'PRIMITIVE_AVAILABLE_REQUIRES_TIMELINE');
   assert.equal(queue.edges.find((edge) => edge.pendingExecutionId === 'sonata:sonata-11:S11_5PC_CR:frazzle-infliction-event-adapter')?.semanticStatus, 'UNREVIEWED');
-  assert.deepEqual(buildCharacterDatabase().characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id), ['augusta', 'ciaccona']);
+  assert.deepEqual(buildCharacterDatabase().characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id), []);
 });
 
 test('target threshold is evaluated at the exact attack time including existing per-stack expiry', () => {

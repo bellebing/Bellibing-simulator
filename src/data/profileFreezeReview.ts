@@ -44,47 +44,7 @@ export function validateProfileFreezeAdapterClosure(approval: ProfileFreezeAppro
  * belongs here only after the current-patch backward-impact review, required
  * specialized adapters and preflight blockers have all been closed.
  */
-const PROFILE_FREEZE_APPROVAL_ROWS: readonly ProfileFreezeApproval[] = [
-  {
-    characterId: 'augusta',
-    presetId: 'augusta-standard',
-    status: 'DPS_READY',
-    checkedAt: '2026-08-29',
-    patch: '3.6',
-    backwardImpactReview: 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01',
-    requiredAdapterIds: ['profile-build-context-v1'],
-    verifiedAdapterIds: ['profile-build-context-v1'],
-    notes: [
-      'Supported scope is S0 Augusta / Thunderflare Dominion R1 / Iuno + Shorekeeper / AUGUSTA_STD_V1 personal rotation DPS.',
-      'The verified profile-build-context-v1 adapter resolves the canonical profile package into the exact existing Augusta evaluator context and is covered by the parity regression.',
-      'This freeze does not imply teammate DPS or reusable generic versions of the locked Augusta team, shield-stack, buff-window, or state assumptions.',
-    ],
-  },
-  {
-    characterId: 'ciaccona',
-    presetId: 'ciaccona-cartethyia-aero',
-    status: 'DPS_READY',
-    checkedAt: '2026-08-30',
-    patch: '3.6',
-    backwardImpactReview: 'PROFILE-IMPACT-CIACCONA-2026-08-29-01',
-    requiredAdapterIds: [
-      'profile-build-context-v1',
-      'aero-erosion-weapon-target-state-v1',
-      'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
-    ],
-    verifiedAdapterIds: [
-      'profile-build-context-v1',
-      'aero-erosion-weapon-target-state-v1',
-      'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
-    ],
-    notes: [
-      'Supported scope is S0 Ciaccona / Woodland Aria R1 / Gusts of Welkin + Nightmare: Kelpie / Cartethyia + Rover (Aero) / the fixed 4.5s canonical fast sequence.',
-      'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1 is an executable personal direct-hit rotation model using canonical Lv1-Lv10 Character motion-value curves and explicit caller-provided combat stats/enemy context.',
-      'The model executes Musical Essence, P4 Jump-cancel Solo Concert, source-proven Aero Erosion applications, Woodland Aria WA-AERO/WA-AERO-RES and Gusts trigger state without fabricated per-action timestamps or same-hit trigger benefit.',
-      'Optional/periodic Symphonic Poem: Tonic events and generic Aero Erosion status-tick damage are outside this fixed source sequence and are not invented by the freeze. This approval does not generalize those omitted system-damage lifecycles.',
-    ],
-  },
-] as const;
+const PROFILE_FREEZE_APPROVAL_ROWS: readonly ProfileFreezeApproval[] = [];
 
 export const PROFILE_FREEZE_APPROVALS: readonly ProfileFreezeApproval[] = PROFILE_FREEZE_APPROVAL_ROWS.map((approval) => {
   const issues = validateProfileFreezeAdapterClosure(approval);

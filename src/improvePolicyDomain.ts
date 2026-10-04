@@ -1,6 +1,5 @@
 import type { ContentProvenance } from './contentRegistry.ts';
 import type { StatName } from './echoCore.ts';
-import type { CharacterRollProfile } from './targetCheckpointPolicy.ts';
 
 export type ImprovePolicyMode = 'RECOMMENDED' | 'MANUAL';
 
@@ -73,7 +72,6 @@ export interface EchoStatRequirement {
 
 export interface EchoRequirementGroup {
   readonly id: string;
-  readonly minimumHits: number;
   readonly members: readonly EchoStatRequirement[];
 }
 
@@ -87,20 +85,13 @@ export interface EchoStatPreference {
 export interface EchoRequirements {
   readonly requiredOnEveryEcho: readonly EchoStatRequirement[];
   readonly groups: readonly EchoRequirementGroup[];
-  /** Additional source acceptance semantics, not another scoring model. */
-  /** null means no additional user-defined acceptance constraints. */
-  readonly acceptanceConstraints: {
-    readonly nonTargetRoles: CharacterRollProfile['nonTargetRoles'];
-    readonly maximumDeadStats: number;
-  } | null;
+
 }
 
 export interface EchoPolicyProfile {
   readonly scope: 'FINISHED_CANDIDATE_ECHO';
   readonly requirements: PolicySection<EchoRequirements>;
   readonly preferences: PolicySection<readonly EchoStatPreference[]>;
-  /** Reference only: this slice does not execute checkpoints or change Gate. */
-  readonly checkpointReference: CharacterRollProfile | null;
 }
 
 /**

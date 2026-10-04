@@ -63,7 +63,7 @@ test('every override section supports set/clear and keeps unrelated source secti
     basis: { kind: 'USER_DEFINED', description: 'Explicit user intent', comparisonStatus: 'PENDING' } }] as const;
   const priorities = [{ stat: 'CRIT Rate', priorityGroup: 1, sourceNotes: null },
     { stat: 'CRIT DMG', priorityGroup: 1, sourceNotes: null }] as const;
-  const requirements = recommended.echoPolicy.requirements.value!;
+  const requirements = { requiredOnEveryEcho: [], groups: [] };
   let state = updateImprovePolicyState(initial(), { type: 'set', section: 'numericTargets', value: targets }, recommended);
   state = updateImprovePolicyState(state, { type: 'set', section: 'priorities', value: priorities }, recommended);
   state = updateImprovePolicyState(state, { type: 'set', section: 'echoRequirements', value: requirements }, recommended);
@@ -269,8 +269,7 @@ test('invalid saved override names, ties or numeric shape fail closed without de
   assert.throws(() => updateImprovePolicyState(initial(), { type: 'set', section: 'numericTargets', value: [
     { metric: 'TOTAL_ATK', unit: 'RATIO', minimum: -1, basis: { kind: 'SOURCE_DESCRIBED', description: null, comparisonStatus: 'PENDING' } },
   ] }, recommended));
-  const requirements = structuredClone(recommended.echoPolicy.requirements.value!);
-  requirements.groups[0].minimumHits = 99;
+  const requirements = { requiredOnEveryEcho: [], groups: [{ id: 'user', members: [{ stat: 'invalid' }] }] };
   assert.throws(() => updateImprovePolicyState(initial(), { type: 'set', section: 'echoRequirements', value: requirements }, recommended));
 });
 

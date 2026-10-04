@@ -1,8 +1,3 @@
-import {
-  CIACCONA_BASIC_ENGINE_MODEL_ID,
-  CIACCONA_BASIC_MODELED_MECHANIC_FACT_IDS,
-} from './characters/ciacconaStandard.ts';
-
 export interface RotationEngineRegistration {
   readonly engineModelId: string;
   readonly characterId: string;
@@ -15,18 +10,7 @@ export interface RotationEngineRegistration {
  * not rewritten when a profile-specific engine starts executing a MODEL_READY
  * fact; this registry is the combat/DPS-layer proof of that coverage.
  */
-export const ROTATION_ENGINE_REGISTRATIONS: readonly RotationEngineRegistration[] = [
-  {
-    engineModelId: 'AUGUSTA_STD_V1',
-    characterId: 'augusta',
-    modeledMechanicFactIds: [],
-  },
-  {
-    engineModelId: CIACCONA_BASIC_ENGINE_MODEL_ID,
-    characterId: 'ciaccona',
-    modeledMechanicFactIds: CIACCONA_BASIC_MODELED_MECHANIC_FACT_IDS,
-  },
-] as const;
+export const ROTATION_ENGINE_REGISTRATIONS: readonly RotationEngineRegistration[] = [];
 
 const BY_ID: ReadonlyMap<string, RotationEngineRegistration> = (() => {
   const map = new Map<string, RotationEngineRegistration>();

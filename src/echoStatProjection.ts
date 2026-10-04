@@ -1,5 +1,5 @@
 import { primaryMainStatValueAtLevel, secondaryMainStatValueAtLevel, type Echo, type StatRoll } from './echoCore.ts';
-import { assertExactOwnedEchoRoll } from './ownedEchoCheckpointAnalysis.ts';
+import { assertExactRank5SubstatRoll } from './echoCoreRules.ts';
 
 const CHECKPOINTS = [0, 5, 10, 15, 20, 25] as const;
 const exact = (a: number, b: number) => Number.isFinite(a) && Math.abs(a - b) <= 1e-12;
@@ -31,7 +31,7 @@ export function projectRank5EchoStats(echoes: readonly Echo[]) {
     const names = new Set<string>();
     const substats = echo.substats.map((roll: StatRoll) => {
       if (!roll || names.has(roll.name)) throw new Error('Duplicate or missing Echo substat');
-      assertExactOwnedEchoRoll(roll);
+      assertExactRank5SubstatRoll(roll);
       names.add(roll.name);
       return { name: roll.name, value: roll.value };
     }).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);

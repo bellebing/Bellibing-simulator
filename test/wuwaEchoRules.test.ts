@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { Echo } from '../src/domain.ts';
-import type { RandomSource } from '../src/rollRuntime.ts';
+import type { RandomSource } from '../src/echoCoreDomain.ts';
 import { VerifiedWuwaEchoRuntime } from '../src/verifiedWuwaEchoRuntime.ts';
 import {
   CHECKPOINT_CUMULATIVE_COST,

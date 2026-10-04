@@ -24,5 +24,5 @@ test('completed S03/S10 review leaves both profile dependencies pending and remo
   assert.equal(originalIds.length, 83);
   assert.equal(new Set(originalIds).size, 72);
   assert.equal(database.referenceTeam01.unresolvedDependencies.length, 6);
-  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), ['augusta', 'ciaccona']);
+  assert.deepEqual(database.characters.filter(c => c.readiness?.disposition === 'DPS_READY').map(c => c.id).sort(), []);
 });

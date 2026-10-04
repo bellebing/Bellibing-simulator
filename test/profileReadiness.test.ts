@@ -63,36 +63,11 @@ test('raw and intrinsic unresolved Character fields stay visible to DPS prefligh
   assert.equal(mornye.intrinsicDpsBlocked, false);
 });
 
-test('Augusta and Ciaccona are explicitly frozen DPS-ready profiles with adapter evidence', () => {
+test('retired runtimes cannot promote source profiles to DPS-ready', () => {
   const summary = assertProfileReadinessAudit();
-  assert.deepEqual(summary.dpsReadyIds, ['augusta', 'ciaccona']);
-
-  const augusta = assertCharacterDpsReady('augusta');
-  assert.equal(augusta.disposition, 'DPS_READY');
-  assert.deepEqual(augusta.presetIds, ['augusta-standard']);
-  assert.deepEqual(augusta.verifiedPresetIds, ['augusta-standard']);
-  assert.deepEqual(augusta.freezeApprovalPresetIds, ['augusta-standard']);
-
-  const ciaccona = assertCharacterDpsReady('ciaccona');
-  assert.equal(ciaccona.disposition, 'DPS_READY');
-  assert.deepEqual(ciaccona.presetIds, ['ciaccona-cartethyia-aero']);
-  assert.deepEqual(ciaccona.verifiedPresetIds, ['ciaccona-cartethyia-aero']);
-  assert.deepEqual(ciaccona.freezeApprovalPresetIds, ['ciaccona-cartethyia-aero']);
-
-  assert.equal(PROFILE_FREEZE_APPROVALS.length, 2);
-  const augustaApproval = PROFILE_FREEZE_APPROVALS.find((row) => row.presetId === 'augusta-standard');
-  const ciacconaApproval = PROFILE_FREEZE_APPROVALS.find((row) => row.presetId === 'ciaccona-cartethyia-aero');
-  assert.ok(augustaApproval && ciacconaApproval);
-  assert.deepEqual(augustaApproval.requiredAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
-  assert.deepEqual(augustaApproval.verifiedAdapterIds, [PROFILE_BUILD_CONTEXT_ADAPTER_ID]);
-  assert.equal(augustaApproval.backwardImpactReview, 'PROFILE-IMPACT-AUGUSTA-2026-08-29-01');
-  assert.deepEqual(ciacconaApproval.requiredAdapterIds, [
-    PROFILE_BUILD_CONTEXT_ADAPTER_ID,
-    'aero-erosion-weapon-target-state-v1',
-    'CIACCONA_BASIC_CARTETHYIA_ROVER_AERO_V1',
-  ]);
-  assert.deepEqual(ciacconaApproval.verifiedAdapterIds, ciacconaApproval.requiredAdapterIds);
-  assert.equal(ciacconaApproval.backwardImpactReview, 'PROFILE-IMPACT-CIACCONA-2026-08-29-01');
+  assert.deepEqual(summary.dpsReadyIds, []);
+  assert.deepEqual(PROFILE_FREEZE_APPROVALS, []);
+  for (const id of ['augusta', 'ciaccona']) assert.throws(() => assertCharacterDpsReady(id));
 });
 
 test('other verified source profile packages are not silently promoted to DPS-ready', () => {
@@ -178,7 +153,8 @@ test('freeze approval adapter evidence is enforced inside readiness audit', () =
 
 test('freeze approval cannot cite an invented backward-impact review', () => {
   const invalidApproval: ProfileFreezeApproval = {
-    ...PROFILE_FREEZE_APPROVALS[0],
+    characterId: 'augusta', presetId: 'augusta-standard', status: 'DPS_READY', checkedAt: '2026-10-04',
+    patch: '3.6', requiredAdapterIds: [], verifiedAdapterIds: [], notes: ['Test rejection of an unreviewed approval'],
     backwardImpactReview: 'PROFILE-IMPACT-NOT-REAL',
   };
   const summary = auditProfileReadiness([invalidApproval]);

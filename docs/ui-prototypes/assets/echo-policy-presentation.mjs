@@ -21,7 +21,7 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
   const flex = unique(explicit ? policy.preferences.value.map(row => row.stat) : inherited).filter(name => !required.includes(name));
   const sourceRequired = (source.echoPolicy.requirements.value?.requiredOnEveryEcho ?? []).map(row => row.stat);
   // Hard stats have no order semantics; canonical display order is stable across edits.
-  const relevant = unique([...canonicalStats.filter(name => sourceRequired.includes(name)), ...inherited]).filter(name => canonicalStats.includes(name));
+  const relevant = state.mode === 'MANUAL' ? [...canonicalStats] : [];
   return { required, flex, relevant, other: canonicalStats.filter(name => !relevant.includes(name)), policy };
 }
 const set = (state, source, section, value) => updateImprovePolicyState(state, { type: 'set', section, value }, source);
@@ -56,7 +56,7 @@ export function editEchoPolicy(state, source, canonicalStats, list, name) {
     throw new Error('Saved Echo intent needs review. Reset to Recommended first.');
   }
   if (list === 'every') {
-    const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [], acceptanceConstraints: null });
+    const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] });
     const active = view.required.includes(name);
     requirements.requiredOnEveryEcho = active ? requirements.requiredOnEveryEcho.filter(row => row.stat !== name)
       : [...requirements.requiredOnEveryEcho, { stat: name, minimum: initialImproveRollMinimum(source, name) }];

@@ -231,6 +231,6 @@ test('eighth Character Mechanics batch remains valid after later coverage reache
   assert.ok(ciacconaRaw && ciacconaDps);
   assert.equal(ciacconaRaw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS');
   assert.equal(ciacconaRaw.ready, true);
-  assert.equal(ciacconaDps.ready, true);
-  assert.deepEqual(ciacconaDps.blockers, []);
+  assert.equal(ciacconaDps.ready, false);
+  assert.ok(ciacconaDps.blockers.some(check => check.area === 'COMBAT_MODEL' && check.status === 'PENDING'));
 });

@@ -212,7 +212,7 @@ test('scope does not allow a second slot, COST, element, base, S1 or unsupported
 test('consumer discovery does not alter readiness or promote the 17 reviewed pending profiles', () => {
   const db = buildCharacterDatabase();
   assert.deepEqual(db.hitPrimitives.echoComparisons, listCharacterEchoComparisonSupport());
-  assert.equal(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length, 2);
+  assert.equal(db.characters.filter(c => c.readiness?.disposition === 'DPS_READY').length, 0);
   assert.equal(db.profiles.rotations.filter(r => r.executionStatus === 'ENGINE_MODELED').length, 2);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
 });

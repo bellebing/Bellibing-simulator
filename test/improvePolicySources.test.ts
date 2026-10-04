@@ -5,8 +5,6 @@ import { IMPROVE_POLICY_SOURCE_REVIEW } from '../src/data/improvePolicySourceRev
 import { resolveBuildPreset } from '../src/profileRegistry.ts';
 import type { ProfileRegistry } from '../src/profileRegistry.ts';
 import type { ResolvedBuildPreset } from '../src/profileDomain.ts';
-import { resolveRollAssistProfileBinding } from '../src/rollAssistProfileRegistry.ts';
-import { AUGUSTA_RECOMMENDED_V915 } from '../src/characters/augustaRecommended.ts';
 import { projectImproveSettingsSources } from '../src/improveSettingsProjection.ts';
 import {
   improvePolicySourceBinding, projectRecommendedImprovePolicy, projectReleasedImprovePolicies,
@@ -70,25 +68,6 @@ test('Augusta retains exact context, source basis and provenance without claimin
   assert.equal(section.value[0]!.basis.comparisonStatus, 'PENDING');
 });
 
-test('registered Augusta roll policy maps two individual requirements and one any-Useful group exactly', async () => {
-  const result = await projectRecommendedImprovePolicy({ characterId: 'augusta', presetId: 'augusta-standard' });
-  assert.deepEqual(content(result.echoPolicy.requirements), {
-    requiredOnEveryEcho: [{ stat: 'CRIT DMG', minimum: 0.21 }, { stat: 'CRIT Rate', minimum: 0.093 }],
-    groups: [{ id: 'AUGUSTA_RECOMMENDED_V915:USEFUL', minimumHits: 1, members: [
-      { stat: 'ATK%', minimum: 0.064 }, { stat: 'Energy Regen', minimum: 0.068 },
-      { stat: 'Heavy Attack DMG', minimum: 0.064 },
-    ] }],
-    acceptanceConstraints: { nonTargetRoles: AUGUSTA_RECOMMENDED_V915.nonTargetRoles, maximumDeadStats: 1 },
-  });
-  assert.equal(result.echoPolicy.scope, 'FINISHED_CANDIDATE_ECHO');
-  assert.deepEqual(result.echoPolicy.checkpointReference, AUGUSTA_RECOMMENDED_V915);
-  assert.equal(result.echoPolicy.preferences.status, 'PENDING');
-  assert.equal(result.echoPolicy.preferences.value, null);
-  if (result.echoPolicy.requirements.status === 'VERIFIED') {
-    assert.equal(result.echoPolicy.requirements.source.provenance, AUGUSTA_RECOMMENDED_V915.provenance);
-  }
-});
-
 test('verified build priorities never establish per-Echo requirements or preference order', async () => {
   const result = await projectRecommendedImprovePolicy({ characterId: 'cartethyia' });
   const priorities = content(result.characterTarget.priorities);
@@ -96,7 +75,6 @@ test('verified build priorities never establish per-Echo requirements or prefere
   assert.equal(result.echoPolicy.requirements.status, 'PENDING');
   assert.equal(result.echoPolicy.requirements.value, null);
   assert.equal(result.echoPolicy.preferences.status, 'PENDING');
-  assert.equal(result.echoPolicy.checkpointReference, null);
 });
 
 test('priority-only source remains useful while prose numeric ranges are not promoted', async () => {
@@ -148,7 +126,7 @@ test('target values, conditional notes and provenance drift invalidate Character
     assert.equal(result.characterTarget.numericTargets.status, 'PENDING');
     assert.equal(result.characterTarget.priorities.status, 'PENDING');
     // Independent readiness: unchanged registered Echo policy is still valid.
-    content(result.echoPolicy.requirements);
+    assert.equal(result.echoPolicy.requirements.status, 'PENDING');
   }
 });
 
@@ -165,39 +143,7 @@ test('preset, team, Echo shell and rotation/provenance drift invalidate applicab
     assert.equal(result.characterTarget.numericTargets.status, 'PENDING');
     assert.equal(result.characterTarget.priorities.status, 'PENDING');
     assert.equal(result.echoPolicy.requirements.status, 'PENDING');
-    assert.equal(result.echoPolicy.checkpointReference, null);
   }
-});
-
-test('registered roll thresholds, required hits, roles, slots, identity and provenance drift fail closed', async () => {
-  const original = resolveRollAssistProfileBinding('augusta-standard')!;
-  const changes: ((binding: typeof original) => void)[] = [
-    row => { row.policy.targets = row.policy.targets.map(target => ({ ...target, minimum: 0.01 })); },
-    row => { row.policy.requiredCoreHits = 1; },
-    row => { row.policy.requiredUsefulHits = 2; },
-    row => { row.policy.nonTargetRoles = {}; },
-    row => { row.policy.slots = []; },
-    row => { row.policy.characterId = 'Cartethyia'; },
-    row => { row.policy.provenance += ' changed'; },
-  ];
-  for (const change of changes) {
-    const binding = structuredClone(original);
-    change(binding);
-    const result = await projectRecommendedImprovePolicy({ characterId: 'augusta' }, { rollBinding: () => binding });
-    assert.equal(result.echoPolicy.requirements.status, 'PENDING');
-    assert.equal(result.echoPolicy.requirements.value, null);
-    assert.equal(result.echoPolicy.checkpointReference, null);
-    content(result.characterTarget.numericTargets);
-  }
-});
-
-test('temporary roll source failure masks only the dependent section and recovery restores it', async () => {
-  for (const rollBinding of [() => null, () => { throw new Error('unavailable'); }]) {
-    const result = await projectRecommendedImprovePolicy({ characterId: 'augusta' }, { rollBinding });
-    assert.equal(result.echoPolicy.requirements.status, 'PENDING');
-    content(result.characterTarget.numericTargets);
-  }
-  content((await projectRecommendedImprovePolicy({ characterId: 'augusta' })).echoPolicy.requirements);
 });
 
 test('roster readiness is audited independently and old PR224 source projection stays unchanged', async () => {
@@ -206,7 +152,7 @@ test('roster readiness is audited independently and old PR224 source projection 
   assert.equal(rows.length, 57);
   assert.equal(rows.filter(row => row.characterTarget.numericTargets.status === 'VERIFIED').length, 24);
   assert.equal(rows.filter(row => row.characterTarget.priorities.status === 'VERIFIED').length, 44);
-  assert.deepEqual(rows.filter(row => row.echoPolicy.requirements.status === 'VERIFIED').map(row => row.characterId), ['augusta']);
+  assert.deepEqual(rows.filter(row => row.echoPolicy.requirements.status === 'VERIFIED').map(row => row.characterId), []);
   assert.equal(rows.filter(row => row.echoPolicy.preferences.status === 'VERIFIED').length, 0);
   assert.ok(rows.every(row => row.echoPolicy.requirements.status !== 'VERIFIED'
     || row.echoPolicy.requirements.content === 'PRESENT'));

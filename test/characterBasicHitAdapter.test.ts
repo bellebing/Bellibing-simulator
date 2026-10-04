@@ -73,7 +73,7 @@ test('database advertises hit support separately from canonical modeling and DPS
   const db = buildCharacterDatabase();
   assert.deepEqual(db.hitPrimitives.basicHits, listCharacterBasicHitSupport());
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),
-    ['augusta', 'ciaccona']);
+    []);
   assert.equal(db.referenceTeam01.dpsReady, false);
   assert.equal(db.referenceTeam01.unresolvedDependencies.length, 6);
   assert.equal(db.mechanicsFacts.find((fact) => fact.factId === base.factId)?.modelingStatus, 'MODEL_READY');

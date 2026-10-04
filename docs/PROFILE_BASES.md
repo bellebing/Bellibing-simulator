@@ -87,34 +87,6 @@ Current Version 3.6 baseline at 2026-08-29:
 
 The pinned `DommyMM/wuwabuild` `/builds` route was checked during this inventory and explicitly describes its records as community-submitted builds. Those observations may be useful research input, but they are not promoted wholesale into Bellibing canonical recommendation/team/rotation truth.
 
-## Generalized Roll Advisor requirements
+## Private runtime boundary
 
-Fallback Roll Assistant policy lives in `CharacterRollProfile`, separate from the composable build-stat profile. It no longer assumes that every character has exactly two Core targets.
-
-A verified Roll policy may own:
-
-- the Core target set;
-- the Useful target set;
-- `requiredCoreHits`;
-- `requiredUsefulHits`;
-- minimum roll magnitudes;
-- Dead/Filler routing;
-- the first checkpoint to evaluate.
-
-The legacy Bellibing Budget checkpoint behavior around Dead/Filler openers remains the current guide/profile fallback. The final stopping decision is intentionally replaced by whole-build DPS-aware evaluation character-by-character once that Character has a verified DPS adapter.
-
-## Augusta golden composition
-
-The first production fixture is `augusta-standard`, resolved from current V9.15 + current references:
-
-- default weapon: Thunderflare Dominion R1;
-- Echo shell: Crown of Valor + 2P Void Thunder, The False Sovereign main Echo;
-- current V9.15 main-stat shell: CRIT Rate / Electro / Electro / ATK% / ATK%;
-- current source-backed build-stat priority: Energy Regen until satisfied > CRIT Rate = CRIT DMG > ATK% = Heavy Attack DMG among the tracked stats, with the verified ER total gate;
-- separate current V9.15 Roll policy: **2 Core + Any 1 Useful** with the audited per-roll thresholds;
-- standard team: Augusta / Iuno / Shorekeeper;
-- rotation execution: `ENGINE_MODELED` through `AUGUSTA_STD_V1`, 11.17 seconds.
-
-The active Any-1 Roll requirement is locked by parity against the current V9.15 Build Simulator and CURRENT Strategy Cache. Stricter Any-2/Any-3 Roll targets may exist as separate selectable target qualities; they are not the active Augusta Recommended fallback policy.
-
-This document intentionally does not define Aemeath mode links yet. The architecture supports multiple modes, but production links are only added after their contexts are verified.
+Improvement Cost / evaluator uses a private decision-engine contract. Proprietary policy and calibration are not part of the public repository.

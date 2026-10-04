@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { AUGUSTA_RECOMMENDED_V915 } from '../src/characters/augustaRecommended.ts';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { PROFILE_CATALOGS, PROFILE_REGISTRY } from '../src/data/profileCatalogs.ts';
 import {
@@ -49,28 +48,6 @@ test('Augusta default resolves through independent bases instead of UI hardcodin
   assert.equal(resolved.rotation.executionStatus, 'ENGINE_MODELED');
   assert.equal(resolved.rotation.engineModelId, 'AUGUSTA_STD_V1');
   assert.equal(resolved.rotation.rotationSeconds, 11.17);
-});
-
-test('composable build-stat profile does not duplicate Roll Assistant stopping policy', () => {
-  const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, 'augusta');
-  assert.ok(resolved);
-
-  assert.equal(Object.hasOwn(resolved.statTarget, 'requiredCoreHits'), false);
-  assert.equal(Object.hasOwn(resolved.statTarget, 'requiredUsefulHits'), false);
-  for (const rule of resolved.statTarget.targetRules) {
-    assert.equal(Object.hasOwn(rule, 'minimumRoll'), false);
-    assert.equal(Object.hasOwn(rule, 'role'), false);
-  }
-
-  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredCoreHits, 2);
-  assert.equal(AUGUSTA_RECOMMENDED_V915.requiredUsefulHits, 1);
-  assert.deepEqual(AUGUSTA_RECOMMENDED_V915.targets, [
-    { name: 'CRIT DMG', role: 'CORE', minimum: 0.21 },
-    { name: 'CRIT Rate', role: 'CORE', minimum: 0.093 },
-    { name: 'ATK%', role: 'USEFUL', minimum: 0.064 },
-    { name: 'Energy Regen', role: 'USEFUL', minimum: 0.068 },
-    { name: 'Heavy Attack DMG', role: 'USEFUL', minimum: 0.064 },
-  ]);
 });
 
 test('Echo loadout slots preserve source-backed tied and fallback main-stat options', () => {

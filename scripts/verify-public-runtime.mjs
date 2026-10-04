@@ -1,10 +1,9 @@
-import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/docs/ui-prototypes/v34-functional.html';
+const UI_URL = new URL('.', process.env.BELLIBING_LIVE_ROLL_ASSIST_URL ?? process.env.BELLIBING_ALPHA_URL ?? 'https://bellebing.github.io/Bellibing-simulator/').href;
 const DEBUG_PORT = Number(process.env.BELLIBING_V34_ECHO_DEBUG_PORT ?? 9671);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
 const VERIFY_MOBILE = process.env.BELLIBING_VERIFY_MOBILE === '1';
@@ -125,12 +124,28 @@ try {
   const page = await createPage();
   const { socket, send } = cdp(page.webSocketDebuggerUrl);
   await send('Page.enable'); await send('Runtime.enable');
-  await verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, sleep,
-    capture: async (send, path) => {
-      const result = await send('Page.captureScreenshot', { format: 'png' });
-      mkdirSync('artifacts', { recursive: true }); writeFileSync(path, Buffer.from(result.data, 'base64'));
-    } });
+  await setViewport(send,1440,900);
+  for (const route of ['', '?character=ciaccona&preset=ciaccona-cartethyia-aero', 'roll-assistant.html',
+    'roll-assistant.html?character=augusta&preset=augusta-standard',
+    'roll-assistant.html?character=unknown&preset=missing', 'echo-lab.html']) {
+    await send('Page.navigate',{url:new URL(route,UI_URL).href});
+    await waitForUi(send, '!!document.querySelector("[data-decision-status]")', 'Public Pending surface missing',15000);
+    const result = await evaluate(send, `({status:document.querySelector('[data-decision-status]').dataset.decisionStatus,
+      text:document.querySelector('[data-decision-status]').textContent, title:document.querySelector('h1').textContent,
+      resources:performance.getEntriesByType('resource').map(row=>row.name)})`);
+    if(result.status!=='PENDING'||result.text!=='Pending') throw new Error('Unavailable decision surface failed closed: '+route);
+    if(result.resources.some(url=>/Evaluator|CheckpointAnalysis|targetCheckpointPolicy|ownedBuildAnalysis/.test(url))) throw new Error('Retired runtime requested by '+route);
+    if(route==='echo-lab.html') {
+      await pointerClick(send,'#generate'); await pointerClick(send,'#roll');
+      const mechanics = await evaluate(send, `JSON.parse(document.getElementById('echoes').textContent)`);
+      if(mechanics.echoes.length!==5||mechanics.echoes.some(echo=>echo.level!==5||echo.substats.length!==1)
+        ||mechanics.spent.tuners!==50||mechanics.spent.exp!==22000) throw new Error('Canonical Echo mechanics failed');
+    }
+    console.log('PASS public runtime '+route);
+  }
+  mkdirSync('artifacts',{recursive:true});
+  const shot=await send('Page.captureScreenshot',{format:'png'});
+  writeFileSync('artifacts/public-echo-lab-1440x900.png',Buffer.from(shot.data,'base64'));
   socket.close();
-
-} catch(error) { console.error(error);console.error(stderr.slice(-2000));process.exitCode=1; }
-finally { chrome.kill('SIGTERM'); }
+} catch(error) { console.error(error); if(stderr)console.error(stderr); process.exitCode=1; }
+finally { chrome.kill(); }

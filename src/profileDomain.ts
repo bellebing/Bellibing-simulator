@@ -58,8 +58,7 @@ export interface EchoLoadoutProfile extends ProfileBase {
  * Source-facing build-stat priority. Priority 1 is highest; equal numbers are
  * explicit ties from the reviewed source/context.
  *
- * Core/Useful roll roles, minimum roll magnitudes and required hit counts belong
- * to CharacterRollProfile in targetCheckpointPolicy.ts instead.
+ * This source presentation does not establish decision-runtime availability.
  */
 export interface TargetStatRule {
   stat: StatName;

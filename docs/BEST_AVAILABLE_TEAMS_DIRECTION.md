@@ -142,13 +142,9 @@ Use the disposition vocabulary:
 
 Implementation should follow the audit findings, not precede them.
 
-## Known architecture risk to audit
+## Runtime boundary
 
-Current Augusta execution contains team-context values directly in `AugustaStandardContext`, including Shorekeeper-related crit context and other static amplification fields.
-
-That is acceptable only for the currently locked verified context. It becomes dangerous if a future UI swaps teammates while the evaluator silently retains the old team's bonuses.
-
-The Reference Team audit must determine which values are genuinely fixed encounter/build context and which must move behind explicit teammate/effect/context composition before arbitrary team construction is allowed.
+Team composition must preserve canonical source identities and explicit unresolved execution dependencies. Arbitrary-team evaluation remains Pending while the private decision runtime is unavailable. Historical model metadata cannot establish available evaluation or authorize inferred teammate effects.
 
 ## UI gate
 

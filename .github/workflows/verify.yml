@@ -4,12 +4,21 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft]
 
 permissions:
   contents: read
 
+# Cancel obsolete PR runs; main pushes retain independent FULL runs.
+concurrency:
+  group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   verify:
+    # A skipped draft job is not FULL evidence. Required-check enforcement is
+    # outside this split; main FULL remains the transition backstop.
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -273,6 +282,87 @@ jobs:
             artifacts/hero-roster/*.png
           if-no-files-found: error
           retention-days: 7
+
+      - name: Diff whitespace check
+        run: git diff --check HEAD^
+
+  fast:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Echo/Sonata raw coverage gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run audit:echo-raw
+
+      - name: Sonata effect source coverage gate
+        run: npm run audit:sonata-effects
+
+      - name: Echo skill source coverage gate
+        run: npm run audit:echo-skills
+
+      - name: Echo portrait asset provenance gate
+        run: npm run audit:ui-echo-portraits
+
+      - name: Builder icon asset provenance gate
+        run: npm run audit:ui-builder-icons
+
+      - name: Profile candidate inventory gate
+        run: npm run audit:profile-candidates
+
+      - name: Profile source accelerator gate
+        run: npm run audit:profile-source-accelerator
+
+      - name: Horizontal green-lane deterministic gate
+        run: npm run audit:profile-horizontal-green-lane
+
+      - name: Horizontal profile cohort gate
+        run: npm run audit:profile-cohort
+
+      - name: Profile adapter dependency matrix gate
+        run: npm run audit:profile-adapters
+
+      - name: Profile readiness / Pre-DPS freeze gate
+        run: npm run audit:profile-readiness
+
+      - name: Character ACTIONS coverage gate
+        run: npm run audit:character-actions
+
+      - name: Character FORTE_RULES coverage gate
+        run: npm run audit:character-forte-rules
+
+      - name: Character INHERENT_PASSIVES coverage gate
+        run: npm run audit:character-inherent-passives
+
+      - name: Sequence source presentation focused tests
+        run: node --experimental-strip-types --test test/characterSequenceUi.test.ts test/characterBuilderAssets.test.ts
+
+      - name: Cartethyia / Rover Windstrings focused regression
+        run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
+
+      - name: Improve policy focused regression
+        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts
+
+      - name: Strict web build / generated parity
+        run: npm run build
+
+      - name: Exact-head build identity
+        run: >-
+          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('dist/review-build.json')); if(r.headSha!=='${{ github.event.pull_request.head.sha }}'||r.workingTreeDirty) throw new Error('Review build revision mismatch')"
 
       - name: Diff whitespace check
         run: git diff --check HEAD^

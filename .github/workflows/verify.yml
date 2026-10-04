@@ -289,6 +289,28 @@ jobs:
       - name: Diff whitespace check
         run: git diff --check HEAD^
 
+      - name: Exact-head artifact identity
+        env:
+          EXPECTED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const revision = process.env.EXPECTED_REVISION;
+          const build = JSON.parse(fs.readFileSync('dist/review-build.json', 'utf8'));
+          if (!/^[0-9a-f]{40}$/.test(revision) || build.headSha !== revision || build.workingTreeDirty !== false) {
+            throw new Error('Review build revision/clean-tree mismatch');
+          }
+          console.log(`Verified clean dist for ${revision}`);
+          NODE
+
+      - name: Upload exact-head web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-web-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
+
   fast:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
     runs-on: ubuntu-latest
@@ -363,9 +385,36 @@ jobs:
       - name: Strict web build / generated parity
         run: npm run build
 
-      - name: Exact-head build identity
-        run: >-
-          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('dist/review-build.json')); if(r.headSha!=='${{ github.event.pull_request.head.sha }}'||r.workingTreeDirty) throw new Error('Review build revision mismatch')"
+      - name: Exact-head artifact identity
+        env:
+          EXPECTED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const revision = process.env.EXPECTED_REVISION;
+          const build = JSON.parse(fs.readFileSync('dist/review-build.json', 'utf8'));
+          if (!/^[0-9a-f]{40}$/.test(revision) || build.headSha !== revision || build.workingTreeDirty !== false) {
+            throw new Error('Review build revision/clean-tree mismatch');
+          }
+          console.log(`Verified clean dist for ${revision}`);
+          NODE
 
       - name: Diff whitespace check
         run: git diff --check HEAD^
+
+      - name: Upload exact-head web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-web-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy-main:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.verify.result == 'success'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml

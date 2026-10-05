@@ -76,9 +76,15 @@ Nothing in these counts promotes provider evidence into canonical Character data
 Prydwen kit extraction is factual-only and pinned to
 `theonuverse/ww_prydwen_api@96585d530be9f30c262eac69a4932b861b856adc`.
 
-Captured material is limited to provider/display identity, factual skill text/tables, progression facts where exposed, and Sequence evidence. The Wuthering.gg lane is likewise bounded to factual Character identity/progression/Sequence material.
+Captured material is limited to provider/display identity, factual skill text/tables, progression facts where exposed, and Sequence evidence. The Wuthering.gg lane is likewise bounded to factual Character identity/progression/Sequence material. It is admitted through the existing `FACTORY_PROVIDER_REGISTRY` as enabled, noncanonical `WEB_EXTRACTION` / `EVIDENCE_ONLY` evidence with license status `REVIEW_REQUIRED`; no reuse license is invented from public page access.
 
 The lane deliberately excludes role judgements, ratings, build advice, weapon/Echo recommendations, stat priority, teams, rotations and pull value.
+
+## Provenance semantics
+
+`capturedAt` records when Bellibing observed the provider page. It is not a provider content version.
+
+`sourceVersion` is populated only when the provider exposes a genuine source/content version; otherwise it is `null`. The pinned `theonuverse/ww_prydwen_api` repository/commit remains extractor-code provenance on the Prydwen kit snapshot and is not relabeled as the Prydwen page-content version.
 
 ## Roster mapping
 

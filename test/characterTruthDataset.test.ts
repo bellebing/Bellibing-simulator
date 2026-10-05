@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
+import { FACTORY_PROVIDER_REGISTRY } from '../src/factory/evidence.ts';
 
 const read=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
 const kit=read('data/factory/character-truth/prydwen-character-truth.json');
@@ -99,6 +100,38 @@ test('reconciliation retains consensus and conflicts without canonical promotion
   for(const row of report.reconciliation){
     if(row.factoryEvidence) assert.equal(row.factoryEvidence.canonicalPromotion,'MANUAL_SOURCE_VALIDATION_REQUIRED');
     if(row.evidenceState==='PROVIDER_CONFLICT') assert.ok(new Set(row.providerFacts.map((fact:any)=>JSON.stringify(fact.value))).size>1);
+  }
+});
+
+test('all Character truth report providers are admitted by the existing Factory provider registry',()=>{
+  const registry=new Map(FACTORY_PROVIDER_REGISTRY.map(provider=>[provider.providerId,provider]));
+  for(const providerId of report.providers){
+    const provider=registry.get(providerId);
+    assert.ok(provider,`unregistered Character truth provider: ${providerId}`);
+    assert.equal(provider.enabledForFactoryEvidence,true,providerId);
+    assert.equal(provider.canonicalAuthority,false,providerId);
+    assert.notEqual(provider.dataUsePolicy,'REFERENCE_ONLY_NO_REUSE',providerId);
+  }
+  const wggProvider=registry.get('wuthering-gg');
+  assert.ok(wggProvider);
+  assert.equal(wggProvider.sourceType,'WEB_EXTRACTION');
+  assert.equal(wggProvider.licenseStatus,'REVIEW_REQUIRED');
+  assert.equal(wggProvider.licenseId,null);
+  assert.equal(wggProvider.dataUsePolicy,'EVIDENCE_ONLY');
+});
+
+test('Character truth provenance keeps capture time separate from provider source version',()=>{
+  for(const row of report.reconciliation){
+    for(const fact of row.providerFacts){
+      assert.equal(fact.sourceVersion,null,`${fact.providerId} ${fact.bellibingCharacterId} ${fact.family}:${fact.factId}`);
+      assert.equal(typeof fact.capturedAt,'string');
+      assert.ok(fact.capturedAt.length>0);
+    }
+    for(const candidate of row.factoryEvidence?.candidates??[]){
+      assert.equal(candidate.sourceVersion,null,`${candidate.providerId} ${candidate.subjectId} ${candidate.fieldId}`);
+      assert.equal(typeof candidate.capturedAt,'string');
+      assert.ok(candidate.capturedAt.length>0);
+    }
   }
 });
 

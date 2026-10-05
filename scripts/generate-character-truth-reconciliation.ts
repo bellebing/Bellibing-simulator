@@ -86,7 +86,7 @@ for (const character of CHARACTER_CATALOG) {
         capturedAt: kit.capturedAt, freshnessSensitive: kit.freshnessSensitive,
       });
     }
-    for (const chain of kit.sequences ?? []) if (chain?.name) add({
+    for (const chain of kit.sequences ?? []) if (chain?.name && !/^Sequence Node \\d+$/i.test(chain.name.trim())) add({
       providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
       bellibingCharacterId: id, family: 'SEQUENCE', factId: `S${chain.sequence}.name`, value: chain.name,
       sourceRef: kit.sourceUrl, sourceVersion: kit.capturedAt, capturedAt: kit.capturedAt,

@@ -51,7 +51,7 @@ def parse_page(text:str,row:dict[str,Any],url:str,captured_at:str)->dict[str,Any
       "bellibingCharacterId":row["characterId"],"providerCharacterId":row["characterId"],
       "providerDisplayName":row["name"],"sourceUrl":url,"releaseStatusAtCapture":row["releaseStatus"],
       "freshnessSensitive":row["releaseStatus"]!="RELEASED","capturedAt":captured_at,
-      "captureStatus":status,"identity":identity,"level90":level90,"warnings":warnings,
+      "captureStatus":status,"identity":identity,"level90":level90,"sequenceNames":[],"warnings":warnings,
     }
 
 def unavailable(row,captured_at,warning):
@@ -59,7 +59,7 @@ def unavailable(row,captured_at,warning):
       "bellibingCharacterId":row["characterId"],"providerCharacterId":row["characterId"],
       "providerDisplayName":None,"sourceUrl":f"https://wuthering.gg/characters/{row['characterId']}",
       "releaseStatusAtCapture":row["releaseStatus"],"freshnessSensitive":row["releaseStatus"]!="RELEASED",
-      "capturedAt":captured_at,"captureStatus":"UNAVAILABLE","identity":None,"level90":None,
+      "capturedAt":captured_at,"captureStatus":"UNAVAILABLE","identity":None,"level90":None,"sequenceNames":[],
       "warnings":[warning],
     }
 
@@ -79,6 +79,22 @@ def capture_chunk(rows,captured_at):
                 page.wait_for_timeout(1200)
                 text=page.locator("body").inner_text(timeout=10000)
                 result=parse_page(text,row,url,captured_at)
+                headings=page.locator("h2,h3").all_inner_texts()
+                in_chain=False
+                names=[]
+                for heading in headings:
+                    clean=" ".join(heading.split())
+                    if clean.lower()==f"{row['name']} resonance chain".lower():
+                        in_chain=True
+                        continue
+                    if in_chain and clean.lower().endswith(" background"):
+                        break
+                    if in_chain and clean and clean not in names:
+                        names.append(clean)
+                result["sequenceNames"]=names[:6]
+                if len(result["sequenceNames"])!=6:
+                    result["captureStatus"]="PARTIAL"
+                    result["warnings"].append(f"expected 6 Resonance Chain headings, got {len(result['sequenceNames'])}")
             except Exception as exc:
                 result=unavailable(row,captured_at,f"fetch: {type(exc).__name__}: {exc}")
             finally:

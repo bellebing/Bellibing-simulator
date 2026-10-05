@@ -70,6 +70,23 @@ export const FACTORY_PROVIDER_REGISTRY: readonly FactoryProviderDescriptor[] = [
     ],
   },
   {
+    providerId: 'wuthering-gg',
+    displayName: 'Wuthering.gg Character pages',
+    sourceType: 'WEB_EXTRACTION',
+    licenseStatus: 'REVIEW_REQUIRED',
+    licenseId: null,
+    licenseSourceRef: null,
+    dataUsePolicy: 'EVIDENCE_ONLY',
+    canonicalAuthority: false,
+    enabledForFactoryEvidence: true,
+    notes: [
+      'Enabled only for the reviewed noncanonical factual Character-page capture lane.',
+      'No reusable content license has been established; no license is inferred from public page access.',
+      'Guide/recommendation prose is excluded from capture.',
+      'Captured evidence requires later manual source-validity review before any canonical promotion.',
+    ],
+  },
+  {
     providerId: 'frequency-manager',
     displayName: 'Voruzhu/FrequencyManager',
     sourceType: 'GITHUB_DATASET',

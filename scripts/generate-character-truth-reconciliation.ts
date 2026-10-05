@@ -2,6 +2,10 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import {
+  FACTORY_PROVIDER_REGISTRY,
+  validateFactoryProviderRegistry,
+} from '../src/factory/evidence.ts';
+import {
   compareCharacterTruthToCanonical,
   reconcileCharacterTruthFacts,
   type CharacterTruthProviderFact,
@@ -34,7 +38,7 @@ function addProgression(providerId: string, row: Json | undefined, energyKey: 'm
     if (value === null || value === undefined) continue;
     add({ providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
       bellibingCharacterId: row.bellibingCharacterId, family: 'IDENTITY', factId, value,
-      sourceRef: row.sourceUrl, sourceVersion: row.capturedAt ?? null, capturedAt: row.capturedAt,
+      sourceRef: row.sourceUrl, sourceVersion: null, capturedAt: row.capturedAt,
       freshnessSensitive: row.freshnessSensitive });
   }
   const level = row.level90;
@@ -43,14 +47,14 @@ function addProgression(providerId: string, row: Json | undefined, energyKey: 'm
     if (level[factId] === null || level[factId] === undefined) continue;
     add({ providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
       bellibingCharacterId: row.bellibingCharacterId, family: 'PROGRESSION', factId: `level90.${factId}`,
-      value: level[factId], sourceRef: row.sourceUrl, sourceVersion: row.capturedAt ?? null,
+      value: level[factId], sourceRef: row.sourceUrl, sourceVersion: null,
       capturedAt: row.capturedAt, freshnessSensitive: row.freshnessSensitive });
   }
   const energy = level[energyKey];
   if (energy !== null && energy !== undefined) add({
     providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
     bellibingCharacterId: row.bellibingCharacterId, family: 'PROGRESSION', factId: 'level90.maxEnergy',
-    value: energy, sourceRef: row.sourceUrl, sourceVersion: row.capturedAt ?? null,
+    value: energy, sourceRef: row.sourceUrl, sourceVersion: null,
     capturedAt: row.capturedAt, freshnessSensitive: row.freshnessSensitive,
     notes: energyKey === 'maxResonanceEnergy' ? ['Provider label: Max Resonance Energy'] : ['Provider label: Max Energy'],
   });
@@ -68,7 +72,7 @@ for (const character of CHARACTER_CATALOG) {
     if (kit.providerDisplayName) add({
       providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
       bellibingCharacterId: id, family: 'IDENTITY', factId: 'displayName', value: kit.providerDisplayName,
-      sourceRef: kit.sourceUrl, sourceVersion: kit.capturedAt, capturedAt: kit.capturedAt,
+      sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
       freshnessSensitive: kit.freshnessSensitive,
     });
     for (const [skillKey, skill] of Object.entries(kit.skills ?? {}) as [string, Json | null][]) {
@@ -76,20 +80,20 @@ for (const character of CHARACTER_CATALOG) {
       if (skill.name) add({
         providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
         bellibingCharacterId: id, family: 'SKILL_ACTION', factId: `${skillKey}.name`, value: skill.name,
-        sourceRef: kit.sourceUrl, sourceVersion: kit.capturedAt, capturedAt: kit.capturedAt,
+        sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
         freshnessSensitive: kit.freshnessSensitive,
       });
       if (skill.multiplierTextByLevel && Object.keys(skill.multiplierTextByLevel).length > 0) add({
         providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
         bellibingCharacterId: id, family: 'SKILL_ACTION', factId: `${skillKey}.levelValues`,
-        value: skill.multiplierTextByLevel, sourceRef: kit.sourceUrl, sourceVersion: kit.capturedAt,
+        value: skill.multiplierTextByLevel, sourceRef: kit.sourceUrl, sourceVersion: null,
         capturedAt: kit.capturedAt, freshnessSensitive: kit.freshnessSensitive,
       });
     }
     for (const chain of kit.sequences ?? []) if (chain?.name && !/^Sequence Node \d+$/i.test(chain.name.trim())) add({
       providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
       bellibingCharacterId: id, family: 'SEQUENCE', factId: `S${chain.sequence}.name`, value: chain.name,
-      sourceRef: kit.sourceUrl, sourceVersion: kit.capturedAt, capturedAt: kit.capturedAt,
+      sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
       freshnessSensitive: kit.freshnessSensitive,
     });
   }
@@ -97,15 +101,28 @@ for (const character of CHARACTER_CATALOG) {
     if (w.providerDisplayName) add({
       providerId: 'wuthering-gg', providerCharacterId: w.providerCharacterId,
       bellibingCharacterId: id, family: 'IDENTITY', factId: 'displayName', value: w.providerDisplayName,
-      sourceRef: w.sourceUrl, sourceVersion: w.capturedAt, capturedAt: w.capturedAt,
+      sourceRef: w.sourceUrl, sourceVersion: null, capturedAt: w.capturedAt,
       freshnessSensitive: w.freshnessSensitive,
     });
     for (let i = 0; i < (w.sequenceNames ?? []).length; i++) if (w.sequenceNames[i]) add({
       providerId: 'wuthering-gg', providerCharacterId: w.providerCharacterId,
       bellibingCharacterId: id, family: 'SEQUENCE', factId: `S${i+1}.name`, value: w.sequenceNames[i],
-      sourceRef: w.sourceUrl, sourceVersion: w.capturedAt, capturedAt: w.capturedAt,
+      sourceRef: w.sourceUrl, sourceVersion: null, capturedAt: w.capturedAt,
       freshnessSensitive: w.freshnessSensitive,
     });
+  }
+}
+
+const providers = [...new Set(facts.map((fact) => fact.providerId))].sort();
+validateFactoryProviderRegistry();
+const registryById = new Map(FACTORY_PROVIDER_REGISTRY.map((provider) => [provider.providerId, provider]));
+for (const providerId of providers) {
+  const provider = registryById.get(providerId);
+  if (!provider) throw new Error(`Character truth reconciliation: provider ${providerId} is not registered in FACTORY_PROVIDER_REGISTRY`);
+  if (!provider.enabledForFactoryEvidence) throw new Error(`Character truth reconciliation: provider ${providerId} is not enabled for Factory evidence`);
+  if (provider.canonicalAuthority !== false) throw new Error(`Character truth reconciliation: provider ${providerId} must remain noncanonical`);
+  if (provider.dataUsePolicy === 'REFERENCE_ONLY_NO_REUSE') {
+    throw new Error(`Character truth reconciliation: provider ${providerId} is reference-only and cannot enter reusable Factory evidence`);
   }
 }
 
@@ -174,7 +191,7 @@ const output = {
   kind: 'CHARACTER_TRUTH_RECONCILIATION_REPORT',
   canonicalAuthority: false,
   promotionPolicy: 'MANUAL_SOURCE_VALIDATION_REQUIRED',
-  providers: ['prydwen-profile-source','wuthering-gg'],
+  providers,
   roster: {
     total: CHARACTER_CATALOG.length,
     releaseStatus: countBy(CHARACTER_CATALOG.map(character => character.releaseStatus)),

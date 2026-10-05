@@ -81,6 +81,7 @@ def capture_chunk(rows,captured_at):
                 page.wait_for_timeout(1200)
                 text=page.locator("body").inner_text(timeout=10000)
                 result=parse_page(text,row,url,captured_at)
+                result["providerCharacterId"]=slug
                 headings=page.locator("h2,h3").all_inner_texts()
                 in_chain=False
                 names=[]

@@ -5,7 +5,7 @@
   "promotionPolicy": "MANUAL_SOURCE_VALIDATION_REQUIRED",
   "providerId": "wuthering-gg",
   "providerSurface": "Wuthering.gg Character pages",
-  "capturedAt": "2026-10-05T18:01:50Z",
+  "capturedAt": "2026-10-05T18:04:55Z",
   "workerCount": 4,
   "characters": [
     {
@@ -15,17 +15,17 @@
       "sourceUrl": "https://wuthering.gg/characters/aalto",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Aero",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 9850,
+        "atk": 262,
+        "def": 1075,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -36,11 +36,7 @@
         "Applause of the Lost",
         "Broker's Secrets"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "aemeath",
@@ -49,17 +45,17 @@
       "sourceUrl": "https://wuthering.gg/characters/aemeath",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11025,
+        "atk": 425,
+        "def": 1148,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -70,11 +66,7 @@
         "Voyage to the Astral Shore",
         "A Zephyr-Kissed Journey to You"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "augusta",
@@ -83,17 +75,17 @@
       "sourceUrl": "https://wuthering.gg/characters/augusta",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -104,11 +96,7 @@
         "Unshaken in Wrathful Tides",
         "Engraved in Radiant Light"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "baizhi",
@@ -117,17 +105,17 @@
       "sourceUrl": "https://wuthering.gg/characters/baizhi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Glacio",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12812,
+        "atk": 212,
+        "def": 1002,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -138,11 +126,7 @@
         "A Wish Answered",
         "Seeker's Devotion"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "brant",
@@ -151,17 +135,17 @@
       "sourceUrl": "https://wuthering.gg/characters/brant",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11675,
+        "atk": 375,
+        "def": 1307,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -172,11 +156,7 @@
         "All the World's an Actor's Stage",
         "All the World's a Captain's Carnevale"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "buling",
@@ -185,17 +165,17 @@
       "sourceUrl": "https://wuthering.gg/characters/buling",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Electro",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10625,
+        "atk": 225,
+        "def": 1258,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -206,11 +186,7 @@
         "Forum Ban? New Account!",
         "\"Almighty Forum Lord of Thunder Spell\""
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "calcharo",
@@ -219,17 +195,17 @@
       "sourceUrl": "https://wuthering.gg/characters/calcharo",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10500,
+        "atk": 437,
+        "def": 1185,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -240,11 +216,7 @@
         "Unconventional Compact",
         "The Ultimatum"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "camellya",
@@ -253,17 +225,17 @@
       "sourceUrl": "https://wuthering.gg/characters/camellya",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10325,
+        "atk": 450,
+        "def": 1161,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -274,11 +246,7 @@
         "Infinity Held in Your Palm",
         "Bloom For You Thousand Times Over"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "cantarella",
@@ -287,17 +255,17 @@
       "sourceUrl": "https://wuthering.gg/characters/cantarella",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11600,
+        "atk": 400,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -308,11 +276,7 @@
         "Rest in Your Reflection",
         "Fall, Fall... and Fall Deeper into the Dream"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "carlotta",
@@ -321,17 +285,17 @@
       "sourceUrl": "https://wuthering.gg/characters/carlotta",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12450,
+        "atk": 462,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -342,11 +306,7 @@
         "Toast to Past, Today, and Every Day to Come",
         "As the Curtain Falls, I Remain What I Am"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "cartethyia",
@@ -355,17 +315,17 @@
       "sourceUrl": "https://wuthering.gg/characters/cartethyia",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 14800,
+        "atk": 312,
+        "def": 611,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -376,11 +336,7 @@
         "Hope Reshaped in Storms",
         "Freedom Found in Storm's Wake"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "changli",
@@ -389,17 +345,17 @@
       "sourceUrl": "https://wuthering.gg/characters/changli",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10387,
+        "atk": 462,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -410,11 +366,7 @@
         "Sacrificed Gains",
         "Realized Plans"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "chisa",
@@ -423,17 +375,17 @@
       "sourceUrl": "https://wuthering.gg/characters/chisa",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -444,11 +396,7 @@
         "Thousands of Lights to Guide the Way Home",
         "Thus, Hope is Rekindled with the Rising Dawn"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "chixia",
@@ -457,17 +405,17 @@
       "sourceUrl": "https://wuthering.gg/characters/chixia",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Fusion",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 9087,
+        "atk": 300,
+        "def": 953,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -478,11 +426,7 @@
         "Triumphant Explosions",
         "Easter Egg Performance"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "ciaccona",
@@ -491,17 +435,17 @@
       "sourceUrl": "https://wuthering.gg/characters/ciaccona",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12237,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -512,11 +456,7 @@
         "Eternal Idyll to Lasting Summer",
         "Unending Cadence"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "danjin",
@@ -525,17 +465,17 @@
       "sourceUrl": "https://wuthering.gg/characters/danjin",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Havoc",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 9437,
+        "atk": 262,
+        "def": 1148,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -546,11 +486,7 @@
         "Reigning Blade",
         "Bloodied Jade"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "denia",
@@ -559,17 +495,17 @@
       "sourceUrl": "https://wuthering.gg/characters/denia",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11025,
+        "atk": 425,
+        "def": 1148,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -580,11 +516,7 @@
         "If Lies Patch Up a Heart",
         "May You Find Your Sun in the Silence"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "encore",
@@ -593,17 +525,17 @@
       "sourceUrl": "https://wuthering.gg/characters/encore",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10512,
+        "atk": 425,
+        "def": 1246,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -614,11 +546,7 @@
         "Hero Takes the Stage!",
         "Woolies Save the World!"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "galbrena",
@@ -627,17 +555,17 @@
       "sourceUrl": "https://wuthering.gg/characters/galbrena",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -648,11 +576,7 @@
         "Though Light Fades, Torment Consumes",
         "I Remain Who I am, Eternal My Flame"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "hiyuki",
@@ -661,17 +585,17 @@
       "sourceUrl": "https://wuthering.gg/characters/hiyuki",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -682,11 +606,7 @@
         "Vessel of Thousand Wishes",
         "Into a Night Without End"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "hsin",
@@ -695,17 +615,17 @@
       "sourceUrl": "https://wuthering.gg/characters/hsin",
       "releaseStatusAtCapture": "UNRELEASED_WIP",
       "freshnessSensitive": true,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -716,11 +636,7 @@
         "Forms Turn as the Heart Wills",
         "The Moon Owes Its Light to the Living"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "iuno",
@@ -729,17 +645,17 @@
       "sourceUrl": "https://wuthering.gg/characters/iuno",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10525,
+        "atk": 450,
+        "def": 1124,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -750,11 +666,7 @@
         "A Thousand Futile Glimpses",
         "I Am the Constant in the Chaos"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "jianxin",
@@ -763,17 +675,17 @@
       "sourceUrl": "https://wuthering.gg/characters/jianxin",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 14112,
+        "atk": 337,
+        "def": 1124,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -784,11 +696,7 @@
         "Mirroring Introspection",
         "Truth from Within"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "jingran",
@@ -797,17 +705,17 @@
       "sourceUrl": "https://wuthering.gg/characters/jingran",
       "releaseStatusAtCapture": "CONFIRMED_UPCOMING",
       "freshnessSensitive": true,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 15375,
+        "atk": 312,
+        "def": 0,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -818,11 +726,7 @@
         "Ends Return to Beginnings, Truth of Life Laid Bare",
         "As Favors and Feuds Fade, New Stories Await"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "jinhsi",
@@ -831,17 +735,17 @@
       "sourceUrl": "https://wuthering.gg/characters/jinhsi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10825,
+        "atk": 412,
+        "def": 1258,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -852,11 +756,7 @@
         "Frostfire Illumination",
         "Thawing Triumph"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "jiyan",
@@ -865,17 +765,17 @@
       "sourceUrl": "https://wuthering.gg/characters/jiyan",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10487,
+        "atk": 437,
+        "def": 1185,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -886,11 +786,7 @@
         "Resolution",
         "Fortitude"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lingyang",
@@ -899,17 +795,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lingyang",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10387,
+        "atk": 437,
+        "def": 1209,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -920,11 +816,7 @@
         "Seven Stars Shine, Stepped upon High",
         "Demons Tremble, Divine Power Nigh"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lucilla",
@@ -933,17 +825,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lucilla",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12237,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -954,11 +846,7 @@
         "Time is Like a Stream",
         "Gazing In the Mist of Time"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lucy",
@@ -967,17 +855,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lucy",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11025,
+        "atk": 425,
+        "def": 1148,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -988,11 +876,7 @@
         "A Broken Path to Hell",
         "I Really Want to Stay At Your House"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lumi",
@@ -1001,17 +885,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lumi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Electro",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 8500,
+        "atk": 337,
+        "def": 879,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1022,11 +906,7 @@
         "Parcel Collected On Time",
         "Give Me A Five-star Rating"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lupa",
@@ -1035,17 +915,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lupa",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11912,
+        "atk": 387,
+        "def": 1185,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1056,11 +936,7 @@
         "Embrace the Thunderous Triumph",
         "To the Brightest Flaming Star"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "luuk-herssen",
@@ -1069,17 +945,17 @@
       "sourceUrl": "https://wuthering.gg/characters/luuk-herssen",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1090,11 +966,7 @@
         "Through the Stillness of Snowstorm",
         "Dawn Unfurling over Frostlands"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "lynae",
@@ -1103,17 +975,17 @@
       "sourceUrl": "https://wuthering.gg/characters/lynae",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12237,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1124,11 +996,7 @@
         "Visions of a Future Unbound",
         "Painted in My True Color"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "mornye",
@@ -1137,17 +1005,17 @@
       "sourceUrl": "https://wuthering.gg/characters/mornye",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Fusion",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 15375,
+        "atk": 287,
+        "def": 1356,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1158,11 +1026,7 @@
         "Time Dilation Effect",
         "To the Far Shores of the Stars"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "mortefi",
@@ -1171,17 +1035,17 @@
       "sourceUrl": "https://wuthering.gg/characters/mortefi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Fusion",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10025,
+        "atk": 250,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1192,11 +1056,7 @@
         "Funerary Quartet",
         "Apoplectic Instrumental"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "phoebe",
@@ -1205,17 +1065,17 @@
       "sourceUrl": "https://wuthering.gg/characters/phoebe",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10825,
+        "atk": 412,
+        "def": 1258,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1226,11 +1086,7 @@
         "Prayer to the Distant Light",
         "Whispering Chirps in Silence"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "phrolova",
@@ -1239,17 +1095,17 @@
       "sourceUrl": "https://wuthering.gg/characters/phrolova",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1260,11 +1116,7 @@
         "A Forked Road in Fate's Heartland",
         "A Night to Depart From Eternal Rest"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "qingxiao",
@@ -1273,17 +1125,17 @@
       "sourceUrl": "https://wuthering.gg/characters/qingxiao",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1294,11 +1146,7 @@
         "Cold Steel That Longs to Warm the Snow",
         "Cleanse This Tarnished Age, Till All Runs Clear"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "qiuyuan",
@@ -1307,17 +1155,17 @@
       "sourceUrl": "https://wuthering.gg/characters/qiuyuan",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12237,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1328,11 +1176,7 @@
         "O Blade, I, Who Await to be Wielded",
         "Thus I Heard, Thus I Saw, Thus I Spoke"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "rebecca",
@@ -1341,17 +1185,17 @@
       "sourceUrl": "https://wuthering.gg/characters/rebecca",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Pistols"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11600,
+        "atk": 400,
+        "def": 1173,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1362,11 +1206,7 @@
         "Dreamin' on the Edge",
         "Maybe, Just Maybe..."
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "roccia",
@@ -1375,17 +1215,17 @@
       "sourceUrl": "https://wuthering.gg/characters/roccia",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12250,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1396,11 +1236,7 @@
         "When Dreams Are Reborn on Stage",
         "When the Golden Wings Fly"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "rover-aero",
@@ -1409,17 +1245,17 @@
       "sourceUrl": "https://wuthering.gg/characters/rover-aero",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1430,11 +1266,7 @@
         "Life and Death Intertwine",
         "All Crumble in the Wind"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "rover-electro",
@@ -1443,17 +1275,17 @@
       "sourceUrl": "https://wuthering.gg/characters/rover-electro",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1464,11 +1296,7 @@
         "Principle of Change",
         "Mind's Depths in a Casket"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "rover-havoc",
@@ -1477,17 +1305,17 @@
       "sourceUrl": "https://wuthering.gg/characters/rover-havoc",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10825,
+        "atk": 412,
+        "def": 1258,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1498,11 +1326,7 @@
         "Aeon Symphony",
         "Ebbing Undercurrent"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "rover-spectro",
@@ -1511,17 +1335,17 @@
       "sourceUrl": "https://wuthering.gg/characters/rover-spectro",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11400,
+        "atk": 375,
+        "def": 1368,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1532,11 +1356,7 @@
         "Temporal Virtuoso",
         "Echoes of Wanderlust"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "sanhua",
@@ -1545,17 +1365,17 @@
       "sourceUrl": "https://wuthering.gg/characters/sanhua",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Glacio",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10062,
+        "atk": 275,
+        "def": 941,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1566,11 +1386,7 @@
         "Unraveling Fate",
         "Daybreak Radiance"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "sigrika",
@@ -1579,17 +1395,17 @@
       "sourceUrl": "https://wuthering.gg/characters/sigrika",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Aero",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1600,11 +1416,7 @@
         "Until Submerged by the Dark",
         "True Names Resurfaced, Rising in Light"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "suisui",
@@ -1613,17 +1425,17 @@
       "sourceUrl": "https://wuthering.gg/characters/suisui",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 16712,
+        "atk": 287,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1634,11 +1446,7 @@
         "I Long To Ride The Eastern Wind",
         "Staying True To This Splendid Realm"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "suoming",
@@ -1647,17 +1455,17 @@
       "sourceUrl": "https://wuthering.gg/characters/suoming",
       "releaseStatusAtCapture": "UNRELEASED_WIP",
       "freshnessSensitive": true,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10300,
+        "atk": 462,
+        "def": 1112,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1668,11 +1476,7 @@
         "Seal Deep, Never Forgotten",
         "Nine Shadows at Her Side"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "taoqi",
@@ -1681,17 +1485,17 @@
       "sourceUrl": "https://wuthering.gg/characters/taoqi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Havoc",
         "weaponType": "Broadblade"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 8950,
+        "atk": 225,
+        "def": 1564,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1702,11 +1506,7 @@
         "Benevolent Guardian",
         "Defender of Peace"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "the-shorekeeper",
@@ -1715,27 +1515,28 @@
       "sourceUrl": "https://wuthering.gg/characters/shorekeeper",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
-        "element": null,
-        "weaponType": null
+        "element": "Spectro",
+        "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 16712,
+        "atk": 287,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
-      "sequenceNames": [],
-      "warnings": [
-        "missing structured introduction identity sentence",
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def",
-        "expected 6 Resonance Chain headings, got 0"
-      ]
+      "sequenceNames": [
+        "Unspoken Conjecture",
+        "Night's Gift and Refusal",
+        "Infinity Awaits Me",
+        "Overflowing Quietude",
+        "Echoes in Silence",
+        "To the New World"
+      ],
+      "warnings": []
     },
     {
       "bellibingCharacterId": "verina",
@@ -1744,17 +1545,17 @@
       "sourceUrl": "https://wuthering.gg/characters/verina",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 14237,
+        "atk": 337,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1765,11 +1566,7 @@
         "Miraculous Blooms",
         "Joyous Harvest"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "xiangli-yao",
@@ -1778,17 +1575,17 @@
       "sourceUrl": "https://wuthering.gg/characters/xiangli-yao",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10625,
+        "atk": 425,
+        "def": 1222,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1799,11 +1596,7 @@
         "End of Stars",
         "Solace of the Ordinary"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "yangyang",
@@ -1812,17 +1605,17 @@
       "sourceUrl": "https://wuthering.gg/characters/yangyang",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Aero",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10200,
+        "atk": 250,
+        "def": 1099,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1833,11 +1626,7 @@
         "Winds Whisper in Harmony",
         "A Tribute to Life's Sweet Hymn"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "yangyang-xuanling",
@@ -1846,17 +1635,17 @@
       "sourceUrl": "https://wuthering.gg/characters/yangyang-xuanling",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Havoc",
         "weaponType": "Sword"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11025,
+        "atk": 425,
+        "def": 1148,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1867,11 +1656,7 @@
         "Take Wing. Take Wing.",
         "Let the Azure Keep Its Light"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "yinlin",
@@ -1880,17 +1665,17 @@
       "sourceUrl": "https://wuthering.gg/characters/yinlin",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Electro",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 11000,
+        "atk": 400,
+        "def": 1283,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1901,11 +1686,7 @@
         "Resounding Will",
         "Pursuit of Justice"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "youhu",
@@ -1914,17 +1695,17 @@
       "sourceUrl": "https://wuthering.gg/characters/youhu",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Glacio",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 9975,
+        "atk": 262,
+        "def": 1051,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1935,11 +1716,7 @@
         "Dreamland Meander",
         "Slumber Evermore"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "yuanwu",
@@ -1948,17 +1725,17 @@
       "sourceUrl": "https://wuthering.gg/characters/yuanwu",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 4,
         "element": "Electro",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 8525,
+        "atk": 225,
+        "def": 1637,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -1969,11 +1746,7 @@
         "Neighborhood Protector",
         "Defender of All Realms"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "zani",
@@ -1982,17 +1755,17 @@
       "sourceUrl": "https://wuthering.gg/characters/zani",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Spectro",
         "weaponType": "Gauntlets"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 10775,
+        "atk": 437,
+        "def": 1136,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -2003,11 +1776,7 @@
         "Delivered In Full On Time",
         "First Things First? Clock Out!"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     },
     {
       "bellibingCharacterId": "zhezhi",
@@ -2016,17 +1785,17 @@
       "sourceUrl": "https://wuthering.gg/characters/zhezhi",
       "releaseStatusAtCapture": "RELEASED",
       "freshnessSensitive": false,
-      "capturedAt": "2026-10-05T18:01:50Z",
-      "captureStatus": "PARTIAL",
+      "capturedAt": "2026-10-05T18:04:55Z",
+      "captureStatus": "CAPTURED",
       "identity": {
         "rarity": 5,
         "element": "Glacio",
         "weaponType": "Rectifier"
       },
       "level90": {
-        "hp": null,
-        "atk": null,
-        "def": null,
+        "hp": 12250,
+        "atk": 375,
+        "def": 1197,
         "maxResonanceEnergy": 140
       },
       "sequenceNames": [
@@ -2037,11 +1806,7 @@
         "Composition's Clue",
         "Infinite Legacy"
       ],
-      "warnings": [
-        "missing level90.hp",
-        "missing level90.atk",
-        "missing level90.def"
-      ]
+      "warnings": []
     }
   ],
   "excluded": [

@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/character-truth-reconciliation.yml'
       - 'scripts/generate-character-truth-reconciliation.ts'
+      - 'scripts/summarize-character-truth.ts'
       - 'src/factory/characterTruthCapture.ts'
       - 'data/factory/character-truth/prydwen-character-truth.json'
       - 'data/factory/character-truth/prydwen-progression-truth.json'
@@ -30,6 +31,8 @@ jobs:
           node-version: 22
       - name: Generate reconciliation report
         run: node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts
+      - name: Generate compact audit summary
+        run: node --experimental-strip-types scripts/summarize-character-truth.ts
       - name: Validate report boundary
         run: |
           node --input-type=module <<'JS'
@@ -46,12 +49,14 @@ jobs:
       - name: Commit reconciliation report
         run: |
           cp data/factory/character-truth/character-truth-reconciliation.json /tmp/character-truth-reconciliation.json
+          cp data/factory/character-truth/character-truth-audit-summary.json /tmp/character-truth-audit-summary.json
           git fetch origin ${{ github.ref_name }}
           git reset --hard origin/${{ github.ref_name }}
           cp /tmp/character-truth-reconciliation.json data/factory/character-truth/character-truth-reconciliation.json
+          cp /tmp/character-truth-audit-summary.json data/factory/character-truth/character-truth-audit-summary.json
           git config user.name "bellibing-data-bot"
           git config user.email "bellibing-data-bot@users.noreply.github.com"
-          git add data/factory/character-truth/character-truth-reconciliation.json
+          git add data/factory/character-truth/character-truth-reconciliation.json data/factory/character-truth/character-truth-audit-summary.json
           if git diff --cached --quiet; then
             echo "No reconciliation report change."
           else

@@ -59,11 +59,14 @@ jobs:
         run: |
           git config user.name "bellibing-data-bot"
           git config user.email "bellibing-data-bot@users.noreply.github.com"
+          cp data/factory/character-truth/wuthering-gg-character-truth.json /tmp/wuthering-gg-character-truth.json
+          git fetch origin ${{ github.ref_name }}
+          git reset --hard origin/${{ github.ref_name }}
+          cp /tmp/wuthering-gg-character-truth.json data/factory/character-truth/wuthering-gg-character-truth.json
           git add data/factory/character-truth/wuthering-gg-character-truth.json
           if git diff --cached --quiet; then
             echo "No Wuthering.gg capture change."
           else
             git commit -m "Capture Wuthering.gg factual Character progression"
-            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           fi

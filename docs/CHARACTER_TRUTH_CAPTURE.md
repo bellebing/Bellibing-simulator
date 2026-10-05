@@ -86,6 +86,8 @@ The lane deliberately excludes role judgements, ratings, build advice, weapon/Ec
 
 `sourceVersion` is populated only when the provider exposes a genuine source/content version; otherwise it is `null`. The pinned `theonuverse/ww_prydwen_api` repository/commit remains extractor-code provenance on the Prydwen kit snapshot and is not relabeled as the Prydwen page-content version.
 
+Every provider emitted in the reconciliation report must also be present in `FACTORY_PROVIDER_REGISTRY`, enabled for Factory evidence, explicitly noncanonical, and reusable under a policy other than `REFERENCE_ONLY_NO_REUSE`. Generation fails closed if that admission contract is not met.
+
 ## Roster mapping
 
 `data/factory/character-truth/roster.json` is generated from the Bellibing `CHARACTER_CATALOG` identity set and contains 60 identities at base

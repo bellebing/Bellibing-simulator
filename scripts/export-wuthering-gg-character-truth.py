@@ -40,9 +40,9 @@ def parse_page(text:str,row:dict[str,Any],url:str,captured_at:str)->dict[str,Any
     weapon=norm_weapon(intro.group(3).title()) if intro else None
     if not intro:
         warnings.append("missing structured introduction identity sentence")
-    hp=one(r"\\bHP\\s+(?:HP\\s+)?([0-9]+)", "level90.hp", int)
-    atk=one(r"\\bATK\\s+(?:ATK\\s+)?([0-9]+)", "level90.atk", int)
-    defense=one(r"\\bDEF\\s+(?:DEF\\s+)?([0-9]+)", "level90.def", int)
+    hp=one(r"\bHP\s+(?:HP\s+)?([0-9]+)", "level90.hp", int)
+    atk=one(r"\bATK\s+(?:ATK\s+)?([0-9]+)", "level90.atk", int)
+    defense=one(r"\bDEF\s+(?:DEF\s+)?([0-9]+)", "level90.def", int)
     energy=one(r"Max Resonance Energy\s*([0-9]+)", "maxResonanceEnergy", int)
     identity={"rarity":rarity,"element":element,"weaponType":weapon}
     level90={"hp":hp,"atk":atk,"def":defense,"maxResonanceEnergy":energy}

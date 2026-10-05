@@ -25,6 +25,10 @@ const wutheringById = byId(wuthering);
 const sequenceById = new Map(sequenceSource.characters.map((row: Json) => [row.characterId, row]));
 
 const facts: CharacterTruthProviderFact[] = [];
+function sourceVersionOf(_row: Json): null {
+  // capturedAt is observation time, never a stand-in for provider content version.
+  return null;
+}
 function add(input: Omit<CharacterTruthProviderFact, 'capturedAt' | 'freshnessSensitive'> & { capturedAt?: string; freshnessSensitive?: boolean }) {
   facts.push({
     ...input,
@@ -38,7 +42,7 @@ function addProgression(providerId: string, row: Json | undefined, energyKey: 'm
     if (value === null || value === undefined) continue;
     add({ providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
       bellibingCharacterId: row.bellibingCharacterId, family: 'IDENTITY', factId, value,
-      sourceRef: row.sourceUrl, sourceVersion: null, capturedAt: row.capturedAt,
+      sourceRef: row.sourceUrl, sourceVersion: sourceVersionOf(row), capturedAt: row.capturedAt,
       freshnessSensitive: row.freshnessSensitive });
   }
   const level = row.level90;
@@ -47,14 +51,14 @@ function addProgression(providerId: string, row: Json | undefined, energyKey: 'm
     if (level[factId] === null || level[factId] === undefined) continue;
     add({ providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
       bellibingCharacterId: row.bellibingCharacterId, family: 'PROGRESSION', factId: `level90.${factId}`,
-      value: level[factId], sourceRef: row.sourceUrl, sourceVersion: null,
+      value: level[factId], sourceRef: row.sourceUrl, sourceVersion: sourceVersionOf(row),
       capturedAt: row.capturedAt, freshnessSensitive: row.freshnessSensitive });
   }
   const energy = level[energyKey];
   if (energy !== null && energy !== undefined) add({
     providerId, providerCharacterId: row.providerCharacterId ?? row.bellibingCharacterId,
     bellibingCharacterId: row.bellibingCharacterId, family: 'PROGRESSION', factId: 'level90.maxEnergy',
-    value: energy, sourceRef: row.sourceUrl, sourceVersion: null,
+    value: energy, sourceRef: row.sourceUrl, sourceVersion: sourceVersionOf(row),
     capturedAt: row.capturedAt, freshnessSensitive: row.freshnessSensitive,
     notes: energyKey === 'maxResonanceEnergy' ? ['Provider label: Max Resonance Energy'] : ['Provider label: Max Energy'],
   });
@@ -72,7 +76,7 @@ for (const character of CHARACTER_CATALOG) {
     if (kit.providerDisplayName) add({
       providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
       bellibingCharacterId: id, family: 'IDENTITY', factId: 'displayName', value: kit.providerDisplayName,
-      sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
+      sourceRef: kit.sourceUrl, sourceVersion: sourceVersionOf(kit), capturedAt: kit.capturedAt,
       freshnessSensitive: kit.freshnessSensitive,
     });
     for (const [skillKey, skill] of Object.entries(kit.skills ?? {}) as [string, Json | null][]) {
@@ -80,20 +84,20 @@ for (const character of CHARACTER_CATALOG) {
       if (skill.name) add({
         providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
         bellibingCharacterId: id, family: 'SKILL_ACTION', factId: `${skillKey}.name`, value: skill.name,
-        sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
+        sourceRef: kit.sourceUrl, sourceVersion: sourceVersionOf(kit), capturedAt: kit.capturedAt,
         freshnessSensitive: kit.freshnessSensitive,
       });
       if (skill.multiplierTextByLevel && Object.keys(skill.multiplierTextByLevel).length > 0) add({
         providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
         bellibingCharacterId: id, family: 'SKILL_ACTION', factId: `${skillKey}.levelValues`,
-        value: skill.multiplierTextByLevel, sourceRef: kit.sourceUrl, sourceVersion: null,
+        value: skill.multiplierTextByLevel, sourceRef: kit.sourceUrl, sourceVersion: sourceVersionOf(kit),
         capturedAt: kit.capturedAt, freshnessSensitive: kit.freshnessSensitive,
       });
     }
     for (const chain of kit.sequences ?? []) if (chain?.name && !/^Sequence Node \d+$/i.test(chain.name.trim())) add({
       providerId: 'prydwen-profile-source', providerCharacterId: kit.providerCharacterId,
       bellibingCharacterId: id, family: 'SEQUENCE', factId: `S${chain.sequence}.name`, value: chain.name,
-      sourceRef: kit.sourceUrl, sourceVersion: null, capturedAt: kit.capturedAt,
+      sourceRef: kit.sourceUrl, sourceVersion: sourceVersionOf(kit), capturedAt: kit.capturedAt,
       freshnessSensitive: kit.freshnessSensitive,
     });
   }
@@ -101,13 +105,13 @@ for (const character of CHARACTER_CATALOG) {
     if (w.providerDisplayName) add({
       providerId: 'wuthering-gg', providerCharacterId: w.providerCharacterId,
       bellibingCharacterId: id, family: 'IDENTITY', factId: 'displayName', value: w.providerDisplayName,
-      sourceRef: w.sourceUrl, sourceVersion: null, capturedAt: w.capturedAt,
+      sourceRef: w.sourceUrl, sourceVersion: sourceVersionOf(w), capturedAt: w.capturedAt,
       freshnessSensitive: w.freshnessSensitive,
     });
     for (let i = 0; i < (w.sequenceNames ?? []).length; i++) if (w.sequenceNames[i]) add({
       providerId: 'wuthering-gg', providerCharacterId: w.providerCharacterId,
       bellibingCharacterId: id, family: 'SEQUENCE', factId: `S${i+1}.name`, value: w.sequenceNames[i],
-      sourceRef: w.sourceUrl, sourceVersion: null, capturedAt: w.capturedAt,
+      sourceRef: w.sourceUrl, sourceVersion: sourceVersionOf(w), capturedAt: w.capturedAt,
       freshnessSensitive: w.freshnessSensitive,
     });
   }

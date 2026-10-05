@@ -64,5 +64,6 @@ jobs:
             echo "No Wuthering.gg capture change."
           else
             git commit -m "Capture Wuthering.gg factual Character progression"
+            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           fi

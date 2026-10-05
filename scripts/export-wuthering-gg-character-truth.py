@@ -50,7 +50,7 @@ def parse_page(text:str,row:dict[str,Any],url:str,captured_at:str)->dict[str,Any
     status="CAPTURED" if all(v is not None for v in identity.values()) and all(v is not None for v in level90.values()) else "PARTIAL"
     return {
       "bellibingCharacterId":row["characterId"],"providerCharacterId":row["characterId"],
-      "providerDisplayName":row["name"],"sourceUrl":url,"releaseStatusAtCapture":row["releaseStatus"],
+      "providerDisplayName":source_name,"sourceUrl":url,"releaseStatusAtCapture":row["releaseStatus"],
       "freshnessSensitive":row["releaseStatus"]!="RELEASED","capturedAt":captured_at,
       "captureStatus":status,"identity":identity,"level90":level90,"sequenceNames":[],"warnings":warnings,
     }

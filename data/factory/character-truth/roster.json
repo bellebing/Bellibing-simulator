@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "kind": "CHARACTER_TRUTH_CAPTURE_ROSTER",
+  "baseSha": "8c743bafdbbaf18adefe4f66305471c50250d5b0",
+  "generatedAt": "2026-10-05",
+  "identityPolicy": "Bellibing CHARACTER_CATALOG id is authoritative for mapping; provider display names never merge variants.",
+  "characters": [
+    {
+      "characterId": "aalto",
+      "name": "Aalto",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "aalto",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aalto"
+    },
+    {
+      "characterId": "aemeath",
+      "name": "Aemeath",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath"
+    },
+    {
+      "characterId": "augusta",
+      "name": "Augusta",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta"
+    },
+    {
+      "characterId": "baizhi",
+      "name": "Baizhi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "baizhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/baizhi"
+    },
+    {
+      "characterId": "brant",
+      "name": "Brant",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "brant",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/brant"
+    },
+    {
+      "characterId": "buling",
+      "name": "Buling",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "buling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/buling"
+    },
+    {
+      "characterId": "calcharo",
+      "name": "Calcharo",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "calcharo",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/calcharo"
+    },
+    {
+      "characterId": "camellya",
+      "name": "Camellya",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "camellya",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya"
+    },
+    {
+      "characterId": "cantarella",
+      "name": "Cantarella",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "cantarella",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cantarella"
+    },
+    {
+      "characterId": "carlotta",
+      "name": "Carlotta",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "carlotta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/carlotta"
+    },
+    {
+      "characterId": "cartethyia",
+      "name": "Cartethyia",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia"
+    },
+    {
+      "characterId": "changli",
+      "name": "Changli",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "changli",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli"
+    },
+    {
+      "characterId": "chisa",
+      "name": "Chisa",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "chisa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chisa"
+    },
+    {
+      "characterId": "chixia",
+      "name": "Chixia",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "chixia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chixia"
+    },
+    {
+      "characterId": "ciaccona",
+      "name": "Ciaccona",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "ciaccona",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/ciaccona"
+    },
+    {
+      "characterId": "danjin",
+      "name": "Danjin",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "danjin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/danjin"
+    },
+    {
+      "characterId": "denia",
+      "name": "Denia",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "denia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/denia"
+    },
+    {
+      "characterId": "encore",
+      "name": "Encore",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "encore",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/encore"
+    },
+    {
+      "characterId": "galbrena",
+      "name": "Galbrena",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena"
+    },
+    {
+      "characterId": "hiyuki",
+      "name": "Hiyuki",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "hiyuki",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki"
+    },
+    {
+      "characterId": "hsin",
+      "name": "Hsin",
+      "releaseStatus": "UNRELEASED_WIP",
+      "prydwenSlug": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin"
+    },
+    {
+      "characterId": "iuno",
+      "name": "Iuno",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "iuno",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno"
+    },
+    {
+      "characterId": "jianxin",
+      "name": "Jianxin",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "jianxin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jianxin"
+    },
+    {
+      "characterId": "jingran",
+      "name": "Jingran",
+      "releaseStatus": "CONFIRMED_UPCOMING",
+      "prydwenSlug": "jingran",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran"
+    },
+    {
+      "characterId": "jinhsi",
+      "name": "Jinhsi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "jinhsi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jinhsi"
+    },
+    {
+      "characterId": "jiyan",
+      "name": "Jiyan",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "jiyan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan"
+    },
+    {
+      "characterId": "lingyang",
+      "name": "Lingyang",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lingyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang"
+    },
+    {
+      "characterId": "lucilla",
+      "name": "Lucilla",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lucilla",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucilla"
+    },
+    {
+      "characterId": "lucy",
+      "name": "Lucy",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lucy",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy"
+    },
+    {
+      "characterId": "lumi",
+      "name": "Lumi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lumi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lumi"
+    },
+    {
+      "characterId": "lupa",
+      "name": "Lupa",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lupa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lupa"
+    },
+    {
+      "characterId": "luuk-herssen",
+      "name": "Luuk Herssen",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "luuk-herssen",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen"
+    },
+    {
+      "characterId": "lynae",
+      "name": "Lynae",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "lynae",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lynae"
+    },
+    {
+      "characterId": "mornye",
+      "name": "Mornye",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "mornye",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mornye"
+    },
+    {
+      "characterId": "mortefi",
+      "name": "Mortefi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "mortefi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mortefi"
+    },
+    {
+      "characterId": "phoebe",
+      "name": "Phoebe",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "phoebe",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe"
+    },
+    {
+      "characterId": "phrolova",
+      "name": "Phrolova",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova"
+    },
+    {
+      "characterId": "qingxiao",
+      "name": "Qingxiao",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "qingxiao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qingxiao"
+    },
+    {
+      "characterId": "qiuyuan",
+      "name": "Qiuyuan",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "qiuyuan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qiuyuan"
+    },
+    {
+      "characterId": "rebecca",
+      "name": "Rebecca",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "rebecca",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rebecca"
+    },
+    {
+      "characterId": "roccia",
+      "name": "Roccia",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "roccia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia"
+    },
+    {
+      "characterId": "rover-aero",
+      "name": "Rover (Aero)",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "rover-aero",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-aero"
+    },
+    {
+      "characterId": "rover-electro",
+      "name": "Rover (Electro)",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "rover-electro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-electro"
+    },
+    {
+      "characterId": "rover-havoc",
+      "name": "Rover (Havoc)",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "rover-havoc",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc"
+    },
+    {
+      "characterId": "rover-spectro",
+      "name": "Rover (Spectro)",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "rover-spectro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro"
+    },
+    {
+      "characterId": "sanhua",
+      "name": "Sanhua",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "sanhua",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sanhua"
+    },
+    {
+      "characterId": "sigrika",
+      "name": "Sigrika",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika"
+    },
+    {
+      "characterId": "suisui",
+      "name": "Suisui",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "suisui",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suisui"
+    },
+    {
+      "characterId": "suoming",
+      "name": "Suoming",
+      "releaseStatus": "UNRELEASED_WIP",
+      "prydwenSlug": "suoming",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suoming"
+    },
+    {
+      "characterId": "taoqi",
+      "name": "Taoqi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "taoqi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi"
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "name": "The Shorekeeper",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "the-shorekeeper",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper"
+    },
+    {
+      "characterId": "verina",
+      "name": "Verina",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "verina",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/verina"
+    },
+    {
+      "characterId": "xiangli-yao",
+      "name": "Xiangli Yao",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "xiangli-yao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao"
+    },
+    {
+      "characterId": "yangyang",
+      "name": "Yangyang",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "yangyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang"
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "name": "Yangyang: Xuanling",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling"
+    },
+    {
+      "characterId": "yinlin",
+      "name": "Yinlin",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "yinlin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yinlin"
+    },
+    {
+      "characterId": "youhu",
+      "name": "Youhu",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "youhu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu"
+    },
+    {
+      "characterId": "yuanwu",
+      "name": "Yuanwu",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "yuanwu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yuanwu"
+    },
+    {
+      "characterId": "zani",
+      "name": "Zani",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "zani",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani"
+    },
+    {
+      "characterId": "zhezhi",
+      "name": "Zhezhi",
+      "releaseStatus": "RELEASED",
+      "prydwenSlug": "zhezhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zhezhi"
+    }
+  ]
+}

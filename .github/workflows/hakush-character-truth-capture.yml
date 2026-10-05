@@ -1,0 +1,66 @@
+name: Hakush Character Truth Capture
+
+on:
+  push:
+    branches:
+      - 'data/bulk-character-truth-intake-20261005'
+    paths:
+      - '.github/workflows/hakush-character-truth-capture.yml'
+      - 'scripts/export-hakush-character-truth.py'
+      - 'data/factory/character-truth/roster.json'
+      - 'docs/ui-prototypes/assets/builder-icons/manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hakush-character-truth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Bellibing branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Capture structured factual Character evidence
+        run: python scripts/export-hakush-character-truth.py
+
+      - name: Validate capture shape
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('data/factory/character-truth/hakush-character-truth.json').read_text())
+          assert p['canonicalAuthority'] is False
+          assert p['promotionPolicy']=='MANUAL_SOURCE_VALIDATION_REQUIRED'
+          assert len(p['characters'])==60
+          assert len({c['bellibingCharacterId'] for c in p['characters']})==60
+          banned={'recommendations','ratings','teams','rotations','builds','echoRecommendations','weaponRecommendations'}
+          for c in p['characters']:
+              assert banned.isdisjoint(c.keys())
+              if c['captureStatus']=='CAPTURED':
+                  assert c['identity']['rarity'] in (4,5)
+                  assert c['identity']['element'] in ('Glacio','Fusion','Electro','Aero','Spectro','Havoc')
+                  assert c['identity']['weaponType'] in ('Broadblade','Sword','Pistols','Gauntlets','Rectifier')
+                  assert c['progression']['level90']
+                  assert len(c['sequences'])==6
+                  assert c['skillTree']
+          PY
+
+      - name: Commit provider capture to the data branch
+        run: |
+          git config user.name "bellibing-data-bot"
+          git config user.email "bellibing-data-bot@users.noreply.github.com"
+          git add data/factory/character-truth/hakush-character-truth.json
+          if git diff --cached --quiet; then
+            echo "No Hakush capture change."
+          else
+            git commit -m "Capture Hakush factual Character evidence"
+            git push origin HEAD:${{ github.ref_name }}
+          fi

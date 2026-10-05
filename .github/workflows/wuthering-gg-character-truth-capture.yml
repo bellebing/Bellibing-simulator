@@ -1,0 +1,68 @@
+name: Wuthering.gg Character Truth Capture
+
+on:
+  push:
+    branches:
+      - 'data/bulk-character-truth-intake-20261005'
+    paths:
+      - '.github/workflows/wuthering-gg-character-truth-capture.yml'
+      - 'scripts/export-wuthering-gg-character-truth.py'
+      - 'data/factory/character-truth/roster.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  wuthering-gg-character-truth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Bellibing branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install browser runtime
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Capture factual identity and progression evidence
+        run: python scripts/export-wuthering-gg-character-truth.py
+
+      - name: Validate capture boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('data/factory/character-truth/wuthering-gg-character-truth.json').read_text())
+          assert p['canonicalAuthority'] is False
+          assert p['promotionPolicy']=='MANUAL_SOURCE_VALIDATION_REQUIRED'
+          assert len(p['characters'])==60
+          assert len({c['bellibingCharacterId'] for c in p['characters']})==60
+          banned={'builds','recommendations','bestWeapons','echoRecommendations','teams','rotations','ratings'}
+          for c in p['characters']:
+              assert banned.isdisjoint(c.keys())
+              if c['captureStatus']=='CAPTURED':
+                  assert c['identity']['rarity'] in (4,5)
+                  assert c['identity']['element'] in ('Glacio','Fusion','Electro','Aero','Spectro','Havoc')
+                  assert c['identity']['weaponType'] in ('Broadblade','Sword','Pistols','Gauntlets','Rectifier')
+                  assert all(c['level90'].get(k) is not None for k in ('hp','atk','def','maxResonanceEnergy'))
+          PY
+
+      - name: Commit provider capture to the data branch
+        run: |
+          git config user.name "bellibing-data-bot"
+          git config user.email "bellibing-data-bot@users.noreply.github.com"
+          git add data/factory/character-truth/wuthering-gg-character-truth.json
+          if git diff --cached --quiet; then
+            echo "No Wuthering.gg capture change."
+          else
+            git commit -m "Capture Wuthering.gg factual Character progression"
+            git push origin HEAD:${{ github.ref_name }}
+          fi

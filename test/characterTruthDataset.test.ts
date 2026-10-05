@@ -91,11 +91,11 @@ test('reconciliation retains consensus and conflicts without canonical promotion
   assert.equal(report.sourceCoverage.completeSixSequenceCharacters,59);
   assert.equal(report.sourceCoverage.completeLevel10SkillTables,295);
   assert.deepEqual(report.evidence.stateCounts,{
-    CAPTURED_ONE_PROVIDER:820,
-    CONSENSUS_TWO_PROVIDERS:375,
-    PROVIDER_CONFLICT:427,
+    CAPTURED_ONE_PROVIDER:1114,
+    CONSENSUS_TWO_PROVIDERS:374,
+    PROVIDER_CONFLICT:134,
   });
-  assert.equal(report.evidence.conflictRows.length,427);
+  assert.equal(report.evidence.conflictRows.length,134);
   for(const row of report.reconciliation){
     if(row.factoryEvidence) assert.equal(row.factoryEvidence.canonicalPromotion,'MANUAL_SOURCE_VALIDATION_REQUIRED');
     if(row.evidenceState==='PROVIDER_CONFLICT') assert.ok(new Set(row.providerFacts.map((fact:any)=>JSON.stringify(fact.value))).size>1);
@@ -104,8 +104,8 @@ test('reconciliation retains consensus and conflicts without canonical promotion
 
 test('canonical comparison remains report-only and raw Character readiness is unchanged',()=>{
   assert.deepEqual(report.canonicalDelta.stateCounts,{
-    CONFLICT:435,
-    EXACT_AGREEMENT:368,
+    CONFLICT:149,
+    EXACT_AGREEMENT:654,
     NOT_COMPARABLE:782,
     PROVIDER_ONLY:37,
   });

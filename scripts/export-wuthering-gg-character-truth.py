@@ -71,7 +71,8 @@ def capture_chunk(rows,captured_at):
         context=browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/153 Safari/537.36")
         for row in rows:
             page=context.new_page()
-            slug="shorekeeper" if row["characterId"]=="the-shorekeeper" else row["characterId"]\n            url=f"https://wuthering.gg/characters/{slug}"
+            slug="shorekeeper" if row["characterId"]=="the-shorekeeper" else row["characterId"]
+            url=f"https://wuthering.gg/characters/{slug}"
             try:
                 response=page.goto(url,wait_until="domcontentloaded",timeout=45000)
                 if response is None or response.status >= 400:

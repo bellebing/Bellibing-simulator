@@ -34,7 +34,8 @@ def parse_page(text:str,row:dict[str,Any],url:str,captured_at:str)->dict[str,Any
         except Exception as exc:
             warnings.append(f"{label}: {type(exc).__name__}: {exc}")
             return None
-    intro=re.search(rf"{re.escape(row['name'])}\s+in Wuthering Waves is a\s+(4|5)\s+Stars\s+(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\s+character who wields a\s+(Broadblade|Sword|Pistols?|Gauntlets?|Rectifier)",text,re.I)
+    source_name="Shorekeeper" if row["characterId"]=="the-shorekeeper" else row["name"]
+    intro=re.search(rf"{re.escape(source_name)}\s+in Wuthering Waves is a\s+(4|5)\s+Stars\s+(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\s+character who wields a\s+(Broadblade|Sword|Pistols?|Gauntlets?|Rectifier)",text,re.I)
     rarity=int(intro.group(1)) if intro else one(r"\n(4|5)★", "rarity", int)
     element=intro.group(2).title() if intro else None
     weapon=norm_weapon(intro.group(3).title()) if intro else None
@@ -85,7 +86,8 @@ def capture_chunk(rows,captured_at):
                 names=[]
                 for heading in headings:
                     clean=" ".join(heading.split())
-                    if clean.lower()==f"{row['name']} resonance chain".lower():
+                    source_name="Shorekeeper" if row["characterId"]=="the-shorekeeper" else row["name"]
+                    if clean.lower()==f"{source_name} resonance chain".lower():
                         in_chain=True
                         continue
                     if in_chain and clean.lower().endswith(" background"):

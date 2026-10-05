@@ -42,7 +42,7 @@ const output={
     completeLevel10SkillTables:report.sourceCoverage.completeLevel10SkillTables,
     kitGaps,
   },
-  progression:{gaps:progressionGaps,wutheringGgGaps},
+  progression:{gaps:progressionGaps,wutheringGgGaps:wggGaps},
   evidence:{
     factCount:report.evidence.factCount,
     stateCounts:report.evidence.stateCounts,

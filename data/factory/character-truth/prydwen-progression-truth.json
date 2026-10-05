@@ -1,0 +1,1318 @@
+{
+  "schemaVersion": 1,
+  "kind": "PRYDWEN_PROGRESSION_TRUTH_CAPTURE",
+  "canonicalAuthority": false,
+  "promotionPolicy": "MANUAL_SOURCE_VALIDATION_REQUIRED",
+  "providerId": "prydwen-profile-source",
+  "providerSurface": "Prydwen Wuthering Waves Character Profile/Stats blocks",
+  "capturedAt": "2026-10-05T17:58:41Z",
+  "workerCount": 4,
+  "characters": [
+    {
+      "bellibingCharacterId": "aalto",
+      "providerCharacterId": "aalto",
+      "providerDisplayName": "Aalto",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aalto",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Aero",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 9850,
+        "atk": 263,
+        "def": 1076,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "aemeath",
+      "providerCharacterId": "aemeath",
+      "providerDisplayName": "Aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "augusta",
+      "providerCharacterId": "augusta",
+      "providerDisplayName": "Augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "baizhi",
+      "providerCharacterId": "baizhi",
+      "providerDisplayName": "Baizhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/baizhi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Glacio",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 12813,
+        "atk": 213,
+        "def": 1002,
+        "maxEnergy": 175
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "brant",
+      "providerCharacterId": "brant",
+      "providerDisplayName": "Brant",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/brant",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 11675,
+        "atk": 375,
+        "def": 1308,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "buling",
+      "providerCharacterId": "buling",
+      "providerDisplayName": "Buling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/buling",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Electro",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 10625,
+        "atk": 225,
+        "def": 1259,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "calcharo",
+      "providerCharacterId": "calcharo",
+      "providerDisplayName": "Calcharo",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/calcharo",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 10500,
+        "atk": 438,
+        "def": 1186,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "camellya",
+      "providerCharacterId": "camellya",
+      "providerDisplayName": "Camellya",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10325,
+        "atk": 450,
+        "def": 1161,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "cantarella",
+      "providerCharacterId": "cantarella",
+      "providerDisplayName": "Cantarella",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cantarella",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 11600,
+        "atk": 400,
+        "def": 1100,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "carlotta",
+      "providerCharacterId": "carlotta",
+      "providerDisplayName": "Carlotta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/carlotta",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 12450,
+        "atk": 463,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "cartethyia",
+      "providerCharacterId": "cartethyia",
+      "providerDisplayName": "Cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 14800,
+        "atk": 313,
+        "def": 611,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "changli",
+      "providerCharacterId": "changli",
+      "providerDisplayName": "Changli",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10388,
+        "atk": 463,
+        "def": 1100,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "chisa",
+      "providerCharacterId": "chisa",
+      "providerDisplayName": "Chisa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chisa",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "chixia",
+      "providerCharacterId": "chixia",
+      "providerDisplayName": "Chixia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chixia",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Fusion",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 9088,
+        "atk": 300,
+        "def": 953,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "ciaccona",
+      "providerCharacterId": "ciaccona",
+      "providerDisplayName": "Ciaccona",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/ciaccona",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "danjin",
+      "providerCharacterId": "danjin",
+      "providerDisplayName": "Danjin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/danjin",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Havoc",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 9438,
+        "atk": 263,
+        "def": 1149,
+        "maxEnergy": 100
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "denia",
+      "providerCharacterId": "denia",
+      "providerDisplayName": "Denia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/denia",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Rectifier"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "encore",
+      "providerCharacterId": "encore",
+      "providerDisplayName": "Encore",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/encore",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 10513,
+        "atk": 425,
+        "def": 1247,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "galbrena",
+      "providerCharacterId": "galbrena",
+      "providerDisplayName": "Galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "hiyuki",
+      "providerCharacterId": "hiyuki",
+      "providerDisplayName": "Hiyuki",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "hsin",
+      "providerCharacterId": "hsin",
+      "providerDisplayName": "Hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "releaseStatusAtCapture": "UNRELEASED_WIP",
+      "freshnessSensitive": true,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Rectifier"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "iuno",
+      "providerCharacterId": "iuno",
+      "providerDisplayName": "Iuno",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10525,
+        "atk": 450,
+        "def": 1124,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "jianxin",
+      "providerCharacterId": "jianxin",
+      "providerDisplayName": "Jianxin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jianxin",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 14113,
+        "atk": 338,
+        "def": 1124,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "jingran",
+      "providerCharacterId": "jingran",
+      "providerDisplayName": "Jingran",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran",
+      "releaseStatusAtCapture": "CONFIRMED_UPCOMING",
+      "freshnessSensitive": true,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Broadblade"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "jinhsi",
+      "providerCharacterId": "jinhsi",
+      "providerDisplayName": "Jinhsi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jinhsi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "jiyan",
+      "providerCharacterId": "jiyan",
+      "providerDisplayName": "Jiyan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 10488,
+        "atk": 438,
+        "def": 1186,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lingyang",
+      "providerCharacterId": "lingyang",
+      "providerDisplayName": "Lingyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10388,
+        "atk": 438,
+        "def": 1210,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lucilla",
+      "providerCharacterId": "lucilla",
+      "providerDisplayName": "Lucilla",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucilla",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lucy",
+      "providerCharacterId": "lucy",
+      "providerDisplayName": "Lucy",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 11025,
+        "atk": 425,
+        "def": 1149,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lumi",
+      "providerCharacterId": "lumi",
+      "providerDisplayName": "Lumi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Electro",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 8500,
+        "atk": 338,
+        "def": 880,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lupa",
+      "providerCharacterId": "lupa",
+      "providerDisplayName": "Lupa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lupa",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 11913,
+        "atk": 388,
+        "def": 1186,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "luuk-herssen",
+      "providerCharacterId": "luuk-herssen",
+      "providerDisplayName": "Luuk Herssen",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "lynae",
+      "providerCharacterId": "lynae",
+      "providerDisplayName": "Lynae",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lynae",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "mornye",
+      "providerCharacterId": "mornye",
+      "providerDisplayName": "Mornye",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mornye",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Fusion",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 15375,
+        "atk": 288,
+        "def": 1357,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "mortefi",
+      "providerCharacterId": "mortefi",
+      "providerDisplayName": "Mortefi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mortefi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Fusion",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 10025,
+        "atk": 250,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "phoebe",
+      "providerCharacterId": "phoebe",
+      "providerDisplayName": "Phoebe",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "phrolova",
+      "providerCharacterId": "phrolova",
+      "providerDisplayName": "Phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "qingxiao",
+      "providerCharacterId": "qingxiao",
+      "providerDisplayName": "Qingxiao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qingxiao",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Sword"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "qiuyuan",
+      "providerCharacterId": "qiuyuan",
+      "providerDisplayName": "Qiuyuan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qiuyuan",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 12238,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "rebecca",
+      "providerCharacterId": "rebecca",
+      "providerDisplayName": "Rebecca",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rebecca",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Pistols"
+      },
+      "level90": {
+        "hp": 11600,
+        "atk": 400,
+        "def": 1173,
+        "maxEnergy": 150
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "roccia",
+      "providerCharacterId": "roccia",
+      "providerDisplayName": "Roccia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 12250,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "rover-aero",
+      "providerCharacterId": "rover-aero",
+      "providerDisplayName": "Rover (Aero)",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-aero",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "rover-electro",
+      "providerCharacterId": "rover-electro",
+      "providerDisplayName": "Rover (Electro)",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-electro",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Sword"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "rover-havoc",
+      "providerCharacterId": "rover-havoc",
+      "providerDisplayName": "Rover (Havoc)",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10825,
+        "atk": 413,
+        "def": 1259,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "rover-spectro",
+      "providerCharacterId": "rover-spectro",
+      "providerDisplayName": "Rover (Spectro)",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 11400,
+        "atk": 375,
+        "def": 1369,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "sanhua",
+      "providerCharacterId": "sanhua",
+      "providerDisplayName": "Sanhua",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sanhua",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Glacio",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10063,
+        "atk": 275,
+        "def": 941,
+        "maxEnergy": 100
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "sigrika",
+      "providerCharacterId": "sigrika",
+      "providerDisplayName": "Sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Aero",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "suisui",
+      "providerCharacterId": "suisui",
+      "providerDisplayName": "Suisui",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suisui",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Rectifier"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "suoming",
+      "providerCharacterId": "suoming",
+      "providerDisplayName": "Suoming",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suoming",
+      "releaseStatusAtCapture": "UNRELEASED_WIP",
+      "freshnessSensitive": true,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Sword"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "taoqi",
+      "providerCharacterId": "taoqi",
+      "providerDisplayName": "Taoqi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Havoc",
+        "weaponType": "Broadblade"
+      },
+      "level90": {
+        "hp": 8950,
+        "atk": 225,
+        "def": 1564,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "the-shorekeeper",
+      "providerCharacterId": "the-shorekeeper",
+      "providerDisplayName": "The Shorekeeper",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 16713,
+        "atk": 288,
+        "def": 1100,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "verina",
+      "providerCharacterId": "verina",
+      "providerDisplayName": "Verina",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/verina",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 14238,
+        "atk": 338,
+        "def": 1100,
+        "maxEnergy": 175
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "xiangli-yao",
+      "providerCharacterId": "xiangli-yao",
+      "providerDisplayName": "Xiangli Yao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10625,
+        "atk": 425,
+        "def": 1222,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "yangyang",
+      "providerCharacterId": "yangyang",
+      "providerDisplayName": "Yangyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Aero",
+        "weaponType": "Sword"
+      },
+      "level90": {
+        "hp": 10200,
+        "atk": 250,
+        "def": 1100,
+        "maxEnergy": 100
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "yangyang-xuanling",
+      "providerCharacterId": "yangyang-xuanling",
+      "providerDisplayName": "Yangyang: Xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "PARTIAL",
+      "identity": {
+        "rarity": 5,
+        "element": "Havoc",
+        "weaponType": "Sword"
+      },
+      "level90": null,
+      "warnings": [
+        "source explicitly reports Stats unavailable"
+      ]
+    },
+    {
+      "bellibingCharacterId": "yinlin",
+      "providerCharacterId": "yinlin",
+      "providerDisplayName": "Yinlin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yinlin",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Electro",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 11000,
+        "atk": 400,
+        "def": 1283,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "youhu",
+      "providerCharacterId": "youhu",
+      "providerDisplayName": "Youhu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Glacio",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 9975,
+        "atk": 263,
+        "def": 1051,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "yuanwu",
+      "providerCharacterId": "yuanwu",
+      "providerDisplayName": "Yuanwu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yuanwu",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 4,
+        "element": "Electro",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 8525,
+        "atk": 225,
+        "def": 1638,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "zani",
+      "providerCharacterId": "zani",
+      "providerDisplayName": "Zani",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Spectro",
+        "weaponType": "Gauntlets"
+      },
+      "level90": {
+        "hp": 10775,
+        "atk": 438,
+        "def": 1137,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    },
+    {
+      "bellibingCharacterId": "zhezhi",
+      "providerCharacterId": "zhezhi",
+      "providerDisplayName": "Zhezhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zhezhi",
+      "releaseStatusAtCapture": "RELEASED",
+      "freshnessSensitive": false,
+      "capturedAt": "2026-10-05T17:58:41Z",
+      "captureStatus": "CAPTURED",
+      "identity": {
+        "rarity": 5,
+        "element": "Glacio",
+        "weaponType": "Rectifier"
+      },
+      "level90": {
+        "hp": 12250,
+        "atk": 375,
+        "def": 1198,
+        "maxEnergy": 125
+      },
+      "warnings": []
+    }
+  ],
+  "excluded": [
+    "roles",
+    "ratings",
+    "build recommendations",
+    "weapons",
+    "Echo recommendations",
+    "teams",
+    "rotations",
+    "gameplay guidance"
+  ]
+}

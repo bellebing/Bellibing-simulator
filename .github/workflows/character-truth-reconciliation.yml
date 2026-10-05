@@ -1,0 +1,60 @@
+name: Character Truth Reconciliation
+
+on:
+  push:
+    branches:
+      - 'data/bulk-character-truth-intake-20261005'
+    paths:
+      - '.github/workflows/character-truth-reconciliation.yml'
+      - 'scripts/generate-character-truth-reconciliation.ts'
+      - 'src/factory/characterTruthCapture.ts'
+      - 'data/factory/character-truth/prydwen-character-truth.json'
+      - 'data/factory/character-truth/prydwen-progression-truth.json'
+      - 'data/factory/character-truth/wuthering-gg-character-truth.json'
+      - 'data/source/character-sequence-ui.json'
+      - 'src/data/characters.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate reconciliation report
+        run: node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts
+      - name: Validate report boundary
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync } from 'node:fs';
+          const p=JSON.parse(readFileSync('data/factory/character-truth/character-truth-reconciliation.json','utf8'));
+          if(p.canonicalAuthority!==false) throw new Error('report must stay noncanonical');
+          if(p.promotionPolicy!=='MANUAL_SOURCE_VALIDATION_REQUIRED') throw new Error('promotion boundary drift');
+          if(p.roster.total!==60) throw new Error('roster drift');
+          if(p.providers.length!==2) throw new Error('expected exactly two admitted providers');
+          if(p.roster.freshnessSensitive.join(',')!=='hsin,jingran,suoming') throw new Error('freshness roster drift');
+          const total=Object.values(p.evidence.stateCounts).reduce((a,b)=>a+b,0);
+          if(total!==p.reconciliation.length) throw new Error('evidence state count mismatch');
+          JS
+      - name: Commit reconciliation report
+        run: |
+          cp data/factory/character-truth/character-truth-reconciliation.json /tmp/character-truth-reconciliation.json
+          git fetch origin ${{ github.ref_name }}
+          git reset --hard origin/${{ github.ref_name }}
+          cp /tmp/character-truth-reconciliation.json data/factory/character-truth/character-truth-reconciliation.json
+          git config user.name "bellibing-data-bot"
+          git config user.email "bellibing-data-bot@users.noreply.github.com"
+          git add data/factory/character-truth/character-truth-reconciliation.json
+          if git diff --cached --quiet; then
+            echo "No reconciliation report change."
+          else
+            git commit -m "Generate Character truth reconciliation report"
+            git push origin HEAD:${{ github.ref_name }}
+          fi

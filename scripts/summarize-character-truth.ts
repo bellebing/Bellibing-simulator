@@ -49,7 +49,11 @@ const output={
     conflictByFamily:countBy(conflicts,r=>r.family),
     conflictByFact:countBy(conflicts,r=>r.family+':'+r.factId),
     conflictCharacters:[...new Set(conflicts.map(r=>r.characterId))].sort(),
-    conflictRows:conflicts,
+    conflictByFactCharacters:Object.fromEntries(
+      Object.entries(Object.groupBy(conflicts,r=>r.family+':'+r.factId))
+        .sort(([a],[b])=>a.localeCompare(b))
+        .map(([key,rows])=>[key,[...new Set((rows??[]).map(r=>r.characterId))].sort()]),
+    ),
   },
   canonicalDelta:{
     stateCounts:report.canonicalDelta.stateCounts,

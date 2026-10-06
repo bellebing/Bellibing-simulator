@@ -65,7 +65,7 @@ function factById<T extends { factId: string }>(facts: readonly T[], factId: str
 test('ninth Character Mechanics batch promotes five source-clean characters only after semantic review', () => {
   const rows = [
     ['chisa', CHISA_CHARACTER_MECHANICS_PROFILE, 44],
-    ['lupa', LUPA_CHARACTER_MECHANICS_PROFILE, 37],
+    ['lupa', LUPA_CHARACTER_MECHANICS_PROFILE, 38],
     ['iuno', IUNO_CHARACTER_MECHANICS_PROFILE, 38],
     ['rover-havoc', ROVER_HAVOC_CHARACTER_MECHANICS_PROFILE, 34],
     ['rover-spectro', ROVER_SPECTRO_CHARACTER_MECHANICS_PROFILE, 28],
@@ -86,7 +86,7 @@ test('ninth Character Mechanics batch promotes five source-clean characters only
   assert.equal(ROVER_HAVOC_ACTION_FACTS.length, 23);
   assert.equal(ROVER_SPECTRO_ACTION_FACTS.length, 16);
   assert.equal(CHISA_CHARACTER_MECHANIC_FACTS.length, 43);
-  assert.equal(LUPA_CHARACTER_MECHANIC_FACTS.length, 36);
+  assert.equal(LUPA_CHARACTER_MECHANIC_FACTS.length, 37);
   assert.equal(IUNO_CHARACTER_MECHANIC_FACTS.length, 37);
   assert.equal(ROVER_HAVOC_CHARACTER_MECHANIC_FACTS.length, 33);
   assert.equal(ROVER_SPECTRO_CHARACTER_MECHANIC_FACTS.length, 27);
@@ -183,13 +183,13 @@ test('ninth-batch Tune Break facts remain at the shared-system boundary', () => 
   }
 });
 
-test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1938 facts', () => {
+test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1943 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['chisa', 'lupa', 'iuno', 'rover-havoc', 'rover-spectro']) {

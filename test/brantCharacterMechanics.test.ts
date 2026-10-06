@@ -212,7 +212,7 @@ test('Brant remains verified while later Character Mechanics batches advance can
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
   assert.deepEqual(audit.structuralIssues, []);
 
   const raw = getCharacterPreflight('brant', 'RAW_FACTS');

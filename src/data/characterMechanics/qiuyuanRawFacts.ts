@@ -20,15 +20,26 @@ export const QIUYUAN_PROVENANCE = {
   ],
 } as const;
 
+const SELECTIVE_PROMOTION_PROVENANCE = {
+  sourceLabels: ['Pinned Bellibing Skills/Forte source — manually reviewed bounded facts'],
+  sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json'],
+  checkedAt: '2026-10-06',
+  notes: [
+    'data/source/character-forte-ui.json: qiuyuan; source move IDs 1004107. Full description templates and source parameters were reviewed individually.',
+    'docs/CHARACTER_TRUTH_SELECTIVE_PROMOTION_BATCH_1.md records the canonical gap and source-validity decision. Truncated provider captures are review guidance, not proof of omitted text.',
+    'RAW_ONLY facts; no automatic action replacement, resource execution, target-state execution or DPS readiness.',
+  ],
+} as const;
+
 const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
 const FIXED_CONTEXT = 'Exact source-fixed Character damage coefficient declared directly by the current kit without a Lv1-Lv10 table; no talent-level curve is fabricated.';
 
 function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
   return { ...input, characterId: "qiuyuan", kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: QIUYUAN_PROVENANCE };
 }
-function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
-  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
-  return { ...rest, characterId: "qiuyuan", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: QIUYUAN_PROVENANCE };
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus']; provenance?: CharacterPassiveFact['provenance'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', provenance = QIUYUAN_PROVENANCE, ...rest } = input;
+  return { ...rest, characterId: "qiuyuan", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance };
 }
 function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
   return { ...input, characterId: "qiuyuan", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: QIUYUAN_PROVENANCE };
@@ -63,6 +74,7 @@ export const QIUYUAN_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
 ] as const;
 
 export const QIUYUAN_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "qiuyuan-forte-inkwash-replacement", name: "Forte Circuit — Thus Spoke the Blade: Inkwash replacement", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Qiuyuan reaches 200 points of Swordster's Soliloquy.", effectSummary: "Basic Attack is replaced with Basic Attack Thus Spoke the Blade: Inkwash, chaining up to 4 consecutive strikes and dealing Aero DMG considered Heavy Attack DMG. Its performed action identity is Basic Attack; its damage classification is Heavy Attack DMG.", durationSeconds: null, maxStacks: null, provenance: SELECTIVE_PROMOTION_PROVENANCE }),
   passive({ factId: "qiuyuan-forte-bamboos-shade", name: "Bamboo's Shade", section: "FORTE_CIRCUIT", conditional: true, scope: "TEAM", triggerSummary: "Reach 400 Swordster's Soliloquy.", effectSummary: "Nearby active Resonators gain 30% Echo Skill DMG Bonus for 30s.", durationSeconds: 30, maxStacks: null, modelingStatus: "RAW_ONLY" }),
   passive({ factId: "qiuyuan-forte-inksplash-of-mind", name: "Inksplash of Mind", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Swordster's Soliloquy reaches 600/full.", effectSummary: "Enter Inksplash of Mind for 8s; Heavy Attack is replaced by the To Teach/To Save/To Sacrifice chain. Those attacks deal Heavy Attack DMG and are also considered performing Echo Skill. The state ends when the resource is used up.", durationSeconds: 8, maxStacks: null, modelingStatus: "RAW_ONLY" }),
   passive({ factId: "qiuyuan-inherent-quietude-within", name: "Inherent Skill — Quietude Within", section: "INHERENT_SKILL", conditional: true, scope: "SELF", triggerSummary: "Entering Inksplash of Mind; once every 22s.", effectSummary: "Gain Quietude Within for 10s. To Teach/To Save/To Sacrifice deal 50% more DMG; To Sacrifice restores 30 Concerto Energy on hit. Switching off field ends it early.", durationSeconds: 10, maxStacks: null, modelingStatus: "RAW_ONLY" }),

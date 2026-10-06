@@ -31,15 +31,26 @@ export const CAMELLYA_PROVENANCE = {
   ],
 } as const;
 
+const SELECTIVE_PROMOTION_PROVENANCE = {
+  sourceLabels: ['Pinned Bellibing Skills/Forte source — manually reviewed bounded facts'],
+  sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json'],
+  checkedAt: '2026-10-06',
+  notes: [
+    'data/source/character-forte-ui.json: camellya; source move IDs 1001307. Full description templates and source parameters were reviewed individually.',
+    'docs/CHARACTER_TRUTH_SELECTIVE_PROMOTION_BATCH_1.md records the canonical gap and source-validity decision. Truncated provider captures are review guidance, not proof of omitted text.',
+    'RAW_ONLY facts; no automatic action replacement, resource execution, target-state execution or DPS readiness.',
+  ],
+} as const;
+
 const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
 const FIXED_CONTEXT = 'Current source-fixed Character damage coefficient declared directly in kit text; not a selected talent-level scalar and not a fabricated Lv1-Lv10 curve.';
 
 function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
   return { ...input, characterId: 'camellya', kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: CAMELLYA_PROVENANCE };
 }
-function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
-  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
-  return { ...rest, characterId: 'camellya', kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: CAMELLYA_PROVENANCE };
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus']; provenance?: CharacterPassiveFact['provenance'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', provenance = CAMELLYA_PROVENANCE, ...rest } = input;
+  return { ...rest, characterId: 'camellya', kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance };
 }
 function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
   return { ...input, characterId: 'camellya', kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: CAMELLYA_PROVENANCE };
@@ -79,6 +90,7 @@ export const CAMELLYA_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
 ] as const;
 
 export const CAMELLYA_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "camellya-forte-ephemeral-replacement", name: "Forte Circuit — Ephemeral replacement", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Concerto Energy is fully recovered and Ephemeral is not on cooldown.", effectSummary: "Resonance Skill is replaced with Ephemeral. Casting Ephemeral consumes 70 Concerto Energy; its damage is considered Basic Attack DMG. It can be cast in mid-air.", durationSeconds: null, maxStacks: null, provenance: SELECTIVE_PROMOTION_PROVENANCE }),
   passive({ factId: 'camellya-skill-blossom-mode', name: 'Resonance Skill — Blossom Mode', section: 'RESONANCE_SKILL', conditional: true, scope: 'SELF', triggerSummary: 'Camellya casts Crimson Blossom.', effectSummary: 'Basic Attack/Pruning are replaced by Vining Waltz; Dodge Counter becomes Atonement; Resonance Skill becomes Floral Ravage; Jump becomes Vining Ronde. Blossom Mode ends after Floral Ravage, Levitator use or Vining Ronde, while suspended actions consume STA as stated by the source.', durationSeconds: null, maxStacks: null }),
   passive({ factId: 'camellya-forte-budding-mode', name: 'Forte Circuit — Budding Mode / Sweet Dream', section: 'FORTE_CIRCUIT', conditional: true, scope: 'SELF', triggerSummary: 'Camellya casts Ephemeral.', effectSummary: 'Sweet Dream increases the listed normal/Blossom-mode action DMG multipliers by 50%. Each Crimson Bud consumed by Ephemeral adds 5% to Sweet Dream, up to an additional 50%. In Budding Mode Camellya cannot gain Crimson Buds and the listed actions have their Energy Regen Multiplier reduced to 0%. Budding Mode ends when Camellya switches off field or all Crimson Pistils are consumed.', durationSeconds: 15, maxStacks: null, modelingStatus: 'PENDING_INTERPRETATION' }),
   passive({ factId: 'camellya-inherent-seedbed', name: 'Inherent Skill — Seedbed', section: 'INHERENT_SKILL', conditional: false, scope: 'SELF', triggerSummary: 'Passive Inherent Skill.', effectSummary: 'Gain 15% Havoc DMG Bonus. Damage dealt by Heavy Attack Pruning is considered Basic Attack DMG.', durationSeconds: null, maxStacks: null }),

@@ -22,15 +22,26 @@ export const PHOEBE_PROVENANCE = {
   ],
 } as const;
 
+const SELECTIVE_PROMOTION_PROVENANCE = {
+  sourceLabels: ['Pinned Bellibing Skills/Forte source — manually reviewed bounded facts'],
+  sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json'],
+  checkedAt: '2026-10-06',
+  notes: [
+    'data/source/character-forte-ui.json: phoebe; source move IDs 1003007, 1003003. Full description templates and source parameters were reviewed individually.',
+    'docs/CHARACTER_TRUTH_SELECTIVE_PROMOTION_BATCH_1.md records the canonical gap and source-validity decision. Truncated provider captures are review guidance, not proof of omitted text.',
+    'RAW_ONLY facts; no automatic action replacement, resource execution, target-state execution or DPS readiness.',
+  ],
+} as const;
+
 const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
 const FIXED_CONTEXT = 'Current source-fixed Character damage coefficient declared directly in kit text; not a selected talent-level scalar and not a fabricated Lv1-Lv10 curve.';
 
 function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
   return { ...input, characterId: "phoebe", kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: PHOEBE_PROVENANCE };
 }
-function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
-  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
-  return { ...rest, characterId: "phoebe", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: PHOEBE_PROVENANCE };
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus']; provenance?: CharacterPassiveFact['provenance'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', provenance = PHOEBE_PROVENANCE, ...rest } = input;
+  return { ...rest, characterId: "phoebe", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance };
 }
 function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
   return { ...input, characterId: "phoebe", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: PHOEBE_PROVENANCE };
@@ -66,6 +77,8 @@ export const PHOEBE_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
 ] as const;
 
 export const PHOEBE_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "phoebe-forte-starflash-replacement", name: "Forte Circuit — Starflash replacement", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Phoebe has Divine Voice and casts Basic Attack Stage 3 or Dodge Counter.", effectSummary: "The next Heavy Attack is replaced with Heavy Attack: Starflash. Starflash deals Spectro DMG and costs 30 Divine Voice before the separately owned Absolution cost reduction.", durationSeconds: null, maxStacks: null, provenance: SELECTIVE_PROMOTION_PROVENANCE }),
+  passive({ factId: "phoebe-liberation-stance-enhancements", name: "Resonance Liberation — Dawn of Enlightenment stance enhancements", section: "RESONANCE_LIBERATION", conditional: true, scope: "SELF", triggerSummary: "Cast Dawn of Enlightenment in Absolution or Confession.", effectSummary: "Absolution increases the DMG Multiplier by 255%. Confession applies 8 stacks of Spectro Frazzle to targets hit. These are separate stance-dependent source facts; neither is pre-applied to the base damage action.", durationSeconds: null, maxStacks: null, provenance: SELECTIVE_PROMOTION_PROVENANCE }),
   passive({ factId: "phoebe-skill-ring-of-mirrors", name: "Ring of Mirrors", section: "RESONANCE_SKILL", conditional: true, scope: "TARGET", triggerSummary: "Cast Resonance Skill To Where Light Shines.", effectSummary: "Ring of Mirrors lasts 30s; a newly summoned ring replaces the existing one. The initial hit stagnates up to 12 targets for 2s. Outside the ring, Basic Attack/Dodge Counter hitting the ring can trigger Refracted Holy Light once every 0.5s; inside, Basic Attack becomes Chamuel’s Star.", durationSeconds: 30, maxStacks: null }),
   passive({ factId: "phoebe-forte-absolution-confession", name: "Absolution / Confession", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "At full Prayer, consume all Prayer to cast Absolution Litany or Utter Confession.", effectSummary: "Absolution and Confession cannot coexist; entering one ends the other. Starflash consumes Divine Voice. In Absolution, Starflash costs 15 less Divine Voice and gains 256% DMG Amplification against targets with Spectro Frazzle. In Confession, Starflash applies 5 Spectro Frazzle stacks. Utter Confession applies the source-listed Frazzle stack.", durationSeconds: null, maxStacks: null }),
   passive({ factId: "phoebe-inherent-presence", name: "Inherent Skill — Presence", section: "INHERENT_SKILL", conditional: false, scope: "SELF", triggerSummary: "Passive Inherent Skill.", effectSummary: "Mid-air Heavy Attack can be cast 1 additional time.", durationSeconds: null, maxStacks: null }),

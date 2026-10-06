@@ -20,15 +20,26 @@ export const LUPA_PROVENANCE = {
   ],
 } as const;
 
+const SELECTIVE_PROMOTION_PROVENANCE = {
+  sourceLabels: ['Pinned Bellibing Skills/Forte source — manually reviewed bounded facts'],
+  sourceUrls: ['https://github.com/DommyMM/wuwabuild/blob/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json'],
+  checkedAt: '2026-10-06',
+  notes: [
+    'data/source/character-forte-ui.json: lupa; source move IDs 1003607. Full description templates and source parameters were reviewed individually.',
+    'docs/CHARACTER_TRUTH_SELECTIVE_PROMOTION_BATCH_1.md records the canonical gap and source-validity decision. Truncated provider captures are review guidance, not proof of omitted text.',
+    'RAW_ONLY facts; no automatic action replacement, resource execution, target-state execution or DPS readiness.',
+  ],
+} as const;
+
 const CURVE_CONTEXT = 'Exact pinned current-source Lv1-Lv10 coefficient representation, source-audited for action identity, damage bucket and scaling; no skill level is implicitly selected by raw data.';
 const FIXED_CONTEXT = 'Exact source-fixed Character damage coefficient declared directly by the current kit without a Lv1-Lv10 table; no talent-level curve is fabricated.';
 
 function action(input: Omit<CharacterActionFact, 'characterId' | 'kind' | 'actionRole' | 'verificationStatus' | 'modelingStatus' | 'provenance' | 'motionValue'>): CharacterActionFact {
   return { ...input, characterId: "lupa", kind: 'ACTION', actionRole: 'DAMAGE', verificationStatus: 'VERIFIED', modelingStatus: 'MODEL_READY', motionValue: null, provenance: LUPA_PROVENANCE };
 }
-function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus'] }): CharacterPassiveFact {
-  const { modelingStatus = 'RAW_ONLY', ...rest } = input;
-  return { ...rest, characterId: "lupa", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance: LUPA_PROVENANCE };
+function passive(input: Omit<CharacterPassiveFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'> & { modelingStatus?: CharacterPassiveFact['modelingStatus']; provenance?: CharacterPassiveFact['provenance'] }): CharacterPassiveFact {
+  const { modelingStatus = 'RAW_ONLY', provenance = LUPA_PROVENANCE, ...rest } = input;
+  return { ...rest, characterId: "lupa", kind: 'PASSIVE', verificationStatus: 'VERIFIED', modelingStatus, provenance };
 }
 function resource(input: Omit<CharacterResourceFact, 'characterId' | 'kind' | 'verificationStatus' | 'modelingStatus' | 'provenance'>): CharacterResourceFact {
   return { ...input, characterId: "lupa", kind: 'RESOURCE', verificationStatus: 'VERIFIED', modelingStatus: 'RAW_ONLY', provenance: LUPA_PROVENANCE };
@@ -69,6 +80,7 @@ export const LUPA_RESOURCE_FACTS: readonly CharacterResourceFact[] = [
 ] as const;
 
 export const LUPA_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
+  passive({ factId: "lupa-forte-dance-replacements", name: "Forte Circuit — Dance With the Wolf replacements", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Wolfaith reaches 2 points; the Climax replacement additionally applies in Burning Matchpoint.", effectSummary: "Resonance Skill is replaced with Dance With the Wolf, or Dance With the Wolf: Climax in Burning Matchpoint. Both consume all Wolfaith and deal Fusion DMG considered Resonance Liberation DMG. Both can be performed in mid-air close to the ground.", durationSeconds: null, maxStacks: null, provenance: SELECTIVE_PROMOTION_PROVENANCE }),
   passive({ factId: "lupa-forte-wildfire-banner", name: "Wildfire Banner", section: "FORTE_CIRCUIT", conditional: true, scope: "SELF", triggerSummary: "Cast Feral Fang, a special Wolflame Heavy/Firestrike, Fire-Kissed Glory, Dance With the Wolf or Climax.", effectSummary: "Increase Lupa's ATK by 12% for 8s.", durationSeconds: 8, maxStacks: null }),
   passive({ factId: "lupa-liberation-pack-hunt", name: "Pack Hunt / Burning Matchpoint", section: "RESONANCE_LIBERATION", conditional: true, scope: "TEAM", triggerSummary: "Cast Fire-Kissed Glory.", effectSummary: "For 35s, party Resonators gain Pack Hunt: 6% ATK and 10% Fusion DMG Bonus against Overlord/Calamity targets; each active Intro adds 6% ATK up to 18%. With 3 Fusion Resonators, the target-category Fusion bonus gains another 10%. Foebreaker enters Burning Matchpoint, where Normal Attacks restore 500% more Wolflame and base Skill/Feral Fang are disabled.", durationSeconds: 35, maxStacks: null }),
   passive({ factId: "lupa-inherent-remember-my-name", name: "Inherent Skill — Remember My Name", section: "INHERENT_SKILL", conditional: true, scope: "SELF", triggerSummary: "Lupa dashes for 2.5s; the interruption-resistance branch applies while casting Wolf's Gnawing, Wolf's Claw or Firestrike.", effectSummary: "After dashing for 2.5s, Lupa enters Sprint and her next Basic Attack is replaced with Basic Attack - Starfall. Lupa gains increased resistance to interruption while casting Wolf's Gnawing, Wolf's Claw and Firestrike.", durationSeconds: null, maxStacks: null }),

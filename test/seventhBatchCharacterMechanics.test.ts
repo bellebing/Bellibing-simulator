@@ -43,7 +43,7 @@ function factById<T extends { factId: string }>(facts: readonly T[], factId: str
 
 test('seventh Character Mechanics batch promotes Camellya and Carlotta only after semantic review', () => {
   for (const [characterId, profile, expectedFactCount] of [
-    ['camellya', CAMELLYA_CHARACTER_MECHANICS_PROFILE, 35],
+    ['camellya', CAMELLYA_CHARACTER_MECHANICS_PROFILE, 36],
     ['carlotta', CARLOTTA_CHARACTER_MECHANICS_PROFILE, 34],
   ] as const) {
     assert.equal(getCharacterMechanicsProfile(characterId), profile);
@@ -55,9 +55,9 @@ test('seventh Character Mechanics batch promotes Camellya and Carlotta only afte
 
   assert.equal(CAMELLYA_ACTION_FACTS.length, 22);
   assert.equal(CAMELLYA_RESOURCE_FACTS.length, 2);
-  assert.equal(CAMELLYA_PASSIVE_FACTS.length, 4);
+  assert.equal(CAMELLYA_PASSIVE_FACTS.length, 5);
   assert.equal(CAMELLYA_SEQUENCE_FACTS.length, 6);
-  assert.equal(CAMELLYA_CHARACTER_MECHANIC_FACTS.length, 34);
+  assert.equal(CAMELLYA_CHARACTER_MECHANIC_FACTS.length, 35);
 
   assert.equal(CARLOTTA_ACTION_FACTS.length, 18);
   assert.equal(CARLOTTA_RESOURCE_FACTS.length, 3);
@@ -137,14 +137,14 @@ test('seventh-batch Tune Break facts stay at the shared-system boundary', () => 
   }
 });
 
-test('seventh Character Mechanics batch remains valid after later coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1938 facts', () => {
+test('seventh Character Mechanics batch remains valid after later coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1943 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['camellya', 'carlotta']) {

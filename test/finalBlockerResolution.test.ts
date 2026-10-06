@@ -14,7 +14,7 @@ const RESOLVED = ['rover-electro', 'suisui'] as const;
 test('final blocker resolution promotes only Rover Electro and Suisui', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.deepEqual(audit.unstartedCharacterIds, ['hsin', 'jingran']);

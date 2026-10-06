@@ -63,7 +63,7 @@ function factById<T extends { factId: string }>(facts: readonly T[], factId: str
 test('eleventh Character Mechanics batch promotes five blocker-resolved profiles only after source review', () => {
   const rows = [
     ['sanhua', SANHUA_CHARACTER_MECHANICS_PROFILE, 27],
-    ['qiuyuan', QIUYUAN_CHARACTER_MECHANICS_PROFILE, 31],
+    ['qiuyuan', QIUYUAN_CHARACTER_MECHANICS_PROFILE, 32],
     ['sigrika', SIGRIKA_CHARACTER_MECHANICS_PROFILE, 36],
     ['phrolova', PHROLOVA_CHARACTER_MECHANICS_PROFILE, 32],
     ['mornye', MORNYE_CHARACTER_MECHANICS_PROFILE, 33],
@@ -84,7 +84,7 @@ test('eleventh Character Mechanics batch promotes five blocker-resolved profiles
   assert.equal(PHROLOVA_ACTION_FACTS.length, 18);
   assert.equal(MORNYE_ACTION_FACTS.length, 19);
   assert.equal(SANHUA_CHARACTER_MECHANIC_FACTS.length, 26);
-  assert.equal(QIUYUAN_CHARACTER_MECHANIC_FACTS.length, 30);
+  assert.equal(QIUYUAN_CHARACTER_MECHANIC_FACTS.length, 31);
   assert.equal(SIGRIKA_CHARACTER_MECHANIC_FACTS.length, 35);
   assert.equal(PHROLOVA_CHARACTER_MECHANIC_FACTS.length, 31);
   assert.equal(MORNYE_CHARACTER_MECHANIC_FACTS.length, 32);
@@ -179,13 +179,13 @@ test('eleventh-batch Tune Break facts remain shared-system damage and do not inh
   }
 });
 
-test('eleventh batch remains valid after canonical Character Mechanics coverage advances to 54 verified / 3 partial / 2 unstarted catalog identities / 1938 facts', () => {
+test('eleventh batch remains valid after canonical Character Mechanics coverage advances to 54 verified / 3 partial / 2 unstarted catalog identities / 1943 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['sanhua', 'qiuyuan', 'sigrika', 'phrolova', 'mornye']) {

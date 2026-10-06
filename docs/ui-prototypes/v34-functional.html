@@ -2137,7 +2137,7 @@ async function loadReleasedCharacters(){
   const direct=manifest.portraits.filter(item=>item.releaseStatus==='RELEASED'&&item.uiEligible===true).map(item=>({id:item.characterId,name:item.characterName,src:toAssetPath(item.targetPath)}));
   const rovers=manifest.roverPortraits.map(item=>({id:item.characterId,name:roverName(item.characterId),src:toAssetPath(item.targetPath)}));
   const characters=[...direct,...rovers].sort((a,b)=>a.name.localeCompare(b.name,'en'));
-  if(characters.length!==57)throw new Error('expected 57 released Character cards, got '+characters.length);
+  if(characters.length!==59)throw new Error('expected 59 released Character cards, got '+characters.length);
   releasedCharacters=characters;characterByName.clear();characters.forEach(item=>characterByName.set(item.name,item));
   characterManifestStatus='READY';
   }catch(error){

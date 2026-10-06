@@ -98,7 +98,7 @@ let socket;
 try{
   await waitForChrome();const page=await createPage();const connection=cdp(page.webSocketDebuggerUrl);socket=connection.socket;const {send}=connection;
   const read=expression=>evaluate(send,expression),check=async(expression,message)=>assert(await read(expression),message);
-  const ready=()=>waitFor(send,'weaponDataLoaded&&echoDataLoaded&&buildStatsRuntimeLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&characterHeroArtRuntimeLoaded&&window.bellibingForte&&window.bellibingProjectStaticBuildStats&&releasedCharacters.length===57','Canonical sources not ready',20000);
+  const ready=()=>waitFor(send,'weaponDataLoaded&&echoDataLoaded&&buildStatsRuntimeLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&characterHeroArtRuntimeLoaded&&window.bellibingForte&&window.bellibingProjectStaticBuildStats&&releasedCharacters.length===59','Canonical sources not ready',20000);
   const click=selector=>pointerClick(send,selector);
   const settled=async()=>{await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:18,y:800});await sleep(750)};
   const images=async()=>{await read('document.fonts.ready');await waitFor(send,'[...document.querySelectorAll("#characterBuildCard img")].every(img=>img.complete&&img.naturalWidth>0)','Card image missing',15000)};

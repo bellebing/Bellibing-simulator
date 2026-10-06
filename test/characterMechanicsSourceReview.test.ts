@@ -11,19 +11,19 @@ test('roster-wide Character Mechanics source review distinguishes verified, sour
   const coverage = auditCharacterMechanicsCoverage();
   const review = auditCharacterMechanicsSourceReview();
 
-  assert.equal(coverage.releasedCount, 57);
+  assert.equal(coverage.releasedCount, 59);
   assert.equal(coverage.verifiedCharacterIds.length, 54);
   assert.deepEqual(coverage.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.deepEqual(coverage.unstartedCharacterIds, []);
+  assert.deepEqual(coverage.unstartedCharacterIds, ['hsin', 'jingran']);
   assert.equal(review.verifiedCharacterIds.length, 54);
-  assert.deepEqual(review.sourceBlockedCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
+  assert.deepEqual(review.sourceBlockedCharacterIds, ['buling', 'danjin', 'hsin', 'jingran', 'xiangli-yao']);
   assert.deepEqual(review.unreviewedCharacterIds, []);
   assert.equal(review.sourceReviewComplete, true);
   assert.deepEqual(review.issues, []);
 });
 
 test('source blockers preserve exact current-source reason instead of inferring missing mechanics', () => {
-  assert.equal(CHARACTER_MECHANICS_SOURCE_BLOCKERS.length, 3);
+  assert.equal(CHARACTER_MECHANICS_SOURCE_BLOCKERS.length, 5);
   const byId = new Map(CHARACTER_MECHANICS_SOURCE_BLOCKERS.map((blocker) => [blocker.characterId, blocker]));
 
   const buling = byId.get('buling');
@@ -48,7 +48,7 @@ test('source blockers preserve exact current-source reason instead of inferring 
   assert.ok(xiangli.sourceEvidence.some((entry) => /1305015-1305017/.test(entry)));
 
   for (const blocker of CHARACTER_MECHANICS_SOURCE_BLOCKERS) {
-    assert.equal(blocker.checkedAt, '2026-08-29');
+    assert.equal(blocker.checkedAt, ['hsin', 'jingran'].includes(blocker.characterId) ? '2026-10-06' : '2026-08-29');
     assert.equal(blocker.upstreamCommit, '5fa70b11f1d84fb644e4dbed47873708da0fe66f');
   }
 });

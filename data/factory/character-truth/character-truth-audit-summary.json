@@ -6,8 +6,7 @@
     "total": 60,
     "releaseStatus": {
       "CONFIRMED_UPCOMING": 1,
-      "RELEASED": 57,
-      "UNRELEASED_WIP": 2
+      "RELEASED": 59
     },
     "freshnessSensitive": [
       "hsin",
@@ -394,14 +393,13 @@
   "canonicalDelta": {
     "stateCounts": {
       "CONFLICT": 149,
-      "EXACT_AGREEMENT": 654,
+      "EXACT_AGREEMENT": 658,
       "NOT_COMPARABLE": 782,
-      "PROVIDER_ONLY": 37
+      "PROVIDER_ONLY": 33
     },
     "byFamilyAndState": {
       "IDENTITY:CONFLICT": 2,
-      "IDENTITY:EXACT_AGREEMENT": 234,
-      "IDENTITY:PROVIDER_ONLY": 4,
+      "IDENTITY:EXACT_AGREEMENT": 238,
       "PROGRESSION:CONFLICT": 140,
       "PROGRESSION:EXACT_AGREEMENT": 85,
       "PROGRESSION:PROVIDER_ONLY": 15,
@@ -424,8 +422,6 @@
       "SEQUENCE:S6.name": 1
     },
     "providerOnlyByFact": {
-      "IDENTITY:element": 2,
-      "IDENTITY:weaponType": 2,
       "PROGRESSION:level90.atk": 3,
       "PROGRESSION:level90.def": 3,
       "PROGRESSION:level90.hp": 3,

@@ -199,7 +199,7 @@ const output = {
   roster: {
     total: CHARACTER_CATALOG.length,
     releaseStatus: countBy(CHARACTER_CATALOG.map(character => character.releaseStatus)),
-    freshnessSensitive: CHARACTER_CATALOG.filter(character => character.releaseStatus !== 'RELEASED').map(character => character.id),
+    freshnessSensitive: CHARACTER_CATALOG.filter(character => facts.some(fact => fact.bellibingCharacterId === character.id && fact.freshnessSensitive)).map(character => character.id),
   },
   sourceCoverage: {
     prydwenKit: countBy(kitCoverage.map(row => row.captureStatus)),

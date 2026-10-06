@@ -18,7 +18,7 @@ const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+
 const close=(a,b,tolerance=.75)=>Math.abs(a-b)<=tolerance;
 
 assert(runtime.schemaVersion===1&&runtime.role==='character.hero-art.runtime','Unexpected Hero Art runtime schema');
-assert(runtime.summary.ready===53&&runtime.summary.pending===4&&runtime.summary.releasedCharacters===57,'Unexpected Hero Art coverage',runtime.summary);
+assert(runtime.summary.ready===53&&runtime.summary.pending===6&&runtime.summary.releasedCharacters===59,'Unexpected Hero Art coverage',runtime.summary);
 assert(ready.length===53&&pending.length===4,'Runtime row counts drifted');
 assert(required.every(id=>byId.get(id)?.status==='READY'),'Required visual-review sample is not READY');
 assert(!runtime.characters.some(row=>['jingran','hsin','suoming'].includes(row.characterId)),'Upcoming/WIP Character leaked into Hero Art runtime');
@@ -186,7 +186,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.characterHeroArtReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Build runtimes did not become ready',20000);
+  await waitFor(send,"releasedCharacters.length===59&&document.documentElement.dataset.characterHeroArtReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Build runtimes did not become ready',20000);
   await evaluate(send,"show('build')");
   await sleep(850);
 

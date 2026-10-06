@@ -77,19 +77,23 @@ try {
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     for (const [kind, path] of [['source', '/docs/ui-prototypes/v34-functional.html'], ['built', '/dist/ui-preview/']]) {
       await send('Page.navigate', { url: base + path });
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===57&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       await evaluate('localStorage.clear()');
       await send('Page.navigate', { url: base + path });
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===57&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran']);
+      assert.deepEqual(await evaluate("['hsin','jingran'].map(id=>({id,stats:buildStatsCharacterById.has(id),skills:skillsPreviewByCharacterId.has(id),sequence:sequenceAssetsByCharacter.has(id)}))"), ['hsin','jingran'].map(id=>({id,stats:false,skills:false,sequence:false})));
       const data = await evaluate("import('./assets/improve-settings/character-targets.mjs').then(m=>m.CHARACTER_TARGET_PRESENTATIONS)");
       assert.deepEqual(data, expected, kind + ' browser data parity');
-      await evaluate("addOwned('Augusta');addOwned('Galbrena');addOwned('Chixia');addOwned('Aemeath');show('improve');improvePicker.select('Augusta')");
+      await evaluate("addOwned('Augusta');addOwned('Galbrena');addOwned('Chixia');addOwned('Aemeath');addOwned('Hsin');addOwned('Jingran');show('improve');improvePicker.select('Augusta')");
       await sleep(800);
       const snapshot = "JSON.stringify({builds:Object.fromEntries(Object.entries(state.drafts).map(([name,draft])=>{const build=structuredClone(draft.build);delete build.lastImprovedAt;return[name,build]})),candidate:improveUi.candidate})";
       const originalEquipment = await evaluate(snapshot);
       await click('#improve-setting-target');
-      for (const [name, id] of [['Augusta', 'augusta'], ['Galbrena', 'galbrena'], ['Chixia', 'chixia'], ['Aemeath', 'aemeath'], ['Suoming', 'suoming']]) {
+      for (const [name, id] of [['Augusta', 'augusta'], ['Galbrena', 'galbrena'], ['Chixia', 'chixia'], ['Aemeath', 'aemeath'], ['Hsin', 'hsin'], ['Jingran', 'jingran'], ['Suoming', 'suoming']]) {
         await evaluate(id === 'suoming' ? "window.bellibingImproveSettings.setCharacter('suoming')" : `improvePicker.select(${JSON.stringify(name)})`); await sleep(800);
+        if (id !== 'suoming') await click('#improveWheel .choice[data-character-id="' + id + '"]');
+        if (['hsin', 'jingran'].includes(id)) assert.equal(await evaluate(`projectImproveCurrentStats(${JSON.stringify(name)})`), null, name + ' unresolved Current Stats stay Pending');
         if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
         const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
         const projected = expected.find(item => item.characterId === id);
@@ -120,7 +124,7 @@ try {
       assert.equal(atk.minimum, 2345); assert.equal(atk.preferred, 2500);
       await shot(`artifacts/character-target-${kind}-customize-${width}x${height}.png`);
       await send('Page.reload');
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===57&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');

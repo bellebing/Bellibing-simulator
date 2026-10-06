@@ -22,6 +22,7 @@ interface CharacterRow {
   releaseStatus?: ReleaseStatus;
   verificationStatus?: VerificationStatus;
   sourceLabels?: readonly string[];
+  sourceUrls?: readonly string[];
   checkedAt?: string;
   notes?: readonly string[];
 }
@@ -43,7 +44,7 @@ function row(input: CharacterRow): CharacterGameData {
     integrationStatus: 'DATA_ONLY',
     provenance: {
       sourceLabels: input.sourceLabels ?? ['V9.15 Characters', 'Prydwen'],
-      sourceUrls: [prydwenUrl(input.id)],
+      sourceUrls: input.sourceUrls ?? [prydwenUrl(input.id)],
       checkedAt: input.checkedAt ?? CHECKED_AT,
       notes: input.notes,
     },
@@ -109,10 +110,10 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'encore', name: 'Encore', rarity: 5, element: 'Fusion', weaponType: 'Rectifier', hp: 10513, atk: 425, def: 1246, maxEnergy: 125 }),
   row({ id: 'galbrena', name: 'Galbrena', rarity: 5, element: 'Fusion', weaponType: 'Pistols', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
   row({ id: 'hiyuki', name: 'Hiyuki', rarity: 5, element: 'Glacio', weaponType: 'Sword', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
-  row({ id: 'hsin', name: 'Hsin', rarity: 5, element: null, weaponType: null, hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'UNRELEASED_WIP', verificationStatus: 'PENDING', sourceLabels: ['V9.15 Characters', 'Prydwen'], notes: ['Future/WIP roster identity only. Element, weapon type and stats are intentionally not guessed.'] }),
+  row({ id: 'hsin', name: 'Hsin', rarity: 5, element: 'Electro', weaponType: 'Rectifier', hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'RELEASED', verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Kuro Version 3.7 patch notes', 'Kuro Version 3.7 phase-I Convene'], sourceUrls: ['https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5562', 'https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5528'], checkedAt: '2026-10-06', notes: ['Released in Version 3.7 on 2026-09-30; phase-I Convene confirms live availability. Identity/release review only; HP, ATK, DEF and Max Energy remain null pending a separate level-90 convention review. Mechanics and progression are not promoted.'] }),
   row({ id: 'iuno', name: 'Iuno', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 10525, atk: 450, def: 1124, maxEnergy: 125 }),
   row({ id: 'jianxin', name: 'Jianxin', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 14113, atk: 338, def: 1124, maxEnergy: 150 }),
-  row({ id: 'jingran', name: 'Jingran', rarity: 5, element: 'Fusion', weaponType: 'Broadblade', hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'CONFIRMED_UPCOMING', sourceLabels: ['V9.15 Characters', 'Prydwen', 'current 3.6 release sources'], notes: ['Confirmed 3.6 phase-2 identity. Unpublished/unverified level-90 numeric fields remain null.'] }),
+  row({ id: 'jingran', name: 'Jingran', rarity: 5, element: 'Fusion', weaponType: 'Broadblade', hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'RELEASED', sourceLabels: ['Kuro Version 3.6 patch notes', 'Version 3.6 phase-II live release report'], sourceUrls: ['https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5340', 'https://www.theouterhaven.net/wuthering-waves-version-3-6-update-lamplight-in-mirage-swords-resolve-in-heart-part-two-is-live/'], checkedAt: '2026-10-06', notes: ['Released in Version 3.6 phase II in September 2026; the end of the debut Convene does not make a released Character upcoming. HP, ATK, DEF and Max Energy remain null. Provider DEF 0 and Max Resonance Energy 140 are not promoted; Liberation cost does not prove Max Energy. Mechanics remain separately reviewed.'] }),
   row({ id: 'jinhsi', name: 'Jinhsi', rarity: 5, element: 'Spectro', weaponType: 'Broadblade', hp: 10825, atk: 413, def: 1259, maxEnergy: 125 }),
   row({ id: 'jiyan', name: 'Jiyan', rarity: 5, element: 'Aero', weaponType: 'Broadblade', hp: 10488, atk: 438, def: 1185, maxEnergy: 125, notes: ['Current Prydwen Lv90 table preserves Bellibing/V9.15 DEF 1185; neighboring database integers are presentation differences rather than a separate modeled character value.'] }),
   row({ id: 'lingyang', name: 'Lingyang', rarity: 5, element: 'Glacio', weaponType: 'Gauntlets', hp: 10388, atk: 438, def: 1210, maxEnergy: 125 }),
@@ -137,7 +138,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'sanhua', name: 'Sanhua', rarity: 4, element: 'Glacio', weaponType: 'Sword', hp: 10063, atk: 275, def: 941, maxEnergy: 100 }),
   row({ id: 'sigrika', name: 'Sigrika', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 10775, atk: 438, def: 1136, maxEnergy: 125 }),
   row({ id: 'suisui', name: 'Suisui', rarity: 5, element: 'Glacio', weaponType: 'Rectifier', hp: 16713, atk: 288, def: 1100, maxEnergy: null, verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Wuwa Wiki', 'Wutheringlab', 'Wuthering.gg', 'ArabWuwa'], checkedAt: '2026-08-25', notes: ['Level-90 HP/ATK/DEF are now resolved to Bellibing’s published integer convention: current Wuwa Wiki reports 16713 / 288 / 1100, while other raw/display sources differ by presentation on HP/ATK but support the same stat family.', 'Max Energy remains null. One current source explicitly labels 175 Max Energy and the Liberation costs 175, while other current databases expose 125 or 140 in energy-labelled fields; Bellibing will not equate those fields without a clean semantic source.'] }),
-  row({ id: 'suoming', name: 'Suoming', rarity: 5, element: null, weaponType: null, hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'UNRELEASED_WIP', verificationStatus: 'PENDING', sourceLabels: ['V9.15 Characters', 'Prydwen'], notes: ['Future/WIP roster identity only. Element, weapon type and stats are intentionally not guessed.'] }),
+  row({ id: 'suoming', name: 'Suoming', rarity: 5, element: 'Electro', weaponType: 'Sword', hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'CONFIRMED_UPCOMING', verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Kuro Version 3.7 patch notes', 'Current Version 3.7 banner schedule'], sourceUrls: ['https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5562', 'https://www.wuwabuild.com/banners'], checkedAt: '2026-10-06', notes: ['Official Version 3.7 identity confirmed; the current phase-I Convene features Hsin, and the current schedule places Suoming in upcoming phase II. No current live/playable release is proved as of this review. Freshness-sensitive until released-build review. HP, ATK, DEF and Max Energy remain null; mutable kit, skills, Sequences and mechanics are not promoted.'] }),
   row({ id: 'taoqi', name: 'Taoqi', rarity: 4, element: 'Havoc', weaponType: 'Broadblade', hp: 8950, atk: 225, def: 1564, maxEnergy: 125 }),
   row({ id: 'the-shorekeeper', name: 'The Shorekeeper', rarity: 5, element: 'Spectro', weaponType: 'Rectifier', hp: 16713, atk: 288, def: 1100, maxEnergy: 125 }),
   row({ id: 'verina', name: 'Verina', rarity: 5, element: 'Spectro', weaponType: 'Rectifier', hp: 14238, atk: 338, def: 1100, maxEnergy: 175 }),

@@ -169,7 +169,7 @@ async function verifyRealPointerMenus(send) {
   if(!buildFocused) throw new Error('Real mouse drag did not focus Build a Character before click audit');
   await pointerClick(send,'#homeStage .card-build');
   await waitForUi(send,`document.getElementById('build').classList.contains('active')`,'Mouse click did not activate Build a Character');
-  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build Character picker did not load for mouse click audit',15000);
+  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===59`,'Build Character picker did not load for mouse click audit',15000);
 
   // Second menu: centered Character card must be a genuine mouse target, not keyboard-only.
   const buildFocus=await evaluate(send,`Number(document.getElementById('buildWheel').dataset.focusIndex)`);
@@ -223,10 +223,10 @@ async function enterBuild(send) {
   const readyDeadline=Date.now()+15000;
   while(Date.now()<readyDeadline){
     const count=await evaluate(send,`document.querySelectorAll('#buildWheel .choice').length`);
-    if(count===57) return;
+    if(count===59) return;
     await sleep(100);
   }
-  throw new Error('Build selector did not load 57 released Characters.');
+  throw new Error('Build selector did not load 59 released Characters.');
 }
 
 async function buildMetrics(send) {
@@ -320,7 +320,7 @@ function assertSelectorBounded(m,label){
   // A scrolling Improve shell reserves native scrollbar gutters. The wheel
   // must fill its actual content box and retain the same AppShell center.
   if(Math.abs(m.wheel.width-m.contentWidth)>1.5||Math.abs(m.wheel.left-m.contentLeft)>1.5||Math.abs(m.wheel.left+m.wheel.width/2-m.shellCenter)>1.5) throw new Error(`${label} visual carousel viewport escaped AppShell content box: ${JSON.stringify(m)}`);
-  if(m.count!==57||!m.focusVisible||Math.abs(m.spacing-expectedSpacing)>2.5) throw new Error(`${label} Character carousel state/spacing drift: ${JSON.stringify(m)}`);
+  if(m.count!==59||!m.focusVisible||Math.abs(m.spacing-expectedSpacing)>2.5) throw new Error(`${label} Character carousel state/spacing drift: ${JSON.stringify(m)}`);
   if(m.overflowX!=='hidden'||m.scrollWidth>m.innerWidth+1) throw new Error(`${label} did not clip to finite shell / caused horizontal page scroll: ${JSON.stringify(m)}`);
 }
 
@@ -371,7 +371,7 @@ async function verifyFiniteAppShell(send){
   const sizes=[[1440,900],[1920,1080],[2560,1440],[3440,1440],[7680,2160]];
 
   await setViewport(send,1440,900);await navigate(send);await enterBuild(send);
-  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build roster did not load for AppShell verification',15000);
+  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===59`,'Build roster did not load for AppShell verification',15000);
   await waitForUi(send,`!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')`,'Build entrance motion did not settle before AppShell measurement',3000);
   for(const[width,height]of sizes){
     await setViewport(send,width,height);await evaluate(send,'buildPicker.repaint()');await sleep(100);
@@ -418,7 +418,7 @@ async function verifyFiniteAppShell(send){
 
   await setViewport(send,1440,900);
   await evaluate(send,`window.__appShellOwnedBefore=[...state.characters];state.characters=releasedCharacters.map(c=>c.name);save();show('improve')`);
-  await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===57`,'Improve full owned roster did not load for AppShell verification',15000);
+  await waitForUi(send,`document.querySelectorAll('#improveWheel .choice').length===59`,'Improve full owned roster did not load for AppShell verification',15000);
   await waitForSelectorSpacing(send,'improveWheel',228,'Improve EXPANDED initial card spacing did not settle');
   for(const[width,height]of sizes){
     await setViewport(send,width,height);await evaluate(send,'improvePicker.repaint()');await sleep(100);
@@ -593,7 +593,7 @@ try{
     await sleep(760);
     const expandedNames=await buildMetrics(send);
     if(expandedNames.focusName!=='Lingyang') throw new Error(`Lingyang did not center for typography review: ${JSON.stringify(expandedNames)}`);
-    if(expandedNames.count!==57||expandedNames.loaded!==57||!expandedNames.oneLine||!expandedNames.headerFirst||!expandedNames.textMetricsSafe||!expandedNames.descenderMetricsSafe||expandedNames.fit!=='contain'||expandedNames.pos!=='50% 50%') throw new Error(`Expanded Build typography contract failed: ${JSON.stringify(expandedNames)}`);
+    if(expandedNames.count!==59||expandedNames.loaded!==59||!expandedNames.oneLine||!expandedNames.headerFirst||!expandedNames.textMetricsSafe||!expandedNames.descenderMetricsSafe||expandedNames.fit!=='contain'||expandedNames.pos!=='50% 50%') throw new Error(`Expanded Build typography contract failed: ${JSON.stringify(expandedNames)}`);
     for(const sentinel of ['Buling','Lingyang','Yangyang']) if(!expandedNames.descenderLabels.includes(sentinel)) throw new Error(`Missing descender sentinel ${sentinel} from typography audit.`);
     await capture(send,'artifacts/ui-preview-build-names-expanded-1440x900.png');
 
@@ -609,9 +609,9 @@ try{
     const desktopWeapon=await verifyWeaponOverlay(send,1440,900,'artifacts/ui-preview-weapon-overlay-1440x900.png');
 
     await navigate(send);await enterBuild(send);
-    await waitForUi(send,`(()=>{const cards=[...document.querySelectorAll('#buildWheel .choice')],images=cards.map(card=>card.querySelector('img'));return cards.length===57&&images.every(img=>img?.complete&&img.naturalWidth>0)})()`,'Desktop Build portraits did not settle to 57/57 after navigation',15000);
+    await waitForUi(send,`(()=>{const cards=[...document.querySelectorAll('#buildWheel .choice')],images=cards.map(card=>card.querySelector('img'));return cards.length===59&&images.every(img=>img?.complete&&img.naturalWidth>0)})()`,'Desktop Build portraits did not settle to 59/59 after navigation',15000);
     const desktopBefore=await buildMetrics(send);
-    if(desktopBefore.count!==57||desktopBefore.loaded!==57||!desktopBefore.oneLine||!desktopBefore.headerFirst||!desktopBefore.textMetricsSafe||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
+    if(desktopBefore.count!==59||desktopBefore.loaded!==59||!desktopBefore.oneLine||!desktopBefore.headerFirst||!desktopBefore.textMetricsSafe||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
     for(const forbidden of ['Jingran','Hsin','Suoming']) if(desktopBefore.names.includes(forbidden)) throw new Error(`${forbidden} leaked into released Build selector.`);
     for(const rover of ['Rover (Aero)','Rover (Electro)','Rover (Havoc)','Rover (Spectro)']) if(!desktopBefore.names.includes(rover)) throw new Error(`Missing ${rover}.`);
     await drag(send,'#buildWheel',-1,.72);
@@ -634,10 +634,10 @@ try{
     console.log(`- Shared Build/Improve Character pickers are centered and capped at ${finiteShell.maxShell}px in EXPANDED, COMPACT and HOVER_EXPANDED states; Build shell-local spacing stays fixed and the final roster card remains centerable.`);
     console.log('- Home mouse drag reached Team from default Improve focus.');
     console.log(`- Real mouse click navigation passed for Home Build/Improve/Team plus Build and Improve Character pickers; selected: ${pointerMenus.character}.`);
-    console.log('- Build selector loaded 57/57 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');
+    console.log('- Build selector loaded 59/59 released canonical portraits with descender-safe one-line names in EXPANDED, COMPACT and HOVER_EXPANDED states.');
     console.log('- Buling, Lingyang and Yangyang are explicit ETNA descender sentinels.');
-    console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/57 -> ${desktopAfter.focus+1}/57.`);
-    if(mobileBefore&&mobileAfter) console.log(`- Optional Mobile Adaptation touch drag: ${mobileBefore.focus+1}/57 -> ${mobileAfter.focus+1}/57.`);
+    console.log(`- Desktop Build multi-card drag: ${desktopBefore.focus+1}/59 -> ${desktopAfter.focus+1}/59.`);
+    if(mobileBefore&&mobileAfter) console.log(`- Optional Mobile Adaptation touch drag: ${mobileBefore.focus+1}/59 -> ${mobileAfter.focus+1}/59.`);
     else console.log('- Mobile/narrow carousel and Weapon gates deferred by desktop-first stabilization policy.');
     console.log(`- Canonical Weapon browser passed: Character-compatible released catalog, real art, 4★/5★ square frames, frameless Preview, Equip-only commit, Active slot 1, Build-summary gating and no card flights; desktop equipped: ${desktopWeapon.equipped}${mobileWeapon?', optional mobile equipped: '+mobileWeapon.equipped:''}.`);
   }finally{socket.close()}

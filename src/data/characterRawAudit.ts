@@ -27,6 +27,12 @@ export interface CharacterRawPendingField {
  * stale pending exception is removed too. This prevents silent half-records.
  */
 export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [
+  ...['hsin', 'jingran'].map((characterId): CharacterRawPendingField => ({
+    characterId,
+    fields: ['hp', 'atk', 'def', 'maxEnergy'],
+    checkedAt: '2026-10-06',
+    reason: 'Released identity reviewed separately from progression. No level-90 convention or Max Energy semantic promotion in the catalog freshness review.',
+  })),
   {
     characterId: 'qingxiao',
     fields: ['maxEnergy'],

@@ -884,6 +884,17 @@
       ]
     },
     {
+      "characterId": "hsin",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
+      "stats": []
+    },
+    {
       "characterId": "iuno",
       "status": "READY",
       "presetId": "iuno-augusta-hybrid",
@@ -934,6 +945,17 @@
     },
     {
       "characterId": "jianxin",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
+      "stats": []
+    },
+    {
+      "characterId": "jingran",
       "status": "PENDING",
       "presetId": null,
       "profileId": null,

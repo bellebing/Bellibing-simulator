@@ -1953,6 +1953,42 @@
       }
     },
     {
+      "characterId": "hsin",
+      "presetId": null,
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
+      "characterTarget": {
+        "numericTargets": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "reason": "No verified default preset.",
+          "value": null
+        },
+        "priorities": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "reason": "No verified default preset.",
+          "value": null
+        }
+      },
+      "echoPolicy": {
+        "scope": "FINISHED_CANDIDATE_ECHO",
+        "requirements": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "value": null,
+          "reason": "Runtime unavailable."
+        },
+        "preferences": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "value": null,
+          "reason": "Runtime unavailable."
+        }
+      }
+    },
+    {
       "characterId": "iuno",
       "presetId": "iuno-augusta-hybrid",
       "mode": "RECOMMENDED",
@@ -2071,6 +2107,42 @@
     },
     {
       "characterId": "jianxin",
+      "presetId": null,
+      "mode": "RECOMMENDED",
+      "sourceReviewStatus": "PENDING",
+      "applicability": null,
+      "characterTarget": {
+        "numericTargets": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "reason": "No verified default preset.",
+          "value": null
+        },
+        "priorities": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "reason": "No verified default preset.",
+          "value": null
+        }
+      },
+      "echoPolicy": {
+        "scope": "FINISHED_CANDIDATE_ECHO",
+        "requirements": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "value": null,
+          "reason": "Runtime unavailable."
+        },
+        "preferences": {
+          "status": "PENDING",
+          "origin": "PROFILE",
+          "value": null,
+          "reason": "Runtime unavailable."
+        }
+      }
+    },
+    {
+      "characterId": "jingran",
       "presetId": null,
       "mode": "RECOMMENDED",
       "sourceReviewStatus": "PENDING",

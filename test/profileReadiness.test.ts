@@ -44,15 +44,15 @@ test('released roster is structurally classified without a copied readiness-coun
 
   assert.equal(dispositionTotal, summary.releasedCharacterCount);
   assert.equal(summary.characters.length, summary.releasedCharacterCount);
-  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['buling', 'danjin', 'xiangli-yao']);
+  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['buling', 'danjin', 'hsin', 'jingran', 'xiangli-yao']);
   assert.equal(summary.preDpsFreezeReady, false);
   assert.equal(summary.issues.length, 0);
 });
 
 test('raw and intrinsic unresolved Character fields stay visible to DPS preflight', () => {
   const summary = assertProfileReadinessAudit();
-  assert.deepEqual(summary.rawDpsBlockedCharacterIds, ['qingxiao', 'rover-electro', 'suisui']);
-  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, []);
+  assert.deepEqual(summary.rawDpsBlockedCharacterIds, ['hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']);
+  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, ['hsin', 'jingran']);
 
   const qingxiao = summary.characters.find((row) => row.characterId === 'qingxiao');
   assert.ok(qingxiao);

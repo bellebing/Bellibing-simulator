@@ -11,8 +11,7 @@
     "total": 60,
     "releaseStatus": {
       "CONFIRMED_UPCOMING": 1,
-      "RELEASED": 57,
-      "UNRELEASED_WIP": 2
+      "RELEASED": 59
     },
     "freshnessSensitive": [
       "hsin",
@@ -2326,9 +2325,9 @@
   "canonicalDelta": {
     "stateCounts": {
       "CONFLICT": 149,
-      "EXACT_AGREEMENT": 654,
+      "EXACT_AGREEMENT": 658,
       "NOT_COMPARABLE": 782,
-      "PROVIDER_ONLY": 37
+      "PROVIDER_ONLY": 33
     },
     "rows": [
       {
@@ -15045,6 +15044,7 @@
         "family": "IDENTITY",
         "characterId": "hsin",
         "factId": "element",
+        "canonicalValue": "Electro",
         "providerFacts": [
           {
             "providerId": "prydwen-profile-source",
@@ -15075,7 +15075,7 @@
           "Electro",
           "Electro"
         ],
-        "state": "PROVIDER_ONLY"
+        "state": "EXACT_AGREEMENT"
       },
       {
         "family": "IDENTITY",
@@ -15118,6 +15118,7 @@
         "family": "IDENTITY",
         "characterId": "hsin",
         "factId": "weaponType",
+        "canonicalValue": "Rectifier",
         "providerFacts": [
           {
             "providerId": "prydwen-profile-source",
@@ -15148,7 +15149,7 @@
           "Rectifier",
           "Rectifier"
         ],
-        "state": "PROVIDER_ONLY"
+        "state": "EXACT_AGREEMENT"
       },
       {
         "family": "PROGRESSION",
@@ -33147,6 +33148,7 @@
         "family": "IDENTITY",
         "characterId": "suoming",
         "factId": "element",
+        "canonicalValue": "Electro",
         "providerFacts": [
           {
             "providerId": "prydwen-profile-source",
@@ -33177,7 +33179,7 @@
           "Electro",
           "Electro"
         ],
-        "state": "PROVIDER_ONLY"
+        "state": "EXACT_AGREEMENT"
       },
       {
         "family": "IDENTITY",
@@ -33220,6 +33222,7 @@
         "family": "IDENTITY",
         "characterId": "suoming",
         "factId": "weaponType",
+        "canonicalValue": "Sword",
         "providerFacts": [
           {
             "providerId": "prydwen-profile-source",
@@ -33250,7 +33253,7 @@
           "Sword",
           "Sword"
         ],
-        "state": "PROVIDER_ONLY"
+        "state": "EXACT_AGREEMENT"
       },
       {
         "family": "PROGRESSION",
@@ -40947,7 +40950,7 @@
     },
     {
       "characterId": "hsin",
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "RELEASED",
       "captureStatus": "CAPTURED",
       "skillKeys": [
         "basicAttack",
@@ -41020,7 +41023,7 @@
     },
     {
       "characterId": "jingran",
-      "releaseStatus": "CONFIRMED_UPCOMING",
+      "releaseStatus": "RELEASED",
       "captureStatus": "CAPTURED",
       "skillKeys": [
         "basicAttack",
@@ -41632,7 +41635,7 @@
     },
     {
       "characterId": "suoming",
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "CONFIRMED_UPCOMING",
       "captureStatus": "PARTIAL",
       "skillKeys": [],
       "level10SkillKeys": [],
@@ -42080,7 +42083,7 @@
     },
     {
       "characterId": "hsin",
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "RELEASED",
       "prydwen": "PARTIAL",
       "wutheringGg": "CAPTURED",
       "prydwenWarnings": [
@@ -42106,7 +42109,7 @@
     },
     {
       "characterId": "jingran",
-      "releaseStatus": "CONFIRMED_UPCOMING",
+      "releaseStatus": "RELEASED",
       "prydwen": "PARTIAL",
       "wutheringGg": "CAPTURED",
       "prydwenWarnings": [
@@ -42314,7 +42317,7 @@
     },
     {
       "characterId": "suoming",
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "CONFIRMED_UPCOMING",
       "prydwen": "PARTIAL",
       "wutheringGg": "CAPTURED",
       "prydwenWarnings": [

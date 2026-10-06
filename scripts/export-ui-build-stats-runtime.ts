@@ -1,6 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { CHARACTER_CATALOG } from '../src/data/characters.ts';
+import { CHARACTER_PRESENTATION_PENDING } from '../src/data/characterPresentationPending.ts';
 
 const defaultOutput='docs/ui-prototypes/assets/build-stats/runtime-data.json';
 const projectionOutput=resolve('docs/ui-prototypes/assets/build-stats/projection.mjs');
@@ -31,7 +32,7 @@ const statIcons=Object.fromEntries(statIconLabels.map(label=>{
   return [label,toRuntimePath(row.targetPath)];
 }));
 
-const characters=CHARACTER_CATALOG.filter(character=>character.releaseStatus==='RELEASED').map(character=>{
+const characters=CHARACTER_CATALOG.filter(character=>character.releaseStatus==='RELEASED'&&!CHARACTER_PRESENTATION_PENDING.some(id=>id===character.id)).map(character=>{
   if(!character.element||!finite(character.level90.hp)||!finite(character.level90.atk)||!finite(character.level90.def)
     ||!finite(character.baseCombat.critRate)||!finite(character.baseCombat.critDamage)||!finite(character.baseCombat.energyRegen)) {
     throw new Error('Released Character has unresolved Build stat inputs: '+character.id);

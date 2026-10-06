@@ -165,11 +165,11 @@ test('fourth-batch Tune Break facts stay at the shared-system boundary', () => {
 
 test('fourth Character Mechanics batch remains valid after later batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
-  assert.equal(audit.releasedCount, 57);
+  assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(audit.unstartedCharacterIds.length, 0);
+  assert.equal(audit.unstartedCharacterIds.length, 2);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1938);
   assert.deepEqual(audit.structuralIssues, []);
 

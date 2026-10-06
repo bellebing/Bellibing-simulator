@@ -21,7 +21,7 @@
     "releaseScope": "RELEASED_ONLY",
     "sourceVerification": "CANONICAL_CHARACTER_ID_TO_PINNED_SOURCE_ID_TO_CHARACTERS_JSON_ICON_BANNER_TO_EXACT_GIT_BLOB",
     "rover": "FAIL_CLOSED_UNTIL_GENDER_VARIANT_IDENTITY_IS_EXPLICIT",
-    "unreleased": "Jingran CONFIRMED_UPCOMING and Hsin/Suoming UNRELEASED_WIP are excluded.",
+    "unreleased": "Suoming CONFIRMED_UPCOMING is excluded. Hsin/Jingran released identity does not promote Hero Art; source review remains Pending.",
     "presentation": "Explicit reviewed metadata only. Never auto-center from transparent image bounds.",
     "presentationUnits": {
       "scale": "Unitless multiplier applied inside the Character-local focus art frame.",
@@ -31,11 +31,11 @@
     }
   },
   "summary": {
-    "releasedCharacters": 57,
+    "releasedCharacters": 59,
     "mapped": 53,
-    "pending": 4,
+    "pending": 6,
     "excludedUpcoming": 1,
-    "excludedWip": 2
+    "excludedWip": 0
   },
   "visualReview": {
     "reviewKind": "REAL_BUILD_FRAME",
@@ -1469,6 +1469,22 @@
           "sourceBytes": 167510
         }
       ]
+    },
+    {
+      "characterId": "hsin",
+      "characterName": "Hsin",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "SOURCE_REVIEW_PENDING",
+      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending.",
+      "candidates": []
+    },
+    {
+      "characterId": "jingran",
+      "characterName": "Jingran",
+      "releaseStatus": "RELEASED",
+      "reasonCode": "SOURCE_REVIEW_PENDING",
+      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending.",
+      "candidates": []
     }
   ]
 }

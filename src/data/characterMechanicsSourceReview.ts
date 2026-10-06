@@ -2,7 +2,8 @@ import { auditCharacterMechanicsCoverage } from './characterMechanicsAudit.ts';
 
 export type CharacterMechanicsSourceBlockerKind =
   | 'MISSING_DAMAGE_CLASSIFICATION'
-  | 'CONTRADICTORY_RESOURCE_THRESHOLD';
+  | 'CONTRADICTORY_RESOURCE_THRESHOLD'
+  | 'MISSING_REVIEWED_MECHANICS';
 
 export interface CharacterMechanicsSourceBlocker {
   characterId: string;
@@ -22,6 +23,17 @@ export interface CharacterMechanicsSourceReviewAudit {
 }
 
 export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSourceBlocker[] = [
+  ...['hsin', 'jingran'].map((characterId): CharacterMechanicsSourceBlocker => ({
+    characterId,
+    kind: 'MISSING_REVIEWED_MECHANICS',
+    checkedAt: '2026-10-06',
+    upstreamCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
+    sourceEvidence: [
+      'Canonical Character Mechanics source snapshot/review has no promoted facts for this identity.',
+      'docs/CHARACTER_TRUTH_CAPTURE.md: provider evidence remains noncanonical and requires separate manual source-validity review.',
+    ],
+    reason: 'Released catalog identity only. Reviewed mechanics are unavailable; provider kit/progression/Sequence capture does not establish canonical mechanics or DPS readiness.',
+  })),
   {
     characterId: 'buling',
     kind: 'MISSING_DAMAGE_CLASSIFICATION',

@@ -267,13 +267,13 @@
       "characterId": "hsin",
       "characterName": "Hsin",
       "rarity": 5,
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "RELEASED",
       "sourcePath": "images/Hsin.png",
       "sourceSha": "9825ed22dd1d4b7136e0612125174f4eca0213db",
       "sourceBytes": 40844,
       "targetPath": "docs/ui-prototypes/assets/characters/portraits/hsin.png",
       "mappingStatus": "DIRECT_NAME_MATCH",
-      "uiEligible": false
+      "uiEligible": true
     },
     {
       "characterId": "iuno",
@@ -303,13 +303,13 @@
       "characterId": "jingran",
       "characterName": "Jingran",
       "rarity": 5,
-      "releaseStatus": "CONFIRMED_UPCOMING",
+      "releaseStatus": "RELEASED",
       "sourcePath": "images/Jingran.png",
       "sourceSha": "540579a9c94720b6d1ca75c2b1ef8182fa9983e8",
       "sourceBytes": 14413,
       "targetPath": "docs/ui-prototypes/assets/characters/portraits/jingran.png",
       "mappingStatus": "DIRECT_NAME_MATCH",
-      "uiEligible": false
+      "uiEligible": true
     },
     {
       "characterId": "jinhsi",
@@ -555,7 +555,7 @@
       "characterId": "suoming",
       "characterName": "Suoming",
       "rarity": 5,
-      "releaseStatus": "UNRELEASED_WIP",
+      "releaseStatus": "CONFIRMED_UPCOMING",
       "sourcePath": "images/Suoming.png",
       "sourceSha": "9975c0c29394bc8ccd9b43f5bfce3647fa473900",
       "sourceBytes": 33433,

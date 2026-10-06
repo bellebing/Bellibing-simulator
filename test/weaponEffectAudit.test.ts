@@ -239,7 +239,8 @@ test('Rectifier effect batch 1 screens the exact released Rectifier roster witho
   );
   assert.ok(review);
 
-  const releasedIds = releasedCharacterIds('Rectifier');
+  const releasedIds = releasedCharacterIds('Rectifier').filter(id => id !== 'hsin');
+  assert.ok(!review.reviewedReleasedCharacterIds.includes('hsin')); // Historical impact review is not promoted by catalog release.
   assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_RECTIFIER_CHARACTERS]);
   assert.equal(releasedIds.length, 13);
   assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);
@@ -270,7 +271,8 @@ test('Rectifier effect batch 2 repeats the exact released Rectifier backward-imp
   );
   assert.ok(review);
 
-  const releasedIds = releasedCharacterIds('Rectifier');
+  const releasedIds = releasedCharacterIds('Rectifier').filter(id => id !== 'hsin');
+  assert.ok(!review.reviewedReleasedCharacterIds.includes('hsin')); // Historical impact review is not promoted by catalog release.
   assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_RECTIFIER_CHARACTERS]);
   assert.equal(releasedIds.length, 13);
   assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);
@@ -304,7 +306,8 @@ test('Rectifier batches 3 and 4 close released Rectifier coverage with exact bac
   );
   assert.ok(batch3 && batch4);
 
-  const releasedIds = releasedCharacterIds('Rectifier');
+  const releasedIds = releasedCharacterIds('Rectifier').filter(id => id !== 'hsin');
+  assert.ok(!batch3.reviewedReleasedCharacterIds.includes('hsin') && !batch4.reviewedReleasedCharacterIds.includes('hsin')); // Historical impact review is not promoted by catalog release.
   assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_RECTIFIER_CHARACTERS]);
   assert.deepEqual([...batch3.reviewedReleasedCharacterIds].sort(), releasedIds);
   assert.deepEqual([...batch4.reviewedReleasedCharacterIds].sort(), releasedIds);
@@ -346,7 +349,8 @@ test('Broadblade completion closes all 23 released weapons and preserves Augusta
   );
   assert.ok(review);
 
-  const releasedIds = releasedCharacterIds('Broadblade');
+  const releasedIds = releasedCharacterIds('Broadblade').filter(id => id !== 'jingran');
+  assert.ok(!review.reviewedReleasedCharacterIds.includes('jingran')); // Historical impact review remains bounded.
   assert.deepEqual(releasedIds, [...EXPECTED_RELEASED_BROADBLADE_CHARACTERS]);
   assert.equal(releasedIds.length, 9);
   assert.deepEqual([...review.reviewedReleasedCharacterIds].sort(), releasedIds);

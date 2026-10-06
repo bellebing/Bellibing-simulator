@@ -65,9 +65,9 @@ Provider conflicts currently consist of **2 identity** and **132 progression** f
 Comparison against current canonical data is report-only:
 
 - `CONFLICT`: **149**
-- `EXACT_AGREEMENT`: **654**
+- `EXACT_AGREEMENT`: **658**
 - `NOT_COMPARABLE`: **782**
-- `PROVIDER_ONLY`: **37**
+- `PROVIDER_ONLY`: **33**
 
 Nothing in these counts promotes provider evidence into canonical Character data.
 

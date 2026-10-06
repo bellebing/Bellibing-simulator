@@ -6,9 +6,9 @@
     "src/characterHeroArt.ts#createCharacterHeroArtResolver"
   ],
   "summary": {
-    "releasedCharacters": 57,
+    "releasedCharacters": 59,
     "ready": 53,
-    "pending": 4
+    "pending": 6
   },
   "characters": [
     {
@@ -372,6 +372,13 @@
       }
     },
     {
+      "characterId": "hsin",
+      "characterName": "Hsin",
+      "status": "PENDING",
+      "reasonCode": "SOURCE_REVIEW_PENDING",
+      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending."
+    },
+    {
       "characterId": "iuno",
       "characterName": "Iuno",
       "status": "READY",
@@ -406,6 +413,13 @@
         },
         "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
       }
+    },
+    {
+      "characterId": "jingran",
+      "characterName": "Jingran",
+      "status": "PENDING",
+      "reasonCode": "SOURCE_REVIEW_PENDING",
+      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending."
     },
     {
       "characterId": "jinhsi",

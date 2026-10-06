@@ -15,7 +15,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   };
   const focus = key => '#improveSettings [data-focus-key=' + JSON.stringify(key) + ']';
   const slider = (list, name) => '[data-setting=' + list + '] .improve-echo-row[data-stat-name=' + JSON.stringify(name) + '] .improve-roll-slider';
-  const wait = () => waitForUi(send, 'releasedCharacters.length===57&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings not ready', 15000);
+  const wait = () => waitForUi(send, 'releasedCharacters.length===59&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings not ready', 15000);
   const settle = async () => { await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:20,y:800}); await sleep(750); };
   const key = async name => {
     const virtual = {ArrowLeft:37,ArrowRight:39,Home:36,End:35}[name];

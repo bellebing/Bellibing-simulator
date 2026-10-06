@@ -15,10 +15,10 @@ import {
 
 test('released roster INHERENT_PASSIVES coverage matches all 114 pinned source rows', () => {
   const audit = auditCharacterInherentPassivesCoverage();
-  assert.equal(audit.releasedCount, 57);
+  assert.equal(audit.releasedCount, 59);
   assert.equal(audit.sourceInherentSkillCount, 114);
   assert.equal(audit.verifiedCharacterIds.length, 57);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
   assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(audit.blockers, []);
   assert.deepEqual(audit.issues, []);
@@ -79,18 +79,18 @@ test('INHERENT_PASSIVES completion does not change ACTIONS or FORTE_RULES covera
   const actions = auditCharacterActionsCoverage();
   const forte = auditCharacterForteRulesCoverage();
 
-  assert.equal(actions.releasedCount, 57);
+  assert.equal(actions.releasedCount, 59);
   assert.equal(actions.verifiedCharacterIds.length, 55);
-  assert.deepEqual(actions.partialCharacterIds, []);
+  assert.deepEqual(actions.partialCharacterIds, ['hsin', 'jingran']);
   assert.deepEqual(actions.blockedCharacterIds, ['buling', 'xiangli-yao']);
   assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), [
     'ACTIONS-BULING-1307031-DAMAGE-CLASS',
     'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
   ]);
 
-  assert.equal(forte.releasedCount, 57);
+  assert.equal(forte.releasedCount, 59);
   assert.equal(forte.verifiedCharacterIds.length, 55);
-  assert.deepEqual(forte.partialCharacterIds, []);
+  assert.deepEqual(forte.partialCharacterIds, ['hsin', 'jingran']);
   assert.deepEqual(forte.blockedCharacterIds, ['buling', 'danjin']);
   assert.deepEqual(forte.blockers.map((blocker) => blocker.blockerId), [
     'FORTE-BULING-1307031-DAMAGE-CLASS',

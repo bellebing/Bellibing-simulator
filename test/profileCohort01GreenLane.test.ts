@@ -105,7 +105,7 @@ test('bulk materialization produces seven canonical defaults while keeping every
 
 test('all seven promoted profiles remain pending freeze with explicit backward-impact execution gaps', () => {
   const summary = assertProfileReadinessAudit();
-  assert.equal(summary.releasedCharacterCount, 57);
+  assert.equal(summary.releasedCharacterCount, 59);
   assert.equal(summary.issues.length, 0);
 
   for (const [characterId, presetId] of PROMOTED) {

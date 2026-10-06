@@ -313,7 +313,7 @@ async function verifyRealPointerMenus(send) {
   if(!buildFocused) throw new Error('Real mouse drag did not focus Build a Character before click audit');
   await pointerClick(send,'#homeStage .card-build');
   await waitForUi(send,`document.getElementById('build').classList.contains('active')`,'Mouse click did not activate Build a Character');
-  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===57`,'Build Character picker did not load for mouse click audit',15000);
+  await waitForUi(send,`document.querySelectorAll('#buildWheel .choice').length===59`,'Build Character picker did not load for mouse click audit',15000);
 
   // Second menu: centered Character card must be a genuine mouse target, not keyboard-only.
   const buildFocus=await evaluate(send,`Number(document.getElementById('buildWheel').dataset.focusIndex)`);
@@ -367,10 +367,10 @@ async function enterBuild(send) {
   const readyDeadline=Date.now()+15000;
   while(Date.now()<readyDeadline){
     const count=await evaluate(send,`document.querySelectorAll('#buildWheel .choice').length`);
-    if(count===57) return;
+    if(count===59) return;
     await sleep(100);
   }
-  throw new Error('Build selector did not load 57 released Characters.');
+  throw new Error('Build selector did not load 59 released Characters.');
 }
 
 async function buildMetrics(send) {

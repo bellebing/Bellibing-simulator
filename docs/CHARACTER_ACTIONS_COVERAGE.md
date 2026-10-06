@@ -4,9 +4,9 @@ This report is deterministic output from the canonical Character Mechanics regis
 
 ## Roster-wide status
 
-- **RELEASED Characters:** 57
+- **RELEASED Characters:** 59
 - **ACTIONS VERIFIED Characters:** 55
-- **ACTIONS PARTIAL Characters:** 0
+- **ACTIONS PARTIAL Characters:** 2
 - **ACTIONS BLOCKED Characters:** 2
 
 ### VERIFIED
@@ -15,7 +15,7 @@ aalto, aemeath, augusta, baizhi, brant, calcharo, camellya, cantarella, carlotta
 
 ### PARTIAL
 
-none
+hsin, jingran
 
 ### BLOCKED
 

@@ -25,10 +25,10 @@ function assertPublishedAssetExists(assetPath: string): void {
   );
 }
 
-test('builder asset resolver exposes all and only released Characters', () => {
+test('builder asset resolver exposes reviewed released Characters while fresh identities stay Pending', () => {
   const resolver = createCharacterBuilderAssetResolver(loadManifest());
   const expected = CHARACTER_CATALOG
-    .filter((character) => character.releaseStatus === 'RELEASED')
+    .filter((character) => character.releaseStatus === 'RELEASED' && !['hsin', 'jingran'].includes(character.id))
     .map((character) => character.id);
 
   assert.equal(CHARACTER_BUILDER_ASSET_MANIFEST_PATH, 'assets/builder-icons/manifest.json');
@@ -161,7 +161,7 @@ test('released-only runtime contract rejects pending Character leakage even if a
 
   assert.throws(
     () => createCharacterBuilderAssetResolver(manifest),
-    /pending Character leaked into builder manifest: hsin/,
+    /hsin releaseStatus mismatch/,
   );
 });
 

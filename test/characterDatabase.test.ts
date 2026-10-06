@@ -190,3 +190,14 @@ test('CLI writes usable JSON and an invalid invocation preserves the last succes
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test('released identity export preserves Pending progression, mechanics and DPS boundaries', () => {
+  const db = buildCharacterDatabase();
+  for (const id of ['hsin', 'jingran']) {
+    const character = db.characters.find(row => row.id === id)!;
+    assert.equal(character.releaseStatus, 'RELEASED');
+    assert.deepEqual(character.level90, { hp: null, atk: null, def: null, maxEnergy: null });
+    assert.equal(db.mechanicsFacts.some(fact => fact.characterId === id), false);
+  }
+  assert.equal(db.characters.find(row => row.id === 'suoming')!.releaseStatus, 'CONFIRMED_UPCOMING');
+});

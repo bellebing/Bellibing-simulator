@@ -2311,6 +2311,12 @@
       "weaponType": "Sword"
     },
     {
+      "id": "hsin",
+      "name": "Hsin",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier"
+    },
+    {
       "id": "iuno",
       "name": "Iuno",
       "releaseStatus": "RELEASED",
@@ -2321,6 +2327,12 @@
       "name": "Jianxin",
       "releaseStatus": "RELEASED",
       "weaponType": "Gauntlets"
+    },
+    {
+      "id": "jingran",
+      "name": "Jingran",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade"
     },
     {
       "id": "jinhsi",

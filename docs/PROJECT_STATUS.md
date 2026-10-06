@@ -62,7 +62,8 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 1. Establish the confidential engine boundary before any new evaluator work.
 2. Build Need / Improvement Cost / evaluator remain Pending until a private runtime and a source-valid contract exist.
-3. Character comparison and Best Available Teams remain downstream and Pending.
+3. [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) is accepted future product direction downstream of real Build Need / Character usefulness readiness: reuse Improve with a sandbox and per-slot cards/Trash Piles, then measure Improvement Cost through repeated simulation. Simulator implementation is not active; Tube conversion and completion criteria remain Pending.
+4. Character comparison and Best Available Teams remain downstream and Pending.
 
 Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces are currently Pending. Echo Lab retains verified mechanics; Build/Improve retains source-backed presentation and user-owned inputs.
 
@@ -85,6 +86,7 @@ Do not infer missing values, timing, ownership, stacking, scope, rotations or da
 - [Character Recommendations — Augusta review](CHARACTER_RECOMMENDATIONS_AUGUSTA_REVIEW.md) — recommendation schema/source review.
 - [Character Recommendations — DPR review](CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md) — DPR source roles, coverage and mapped inventory.
 - [Character Database](CHARACTER_DATABASE.md) — current Character data/export consumer contract.
+- [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) — accepted future Improve simulator product direction; implementation and readiness remain Pending.
 - [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) — downstream team-selection product/architecture contract.
 
 Historical PR/checkpoint/CI evidence belongs in GitHub and the Handoff update log. It is intentionally not duplicated here.

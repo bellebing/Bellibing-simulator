@@ -60,12 +60,16 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 ## Nearest roadmap
 
-1. Establish the confidential engine boundary before any new evaluator work.
-2. Build Need / Improvement Cost / evaluator remain Pending until a private runtime and a source-valid contract exist.
-3. [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) is accepted future product direction downstream of real Build Need / Character usefulness readiness: reuse Improve with a sandbox and per-slot cards/Trash Piles, then measure Improvement Cost through repeated simulation. Simulator implementation is not active; Tube conversion and completion criteria remain Pending.
-4. Character comparison and Best Available Teams remain downstream and Pending.
+Private runtime foundation and Worker 8 Fas 2 are complete. Real Character comparison / usefulness / DPS remains Pending; foundation completion does not establish real Build Need readiness.
 
-Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces are currently Pending. Echo Lab retains verified mechanics; Build/Improve retains source-backed presentation and user-owned inputs.
+1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
+2. Worker 8 Fas 3: real Current measurement and source/context-valid Character usefulness / outcome assessment for a small cohort.
+3. [Echo Simulator Foundation](ECHO_SIMULATOR_DIRECTION.md): accepted future Improve sandbox with per-slot cards/Trash Piles, downstream of real Build Need / usefulness readiness.
+4. Improvement Cost through repeated simulation, keeping Tuners / Tubes / Echoes separate.
+5. Later farming/acquisition simulation when source-valid.
+6. Character comparison / Best Available Teams remain downstream and Pending.
+
+Fas 3, simulator, Improvement Cost and farming are not complete or active. Tube conversion and the separate completion criterion remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 

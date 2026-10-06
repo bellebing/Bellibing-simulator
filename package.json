@@ -37,7 +37,10 @@
     "report:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts",
     "audit:character-forte-rules": "node --experimental-strip-types scripts/report-character-forte-rules.ts --check",
     "report:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts",
-    "audit:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts --check"
+    "audit:character-inherent-passives": "node --experimental-strip-types scripts/report-character-inherent-passives.ts --check",
+    "capture:character-truth": "python scripts/export-prydwen-character-truth.py",
+    "test:character-truth": "node --experimental-strip-types --test test/factoryCharacterTruthCapture.test.ts test/characterTruthDataset.test.ts",
+    "report:character-truth": "node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts && node --experimental-strip-types scripts/summarize-character-truth.ts"
   },
   "devDependencies": {
     "typescript": "^5.8.3"

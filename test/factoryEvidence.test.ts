@@ -31,6 +31,15 @@ test('Factory provider registry keeps external sources non-canonical and blocks 
   validateFactoryProviderRegistry();
   assert.equal(FACTORY_PROVIDER_REGISTRY.every((provider) => provider.canonicalAuthority === false), true);
 
+  const wutheringGg = FACTORY_PROVIDER_REGISTRY.find((provider) => provider.providerId === 'wuthering-gg');
+  assert.ok(wutheringGg);
+  assert.equal(wutheringGg.sourceType, 'WEB_EXTRACTION');
+  assert.equal(wutheringGg.licenseStatus, 'REVIEW_REQUIRED');
+  assert.equal(wutheringGg.licenseId, null);
+  assert.equal(wutheringGg.dataUsePolicy, 'EVIDENCE_ONLY');
+  assert.equal(wutheringGg.enabledForFactoryEvidence, true);
+  assert.equal(wutheringGg.canonicalAuthority, false);
+
   const wuwabuild = FACTORY_PROVIDER_REGISTRY.find((provider) => provider.providerId === 'wuwabuild-reference');
   assert.ok(wuwabuild);
   assert.equal(wuwabuild.licenseStatus, 'UNLICENSED');

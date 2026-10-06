@@ -1,0 +1,49 @@
+name: Prydwen Progression Truth Capture
+on:
+  push:
+    branches:
+      - 'data/bulk-character-truth-intake-20261005'
+    paths:
+      - '.github/workflows/prydwen-progression-truth-capture.yml'
+      - 'scripts/export-prydwen-progression-truth.py'
+      - 'data/factory/character-truth/roster.json'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prydwen-progression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser runtime
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install --with-deps chromium
+      - name: Capture Prydwen factual profile progression
+        run: python scripts/export-prydwen-progression-truth.py
+      - name: Validate factual-only shape
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('data/factory/character-truth/prydwen-progression-truth.json').read_text())
+          assert p['canonicalAuthority'] is False and len(p['characters'])==60
+          assert len({c['bellibingCharacterId'] for c in p['characters']})==60
+          banned={'recommendations','ratings','teams','rotations','builds','echoRecommendations'}
+          for c in p['characters']: assert banned.isdisjoint(c.keys())
+          PY
+      - name: Commit provider capture
+        run: |
+          git config user.name "bellibing-data-bot"
+          git config user.email "bellibing-data-bot@users.noreply.github.com"
+          git add data/factory/character-truth/prydwen-progression-truth.json
+          if git diff --cached --quiet; then echo "No Prydwen progression change."; else
+            git commit -m "Capture Prydwen factual Character progression"
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }}
+          fi

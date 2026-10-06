@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "kind": "CHARACTER_TRUTH_AUDIT_SUMMARY",
+  "canonicalAuthority": false,
+  "roster": {
+    "total": 60,
+    "releaseStatus": {
+      "CONFIRMED_UPCOMING": 1,
+      "RELEASED": 57,
+      "UNRELEASED_WIP": 2
+    },
+    "freshnessSensitive": [
+      "hsin",
+      "jingran",
+      "suoming"
+    ]
+  },
+  "providerCapture": {
+    "prydwenKit": {
+      "CAPTURED": 59,
+      "PARTIAL": 1
+    },
+    "prydwenProgression": {
+      "CAPTURED": 52,
+      "PARTIAL": 8
+    },
+    "wutheringGg": {
+      "CAPTURED": 60
+    }
+  },
+  "skills": {
+    "completeSixSequenceCharacters": 59,
+    "completeLevel10SkillTables": 295,
+    "kitGaps": [
+      {
+        "characterId": "suoming",
+        "status": "PARTIAL",
+        "warnings": [
+          "basicAttack: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").first\n",
+          "resonanceSkill: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").first\n",
+          "resonanceLiberation: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").first\n",
+          "forteCircuit: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(1)\n",
+          "inherentSkill1: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(1)\n",
+          "inherentSkill2: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(1)\n",
+          "introSkill: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(2)\n",
+          "outroSkill: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(2)\n",
+          "forteCircuitTuneProbe: TimeoutError: Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".tabs-skills .single-tab\").nth(1)\n"
+        ],
+        "skillKeys": [],
+        "missingExpectedSkills": [
+          "basicAttack",
+          "resonanceSkill",
+          "resonanceLiberation",
+          "forteCircuit",
+          "inherentSkill1",
+          "inherentSkill2",
+          "introSkill",
+          "outroSkill"
+        ],
+        "level10SkillKeys": [],
+        "sequenceCount": 0
+      }
+    ]
+  },
+  "progression": {
+    "gaps": [
+      {
+        "characterId": "denia",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Fusion",
+          "weaponType": "Rectifier"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "hsin",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Electro",
+          "weaponType": "Rectifier"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "jingran",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Fusion",
+          "weaponType": "Broadblade"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "qingxiao",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Aero",
+          "weaponType": "Sword"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "rover-electro",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Electro",
+          "weaponType": "Sword"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "suisui",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Glacio",
+          "weaponType": "Rectifier"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "suoming",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Electro",
+          "weaponType": "Sword"
+        },
+        "level90": null
+      },
+      {
+        "characterId": "yangyang-xuanling",
+        "status": "PARTIAL",
+        "warnings": [
+          "source explicitly reports Stats unavailable"
+        ],
+        "identity": {
+          "rarity": 5,
+          "element": "Havoc",
+          "weaponType": "Sword"
+        },
+        "level90": null
+      }
+    ],
+    "wutheringGgGaps": []
+  },
+  "evidence": {
+    "factCount": 2130,
+    "stateCounts": {
+      "CAPTURED_ONE_PROVIDER": 1114,
+      "CONSENSUS_TWO_PROVIDERS": 374,
+      "PROVIDER_CONFLICT": 134
+    },
+    "conflictByFamily": {
+      "IDENTITY": 2,
+      "PROGRESSION": 132
+    },
+    "conflictByFact": {
+      "IDENTITY:displayName": 2,
+      "PROGRESSION:level90.atk": 28,
+      "PROGRESSION:level90.def": 36,
+      "PROGRESSION:level90.hp": 16,
+      "PROGRESSION:level90.maxEnergy": 52
+    },
+    "conflictCharacters": [
+      "aalto",
+      "aemeath",
+      "augusta",
+      "baizhi",
+      "brant",
+      "buling",
+      "calcharo",
+      "camellya",
+      "cantarella",
+      "carlotta",
+      "cartethyia",
+      "changli",
+      "chisa",
+      "chixia",
+      "ciaccona",
+      "danjin",
+      "encore",
+      "galbrena",
+      "hiyuki",
+      "iuno",
+      "jianxin",
+      "jinhsi",
+      "jiyan",
+      "lingyang",
+      "lucilla",
+      "lucy",
+      "lumi",
+      "lupa",
+      "luuk-herssen",
+      "lynae",
+      "mornye",
+      "mortefi",
+      "phoebe",
+      "phrolova",
+      "qiuyuan",
+      "rebecca",
+      "roccia",
+      "rover-aero",
+      "rover-havoc",
+      "rover-spectro",
+      "sanhua",
+      "sigrika",
+      "taoqi",
+      "the-shorekeeper",
+      "verina",
+      "xiangli-yao",
+      "yangyang",
+      "yangyang-xuanling",
+      "yinlin",
+      "youhu",
+      "yuanwu",
+      "zani",
+      "zhezhi"
+    ],
+    "conflictByFactCharacters": {
+      "IDENTITY:displayName": [
+        "the-shorekeeper",
+        "yangyang-xuanling"
+      ],
+      "PROGRESSION:level90.atk": [
+        "aalto",
+        "augusta",
+        "baizhi",
+        "calcharo",
+        "carlotta",
+        "cartethyia",
+        "changli",
+        "chisa",
+        "danjin",
+        "galbrena",
+        "hiyuki",
+        "jianxin",
+        "jinhsi",
+        "jiyan",
+        "lingyang",
+        "lumi",
+        "lupa",
+        "luuk-herssen",
+        "mornye",
+        "phoebe",
+        "phrolova",
+        "rover-aero",
+        "rover-havoc",
+        "sigrika",
+        "the-shorekeeper",
+        "verina",
+        "youhu",
+        "zani"
+      ],
+      "PROGRESSION:level90.def": [
+        "aalto",
+        "aemeath",
+        "brant",
+        "buling",
+        "calcharo",
+        "cantarella",
+        "carlotta",
+        "changli",
+        "chisa",
+        "ciaccona",
+        "danjin",
+        "encore",
+        "jinhsi",
+        "jiyan",
+        "lingyang",
+        "lucilla",
+        "lucy",
+        "lumi",
+        "lupa",
+        "lynae",
+        "mornye",
+        "mortefi",
+        "phoebe",
+        "phrolova",
+        "qiuyuan",
+        "roccia",
+        "rover-aero",
+        "rover-havoc",
+        "rover-spectro",
+        "sigrika",
+        "the-shorekeeper",
+        "verina",
+        "yangyang",
+        "yuanwu",
+        "zani",
+        "zhezhi"
+      ],
+      "PROGRESSION:level90.hp": [
+        "baizhi",
+        "changli",
+        "chixia",
+        "ciaccona",
+        "danjin",
+        "encore",
+        "jianxin",
+        "jiyan",
+        "lingyang",
+        "lucilla",
+        "lupa",
+        "lynae",
+        "qiuyuan",
+        "sanhua",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "PROGRESSION:level90.maxEnergy": [
+        "aalto",
+        "aemeath",
+        "augusta",
+        "baizhi",
+        "brant",
+        "buling",
+        "calcharo",
+        "camellya",
+        "cantarella",
+        "carlotta",
+        "cartethyia",
+        "changli",
+        "chisa",
+        "chixia",
+        "ciaccona",
+        "danjin",
+        "encore",
+        "galbrena",
+        "hiyuki",
+        "iuno",
+        "jianxin",
+        "jinhsi",
+        "jiyan",
+        "lingyang",
+        "lucilla",
+        "lucy",
+        "lumi",
+        "lupa",
+        "luuk-herssen",
+        "lynae",
+        "mornye",
+        "mortefi",
+        "phoebe",
+        "phrolova",
+        "qiuyuan",
+        "rebecca",
+        "roccia",
+        "rover-aero",
+        "rover-havoc",
+        "rover-spectro",
+        "sanhua",
+        "sigrika",
+        "taoqi",
+        "the-shorekeeper",
+        "verina",
+        "xiangli-yao",
+        "yangyang",
+        "yinlin",
+        "youhu",
+        "yuanwu",
+        "zani",
+        "zhezhi"
+      ]
+    }
+  },
+  "canonicalDelta": {
+    "stateCounts": {
+      "CONFLICT": 149,
+      "EXACT_AGREEMENT": 654,
+      "NOT_COMPARABLE": 782,
+      "PROVIDER_ONLY": 37
+    },
+    "byFamilyAndState": {
+      "IDENTITY:CONFLICT": 2,
+      "IDENTITY:EXACT_AGREEMENT": 234,
+      "IDENTITY:PROVIDER_ONLY": 4,
+      "PROGRESSION:CONFLICT": 140,
+      "PROGRESSION:EXACT_AGREEMENT": 85,
+      "PROGRESSION:PROVIDER_ONLY": 15,
+      "SEQUENCE:CONFLICT": 7,
+      "SEQUENCE:EXACT_AGREEMENT": 335,
+      "SEQUENCE:PROVIDER_ONLY": 18,
+      "SKILL_ACTION:NOT_COMPARABLE": 782
+    },
+    "conflictByFact": {
+      "IDENTITY:displayName": 2,
+      "PROGRESSION:level90.atk": 30,
+      "PROGRESSION:level90.def": 39,
+      "PROGRESSION:level90.hp": 17,
+      "PROGRESSION:level90.maxEnergy": 54,
+      "SEQUENCE:S1.name": 1,
+      "SEQUENCE:S2.name": 2,
+      "SEQUENCE:S3.name": 1,
+      "SEQUENCE:S4.name": 1,
+      "SEQUENCE:S5.name": 1,
+      "SEQUENCE:S6.name": 1
+    },
+    "providerOnlyByFact": {
+      "IDENTITY:element": 2,
+      "IDENTITY:weaponType": 2,
+      "PROGRESSION:level90.atk": 3,
+      "PROGRESSION:level90.def": 3,
+      "PROGRESSION:level90.hp": 3,
+      "PROGRESSION:level90.maxEnergy": 6,
+      "SEQUENCE:S1.name": 3,
+      "SEQUENCE:S2.name": 3,
+      "SEQUENCE:S3.name": 3,
+      "SEQUENCE:S4.name": 3,
+      "SEQUENCE:S5.name": 3,
+      "SEQUENCE:S6.name": 3
+    }
+  }
+}

@@ -13,3 +13,5 @@ The detached browser getState API returns user inputs, public presentation and c
 Improvement Cost / evaluator uses a private decision-engine contract. Proprietary policy and calibration are not part of the public repository.
 
 Build Need, Improvement Cost, comparison and evaluator output remain Pending. Browser verification covers built and repository-source previews, canonical tier input, persistence/recovery, isolation and neutral Pending states.
+
+See [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) for accepted future reuse of this Improve workspace with Current/Simulate sandbox separation. This reference does not activate simulator UI or change the current settings contract.

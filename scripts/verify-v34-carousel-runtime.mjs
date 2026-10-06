@@ -414,7 +414,7 @@ async function verifyFiniteAppShell(send){
   await evaluate(send,`buildPicker.select(${JSON.stringify(lastBuild)})`);
   await waitForFocusedCardCentered(send,'buildWheel','Build final Character did not settle centered inside bounded selector');
   nav=await selectorLayoutMetrics(send,'buildShell','buildWheel');
-  if(nav.focus!==56||nav.focusName!==lastBuild||!nav.focusVisible) throw new Error(`Build full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
+  if(nav.focus!==nav.count-1||nav.focusName!==lastBuild||!nav.focusVisible) throw new Error(`Build full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
 
   await setViewport(send,1440,900);
   await evaluate(send,`window.__appShellOwnedBefore=[...state.characters];state.characters=releasedCharacters.map(c=>c.name);save();show('improve')`);
@@ -449,7 +449,7 @@ async function verifyFiniteAppShell(send){
   await evaluate(send,`improvePicker.select(${JSON.stringify(lastImprove)})`);
   await waitForFocusedCardCentered(send,'improveWheel','Improve final Character did not settle centered inside bounded selector');
   nav=await selectorLayoutMetrics(send,'improveShell','improveWheel');
-  if(nav.focus!==56||nav.focusName!==lastImprove||!nav.focusVisible) throw new Error(`Improve full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
+  if(nav.focus!==nav.count-1||nav.focusName!==lastImprove||!nav.focusVisible) throw new Error(`Improve full roster cannot center final Character inside bounded selector: ${JSON.stringify(nav)}`);
   await evaluate(send,`state.characters=window.__appShellOwnedBefore||[];delete window.__appShellOwnedBefore;save();show('home')`);
   return {maxShell:1280,sizes:sizes.map(([w,h])=>w+'x'+h)};
 }
@@ -612,7 +612,8 @@ try{
     await waitForUi(send,`(()=>{const cards=[...document.querySelectorAll('#buildWheel .choice')],images=cards.map(card=>card.querySelector('img'));return cards.length===59&&images.every(img=>img?.complete&&img.naturalWidth>0)})()`,'Desktop Build portraits did not settle to 59/59 after navigation',15000);
     const desktopBefore=await buildMetrics(send);
     if(desktopBefore.count!==59||desktopBefore.loaded!==59||!desktopBefore.oneLine||!desktopBefore.headerFirst||!desktopBefore.textMetricsSafe||desktopBefore.fit!=='contain'||desktopBefore.pos!=='50% 50%') throw new Error(`Desktop Build card contract failed: ${JSON.stringify(desktopBefore)}`);
-    for(const forbidden of ['Jingran','Hsin','Suoming']) if(desktopBefore.names.includes(forbidden)) throw new Error(`${forbidden} leaked into released Build selector.`);
+    for(const released of ['Jingran','Hsin']) if(!desktopBefore.names.includes(released)) throw new Error(`Missing released ${released} from Build selector.`);
+    if(desktopBefore.names.includes('Suoming')) throw new Error('Suoming leaked into released Build selector.');
     for(const rover of ['Rover (Aero)','Rover (Electro)','Rover (Havoc)','Rover (Spectro)']) if(!desktopBefore.names.includes(rover)) throw new Error(`Missing ${rover}.`);
     await drag(send,'#buildWheel',-1,.72);
     const desktopAfter=await buildMetrics(send);

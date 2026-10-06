@@ -161,3 +161,18 @@ test('generated browser data exactly matches Calc-only source presentation and r
   assert.equal(recommendedCharacterStatsPresentation('augusta')[0].displayValue, '2,407');
   assert.equal(recommendedCharacterStatsPresentation('augusta')[0].sourceValue.reference, 2406.536);
 });
+
+test('released Target coverage follows the same safe DEFAULT Calc source policy after catalog refresh', async () => {
+  const { CHARACTER_CATALOG } = await import('../src/data/characters.ts');
+  const views = await projectCharacterTargetPresentations();
+  const readyIds = new Set(views.filter(view => view.status === 'READY').map(view => view.characterId));
+  assert.equal(readyIds.size, 19);
+  assert.equal(CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED' && readyIds.has(row.id)).length, 19);
+  for (const id of ['hsin', 'jingran']) {
+    const view = await projectCharacterTargetPresentation(id);
+    const profiles = await projectDprCharacterStatReferences(id);
+    assert.equal(view.status, 'READY');
+    assert.deepEqual(view, characterTargetPresentation(id, profiles));
+    assert.ok(view.rows.every(row => row.sourceValue?.role === 'CALC_BENCHMARK'));
+  }
+});

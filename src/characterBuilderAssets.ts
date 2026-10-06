@@ -1,5 +1,6 @@
 import type { Element } from './gameDataDomain.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
+import { CHARACTER_PRESENTATION_PENDING } from './data/characterPresentationPending.ts';
 
 export const CHARACTER_BUILDER_ASSET_MANIFEST_PATH = 'assets/builder-icons/manifest.json' as const;
 
@@ -330,7 +331,7 @@ export function createCharacterBuilderAssetResolver(input: unknown): CharacterBu
     const element = elementByName.get(canonical.element);
     if (!element) fail(`${row.characterId} missing element asset for ${canonical.element}`);
 
-    if (canonical.releaseStatus === 'RELEASED') {
+    if (canonical.releaseStatus === 'RELEASED' && !CHARACTER_PRESENTATION_PENDING.some(id => id === row.characterId)) {
       released.set(row.characterId, {
         characterId: row.characterId,
         characterName: canonical.name,
@@ -343,7 +344,7 @@ export function createCharacterBuilderAssetResolver(input: unknown): CharacterBu
   }
 
   const expectedReleasedIds = CHARACTER_CATALOG
-    .filter((character) => character.releaseStatus === 'RELEASED')
+    .filter((character) => character.releaseStatus === 'RELEASED' && !CHARACTER_PRESENTATION_PENDING.some(id => id === character.id))
     .map((character) => character.id);
 
   for (const characterId of expectedReleasedIds) {

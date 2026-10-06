@@ -149,7 +149,7 @@ test('preset, team, Echo shell and rotation/provenance drift invalidate applicab
 test('roster readiness is audited independently and old PR224 source projection stays unchanged', async () => {
   const before = structuredClone(projectImproveSettingsSources());
   const rows = await projectReleasedImprovePolicies();
-  assert.equal(rows.length, 57);
+  assert.equal(rows.length, 59);
   assert.equal(rows.filter(row => row.characterTarget.numericTargets.status === 'VERIFIED').length, 24);
   assert.equal(rows.filter(row => row.characterTarget.priorities.status === 'VERIFIED').length, 44);
   assert.deepEqual(rows.filter(row => row.echoPolicy.requirements.status === 'VERIFIED').map(row => row.characterId), []);

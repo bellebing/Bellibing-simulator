@@ -84,7 +84,7 @@ test('retired decision implementation and golden fixture are absent from the cur
 
 test('public recommended guidance contains no executable Echo policy while source-backed targets stay available', async () => {
   const rows = await projectReleasedImprovePolicies();
-  assert.equal(rows.length, 57);
+  assert.equal(rows.length, 59);
   assert.equal(rows.filter(row => row.characterTarget.numericTargets.status === 'VERIFIED').length, 24);
   assert.equal(rows.filter(row => row.characterTarget.priorities.status === 'VERIFIED').length, 44);
   for (const row of rows) {

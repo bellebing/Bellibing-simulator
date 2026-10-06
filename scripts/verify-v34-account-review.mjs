@@ -29,7 +29,7 @@ export async function verifyAccountReview({socket,send,evaluate,navigate,setView
     if(!paused)throw new Error('Character manifest request was not intercepted');
     await send('Fetch.continueRequest',{requestId:paused});
   }finally{await send('Fetch.disable');socket.removeEventListener('message',onPause)}
-  await wait('releasedCharacters.length===57&&document.documentElement.dataset.characterManifestStatus==="READY"&&document.querySelectorAll("#buildWheel .choice").length===57','57 released Characters');
+  await wait('releasedCharacters.length===59&&document.documentElement.dataset.characterManifestStatus==="READY"&&document.querySelectorAll("#buildWheel .choice").length===59','59 released Characters');
   await wait('weaponDataLoaded&&echoDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded','Build source readiness');
   await click('#buildWheel [data-character-id="augusta"]');
   await wait('buildPicker.selected==="Augusta"&&echoUi.characterName==="Augusta"','physical Augusta selection');
@@ -76,7 +76,7 @@ export async function verifyAccountReview({socket,send,evaluate,navigate,setView
     await open('build');
     await check('document.querySelector("#buildShell .question").textContent==="Character catalog unavailable. Reload to retry."&&releasedCharacters.length===0','explicit source failure');
   }finally{await send('Network.setBlockedURLs',{urls:[]})}
-  await navigate(send);await wait('document.documentElement.dataset.characterManifestStatus==="READY"&&releasedCharacters.length===57','reload recovery');
+  await navigate(send);await wait('document.documentElement.dataset.characterManifestStatus==="READY"&&releasedCharacters.length===59','reload recovery');
   await check('owned("Augusta")&&JSON.stringify(state.drafts.Augusta.build)==='+JSON.stringify(equipment),'source recovery changed account build');
-  console.log('- Clean-profile physical Home → empty Improve → Build (57) → Augusta → configure S1 → Add to Account → Improve → Augusta → Simple Settings passed; PENDING/ERROR/reload recovery, every-frame entrance/hover clearance at three desktop sizes, unchanged Candidate/equipped ownership.');
+  console.log('- Clean-profile physical Home → empty Improve → Build (59) → Augusta → configure S1 → Add to Account → Improve → Augusta → Simple Settings passed; PENDING/ERROR/reload recovery, every-frame entrance/hover clearance at three desktop sizes, unchanged Candidate/equipped ownership.');
 }

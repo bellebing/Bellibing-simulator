@@ -113,7 +113,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===57&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Character/Builder/Skills runtime did not become ready',20000);
+  await waitFor(send,"releasedCharacters.length===59&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Character/Builder/Skills runtime did not become ready',20000);
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"skillsUi.characterId==='augusta'&&document.getElementById('skillsBlock').dataset.ready==='true'",'Augusta Skills did not bind');
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);

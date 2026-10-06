@@ -2137,7 +2137,7 @@ async function loadReleasedCharacters(){
   const direct=manifest.portraits.filter(item=>item.releaseStatus==='RELEASED'&&item.uiEligible===true).map(item=>({id:item.characterId,name:item.characterName,src:toAssetPath(item.targetPath)}));
   const rovers=manifest.roverPortraits.map(item=>({id:item.characterId,name:roverName(item.characterId),src:toAssetPath(item.targetPath)}));
   const characters=[...direct,...rovers].sort((a,b)=>a.name.localeCompare(b.name,'en'));
-  if(characters.length!==57)throw new Error('expected 57 released Character cards, got '+characters.length);
+  if(characters.length!==59)throw new Error('expected 59 released Character cards, got '+characters.length);
   releasedCharacters=characters;characterByName.clear();characters.forEach(item=>characterByName.set(item.name,item));
   characterManifestStatus='READY';
   }catch(error){
@@ -2157,7 +2157,7 @@ async function loadCharacterHeroArtRuntimeData(){
   if(!response.ok)throw new Error('Character Hero Art runtime data '+response.status);
   const payload=await response.json();
   if(payload.schemaVersion!==1||payload.role!=='character.hero-art.runtime'||!Array.isArray(payload.characters))throw new Error('Unsupported Character Hero Art runtime schema');
-  if(payload.summary?.releasedCharacters!==57||payload.summary?.ready!==53||payload.summary?.pending!==4)throw new Error('Unexpected Character Hero Art runtime coverage');
+  if(payload.summary?.releasedCharacters!==59||payload.summary?.ready!==53||payload.summary?.pending!==6)throw new Error('Unexpected Character Hero Art runtime coverage');
   const map=new Map();
   for(const row of payload.characters){
     if(!row.characterId||!row.characterName||!['READY','PENDING'].includes(row.status)||map.has(row.characterId))throw new Error('Malformed Character Hero Art runtime row');
@@ -2165,7 +2165,7 @@ async function loadCharacterHeroArtRuntimeData(){
       const p=row.presentation;
       if(!row.assetPath?.startsWith('assets/characters/hero-art/')||!row.assetPath.endsWith('.webp'))throw new Error('Invalid Character Hero Art asset path: '+row.characterId);
       if(!p||p.safeFraming!=='CONTAIN'||typeof p.scale!=='number'||typeof p.offsetX!=='number'||typeof p.offsetY!=='number'||typeof p.focalAnchor?.x!=='number'||typeof p.focalAnchor?.y!=='number')throw new Error('Incomplete Character Hero Art presentation: '+row.characterId);
-    }else if(row.assetPath||row.presentation||row.reasonCode!=='ROVER_VARIANT_IDENTITY_UNRESOLVED'){
+    }else if(row.assetPath||row.presentation||row.reasonCode!== (['hsin','jingran'].includes(row.characterId)?'SOURCE_REVIEW_PENDING':'ROVER_VARIANT_IDENTITY_UNRESOLVED')){
       throw new Error('Pending Character Hero Art leaked a visual mapping: '+row.characterId);
     }
     map.set(row.characterId,row);
@@ -2221,7 +2221,7 @@ const heroArtUi=(()=>{
       host.dataset.heroReasonCode=row.reasonCode;
       image.hidden=true;
       image.removeAttribute('src');
-      pendingDetail.textContent='Rover visual variant is not explicit.';
+      pendingDetail.textContent=row.reasonCode==='ROVER_VARIANT_IDENTITY_UNRESOLVED'?'Rover visual variant is not explicit.':'Character art is pending.';
       pending.hidden=false;
       return;
     }

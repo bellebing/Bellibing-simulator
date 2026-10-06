@@ -9,7 +9,7 @@ import { normalizeSimpleSettings, updateSimpleSettings, loadSimpleSettingsStorag
 const sources = projectImproveSettingsSources();
 const source = sources.find(row => row.characterId === 'augusta')!;
 test('Improve pools exactly reuse verified default Character StatTargetProfiles and provenance', () => {
-  assert.equal(sources.length, 57);
+  assert.equal(sources.length, 59);
   for (const row of sources) {
     const resolved = getDefaultBuildPreset(PROFILE_REGISTRY, row.characterId);
     if (row.status === 'READY') {

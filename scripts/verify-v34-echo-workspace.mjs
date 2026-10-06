@@ -123,7 +123,7 @@ async function capture(send, path) {
 }
 
 async function prepareBuild(send, characterName = 'Augusta') {
-  await waitForUi(send, `releasedCharacters.length===57&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.weaponCatalogReady==='true'`, 'Canonical UI data did not load', 15000);
+  await waitForUi(send, `releasedCharacters.length===59&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.weaponCatalogReady==='true'`, 'Canonical UI data did not load', 15000);
   await evaluate(send, `(()=>{show('build');buildPicker.reset();buildPicker.render();buildPicker.select(${JSON.stringify(characterName)});return true})()`);
   await waitForUi(send, `buildPicker.selected===${JSON.stringify(characterName)}&&echoUi.characterName===${JSON.stringify(characterName)}`, 'Build Character did not bind Echo UI');
   await evaluate(send, `document.querySelector('.echo[data-echo-slot="0"]')?.scrollIntoView({block:'center',inline:'center',behavior:'instant'})`);

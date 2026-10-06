@@ -78,18 +78,20 @@ test('hero art resolver covers every released Character as READY or explicit PEN
 
   assert.equal(CHARACTER_HERO_ART_MANIFEST_PATH, 'assets/characters/hero-art/manifest.json');
   assert.deepEqual(resolver.listReleasedCharacterIds(), expected);
-  assert.equal(resolver.listReleasedCharacterIds().length, 57);
+  assert.equal(resolver.listReleasedCharacterIds().length, 59);
   assert.equal(resolver.listReadyCharacterIds().length, 53);
   assert.deepEqual(resolver.listPendingCharacterIds(), [
+    'hsin',
+    'jingran',
     'rover-aero',
     'rover-electro',
     'rover-havoc',
     'rover-spectro',
   ]);
 
-  assert.equal(resolver.status('hsin'), 'UNAVAILABLE');
+  assert.equal(resolver.status('hsin'), 'PENDING');
   assert.equal(resolver.status('suoming'), 'UNAVAILABLE');
-  assert.equal(resolver.status('jingran'), 'UNAVAILABLE');
+  assert.equal(resolver.status('jingran'), 'PENDING');
   assert.equal(resolver.status('does-not-exist'), 'UNAVAILABLE');
 });
 
@@ -170,8 +172,8 @@ test('manifest excludes upcoming/WIP Characters instead of guessing hero art', (
     ...manifest.pending.map((row: any) => row.characterId),
   ]);
 
-  assert.equal(coveredIds.has('jingran'), false);
-  assert.equal(coveredIds.has('hsin'), false);
+  assert.equal(coveredIds.has('jingran'), true);
+  assert.equal(coveredIds.has('hsin'), true);
   assert.equal(coveredIds.has('suoming'), false);
 });
 
@@ -198,11 +200,11 @@ test('resolver rejects missing released coverage and unreleased pending leakage'
   );
 
   const leaked = loadManifest();
-  leaked.pending[0].characterId = 'hsin';
-  leaked.pending[0].characterName = 'Hsin';
+  leaked.pending[0].characterId = 'suoming';
+  leaked.pending[0].characterName = 'Suoming';
   assert.throws(
     () => createCharacterHeroArtResolver(leaked),
-    /non-released Character leaked into pending hero art: hsin/,
+    /non-released Character leaked into pending hero art: suoming/,
   );
 });
 

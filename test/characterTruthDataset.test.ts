@@ -138,14 +138,14 @@ test('Character truth provenance keeps capture time separate from provider sourc
 test('canonical comparison remains report-only and raw Character readiness is unchanged',()=>{
   assert.deepEqual(report.canonicalDelta.stateCounts,{
     CONFLICT:149,
-    EXACT_AGREEMENT:654,
+    EXACT_AGREEMENT:658,
     NOT_COMPARABLE:782,
-    PROVIDER_ONLY:37,
+    PROVIDER_ONLY:33,
   });
   assert.equal(CHARACTER_CATALOG.length,60);
   assert.ok(CHARACTER_CATALOG.every(character=>character.integrationStatus==='DATA_ONLY'));
   assert.deepEqual(
     CHARACTER_CATALOG.filter(character=>character.releaseStatus!=='RELEASED').map(character=>character.id),
-    ['hsin','jingran','suoming'],
+    ['suoming'],
   );
 });

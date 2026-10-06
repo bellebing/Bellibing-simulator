@@ -28,9 +28,9 @@ test('current release classification is explicit instead of inheriting stale she
   const upcoming = CHARACTER_CATALOG.filter((character) => character.releaseStatus === 'CONFIRMED_UPCOMING');
   const wip = CHARACTER_CATALOG.filter((character) => character.releaseStatus === 'UNRELEASED_WIP');
 
-  assert.equal(released.length, 57);
-  assert.deepEqual(upcoming.map((character) => character.id), ['jingran']);
-  assert.deepEqual(wip.map((character) => character.id).sort(), ['hsin', 'suoming']);
+  assert.equal(released.length, 59);
+  assert.deepEqual(upcoming.map((character) => character.id), ['suoming']);
+  assert.deepEqual(wip.map((character) => character.id).sort(), []);
 
   for (const character of released) {
     assert.notEqual(character.element, null, `${character.id} released without element`);
@@ -40,13 +40,15 @@ test('current release classification is explicit instead of inheriting stale she
 
 test('released raw required fields can only be null through the explicit pending manifest', () => {
   const audit = auditReleasedCharacterRawCompleteness();
-  assert.equal(audit.releasedCount, 57);
+  assert.equal(audit.releasedCount, 59);
   assert.deepEqual(audit.unexpectedMissing, []);
   assert.deepEqual(audit.stalePending, []);
   assert.deepEqual(audit.unknownPendingCharacters, []);
   assert.deepEqual(
     RELEASED_CHARACTER_RAW_PENDING.map((entry) => [entry.characterId, [...entry.fields]]),
     [
+      ['hsin', ['hp', 'atk', 'def', 'maxEnergy']],
+      ['jingran', ['hp', 'atk', 'def', 'maxEnergy']],
       ['qingxiao', ['maxEnergy']],
       ['rover-electro', ['maxEnergy']],
       ['suisui', ['maxEnergy']],
@@ -134,25 +136,25 @@ test('Rover Electro and Suisui core Lv90 stats are resolved while only Max Energ
   assert.match(suisui.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
 });
 
-test('future identities do not invent data and confirmed Jingran stays separate from WIP', () => {
-  const jingran = getCharacterGameData('jingran');
-  const hsin = getCharacterGameData('hsin');
-  const suoming = getCharacterGameData('suoming');
-  assert.ok(jingran);
-  assert.ok(hsin);
-  assert.ok(suoming);
-
-  assert.equal(jingran.releaseStatus, 'CONFIRMED_UPCOMING');
-  assert.equal(jingran.element, 'Fusion');
-  assert.equal(jingran.weaponType, 'Broadblade');
-  assert.deepEqual(jingran.level90, { hp: null, atk: null, def: null, maxEnergy: null });
-
-  for (const future of [hsin, suoming]) {
-    assert.equal(future.releaseStatus, 'UNRELEASED_WIP');
-    assert.equal(future.verificationStatus, 'PENDING');
-    assert.equal(future.element, null);
-    assert.equal(future.weaponType, null);
-    assert.deepEqual(future.level90, { hp: null, atk: null, def: null, maxEnergy: null });
+test('fresh release identities preserve unresolved progression and bounded current provenance', () => {
+  for (const [id, releaseStatus, element, weaponType] of [
+    ['hsin', 'RELEASED', 'Electro', 'Rectifier'],
+    ['jingran', 'RELEASED', 'Fusion', 'Broadblade'],
+    ['suoming', 'CONFIRMED_UPCOMING', 'Electro', 'Sword'],
+  ] as const) {
+    const character = getCharacterGameData(id)!;
+    assert.equal(character.releaseStatus, releaseStatus);
+    assert.equal(character.rarity, 5);
+    assert.equal(character.element, element);
+    assert.equal(character.weaponType, weaponType);
+    assert.equal(character.verificationStatus, 'PARTIALLY_VERIFIED');
+    assert.deepEqual(character.level90, { hp: null, atk: null, def: null, maxEnergy: null });
+    assert.equal(character.provenance.checkedAt, '2026-10-06');
+    assert.ok(character.provenance.sourceUrls?.some(url => url.startsWith('https://wutheringwaves.kurogames.com/')));
+    assert.deepEqual(character.baseCombat, releaseStatus === 'RELEASED'
+      ? { critRate: .05, critDamage: 1.5, energyRegen: 1 }
+      : { critRate: null, critDamage: null, energyRegen: null });
+    assert.equal(character.integrationStatus, 'DATA_ONLY');
   }
 });
 

@@ -1,4 +1,5 @@
 import { CHARACTER_CATALOG } from './data/characters.ts';
+import { CHARACTER_PRESENTATION_PENDING } from './data/characterPresentationPending.ts';
 
 export const CHARACTER_HERO_ART_MANIFEST_PATH = 'assets/characters/hero-art/manifest.json' as const;
 
@@ -312,7 +313,7 @@ export function createCharacterHeroArtResolver(input: unknown): CharacterHeroArt
     if (row.characterName !== canonical.name) {
       fail(`${row.characterId} characterName mismatch: manifest=${row.characterName}, canonical=${canonical.name}`);
     }
-    if (row.candidates.length === 0) fail(`${row.characterId} pending entry must declare source candidates`);
+    if (row.candidates.length === 0 && !(row.reasonCode === 'SOURCE_REVIEW_PENDING' && CHARACTER_PRESENTATION_PENDING.some(id => id === row.characterId))) fail(`${row.characterId} pending entry must declare source candidates`);
     const sourceIds = new Set<number>();
     const genders = new Set<string>();
     const candidates = row.candidates.map((candidate): PendingCharacterHeroArtCandidate => {

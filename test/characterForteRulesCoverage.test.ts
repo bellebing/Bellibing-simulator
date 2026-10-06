@@ -14,9 +14,9 @@ import {
 
 test('released roster FORTE_RULES coverage is deterministic and fail-closed', () => {
   const audit = auditCharacterForteRulesCoverage();
-  assert.equal(audit.releasedCount, 57);
+  assert.equal(audit.releasedCount, 59);
   assert.equal(audit.verifiedCharacterIds.length, 55);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
   assert.deepEqual(audit.blockedCharacterIds, ['buling', 'danjin']);
   assert.deepEqual(
     audit.blockers.map((blocker) => blocker.blockerId),
@@ -30,9 +30,9 @@ test('released roster FORTE_RULES coverage is deterministic and fail-closed', ()
 
 test('PR221 ACTIONS coverage stays exactly unchanged', () => {
   const audit = auditCharacterActionsCoverage();
-  assert.equal(audit.releasedCount, 57);
+  assert.equal(audit.releasedCount, 59);
   assert.equal(audit.verifiedCharacterIds.length, 55);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
   assert.deepEqual(audit.blockedCharacterIds, ['buling', 'xiangli-yao']);
   assert.deepEqual(
     audit.blockers.map((blocker) => blocker.blockerId),

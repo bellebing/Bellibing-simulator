@@ -10,7 +10,7 @@ The accepted Improve Settings surface is integrated. Visible controls are **Char
 
 Visible **Character Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
 
-Current automatic Calc-target coverage is **19 catalog identities / 17 RELEASED-selectable**. Pending groups remain:
+Current automatic Calc-target coverage is **19 catalog identities / 19 RELEASED-selectable**. Pending groups remain:
 - variant-only Aemeath / Iuno / Qiuyuan;
 - Suoming with five explicit blank Calc rows;
 - legacy-only Brant, with no automatic scenario selection;
@@ -36,6 +36,8 @@ Customize target metrics, minimum/preferred semantics, source/context recovery a
 ### Character / Build workspace
 
 The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions.
+
+The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their Lv90 HP/ATK/DEF/Max Energy and separate Build/Skills/Sequence/Hero Art presentation remain Pending. Visible Calc references do not establish mechanics or DPS readiness.
 
 Active product scope remains:
 - Sequences: S0, S1, S2 for current product work; S3-S6 stay canonical raw/source data unless separately authorized.

@@ -1,6 +1,6 @@
 # Echo Simulator Foundation
 
-Worker 12 is an OPEN / UNMERGED development candidate until merge and post-merge verification. The accepted product direction remains [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md).
+Worker 12 is COMPLETE, merged and post-merge verified. The accepted product direction remains [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md).
 
 ## Ownership
 
@@ -10,11 +10,13 @@ The session uses slots 1–5. The UI maps its existing zero-based selected Echo 
 
 Each candidate has a session-local unique identity, revision, actual card snapshot and detached checkpoint snapshots. Checkpoint recording consumes observed cards; it does not roll, price resources or interpret stats. Accepted/rejected dispositions are historical data supplied by an injected future adapter. Accepted history retains successive accepted cards; rejected history retains the actual card, checkpoints and short supplied reason in the corresponding slot's pile. No name-based keep/discard strategy is used.
 
-Reset restores the preserved non-Echo Character context with a fresh session identity and five empty Echo slots, never the account Echo configuration. Current/exit, Character changes, navigation away from Improve and reload discard the sandbox. Existing real Current Candidate is preserved when entering/exiting Simulate. Improve Settings display Current's inputs read-only during Simulate; return to Current to edit them.
+Reset restores the preserved non-Echo Character context with a fresh session identity and five empty Echo slots, never the account Echo configuration. Current/exit, Character changes, navigation away from Improve and reload discard the sandbox. Existing real Current Candidate is preserved when entering/exiting Simulate. Current and Simulate share the same editable Improve Settings and Resource Inventory. Settings remain Character-owned; inventory remains a Character-independent user budget in the existing Improve storage envelope. Mode changes create no settings copy. Settings/resource edits do not reset or mutate the memory-only simulator session, real equipment or account Echo sets.
 
 ## Evaluator and production availability
 
 `echoSimulatorBoundary.ts` contains only Pending availability and a small disposition receipt contract. There is no action-policy taxonomy, transport implementation, evaluator endpoint, Character policy, weight or calibration. A receipt must match session, Character, build revision, selected slot, candidate identity and candidate revision. Stale/cross-slot/cross-build receipts fail closed. Identity-only cards cannot be accepted into sandbox equipment.
+
+Future evaluator decisions must be bound to the settings/resource revision under which they were evaluated. Exact mid-run invalidation, re-evaluation and reset semantics remain Pending until that evaluator capability exists; this foundation adds no revision execution, automatic reset or browser re-evaluation.
 
 Production exposes Current/Simulate, free slot selection, five initially Empty simulated Current cards, identity/assigned-Sonata New Echo selection, five empty Trash Piles, reset/exit and truthful Evaluator Pending feedback. Selecting New Echo uses the existing source-backed chooser. There are no production roll/accept/reject controls or adapter calls. A selected candidate remains Pending until reset/exit; other slots can be explored independently.
 
@@ -24,7 +26,7 @@ Private Worker 8 Fas 3 is COMPLETE only for Augusta/default and Cartethyia/defau
 
 ## Resource and mechanics boundary
 
-The accepted future resource names remain **Tuners | Tubes | Echoes**. Foundation shows no resource amounts or costs. It adds no Tube conversion, visible raw EXP/XP, Shell Credits resource, combined score, farming probability, completion rule or Improvement Cost. Existing Current-mode Pending presentation is preserved; simulator feedback hides the older model metrics.
+The accepted future resource names remain **Tuners | Tubes | Echoes**. The simulator foundation itself computes no resource amounts or costs. The Resource Inventory candidate adds shared user budget inputs in Improve Settings, outside the session; no simulator transition mutates those inputs. It adds no exact Tube depletion/conversion, visible raw EXP/XP, Shell Credits resource, combined score, farming probability, completion rule or Improvement Cost. Existing Current-mode Pending presentation is preserved; simulator feedback hides the older model metrics.
 
 Echo mechanics/data remain canonical in Echo Core and the existing Echo card/data contracts. No substat tiers, probability tables, checkpoints, main-stat progression or refunds are duplicated. Session state records observations and consumes dispositions only; it never evaluates Character Target, Every Echo or Flex Stats.
 

@@ -17,7 +17,7 @@ The primary UX lives inside **Improve a Character** and reuses the current Impro
 Conceptually add a clear **Current | Simulate** mode:
 
 - **Current** shows the user's real build.
-- **Simulate** creates a temporary sandbox for the same Character context (including Weapon / Sequence / Forte where needed), starting with exactly five empty Echo slots. Real equipped Echoes and alternate account sets are not simulation equipment. The user's Improve settings/resource context is retained without copying account Echoes.
+- **Simulate** creates a temporary sandbox for the same Character context (including Weapon / Sequence / Forte where needed), starting with exactly five empty Echo slots. Real equipped Echoes and alternate account sets are not simulation equipment. Both modes edit the same user-owned Improve Settings and Resource Inventory through canonical shared persistence, without copying account Echoes. Improve Settings retain Character ownership; the resource budget is Character-independent.
 - Running a simulation must never overwrite or mutate the real Character/build. Accepting a simulated Echo updates only simulated Current. This direction does not authorize writing simulation results back to real equipment.
 
 For a selected slot, for example Echo 2:
@@ -77,7 +77,7 @@ The user-facing simulator resources are exactly **Tuners | Tubes | Echoes**.
 - **Echoes** means candidate Echoes / attempts, not a modeled farming drop rate.
 - Never display raw Echo EXP/XP or an abstract EXP total such as `142600` to the user.
 - A technical EXP unit may remain internal to apply verified checkpoint costs behind the Tube model. It is an implementation detail, not another visible resource.
-- **Tube denominations and conversion to the user's actual materials must be source-valid before exact resource simulation is enabled. Do not guess conversion.** Effective internal feed/recycle recovery does not by itself prove exact material conversion or rounding.
+- **Four reviewed Tube denominations are canonical: Premium (5★/Gold, 5,000 internal Echo EXP), Advanced (4★/Purple, 2,000), Medium (3★/Blue, 1,000), Basic (2★/Green, 500).** The shared Improve Resources inputs retain separate whole counts or explicit unlimited state. Inventory foundation does not establish exact selection/depletion. Effective internal feed/recycle recovery does not by itself prove exact material conversion or rounding.
 - Shell Credits are not a user-facing simulator resource in this accepted direction. Adding them requires a new product decision; their presence in internal mechanics does not authorize a visible fourth resource.
 - Do not combine resources into one score through arbitrary weights. Tuners, Tubes and Echoes retain separate meanings.
 
@@ -107,6 +107,8 @@ Current
 ```
 
 Every candidate is assessed relative to the evolving simulated build, which starts empty and grows from 0 → 5 accepted Echoes. Reset returns to five empty simulated slots; Current/exit reveals the unchanged real account build. No simulated candidate, accepted card, Trash Pile or history is persisted into CharacterBuildState. A real-build source snapshot may be retained for identity/context/isolation, never as the simulated Echo baseline.
+
+Settings/resource edits are allowed during an active Simulate session and do not silently reset it. Future evaluator decisions must be bound to the settings/resource revision under which they were evaluated. Exact mid-run invalidation, re-evaluation and reset semantics remain Pending until that evaluator capability exists; no browser-side evaluation is introduced.
 
 Private Worker 8 Fas 3 trusted measurement currently requires five complete Echo cards. Simulated builds with 0–4 Echoes therefore remain evaluator-Pending until a future private capability explicitly supports partial builds. This direction does not authorize fake browser evaluation or an availability claim for five cards without private ingress. When an Echo is accepted, that build becomes the new **simulated Current**; future candidates must be reassessed against it. The original real build remains untouched. Short public feedback reflects evaluator results without publishing the private reasoning machinery.
 
@@ -157,7 +159,7 @@ Document product behavior and safe result meanings, not secret implementation. P
 - Exact card styling and animation.
 - Exact color palette.
 - Exact Interactive/Auto timing.
-- Exact Tube denominations/conversion, with source validity required.
+- Exact mixed-inventory Tube selection/depletion, checkpoint overfill/carry, +25 excess and Data Recovery denomination decomposition remain Pending; direct feed and Data Recovery are not assumed identical.
 - Exact “finished enough” criterion, separate from Character Target.
 - Exact graph presentation.
 - Exact initial candidate acquisition model.

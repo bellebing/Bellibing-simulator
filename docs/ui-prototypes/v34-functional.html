@@ -476,7 +476,7 @@
     <nav class="simulator-modes" aria-label="Improve workspace mode">
       <button id="simulatorCurrent" type="button" aria-pressed="true">Current</button>
       <button id="simulatorEnter" type="button" aria-pressed="false" disabled>Simulate</button>
-      <span id="simulatorSessionNote" class="simulator-session-note" hidden>Sandbox · settings from Current · discarded on exit/reload</span>
+      <span id="simulatorSessionNote" class="simulator-session-note" hidden>Shared inputs · Echo sandbox discarded on exit/reload</span>
       <button id="simulatorReset" type="button" hidden>Reset sandbox</button>
     </nav>
     <section class="improve-truth" aria-label="Character source of truth">
@@ -2013,7 +2013,7 @@ const improveUi={
   },
   renderSimulationMode(){
     document.getElementById('improveBuildCard').dataset.simulator=String(!!this.simulator);
-    document.getElementById('improveSettings').inert=!!this.simulator;
+    // Settings and inventory are shared editable inputs; only Echo equipment/session is sandboxed.
     document.getElementById('simulatorCurrent').setAttribute('aria-pressed',String(!this.simulator));
     const enter=document.getElementById('simulatorEnter');enter.setAttribute('aria-pressed',String(!!this.simulator));enter.disabled=!this.characterId||!window.bellibingEchoSimulator||IMPROVE_LAYOUT_PREVIEW;
     document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;

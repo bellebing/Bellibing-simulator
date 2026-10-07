@@ -66,12 +66,12 @@ Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real
 
 1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
 2. Worker 8 Fas 3 COMPLETE for the bounded STAT_TARGET pilots above; broader readiness remains Pending.
-3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): Worker 12 OPEN / UNMERGED candidate with a memory-only Improve sandbox, Current/Simulate, five slot cards/Trash Piles and inspectable histories. Production decisions remain Pending; no private ingress exists.
+3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): Worker 12 COMPLETE, merged and post-merge verified, with a memory-only Improve sandbox, Current/Simulate, five slot cards/Trash Piles and inspectable histories. Production decisions remain Pending; no private ingress exists.
 4. Improvement Cost through repeated simulation, keeping Tuners / Tubes / Echoes separate.
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.
 
-Worker 12 is not COMPLETE before merge and post-merge verification. Real evaluator ingress, Improvement Cost and farming remain Pending. Tube conversion and the separate completion criterion remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+Worker 13 Resource Inventory is a development candidate: a centered Resources subsection with local source-resolved item art and compact collapsed summaries, shared user-owned counts editable in both Current and Simulate, and reviewed four-denomination Tube facts. Exact Tube selection/depletion, overfill/carry, Data Recovery denominations and the separate completion criterion remain Pending. Real evaluator ingress, Improvement Cost and farming remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 

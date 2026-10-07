@@ -7,6 +7,22 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:10,y:10});await sleep(500);await pointerClick(send,selector);
   };
+  const policyState='window.bellibingImproveSettings.getState()', inventoryState='window.bellibingResourceInventory.getState()';
+  const policyKey='bellibing.improve.policy.v3';
+  const focus=key=>'#improveSettings [data-focus-key='+JSON.stringify(key)+']';
+  const resource=id=>'#improveSettings [data-resource="'+id+'"] input';
+  const enter=async(selector,text)=>{
+    await click(selector);
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Backspace',code:'Backspace'});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Backspace',code:'Backspace'});
+    await send('Input.insertText',{text});
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+  };
+  const expand=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="true"&&!document.getElementById("improveSettings").inert','physical '+id+' expansion')};
+  const collapse=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="false"','physical '+id+' collapse')};
   await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
   await waitForUi(send,'echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&window.bellibingEchoSimulator&&releasedCharacters.length===59','Simulator sources not ready');
   await read(`(()=>{
@@ -27,8 +43,15 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   const stored=await read('localStorage.getItem(KEY)'), real=await read('JSON.stringify(state)');
   const unchanged=async message=>{await check('localStorage.getItem(KEY)==='+JSON.stringify(stored)+'&&JSON.stringify(state)==='+JSON.stringify(real),message)};
   await check('!improveUi.simulator&&document.querySelectorAll(".simulator-trash").length===0&&improveUi.currentWeapon().id==="thunderflare-dominion"','Current mode changed');
+  await waitForUi(send,'window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Shared settings not ready');
+  await expand('gate');await enter(resource('echoes'),'21');await enter(resource('tuners'),'∞');await click(focus('gate:10'));await collapse('gate');
+  await check(inventoryState+'.echoes.count===21&&'+inventoryState+'.tuners.kind==="UNLIMITED"&&'+policyState+'.gate===10','Current physical finite/∞/Gate input');
+  let sharedPolicy=await read('JSON.stringify('+policyState+')'),sharedInventory=await read('JSON.stringify('+inventoryState+')');
+  const storageKeys=await read('JSON.stringify(Object.keys(localStorage).sort())');
+  const sharedUnchanged=async message=>check('JSON.stringify('+policyState+')==='+JSON.stringify(sharedPolicy)+'&&JSON.stringify('+inventoryState+')==='+JSON.stringify(sharedInventory),message);
+  const artifactVariant=await read("location.pathname.startsWith('/ui-preview/')?'built':'source'");
   await capture(send,'artifacts/ui-preview-echo-simulator-current-1440x900.png');
-  await click('#simulatorEnter');await unchanged('start mutated real state');
+  await click('#simulatorEnter');await unchanged('start mutated real state');await sharedUnchanged('Current edits not shared with Simulate');
   await check('!!improveUi.simulator&&document.querySelectorAll(".simulator-slot").length===5&&document.querySelectorAll(".simulator-trash").length===5','five physical slot/pile pairs missing');
   await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&[...document.querySelectorAll(".simulator-slot .improve-equipped-echo")].every(card=>card.textContent.includes("EMPTY"))&&improveUi.simulator.slots.every(slot=>!slot.candidate&&!slot.accepted.length&&!slot.trash.length)', 'start must have five empty cards and histories');
   await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(JSON.stringify(stats.empty)),'real Echoes contributed to empty simulated stats');
@@ -85,20 +108,62 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).filter(Boolean).length==='+String(index+2)+'&&window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator)[3]===null&&improveUi.simulator.evaluator.status==="PENDING"','partial build filled empty slots or fabricated evaluator availability');
   }
   await unchanged('partial simulated builds mutated real state');
-  await click('#simulatorReset');await unchanged('reset mutated real state');
+  // Physical edits against an active populated sandbox must leave every candidate/history/build byte intact.
+  const activeSession=await read('JSON.stringify(improveUi.simulator)');
+  const activeUnchanged=async message=>{
+    await unchanged(message+' mutated real equipment/account');
+    await check('JSON.stringify(improveUi.simulator)==='+JSON.stringify(activeSession),message+' reset/changed active simulator session');
+    await check('JSON.stringify(Object.keys(localStorage).sort())==='+JSON.stringify(storageKeys),message+' created duplicate settings/session storage');
+  };
+  for(const [index,[width,height]] of [[1440,900],[1920,1080],[2560,1440]].entries()){
+    await setViewport(send,width,height);
+    await expand('gate');await enter(resource('echoes'),String(32+index));await enter(resource('tuners'),String(99+index));await enter(resource('premium'),'∞');
+    await check(inventoryState+'.echoes.count==='+String(32+index)+'&&'+inventoryState+'.tuners.count==='+String(99+index)+'&&'+inventoryState+'.tubes.premium.kind==="UNLIMITED"','Simulate physical finite and ∞');
+    await click(focus('mode:RECOMMENDED'));await check(policyState+'.mode==="RECOMMENDED"&&Object.keys('+policyState+'.overrides).length===0','Simulate Recommended');
+    await click(focus('mode:MANUAL'));await check(policyState+'.mode==="MANUAL"','Simulate Customize');
+    await click(focus('gate:'+([10,15,20][index])));await collapse('gate');
+    await expand('target');await click('#improveSettings .improve-target-add summary');await click(focus('metric:TOTAL_ENERGY_REGEN'));
+    await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5');await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25');
+    await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');await collapse('target');
+    await expand('every');await click(focus('every:CRIT Rate'));await click('[data-setting=every] .improve-roll-slider');
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});await collapse('every');
+    await expand('flex');await click(focus('flex:ATK%'));await click('[data-setting=flex] .improve-roll-slider');
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});
+    await check(policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
+    await activeUnchanged('Simulate settings/resources at '+width);
+    await check(`(()=>{const row=document.querySelector('.improve-resources');return row.scrollWidth<=row.clientWidth+1&&row.querySelectorAll('input').length===6&&[...row.querySelectorAll('img')].every(n=>n.complete&&n.naturalWidth===256)&&row.getBoundingClientRect().bottom<=document.querySelector('.improve-resources-separator').getBoundingClientRect().top})()`,'Simulate unchanged resources layout/icons');
+    await read('document.querySelector(".improve-resources").scrollIntoView({block:"center",behavior:"instant"})');
+    await capture(send,'artifacts/ui-preview-echo-simulator-shared-settings-'+width+'x'+height+'-'+artifactVariant+'.png');await collapse('flex');
+  }
+  for(const width of [960,640,390]){
+    await setViewport(send,width,900);await expand('gate');await enter(resource('echoes'),String(width));await enter(resource('tuners'),'∞');
+    await activeUnchanged('narrow Simulate edits at '+width);
+    await check('document.querySelector(".improve-resources").scrollWidth<=document.querySelector(".improve-resources").clientWidth+1&&document.querySelector(".improve-resources").getBoundingClientRect().right<=innerWidth','narrow Simulate Resources overflow');
+    await collapse('gate');
+  }
+  await setViewport(send,1440,900);
+  sharedPolicy=await read('JSON.stringify('+policyState+')');sharedInventory=await read('JSON.stringify('+inventoryState+')');
+  await check('JSON.stringify(JSON.parse(localStorage.getItem('+JSON.stringify(policyKey)+')).resourceInventory)==='+JSON.stringify(sharedInventory)+'&&JSON.stringify(JSON.parse(localStorage.getItem('+JSON.stringify(policyKey)+')).characters.augusta.overrides)===JSON.stringify('+policyState+'.overrides)&&JSON.parse(localStorage.getItem('+JSON.stringify(policyKey)+')).characters.augusta.gate==='+policyState+'.gate&&Object.keys(JSON.parse(localStorage.getItem('+JSON.stringify(policyKey)+'))).sort().join()==="characters,pendingV2Characters,resourceInventory,version"','one canonical v3 envelope, no Simulate-only state');
+  await click('#simulatorReset');await unchanged('reset mutated real state');await sharedUnchanged('reset lost shared settings/resources');
   await check('improveUi.simulator.slots.every(s=>!s.candidate&&!s.trash.length&&!s.accepted.length)','reset retained histories');
   await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(JSON.stringify(stats.empty)),'reset restored account Echoes or stats');
-  await click('#simulatorCurrent');await unchanged('exit mutated real state');
+  await click('#simulatorCurrent');await unchanged('exit mutated real state');await sharedUnchanged('Simulate edits not visible in Current');
   await check('!improveUi.simulator&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.querySelectorAll(".simulator-trash").length===0','exit did not restore Current/Candidate');
   await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(JSON.stringify(stats.current))+'&&improveWorkspaceSlots("Augusta").every(Boolean)','Current did not restore real equipped build/stats');
-  await click('#simulatorEnter');await read('__simulatorFixture("accepted")');await navigate(send);
+  await expand('gate');await enter(resource('basic'),'17');await click(focus('gate:25'));await collapse('gate');
+  sharedPolicy=await read('JSON.stringify('+policyState+')');sharedInventory=await read('JSON.stringify('+inventoryState+')');
+  await click('#simulatorEnter');await sharedUnchanged('Current edits not visible on re-entry');await read('__simulatorFixture("accepted")');await navigate(send);
   await waitForUi(send,'echoDataLoaded&&window.bellibingEchoSimulator&&releasedCharacters.length===59','reload not ready');
   await check('!improveUi.simulator&&localStorage.getItem(KEY)==='+JSON.stringify(stored),'reload leaked simulated equipment');
-  await read("show('improve');improvePicker.select('Augusta');improveUi.startSimulation();improveUi.setCharacter('Cartethyia')");
+  await waitForUi(send,'window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Reloaded shared settings not ready');
+  await read("show('improve');improvePicker.select('Augusta')");await sharedUnchanged('reload lost canonical shared inputs');
+  await read("improveUi.startSimulation();improveUi.setCharacter('Cartethyia')");
+  await check(policyState+'.characterId==="cartethyia"&&'+policyState+'.gate===5&&Object.keys('+policyState+'.overrides).length===0&&JSON.stringify('+inventoryState+')==='+JSON.stringify(sharedInventory),'Character policy isolation and Character-independent budget');
   await check('!improveUi.simulator&&improveUi.characterId==="cartethyia"','Character switch retained sandbox');
   await click('#simulatorEnter');await check('improveUi.simulator.evaluator.status==="PENDING"','Cartethyia falsely evaluatable');
   const navigationState=await read('JSON.stringify(state)'),navigationStorage=await read('localStorage.getItem(KEY)');
   await click('.page.active [data-home]');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(navigationState)+'&&localStorage.getItem(KEY)==='+JSON.stringify(navigationStorage),'physical Home exit retained sandbox or wrote real navigation metadata');
+  console.log('Shared Current/Simulate editable settings: physical finite/∞, Recommended/Customize, Target/Gate/Every Echo/Flex edits, populated session byte isolation, canonical storage, reset/exit/re-entry/reload, Character ownership and desktop/narrow widths passed.');
   console.log('Echo Simulator Foundation: browser isolation, five piles, free slot selection, fixture histories/dispositions, inspection, stack growth, reset/exit/reload and Pending passed at 1440/1920/2560.');
 }
 

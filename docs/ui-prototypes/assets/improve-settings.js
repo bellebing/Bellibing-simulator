@@ -1,6 +1,7 @@
+import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
 import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicyState, resolveImprovePolicyState,
-  updateImprovePolicyState, persistImprovePolicyState } from '../../assets/improvePolicyState.js';
+  updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
 import { echoPolicyPresentation, editEchoPolicy, reorderFlexStats, resetEchoPolicy, echoRollControl, editEchoRollMinimum } from './echo-policy-presentation.mjs';
@@ -9,6 +10,7 @@ import { recommendedCharacterStatsPresentation } from './character-target-presen
 const root = document.getElementById('improveSettings');
 let store, storageError = null;
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
+let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
 let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [];
@@ -21,7 +23,54 @@ heading.append(title, modes);
 const controls = element('div', undefined, 'improve-settings-controls');
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
-root.append(heading, reviewNote, controls, saveNote);
+const resources = element('div', undefined, 'improve-resources'); resources.setAttribute('role', 'group'); resources.setAttribute('aria-label', 'Resources');
+const resourceSeparator = element('hr', undefined, 'improve-resources-separator');
+root.append(heading, resources, resourceSeparator, reviewNote, controls, saveNote);
+function renderResources() {
+  resources.classList.toggle('is-expanded', expanded);
+  resources.replaceChildren(element('h3', 'Resources', 'improve-resources-title'));
+  const resourceControls = element('div', undefined, 'improve-resource-controls');
+  resources.append(resourceControls);
+  function field(parent, id, label, accessibleName, quantity) {
+    const owner = element('label', undefined, 'improve-resource'); owner.dataset.resource = id;
+    owner.title = accessibleName;
+    const caption = element('span', label, 'improve-resource-label');
+    owner.append(caption);
+    if (id !== 'echoes') {
+      const icon = element('img', undefined, 'improve-resource-icon');
+      icon.src = new URL('./resource-icons/' + id + '.png', import.meta.url).href;
+      icon.alt = ''; icon.setAttribute('aria-hidden', 'true'); icon.width = 52; icon.height = 52;
+      owner.append(icon);
+    } else owner.append(element('span', undefined, 'improve-resource-icon-space'));
+    const summary = element('span', formatInventoryQuantity(quantity), 'improve-resource-value'); summary.hidden = expanded;
+    const input = element('input'); input.type = 'text'; input.value = formatInventoryQuantity(quantity); input.hidden = !expanded;
+    input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
+    input.disabled = !!storageError || !store; input.autocomplete = 'off'; input.spellcheck = false;
+    input.oninput = () => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
+    input.onchange = () => {
+      try {
+        const next = updateResourceInventory(inventory, id, parseInventoryQuantity(input.value));
+        const nextStore = persistResourceInventory(store, next, localStorage);
+        store = nextStore; inventory = next; input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
+      } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
+    };
+    input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
+    owner.append(summary, input); parent.append(owner);
+  }
+  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
+    const family = element('div', undefined, 'improve-resource-family');
+    family.append(element('h4', label));
+    field(family, id, label, accessibleName, inventory[id]);
+    resourceControls.append(family);
+  }
+  const tubes = element('div', undefined, 'improve-resource-family improve-resource-tubes'); tubes.setAttribute('role', 'group'); tubes.setAttribute('aria-label', 'Tubes');
+  tubes.append(element('h4', 'Tubes'));
+  const denominations = element('div', undefined, 'improve-resource-denominations');
+  for (const tube of ECHO_TUBES) field(denominations, tube.id, tube.color, tube.name, inventory.tubes[tube.id]);
+  tubes.append(denominations); resourceControls.append(tubes);
+}
+function quantityAt(id) { return id === 'echoes' || id === 'tuners' ? inventory[id] : inventory.tubes[id]; }
 const note = text => element('p', text, 'improve-setting-note');
 function button(label, callback, key, selected) {
   const node = element('button', label, 'improve-setting-choice'); node.type = 'button'; node.dataset.focusKey = key;
@@ -44,6 +93,7 @@ function commit(change, focusKey, refresh = true) {
 }
 function setExpanded(next, restore = false) {
   expanded = !!next;
+  renderResources();
   for (const group of groups.values()) {
     const open = expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
@@ -228,6 +278,7 @@ function renderEcho() {
 }
 
 function render() {
+  renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
   modes.replaceChildren();
   for (const [value, label] of [['RECOMMENDED', 'Recommended'], ['MANUAL', 'Customize']]) {
@@ -249,6 +300,7 @@ function setCharacter(id) {
   catch { storageError = 'Saved policy needs review. Recovery data has been retained.'; settings = createImprovePolicyState(id, source); }
   if (loaded) save(); render();
 }
+window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),

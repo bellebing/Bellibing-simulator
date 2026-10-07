@@ -1,3 +1,4 @@
+import { readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
 import { SUBSTAT_TYPES } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type {
@@ -51,6 +52,8 @@ export interface ImprovePolicyCompatibility {
   readonly reasons: readonly string[];
 }
 export interface ImprovePolicyStorage {
+  /** Shared user budget, independent of Character policy and simulator sessions. */
+  readonly resourceInventory?: ResourceInventory;
   readonly version: 3;
   readonly characters: Readonly<Record<string, ImprovePolicyState>>;
   readonly pendingV2Characters: Readonly<Record<string, unknown>>;
@@ -244,7 +247,9 @@ export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): I
     const saved = record(JSON.parse(raw));
     // Never replace an unknown/corrupt new envelope with v2 or fabricated defaults.
     if (saved.version !== 3) throw new Error('Unsupported Improve policy storage version.');
-    return { version: 3, characters: structuredClone(record(saved.characters)) as Record<string, ImprovePolicyState>,
+    return { version: 3,
+      ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
+      characters: structuredClone(record(saved.characters)) as Record<string, ImprovePolicyState>,
       pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
   }
   let old: Record<string, unknown> = {};
@@ -293,9 +298,17 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
 export function persistImprovePolicyState(store: ImprovePolicyStorage, state: ImprovePolicyState,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
   const pendingV2Characters = { ...store.pendingV2Characters }; delete pendingV2Characters[state.characterId];
-  const next: ImprovePolicyStorage = { version: 3,
+  const next: ImprovePolicyStorage = { ...store, version: 3,
     characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
   // Write before returning the new immutable store; failure cannot mark a save committed.
+  storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
+  return next;
+}
+
+/** Same user-owned envelope and write-before-commit recovery discipline as settings. */
+export function persistResourceInventory(store: ImprovePolicyStorage, inventory: ResourceInventory,
+  storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
+  const next = { ...store, resourceInventory: readResourceInventory(inventory) };
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return next;
 }

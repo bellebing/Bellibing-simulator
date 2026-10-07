@@ -274,6 +274,7 @@ jobs:
             artifacts/ui-preview-echo-simulator-*.png
             artifacts/ui-preview-improve-candidate-*.png
             artifacts/ui-preview-improve-settings-*.png
+            artifacts/ui-preview-resources-*.png
             artifacts/character-target-*.png
             artifacts/ui-preview-account-review-*.png
             artifacts/ui-preview-character-build-card-*.png

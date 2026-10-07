@@ -1,3 +1,4 @@
+import { readResourceInventory } from "./resourceInventory.js";
 import { SUBSTAT_TYPES } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
@@ -187,7 +188,9 @@ export function loadImprovePolicyStorage(storage) {
         // Never replace an unknown/corrupt new envelope with v2 or fabricated defaults.
         if (saved.version !== 3)
             throw new Error('Unsupported Improve policy storage version.');
-        return { version: 3, characters: structuredClone(record(saved.characters)),
+        return { version: 3,
+            ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
+            characters: structuredClone(record(saved.characters)),
             pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
     }
     let old = {};
@@ -240,9 +243,15 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
 export function persistImprovePolicyState(store, state, storage) {
     const pendingV2Characters = { ...store.pendingV2Characters };
     delete pendingV2Characters[state.characterId];
-    const next = { version: 3,
+    const next = { ...store, version: 3,
         characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
     // Write before returning the new immutable store; failure cannot mark a save committed.
+    storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
+    return next;
+}
+/** Same user-owned envelope and write-before-commit recovery discipline as settings. */
+export function persistResourceInventory(store, inventory, storage) {
+    const next = { ...store, resourceInventory: readResourceInventory(inventory) };
     storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
     return next;
 }

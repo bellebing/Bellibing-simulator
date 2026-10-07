@@ -71,7 +71,7 @@ Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.
 
-Worker 13 Resource Inventory is a development candidate: a centered Resources subsection with local source-resolved item art and compact collapsed summaries, shared user-owned counts editable in both Current and Simulate, and reviewed four-denomination Tube facts. Exact Tube selection/depletion, overfill/carry, Data Recovery denominations and the separate completion criterion remain Pending. Real evaluator ingress, Improvement Cost and farming remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+Worker 13 Resource Inventory is COMPLETE, integrated and post-merge verified: a centered Resources subsection with local source-resolved item art and compact collapsed summaries, shared user-owned counts editable in both Current and Simulate, and reviewed four-denomination Tube facts. Exact Tube selection/depletion, overfill/carry, Data Recovery denominations and the separate completion criterion remain Pending. Real evaluator ingress, Improvement Cost and farming remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 

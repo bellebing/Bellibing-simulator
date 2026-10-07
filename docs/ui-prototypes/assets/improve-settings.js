@@ -100,7 +100,7 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Character Target'], ['gate', 'Gate'], ['every', 'Every Echo'], ['flex', 'Flex Stats']]) {
+for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Echo Substat Target'], ['flex', 'Flex Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -123,7 +123,7 @@ function renderTargets() {
   const group = groups.get('target'), policy = resolved.policy.characterTarget.numericTargets;
   group.summary.textContent = policy.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
-  targets.append(element('h3', settings.mode === 'MANUAL' ? 'Character Stats' : 'Recommended Character Stats'));
+  targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
   if (settings.mode === 'MANUAL') {
     // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.

@@ -77,7 +77,7 @@ The user-facing simulator resources are exactly **Tuners | Tubes | Echoes**.
 - **Echoes** means candidate Echoes / attempts, not a modeled farming drop rate.
 - Never display raw Echo EXP/XP or an abstract EXP total such as `142600` to the user.
 - A technical EXP unit may remain internal to apply verified checkpoint costs behind the Tube model. It is an implementation detail, not another visible resource.
-- **Tube denominations and conversion to the user's actual materials must be source-valid before exact resource simulation is enabled. Do not guess conversion.** Effective internal feed/recycle recovery does not by itself prove exact material conversion or rounding.
+- **Four reviewed Tube denominations are canonical: Premium (5★/Gold, 5,000 internal Echo EXP), Advanced (4★/Purple, 2,000), Medium (3★/Blue, 1,000), Basic (2★/Green, 500).** The shared Improve Resources inputs retain separate whole counts or explicit unlimited state. Inventory foundation does not establish exact selection/depletion. Effective internal feed/recycle recovery does not by itself prove exact material conversion or rounding.
 - Shell Credits are not a user-facing simulator resource in this accepted direction. Adding them requires a new product decision; their presence in internal mechanics does not authorize a visible fourth resource.
 - Do not combine resources into one score through arbitrary weights. Tuners, Tubes and Echoes retain separate meanings.
 
@@ -157,7 +157,7 @@ Document product behavior and safe result meanings, not secret implementation. P
 - Exact card styling and animation.
 - Exact color palette.
 - Exact Interactive/Auto timing.
-- Exact Tube denominations/conversion, with source validity required.
+- Exact mixed-inventory Tube selection/depletion, checkpoint overfill/carry, +25 excess and Data Recovery denomination decomposition remain Pending; direct feed and Data Recovery are not assumed identical.
 - Exact “finished enough” criterion, separate from Character Target.
 - Exact graph presentation.
 - Exact initial candidate acquisition model.

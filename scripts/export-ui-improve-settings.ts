@@ -3,7 +3,7 @@ import { compilePublicBrowserModules } from './public-web-boundary.mjs';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { projectImproveSettingsSources } from '../src/improveSettingsProjection.ts';
 import { projectReleasedImprovePolicies } from '../src/improvePolicySources.ts';
 import { projectCharacterTargetPresentations } from '../src/characterTargetPresentation.ts';
@@ -11,7 +11,7 @@ import { ECHO_STATS_EDITOR_MAX_SUBSTATS } from '../src/echoStatEditor.ts';
 
 const directory = 'docs/ui-prototypes/assets/improve-settings';
 const browserDirectory = 'docs/assets';
-const browserModules = ['echoCoreRules.js', 'improvePolicyState.js', 'improvePolicyPresentation.js', 'publicSettingsView.js'] as const;
+const browserModules = ['data/echoTubeSource.js', 'resourceInventory.js', 'echoCoreRules.js', 'improvePolicyState.js', 'improvePolicyPresentation.js', 'publicSettingsView.js'] as const;
 const check = process.argv.includes('--check');
 const temporaryDirectory = mkdtempSync(join(tmpdir(), 'bellibing-improve-settings-'));
 const compiledDirectory = join(temporaryDirectory, 'assets');
@@ -44,6 +44,7 @@ try {
         throw new Error('Stale Improve Settings export: ' + path);
       }
     } else {
+      mkdirSync(dirname(path), { recursive: true });
       writeFileSync(path, generated);
     }
   }

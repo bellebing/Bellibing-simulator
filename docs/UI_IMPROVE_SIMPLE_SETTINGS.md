@@ -1,6 +1,10 @@
 # Improve Settings — public desktop contract
 
-The visible controls are Character Target / Gate / Every Echo / Flex Stats with one Recommended / Customize mode. Gate choices remain +5/+10/+15/+20/+25. These are user inputs, not executable decision policy.
+One compact **Resources** row precedes a simple separator and the accepted settings controls. Resources are **Echoes | Tuners | Tubes**, with Gold / Purple / Blue / Green grouped under Tubes. Expanded settings show six compact count inputs; collapsed settings retain six count summaries plus the existing settings summaries and hide expanded controls. Canonical English Tube names are accessible labels/tooltips. Enter a whole non-negative count or `∞` / `unlimited`; finite zero remains distinct from unlimited.
+
+Resource Inventory is shared user-owned budget context in the existing Improve v3 storage envelope, outside Character records. Old envelopes without inventory start with explicit finite-zero inputs. Corrupt/unsupported saved inventory blocks overwrite and retains recovery bytes; storage write failure cannot commit a changed budget. Character changes, Current/Simulate, exit and simulator reset preserve it. Simulate keeps settings and inventory read-only; return to Current to edit. It is independent of CharacterBuildState, policy and memory-only simulator sessions. No account writeback or spending engine exists.
+
+The visible settings controls are Character Target / Gate / Every Echo / Flex Stats with one Recommended / Customize mode. Gate choices remain +5/+10/+15/+20/+25. These are user inputs, not executable decision policy.
 
 Recommended Character Target displays only an unambiguous source-backed modern DEFAULT Calc reference. Source families never fill gaps in one another. Missing references display Pending.
 

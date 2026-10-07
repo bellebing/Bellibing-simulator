@@ -1,6 +1,6 @@
 # Echo Simulator Foundation
 
-Worker 12 is an OPEN / UNMERGED development candidate until merge and post-merge verification. The accepted product direction remains [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md).
+Worker 12 is COMPLETE, merged and post-merge verified. The accepted product direction remains [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md).
 
 ## Ownership
 
@@ -24,7 +24,7 @@ Private Worker 8 Fas 3 is COMPLETE only for Augusta/default and Cartethyia/defau
 
 ## Resource and mechanics boundary
 
-The accepted future resource names remain **Tuners | Tubes | Echoes**. Foundation shows no resource amounts or costs. It adds no Tube conversion, visible raw EXP/XP, Shell Credits resource, combined score, farming probability, completion rule or Improvement Cost. Existing Current-mode Pending presentation is preserved; simulator feedback hides the older model metrics.
+The accepted future resource names remain **Tuners | Tubes | Echoes**. The simulator foundation itself computes no resource amounts or costs. The Resource Inventory candidate adds shared user budget inputs in Improve Settings, outside the session; no simulator transition mutates those inputs. It adds no exact Tube depletion/conversion, visible raw EXP/XP, Shell Credits resource, combined score, farming probability, completion rule or Improvement Cost. Existing Current-mode Pending presentation is preserved; simulator feedback hides the older model metrics.
 
 Echo mechanics/data remain canonical in Echo Core and the existing Echo card/data contracts. No substat tiers, probability tables, checkpoints, main-stat progression or refunds are duplicated. Session state records observations and consumes dispositions only; it never evaluates Character Target, Every Echo or Flex Stats.
 

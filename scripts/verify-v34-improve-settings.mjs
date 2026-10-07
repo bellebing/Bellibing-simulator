@@ -33,6 +33,27 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await setViewport(send,1440,900); await navigate(send); await read('localStorage.clear()'); await navigate(send); await wait();
   const source = await read("fetch('assets/improve-settings/sources.json').then(r=>r.json()).then(d=>d.characters.find(c=>c.characterId==='augusta'))");
   await read("addOwned('Augusta');addOwned('Chixia');show('improve');improvePicker.select('Augusta')");
+  const inventoryState = 'window.bellibingResourceInventory.getState()';
+  const resourceInput = id => '#improveSettings [data-resource="'+id+'"] input';
+  await check(`document.querySelectorAll('.improve-resources').length===1&&document.querySelectorAll('.improve-resources-separator').length===1&&[...document.querySelectorAll('.improve-resource input')].every(n=>n.hidden)&&[...document.querySelectorAll('.improve-resource-value')].every(n=>!n.hidden)`, 'compact collapsed Resources and existing summaries');
+  await click('#improve-setting-gate'); await settle();
+  for (const [id,value] of [['echoes','12'],['tuners','∞'],['premium','7'],['advanced','11'],['medium','0'],['basic','unlimited']]) {
+    await enter(resourceInput(id),value); await read(`document.querySelector(${JSON.stringify(resourceInput(id))}).blur()`);
+  }
+  const inventorySaved=await read(`JSON.stringify(${inventoryState})`);
+  await check(`${inventoryState}.echoes.count===12&&${inventoryState}.tuners.kind==='UNLIMITED'&&${inventoryState}.tubes.premium.count===7&&${inventoryState}.tubes.advanced.count===11&&${inventoryState}.tubes.medium.count===0&&${inventoryState}.tubes.basic.kind==='UNLIMITED'`, 'six independent inventory counts');
+  for (const invalid of ['-1','1.5']) {
+    await enter(resourceInput('echoes'),invalid); await read(`document.querySelector(${JSON.stringify(resourceInput('echoes'))}).blur()`);
+    await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&document.querySelector(${JSON.stringify(resourceInput('echoes'))}).getAttribute('aria-invalid')==='true'`, 'invalid resource input never saves');
+  }
+  await enter(resourceInput('echoes'),'12'); await read(`document.querySelector(${JSON.stringify(resourceInput('echoes'))}).blur()`);
+  await read("improvePicker.select('Chixia');improvePicker.select('Augusta')");
+  await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'Character switching retains account-like inventory');
+  const realBuild=await read("JSON.stringify(improveBuildState('Augusta'))");
+  await click('#simulatorEnter'); await click('#simulatorReset'); await click('#simulatorCurrent');
+  await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(realBuild)}`, 'Current/Simulate/reset preserve inventory and CharacterBuildState');
+  await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
+  await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'inventory reload persistence');
   for (const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
     await setViewport(send,width,height); await settle(); await click('#improve-setting-every'); await settle();
     await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Character Target','Gate','Every Echo','Flex Stats'])`, 'four input columns');
@@ -40,6 +61,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='Recommended'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='Recommended'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'accepted Recommended summaries and row clearance');
     await check(`!JSON.stringify(${state}).includes('checkpointReference')&&!JSON.stringify(${state}).includes('effectivePolicy')`, 'public inspection contract');
     await check(`document.querySelector('[data-setting=flex] .improve-build-need p').textContent==='Pending'`, 'Build Need Pending');
+    await check(`(()=>{const row=document.querySelector('.improve-resources'),r=row.getBoundingClientRect(),fields=[...row.querySelectorAll('input')];return r.height<=34&&row.scrollWidth<=row.clientWidth+1&&fields.length===6&&fields.every(n=>!n.hidden)&&document.querySelector('.improve-resource-tubes').querySelectorAll('input').length===4&&!/EXP|Shell Credits/.test(row.innerText)})()`, 'compact expanded grouped Resources without raw EXP or Credits');
     await capture(send,`artifacts/ui-preview-improve-settings-recommended-${width}x${height}.png`);
     await click(focus('mode:MANUAL')); await check(`Object.keys(${state}.overrides).length===0`, 'Customize alone creates no inputs');
     await click(focus('every:CRIT Rate')); await click(focus('every:CRIT DMG'));

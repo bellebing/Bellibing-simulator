@@ -122,3 +122,17 @@
 /* An unavailable Recommended minimum has canonical steps but no selected tier. */
 .improve-roll-slider[data-status="PENDING"]::-webkit-slider-thumb { visibility: hidden; }
 .improve-roll-slider[data-status="PENDING"]::-moz-range-thumb { visibility: hidden; }
+
+/* One compact inventory row, sharing the settings expansion; no second accordion. */
+.improve-resources { display:flex; align-items:center; gap:22px; min-height:30px; font-size:12px; color:#b7bec8; }
+.improve-resources-title { color:#ede5d4; font-weight:500; }
+.improve-resource,.improve-resource-tubes { display:flex; align-items:center; gap:8px; min-width:0; }
+.improve-resource-tubes { gap:16px; }
+.improve-resource-family { color:#ede5d4; }
+.improve-resource-value { color:#ede5d4; font-variant-numeric:tabular-nums; }
+.improve-resource input { width:72px; min-width:0; height:28px; box-sizing:border-box; border:1px solid rgba(255,255,255,.18); border-radius:6px; padding:3px 7px; background:rgba(7,9,13,.55); color:#ede5d4; font:inherit; font-variant-numeric:tabular-nums; }
+.improve-resource input:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
+.improve-resource input[aria-invalid=true] { border-color:#ce9e7b; }
+.improve-resource [hidden] { display:none; }
+.improve-resources-separator { border:0; border-top:1px solid rgba(255,255,255,.12); margin:10px 0 12px; }
+@media(max-width:1100px) { .improve-resources { gap:12px; flex-wrap:wrap; } .improve-resource-tubes { gap:10px; } }

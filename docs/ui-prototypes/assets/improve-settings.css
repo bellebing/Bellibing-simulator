@@ -110,7 +110,7 @@
 .improve-visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 
 /* Discrete minimum-roll controls share the existing active-row highlight. */
-.improve-echo-row.is-active .improve-echo-toggle { flex:0 1 112px; }
+.improve-echo-row:has(.improve-roll-slider) .improve-echo-toggle { flex:0 1 112px; }
 .improve-roll-slider { appearance:none; -webkit-appearance:none; flex:1 1 70px; width:70px; min-width:48px; height:4px; margin:0 5px; border-radius:3px; background:linear-gradient(to right,#c9a85f var(--roll-position),rgba(216,177,82,.25) var(--roll-position)); cursor:pointer; }
 .improve-roll-slider::-webkit-slider-thumb { appearance:none; width:11px; height:11px; border-radius:50%; background:#d8b152; border:1px solid #e4d5b5; }
 .improve-roll-slider:disabled { opacity:1; cursor:default; background:linear-gradient(to right,#92969d var(--roll-position),rgba(146,150,157,.25) var(--roll-position)); outline:none; }
@@ -118,3 +118,7 @@
 .improve-roll-slider:enabled:focus-visible { outline:2px solid #c9a85f; outline-offset:5px; }
 .improve-roll-value { flex:none; min-width:39px; margin-right:8px; text-align:right; color:#e4d5b5; font-size:11px; font-variant-numeric:tabular-nums; }
 .improve-roll-slider:disabled + .improve-roll-value { color:#b7bec8; }
+
+/* An unavailable Recommended minimum has canonical steps but no selected tier. */
+.improve-roll-slider[data-status="PENDING"]::-webkit-slider-thumb { visibility: hidden; }
+.improve-roll-slider[data-status="PENDING"]::-moz-range-thumb { visibility: hidden; }

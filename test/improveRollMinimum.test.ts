@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from '../src/echoCoreRules.ts';
 import { projectRecommendedImprovePolicy } from '../src/improvePolicySources.ts';
-import { initialImproveRollMinimum, improveRollControl } from '../src/improvePolicyPresentation.ts';
+import { initialImproveRollMinimum, improveRollControl, improveRelevantStats } from '../src/improvePolicyPresentation.ts';
 import { createImprovePolicyState, updateImprovePolicyState, resolveImprovePolicyState, loadImprovePolicyStorage,
   readImprovePolicyState, persistImprovePolicyState, IMPROVE_POLICY_STORAGE_KEY } from '../src/improvePolicyState.ts';
 import { echoPolicyPresentation, echoRollControl, editEchoRollMinimum, editEchoPolicy, reorderFlexStats,
@@ -32,6 +32,8 @@ test('invalid saved Flex minimums fail closed without deleting original intent',
 
 test('Recommended Echo guidance is neutral; explicit user selection uses only canonical game tiers', () => {
   const recommended = view(initial());
+  assert.deepEqual(recommended.relevant, SUBSTAT_TYPES.filter(name => improveRelevantStats(source).includes(name)));
+  assert.ok(recommended.relevant.length > 0);
   assert.deepEqual(recommended.required, []); assert.deepEqual(recommended.flex, []);
   assert.equal(recommended.policy.requirements.status, 'PENDING');
   let state = manual();

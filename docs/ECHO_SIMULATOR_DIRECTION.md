@@ -2,7 +2,7 @@
 
 ## Purpose and readiness
 
-This is the canonical long-term product direction for Bellibing's Echo Simulator, preserving the accepted concept for a future PM/builder. It describes future behavior; it does not claim an implemented or active simulator, evaluator, RNG orchestration or Improvement Cost feature.
+This is the canonical long-term product direction for Bellibing's Echo Simulator, preserving the accepted concept for a future PM/builder. It describes the full future behavior. The bounded [Echo Simulator Foundation candidate](ECHO_SIMULATOR_FOUNDATION.md) establishes sandbox/card ownership only; this direction does not claim an active evaluator, RNG orchestration or Improvement Cost feature.
 
 The north-star question is: **“If I use my real Echo resources with these Improve settings, how difficult/expensive is it to actually improve this Character?”**
 
@@ -17,7 +17,7 @@ The primary UX lives inside **Improve a Character** and reuses the current Impro
 Conceptually add a clear **Current | Simulate** mode:
 
 - **Current** shows the user's real build.
-- **Simulate** creates a temporary sandbox for the same Character, based on that build and the user's Improve settings/resource context.
+- **Simulate** creates a temporary sandbox for the same Character context (including Weapon / Sequence / Forte where needed), starting with exactly five empty Echo slots. Real equipped Echoes and alternate account sets are not simulation equipment. The user's Improve settings/resource context is retained without copying account Echoes.
 - Running a simulation must never overwrite or mutate the real Character/build. Accepting a simulated Echo updates only simulated Current. This direction does not authorize writing simulation results back to real equipment.
 
 For a selected slot, for example Echo 2:
@@ -106,7 +106,9 @@ Current
  → continue / reject / accept
 ```
 
-Every candidate is assessed relative to the current sandbox build. When an Echo is accepted, that build becomes the new **simulated Current**; future candidates must be reassessed against it. The original real build remains untouched. Short public feedback reflects evaluator results without publishing the private reasoning machinery.
+Every candidate is assessed relative to the evolving simulated build, which starts empty and grows from 0 → 5 accepted Echoes. Reset returns to five empty simulated slots; Current/exit reveals the unchanged real account build. No simulated candidate, accepted card, Trash Pile or history is persisted into CharacterBuildState. A real-build source snapshot may be retained for identity/context/isolation, never as the simulated Echo baseline.
+
+Private Worker 8 Fas 3 trusted measurement currently requires five complete Echo cards. Simulated builds with 0–4 Echoes therefore remain evaluator-Pending until a future private capability explicitly supports partial builds. This direction does not authorize fake browser evaluation or an availability claim for five cards without private ingress. When an Echo is accepted, that build becomes the new **simulated Current**; future candidates must be reassessed against it. The original real build remains untouched. Short public feedback reflects evaluator results without publishing the private reasoning machinery.
 
 A future run may stop when the build reaches a separately defined accepted/completion level, but **“finished enough” is PENDING** and belongs to the Build Need / evaluator contract. **Character Target reached does not mean finished.** Character Target is directional/reference data, not an automatic stop-line. Neither the simulator nor this document defines an acceptance threshold or completion algorithm.
 

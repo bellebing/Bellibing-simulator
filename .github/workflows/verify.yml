@@ -1,6 +1,8 @@
 name: Verify
 
 on:
+  # Exact-head FULL can run on a draft branch before PM UI review.
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -18,7 +20,7 @@ jobs:
   verify:
     # A skipped draft job is not FULL evidence. Required-check enforcement is
     # outside this split; main FULL remains the transition backstop.
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -86,7 +88,7 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/publicArtifactBoundary.test.ts
+        run: node --experimental-strip-types --test test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/publicArtifactBoundary.test.ts
 
       - name: Tests
         run: npm test
@@ -269,6 +271,7 @@ jobs:
           path: |
             artifacts/ui-preview-home-1440x900.png
             artifacts/ui-preview-improve-augusta-1440x900.png
+            artifacts/ui-preview-echo-simulator-*.png
             artifacts/ui-preview-improve-candidate-*.png
             artifacts/ui-preview-improve-settings-*.png
             artifacts/character-target-*.png
@@ -380,7 +383,7 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/publicArtifactBoundary.test.ts
+        run: node --experimental-strip-types --test test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/publicArtifactBoundary.test.ts
 
       - name: Strict web build / generated parity
         run: npm run build

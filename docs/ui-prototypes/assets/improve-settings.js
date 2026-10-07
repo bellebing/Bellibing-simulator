@@ -141,8 +141,8 @@ function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
   const editable = settings.mode === 'MANUAL' && source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
-  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Pending';
-  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Pending';
+  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
+  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
   const buildNeed = element('section', undefined, 'improve-policy-section improve-build-need');
   buildNeed.append(element('h3', 'Build Need'), note('Pending')); groups.get('flex').content.append(buildNeed);
   const flexSection = element('section', undefined, 'improve-policy-section');
@@ -176,16 +176,18 @@ function renderEcho() {
         move.disabled = index + offset < 0 || index + offset >= view.flex.length; item.append(move);
       }
     } else item.append(toggle);
-    if (active) {
+    const pendingControl = settings.mode === 'RECOMMENDED' && !active;
+    if (active || pendingControl) {
       const control = echoRollControl(view, source, list, name);
       const slider = element('input', undefined, 'improve-roll-slider'); slider.type = 'range';
       slider.min = '0'; slider.max = String(control.values.length - 1); slider.step = '1';
-      slider.value = String(Math.max(0, control.index)); slider.disabled = !editable || control.index < 0;
+      slider.value = String(Math.max(0, control.index)); slider.disabled = !editable || control.index < 0 || pendingControl;
+      if (pendingControl) slider.dataset.status = 'PENDING';
       slider.dataset.focusKey = 'roll:' + list + ':' + name;
       slider.setAttribute('aria-label', (list === 'every' ? 'Every Echo ' : 'Flex ') + name + ' minimum roll');
       const value = element('output', control.text, 'improve-roll-value');
       const show = () => {
-        const text = echoRollControl(echoPolicyPresentation(settings, source, canonicalStats), source, list, name).text;
+        const text = pendingControl ? 'Pending' : echoRollControl(echoPolicyPresentation(settings, source, canonicalStats), source, list, name).text;
         value.textContent = text; slider.setAttribute('aria-valuetext', text);
         slider.style.setProperty('--roll-position', (Number(slider.value) / Number(slider.max) * 100) + '%');
       };

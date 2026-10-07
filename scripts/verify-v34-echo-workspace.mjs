@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { verifyEchoSimulator, verifyEchoSimulatorReview } from './verify-v34-echo-simulator.mjs';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { verifyAccountReview } from './verify-v34-account-review.mjs';
@@ -896,23 +897,30 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    const improveOnly = process.env.BELLIBING_IMPROVE_ONLY === '1';
-    await verifyAccountReview({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
-    const desktop = improveOnly ? null : await verifyDesktop(send);
-    const sonata = improveOnly ? null : await verifySonataComposition(send);
-    await verifyImproveSettings({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
-    await verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
-    const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
-    if(improveOnly) console.log('v34 focused Improve Settings and Candidate verification passed in real Chrome.');
-    else {
-    console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
-    console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
-    console.log('- Sonata selector: canonical sourceId newest→oldest ordering, recommended-first gold stars, exact-once coverage and no-recommendation fallback passed.');
-    console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
-    if(desktop) console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
-    if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844 passed (${mobile.previewed}).`);
-    else console.log('- Mobile/narrow verification deferred by desktop-first stabilization policy (set BELLIBING_VERIFY_MOBILE=1 to run it explicitly).');
-    if(sonata) console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
+    if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
+      await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
+    } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
+      await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+    } else {
+      const improveOnly = process.env.BELLIBING_IMPROVE_ONLY === '1';
+      await verifyAccountReview({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+      const desktop = improveOnly ? null : await verifyDesktop(send);
+      const sonata = improveOnly ? null : await verifySonataComposition(send);
+      await verifyImproveSettings({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+      await verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
+      await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+      const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
+      if(improveOnly) console.log('v34 focused Improve Settings and Candidate verification passed in real Chrome.');
+      else {
+      console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
+      console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');
+      console.log('- Sonata selector: canonical sourceId newest→oldest ordering, recommended-first gold stars, exact-once coverage and no-recommendation fallback passed.');
+      console.log('- Sonata confirmation: Cancel, Switch Set transient only and Equip commit; Character confirmation remains functional.');
+      if(desktop) console.log(`- Committed desktop slots: ${desktop.ids.join(', ')}; owned Sonata: ${desktop.ownedSonata}; manual Aalto slot: ${desktop.fallbackEcho}.`);
+      if(mobile) console.log(`- Optional Mobile Adaptation gate 390x844 passed (${mobile.previewed}).`);
+      else console.log('- Mobile/narrow verification deferred by desktop-first stabilization policy (set BELLIBING_VERIFY_MOBILE=1 to run it explicitly).');
+      if(sonata) console.log(`- Shared Echo Skill and Sonata Effect card, active-only 3/3 + 2/2 and 2/2 + 5/5, left/up translucent expansion, compact Secondary and wide desktop passed (${sonata.effects.length} simultaneous effects).`);
+      }
     }
   } finally {
     socket.close();

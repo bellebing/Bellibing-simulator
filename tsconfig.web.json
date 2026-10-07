@@ -23,6 +23,7 @@
     "src/web/roll-assistant.ts",
     "src/improvePolicyState.ts",
     "src/improvePolicyPresentation.ts",
-    "src/publicSettingsView.ts"
+    "src/publicSettingsView.ts",
+    "src/echoSimulatorSession.ts"
   ]
 }

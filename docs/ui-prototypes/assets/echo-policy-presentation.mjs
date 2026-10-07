@@ -1,6 +1,6 @@
 import { resolveImprovePolicyState, updateImprovePolicyState } from '../../assets/improvePolicyState.js';
 
-import { initialImproveRollMinimum, improveRollControl } from '../../assets/improvePolicyPresentation.js';
+import { initialImproveRollMinimum, improveRollControl, improveRelevantStats } from '../../assets/improvePolicyPresentation.js';
 
 const unique = names => [...new Set(names)];
 // UI projection only: reviewed group membership is relevance, not a verified ranking.
@@ -19,9 +19,10 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
   const inherited = recommendedFlexStats(source);
   const explicit = policy.preferences.status === 'USER_DEFINED';
   const flex = unique(explicit ? policy.preferences.value.map(row => row.stat) : inherited).filter(name => !required.includes(name));
-  const sourceRequired = (source.echoPolicy.requirements.value?.requiredOnEveryEcho ?? []).map(row => row.stat);
-  // Hard stats have no order semantics; canonical display order is stable across edits.
-  const relevant = state.mode === 'MANUAL' ? [...canonicalStats] : [];
+  // Reviewed Character relevance is public display data, never a minimum or ranking.
+  // Preserve canonical order rather than using source priority numbers as usefulness.
+  const pool = new Set(improveRelevantStats(source));
+  const relevant = canonicalStats.filter(name => pool.has(name));
   return { required, flex, relevant, other: canonicalStats.filter(name => !relevant.includes(name)), policy };
 }
 const set = (state, source, section, value) => updateImprovePolicyState(state, { type: 'set', section, value }, source);

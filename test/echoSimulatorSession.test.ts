@@ -18,7 +18,7 @@ const card = (echo: Echo): SimulatorEchoCard => ({ ...echo, echoId: 'fixture-spe
 function fixture() {
   const real: SimulatorBuild = { weaponId: 'owned', forte: { investment: [true] }, sequenceLevel: 2,
     echoSets: { activeSetId: 'custom', defaultSetId: 'set-1', sets: {
-      'set-1': { slots: [null, null, null, null, null] },
+      'set-1': { slots: Array.from({ length: 5 }, (_, index) => ({ echoId: 'alternate-' + index })) },
       custom: { slots: Array.from({ length: 5 }, (_, index) => ({ echoId: 'real-' + index, substats: [{ name: 'CRIT Rate', value: .063 }] })) },
     } } };
   return { real, bytes: JSON.stringify(real), session: startEchoSimulator('augusta', real, 'test-session') };
@@ -34,6 +34,12 @@ function receipt(session: EchoSimulatorSession, disposition: 'accepted' | 'rejec
 
 test('start, transitions, reset and close never change real build bytes or alias any nested real data', () => {
   const { real, bytes, session } = fixture();
+  assert.deepEqual(simulatedEchoSlots(session), [null, null, null, null, null]);
+  assert.deepEqual(Object.keys(session.simulatedBuild.echoSets!.sets), ['custom']);
+  assert.equal(session.simulatedBuild.weaponId, real.weaponId);
+  assert.deepEqual(session.simulatedBuild.forte, real.forte);
+  assert.equal(session.simulatedBuild.sequenceLevel, real.sequenceLevel);
+  assert.doesNotMatch(JSON.stringify(session.simulatedBuild), /real-[0-4]|alternate-[0-4]/);
   session.simulatedBuild.forte = { investment: [false] };
   session.source.build.echoSets!.sets.custom.slots[0] = null;
   assert.equal(JSON.stringify(real), bytes);
@@ -46,6 +52,9 @@ test('start, transitions, reset and close never change real build bytes or alias
   assert.equal(JSON.stringify(real), bytes);
   const reset = resetEchoSimulator(s, 'new-session');
   assert.equal(reset.slots.every(slot => !slot.candidate && !slot.accepted.length && !slot.trash.length), true);
+  assert.deepEqual(simulatedEchoSlots(reset), [null, null, null, null, null]);
+  assert.deepEqual(reset.simulatedBuild.forte, real.forte);
+  assert.equal(reset.simulatedBuild.weaponId, real.weaponId);
   assert.equal(closeEchoSimulator(reset), null);
   assert.equal(JSON.stringify(real), bytes);
 });
@@ -61,6 +70,11 @@ test('five independently owned piles and accepted histories, freely selected in 
     }
     s = observed(s); s = applySimulatorDisposition(s, receipt(s, 'accepted'));
     assert.equal(s.slots[slot - 1].accepted.length, 1);
+    const acceptedSlots = s.slots.map((history, index) => history.accepted.length ? index : -1).filter(index => index >= 0);
+    assert.equal(simulatedEchoSlots(s).filter(Boolean).length, acceptedSlots.length);
+    simulatedEchoSlots(s).forEach((value, index) => { if (!acceptedSlots.includes(index)) assert.equal(value, null); });
+    assert.equal(s.evaluator.status, 'PENDING');
+    assert.doesNotMatch(JSON.stringify(s.slots), /real-[0-4]|alternate-[0-4]/);
   }
   assert.deepEqual(s.slots.map(slot => slot.trash.length), [1, 2, 3, 4, 5]);
   const id = s.slots[4].trash[0].id;
@@ -94,7 +108,7 @@ test('input and history snapshots detached; identity-only acceptance fails close
   let s = startSimulatorCandidate(session, input); input.substats!.push({ name: 'test', value: 99 });
   assert.equal(s.slots[0].candidate!.card.substats!.length, 0);
   assert.equal(s.slots[0].candidate!.history[0].substats!.length, 0);
-  const returned = simulatedEchoSlots(s); returned[0] = null; assert.notEqual(simulatedEchoSlots(s)[0], null);
+  const returned = simulatedEchoSlots(s); returned[0] = { echoId: 'detached-return' }; assert.equal(simulatedEchoSlots(s)[0], null);
   assert.deepEqual(s.evaluator, SIMULATOR_EVALUATOR_PENDING);
   s = startSimulatorCandidate(selectSimulatorSlot(s, 2), { echoId: 'identity-only' });
   assert.throws(() => applySimulatorDisposition(s, receipt(s, 'accepted')), /identity-only/);

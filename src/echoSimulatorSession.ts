@@ -59,10 +59,11 @@ export function startEchoSimulator(characterId: string, realBuild: SimulatorBuil
   const simulatedBuild = detached(realBuild);
   const raw = simulatedBuild.echoSets;
   const activeSetId = raw?.sets?.[raw.activeSetId] ? raw.activeSetId : 'set-1';
-  const set = raw?.sets?.[activeSetId];
+  // Retain non-Echo context only. Account sets are source evidence, never
+  // hypothetical equipment; an alternate set cannot become a fallback baseline.
   simulatedBuild.echoSets = {
-    ...raw, activeSetId,
-    sets: { ...raw?.sets, [activeSetId]: { ...set, slots: Array.from({ length: 5 }, (_, index) => detached(set?.slots?.[index] ?? null)) } },
+    activeSetId,
+    sets: { [activeSetId]: { slots: Array.from({ length: 5 }, () => null) } },
   };
   return {
     id: sessionId, source: { characterId, activeSetId, build: detached(realBuild) }, simulatedBuild,

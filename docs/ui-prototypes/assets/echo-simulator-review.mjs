@@ -40,7 +40,9 @@ const populate = () => read(`(()=>{
   improveUi.simulator=s;improveUi.selectedEchoIndex=4;improveUi.render();
   document.getElementById('improveEchoRow').scrollIntoView({block:'center',behavior:'instant'});
 })()`);
+const empty = () => read("if(improveUi.simulator)improveUi.closeSimulation();improveUi.startSimulation();document.getElementById('improveEchoRow').scrollIntoView({block:'center',behavior:'instant'})");
+document.getElementById('empty').onclick = empty;
 document.getElementById('current').onclick = () => read('improveUi.closeSimulation()');
 document.getElementById('populated').onclick = populate;
-document.getElementById('current').disabled = false;document.getElementById('populated').disabled = false;
-populate();
+document.getElementById('empty').disabled = false;document.getElementById('current').disabled = false;document.getElementById('populated').disabled = false;
+empty();

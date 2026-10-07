@@ -2116,7 +2116,7 @@ const improveUi={
     const head=document.createElement('div');head.className='improve-echo-card-head';head.innerHTML=this.simulator?'<span>Current Echo</span><span>Simulated · Echo '+(this.selectedEchoIndex+1)+'</span>':'<span>Current Echo</span><span>Equipped</span>';host.appendChild(head);
     const art=document.createElement('div');art.className='improve-echo-large-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}host.appendChild(art);
     const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item?.name||'Empty slot';host.insertBefore(title,art);
-    const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent=item?('COST '+item.cost+(Number.isFinite(slot?.level)?' · +'+slot.level:'')):'Select an equipped Echo below';host.appendChild(meta);
+    const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent=item?('COST '+item.cost+(Number.isFinite(slot?.level)?' · +'+slot.level:'')):(this.simulator?'Select a simulated slot below':'Select an equipped Echo below');host.appendChild(meta);
     host.appendChild(this.echoStats(slot));
   },
   renderCandidate(){

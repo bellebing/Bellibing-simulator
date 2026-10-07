@@ -27,10 +27,21 @@ const resources = element('div', undefined, 'improve-resources'); resources.setA
 const resourceSeparator = element('hr', undefined, 'improve-resources-separator');
 root.append(heading, resources, resourceSeparator, reviewNote, controls, saveNote);
 function renderResources() {
-  resources.replaceChildren(element('strong', 'Resources', 'improve-resources-title'));
+  resources.classList.toggle('is-expanded', expanded);
+  resources.replaceChildren(element('h3', 'Resources', 'improve-resources-title'));
+  const resourceControls = element('div', undefined, 'improve-resource-controls');
+  resources.append(resourceControls);
   function field(parent, id, label, accessibleName, quantity) {
     const owner = element('label', undefined, 'improve-resource'); owner.dataset.resource = id;
-    owner.append(element('span', label));
+    owner.title = accessibleName;
+    const caption = element('span', label, 'improve-resource-label');
+    owner.append(caption);
+    if (id !== 'echoes') {
+      const icon = element('img', undefined, 'improve-resource-icon');
+      icon.src = new URL('./resource-icons/' + id + '.png', import.meta.url).href;
+      icon.alt = ''; icon.setAttribute('aria-hidden', 'true'); icon.width = 52; icon.height = 52;
+      owner.append(icon);
+    } else owner.append(element('span', undefined, 'improve-resource-icon-space'));
     const summary = element('span', formatInventoryQuantity(quantity), 'improve-resource-value'); summary.hidden = expanded;
     const input = element('input'); input.type = 'text'; input.value = formatInventoryQuantity(quantity); input.hidden = !expanded;
     input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
@@ -47,12 +58,17 @@ function renderResources() {
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     owner.append(summary, input); parent.append(owner);
   }
-  field(resources, 'echoes', 'Echoes', 'Echoes', inventory.echoes);
-  field(resources, 'tuners', 'Tuners', 'Tuners', inventory.tuners);
-  const tubes = element('div', undefined, 'improve-resource-tubes'); tubes.setAttribute('role', 'group'); tubes.setAttribute('aria-label', 'Tubes');
-  tubes.append(element('span', 'Tubes', 'improve-resource-family'));
-  for (const tube of ECHO_TUBES) field(tubes, tube.id, tube.color, tube.name, inventory.tubes[tube.id]);
-  resources.append(tubes);
+  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
+    const family = element('div', undefined, 'improve-resource-family');
+    family.append(element('h4', label));
+    field(family, id, label, accessibleName, inventory[id]);
+    resourceControls.append(family);
+  }
+  const tubes = element('div', undefined, 'improve-resource-family improve-resource-tubes'); tubes.setAttribute('role', 'group'); tubes.setAttribute('aria-label', 'Tubes');
+  tubes.append(element('h4', 'Tubes'));
+  const denominations = element('div', undefined, 'improve-resource-denominations');
+  for (const tube of ECHO_TUBES) field(denominations, tube.id, tube.color, tube.name, inventory.tubes[tube.id]);
+  tubes.append(denominations); resourceControls.append(tubes);
 }
 function quantityAt(id) { return id === 'echoes' || id === 'tuners' ? inventory[id] : inventory.tubes[id]; }
 const note = text => element('p', text, 'improve-setting-note');

@@ -42,6 +42,9 @@ const improveSettingsCheck = spawnSync(process.execPath, [
 ], { stdio: 'inherit' });
 if (improveSettingsCheck.status !== 0) process.exit(improveSettingsCheck.status ?? 1);
 
+const resourceIconsCheck = spawnSync(process.execPath, ['scripts/audit-ui-resource-icons.mjs'], { stdio: 'inherit' });
+if (resourceIconsCheck.status !== 0) process.exit(resourceIconsCheck.status ?? 1);
+
 const tsc = spawnSync('tsc', ['-p', 'tsconfig.web.json'], { stdio: 'inherit', shell: true });
 if (tsc.status !== 0) process.exit(tsc.status ?? 1);
 compilePublicBrowserModules('dist/assets');
@@ -73,6 +76,7 @@ cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursiv
 cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/characters', { recursive: true });
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });
 cpSync('docs/ui-prototypes/assets/weapons', 'dist/ui-preview/assets/weapons', { recursive: true });
+cpSync('docs/ui-prototypes/assets/resource-icons', 'dist/ui-preview/assets/resource-icons', { recursive: true });
 cpSync('docs/ui-prototypes/assets/builder-icons', 'dist/ui-preview/assets/builder-icons', { recursive: true });
 cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/assets/sequence-runtime.json');
 cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-stats', { recursive: true });

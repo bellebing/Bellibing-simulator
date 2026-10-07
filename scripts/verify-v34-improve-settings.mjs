@@ -33,6 +33,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await setViewport(send,1440,900); await navigate(send); await read('localStorage.clear()'); await navigate(send); await wait();
   const source = await read("fetch('assets/improve-settings/sources.json').then(r=>r.json()).then(d=>d.characters.find(c=>c.characterId==='augusta'))");
   await read("addOwned('Augusta');addOwned('Chixia');show('improve');improvePicker.select('Augusta')");
+  const artifactVariant = await read("location.pathname.startsWith('/ui-preview/') ? 'built' : 'source'");
   const inventoryState = 'window.bellibingResourceInventory.getState()';
   const resourceInput = id => '#improveSettings [data-resource="'+id+'"] input';
   await check(`document.querySelectorAll('.improve-resources').length===1&&document.querySelectorAll('.improve-resources-separator').length===1&&[...document.querySelectorAll('.improve-resource input')].every(n=>n.hidden)&&[...document.querySelectorAll('.improve-resource-value')].every(n=>!n.hidden)`, 'compact collapsed Resources and existing summaries');
@@ -55,13 +56,22 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'inventory reload persistence');
   for (const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
-    await setViewport(send,width,height); await settle(); await click('#improve-setting-every'); await settle();
+    await setViewport(send,width,height); await settle();
+    await check(`(()=>{const row=document.querySelector('.improve-resources');return row.getBoundingClientRect().height<=40&&row.scrollWidth<=row.clientWidth+1&&[...row.querySelectorAll('input')].every(n=>n.hidden)&&[...row.querySelectorAll('.improve-resource-value')].map(n=>n.textContent).join(',')==='12,∞,7,11,0,∞'})()`, 'compact icon summaries at '+width);
+    await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");
+    await capture(send,`artifacts/ui-preview-resources-collapsed-${width}x${height}-${artifactVariant}.png`);
+    await click('#improve-setting-every'); await settle();
     await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Character Target','Gate','Every Echo','Flex Stats'])`, 'four input columns');
     await check(`${state}.presentation.echoPolicy.requirements.status==='PENDING'&&${state}.presentation.echoPolicy.preferences.status==='PENDING'&&document.querySelectorAll('.improve-roll-slider').length>0&&[...document.querySelectorAll('.improve-roll-slider')].every(n=>n.disabled&&n.dataset.status==='PENDING'&&n.getAttribute('aria-valuetext')==='Pending')&&Object.keys(${state}.overrides).length===0`, 'Recommended preserves discrete read-only controls without inferred selections or thresholds');
     await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='Recommended'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='Recommended'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'accepted Recommended summaries and row clearance');
     await check(`!JSON.stringify(${state}).includes('checkpointReference')&&!JSON.stringify(${state}).includes('effectivePolicy')`, 'public inspection contract');
     await check(`document.querySelector('[data-setting=flex] .improve-build-need p').textContent==='Pending'`, 'Build Need Pending');
-    await check(`(()=>{const row=document.querySelector('.improve-resources'),r=row.getBoundingClientRect(),fields=[...row.querySelectorAll('input')];return r.height<=34&&row.scrollWidth<=row.clientWidth+1&&fields.length===6&&fields.every(n=>!n.hidden)&&document.querySelector('.improve-resource-tubes').querySelectorAll('input').length===4&&!/EXP|Shell Credits/.test(row.innerText)})()`, 'compact expanded grouped Resources without raw EXP or Credits');
+    await check(`(()=>{const row=document.querySelector('.improve-resources'),r=row.getBoundingClientRect(),fields=[...row.querySelectorAll('input')];return r.height<=160&&row.scrollWidth<=row.clientWidth+1&&fields.length===6&&fields.every(n=>!n.hidden)&&document.querySelector('.improve-resource-tubes').querySelectorAll('input').length===4&&!/EXP|Shell Credits/.test(row.innerText)})()`, 'expanded grouped Resources without raw EXP or Credits');
+    await check(`(()=>{const root=document.getElementById('improveSettings'),title=root.querySelector('h2'),heading=root.querySelector('.improve-resources h3'),row=root.querySelector('.improve-resource-controls'),separator=root.querySelector('hr'),settings=root.querySelector('.improve-settings-controls');const rect=n=>n.getBoundingClientRect();return rect(title).bottom<=rect(heading).top&&rect(heading).bottom<=rect(row).top&&rect(row).bottom<=rect(separator).top&&rect(separator).bottom<=rect(settings).top&&parseFloat(getComputedStyle(title).fontSize)>parseFloat(getComputedStyle(heading).fontSize)&&parseFloat(getComputedStyle(heading).fontSize)>parseFloat(getComputedStyle(row.querySelector('h4')).fontSize)&&Math.abs(rect(row).left+rect(row).width/2-(rect(root).left+rect(root).width/2))<2})()`, 'Resources heading hierarchy and centered controls');
+    await check(`(()=>{const expected=[['tuners','Premium Tuner'],['premium','Premium Sealed Tube'],['advanced','Advanced Sealed Tube'],['medium','Medium Sealed Tube'],['basic','Basic Sealed Tube']];return expected.every(([id,name])=>{const field=document.querySelector('[data-resource="'+id+'"]'),img=field.querySelector('img');return field.title===name&&field.querySelector('input').getAttribute('aria-label')===name+' available count'&&img.complete&&img.naturalWidth===256&&img.alt===''&&img.getAttribute('aria-hidden')==='true'&&new URL(img.src).origin===location.origin&&new URL(img.src).pathname.endsWith('/resource-icons/'+id+'.png')})&&document.querySelectorAll('.improve-resource img').length===5&&!document.querySelector('[data-resource=echoes] img')})()`, 'all five exact item icons load locally with accessible names');
+    await check(`fetch('assets/resource-icons/manifest.json').then(r=>r.json()).then(m=>m.assets.map(a=>a.name+':'+a.sourcePath.split('/').pop()).join('|')==='Premium Tuner:T_IconA_txq_03_UI.png|Premium Sealed Tube:T_IconA_13_UI.png|Advanced Sealed Tube:T_IconA_12_UI.png|Medium Sealed Tube:T_IconA_11_UI.png|Basic Sealed Tube:T_IconA_10_UI.png')`, 'source-resolved item-to-texture associations in public artifact');
+    await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");
+    await capture(send,`artifacts/ui-preview-resources-expanded-${width}x${height}-${artifactVariant}.png`);
     await capture(send,`artifacts/ui-preview-improve-settings-recommended-${width}x${height}.png`);
     await click(focus('mode:MANUAL')); await check(`Object.keys(${state}.overrides).length===0`, 'Customize alone creates no inputs');
     await click(focus('every:CRIT Rate')); await click(focus('every:CRIT DMG'));
@@ -105,6 +115,13 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await click('#improve-setting-flex'); await settle(); await click(focus('reset:echo'));
     await check(`${state}.overrides.echoRequirements===undefined&&${state}.overrides.echoPreferences===undefined&&${state}.presentation.echoPolicy.requirements.status==='PENDING'&&document.querySelectorAll('.improve-roll-slider').length===0`, 'reset returns neutral Pending');
     await click(focus('mode:RECOMMENDED')); await click('#improve-setting-flex');
+  }
+  for (const width of [960,640,390]) {
+    await setViewport(send,width,900); await click('#improve-setting-gate'); await settle();
+    await check(`(()=>{const row=document.querySelector('.improve-resources'),tubes=row.querySelector('.improve-resource-tubes'),separator=document.querySelector('.improve-resources-separator');return row.scrollWidth<=row.clientWidth+1&&row.getBoundingClientRect().right<=innerWidth&&tubes.scrollWidth<=tubes.clientWidth+1&&tubes.querySelectorAll('input').length===4&&row.getBoundingClientRect().bottom<=separator.getBoundingClientRect().top&&[...row.querySelectorAll('input')].every(n=>n.getBoundingClientRect().width>=80)})()`, 'narrow Resources wrapping without overflow at '+width);
+    await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");
+    await capture(send,`artifacts/ui-preview-resources-expanded-${width}x900-${artifactVariant}.png`);
+    await click('#improve-setting-gate');
   }
   // Character Target input, validity and source-family presentation remain independent of decisions.
   await setViewport(send,1440,900); await click('#improve-setting-target'); await settle(); await click(focus('mode:MANUAL'));

@@ -272,3 +272,21 @@ Hsin and Suoming remain explicitly excluded from this library because their Bell
 EXP, Tuner and other material icons remain **PENDING_SOURCE_MAPPING**. No `IconA`, `IconRup`, `IconWup` or look-alike material images are promoted until item ID -> canonical name -> exact asset path is source-resolved.
 
 Rarity stars, locks, plus/minus controls and other generic builder chrome remain CSS/SVG/UI and are not imported as game assets.
+
+### Resource Inventory item icons
+
+Imported 2026-10-07. Five selective PNGs in `docs/ui-prototypes/assets/resource-icons/` are byte-identical copies from the existing unpacked-game source [TomyJan/WutheringWaves-UIResources @ 5b3d1d1](https://github.com/TomyJan/WutheringWaves-UIResources/tree/5b3d1d128ed3938cbb8e5260ba07b075b321a7c6/UIResources/Common/Image/IconA). Each 256×256 texture has a checked Git blob SHA and SHA-256 in the local manifest.
+
+Identity evidence: [cassowary inventoryItem.json @ 57aff64](https://github.com/boxofzero/cassowary/blob/57aff645ea532ee587d62883db306e34881f4393/app/data/game/raw/inventoryItem.json) binds exact English labels and game IDs to textures; [progression-manager MaterialData.js @ f0166b7](https://github.com/kree-nickm/progression-manager/blob/f0166b7cff965d3e0ac12a8aac55579713ecb076/js/wuwa/gamedata/MaterialData.js) independently agrees on names, rarities and Unreal texture paths. Both source-file hashes are retained in the manifest.
+
+| Local file | Exact item | Game ID | Texture in `Common/Image/IconA/` |
+| --- | --- | --- | --- |
+| `tuners.png` | Premium Tuner | 36000014 | `T_IconA_txq_03_UI.png` |
+| `premium.png` | Premium Sealed Tube (Gold, 5★) | 36000004 | `T_IconA_13_UI.png` |
+| `advanced.png` | Advanced Sealed Tube (Purple, 4★) | 36000003 | `T_IconA_12_UI.png` |
+| `medium.png` | Medium Sealed Tube (Blue, 3★) | 36000002 | `T_IconA_11_UI.png` |
+| `basic.png` | Basic Sealed Tube (Green, 2★) | 36000001 | `T_IconA_10_UI.png` |
+
+Reuse basis follows the project's existing selective game-asset convention: limited item-identification display in this fan companion, with local assets and retained provenance/attribution. Game artwork remains Kuro Games' copyright; the upstream repositories do not establish a blanket game-art license. No screenshot crop, watermark, transformation, AI substitute, runtime hotlink or bulk asset import is used. Echoes stays text-only; no species is presented as the abstract Echoes resource. The older builder-icon material deferral concerns that manifest's scope; these five verified items have their own audited manifest.
+
+`node scripts/audit-ui-resource-icons.mjs` checks identity, denomination, source pin/path, dimensions and byte hashes; strict build runs it before copying this folder into the explicit public asset allowlist.

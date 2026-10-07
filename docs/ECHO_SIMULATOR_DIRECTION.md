@@ -17,7 +17,7 @@ The primary UX lives inside **Improve a Character** and reuses the current Impro
 Conceptually add a clear **Current | Simulate** mode:
 
 - **Current** shows the user's real build.
-- **Simulate** creates a temporary sandbox for the same Character context (including Weapon / Sequence / Forte where needed), starting with exactly five empty Echo slots. Real equipped Echoes and alternate account sets are not simulation equipment. The user's Improve settings/resource context is retained without copying account Echoes.
+- **Simulate** creates a temporary sandbox for the same Character context (including Weapon / Sequence / Forte where needed), starting with exactly five empty Echo slots. Real equipped Echoes and alternate account sets are not simulation equipment. Both modes edit the same user-owned Improve Settings and Resource Inventory through canonical shared persistence, without copying account Echoes. Improve Settings retain Character ownership; the resource budget is Character-independent.
 - Running a simulation must never overwrite or mutate the real Character/build. Accepting a simulated Echo updates only simulated Current. This direction does not authorize writing simulation results back to real equipment.
 
 For a selected slot, for example Echo 2:
@@ -107,6 +107,8 @@ Current
 ```
 
 Every candidate is assessed relative to the evolving simulated build, which starts empty and grows from 0 → 5 accepted Echoes. Reset returns to five empty simulated slots; Current/exit reveals the unchanged real account build. No simulated candidate, accepted card, Trash Pile or history is persisted into CharacterBuildState. A real-build source snapshot may be retained for identity/context/isolation, never as the simulated Echo baseline.
+
+Settings/resource edits are allowed during an active Simulate session and do not silently reset it. Future evaluator decisions must be bound to the settings/resource revision under which they were evaluated. Exact mid-run invalidation, re-evaluation and reset semantics remain Pending until that evaluator capability exists; no browser-side evaluation is introduced.
 
 Private Worker 8 Fas 3 trusted measurement currently requires five complete Echo cards. Simulated builds with 0–4 Echoes therefore remain evaluator-Pending until a future private capability explicitly supports partial builds. This direction does not authorize fake browser evaluation or an availability claim for five cards without private ingress. When an Echo is accepted, that build becomes the new **simulated Current**; future candidates must be reassessed against it. The original real build remains untouched. Short public feedback reflects evaluator results without publishing the private reasoning machinery.
 

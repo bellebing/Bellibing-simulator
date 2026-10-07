@@ -4,7 +4,7 @@ The visible controls are Character Target / Gate / Every Echo / Flex Stats with 
 
 Recommended Character Target displays only an unambiguous source-backed modern DEFAULT Calc reference. Source families never fill gaps in one another. Missing references display Pending.
 
-Recommended Every Echo and Flex Stats guidance is Pending while the private runtime is unavailable. Customize preserves user-owned selection, order and exact canonical roll-tier inputs. No hidden acceptance or stopping fields are browser exports.
+The accepted PR #224 presentation baseline remains the shared four-column expansion, Recommended / Customize, discrete per-stat roll controls and Show other stats. Recommended Every Echo and Flex Stats display reviewed relevance in canonical order with read-only controls; an unavailable minimum displays Pending without a selected tier while the private runtime is unavailable. Customize preserves user-owned selection, order and exact canonical roll-tier inputs. No hidden acceptance or stopping fields are browser exports.
 
 Settings remain Character-isolated. Context/source drift suspends incompatible saved intent; reset is explicit. Storage failures retain recovery data. Existing v2 data is not overwritten, and source recovery does not invent or retarget user choices. Legacy settings containing retired fields require review instead of being executed.
 

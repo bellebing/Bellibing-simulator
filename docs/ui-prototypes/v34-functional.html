@@ -2342,7 +2342,7 @@ function makePicker({shellId,wheelId,items,mode}){
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
-  function confirmPickerSwitch(){if(pending){autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()}
+  function confirmPickerSwitch(){if(pending){if(!(mode==='improve'&&improveUi.simulator))autosave(selected,{lastLeftAt:new Date().toISOString()});select(pending)}closeDialog()}
   function render(){
     list=source().filter(Boolean);carousel?.destroy();carousel=null;wheel.innerHTML='';cards=[];
     if(!list.length){
@@ -2450,7 +2450,7 @@ const characterBuildCardUi={
 
 const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()=>releasedCharacters,mode:'build'});
 const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get(IMPROVE_PREVIEW_CHARACTER);return augusta?[augusta]:ownedItems},mode:'improve'});
-document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()});show('home')});
+document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(!improveUi.simulator){if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()})}show('home')});
 document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
 document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
 document.getElementById('weaponClose').onclick=()=>weaponUi.hide();

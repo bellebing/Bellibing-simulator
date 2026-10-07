@@ -16,6 +16,8 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     autosave('Augusta',{weaponId:'thunderflare-dominion',sequenceLevel:1});show('improve');improvePicker.select('Augusta');
     return true;
   })()`);await sleep(800);
+  await read(`(()=>{const item=echoCatalog.find(row=>row.name==='Iceglint Dancer');improveUi.candidate={echoId:item.id,selectedSonataSetId:item.sonataSetIds[0]};improveUi.renderCandidate()})()`);
+  const realCandidate=await read('JSON.stringify(improveUi.candidate)');
   const stored=await read('localStorage.getItem(KEY)'), real=await read('JSON.stringify(state)');
   const unchanged=async message=>{await check('localStorage.getItem(KEY)==='+JSON.stringify(stored)+'&&JSON.stringify(state)==='+JSON.stringify(real),message)};
   await check('!improveUi.simulator&&document.querySelectorAll(".simulator-trash").length===0&&improveUi.currentWeapon().id==="thunderflare-dominion"','Current mode changed');
@@ -26,7 +28,7 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await check('improveUi.simulator.selectedSlot===5&&improveUi.selectedEchoIndex===4','free slot selection failed');
   await click('#improveNewEcho');await waitForUi(send,'echoUi.open&&echoUi.context.kind==="candidate"','New Echo chooser not opened');await sleep(650);
   await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','Candidate chooser not closed');
-  await check('!!improveUi.simulator.slots[4].candidate&&!improveUi.candidate&&document.getElementById("improveHelperTitle").textContent==="Evaluator Pending"','candidate isolation/Pending failed');
+  await check('!!improveUi.simulator.slots[4].candidate&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.getElementById("improveHelperTitle").textContent==="Evaluator Pending"','candidate isolation/Pending failed');
   await unchanged('choose candidate mutated real state');
   // Observed checkpoints come from the existing canonical card editor contract.
   // Dispositions are explicit fixtures, never computed from Target or stat quality.
@@ -67,14 +69,15 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await click('#simulatorReset');await unchanged('reset mutated real state');
   await check('improveUi.simulator.slots.every(s=>!s.candidate&&!s.trash.length&&!s.accepted.length)','reset retained histories');
   await click('#simulatorCurrent');await unchanged('exit mutated real state');
-  await check('!improveUi.simulator&&document.querySelectorAll(".simulator-trash").length===0','exit did not restore Current');
+  await check('!improveUi.simulator&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.querySelectorAll(".simulator-trash").length===0','exit did not restore Current/Candidate');
   await click('#simulatorEnter');await read('__simulatorFixture("accepted")');await navigate(send);
   await waitForUi(send,'echoDataLoaded&&window.bellibingEchoSimulator&&releasedCharacters.length===59','reload not ready');
   await check('!improveUi.simulator&&localStorage.getItem(KEY)==='+JSON.stringify(stored),'reload leaked simulated equipment');
   await read("show('improve');improvePicker.select('Augusta');improveUi.startSimulation();improveUi.setCharacter('Cartethyia')");
   await check('!improveUi.simulator&&improveUi.characterId==="cartethyia"','Character switch retained sandbox');
   await click('#simulatorEnter');await check('improveUi.simulator.evaluator.status==="PENDING"','Cartethyia falsely evaluatable');
-  await read("show('home')");await check('!improveUi.simulator','navigation retained sandbox');
+  const navigationState=await read('JSON.stringify(state)'),navigationStorage=await read('localStorage.getItem(KEY)');
+  await click('.page.active [data-home]');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(navigationState)+'&&localStorage.getItem(KEY)==='+JSON.stringify(navigationStorage),'physical Home exit retained sandbox or wrote real navigation metadata');
   console.log('Echo Simulator Foundation: browser isolation, five piles, free slot selection, fixture histories/dispositions, inspection, stack growth, reset/exit/reload and Pending passed at 1440/1920/2560.');
 }
 

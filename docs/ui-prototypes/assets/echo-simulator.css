@@ -15,3 +15,5 @@
 .simulator-inspection::backdrop{background:#080a10c9}.simulator-inspection section{margin:12px 0;padding:8px;border:1px solid #3e424c;border-radius:8px}.simulator-inspection p{margin:5px 0}
 #improveBuildCard[data-simulator="true"] .improve-helper-fine,#improveBuildCard[data-simulator="true"] .improve-helper-note{display:none}
 @media(max-width:760px){.simulator-modes{position:static;flex-wrap:wrap;width:100%}.simulator-slot{flex:0 0 120px}.simulator-slot>.improve-equipped-echo{flex:none}}
+
+.simulator-checkpoint-stats{display:grid;grid-template-columns:1fr auto;gap:6px 20px}.simulator-checkpoint-stats dd{margin:0;text-align:right}

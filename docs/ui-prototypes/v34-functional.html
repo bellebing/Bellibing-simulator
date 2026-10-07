@@ -2126,11 +2126,11 @@ const improveUi={
     if(item){
       const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item.name;
       const art=document.createElement('div');art.className='improve-echo-large-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.append(image);
-      button.className='improve-candidate-edit';button.textContent='Change Echo';head.lastElementChild.replaceWith(button);
+      button.className='improve-candidate-edit';button.textContent='Change Echo';if(this.simulator)head.lastElementChild.textContent='Sandbox · Echo '+(this.selectedEchoIndex+1);else head.lastElementChild.replaceWith(button);
       const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
       const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
-      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?'Main stat — · Level —':'Level +'+slot.level;if(this.simulator&&slot.mainStat)host.append(this.echoStats(slot));
-      host.append(title,art,meta,sonata,pending);
+      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?'Main stat — · Level —':'Level +'+slot.level;
+      host.append(title,art,meta,sonata,pending);if(this.simulator&&slot.mainStat)host.append(this.echoStats(slot));
     }else{
       const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
     }
@@ -2152,7 +2152,7 @@ const improveUi={
         const model=window.bellibingEchoSimulator;
         column.append(model.renderTrashPile(this.simulator,index+1,card=>echoById.get(echoSlotId(card))?.name||card.echoId,
           (slot,id)=>{this.simulator=model.inspectSimulatorTrash(this.simulator,slot,id)},
-          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)}));host.append(column);
+          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)},echoStatValueText));host.append(column);
       }else host.appendChild(button);
     }
   },

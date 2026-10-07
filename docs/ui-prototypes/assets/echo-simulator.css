@@ -1,0 +1,17 @@
+.simulator-modes{position:absolute;right:14px;top:-38px;display:flex;align-items:center;gap:6px;font-size:11px}
+.simulator-modes button,.simulator-trash button,.simulator-inspection button{font:inherit;color:#ddd3be;background:#1c2028;border:1px solid #6c6251;border-radius:8px;padding:6px 10px;cursor:pointer}
+.simulator-modes button[aria-pressed="true"]{border-color:#d8b152;color:#fff0c5}
+.simulator-modes button:focus-visible,.simulator-trash button:focus-visible{outline:2px solid #d8b152;outline-offset:2px}
+.simulator-modes [hidden]{display:none}
+.simulator-session-note{color:#abb2bc}
+.simulator-slot{min-width:0;display:flex;flex-direction:column;gap:12px}
+.simulator-slot>.improve-equipped-echo{width:100%;flex:1}
+.simulator-trash{min-width:0;font-size:10px;color:#b6bac2;text-align:center;padding:6px 2px 12px;border-top:1px solid #5b5361}
+.simulator-trash strong{font-weight:500}.simulator-trash-stack{position:relative;min-height:calc(44px + var(--pile-depth)*3px);margin:8px 3px 4px}
+.simulator-card-back{position:absolute;left:calc(var(--card-offset)*1px);right:calc(8px - var(--card-offset)*1px);top:calc(var(--card-offset)*3px);height:42px;border:1px solid #655c69;border-radius:7px;background:#22212a}
+.simulator-pile-top{position:relative;margin-top:calc(var(--pile-depth)*3px);width:100%;min-height:42px;font-size:10px!important;overflow-wrap:anywhere}
+.simulator-trash details{margin-top:10px}.simulator-trash summary{cursor:pointer}.simulator-trash details button{display:block;width:100%;margin-top:5px;overflow-wrap:anywhere}
+.simulator-inspection{max-width:min(420px,90vw);max-height:80vh;color:#eee;background:#181b23;border:1px solid #8c7955;border-radius:16px;padding:22px;overflow:auto;font:13px var(--font-ui)}
+.simulator-inspection::backdrop{background:#080a10c9}.simulator-inspection section{margin:12px 0;padding:8px;border:1px solid #3e424c;border-radius:8px}.simulator-inspection p{margin:5px 0}
+#improveBuildCard[data-simulator="true"] .improve-helper-fine,#improveBuildCard[data-simulator="true"] .improve-helper-note{display:none}
+@media(max-width:760px){.simulator-modes{position:static;flex-wrap:wrap;width:100%}.simulator-slot{flex:0 0 120px}.simulator-slot>.improve-equipped-echo{flex:none}}

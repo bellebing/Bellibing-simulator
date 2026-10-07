@@ -14,4 +14,4 @@ Improvement Cost / evaluator uses a private decision-engine contract. Proprietar
 
 Build Need, Improvement Cost, comparison and evaluator output remain Pending. Browser verification covers built and repository-source previews, canonical tier input, persistence/recovery, isolation and neutral Pending states.
 
-See [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) for accepted future reuse of this Improve workspace with Current/Simulate sandbox separation. This reference does not activate simulator UI or change the current settings contract.
+See [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) for accepted future reuse of this Improve workspace with Current/Simulate sandbox separation. The bounded [Echo Simulator Foundation candidate](ECHO_SIMULATOR_FOUNDATION.md) adds an isolated Simulate workspace; Current retains this settings contract, and settings are read-only inside the sandbox. Evaluator output remains Pending.

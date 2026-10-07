@@ -62,16 +62,16 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 ## Nearest roadmap
 
-Private runtime foundation and Worker 8 Fas 2 are complete. Real Character comparison / usefulness / DPS remains Pending; foundation completion does not establish real Build Need readiness.
+Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
 
 1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
-2. Worker 8 Fas 3: real Current measurement and source/context-valid Character usefulness / outcome assessment for a small cohort.
-3. [Echo Simulator Foundation](ECHO_SIMULATOR_DIRECTION.md): accepted future Improve sandbox with per-slot cards/Trash Piles, downstream of real Build Need / usefulness readiness.
+2. Worker 8 Fas 3 COMPLETE for the bounded STAT_TARGET pilots above; broader readiness remains Pending.
+3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): Worker 12 OPEN / UNMERGED candidate with a memory-only Improve sandbox, Current/Simulate, five slot cards/Trash Piles and inspectable histories. Production decisions remain Pending; no private ingress exists.
 4. Improvement Cost through repeated simulation, keeping Tuners / Tubes / Echoes separate.
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.
 
-Fas 3, simulator, Improvement Cost and farming are not complete or active. Tube conversion and the separate completion criterion remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+Worker 12 is not COMPLETE before merge and post-merge verification. Real evaluator ingress, Improvement Cost and farming remain Pending. Tube conversion and the separate completion criterion remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 
@@ -92,7 +92,7 @@ Do not infer missing values, timing, ownership, stacking, scope, rotations or da
 - [Character Recommendations — Augusta review](CHARACTER_RECOMMENDATIONS_AUGUSTA_REVIEW.md) — recommendation schema/source review.
 - [Character Recommendations — DPR review](CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md) — DPR source roles, coverage and mapped inventory.
 - [Character Database](CHARACTER_DATABASE.md) — current Character data/export consumer contract.
-- [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) — accepted future Improve simulator product direction; implementation and readiness remain Pending.
+- [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) — accepted long-term Improve simulator product direction; bounded foundation candidate described separately, real evaluator readiness remains Pending.
 - [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) — downstream team-selection product/architecture contract.
 
 Historical PR/checkpoint/CI evidence belongs in GitHub and the Handoff update log. It is intentionally not duplicated here.

@@ -79,7 +79,7 @@ cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-st
 cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/skills-runtime.json');
 
 cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');
-for (const asset of ['character-build-card.js', 'character-build-card.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
+for (const asset of ['character-build-card.js', 'character-build-card.css', 'echo-simulator.js', 'echo-simulator.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
 for (const asset of ['improve-settings.js', 'improve-settings.css', 'character-target-presentation.js', 'echo-policy-presentation.mjs', 'improve-settings']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset, { recursive: true });
 
 verifyPublicArtifact();

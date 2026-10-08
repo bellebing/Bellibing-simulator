@@ -165,10 +165,10 @@ export function optimizeTubesToCheckpoint(
   const need = Math.max(0, CHECKPOINT_CUMULATIVE_COST[target].exp - state.progress.cumulativeEchoEXP);
   if (need === 0) return [];
   const maxUseful = need + Math.max(...IDS.map(id => VALUES[id])) - 1;
-  const upper = IDS.map(id => Math.min(
-    Math.ceil(maxUseful / VALUES[id]),
-    state.inventory.tubes[id].kind === 'UNLIMITED' ? Infinity : state.inventory.tubes[id].count,
-  ));
+  const upper = IDS.map(id => {
+    const quantity = state.inventory.tubes[id];
+    return Math.min(Math.ceil(maxUseful / VALUES[id]), quantity.kind === 'UNLIMITED' ? Infinity : quantity.count);
+  });
   const found: TubePath[] = [];
   const current = zeroCounts();
   function visit(index: number, total: number): void {

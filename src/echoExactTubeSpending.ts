@@ -190,7 +190,10 @@ export function optimizeTubesToCheckpoint(
   }
   visit(0, 0);
   const dominates = (a: TubePath, b: TubePath): boolean => {
-    let strict = false;
+    const aEXP = a.transaction.state.progress.cumulativeEchoEXP;
+    const bEXP = b.transaction.state.progress.cumulativeEchoEXP;
+    if (aEXP < bEXP) return false;
+    let strict = aEXP > bEXP;
     for (const id of IDS) {
       const x = a.transaction.state.inventory.tubes[id];
       const y = b.transaction.state.inventory.tubes[id];

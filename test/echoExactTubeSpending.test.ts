@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { emptyResourceInventory } from '../src/resourceInventory.ts';
 import {
   checkpointEligibleAtEXP, decomposeMaxOverflow, spendExactTubes,
-  tuneEligibleCheckpoint, optimizeTubesToCheckpoint, MAX_RANK5_ECHO_EXP,
+  tuneEligibleCheckpoint, optimizeTubesToCheckpoint, optimizeTubeCheckpointHorizon, MAX_RANK5_ECHO_EXP,
 } from '../src/echoExactTubeSpending.ts';
 import type { ExactResourceState, TubeCounts } from '../src/echoExactTubeSpending.ts';
 const tubes = (premium=0, advanced=0, medium=0, basic=0): TubeCounts =>
@@ -77,4 +77,13 @@ test('tuner spending is separate and insufficient tuners fail', () => {
   const noTuners: ExactResourceState = { ...state, inventory: { ...state.inventory, tuners: { kind: 'FINITE', count: 9 } } };
   assert.throws(() => tuneEligibleCheckpoint(noTuners, 0), /Insufficient/);
   assert.equal(noTuners.progress.tunedThrough, 0);
+});
+
+test('finite inventory lookahead retains resource-sensitive paths and EXP carry', () => {
+  const s = fixture(0, tubes(2, 2, 0, 1));
+  const paths = optimizeTubeCheckpointHorizon(s, [5, 10], 0);
+  assert.ok(paths.length > 0);
+  assert.ok(paths.every(p => p.state.progress.cumulativeEchoEXP >= 16500));
+  assert.ok(paths.every(p => p.steps.length >= 1 && p.steps.length <= 2));
+  assert.ok(paths.some(p => p.steps[0]?.transaction.ledger.expAfter === 4500));
 });

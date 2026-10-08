@@ -62,17 +62,23 @@ test('tube-only reachability is in multiples of 500', () => {
   const a = spendExactTubes(fixture(140000), tubes(0, 0, 3), 0);
   assert.equal(a.ledger.unrepresentableEXP, 400);
 });
-test('all unlimited stock stays symbolic; equivalent multisets share a cap witness', () => {
+test('unlimited feasibility preserves cheaper +5 opportunities and exact costs', () => {
   const state = fixture(0, tubes(), true);
   const paths = optimizeTubesToCheckpoint(state, 5, 0);
-  assert.equal(paths.length, 1);
-  assert.equal(paths[0].transaction.state.progress.cumulativeEchoEXP, MAX_RANK5_ECHO_EXP);
-  assert.deepEqual(paths[0].spent, tubes(28, 1, 1));
+  assert.deepEqual(paths.map(p => p.transaction.ledger.suppliedEXP), [4500, 5000, 6000]);
+  assert.deepEqual(paths, optimizeTubesToCheckpoint(state, 5, 0));
+  const cheaper = paths[0].transaction.state, higher = paths[1].transaction.state;
+  assert.equal(resourceStateDominates(higher, cheaper), false);
   const bounded = optimizeTubesToCheckpoint(state, 5, 0, { maxSuppliedEXP: 4500 });
   assert.deepEqual(bounded[0].spent, tubes(0, 2, 0, 1));
+  assert.deepEqual(optimizeTubesToCheckpoint(state, 5, 0, { maxSuppliedEXP: 4399 }), []);
   for (const p of paths) {
-    assert.equal(p.transaction.state.inventory.tubes.premium.kind, 'UNLIMITED');
+    assert.ok(ids.every(id => p.transaction.state.inventory.tubes[id].kind === 'UNLIMITED'));
+    assert.equal(p.transaction.ledger.suppliedEXP, expOf(p.spent));
+    assert.ok(p.transaction.ledger.suppliedEXP > 0);
     assert.ok(p.transaction.state.progress.cumulativeEchoEXP >= 4400);
+    assert.ok(p.transaction.state.progress.cumulativeEchoEXP < 16500);
+    assert.equal(p.transaction.state.progress.tunedThrough, 0);
   }
 });
 test('tuner spending is separate and insufficient tuners fail', () => {
@@ -231,17 +237,24 @@ test('unlimited Gold supports smaller denomination residues without a fake inven
   const mixed = { ...s, inventory: { ...s.inventory, tubes: { ...s.inventory.tubes, premium: { kind: 'UNLIMITED' as const } } } };
   const actual = optimizeTubesToCheckpoint(mixed, 25, 0);
   // Enumerate well beyond the proven Gold bound, then ignore symbolic Gold.
-  const exhaustive = new Map<string, ExactResourceState>();
+  const exhaustive = new Map<string, { state: ExactResourceState; cost: number }>();
   for (let g = 0; g <= 6; g++) for (let p = 0; p <= 3; p++)
     for (let b = 0; b <= 3; b++) for (let r = 0; r <= 3; r++) {
       const c = tubes(g, p, b, r);
       if (expOf(c) < 2600) continue;
       const outcome = spendExactTubes(mixed, c, 0).state;
-      exhaustive.set(key(outcome), outcome);
+      const cost = expOf(c), previous = exhaustive.get(key(outcome));
+      if (!previous || cost < previous.cost) exhaustive.set(key(outcome), { state: outcome, cost });
     }
-  const rows = [...exhaustive.values()];
+  const costRows = [...exhaustive.values()];
+  const rows = costRows.map(row => row.state);
   const expected = rows.filter(a => !rows.some(b => a !== b && resourceStateDominates(b, a))).map(key).sort();
-  assert.deepEqual(actual.map(p => key(p.transaction.state)).sort(), expected);
+  // Preserve the original future-inventory oracle projection as well.
+  const actualStates = actual.map(p => p.transaction.state);
+  assert.deepEqual(actualStates.filter(a => !actualStates.some(b => a !== b && resourceStateDominates(b, a))).map(key).sort(), expected);
+  const costExpected = costRows.filter(a => !costRows.some(b => a !== b && b.cost <= a.cost &&
+    resourceStateDominates(b.state, a.state))).map(a => [key(a.state), a.cost]).sort();
+  assert.deepEqual(actual.map(p => [key(p.transaction.state), p.transaction.ledger.suppliedEXP]).sort(), costExpected);
 });
 test('work guards fail closed for huge finite inventories and share horizon budget', () => {
   assert.throws(() => optimizeTubesToCheckpoint(fixture(0, tubes(1e9, 1e9, 1e9, 1e9)), 25, 0, { maxSearchWork: 1000 }),
@@ -250,12 +263,47 @@ test('work guards fail closed for huge finite inventories and share horizon budg
     (e: unknown) => e instanceof TubeSearchError && e.code === 'SEARCH_LIMIT');
   assert.deepEqual(optimizeTubesToCheckpoint(fixture(0, tubes()), 25, 0), []);
 });
-test('all-unlimited five-checkpoint horizon terminates with one symbolic cap witness', () => {
-  const paths = optimizeTubeCheckpointHorizon(fixture(0, tubes(), true), [5, 10, 15, 20, 25], 0, { maxSearchWork: 20 });
+test('all-unlimited horizons preserve checkpoint decisions and cumulative exact spend', () => {
+  const s = fixture(0, tubes(), true);
+  const two = optimizeTubeCheckpointHorizon(s, [5, 10], 0);
+  assert.ok(two.some(p => p.steps[0].transaction.ledger.expAfter === 4500));
+  assert.ok(two.every(p => p.steps.length === 2));
+  assert.deepEqual(two, optimizeTubeCheckpointHorizon(s, [5, 10], 0));
+  const paths = optimizeTubeCheckpointHorizon(s, [5, 10, 15, 20, 25], 0, { maxSearchWork: 100000 });
   assert.equal(paths.length, 1);
-  assert.equal(paths[0].steps.length, 1);
+  for (const p of [...two, ...paths]) {
+    assert.equal(p.cumulativeSuppliedEXP, p.steps.reduce((n, step) => n + expOf(step.spent), 0));
+    assert.equal(p.cumulativeSuppliedEXP, p.steps.reduce((n, step) => n + step.transaction.ledger.suppliedEXP, 0));
+    assert.ok(ids.every(id => p.state.inventory.tubes[id].kind === 'UNLIMITED'));
+    assert.ok(p.steps[0].transaction.ledger.expAfter < 16500);
+  }
+  assert.equal(paths[0].steps.length, 5);
   assert.equal(paths[0].state.progress.cumulativeEchoEXP, 142600);
-  assert.ok(ids.every(id => paths[0].state.inventory.tubes[id].kind === 'UNLIMITED'));
+  assert.equal(paths[0].cumulativeSuppliedEXP, 143000);
+  assert.throws(() => optimizeTubesToCheckpoint(s, 5, 0, { maxSearchWork: 1 }),
+    (e: unknown) => e instanceof TubeSearchError && e.code === 'SEARCH_LIMIT');
+});
+test('all-unlimited checkpoint bound matches independent minimal-multiset enumeration', () => {
+  // No production transaction/dominance helper in this oracle.
+  for (const exp of [0, 1, 4400, 141100]) for (const [target, threshold] of
+    [[5, 4400], [10, 16500], [15, 39600], [20, 79100], [25, 142600]] as const) {
+    const need = threshold - exp;
+    if (need <= 0) continue;
+    const expected = new Set<number>();
+    for (let g = 0; g <= Math.ceil(need / 5000); g++)
+      for (let p = 0; p <= Math.ceil(need / 2000); p++)
+        for (let b = 0; b <= Math.ceil(need / 1000); b++) {
+          const partial = g * 5000 + p * 2000 + b * 1000;
+          const r = Math.max(0, Math.ceil((need - partial) / 500));
+          const total = partial + r * 500;
+          if (total < need || total > Math.ceil((142600 - exp) / 500) * 500) continue;
+          if ((g && total - 5000 >= need) || (p && total - 2000 >= need) ||
+              (b && total - 1000 >= need) || (r && total - 500 >= need)) continue;
+          expected.add(total);
+        }
+    const actual = optimizeTubesToCheckpoint(fixture(exp, tubes(), true), target, 0, { maxSearchWork: 50000 });
+    assert.deepEqual(actual.map(p => p.transaction.ledger.suppliedEXP), [...expected].sort((a, b) => a - b));
+  }
 });
 test('transaction conservation, exact deductions and general remainders over deterministic properties', () => {
   let seed = 15;

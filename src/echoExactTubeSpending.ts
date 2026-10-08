@@ -187,15 +187,14 @@ function allTubesUnlimited(state: ExactResourceState): boolean {
 /**
  * Equal exact EXP permits identical future spends and identical cap returns.
  * Greater EXP alone does not: largest-first returns can lose a denomination.
- * Only when both Tube inventories are all unlimited is greater EXP safe.
+ * Unlimited affects feasibility, never the cost of reaching a state.
  * Tuners, Echoes and tunedThrough remain future-relevant; revision is an owner
- * token, not a resource objective. Equal outcomes retain one executable witness.
+ * token, not a resource objective. This is an inventory-only relation; path
+ * dominance additionally requires no greater ledger/cumulative supplied EXP.
  */
 export function resourceStateDominates(a: ExactResourceState, b: ExactResourceState): boolean {
   if (a.progress.tunedThrough !== b.progress.tunedThrough) return false;
-  if (a.progress.cumulativeEchoEXP !== b.progress.cumulativeEchoEXP &&
-    !(allTubesUnlimited(a) && allTubesUnlimited(b) &&
-      a.progress.cumulativeEchoEXP >= b.progress.cumulativeEchoEXP)) return false;
+  if (a.progress.cumulativeEchoEXP !== b.progress.cumulativeEchoEXP) return false;
   return quantityAtLeast(a.inventory.echoes, b.inventory.echoes) &&
     quantityAtLeast(a.inventory.tuners, b.inventory.tuners) &&
     IDS.every(id => quantityAtLeast(a.inventory.tubes[id], b.inventory.tubes[id]));
@@ -206,11 +205,14 @@ function stateKey(state: ExactResourceState): string {
     q(state.inventory.echoes), q(state.inventory.tuners), ...IDS.map(id => q(state.inventory.tubes[id]))]);
 }
 function retainFrontier<T>(candidates: readonly T[], getState: (value: T) => ExactResourceState,
-  work: () => void): T[] {
-  // Bucket by exact EXP; only all-unlimited permits comparison across buckets.
+  getCost: (value: T) => number, work: () => void): T[] {
+  // Cheapest witness first: symbolic inventory must not erase spend history.
+  // Equal canonical supplied EXP and future state share one witness.
+  const ordered = [...candidates].sort((a, b) => getCost(a) - getCost(b));
+  // Inventory dominance is conservative and compares only equal exact EXP.
   const groups = new Map<number, T[]>();
   const seen = new Set<string>();
-  for (const candidate of candidates) {
+  for (const candidate of ordered) {
     work();
     const state = getState(candidate), key = stateKey(state);
     if (seen.has(key)) continue;
@@ -225,16 +227,17 @@ function retainFrontier<T>(candidates: readonly T[], getState: (value: T) => Exa
       groups.set(state.progress.cumulativeEchoEXP, group);
       continue;
     }
-    const bucket = allTubesUnlimited(state) ? -1 : state.progress.cumulativeEchoEXP;
+    const bucket = state.progress.cumulativeEchoEXP;
     const group = groups.get(bucket) ?? [];
-    if (group.some(other => { work(); return resourceStateDominates(getState(other), state); })) continue;
-    groups.set(bucket, group.filter(other => { work(); return !resourceStateDominates(state, getState(other)); }).concat(candidate));
+    if (group.some(other => { work(); return getCost(other) <= getCost(candidate) && resourceStateDominates(getState(other), state); })) continue;
+    groups.set(bucket, group.filter(other => { work(); return !(getCost(candidate) <= getCost(other) && resourceStateDominates(state, getState(other))); }).concat(candidate));
   }
   return [...groups.values()].flat();
 }
 /**
  * Enumerate multisets, including deliberate carry and cap denomination changes.
- * No immediate-target bound or removable-item pruning is valid here.
+ * Finite/mixed inventories have no immediate-target/removable-item pruning.
+ * All-unlimited uses deferrable-spend checkpoint witnesses (see contract).
  *
  * Finite smaller denominations use their actual stock. Extra Gold beyond
  * ceil((cap - EXP)/5000) always returns that same Gold, so one witness suffices.
@@ -262,12 +265,36 @@ function optimizeCheckpoint(state: ExactResourceState, target: EchoLevel, expect
   if (need === 0) return [];
   const capNeed = MAX_RANK5_ECHO_EXP - state.progress.cumulativeEchoEXP;
   if (allTubesUnlimited(state)) {
-    work();
-    const supplied = Math.min(Math.ceil(capNeed / 500) * 500,
-      Math.floor((options.maxSuppliedEXP ?? MAX_RANK5_ECHO_EXP + 500) / 500) * 500);
-    if (supplied < need) return [];
-    const spent = decomposeMaxOverflow(supplied).returned;
-    return [{ spent, transaction: spendExactTubes(state, spent, expectedRevision) }];
+    // A removable Tube buys no finite stock: defer it until after observation.
+    // Minimal multisets have total < need + largest Tube. For each reachable
+    // total keep one exact denomination witness; canonical Tube EXP is the
+    // cost dimension, with no exchange rate to Tuners or Echoes.
+    const paths: TubePath[] = [];
+    const upper = Math.min(need + VALUES.premium - 1,
+      Math.ceil(capNeed / VALUES.basic) * VALUES.basic, options.maxSuppliedEXP ?? Infinity);
+    for (let total = Math.ceil(need / VALUES.basic) * VALUES.basic; total <= upper; total += VALUES.basic) {
+      const excess = total - need;
+      const spent = zeroCounts();
+      const impossible = new Set<string>();
+      function witness(index: number, remaining: number): boolean {
+        work();
+        if (index === IDS.length) return remaining === 0;
+        const key = `${index}:${remaining}`;
+        if (impossible.has(key)) return false;
+        const id = IDS[index], value = VALUES[id];
+        // Every spent item must be necessary to reach this opportunity.
+        const max = value > excess ? Math.floor(remaining / value) : 0;
+        for (let n = max; n >= 0; n--) {
+          spent[id] = n;
+          if (witness(index + 1, remaining - n * value)) return true;
+        }
+        spent[id] = 0;
+        impossible.add(key);
+        return false;
+      }
+      if (witness(0, total)) paths.push({ spent, transaction: spendExactTubes(state, spent, expectedRevision) });
+    }
+    return retainFrontier(paths, path => path.transaction.state, path => path.transaction.ledger.suppliedEXP, work);
   }
   const goldUnlimited = state.inventory.tubes.premium.kind === 'UNLIMITED';
   if (!goldUnlimited && options.maxSuppliedEXP === undefined &&
@@ -304,12 +331,14 @@ function optimizeCheckpoint(state: ExactResourceState, target: EchoLevel, expect
     current[id] = 0;
   }
   visit(0, 0);
-  return retainFrontier(found, path => path.transaction.state, work);
+  return retainFrontier(found, path => path.transaction.state, path => path.transaction.ledger.suppliedEXP, work);
 }
 
 /** One witness per nondominated outcome, without tuning or evaluator policy. */
 export interface TubeHorizonPath {
   readonly steps: readonly TubePath[];
+  /** Gross supplied Tube EXP; refunds stay separately inspectable in ledgers. */
+  readonly cumulativeSuppliedEXP: number;
   readonly state: ExactResourceState;
 }
 /**
@@ -332,7 +361,7 @@ export function optimizeTubeCheckpointHorizon(
     throw new RangeError('Horizon must contain increasing tuning checkpoints');
   }
   if (expectedRevision !== state.revision) throw new Error('Stale resource revision');
-  let paths: TubeHorizonPath[] = [{ steps: [], state }];
+  let paths: TubeHorizonPath[] = [{ steps: [], state, cumulativeSuppliedEXP: 0 }];
   for (const target of targets) {
     const next: TubeHorizonPath[] = [];
     for (const path of paths) {
@@ -342,10 +371,11 @@ export function optimizeTubeCheckpointHorizon(
         continue;
       }
       for (const step of optimizeCheckpoint(path.state, target, path.state.revision, options, work)) {
-        next.push({ steps: [...path.steps, step], state: step.transaction.state });
+        next.push({ steps: [...path.steps, step], state: step.transaction.state,
+          cumulativeSuppliedEXP: addSafe(path.cumulativeSuppliedEXP, step.transaction.ledger.suppliedEXP) });
       }
     }
-    paths = retainFrontier(next, path => path.state, work);
+    paths = retainFrontier(next, path => path.state, path => path.cumulativeSuppliedEXP, work);
     if (paths.length === 0) return [];
   }
   return paths;

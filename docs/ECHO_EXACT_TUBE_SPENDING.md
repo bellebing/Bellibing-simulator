@@ -28,13 +28,14 @@ Unsafe integer arithmetic rejects atomically instead of rounding holdings or EXP
 ## Search contract and corrections
 
 The optimizer returns one executable witness per nondominated **future resource
-state**, rather than a denomination score, greedy recommendation or evaluator
+state and exact Tube cost**, rather than a denomination score, greedy recommendation or evaluator
 min-max policy. Search includes deliberate overspend, exact carry and cap returns.
 A target already eligible is a no-op; the horizon skips already-eligible targets.
 No tuning, rejection/acceptance or future-Echo orchestration occurs in the search.
 Cap inventories remain available for a later consumer to compare future Echoes.
 
-The immediate `need + maxTube - 1` bound and removable-item pruning are unsound.
+For finite/mixed holdings, an immediate `need + maxTube - 1` bound and removable-item
+pruning are unsound.
 At 141,600 EXP with 11 Blue, spending one Blue reaches cap without return, leaving
 10 Blue. Spending all 11 supplies 11,000 EXP and returns two Gold. Neither inventory
 componentwise dominates the other; the latter exceeds the old 5,999 EXP bound.
@@ -47,10 +48,24 @@ The higher-EXP state cannot reproduce the same denomination receipt by that spen
 The corrected conservative relation requires equal EXP, equal tunedThrough and
 componentwise no fewer Tubes, Tuners and Echoes, treating unlimited symbolically.
 Identical subsequent spends then produce identical cap returns and preserve that
-inventory ordering. Equal states share one witness; revision is an owner token,
+inventory ordering. Equal states share the least-cost witness; revision is an owner token,
 not a resource objective. Distinct incomparable denominations remain separate.
-Only with all four Tube denominations unlimited is greater EXP safely dominant:
-all future Tube spends leave every denomination unlimited and tuning remains explicit.
+Greater EXP is not safely dominant even with all four Tube denominations unlimited:
+it required spending resources before a checkpoint observation. UNLIMITED removes
+inventory exhaustion; it never erases transaction cost. Path dominance additionally
+requires no greater gross supplied Tube EXP. Each ledger retains exact spent and
+returned counts by denomination, supplied EXP and cap loss; horizon paths expose
+`cumulativeSuppliedEXP`, the safe-integer sum of their transaction supplied EXP.
+Returns are separate receipts, not a deduction that hides gross spending. Canonical
+Tube EXP is an exact within-Tube comparison dimension, never a scalar exchange rate
+for Echoes or Tuners. Equal-state/equal-cost denomination witnesses are mechanically
+equivalent when symbolic holdings are unchanged; search chooses one deterministically.
+Consumers needing denomination preferences must supply that separate policy.
+
+Search never tunes/observes/decides. A future driver must spend to one opportunity,
+tune, observe, decide and only then request the next spend. Horizon witnesses show
+conditional continued reachability and inspectable spend history; they are not
+expected rejection cost or an evaluator policy.
 
 For all-finite Tube states derived from the same input, equal EXP also means equal
 weighted remaining inventory EXP. Supplied totals differ by multiples of 500;
@@ -75,8 +90,22 @@ This conservation proof is an internal pruning proof, not a denomination valuati
   can return arbitrarily many finite Gold. There is no finite complete frontier
   in the symbolic model. Default search throws `UNBOUNDED_FRONTIER`. An explicit
   `maxSuppliedEXP` defines a finite per-transaction domain; it is not inferred stock.
-- All-unlimited has one maximal reachable EXP witness, found directly without
-  multiset enumeration. An explicit spend bound limits that reachable EXP.
+- All-unlimited uses checkpoint-essential multisets: removing any spent item must
+  make the requested threshold unreachable. A removable item yields no finite
+  denomination receipt, so it can be deferred until after observation, reducing
+  reject cost while preserving the option to buy the same carry if continuing.
+  This argument applies only when **every** Tube denomination is unlimited.
+  An essential multiset has `suppliedEXP < need + largestTube`: otherwise any item
+  can be removed. Cap-reaching totals above the first reachable multiple of 500
+  have identical progress/stock and higher gross cost, and are discarded too.
+  Enumerate at most ten 500-EXP totals in this interval. For each, only denominations
+  strictly greater than `total - need` can occur. A memoized four-denomination
+  integer search constructs one witness per feasible exact total, without fake
+  stock. Equal total means equal exact progress, gross cost and symbolic inventory;
+  other denomination witnesses have no distinct mechanical future. The memo has
+  at most four times 287 remainder states per total. An explicit `maxSuppliedEXP`
+  intersects this domain. Fresh +5 retains 4500, 5000 and 6000 EXP, never a cap jump;
+  fresh +25 has one 143000-EXP witness with 400 cap loss.
 - Each remaining multiset is enumerated once. `maxSearchWork` defaults to 250,000
   counted traversal/frontier operations, shared across an entire horizon. Exhaustion
   throws `SEARCH_LIMIT`; no partial list is returned as a complete answer. Safe-integer
@@ -87,7 +116,9 @@ This conservation proof is an internal pruning proof, not a denomination valuati
 
 The regression suite uses an independent exhaustive finite-stock oracle over
 567 initial inventory/EXP combinations, cap transformation counterexamples,
-bounded-domain comparisons, larger symbolic-stock comparisons, replayable horizon
+bounded-domain comparisons, larger symbolic-stock comparisons with cost-aware
+frontiers and their original inventory projections, an independent essential-multiset
+oracle at every checkpoint, replayable horizon
 witnesses, tuning/revision/atomicity checks and 400 deterministic ledger properties.
 Deterministic operation guards cover huge stocks and all-unlimited horizons; no
 machine-dependent timing assertion is used. Run exploratory timing cases with

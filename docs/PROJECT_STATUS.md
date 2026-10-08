@@ -6,9 +6,9 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 
 ### Improve / Character Target
 
-The accepted Improve Settings surface is integrated. Visible controls are **Character Target / Gate / Every Echo / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Every Echo is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
+The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
 
-Visible **Character Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
+Visible **Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
 
 Current automatic Calc-target coverage is **19 catalog identities / 19 RELEASED-selectable**. Pending groups remain:
 - variant-only Aemeath / Iuno / Qiuyuan;
@@ -71,7 +71,7 @@ Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.
 
-Worker 13 Resource Inventory is COMPLETE, integrated and post-merge verified: a centered Resources subsection with local source-resolved item art and compact collapsed summaries, shared user-owned counts editable in both Current and Simulate, and reviewed four-denomination Tube facts. Exact Tube selection/depletion, overfill/carry, Data Recovery denominations and the separate completion criterion remain Pending. Real evaluator ingress, Improvement Cost and farming remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+Worker 13 Resource Inventory is COMPLETE, integrated and post-merge verified: a centered Resources subsection with local source-resolved item art and compact collapsed summaries, shared user-owned counts editable in both Current and Simulate, and reviewed four-denomination Tube facts. Exact Tube spending/carry/+25 overflow is under review as a separate, unmerged Worker 15 Fas 1 candidate; it is not integrated or production-available. Direct feed, Data Recovery denomination/rounding, rejection recovery and the separate completion criterion remain Pending. Real evaluator ingress, Improvement Cost and farming remain Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
 ## Real blockers and Pending boundaries
 

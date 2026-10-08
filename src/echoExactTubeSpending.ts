@@ -210,3 +210,59 @@ export function optimizeTubesToCheckpoint(
   };
   return found.filter((path, i) => !found.some((other, j) => i !== j && dominates(other, path)));
 }
+
+/** A progression path across successive evaluation checkpoints, without tuning or evaluator policy. */
+export interface TubeHorizonPath {
+  readonly steps: readonly TubePath[];
+  readonly state: ExactResourceState;
+}
+/** Nondominance includes exact EXP carry, not merely the visible checkpoint. */
+function resourceStateDominates(a: ExactResourceState, b: ExactResourceState): boolean {
+  if (a.progress.cumulativeEchoEXP < b.progress.cumulativeEchoEXP ||
+    a.progress.tunedThrough !== b.progress.tunedThrough) return false;
+  let strict = a.progress.cumulativeEchoEXP > b.progress.cumulativeEchoEXP;
+  for (const id of IDS) {
+    const x = a.inventory.tubes[id], y = b.inventory.tubes[id];
+    if (x.kind === 'UNLIMITED' && y.kind === 'UNLIMITED') continue;
+    if (x.kind === 'FINITE' && y.kind === 'UNLIMITED') return false;
+    if (x.kind === 'UNLIMITED') { strict = true; continue; }
+    if (y.kind !== 'FINITE') return false;
+    if (x.count < y.count) return false;
+    if (x.count > y.count) strict = true;
+  }
+  return strict;
+}
+/**
+ * Run the exact optimizer stage by stage through evaluation opportunities.
+ * Carries EXP forward; tuning, decision policy and recovery remain external.
+ * Use a short sequence of increasing checkpoints, up to +25.
+ */
+export function optimizeTubeCheckpointHorizon(
+  state: ExactResourceState,
+  targets: readonly EchoLevel[],
+  expectedRevision: number,
+): TubeHorizonPath[] {
+  validateExactResourceState(state);
+  if (!targets.length || targets.some((target, index) =>
+    target === 0 || !LEVELS.includes(target) || (index > 0 && target <= targets[index - 1]!))) {
+    throw new RangeError('Horizon must contain increasing tuning checkpoints');
+  }
+  if (expectedRevision !== state.revision) throw new Error('Stale resource revision');
+  let paths: TubeHorizonPath[] = [{ steps: [], state }];
+  for (const target of targets) {
+    const next: TubeHorizonPath[] = [];
+    for (const path of paths) {
+      if (CHECKPOINT_CUMULATIVE_COST[target].exp <= path.state.progress.cumulativeEchoEXP) {
+        next.push(path);
+        continue;
+      }
+      for (const step of optimizeTubesToCheckpoint(path.state, target, path.state.revision)) {
+        next.push({ steps: [...path.steps, step], state: step.transaction.state });
+      }
+    }
+    paths = next.filter((candidate, i) => !next.some((other, j) =>
+      i !== j && resourceStateDominates(other.state, candidate.state)));
+    if (paths.length === 0) return [];
+  }
+  return paths;
+}

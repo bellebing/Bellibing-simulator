@@ -1,8 +1,9 @@
-# Exact Rank-5 Tube resource candidate
+# Exact Rank-5 Tube resource engine
 
-Worker 15 Fas 1 remains an unmerged pure-domain candidate. Production inventory,
-simulator, rolling runtime and browser entrypoints do not consume it. Existing
-Resource Inventory remains the sole persistent shared user budget. Canonical
+Worker 15 Fas 1 is COMPLETE: merged and post-merge verified. The pure-domain engine
+is integrated in the public repository. Production inventory, simulator, rolling
+runtime and browser entrypoints do not consume it automatically. Existing Resource
+Inventory remains the sole persistent shared user budget. Canonical
 checkpoint costs and four Tube values are imported, not copied into another model.
 
 ## Transactions and ownership
@@ -122,7 +123,7 @@ oracle at every checkpoint, replayable horizon
 witnesses, tuning/revision/atomicity checks and 400 deterministic ledger properties.
 Deterministic operation guards cover huge stocks and all-unlimited horizons; no
 machine-dependent timing assertion is used. Run exploratory timing cases with
-`node --experimental-strip-types scripts/benchmark-exact-tubes.ts`. Exact candidate
+`node --experimental-strip-types scripts/benchmark-exact-tubes.ts`. Exact engine
 verification and benchmark results belong on its GitHub PR.
 
 Direct feed, Data Recovery/rounding, full rejection recovery, Tuner recovery,

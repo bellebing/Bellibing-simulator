@@ -1,5 +1,5 @@
 import type { BuildStatMetric, CharacterStatTarget, EchoRequirements, PolicySection, ResolvedImprovePolicy } from './improvePolicyDomain.ts';
-import { SUBSTAT_VALUE_TABLE, SUBSTAT_TYPES } from './echoCoreRules.ts';
+import { SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type { ImprovePolicyState } from './improvePolicyState.ts';
 import { resolveImprovePolicyState, updateImprovePolicyState } from './improvePolicyState.ts';
@@ -10,8 +10,6 @@ export function pendingImprovePolicySource(characterId: string): ResolvedImprove
     characterTarget: { numericTargets: section(), priorities: section() },
     echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: section(), preferences: section() } };
 }
-
-export const canonicalImproveSubstats = SUBSTAT_TYPES;
 
 export const IMPROVE_TARGET_METRICS: readonly { metric: BuildStatMetric; label: string; unit: 'RATIO' | 'POINTS' }[] = [
   { metric: 'TOTAL_ENERGY_REGEN', label: 'Energy Regen', unit: 'RATIO' },

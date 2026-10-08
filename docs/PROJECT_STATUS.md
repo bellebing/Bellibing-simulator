@@ -6,7 +6,9 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 
 ### Improve / Character Target
 
-The merged Improve Settings baseline uses Target / Gate / Echo Substat Target / Flex Stats. Worker 16 is a **review candidate**, introducing Target / Gate / Hard Requirements / Any Of / Not Important with equal-width stat columns, thirteen unique editable cards and an explicit distinct-stat Any Of count. Manual changes preserve roll values and switch to Customize; invalid counts retain intent and show validation. Legacy Flex intent needs explicit review/reset rather than becoming Any Of automatically. Visual approval and integration remain outstanding. Gate remains **+5/+10/+15/+20/+25**; CharacterBuildState, Current/Simulate sharing and independent Resource Inventory remain unchanged.
+The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
+
+The Improve Settings review candidate retains main's compact four-column design, renames Echo Substat Target to Hard Requirements, narrows Target/Gate, equalizes the stat columns and removes the visible Build Need block. All 13 canonical stat rows appear once and remain draggable across Hard Requirements, Flex Stats and Show other stats; saved placements and dormant minimums preserve user intent. Augusta/default's five approved gold highlights are UI relevance guidance only. The candidate remains pending user visual approval; reviewed Echo recommendations and evaluator readiness are unchanged.
 
 Visible **Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
 
@@ -29,7 +31,7 @@ Exact unrounded Calc references remain source data underneath the formatted UI v
 
 ### Improve policy and Echo guidance
 
-Customize target metrics, minimum/preferred semantics, source/context recovery and existing migration behavior remain intact. The Worker 16 candidate UI/settings contract is [Improve Simple Settings](UI_IMPROVE_SIMPLE_SETTINGS.md).
+Customize target metrics, minimum/preferred semantics, source/context recovery and existing migration behavior remain intact. The accepted current UI contract is [Improve Simple Settings](UI_IMPROVE_SIMPLE_SETTINGS.md).
 
 **BUG-042 remains MEDIUM / KNOWN GAP**: roster-wide reviewed Echo requirements/preferences are incomplete. Public Recommended Echo requirements/preferences remain Pending. Legacy numeric targets and build priorities do not establish complete dedicated Character recommendations.
 

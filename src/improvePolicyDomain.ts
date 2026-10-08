@@ -71,8 +71,6 @@ export interface EchoStatRequirement {
 }
 
 export interface EchoRequirementGroup {
-  /** User-owned number of distinct members required; absent legacy semantics require review. */
-  readonly minimumCount?: number;
   readonly id: string;
   readonly members: readonly EchoStatRequirement[];
 }

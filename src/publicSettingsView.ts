@@ -9,7 +9,7 @@ export function publicSettingsView(state: ImprovePolicyState, resolved: {
     Object.fromEntries(keys.filter(key => row[key] !== undefined).map(key => [key, structuredClone(row[key])])));
   const requirements = (value: any) => value == null ? value : ({
     requiredOnEveryEcho: rows(value.requiredOnEveryEcho, ['stat', 'minimum']),
-    groups: value.groups?.map((group: any) => ({ id: group.id, ...(group.minimumCount === undefined ? {} : { minimumCount: group.minimumCount }), members: rows(group.members, ['stat', 'minimum']) })),
+    groups: value.groups?.map((group: any) => ({ id: group.id, members: rows(group.members, ['stat', 'minimum']) })),
   });
   const targets = (value: any) => value?.map((row: any) => ({
     ...rows([row], ['metric', 'unit', 'minimum', 'preferred'])![0],
@@ -23,10 +23,9 @@ export function publicSettingsView(state: ImprovePolicyState, resolved: {
     ...(state.overrides.priorities === undefined ? {} : { priorities: rows(state.overrides.priorities, ['stat', 'priorityGroup', 'sourceNotes']) }),
     ...(state.overrides.echoRequirements === undefined ? {} : { echoRequirements: requirements(state.overrides.echoRequirements) }),
     ...(state.overrides.echoPreferences === undefined ? {} : { echoPreferences: rows(state.overrides.echoPreferences, ['stat', 'priorityGroup', 'minimum']) }),
-    ...(state.overrides.echoCards === undefined ? {} : { echoCards: structuredClone(state.overrides.echoCards) }),
   };
   return { schemaVersion: state.schemaVersion, characterId: state.characterId, presetId: state.presetId,
-    contextBinding: state.contextBinding, mode: state.mode, gate: state.gate, rollQuality: state.rollQuality,
+    contextBinding: state.contextBinding, ...(state.echoLayout === undefined ? {} : { echoLayout: structuredClone(state.echoLayout) }), mode: state.mode, gate: state.gate, rollQuality: state.rollQuality,
     migration: state.migration ? { status: state.migration.status, reason: state.migration.reason } : null,
     overrides, compatibility: structuredClone(resolved.compatibility),
     presentation: {

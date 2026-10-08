@@ -30,7 +30,7 @@ test('invalid saved Flex minimums fail closed without deleting original intent',
   }
 });
 
-test('Recommended Echo guidance is neutral; explicit user selection uses only canonical game tiers', () => {
+test('Recommended Echo intent remains Pending; explicit user selection uses only canonical game tiers', () => {
   const recommended = view(initial());
   assert.deepEqual(recommended.relevant, SUBSTAT_TYPES.filter(name => improveRelevantStats(source).includes(name)));
   assert.ok(recommended.relevant.length > 0);

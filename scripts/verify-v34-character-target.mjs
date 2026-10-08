@@ -102,13 +102,13 @@ try {
         if (id === 'augusta') assert.deepEqual(rows.map(row => [row.label, row.value]), [
           ['ATK', '2,407'], ['CRIT Rate', '84.7%'], ['CRIT DMG', '225%'], ['Energy Regen', '120%'], ['Heavy Attack DMG', '29.2%'],
         ]);
-        assert.equal(await evaluate("document.querySelector('.improve-build-need p').textContent"), 'Pending');
+        assert.equal(await evaluate("document.querySelector('.improve-build-need')"), null, 'approved V1 has no visible Build Need block');
         if (!rows.length) assert.equal(await evaluate("document.querySelector('[data-policy-section=numericTargets] p').textContent"), 'Pending');
         assert.ok(await evaluate(`(()=>{const col=document.querySelector('[data-setting=target]'),r=col.getBoundingClientRect();return document.documentElement.scrollWidth===innerWidth&&[...col.querySelectorAll('.improve-setting-options *')].every(n=>{const b=n.getBoundingClientRect();return !b.width||(b.left>=r.left-1&&b.right<=r.right+1&&n.scrollWidth<=n.clientWidth+1)})})()`), kind + ' ' + name + ' target overflow');
         assert.ok(await evaluate("document.getElementById('improveBuildCard').getBoundingClientRect().top>=document.getElementById('improveSettings').getBoundingClientRect().bottom"), 'workspace below Settings');
         await evaluate("document.getElementById('improveShell').scrollTop=0");
         await shot(`artifacts/character-target-${kind}-${id}-${width}x${height}.png`);
-        console.log(kind + ' ' + width + 'x' + height + ' ' + name + ': ' + rows.length + ' rows, Pending Build Need, compact containment PASS');
+        console.log(kind + ' ' + width + 'x' + height + ' ' + name + ': ' + rows.length + ' rows, no visible Build Need, compact containment PASS');
       }
       await evaluate("improvePicker.select('Augusta')"); await sleep(700);
       if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');

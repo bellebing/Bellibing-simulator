@@ -30,12 +30,13 @@ test('invalid saved Flex minimums fail closed without deleting original intent',
   }
 });
 
-test('Recommended Echo intent remains Pending; explicit user selection uses only canonical game tiers', () => {
+test('Approved Augusta defaults and explicit user selections use only canonical game tiers', () => {
   const recommended = view(initial());
   assert.deepEqual(recommended.relevant, SUBSTAT_TYPES.filter(name => improveRelevantStats(source).includes(name)));
   assert.ok(recommended.relevant.length > 0);
-  assert.deepEqual(recommended.required, []); assert.deepEqual(recommended.flex, []);
-  assert.equal(recommended.policy.requirements.status, 'PENDING');
+  assert.deepEqual(recommended.required, ['CRIT Rate','CRIT DMG']); assert.deepEqual(recommended.flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.equal(recommended.policy.requirements.status, 'USER_DEFINED');
+  assert.equal(source.echoPolicy.requirements.status, 'PENDING');
   let state = manual();
   for (const name of SUBSTAT_TYPES) {
     state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'every', name);
@@ -49,11 +50,12 @@ test('Recommended Echo intent remains Pending; explicit user selection uses only
       assert.throws(() => editEchoRollMinimum(state, source, SUBSTAT_TYPES, 'every', name, index));
     }
   }
-  assert.equal(state.overrides.echoPreferences, undefined);
+  assert.deepEqual(state.overrides.echoPreferences, []);
   assert.deepEqual(source.echoPolicy.requirements.value, null);
   state = resetEchoPolicy(state, source);
-  assert.deepEqual(view(state).required, []); assert.deepEqual(view(state).flex, []);
-  assert.equal(view(state).policy.requirements.status, 'PENDING');
+  assert.deepEqual(view(state).required, ['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(view(state).flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.equal(view(state).defaulted, true);
 });
 
 test('explicit user minimums, sparse ownership and order survive reload and source/context failure', () => {

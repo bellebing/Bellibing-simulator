@@ -14,7 +14,8 @@ export function recommendedFlexStats(source) {
   return unique([...members, ...preferences]).filter(name => !required.has(name));
 }
 export function echoPolicyPresentation(state, source, canonicalStats) {
-  const policy = resolveImprovePolicyState(state, source).policy.echoPolicy;
+  const resolved = resolveImprovePolicyState(state, source);
+  const policy = resolved.policy.echoPolicy;
   const required = (policy.requirements.value?.requiredOnEveryEcho ?? []).map(row => row.stat);
   const inherited = recommendedFlexStats(source);
   const explicit = policy.preferences.status === 'USER_DEFINED';
@@ -38,7 +39,7 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
       layout[list].push(name); seen.add(name);
     }
   }
-  return { required, flex, relevant, other: layout.other, layout, policy };
+  return { required, flex, relevant, other: layout.other, layout, policy, defaulted: resolved.userApprovedEchoDefault };
 }
 const set = (state, source, section, value) => updateImprovePolicyState(state, { type: 'set', section, value }, source);
 const minimum = (view, source, list, name) => view.policy.requirements.value?.requiredOnEveryEcho.find(row => row.stat === name)?.minimum
@@ -46,16 +47,23 @@ const minimum = (view, source, list, name) => view.policy.requirements.value?.re
   ?? view.layout.minimums[name] ?? initialImproveRollMinimum(source, name);
 const preferences = (names, view, source) => names.map((stat, index) => ({ stat, priorityGroup: index + 1,
   minimum: minimum(view, source, 'flex', stat) }));
+// First Echo edit snapshots both sections so a sparse override cannot drop the untouched default.
+function materializeDefault(state, source, view) {
+  if (!view.defaulted) return state;
+  let next = set(state, source, 'echoRequirements', view.policy.requirements.value);
+  return set(next, source, 'echoPreferences', view.policy.preferences.value);
+}
 export function echoRollControl(view, source, list, name) {
   return improveRollControl(name, minimum(view, source, list, name));
 }
 export function editEchoRollMinimum(state, source, canonicalStats, list, name, index) {
   const view = echoPolicyPresentation(state, source, canonicalStats);
   const control = echoRollControl(view, source, list, name);
-  if (state.mode !== 'MANUAL' || !Number.isInteger(index) || index < 0 || index >= control.values.length
+  if ((state.mode !== 'MANUAL' && !view.defaulted) || !Number.isInteger(index) || index < 0 || index >= control.values.length
     || (list !== 'every' && list !== 'flex') || !(list === 'every' ? view.required : view.flex).includes(name)) {
     throw new Error('An active editable Echo stat and valid roll tier are required.');
   }
+  state = materializeDefault(state, source, view);
   if (list === 'every') {
     const requirements = structuredClone(view.policy.requirements.value);
     requirements.requiredOnEveryEcho = requirements.requiredOnEveryEcho.map(row => row.stat === name
@@ -93,7 +101,7 @@ export function moveEchoStat(state, source, canonicalStats, name, destination, t
   layout.minimums[name] = value;
   for (const list of ['every', 'flex', 'other']) layout[list] = layout[list].filter(stat => stat !== name);
   layout[destination].splice(Math.max(0, Math.min(to ?? layout[destination].length, layout[destination].length)), 0, name);
-  let next = state;
+  let next = materializeDefault(state, source, view);
   const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] });
   if (view.required.includes(name) || destination === 'every') {
     requirements.requiredOnEveryEcho = requirements.requiredOnEveryEcho.filter(row => row.stat !== name);

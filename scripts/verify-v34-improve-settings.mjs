@@ -75,10 +75,15 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(realBuild)}`, 'Current/Simulate/reset preserve inventory and CharacterBuildState');
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'inventory reload persistence');
+  await check(`JSON.stringify([...document.querySelectorAll('[data-echo-section=every] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['CRIT Rate','CRIT DMG'])&&JSON.stringify([...document.querySelectorAll('[data-echo-section=flex] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK'])&&document.querySelectorAll('[data-echo-section=other] .improve-echo-row').length===7`, 'fresh approved Augusta placement and exact order');
+  await check(`fetch('assets/improve-settings/policies.json').then(r=>r.json()).then(d=>{const p=d.characters.find(c=>c.characterId==='augusta');return ${state}.mode==='RECOMMENDED'&&Object.keys(${state}.overrides).length===0&&p.echoPolicy.requirements.status==='PENDING'&&p.echoPolicy.preferences.status==='PENDING'})`, 'approved user defaults leave provider readiness Pending');
+  await click('#improve-setting-every'); await click(slider('every','CRIT Rate')); await key('End');
+  await check(`${state}.mode==='MANUAL'&&${state}.overrides.echoRequirements.requiredOnEveryEcho.find(r=>r.stat==='CRIT Rate').minimum===.105&&${state}.overrides.echoPreferences.length===4`, 'first default slider edit is immediately editable and preserves untouched defaults');
+  await click(focus('mode:RECOMMENDED')); await click('#improve-setting-every'); await settle();
   // Inactive rows can also be moved directly from Recommended without selecting them.
   await click('#improve-setting-flex'); await click('.improve-other-stats summary');
   await dragRow('Flat HP', '[data-echo-section=every]');
-  await check(`${state}.mode==='MANUAL'&&${state}.overrides.echoRequirements.requiredOnEveryEcho[0].stat==='Flat HP'&&!!document.querySelector('.improve-echo-row[data-stat-name="Flat HP"] .improve-roll-slider')`, 'Recommended inactive other-to-Hard drag immediately activates the stat');
+  await check(`${state}.mode==='MANUAL'&&${state}.overrides.echoRequirements.requiredOnEveryEcho.some(r=>r.stat==='Flat HP')&&!!document.querySelector('.improve-echo-row[data-stat-name="Flat HP"] .improve-roll-slider')`, 'Recommended inactive other-to-Hard drag immediately activates the stat');
   await click(focus('mode:RECOMMENDED')); await click('#improve-setting-flex');
   for (const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
     await setViewport(send,width,height); await settle();
@@ -93,7 +98,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`(()=>{const root=document.getElementById('improveSettings'),labels=[...root.querySelectorAll('.improve-setting-label')];return labels.every(n=>{const r=n.getBoundingClientRect(),owner=n.closest('.improve-setting').getBoundingClientRect(),style=getComputedStyle(n);return style.textAlign==='center'&&Math.abs(r.left+r.width/2-owner.left-owner.width/2)<1&&parseFloat(style.fontSize)>parseFloat(getComputedStyle(n.nextElementSibling).fontSize)})&&root.querySelectorAll('.improve-settings-heading [aria-label="Improve policy mode"]').length===1&&[...root.querySelectorAll('.improve-policy-section h3')].every(n=>getComputedStyle(n).textAlign!=='center')})()`, 'centered column title hierarchy and left-aligned inner headings');
     await check(`(()=>{const tubes=document.querySelector('.improve-resource-tubes');return tubes.querySelectorAll('img').length===4&&tubes.querySelectorAll('input').length===4&&[...tubes.querySelectorAll('.improve-resource-label')].every(n=>getComputedStyle(n).display==='none')&&!/Gold|Purple|Blue|Green/.test(tubes.innerText)})()`, 'expanded Tube icons and inputs without visible color captions');
     await check(`JSON.stringify([...document.querySelectorAll('[data-setting=gate] .improve-setting-choice')].map(n=>n.textContent))===JSON.stringify(['+5','+10','+15','+20','+25'])`, 'unchanged Gate checkpoints');
-    await check(`${state}.presentation.echoPolicy.requirements.status==='PENDING'&&${state}.presentation.echoPolicy.preferences.status==='PENDING'&&document.querySelectorAll('.improve-roll-slider').length===0&&Object.keys(${state}.overrides).length===0`, 'Recommended does not infer selections or thresholds');
+    await check(`${state}.presentation.echoPolicy.requirements.status==='USER_DEFINED'&&${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'&&document.querySelectorAll('.improve-roll-slider').length===6&&Object.keys(${state}.overrides).length===0`, 'Recommended shows only the user-approved Augusta default');
     await rowsUnique();
     await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect().width);return columns[0]<290&&columns[1]<100&&Math.abs(columns[2]-columns[3])<1&&Math.abs(columns[2]-(document.querySelector('.improve-settings-controls').clientWidth-330)/3)<1&& !document.querySelector('[data-setting=flex] h3')})()`, 'narrow Target/Gate and equal Hard/Flex columns');
     await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='Recommended'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='Recommended'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'accepted Recommended summaries and row clearance');
@@ -115,7 +120,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
       await check(`document.querySelector(${JSON.stringify('.improve-echo-row[data-stat-name='+JSON.stringify(name)+']')}).dataset.section==='flex'`, 'physical inactive Hard-to-Flex drag');
       await check(`!!document.querySelector(${JSON.stringify('.improve-echo-row[data-stat-name='+JSON.stringify(name)+'] .improve-roll-slider')})&&${state}.overrides.echoPreferences.some(r=>r.stat===${JSON.stringify(name)})`, 'drop activates immediately without another click');
     }
-    await check(`${state}.overrides.echoRequirements.groups.length===0&&${state}.overrides.echoRequirements.requiredOnEveryEcho.length===2&&${state}.overrides.echoPreferences.length===3`, 'explicit user-only Echo inputs');
+    await check(`${state}.overrides.echoRequirements.groups.length===0&&${state}.overrides.echoRequirements.requiredOnEveryEcho.length===2&&${state}.overrides.echoPreferences.length===4`, 'explicit user-only Echo inputs');
     await check(`(()=>{const owners=[...document.querySelectorAll('.improve-setting')], root=document.getElementById('improveSettings').getBoundingClientRect();return owners.every((n,i)=>{const r=n.getBoundingClientRect();return r.left>=root.left&&r.right<=root.right&&(!i||owners[i-1].getBoundingClientRect().right<=r.left)})&&[...document.querySelectorAll('.improve-roll-slider')].every(n=>n.getBoundingClientRect().width>=65)&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)&&document.documentElement.scrollWidth===${width}})()`, 'unchanged column/slider/viewport assertions');
     await click(slider('every','CRIT Rate')); await key('Home');
     const tiers=[.063,.069,.075,.081,.087,.093,.099,.105];
@@ -159,7 +164,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
     await check(`JSON.stringify(${state})===${JSON.stringify(saved)}`, 'reload input isolation');
     await click('#improve-setting-flex'); await settle(); await click(focus('reset:echo'));
-    await check(`${state}.overrides.echoRequirements===undefined&&${state}.overrides.echoPreferences===undefined&&${state}.presentation.echoPolicy.requirements.status==='PENDING'&&document.querySelectorAll('.improve-roll-slider').length===0`, 'reset returns neutral Pending');
+    await check(`${state}.overrides.echoRequirements===undefined&&${state}.overrides.echoPreferences===undefined&&${state}.presentation.echoPolicy.requirements.status==='USER_DEFINED'&&document.querySelectorAll('.improve-roll-slider').length===6`, 'reset restores the user-approved Augusta default');
     await click(focus('mode:RECOMMENDED')); await click('#improve-setting-flex');
   }
   for (const width of [960,640,390]) {
@@ -195,7 +200,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
     await check(`${state}.mode===${JSON.stringify(mode)}&&${state}.gate===15&&localStorage.getItem('bellibing.improve.simple-settings.v2')===${JSON.stringify(raw)}&&${state}.overrides.echoRequirements===undefined&&${state}.overrides.numericTargets===undefined`, 'v2 intent/recovery copy');
     if(mode==='MANUAL') await check(`JSON.stringify(${state}.overrides.echoPreferences.map(r=>r.stat))===${JSON.stringify(JSON.stringify(activeStats))}`, 'v2 order/empty preserved');
-    else await check(`Object.keys(${state}.overrides).length===0&&${state}.presentation.echoPolicy.requirements.status==='PENDING'`, 'v2 Recommended remains Pending');
+    else await check(`Object.keys(${state}.overrides).length===0&&${state}.presentation.echoPolicy.requirements.status==='USER_DEFINED'`, 'v2 Recommended adopts approved default without custom intent');
   }
   await click('#improve-setting-every'); await settle(); await click(focus('mode:MANUAL')); if (!await read("document.querySelector('.improve-other-stats').open")) await click('.improve-other-stats summary'); await dragRow('ATK%', '[data-echo-section=flex]');
   const originalBinding=await read(`${state}.contextBinding`);
@@ -205,7 +210,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding=${JSON.stringify(originalBinding)};localStorage.setItem(key,JSON.stringify(s))})()`);
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'`, 'matching context recovery');
-  await check(`(()=>{const s=${state};s.overrides.echoPreferences.length=0;return ${state}.overrides.echoPreferences.length===1})()`, 'detached public view');
+  await check(`(()=>{const s=${state};s.overrides.echoPreferences.length=0;return ${state}.overrides.echoPreferences.length===4})()`, 'detached public view');
   // A failed browser write must leave both the UI state and original bytes committed.
   await click('#improve-setting-every'); await settle();
   const beforeFailure=await read(`JSON.stringify(${state})`), originalBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");

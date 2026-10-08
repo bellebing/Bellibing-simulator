@@ -1,5 +1,5 @@
 import { readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
-import { SUBSTAT_TYPES } from './echoCoreRules.ts';
+import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type {
   ImprovePolicyMode, ImprovePolicyOverrides, PolicySection, ResolvedImprovePolicy,
@@ -226,7 +226,7 @@ export function updateImprovePolicyState(state: ImprovePolicyState, action: Impr
 
 /** Effective content is disposable. Never pass it to persistence in place of saved intent. */
 export function resolveImprovePolicyState(state: ImprovePolicyState, recommended: ResolvedImprovePolicy): {
-  readonly policy: ResolvedImprovePolicy; readonly compatibility: ImprovePolicyCompatibility;
+  readonly policy: ResolvedImprovePolicy; readonly compatibility: ImprovePolicyCompatibility; readonly userApprovedEchoDefault: boolean;
 } {
   const context = recommended.characterId !== state.characterId ? 'MISMATCH'
     : recommended.applicability === null ? 'UNAVAILABLE'
@@ -236,6 +236,18 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
   if (context !== 'MATCH') reasons.push(context === 'MISMATCH' ? 'Character/preset/context mismatch; saved intent is not retargeted.' : 'Reviewed context unavailable.');
   if (recommended.sourceReviewStatus === 'REVIEW_REQUIRED') reasons.push('Recommended source drift requires review; inherited sections remain fail-closed.');
   if (state.migration?.reason) reasons.push(state.migration.reason);
+  // Explicit user-approved Augusta/default configuration, never reviewed provider evidence.
+  // Saved Echo intent (including explicit empty sections/layout and deferred migration) wins as a whole.
+  const hasEchoIntent = own(state.overrides, 'echoRequirements') || own(state.overrides, 'echoPreferences')
+    || state.echoLayout !== undefined || state.migration !== null;
+  const userApprovedEchoDefault = !hasEchoIntent && context === 'MATCH' && recommended.applicability !== null
+    && recommended.sourceReviewStatus === 'CURRENT' && state.characterId === 'augusta'
+    && state.presetId === 'augusta-standard' && recommended.presetId === 'augusta-standard'
+    && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
+  const hard: readonly StatName[] = ['CRIT Rate', 'CRIT DMG'];
+  const flex: readonly StatName[] = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+  const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat]![0]! })), groups: [] };
+  const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat]![0]! }));
   function section<K extends PolicyOverrideSection, T>(key: K, inherited: PolicySection<T>): PolicySection<T> {
     const hasOverride = state.mode === 'MANUAL' && own(state.overrides, key);
     const deferred = state.mode === 'MANUAL' && key === 'echoPreferences' && state.migration !== null && state.migration.status !== 'MIGRATED';
@@ -249,6 +261,10 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
       reasons.push(key + ': original override suspended pending compatible identity/content.');
       return { status: 'PENDING', origin: 'USER', value: null, reason: reasons.at(-1)! };
     }
+    if (userApprovedEchoDefault && (key === 'echoRequirements' || key === 'echoPreferences')) {
+      return { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT',
+        value: structuredClone(key === 'echoRequirements' ? approvedRequirements : approvedPreferences) as T };
+    }
     if (recommended.characterId !== state.characterId) return { status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Policy Character mismatch.' };
     return structuredClone(inherited);
   }
@@ -261,7 +277,7 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
       preferences: section('echoPreferences', recommended.echoPolicy.preferences) } };
   const review = recommended.sourceReviewStatus === 'REVIEW_REQUIRED' || context === 'MISMATCH' || suspended.length > 0 && context !== 'UNAVAILABLE'
     || state.migration?.status === 'REVIEW_REQUIRED' || state.migration?.status === 'MIGRATED' && state.migration.reason !== null;
-  return { policy, compatibility: { status: review ? 'REVIEW_REQUIRED' : context === 'UNAVAILABLE' || state.migration?.status === 'PENDING'
+  return { policy, userApprovedEchoDefault, compatibility: { status: review ? 'REVIEW_REQUIRED' : context === 'UNAVAILABLE' || state.migration?.status === 'PENDING'
     ? 'PENDING' : 'COMPATIBLE', context, suspendedSections: suspended, reasons } };
 }
 

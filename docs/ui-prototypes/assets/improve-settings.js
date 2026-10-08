@@ -201,7 +201,7 @@ function renderTargetEditor(parent, metric, existing) {
 }
 function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
-  const editable = settings.mode === 'MANUAL' && source.applicability && resolved.compatibility.context === 'MATCH'
+  const editable = (settings.mode === 'MANUAL' || view.defaulted) && source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
   groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
   groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';

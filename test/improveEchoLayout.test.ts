@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from '../src/echoCoreRules.ts';
-import { projectRecommendedImprovePolicy } from '../src/improvePolicySources.ts';
+import { projectRecommendedImprovePolicy, projectReleasedImprovePolicies } from '../src/improvePolicySources.ts';
 import { createImprovePolicyState, updateImprovePolicyState, persistImprovePolicyState, loadImprovePolicyStorage,
   readImprovePolicyState, resolveImprovePolicyState, IMPROVE_POLICY_STORAGE_KEY } from '../src/improvePolicyState.ts';
-import { echoPolicyPresentation, editEchoPolicy, editEchoRollMinimum, echoRollControl, moveEchoStat } from '../docs/ui-prototypes/assets/echo-policy-presentation.mjs';
+import { echoPolicyPresentation, editEchoPolicy, editEchoRollMinimum, echoRollControl, moveEchoStat, resetEchoPolicy } from '../docs/ui-prototypes/assets/echo-policy-presentation.mjs';
 const source = await projectRecommendedImprovePolicy({ characterId: 'augusta' });
 const view = state => echoPolicyPresentation(state, source, SUBSTAT_TYPES);
 const initial = () => createImprovePolicyState('augusta', source);
@@ -24,7 +24,7 @@ test('all 13 inactive rows activate by destination membership without changing A
     assert.equal(view(state).required.includes(stat), section === 'every');
     assert.equal(view(state).flex.includes(stat), section === 'flex');
     assert.deepEqual(view(state).relevant, highlighted);
-    assert.deepEqual(view(state).layout.every, view(state).required);
+    assert.deepEqual([...view(state).layout.every].sort(), [...view(state).required].sort());
     assert.deepEqual(view(state).layout.flex, view(state).flex);
   }
 });
@@ -103,4 +103,50 @@ test('previous inactive Hard/Flex placements preserve settings without becoming 
   const activated = moveEchoStat(state, source, SUBSTAT_TYPES, 'ATK%', 'flex');
   assert.deepEqual(activated.overrides.echoPreferences, [{ stat: 'ATK%', priorityGroup: 1, minimum: .116 }]);
   assert.deepEqual(activated.overrides.echoRequirements, undefined);
+});
+
+
+test('only Augusta/default receives the explicit user-approved initial configuration', async () => {
+  const state = initial(), presented = view(state), resolved = resolveImprovePolicyState(state, source);
+  assert.equal(state.mode, 'RECOMMENDED'); assert.deepEqual(state.overrides, {});
+  assert.deepEqual(presented.layout.every, ['CRIT Rate', 'CRIT DMG']);
+  assert.deepEqual(presented.layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK']);
+  assert.equal(presented.layout.other.length, 7); uniqueRows(state);
+  assert.equal(presented.relevant.includes('Flat ATK'), false);
+  assert.equal(resolved.policy.echoPolicy.requirements.origin, 'USER');
+  assert.equal(source.echoPolicy.requirements.status, 'PENDING'); assert.equal(source.echoPolicy.preferences.status, 'PENDING');
+  assert.deepEqual(resolved.policy.echoPolicy.requirements.value!.groups, []);
+  for (const row of [...resolved.policy.echoPolicy.requirements.value!.requiredOnEveryEcho, ...resolved.policy.echoPolicy.preferences.value!])
+    assert.equal(row.minimum, SUBSTAT_VALUE_TABLE[row.stat]![0]);
+  for (const policy of await projectReleasedImprovePolicies()) if (policy.characterId !== 'augusta') {
+    const other = resolveImprovePolicyState(createImprovePolicyState(policy.characterId, policy), policy);
+    assert.equal(other.userApprovedEchoDefault, false, policy.characterId);
+    assert.deepEqual(other.policy.echoPolicy, policy.echoPolicy, policy.characterId);
+  }
+  for (const policy of [{...source, presetId:'other'}, {...source, applicability:null}, {...source, sourceReviewStatus:'REVIEW_REQUIRED' as const}])
+    assert.equal(resolveImprovePolicyState(state, policy).userApprovedEchoDefault, false);
+});
+
+test('first default edits freeze untouched defaults; reload/custom empties and reset preserve intent', () => {
+  let state = editEchoRollMinimum(initial(), source, SUBSTAT_TYPES, 'every', 'CRIT Rate', SUBSTAT_VALUE_TABLE['CRIT Rate']!.length - 1);
+  assert.equal(state.mode, 'MANUAL'); assert.equal(view(state).defaulted, false);
+  assert.deepEqual(view(state).layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK']);
+  state = updateImprovePolicyState(state, {type:'gate', value:20}, source);
+  state = updateImprovePolicyState(state, {type:'set',section:'numericTargets',value:[]}, source);
+  const data = new Map<string,string>(), storage = { getItem:key=>data.get(key)??null, setItem:(key,value)=>data.set(key,value) };
+  persistImprovePolicyState(loadImprovePolicyStorage(storage), state, storage);
+  assert.deepEqual(readImprovePolicyState(loadImprovePolicyStorage(storage), 'augusta', source), state);
+  const reset = resetEchoPolicy(state, source);
+  assert.equal(view(reset).defaulted, true); assert.equal(reset.gate, 20); assert.deepEqual(reset.overrides.numericTargets, []);
+  assert.equal(reset.overrides.echoRequirements, undefined);
+  const moved = moveEchoStat(initial(), source, SUBSTAT_TYPES, 'Flat ATK', 'other');
+  assert.deepEqual(view(moved).required, ['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(view(moved).flex, ['ATK%','Heavy Attack DMG','Energy Regen']);
+  for (const section of ['echoRequirements','echoPreferences'] as const) {
+    const empty = updateImprovePolicyState(initial(), {type:'set',section,value:section==='echoRequirements'?{requiredOnEveryEcho:[],groups:[]}:[]}, source);
+    assert.equal(view(empty).defaulted, false); assert.deepEqual(view(empty).required, []); assert.deepEqual(view(empty).flex, []);
+    persistImprovePolicyState(loadImprovePolicyStorage(storage), empty, storage);
+    assert.deepEqual(readImprovePolicyState(loadImprovePolicyStorage(storage), 'augusta', source), empty);
+    assert.equal(view(updateImprovePolicyState(empty, {type:'reset'}, source)).defaulted, true);
+  }
 });

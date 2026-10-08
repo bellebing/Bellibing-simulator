@@ -129,7 +129,7 @@ export function spendExactTubes(
     && CHECKPOINT_CUMULATIVE_COST[level].exp <= expAfter);
   return {
     state: { revision: addSafe(state.revision, 1), progress: { ...state.progress, cumulativeEchoEXP: expAfter }, inventory: readResourceInventory(after) },
-    ledger: { before: inventory, spent, returned, after, expBefore, suppliedEXP,
+    ledger: { before: inventory, spent, returned, after: readResourceInventory(after), expBefore, suppliedEXP,
       expAfter, overflowEXP, unrepresentableEXP, crossed, eligibleThrough: checkpointEligibleAtEXP(expAfter) },
   };
 }

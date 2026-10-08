@@ -317,6 +317,13 @@ test('ledger, input inventory and resulting state are independent snapshots', ()
   assert.notEqual(tx.ledger.before, s.inventory);
   assert.notEqual(tx.ledger.after, tx.state.inventory);
   const snapshot = JSON.stringify(tx.state);
+  for (const resource of ['echoes', 'tuners'] as const) {
+    assert.notEqual(tx.ledger.before[resource], tx.ledger.after[resource]);
+    assert.notEqual(tx.ledger.after[resource], tx.state.inventory[resource]);
+    const afterBytes = JSON.stringify(tx.ledger.after[resource]);
+    (tx.ledger.before[resource] as { kind: 'FINITE'; count: number }).count = 999;
+    assert.equal(JSON.stringify(tx.ledger.after[resource]), afterBytes);
+  }
   const mutableBefore = tx.ledger.before.tubes.premium as { kind: 'FINITE'; count: number };
   const mutableAfter = tx.ledger.after.tubes.premium as { kind: 'FINITE'; count: number };
   mutableBefore.count = 123;

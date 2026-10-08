@@ -9,7 +9,7 @@ export function publicSettingsView(state: ImprovePolicyState, resolved: {
     Object.fromEntries(keys.filter(key => row[key] !== undefined).map(key => [key, structuredClone(row[key])])));
   const requirements = (value: any) => value == null ? value : ({
     requiredOnEveryEcho: rows(value.requiredOnEveryEcho, ['stat', 'minimum']),
-    groups: value.groups?.map((group: any) => ({ id: group.id, members: rows(group.members, ['stat', 'minimum']) })),
+    groups: value.groups?.map((group: any) => ({ id: group.id, ...(group.minimumCount === undefined ? {} : { minimumCount: group.minimumCount }), members: rows(group.members, ['stat', 'minimum']) })),
   });
   const targets = (value: any) => value?.map((row: any) => ({
     ...rows([row], ['metric', 'unit', 'minimum', 'preferred'])![0],

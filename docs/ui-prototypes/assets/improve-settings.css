@@ -164,3 +164,8 @@
 .improve-echo-row:not(.is-recommended) .improve-roll-slider { background:linear-gradient(to right,#92969d var(--roll-position),rgba(146,150,157,.25) var(--roll-position)); }
 .improve-echo-row:not(.is-recommended) .improve-roll-slider::-webkit-slider-thumb { background:#a7abb2; border-color:#c5c8ce; }
 .improve-echo-row:not(.is-recommended) .improve-roll-value { color:#b7bec8; }
+
+.improve-flex-count { display:flex; align-items:center; gap:10px; margin:0 0 8px; font-size:11px; }
+.improve-flex-count output { flex:1; }
+.improve-flex-count .improve-roll-slider { width:84px; flex:none; --roll-position:0%; }
+.improve-flex-count:has([aria-invalid="true"]) { color:#e5ad86; }

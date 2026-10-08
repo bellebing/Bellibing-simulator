@@ -4,7 +4,7 @@ import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from '../src/echoCoreRules.ts';
 import { projectRecommendedImprovePolicy, projectReleasedImprovePolicies } from '../src/improvePolicySources.ts';
 import { createImprovePolicyState, updateImprovePolicyState, persistImprovePolicyState, loadImprovePolicyStorage,
   readImprovePolicyState, resolveImprovePolicyState, IMPROVE_POLICY_STORAGE_KEY } from '../src/improvePolicyState.ts';
-import { echoPolicyPresentation, editEchoPolicy, editEchoRollMinimum, echoRollControl, moveEchoStat, resetEchoPolicy } from '../docs/ui-prototypes/assets/echo-policy-presentation.mjs';
+import { echoPolicyPresentation, editEchoPolicy, editEchoRollMinimum, echoRollControl, moveEchoStat, resetEchoPolicy, editFlexCount } from '../docs/ui-prototypes/assets/echo-policy-presentation.mjs';
 const source = await projectRecommendedImprovePolicy({ characterId: 'augusta' });
 const view = state => echoPolicyPresentation(state, source, SUBSTAT_TYPES);
 const initial = () => createImprovePolicyState('augusta', source);
@@ -115,7 +115,8 @@ test('only Augusta/default receives the explicit user-approved initial configura
   assert.equal(presented.relevant.includes('Flat ATK'), false);
   assert.equal(resolved.policy.echoPolicy.requirements.origin, 'USER');
   assert.equal(source.echoPolicy.requirements.status, 'PENDING'); assert.equal(source.echoPolicy.preferences.status, 'PENDING');
-  assert.deepEqual(resolved.policy.echoPolicy.requirements.value!.groups, []);
+  assert.equal(resolved.policy.echoPolicy.requirements.value!.groups[0].minimumCount, 1);
+  assert.deepEqual(resolved.policy.echoPolicy.requirements.value!.groups[0].members.map(row=>row.stat), presented.flex);
   for (const row of [...resolved.policy.echoPolicy.requirements.value!.requiredOnEveryEcho, ...resolved.policy.echoPolicy.preferences.value!])
     assert.equal(row.minimum, SUBSTAT_VALUE_TABLE[row.stat]![0]);
   for (const policy of await projectReleasedImprovePolicies()) if (policy.characterId !== 'augusta') {
@@ -149,4 +150,37 @@ test('first default edits freeze untouched defaults; reload/custom empties and r
     assert.deepEqual(readImprovePolicyState(loadImprovePolicyStorage(storage), 'augusta', source), empty);
     assert.equal(view(updateImprovePolicyState(empty, {type:'reset'}, source)).defaulted, true);
   }
+});
+
+
+test('explicit Flex count and exact group minima survive moves, invalid pools, storage and reset', () => {
+  let state = editFlexCount(initial(), source, SUBSTAT_TYPES, 2);
+  const group = state => view(state).policy.requirements.value!.groups.find(row=>row.id==='selected-flex')!;
+  assert.equal(group(state).minimumCount, 2);
+  assert.throws(()=>editFlexCount(state, source, SUBSTAT_TYPES, 4), /capacity/);
+  state = editEchoRollMinimum(state, source, SUBSTAT_TYPES, 'flex', 'ATK%', SUBSTAT_VALUE_TABLE['ATK%']!.length-1);
+  assert.equal(group(state).members.find(row=>row.stat==='ATK%')!.minimum, .116);
+  for (const name of ['Flat ATK','Energy Regen','Heavy Attack DMG']) state=moveEchoStat(state,source,SUBSTAT_TYPES,name,'other');
+  assert.equal(group(state).minimumCount,2); assert.equal(view(state).flexCount.valid,false);
+  assert.deepEqual(group(state).members,[{stat:'ATK%',minimum:.116}]);
+  state=moveEchoStat(state,source,SUBSTAT_TYPES,'ATK%','other');
+  assert.deepEqual(group(state).members,[]); assert.equal(view(state).flexCount.valid,false);
+  assert.match(view(state).flexCount.message,/empty/); assert.ok(!view(state).flexCount.message.includes('of 0'));
+  const data=new Map<string,string>(),storage={getItem:key=>data.get(key)??null,setItem:(key,value)=>data.set(key,value)};
+  persistImprovePolicyState(loadImprovePolicyStorage(storage),state,storage);
+  state=readImprovePolicyState(loadImprovePolicyStorage(storage),'augusta',source);
+  assert.equal(group(state).minimumCount,2); assert.equal(view(state).flexCount.valid,false);
+  state=moveEchoStat(state,source,SUBSTAT_TYPES,'ATK%','flex');
+  assert.equal(group(state).members[0].minimum,.116);
+  state=editFlexCount(state,source,SUBSTAT_TYPES,1); assert.equal(view(state).flexCount.valid,true);
+  state=resetEchoPolicy(state,source); assert.equal(group(state).minimumCount,1); assert.equal(view(state).flex.length,4);
+});
+test('old preferences and count-less groups are not silently promoted by loading or dragging', () => {
+  let state=updateImprovePolicyState(initial(),{type:'set',section:'echoPreferences',value:[{stat:'ATK%',priorityGroup:1,minimum:.116}]},source);
+  assert.equal(view(state).flexCount.count,null);
+  state=moveEchoStat(state,source,SUBSTAT_TYPES,'Energy Regen','flex');
+  assert.equal(view(state).flexCount.count,null); assert.equal(state.overrides.echoRequirements,undefined);
+  state=editFlexCount(state,source,SUBSTAT_TYPES,1);
+  assert.deepEqual(view(state).policy.requirements.value!.requiredOnEveryEcho,[]);
+  assert.equal(view(state).flexCount.count,1); assert.equal(view(state).flexCount.maximum,2);
 });

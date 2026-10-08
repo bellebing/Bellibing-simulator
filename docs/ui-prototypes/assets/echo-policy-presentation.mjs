@@ -1,3 +1,4 @@
+import { SELECTED_FLEX_GROUP_ID, selectedFlexRequirement } from '../../assets/echoRequirements.js';
 import { resolveImprovePolicyState, updateImprovePolicyState } from '../../assets/improvePolicyState.js';
 
 import { initialImproveRollMinimum, improveRollControl, improveRelevantStats } from '../../assets/improvePolicyPresentation.js';
@@ -19,7 +20,8 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
   const required = (policy.requirements.value?.requiredOnEveryEcho ?? []).map(row => row.stat);
   const inherited = recommendedFlexStats(source);
   const explicit = policy.preferences.status === 'USER_DEFINED';
-  const flex = unique(explicit ? policy.preferences.value.map(row => row.stat) : inherited).filter(name => !required.includes(name));
+  const group = policy.requirements.value?.groups.find(row => row.id === SELECTED_FLEX_GROUP_ID && row.minimumCount !== undefined);
+  const flex = unique(group ? group.members.map(row => row.stat) : explicit ? policy.preferences.value.map(row => row.stat) : inherited).filter(name => !required.includes(name));
   // Reviewed Character relevance is public display data, never a minimum or ranking.
   // Preserve canonical order rather than using source priority numbers as usefulness.
   // Augusta/default guidance was approved for this UI only. It is not evaluator coverage.
@@ -39,10 +41,11 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
       layout[list].push(name); seen.add(name);
     }
   }
-  return { required, flex, relevant, other: layout.other, layout, policy, defaulted: resolved.userApprovedEchoDefault };
+  return { required, flex, relevant, other: layout.other, layout, policy, flexCount: selectedFlexRequirement(policy.requirements.value, flex.length, required.length), defaulted: resolved.userApprovedEchoDefault };
 }
 const set = (state, source, section, value) => updateImprovePolicyState(state, { type: 'set', section, value }, source);
 const minimum = (view, source, list, name) => view.policy.requirements.value?.requiredOnEveryEcho.find(row => row.stat === name)?.minimum
+  ?? view.policy.requirements.value?.groups.find(group => group.id === SELECTED_FLEX_GROUP_ID)?.members.find(row => row.stat === name)?.minimum
   ?? view.policy.preferences.value?.find(row => row.stat === name)?.minimum
   ?? view.layout.minimums[name] ?? initialImproveRollMinimum(source, name);
 const preferences = (names, view, source) => names.map((stat, index) => ({ stat, priorityGroup: index + 1,
@@ -52,6 +55,22 @@ function materializeDefault(state, source, view) {
   if (!view.defaulted) return state;
   let next = set(state, source, 'echoRequirements', view.policy.requirements.value);
   return set(next, source, 'echoPreferences', view.policy.preferences.value);
+}
+// Preferences retain ordering metadata; explicit count groups own acceptance and exact minima.
+function syncFlexGroup(state, source, requirements, rows) {
+  if (!requirements?.groups.some(group => group.id === SELECTED_FLEX_GROUP_ID && group.minimumCount !== undefined)) return state;
+  return set(state, source, 'echoRequirements', { ...requirements, groups: requirements.groups.map(group =>
+    group.id === SELECTED_FLEX_GROUP_ID ? { ...group, members: rows.map(({ stat, minimum }) => ({ stat, minimum })) } : group) });
+}
+export function editFlexCount(state, source, canonicalStats, count) {
+  const view = echoPolicyPresentation(state, source, canonicalStats);
+  if (!Number.isInteger(count) || count < 1 || count > view.flexCount.maximum) throw new Error('Flex count exceeds the selected pool or available substat capacity.');
+  state = materializeDefault(state, source, view);
+  const requirements = view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] };
+  return set(state, source, 'echoRequirements', { ...requirements,
+    groups: [...requirements.groups.filter(group => group.id !== SELECTED_FLEX_GROUP_ID), {
+      id: SELECTED_FLEX_GROUP_ID, minimumCount: count,
+      members: preferences(view.flex, view, source).map(({ stat, minimum }) => ({ stat, minimum })) }] });
 }
 export function echoRollControl(view, source, list, name) {
   return improveRollControl(name, minimum(view, source, list, name));
@@ -70,8 +89,8 @@ export function editEchoRollMinimum(state, source, canonicalStats, list, name, i
       ? { ...row, minimum: control.values[index] } : row);
     return set(state, source, 'echoRequirements', requirements);
   }
-  return set(state, source, 'echoPreferences', preferences(view.flex, view, source).map(row => row.stat === name
-    ? { ...row, minimum: control.values[index] } : row));
+  const rows = preferences(view.flex, view, source).map(row => row.stat === name ? { ...row, minimum: control.values[index] } : row);
+  return syncFlexGroup(set(state, source, 'echoPreferences', rows), source, view.policy.requirements.value, rows);
 }
 /** Explicit section assignment uses the same activation path as drag/keyboard movement. */
 export function editEchoPolicy(state, source, canonicalStats, list, name) {
@@ -113,5 +132,6 @@ export function moveEchoStat(state, source, canonicalStats, name, destination, t
     if (destination === 'flex') names.push(name);
     next = set(next, source, 'echoPreferences', preferences(layout.flex.filter(stat => names.includes(stat)), view, source));
   }
+  next = syncFlexGroup(next, source, requirements, preferences(layout.flex, view, source));
   return updateImprovePolicyState(next, { type: 'layout', value: layout }, source);
 }

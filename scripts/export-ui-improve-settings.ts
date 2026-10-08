@@ -11,7 +11,7 @@ import { ECHO_STATS_EDITOR_MAX_SUBSTATS } from '../src/echoStatEditor.ts';
 
 const directory = 'docs/ui-prototypes/assets/improve-settings';
 const browserDirectory = 'docs/assets';
-const browserModules = ['data/echoTubeSource.js', 'resourceInventory.js', 'echoCoreRules.js', 'improvePolicyState.js', 'improvePolicyPresentation.js', 'publicSettingsView.js'] as const;
+const browserModules = ['data/echoTubeSource.js', 'resourceInventory.js', 'echoCoreRules.js', 'echoRequirements.js', 'improvePolicyState.js', 'improvePolicyPresentation.js', 'publicSettingsView.js'] as const;
 const check = process.argv.includes('--check');
 const temporaryDirectory = mkdtempSync(join(tmpdir(), 'bellibing-improve-settings-'));
 const compiledDirectory = join(temporaryDirectory, 'assets');

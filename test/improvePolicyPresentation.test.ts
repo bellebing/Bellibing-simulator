@@ -92,3 +92,17 @@ test('out-of-pool assignment and suspended sections cannot overwrite retained in
   assert.throws(() => assignImproveEchoStat(state, source, 'ATK%', 'PREFERRED'), /review/);
   assert.deepEqual(state, saved);
 });
+
+
+test('the existing assignment adapter preserves explicit Flex counts and exact minima', () => {
+  let state=assignImproveEchoStat(initial(),source,'Energy Regen','REQUIRED');
+  let req=resolveImprovePolicyState(state,source).policy.echoPolicy.requirements.value!;
+  assert.equal(req.requiredOnEveryEcho.find(row=>row.stat==='Energy Regen')!.minimum,.068);
+  assert.equal(req.groups[0].minimumCount,1);
+  assert.equal(req.groups[0].members.some(row=>row.stat==='Energy Regen'),false);
+  assert.equal(req.groups[0].members.length,3);
+  state=assignImproveEchoStat(state,source,'Energy Regen','PREFERRED');
+  req=resolveImprovePolicyState(state,source).policy.echoPolicy.requirements.value!;
+  assert.equal(req.groups[0].minimumCount,1);assert.equal(req.groups[0].members.find(row=>row.stat==='Energy Regen')!.minimum,.068);
+  assert.equal(req.requiredOnEveryEcho.length,2);
+});

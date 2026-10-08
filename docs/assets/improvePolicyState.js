@@ -54,7 +54,8 @@ function validOverride(section, value) {
         && (row.minimum === undefined || nonnegative(row.minimum));
     return list(requirements.requiredOnEveryEcho, validRequirement, 'stat')
         && list(requirements.groups, row => typeof row.id === 'string' && row.id.length > 0
-            && Object.keys(row).every(key => ['id', 'members'].includes(key))
+            && Object.keys(row).every(key => ['id', 'members', 'minimumCount'].includes(key))
+            && (row.minimumCount === undefined || positiveInteger(row.minimumCount))
             && list(row.members, validRequirement, 'stat'), 'id');
 }
 export function createImprovePolicyState(characterId, recommended) {
@@ -177,7 +178,8 @@ export function resolveImprovePolicyState(state, recommended) {
         && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
     const hard = ['CRIT Rate', 'CRIT DMG'];
     const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
-    const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [] };
+    const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })),
+        groups: [{ id: 'selected-flex', minimumCount: 1, members: flex.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })) }] };
     const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat][0] }));
     function section(key, inherited) {
         const hasOverride = state.mode === 'MANUAL' && own(state.overrides, key);

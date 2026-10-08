@@ -5,7 +5,7 @@ import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicySt
   updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
-import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum } from './echo-policy-presentation.mjs';
+import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount } from './echo-policy-presentation.mjs';
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
@@ -206,7 +206,35 @@ function renderEcho() {
   groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
   groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
   const flexSection = element('section', undefined, 'improve-policy-section');
-  groups.get('flex').content.append(flexSection);
+
+  const countControl = element('label', undefined, 'improve-flex-count');
+  const countText = element('output', view.flexCount.message); countText.id = 'improve-flex-count-description';
+  const countSlider = element('input', undefined, 'improve-roll-slider'); countSlider.type = 'range';
+  countSlider.min = view.flexCount.count === null ? '0' : '1';
+  countSlider.max = String(Math.max(1, view.flexCount.maximum)); countSlider.step = '1';
+  countSlider.value = String(Math.min(view.flexCount.count ?? 0, Math.max(1, view.flexCount.maximum)));
+  countSlider.disabled = !source.applicability || resolved.compatibility.context !== 'MATCH' || !!storageError
+    || view.flexCount.maximum === 0 || resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
+  countSlider.dataset.focusKey = 'flex-count'; countSlider.setAttribute('aria-label', 'Required distinct Flex Stats');
+  countSlider.setAttribute('aria-describedby', countText.id); countSlider.setAttribute('aria-valuetext', view.flexCount.message);
+  countSlider.setAttribute('aria-invalid', String(!view.flexCount.valid));
+  if (!view.flexCount.valid) countText.setAttribute('role', 'alert');
+  countControl.append(countText, countSlider); groups.get('flex').content.append(countControl, flexSection);
+  countSlider.oninput = () => {
+    if (Number(countSlider.value) === 0) return;
+    commit(state => editFlexCount(state, source, canonicalStats, Number(countSlider.value)), 'flex-count', false);
+    const current = echoPolicyPresentation(settings, source, canonicalStats).flexCount;
+    countText.textContent = current.message; countSlider.setAttribute('aria-valuetext', current.message);
+    countSlider.setAttribute('aria-invalid', String(!current.valid));
+    groups.get('flex').summary.textContent = 'Custom';
+  };
+  countSlider.onchange = () => commit(state => state, 'flex-count');
+  // An invalid saved count can lie beyond the feasible range. A deliberate
+  // pointer/key selection of the clamped endpoint must still repair that intent.
+  const repairCount = () => { if (!echoPolicyPresentation(settings, source, canonicalStats).flexCount.valid && !countSlider.disabled) { countSlider.oninput(); countSlider.onchange(); } };
+  countSlider.onpointerup = repairCount;
+  countSlider.onkeyup = event => { if (['Home','End','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) repairCount(); };
+
   const help = element('span', 'Move with Alt + Left or Right between Hard Requirements, Flex Stats and Show other stats; Alt + Up or Down reorders within the section.', 'improve-visually-hidden');
   help.id = 'improve-flex-keyboard-help'; flexSection.append(help);
   function move(name, list, index) {

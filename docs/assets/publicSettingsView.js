@@ -3,7 +3,7 @@ export function publicSettingsView(state, resolved) {
     const rows = (value, keys) => value?.map(row => Object.fromEntries(keys.filter(key => row[key] !== undefined).map(key => [key, structuredClone(row[key])])));
     const requirements = (value) => value == null ? value : ({
         requiredOnEveryEcho: rows(value.requiredOnEveryEcho, ['stat', 'minimum']),
-        groups: value.groups?.map((group) => ({ id: group.id, members: rows(group.members, ['stat', 'minimum']) })),
+        groups: value.groups?.map((group) => ({ id: group.id, ...(group.minimumCount === undefined ? {} : { minimumCount: group.minimumCount }), members: rows(group.members, ['stat', 'minimum']) })),
     });
     const targets = (value) => value?.map((row) => ({
         ...rows([row], ['metric', 'unit', 'minimum', 'preferred'])[0],

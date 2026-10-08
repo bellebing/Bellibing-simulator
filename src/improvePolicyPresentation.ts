@@ -1,4 +1,5 @@
 import type { BuildStatMetric, CharacterStatTarget, EchoRequirements, PolicySection, ResolvedImprovePolicy } from './improvePolicyDomain.ts';
+import { SELECTED_FLEX_GROUP_ID } from './echoRequirements.ts';
 import { SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type { ImprovePolicyState } from './improvePolicyState.ts';
@@ -73,6 +74,23 @@ export function assignImproveEchoStat(state: ImprovePolicyState, source: Resolve
   const requirements = editable<EchoRequirements>(effective.requirements,
     { requiredOnEveryEcho: [], groups: [] });
   let preferences = [...editable(effective.preferences, [])];
+  const flexGroup = requirements.groups.find(group => group.id === SELECTED_FLEX_GROUP_ID && group.minimumCount !== undefined);
+  if (flexGroup) {
+    // The existing assignment adapter must preserve explicit group acceptance too.
+    preferences = flexGroup.members.map((row, index) => ({ ...row,
+      priorityGroup: preferences.find(preference => preference.stat === row.stat)?.priorityGroup ?? index + 1 }));
+    const previous = requirements.requiredOnEveryEcho.find(row => row.stat === name)
+      ?? flexGroup.members.find(row => row.stat === name) ?? preferences.find(row => row.stat === name);
+    const minimum = previous?.minimum ?? initialImproveRollMinimum(source, name);
+    const hard = requirements.requiredOnEveryEcho.filter(row => row.stat !== name);
+    if (destination === 'REQUIRED') hard.push({ stat: name, minimum });
+    preferences = preferences.filter(row => row.stat !== name);
+    if (destination === 'PREFERRED') preferences.push({ stat: name, minimum, priorityGroup: Math.max(0, ...preferences.map(row => row.priorityGroup)) + 1 });
+    let next = updateImprovePolicyState(state, { type: 'set', section: 'echoRequirements', value: {
+      ...requirements, requiredOnEveryEcho: hard, groups: requirements.groups.map(group => group.id === SELECTED_FLEX_GROUP_ID
+        ? { ...group, members: preferences.map(({ stat, minimum }) => ({ stat, minimum })) } : group) } }, source);
+    return updateImprovePolicyState(next, { type: 'set', section: 'echoPreferences', value: preferences }, source);
+  }
   let next = state;
   const required = requirements.requiredOnEveryEcho.some(row => row.stat === name);
   const preferred = preferences.some(row => row.stat === name);

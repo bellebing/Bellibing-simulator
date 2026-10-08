@@ -73,6 +73,8 @@ export interface EchoStatRequirement {
 export interface EchoRequirementGroup {
   readonly id: string;
   readonly members: readonly EchoStatRequirement[];
+  /** Distinct passing members required. Omitted legacy counts remain unresolved. */
+  readonly minimumCount?: number;
 }
 
 export interface EchoStatPreference {

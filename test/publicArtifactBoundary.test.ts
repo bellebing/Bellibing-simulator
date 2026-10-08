@@ -27,7 +27,7 @@ test('public build has explicit entrypoints, typechecks without whole-src emissi
   assert.equal(config.compilerOptions.noEmit, true);
   assert.equal(config.compilerOptions.sourceMap, false);
   assert.deepEqual(config.files, ['src/web/alpha-entry.ts', 'src/web/main.ts', 'src/web/roll-assistant.ts',
-    'src/improvePolicyState.ts', 'src/improvePolicyPresentation.ts', 'src/publicSettingsView.ts', 'src/echoSimulatorSession.ts']);
+    'src/echoRequirements.ts', 'src/improvePolicyState.ts', 'src/improvePolicyPresentation.ts', 'src/publicSettingsView.ts', 'src/echoSimulatorSession.ts']);
   artifact(directory => assert.equal(verifyPublicArtifact(directory).length, approved.length + PUBLIC_BROWSER_MODULES.length));
 });
 

@@ -1,4 +1,4 @@
-import { SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
+import { SUBSTAT_VALUE_TABLE, SUBSTAT_TYPES } from "./echoCoreRules.js";
 import { resolveImprovePolicyState, updateImprovePolicyState } from "./improvePolicyState.js";
 export function pendingImprovePolicySource(characterId) {
     const section = () => ({ status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Source unavailable.' });
@@ -6,6 +6,7 @@ export function pendingImprovePolicySource(characterId) {
         characterTarget: { numericTargets: section(), priorities: section() },
         echoPolicy: { scope: 'FINISHED_CANDIDATE_ECHO', requirements: section(), preferences: section() } };
 }
+export const canonicalImproveSubstats = SUBSTAT_TYPES;
 export const IMPROVE_TARGET_METRICS = [
     { metric: 'TOTAL_ENERGY_REGEN', label: 'Energy Regen', unit: 'RATIO' },
     { metric: 'TOTAL_CRIT_RATE', label: 'CRIT Rate', unit: 'RATIO' },

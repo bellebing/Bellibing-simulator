@@ -1,9 +1,9 @@
 import { readResourceInventory } from "./resourceInventory.js";
-import { SUBSTAT_TYPES } from "./echoCoreRules.js";
+import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
-const sections = ['numericTargets', 'priorities', 'echoRequirements', 'echoPreferences'];
+const sections = ['numericTargets', 'priorities', 'echoRequirements', 'echoPreferences', 'echoCards'];
 const record = (value) => value !== null && typeof value === 'object'
     && !Array.isArray(value) ? value : {};
 const own = (value, key) => Object.hasOwn(value, key);
@@ -17,6 +17,15 @@ const unique = (rows, key) => new Set(rows.map(row => record(row)[key])).size ==
 const list = (value, valid, key) => Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
 /** Structural/identity validation only. These checks do not execute requirements. */
 function validOverride(section, value) {
+    if (section === 'echoCards') {
+        const input = record(value);
+        return Object.keys(input).every(key => ['cards', 'anyOfMinimumCount'].includes(key))
+            && positiveInteger(input.anyOfMinimumCount) && input.anyOfMinimumCount <= 5
+            && Array.isArray(input.cards) && input.cards.length === SUBSTAT_TYPES.length
+            && list(input.cards, row => Object.keys(row).every(key => ['stat', 'category', 'minimum'].includes(key))
+                && stat(row.stat) && ['HARD', 'ANY', 'NOT_IMPORTANT'].includes(row.category)
+                && SUBSTAT_VALUE_TABLE[row.stat].includes(row.minimum), 'stat');
+    }
     if (section === 'echoPreferences' || section === 'priorities') {
         return list(value, row => stat(row.stat) && positiveInteger(row.priorityGroup)
             && (section !== 'echoPreferences' || row.minimum === undefined || nonnegative(row.minimum))
@@ -40,7 +49,8 @@ function validOverride(section, value) {
         && (row.minimum === undefined || nonnegative(row.minimum));
     return list(requirements.requiredOnEveryEcho, validRequirement, 'stat')
         && list(requirements.groups, row => typeof row.id === 'string' && row.id.length > 0
-            && Object.keys(row).every(key => ['id', 'members'].includes(key))
+            && Object.keys(row).every(key => ['id', 'members', 'minimumCount'].includes(key))
+            && (row.minimumCount === undefined || positiveInteger(row.minimumCount) && row.minimumCount <= 5)
             && list(row.members, validRequirement, 'stat'), 'id');
 }
 export function createImprovePolicyState(characterId, recommended) {
@@ -102,7 +112,7 @@ export function updateImprovePolicyState(state, action, recommended) {
         return quality(action.value) === action.value ? { ...state, rollQuality: action.value } : state;
     if (action.type === 'reset' || action.type === 'mode' && action.value === 'RECOMMENDED') {
         return { ...state, mode: 'RECOMMENDED', overrides: {}, migration: null,
-            presetId: recommended.presetId, contextBinding: recommended.applicability?.contextBinding ?? state.contextBinding };
+            presetId: recommended.presetId, contextBinding: recommended.applicability?.contextBinding ?? null };
     }
     if (action.type === 'mode') {
         if (action.value !== 'MANUAL')
@@ -119,12 +129,12 @@ export function updateImprovePolicyState(state, action, recommended) {
     if (!validOverride(action.section, action.value))
         throw new Error('Invalid policy override: ' + action.section);
     const context = recommended.applicability;
-    if (!context || state.contextBinding === null && Object.keys(state.overrides).length > 0
-        || (state.contextBinding !== null && (context.contextBinding !== state.contextBinding || context.presetId !== state.presetId))
+    if ((!context && action.section !== 'echoCards') || state.contextBinding === null && Object.keys(state.overrides).some(key => key !== 'echoCards')
+        || (state.contextBinding !== null && (!context || context.contextBinding !== state.contextBinding || context.presetId !== state.presetId))
         || state.migration && state.migration.status !== 'MIGRATED') {
         throw new Error('Reviewed matching context required; reset suspended policy before replacing its intent.');
     }
-    return { ...state, mode: 'MANUAL', presetId: context.presetId, contextBinding: context.contextBinding,
+    return { ...state, mode: 'MANUAL', presetId: context?.presetId ?? null, contextBinding: context?.contextBinding ?? null,
         overrides: { ...state.overrides, [action.section]: structuredClone(action.value) },
         migration: action.section === 'echoPreferences' ? null : state.migration };
 }
@@ -158,13 +168,36 @@ export function resolveImprovePolicyState(state, recommended) {
             return { status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Policy Character mismatch.' };
         return structuredClone(inherited);
     }
-    const policy = { ...structuredClone(recommended), characterId: state.characterId, mode: state.mode,
+    if (state.mode === 'MANUAL' && own(state.overrides, 'echoCards')
+        && (!validOverride('echoCards', state.overrides.echoCards) || context === 'MISMATCH'
+            || state.contextBinding !== null && context === 'UNAVAILABLE')) {
+        suspended.push('echoCards');
+        reasons.push('Saved Echo cards suspended; reset or restore their matching context.');
+    }
+    let policy = { ...structuredClone(recommended), characterId: state.characterId, mode: state.mode,
         ...(recommended.characterId !== state.characterId ? { presetId: state.presetId, applicability: null } : {}),
         characterTarget: { numericTargets: section('numericTargets', recommended.characterTarget.numericTargets),
             priorities: section('priorities', recommended.characterTarget.priorities) },
         echoPolicy: { ...structuredClone(recommended.echoPolicy),
             requirements: section('echoRequirements', recommended.echoPolicy.requirements),
             preferences: section('echoPreferences', recommended.echoPolicy.preferences) } };
+    if (suspended.includes('echoCards')) {
+        policy = { ...policy, echoPolicy: { ...policy.echoPolicy,
+                requirements: { status: 'PENDING', origin: 'USER', value: null, reason: 'Saved Echo cards require matching context and canonical inputs.' },
+                preferences: { status: 'PENDING', origin: 'USER', value: null, reason: 'Saved Echo cards are suspended.' } } };
+    }
+    // Public requirement projection only; no acceptance/decision engine runs here.
+    const cards = state.mode === 'MANUAL' && !suspended.includes('echoCards') ? state.overrides.echoCards : undefined;
+    if (cards) {
+        const hard = cards.cards.filter(row => row.category === 'HARD').map(({ stat, minimum }) => ({ stat, minimum }));
+        const any = cards.cards.filter(row => row.category === 'ANY').map(({ stat, minimum }) => ({ stat, minimum }));
+        const valid = hard.length <= 5 && (any.length ? cards.anyOfMinimumCount <= Math.min(any.length, 5 - hard.length) : cards.anyOfMinimumCount === 1);
+        policy = { ...policy, echoPolicy: { ...policy.echoPolicy,
+                requirements: valid ? { status: 'USER_DEFINED', origin: 'USER', content: hard.length || any.length ? 'PRESENT' : 'EXPLICITLY_EMPTY',
+                    value: { requiredOnEveryEcho: hard, groups: any.length ? [{ id: 'user-any-of', minimumCount: cards.anyOfMinimumCount, members: any }] : [] } }
+                    : { status: 'PENDING', origin: 'USER', value: null, reason: 'Echo card requirement exceeds the pool or legal substat slots.' },
+                preferences: { status: 'USER_DEFINED', origin: 'USER', content: 'EXPLICITLY_EMPTY', value: [] } } };
+    }
     const review = recommended.sourceReviewStatus === 'REVIEW_REQUIRED' || context === 'MISMATCH' || suspended.length > 0 && context !== 'UNAVAILABLE'
         || state.migration?.status === 'REVIEW_REQUIRED' || state.migration?.status === 'MIGRATED' && state.migration.reason !== null;
     return { policy, compatibility: { status: review ? 'REVIEW_REQUIRED' : context === 'UNAVAILABLE' || state.migration?.status === 'PENDING'

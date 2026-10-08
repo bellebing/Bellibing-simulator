@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { SUBSTAT_VALUE_TABLE } from '../src/echoCoreRules.ts';
 import assert from 'node:assert/strict';
 import { projectRecommendedImprovePolicy } from '../src/improvePolicySources.ts';
 import { projectImproveSettingsSources } from '../src/improveSettingsProjection.ts';
@@ -12,6 +13,11 @@ import {
 } from '../src/improvePolicyState.ts';
 
 const recommended = await projectRecommendedImprovePolicy({ characterId: 'augusta' });
+const approved = { ...recommended, echoPolicy: { ...recommended.echoPolicy,
+  requirements: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value: { requiredOnEveryEcho:
+    ['CRIT Rate', 'CRIT DMG'].map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [{id:'selected-flex',minimumCount:1,members:['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK'].map(stat=>({stat,minimum:SUBSTAT_VALUE_TABLE[stat][0]}))}] } },
+  preferences: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value:
+    ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'].map((stat,index) => ({ stat, priorityGroup:index+1, minimum:SUBSTAT_VALUE_TABLE[stat][0] })) } } };
 const legacy = projectImproveSettingsSources().find(row => row.characterId === 'augusta')!;
 const initial = () => createImprovePolicyState('augusta', recommended);
 const preference = [{ stat: 'CRIT DMG', priorityGroup: 1 }, { stat: 'Energy Regen', priorityGroup: 2 }] as const;
@@ -33,14 +39,15 @@ const outage = await projectRecommendedImprovePolicy({ characterId: 'augusta', p
 test('Recommended and selecting Manual alone inherit sections without fabricating overrides', () => {
   const state = initial();
   assert.deepEqual(state.overrides, {});
-  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy, recommended);
+  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy, approved);
   const next = updateImprovePolicyState(state, { type: 'mode', value: 'MANUAL' }, recommended);
   assert.equal(next.mode, 'MANUAL'); assert.deepEqual(next.overrides, {});
   const effective = resolveImprovePolicyState(next, recommended);
   assert.deepEqual(effective.policy.characterTarget, recommended.characterTarget);
-  assert.deepEqual(effective.policy.echoPolicy, recommended.echoPolicy);
+  assert.deepEqual(effective.policy.echoPolicy, approved.echoPolicy);
   assert.equal(effective.compatibility.status, 'COMPATIBLE');
-  assert.equal(effective.policy.echoPolicy.preferences.status, 'PENDING');
+  assert.equal(effective.policy.echoPolicy.preferences.status, 'USER_DEFINED');
+  assert.equal(recommended.echoPolicy.preferences.status, 'PENDING');
 });
 
 test('sparse overrides inherit independently and explicit empty is distinct from no override', () => {
@@ -55,7 +62,7 @@ test('sparse overrides inherit independently and explicit empty is distinct from
   state = updateImprovePolicyState(state, { type: 'clear', section: 'echoPreferences' }, recommended);
   assert.equal(Object.hasOwn(state.overrides, 'echoPreferences'), false);
   assert.equal(state.mode, 'MANUAL');
-  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy.echoPolicy.preferences, recommended.echoPolicy.preferences);
+  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy.echoPolicy.preferences, approved.echoPolicy.preferences);
 });
 
 test('every override section supports set/clear and keeps unrelated source sections intact', () => {
@@ -77,7 +84,7 @@ test('every override section supports set/clear and keeps unrelated source secti
   }
   effective = resolveImprovePolicyState(state, recommended).policy;
   assert.deepEqual(effective.characterTarget, recommended.characterTarget);
-  assert.deepEqual(effective.echoPolicy, recommended.echoPolicy);
+  assert.deepEqual(effective.echoPolicy, approved.echoPolicy);
   for (const section of ['numericTargets', 'priorities'] as const) {
     state = updateImprovePolicyState(state, { type: 'set', section, value: [] }, recommended);
     assert.equal(resolveImprovePolicyState(state, recommended).policy.characterTarget[section].content, 'EXPLICITLY_EMPTY');
@@ -93,18 +100,18 @@ test('Manual to Recommended and reset clear only policy intent, preserving Gate/
     assert.equal(reset.mode, 'RECOMMENDED'); assert.deepEqual(reset.overrides, {});
     assert.equal(reset.gate, 25); assert.equal(reset.rollQuality, 'Mid+');
     assert.equal(reset.migration, null);
-    assert.deepEqual(resolveImprovePolicyState(reset, recommended).policy, recommended);
+    assert.deepEqual(resolveImprovePolicyState(reset, recommended).policy, approved);
   }
   assert.deepEqual(recommended, original);
   assert.deepEqual(state.overrides.echoPreferences, preference);
 });
 
-test('v2 Recommended ignores empty Active, preserves valid Gate/Quality and never creates policy content', () => {
+test('v2 Recommended ignores empty Active, preserves Gate/Quality and inherits only the approved default', () => {
   const old = normalizeSimpleSettings(null, legacy); old.gate = 15; old.rollQuality = 'Mid+';
   const state = migrateV2ImprovePolicy('augusta', old, recommended, legacy);
   assert.equal(state.mode, 'RECOMMENDED'); assert.deepEqual(state.overrides, {});
   assert.equal(state.gate, 15); assert.equal(state.rollQuality, 'Mid+');
-  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy, recommended);
+  assert.deepEqual(resolveImprovePolicyState(state, recommended).policy, approved);
 });
 
 test('exact-bound v2 Manual order becomes ONLY explicit Echo preferences, never thresholds or requirements', () => {
@@ -313,7 +320,7 @@ test('clear deferred preferences explicitly returns inheritance, and unbound ori
   const pending = migrateV2ImprovePolicy('augusta', oldManual(), outage);
   const cleared = updateImprovePolicyState(pending, { type: 'clear', section: 'echoPreferences' }, outage);
   assert.equal(cleared.mode, 'MANUAL'); assert.equal(cleared.migration, null);
-  assert.deepEqual(resolveImprovePolicyState(cleared, recommended).policy.echoPolicy.preferences, recommended.echoPolicy.preferences);
+  assert.deepEqual(resolveImprovePolicyState(cleared, recommended).policy.echoPolicy.preferences, approved.echoPolicy.preferences);
   const unbound = { ...manual(), contextBinding: null };
   assert.equal(resolveImprovePolicyState(unbound, recommended).policy.echoPolicy.preferences.status, 'PENDING');
   assert.throws(() => updateImprovePolicyState(unbound, { type: 'set', section: 'echoPreferences', value: [] }, recommended), /context/);

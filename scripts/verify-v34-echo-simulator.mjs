@@ -125,9 +125,13 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await expand('target');await click('#improveSettings .improve-target-add summary');await click(focus('metric:TOTAL_ENERGY_REGEN'));
     await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5');await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25');
     await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');await collapse('target');
-    await expand('every');await click(focus('every:CRIT Rate'));await click('[data-setting=every] .improve-roll-slider');
+    await expand('every');await click('[data-setting=every] .improve-echo-row[data-stat-name="CRIT Rate"] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});await collapse('every');
-    await expand('flex');await click(focus('flex:ATK%'));await click('[data-setting=flex] .improve-roll-slider');
+    await expand('flex');await click(focus('flex-count'));
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Home',code:'Home',windowsVirtualKeyCode:36});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Home',code:'Home',windowsVirtualKeyCode:36});
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});
+    await check(policyState+'.overrides.echoRequirements.groups.find(g=>g.id==="selected-flex").minimumCount===2','Simulate explicit Flex count');
+    await click('[data-setting=flex] .improve-echo-row[data-stat-name="ATK%"] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});
     await check(policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
     await activeUnchanged('Simulate settings/resources at '+width);

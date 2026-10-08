@@ -1,5 +1,5 @@
 import { readResourceInventory } from "./resourceInventory.js";
-import { SUBSTAT_TYPES } from "./echoCoreRules.js";
+import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
@@ -15,6 +15,20 @@ const nonnegative = (value) => typeof value === 'number' && Number.isFinite(valu
 const positiveInteger = (value) => typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
 const unique = (rows, key) => new Set(rows.map(row => record(row)[key])).size === rows.length;
 const list = (value, valid, key) => Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
+function validEchoLayout(value) {
+    const layout = record(value);
+    if (Object.keys(layout).some(key => !['every', 'flex', 'other', 'minimums'].includes(key)))
+        return false;
+    const names = [];
+    for (const key of ['every', 'flex', 'other']) {
+        if (!Array.isArray(layout[key]) || !layout[key].every(stat))
+            return false;
+        names.push(...layout[key]);
+    }
+    return names.length === SUBSTAT_TYPES.length && new Set(names).size === SUBSTAT_TYPES.length
+        && layout.minimums !== null && typeof layout.minimums === 'object' && !Array.isArray(layout.minimums)
+        && Object.entries(record(layout.minimums)).every(([name, minimum]) => stat(name) && nonnegative(minimum));
+}
 /** Structural/identity validation only. These checks do not execute requirements. */
 function validOverride(section, value) {
     if (section === 'echoPreferences' || section === 'priorities') {
@@ -40,7 +54,8 @@ function validOverride(section, value) {
         && (row.minimum === undefined || nonnegative(row.minimum));
     return list(requirements.requiredOnEveryEcho, validRequirement, 'stat')
         && list(requirements.groups, row => typeof row.id === 'string' && row.id.length > 0
-            && Object.keys(row).every(key => ['id', 'members'].includes(key))
+            && Object.keys(row).every(key => ['id', 'members', 'minimumCount'].includes(key))
+            && (row.minimumCount === undefined || positiveInteger(row.minimumCount))
             && list(row.members, validRequirement, 'stat'), 'id');
 }
 export function createImprovePolicyState(characterId, recommended) {
@@ -101,13 +116,25 @@ export function updateImprovePolicyState(state, action, recommended) {
     if (action.type === 'quality')
         return quality(action.value) === action.value ? { ...state, rollQuality: action.value } : state;
     if (action.type === 'reset' || action.type === 'mode' && action.value === 'RECOMMENDED') {
-        return { ...state, mode: 'RECOMMENDED', overrides: {}, migration: null,
+        const { echoLayout: _layout, ...base } = state;
+        return { ...base, mode: 'RECOMMENDED', overrides: {}, migration: null,
             presetId: recommended.presetId, contextBinding: recommended.applicability?.contextBinding ?? state.contextBinding };
     }
     if (action.type === 'mode') {
         if (action.value !== 'MANUAL')
             throw new Error('Invalid Improve policy mode.');
         return { ...state, mode: 'MANUAL' };
+    }
+    if (action.type === 'layout') {
+        if (!validEchoLayout(action.value))
+            throw new Error('Invalid Echo row layout.');
+        if (!recommended.applicability || state.contextBinding === null && Object.keys(state.overrides).length > 0
+            || state.contextBinding !== null
+                && (state.contextBinding !== recommended.applicability.contextBinding || state.presetId !== recommended.presetId)
+            || state.migration && state.migration.status !== 'MIGRATED')
+            throw new Error('Matching reviewed context required for Echo layout.');
+        return { ...state, mode: 'MANUAL', presetId: recommended.presetId, contextBinding: recommended.applicability.contextBinding,
+            echoLayout: structuredClone(action.value) };
     }
     if (!sections.includes(action.section))
         throw new Error('Unknown policy override section.');
@@ -141,6 +168,19 @@ export function resolveImprovePolicyState(state, recommended) {
         reasons.push('Recommended source drift requires review; inherited sections remain fail-closed.');
     if (state.migration?.reason)
         reasons.push(state.migration.reason);
+    // Explicit user-approved Augusta/default configuration, never reviewed provider evidence.
+    // Saved Echo intent (including explicit empty sections/layout and deferred migration) wins as a whole.
+    const hasEchoIntent = own(state.overrides, 'echoRequirements') || own(state.overrides, 'echoPreferences')
+        || state.echoLayout !== undefined || state.migration !== null;
+    const userApprovedEchoDefault = !hasEchoIntent && context === 'MATCH' && recommended.applicability !== null
+        && recommended.sourceReviewStatus === 'CURRENT' && state.characterId === 'augusta'
+        && state.presetId === 'augusta-standard' && recommended.presetId === 'augusta-standard'
+        && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
+    const hard = ['CRIT Rate', 'CRIT DMG'];
+    const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+    const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })),
+        groups: [{ id: 'selected-flex', minimumCount: 1, members: flex.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })) }] };
+    const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat][0] }));
     function section(key, inherited) {
         const hasOverride = state.mode === 'MANUAL' && own(state.overrides, key);
         const deferred = state.mode === 'MANUAL' && key === 'echoPreferences' && state.migration !== null && state.migration.status !== 'MIGRATED';
@@ -153,6 +193,10 @@ export function resolveImprovePolicyState(state, recommended) {
             suspended.push(key);
             reasons.push(key + ': original override suspended pending compatible identity/content.');
             return { status: 'PENDING', origin: 'USER', value: null, reason: reasons.at(-1) };
+        }
+        if (userApprovedEchoDefault && (key === 'echoRequirements' || key === 'echoPreferences')) {
+            return { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT',
+                value: structuredClone(key === 'echoRequirements' ? approvedRequirements : approvedPreferences) };
         }
         if (recommended.characterId !== state.characterId)
             return { status: 'PENDING', origin: 'PROFILE', value: null, reason: 'Policy Character mismatch.' };
@@ -167,7 +211,7 @@ export function resolveImprovePolicyState(state, recommended) {
             preferences: section('echoPreferences', recommended.echoPolicy.preferences) } };
     const review = recommended.sourceReviewStatus === 'REVIEW_REQUIRED' || context === 'MISMATCH' || suspended.length > 0 && context !== 'UNAVAILABLE'
         || state.migration?.status === 'REVIEW_REQUIRED' || state.migration?.status === 'MIGRATED' && state.migration.reason !== null;
-    return { policy, compatibility: { status: review ? 'REVIEW_REQUIRED' : context === 'UNAVAILABLE' || state.migration?.status === 'PENDING'
+    return { policy, userApprovedEchoDefault, compatibility: { status: review ? 'REVIEW_REQUIRED' : context === 'UNAVAILABLE' || state.migration?.status === 'PENDING'
                 ? 'PENDING' : 'COMPATIBLE', context, suspendedSections: suspended, reasons } };
 }
 /** Serialization allowlist: no source projections, builds, totals or evaluations. */
@@ -178,6 +222,7 @@ function savedIntent(state) {
             if (own(state.overrides, key))
                 overrides[key] = structuredClone(state.overrides[key]);
     return { schemaVersion: 3, characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
+        ...(state.mode === 'MANUAL' && state.echoLayout !== undefined ? { echoLayout: structuredClone(state.echoLayout) } : {}),
         mode: state.mode, overrides: overrides, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
         migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
 }
@@ -225,6 +270,11 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         throw new Error('Policy Character mismatch.');
     const saved = store.characters[characterId];
     if (saved) {
+        // The rejected card model is not legacy Flex intent. Never reinterpret or overwrite it.
+        if (own(record(saved.overrides), 'echoCards'))
+            throw new Error('Retired Echo card settings need review; recovery data retained.');
+        if (saved.echoLayout !== undefined && !validEchoLayout(saved.echoLayout))
+            throw new Error('Invalid saved Echo row layout.');
         if (saved.schemaVersion !== 3 || saved.characterId !== characterId
             || !['RECOMMENDED', 'MANUAL'].includes(saved.mode) || saved.overrides === null || typeof saved.overrides !== 'object'
             || Array.isArray(saved.overrides) || !(saved.presetId === null || typeof saved.presetId === 'string')

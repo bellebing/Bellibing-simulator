@@ -30,12 +30,13 @@ test('invalid saved Flex minimums fail closed without deleting original intent',
   }
 });
 
-test('Recommended Echo guidance is neutral; explicit user selection uses only canonical game tiers', () => {
+test('Approved Augusta defaults and explicit user selections use only canonical game tiers', () => {
   const recommended = view(initial());
   assert.deepEqual(recommended.relevant, SUBSTAT_TYPES.filter(name => improveRelevantStats(source).includes(name)));
   assert.ok(recommended.relevant.length > 0);
-  assert.deepEqual(recommended.required, []); assert.deepEqual(recommended.flex, []);
-  assert.equal(recommended.policy.requirements.status, 'PENDING');
+  assert.deepEqual(recommended.required, ['CRIT Rate','CRIT DMG']); assert.deepEqual(recommended.flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.equal(recommended.policy.requirements.status, 'USER_DEFINED');
+  assert.equal(source.echoPolicy.requirements.status, 'PENDING');
   let state = manual();
   for (const name of SUBSTAT_TYPES) {
     state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'every', name);
@@ -49,11 +50,12 @@ test('Recommended Echo guidance is neutral; explicit user selection uses only ca
       assert.throws(() => editEchoRollMinimum(state, source, SUBSTAT_TYPES, 'every', name, index));
     }
   }
-  assert.equal(state.overrides.echoPreferences, undefined);
+  assert.deepEqual(state.overrides.echoPreferences, []);
   assert.deepEqual(source.echoPolicy.requirements.value, null);
   state = resetEchoPolicy(state, source);
-  assert.deepEqual(view(state).required, []); assert.deepEqual(view(state).flex, []);
-  assert.equal(view(state).policy.requirements.status, 'PENDING');
+  assert.deepEqual(view(state).required, ['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(view(state).flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.equal(view(state).defaulted, true);
 });
 
 test('explicit user minimums, sparse ownership and order survive reload and source/context failure', () => {
@@ -73,6 +75,8 @@ test('explicit user minimums, sparse ownership and order survive reload and sour
   assert.equal(resolveImprovePolicyState(restored, source).policy.echoPolicy.preferences.status, 'USER_DEFINED');
   state = editEchoPolicy(restored, source, SUBSTAT_TYPES, 'every', 'Flat ATK');
   assert.ok(view(state).required.includes('Flat ATK')); assert.ok(!view(state).flex.includes('Flat ATK'));
-  assert.equal(editEchoPolicy(state, source, SUBSTAT_TYPES, 'flex', 'Flat ATK'), state);
+  state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'flex', 'Flat ATK');
+  assert.ok(!view(state).required.includes('Flat ATK'));
+  assert.equal(state.overrides.echoPreferences!.find(row => row.stat === 'Flat ATK')!.minimum, 60);
   assert.deepEqual(source.echoPolicy.requirements.value, null);
 });

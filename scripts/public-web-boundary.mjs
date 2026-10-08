@@ -4,7 +4,7 @@ import ts from 'typescript';
 
 export const PUBLIC_BROWSER_MODULES = Object.freeze([
   'echoCore', 'echoCoreRules', 'echoMainStats', 'echoCoreLab', 'echoCoreRuntime', 'seededRng',
-  'data/echoTubeSource', 'resourceInventory', 'echoSimulatorSession', 'echoSimulatorBoundary', 'improvePolicyState', 'improvePolicyPresentation', 'publicDecisionContract', 'publicSettingsView',
+  'data/echoTubeSource', 'resourceInventory', 'echoSimulatorSession', 'echoSimulatorBoundary', 'echoRequirements', 'improvePolicyState', 'improvePolicyPresentation', 'publicDecisionContract', 'publicSettingsView',
   'web/alpha-entry', 'web/main', 'web/roll-assistant',
 ]);
 export const FORBIDDEN_PUBLIC_FIELDS = Object.freeze([

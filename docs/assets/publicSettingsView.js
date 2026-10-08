@@ -3,7 +3,7 @@ export function publicSettingsView(state, resolved) {
     const rows = (value, keys) => value?.map(row => Object.fromEntries(keys.filter(key => row[key] !== undefined).map(key => [key, structuredClone(row[key])])));
     const requirements = (value) => value == null ? value : ({
         requiredOnEveryEcho: rows(value.requiredOnEveryEcho, ['stat', 'minimum']),
-        groups: value.groups?.map((group) => ({ id: group.id, members: rows(group.members, ['stat', 'minimum']) })),
+        groups: value.groups?.map((group) => ({ id: group.id, ...(group.minimumCount === undefined ? {} : { minimumCount: group.minimumCount }), members: rows(group.members, ['stat', 'minimum']) })),
     });
     const targets = (value) => value?.map((row) => ({
         ...rows([row], ['metric', 'unit', 'minimum', 'preferred'])[0],
@@ -19,7 +19,7 @@ export function publicSettingsView(state, resolved) {
         ...(state.overrides.echoPreferences === undefined ? {} : { echoPreferences: rows(state.overrides.echoPreferences, ['stat', 'priorityGroup', 'minimum']) }),
     };
     return { schemaVersion: state.schemaVersion, characterId: state.characterId, presetId: state.presetId,
-        contextBinding: state.contextBinding, mode: state.mode, gate: state.gate, rollQuality: state.rollQuality,
+        contextBinding: state.contextBinding, ...(state.echoLayout === undefined ? {} : { echoLayout: structuredClone(state.echoLayout) }), mode: state.mode, gate: state.gate, rollQuality: state.rollQuality,
         migration: state.migration ? { status: state.migration.status, reason: state.migration.reason } : null,
         overrides, compatibility: structuredClone(resolved.compatibility),
         presentation: {

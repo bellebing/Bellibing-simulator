@@ -125,12 +125,14 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await expand('target');await click('#improveSettings .improve-target-add summary');await click(focus('metric:TOTAL_ENERGY_REGEN'));
     await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5');await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25');
     await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');await collapse('target');
-    await expand('every');await click(focus('every:CRIT Rate'));await click('[data-setting=every] .improve-roll-slider');
+    await expand('every');if(!await read("document.querySelector('.improve-other-stats').open"))await click('.improve-other-stats summary');await click(focus('handle:CRIT Rate'));
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',modifiers:1,windowsVirtualKeyCode:39});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',modifiers:1,windowsVirtualKeyCode:39});await click('[data-setting=every] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});await collapse('every');
     await expand('flex');await click(focus('handle:ATK%'));
-    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',modifiers:1,windowsVirtualKeyCode:39});
-    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',modifiers:1,windowsVirtualKeyCode:39});
-    await click(focus('flex:ATK%'));await click('[data-setting=flex] .improve-roll-slider');
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',modifiers:1,windowsVirtualKeyCode:37});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',modifiers:1,windowsVirtualKeyCode:37});
+    await click('[data-setting=flex] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});
     await check(policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
     await activeUnchanged('Simulate settings/resources at '+width);

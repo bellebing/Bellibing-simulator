@@ -28,19 +28,16 @@ export function echoPolicyPresentation(state, source, canonicalStats) {
   const layout = { every: [], flex: [], other: [], minimums: state.echoLayout?.minimums ?? {} };
   const seen = new Set();
   const saved = state.echoLayout;
-  // Existing active requirements/preferences own their visible section. Never hide legacy intent.
+  // Existing policy owns activation on load. Old inactive placements do not invent intent.
+  // Section membership always reflects effective requirements/preferences, including source suspension.
   for (const list of ['every', 'flex', 'other']) {
-    const defaults = list === 'every' ? [...required, ...relevant.filter(name => !flex.includes(name))]
-      : list === 'flex' ? flex : canonicalStats;
-    for (const name of [...(saved?.[list] ?? []), ...defaults]) {
-      if (!canonicalStats.includes(name) || seen.has(name) || required.includes(name) && list !== 'every'
-        || flex.includes(name) && list !== 'flex') continue;
-      // Saved placements take precedence over defaults for inactive stats.
-      if (saved && !required.includes(name) && !flex.includes(name) && !saved[list].includes(name)) continue;
+    const members = list === 'every' ? required : list === 'flex' ? flex
+      : canonicalStats.filter(name => !required.includes(name) && !flex.includes(name));
+    const order = [...(saved?.[list] ?? []), ...members];
+    for (const name of order) if (members.includes(name) && canonicalStats.includes(name) && !seen.has(name)) {
       layout[list].push(name); seen.add(name);
     }
   }
-  for (const name of canonicalStats) if (!seen.has(name)) layout.other.push(name);
   return { required, flex, relevant, other: layout.other, layout, policy };
 }
 const set = (state, source, section, value) => updateImprovePolicyState(state, { type: 'set', section, value }, source);
@@ -68,34 +65,9 @@ export function editEchoRollMinimum(state, source, canonicalStats, list, name, i
   return set(state, source, 'echoPreferences', preferences(view.flex, view, source).map(row => row.stat === name
     ? { ...row, minimum: control.values[index] } : row));
 }
+/** Explicit section assignment uses the same activation path as drag/keyboard movement. */
 export function editEchoPolicy(state, source, canonicalStats, list, name) {
-  if (!canonicalStats.includes(name)) throw new Error('Unknown Echo substat.');
-  const view = echoPolicyPresentation(state, source, canonicalStats);
-  if ([view.policy.requirements, view.policy.preferences].some(section => section.status === 'PENDING' && section.origin === 'USER')) {
-    throw new Error('Saved Echo intent needs review. Reset to Recommended first.');
-  }
-  if (list === 'other') list = 'flex';
-  if (list === 'flex' && view.required.includes(name)) return state;
-  const layout = structuredClone(view.layout);
-  layout.minimums[name] = minimum(view, source, list, name);
-  if (!layout[list].includes(name)) {
-    for (const key of ['every', 'flex', 'other']) layout[key] = layout[key].filter(stat => stat !== name);
-    layout[list].push(name);
-  }
-  state = updateImprovePolicyState(state, { type: 'layout', value: layout }, source);
-  if (list === 'every') {
-    const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] });
-    const active = view.required.includes(name);
-    requirements.requiredOnEveryEcho = active ? requirements.requiredOnEveryEcho.filter(row => row.stat !== name)
-      : [...requirements.requiredOnEveryEcho, { stat: name, minimum: minimum(view, source, list, name) }];
-    let next = set(state, source, 'echoRequirements', requirements);
-    // Removing inherited Flex requires explicit intent so unrequiring won't silently reactivate it.
-    if (!active && view.flex.includes(name)) next = set(next, source, 'echoPreferences', preferences(view.flex.filter(stat => stat !== name), view, source));
-    return next;
-  }
-  if (view.required.includes(name)) return state;
-  const names = view.flex.includes(name) ? view.flex.filter(stat => stat !== name) : [...view.flex, name];
-  return set(state, source, 'echoPreferences', preferences(names, view, source));
+  return moveEchoStat(state, source, canonicalStats, name, list);
 }
 export function reorderFlexStats(state, source, canonicalStats, name, to) {
   const view = echoPolicyPresentation(state, source, canonicalStats);
@@ -109,7 +81,7 @@ export function resetEchoPolicy(state, source) {
   return updateImprovePolicyState(next, { type: 'clear', section: 'echoPreferences' }, source);
 }
 
-/** Move presentation rows with the original active intent and minimum; other is inactive. */
+/** Destination membership activates Hard/Flex immediately; other deactivates and remembers its minimum. */
 export function moveEchoStat(state, source, canonicalStats, name, destination, to) {
   if (!canonicalStats.includes(name) || !['every', 'flex', 'other'].includes(destination)) throw new Error('Unknown Echo row/destination.');
   const view = echoPolicyPresentation(state, source, canonicalStats);
@@ -117,27 +89,21 @@ export function moveEchoStat(state, source, canonicalStats, name, destination, t
     throw new Error('Saved Echo intent needs review. Reset to Recommended first.');
   const layout = structuredClone(view.layout);
   const origin = ['every', 'flex', 'other'].find(list => layout[list].includes(name));
-  const active = view.required.includes(name) || view.flex.includes(name);
   const value = minimum(view, source, origin, name);
   layout.minimums[name] = value;
   for (const list of ['every', 'flex', 'other']) layout[list] = layout[list].filter(stat => stat !== name);
   layout[destination].splice(Math.max(0, Math.min(to ?? layout[destination].length, layout[destination].length)), 0, name);
   let next = state;
-  if (active && origin !== destination) {
-    const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] });
-    if (origin === 'every' || destination === 'every') {
-      requirements.requiredOnEveryEcho = requirements.requiredOnEveryEcho.filter(row => row.stat !== name);
-      if (destination === 'every') requirements.requiredOnEveryEcho.push({ stat: name, minimum: value });
-      next = set(next, source, 'echoRequirements', requirements);
-    }
-    if (origin === 'flex' || destination === 'flex') {
-      const names = view.flex.filter(stat => stat !== name);
-      if (destination === 'flex') names.push(name);
-      next = set(next, source, 'echoPreferences', preferences(layout.flex.filter(stat => names.includes(stat)), view, source));
-    }
-  } else if (active && destination === 'flex') {
-    const ordered = layout.flex.filter(stat => view.flex.includes(stat));
-    next = set(next, source, 'echoPreferences', preferences(ordered, view, source));
+  const requirements = structuredClone(view.policy.requirements.value ?? { requiredOnEveryEcho: [], groups: [] });
+  if (view.required.includes(name) || destination === 'every') {
+    requirements.requiredOnEveryEcho = requirements.requiredOnEveryEcho.filter(row => row.stat !== name);
+    if (destination === 'every') requirements.requiredOnEveryEcho.push({ stat: name, minimum: value });
+    next = set(next, source, 'echoRequirements', requirements);
+  }
+  if (view.flex.includes(name) || destination === 'flex') {
+    const names = view.flex.filter(stat => stat !== name);
+    if (destination === 'flex') names.push(name);
+    next = set(next, source, 'echoPreferences', preferences(layout.flex.filter(stat => names.includes(stat)), view, source));
   }
   return updateImprovePolicyState(next, { type: 'layout', value: layout }, source);
 }

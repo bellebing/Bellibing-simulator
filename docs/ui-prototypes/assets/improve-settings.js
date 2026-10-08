@@ -5,7 +5,7 @@ import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicySt
   updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
-import { echoPolicyPresentation, editEchoPolicy, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum } from './echo-policy-presentation.mjs';
+import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum } from './echo-policy-presentation.mjs';
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
@@ -206,7 +206,7 @@ function renderEcho() {
   groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
   groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
   const flexSection = element('section', undefined, 'improve-policy-section');
-  flexSection.append(element('h3', 'Flex Stats')); groups.get('flex').content.append(flexSection);
+  groups.get('flex').content.append(flexSection);
   const help = element('span', 'Move with Alt + Left or Right between Hard Requirements, Flex Stats and Show other stats; Alt + Up or Down reorders within the section.', 'improve-visually-hidden');
   help.id = 'improve-flex-keyboard-help'; flexSection.append(help);
   function move(name, list, index) {
@@ -221,7 +221,7 @@ function renderEcho() {
     };
   }
   function row(parent, name, list) {
-    const active = list === 'every' ? view.required.includes(name) : list === 'flex' && view.flex.includes(name);
+    const active = list !== 'other';
     const item = element('div', undefined, 'improve-echo-row' + (active ? ' is-active' : '') + (view.relevant.includes(name) ? ' is-recommended' : ''));
     item.dataset.statName = name; item.dataset.section = list; item.draggable = true;
     const handle = element('button', '≡', 'improve-policy-handle'); handle.type = 'button'; handle.draggable = true; handle.dataset.focusKey = 'handle:' + name;
@@ -243,10 +243,9 @@ function renderEcho() {
         move(name, destination);
       }
     };
-    const toggle = button(name, () => commit(state => editEchoPolicy(state, source, canonicalStats, list, name), list + ':' + name), list + ':' + name, active);
-    toggle.className = 'improve-echo-toggle'; toggle.disabled = !editable;
-    toggle.setAttribute('aria-label', (list === 'every' ? 'Every Echo: ' : 'Flex stat: ') + name);
-    item.append(handle, toggle);
+    const label = element('span', name, 'improve-echo-toggle');
+    label.style.boxSizing = 'border-box'; label.style.cursor = 'inherit';
+    item.append(handle, label);
     if (active && list !== 'other') {
       const control = echoRollControl(view, source, list, name);
       const slider = element('input', undefined, 'improve-roll-slider'); slider.type = 'range';

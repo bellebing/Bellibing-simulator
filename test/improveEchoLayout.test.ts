@@ -14,20 +14,22 @@ const uniqueRows = state => {
   assert.deepEqual([...names].sort(), [...SUBSTAT_TYPES].sort());
 };
 
-test('all 13 rows move while inactive, without inventing acceptance settings or changing Augusta guidance', () => {
+test('all 13 inactive rows activate by destination membership without changing Augusta guidance', () => {
   let state = initial();
   assert.deepEqual(view(state).relevant, SUBSTAT_TYPES.filter(name => ['CRIT Rate', 'CRIT DMG', 'Energy Regen', 'ATK%', 'Heavy Attack DMG'].includes(name)));
   const highlighted = view(state).relevant;
   for (const stat of SUBSTAT_TYPES) for (const section of ['every', 'flex', 'other']) {
     state = moveEchoStat(state, source, SUBSTAT_TYPES, stat, section, 0);
     uniqueRows(state); assert.ok(view(state).layout[section].includes(stat));
-    assert.deepEqual(state.overrides, {});
+    assert.equal(view(state).required.includes(stat), section === 'every');
+    assert.equal(view(state).flex.includes(stat), section === 'flex');
     assert.deepEqual(view(state).relevant, highlighted);
-    assert.equal(resolveImprovePolicyState(state, source).policy.echoPolicy.requirements.status, 'PENDING');
+    assert.deepEqual(view(state).layout.every, view(state).required);
+    assert.deepEqual(view(state).layout.flex, view(state).flex);
   }
 });
 
-test('minimum and active ownership survive every/flex/other round trips, toggles and reload', async () => {
+test('minimum and active ownership survive every/flex/other round trips and reload', async () => {
   const data = new Map<string,string>();
   const storage = { getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value) };
   let store = loadImprovePolicyStorage(storage);
@@ -44,11 +46,10 @@ test('minimum and active ownership survive every/flex/other round trips, toggles
     assert.ok(!view(state).required.includes(name) && !view(state).flex.includes(name));
     assert.equal(state.echoLayout!.minimums[name], minimum);
     state = moveEchoStat(state, source, SUBSTAT_TYPES, name, 'every');
-    assert.ok(!view(state).required.includes(name)); // moving inactive does not select it
-    state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'every', name);
+    assert.ok(view(state).required.includes(name)); // moving from other immediately reactivates it
     assert.equal(state.overrides.echoRequirements!.requiredOnEveryEcho.find(row => row.stat === name)!.minimum, minimum);
-    state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'every', name);
-    state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'every', name);
+    state = moveEchoStat(state, source, SUBSTAT_TYPES, name, 'other');
+    state = moveEchoStat(state, source, SUBSTAT_TYPES, name, 'every');
     assert.equal(state.overrides.echoRequirements!.requiredOnEveryEcho.find(row => row.stat === name)!.minimum, minimum);
     uniqueRows(state);
   }
@@ -90,4 +91,16 @@ test('layout edits cannot bind suspended or unbound existing user policy to a ne
     assert.deepEqual(suspended.overrides, state.overrides);
   }
   assert.throws(() => moveEchoStat(state, { ...source, applicability: null }, SUBSTAT_TYPES, 'Flat HP', 'flex'), /context/);
+});
+
+
+test('previous inactive Hard/Flex placements preserve settings without becoming new acceptance requirements', () => {
+  const state = { ...initial(), mode: 'MANUAL' as const, echoLayout: {
+    every: ['CRIT Rate'], flex: ['ATK%'], other: SUBSTAT_TYPES.filter(name => !['CRIT Rate','ATK%'].includes(name)), minimums: { 'CRIT Rate': .105, 'ATK%': .116 } } };
+  const original = structuredClone(state);
+  assert.deepEqual(view(state).layout.every, []); assert.deepEqual(view(state).layout.flex, []);
+  assert.equal(view(state).layout.other.length, 13); assert.deepEqual(state, original);
+  const activated = moveEchoStat(state, source, SUBSTAT_TYPES, 'ATK%', 'flex');
+  assert.deepEqual(activated.overrides.echoPreferences, [{ stat: 'ATK%', priorityGroup: 1, minimum: .116 }]);
+  assert.deepEqual(activated.overrides.echoRequirements, undefined);
 });

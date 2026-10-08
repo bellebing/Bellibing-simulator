@@ -73,6 +73,8 @@ test('explicit user minimums, sparse ownership and order survive reload and sour
   assert.equal(resolveImprovePolicyState(restored, source).policy.echoPolicy.preferences.status, 'USER_DEFINED');
   state = editEchoPolicy(restored, source, SUBSTAT_TYPES, 'every', 'Flat ATK');
   assert.ok(view(state).required.includes('Flat ATK')); assert.ok(!view(state).flex.includes('Flat ATK'));
-  assert.equal(editEchoPolicy(state, source, SUBSTAT_TYPES, 'flex', 'Flat ATK'), state);
+  state = editEchoPolicy(state, source, SUBSTAT_TYPES, 'flex', 'Flat ATK');
+  assert.ok(!view(state).required.includes('Flat ATK'));
+  assert.equal(state.overrides.echoPreferences!.find(row => row.stat === 'Flat ATK')!.minimum, 60);
   assert.deepEqual(source.echoPolicy.requirements.value, null);
 });

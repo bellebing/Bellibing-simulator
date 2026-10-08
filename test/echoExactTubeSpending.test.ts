@@ -80,7 +80,7 @@ test('tuner spending is separate and insufficient tuners fail', () => {
 });
 
 test('finite inventory lookahead retains resource-sensitive paths and EXP carry', () => {
-  const s = fixture(0, tubes(2, 2, 0, 1));
+  const s = fixture(0, tubes(3, 2, 0, 1));
   const paths = optimizeTubeCheckpointHorizon(s, [5, 10], 0);
   assert.ok(paths.length > 0);
   assert.ok(paths.every(p => p.state.progress.cumulativeEchoEXP >= 16500));

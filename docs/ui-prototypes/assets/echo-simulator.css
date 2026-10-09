@@ -28,3 +28,5 @@
 @media(max-width:760px){.simulator-modes{position:static;flex-wrap:wrap;width:100%}.simulator-slot{flex:0 0 120px}.simulator-slot>.improve-equipped-echo{flex:none}}
 
 .simulator-checkpoint-stats{display:grid;grid-template-columns:1fr auto;gap:6px 20px}.simulator-checkpoint-stats dd{margin:0;text-align:right}
+#simulatorRoll{font-size:16px;font-weight:700;padding:12px;border-color:#d8b152;background:#594527;color:#fff0c5}
+.simulator-controls details{font-size:11px;color:#b9b3a7}.simulator-controls summary{cursor:pointer}.simulator-controls details p{margin-top:6px}

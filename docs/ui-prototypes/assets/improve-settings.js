@@ -1,3 +1,4 @@
+import { attachResourceScrubber } from './resource-scrubber.mjs';
 import { SUBSTAT_TYPES } from '../../assets/echoCoreRules.js';
 import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
@@ -16,17 +17,33 @@ let characterId = null, source, sources = [], legacySources = [], loaded = false
 let settingsOpener = 'target';
 let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
+const sonataSelections = new Map(); let sonataCatalog = [], loadoutProfiles = [];
+function selectedSonatas() { return sonataSelections.get(characterId) ?? loadoutProfiles.find(row => row.characterId === characterId)?.sonataSetIds.slice(0,2) ?? []; }
+function renderSonatas() {
+  const group = groups.get('sonata'), selected = selectedSonatas();
+  group.summary.textContent = selected.length ? selected.length + ' selected' : 'Choose up to two'; group.summary.title = selected.map(id => sonataCatalog.find(row => row.id === id)?.name ?? id).join(' + ');
+  group.content.append(note('Simulation sets · no inferred slot distribution.'));
+  for (const set of sonataCatalog) {
+    const choice = button(set.name, () => {
+      const current = selectedSonatas(), next = current.includes(set.id) ? current.filter(id => id !== set.id) : current.length < 2 ? [...current, set.id] : current;
+      sonataSelections.set(characterId, next); render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
+    }, 'sonata:' + set.id, selected.includes(set.id));
+    choice.disabled = !selected.includes(set.id) && selected.length >= 2;
+    const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href; icon.alt = ''; icon.width = 24; icon.height = 24; choice.prepend(icon); group.content.append(choice);
+  }
+}
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
 const modes = element('div', undefined, 'improve-setting-chips'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Improve policy mode');
-heading.append(title, modes);
+heading.append(title);
+const modeDetails = element('details', undefined, 'improve-mode-actions'); modeDetails.append(element('summary', 'Edit / restore settings'), modes);
 const controls = element('div', undefined, 'improve-settings-controls');
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
 const resources = element('div', undefined, 'improve-resources'); resources.setAttribute('role', 'group'); resources.setAttribute('aria-label', 'Resources');
 const resourceSeparator = element('hr', undefined, 'improve-resources-separator');
-root.append(heading, resources, resourceSeparator, reviewNote, controls, saveNote);
+root.append(heading, resources, resourceSeparator, reviewNote, controls, modeDetails, saveNote);
 function renderResources() {
   resources.classList.toggle('is-expanded', expanded);
   resources.replaceChildren(element('h3', 'Resources', 'improve-resources-title'));
@@ -53,10 +70,12 @@ function renderResources() {
         const next = updateResourceInventory(inventory, id, parseInventoryQuantity(input.value));
         const nextStore = persistResourceInventory(store, next, localStorage);
         store = nextStore; inventory = next; input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
       } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
+    attachResourceScrubber(input, () => input.onchange());
     owner.append(summary, input); parent.append(owner);
   }
   for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
@@ -104,7 +123,7 @@ function commit(change, focusKey, refresh = true) {
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
 function setExpanded(next, restore = false) {
-  expanded = !!next;
+  expanded = !!next; modeDetails.open = expanded;
   renderResources();
   for (const group of groups.values()) {
     const open = expanded; group.host.classList.toggle('is-expanded', open);
@@ -112,7 +131,7 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
+for (const [id, label] of [['sonata', 'Sonata Sets'], ['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -328,7 +347,7 @@ function render() {
   if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
   reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
-  renderTargets(); renderEcho();
+  renderSonatas(); renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
   window.dispatchEvent(new Event('bellibing-improve-settings-changed'));
@@ -354,7 +373,7 @@ function setCharacter(id) {
   if (loaded) save(); render();
 }
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+window.bellibingImproveSettings = { setCharacter, getSonataSetIds: () => [...selectedSonatas()], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])
@@ -365,3 +384,5 @@ Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.met
     loaded = true; setCharacter(characterId);
   })
   .catch(() => { loaded = true; sources = []; legacySources = []; setCharacter(characterId); });
+
+fetch(new URL('./echoes/browser-data.json', import.meta.url)).then(response => { if (!response.ok) throw new Error('Sonata catalog unavailable'); return response.json(); }).then(data => { sonataCatalog = data.sonataSets.filter(row => row.releaseStatus === 'RELEASED'); loadoutProfiles = data.loadoutProfiles; if (settings) render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed')); }).catch(() => { sonataCatalog = []; });

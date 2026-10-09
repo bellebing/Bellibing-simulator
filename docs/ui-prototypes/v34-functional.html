@@ -1992,25 +1992,51 @@ const improveUi={
   startSimulation(){
     const model=window.bellibingEchoSimulator;if(!model||!this.characterId||IMPROVE_LAYOUT_PREVIEW)return;
     if(echoUi.open)echoUi.hide();
-    this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=model.startEchoSimulator(this.characterId,improveBuildState(this.characterName),crypto.randomUUID());
-    this.simulator=model.selectSimulatorSlot(this.simulator,this.selectedEchoIndex+1);this.contextVersion++;this.render();
+    this.resourcesChanged=false;this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=model.startEchoSimulator(this.characterId,improveBuildState(this.characterName),crypto.randomUUID());
+    this.simulator=model.initializeSimulatorResources(this.simulator,window.bellibingResourceInventory.getState());this.simulator=model.selectSimulatorSlot(this.simulator,this.selectedEchoIndex+1);this.prepareSimulationTemplates();this.contextVersion++;this.render();
+  },
+  cancelRun(reason){this.runToken=(this.runToken||0)+1;if(this.simulator)this.simulator=window.bellibingEchoSimulator.stopSimulatorRun(this.simulator,reason)},
+  prepareSimulationTemplates(){
+    const model=window.bellibingEchoSimulator,profile=echoLoadoutByCharacterId.get(this.characterId),sets=window.bellibingImproveSettings.getSonataSetIds();
+    this.simulatorTemplates=Array.from({length:5},(_,index)=>{
+      const cost=profile?.slotCosts[index]||1;
+      const eligible=echoCatalog.filter(item=>item.cost===cost&&item.sonataSetIds.some(id=>sets.includes(id)));
+      const item=eligible.find(item=>index===0&&item.id===profile?.mainEchoId)||eligible[0];
+      if(!item)return null;
+      const recommended=profile?.slotMainStats?.[index],allowed=model.RANK5_PRIMARY_MAIN_STATS[cost];
+      return {echoId:item.id,selectedSonataSetId:sets.find(id=>item.sonataSetIds.includes(id)),cost,primaryMainStat:allowed.find(row=>row.name===recommended)?.name||allowed[0].name,scenarioDefault:true};
+    });
+  },
+  startRun(resume=false){
+    const model=window.bellibingEchoSimulator,template=this.simulatorTemplates?.[this.selectedEchoIndex];
+    if(!template)throw new Error('Choose Sonata Sets and an eligible Echo first.');
+    if(this.resourcesChanged)throw new Error('Resources changed — reset to use the new budget.');
+    const settings=window.bellibingImproveSettings.getState();
+    if(!window.bellibingImproveSettings.canAssessEchoRequirements()||settings?.migration||settings?.compatibility.context!=='MATCH'||settings?.compatibility.suspendedSections.some(key=>['echoRequirements','echoPreferences'].includes(key)))throw new Error('Selected requirements need review.');
+    const requirements=settings?.presentation.echoPolicy.requirements.value;if(!requirements)throw new Error('Selected requirements unavailable.');
+    const paused=this.simulator;this.cancelRun();this.simulator=resume?model.resumeSimulatorRun(paused):model.beginSimulatorRun(this.simulator,template,requirements,settings.gate);
+    const token=this.runToken;
+    const batch=()=>{if(token!==this.runToken||!this.simulator||this.simulator.run?.status!=='RUNNING')return;
+      this.simulator=model.advanceSimulatorRun(this.simulator,{next:()=>Math.random()},2);this.renderHelper();
+      if(this.simulator.run.status==='RUNNING')setTimeout(batch,16);else {this.renderCandidate();this.renderEchoRow()}
+    };setTimeout(batch,0);
   },
   closeSimulation(){
-    if(!this.simulator)return;
+    if(!this.simulator)return;this.cancelRun();
     document.querySelector('.simulator-inspection')?.close();
     if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide();
     this.simulator=null;this.contextVersion++;this.render();
     if(improveScenarioSelection){improveScenarioSelection=false;improvePicker.reset();improvePicker.render()}
   },
   resetSimulation(){
-    if(!this.simulator)return;document.querySelector('.simulator-inspection')?.close();if(echoUi.open)echoUi.hide();
+    if(!this.simulator)return;this.cancelRun();document.querySelector('.simulator-inspection')?.close();if(echoUi.open)echoUi.hide();
     this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=window.bellibingEchoSimulator.resetEchoSimulator(this.simulator,crypto.randomUUID());
-    this.selectedEchoIndex=0;this.contextVersion++;this.render();
+    this.simulator=window.bellibingEchoSimulator.initializeSimulatorResources(this.simulator,window.bellibingResourceInventory.getState());this.resourcesChanged=false;this.prepareSimulationTemplates();this.selectedEchoIndex=0;this.contextVersion++;this.render();
   },
-  workspaceCandidate(){return this.simulator?this.simulator.slots[this.selectedEchoIndex].candidate?.card||null:this.candidate},
+  workspaceCandidate(){return this.simulator?this.simulator.slots[this.selectedEchoIndex].candidate?.card||this.simulatorTemplates?.[this.selectedEchoIndex]||null:this.candidate},
   chooseCandidate(card){
     this.simulatorError=null;this.simulatorReplaceConfirmed=false;
-    if(this.simulator)this.simulator=window.bellibingEchoSimulator.startSimulatorCandidate(this.simulator,card);
+    if(this.simulator){this.cancelRun('Configuration changed');this.simulator=window.bellibingEchoSimulator.clearSimulatorCandidate(this.simulator);const item=echoById.get(card.echoId),old=this.simulatorTemplates[this.selectedEchoIndex];this.simulatorTemplates[this.selectedEchoIndex]={...card,cost:item.cost,primaryMainStat:window.bellibingEchoSimulator.RANK5_PRIMARY_MAIN_STATS[item.cost].find(row=>row.name===old?.primaryMainStat)?.name||window.bellibingEchoSimulator.RANK5_PRIMARY_MAIN_STATS[item.cost][0].name,scenarioDefault:false};}
     else this.candidate=cloneEchoSlot(card);
     this.renderCandidate();this.renderHelper();
   },
@@ -2024,7 +2050,7 @@ const improveUi={
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent=this.simulator?'Simulated':'Current';
   },
   setCharacter(name){
-    if(name!==this.characterName){document.querySelector('.simulator-inspection')?.close();this.simulator=null;this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
+    if(name!==this.characterName){this.cancelRun('Character changed');document.querySelector('.simulator-inspection')?.close();this.simulator=null;this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
     this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
     const slots=improveWorkspaceSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
     window.bellibingImproveSettings?.setCharacter(this.characterId);
@@ -2126,21 +2152,21 @@ const improveUi={
   renderCandidate(){
     const host=document.getElementById('improveCandidateEcho'),slot=this.workspaceCandidate(),item=echoById.get(echoSlotId(slot));host.replaceChildren();
     const head=document.createElement('div');head.className='improve-echo-card-head';head.innerHTML='<span>New Echo</span><span>Candidate</span>';host.appendChild(head);
-    const button=document.createElement('button');button.type='button';button.id='improveNewEcho';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','echoOverlay');button.onclick=()=>echoUi.showCandidate();button.disabled=!!this.simulator&&!!slot;
+    const button=document.createElement('button');button.type='button';button.id='improveNewEcho';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-controls','echoOverlay');button.onclick=()=>echoUi.showCandidate();button.disabled=this.simulator?.run?.status==='RUNNING';
     if(item){
       const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item.name;
       const art=document.createElement('div');art.className='improve-echo-large-art';const image=document.createElement('img');image.src=item.artSrc;image.alt='';image.draggable=false;art.append(image);
-      button.className='improve-candidate-edit';button.textContent='Change Echo';if(this.simulator)head.lastElementChild.textContent='Sandbox · Echo '+(this.selectedEchoIndex+1);else head.lastElementChild.replaceWith(button);
+      button.className='improve-candidate-edit';button.textContent='Change Echo';head.lastElementChild.replaceWith(button);
       const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
       const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
-      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?'Main stat — · Level —':'Level +'+slot.level;
+      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?(slot.scenarioDefault?'Editable scenario default · ':'')+(slot.primaryMainStat||'Main stat —'):'Level +'+slot.level;
       host.append(title,art,meta,sonata,pending);if(this.simulator&&slot.mainStat){host.append(this.echoStats(slot));const candidate=this.simulator.slots[this.selectedEchoIndex].candidate;host.append(window.bellibingEchoSimulator.renderCheckpointHistory(candidate,echoStatValueText))}
     }else{
       const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
     }
   },
   selectEcho(index){
-    if(this.simulator){if(echoUi.open)echoUi.hide();this.contextVersion++;this.simulator=window.bellibingEchoSimulator.selectSimulatorSlot(this.simulator,index+1);this.simulatorReplaceConfirmed=false;}this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();if(this.simulator)this.renderCandidate();
+    if(this.simulator){this.cancelRun('Slot changed');if(echoUi.open)echoUi.hide();this.contextVersion++;this.simulator=window.bellibingEchoSimulator.selectSimulatorSlot(this.simulator,index+1);this.simulatorReplaceConfirmed=false;}this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();if(this.simulator)this.renderCandidate();
     this.renderHelper();
   },
   renderEchoRow(){
@@ -2169,7 +2195,7 @@ const improveUi={
     if(this.simulator){
       const candidate=this.workspaceCandidate(),model=window.bellibingEchoSimulator;
       document.getElementById('improveHelperTitle').textContent='Simulate Echo';
-      document.getElementById('improveHelperMain').textContent=candidate?.level===25?model.requirementsText(window.bellibingImproveSettings?.canAssessEchoRequirements()?window.bellibingImproveSettings.getState():null,candidate):'Choose an eligible Echo and main stat for slot '+(this.selectedEchoIndex+1)+'.';
+      document.getElementById('improveHelperMain').textContent=this.simulator.run?.slot===this.selectedEchoIndex+1?this.simulator.run.reason:'';
       const action=document.getElementById('improveEnterSubstat');action.textContent='+ Choose Echo';action.disabled=!!candidate;action.hidden=!!candidate;
       this.renderRollingControls();return;
     }
@@ -2180,17 +2206,29 @@ const improveUi={
     document.getElementById('improveEnterSubstat').textContent=this.candidate?'+ Enter Main Stat':'+ Choose Echo';
   },
   renderRollingControls(){
-    const host=document.getElementById('simulatorControls'),model=window.bellibingEchoSimulator,candidate=this.workspaceCandidate(),item=echoById.get(candidate?.echoId);host.hidden=false;host.replaceChildren();
+    const host=document.getElementById('simulatorControls'),model=window.bellibingEchoSimulator,candidate=this.workspaceCandidate(),item=echoById.get(candidate?.echoId),running=this.simulator.run?.status==='RUNNING';host.hidden=false;
+    const totals=this.simulator.rolling,used=this.simulator.resources?.spent||{};
+    const counts={echoes:'Echoes used: '+totals.attempts,tuners:'Tuners used: '+totals.tuners,tubes:'EXP Tubes used: '+[['premium','Gold'],['advanced','Purple'],['medium','Blue'],['basic','Green']].map(([id,label])=>(used[id]||0)+' '+label).join(' · ')};
+    // Keep the Cancel target stable while batches update the counters.
+    if(running&&host.dataset.running==='true'){for(const [id,value] of Object.entries(counts))host.querySelector('[data-counter="'+id+'"]').textContent=value;return}
+    host.dataset.running=String(running);host.replaceChildren();
     const text=(tag,value)=>{const node=document.createElement(tag);node.textContent=value;return node};
     const button=(id,label,run)=>{const node=text('button',label);node.id=id;node.type='button';node.onclick=()=>{try{run();this.simulatorError=null}catch(error){this.simulatorError=error.message}this.render();};host.append(node);return node};
-    if(item&&candidate.level===undefined){
-      const label=text('label','Eligible Rank-5 main stat');label.htmlFor='simulatorMainStat';
-      const select=document.createElement('select');select.id='simulatorMainStat';select.append(new Option('Choose main stat',''));
-      for(const stat of model.RANK5_PRIMARY_MAIN_STATS[item.cost])select.append(new Option(stat.name,stat.name));
-      select.value=candidate.templateMainStat||'';select.onchange=()=>{this.simulator=structuredClone(this.simulator);this.simulator.slots[this.selectedEchoIndex].candidate.card.templateMainStat=select.value;document.getElementById('simulatorRoll').disabled=!select.value;};
-      host.append(label,select);
-      button('simulatorRoll','Simulate Echo',()=>{this.simulator=model.rollSimulatorCandidate(this.simulator,{echoId:item.id,selectedSonataSetId:candidate.selectedSonataSetId,cost:item.cost,primaryMainStat:select.value},{next:()=>Math.random()});}).disabled=!select.value;
+    const template=this.simulatorTemplates?.[this.selectedEchoIndex];
+    if(!running&&candidate?.level!==25){
+      button('simulatorRoll','Simulate Echo',()=>this.startRun()).disabled=!template;
+      if(template){
+        const details=text('details',''),summary=text('summary','Configuration & help');details.append(summary);
+        const label=text('label','Main stat');label.htmlFor='simulatorMainStat';const select=document.createElement('select');select.id='simulatorMainStat';
+        for(const stat of model.RANK5_PRIMARY_MAIN_STATS[template.cost])select.append(new Option(stat.name,stat.name));select.value=template.primaryMainStat;
+        select.onchange=()=>{this.cancelRun('Configuration changed');template.primaryMainStat=select.value;this.renderCandidate()};details.append(label,select);
+        details.append(text('p','Editable eligible scenario defaults. Sets do not prescribe a 3+2 distribution. Completed +25 rolls use selected Hard/Flex requirements; Gate is retained without early rejection.'));
+        details.append(text('p','Whole Tubes use the least supplied EXP that reaches +25; equivalent witnesses follow catalog order. This is not a future-budget optimum. Counts are gross spending. Verified upgrade cap returns stay in working inventory; discard/feed recovery and Character improvement remain Pending. Saved Resources stay unchanged.'));
+        host.append(details);
+      }
     }
+    if(running)button('simulatorCancel','Cancel',()=>this.cancelRun());
+    if(this.simulator.run?.status==='PAUSED')button('simulatorResume','Resume simulation',()=>this.startRun(true));
     if(candidate?.level===25){
       const occupied=!!improveWorkspaceSlots(this.characterName)[this.selectedEchoIndex];
       button('simulatorPlace',occupied?'Replace Echo '+(this.selectedEchoIndex+1)+'…':'Place in Echo '+(this.selectedEchoIndex+1),()=>{
@@ -2201,10 +2239,9 @@ const improveUi={
         button('simulatorCancelReplace','Cancel replacement',()=>{this.simulatorReplaceConfirmed=false;});
       }
     }
-    if(candidate)button('simulatorClear','Clear New Echo',()=>{this.simulator=model.clearSimulatorCandidate(this.simulator);this.simulatorReplaceConfirmed=false;});
-    const totals=this.simulator.rolling;host.append(text('p','Echo candidates attempted: '+totals.attempts+' · Checkpoints reached: '+totals.checkpoints+' · Gross Tuners: '+totals.tuners));
-    host.append(text('small','Gross costs only · Tube spending and inventory transactions deferred. Resources are unchanged. Recovery and Character improvement: Pending.'));
-    host.append(text('small','Explicit eligible template · no Character BiS preset assumed.'));
+    if(candidate?.level===25&&!running)button('simulatorClear','Clear New Echo',()=>{this.simulator=model.clearSimulatorCandidate(this.simulator);this.simulatorReplaceConfirmed=false;});
+    for(const [id,value] of Object.entries(counts)){const row=text('p',value);row.dataset.counter=id;host.append(row)}
+    if(this.resourcesChanged)host.append(text('small','Resources changed — reset to use the new budget.'));
     if(this.simulatorError){const error=text('p',this.simulatorError);error.setAttribute('role','alert');host.append(error);}
   },
   refresh(){if(this.characterName)this.render()}
@@ -2214,7 +2251,9 @@ document.getElementById('simulatorCurrent').onclick=()=>improveUi.closeSimulatio
 document.getElementById('simulatorReset').onclick=()=>improveUi.resetSimulation();
 document.getElementById('improveScenarioChoose').onclick=()=>{improveUi.closeSimulation();improvePicker.reset();improveScenarioSelection=true;improvePicker.render()};
 window.addEventListener('bellibing-echo-simulator-ready',()=>improveUi.renderSimulationMode());
-window.addEventListener('bellibing-improve-settings-changed',()=>{if(improveUi.simulator)improveUi.renderHelper()});
+window.addEventListener('bellibing-improve-settings-changed',()=>{if(improveUi.simulator){improveUi.cancelRun('Settings changed');improveUi.renderHelper()}});
+window.addEventListener('bellibing-resource-inventory-changed',()=>{if(improveUi.simulator){improveUi.cancelRun('Resources changed');improveUi.resourcesChanged=true;improveUi.renderHelper()}});
+window.addEventListener('bellibing-simulator-sonatas-changed',()=>{if(improveUi.simulator){improveUi.cancelRun('Sonata Sets changed');improveUi.prepareSimulationTemplates();improveUi.renderCandidate();improveUi.renderHelper()}});
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));
 window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());

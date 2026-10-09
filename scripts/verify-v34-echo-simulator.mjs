@@ -66,7 +66,7 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await check('improveUi.simulator.selectedSlot===5&&improveUi.selectedEchoIndex===4','free slot selection failed');
   await click('#improveNewEcho');await waitForUi(send,'echoUi.open&&echoUi.context.kind==="candidate"','New Echo chooser not opened');await sleep(650);
   await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','Candidate chooser not closed');
-  await check('!!improveUi.simulator.slots[4].candidate&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.getElementById("improveHelperTitle").textContent==="Simulate Echo"&&improveUi.simulator.evaluator.status==="PENDING"','candidate isolation/Pending failed');
+  await check('!!improveUi.simulatorTemplates[4]&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.getElementById("improveHelperTitle").textContent==="Simulate Echo"&&improveUi.simulator.evaluator.status==="PENDING"','candidate isolation/Pending failed');
   await unchanged('choose candidate mutated real state');
   // Observed checkpoints come from the existing canonical card editor contract.
   // Dispositions are explicit fixtures, never computed from Target or stat quality.
@@ -174,75 +174,89 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
 
 /** Real controls and production RNG; fixtures seed only owned account context. */
 export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
-  const read = expression => evaluate(send, expression);
-  const check = async (expression, message) => { if (!await read(expression)) throw new Error('Playable Echo: ' + message); };
-  const click = async selector => { await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`); await sleep(300); await pointerClick(send, selector); };
-  await setViewport(send, 1440, 900); await navigate(send); await read('localStorage.clear()'); await navigate(send);
-  await waitForUi(send, 'echoDataLoaded&&window.bellibingEchoSimulator&&window.bellibingImproveSettings&&releasedCharacters.length===59', 'Playable sources not ready');
-  // Fresh account can choose Augusta and roll without visiting Build or creating equipment.
+  const read=expression=>evaluate(send,expression),check=async(expression,message)=>{if(!await read(expression))throw new Error('Playable Echo: '+message)};
+  const click=async selector=>{await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);await sleep(250);await pointerClick(send,selector)};
+  const key=async(key,modifiers=0)=>{const code=key==='a'?'KeyA':key,windowsVirtualKeyCode=({a:65,Backspace:8,Tab:9,Home:36,ArrowDown:40,ArrowRight:39})[key];await send('Input.dispatchKeyEvent',{type:'keyDown',key,code,modifiers,windowsVirtualKeyCode});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers,windowsVirtualKeyCode})};
+  const enter=async(selector,text)=>{await click(selector);await key('a',2);await key('Backspace');await send('Input.insertText',{text});await key('Tab')};
+  const resource=id=>'[data-resource="'+id+'"] input';
+  await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
+  await waitForUi(send,'echoDataLoaded&&window.bellibingEchoSimulator&&window.bellibingImproveSettings&&releasedCharacters.length===59','sources not ready');
   await read("show('improve')");await click('#improveScenarioChoose');
-  const augustaIndex = await read("[...document.querySelectorAll('#improveWheel .choice')].findIndex(c=>c.dataset.characterId==='augusta')");
-  await read('document.getElementById("improveWheel").focus()');
-  for (let index=0;index<augustaIndex;index++) {
-    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight'});
-    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight'});await sleep(700);
-  }
+  const index=await read("[...document.querySelectorAll('#improveWheel .choice')].findIndex(c=>c.dataset.characterId==='augusta')");
+  await read('document.getElementById("improveWheel").focus()');for(let n=0;n<index;n++){await key('ArrowRight');await sleep(700)}
   await click('#improveWheel [data-character-id="augusta"]');
-  await check('improveUi.characterId==="augusta"&&!!improveUi.simulator&&state.characters.length===0&&Object.keys(state.drafts).length===0', 'no-build Character scenario wrote account state');
-  await click('#improveNewEcho');await waitForUi(send,'echoUi.open','fresh scenario chooser');await sleep(650);
-  await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','fresh scenario chooser closing');
-  await click('#simulatorMainStat');
-  for(const key of ['ArrowDown','Enter']) {await send('Input.dispatchKeyEvent',{type:'keyDown',key,code:key});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code:key});}
-  await click('#simulatorRoll');
-  await check('improveUi.workspaceCandidate().level===25&&state.characters.length===0&&Object.keys(state.drafts).length===0','fresh scenario roll requires Build');
-  await click('#simulatorCurrent');await check('!improveUi.simulator&&!improveScenarioSelection&&state.characters.length===0&&Object.keys(state.drafts).length===0','fresh scenario exit created real equipment');
-  await read(`addOwned('Augusta');addOwned('Cartethyia');echoCatalog.slice(0,5).forEach((item,index)=>commitEchoSlot('Augusta',index,makeEchoStatCard(item,item.sonataSetIds[0])));show('improve');improvePicker.select('Augusta')`);
-  const bytes = await read('JSON.stringify(state)'), storage = await read('localStorage.getItem(KEY)');
-  const inventory = await read('JSON.stringify(window.bellibingResourceInventory.getState())');
-  const unchanged = () => check('JSON.stringify(state)==='+JSON.stringify(bytes)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage)+'&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory), 'real build or inventory changed');
-  await click('#simulatorEnter');
-  await check('improveWorkspaceSlots("Augusta").every(slot=>slot===null)&&document.getElementById("simulatorCurrent").textContent==="← Simulate Echo Set"', 'empty baseline/prominent mode');
-  const roll = async () => {
-    await click('#improveNewEcho'); await waitForUi(send, 'echoUi.open', 'chooser not open'); await sleep(650);
-    await click('#echoChoices .echo-choice:not([hidden])'); await click('#echoEquip'); await waitForUi(send, '!echoUi.open&&!echoUi.closing', 'chooser not closed');
-    await check('document.getElementById("simulatorRoll").disabled', 'main stat must be explicit');
-    await click('#simulatorMainStat');
-    for (const key of ['ArrowDown','Enter']) { await send('Input.dispatchKeyEvent',{type:'keyDown',key,code:key}); await send('Input.dispatchKeyEvent',{type:'keyUp',key,code:key}); }
-    await waitForUi(send, '!document.getElementById("simulatorRoll").disabled', 'main stat not chosen');
-    await click('#simulatorRoll');
-    await check(`(()=>{const c=improveUi.simulator.slots[improveUi.selectedEchoIndex].candidate;return c.card.rank===5&&c.card.level===25&&c.card.secondaryMainStat&&c.card.substats.length===5&&new Set(c.card.substats.map(s=>s.name)).size===5&&c.card.substats.every(s=>echoStatContract.substats.find(r=>r.name===s.name).values.includes(s.value))&&JSON.stringify(c.history.slice(1).map(s=>s.level))==='[0,5,10,15,20,25]'&&document.getElementById('improveCandidateEcho').textContent.includes('Level +25')})()`, 'canonical rolls or history');
-    await unchanged();
-  };
-  for (const slot of [5,2,4,1,3]) {
-    await click('#improveEchoRow [data-echo-slot="'+(slot-1)+'"]'); await roll();
-    await click('#simulatorPlace');
-    await check('improveWorkspaceSlots("Augusta")['+(slot-1)+'].level===25&&!improveUi.workspaceCandidate()', 'manual placement slot '+slot); await unchanged();
-  }
-  await check('improveUi.simulator.rolling.attempts===5&&improveUi.simulator.rolling.tuners===250&&improveUi.simulator.rolling.checkpoints===25&&improveUi.simulator.slots.every(s=>s.trash.length===0)&&improveUi.simulator.evaluator.status==="PENDING"', 'gross costs or fabricated recovery/evaluation');
-  await roll();
-  const previous = await read('JSON.stringify(improveWorkspaceSlots("Augusta")[2])');
-  await click('#simulatorPlace'); await check('JSON.stringify(improveWorkspaceSlots("Augusta")[2])==='+JSON.stringify(previous), 'silently replaced occupied slot');
-  await click('#simulatorCancelReplace'); await click('#simulatorPlace'); await click('#simulatorConfirmReplace');
-  await check('improveUi.simulator.slots[2].accepted.length===2&&improveUi.simulator.slots[2].accepted.every(c=>c.disposition==="placed")', 'manual replacement history');
-  await click('#improveCurrentEcho > .simulator-roll-history > summary');
-  await check('document.getElementById("improveCurrentEcho").textContent.includes("Manually placed #")','previous placed history unavailable');
-  await roll(); await click('#improveCandidateEcho .simulator-roll-history summary');
-  for (const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
-    await setViewport(send,width,height); await sleep(300);
+  await waitForUi(send,'!!improveUi.simulator&&improveUi.simulatorTemplates?.[0]?.echoId==="echo-60001215"','preselected default not ready');
+  await check('state.characters.length===0&&Object.keys(state.drafts).length===0&&improveUi.simulatorTemplates.length===5','scenario wrote equipment or lacks templates');
+  await waitForUi(send,'window.bellibingImproveSettings.canAssessEchoRequirements()','settings not ready');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','zero-budget stop');
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===0','zero budget freely rolled');
+  await click('#improve-setting-sonata');
+  await check('JSON.stringify([...document.querySelectorAll(".improve-setting-label")].map(n=>n.textContent))===JSON.stringify(["Sonata Sets","Target","Gate","Hard Requirements","Flex Stats"])','settings order');
+  await check('window.bellibingImproveSettings.getSonataSetIds().length===2&&document.querySelectorAll("[data-setting=sonata] img").length>30','canonical sets/icons');
+  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===1','set remove');
+  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===2','set add');
+  await check('document.querySelectorAll("[data-setting=sonata] button:not([aria-pressed=true]):not(.improve-setting-trigger)").length>0&&[...document.querySelectorAll("[data-setting=sonata] .improve-setting-choice[aria-pressed=false]")].every(n=>n.disabled)','two-set limit');
+  for(const [id,count] of [['echoes','3'],['tuners','150'],['premium','90']])await enter(resource(id),count);
+  await click('#improve-setting-sonata');await click('#simulatorReset');await read('window.savedFiniteRandom=Math.random;Math.random=()=>.99999');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','finite exhaustion');
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===3&&improveUi.simulator.rolling.tuners===150&&improveUi.simulator.resources.inventory.echoes.count===0&&window.bellibingResourceInventory.getState().echoes.count===3','finite failed attempts must really spend detached resources');
+  await read('Math.random=window.savedFiniteRandom;delete window.savedFiniteRandom');await click('#improve-setting-sonata');
+  for(const id of ['echoes','tuners','premium','advanced','medium','basic'])await enter(resource(id),'∞');
+  await check('window.bellibingResourceInventory.getState().echoes.kind==="UNLIMITED"&&window.bellibingResourceInventory.getState().tuners.kind==="UNLIMITED"','physical budget entry');await click('#improve-setting-sonata');await click('#simulatorReset');
+  const inventory=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','requirements run stop',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"&&improveUi.workspaceCandidate().level===25&&improveUi.simulator.slots[0].candidate.history.length===7&&state.characters.length===0','normal Augusta scenario success '+JSON.stringify(await read('({run:improveUi.simulator.run,attempts:improveUi.simulator.rolling.attempts,card:improveUi.workspaceCandidate(),error:improveUi.simulatorError})')));
+  await click('#simulatorClear');await read('window.savedSimulatorRandom=Math.random;Math.random=()=>.99999');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.rolling.attempts>2&&improveUi.simulator.run.status==="RUNNING"','repeated failure run');
+  await click('#simulatorCancel');const cancelledAttempts=await read('improveUi.simulator.rolling.attempts');await sleep(150);
+  await check('improveUi.simulator.run.status==="CANCELLED"&&improveUi.simulator.rolling.attempts==='+cancelledAttempts,'physical cancel must stop batches');
+  await read('Math.random=window.savedSimulatorRandom;delete window.savedSimulatorRandom');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','success after cancel',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"','success after cancel');
+  await click('#improveCandidateEcho .simulator-roll-history summary');
+  for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
+    await setViewport(send,width,height);await sleep(250);await click('#improve-setting-gate');
+    for(const id of ['echoes','tuners','premium','advanced','medium','basic']){
+      await enter(resource(id),'37');
+      const bounds=await read(`(()=>{const r=document.querySelector(${JSON.stringify(resource(id))}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+      await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',buttons:1,clickCount:1,...bounds});
+      for(const dx of [1.25,2.5,6.25,60])await send('Input.dispatchMouseEvent',{type:'mouseMoved',buttons:1,x:bounds.x+dx,y:bounds.y});
+      await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',buttons:0,clickCount:1,x:bounds.x+60,y:bounds.y});
+      await check(`document.querySelector(${JSON.stringify(resource(id))}).value==='47'`,'real pointer scrub '+id+' '+width+' '+JSON.stringify(await read(`({value:document.querySelector(${JSON.stringify(resource(id))}).value,inventory:window.bellibingResourceInventory.getState()})`)));
+      await enter(resource(id),'∞');
+    }
+    await enter(resource('echoes'),'5');await click(resource('echoes'));await check('window.bellibingResourceInventory.getState().echoes.count===5','ordinary click mutation');
+    await key('ArrowDown');await check('window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard');
+    await enter(resource('echoes'),'oops');await check('document.querySelector("[data-resource=echoes] input").getAttribute("aria-invalid")==="true"&&window.bellibingResourceInventory.getState().echoes.count===4','invalid-input recovery');
+    await enter(resource('echoes'),'∞');await click('#improve-setting-gate');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','desktop success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','desktop success');
     await read('document.getElementById("improveCandidateEcho").scrollIntoView({block:"center",behavior:"instant"})');
-    await check(`(()=>{const ids=['improveCurrentEcho','improveCandidateEcho','simulatorControls'];return ids.every(id=>{const r=document.getElementById(id).getBoundingClientRect();return r.width>80&&r.left>=0&&r.right<=innerWidth})&&document.querySelector('.simulator-roll-history').textContent.includes('+25')})()`, 'desktop layout '+width);
+    await check('document.querySelectorAll(".improve-settings-heading button").length===0&&document.getElementById("simulatorControls").textContent.includes("Gold")&&!document.getElementById("simulatorControls").innerText.includes("Gross costs only")','compact surface');
+    await check('document.getElementById("improveShell").scrollLeft===0&&document.getElementById("improveCharacterArt").getBoundingClientRect().left>=document.getElementById("improveShell").getBoundingClientRect().left','Character art clipped by horizontal focus scroll '+width);
     await capture(send,'artifacts/ui-preview-playable-echo-'+width+'x'+height+'.png');
   }
-  await click('#simulatorClear'); await check('!improveUi.workspaceCandidate()&&improveUi.simulator.slots[2].unplaced.length===1&&improveUi.simulator.rolling.attempts===7', 'clear/refund fabrication');
-  await unchanged(); await click('#simulatorReset');
-  await check('improveWorkspaceSlots("Augusta").every(s=>s===null)&&improveUi.simulator.rolling.attempts===0', 'reset isolation');
-  await click('#simulatorCurrent'); await unchanged();
-  await check('!improveUi.simulator&&improveWorkspaceSlots("Augusta").every(Boolean)', 'Current restoration');
-  await click('#simulatorEnter'); await roll(); await navigate(send);
-  await waitForUi(send,'window.bellibingEchoSimulator&&echoDataLoaded','reload not ready'); await unchanged();
-  await read("show('improve');improvePicker.select('Augusta');improveUi.startSimulation();improveUi.setCharacter('Cartethyia')");
-  await check('!improveUi.simulator&&improveUi.characterId==="cartethyia"','Character change retained simulation');
-  console.log('Playable Echo: production RNG, five arbitrary slots, valid exact tiers/checkpoints, manual placement/replacement, history, gross costs, no inventory/refunds, reset/exit/reload/Character isolation and 1440/1920/2560 passed.');
+  await check('JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'resources persistence altered by simulation');
+  await click('#simulatorPlace');await check('improveWorkspaceSlots("Augusta")[0].level===25&&!improveUi.simulator.slots[0].candidate','manual placement');
+  await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','repeat success',60000);
+  await click('#simulatorClear');await check('improveUi.simulator.slots[0].unplaced.length===1&&improveUi.simulator.rolling.attempts>0','clear retains success/no refund');
+  await click('#simulatorCurrent');await check('!improveUi.simulator&&state.characters.length===0&&Object.keys(state.drafts).length===0','scenario exit wrote account');
+  // Existing real equipment is preserved across five independent simulated slots.
+  await read(`addOwned('Augusta');echoCatalog.slice(0,5).forEach((item,index)=>commitEchoSlot('Augusta',index,makeEchoStatCard(item,item.sonataSetIds[0])));show('improve');improvePicker.select('Augusta')`);
+  const bytes=await read('JSON.stringify(state)'),storage=await read('localStorage.getItem(KEY)');await click('#simulatorEnter');
+  // Settings are real user-owned controls; configure an easy explicit ALL-hard scenario
+  // with physical keyboard movement, rather than a private evaluator fixture.
+  await click('#improve-setting-every');
+  await click('.improve-other-stats summary');
+  for(const name of ['CRIT Rate','CRIT DMG']){await click('[data-focus-key="handle:'+name+'"]');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',modifiers:1});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',modifiers:1})}
+  await click('[data-focus-key="flex-count"]');await key('Home');await click('#improve-setting-every');
+  for(const slot of [5,2,4,1,3]){
+    await click('#improveEchoRow [data-echo-slot="'+(slot-1)+'"]');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','slot success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','slot success '+slot);await click('#simulatorPlace');
+  }
+  await check('improveWorkspaceSlots("Augusta").every(card=>card.level===25)&&JSON.stringify(state)==='+JSON.stringify(bytes)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage),'five slots/real isolation');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','replacement success',60000);await click('#simulatorPlace');await click('#simulatorCancelReplace');await click('#simulatorPlace');await click('#simulatorConfirmReplace');
+  await check('improveUi.simulator.slots[2].accepted.length===2','explicit replacement');
+  await click('#simulatorRoll');await sleep(60);if(await read('improveUi.simulator.run.status==="RUNNING"')){await click('#simulatorCancel');await check('improveUi.simulator.run.status==="CANCELLED"','cancel')}
+  await click('#simulatorCurrent');await navigate(send);await waitForUi(send,'echoDataLoaded&&window.bellibingImproveSettings','reload');
+  await check('!improveUi.simulator&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage),'reload isolation/persistence');
+  console.log('Playable Echo corrections: real pointer controls at 1440/1920/2560, preselected Augusta/no-build, repeated requirement success, zero/explicit unlimited resources, six scrubbers/keyboard/persistence/invalid recovery, canonical Sonata selection, inspectable success/manual placement/replacement and five-slot real-build isolation passed.');
 }
 
 export async function verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep}) {
@@ -262,7 +276,7 @@ export async function verifyEchoSimulatorReview({send,evaluate,setViewport,waitF
     await sleep(350);
     const bounds=await read(inFrame?'(()=>{const iframe=document.getElementById("preview"),f=iframe.getBoundingClientRect(),r=iframe.contentDocument.querySelector('+JSON.stringify(selector)+').getBoundingClientRect();return {x:f.x+r.x+r.width/2,y:f.y+r.y+r.height/2}})()':'(()=>{const r=document.querySelector('+JSON.stringify(selector)+').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()');
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});
-    await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...bounds});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',buttons:1,clickCount:1,...bounds});
     await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...bounds});await sleep(180);
   }
   await capture(send,'artifacts/ui-preview-echo-simulator-review-1440x900.png');

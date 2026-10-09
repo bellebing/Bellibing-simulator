@@ -1,3 +1,4 @@
+import type { SimulatorResources, SimulatorRun } from './echoSimulatorRun.ts';
 import type { EchoLevel, StatRoll } from './echoCoreDomain.ts';
 import type { SimulatorContext, SimulatorDispositionReceipt } from './echoSimulatorBoundary.ts';
 import { matchesSimulatorReceipt, SIMULATOR_EVALUATOR_PENDING } from './echoSimulatorBoundary.ts';
@@ -48,6 +49,8 @@ export interface EchoSimulatorSession {
   nextCandidate: number;
   /** Gross mechanics only, never inventory transactions or recovery receipts. EXP stays internal. */
   rolling: { attempts: number; checkpoints: number; tuners: number; exp: number };
+  resources?: SimulatorResources;
+  run?: SimulatorRun;
   evaluator: typeof SIMULATOR_EVALUATOR_PENDING;
 }
 const detached = <T>(value: T): T => structuredClone(value);

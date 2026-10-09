@@ -68,7 +68,7 @@ Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real
 
 1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
 2. Worker 8 Fas 3 COMPLETE for the bounded STAT_TARGET pilots above; broader readiness remains Pending.
-3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): memory-only Improve sandbox with a prominent internal mode switch, five empty slots, canonical +25 rolling, manual placement/replacement and inspectable histories. A Character can be selected for simulation without an account build. Public selected-requirements feedback and gross counters are executable; inventory transactions and production decisions remain Pending; no private ingress exists.
+3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): memory-only Improve sandbox with a prominent internal mode switch, five empty slots, canonical +25 rolling, manual placement/replacement and inspectable histories. A Character can be selected for simulation without an account build. The Draft playable correction candidate repeats until canonical Hard/Flex success, with detached finite/unlimited inventory spending, exact Tube transactions, eligible editable defaults, Sonata selection and resource scrubbing. UI acceptance/FULL remain pending; Character improvement, recovery receipts and production evaluator decisions remain Pending; no private ingress exists.
 4. Improvement Cost through repeated simulation, keeping Tuners / Tubes / Echoes separate.
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.

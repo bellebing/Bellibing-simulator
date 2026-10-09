@@ -1,4 +1,5 @@
 import * as session from '../../assets/echoSimulatorSession.js';
+import * as run from '../../assets/echoSimulatorRun.js';
 import * as rolling from '../../assets/echoSimulatorRolling.js';
 import { RANK5_PRIMARY_MAIN_STATS } from '../../assets/echoMainStats.js';
 import { assessEchoRequirements } from '../../assets/echoRequirements.js';
@@ -89,5 +90,5 @@ function renderSlotHistory(history, formatStat) {
   }
   return details;
 }
-window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, RANK5_PRIMARY_MAIN_STATS, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
+window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
 window.dispatchEvent(new Event('bellibing-echo-simulator-ready'));

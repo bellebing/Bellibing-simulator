@@ -169,3 +169,13 @@
 .improve-flex-count output { flex:1; }
 .improve-flex-count .improve-roll-slider { width:84px; flex:none; --roll-position:0%; }
 .improve-flex-count:has([aria-invalid="true"]) { color:#e5ad86; }
+.improve-settings-controls {grid-template-columns:minmax(0,160px) minmax(0,185px) minmax(0,60px) repeat(2,minmax(0,1fr));}
+.improve-mode-actions{font-size:11px;margin-top:8px;color:#b9b3a7}.improve-mode-actions summary{cursor:pointer}.improve-mode-actions .improve-setting-chips{margin-top:6px}
+[data-setting="sonata"] .improve-setting-choice{display:flex;align-items:center;gap:6px;text-align:left;white-space:normal;width:100%}
+[data-setting="sonata"] .improve-setting-options{max-height:360px;overflow:auto}
+.resource-scrubber{cursor:ew-resize;touch-action:none}.resource-scrubber:focus{cursor:text;outline:2px solid #d8b152;outline-offset:2px}.resource-scrubber.is-scrubbing{cursor:ew-resize;user-select:none}
+[data-setting="sonata"] .improve-setting-summary{min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){.improve-settings-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* The wheel uses transforms for navigation; its off-screen cards must not
+   make browser focus scroll the Character workspace horizontally. */
+#improveShell.has-selection > .wheel{overflow-x:clip}

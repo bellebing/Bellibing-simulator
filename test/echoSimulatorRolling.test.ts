@@ -81,7 +81,7 @@ test('invalid templates, partial/fabricated cards and throwing RNG fail atomical
 test('public rolling adapter remains source-preview identical, with no evaluator or inventory ingress', () => {
   const source = readFileSync('src/echoSimulatorRolling.ts', 'utf8');
   assert.doesNotMatch(source, /refundOnDiscard|localStorage|fetch\(|applySimulatorDisposition\(/);
-  for (const name of ['echoSimulatorRolling', 'echoCoreRuntime', 'echoMainStats']) {
+  for (const name of ['echoSimulatorRolling', 'echoSimulatorRun', 'echoExactTubeSpending', 'echoCoreRuntime', 'echoMainStats']) {
     const compiled = ts.transpileModule(readFileSync('src/' + name + '.ts', 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022, verbatimModuleSyntax: true, rewriteRelativeImportExtensions: true } }).outputText;
     assert.equal(readFileSync('docs/assets/' + name + '.js', 'utf8'), compiled);
   }

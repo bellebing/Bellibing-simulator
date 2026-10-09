@@ -5,7 +5,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     if (!await read(expression)) throw new Error('Improve Settings: ' + message + ' ' + JSON.stringify(await read(`({state:${state},text:document.getElementById('improveSettings').innerText})`)));
   };
   const click = async selector => {
-    if(selector.includes('mode:')&&!await read('document.querySelector(".improve-mode-actions").open')){await read('document.querySelector(".improve-mode-actions summary").scrollIntoView({block:"center",inline:"nearest",behavior:"instant"})');await pointerClick(send,'.improve-mode-actions summary');await sleep(150)}
+    if(selector.includes('mode:')&&!await read('document.querySelector(".improve-mode-actions").open'))await click('.improve-mode-actions summary');
     // Hover can expand the active input column and move its controls. Settle it
     // before the caller's physical click, then require an actual visible hit.
     await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',inline:'center',behavior:'instant'})`);

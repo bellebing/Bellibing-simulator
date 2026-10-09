@@ -20,8 +20,8 @@ export function startEchoSimulator(characterId, realBuild, sessionId) {
     };
     return {
         id: sessionId, source: { characterId, activeSetId, build: detached(realBuild) }, simulatedBuild,
-        buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, accepted: [], trash: [] })),
-        inspected: null, nextCandidate: 1, evaluator: SIMULATOR_EVALUATOR_PENDING,
+        buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, unplaced: [], accepted: [], trash: [] })),
+        inspected: null, nextCandidate: 1, rolling: { attempts: 0, checkpoints: 0, tuners: 0, exp: 0 }, evaluator: SIMULATOR_EVALUATOR_PENDING,
     };
 }
 export function simulatedEchoSlots(session) {

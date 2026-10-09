@@ -98,7 +98,7 @@ function commit(change, focusKey, refresh = true) {
   catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
   const saved = save();
   if (!saved) settings = previous;
-  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); return; }
+  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); window.dispatchEvent(new Event('bellibing-improve-settings-changed')); return; }
   render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
@@ -331,6 +331,7 @@ function render() {
   renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
+  window.dispatchEvent(new Event('bellibing-improve-settings-changed'));
 }
 function setCharacter(id) {
   if (characterId !== id) {
@@ -353,7 +354,7 @@ function setCharacter(id) {
   if (loaded) save(); render();
 }
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+window.bellibingImproveSettings = { setCharacter, canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])

@@ -1,4 +1,7 @@
 import * as session from '../../assets/echoSimulatorSession.js';
+import * as rolling from '../../assets/echoSimulatorRolling.js';
+import { RANK5_PRIMARY_MAIN_STATS } from '../../assets/echoMainStats.js';
+import { assessEchoRequirements } from '../../assets/echoRequirements.js';
 
 function node(tag, text, className) {
   const result = document.createElement(tag);
@@ -53,5 +56,38 @@ function renderTrashPile(state, slot, name, onInspect, onReturn, formatStat) {
   } else pile.append(stack);
   return pile;
 }
-window.bellibingEchoSimulator = Object.freeze({ ...session, renderTrashPile });
+function renderCheckpointHistory(candidate, formatStat) {
+  const details = node('details', undefined, 'simulator-roll-history');
+  details.append(node('summary', 'Checkpoint history'));
+  for (const checkpoint of candidate.history.filter(card => card.level !== undefined)) {
+    const stat = checkpoint.substats?.at(-1);
+    details.append(node('p', '+' + checkpoint.level + (stat ? ' · ' + stat.name + ' ' + formatStat(stat.name, stat.value) : ' · Eligible Rank-5 template')));
+  }
+  return details;
+}
+function requirementsText(settings, card) {
+  const requirements = settings?.presentation.echoPolicy.requirements;
+  if (!requirements?.value || settings.migration || settings.compatibility.context !== 'MATCH' || settings.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key))) return 'Selected Echo requirements: Pending';
+  const result = assessEchoRequirements(requirements.value, card);
+  return result.status === 'SATISFIED' ? 'Meets selected Echo requirements'
+    : result.status === 'IMPOSSIBLE' ? 'Does not meet selected Echo requirements'
+    : 'Selected Echo requirements: ' + result.status.toLowerCase() + ' · ' + result.reason;
+}
+function renderSlotHistory(history, formatStat) {
+  const details = node('details', undefined, 'simulator-roll-history');
+  details.append(node('summary', 'Slot history'));
+  for (const [label, cards] of [['Manually placed', history.accepted], ['Cleared New Echo', history.unplaced]]) {
+    for (const candidate of cards) {
+      const entry = node('details');
+      entry.append(node('summary', label + ' #' + candidate.id.split(':').at(-1)));
+      const stats = node('dl', undefined, 'simulator-checkpoint-stats');
+      for (const stat of [candidate.card.mainStat, candidate.card.secondaryMainStat, ...(candidate.card.substats || [])].filter(Boolean)) {
+        stats.append(node('dt', stat.name), node('dd', formatStat(stat.name, stat.value)));
+      }
+      entry.append(stats, renderCheckpointHistory(candidate, formatStat));details.append(entry);
+    }
+  }
+  return details;
+}
+window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, RANK5_PRIMARY_MAIN_STATS, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
 window.dispatchEvent(new Event('bellibing-echo-simulator-ready'));

@@ -28,11 +28,12 @@ export interface SimulatorCandidate {
   history: SimulatorEchoCard[];
 }
 export interface SimulatorHistoryCard extends SimulatorCandidate {
-  disposition: 'accepted' | 'rejected';
+  disposition: 'accepted' | 'rejected' | 'placed';
   reason: string;
 }
 export interface SimulatorSlotHistory {
   candidate: SimulatorCandidate | null;
+  unplaced: SimulatorCandidate[];
   accepted: SimulatorHistoryCard[];
   trash: SimulatorHistoryCard[];
 }
@@ -45,6 +46,8 @@ export interface EchoSimulatorSession {
   slots: SimulatorSlotHistory[];
   inspected: { slot: number; candidateId: string } | null;
   nextCandidate: number;
+  /** Gross mechanics only, never inventory transactions or recovery receipts. EXP stays internal. */
+  rolling: { attempts: number; checkpoints: number; tuners: number; exp: number };
   evaluator: typeof SIMULATOR_EVALUATOR_PENDING;
 }
 const detached = <T>(value: T): T => structuredClone(value);
@@ -67,8 +70,8 @@ export function startEchoSimulator(characterId: string, realBuild: SimulatorBuil
   };
   return {
     id: sessionId, source: { characterId, activeSetId, build: detached(realBuild) }, simulatedBuild,
-    buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, accepted: [], trash: [] })),
-    inspected: null, nextCandidate: 1, evaluator: SIMULATOR_EVALUATOR_PENDING,
+    buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, unplaced: [], accepted: [], trash: [] })),
+    inspected: null, nextCandidate: 1, rolling: { attempts: 0, checkpoints: 0, tuners: 0, exp: 0 }, evaluator: SIMULATOR_EVALUATOR_PENDING,
   };
 }
 export function simulatedEchoSlots(session: EchoSimulatorSession): SimulatorSlotCard[] {

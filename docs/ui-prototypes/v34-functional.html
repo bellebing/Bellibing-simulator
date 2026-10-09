@@ -470,12 +470,12 @@
 <body>
 <section id="home" class="page active"><div id="homeStage" class="home-stage"></div></section>
 <section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="viewBuildCard" class="view-build-card" type="button" aria-haspopup="dialog" aria-controls="buildCardOverlay" hidden>View Character Card</button><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
-<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
+<section id="improve" class="page"><button class="menu" data-home type="button">☰</button><button id="improveScenarioChoose" class="simulator-scenario-choose" type="button">Simulate without a build</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <section id="improveSettings" class="improve-settings improve-surface" aria-labelledby="improveSettingsTitle"></section>
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <nav class="simulator-modes" aria-label="Improve workspace mode">
-      <button id="simulatorCurrent" type="button" aria-pressed="true">Current</button>
-      <button id="simulatorEnter" type="button" aria-pressed="false" disabled>Simulate</button>
+      <button id="simulatorCurrent" class="simulator-mode-title" type="button" aria-label="Return to Improve your character" hidden>← Simulate Echo Set</button>
+      <button id="simulatorEnter" class="simulator-mode-title" type="button" aria-label="Switch to Simulate Echo Set" disabled>Improve your character →</button>
       <span id="simulatorSessionNote" class="simulator-session-note" hidden>Shared inputs · Echo sandbox discarded on exit/reload</span>
       <button id="simulatorReset" type="button" hidden>Reset sandbox</button>
     </nav>
@@ -497,6 +497,7 @@
         <h2 id="improveHelperTitle">Roll to +5</h2>
         <p id="improveHelperMain" class="improve-helper-main">Enter the first substat.</p>
         <button id="improveEnterSubstat" class="improve-helper-action" type="button">+ Enter substat</button>
+        <div id="simulatorControls" class="simulator-controls" hidden></div>
         <div class="improve-helper-fine">
           <div class="improve-helper-metric"><span>Chance / Tuner</span><strong>Pending model</strong></div>
           <div class="improve-helper-metric"><span>Tuners / Upgrade</span><strong>Pending model</strong></div>
@@ -1991,7 +1992,7 @@ const improveUi={
   startSimulation(){
     const model=window.bellibingEchoSimulator;if(!model||!this.characterId||IMPROVE_LAYOUT_PREVIEW)return;
     if(echoUi.open)echoUi.hide();
-    this.simulator=model.startEchoSimulator(this.characterId,improveBuildState(this.characterName),crypto.randomUUID());
+    this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=model.startEchoSimulator(this.characterId,improveBuildState(this.characterName),crypto.randomUUID());
     this.simulator=model.selectSimulatorSlot(this.simulator,this.selectedEchoIndex+1);this.contextVersion++;this.render();
   },
   closeSimulation(){
@@ -1999,14 +2000,16 @@ const improveUi={
     document.querySelector('.simulator-inspection')?.close();
     if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide();
     this.simulator=null;this.contextVersion++;this.render();
+    if(improveScenarioSelection){improveScenarioSelection=false;improvePicker.reset();improvePicker.render()}
   },
   resetSimulation(){
     if(!this.simulator)return;document.querySelector('.simulator-inspection')?.close();if(echoUi.open)echoUi.hide();
-    this.simulator=window.bellibingEchoSimulator.resetEchoSimulator(this.simulator,crypto.randomUUID());
+    this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=window.bellibingEchoSimulator.resetEchoSimulator(this.simulator,crypto.randomUUID());
     this.selectedEchoIndex=0;this.contextVersion++;this.render();
   },
   workspaceCandidate(){return this.simulator?this.simulator.slots[this.selectedEchoIndex].candidate?.card||null:this.candidate},
   chooseCandidate(card){
+    this.simulatorError=null;this.simulatorReplaceConfirmed=false;
     if(this.simulator)this.simulator=window.bellibingEchoSimulator.startSimulatorCandidate(this.simulator,card);
     else this.candidate=cloneEchoSlot(card);
     this.renderCandidate();this.renderHelper();
@@ -2014,8 +2017,8 @@ const improveUi={
   renderSimulationMode(){
     document.getElementById('improveBuildCard').dataset.simulator=String(!!this.simulator);
     // Settings and inventory are shared editable inputs; only Echo equipment/session is sandboxed.
-    document.getElementById('simulatorCurrent').setAttribute('aria-pressed',String(!this.simulator));
-    const enter=document.getElementById('simulatorEnter');enter.setAttribute('aria-pressed',String(!!this.simulator));enter.disabled=!this.characterId||!window.bellibingEchoSimulator||IMPROVE_LAYOUT_PREVIEW;
+    document.getElementById('simulatorCurrent').hidden=!this.simulator;document.getElementById('simulatorEnter').hidden=!!this.simulator;
+    const enter=document.getElementById('simulatorEnter');enter.disabled=!this.characterId||!window.bellibingEchoSimulator||IMPROVE_LAYOUT_PREVIEW;
     document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;
     document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes and slot Trash Piles':'Current equipped Echoes');
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent=this.simulator?'Simulated':'Current';
@@ -2118,6 +2121,7 @@ const improveUi={
     const title=document.createElement('div');title.className='improve-echo-large-name';title.textContent=item?.name||'Empty slot';host.insertBefore(title,art);
     const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent=item?('COST '+item.cost+(Number.isFinite(slot?.level)?' · +'+slot.level:'')):(this.simulator?'Select a simulated slot below':'Select an equipped Echo below');host.appendChild(meta);
     host.appendChild(this.echoStats(slot));
+    if(this.simulator){const history=this.simulator.slots[this.selectedEchoIndex];if(history.accepted.length>1||history.unplaced.length)host.append(window.bellibingEchoSimulator.renderSlotHistory(history,echoStatValueText))}
   },
   renderCandidate(){
     const host=document.getElementById('improveCandidateEcho'),slot=this.workspaceCandidate(),item=echoById.get(echoSlotId(slot));host.replaceChildren();
@@ -2130,13 +2134,13 @@ const improveUi={
       const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
       const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
       const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?'Main stat — · Level —':'Level +'+slot.level;
-      host.append(title,art,meta,sonata,pending);if(this.simulator&&slot.mainStat)host.append(this.echoStats(slot));
+      host.append(title,art,meta,sonata,pending);if(this.simulator&&slot.mainStat){host.append(this.echoStats(slot));const candidate=this.simulator.slots[this.selectedEchoIndex].candidate;host.append(window.bellibingEchoSimulator.renderCheckpointHistory(candidate,echoStatValueText))}
     }else{
       const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
     }
   },
   selectEcho(index){
-    if(this.simulator){if(echoUi.open)echoUi.hide();this.contextVersion++;this.simulator=window.bellibingEchoSimulator.selectSimulatorSlot(this.simulator,index+1);}this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();if(this.simulator)this.renderCandidate();
+    if(this.simulator){if(echoUi.open)echoUi.hide();this.contextVersion++;this.simulator=window.bellibingEchoSimulator.selectSimulatorSlot(this.simulator,index+1);this.simulatorReplaceConfirmed=false;}this.selectedEchoIndex=index;this.renderEchoRow();this.renderCurrentEcho();if(this.simulator)this.renderCandidate();
     this.renderHelper();
   },
   renderEchoRow(){
@@ -2163,21 +2167,54 @@ const improveUi={
   },
   renderHelper(){
     if(this.simulator){
-      const candidate=this.workspaceCandidate();document.getElementById('improveHelperTitle').textContent='Evaluator Pending';
-      document.getElementById('improveHelperMain').textContent=candidate?this.simulator.evaluator.text:'Choose a New Echo for slot '+(this.selectedEchoIndex+1)+'. Decisions are Pending.';
-      const action=document.getElementById('improveEnterSubstat');action.textContent=candidate?'Await evaluator':'+ Choose Echo';action.disabled=!!candidate;return;
+      const candidate=this.workspaceCandidate(),model=window.bellibingEchoSimulator;
+      document.getElementById('improveHelperTitle').textContent='Simulate Echo';
+      document.getElementById('improveHelperMain').textContent=candidate?.level===25?model.requirementsText(window.bellibingImproveSettings?.canAssessEchoRequirements()?window.bellibingImproveSettings.getState():null,candidate):'Choose an eligible Echo and main stat for slot '+(this.selectedEchoIndex+1)+'.';
+      const action=document.getElementById('improveEnterSubstat');action.textContent='+ Choose Echo';action.disabled=!!candidate;action.hidden=!!candidate;
+      this.renderRollingControls();return;
     }
+    document.getElementById('simulatorControls').hidden=true;document.getElementById('improveEnterSubstat').hidden=false;
     document.getElementById('improveEnterSubstat').disabled=false;
     document.getElementById('improveHelperTitle').textContent=this.candidate?'Enter Main Stat':'Choose Echo';
     document.getElementById('improveHelperMain').textContent=this.candidate?'Start with the main stat of your new Echo.':'Choose the Echo you want to build.';
     document.getElementById('improveEnterSubstat').textContent=this.candidate?'+ Enter Main Stat':'+ Choose Echo';
+  },
+  renderRollingControls(){
+    const host=document.getElementById('simulatorControls'),model=window.bellibingEchoSimulator,candidate=this.workspaceCandidate(),item=echoById.get(candidate?.echoId);host.hidden=false;host.replaceChildren();
+    const text=(tag,value)=>{const node=document.createElement(tag);node.textContent=value;return node};
+    const button=(id,label,run)=>{const node=text('button',label);node.id=id;node.type='button';node.onclick=()=>{try{run();this.simulatorError=null}catch(error){this.simulatorError=error.message}this.render();};host.append(node);return node};
+    if(item&&candidate.level===undefined){
+      const label=text('label','Eligible Rank-5 main stat');label.htmlFor='simulatorMainStat';
+      const select=document.createElement('select');select.id='simulatorMainStat';select.append(new Option('Choose main stat',''));
+      for(const stat of model.RANK5_PRIMARY_MAIN_STATS[item.cost])select.append(new Option(stat.name,stat.name));
+      select.value=candidate.templateMainStat||'';select.onchange=()=>{this.simulator=structuredClone(this.simulator);this.simulator.slots[this.selectedEchoIndex].candidate.card.templateMainStat=select.value;document.getElementById('simulatorRoll').disabled=!select.value;};
+      host.append(label,select);
+      button('simulatorRoll','Simulate Echo',()=>{this.simulator=model.rollSimulatorCandidate(this.simulator,{echoId:item.id,selectedSonataSetId:candidate.selectedSonataSetId,cost:item.cost,primaryMainStat:select.value},{next:()=>Math.random()});}).disabled=!select.value;
+    }
+    if(candidate?.level===25){
+      const occupied=!!improveWorkspaceSlots(this.characterName)[this.selectedEchoIndex];
+      button('simulatorPlace',occupied?'Replace Echo '+(this.selectedEchoIndex+1)+'…':'Place in Echo '+(this.selectedEchoIndex+1),()=>{
+        if(occupied){this.simulatorReplaceConfirmed=true;return}this.simulator=model.placeSimulatorCandidate(this.simulator);});
+      if(occupied&&this.simulatorReplaceConfirmed){
+        host.append(text('p','Replace the simulated Echo in this slot? Its previous card stays in session history.'));
+        button('simulatorConfirmReplace','Confirm replacement',()=>{this.simulator=model.placeSimulatorCandidate(this.simulator,true);this.simulatorReplaceConfirmed=false;});
+        button('simulatorCancelReplace','Cancel replacement',()=>{this.simulatorReplaceConfirmed=false;});
+      }
+    }
+    if(candidate)button('simulatorClear','Clear New Echo',()=>{this.simulator=model.clearSimulatorCandidate(this.simulator);this.simulatorReplaceConfirmed=false;});
+    const totals=this.simulator.rolling;host.append(text('p','Echo candidates attempted: '+totals.attempts+' · Checkpoints reached: '+totals.checkpoints+' · Gross Tuners: '+totals.tuners));
+    host.append(text('small','Gross costs only · Tube spending and inventory transactions deferred. Resources are unchanged. Recovery and Character improvement: Pending.'));
+    host.append(text('small','Explicit eligible template · no Character BiS preset assumed.'));
+    if(this.simulatorError){const error=text('p',this.simulatorError);error.setAttribute('role','alert');host.append(error);}
   },
   refresh(){if(this.characterName)this.render()}
 };
 document.getElementById('simulatorEnter').onclick=()=>{if(!improveUi.simulator)improveUi.startSimulation()};
 document.getElementById('simulatorCurrent').onclick=()=>improveUi.closeSimulation();
 document.getElementById('simulatorReset').onclick=()=>improveUi.resetSimulation();
+document.getElementById('improveScenarioChoose').onclick=()=>{improveUi.closeSimulation();improvePicker.reset();improveScenarioSelection=true;improvePicker.render()};
 window.addEventListener('bellibing-echo-simulator-ready',()=>improveUi.renderSimulationMode());
+window.addEventListener('bellibing-improve-settings-changed',()=>{if(improveUi.simulator)improveUi.renderHelper()});
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));
 window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
@@ -2338,7 +2375,7 @@ function makePicker({shellId,wheelId,items,mode}){
   if(mode==='improve')new MutationObserver(reserveImproveSelectorSpace).observe(shell,{attributes:true,attributeFilter:['class']});
   function source(){return typeof items==='function'?items():items}
   function spacing(){if(shell.classList.contains('hover-expanded'))return 146;if(shell.classList.contains('has-selection'))return 98;return wheel.clientWidth<700?200:228}
-  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name))autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name)}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint();reserveImproveSelectorSpace()}
+  function select(name){if(mode==='build'){characterBuildCardUi.syncSelection(name);draft(name);autosave(name,{lastOpenedAt:new Date().toISOString()});document.getElementById('buildName').textContent=name;const btn=document.getElementById('accountBtn');btn.textContent=owned(name)?'On Account':'Add to Account';btn.classList.toggle('owned',owned(name));btn.disabled=owned(name);weaponUi.setCharacter(name);echoUi.setCharacter(name);sequenceUi.setCharacter(name);skillsUi.setCharacter(name);statsUi.setCharacter(name);heroArtUi.setCharacter(name)}else{if(owned(name)&&!improveScenarioSelection)autosave(name,{lastImprovedAt:new Date().toISOString()});improveUi.setCharacter(name);if(improveScenarioSelection)improveUi.startSimulation()}selected=name;const idx=Math.max(0,list.findIndex(item=>item.name===name));const before=wheel.getBoundingClientRect();shell.classList.add('has-selection');shell.classList.remove('hover-expanded');const after=wheel.getBoundingClientRect();const dy=before.top-after.top;if(!shell.dataset.wasSelected&&!matchMedia('(prefers-reduced-motion:reduce)').matches){shell.dataset.wasSelected='1';const a=wheel.animate([{transform:'translateY('+dy+'px)'},{transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.16,.84,.24,1)'});a.onfinish=()=>a.cancel()}else shell.dataset.wasSelected='1';carousel?.setIndex(idx);carousel?.paint();reserveImproveSelectorSpace()}
   function requestSwitch(name){if(name===selected||activeConfirmation)return;pending=name;
     openConfirmation({kind:'character',title:'Switch Character?',body:'Switch to '+name+'?',confirm:'Switch',onConfirm:()=>confirmPickerSwitch(),onCancel:()=>{pending=null}})}
   function closeDialog(){pending=null;if(activeConfirmation?.kind==='character')closeConfirmation()}
@@ -2449,8 +2486,9 @@ const characterBuildCardUi={
 };
 
 const buildPicker=makePicker({shellId:'buildShell',wheelId:'buildWheel',items:()=>releasedCharacters,mode:'build'});
-const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get(IMPROVE_PREVIEW_CHARACTER);return augusta?[augusta]:ownedItems},mode:'improve'});
-document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(!improveUi.simulator){if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected)autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()})}show('home')});
+let improveScenarioSelection=false;
+const improvePicker=makePicker({shellId:'improveShell',wheelId:'improveWheel',items:()=>{if(improveScenarioSelection)return releasedCharacters;const ownedItems=state.characters.map(name=>characterByName.get(name)).filter(Boolean);if(!IMPROVE_LAYOUT_PREVIEW)return ownedItems;const augusta=characterByName.get(IMPROVE_PREVIEW_CHARACTER);return augusta?[augusta]:ownedItems},mode:'improve'});
+document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{if(!improveUi.simulator){if(buildPicker.selected)autosave(buildPicker.selected,{lastLeftAt:new Date().toISOString()});if(improvePicker.selected&&owned(improvePicker.selected))autosave(improvePicker.selected,{lastLeftImproveAt:new Date().toISOString()})}show('home')});
 document.getElementById('weaponBtn').onclick=()=>weaponUi.show();
 document.getElementById('weaponEquip').onclick=()=>weaponUi.equipPreview();
 document.getElementById('weaponClose').onclick=()=>weaponUi.hide();

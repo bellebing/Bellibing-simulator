@@ -103,7 +103,7 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await click('.simulator-inspection button');
     await click('[data-trash-slot="5"] summary');
   }
-  await check('!document.getElementById("improveBuildCard").innerText.match(/\\b(?:EXP|XP)\\b|Shell Credits|Run 1,000|DPS|combined score/)','fabricated resource/output presentation');
+  await check('!document.getElementById("improveBuildCard").innerText.match(/\\b(?:EXP|XP)\\b(?! Tubes)|Shell Credits|Run 1,000|DPS|combined score/)','fabricated resource/output presentation');
   for(const index of [0,1,2]){
     await click('#improveEchoRow [data-echo-slot="'+index+'"]');await read('__simulatorFixture("accepted")');
     await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).filter(Boolean).length==='+String(index+2)+'&&window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator)[3]===null&&improveUi.simulator.evaluator.status==="PENDING"','partial build filled empty slots or fabricated evaluator availability');
@@ -175,7 +175,10 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
 /** Real controls and production RNG; fixtures seed only owned account context. */
 export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   const read=expression=>evaluate(send,expression),check=async(expression,message)=>{if(!await read(expression))throw new Error('Playable Echo: '+message)};
-  const click=async selector=>{await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);await sleep(250);await pointerClick(send,selector)};
+  const click=async selector=>{await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);
+    const point=await read(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});await sleep(600);
+    await waitForUi(send,`(()=>{const el=document.querySelector(${JSON.stringify(selector)}),r=el.getBoundingClientRect();return r.width>0&&r.height>0&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})()`,'Playable pointer target covered: '+selector);
+    await pointerClick(send,selector)};
   const key=async(key,modifiers=0)=>{const code=key==='a'?'KeyA':key,windowsVirtualKeyCode=({a:65,Backspace:8,Tab:9,Home:36,ArrowDown:40,ArrowRight:39})[key];await send('Input.dispatchKeyEvent',{type:'keyDown',key,code,modifiers,windowsVirtualKeyCode});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers,windowsVirtualKeyCode})};
   const enter=async(selector,text)=>{await click(selector);await key('a',2);await key('Backspace');await send('Input.insertText',{text});await key('Tab')};
   const resource=id=>'[data-resource="'+id+'"] input';
@@ -184,11 +187,12 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   await read("show('improve')");await click('#improveScenarioChoose');
   const index=await read("[...document.querySelectorAll('#improveWheel .choice')].findIndex(c=>c.dataset.characterId==='augusta')");
   await read('document.getElementById("improveWheel").focus()');for(let n=0;n<index;n++){await key('ArrowRight');await sleep(700)}
+  await read('document.querySelector("#improveWheel [data-character-id=augusta]").scrollIntoView({block:"center",behavior:"instant"})');const augustaPoint=await read('(()=>{const r=document.querySelector("#improveWheel [data-character-id=augusta]").getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()');await send('Input.dispatchMouseEvent',{type:'mouseMoved',...augustaPoint});await sleep(750);
   await click('#improveWheel [data-character-id="augusta"]');
-  await waitForUi(send,'!!improveUi.simulator&&improveUi.simulatorTemplates?.[0]?.echoId==="echo-60001215"','preselected default not ready');
+  try{await waitForUi(send,'!!improveUi.simulator&&improveUi.simulatorTemplates?.[0]?.echoId==="echo-60001215"','preselected default not ready')}catch(error){throw new Error(error.message+' '+JSON.stringify(await read('({character:improveUi.characterId,scenario:improveScenarioSelection,session:!!improveUi.simulator,templates:improveUi.simulatorTemplates,sets:window.bellibingImproveSettings.getSonataSetIds(),profile:echoLoadoutByCharacterId.get("augusta")})')))};
   await check('state.characters.length===0&&Object.keys(state.drafts).length===0&&improveUi.simulatorTemplates.length===5','scenario wrote equipment or lacks templates');
   await waitForUi(send,'window.bellibingImproveSettings.canAssessEchoRequirements()','settings not ready');
-  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','zero-budget stop');
+  await click('#simulatorRoll');await waitForUi(send,'!!improveUi.simulator.run&&improveUi.simulator.run.status!=="RUNNING"','zero-budget stop');
   await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===0','zero budget freely rolled');
   await click('#improve-setting-sonata');
   await check('JSON.stringify([...document.querySelectorAll(".improve-setting-label")].map(n=>n.textContent))===JSON.stringify(["Sonata Sets","Target","Gate","Hard Requirements","Flex Stats"])','settings order');
@@ -196,6 +200,13 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===1','set remove');
   await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===2','set add');
   await check('document.querySelectorAll("[data-setting=sonata] button:not([aria-pressed=true]):not(.improve-setting-trigger)").length>0&&[...document.querySelectorAll("[data-setting=sonata] .improve-setting-choice[aria-pressed=false]")].every(n=>n.disabled)','two-set limit');
+  const alternate=await read('echoCatalog.find(item=>item.cost===4&&item.sonataSetIds.some(id=>!["sonata-20","sonata-3"].includes(id))).sonataSetIds.find(id=>!["sonata-20","sonata-3"].includes(id))');
+  await click('[data-focus-key="sonata:sonata-20"]');await click('[data-focus-key="sonata:sonata-3"]');await click('[data-focus-key="sonata:'+alternate+'"]');await click('#improve-setting-sonata');
+  await click('#improveNewEcho');await waitForUi(send,'echoUi.open','scenario chooser');await sleep(650);
+  await check('JSON.stringify([...echoUi.selectedSonataIds])==='+JSON.stringify(JSON.stringify([alternate])),'New Echo must use intended simulation sets');
+  await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','scenario chooser close');
+  await check('improveUi.simulatorTemplates[0].selectedSonataSetId==='+JSON.stringify(alternate),'scenario assignment eligibility');
+  await click('#improve-setting-sonata');await click('[data-focus-key="sonata:'+alternate+'"]');await click('[data-focus-key="sonata:sonata-20"]');await click('[data-focus-key="sonata:sonata-3"]');
   for(const [id,count] of [['echoes','3'],['tuners','150'],['premium','90']])await enter(resource(id),count);
   await click('#improve-setting-sonata');await click('#simulatorReset');await read('window.savedFiniteRandom=Math.random;Math.random=()=>.99999');
   await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','finite exhaustion');

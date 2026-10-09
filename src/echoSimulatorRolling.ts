@@ -4,7 +4,6 @@ import { createRank5EchoAtLevel0, withRank5MainStatsAtLevel } from './echoMainSt
 import { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';
 import { assessEchoRequirements } from './echoRequirements.ts';
 import type { EchoSimulatorSession, SimulatorEchoCard } from './echoSimulatorSession.ts';
-import { recordSimulatorCheckpoint } from './echoSimulatorSession.ts';
 
 /** Already-eligible, explicitly selected template; no farming or Character prescription. */
 export function rollSimulatorCandidate(session: EchoSimulatorSession, template: {
@@ -20,11 +19,18 @@ export function rollSimulatorCandidate(session: EchoSimulatorSession, template: 
   const initial = createRank5EchoAtLevel0({ id: candidate.id, cost: template.cost, primaryMainStat: template.primaryMainStat });
   const fresh = runtime.acquireFresh(initial, rng);
   const card = (echo: typeof initial): SimulatorEchoCard => ({ ...echo, echoId: template.echoId, selectedSonataSetId: template.selectedSonataSetId });
-  let next = recordSimulatorCheckpoint(session, card(fresh.echo)), echo = fresh.echo;
+  // Stage one detached complete attempt, rather than cloning all older histories
+  // at every checkpoint. Unsupported RNG still cannot commit a partial Echo.
+  const next = structuredClone(session), observed = next.slots[next.selectedSlot - 1].candidate!;
+  const record = (echo: typeof initial) => {
+    observed.card = structuredClone(card(echo)); observed.revision++;
+    observed.history.push(structuredClone(card(echo)));
+  };
+  let echo = fresh.echo; record(echo);
   next.rolling.attempts += fresh.cost.echoes;
   for (let step = runtime.rollNext(echo, rng); step; step = runtime.rollNext(echo, rng)) {
     echo = step.echo;
-    next = recordSimulatorCheckpoint(next, card(echo));
+    record(echo);
     next.rolling.checkpoints++;
     next.rolling.tuners += step.cost.tuners;
     next.rolling.exp += step.cost.exp;

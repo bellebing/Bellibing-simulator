@@ -1530,7 +1530,7 @@ const echoUi={
     this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
     document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
     this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
-    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
+    this.selectedSonataIds=new Set(candidate&&improveUi.simulator?window.bellibingImproveSettings.getSonataSetIds():this.workspaceProfile()?.sonataSetIds||[]);
     const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
@@ -1990,7 +1990,7 @@ function projectImproveCurrentStats(name){
 const improveUi={
   characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,simulator:null,
   startSimulation(){
-    const model=window.bellibingEchoSimulator;if(!model||!this.characterId||IMPROVE_LAYOUT_PREVIEW)return;
+    const model=window.bellibingEchoSimulator;if(!model||!this.characterId||!echoDataLoaded||!window.bellibingResourceInventory||!window.bellibingImproveSettings||IMPROVE_LAYOUT_PREVIEW)return;
     if(echoUi.open)echoUi.hide();
     this.resourcesChanged=false;this.simulatorError=null;this.simulatorReplaceConfirmed=false;this.simulator=model.startEchoSimulator(this.characterId,improveBuildState(this.characterName),crypto.randomUUID());
     this.simulator=model.initializeSimulatorResources(this.simulator,window.bellibingResourceInventory.getState());this.simulator=model.selectSimulatorSlot(this.simulator,this.selectedEchoIndex+1);this.prepareSimulationTemplates();this.contextVersion++;this.render();
@@ -2010,6 +2010,7 @@ const improveUi={
   startRun(resume=false){
     const model=window.bellibingEchoSimulator,template=this.simulatorTemplates?.[this.selectedEchoIndex];
     if(!template)throw new Error('Choose Sonata Sets and an eligible Echo first.');
+    const item=echoById.get(template.echoId);if(!item||item.cost!==template.cost||!item.sonataSetIds.includes(template.selectedSonataSetId)||!window.bellibingImproveSettings.getSonataSetIds().includes(template.selectedSonataSetId))throw new Error('Choose an Echo eligible for the selected Sonata Sets.');
     if(this.resourcesChanged)throw new Error('Resources changed — reset to use the new budget.');
     const settings=window.bellibingImproveSettings.getState();
     if(!window.bellibingImproveSettings.canAssessEchoRequirements()||settings?.migration||settings?.compatibility.context!=='MATCH'||settings?.compatibility.suspendedSections.some(key=>['echoRequirements','echoPreferences'].includes(key)))throw new Error('Selected requirements need review.');
@@ -2044,7 +2045,7 @@ const improveUi={
     document.getElementById('improveBuildCard').dataset.simulator=String(!!this.simulator);
     // Settings and inventory are shared editable inputs; only Echo equipment/session is sandboxed.
     document.getElementById('simulatorCurrent').hidden=!this.simulator;document.getElementById('simulatorEnter').hidden=!!this.simulator;
-    const enter=document.getElementById('simulatorEnter');enter.disabled=!this.characterId||!window.bellibingEchoSimulator||IMPROVE_LAYOUT_PREVIEW;
+    const enter=document.getElementById('simulatorEnter');enter.disabled=!this.characterId||!echoDataLoaded||!window.bellibingEchoSimulator||!window.bellibingResourceInventory||!window.bellibingImproveSettings||IMPROVE_LAYOUT_PREVIEW;
     document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;
     document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes and slot Trash Piles':'Current equipped Echoes');
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent=this.simulator?'Simulated':'Current';
@@ -2159,7 +2160,7 @@ const improveUi={
       button.className='improve-candidate-edit';button.textContent='Change Echo';head.lastElementChild.replaceWith(button);
       const meta=document.createElement('div');meta.className='improve-echo-large-meta';meta.textContent='COST '+item.cost;
       const sonata=document.createElement('div');sonata.className='improve-candidate-sonata';const set=echoSonataById.get(slot.selectedSonataSetId);if(set){appendEchoSonataIcons(sonata,[set.id]);const label=document.createElement('span');label.textContent=set.name;sonata.append(label)}
-      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?(slot.scenarioDefault?'Editable scenario default · ':'')+(slot.primaryMainStat||'Main stat —'):'Level +'+slot.level;
+      const pending=document.createElement('div');pending.className='improve-candidate-unbuilt';pending.textContent=slot.level===undefined?(this.simulator?(slot.scenarioDefault?'Editable scenario default · ':'')+(slot.primaryMainStat||'Main stat —'):'Main stat — · Level —'):'Level +'+slot.level;
       host.append(title,art,meta,sonata,pending);if(this.simulator&&slot.mainStat){host.append(this.echoStats(slot));const candidate=this.simulator.slots[this.selectedEchoIndex].candidate;host.append(window.bellibingEchoSimulator.renderCheckpointHistory(candidate,echoStatValueText))}
     }else{
       const empty=document.createElement('div');empty.className='improve-new-empty';button.className='improve-new-button';button.innerHTML='<span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small>';empty.append(button);host.append(empty);
@@ -2211,7 +2212,10 @@ const improveUi={
     const counts={echoes:'Echoes used: '+totals.attempts,tuners:'Tuners used: '+totals.tuners,tubes:'EXP Tubes used: '+[['premium','Gold'],['advanced','Purple'],['medium','Blue'],['basic','Green']].map(([id,label])=>(used[id]||0)+' '+label).join(' · ')};
     // Keep the Cancel target stable while batches update the counters.
     if(running&&host.dataset.running==='true'){for(const [id,value] of Object.entries(counts))host.querySelector('[data-counter="'+id+'"]').textContent=value;return}
-    host.dataset.running=String(running);host.replaceChildren();
+    // Preserve an idle action through unrelated asynchronous source refreshes.
+    const controlsKey=JSON.stringify([this.simulator.id,this.selectedEchoIndex,candidate,this.simulatorTemplates?.[this.selectedEchoIndex],this.simulator.run?.status,this.simulatorReplaceConfirmed,this.resourcesChanged,this.simulatorError,!!improveWorkspaceSlots(this.characterName)[this.selectedEchoIndex],totals,used]);
+    if(!running&&host.dataset.controlsKey===controlsKey)return;
+    host.dataset.controlsKey=controlsKey;host.dataset.running=String(running);host.replaceChildren();
     const text=(tag,value)=>{const node=document.createElement(tag);node.textContent=value;return node};
     const button=(id,label,run)=>{const node=text('button',label);node.id=id;node.type='button';node.onclick=()=>{try{run();this.simulatorError=null}catch(error){this.simulatorError=error.message}this.render();};host.append(node);return node};
     const template=this.simulatorTemplates?.[this.selectedEchoIndex];
@@ -2221,7 +2225,7 @@ const improveUi={
         const details=text('details',''),summary=text('summary','Configuration & help');details.append(summary);
         const label=text('label','Main stat');label.htmlFor='simulatorMainStat';const select=document.createElement('select');select.id='simulatorMainStat';
         for(const stat of model.RANK5_PRIMARY_MAIN_STATS[template.cost])select.append(new Option(stat.name,stat.name));select.value=template.primaryMainStat;
-        select.onchange=()=>{this.cancelRun('Configuration changed');template.primaryMainStat=select.value;this.renderCandidate()};details.append(label,select);
+        select.onchange=()=>{this.cancelRun('Configuration changed');this.simulatorTemplates[this.selectedEchoIndex].primaryMainStat=select.value;this.renderCandidate();this.renderHelper()};details.append(label,select);
         details.append(text('p','Editable eligible scenario defaults. Sets do not prescribe a 3+2 distribution. Completed +25 rolls use selected Hard/Flex requirements; Gate is retained without early rejection.'));
         details.append(text('p','Whole Tubes use the least supplied EXP that reaches +25; equivalent witnesses follow catalog order. This is not a future-budget optimum. Counts are gross spending. Verified upgrade cap returns stay in working inventory; discard/feed recovery and Character improvement remain Pending. Saved Resources stay unchanged.'));
         host.append(details);
@@ -2255,7 +2259,8 @@ window.addEventListener('bellibing-improve-settings-changed',()=>{if(improveUi.s
 window.addEventListener('bellibing-resource-inventory-changed',()=>{if(improveUi.simulator){improveUi.cancelRun('Resources changed');improveUi.resourcesChanged=true;improveUi.renderHelper()}});
 window.addEventListener('bellibing-simulator-sonatas-changed',()=>{if(improveUi.simulator){improveUi.cancelRun('Sonata Sets changed');improveUi.prepareSimulationTemplates();improveUi.renderCandidate();improveUi.renderHelper()}});
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
-window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));
+window.addEventListener('bellibing-improve-settings-ready',()=>{window.bellibingImproveSettings.setCharacter(improveUi.characterId);improveUi.renderSimulationMode()});
+window.addEventListener('bellibing-build-sources-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-build-stat-projection-ready',()=>improveUi.refresh());
 const roverName=id=>'Rover ('+id.replace(/^rover-/,'').replace(/^./,c=>c.toUpperCase())+')';
 let characterManifestStatus='PENDING';

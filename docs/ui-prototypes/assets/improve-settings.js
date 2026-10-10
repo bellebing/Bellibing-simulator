@@ -58,7 +58,10 @@ function renderResources() {
     input.onchange = async () => {
       try {
         const value = parseInventoryQuantity(input.value);
+        const baseline = JSON.stringify(inventory), revision = store.resourceTransactions?.revision ?? 0;
         await coordinatedWrite(() => {
+          if (baseline !== JSON.stringify(inventory) || revision !== (store.resourceTransactions?.revision ?? 0))
+            throw new Error('Stale shared resource inventory; reload before editing.');
           const next = updateResourceInventory(inventory, id, value);
           store = persistResourceInventory(store, next, localStorage);
           inventory = store.resourceInventory;
@@ -92,9 +95,11 @@ function button(label, callback, key, selected) {
 async function save() {
   if (!store || storageError) { saveNote.textContent = storageError; saveNote.hidden = false; return false; }
   const candidate = settings, selected = characterId;
+  const baseline = JSON.stringify(store.characters[selected] ?? null);
   try {
     await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
+      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before editing.');
       store = persistImprovePolicyState(store, candidate, localStorage);
     });
     saveNote.hidden = true; return true;
@@ -102,10 +107,11 @@ async function save() {
 }
 // Recovery is explicit; rejected bytes remain untouched until the existing reset is used.
 async function resetRetiredEchoPolicy() {
-  const selected = characterId;
+  const selected = characterId, baseline = JSON.stringify(store.characters[selected] ?? null);
   try {
     await coordinatedWrite(() => {
       if (selected !== characterId) throw new Error('Character changed before recovery.');
+      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before recovery.');
       const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
       store = persistImprovePolicyState(store, next, localStorage);
       settings = next;
@@ -115,10 +121,11 @@ async function resetRetiredEchoPolicy() {
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
 }
 async function commit(change, focusKey, refresh = true) {
-  const selected = characterId;
+  const selected = characterId, baseline = JSON.stringify(store.characters[selected] ?? null);
   try {
     await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
+      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before editing.');
       const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
       store = persistImprovePolicyState(store, next, localStorage);
       settings = next;

@@ -341,7 +341,7 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         : createImprovePolicyState(characterId, recommended);
 }
 export function persistImprovePolicyState(store, state, storage) {
-      assertExclusiveImprovePolicyWriter(storage);
+    assertExclusiveImprovePolicyWriter(storage);
     // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
     const live = loadImprovePolicyStorage(storage);
     // Only merge unrelated Character edits; a concurrent edit to this Character must not be lost.

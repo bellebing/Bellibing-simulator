@@ -2097,8 +2097,9 @@ function projectImproveCurrentStats(name){
   };
   function syncSession(){
     const session=improveUi.simulator;
-    if(session?.id!==usedSessionId||improveUi.characterId!==observedCharacterId){
-      usedSessionId=session?.id||null;observedCharacterId=improveUi.characterId;
+    const sessionId=session?.id??null;
+    if(sessionId!==usedSessionId||improveUi.characterId!==observedCharacterId){
+      usedSessionId=sessionId;observedCharacterId=improveUi.characterId;
       message='';messageIsError=false;
       usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
     }

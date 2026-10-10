@@ -2158,10 +2158,10 @@ function projectImproveCurrentStats(name){
     }
     // Rank-5 +5 source truth also requires Shell Credits. The shared user
     // Shell Credit inventory is user-owned; no verified spending/transaction is authorized.
-    // Until that owner exists, no RNG generation, Tube spending or write occurs.
+    // Until atomic spending is reviewed and implemented, no RNG, Tube spending or write occurs.
     const credits=window.bellibingSingleEchoShellCredits;
     fail(Number.isSafeInteger(credits)&&credits>0
-      ?'Pending: +5 also requires '+credits.toLocaleString('en-US')+' Shell Credits. No verified balance/transaction exists. Nothing spent.'
+      ?'Pending: +5 also requires '+credits.toLocaleString('en-US')+' Shell Credits. No verified spending transaction exists. Nothing spent.'
       :'Pending: exact Shell Credit spending is not source-verified. Nothing spent.');
     return;
 

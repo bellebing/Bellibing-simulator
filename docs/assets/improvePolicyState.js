@@ -26,7 +26,6 @@ export function assertExclusiveImprovePolicyWriter(storage) {
     if (typeof window !== 'undefined' && storage === window.localStorage && !exclusiveImproveWriter)
         throw new Error('Exclusive Improve storage lock required.');
 }
-
 const sections = ['numericTargets', 'priorities', 'echoRequirements', 'echoPreferences'];
 const record = (value) => value !== null && typeof value === 'object'
     && !Array.isArray(value) ? value : {};

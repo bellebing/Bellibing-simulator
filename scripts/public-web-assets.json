@@ -969,6 +969,7 @@
   "ui-preview/assets/echo-policy-presentation.mjs",
   "ui-preview/assets/echo-simulator.css",
   "ui-preview/assets/echo-simulator.js",
+  "ui-preview/assets/echo-single-attempt.mjs",
   "ui-preview/assets/echoes/browser-data.json",
   "ui-preview/assets/echoes/icons/echo-60000015.png",
   "ui-preview/assets/echoes/icons/echo-60000025.png",

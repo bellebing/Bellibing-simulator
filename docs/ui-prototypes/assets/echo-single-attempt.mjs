@@ -5,6 +5,7 @@ import { readResourceInventory, updateResourceInventory } from '../../assets/res
 import { selectExactOneCheckpointTubes } from '../../assets/echoCheckpointTubeSelection.js';
 import { spendExactTubes, tuneEligibleCheckpoint } from '../../assets/echoExactTubeSpending.js';
 
+const enough = (quantity, amount) => quantity.kind === 'UNLIMITED' || quantity.count >= amount;
 export { selectExactOneCheckpointTubes } from '../../assets/echoCheckpointTubeSelection.js';
 export function generateSingleEchoCandidate(inventoryInput, cardAtZero, rank5AtFive, rng) {
   const inventory = readResourceInventory(inventoryInput);

@@ -75,7 +75,7 @@
 [data-setting="target"] .improve-policy-target > strong { min-width:0; }
 .improve-target-values { display:flex; flex-direction:column; gap:4px; }
 .improve-recommended-stats { margin:10px 0 0; min-width:0; font-size:12px; }
-.improve-recommended-header,.improve-recommended-stat { display:grid; grid-template-columns:minmax(0,1fr) minmax(68px,max-content) minmax(48px,max-content); align-items:baseline; gap:6px; min-width:0; }
+.improve-recommended-header,.improve-recommended-stat { display:grid; grid-template-columns:minmax(0,1fr) clamp(82px,33%,112px) clamp(52px,22%,78px); align-items:baseline; gap:6px; min-width:0; }
 .improve-recommended-header { font-size:10px; color:#b7bec8; padding-bottom:5px; border-bottom:1px solid rgba(255,255,255,.12); }
 .improve-recommended-header span:not(:first-child) { text-align:right; }
 .improve-recommended-stat { padding:5px 0; line-height:16px; }

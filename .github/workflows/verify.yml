@@ -434,6 +434,16 @@ jobs:
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             BELLIBING_V34_ECHO_DEBUG_PORT=9696 node scripts/verify-v34-settings-shell.mjs
 
+      - name: Upload 1440x900 Settings visual review captures
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-settings-visual-1440x900
+          path: |
+            artifacts/ui-preview-improve-settings-*-1440x900-*.png
+            artifacts/ui-preview-resources-*-1440x900-*.png
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Exact-head artifact identity
         env:
           EXPECTED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}

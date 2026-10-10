@@ -20,21 +20,62 @@ let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = 
 const groups = new Map();
 const sonataSelections = new Map(); let sonataCatalog = [], loadoutProfiles = [];
 function selectedSonatas() { return sonataSelections.get(characterId) ?? loadoutProfiles.find(row => row.characterId === characterId)?.sonataSetIds.slice(0,2) ?? []; }
-function renderSonatas() {
-  const group = groups.get('sonata'), selected = selectedSonatas();
-  group.summary.textContent = selected.length ? selected.length + ' selected' : 'Choose up to two'; group.summary.title = selected.map(id => sonataCatalog.find(row => row.id === id)?.name ?? id).join(' + ');
-  group.content.append(note('Simulation sets · no inferred slot distribution.'));
-  const more = element('details', undefined, 'improve-more-sets');more.append(element('summary', 'More Sets'));more.open=moreSetsExpanded;more.ontoggle=()=>{if(more.isConnected)moreSetsExpanded=more.open};
-  for (const set of [...sonataCatalog].sort((a,b)=>Number(selected.includes(b.id))-Number(selected.includes(a.id)))) {
-    const choice = button(set.name, () => {
-      const current = selectedSonatas(), next = current.includes(set.id) ? current.filter(id => id !== set.id) : current.length < 2 ? [...current, set.id] : current;
-      sonataSelections.set(characterId, next); render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
-    }, 'sonata:' + set.id, selected.includes(set.id));
-    choice.disabled = !selected.includes(set.id) && selected.length >= 2;
-    const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href; icon.alt = ''; icon.width = 24; icon.height = 24; choice.prepend(icon); (selected.includes(set.id)?group.content:more).append(choice);
-  }
-  group.content.append(more);
+let sonataScrollTop = 0, replacementSonata = null, sonataResizeObserver;
+function sonataIcon(set) {
+  const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href;
+  icon.alt = ''; icon.width = 32; icon.height = 32; return icon;
 }
+function changeSonatas(next, focusKey) {
+  sonataSelections.set(characterId, next); replacementSonata = null;
+  render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
+  const target = root.querySelector(`[data-focus-key="${focusKey}"]`);
+  (target?.closest('.improve-sonata-selected') || moreSetsExpanded ? target : root.querySelector('#improveMoreSets'))?.focus({ preventScroll: true });
+}
+function renderSonatas() {
+  sonataResizeObserver?.disconnect();
+  const group = groups.get('sonata'), selected = selectedSonatas();
+  group.summary.textContent = '';
+  const row = element('div', undefined, 'improve-sonata-selected'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Selected Sonata Sets; select an icon to deselect');
+  for (const id of selected) {
+    const set = sonataCatalog.find(item => item.id === id); if (!set) continue;
+    const choice = button('', () => changeSonatas(selectedSonatas().filter(value => value !== id), 'sonata:' + id), 'sonata:' + id, true);
+    choice.classList.add('improve-sonata-icon'); choice.title = 'Deselect ' + set.name; choice.setAttribute('aria-label', choice.title); choice.append(sonataIcon(set)); row.append(choice);
+  }
+  group.content.append(row);
+  const more = element('details', undefined, 'improve-more-sets'), summary = element('summary', 'More Sets'); summary.id = 'improveMoreSets';
+  more.append(summary); more.open = moreSetsExpanded;
+  const viewport = element('div', undefined, 'improve-sonata-scroll-shell');
+  const list = element('div', undefined, 'improve-sonata-list'); list.tabIndex = 0; list.setAttribute('role', 'group'); list.setAttribute('aria-label', 'Available Sonata Sets; choose to add or replace a selected set');
+  list.addEventListener('keydown', event => { if (event.target === list && ['Home', 'End'].includes(event.key)) { event.preventDefault(); list.scrollTop = event.key === 'Home' ? 0 : list.scrollHeight; } });
+  const rail = element('div', undefined, 'weapon-scroll-rail'); rail.setAttribute('aria-hidden', 'true'); rail.append(element('span', undefined, 'weapon-scroll-thumb'));
+  const sync = () => { if (!list.isConnected) return; const max = list.scrollHeight - list.clientHeight; rail.classList.toggle('has-scroll', max > 1); rail.style.setProperty('--scroll-p', max > 0 ? Math.max(0, Math.min(1, list.scrollTop / max)) : 0); };
+  list.addEventListener('scroll', () => { sonataScrollTop = list.scrollTop; sync(); }, { passive: true });
+  more.ontoggle = () => { if (more.isConnected) { moreSetsExpanded = more.open; sync(); } };
+  for (const set of sonataCatalog.filter(item => !selected.includes(item.id))) {
+    const choice = button(set.name, () => {
+      const current = selectedSonatas();
+      if (current.length < 2) changeSonatas([...current, set.id], 'sonata:' + set.id);
+      else { replacementSonata = set.id; group.content.replaceChildren(); renderSonatas(); root.querySelector('[data-focus-key^="sonata-replace:"]')?.focus({ preventScroll: true }); }
+    }, 'sonata:' + set.id, false);
+    choice.prepend(sonataIcon(set)); choice.classList.toggle('is-replacing', replacementSonata === set.id); list.append(choice);
+  }
+  if (replacementSonata) {
+    const pending = sonataCatalog.find(set => set.id === replacementSonata);
+    const replace = element('div', undefined, 'improve-sonata-replace'); replace.setAttribute('role', 'group'); replace.setAttribute('aria-label', 'Choose which selected Sonata to replace');
+    replace.append(element('span', 'Replace with ' + pending.name));
+    for (const id of selected) {
+      const set = sonataCatalog.find(item => item.id === id);
+      const choice = button('', () => changeSonatas(selectedSonatas().map(value => value === id ? pending.id : value), 'sonata:' + pending.id), 'sonata-replace:' + id);
+      choice.classList.add('improve-sonata-icon'); choice.title = 'Replace ' + set.name + ' with ' + pending.name; choice.setAttribute('aria-label', choice.title); choice.append(sonataIcon(set)); replace.append(choice);
+    }
+    replace.addEventListener('keydown', event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); replacementSonata = null; group.content.replaceChildren(); renderSonatas(); root.querySelector(`[data-focus-key="sonata:${pending.id}"]`)?.focus({ preventScroll: true }); } });
+    more.append(replace);
+  }
+  viewport.append(list, rail); more.append(viewport); group.content.append(more);
+  if ('ResizeObserver' in window) { sonataResizeObserver = new ResizeObserver(sync); sonataResizeObserver.observe(list); }
+  requestAnimationFrame(() => { if (list.isConnected) { list.scrollTop = sonataScrollTop; sync(); } });
+}
+
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
@@ -129,10 +170,10 @@ function setExpanded(next, restore = false) {
   expanded = !!next; modeDetails.open = expanded;
   renderResources();
   for (const group of groups.values()) {
-    const open = expanded; group.host.classList.toggle('is-expanded', open);
+    const open = group.host.dataset.setting === 'sonata' || expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
   }
-  if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
+  if (restore) groups.get(settingsOpener === 'sonata' ? 'every' : settingsOpener).trigger.focus({ preventScroll: true });
 }
 for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats'], ['target', 'Character Target']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
@@ -142,6 +183,7 @@ for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every'
   const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
   const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
   trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
+  if (id === 'sonata') { trigger.hidden = true; labelNode.removeAttribute('for'); }
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
   clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
@@ -367,7 +409,7 @@ function render() {
 function setCharacter(id) {
   if (characterId !== id) {
     if (retiredEchoRecovery) { storageError = null; retiredEchoRecovery = false; saveNote.hidden = true; }
-    setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
+    replacementSonata = null; sonataScrollTop = 0; moreSetsExpanded = false; setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
   }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }

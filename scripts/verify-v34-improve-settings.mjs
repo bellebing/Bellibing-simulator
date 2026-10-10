@@ -1,4 +1,5 @@
 export async function verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep }) {
+  await verifyImproveSonataSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep });
   const read = expression => evaluate(send, expression);
   const state = 'window.bellibingImproveSettings.getState()';
   const check = async (expression, message) => {
@@ -246,4 +247,57 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await click(focus('mode:RECOMMENDED'));
   await check(`!localStorage.getItem('bellibing.improve.policy.v3').includes('echoCards')&&Object.keys(${state}.overrides).length===0&&${state}.gate===15&&${state}.rollQuality===${JSON.stringify(retiredQuality)}&&JSON.stringify(${inventoryState})===${JSON.stringify(retiredResources)}&&!document.querySelector('[data-focus-key=\"mode:MANUAL\"]').disabled`, 'existing Recommended action explicitly recovers retired card intent, preserving Gate and shared Resources');
   console.log('PASS public Improve Pending/input/source/persistence/physical-pointer/geometry regression at three desktop sizes');
+}
+
+/** Focused 1440px correction review; shared persistence and equipment stay owned
+ * by the existing Settings/simulator models. All choice/scroll inputs are physical. */
+export async function verifyImproveSonataSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep }) {
+  const read = expression => evaluate(send, expression);
+  const check = async (expression, label) => { if (!await read(expression)) throw new Error('Sonata Settings: ' + label + ' ' + JSON.stringify(await read("({focus:document.activeElement.outerHTML.slice(0,200),top:document.querySelector('.improve-sonata-list')?.scrollTop,open:document.querySelector('.improve-more-sets')?.open})"))); };
+  const click = async selector => { await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`); await sleep(450); await pointerClick(send, selector); await sleep(180); };
+  const key = async (name, code = name, virtual = 0) => { await send('Input.dispatchKeyEvent', {type:'keyDown',key:name,code,windowsVirtualKeyCode:virtual,text:name==='Enter'?'\r':undefined}); await send('Input.dispatchKeyEvent', {type:'keyUp',key:name,code,windowsVirtualKeyCode:virtual}); await sleep(150); };
+  await setViewport(send, 1440, 900); await navigate(send);
+  await waitForUi(send, 'echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'initial Settings load', 15000);
+  await read('localStorage.clear()'); await navigate(send);
+  await waitForUi(send, 'echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'fresh Settings load', 15000);
+  await read("show('improve');improvePicker.select('Augusta')"); await sleep(800);
+  const equipment = await read("JSON.stringify(improveBuildState('Augusta'))");
+  const initial = await read('window.bellibingImproveSettings.getSonataSetIds()');
+  await check(`JSON.stringify([...document.querySelectorAll('.improve-sonata-selected button')].map(n=>n.dataset.focusKey.slice(7)))===${JSON.stringify(JSON.stringify(initial))}`, 'selected icons preserve order');
+  await check("!document.querySelector('[data-setting=sonata]').innerText.match(/selected|Choose up to|Simulation sets/) && document.querySelector('.improve-sonata-selected').querySelectorAll('img').length===2&&!document.querySelector('.improve-more-sets').open", 'icon-only fixed row and collapsed More Sets');
+  await click('.improve-more-sets summary');
+  await read("document.querySelector('[data-setting=sonata]').scrollIntoView({block:'start',behavior:'instant'})"); await sleep(250);
+  const fixedTop = await read("document.querySelector('.improve-sonata-selected').getBoundingClientRect().top");
+  const bounds = await read("(()=>{const r=document.querySelector('.improve-sonata-list').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+80}})()");
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});
+  await send('Input.dispatchMouseEvent',{type:'mouseWheel',...bounds,deltaX:0,deltaY:430}); await sleep(400);
+  await check(`document.querySelector('.improve-sonata-list').scrollTop>0&&Math.abs(document.querySelector('.improve-sonata-selected').getBoundingClientRect().top-${fixedTop})<1&&parseFloat(document.querySelector('.improve-sonata-scroll-shell .weapon-scroll-rail.has-scroll').style.getPropertyValue('--scroll-p'))>0`, 'real wheel scroll moves star but keeps selected row fixed');
+  await check("getComputedStyle(document.querySelector('.improve-sonata-list')).scrollbarWidth==='none'&&getComputedStyle(document.querySelector('.improve-sonata-scroll-shell .weapon-scroll-rail'),'::before').width==='1px'&&[...document.querySelectorAll('.improve-sonata-list button')].every((n,i,rows)=>n.clientWidth>130&&n.scrollWidth<=n.clientWidth+1&&(!i||rows[i-1].getBoundingClientRect().bottom<=n.getBoundingClientRect().top))", 'thin reused rail, no compressed/overlapping/clipped choices');
+  await click('.improve-more-sets summary'); await check("!document.querySelector('.improve-more-sets').open&&document.querySelector('.improve-sonata-selected').offsetHeight>0", 'collapse preserves icons');
+  await key('Enter','Enter',13); await key('Tab','Tab',9); await key('End','End',35);
+  await check("document.activeElement.classList.contains('improve-sonata-list')&&document.querySelector('.improve-sonata-list').scrollTop>500", 'keyboard list scroll');
+  await waitForUi(send, "(()=>{const n=document.querySelector('.improve-sonata-list');return Math.abs(n.scrollTop-(n.scrollHeight-n.clientHeight))<1})()", 'keyboard End settles');
+  await key('Home','Home',36); await waitForUi(send, "document.querySelector('.improve-sonata-list').scrollTop===0", 'keyboard Home settles'); await check("document.querySelector('.improve-sonata-list').scrollTop===0", 'keyboard Home');
+  const third = await read("document.querySelector('.improve-sonata-list button').dataset.focusKey.slice(7)");
+  await read("window.__sonataChangeCount=0;window.addEventListener('bellibing-improve-settings-changed',()=>window.__sonataChangeCount++);window.addEventListener('bellibing-simulator-sonatas-changed',()=>window.__sonataChangeCount++)");
+  await click(`[data-focus-key="sonata:${third}"]`);
+  await check('document.querySelectorAll(".improve-sonata-replace button").length===2&&window.bellibingImproveSettings.getSonataSetIds().length===2&&document.activeElement.dataset.focusKey.startsWith("sonata-replace:")&&window.__sonataChangeCount===0', 'third choice offers explicit accessible replacement');
+  await key('Escape','Escape',27); await check('!document.querySelector(".improve-sonata-replace")', 'Escape cancels replacement');
+  await click(`[data-focus-key="sonata:${third}"]`); await key('Enter','Enter',13);
+  await check(`JSON.stringify(window.bellibingImproveSettings.getSonataSetIds())===${JSON.stringify(JSON.stringify([third,initial[1]]))}`, 'keyboard replacement preserves position and two-set cap');
+  await click(`[data-focus-key="sonata:${third}"]`); await check('window.bellibingImproveSettings.getSonataSetIds().length===1', 'selected icon deselect');
+  await click(`[data-focus-key="sonata:${initial[0]}"]`); await check(`JSON.stringify(window.bellibingImproveSettings.getSonataSetIds())===${JSON.stringify(JSON.stringify([initial[1],initial[0]]))}`, 'available choice adds in actual selection order');
+  await click('#simulatorEnter');
+  const session = await read('JSON.stringify({source:improveUi.simulator.source,slots:improveUi.simulator.slots,build:improveUi.simulator.simulatedBuild,resources:improveUi.simulator.resources})');
+  await click(`[data-focus-key="sonata:${initial[0]}"]`);
+  await check(`improveUi.simulatorTemplates.filter(Boolean).every(t=>t.selectedSonataSetId===${JSON.stringify(initial[1])})&&JSON.stringify({source:improveUi.simulator.source,slots:improveUi.simulator.slots,build:improveUi.simulator.simulatedBuild,resources:improveUi.simulator.resources})===${JSON.stringify(session)}`, 'updated family reaches simulator without equipment/resource mutation');
+  await click('#improve-setting-every');
+  await click('[data-focus-key="roll:every:CRIT Rate"]'); await key('ArrowRight','ArrowRight',39);
+  await check('document.querySelector("[data-focus-key=\\"roll:every:CRIT DMG\\"]")!==null', 'CRIT minimum controls retained');
+  const settings = await read('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
+  await read("document.getElementById('improveSettings').scrollIntoView({block:'start',behavior:'instant'})"); await capture(send, 'artifacts/ui-preview-sonata-correction-1440x900.png');
+  await navigate(send); await waitForUi(send, 'window.bellibingImproveSettings&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'reload load', 15000);
+  await read("show('improve');improvePicker.select('Augusta')"); await sleep(700);
+  await check(`JSON.stringify(window.bellibingImproveSettings.getState().overrides)===${JSON.stringify(settings)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(equipment)}&&!improveUi.simulator`, 'settings reload and real equipment isolation');
+  console.log('PASS focused Sonata Settings 1440x900: fixed ordered icons, wheel/star/keyboard scrolling, More Sets collapse, explicit replacement/deselection, simulator eligibility, minima persistence and real equipment isolation.');
 }

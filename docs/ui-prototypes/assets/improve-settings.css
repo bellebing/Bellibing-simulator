@@ -181,13 +181,13 @@
 #improveShell.has-selection > .wheel{overflow-x:clip}
 
 /* Screenshot organization; gameplay values still come from their existing owners. */
-.improve-settings{background:linear-gradient(135deg,#202125,#303031);border-color:#8e7749;padding:22px 28px}
+.improve-settings{background:linear-gradient(135deg,#101216,#191c21);border-color:#8e7749;padding:22px 28px}
 .improve-settings-heading h2{font-size:32px}
 .improve-settings-controls{grid-template-columns:minmax(150px,.85fr) 68px repeat(2,minmax(0,1fr)) minmax(250px,1.08fr);gap:10px;align-items:stretch}
-.improve-setting{padding:10px;border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#252629,#363635)}
+.improve-setting{padding:10px;border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#12151a,#1c1f24)}
 .improve-setting.is-expanded{min-height:300px}
-.improve-setting-trigger,.improve-setting-choice{background:linear-gradient(135deg,#343026,#28282a);border-color:#7f6b43}
-.improve-setting-choice[aria-pressed="true"]{background:linear-gradient(135deg,#665332,#39332a);border-color:#c6a057}
+.improve-setting-trigger,.improve-setting-choice{background:linear-gradient(135deg,#211e17,#14161a);border-color:#7f6b43}
+.improve-setting-choice[aria-pressed="true"]{background:linear-gradient(135deg,#40331e,#211d16);border-color:#c6a057}
 .improve-settings .improve-echo-row,.improve-settings .improve-recommended-stats,.improve-settings .improve-target-fields{font-family:var(--font-ui)}
 .improve-target-comparison-head,.improve-recommended-stat{display:grid;grid-template-columns:minmax(0,1fr) 83px 70px;gap:5px;align-items:center}
 .improve-target-comparison-head{font:11px var(--font-ui);padding:8px 0;border-bottom:1px solid #8e7749;color:#c9c2b4}
@@ -197,4 +197,33 @@
 .improve-resources-separator{border-color:#8e7749}
 @media(max-width:1050px){.improve-settings-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.improve-setting[data-setting="target"]{grid-column:1/-1}}
 .improve-more-sets summary{cursor:pointer;text-align:center;font:16px var(--font-display);margin:14px 0}.improve-more-sets .improve-setting-choice{margin-top:6px}
-.improve-resources.is-expanded .improve-resource input{border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#3b3428,#29292a)}
+.improve-resources.is-expanded .improve-resource input{border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#211e17,#14161a)}
+
+/* Selected identities stay outside the independently scrolling choices. */
+.improve-setting[data-setting="sonata"] .improve-setting-trigger{display:none}
+.improve-setting[data-setting="sonata"] .improve-setting-options{padding-top:0}
+.improve-sonata-selected{display:flex;align-items:center;gap:10px;min-height:48px}
+.improve-setting-choice.improve-sonata-icon{display:grid;place-items:center;width:44px;height:44px;padding:4px;border-radius:50%;flex:none}
+.improve-sonata-icon img{width:32px;height:32px;object-fit:contain}
+.improve-more-sets summary{margin:12px 0;list-style:none;color:#e4d5b5}
+.improve-more-sets summary::after{content:' ▾';font-size:12px}.improve-more-sets[open] summary::after{content:' ▴'}
+.improve-more-sets summary::-webkit-details-marker{display:none}
+.improve-more-sets summary:focus-visible,.improve-sonata-list:focus-visible{outline:2px solid #c9a85f;outline-offset:3px}
+.improve-sonata-scroll-shell{position:relative;min-width:0}
+.improve-sonata-list{max-height:220px;overflow-y:auto;overflow-x:hidden;padding:2px 17px 5px 0;scrollbar-width:none;overscroll-behavior:contain}
+.improve-sonata-list::-webkit-scrollbar{width:0;height:0}
+.improve-sonata-list .improve-setting-choice{display:flex;align-items:center;gap:7px;width:100%;min-height:38px;margin:0;padding:5px 2px;border:0;border-bottom:1px solid rgba(216,177,82,.12);border-radius:0;background:transparent;text-align:left;font-family:var(--font-ui);font-size:11px}
+.improve-sonata-list img{width:24px;height:24px;object-fit:contain;flex:none}
+.improve-sonata-list .improve-setting-choice:hover,.improve-sonata-list .is-replacing{background:rgba(216,177,82,.09);color:#f0dfb9}
+.improve-sonata-scroll-shell .weapon-scroll-rail{right:2px;width:11px;top:8px;bottom:8px}
+.improve-sonata-scroll-shell .weapon-scroll-thumb{font-size:14px;width:12px;height:12px}
+.improve-sonata-replace{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+.improve-sonata-replace>span{width:100%;font:11px var(--font-ui);color:#e4d5b5}
+/* Keep interaction borders; remove secondary decorative nesting. */
+.improve-setting{border-color:rgba(216,177,82,.28)}
+.improve-setting:not([data-setting="gate"]) .improve-setting-trigger{border:0;border-bottom:1px solid rgba(216,177,82,.3);border-radius:0;background:transparent}
+.improve-setting:not([data-setting="gate"]) .improve-setting-trigger:hover{background:rgba(216,177,82,.05)}
+.improve-target-editor{padding:0;border:0;background:none}
+.improve-policy-stat,.improve-policy-target{background:none}
+
+.improve-setting[data-setting="sonata"]{min-height:0}

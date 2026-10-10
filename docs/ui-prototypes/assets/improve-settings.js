@@ -5,7 +5,8 @@ import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicySt
   updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
-import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount } from './echo-policy-presentation.mjs';
+import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount, echoSelectionSummary } from './echo-policy-presentation.mjs';
+import { readSonataChoices, sonataChoicesPresentation, toggleSonataSelection } from './improve-sonata-presentation.mjs';
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
@@ -14,20 +15,13 @@ try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = '
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
-let drag = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
+let drag = null, otherExpanded = false, moreSetsExpanded = false, sonataChoices = { catalog: [], recommendations: {} }, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
 heading.append(title);
 const controls = element('div', undefined, 'improve-settings-controls');
-// Reserve the Sonata position in both states; selection is a separate feature.
-const sonataColumn = element('section', undefined, 'improve-setting');
-sonataColumn.dataset.setting = 'sonata';
-sonataColumn.append(element('h3', 'Sonata Sets', 'improve-setting-label'));
-const sonataField = element('div', undefined, 'improve-setting-trigger');
-sonataField.setAttribute('aria-hidden', 'true');
-sonataColumn.append(sonataField);
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
 const resources = element('div', undefined, 'improve-resources'); resources.setAttribute('role', 'group'); resources.setAttribute('aria-label', 'Resources');
@@ -119,15 +113,14 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-controls.append(sonataColumn);
-for (const [id, label] of [['gate', 'Gate'], ['every', 'Required Substats'], ['flex', 'Flex Substats'], ['target', 'Stats']]) {
+for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every', 'Required Substats'], ['flex', 'Flex Substats'], ['target', 'Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
   const summary = element('strong', undefined, 'improve-setting-summary');
-  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
+  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary); if (id !== 'sonata') trigger.append(caret);
   const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
-  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
+  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-sonata-choices improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
   clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
@@ -139,6 +132,45 @@ function origin(section, key) {
   if (section.status === 'PENDING') return 'Pending';
   if (section.status === 'USER_DEFINED') return 'Custom';
   return settings.mode === 'MANUAL' ? 'Recommended / inherited' : 'Recommended';
+}
+function updateSonataOverlap() {
+  const summary = groups.get('sonata').summary, count = summary.children.length;
+  summary.style.setProperty('--sonata-step', Math.min(12, Math.max(0, (summary.clientWidth - 24) / Math.max(1, count - 1))) + 'px');
+}
+new ResizeObserver(updateSonataOverlap).observe(groups.get('sonata').summary);
+function renderSonatas() {
+  const group = groups.get('sonata'), view = sonataChoicesPresentation(settings, sonataChoices);
+  group.summary.replaceChildren(); group.summary.classList.add('improve-sonata-summary');
+  group.trigger.setAttribute('aria-label', 'Sonata Sets' + (view.selected.length ? ': ' + view.selected.map(row => row.name).join(', ') : ''));
+  function icon(sonata, accessible = false) {
+    const image = element('img'); image.src = new URL(sonata.artPath.replace(/^docs\/ui-prototypes\/assets\//, './'), import.meta.url).href;
+    image.alt = accessible ? sonata.name : ''; image.title = sonata.name; image.draggable = false; image.dataset.sonataId = sonata.id;
+    return image;
+  }
+  for (const sonata of view.selected) group.summary.append(icon(sonata, true));
+  updateSonataOverlap();
+  function row(sonata, parent) {
+    const selected = view.selected.some(value => value.id === sonata.id);
+    const node = element('button', undefined, 'improve-sonata-row'); node.type = 'button';
+    node.dataset.sonataId = sonata.id; node.dataset.focusKey = 'sonata:' + sonata.id;
+    node.setAttribute('aria-pressed', String(selected));
+    node.disabled = !!storageError || !store;
+    node.append(icon(sonata), element('span', sonata.name));
+    node.onclick = () => {
+      const list = group.content.querySelector('.improve-sonata-list'), scroll = list?.scrollTop ?? 0;
+      commit({ type: 'sonatas', value: toggleSonataSelection(settings, sonataChoices, sonata.id) }, 'sonata:' + sonata.id);
+      const currentList = group.content.querySelector('.improve-sonata-list'); if (currentList) currentList.scrollTop = scroll;
+    };
+    parent.append(node);
+  }
+  const recommended = element('div', undefined, 'improve-sonata-recommended');
+  for (const sonata of view.recommended) row(sonata, recommended);
+  group.content.append(recommended);
+  const more = element('details', undefined, 'improve-more-sonatas'); more.open = moreSetsExpanded;
+  more.append(element('summary', 'More Sets')); more.ontoggle = () => { if (more.isConnected) moreSetsExpanded = more.open; };
+  const list = element('div', undefined, 'improve-sonata-list');
+  for (const sonata of view.other) row(sonata, list);
+  more.append(list); group.content.append(more);
 }
 function renderTargets() {
   const group = groups.get('target'), policy = resolved.policy.characterTarget.numericTargets;
@@ -203,8 +235,11 @@ function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
   const editable = source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
-  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
-  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
+  for (const [id, names] of [['every', view.layout.every], ['flex', view.layout.flex]]) {
+    const group = groups.get(id), text = echoSelectionSummary(names);
+    group.summary.textContent = text; group.summary.title = names.join(' · ');
+    group.trigger.setAttribute('aria-label', (id === 'every' ? 'Required Substats' : 'Flex Substats') + (text ? ': ' + names.join(', ') : ''));
+  }
   const flexSection = element('section', undefined, 'improve-policy-section');
 
   const countControl = element('label', undefined, 'improve-flex-count');
@@ -226,7 +261,6 @@ function renderEcho() {
     const current = echoPolicyPresentation(settings, source, canonicalStats).flexCount;
     countText.textContent = current.message; countSlider.setAttribute('aria-valuetext', current.message);
     countSlider.setAttribute('aria-invalid', String(!current.valid));
-    groups.get('flex').summary.textContent = 'Custom';
   };
   countSlider.onchange = () => commit(state => state, 'flex-count');
   // An invalid saved count can lie beyond the feasible range. A deliberate
@@ -289,7 +323,7 @@ function renderEcho() {
       };
       slider.oninput = () => {
         commit(state => editEchoRollMinimum(updateImprovePolicyState(state, { type: 'mode', value: 'MANUAL' }, source), source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
-        show(); groups.get(list).summary.textContent = 'Custom';
+        show();
       };
       slider.onchange = () => commit(state => state, slider.dataset.focusKey);
       // Range dragging owns the pointer; row dragging remains available elsewhere.
@@ -325,17 +359,17 @@ function render() {
   renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
-  if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
+  if (!settings) { for (const [id, group] of groups) group.summary.textContent = id === 'sonata' ? '' : 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
   reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or Reset to Recommended to clear them.';
-  renderTargets(); renderEcho();
+  renderSonatas(); renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
 }
 function setCharacter(id) {
   if (characterId !== id) {
     if (retiredEchoRecovery) { storageError = null; retiredEchoRecovery = false; saveNote.hidden = true; }
-    setExpanded(false); drag = null; otherExpanded = false;
+    setExpanded(false); drag = null; otherExpanded = false; moreSetsExpanded = false;
   }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }
@@ -348,6 +382,9 @@ function setCharacter(id) {
     if (retiredEchoRecovery) {
       settings = updateImprovePolicyState(settings, { type: 'gate', value: store.characters[id].gate }, source);
       settings = updateImprovePolicyState(settings, { type: 'quality', value: store.characters[id].rollQuality }, source);
+      if (store.characters[id].selectedSonataSetIds !== undefined) {
+        try { settings = updateImprovePolicyState(settings, { type: 'sonatas', value: store.characters[id].selectedSonataSetIds }, source); } catch { /* Retain rejected bytes until explicit recovery. */ }
+      }
     }
   }
   if (loaded) save(); render();
@@ -356,11 +393,13 @@ window.bellibingResourceInventory = { getState: () => structuredClone(inventory)
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
-  fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])
-  .then(([policyResult, legacyResult]) => {
+  fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),
+  fetch(new URL('./echoes/browser-data.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Sonata catalog unavailable'); return response.json(); }).then(readSonataChoices)])
+  .then(([policyResult, legacyResult, sonataResult]) => {
     const policies = policyResult.status === 'fulfilled' ? policyResult.value : null, legacy = legacyResult.status === 'fulfilled' ? legacyResult.value : null;
     sources = policies?.schemaVersion === 1 && Array.isArray(policies.characters) ? policies.characters : [];
     legacySources = legacy?.schemaVersion === 1 && Array.isArray(legacy.characters) ? legacy.characters : [];
+    sonataChoices = sonataResult.status === 'fulfilled' ? sonataResult.value : { catalog: [], recommendations: {} };
     loaded = true; setCharacter(characterId);
   })
   .catch(() => { loaded = true; sources = []; legacySources = []; setCharacter(characterId); });

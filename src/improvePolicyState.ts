@@ -41,6 +41,8 @@ export interface ImproveEchoLayout {
   readonly minimums: Readonly<Partial<Record<StatName, number>>>;
 }
 export interface ImprovePolicyState {
+  /** User-owned Sonata filters only; never slot distribution, effects or equipment. */
+  readonly selectedSonataSetIds?: readonly string[];
   readonly echoLayout?: ImproveEchoLayout;
   readonly schemaVersion: 3;
   readonly characterId: string;
@@ -82,6 +84,11 @@ const positiveInteger = (value: unknown): boolean => typeof value === 'number' &
 const unique = (rows: readonly unknown[], key: string): boolean => new Set(rows.map(row => record(row)[key])).size === rows.length;
 const list = (value: unknown, valid: (row: Record<string, unknown>) => boolean, key: string): boolean =>
   Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
+
+function validSonataSelection(value: unknown): value is readonly string[] {
+  return Array.isArray(value) && value.every(id => typeof id === 'string' && /^sonata-[1-9][0-9]*$/.test(id))
+    && new Set(value).size === value.length;
+}
 
 function validEchoLayout(value: unknown): value is ImproveEchoLayout {
   const layout = record(value);
@@ -176,6 +183,7 @@ function resumeMigration(state: ImprovePolicyState, recommended: ResolvedImprove
 export type ImprovePolicyAction =
   | { readonly type: 'mode'; readonly value: ImprovePolicyMode }
   | { readonly type: 'reset' }
+  | { readonly type: 'sonatas'; readonly value: readonly string[] }
   | { readonly type: 'layout'; readonly value: ImproveEchoLayout }
   | { readonly type: 'gate'; readonly value: ImproveGate }
   | { readonly type: 'quality'; readonly value: ImproveRollQuality }
@@ -188,6 +196,10 @@ export type ImprovePolicyAction =
 export function updateImprovePolicyState(state: ImprovePolicyState, action: ImprovePolicyAction,
   recommended: ResolvedImprovePolicy): ImprovePolicyState {
   if (recommended.characterId !== state.characterId) throw new Error('Policy Character mismatch.');
+  if (action.type === 'sonatas') {
+    if (!validSonataSelection(action.value)) throw new Error('Invalid Sonata selection.');
+    return { ...state, selectedSonataSetIds: [...action.value] };
+  }
   if (action.type === 'gate') return gate(action.value) === action.value ? { ...state, gate: action.value } : state;
   if (action.type === 'quality') return quality(action.value) === action.value ? { ...state, rollQuality: action.value } : state;
   if (action.type === 'reset' || action.type === 'mode' && action.value === 'RECOMMENDED') {
@@ -287,7 +299,9 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
 function savedIntent(state: ImprovePolicyState): ImprovePolicyState {
   const overrides: Record<string, unknown> = {};
   if (state.mode === 'MANUAL') for (const key of sections) if (own(state.overrides, key)) overrides[key] = structuredClone(state.overrides[key]);
-  return { schemaVersion: 3, characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
+  return { schemaVersion: 3,
+    ...(state.selectedSonataSetIds === undefined ? {} : { selectedSonataSetIds: [...state.selectedSonataSetIds] }),
+    characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
     ...(state.mode === 'MANUAL' && state.echoLayout !== undefined ? { echoLayout: structuredClone(state.echoLayout) } : {}),
     mode: state.mode, overrides: overrides as PolicyOverrideSections, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
     migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
@@ -333,6 +347,7 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
   if (saved) {
     // The rejected card model is not legacy Flex intent. Never reinterpret or overwrite it.
     if (own(record(saved.overrides), 'echoCards')) throw new Error('Retired Echo card settings need review; recovery data retained.');
+    if (saved.selectedSonataSetIds !== undefined && !validSonataSelection(saved.selectedSonataSetIds)) throw new Error('Invalid saved Sonata selection.');
     if (saved.echoLayout !== undefined && !validEchoLayout(saved.echoLayout)) throw new Error('Invalid saved Echo row layout.');
     if (saved.schemaVersion !== 3 || saved.characterId !== characterId
       || !['RECOMMENDED', 'MANUAL'].includes(saved.mode) || saved.overrides === null || typeof saved.overrides !== 'object'

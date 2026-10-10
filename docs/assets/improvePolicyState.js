@@ -15,6 +15,10 @@ const nonnegative = (value) => typeof value === 'number' && Number.isFinite(valu
 const positiveInteger = (value) => typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
 const unique = (rows, key) => new Set(rows.map(row => record(row)[key])).size === rows.length;
 const list = (value, valid, key) => Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
+function validSonataSelection(value) {
+    return Array.isArray(value) && value.every(id => typeof id === 'string' && /^sonata-[1-9][0-9]*$/.test(id))
+        && new Set(value).size === value.length;
+}
 function validEchoLayout(value) {
     const layout = record(value);
     if (Object.keys(layout).some(key => !['every', 'flex', 'other', 'minimums'].includes(key)))
@@ -111,6 +115,11 @@ function resumeMigration(state, recommended, source) {
 export function updateImprovePolicyState(state, action, recommended) {
     if (recommended.characterId !== state.characterId)
         throw new Error('Policy Character mismatch.');
+    if (action.type === 'sonatas') {
+        if (!validSonataSelection(action.value))
+            throw new Error('Invalid Sonata selection.');
+        return { ...state, selectedSonataSetIds: [...action.value] };
+    }
     if (action.type === 'gate')
         return gate(action.value) === action.value ? { ...state, gate: action.value } : state;
     if (action.type === 'quality')
@@ -221,7 +230,9 @@ function savedIntent(state) {
         for (const key of sections)
             if (own(state.overrides, key))
                 overrides[key] = structuredClone(state.overrides[key]);
-    return { schemaVersion: 3, characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
+    return { schemaVersion: 3,
+        ...(state.selectedSonataSetIds === undefined ? {} : { selectedSonataSetIds: [...state.selectedSonataSetIds] }),
+        characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
         ...(state.mode === 'MANUAL' && state.echoLayout !== undefined ? { echoLayout: structuredClone(state.echoLayout) } : {}),
         mode: state.mode, overrides: overrides, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
         migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
@@ -273,6 +284,8 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         // The rejected card model is not legacy Flex intent. Never reinterpret or overwrite it.
         if (own(record(saved.overrides), 'echoCards'))
             throw new Error('Retired Echo card settings need review; recovery data retained.');
+        if (saved.selectedSonataSetIds !== undefined && !validSonataSelection(saved.selectedSonataSetIds))
+            throw new Error('Invalid saved Sonata selection.');
         if (saved.echoLayout !== undefined && !validEchoLayout(saved.echoLayout))
             throw new Error('Invalid saved Echo row layout.');
         if (saved.schemaVersion !== 3 || saved.characterId !== characterId

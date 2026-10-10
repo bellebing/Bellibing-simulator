@@ -1349,6 +1349,7 @@
   "ui-preview/assets/forte-ui.mjs",
   "ui-preview/assets/improve-settings.css",
   "ui-preview/assets/improve-settings.js",
+  "ui-preview/assets/improve-sonata-presentation.mjs",
   "ui-preview/assets/improve-settings/character-targets.mjs",
   "ui-preview/assets/improve-settings/policies.json",
   "ui-preview/assets/improve-settings/sources.json",

@@ -90,8 +90,8 @@
 [data-setting="target"] .improve-target-editor .improve-setting-chips { flex-direction:row; }
 
 /* Original compact Echo rows; the gold highlight carries Character relevance. */
-.improve-echo-row { display:flex; align-items:center; gap:3px; min-width:0; margin:5px 0; min-height:32px; border:1px solid rgba(255,255,255,.12); border-radius:7px; background:rgba(255,255,255,.025); }
-.improve-echo-row.is-recommended { border-color:rgba(216,177,82,.48); background:rgba(216,177,82,.08); }
+.improve-echo-row, .improve-sonata-row { display:flex; align-items:center; gap:3px; min-width:0; margin:5px 0; min-height:32px; border:1px solid rgba(255,255,255,.12); border-radius:7px; background:rgba(255,255,255,.025); }
+.improve-echo-row.is-recommended, .improve-sonata-row[aria-pressed="true"] { border-color:rgba(216,177,82,.48); background:rgba(216,177,82,.08); }
 .improve-echo-toggle { display:flex; align-items:center; justify-content:space-between; gap:5px; flex:1; min-width:0; min-height:32px; padding:6px 8px; background:none; border:0; color:#b7bec8; text-align:left; font:inherit; font-size:11px; cursor:pointer; }
 .improve-echo-row.is-recommended .improve-echo-toggle { color:#e4d5b5; }
 .improve-echo-toggle:disabled { cursor:default; }
@@ -103,11 +103,11 @@
 .improve-flex-move { flex:none; width:20px; min-height:26px; padding:0; border:0; border-radius:4px; color:#b7bec8; background:none; cursor:pointer; font-size:11px; }
 .improve-flex-move:last-child { margin-right:3px; }
 .improve-flex-move:disabled { opacity:.25; cursor:default; }
-.improve-echo-toggle:focus-visible,.improve-flex-move:focus-visible,.improve-other-stats summary:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
+.improve-echo-toggle:focus-visible,.improve-flex-move:focus-visible,.improve-other-stats summary:focus-visible,.improve-more-sonatas summary:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
 .improve-build-need { margin-bottom:12px; }
 .improve-build-need .improve-setting-note { margin:5px 0 0; }
-.improve-other-stats { margin:10px 0; color:#949ca8; font-size:11px; }
-.improve-other-stats summary { cursor:pointer; }
+.improve-other-stats,.improve-more-sonatas { margin:10px 0; color:#949ca8; font-size:11px; }
+.improve-other-stats summary,.improve-more-sonatas summary { cursor:pointer; }
 .improve-visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 
 /* Original compact minimum-roll controls; gold follows Character guidance. */
@@ -168,3 +168,17 @@
 .improve-flex-count output { flex:1; }
 .improve-flex-count .improve-roll-slider { width:84px; flex:none; --roll-position:0%; }
 .improve-flex-count:has([aria-invalid="true"]) { color:#e5ad86; }
+
+/* Selected values retain the approved five-column fields. */
+[data-setting="every"] .improve-setting-summary, [data-setting="flex"] .improve-setting-summary { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.improve-sonata-summary { display:grid; grid-auto-flow:column; grid-auto-columns:var(--sonata-step,12px); align-items:center; justify-content:start; width:100%; min-width:0; height:20px; }
+.improve-sonata-summary img { width:24px; height:24px; object-fit:contain; border-radius:50%; background:#0d1117; box-shadow:0 0 0 1px rgba(224,187,109,.24); }
+.improve-sonata-row { width:100%; box-sizing:border-box; height:34px; min-height:34px; padding:4px 8px; gap:8px; text-align:left; color:#b7bec8; font-size:11px; cursor:pointer; }
+.improve-sonata-row img { width:24px; height:24px; flex:none; object-fit:contain; }
+.improve-sonata-row span { min-width:0; }
+.improve-sonata-row[aria-pressed="true"] { color:#e4d5b5; }
+.improve-sonata-row:focus-visible { outline:2px solid #c9a85f; outline-offset:2px; }
+.improve-more-sonatas { border-top:1px solid rgba(216,177,82,.48); padding-top:10px; }
+.improve-sonata-list { display:grid; gap:5px; max-height:307px; overflow-y:auto; overflow-x:hidden; margin-top:8px; padding:1px; }
+.improve-sonata-list .improve-sonata-row { margin:0; }
+[data-setting="gate"] .improve-setting-choice { width:100%; min-height:34px; }

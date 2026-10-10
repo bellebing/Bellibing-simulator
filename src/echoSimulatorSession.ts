@@ -1,3 +1,4 @@
+import type { SimulatorResources, SimulatorRun } from './echoSimulatorRun.ts';
 import type { EchoLevel, StatRoll } from './echoCoreDomain.ts';
 import type { SimulatorContext, SimulatorDispositionReceipt } from './echoSimulatorBoundary.ts';
 import { matchesSimulatorReceipt, SIMULATOR_EVALUATOR_PENDING } from './echoSimulatorBoundary.ts';
@@ -28,11 +29,14 @@ export interface SimulatorCandidate {
   history: SimulatorEchoCard[];
 }
 export interface SimulatorHistoryCard extends SimulatorCandidate {
-  disposition: 'accepted' | 'rejected';
+  disposition: 'accepted' | 'rejected' | 'placed';
   reason: string;
 }
 export interface SimulatorSlotHistory {
+  /** Generated equipment is moved here while inactive, never destroyed. */
+  inactiveCard: SimulatorEchoCard | null;
   candidate: SimulatorCandidate | null;
+  unplaced: SimulatorCandidate[];
   accepted: SimulatorHistoryCard[];
   trash: SimulatorHistoryCard[];
 }
@@ -41,10 +45,15 @@ export interface EchoSimulatorSession {
   source: { characterId: string; activeSetId: string; build: SimulatorBuild };
   simulatedBuild: SimulatorBuild;
   buildRevision: number;
+  weaponActive: boolean;
   selectedSlot: number;
   slots: SimulatorSlotHistory[];
   inspected: { slot: number; candidateId: string } | null;
   nextCandidate: number;
+  /** Gross mechanics only, never inventory transactions or recovery receipts. EXP stays internal. */
+  rolling: { attempts: number; checkpoints: number; tuners: number; exp: number };
+  resources?: SimulatorResources;
+  run?: SimulatorRun;
   evaluator: typeof SIMULATOR_EVALUATOR_PENDING;
 }
 const detached = <T>(value: T): T => structuredClone(value);
@@ -67,8 +76,8 @@ export function startEchoSimulator(characterId: string, realBuild: SimulatorBuil
   };
   return {
     id: sessionId, source: { characterId, activeSetId, build: detached(realBuild) }, simulatedBuild,
-    buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, accepted: [], trash: [] })),
-    inspected: null, nextCandidate: 1, evaluator: SIMULATOR_EVALUATOR_PENDING,
+    buildRevision: 0, weaponActive: !!realBuild.weaponId, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ inactiveCard: null, candidate: null, unplaced: [], accepted: [], trash: [] })),
+    inspected: null, nextCandidate: 1, rolling: { attempts: 0, checkpoints: 0, tuners: 0, exp: 0 }, evaluator: SIMULATOR_EVALUATOR_PENDING,
   };
 }
 export function simulatedEchoSlots(session: EchoSimulatorSession): SimulatorSlotCard[] {
@@ -107,6 +116,7 @@ export function applySimulatorDisposition(session: EchoSimulatorSession, receipt
   if (receipt.disposition === 'accepted') {
     if (candidate.card.level === undefined || !candidate.card.mainStat) throw new Error('Cannot accept an identity-only candidate');
     next.simulatedBuild.echoSets!.sets[next.source.activeSetId].slots[index] = detached(candidate.card);
+    next.slots[index].inactiveCard = null;
     next.slots[index].accepted.push(history); next.buildRevision++;
   } else next.slots[index].trash.push(history);
   next.slots[index].candidate = null; next.inspected = null;
@@ -122,3 +132,29 @@ export function resetEchoSimulator(session: EchoSimulatorSession, sessionId: str
   return startEchoSimulator(session.source.characterId, session.source.build, sessionId);
 }
 export function closeEchoSimulator(_session: EchoSimulatorSession): null { return null; }
+
+/** Display ownership includes inactive generated equipment; stat projection does not. */
+export function simulatorEquipmentSlots(session: EchoSimulatorSession): SimulatorSlotCard[] {
+  return simulatedEchoSlots(session).map((card, index) => card ?? detached(session.slots[index].inactiveCard));
+}
+export function setSimulatorEchoActive(session: EchoSimulatorSession, slot: number, active: boolean): EchoSimulatorSession {
+  const index = slotIndex(slot), next = detached(session);
+  const slots = next.simulatedBuild.echoSets!.sets[next.source.activeSetId].slots;
+  const card = slots[index] ?? next.slots[index].inactiveCard;
+  if (!card || typeof card === 'string' || card.level === undefined || !card.mainStat) throw new Error('Generate an Echo before activation.');
+  const wasActive = slots[index] !== null;
+  if (wasActive === active) return next;
+  slots[index] = active ? detached(card) : null;
+  next.slots[index].inactiveCard = active ? null : detached(card);
+  next.buildRevision++;
+  return next;
+}
+export function setSimulatorWeaponActive(session: EchoSimulatorSession, active: boolean): EchoSimulatorSession {
+  if (!session.source.build.weaponId) throw new Error('No source Weapon available.');
+  const next = detached(session);
+  if (next.weaponActive === active) return next;
+  next.weaponActive = active;
+  next.simulatedBuild.weaponId = active ? next.source.build.weaponId : null;
+  next.buildRevision++;
+  return next;
+}

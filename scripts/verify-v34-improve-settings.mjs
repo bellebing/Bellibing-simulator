@@ -1,10 +1,12 @@
 export async function verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep }) {
+  await verifyImproveSonataSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep });
   const read = expression => evaluate(send, expression);
   const state = 'window.bellibingImproveSettings.getState()';
   const check = async (expression, message) => {
     if (!await read(expression)) throw new Error('Improve Settings: ' + message + ' ' + JSON.stringify(await read(`({state:${state},text:document.getElementById('improveSettings').innerText})`)));
   };
   const click = async selector => {
+    if(selector.includes('mode:')&&!await read('document.querySelector(".improve-mode-actions").open'))await click('.improve-mode-actions summary');
     // Hover can expand the active input column and move its controls. Settle it
     // before the caller's physical click, then require an actual visible hit.
     await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',inline:'center',behavior:'instant'})`);
@@ -110,15 +112,15 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");
     await capture(send,`artifacts/ui-preview-resources-collapsed-${width}x${height}-${artifactVariant}.png`);
     await click('#improve-setting-every'); await settle();
-    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Target','Gate','Hard Requirements','Flex Stats'])`, 'four input columns');
-    await check(`(()=>{const root=document.getElementById('improveSettings');return !/Character Target|Every Echo|Recommended Character Stats/.test(root.innerText)&&root.querySelector('[data-setting=target] h3').textContent==='Character Stats'&&[...root.querySelectorAll('h3,h4')].every(n=>!n.textContent.includes('Recommended'))})()`, 'presentation wording without duplicate Recommended headings');
-    await check(`(()=>{const root=document.getElementById('improveSettings');return [root,...root.querySelectorAll('*')].filter(n=>n.getClientRects().length&&getComputedStyle(n).visibility==='visible').every(n=>getComputedStyle(root).fontFamily.startsWith('Etna')&&getComputedStyle(n).fontFamily===getComputedStyle(root).fontFamily)})()`, 'all visible settings text and native controls use the existing display font');
-    await check(`(()=>{const root=document.getElementById('improveSettings'),labels=[...root.querySelectorAll('.improve-setting-label')];return labels.every(n=>{const r=n.getBoundingClientRect(),owner=n.closest('.improve-setting').getBoundingClientRect(),style=getComputedStyle(n);return style.textAlign==='center'&&Math.abs(r.left+r.width/2-owner.left-owner.width/2)<1&&parseFloat(style.fontSize)>parseFloat(getComputedStyle(n.nextElementSibling).fontSize)})&&root.querySelectorAll('.improve-settings-heading [aria-label="Improve policy mode"]').length===1&&[...root.querySelectorAll('.improve-policy-section h3')].every(n=>getComputedStyle(n).textAlign!=='center')})()`, 'centered column title hierarchy and left-aligned inner headings');
+    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Sonata Sets','Gate','Hard Requirements','Flex Stats','Character Target'])`, 'five input columns');
+    await check(`(()=>{const root=document.getElementById('improveSettings');return !/Every Echo|Recommended Character Stats/.test(root.innerText)&&root.querySelector('[data-setting=target] h3').textContent==='Character Stats'&&[...root.querySelectorAll('h3,h4')].every(n=>!n.textContent.includes('Recommended'))})()`, 'presentation wording without duplicate Recommended headings');
+    await check(`(()=>{const root=document.getElementById('improveSettings');return getComputedStyle(root).fontFamily.startsWith('Etna')&&[...root.querySelectorAll('.improve-setting-label')].every(n=>getComputedStyle(n).fontFamily.startsWith('Etna'))&&[...root.querySelectorAll('.improve-echo-row,.improve-recommended-stat')].every(n=>getComputedStyle(n).fontFamily.startsWith('Inter'))})()`, 'Etna headings and readable Inter stat rows');
+    await check(`(()=>{const root=document.getElementById('improveSettings'),labels=[...root.querySelectorAll('.improve-setting-label')];return labels.every(n=>{const r=n.getBoundingClientRect(),owner=n.closest('.improve-setting').getBoundingClientRect(),style=getComputedStyle(n);return style.textAlign==='center'&&Math.abs(r.left+r.width/2-owner.left-owner.width/2)<1&&parseFloat(style.fontSize)>parseFloat(getComputedStyle(n.nextElementSibling).fontSize)})&&root.querySelectorAll('.improve-settings-heading button').length===0&&root.querySelectorAll('.improve-mode-actions [aria-label="Improve policy mode"]').length===1&&[...root.querySelectorAll('.improve-policy-section h3')].every(n=>getComputedStyle(n).textAlign!=='center')})()`, 'centered column title hierarchy and left-aligned inner headings');
     await check(`(()=>{const tubes=document.querySelector('.improve-resource-tubes');return tubes.querySelectorAll('img').length===4&&tubes.querySelectorAll('input').length===4&&[...tubes.querySelectorAll('.improve-resource-label')].every(n=>getComputedStyle(n).display==='none')&&!/Gold|Purple|Blue|Green/.test(tubes.innerText)})()`, 'expanded Tube icons and inputs without visible color captions');
     await check(`JSON.stringify([...document.querySelectorAll('[data-setting=gate] .improve-setting-choice')].map(n=>n.textContent))===JSON.stringify(['+5','+10','+15','+20','+25'])`, 'unchanged Gate checkpoints');
     await check(`${state}.presentation.echoPolicy.requirements.status==='USER_DEFINED'&&${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'&&document.querySelectorAll('.improve-echo-row .improve-roll-slider').length===6&&Object.keys(${state}.overrides).length===0`, 'Recommended shows only the user-approved Augusta default');
     await rowsUnique();
-    await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect().width);return columns[0]<290&&columns[1]<100&&Math.abs(columns[2]-columns[3])<1&&Math.abs(columns[2]-(document.querySelector('.improve-settings-controls').clientWidth-330)/3)<1&& !document.querySelector('[data-setting=flex] h3')})()`, 'narrow Target/Gate and equal Hard/Flex columns');
+    await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect());return columns[1].width<=70&&Math.abs(columns[2].width-columns[3].width)<1&&columns[4].left>columns[3].left&&!document.querySelector('[data-setting=flex] h3')&&[...document.querySelectorAll('.improve-expected-stat')].every(n=>n.textContent==='Pending')})()`, 'screenshot columns: narrow Gate, equal Hard/Flex, source-backed comparison on right and Expected Pending');
     await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='Recommended'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='Recommended'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'accepted Recommended summaries and row clearance');
     await check(`!JSON.stringify(${state}).includes('checkpointReference')&&!JSON.stringify(${state}).includes('effectivePolicy')`, 'public inspection contract');
     await check(`!document.querySelector('.improve-build-need')`, 'visible Build Need removed');
@@ -130,7 +132,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await capture(send,`artifacts/ui-preview-resources-expanded-${width}x${height}-${artifactVariant}.png`);
     await capture(send,`artifacts/ui-preview-improve-settings-recommended-${width}x${height}-${artifactVariant}.png`);
     await click(focus('mode:MANUAL')); await check(`Object.keys(${state}.overrides).length===0`, 'Customize alone creates no inputs');
-    await check(`(()=>{const root=document.getElementById('improveSettings');return root.querySelector('[data-setting=target] h3').textContent==='Character Stats'&&[...root.querySelectorAll('button,input')].filter(n=>n.getClientRects().length).every(n=>getComputedStyle(n).fontFamily===getComputedStyle(root).fontFamily)})()`, 'Customize retains Character Stats and scoped native-control typography');
+    await check(`(()=>{const root=document.getElementById('improveSettings');return root.querySelector('[data-setting=target] h3').textContent==='Character Stats'&&[...root.querySelectorAll('.improve-echo-row')].every(n=>getComputedStyle(n).fontFamily.startsWith('Inter'))&&[...root.querySelectorAll('.improve-expected-stat')].every(n=>n.textContent==='Pending')})()`, 'Customize retains source-backed comparison and Inter stat typography');
     if (!await read("document.querySelector('.improve-other-stats').open")) await click('.improve-other-stats summary');
     await dragRow('CRIT Rate', '[data-echo-section=every]'); await dragRow('CRIT DMG', '[data-echo-section=every]');
     for (const name of ['ATK%','Energy Regen','Heavy Attack DMG']) {
@@ -139,7 +141,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
       await check(`!!document.querySelector(${JSON.stringify('.improve-echo-row[data-stat-name='+JSON.stringify(name)+'] .improve-roll-slider')})&&${state}.overrides.echoPreferences.some(r=>r.stat===${JSON.stringify(name)})`, 'drop activates immediately without another click');
     }
     await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===1&&${state}.overrides.echoRequirements.requiredOnEveryEcho.length===2&&${state}.overrides.echoPreferences.length===4`, 'explicit user-only Echo inputs');
-    await check(`(()=>{const owners=[...document.querySelectorAll('.improve-setting')], root=document.getElementById('improveSettings').getBoundingClientRect();return owners.every((n,i)=>{const r=n.getBoundingClientRect();return r.left>=root.left&&r.right<=root.right&&(!i||owners[i-1].getBoundingClientRect().right<=r.left)})&&[...document.querySelectorAll('.improve-roll-slider')].every(n=>n.getBoundingClientRect().width>=65)&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)&&document.documentElement.scrollWidth===${width}})()`, 'unchanged column/slider/viewport assertions');
+    await check(`(()=>{const owners=[...document.querySelectorAll('.improve-setting')], root=document.getElementById('improveSettings').getBoundingClientRect();return owners.every((n,i)=>{const r=n.getBoundingClientRect();return r.left>=root.left&&r.right<=root.right&&(!i||owners[i-1].getBoundingClientRect().right<=r.left)})&&[...document.querySelectorAll('.improve-roll-slider')].every(n=>n.getBoundingClientRect().width>=48)&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)&&document.documentElement.scrollWidth===${width}})()`, 'screenshot columns contain readable rows and minimum 48px sliders without viewport overflow');
     await click(slider('every','CRIT Rate')); await key('Home');
     const tiers=[.063,.069,.075,.081,.087,.093,.099,.105];
     for (let index=0; index<tiers.length; index++) {
@@ -245,4 +247,57 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await click(focus('mode:RECOMMENDED'));
   await check(`!localStorage.getItem('bellibing.improve.policy.v3').includes('echoCards')&&Object.keys(${state}.overrides).length===0&&${state}.gate===15&&${state}.rollQuality===${JSON.stringify(retiredQuality)}&&JSON.stringify(${inventoryState})===${JSON.stringify(retiredResources)}&&!document.querySelector('[data-focus-key=\"mode:MANUAL\"]').disabled`, 'existing Recommended action explicitly recovers retired card intent, preserving Gate and shared Resources');
   console.log('PASS public Improve Pending/input/source/persistence/physical-pointer/geometry regression at three desktop sizes');
+}
+
+/** Focused 1440px correction review; shared persistence and equipment stay owned
+ * by the existing Settings/simulator models. All choice/scroll inputs are physical. */
+export async function verifyImproveSonataSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep }) {
+  const read = expression => evaluate(send, expression);
+  const check = async (expression, label) => { if (!await read(expression)) throw new Error('Sonata Settings: ' + label + ' ' + JSON.stringify(await read("({focus:document.activeElement.outerHTML.slice(0,200),top:document.querySelector('.improve-sonata-list')?.scrollTop,open:document.querySelector('.improve-more-sets')?.open})"))); };
+  const click = async selector => { await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`); await sleep(450); await pointerClick(send, selector); await sleep(180); };
+  const key = async (name, code = name, virtual = 0) => { await send('Input.dispatchKeyEvent', {type:'keyDown',key:name,code,windowsVirtualKeyCode:virtual,text:name==='Enter'?'\r':undefined}); await send('Input.dispatchKeyEvent', {type:'keyUp',key:name,code,windowsVirtualKeyCode:virtual}); await sleep(150); };
+  await setViewport(send, 1440, 900); await navigate(send);
+  await waitForUi(send, 'echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'initial Settings load', 15000);
+  await read('localStorage.clear()'); await navigate(send);
+  await waitForUi(send, 'echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'fresh Settings load', 15000);
+  await read("show('improve');improvePicker.select('Augusta')"); await sleep(800);
+  const equipment = await read("JSON.stringify(improveBuildState('Augusta'))");
+  const initial = await read('window.bellibingImproveSettings.getSonataSetIds()');
+  await check(`JSON.stringify([...document.querySelectorAll('.improve-sonata-selected button')].map(n=>n.dataset.focusKey.slice(7)))===${JSON.stringify(JSON.stringify(initial))}`, 'selected icons preserve order');
+  await check("!document.querySelector('[data-setting=sonata]').innerText.match(/selected|Choose up to|Simulation sets/) && document.querySelector('.improve-sonata-selected').querySelectorAll('img').length===2&&!document.querySelector('.improve-more-sets').open", 'icon-only fixed row and collapsed More Sets');
+  await click('.improve-more-sets summary');
+  await read("document.querySelector('[data-setting=sonata]').scrollIntoView({block:'start',behavior:'instant'})"); await sleep(250);
+  const fixedTop = await read("document.querySelector('.improve-sonata-selected').getBoundingClientRect().top");
+  const bounds = await read("(()=>{const r=document.querySelector('.improve-sonata-list').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+80}})()");
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});
+  await send('Input.dispatchMouseEvent',{type:'mouseWheel',...bounds,deltaX:0,deltaY:430}); await sleep(400);
+  await check(`document.querySelector('.improve-sonata-list').scrollTop>0&&Math.abs(document.querySelector('.improve-sonata-selected').getBoundingClientRect().top-${fixedTop})<1&&parseFloat(document.querySelector('.improve-sonata-scroll-shell .weapon-scroll-rail.has-scroll').style.getPropertyValue('--scroll-p'))>0`, 'real wheel scroll moves star but keeps selected row fixed');
+  await check("getComputedStyle(document.querySelector('.improve-sonata-list')).scrollbarWidth==='none'&&getComputedStyle(document.querySelector('.improve-sonata-scroll-shell .weapon-scroll-rail'),'::before').width==='1px'&&[...document.querySelectorAll('.improve-sonata-list button')].every((n,i,rows)=>n.clientWidth>130&&n.scrollWidth<=n.clientWidth+1&&(!i||rows[i-1].getBoundingClientRect().bottom<=n.getBoundingClientRect().top))", 'thin reused rail, no compressed/overlapping/clipped choices');
+  await click('.improve-more-sets summary'); await check("!document.querySelector('.improve-more-sets').open&&document.querySelector('.improve-sonata-selected').offsetHeight>0", 'collapse preserves icons');
+  await key('Enter','Enter',13); await key('Tab','Tab',9); await key('End','End',35);
+  await check("document.activeElement.classList.contains('improve-sonata-list')&&document.querySelector('.improve-sonata-list').scrollTop>500", 'keyboard list scroll');
+  await waitForUi(send, "(()=>{const n=document.querySelector('.improve-sonata-list');return Math.abs(n.scrollTop-(n.scrollHeight-n.clientHeight))<1})()", 'keyboard End settles');
+  await key('Home','Home',36); await waitForUi(send, "document.querySelector('.improve-sonata-list').scrollTop===0", 'keyboard Home settles'); await check("document.querySelector('.improve-sonata-list').scrollTop===0", 'keyboard Home');
+  const third = await read("document.querySelector('.improve-sonata-list button').dataset.focusKey.slice(7)");
+  await read("window.__sonataChangeCount=0;window.addEventListener('bellibing-improve-settings-changed',()=>window.__sonataChangeCount++);window.addEventListener('bellibing-simulator-sonatas-changed',()=>window.__sonataChangeCount++)");
+  await click(`[data-focus-key="sonata:${third}"]`);
+  await check('document.querySelectorAll(".improve-sonata-replace button").length===2&&window.bellibingImproveSettings.getSonataSetIds().length===2&&document.activeElement.dataset.focusKey.startsWith("sonata-replace:")&&window.__sonataChangeCount===0', 'third choice offers explicit accessible replacement');
+  await key('Escape','Escape',27); await check('!document.querySelector(".improve-sonata-replace")', 'Escape cancels replacement');
+  await click(`[data-focus-key="sonata:${third}"]`); await key('Enter','Enter',13);
+  await check(`JSON.stringify(window.bellibingImproveSettings.getSonataSetIds())===${JSON.stringify(JSON.stringify([third,initial[1]]))}`, 'keyboard replacement preserves position and two-set cap');
+  await click(`[data-focus-key="sonata:${third}"]`); await check('window.bellibingImproveSettings.getSonataSetIds().length===1', 'selected icon deselect');
+  await click(`[data-focus-key="sonata:${initial[0]}"]`); await check(`JSON.stringify(window.bellibingImproveSettings.getSonataSetIds())===${JSON.stringify(JSON.stringify([initial[1],initial[0]]))}`, 'available choice adds in actual selection order');
+  await click('#simulatorEnter');
+  const session = await read('JSON.stringify({source:improveUi.simulator.source,slots:improveUi.simulator.slots,build:improveUi.simulator.simulatedBuild,resources:improveUi.simulator.resources})');
+  await click(`[data-focus-key="sonata:${initial[0]}"]`);
+  await check(`improveUi.simulatorTemplates.filter(Boolean).every(t=>t.selectedSonataSetId===${JSON.stringify(initial[1])})&&JSON.stringify({source:improveUi.simulator.source,slots:improveUi.simulator.slots,build:improveUi.simulator.simulatedBuild,resources:improveUi.simulator.resources})===${JSON.stringify(session)}`, 'updated family reaches simulator without equipment/resource mutation');
+  await click('#improve-setting-every');
+  await click('[data-focus-key="roll:every:CRIT Rate"]'); await key('ArrowRight','ArrowRight',39);
+  await check('document.querySelector("[data-focus-key=\\"roll:every:CRIT DMG\\"]")!==null', 'CRIT minimum controls retained');
+  const settings = await read('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
+  await read("document.getElementById('improveSettings').scrollIntoView({block:'start',behavior:'instant'})"); await capture(send, 'artifacts/ui-preview-sonata-correction-1440x900.png');
+  await navigate(send); await waitForUi(send, 'window.bellibingImproveSettings&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'reload load', 15000);
+  await read("show('improve');improvePicker.select('Augusta')"); await sleep(700);
+  await check(`JSON.stringify(window.bellibingImproveSettings.getState().overrides)===${JSON.stringify(settings)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(equipment)}&&!improveUi.simulator`, 'settings reload and real equipment isolation');
+  console.log('PASS focused Sonata Settings 1440x900: fixed ordered icons, wheel/star/keyboard scrolling, More Sets collapse, explicit replacement/deselection, simulator eligibility, minima persistence and real equipment isolation.');
 }

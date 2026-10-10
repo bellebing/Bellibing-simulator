@@ -1,3 +1,4 @@
+import { attachResourceScrubber } from './resource-scrubber.mjs';
 import { SUBSTAT_TYPES } from '../../assets/echoCoreRules.js';
 import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
@@ -13,20 +14,80 @@ let store, storageError = null, retiredEchoRecovery = false;
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
+let moreSetsExpanded = false;
 let settingsOpener = 'target';
 let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
+const sonataSelections = new Map(); let sonataCatalog = [], loadoutProfiles = [];
+function selectedSonatas() { return sonataSelections.get(characterId) ?? loadoutProfiles.find(row => row.characterId === characterId)?.sonataSetIds.slice(0,2) ?? []; }
+let sonataScrollTop = 0, replacementSonata = null, sonataResizeObserver;
+function sonataIcon(set) {
+  const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href;
+  icon.alt = ''; icon.width = 32; icon.height = 32; return icon;
+}
+function changeSonatas(next, focusKey) {
+  sonataSelections.set(characterId, next); replacementSonata = null;
+  render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
+  const target = root.querySelector(`[data-focus-key="${focusKey}"]`);
+  (target?.closest('.improve-sonata-selected') || moreSetsExpanded ? target : root.querySelector('#improveMoreSets'))?.focus({ preventScroll: true });
+}
+function renderSonatas() {
+  sonataResizeObserver?.disconnect();
+  const group = groups.get('sonata'), selected = selectedSonatas();
+  group.summary.textContent = '';
+  const row = element('div', undefined, 'improve-sonata-selected'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Selected Sonata Sets; select an icon to deselect');
+  for (const id of selected) {
+    const set = sonataCatalog.find(item => item.id === id); if (!set) continue;
+    const choice = button('', () => changeSonatas(selectedSonatas().filter(value => value !== id), 'sonata:' + id), 'sonata:' + id, true);
+    choice.classList.add('improve-sonata-icon'); choice.title = 'Deselect ' + set.name; choice.setAttribute('aria-label', choice.title); choice.append(sonataIcon(set)); row.append(choice);
+  }
+  group.content.append(row);
+  const more = element('details', undefined, 'improve-more-sets'), summary = element('summary', 'More Sets'); summary.id = 'improveMoreSets';
+  more.append(summary); more.open = moreSetsExpanded;
+  const viewport = element('div', undefined, 'improve-sonata-scroll-shell');
+  const list = element('div', undefined, 'improve-sonata-list'); list.tabIndex = 0; list.setAttribute('role', 'group'); list.setAttribute('aria-label', 'Available Sonata Sets; choose to add or replace a selected set');
+  list.addEventListener('keydown', event => { if (event.target === list && ['Home', 'End'].includes(event.key)) { event.preventDefault(); list.scrollTop = event.key === 'Home' ? 0 : list.scrollHeight; } });
+  const rail = element('div', undefined, 'weapon-scroll-rail'); rail.setAttribute('aria-hidden', 'true'); rail.append(element('span', undefined, 'weapon-scroll-thumb'));
+  const sync = () => { if (!list.isConnected) return; const max = list.scrollHeight - list.clientHeight; rail.classList.toggle('has-scroll', max > 1); rail.style.setProperty('--scroll-p', max > 0 ? Math.max(0, Math.min(1, list.scrollTop / max)) : 0); };
+  list.addEventListener('scroll', () => { sonataScrollTop = list.scrollTop; sync(); }, { passive: true });
+  more.ontoggle = () => { if (more.isConnected) { moreSetsExpanded = more.open; sync(); } };
+  for (const set of sonataCatalog.filter(item => !selected.includes(item.id))) {
+    const choice = button(set.name, () => {
+      const current = selectedSonatas();
+      if (current.length < 2) changeSonatas([...current, set.id], 'sonata:' + set.id);
+      else { replacementSonata = set.id; group.content.replaceChildren(); renderSonatas(); root.querySelector('[data-focus-key^="sonata-replace:"]')?.focus({ preventScroll: true }); }
+    }, 'sonata:' + set.id, false);
+    choice.prepend(sonataIcon(set)); choice.classList.toggle('is-replacing', replacementSonata === set.id); list.append(choice);
+  }
+  if (replacementSonata) {
+    const pending = sonataCatalog.find(set => set.id === replacementSonata);
+    const replace = element('div', undefined, 'improve-sonata-replace'); replace.setAttribute('role', 'group'); replace.setAttribute('aria-label', 'Choose which selected Sonata to replace');
+    replace.append(element('span', 'Replace with ' + pending.name));
+    for (const id of selected) {
+      const set = sonataCatalog.find(item => item.id === id);
+      const choice = button('', () => changeSonatas(selectedSonatas().map(value => value === id ? pending.id : value), 'sonata:' + pending.id), 'sonata-replace:' + id);
+      choice.classList.add('improve-sonata-icon'); choice.title = 'Replace ' + set.name + ' with ' + pending.name; choice.setAttribute('aria-label', choice.title); choice.append(sonataIcon(set)); replace.append(choice);
+    }
+    replace.addEventListener('keydown', event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); replacementSonata = null; group.content.replaceChildren(); renderSonatas(); root.querySelector(`[data-focus-key="sonata:${pending.id}"]`)?.focus({ preventScroll: true }); } });
+    more.append(replace);
+  }
+  viewport.append(list, rail); more.append(viewport); group.content.append(more);
+  if ('ResizeObserver' in window) { sonataResizeObserver = new ResizeObserver(sync); sonataResizeObserver.observe(list); }
+  requestAnimationFrame(() => { if (list.isConnected) { list.scrollTop = sonataScrollTop; sync(); } });
+}
+
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
 const modes = element('div', undefined, 'improve-setting-chips'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Improve policy mode');
-heading.append(title, modes);
+heading.append(title);
+const modeDetails = element('details', undefined, 'improve-mode-actions'); modeDetails.append(element('summary', 'Edit / restore settings'), modes);
 const controls = element('div', undefined, 'improve-settings-controls');
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
 const resources = element('div', undefined, 'improve-resources'); resources.setAttribute('role', 'group'); resources.setAttribute('aria-label', 'Resources');
 const resourceSeparator = element('hr', undefined, 'improve-resources-separator');
-root.append(heading, resources, resourceSeparator, reviewNote, controls, saveNote);
+root.append(heading, resources, resourceSeparator, reviewNote, controls, modeDetails, saveNote);
 function renderResources() {
   resources.classList.toggle('is-expanded', expanded);
   resources.replaceChildren(element('h3', 'Resources', 'improve-resources-title'));
@@ -53,10 +114,12 @@ function renderResources() {
         const next = updateResourceInventory(inventory, id, parseInventoryQuantity(input.value));
         const nextStore = persistResourceInventory(store, next, localStorage);
         store = nextStore; inventory = next; input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
       } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
+    attachResourceScrubber(input, () => input.onchange());
     owner.append(summary, input); parent.append(owner);
   }
   for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
@@ -98,21 +161,21 @@ function commit(change, focusKey, refresh = true) {
   catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
   const saved = save();
   if (!saved) settings = previous;
-  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); return; }
+  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); window.dispatchEvent(new Event('bellibing-improve-settings-changed')); return; }
   render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
 function setExpanded(next, restore = false) {
-  expanded = !!next;
+  expanded = !!next; modeDetails.open = expanded;
   renderResources();
   for (const group of groups.values()) {
-    const open = expanded; group.host.classList.toggle('is-expanded', open);
+    const open = group.host.dataset.setting === 'sonata' || expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
   }
-  if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
+  if (restore) groups.get(settingsOpener === 'sonata' ? 'every' : settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
+for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats'], ['target', 'Character Target']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -120,6 +183,7 @@ for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Ha
   const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
   const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
   trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
+  if (id === 'sonata') { trigger.hidden = true; labelNode.removeAttribute('for'); }
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
   clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
@@ -137,6 +201,7 @@ function renderTargets() {
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
+  renderTargetComparison(targets);
   if (settings.mode === 'MANUAL') {
     // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
@@ -153,7 +218,12 @@ function renderTargets() {
     if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
     return;
   }
+ }
+function renderTargetComparison(targets) {
   const rows = recommendedCharacterStatsPresentation(characterId);
+  const headers = element('div', undefined, 'improve-target-comparison-head');
+  headers.append(element('span', 'Stat'), element('span', 'Recommended'), element('span', 'Expected'));
+  targets.append(headers);
   if (!rows.length) targets.append(note('Pending'));
   const table = element('dl', undefined, 'improve-recommended-stats');
   for (const row of rows) {
@@ -162,11 +232,14 @@ function renderTargets() {
     item.dataset.status = ready ? 'READY' : 'PENDING';
     const value = element('dd');
     value.append(element('span', ready ? row.displayValue : 'Pending'));
-    item.append(element('dt', row.label), value);
+    const expected = element('dd', 'Pending', 'improve-expected-stat');
+    expected.title = 'Mathematically supported expected Character stats are Pending.';
+    item.append(element('dt', row.label), value, expected);
     table.append(item);
   }
   targets.append(table);
 }
+
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
   const editor = element('form', undefined, 'improve-target-editor'); editor.noValidate = true; editor.dataset.editorMetric = metric;
@@ -328,14 +401,15 @@ function render() {
   if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
   reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
-  renderTargets(); renderEcho();
+  renderSonatas(); renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
+  window.dispatchEvent(new Event('bellibing-improve-settings-changed'));
 }
 function setCharacter(id) {
   if (characterId !== id) {
     if (retiredEchoRecovery) { storageError = null; retiredEchoRecovery = false; saveNote.hidden = true; }
-    setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
+    replacementSonata = null; sonataScrollTop = 0; moreSetsExpanded = false; setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
   }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }
@@ -353,7 +427,7 @@ function setCharacter(id) {
   if (loaded) save(); render();
 }
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+window.bellibingImproveSettings = { setCharacter, getSonataSetIds: () => [...selectedSonatas()], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])
@@ -364,3 +438,5 @@ Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.met
     loaded = true; setCharacter(characterId);
   })
   .catch(() => { loaded = true; sources = []; legacySources = []; setCharacter(characterId); });
+
+fetch(new URL('./echoes/browser-data.json', import.meta.url)).then(response => { if (!response.ok) throw new Error('Sonata catalog unavailable'); return response.json(); }).then(data => { sonataCatalog = data.sonataSets.filter(row => row.releaseStatus === 'RELEASED'); loadoutProfiles = data.loadoutProfiles; if (settings) render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed')); }).catch(() => { sonataCatalog = []; });

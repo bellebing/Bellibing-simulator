@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyEchoSimulator, verifyEchoSimulatorReview } from './verify-v34-echo-simulator.mjs';
+import { verifyEchoSimulator, verifyEchoSimulatorReview, verifyPlayableEchoSimulator } from './verify-v34-echo-simulator.mjs';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { verifyAccountReview } from './verify-v34-account-review.mjs';
@@ -899,6 +899,8 @@ try {
     await send('Runtime.enable');
     if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
       await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
+    } else if (process.env.BELLIBING_PLAYABLE_SIMULATOR_ONLY === '1') {
+      await verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else {

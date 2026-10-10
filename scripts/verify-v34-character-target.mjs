@@ -98,7 +98,7 @@ try {
         const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
         const projected = expected.find(item => item.characterId === id);
         assert.deepEqual(rows, projected.rows.map(row => ({ metric: row.metric, status: row.status, label: row.label, value: row.displayValue })), kind + ' ' + name);
-        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===2&&n.querySelector('dd').children.length===1&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' one value per row, no source subline');
+        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===3&&n.querySelector('dd').children.length===1&&n.querySelector('.improve-expected-stat').textContent==='Pending'&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' source-backed Recommended value and independent Expected Pending, no source subline');
         if (id === 'augusta') assert.deepEqual(rows.map(row => [row.label, row.value]), [
           ['ATK', '2,407'], ['CRIT Rate', '84.7%'], ['CRIT DMG', '225%'], ['Energy Regen', '120%'], ['Heavy Attack DMG', '29.2%'],
         ]);
@@ -115,7 +115,8 @@ try {
       const before = await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
       await click('[data-focus-key="mode:MANUAL"]');
       assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'Customize alone creates no overrides');
-      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat,.improve-target-editor').length"), 0, 'Customize is not seeded');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'Customize has no seeded editors');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Source Recommended comparison stays visible in Customize');
       await click('.improve-target-add summary'); await click('[data-focus-key="metric:TOTAL_ATK"]');
       await input('#improve-target-minimum-TOTAL_ATK', '2345'); await input('#improve-target-preferred-TOTAL_ATK', '2500');
       await click('[data-focus-key="save-target:TOTAL_ATK"]');

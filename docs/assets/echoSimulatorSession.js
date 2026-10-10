@@ -20,8 +20,8 @@ export function startEchoSimulator(characterId, realBuild, sessionId) {
     };
     return {
         id: sessionId, source: { characterId, activeSetId, build: detached(realBuild) }, simulatedBuild,
-        buildRevision: 0, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ candidate: null, accepted: [], trash: [] })),
-        inspected: null, nextCandidate: 1, evaluator: SIMULATOR_EVALUATOR_PENDING,
+        buildRevision: 0, weaponActive: !!realBuild.weaponId, selectedSlot: 1, slots: Array.from({ length: 5 }, () => ({ inactiveCard: null, candidate: null, unplaced: [], accepted: [], trash: [] })),
+        inspected: null, nextCandidate: 1, rolling: { attempts: 0, checkpoints: 0, tuners: 0, exp: 0 }, evaluator: SIMULATOR_EVALUATOR_PENDING,
     };
 }
 export function simulatedEchoSlots(session) {
@@ -67,6 +67,7 @@ export function applySimulatorDisposition(session, receipt) {
         if (candidate.card.level === undefined || !candidate.card.mainStat)
             throw new Error('Cannot accept an identity-only candidate');
         next.simulatedBuild.echoSets.sets[next.source.activeSetId].slots[index] = detached(candidate.card);
+        next.slots[index].inactiveCard = null;
         next.slots[index].accepted.push(history);
         next.buildRevision++;
     }
@@ -88,3 +89,32 @@ export function resetEchoSimulator(session, sessionId) {
     return startEchoSimulator(session.source.characterId, session.source.build, sessionId);
 }
 export function closeEchoSimulator(_session) { return null; }
+/** Display ownership includes inactive generated equipment; stat projection does not. */
+export function simulatorEquipmentSlots(session) {
+    return simulatedEchoSlots(session).map((card, index) => card ?? detached(session.slots[index].inactiveCard));
+}
+export function setSimulatorEchoActive(session, slot, active) {
+    const index = slotIndex(slot), next = detached(session);
+    const slots = next.simulatedBuild.echoSets.sets[next.source.activeSetId].slots;
+    const card = slots[index] ?? next.slots[index].inactiveCard;
+    if (!card || typeof card === 'string' || card.level === undefined || !card.mainStat)
+        throw new Error('Generate an Echo before activation.');
+    const wasActive = slots[index] !== null;
+    if (wasActive === active)
+        return next;
+    slots[index] = active ? detached(card) : null;
+    next.slots[index].inactiveCard = active ? null : detached(card);
+    next.buildRevision++;
+    return next;
+}
+export function setSimulatorWeaponActive(session, active) {
+    if (!session.source.build.weaponId)
+        throw new Error('No source Weapon available.');
+    const next = detached(session);
+    if (next.weaponActive === active)
+        return next;
+    next.weaponActive = active;
+    next.simulatedBuild.weaponId = active ? next.source.build.weaponId : null;
+    next.buildRevision++;
+    return next;
+}

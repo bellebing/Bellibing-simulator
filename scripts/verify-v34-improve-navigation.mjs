@@ -112,10 +112,11 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await waitForUi(send,'!echoUi.open&&!document.getElementById("echoOverlay").classList.contains("mounted")','Workshop save did not close');
   };
   const verifyPrepared=async(index,card)=>{
-    const actual=await read('(()=>{const slot=document.querySelector(".simulate-echo-slot:nth-child('+index+')"),preview=document.getElementById("simulateEchoPreview"),item=echoById.get('+JSON.stringify(card.echoId)+'),stats=[card.mainStat,card.secondaryMainStat,...card.substats].map(stat=>stat.name+" "+echoStatValueText(stat.name,stat.value));return {id:slot.dataset.preparedEchoId,centerId:preview.dataset.preparedEchoId,name:slot.querySelector(".simulate-template-name")?.textContent,cost:slot.querySelector(".simulate-template-cost")?.textContent,art:slot.querySelector(".simulate-template-art")?.getAttribute("src"),loaded:slot.querySelector(".simulate-template-art")?.naturalWidth>0,centerLoaded:preview.querySelector(".simulate-template-art")?.naturalWidth>0,stats:[...preview.querySelectorAll(".simulate-prepared-stats > div")].map(row=>row.textContent),level:preview.querySelector(".simulate-prepared-meta")?.textContent,expected:stats,sonata:echoSonataById.get(card.selectedSonataSetId)?.name}})()');
+    const actual=await read('(()=>{const slot=document.querySelector(".simulate-echo-slot:nth-child('+index+')"),preview=document.getElementById("simulateEchoPreview"),item=echoById.get('+JSON.stringify(card.echoId)+'),return {id:slot.dataset.preparedEchoId,centerId:preview.dataset.preparedEchoId,name:slot.querySelector(".simulate-template-name")?.textContent,cost:slot.querySelector(".simulate-template-cost")?.textContent,art:slot.querySelector(".simulate-template-art")?.getAttribute("src"),loaded:slot.querySelector(".simulate-template-art")?.naturalWidth>0,centerLoaded:preview.querySelector(".simulate-template-art")?.naturalWidth>0,stats:[...preview.querySelectorAll(".simulate-prepared-stats > div")].map(row=>row.textContent),level:preview.querySelector(".simulate-prepared-meta")?.textContent,sonata:echoSonataById.get('+JSON.stringify(card.selectedSonataSetId)+')?.name}})()');
     if(actual.id!==card.echoId||actual.centerId!==card.echoId||actual.name!==card.name||actual.cost!=='COST '+card.cost||!actual.loaded||!actual.centerLoaded||!actual.level.includes(actual.sonata)||!actual.level.includes('+'+card.level)||JSON.stringify(actual.stats)!==JSON.stringify(card.stats))throw new Error('Prepared card image/name/COST/Sonata/level/main+substats in slot '+index+': '+JSON.stringify(actual));
     await check(snapshot+'==='+JSON.stringify(preparedSnapshot),'prepared Echo mutated account, Settings, resources, equipment or session');
   };
+  const statText=stat=>stat.name+(stat.name.startsWith('Flat ')?String(stat.value):Number((stat.value*100).toFixed(2))+'%');
   const createPrepared=async(index,id)=>{
     await openEditor(index);
     await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
@@ -124,7 +125,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await saveEditor();
     await check('document.querySelector(".simulate-echo-slot:nth-child('+index+')").dataset.preparedEchoId==='+JSON.stringify(id),'prepared slot identity');
     await selectedCheck(index);
-    return {echoId:id,name:(await read('echoById.get('+JSON.stringify(id)+').name')),cost:(await read('echoById.get('+JSON.stringify(id)+').cost')),level:card.level,selectedSonataSetId:card.selectedSonataSetId,stats:[card.mainStat,card.secondaryMainStat,...card.substats].map(stat=>stat.name+echoStatValueText(stat.name,stat.value))};
+    return {echoId:id,name:(await read('echoById.get('+JSON.stringify(id)+').name')),cost:(await read('echoById.get('+JSON.stringify(id)+').cost')),level:card.level,selectedSonataSetId:card.selectedSonataSetId,stats:[card.mainStat,card.secondaryMainStat,...card.substats].map(statText)};
   };
   // Fill all five slots, with independently owned cards.
   const cards=[];
@@ -156,7 +157,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await check('echoUi.editorDraft.level===5&&echoUi.editorDraft.substats.length===1&&echoUi.editorDraft.substats[0].name==='+JSON.stringify(roll.name)+'&&echoExact(echoUi.editorDraft.substats[0].value,'+roll.value+')','one physically entered source-backed +5 roll, no generated value');
   const preparedDetailed=await read('cloneEchoSlot(echoUi.editorDraft)');
   await saveEditor();
-  const detailedSummary={echoId:preparedDetailed.echoId,name:await read('echoById.get('+JSON.stringify(preparedDetailed.echoId)+').name'),cost:preparedDetailed.cost,level:preparedDetailed.level,selectedSonataSetId:preparedDetailed.selectedSonataSetId,stats:[preparedDetailed.mainStat,preparedDetailed.secondaryMainStat,...preparedDetailed.substats].map(stat=>stat.name+echoStatValueText(stat.name,stat.value))};
+  const detailedSummary={echoId:preparedDetailed.echoId,name:await read('echoById.get('+JSON.stringify(preparedDetailed.echoId)+').name'),cost:preparedDetailed.cost,level:preparedDetailed.level,selectedSonataSetId:preparedDetailed.selectedSonataSetId,stats:[preparedDetailed.mainStat,preparedDetailed.secondaryMainStat,...preparedDetailed.substats].map(statText)};
   await verifyPrepared(3,detailedSummary);
   await click('#simulateEchoPreview');
   await check('!echoUi.open','configured preview must remain non-interactive');

@@ -389,6 +389,27 @@ jobs:
       - name: Strict web build / generated parity
         run: npm run build
 
+      - name: Single-slot V1 1440x900 focused Chromium (GitHack-relative and built)
+        env:
+          BELLIBING_VERIFY_MOBILE: "0"
+          BELLIBING_SINGLE_SLOT_ONLY: "1"
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-v1-built.log 2>&1 &
+          built_pid=$!
+          python3 -m http.server 4174 --directory . >/tmp/bellibing-v1-source.log 2>&1 &
+          source_pid=$!
+          trap 'kill $built_pid $source_pid' EXIT
+          for port in 4173 4174; do
+            for attempt in {1..20}; do
+              if curl --fail --silent "http://127.0.0.1:$port/" >/dev/null; then break; fi
+              sleep 0.25
+            done
+          done
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9691 node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 node scripts/verify-v34-echo-workspace.mjs
+
       - name: Exact-head artifact identity
         env:
           EXPECTED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}

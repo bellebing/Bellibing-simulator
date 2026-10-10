@@ -19,8 +19,7 @@ const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
-const modes = element('div', undefined, 'improve-setting-chips'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Improve policy mode');
-heading.append(title, modes);
+heading.append(title);
 const controls = element('div', undefined, 'improve-settings-controls');
 // Reserve only the collapsed Sonata position; selection is a separate feature.
 const sonataColumn = element('section', undefined, 'improve-setting');
@@ -87,13 +86,13 @@ function save() {
   try { store = persistImprovePolicyState(store, settings, localStorage); saveNote.hidden = true; return true; }
   catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
 }
-// Existing Recommended action explicitly clears retired card intent; it is never migrated.
+// Recovery is explicit; rejected bytes remain untouched until the existing reset is used.
 function resetRetiredEchoPolicy() {
   try {
     const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
     const nextStore = persistImprovePolicyState(store, next, localStorage);
     store = nextStore; settings = next; storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
-    render(); root.querySelector('[data-focus-key="mode:RECOMMENDED"]').focus({ preventScroll: true });
+    render(); groups.get('flex').trigger.focus({ preventScroll: true });
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
 }
 function commit(change, focusKey, refresh = true) {
@@ -149,35 +148,35 @@ function renderTargets() {
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
-  if (settings.mode === 'MANUAL') {
-    // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.
+  if (policy.status === 'USER_DEFINED' || policy.origin === 'USER' || selectedMetric !== null) {
+    // Editors show saved intent only; opening one never seeds an override.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
     if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
-    if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { selectedMetric = null; commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
-    const add = element('details', undefined, 'improve-target-add');
-    add.append(element('summary', 'Add stat'));
-    const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
-    const defined = new Set((policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).map(row => row.metric));
-    for (const spec of IMPROVE_TARGET_METRICS.filter(row => !defined.has(row.metric))) metrics.append(button(spec.label, () => {
-      selectedMetric = spec.metric; render(); root.querySelector('[data-editor-metric="' + spec.metric + '"] input').focus({ preventScroll: true });
-    }, 'metric:' + spec.metric));
-    if (metrics.children.length) { add.append(metrics); targets.append(add); }
-    if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
-    return;
+    if (selectedMetric && !(policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).some(row => row.metric === selectedMetric)) renderTargetEditor(targets, selectedMetric);
+  } else {
+    const rows = recommendedCharacterStatsPresentation(characterId);
+    if (!rows.length) targets.append(note('Pending'));
+    const table = element('dl', undefined, 'improve-recommended-stats');
+    for (const row of rows) {
+      const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
+      const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
+      item.dataset.status = ready ? 'READY' : 'PENDING';
+      const value = element('dd');
+      value.append(element('span', ready ? row.displayValue : 'Pending'));
+      item.append(element('dt', row.label), value);
+      table.append(item);
+    }
+    targets.append(table);
   }
-  const rows = recommendedCharacterStatsPresentation(characterId);
-  if (!rows.length) targets.append(note('Pending'));
-  const table = element('dl', undefined, 'improve-recommended-stats');
-  for (const row of rows) {
-    const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
-    const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
-    item.dataset.status = ready ? 'READY' : 'PENDING';
-    const value = element('dd');
-    value.append(element('span', ready ? row.displayValue : 'Pending'));
-    item.append(element('dt', row.label), value);
-    table.append(item);
-  }
-  targets.append(table);
+  if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { selectedMetric = null; commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
+  const add = element('details', undefined, 'improve-target-add');
+  add.append(element('summary', 'Add stat'));
+  const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
+  const defined = new Set((policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).map(row => row.metric));
+  for (const spec of IMPROVE_TARGET_METRICS.filter(row => !defined.has(row.metric))) metrics.append(button(spec.label, () => {
+    selectedMetric = spec.metric; render(); root.querySelector('[data-editor-metric="' + spec.metric + '"] input').focus({ preventScroll: true });
+  }, 'metric:' + spec.metric));
+  if (metrics.children.length) { add.append(metrics); targets.append(add); }
 }
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
@@ -213,7 +212,7 @@ function renderTargetEditor(parent, metric, existing) {
 }
 function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
-  const editable = (settings.mode === 'MANUAL' || view.defaulted) && source.applicability && resolved.compatibility.context === 'MATCH'
+  const editable = source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
   groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
   groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
@@ -300,7 +299,7 @@ function renderEcho() {
         slider.style.setProperty('--roll-position', (Number(slider.value) / Number(slider.max) * 100) + '%');
       };
       slider.oninput = () => {
-        commit(state => editEchoRollMinimum(state, source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
+        commit(state => editEchoRollMinimum(updateImprovePolicyState(state, { type: 'mode', value: 'MANUAL' }, source), source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
         show(); groups.get(list).summary.textContent = 'Custom';
       };
       slider.onchange = () => commit(state => state, slider.dataset.focusKey);
@@ -324,22 +323,22 @@ function renderEcho() {
   dropTarget(other, 'other');
   for (const name of view.layout.other) row(other, name, 'other');
   groups.get('flex').content.append(other);
-  if (Object.hasOwn(settings.overrides, 'echoRequirements') || Object.hasOwn(settings.overrides, 'echoPreferences') || settings.migration || settings.echoLayout) {
-    groups.get('flex').content.append(button('Reset to Recommended', () => commit(state => resetEchoPolicy(state, source), 'reset:echo'), 'reset:echo'));
+  const staleBinding = source.applicability && (resolved.compatibility.context === 'MISMATCH' || settings.contextBinding === null && Object.keys(settings.overrides).length > 0);
+  if (retiredEchoRecovery || staleBinding || Object.hasOwn(settings.overrides, 'echoRequirements') || Object.hasOwn(settings.overrides, 'echoPreferences') || settings.migration || settings.echoLayout) {
+    groups.get('flex').content.append(button('Reset to Recommended', () => {
+      if (retiredEchoRecovery) resetRetiredEchoPolicy();
+      else commit(state => staleBinding ? updateImprovePolicyState(state, { type: 'reset' }, source) : resetEchoPolicy(state, source), 'reset:echo');
+    }, 'reset:echo'));
   }
 }
 
 function render() {
   renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
-  modes.replaceChildren();
-  for (const [value, label] of [['RECOMMENDED', 'Recommended'], ['MANUAL', 'Customize']]) {
-    const node = button(label, () => retiredEchoRecovery && value === 'RECOMMENDED' ? resetRetiredEchoPolicy() : commit({ type: 'mode', value }, 'mode:' + value), 'mode:' + value, settings?.mode === value); node.disabled = !characterId || !!storageError && !(retiredEchoRecovery && value === 'RECOMMENDED'); modes.append(node);
-  }
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
   if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
-  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
+  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or Reset to Recommended to clear them.';
   renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
@@ -354,7 +353,7 @@ function setCharacter(id) {
   try { settings = store ? readImprovePolicyState(store, id, source, legacySources.find(row => row.characterId === id)) : createImprovePolicyState(id, source); }
   catch (error) {
     retiredEchoRecovery = error.message.includes('Retired Echo card');
-    storageError = retiredEchoRecovery ? 'Saved Echo card settings need review. Choose Recommended to explicitly reset them. Recovery data has been retained.'
+    storageError = retiredEchoRecovery ? 'Saved Echo card settings need review. Reset to Recommended to explicitly reset them. Recovery data has been retained.'
       : 'Saved policy needs review. Recovery data has been retained.';
     settings = createImprovePolicyState(id, source);
     if (retiredEchoRecovery) {

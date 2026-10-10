@@ -113,9 +113,8 @@ try {
       await evaluate("improvePicker.select('Augusta')"); await sleep(700);
       if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
       const before = await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
-      await click('[data-focus-key="mode:MANUAL"]');
-      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'Customize alone creates no overrides');
-      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat,.improve-target-editor').length"), 0, 'Customize is not seeded');
+      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'opening Settings creates no overrides');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'opening Settings creates no custom editors');
       await click('.improve-target-add summary'); await click('[data-focus-key="metric:TOTAL_ATK"]');
       await input('#improve-target-minimum-TOTAL_ATK', '2345'); await input('#improve-target-preferred-TOTAL_ATK', '2500');
       await click('[data-focus-key="save-target:TOTAL_ATK"]');
@@ -129,10 +128,9 @@ try {
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');
       assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), undefined, 'Use Recommended clears custom targets');
-      await click('[data-focus-key="mode:RECOMMENDED"]');
       assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Recommended rows return');
       assert.equal(await evaluate(snapshot), originalEquipment, 'equipment and Candidate unchanged');
-      console.log(kind + ': Customize add/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
+      console.log(kind + ': direct add/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
     }
   }
   console.log('Character Target checkpoint matrix PASS (source + built; 1440x900, 1920x1080, 2560x1440).');

@@ -473,12 +473,6 @@
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <section id="improveSettings" class="improve-settings improve-surface" aria-labelledby="improveSettingsTitle"></section>
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
-    <nav class="simulator-modes" aria-label="Improve workspace mode">
-      <button id="simulatorCurrent" type="button" aria-pressed="true">Current</button>
-      <button id="simulatorEnter" type="button" aria-pressed="false" disabled>Simulate</button>
-      <span id="simulatorSessionNote" class="simulator-session-note" hidden>Shared inputs · Echo sandbox discarded on exit/reload</span>
-      <button id="simulatorReset" type="button" hidden>Reset sandbox</button>
-    </nav>
     <section class="improve-truth" aria-label="Character source of truth">
       <div class="improve-character-identity"><strong id="improveCharacterName" class="improve-truth-name"></strong><div class="improve-character-context"><div class="improve-truth-art"><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div></div>
       <div class="improve-weapon-truth"><strong id="improveWeaponName">Pending</strong><span class="improve-weapon-art"><img id="improveWeaponArt" alt="" draggable="false" hidden></span><div class="improve-weapon-facts"><div><span id="improveWeaponSecondaryName">Secondary</span><strong id="improveWeaponSecondaryValue">Pending</strong></div><div><span>Base ATK</span><strong id="improveWeaponAtk">Pending</strong></div></div></div>
@@ -2014,9 +2008,6 @@ const improveUi={
   renderSimulationMode(){
     document.getElementById('improveBuildCard').dataset.simulator=String(!!this.simulator);
     // Settings and inventory are shared editable inputs; only Echo equipment/session is sandboxed.
-    document.getElementById('simulatorCurrent').setAttribute('aria-pressed',String(!this.simulator));
-    const enter=document.getElementById('simulatorEnter');enter.setAttribute('aria-pressed',String(!!this.simulator));enter.disabled=!this.characterId||!window.bellibingEchoSimulator||IMPROVE_LAYOUT_PREVIEW;
-    document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;
     document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes and slot Trash Piles':'Current equipped Echoes');
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent=this.simulator?'Simulated':'Current';
   },
@@ -2174,9 +2165,6 @@ const improveUi={
   },
   refresh(){if(this.characterName)this.render()}
 };
-document.getElementById('simulatorEnter').onclick=()=>{if(!improveUi.simulator)improveUi.startSimulation()};
-document.getElementById('simulatorCurrent').onclick=()=>improveUi.closeSimulation();
-document.getElementById('simulatorReset').onclick=()=>improveUi.resetSimulation();
 window.addEventListener('bellibing-echo-simulator-ready',()=>improveUi.renderSimulationMode());
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));

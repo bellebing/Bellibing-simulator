@@ -126,7 +126,8 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);
   await capture(send,'artifacts/ui-preview-simulate-character-1440x900.png');
   await click('#improveCardPrevious');await sameCharacter();
-  // V1: actual physical 1440×900 single-slot spend, +5 RNG and isolated card.
+  // Physical 1440×900 blocker: +5 Shell Credits are canonically required,
+  // but no public user Resource Inventory / transaction for that currency exists.
   await click('#improveCardNext');
   await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0','fresh finite-zero boundary');
   await click('.simulate-start');
@@ -137,43 +138,21 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     change('echoes','2');change('tuners','20');change('premium','2');
   })()`);
   await check('window.bellibingResourceInventory.getState().echoes.count===2&&window.bellibingResourceInventory.getState().tuners.count===20&&window.bellibingResourceInventory.getState().tubes.premium.count===2','persisted source budgets');
-  await click('.simulate-echo-slot:nth-child(4)');
-  await click('.simulate-start');
-  await check(`(()=>{
-    const session=improveUi.simulator,slot=session?.slots[3],card=slot?.candidate?.card,
-      item=card&&echoById.get(card.echoId),inventory=window.bellibingResourceInventory.getState();
-    return !!session&&session.selectedSlot===4&&slot.candidate.history.length===2&&card.level===5
-      &&card.substats.length===1&&!session.slots.some((other,index)=>index!==3&&other.candidate)
-      &&validateEchoStatCard(card,item)===''&&item.cost===echoLoadoutByCharacterId.get(improveUi.characterId).slotCosts[3]
-      &&document.querySelector('.simulate-result-echo').textContent.includes(item.name)
-      &&document.querySelector('.simulate-result-echo').textContent.includes(card.substats[0].name)
-      &&document.querySelector('.simulate-result-echo').textContent.includes(echoStatValueText(card.substats[0].name,card.substats[0].value))
-      &&inventory.echoes.count===1&&inventory.tuners.count===10&&inventory.tubes.premium.count===1
-      &&document.querySelector('.simulate-resources').textContent.includes('Gold ×1')
-      &&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle;
-  })()`,'real +5 candidate, verified stat values, exact slot 4, one Gold Tube, no Character writes');
-  await read('window.__slot4=JSON.stringify(improveUi.simulator.slots[3].candidate.card)');
+  const budgetBefore=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
+  for(const index of [4,2]){
+    await click('.simulate-echo-slot:nth-child('+index+')');
+    await click('.simulate-start');
+    await check(`!improveUi.simulator&&JSON.stringify(window.bellibingResourceInventory.getState())===${JSON.stringify(budgetBefore)}
+      &&window.bellibingSingleEchoShellCredits===2440
+      &&document.querySelector(".simulate-result-echo").textContent.includes("Shell Credits")
+      &&document.getElementById('simulateSelectedEchoLabel').textContent==='Echo ${index}'
+      &&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle`,'untracked Shell Credits must prevent attempt for Echo '+index);
+  }
   await read("document.querySelector('.simulate-result-echo').scrollIntoView({block:'center',behavior:'instant'})");
-  await capture(send,'artifacts/ui-preview-single-slot-result-1440x900.png');
-  await click('.simulate-echo-slot:nth-child(2)');
-  await click('.simulate-start');
-  await check(`(()=>{
-    const s=improveUi.simulator,i=window.bellibingResourceInventory.getState();
-    return s.selectedSlot===2&&s.slots[1].candidate.card.level===5
-     &&JSON.stringify(s.slots[3].candidate.card)===window.__slot4
-     &&s.slots[1].candidate.id!==s.slots[3].candidate.id
-     &&i.echoes.count===0&&i.tuners.count===0&&i.tubes.premium.count===0
-     &&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle;
-  })()`,'slot 2 second funded attempt is independent; resources exhausted exactly');
-  await click('.simulate-echo-slot:nth-child(3)');
-  const exhausted=await read('JSON.stringify(improveUi.simulator)');
-  await click('.simulate-start');
-  await check(`JSON.stringify(improveUi.simulator)===${JSON.stringify(exhausted)}
-    &&window.bellibingResourceInventory.getState().echoes.count===0
-    &&document.querySelector('.simulate-result-echo').textContent.includes('No Echoes available')`,'exhausted budget must not create free attempt');
+  await capture(send,'artifacts/ui-preview-single-slot-credit-blocker-1440x900.png');
   await read("improvePicker.select('Chixia')");
-  await check('!improveUi.simulator&&document.querySelector(".simulate-result-echo").textContent.includes("Select a slot")&&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle','Character switch clears ephemeral candidates without equipment writes');
+  await check('!improveUi.simulator&&document.querySelector(".simulate-result-echo").textContent.includes("Select a slot")&&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle','Character switch clears ephemeral Pending without equipment writes');
   await read("improvePicker.select('Augusta')");
-  await check('window.bellibingResourceInventory.getState().echoes.count===0&&!improveUi.simulator','shared budget persists across Characters and sandbox exits');
-  console.log('PASS: 1440×900 two-card navigation, five slots, 1 Slot active, zero/exhausted-budget boundaries, canonical +5 roll, slot-owned sessions and Character isolation, mirrored Character/Stats, isolated state, reload and original Echo chooser.');
+  await check(`JSON.stringify(window.bellibingResourceInventory.getState())===${JSON.stringify(budgetBefore)}&&!improveUi.simulator`,'shared budget stays unchanged across Characters');
+  console.log('PASS: 1440×900 two-card navigation, five slots, 1 Slot active, zero-resource boundary, verified Shell Credit blocker, 1 Slot selection and Character isolation, mirrored Character/Stats, isolated state, reload and original Echo chooser.');
 }

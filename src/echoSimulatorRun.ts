@@ -2,7 +2,7 @@ import type { RandomSource } from './echoCoreDomain.ts';
 import type { EchoRequirements } from './improvePolicyDomain.ts';
 import type { EchoSimulatorSession } from './echoSimulatorSession.ts';
 import { startSimulatorCandidate } from './echoSimulatorSession.ts';
-import { rollSimulatorCandidate, clearSimulatorCandidate } from './echoSimulatorRolling.ts';
+import { rollSimulatorCandidate, clearSimulatorCandidate, placeSimulatorCandidate } from './echoSimulatorRolling.ts';
 import { assessEchoRequirements } from './echoRequirements.ts';
 import { ECHO_TUBES, readResourceInventory, updateResourceInventory } from './resourceInventory.ts';
 import type { ResourceInventory } from './resourceInventory.ts';
@@ -18,6 +18,10 @@ export interface SimulatorRun {
   requirements: EchoRequirements;
   gate: number;
   sincePause: number;
+  mode?: 'ONE_SLOT' | 'FULL_SET';
+  templates?: SimulatorTemplate[];
+  completedSlots?: number[];
+  autoActivate?: boolean;
 }
 export interface SimulatorResources {
   inventory: ResourceInventory;
@@ -67,6 +71,16 @@ export function beginSimulatorRun(session: EchoSimulatorSession, template: Simul
   } catch (error) { next.run.status = 'BLOCKED'; next.run.reason = String((error as Error).message); }
   return next;
 }
+/** Same transaction driver, with five snapshotted templates and one working budget. */
+export function beginSimulatorExecution(session: EchoSimulatorSession, templates: SimulatorTemplate[], mode: 'ONE_SLOT' | 'FULL_SET', requirements: EchoRequirements, gate: number): EchoSimulatorSession {
+  if (!['ONE_SLOT', 'FULL_SET'].includes(mode) || templates.length !== 5 || (mode === 'FULL_SET' ? templates.some(template => !template) : !templates[session.selectedSlot - 1])) throw new Error('Prepare all five eligible slot templates.');
+  const prepared = structuredClone(session);
+  if (mode === 'FULL_SET') prepared.selectedSlot = 1;
+  const next = beginSimulatorRun(prepared, templates[prepared.selectedSlot - 1], requirements, gate);
+  next.run!.mode = mode; next.run!.templates = structuredClone(templates);
+  next.run!.completedSlots = []; next.run!.autoActivate = true;
+  return next;
+}
 export function stopSimulatorRun(session: EchoSimulatorSession, reason = 'Cancelled'): EchoSimulatorSession {
   const next = structuredClone(session);
   if (next.run && (['RUNNING', 'PAUSED'].includes(next.run.status) || reason !== 'Cancelled')) { next.run.status = 'CANCELLED'; next.run.reason = reason; }
@@ -114,7 +128,24 @@ export function advanceSimulatorRun(session: EchoSimulatorSession, rng: RandomSo
         attempt.resources!.returned[tube.id] += transaction.ledger.returned[tube.id];
       }
       attempt.run!.sincePause++;
-      if (result.status === 'SATISFIED') { attempt.run!.status = 'SUCCESS'; attempt.run!.reason = 'Meets selected Echo requirements'; }
+      if (result.status === 'SATISFIED') {
+        if (run.autoActivate) {
+          const finished = structuredClone(candidate);
+          attempt = placeSimulatorCandidate(attempt, true);
+          attempt.slots[run.slot - 1].candidate = finished;
+          attempt.slots[run.slot - 1].accepted.at(-1)!.reason = 'Meets selected Echo requirements; activated in simulation.';
+          attempt.run!.completedSlots!.push(run.slot);
+        }
+        if (run.mode === 'FULL_SET' && run.slot < 5) {
+          attempt.selectedSlot = run.slot + 1;
+          attempt.run!.slot = run.slot + 1;
+          attempt.run!.template = structuredClone(run.templates![run.slot]);
+          attempt.run!.reason = 'Running slot ' + attempt.selectedSlot + ' of 5';
+        } else {
+          attempt.run!.status = 'SUCCESS';
+          attempt.run!.reason = run.mode === 'FULL_SET' ? 'All five slots meet selected Echo requirements' : 'Meets selected Echo requirements';
+        }
+      }
       else {
         attempt.slots[run.slot - 1].trash.push({ ...candidate, disposition: 'rejected', reason: result.reason });
         attempt.slots[run.slot - 1].candidate = null;

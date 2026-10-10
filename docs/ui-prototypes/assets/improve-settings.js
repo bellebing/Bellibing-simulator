@@ -14,6 +14,7 @@ let store, storageError = null, retiredEchoRecovery = false;
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
+let moreSetsExpanded = false;
 let settingsOpener = 'target';
 let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
@@ -23,14 +24,16 @@ function renderSonatas() {
   const group = groups.get('sonata'), selected = selectedSonatas();
   group.summary.textContent = selected.length ? selected.length + ' selected' : 'Choose up to two'; group.summary.title = selected.map(id => sonataCatalog.find(row => row.id === id)?.name ?? id).join(' + ');
   group.content.append(note('Simulation sets · no inferred slot distribution.'));
-  for (const set of sonataCatalog) {
+  const more = element('details', undefined, 'improve-more-sets');more.append(element('summary', 'More Sets'));more.open=moreSetsExpanded;more.ontoggle=()=>{if(more.isConnected)moreSetsExpanded=more.open};
+  for (const set of [...sonataCatalog].sort((a,b)=>Number(selected.includes(b.id))-Number(selected.includes(a.id)))) {
     const choice = button(set.name, () => {
       const current = selectedSonatas(), next = current.includes(set.id) ? current.filter(id => id !== set.id) : current.length < 2 ? [...current, set.id] : current;
       sonataSelections.set(characterId, next); render(); window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
     }, 'sonata:' + set.id, selected.includes(set.id));
     choice.disabled = !selected.includes(set.id) && selected.length >= 2;
-    const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href; icon.alt = ''; icon.width = 24; icon.height = 24; choice.prepend(icon); group.content.append(choice);
+    const icon = element('img'); icon.src = new URL('./builder-icons/sonata/' + set.artPath.split('/').at(-1), import.meta.url).href; icon.alt = ''; icon.width = 24; icon.height = 24; choice.prepend(icon); (selected.includes(set.id)?group.content:more).append(choice);
   }
+  group.content.append(more);
 }
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
@@ -179,7 +182,7 @@ function renderTargetComparison(targets) {
   const headers = element('div', undefined, 'improve-target-comparison-head');
   headers.append(element('span', 'Stat'), element('span', 'Recommended'), element('span', 'Expected'));
   targets.append(headers);
-  if (!rows.length) targets.append(note('Recommended: Pending · Expected: Pending'));
+  if (!rows.length) targets.append(note('Pending'));
   const table = element('dl', undefined, 'improve-recommended-stats');
   for (const row of rows) {
     const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;

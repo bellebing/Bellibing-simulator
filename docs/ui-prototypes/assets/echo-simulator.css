@@ -55,3 +55,21 @@
 .simulator-slot>.improve-equipped-echo{min-height:265px;border-color:#8e7749;background:linear-gradient(135deg,#242529,#353535)}
 .simulator-slot .improve-equipped-name{font-size:14px}.simulator-slot .improve-echo-substat{font-size:11px}.simulator-slot .improve-echo-substat strong{font-size:11px}
 @media(max-width:1050px){#improveBuildCard[data-simulator="true"]{display:flex;flex-direction:column}#improveBuildCard[data-simulator="true"] .improve-truth{display:grid;width:100%;grid-template-columns:1fr 1fr}#improveBuildCard[data-simulator="true"] .improve-weapon-truth{margin-top:0;grid-column:2}#improveBuildCard[data-simulator="true"] .improve-echoes-row{width:100%}#improveBuildCard[data-simulator="true"] .improve-workspace{width:100%}.simulator-sequence{display:none}}
+.simulator-execution-modes{position:absolute;top:54px;right:18px;display:flex;gap:8px}.simulator-execution-modes[hidden]{display:none}
+.simulator-execution-modes button{min-width:100px;padding:7px 12px;font:18px var(--font-display);color:#ede5d4;border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#3c352a,#292a2c);cursor:pointer}
+.simulator-execution-modes button[aria-pressed="true"]{border-color:#dbb260;background:linear-gradient(135deg,#665332,#3b352b)}
+#improveBuildCard[data-simulator="true"]{padding-top:100px;grid-template-rows:minmax(365px,auto) auto}
+#improveBuildCard[data-simulator="true"] .improve-truth-art{height:255px}
+#improveBuildCard[data-simulator="true"] .improve-weapon-truth{margin-top:282px;padding:6px 8px}
+#improveBuildCard[data-simulator="true"] .improve-weapon-art{height:45px}
+#improveBuildCard[data-simulator="true"] .improve-stat-row{min-height:27px;padding:3px 0}
+#improveBuildCard[data-simulator="true"] .improve-new-echo .improve-echo-large-art{flex:none;height:145px;min-height:0}
+.simulator-result-stats{width:100%;font:11px var(--font-ui);text-align:left}.simulator-result-stats h2{font:24px var(--font-display);text-align:center;margin:0 0 14px}.simulator-result-stats>div{display:flex;justify-content:space-between;gap:8px;padding:6px 0}.simulator-result-stats strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+#improveBuildCard[data-simulator="true"] .improve-helper{align-self:start;padding-top:0}#improveBuildCard[data-simulator="true"] #improveHelperTitle{display:none}#improveBuildCard[data-simulator="true"] .improve-helper-main{order:3;font:11px var(--font-ui);margin-top:8px}
+#simulatorRoll{font:30px var(--font-display);padding:7px}#simulatorControls h3{font:20px var(--font-display);font-weight:400;margin:0}#simulatorControls [data-counter]{font:11px var(--font-ui)}
+.simulator-activation{display:flex;justify-content:center;gap:0;border-top:1px solid #777065;padding:6px 0;margin-top:6px}
+.simulator-activation button{padding:2px 8px;font:11px var(--font-ui);color:#929496;background:transparent;border:0;cursor:pointer}.simulator-activation button+button{border-left:1px solid #746e60}
+.simulator-activation button[data-activation="true"][aria-pressed="true"]{color:#8de685}.simulator-activation button[data-activation="false"][aria-pressed="true"]{color:#f07070}.simulator-activation button:disabled{opacity:.45;cursor:default}
+.simulator-equipment-state{text-align:center;font:10px var(--font-ui);color:#b3ac9e;margin:5px 0}.simulator-slot[data-equipment-state="ACTIVE"] .simulator-equipment-state{color:#8de685}.simulator-slot[data-equipment-state="INACTIVE"] .simulator-equipment-state{color:#f07070}
+[data-equipment-state="NOT_ROLLED"] .improve-equipped-art img,[data-equipment-state="NOT_ROLLED"] .improve-echo-large-art img{opacity:.42;filter:blur(.5px) saturate(.65)}
+@media(max-width:1050px){#improveBuildCard[data-simulator="true"] .improve-weapon-truth{margin-top:0}}

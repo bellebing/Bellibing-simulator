@@ -196,3 +196,5 @@
 .improve-recommended-stat dt{font-size:11px}.improve-expected-stat{color:#a5a5a3}
 .improve-resources-separator{border-color:#8e7749}
 @media(max-width:1050px){.improve-settings-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.improve-setting[data-setting="target"]{grid-column:1/-1}}
+.improve-more-sets summary{cursor:pointer;text-align:center;font:16px var(--font-display);margin:14px 0}.improve-more-sets .improve-setting-choice{margin-top:6px}
+.improve-resources.is-expanded .improve-resource input{border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#3b3428,#29292a)}

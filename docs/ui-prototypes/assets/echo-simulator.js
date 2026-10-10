@@ -77,7 +77,7 @@ function requirementsText(settings, card) {
 function renderSlotHistory(history, formatStat) {
   const details = node('details', undefined, 'simulator-roll-history');
   details.append(node('summary', 'Slot history'));
-  for (const [label, cards] of [['Manually placed', history.accepted], ['Cleared New Echo', history.unplaced]]) {
+  for (const [label, cards] of [['Equipment', history.accepted], ['Cleared New Echo', history.unplaced]]) {
     for (const candidate of cards) {
       const entry = node('details');
       entry.append(node('summary', label + ' #' + candidate.id.split(':').at(-1)));
@@ -90,5 +90,16 @@ function renderSlotHistory(history, formatStat) {
   }
   return details;
 }
-window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
+function renderActivationControl(active, enabled, onChange, label) {
+  const group = node('div', undefined, 'simulator-activation');
+  group.setAttribute('role', 'group'); group.setAttribute('aria-label', label);
+  for (const [value, text] of [[true, 'Activate'], [false, 'Deactivate']]) {
+    const button = node('button', text); button.type = 'button';
+    button.dataset.activation = String(value); button.disabled = !enabled;
+    button.setAttribute('aria-pressed', String(enabled && active === value));
+    button.onclick = () => onChange(value); group.append(button);
+  }
+  return group;
+}
+window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, renderActivationControl, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
 window.dispatchEvent(new Event('bellibing-echo-simulator-ready'));

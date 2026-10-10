@@ -2,6 +2,9 @@
 // browser profile. This file is never copied to the public browser artifact.
 export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   await verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+  await verifyEchoSimulatorFoundation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+}
+export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   const read = expression => evaluate(send,expression);
   const check = async (expression,message) => { if (!await read(expression)) throw new Error('Echo Simulator: '+message); };
   const click = async selector => {
@@ -54,11 +57,11 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await capture(send,'artifacts/ui-preview-echo-simulator-current-1440x900.png');
   await click('#simulatorEnter');await unchanged('start mutated real state');await sharedUnchanged('Current edits not shared with Simulate');
   await check('!!improveUi.simulator&&document.querySelectorAll(".simulator-slot").length===5&&document.querySelectorAll(".simulator-trash").length===5','five physical slot/pile pairs missing');
-  await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&[...document.querySelectorAll(".simulator-slot .improve-equipped-echo")].every(card=>card.textContent.includes("EMPTY"))&&improveUi.simulator.slots.every(slot=>!slot.candidate&&!slot.accepted.length&&!slot.trash.length)', 'start must have five empty cards and histories');
+  await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&[...document.querySelectorAll(".simulator-slot")].every(card=>card.dataset.equipmentState==="NOT_ROLLED")&&improveUi.simulator.slots.every(slot=>!slot.candidate&&!slot.accepted.length&&!slot.trash.length)', 'start must have five empty cards and histories');
   await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(JSON.stringify(stats.empty)),'real Echoes contributed to empty simulated stats');
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await setViewport(send,width,height);await read('document.getElementById("improveEchoRow").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
-    await check('document.getElementById("improveCurrentEcho").textContent.includes("Empty slot")&&document.querySelectorAll(".simulator-trash").length===5','empty Current/piles missing');
+    await check('document.getElementById("improveCurrentEcho").dataset.equipmentState==="NOT_ROLLED"&&document.querySelectorAll(".simulator-trash").length===5','empty Current/piles missing');
     await capture(send,'artifacts/ui-preview-echo-simulator-empty-'+width+'x'+height+'.png');
   }
   await setViewport(send,1440,900);
@@ -189,15 +192,16 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   await read('document.getElementById("improveWheel").focus()');for(let n=0;n<index;n++){await key('ArrowRight');await sleep(700)}
   await read('document.querySelector("#improveWheel [data-character-id=augusta]").scrollIntoView({block:"center",behavior:"instant"})');const augustaPoint=await read('(()=>{const r=document.querySelector("#improveWheel [data-character-id=augusta]").getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()');await send('Input.dispatchMouseEvent',{type:'mouseMoved',...augustaPoint});await sleep(750);
   await click('#improveWheel [data-character-id="augusta"]');
+  if(!await read('!!improveUi.simulator')){await sleep(800);await click('#improveWheel [data-character-id="augusta"]')}
   try{await waitForUi(send,'!!improveUi.simulator&&improveUi.simulatorTemplates?.[0]?.echoId==="echo-60001215"','preselected default not ready')}catch(error){throw new Error(error.message+' '+JSON.stringify(await read('({character:improveUi.characterId,scenario:improveScenarioSelection,session:!!improveUi.simulator,templates:improveUi.simulatorTemplates,sets:window.bellibingImproveSettings.getSonataSetIds(),profile:echoLoadoutByCharacterId.get("augusta")})')))};
   await check('state.characters.length===0&&Object.keys(state.drafts).length===0&&improveUi.simulatorTemplates.length===5','scenario wrote equipment or lacks templates');
   await waitForUi(send,'window.bellibingImproveSettings.canAssessEchoRequirements()','settings not ready');
   await click('#simulatorRoll');await waitForUi(send,'!!improveUi.simulator.run&&improveUi.simulator.run.status!=="RUNNING"','zero-budget stop');
   await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===0','zero budget freely rolled');
   await click('#improve-setting-sonata');
-  await check('JSON.stringify([...document.querySelectorAll(".improve-setting-label")].map(n=>n.textContent))===JSON.stringify(["Sonata Sets","Target","Gate","Hard Requirements","Flex Stats"])','settings order');
+  await check('JSON.stringify([...document.querySelectorAll(".improve-setting-label")].map(n=>n.textContent))===JSON.stringify(["Sonata Sets","Gate","Hard Requirements","Flex Stats","Character Target"])','settings order');
   await check('window.bellibingImproveSettings.getSonataSetIds().length===2&&document.querySelectorAll("[data-setting=sonata] img").length>30','canonical sets/icons');
-  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===1','set remove');
+  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===1','set remove');await click('.improve-more-sets summary');
   await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===2','set add');
   await check('document.querySelectorAll("[data-setting=sonata] button:not([aria-pressed=true]):not(.improve-setting-trigger)").length>0&&[...document.querySelectorAll("[data-setting=sonata] .improve-setting-choice[aria-pressed=false]")].every(n=>n.disabled)','two-set limit');
   const alternate=await read('echoCatalog.find(item=>item.cost===4&&item.sonataSetIds.some(id=>!["sonata-20","sonata-3"].includes(id))).sonataSetIds.find(id=>!["sonata-20","sonata-3"].includes(id))');
@@ -217,7 +221,7 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   const inventory=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
   await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','requirements run stop',60000);
   await check('improveUi.simulator.run.status==="SUCCESS"&&improveUi.workspaceCandidate().level===25&&improveUi.simulator.slots[0].candidate.history.length===7&&state.characters.length===0','normal Augusta scenario success '+JSON.stringify(await read('({run:improveUi.simulator.run,attempts:improveUi.simulator.rolling.attempts,card:improveUi.workspaceCandidate(),error:improveUi.simulatorError})')));
-  await click('#simulatorClear');await read('window.savedSimulatorRandom=Math.random;Math.random=()=>.99999');
+  await read('window.savedSimulatorRandom=Math.random;Math.random=()=>.99999');
   await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.rolling.attempts>2&&improveUi.simulator.run.status==="RUNNING"','repeated failure run');
   await click('#simulatorCancel');const cancelledAttempts=await read('improveUi.simulator.rolling.attempts');await sleep(150);
   await check('improveUi.simulator.run.status==="CANCELLED"&&improveUi.simulator.rolling.attempts==='+cancelledAttempts,'physical cancel must stop batches');
@@ -245,9 +249,13 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
     await capture(send,'artifacts/ui-preview-playable-echo-'+width+'x'+height+'.png');
   }
   await check('JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'resources persistence altered by simulation');
-  await click('#simulatorPlace');await check('improveWorkspaceSlots("Augusta")[0].level===25&&!improveUi.simulator.slots[0].candidate','manual placement');
-  await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','repeat success',60000);
-  await click('#simulatorClear');await check('improveUi.simulator.slots[0].unplaced.length===1&&improveUi.simulator.rolling.attempts>0','clear retains success/no refund');
+  await check('improveWorkspaceSlots("Augusta")[0]?.level===25&&improveUi.simulator.slots[0].accepted.length===1','requirement success automatically activated');
+  const activeStats=await read('JSON.stringify(projectImproveCurrentStats("Augusta"))'),rolled=await read('JSON.stringify(window.bellibingEchoSimulator.simulatorEquipmentSlots(improveUi.simulator)[0])');
+  for(let repeat=0;repeat<3;repeat++){
+    await click('[data-simulator-slot="1"] [data-activation="false"]');
+    await check('improveWorkspaceSlots("Augusta")[0]===null&&JSON.stringify(window.bellibingEchoSimulator.simulatorEquipmentSlots(improveUi.simulator)[0])==='+JSON.stringify(rolled)+'&&JSON.stringify(projectImproveCurrentStats("Augusta"))!=='+JSON.stringify(activeStats),'inactive equipment lost or contributes stats');
+    await click('[data-simulator-slot="1"] [data-activation="true"]');await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(activeStats),'reactivation changed card/stats');
+  }
   await click('#simulatorCurrent');await check('!improveUi.simulator&&state.characters.length===0&&Object.keys(state.drafts).length===0','scenario exit wrote account');
   // Existing real equipment is preserved across five independent simulated slots.
   await read(`addOwned('Augusta');echoCatalog.slice(0,5).forEach((item,index)=>commitEchoSlot('Augusta',index,makeEchoStatCard(item,item.sonataSetIds[0])));show('improve');improvePicker.select('Augusta')`);
@@ -259,15 +267,26 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   for(const name of ['CRIT Rate','CRIT DMG']){await click('[data-focus-key="handle:'+name+'"]');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',modifiers:1});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',modifiers:1})}
   await click('[data-focus-key="flex-count"]');await key('Home');await click('#improve-setting-every');
   for(const slot of [5,2,4,1,3]){
-    await click('#improveEchoRow [data-echo-slot="'+(slot-1)+'"]');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','slot success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','slot success '+slot);await click('#simulatorPlace');
+    await click('#improveEchoRow [data-echo-slot="'+(slot-1)+'"]');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','slot success',60000);await check('improveUi.simulator.run.status==="SUCCESS"&&improveWorkspaceSlots("Augusta")['+(slot-1)+']?.level===25','slot success '+slot);
   }
   await check('improveWorkspaceSlots("Augusta").every(card=>card.level===25)&&JSON.stringify(state)==='+JSON.stringify(bytes)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage),'five slots/real isolation');
-  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','replacement success',60000);await click('#simulatorPlace');await click('#simulatorCancelReplace');await click('#simulatorPlace');await click('#simulatorConfirmReplace');
-  await check('improveUi.simulator.slots[2].accepted.length===2','explicit replacement');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','replacement success',60000);
+  await check('improveUi.simulator.slots[2].accepted.length===2','reroll preserves prior generated history');
+  await read("autosave('Augusta',{weaponId:'thunderflare-dominion'});improveUi.closeSimulation();improveUi.startSimulation()");
+  const weaponStats=await read('projectImproveCurrentStats("Augusta").atk');
+  await click('#simulatorWeaponActivation [data-activation="false"]');await check('projectImproveCurrentStats("Augusta").atk<'+weaponStats,'inactive Weapon contributes');
+  await click('#simulatorWeaponActivation [data-activation="true"]');await check('projectImproveCurrentStats("Augusta").atk==='+weaponStats,'Weapon reactivation');
+  await click('#simulatorFullSet');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','Full Set success',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"&&JSON.stringify(improveUi.simulator.run.completedSlots)==="[1,2,3,4,5]"&&improveWorkspaceSlots("Augusta").every(card=>card?.level===25)','Full Set did not attempt/activate all five');
+  await click('#improve-setting-gate');await enter(resource('echoes'),'2');await click('#improve-setting-gate');await click('#simulatorReset');await read('window.partialSetRandom=Math.random;Math.random=()=>0');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','partial Full Set',60000);
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&JSON.stringify(improveUi.simulator.run.completedSlots)==="[1,2]"&&improveUi.simulator.rolling.attempts===2&&improveUi.simulator.rolling.tuners===100&&improveWorkspaceSlots("Augusta").filter(Boolean).length===2&&improveUi.simulator.slots[2].candidate===null','partial results/budget were lost or fictitious');
+  await read('Math.random=window.partialSetRandom;delete window.partialSetRandom');
+  await click('#improve-setting-gate');await enter(resource('echoes'),'∞');await click('#improve-setting-gate');
+  const finalStorage=await read('localStorage.getItem(KEY)');
   await click('#simulatorRoll');await sleep(60);if(await read('improveUi.simulator.run.status==="RUNNING"')){await click('#simulatorCancel');await check('improveUi.simulator.run.status==="CANCELLED"','cancel')}
   await click('#simulatorCurrent');await navigate(send);await waitForUi(send,'echoDataLoaded&&window.bellibingImproveSettings','reload');
-  await check('!improveUi.simulator&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage),'reload isolation/persistence');
-  console.log('Playable Echo corrections: real pointer controls at 1440/1920/2560, preselected Augusta/no-build, repeated requirement success, zero/explicit unlimited resources, six scrubbers/keyboard/persistence/invalid recovery, canonical Sonata selection, inspectable success/manual placement/replacement and five-slot real-build isolation passed.');
+  await check('!improveUi.simulator&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory)+'&&localStorage.getItem(KEY)==='+JSON.stringify(finalStorage),'reload isolation/persistence');
+  console.log('Playable Echo corrections: real pointer controls at 1440/1920/2560, preselected Augusta/no-build, repeated requirement success, zero/explicit unlimited resources, six scrubbers/keyboard/persistence/invalid recovery, canonical Sonata selection, inspectable success/activation, Full Set/partial exhaustion, Weapon toggles and five-slot real-build isolation passed.');
 }
 
 export async function verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep}) {

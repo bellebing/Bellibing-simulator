@@ -98,7 +98,7 @@ try {
         const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
         const projected = expected.find(item => item.characterId === id);
         assert.deepEqual(rows, projected.rows.map(row => ({ metric: row.metric, status: row.status, label: row.label, value: row.displayValue })), kind + ' ' + name);
-        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===2&&n.querySelector('dd').children.length===1&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' one value per row, no source subline');
+        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===3&&n.querySelector('dd').children.length===1&&n.querySelector('.improve-expected-stat').textContent==='Pending'&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' source-backed Recommended value and independent Expected Pending, no source subline');
         if (id === 'augusta') assert.deepEqual(rows.map(row => [row.label, row.value]), [
           ['ATK', '2,407'], ['CRIT Rate', '84.7%'], ['CRIT DMG', '225%'], ['Energy Regen', '120%'], ['Heavy Attack DMG', '29.2%'],
         ]);

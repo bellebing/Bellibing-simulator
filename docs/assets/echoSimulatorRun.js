@@ -1,5 +1,5 @@
 import { startSimulatorCandidate } from "./echoSimulatorSession.js";
-import { rollSimulatorCandidate, clearSimulatorCandidate } from "./echoSimulatorRolling.js";
+import { rollSimulatorCandidate, clearSimulatorCandidate, placeSimulatorCandidate } from "./echoSimulatorRolling.js";
 import { assessEchoRequirements } from "./echoRequirements.js";
 import { ECHO_TUBES, readResourceInventory, updateResourceInventory } from "./resourceInventory.js";
 import { MAX_RANK5_ECHO_EXP, spendExactTubes, tuneEligibleCheckpoint } from "./echoExactTubeSpending.js";
@@ -51,6 +51,20 @@ export function beginSimulatorRun(session, template, requirements, gate) {
         next.run.status = 'BLOCKED';
         next.run.reason = String(error.message);
     }
+    return next;
+}
+/** Same transaction driver, with five snapshotted templates and one working budget. */
+export function beginSimulatorExecution(session, templates, mode, requirements, gate) {
+    if (!['ONE_SLOT', 'FULL_SET'].includes(mode) || templates.length !== 5 || (mode === 'FULL_SET' ? templates.some(template => !template) : !templates[session.selectedSlot - 1]))
+        throw new Error('Prepare all five eligible slot templates.');
+    const prepared = structuredClone(session);
+    if (mode === 'FULL_SET')
+        prepared.selectedSlot = 1;
+    const next = beginSimulatorRun(prepared, templates[prepared.selectedSlot - 1], requirements, gate);
+    next.run.mode = mode;
+    next.run.templates = structuredClone(templates);
+    next.run.completedSlots = [];
+    next.run.autoActivate = true;
     return next;
 }
 export function stopSimulatorRun(session, reason = 'Cancelled') {
@@ -117,8 +131,23 @@ export function advanceSimulatorRun(session, rng, batchSize = 4, pauseAfter = 10
             }
             attempt.run.sincePause++;
             if (result.status === 'SATISFIED') {
-                attempt.run.status = 'SUCCESS';
-                attempt.run.reason = 'Meets selected Echo requirements';
+                if (run.autoActivate) {
+                    const finished = structuredClone(candidate);
+                    attempt = placeSimulatorCandidate(attempt, true);
+                    attempt.slots[run.slot - 1].candidate = finished;
+                    attempt.slots[run.slot - 1].accepted.at(-1).reason = 'Meets selected Echo requirements; activated in simulation.';
+                    attempt.run.completedSlots.push(run.slot);
+                }
+                if (run.mode === 'FULL_SET' && run.slot < 5) {
+                    attempt.selectedSlot = run.slot + 1;
+                    attempt.run.slot = run.slot + 1;
+                    attempt.run.template = structuredClone(run.templates[run.slot]);
+                    attempt.run.reason = 'Running slot ' + attempt.selectedSlot + ' of 5';
+                }
+                else {
+                    attempt.run.status = 'SUCCESS';
+                    attempt.run.reason = run.mode === 'FULL_SET' ? 'All five slots meet selected Echo requirements' : 'Meets selected Echo requirements';
+                }
             }
             else {
                 attempt.slots[run.slot - 1].trash.push({ ...candidate, disposition: 'rejected', reason: result.reason });

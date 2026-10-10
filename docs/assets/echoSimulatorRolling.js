@@ -55,6 +55,7 @@ export function placeSimulatorCandidate(session, replace = false) {
         throw new Error('Explicit replacement confirmation required.');
     const next = structuredClone(session);
     next.simulatedBuild.echoSets.sets[next.source.activeSetId].slots[index] = structuredClone(card);
+    next.slots[index].inactiveCard = null;
     next.slots[index].accepted.push({ ...structuredClone(candidate), disposition: 'placed', reason: 'Manually placed; Character improvement remains Pending.' });
     next.slots[index].candidate = null;
     next.buildRevision++;
@@ -64,7 +65,7 @@ export function placeSimulatorCandidate(session, replace = false) {
 /** Explicit user action; retained history, no rejection policy and no refunds. */
 export function clearSimulatorCandidate(session) {
     const next = structuredClone(session), slot = next.slots[next.selectedSlot - 1];
-    if (slot.candidate)
+    if (slot.candidate && !slot.accepted.some(card => card.id === slot.candidate.id))
         slot.unplaced.push(slot.candidate);
     slot.candidate = null;
     return next;

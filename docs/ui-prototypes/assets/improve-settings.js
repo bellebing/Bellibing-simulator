@@ -1,5 +1,5 @@
 import { SUBSTAT_TYPES } from '../../assets/echoCoreRules.js';
-import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory, readResourceInventory } from '../../assets/resourceInventory.js';
+import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
 import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicyState, resolveImprovePolicyState,
   updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
@@ -389,27 +389,7 @@ function setCharacter(id) {
   }
   if (loaded) save(); render();
 }
-// Resource Inventory remains the only persisted resource owner. Spend via
-// compare-before-commit, write-before-memory-update; no simulator storage copy.
-function commitSingleAttempt(expected, after) {
-  if (!store || storageError) throw new Error('Resources are unavailable or need review.');
-  const saved = loadImprovePolicyStorage(localStorage);
-  const latest = saved.resourceInventory ?? emptyResourceInventory();
-  const before = readResourceInventory(expected);
-  const updated = readResourceInventory(after);
-  if (JSON.stringify(latest) !== JSON.stringify(before) || JSON.stringify(inventory) !== JSON.stringify(before))
-    throw new Error('Resources changed before the attempt. Retry with current inventory.');
-  const persisted = persistResourceInventory(saved, updated, localStorage);
-  store = persisted;
-  inventory = updated;
-  renderResources();
-  window.dispatchEvent(new Event('bellibing-resources-changed'));
-  return structuredClone(inventory);
-}
-window.bellibingResourceInventory = {
-  getState: () => structuredClone(inventory),
-  commitSingleAttempt,
-};
+window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),

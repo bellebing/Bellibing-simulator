@@ -2,7 +2,8 @@ import { SUBSTAT_TYPES } from '../../assets/echoCoreRules.js';
 import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
 import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicyState, resolveImprovePolicyState,
-  updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
+  updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory,
+  withExclusiveImprovePolicyStorage, IMPROVE_POLICY_STORAGE_KEY } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
 import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount, echoSelectionSummary } from './echo-policy-presentation.mjs';
@@ -11,6 +12,12 @@ import { recommendedCharacterStatsPresentation } from './character-target-presen
 
 const root = document.getElementById('improveSettings');
 let store, storageError = null, retiredEchoRecovery = false;
+let writerQueue = Promise.resolve();
+function coordinatedWrite(action) {
+  const pending = writerQueue.then(() => withExclusiveImprovePolicyStorage(action));
+  writerQueue = pending.then(() => {}, () => {});
+  return pending;
+}
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
@@ -48,11 +55,15 @@ function renderResources() {
     input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
     input.disabled = !!storageError || !store; input.autocomplete = 'off'; input.spellcheck = false;
     input.oninput = () => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
-    input.onchange = () => {
+    input.onchange = async () => {
       try {
-        const next = updateResourceInventory(inventory, id, parseInventoryQuantity(input.value));
-        const nextStore = persistResourceInventory(store, next, localStorage);
-        store = nextStore; inventory = next; input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        const value = parseInventoryQuantity(input.value);
+        await coordinatedWrite(() => {
+          const next = updateResourceInventory(inventory, id, value);
+          store = persistResourceInventory(store, next, localStorage);
+          inventory = store.resourceInventory;
+        });
+        input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
       } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
@@ -78,27 +89,43 @@ function button(label, callback, key, selected) {
   if (selected !== undefined) node.setAttribute('aria-pressed', String(selected));
   node.onclick = callback; return node;
 }
-function save() {
+async function save() {
   if (!store || storageError) { saveNote.textContent = storageError; saveNote.hidden = false; return false; }
-  try { store = persistImprovePolicyState(store, settings, localStorage); saveNote.hidden = true; return true; }
-  catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
+  const candidate = settings, selected = characterId;
+  try {
+    await coordinatedWrite(() => {
+      if (characterId !== selected) throw new Error('Character changed before settings save.');
+      store = persistImprovePolicyState(store, candidate, localStorage);
+    });
+    saveNote.hidden = true; return true;
+  } catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
 }
 // Recovery is explicit; rejected bytes remain untouched until the existing reset is used.
-function resetRetiredEchoPolicy() {
+async function resetRetiredEchoPolicy() {
+  const selected = characterId;
   try {
-    const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
-    const nextStore = persistImprovePolicyState(store, next, localStorage);
-    store = nextStore; settings = next; storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
+    await coordinatedWrite(() => {
+      if (selected !== characterId) throw new Error('Character changed before recovery.');
+      const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
+      store = persistImprovePolicyState(store, next, localStorage);
+      settings = next;
+    });
+    storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
     render(); groups.get('flex').trigger.focus({ preventScroll: true });
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
 }
-function commit(change, focusKey, refresh = true) {
-  const previous = settings;
-  try { settings = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source); }
-  catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
-  const saved = save();
-  if (!saved) settings = previous;
-  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); return; }
+async function commit(change, focusKey, refresh = true) {
+  const selected = characterId;
+  try {
+    await coordinatedWrite(() => {
+      if (characterId !== selected) throw new Error('Character changed before settings save.');
+      const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
+      store = persistImprovePolicyState(store, next, localStorage);
+      settings = next;
+    });
+    saveNote.hidden = true;
+  } catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
+  if (!refresh) { resolved = resolveImprovePolicyState(settings, source); return; }
   render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
@@ -158,7 +185,7 @@ function renderSonatas() {
     node.append(icon(sonata), element('span', sonata.name));
     node.onclick = () => {
       const list = group.content.querySelector('.improve-sonata-list'), scroll = list?.scrollTop ?? 0;
-      commit({ type: 'sonatas', value: toggleSonataSelection(settings, sonataChoices, sonata.id) }, 'sonata:' + sonata.id);
+      commit(state => updateImprovePolicyState(state, { type: 'sonatas', value: toggleSonataSelection(state, sonataChoices, sonata.id) }, source), 'sonata:' + sonata.id);
       const currentList = group.content.querySelector('.improve-sonata-list'); if (currentList) currentList.scrollTop = scroll;
     };
     parent.append(node);
@@ -394,6 +421,16 @@ function setCharacter(id) {
   }
   if (loaded) save(); render();
 }
+window.addEventListener('storage', event => {
+  if (event.key !== IMPROVE_POLICY_STORAGE_KEY || event.storageArea !== localStorage) return;
+  try {
+    const live = loadImprovePolicyStorage(localStorage);
+    store = live; inventory = live.resourceInventory ?? emptyResourceInventory();
+    if (characterId) settings = readImprovePolicyState(live, characterId, source, legacySources.find(row => row.characterId === characterId));
+    if (!retiredEchoRecovery) storageError = null;
+  } catch { storageError = 'Saved policy needs review. Recovery data has been retained.'; }
+  render();
+});
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));

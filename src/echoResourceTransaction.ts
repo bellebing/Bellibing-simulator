@@ -6,6 +6,7 @@ import type { InventoryQuantity, ResourceInventory } from './resourceInventory.t
 import { selectExactOneCheckpointTubes } from './echoCheckpointTubeSelection.ts';
 import {
   IMPROVE_POLICY_STORAGE_KEY, IMPROVE_POLICY_V2_KEY, loadImprovePolicyStorage,
+  assertExclusiveImprovePolicyWriter, withExclusiveImprovePolicyStorage,
 } from './improvePolicyState.ts';
 import type { ImprovePolicyStorage, ImprovePolicyStorageAccess } from './improvePolicyState.ts';
 
@@ -93,12 +94,13 @@ function prepareRank5Plus5(inventoryInput: ResourceInventory, revision: number, 
  *
  * Caller must provide a fresh snapshot and unique attempt ID. A stale/replayed
  * attempt and any quota/serialization error leave the existing bytes untouched.
- * A single synchronous storage owner serializes this check/write; an eventual
- * multi-tab caller must arrange exclusive locking across ALL envelope writers.
+ * Native browser callers must acquire withExclusiveImprovePolicyStorage.
+ * Snapshot, replay guard, live balance and revision are rechecked INSIDE that lock.
  */
 export function commitRank5Plus5Resources(
   storage: ImprovePolicyStorageAccess, snapshot: Rank5Plus5Snapshot, transactionId: string,
 ): CommittedRank5Plus5 {
+  assertExclusiveImprovePolicyWriter(storage);
   if (!/^[A-Za-z0-9_-]{1,100}$/.test(transactionId)) throw new RangeError('Invalid resource transaction ID');
   const live = readSnapshotStorage(storage);
   if (snapshot.storageBytes !== live.storageBytes || snapshot.legacyBytes !== live.legacyBytes
@@ -111,4 +113,11 @@ export function commitRank5Plus5Resources(
   // Web Storage setItem is one atomic key replacement. No partial resource saves.
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return { store: next, receipt };
+}
+
+/** Browser-safe transaction entrypoint; stale snapshot, ID and balances check under lock. */
+export function commitRank5Plus5ResourcesExclusive(
+  storage: ImprovePolicyStorageAccess, snapshot: Rank5Plus5Snapshot, transactionId: string,
+): Promise<CommittedRank5Plus5> {
+  return withExclusiveImprovePolicyStorage(() => commitRank5Plus5Resources(storage, snapshot, transactionId));
 }

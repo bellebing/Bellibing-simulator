@@ -9,6 +9,24 @@ import type { projectImproveSettingsSources } from './improveSettingsProjection.
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
+// Web Locks serializes all same-origin tabs across the entire shared v3 envelope.
+// Never substitute localStorage CAS, a timeout lease or an uncoordinated fallback.
+let exclusiveImproveWriter = false;
+export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Promise<T> {
+  if (typeof navigator === 'undefined' || !navigator.locks || typeof navigator.locks.request !== 'function')
+    throw new Error('Safe cross-tab Improve storage coordination unavailable.');
+  return navigator.locks.request(IMPROVE_POLICY_STORAGE_KEY, { mode: 'exclusive' }, lock => {
+    if (!lock || exclusiveImproveWriter) throw new Error('Exclusive Improve storage lock unavailable.');
+    exclusiveImproveWriter = true;
+    try { return write(); } finally { exclusiveImproveWriter = false; }
+  });
+}
+/** Test storage adapters remain synchronous; native browser envelope writes do not. */
+export function assertExclusiveImprovePolicyWriter(storage: ImprovePolicyStorageAccess): void {
+  if (typeof window !== 'undefined' && storage === window.localStorage && !exclusiveImproveWriter)
+    throw new Error('Exclusive Improve storage lock required.');
+}
+
 export type ImproveGate = 5 | 10 | 15 | 20 | 25;
 export type ImproveRollQuality = 'All Rolls' | 'Mid+' | 'High+';
 export type PolicyOverrideSections = Pick<ImprovePolicyOverrides,
@@ -385,8 +403,13 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
 }
 export function persistImprovePolicyState(store: ImprovePolicyStorage, state: ImprovePolicyState,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
+  assertExclusiveImprovePolicyWriter(storage);
   // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
   const live = loadImprovePolicyStorage(storage);
+  // Only merge unrelated Character edits; a concurrent edit to this Character must not be lost.
+  if (JSON.stringify(store.characters[state.characterId] ?? null) !== JSON.stringify(live.characters[state.characterId] ?? null)
+    || JSON.stringify(store.pendingV2Characters[state.characterId] ?? null) !== JSON.stringify(live.pendingV2Characters[state.characterId] ?? null))
+    throw new Error('Stale Improve settings; reload before editing.');
   const pendingV2Characters = { ...live.pendingV2Characters }; delete pendingV2Characters[state.characterId];
   const next: ImprovePolicyStorage = { ...live, version: 3,
     characters: { ...live.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
@@ -398,6 +421,7 @@ export function persistImprovePolicyState(store: ImprovePolicyStorage, state: Im
 /** Same user-owned envelope and write-before-commit recovery discipline as settings. */
 export function persistResourceInventory(store: ImprovePolicyStorage, inventory: ResourceInventory,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
+  assertExclusiveImprovePolicyWriter(storage);
   const live = loadImprovePolicyStorage(storage);
   const previous = readResourceInventory(store.resourceInventory ?? { ...emptyResourceInventory() });
   const current = readResourceInventory(live.resourceInventory ?? { ...emptyResourceInventory() });

@@ -190,7 +190,29 @@
 .improve-card-arrow:disabled{color:#747b85;cursor:default}
 .improve-card-arrow:focus-visible{outline:2px solid #c9a85f;outline-offset:1px;border-radius:5px}
 .improve-empty-card{flex:1;width:100%}
+#improveSimulationPage[aria-hidden="true"]{display:none}
 #improveEmptyCard{flex:1}
+/* Simulate-only composition: retain the Character columns, with large slots below Stats. */
+#improveEmptyCard > .improve-stats{grid-row:1}
+.simulate-workspace{grid-column:3;grid-row:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:16px;min-width:0}
+.simulate-empty-echo{height:330px;min-width:0;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022)}
+.simulate-workspace > .simulate-empty-echo,.simulate-controls{margin-top:42px}
+.simulate-controls{min-width:0;color:#b0b6bf}
+.simulate-controls h3{margin:0 0 14px;text-align:center;font-family:var(--font-display);font-size:18px;font-weight:400}
+.simulate-summary{display:grid;gap:9px;margin:0 0 18px;font-size:11px}
+.simulate-summary > div{display:flex;justify-content:space-between;align-items:center;gap:6px;min-height:18px}
+.simulate-summary dt,.simulate-summary dd{margin:0}.simulate-summary dd{color:#939ba6;font-variant-numeric:tabular-nums}
+.simulate-start.improve-helper-action{width:100%;min-height:44px;padding:7px;font-family:var(--font-display);font-size:24px;font-weight:400}
+.simulate-controls .simulate-used{margin:9px 0 6px;font-size:16px}.simulate-resources{gap:3px;margin-bottom:0;font-size:10px}
+.simulate-result{min-width:0}.simulate-modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;height:34px}
+.simulate-modes .improve-helper-action{min-width:0;margin:0;padding:5px;font-size:11px}
+.simulate-echo-slots{grid-column:2/4;grid-row:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:10px;min-width:0}
+.simulate-echo-slot{height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:0 10px 6px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022)}
+.simulate-slot-actions{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.13);padding-top:5px}
+.simulate-slot-actions button{border:0;background:transparent;padding:3px 2px;font-size:10px;color:#79c89c}
+.simulate-slot-actions button+button{border-left:1px solid rgba(255,255,255,.13);color:#e37b7b}
+#improveEmptyCard button:disabled{cursor:default}
+
 
 .improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:10px;align-content:start}
 .improve-truth-art{position:relative;height:238px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
@@ -530,7 +552,29 @@
         <h2 id="improveSimulationPageTitle">Simulate Echo Set</h2>
         <button class="improve-card-arrow" type="button" aria-label="Next card" disabled><span aria-hidden="true">›</span></button>
       </header>
-      <div id="improveEmptyCard" class="improve-empty-card improve-build-card improve-surface" aria-label="Current Character information and stats"></div>
+      <div id="improveEmptyCard" class="improve-empty-card improve-build-card improve-surface" aria-label="Simulate Echo Set workspace">
+        <section class="simulate-workspace" aria-label="Echo presentation workspace">
+          <div class="simulate-empty-echo" aria-label="Echo being worked on"></div>
+          <section class="simulate-controls" aria-label="Simulation presentation controls">
+            <h3>Simulated</h3>
+            <dl class="simulate-summary">
+              <div><dt>ATK</dt><dd>—</dd></div><div><dt>CRIT Rate</dt><dd>—</dd></div><div><dt>CRIT DMG</dt><dd>—</dd></div><div><dt>Energy Regen</dt><dd>—</dd></div><div><dt>Heavy Attack DMG</dt><dd>—</dd></div>
+            </dl>
+            <button class="improve-helper-action simulate-start" type="button" disabled>Simulate</button>
+            <h3 class="simulate-used">Used</h3>
+            <dl class="simulate-summary simulate-resources"><div><dt>Echoes</dt><dd>—</dd></div><div><dt>Tuners</dt><dd>—</dd></div><div><dt>EXP Tubes</dt><dd>—</dd></div></dl>
+          </section>
+          <section class="simulate-result" aria-label="Result presentation">
+            <div class="simulate-modes" role="group" aria-label="Simulation mode"><button class="improve-helper-action" type="button" disabled>1 Slot</button><button class="improve-helper-action" type="button" disabled>Full Set</button></div>
+            <div class="simulate-empty-echo" aria-label="Result Echo"></div>
+          </section>
+        </section>
+        <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot" aria-label="Echo slot 1"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" aria-label="Echo slot 2"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" aria-label="Echo slot 3"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" aria-label="Echo slot 4"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" aria-label="Echo slot 5"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article></section>
+      </div>
     </section>
   </div>
 </div></div></section>
@@ -2227,7 +2271,8 @@ const improveUi={
         if(value!==attribute.value)node.setAttribute(attribute.name,value);
       }
     }
-    host.replaceChildren(...copies);
+    host.querySelectorAll(':scope > .improve-truth,:scope > .improve-stats').forEach(section=>section.remove());
+    host.prepend(...copies);
   }
   const observer=new MutationObserver(syncSimulateCharacterPresentation);
   sections.forEach(section=>observer.observe(section,{subtree:true,childList:true,characterData:true,attributes:true}));

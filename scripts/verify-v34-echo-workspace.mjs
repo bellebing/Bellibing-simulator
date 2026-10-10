@@ -898,7 +898,10 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
+    if (process.env.BELLIBING_SINGLE_SLOT_ONLY === '1') {
+      await verifyImproveNavigation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+      console.log('1440x900 single Echo source/built physical Chrome gate PASS');
+    } else if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
       await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
     } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});

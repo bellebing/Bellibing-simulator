@@ -223,6 +223,21 @@
 
 .simulate-echo-slot:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
 .simulate-selected-label{display:grid;place-items:center;height:100%;font-family:var(--font-display);font-size:20px;color:#d8bc7d}
+/* Echo identities are preparation only; existing card dimensions stay fixed. */
+.simulate-template-picker{box-sizing:border-box;width:100%;display:flex;flex-direction:column;align-items:center;padding:12px;color:#d8bc7d;font:inherit;text-align:center;cursor:pointer}
+.simulate-template-picker:hover{border-color:rgba(216,177,82,.60);background:rgba(216,177,82,.045)}
+.simulate-template-picker:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
+.simulate-template-picker .simulate-selected-label{height:auto;min-height:28px;flex:none}
+.simulate-template-card,.simulate-slot-identity{display:flex;flex-direction:column;align-items:center;min-width:0;min-height:0;width:100%;gap:5px;text-align:center}
+.simulate-template-card{flex:1;justify-content:center;overflow:hidden}
+.simulate-slot-identity{flex:1;justify-content:center;padding:9px 0 5px;pointer-events:none;overflow:hidden}
+.simulate-template-card-content,.simulate-slot-identity-content{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:0;width:100%;height:100%}
+.simulate-template-art{width:100%;flex:1;min-height:0;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(0,0,0,.38))}
+.simulate-template-name{width:100%;max-height:3em;overflow:hidden;font-family:var(--font-display);font-size:15px;line-height:1.25;color:#e6e5e0;overflow-wrap:anywhere}
+.simulate-slot-identity .simulate-template-name{font-size:12px}
+.simulate-template-cost{flex:none;color:#c6a35f;font-size:11px;font-weight:800}
+.echo-preview-sonata-assignment[hidden]{display:none}
+
 .simulate-slot-actions{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.13);padding-top:5px}
 .simulate-slot-actions button{border:0;background:transparent;padding:3px 2px;font-size:10px;color:#79c89c}
 .simulate-slot-actions button+button{border-left:1px solid rgba(255,255,255,.13);color:#e37b7b}
@@ -569,7 +584,7 @@
       </header>
       <div id="improveEmptyCard" class="improve-empty-card improve-build-card improve-surface" aria-label="Simulate Echo Set workspace">
         <section class="simulate-workspace" aria-label="Echo presentation workspace">
-          <div class="simulate-empty-echo" aria-label="Echo being worked on"><span id="simulateSelectedEchoLabel" class="simulate-selected-label">Echo 1</span></div>
+          <button id="simulateTemplatePicker" class="simulate-empty-echo simulate-template-picker" type="button" aria-haspopup="dialog" aria-controls="echoOverlay" aria-label="Choose Echo for slot 1"><span id="simulateSelectedEchoLabel" class="simulate-selected-label">Echo 1</span><span id="simulateTemplatePreview" class="simulate-template-card"></span></button>
           <section class="simulate-controls" aria-label="Simulation presentation controls">
             <h3>Simulated</h3>
             <dl class="simulate-summary">
@@ -1305,11 +1320,11 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
-  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
-  contextValid(){return this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
-  previewCommitted(){return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.currentSlot()},
+  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.context.kind==='simulate-template'?null:this.loadoutProfile},
+  contextValid(){return this.context.kind==='equipped'||(['candidate','simulate-template'].includes(this.context.kind)&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
+  previewCommitted(){return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.context.kind==='simulate-template'?(this.context.selectedId?{echoId:this.context.selectedId}:null):this.currentSlot()},
   activeSet(){
-    if(this.context.kind==='candidate')return emptyEchoSet();
+    if(this.context.kind!=='equipped')return emptyEchoSet();
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
@@ -1350,7 +1365,7 @@ const echoUi={
     return [1,3,4].includes(cost)?cost:null;
   },
   renderBuildSlots(){
-    if(this.context.kind==='candidate')return;
+    if(this.context.kind!=='equipped')return;
     const slots=this.activeSet().slots||[];
     document.querySelectorAll('.echo[data-echo-slot]').forEach((slot,index)=>{
       slot.querySelectorAll('.echo-card-cost,.echo-card-portrait,.echo-card-name').forEach(node=>node.remove());
@@ -1371,7 +1386,7 @@ const echoUi={
   },
   renderWorkspaceSlots(){
     if(!this.workspaceSlots)return;
-    this.workspaceSlots.replaceChildren();if(this.context.kind==='candidate')return;
+    this.workspaceSlots.replaceChildren();if(this.context.kind!=='equipped')return;
     const slots=this.activeSet().slots||[];
     for(let index=0;index<5;index++){
       const owned=slots[index],item=echoById.get(echoSlotId(owned)),recommendedCost=this.recommendedCost(index),cost=item?.cost??recommendedCost;
@@ -1483,7 +1498,7 @@ const echoUi={
     const art=document.getElementById('echoPreviewArt');art.src=item.artSrc;art.alt=item.name;
     document.getElementById('echoPreviewName').textContent=item.name;
     const stars=document.getElementById('echoPreviewCostStars');stars.textContent='★'.repeat(item.cost);stars.setAttribute('aria-label',`Cost ${item.cost}`);
-    document.getElementById('echoPreviewLevel').textContent=this.context.kind==='candidate'?'Unbuilt Echo':`Level +${this.editorDraft?.level??0}`;
+    document.getElementById('echoPreviewLevel').textContent=this.context.kind==='simulate-template'?'Identity only':this.context.kind==='candidate'?'Unbuilt Echo':`Level +${this.editorDraft?.level??0}`;
     const host=document.getElementById('echoPreviewSonataChoices');host.replaceChildren();
     const ordered=this.orderedAllowedSonataIds(item);
     ordered.forEach(id=>{
@@ -1510,7 +1525,7 @@ const echoUi={
     card.level=level;card.mainStat={name:main.name,value:main.value};card.secondaryMainStat={name:secondary.name,value:secondary.value};card.substats=complete;
   },
   renderEditor(){
-    if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
+    if(this.context.kind!=='equipped'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
@@ -1561,7 +1576,8 @@ const echoUi={
   },
   setPreview(item,committed=null){
     this.previewId=item.id;this.infoExpanded=false;
-    if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
+    if(this.context.kind==='simulate-template'){this.editorDraft={echoId:item.id};this.editorSubstatRows=null}
+    else if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
     else{this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null)}
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
   },
@@ -1571,16 +1587,17 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
-  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
+  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='simulate-template'?(item&&item.releaseStatus==='RELEASED'&&this.editorDraft?.echoId===item.id?'':'Choose a canonical released Echo.'):this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
     const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
-    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
+    const template=this.context.kind==='simulate-template';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&!template&&alreadyCommitted);button.textContent=template?'Use Echo':candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
-    if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
+    if(this.context.kind!=='equipped'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
     const previous=this.targetSlot;
     const promoted=captureEchoMotion(this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark'));
     const incoming=captureEchoMotion(this.workspaceSlots.querySelector(`[data-echo-target="${index}"] .echo-dock-art img, [data-echo-target="${index}"] .echo-dock-visual`));
@@ -1597,6 +1614,14 @@ const echoUi={
     this.context={kind:'equipped'};this.characterId=characterByName.get(name)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
     this.currentSets=readEchoSets(name);this.openWorkspace(index);
   },
+  async showSimulateTemplate(index,selectedId,onChoose){
+    const name=improveUi.characterName,version=improveUi.contextVersion;
+    if(this.open||this.closing||!Number.isInteger(index)||index<0||index>4||typeof onChoose!=='function')return;
+    await echoDataReady;
+    if(name!==improveUi.characterName||version!==improveUi.contextVersion||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
+    this.context={kind:'simulate-template',characterName:name,version,selectedId:echoById.has(selectedId)?selectedId:null,onChoose};
+    this.openWorkspace(index);
+  },
   async showCandidate(){
     const name=improveUi.characterName,version=improveUi.contextVersion;
     if(!name||this.open||this.closing)return;
@@ -1608,12 +1633,13 @@ const echoUi={
   },
   openWorkspace(index){
     this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;
-    const candidate=this.context.kind==='candidate';this.overlay.dataset.context=this.context.kind;
+    const template=this.context.kind==='simulate-template',candidate=this.context.kind==='candidate'||template;this.overlay.dataset.context=candidate?'candidate':'equipped';
     this.workspaceSlots.hidden=candidate;this.panel.querySelector('.echo-editor-stats').hidden=candidate;
     this.panel.querySelector('#echoActiveEffects').closest('.echo-info-section').hidden=candidate;
-    document.getElementById('echoTitle').textContent=candidate?'Echo Workspace · Candidate':'Echo Workspace';
-    this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
+    document.getElementById('echoTitle').textContent=template?'Echo Workspace · Simulate Setup':candidate?'Echo Workspace · Candidate':'Echo Workspace';
+    this.panel.querySelector('.echo-preview-empty strong').textContent=template?'No Echo template selected':candidate?'No Candidate selected':'No Echo Equipped';
     document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
+    this.panel.querySelector('.echo-preview-sonata-assignment').hidden=template;
     this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
     this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
     const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
@@ -1629,10 +1655,10 @@ const echoUi={
   hide(){
     if(!this.open||this.closing)return;this.open=false;this.closing=true;
     if(activeConfirmation?.kind==='sonata')closeConfirmation();
-    const candidate=this.context.kind==='candidate';
-    const source=captureEchoMotion(candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
-    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const destination=buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus');
+    const template=this.context.kind==='simulate-template',candidate=this.context.kind==='candidate';
+    const source=captureEchoMotion(template?document.getElementById('echoPreviewArt'):candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
+    const buildSlot=template?document.getElementById('simulateTemplatePicker'):candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const destination=template?buildSlot?.querySelector('.simulate-template-art, #simulateSelectedEchoLabel'):(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
     this.overlay.classList.remove('open');this.setSonataMenuOpen(false);
     playEchoMotion(source,destination).then(()=>{
       this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;this.context={kind:'equipped'};
@@ -1642,6 +1668,7 @@ const echoUi={
   equipPreview(){
     if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
     const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
+    if(this.context.kind==='simulate-template'){this.context.onChoose(this.previewId);this.hide();return}
     if(this.context.kind==='candidate'){improveUi.chooseCandidate({echoId:this.editorDraft.echoId,selectedSonataSetId:this.editorDraft.selectedSonataSetId});this.hide();return}
     if(!this.characterName)return;
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
@@ -2087,6 +2114,9 @@ function projectImproveCurrentStats(name){
 {
   const slots=[...document.querySelectorAll('#improveEmptyCard .simulate-echo-slot')];
   const label=document.getElementById('simulateSelectedEchoLabel');
+  const picker=document.getElementById('simulateTemplatePicker');
+  const preview=document.getElementById('simulateTemplatePreview');
+  const templateIds=Array(5).fill(null);
   const result=document.querySelector('.simulate-result-echo');
   const simulate=document.querySelector('.simulate-start');
   const oneSlot=document.querySelector('.simulate-modes button:first-child');
@@ -2099,13 +2129,43 @@ function projectImproveCurrentStats(name){
     const session=improveUi.simulator;
     const sessionId=session?.id??null;
     if(sessionId!==usedSessionId||improveUi.characterId!==observedCharacterId){
+      if(improveUi.characterId!==observedCharacterId)templateIds.fill(null);
       usedSessionId=sessionId;observedCharacterId=improveUi.characterId;
       message='';messageIsError=false;
       usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
     }
   }
+
+  function appendIdentity(host,item,className){
+    const wrap=document.createElement('span');wrap.className=className;
+    const art=document.createElement('img');art.className='simulate-template-art';art.src=item.artSrc;art.alt='';art.draggable=false;
+    append(wrap,'span',item.name,'simulate-template-name');
+    wrap.appendChild(art);
+    append(wrap,'span','COST '+item.cost,'simulate-template-cost');
+    host.appendChild(wrap);
+  }
+  function renderTemplates(){
+    const item=echoById.get(templateIds[selectedIndex]);
+    label.textContent='Echo '+(selectedIndex+1);
+    preview.replaceChildren();
+    if(item)appendIdentity(preview,item,'simulate-template-card-content');
+    else append(preview,'span','Select Echo','simulate-template-name');
+    picker.dataset.templateEchoId=item?.id||'';
+    picker.setAttribute('aria-label',(item?'Change ':'Choose ')+'Echo for slot '+(selectedIndex+1)+(item?', '+item.name+', Cost '+item.cost:''));
+    slots.forEach((slot,index)=>{
+      slot.querySelector('.simulate-slot-identity')?.remove();
+      const own=echoById.get(templateIds[index]);
+      slot.dataset.templateEchoId=own?.id||'';
+      slot.setAttribute('aria-label','Select Echo slot '+(index+1)+(own?', '+own.name+', Cost '+own.cost:''));
+      if(own){
+        const identity=document.createElement('div');identity.className='simulate-slot-identity';
+        appendIdentity(identity,own,'simulate-slot-identity-content');
+        slot.insertBefore(identity,slot.querySelector('.simulate-slot-actions'));
+      }
+    });
+  }
   function renderResult(){
-    syncSession();result.replaceChildren();
+    syncSession();renderTemplates();result.replaceChildren();
     const slot=improveUi.simulator?.slots[selectedIndex]?.candidate?.card;
     const item=slot&&echoById.get(slot.echoId);
     if(item&&slot?.rank===5&&slot.level===5&&slot.substats?.length===1){
@@ -2176,6 +2236,13 @@ function projectImproveCurrentStats(name){
       }
     });
   });
+  picker.addEventListener('click',()=>{
+    const index=selectedIndex,characterId=improveUi.characterId;
+    echoUi.showSimulateTemplate(index,templateIds[index],id=>{
+      if(characterId!==improveUi.characterId||!echoById.has(id))return;
+      templateIds[index]=id;renderResult();
+    });
+  });
   simulate.addEventListener('click',attempt);
   oneSlot.addEventListener('click',()=>oneSlot.setAttribute('aria-pressed','true'));
   window.bellibingRenderSingleSlot=renderResult;
@@ -2213,7 +2280,7 @@ const improveUi={
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent=this.simulator?'Simulated':'Current';
   },
   setCharacter(name){
-    if(name!==this.characterName){document.querySelector('.simulator-inspection')?.close();this.simulator=null;this.contextVersion++;this.candidate=null;if(echoUi.context.kind==='candidate'&&echoUi.open)echoUi.hide()}
+    if(name!==this.characterName){document.querySelector('.simulator-inspection')?.close();this.simulator=null;this.contextVersion++;this.candidate=null;if(['candidate','simulate-template'].includes(echoUi.context.kind)&&echoUi.open)echoUi.hide()}
     this.characterName=name||null;this.characterId=name?characterByName.get(name)?.id||null:null;
     const slots=improveWorkspaceSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
     window.bellibingImproveSettings?.setCharacter(this.characterId);

@@ -32,6 +32,11 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     autosave('Augusta',{weaponId:'thunderflare-dominion',sequenceLevel:1});show('improve');improvePicker.select('Augusta');
     return true;
   })()`);await sleep(800);
+  // Previously saved custom targets stay editable without exposing Add stat.
+  await waitForUi(send,'window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"','Shared settings not ready');
+  await read(`import(new URL('../assets/improvePolicyPresentation.js',location.href)).then(m=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.mode='MANUAL';s.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ENERGY_REGEN','115','125')];localStorage.setItem(key,JSON.stringify(s))})`);
+  await navigate(send);await waitForUi(send,'window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"&&echoDataLoaded&&buildStatsRuntimeLoaded','saved targets not ready');
+  await read("show('improve');improvePicker.select('Augusta')");
   await read(`(()=>{const item=echoCatalog.find(row=>row.name==='Iceglint Dancer');improveUi.candidate={echoId:item.id,selectedSonataSetId:item.sonataSetIds[0]};improveUi.renderCandidate()})()`);
   // Counterfactual canonical projection with identical non-Echo inputs, no account equipment.
   const stats=await read(`(()=>{const project=window.bellibingProjectStaticBuildStats;let empty;
@@ -119,11 +124,10 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await setViewport(send,width,height);
     await expand('gate');await enter(resource('echoes'),String(32+index));await enter(resource('tuners'),String(99+index));await enter(resource('premium'),'∞');
     await check(inventoryState+'.echoes.count==='+String(32+index)+'&&'+inventoryState+'.tuners.count==='+String(99+index)+'&&'+inventoryState+'.tubes.premium.kind==="UNLIMITED"','Simulate physical finite and ∞');
-    if(await read("!!document.querySelector('[data-focus-key=\"clear:numericTargets\"]')")) await click(focus('clear:numericTargets'));
     if(await read("!!document.querySelector('[data-focus-key=\"reset:echo\"]')")) await click(focus('reset:echo'));
-    await check('Object.keys('+policyState+'.overrides).length===0','existing section resets restore shared source defaults');
+    await check('Object.keys('+policyState+'.overrides).join()==="numericTargets"','Echo reset restores source defaults and preserves saved custom targets');
     await click(focus('gate:'+([10,15,20][index])));await collapse('gate');
-    await expand('target');await click('#improveSettings .improve-target-add summary');await click(focus('metric:TOTAL_ENERGY_REGEN'));
+    await expand('target');
     await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5');await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25');
     await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');await collapse('target');
     await expand('every');await click('[data-setting=every] .improve-echo-row[data-stat-name="CRIT Rate"] .improve-roll-slider');

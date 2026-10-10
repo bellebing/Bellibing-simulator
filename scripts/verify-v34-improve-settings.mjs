@@ -66,6 +66,13 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   const inventoryState = 'window.bellibingResourceInventory.getState()';
   const resourceInput = id => '#improveSettings [data-resource="'+id+'"] input';
   await check(`document.querySelectorAll('.improve-resources').length===1&&document.querySelectorAll('.improve-resources-separator').length===1&&[...document.querySelectorAll('.improve-resource input')].every(n=>n.hidden)&&[...document.querySelectorAll('.improve-resource-value')].every(n=>!n.hidden)`, 'compact collapsed Resources and existing summaries');
+  const layoutSnapshot = `(()=>{const root=document.getElementById('improveSettings'),controls=root.querySelector('.improve-settings-controls'),r=controls.getBoundingClientRect();return {height:root.getBoundingClientRect().height,columns:[...controls.children].map(n=>{const f=n.querySelector('.improve-setting-trigger').getBoundingClientRect();return {heading:n.querySelector('.improve-setting-label').textContent,x:f.x,width:f.width,height:f.height,y:f.y-r.y}})}})()`;
+  const compactLayout=await read(layoutSnapshot);
+  await click('#improve-setting-gate'); await settle();
+  await check(`JSON.stringify(${layoutSnapshot}.columns)===${JSON.stringify(JSON.stringify(compactLayout.columns))}&&${layoutSnapshot}.height>${compactLayout.height}&&!document.querySelector('.improve-target-add')`, 'expansion preserves all five field positions, headings and widths while growing down');
+  await check(`(()=>{const root=document.getElementById('improveSettings');return ['gate','every','flex','target'].every(id=>{const host=root.querySelector('[data-setting='+id+']'),field=host.querySelector('.improve-setting-trigger').getBoundingClientRect(),panel=host.querySelector('.improve-setting-expansion').getBoundingClientRect();return panel.top>=field.bottom&&Math.abs(panel.left-field.left)<.1&&Math.abs(panel.width-field.width)<.1})&&root.querySelector('[data-setting=gate] [data-setting-value]')&&root.querySelector('[data-setting=every] [data-echo-section=every]')&&root.querySelector('[data-setting=flex] .improve-flex-count')&&root.querySelector('[data-setting=target] .improve-recommended-stats')})()`, 'existing content remains beneath its own field');
+  await click('#improve-setting-gate'); await settle();
+  await check(`JSON.stringify(${layoutSnapshot})===${JSON.stringify(JSON.stringify(compactLayout))}`, 'collapse restores the exact compact field geometry');
   await click('#improve-setting-gate'); await settle();
   for (const [id,value] of [['echoes','12'],['tuners','∞'],['premium','7'],['advanced','11'],['medium','0'],['basic','unlimited']]) {
     await enter(resourceInput(id),value); await read(`document.querySelector(${JSON.stringify(resourceInput(id))}).blur()`);
@@ -120,7 +127,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");
     await capture(send,`artifacts/ui-preview-resources-collapsed-${width}x${height}-${artifactVariant}.png`);
     await click('#improve-setting-every'); await settle();
-    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Target','Gate','Hard Requirements','Flex Stats'])`, 'four input columns');
+    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Sonata Sets','Gate','Required Substats','Flex Substats','Stats'])`, 'unchanged five expanded columns');
     await check(`(()=>{const root=document.getElementById('improveSettings');return !/Character Target|Every Echo|Recommended Character Stats/.test(root.innerText)&&root.querySelector('[data-setting=target] h3').textContent==='Character Stats'&&[...root.querySelectorAll('h3,h4')].every(n=>!n.textContent.includes('Recommended'))})()`, 'presentation wording without duplicate Recommended headings');
     await check(`(()=>{const root=document.getElementById('improveSettings');return [root,...root.querySelectorAll('*')].filter(n=>n.getClientRects().length&&getComputedStyle(n).visibility==='visible').every(n=>getComputedStyle(root).fontFamily.startsWith('Etna')&&getComputedStyle(n).fontFamily===getComputedStyle(root).fontFamily)})()`, 'all visible settings text and native controls use the existing display font');
     await check(`(()=>{const root=document.getElementById('improveSettings'),labels=[...root.querySelectorAll('.improve-setting-label')];return labels.every(n=>{const r=n.getBoundingClientRect(),owner=n.closest('.improve-setting').getBoundingClientRect(),style=getComputedStyle(n);return style.textAlign==='center'&&Math.abs(r.left+r.width/2-owner.left-owner.width/2)<1&&parseFloat(style.fontSize)>parseFloat(getComputedStyle(n.nextElementSibling).fontSize)})&&root.querySelector('.improve-settings-heading').children.length===1&&[...root.querySelectorAll('.improve-policy-section h3')].every(n=>getComputedStyle(n).textAlign!=='center')})()`, 'centered column title hierarchy and left-aligned inner headings');
@@ -128,7 +135,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`JSON.stringify([...document.querySelectorAll('[data-setting=gate] .improve-setting-choice')].map(n=>n.textContent))===JSON.stringify(['+5','+10','+15','+20','+25'])`, 'unchanged Gate checkpoints');
     await check(`${state}.presentation.echoPolicy.requirements.status==='USER_DEFINED'&&${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'&&document.querySelectorAll('.improve-echo-row .improve-roll-slider').length===6&&Object.keys(${state}.overrides).length===0`, 'Recommended shows only the user-approved Augusta default');
     await rowsUnique();
-    await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect().width);return columns[0]<290&&columns[1]<100&&Math.abs(columns[2]-columns[3])<1&&Math.abs(columns[2]-(document.querySelector('.improve-settings-controls').clientWidth-330)/3)<1&& !document.querySelector('[data-setting=flex] h3')})()`, 'narrow Target/Gate and equal Hard/Flex columns');
+    await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect().width);return columns[1]===64&&[0,2,3,4].every(i=>Math.abs(columns[i]-columns[0])<.1)&&Math.abs(columns[0]-(document.querySelector('.improve-settings-controls').clientWidth-104)/4)<1&& !document.querySelector('[data-setting=flex] h3')})()`, 'same equal-width five-column grid when expanded');
     await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='Recommended'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='Recommended'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'accepted Recommended summaries and row clearance');
     await check(`!JSON.stringify(${state}).includes('checkpointReference')&&!JSON.stringify(${state}).includes('effectivePolicy')`, 'public inspection contract');
     await check(`!document.querySelector('.improve-build-need')`, 'visible Build Need removed');
@@ -203,12 +210,16 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await click('#improve-setting-gate');
   }
   // Character Target input, validity and source-family presentation remain independent of decisions.
-  await setViewport(send,1440,900); await click('#improve-setting-target'); await settle();
-  await click('#improveSettings .improve-target-add summary'); await click(focus('metric:TOTAL_ENERGY_REGEN'));
+  await setViewport(send,1440,900);
+  await read(`import(new URL('../assets/improvePolicyPresentation.js',location.href)).then(m=>{const key='bellibing.improve.policy.v3',saved=JSON.parse(localStorage.getItem(key));saved.characters.augusta.mode='MANUAL';saved.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ENERGY_REGEN','115','125')];localStorage.setItem(key,JSON.stringify(saved))})`);
+  const savedTargetBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");
+  await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
+  await check(`localStorage.getItem('bellibing.improve.policy.v3')===${JSON.stringify(savedTargetBytes)}&&${state}.overrides.numericTargets[0].minimum===1.15&&!document.querySelector('.improve-target-add')`, 'previously saved custom Target bytes survive reload without Add stat');
+  await click('#improve-setting-target'); await settle();
   const inputs='[data-editor-metric="TOTAL_ENERGY_REGEN"] input';
   await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5'); await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','100');
   await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');
-  await check(`${state}.overrides.numericTargets===undefined&&document.querySelector('[data-editor-metric="TOTAL_ENERGY_REGEN"] [role=alert]').hidden===false`, 'invalid preferred value does not save');
+  await check(`${state}.overrides.numericTargets[0].minimum===1.15&&document.querySelector('[data-editor-metric="TOTAL_ENERGY_REGEN"] [role=alert]').hidden===false`, 'invalid preferred value does not save');
   await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25'); await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');
   await check(`${state}.overrides.numericTargets[0].minimum===1.175&&${state}.overrides.numericTargets[0].preferred===1.2625&&${state}.presentation.characterTarget.numericTargets.status==='USER_DEFINED'`, 'exact numeric round trip');
   const numericBeforeReset = await read(`JSON.stringify(${state}.overrides.numericTargets)`);

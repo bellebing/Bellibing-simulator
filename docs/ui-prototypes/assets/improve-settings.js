@@ -14,14 +14,14 @@ try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = '
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
-let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
+let drag = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
 heading.append(title);
 const controls = element('div', undefined, 'improve-settings-controls');
-// Reserve only the collapsed Sonata position; selection is a separate feature.
+// Reserve the Sonata position in both states; selection is a separate feature.
 const sonataColumn = element('section', undefined, 'improve-setting');
 sonataColumn.dataset.setting = 'sonata';
 sonataColumn.append(element('h3', 'Sonata Sets', 'improve-setting-label'));
@@ -112,20 +112,15 @@ function commit(change, focusKey, refresh = true) {
 function setExpanded(next, restore = false) {
   expanded = !!next;
   controls.classList.toggle('is-expanded', expanded);
-  const focused = controls.contains(document.activeElement) ? document.activeElement : null;
-  const order = expanded ? ['target', 'gate', 'every', 'flex'] : ['gate', 'every', 'flex', 'target'];
-  controls.replaceChildren(...(expanded ? [] : [sonataColumn]), ...order.map(id => groups.get(id).host));
   renderResources();
   for (const group of groups.values()) {
-    const label = expanded ? group.expandedLabel : group.collapsedLabel;
-    group.labelNode.textContent = label; group.trigger.setAttribute('aria-label', label);
     const open = expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
   }
-  focused?.focus({ preventScroll: true });
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label, collapsedLabel] of [['target', 'Target', 'Stats'], ['gate', 'Gate', 'Gate'], ['every', 'Hard Requirements', 'Required Substats'], ['flex', 'Flex Stats', 'Flex Substats']]) {
+controls.append(sonataColumn);
+for (const [id, label] of [['gate', 'Gate'], ['every', 'Required Substats'], ['flex', 'Flex Substats'], ['target', 'Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -135,7 +130,7 @@ for (const [id, label, collapsedLabel] of [['target', 'Target', 'Stats'], ['gate
   trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
-  clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content, labelNode, expandedLabel: label, collapsedLabel });
+  clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
 }
 setExpanded(false);
 root.addEventListener('keydown', event => { if (event.key === 'Escape' && expanded) { event.preventDefault(); event.stopPropagation(); setExpanded(false, true); } });
@@ -151,11 +146,10 @@ function renderTargets() {
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
-  if (policy.status === 'USER_DEFINED' || policy.origin === 'USER' || selectedMetric !== null) {
+  if (policy.status === 'USER_DEFINED' || policy.origin === 'USER') {
     // Editors show saved intent only; opening one never seeds an override.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
     if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
-    if (selectedMetric && !(policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).some(row => row.metric === selectedMetric)) renderTargetEditor(targets, selectedMetric);
   } else {
     const rows = recommendedCharacterStatsPresentation(characterId);
     if (!rows.length) targets.append(note('Pending'));
@@ -171,15 +165,7 @@ function renderTargets() {
     }
     targets.append(table);
   }
-  if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { selectedMetric = null; commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
-  const add = element('details', undefined, 'improve-target-add');
-  add.append(element('summary', 'Add stat'));
-  const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
-  const defined = new Set((policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).map(row => row.metric));
-  for (const spec of IMPROVE_TARGET_METRICS.filter(row => !defined.has(row.metric))) metrics.append(button(spec.label, () => {
-    selectedMetric = spec.metric; render(); root.querySelector('[data-editor-metric="' + spec.metric + '"] input').focus({ preventScroll: true });
-  }, 'metric:' + spec.metric));
-  if (metrics.children.length) { add.append(metrics); targets.append(add); }
+  if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
 }
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
@@ -208,7 +194,7 @@ function renderTargetEditor(parent, metric, existing) {
   editor.append(actions, error);
   editor.onsubmit = event => {
     event.preventDefault();
-    try { const target = parseImproveTarget(metric, min.value, pref.value); selectedMetric = null; commit(state => editImproveTarget(state, source, metric, target), 'save-target:' + metric); }
+    try { const target = parseImproveTarget(metric, min.value, pref.value); commit(state => editImproveTarget(state, source, metric, target), 'save-target:' + metric); }
     catch (failure) { error.textContent = failure.message; error.hidden = false; min.setAttribute('aria-invalid', 'true'); pref.setAttribute('aria-invalid', 'true'); }
   };
   parent.append(editor);
@@ -349,7 +335,7 @@ function render() {
 function setCharacter(id) {
   if (characterId !== id) {
     if (retiredEchoRecovery) { storageError = null; retiredEchoRecovery = false; saveNote.hidden = true; }
-    setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
+    setExpanded(false); drag = null; otherExpanded = false;
   }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }

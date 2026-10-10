@@ -34,8 +34,7 @@
 /* Stable, bounded columns: each setting owns its trigger and vertical expansion. */
 .improve-settings-heading { display:flex; justify-content:center; align-items:center; gap:10px; }
 .improve-settings-heading h2 { text-align:center; }
-.improve-settings-controls { display:grid; grid-template-columns:minmax(0,220px) minmax(0,80px) repeat(2,minmax(0,calc((100% - 330px) / 3))); align-items:start; gap:0 10px; }
-.improve-settings-controls:not(.is-expanded) { grid-template-columns:minmax(0,1fr) 64px repeat(3,minmax(0,1fr)); }
+.improve-settings-controls { display:grid; grid-template-columns:minmax(0,1fr) 64px repeat(3,minmax(0,1fr)); align-items:start; gap:0 10px; }
 .improve-setting { display:flex; flex-direction:column; width:auto; max-width:none; min-width:0; }
 .improve-setting-trigger { width:100%; box-sizing:border-box; max-width:100%; justify-content:space-between; gap:8px; }
 .improve-setting-label { margin:4px 0 12px; color:#ede5d4; font-size:18px; font-weight:400; line-height:1.22; text-align:center; }

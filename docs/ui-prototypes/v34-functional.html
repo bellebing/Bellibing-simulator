@@ -209,6 +209,18 @@
 .simulate-echo-slots{grid-column:2/4;grid-row:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:10px;min-width:0}
 .simulate-echo-slot{height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:0 10px 6px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);cursor:pointer}
 .simulate-echo-slot.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}
+.simulate-modes .is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.12);color:#f0d796}
+.simulate-result-echo{box-sizing:border-box;overflow:auto;padding:10px;display:grid;align-content:start;gap:6px}
+.simulate-result-echo .simulate-roll-title{font-family:var(--font-display);font-size:18px;text-align:center;color:#e0c78f;line-height:1.2}
+.simulate-result-echo .simulate-roll-art{height:76px;width:100%;object-fit:contain;filter:drop-shadow(0 7px 10px rgba(0,0,0,.36))}
+.simulate-result-echo .simulate-roll-meta{font-size:10px;text-align:center;color:#a9b0ba}
+.simulate-result-echo .simulate-roll-stats{display:grid;gap:4px;margin:4px 0 0}
+.simulate-result-echo .simulate-roll-stats>div{display:flex;justify-content:space-between;gap:7px;font-size:10px;line-height:1.35}
+.simulate-result-echo .simulate-roll-stats dt{min-width:0;color:#b1b8c1;overflow-wrap:anywhere}
+.simulate-result-echo .simulate-roll-stats dd{margin:0;color:#e0c78f;font-variant-numeric:tabular-nums;white-space:nowrap}
+.simulate-result-echo .simulate-roll-feedback{font-size:11px;color:#a5acb7;line-height:1.45;overflow-wrap:anywhere;margin:6px 0;text-align:center}
+.simulate-result-echo .simulate-roll-feedback[data-error="true"]{color:#e7aa9b}
+
 .simulate-echo-slot:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
 .simulate-selected-label{display:grid;place-items:center;height:100%;font-family:var(--font-display);font-size:20px;color:#d8bc7d}
 .simulate-slot-actions{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.13);padding-top:5px}
@@ -563,13 +575,13 @@
             <dl class="simulate-summary">
               <div><dt>ATK</dt><dd>—</dd></div><div><dt>CRIT Rate</dt><dd>—</dd></div><div><dt>CRIT DMG</dt><dd>—</dd></div><div><dt>Energy Regen</dt><dd>—</dd></div><div><dt>Heavy Attack DMG</dt><dd>—</dd></div>
             </dl>
-            <button class="improve-helper-action simulate-start" type="button" disabled>Simulate</button>
+            <button class="improve-helper-action simulate-start" type="button">Simulate</button>
             <h3 class="simulate-used">Used</h3>
             <dl class="simulate-summary simulate-resources"><div><dt>Echoes</dt><dd>—</dd></div><div><dt>Tuners</dt><dd>—</dd></div><div><dt>EXP Tubes</dt><dd>—</dd></div></dl>
           </section>
           <section class="simulate-result" aria-label="Result presentation">
-            <div class="simulate-modes" role="group" aria-label="Simulation mode"><button class="improve-helper-action" type="button" disabled>1 Slot</button><button class="improve-helper-action" type="button" disabled>Full Set</button></div>
-            <div class="simulate-empty-echo" aria-label="Result Echo"></div>
+            <div class="simulate-modes" role="group" aria-label="Simulation mode"><button class="improve-helper-action is-selected" type="button" aria-pressed="true">1 Slot</button><button class="improve-helper-action" type="button" aria-pressed="false" disabled>Full Set</button></div>
+            <div class="simulate-empty-echo simulate-result-echo" aria-label="Result Echo" role="status" aria-live="polite"></div>
           </section>
         </section>
         <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot is-selected" role="button" tabindex="0" aria-label="Select Echo slot 1" aria-pressed="true"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
@@ -694,6 +706,8 @@
 <script src="./assets/character-build-card.js"></script>
 <script type="module">
 import * as forteModel from './assets/forte-ui.mjs';
+import { generateSingleEchoCandidate } from './assets/echo-single-attempt.mjs';
+window.bellibingGenerateSingleEchoCandidate=generateSingleEchoCandidate;
 window.bellibingForte=forteModel;
 window.dispatchEvent(new Event('bellibing-forte-ready'));
 import { projectStaticBuildStats } from './assets/build-stats/projection.mjs';
@@ -2068,17 +2082,112 @@ function projectImproveCurrentStats(name){
   }
   next.onclick=()=>showImproveCard(1);previous.onclick=()=>showImproveCard(0);
 }
-// Card 2 slot focus is presentation-only; it never touches equipped Echoes or the simulator.
+// Card 2 has exactly one live attempt per selected slot. Neither candidate
+// observations nor a generated result are equipped or evaluated.
 {
   const slots=[...document.querySelectorAll('#improveEmptyCard .simulate-echo-slot')];
   const label=document.getElementById('simulateSelectedEchoLabel');
+  const result=document.querySelector('.simulate-result-echo');
+  const simulate=document.querySelector('.simulate-start');
+  const oneSlot=document.querySelector('.simulate-modes button:first-child');
+  let selectedIndex=0, usedSessionId=null, message='', messageIsError=false;
+  let usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
+  const append=(host,tag,content,className)=>{
+    const node=document.createElement(tag);node.textContent=content;if(className)node.className=className;host.appendChild(node);return node;
+  };
+  function syncSession(){
+    const session=improveUi.simulator;
+    if(session?.id!==usedSessionId){
+      usedSessionId=session?.id||null;message='';messageIsError=false;
+      usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
+    }
+  }
+  function renderResult(){
+    syncSession();result.replaceChildren();
+    const slot=improveUi.simulator?.slots[selectedIndex]?.candidate?.card;
+    const item=slot&&echoById.get(slot.echoId);
+    if(item&&slot?.rank===5&&slot.level===5&&slot.substats?.length===1){
+      append(result,'div',item.name,'simulate-roll-title');
+      const art=document.createElement('img');art.className='simulate-roll-art';art.src=item.artSrc;art.alt='';art.draggable=false;result.append(art);
+      const sonata=echoSonataById.get(slot.selectedSonataSetId);
+      append(result,'div','Echo '+(selectedIndex+1)+' · COST '+item.cost+' · Rank 5 · +5' +(sonata?' · '+sonata.name:''),'simulate-roll-meta');
+      const stats=append(result,'dl','','simulate-roll-stats');
+      for(const stat of [slot.mainStat,slot.secondaryMainStat,...slot.substats]){
+        if(!stat)continue;
+        const row=document.createElement('div');append(row,'dt',stat.name);append(row,'dd',echoStatValueText(stat.name,stat.value));stats.append(row);
+      }
+      append(result,'p','One verified +5 roll. Evaluation / acceptance Pending.','simulate-roll-feedback');
+    } else {
+      const pending=slot?'Candidate already selected. Further progression Pending.':message||'Select a slot and simulate one Echo.';
+      const feedback=append(result,'p',pending,'simulate-roll-feedback');
+      feedback.dataset.error=String(messageIsError);
+    }
+    const numbers=document.querySelectorAll('.simulate-resources dd');
+    numbers[0].textContent=usage.echoes?'×'+usage.echoes:'—';
+    numbers[1].textContent=usage.tuners?'×'+usage.tuners:'—';
+    const tubeUsed=Object.entries(usage.tubes).filter(([,count])=>count>0)
+      .map(([id,count])=>({premium:'Gold',advanced:'Purple',medium:'Blue',basic:'Green'}[id]+' ×'+count));
+    numbers[2].textContent=tubeUsed.length?tubeUsed.join(' · '):'—';
+    simulate.disabled=!!slot;
+    simulate.setAttribute('aria-label','Simulate one Echo for slot '+(selectedIndex+1));
+    oneSlot.setAttribute('aria-pressed','true');
+  }
   function selectPresentationSlot(index){
+    selectedIndex=index;message='';messageIsError=false;
     slots.forEach((slot,position)=>{
       const selected=position===index;
       slot.classList.toggle('is-selected',selected);
       slot.setAttribute('aria-pressed',String(selected));
     });
-    label.textContent='Echo '+(index+1);
+    label.textContent='Echo '+(index+1);renderResult();
+  }
+  function attempt(){
+    syncSession();
+    const fail=reason=>{message=reason;messageIsError=true;renderResult();};
+    if(IMPROVE_LAYOUT_PREVIEW||!improveUi.characterId||!improveUi.characterName){fail('Pending: select an owned Character with verified Echo data.');return;}
+    const model=window.bellibingEchoSimulator, resources=window.bellibingResourceInventory;
+    if(!model||!window.bellibingGenerateSingleEchoCandidate||!resources?.commitSingleAttempt
+      ||!echoDataLoaded||!echoStatContract){fail('Pending: Echo Core, Resources or Echo catalog not ready.');return;}
+    const profile=echoLoadoutByCharacterId.get(improveUi.characterId);
+    const cost=profile?.slotCosts?.[selectedIndex];
+    if(![1,3,4].includes(cost)||!Array.isArray(profile?.sonataSetIds)||!profile.sonataSetIds.length){
+      fail('Pending: no reviewed Echo template for this Character and slot.');return;
+    }
+    const item=echoCatalog.find(e=>e.cost===cost&&e.sonataSetIds.some(id=>profile.sonataSetIds.includes(id)));
+    const sonata=item?.sonataSetIds.find(id=>profile.sonataSetIds.includes(id));
+    if(!item||!sonata){fail('Pending: no source-backed Echo identity for this slot.');return;}
+    try{
+      let session=improveUi.simulator;
+      if(session&&session.source.characterId!==improveUi.characterId)
+        throw new Error('Simulator Character context changed. Restart before spending.');
+      if(!session)session=model.startEchoSimulator(improveUi.characterId,improveBuildState(improveUi.characterName),crypto.randomUUID());
+      session=model.selectSimulatorSlot(session,selectedIndex+1);
+      if(session.slots[selectedIndex].candidate)throw new Error('This slot already has one candidate. Further attempts Pending.');
+      const initial=makeEchoStatCard(item,sonata);
+      const level5=echoMainOptions(cost,5).find(stat=>stat.name===initial.mainStat.name);
+      const secondary=echoSecondary(cost,5);
+      if(!level5||!secondary)throw new Error('Pending: exact +5 main-stat progression is unavailable.');
+      const inventory=resources.getState();
+      // Canonical RNG samples each stat type and tier; never use sample stats.
+      const rng={next(){return crypto.getRandomValues(new Uint32Array(1))[0]/4294967296;}};
+      const outcome=window.bellibingGenerateSingleEchoCandidate(inventory,initial,
+        {mainStat:level5,secondaryMainStat:secondary},rng);
+      const validated=validateEchoStatCard({...outcome.candidate,echoId:item.id,sonataSetIds:[...item.sonataSetIds],selectedSonataSetId:sonata},item);
+      if(validated)throw new Error('Generated Echo did not satisfy the verified card contract: '+validated);
+      const candidate={...outcome.candidate,echoId:item.id,sonataSetIds:[...item.sonataSetIds],selectedSonataSetId:sonata};
+      const staged=model.recordSimulatorCheckpoint(model.startSimulatorCandidate(session,initial),candidate);
+      // The only side effect is a CAS write to the shared user-owned budget.
+      resources.commitSingleAttempt(inventory,outcome.after);
+      improveUi.simulator=staged;
+      improveUi.selectedEchoIndex=selectedIndex;
+      improveUi.contextVersion++;
+      usedSessionId=staged.id;
+      usage.echoes+=outcome.spent.echoes;usage.tuners+=outcome.spent.tuners;
+      for(const id of Object.keys(usage.tubes))usage.tubes[id]+=outcome.spent.tubes[id];
+      message='';messageIsError=false;
+      improveUi.render();
+      renderResult();
+    }catch(error){fail(error?.message||'Pending: this candidate could not be funded.');}
   }
   slots.forEach((slot,index)=>{
     slot.addEventListener('click',event=>{
@@ -2090,6 +2199,10 @@ function projectImproveCurrentStats(name){
       }
     });
   });
+  simulate.addEventListener('click',attempt);
+  oneSlot.addEventListener('click',()=>oneSlot.setAttribute('aria-pressed','true'));
+  window.bellibingRenderSingleSlot=renderResult;
+  renderResult();
 }
 const improveUi={
   characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,simulator:null,
@@ -2128,7 +2241,7 @@ const improveUi={
     const slots=improveWorkspaceSlots(name),previewIndex=IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER?IMPROVE_PREVIEW_ECHO_NAMES.indexOf(IMPROVE_PREVIEW_SELECTED_ECHO):-1;
     window.bellibingImproveSettings?.setCharacter(this.characterId);
     this.selectedEchoIndex=previewIndex>=0?previewIndex:Math.max(0,slots.findIndex(slot=>echoById.has(echoSlotId(slot))));
-    this.render();
+    this.render();window.bellibingRenderSingleSlot?.();
   },
   currentWeapon(){
     const build=improveWorkspaceBuild(this.characterName);

@@ -1,4 +1,4 @@
-import { readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
+import { emptyResourceInventory, readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type {
@@ -9,6 +9,24 @@ import type { projectImproveSettingsSources } from './improveSettingsProjection.
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
+// Web Locks serializes all same-origin tabs across the entire shared v3 envelope.
+// Never substitute localStorage CAS, a timeout lease or an uncoordinated fallback.
+let exclusiveImproveWriter = false;
+export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Promise<T> {
+  if (typeof navigator === 'undefined' || !navigator.locks || typeof navigator.locks.request !== 'function')
+    throw new Error('Safe cross-tab Improve storage coordination unavailable.');
+  return navigator.locks.request(IMPROVE_POLICY_STORAGE_KEY, { mode: 'exclusive' }, lock => {
+    if (!lock || exclusiveImproveWriter) throw new Error('Exclusive Improve storage lock unavailable.');
+    exclusiveImproveWriter = true;
+    try { return write(); } finally { exclusiveImproveWriter = false; }
+  });
+}
+/** Test storage adapters remain synchronous; native browser envelope writes do not. */
+export function assertExclusiveImprovePolicyWriter(storage: ImprovePolicyStorageAccess): void {
+  if (typeof window !== 'undefined' && storage === window.localStorage && !exclusiveImproveWriter)
+    throw new Error('Exclusive Improve storage lock required.');
+}
+
 export type ImproveGate = 5 | 10 | 15 | 20 | 25;
 export type ImproveRollQuality = 'All Rolls' | 'Mid+' | 'High+';
 export type PolicyOverrideSections = Pick<ImprovePolicyOverrides,
@@ -41,6 +59,8 @@ export interface ImproveEchoLayout {
   readonly minimums: Readonly<Partial<Record<StatName, number>>>;
 }
 export interface ImprovePolicyState {
+  /** User-owned Sonata filters only; never slot distribution, effects or equipment. */
+  readonly selectedSonataSetIds?: readonly string[];
   readonly echoLayout?: ImproveEchoLayout;
   readonly schemaVersion: 3;
   readonly characterId: string;
@@ -59,7 +79,13 @@ export interface ImprovePolicyCompatibility {
   readonly suspendedSections: readonly PolicyOverrideSection[];
   readonly reasons: readonly string[];
 }
+export interface ResourceTransactionHistory {
+  readonly revision: number;
+  readonly consumedIds: readonly string[];
+}
 export interface ImprovePolicyStorage {
+  /** Same envelope as inventory: replay guard must survive reload and settings saves. */
+  readonly resourceTransactions?: ResourceTransactionHistory;
   /** Shared user budget, independent of Character policy and simulator sessions. */
   readonly resourceInventory?: ResourceInventory;
   readonly version: 3;
@@ -82,6 +108,11 @@ const positiveInteger = (value: unknown): boolean => typeof value === 'number' &
 const unique = (rows: readonly unknown[], key: string): boolean => new Set(rows.map(row => record(row)[key])).size === rows.length;
 const list = (value: unknown, valid: (row: Record<string, unknown>) => boolean, key: string): boolean =>
   Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
+
+function validSonataSelection(value: unknown): value is readonly string[] {
+  return Array.isArray(value) && value.every(id => typeof id === 'string' && /^sonata-[1-9][0-9]*$/.test(id))
+    && new Set(value).size === value.length;
+}
 
 function validEchoLayout(value: unknown): value is ImproveEchoLayout {
   const layout = record(value);
@@ -176,6 +207,7 @@ function resumeMigration(state: ImprovePolicyState, recommended: ResolvedImprove
 export type ImprovePolicyAction =
   | { readonly type: 'mode'; readonly value: ImprovePolicyMode }
   | { readonly type: 'reset' }
+  | { readonly type: 'sonatas'; readonly value: readonly string[] }
   | { readonly type: 'layout'; readonly value: ImproveEchoLayout }
   | { readonly type: 'gate'; readonly value: ImproveGate }
   | { readonly type: 'quality'; readonly value: ImproveRollQuality }
@@ -188,6 +220,10 @@ export type ImprovePolicyAction =
 export function updateImprovePolicyState(state: ImprovePolicyState, action: ImprovePolicyAction,
   recommended: ResolvedImprovePolicy): ImprovePolicyState {
   if (recommended.characterId !== state.characterId) throw new Error('Policy Character mismatch.');
+  if (action.type === 'sonatas') {
+    if (!validSonataSelection(action.value)) throw new Error('Invalid Sonata selection.');
+    return { ...state, selectedSonataSetIds: [...action.value] };
+  }
   if (action.type === 'gate') return gate(action.value) === action.value ? { ...state, gate: action.value } : state;
   if (action.type === 'quality') return quality(action.value) === action.value ? { ...state, rollQuality: action.value } : state;
   if (action.type === 'reset' || action.type === 'mode' && action.value === 'RECOMMENDED') {
@@ -287,10 +323,24 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
 function savedIntent(state: ImprovePolicyState): ImprovePolicyState {
   const overrides: Record<string, unknown> = {};
   if (state.mode === 'MANUAL') for (const key of sections) if (own(state.overrides, key)) overrides[key] = structuredClone(state.overrides[key]);
-  return { schemaVersion: 3, characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
+  return { schemaVersion: 3,
+    ...(state.selectedSonataSetIds === undefined ? {} : { selectedSonataSetIds: [...state.selectedSonataSetIds] }),
+    characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
     ...(state.mode === 'MANUAL' && state.echoLayout !== undefined ? { echoLayout: structuredClone(state.echoLayout) } : {}),
     mode: state.mode, overrides: overrides as PolicyOverrideSections, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
     migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
+}
+function readResourceTransactions(value: unknown): ResourceTransactionHistory {
+  const row = record(value);
+  if (Object.keys(row).sort().join() !== 'consumedIds,revision'
+    || typeof row.revision !== 'number' || !Number.isSafeInteger(row.revision) || (row.revision as number) < 0
+    || !Array.isArray(row.consumedIds)
+    || !row.consumedIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id))
+    || new Set(row.consumedIds).size !== row.consumedIds.length
+    || row.consumedIds.length !== row.revision) {
+    throw new Error('Saved resource transaction history needs review.');
+  }
+  return { revision: row.revision as number, consumedIds: [...row.consumedIds] };
 }
 export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
   const raw = storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
@@ -299,6 +349,7 @@ export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): I
     // Never replace an unknown/corrupt new envelope with v2 or fabricated defaults.
     if (saved.version !== 3) throw new Error('Unsupported Improve policy storage version.');
     return { version: 3,
+      ...(own(saved, 'resourceTransactions') ? { resourceTransactions: readResourceTransactions(saved.resourceTransactions) } : {}),
       ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
       characters: structuredClone(record(saved.characters)) as Record<string, ImprovePolicyState>,
       pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
@@ -333,6 +384,7 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
   if (saved) {
     // The rejected card model is not legacy Flex intent. Never reinterpret or overwrite it.
     if (own(record(saved.overrides), 'echoCards')) throw new Error('Retired Echo card settings need review; recovery data retained.');
+    if (saved.selectedSonataSetIds !== undefined && !validSonataSelection(saved.selectedSonataSetIds)) throw new Error('Invalid saved Sonata selection.');
     if (saved.echoLayout !== undefined && !validEchoLayout(saved.echoLayout)) throw new Error('Invalid saved Echo row layout.');
     if (saved.schemaVersion !== 3 || saved.characterId !== characterId
       || !['RECOMMENDED', 'MANUAL'].includes(saved.mode) || saved.overrides === null || typeof saved.overrides !== 'object'
@@ -351,9 +403,16 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
 }
 export function persistImprovePolicyState(store: ImprovePolicyStorage, state: ImprovePolicyState,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
-  const pendingV2Characters = { ...store.pendingV2Characters }; delete pendingV2Characters[state.characterId];
-  const next: ImprovePolicyStorage = { ...store, version: 3,
-    characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
+  assertExclusiveImprovePolicyWriter(storage);
+  // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
+  const live = loadImprovePolicyStorage(storage);
+  // Only merge unrelated Character edits; a concurrent edit to this Character must not be lost.
+  if (JSON.stringify(store.characters[state.characterId] ?? null) !== JSON.stringify(live.characters[state.characterId] ?? null)
+    || JSON.stringify(store.pendingV2Characters[state.characterId] ?? null) !== JSON.stringify(live.pendingV2Characters[state.characterId] ?? null))
+    throw new Error('Stale Improve settings; reload before editing.');
+  const pendingV2Characters = { ...live.pendingV2Characters }; delete pendingV2Characters[state.characterId];
+  const next: ImprovePolicyStorage = { ...live, version: 3,
+    characters: { ...live.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
   // Write before returning the new immutable store; failure cannot mark a save committed.
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return next;
@@ -362,7 +421,15 @@ export function persistImprovePolicyState(store: ImprovePolicyStorage, state: Im
 /** Same user-owned envelope and write-before-commit recovery discipline as settings. */
 export function persistResourceInventory(store: ImprovePolicyStorage, inventory: ResourceInventory,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
-  const next = { ...store, resourceInventory: readResourceInventory(inventory) };
+  assertExclusiveImprovePolicyWriter(storage);
+  const live = loadImprovePolicyStorage(storage);
+  const previous = readResourceInventory(store.resourceInventory ?? { ...emptyResourceInventory() });
+  const current = readResourceInventory(live.resourceInventory ?? { ...emptyResourceInventory() });
+  if (JSON.stringify(previous) !== JSON.stringify(current)
+    || (store.resourceTransactions?.revision ?? 0) !== (live.resourceTransactions?.revision ?? 0)) {
+    throw new Error('Stale shared resource inventory; reload before editing.');
+  }
+  const next = { ...live, resourceInventory: readResourceInventory(inventory) };
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return next;
 }

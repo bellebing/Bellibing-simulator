@@ -18,7 +18,8 @@ export function publicSettingsView(state, resolved) {
         ...(state.overrides.echoRequirements === undefined ? {} : { echoRequirements: requirements(state.overrides.echoRequirements) }),
         ...(state.overrides.echoPreferences === undefined ? {} : { echoPreferences: rows(state.overrides.echoPreferences, ['stat', 'priorityGroup', 'minimum']) }),
     };
-    return { schemaVersion: state.schemaVersion, characterId: state.characterId, presetId: state.presetId,
+    return { ...(state.selectedSonataSetIds === undefined ? {} : { selectedSonataSetIds: [...state.selectedSonataSetIds] }),
+        schemaVersion: state.schemaVersion, characterId: state.characterId, presetId: state.presetId,
         contextBinding: state.contextBinding, ...(state.echoLayout === undefined ? {} : { echoLayout: structuredClone(state.echoLayout) }), mode: state.mode, gate: state.gate, rollQuality: state.rollQuality,
         migration: state.migration ? { status: state.migration.status, reason: state.migration.reason } : null,
         overrides, compatibility: structuredClone(resolved.compatibility),

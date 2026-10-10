@@ -384,10 +384,76 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
+        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/echoSingleSlotV1.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
+
+      - name: Resource Inventory and Character stat focused regression
+        run: node --experimental-strip-types --test test/resourceInventory.test.ts test/echoExactTubeSpending.test.ts test/echoResourceTransaction.test.ts test/improveCrossTabLock.test.ts test/characterTargetPresentation.test.ts
 
       - name: Strict web build / generated parity
         run: npm run build
+
+      - name: BUG-045 real two-tab Chromium transaction and recovery gate
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-resources.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 0.25
+          done
+          node scripts/verify-improve-cross-tab.mjs
+
+      - name: Single-slot V1 1440x900 focused Chromium (GitHack-relative and built)
+        env:
+          BELLIBING_VERIFY_MOBILE: "0"
+          BELLIBING_SINGLE_SLOT_ONLY: "1"
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-v1-built.log 2>&1 &
+          built_pid=$!
+          python3 -m http.server 4174 --directory . >/tmp/bellibing-v1-source.log 2>&1 &
+          source_pid=$!
+          trap 'kill $built_pid $source_pid' EXIT
+          for port in 4173 4174; do
+            for attempt in {1..20}; do
+              if curl --fail --silent "http://127.0.0.1:$port/" >/dev/null; then break; fi
+              sleep 0.25
+            done
+          done
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9691 node scripts/verify-v34-echo-workspace.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9692 node scripts/verify-v34-echo-workspace.mjs
+
+      - name: Focused 1440x900 Settings Chromium (GitHack-relative and built)
+        env:
+          BELLIBING_SETTINGS_FOCUSED: "1"
+          BELLIBING_VERIFY_MOBILE: "0"
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-settings-built.log 2>&1 &
+          built_pid=$!
+          python3 -m http.server 4174 --directory . >/tmp/bellibing-settings-source.log 2>&1 &
+          source_pid=$!
+          trap 'kill $built_pid $source_pid' EXIT
+          for port in 4173 4174; do
+            for attempt in {1..20}; do
+              if curl --fail --silent "http://127.0.0.1:$port/" >/dev/null; then break; fi
+              sleep 0.25
+            done
+          done
+          BELLIBING_V34_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9695 node scripts/verify-v34-settings-shell.mjs
+          BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
+            BELLIBING_V34_ECHO_DEBUG_PORT=9696 node scripts/verify-v34-settings-shell.mjs
+
+      - name: Upload 1440x900 Settings visual review captures
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-settings-visual-1440x900
+          path: |
+            artifacts/ui-preview-improve-settings-*-1440x900-*.png
+            artifacts/ui-preview-resources-*-1440x900-*.png
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Exact-head artifact identity
         env:

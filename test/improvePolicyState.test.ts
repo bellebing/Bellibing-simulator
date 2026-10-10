@@ -290,7 +290,8 @@ test('storage persists intent only, returns detached state, and failed writes ne
   const read = readImprovePolicyState(next, 'augusta', recommended);
   read.overrides.echoPreferences[0].priorityGroup = 99;
   assert.equal(next.characters.augusta.overrides.echoPreferences?.[0].priorityGroup, 1);
-  assert.throws(() => persistImprovePolicyState(store, manual(), { getItem: storage.getItem, setItem: () => { throw new Error('quota'); } }), /quota/);
+  assert.throws(() => persistImprovePolicyState(next, manual(), { getItem: storage.getItem, setItem: () => { throw new Error('quota'); } }), /quota/);
+  assert.equal(storage.getItem(IMPROVE_POLICY_STORAGE_KEY), raw, 'failed write retains committed bytes');
   assert.deepEqual(store.characters, {});
 });
 

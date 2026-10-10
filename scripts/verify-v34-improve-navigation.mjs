@@ -131,7 +131,9 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await click('#improveCardNext');
   await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0','fresh finite-zero boundary');
   await click('.simulate-start');
-  await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0&&document.querySelector(".simulate-result-echo").textContent.includes("No Echoes available")','zero inventory must not roll or spend');
+  const zeroProbe=await read(`({simulator:!!improveUi.simulator,inventory:window.bellibingResourceInventory?.getState(),result:document.querySelector('.simulate-result-echo')?.textContent,characterId:improveUi.characterId,model:!!window.bellibingEchoSimulator,credits:window.bellibingSingleEchoShellCredits})`);
+  console.log('Single-slot zero-budget physical probe:',JSON.stringify(zeroProbe));
+  await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0','zero inventory must not roll or spend');
   await read(`(()=>{
     window.__realBeforeSingle=JSON.stringify(state.drafts.Augusta.build);
     const change=(id,value)=>{const input=document.querySelector('[data-resource="'+id+'"] input');input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));};

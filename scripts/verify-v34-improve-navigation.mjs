@@ -130,8 +130,10 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   // but no public user Resource Inventory / transaction for that currency exists.
   await click('#improveCardNext');
   await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0','fresh finite-zero boundary');
+  const targetProbe=await read(`(()=>{const el=document.querySelector('.simulate-start'),r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);window.__v1Clicks=0;el.addEventListener('click',()=>window.__v1Clicks++);return {disabled:el.disabled,rect:{x:r.x,y:r.y,width:r.width,height:r.height},hit:hit?.outerHTML.slice(0,200),hitInside:el===hit||el.contains(hit),pointer:getComputedStyle(el).pointerEvents}})()`);
+  console.log('Single-slot pointer target probe:',JSON.stringify(targetProbe));
   await click('.simulate-start');
-  const zeroProbe=await read(`({simulator:!!improveUi.simulator,inventory:window.bellibingResourceInventory?.getState(),result:document.querySelector('.simulate-result-echo')?.textContent,characterId:improveUi.characterId,model:!!window.bellibingEchoSimulator,credits:window.bellibingSingleEchoShellCredits})`);
+  const zeroProbe=await read(`({simulator:!!improveUi.simulator,inventory:window.bellibingResourceInventory?.getState(),result:document.querySelector('.simulate-result-echo')?.textContent,clicks:window.__v1Clicks,characterId:improveUi.characterId,model:!!window.bellibingEchoSimulator,credits:window.bellibingSingleEchoShellCredits})`);
   console.log('Single-slot zero-budget physical probe:',JSON.stringify(zeroProbe));
   await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0','zero inventory must not roll or spend');
   await read(`(()=>{

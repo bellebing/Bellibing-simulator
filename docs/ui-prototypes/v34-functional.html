@@ -207,7 +207,10 @@
 .simulate-result{min-width:0}.simulate-modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;height:34px}
 .simulate-modes .improve-helper-action{min-width:0;margin:0;padding:5px;font-size:11px}
 .simulate-echo-slots{grid-column:2/4;grid-row:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:10px;min-width:0}
-.simulate-echo-slot{height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:0 10px 6px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022)}
+.simulate-echo-slot{height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:0 10px 6px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);cursor:pointer}
+.simulate-echo-slot.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}
+.simulate-echo-slot:focus-visible{outline:2px solid #d8b568;outline-offset:3px}
+.simulate-selected-label{display:grid;place-items:center;height:100%;font-family:var(--font-display);font-size:20px;color:#d8bc7d}
 .simulate-slot-actions{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.13);padding-top:5px}
 .simulate-slot-actions button{border:0;background:transparent;padding:3px 2px;font-size:10px;color:#79c89c}
 .simulate-slot-actions button+button{border-left:1px solid rgba(255,255,255,.13);color:#e37b7b}
@@ -554,7 +557,7 @@
       </header>
       <div id="improveEmptyCard" class="improve-empty-card improve-build-card improve-surface" aria-label="Simulate Echo Set workspace">
         <section class="simulate-workspace" aria-label="Echo presentation workspace">
-          <div class="simulate-empty-echo" aria-label="Echo being worked on"></div>
+          <div class="simulate-empty-echo" aria-label="Echo being worked on"><span id="simulateSelectedEchoLabel" class="simulate-selected-label">Echo 1</span></div>
           <section class="simulate-controls" aria-label="Simulation presentation controls">
             <h3>Simulated</h3>
             <dl class="simulate-summary">
@@ -569,11 +572,11 @@
             <div class="simulate-empty-echo" aria-label="Result Echo"></div>
           </section>
         </section>
-        <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot" aria-label="Echo slot 1"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" aria-label="Echo slot 2"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" aria-label="Echo slot 3"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" aria-label="Echo slot 4"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" aria-label="Echo slot 5"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article></section>
+        <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot is-selected" role="button" tabindex="0" aria-label="Select Echo slot 1" aria-pressed="true"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 2" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 3" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 4" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 5" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article></section>
       </div>
     </section>
   </div>
@@ -2064,6 +2067,29 @@ function projectImproveCurrentStats(name){
     (index===0?next:previous).focus({preventScroll:true});
   }
   next.onclick=()=>showImproveCard(1);previous.onclick=()=>showImproveCard(0);
+}
+// Card 2 slot focus is presentation-only; it never touches equipped Echoes or the simulator.
+{
+  const slots=[...document.querySelectorAll('#improveEmptyCard .simulate-echo-slot')];
+  const label=document.getElementById('simulateSelectedEchoLabel');
+  function selectPresentationSlot(index){
+    slots.forEach((slot,position)=>{
+      const selected=position===index;
+      slot.classList.toggle('is-selected',selected);
+      slot.setAttribute('aria-pressed',String(selected));
+    });
+    label.textContent='Echo '+(index+1);
+  }
+  slots.forEach((slot,index)=>{
+    slot.addEventListener('click',event=>{
+      if(!event.target.closest('.simulate-slot-actions'))selectPresentationSlot(index);
+    });
+    slot.addEventListener('keydown',event=>{
+      if(event.target===slot&&(event.key==='Enter'||event.key===' ')){
+        event.preventDefault();selectPresentationSlot(index);
+      }
+    });
+  });
 }
 const improveUi={
   characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,simulator:null,

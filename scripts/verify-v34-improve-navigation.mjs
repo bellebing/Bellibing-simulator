@@ -17,7 +17,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await read('document.fonts.ready');
   await check(`document.getElementById('improveCharacterPageTitle').textContent==='Improve your character'&&document.getElementById('improveSimulationPageTitle').textContent==='Simulate Echo Set'`,'exact titles');
   await check(`document.querySelector('#improveCharacterPage .improve-card-arrow').disabled&&!document.getElementById('improveCardNext').disabled&&!document.getElementById('improveCardPrevious').disabled&&document.querySelector('#improveSimulationPage .improve-card-arrow:last-child').disabled`,'native endpoint disabled states');
-  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings,img:not(.improve-truth img,.improve-stats img)')})()`,'five selectable slots, active one-slot mode, Pending result and eleven disabled controls');
+  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&host.querySelector('#simulateEchoPreview').tagName==='DIV'&&host.querySelector('#simulateEditEcho').textContent==='Edit Echo'&&host.querySelector('#simulateEchoPreview').textContent.includes('Empty Echo Slot')&&!host.querySelector('#simulateTemplatePicker')&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings,img:not(.improve-truth img,.improve-stats img)')})()`,'five selectable slots, active one-slot mode, Pending result and eleven disabled controls');
   const sameCharacter=async()=>{
     await check(`(()=>{const original=document.getElementById('improveBuildCard'),second=document.getElementById('improveEmptyCard');return ['.improve-truth','.improve-stats'].every(selector=>original.querySelector(selector).outerHTML===second.querySelector(selector).outerHTML.replaceAll('simulate-',''))})()`,'same rendered Character name/art, Sequence, Weapon, Forte and canonical stat values');
     await check(`(()=>{const second=document.getElementById('improveEmptyCard');return [...second.querySelectorAll('[id]')].every(n=>document.querySelectorAll('[id="'+n.id+'"]').length===1)&&[...second.querySelectorAll('*')].every(n=>[...n.attributes].every(a=>[...a.value.matchAll(/url\\((['"]?)#([^)'"\\s]+)\\1\\)/g)].every(match=>second.querySelector('[id="'+match[2]+'"]'))))})()`,'unique DOM/SVG IDs and valid local Forte gradient/filter references');
@@ -90,34 +90,93 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await click('.simulate-echo-slot:nth-child(3)');await selectedCheck(3);
   await capture(send,'artifacts/ui-preview-simulate-layout-slots-1440x900.png');
   await read(`document.querySelector('.simulate-workspace').scrollIntoView({block:'center',behavior:'instant'})`);await sleep(100);
-  await check(`(()=>{const host=document.getElementById('improveEmptyCard'),a=host.querySelector('.simulate-workspace > .simulate-empty-echo').getBoundingClientRect(),controls=host.querySelector('.simulate-controls').getBoundingClientRect(),modes=host.querySelector('.simulate-modes').getBoundingClientRect(),b=host.querySelector('.simulate-result .simulate-empty-echo').getBoundingClientRect(),stats=host.querySelector('.improve-stats').getBoundingClientRect();return a.top>=0&&b.top>=0&&a.bottom<=900&&b.bottom<=900&&a.height===330&&b.height===330&&Math.abs(a.width-b.width)<.1&&stats.right<a.left&&a.right<controls.left&&controls.right<b.left&&modes.bottom<=b.top&&Math.abs(a.top-b.top)<.1})()`,'large central/result cards visible with controls between and modes above result, no overlap');
+  await check(`(()=>{const host=document.getElementById('improveEmptyCard'),a=host.querySelector('.simulate-setup-column > .simulate-empty-echo').getBoundingClientRect(),controls=host.querySelector('.simulate-controls').getBoundingClientRect(),modes=host.querySelector('.simulate-modes').getBoundingClientRect(),b=host.querySelector('.simulate-result .simulate-empty-echo').getBoundingClientRect(),stats=host.querySelector('.improve-stats').getBoundingClientRect();return a.top>=0&&b.top>=0&&a.bottom<=900&&b.bottom<=900&&a.height===330&&b.height===330&&Math.abs(a.width-b.width)<.1&&stats.right<a.left&&a.right<controls.left&&controls.right<b.left&&modes.bottom<=b.top&&Math.abs(a.top-b.top)<.1})()`,'large central/result cards visible with controls between and modes above result, no overlap');
   await capture(send,'artifacts/ui-preview-simulate-layout-workspace-1440x900.png');
-  // Physical canonical identity selection: templates never touch Build or Resources.
-  const templateSnapshot=await read(snapshot);
+  // Physical Echo Workshop workflow: full validated stat cards, no Build writes.
+  const preparedSnapshot=await read(snapshot);
   const identities=await read('(()=>{const found={};for(const item of echoCatalog)if(!found[item.cost])found[item.cost]=item.id;return found})()');
-  for(const cost of [1,3,4])if(!identities[cost])throw new Error('Missing canonical released Echo for Cost '+cost);
-  const chooseTemplate=async(index,id)=>{
-    await click('.simulate-echo-slot:nth-child('+index+')');
-    await click('#simulateTemplatePicker');
-    await waitForUi(send,'echoUi.open&&echoUi.context.kind==="simulate-template"','Identity-only browser did not open');
-    await check('document.getElementById("echoTitle").textContent.includes("Simulate Setup")&&document.querySelector("#echoWorkspaceSlots").hidden&&document.querySelector(".echo-editor-stats").hidden&&document.querySelector(".echo-preview-sonata-assignment").hidden','browser must remain identity-only');
-    await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
-    await check('echoUi.previewId==='+JSON.stringify(id)+'&&document.getElementById("echoEquip").textContent==="Use Echo"&&echoUi.editorDraft.echoId==='+JSON.stringify(id)+'&&Object.keys(echoUi.editorDraft).length===1','browser must stage identity only');
-    await click('#echoEquip');
-    await waitForUi(send,'!echoUi.open&&!document.getElementById("echoOverlay").classList.contains("mounted")','Identity chooser did not close');
-    const selected=await read('(()=>{const item=echoById.get('+JSON.stringify(id)+'),slot=document.querySelector(".simulate-echo-slot:nth-child('+index+')"),card=document.getElementById("simulateTemplatePicker"),art=slot.querySelector(".simulate-template-art");return slot.dataset.templateEchoId===item.id&&slot.querySelector(".simulate-template-name").textContent===item.name&&slot.querySelector(".simulate-template-cost").textContent==="COST "+item.cost&&art.getAttribute("src")===item.artSrc&&art.complete&&art.naturalWidth>0&&card.dataset.templateEchoId===item.id&&card.querySelector(".simulate-template-name").textContent===item.name&&card.querySelector(".simulate-template-cost").textContent==="COST "+item.cost&&card.querySelector(".simulate-template-art").getAttribute("src")===item.artSrc})()');
-    if(!selected)throw new Error('Real canonical image/name/cost missing in slot '+index);
-    await selectedCheck(index);
-    await check(snapshot+'==='+JSON.stringify(templateSnapshot),'template changed Character, settings, equipment, resources, storage or session');
+  for(const cost of [1,3,4])if(!identities[cost])throw new Error('Missing released canonical Echo Cost '+cost);
+  await check('!document.getElementById("simulateEchoPreview").matches("button,[role=button]")&&document.getElementById("simulateEchoPreview").querySelector(".simulate-preview-empty").textContent==="Empty Echo Slot"','neutral read-only preview');
+  await click('#simulateEchoPreview');
+  await check('!echoUi.open','clicking read-only preview must never launch a picker');
+  const openEditor=async(index)=>{
+    await click('.simulate-echo-slot:nth-child('+index+')');await selectedCheck(index);
+    await click('#simulateEditEcho');
+    await waitForUi(send,'echoUi.open&&echoUi.context.kind==="simulate-setup"','Complete Echo Workshop did not open');
+    await check('document.getElementById("echoTitle").textContent.includes("Echo Workshop")&&document.getElementById("echoWorkspaceSlots").hidden&&!document.querySelector(".echo-editor-stats").hidden&&!document.querySelector(".echo-preview-sonata-assignment").hidden&&getComputedStyle(document.querySelector(".echo-editor-stats")).display!=="none"','must reuse full Echo Workshop with main/substats/Sonata');
   };
-  await chooseTemplate(3,identities[4]);
-  await chooseTemplate(1,identities[1]);
-  await chooseTemplate(3,identities[3]);
-  await check('document.querySelector(".simulate-echo-slot:nth-child(1)").dataset.templateEchoId==='+JSON.stringify(identities[1])+'&&document.querySelector(".simulate-echo-slot:nth-child(3)").dataset.templateEchoId==='+JSON.stringify(identities[3])+'&&[2,4,5].every(n=>!document.querySelector(".simulate-echo-slot:nth-child("+n+")").dataset.templateEchoId)','all five slots are independent');
-  await click('.simulate-echo-slot:nth-child(5)');
-  await check('document.getElementById("simulateTemplatePicker").dataset.templateEchoId===""&&document.getElementById("simulateSelectedEchoLabel").textContent==="Echo 5"','empty fifth slot available');
+  const saveEditor=async()=>{
+    await check('validateEchoStatCard(echoUi.editorDraft,echoById.get(echoUi.previewId))===""','prepared card must pass canonical validation');
+    await check('!document.getElementById("echoEquip").disabled&&document.getElementById("echoEquip").textContent==="Save Echo"','prepared card save is enabled');
+    await click('#echoEquip');
+    await waitForUi(send,'!echoUi.open&&!document.getElementById("echoOverlay").classList.contains("mounted")','Workshop save did not close');
+  };
+  const verifyPrepared=async(index,card)=>{
+    const actual=await read('(()=>{const slot=document.querySelector(".simulate-echo-slot:nth-child('+index+')"),preview=document.getElementById("simulateEchoPreview"),item=echoById.get('+JSON.stringify(card.echoId)+'),stats=[card.mainStat,card.secondaryMainStat,...card.substats].map(stat=>stat.name+" "+echoStatValueText(stat.name,stat.value));return {id:slot.dataset.preparedEchoId,centerId:preview.dataset.preparedEchoId,name:slot.querySelector(".simulate-template-name")?.textContent,cost:slot.querySelector(".simulate-template-cost")?.textContent,art:slot.querySelector(".simulate-template-art")?.getAttribute("src"),loaded:slot.querySelector(".simulate-template-art")?.naturalWidth>0,centerLoaded:preview.querySelector(".simulate-template-art")?.naturalWidth>0,stats:[...preview.querySelectorAll(".simulate-prepared-stats > div")].map(row=>row.textContent),level:preview.querySelector(".simulate-prepared-meta")?.textContent,expected:stats,sonata:echoSonataById.get(card.selectedSonataSetId)?.name}})()');
+    if(actual.id!==card.echoId||actual.centerId!==card.echoId||actual.name!==card.name||actual.cost!=='COST '+card.cost||!actual.loaded||!actual.centerLoaded||!actual.level.includes(actual.sonata)||!actual.level.includes('+'+card.level)||JSON.stringify(actual.stats)!==JSON.stringify(card.stats))throw new Error('Prepared card image/name/COST/Sonata/level/main+substats in slot '+index+': '+JSON.stringify(actual));
+    await check(snapshot+'==='+JSON.stringify(preparedSnapshot),'prepared Echo mutated account, Settings, resources, equipment or session');
+  };
+  const createPrepared=async(index,id)=>{
+    await openEditor(index);
+    await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
+    await check('echoUi.editorDraft.echoId==='+JSON.stringify(id)+'&&echoUi.editorDraft.substats.length===0&&echoUi.editorDraft.level===0&&echoUi.editorDraft.rank===echoStatContract.rank','new Echo must start with canonical Main/secondary only and zero rolls');
+    const card=await read('cloneEchoSlot(echoUi.editorDraft)');
+    await saveEditor();
+    await check('document.querySelector(".simulate-echo-slot:nth-child('+index+')").dataset.preparedEchoId==='+JSON.stringify(id),'prepared slot identity');
+    await selectedCheck(index);
+    return {echoId:id,name:(await read('echoById.get('+JSON.stringify(id)+').name')),cost:(await read('echoById.get('+JSON.stringify(id)+').cost')),level:card.level,selectedSonataSetId:card.selectedSonataSetId,stats:[card.mainStat,card.secondaryMainStat,...card.substats].map(stat=>stat.name+echoStatValueText(stat.name,stat.value))};
+  };
+  // Fill all five slots, with independently owned cards.
+  const cards=[];
+  for(const [index,id] of [[1,identities[1]],[2,identities[3]],[3,identities[4]],[4,identities[1]],[5,identities[3]]]){
+    cards[index-1]=await createPrepared(index,id);
+  }
+  await check('new Set([...document.querySelectorAll(".simulate-echo-slot")].map(n=>n.dataset.preparedEchoId)).size===3','five prepared cards retain three distinct canonical identities');
   await click('.simulate-echo-slot:nth-child(3)');
-  await capture(send,'artifacts/ui-preview-simulate-identities-1440x900.png');
+  // Reopen prepared card. Change Main Stat, Sonata when available, and a real substat/value through the existing combobox controls.
+  await openEditor(3);
+  await check('document.getElementById("echoEquip").textContent==="Saved"&&document.getElementById("echoEquip").disabled','reopening saved slot restores complete validated card');
+  const nextMain=await read('echoMainOptions(echoById.get(echoUi.previewId).cost,0).find(row=>row.name!==echoUi.editorDraft.mainStat.name)?.name||null');
+  if(!nextMain)throw new Error('No alternate canonical Main Stat for Cost 4');
+  await click('#echoMainStatName-trigger');
+  await click('#echoMainStatName-listbox .bb-combobox-option[data-bb-value='+JSON.stringify(nextMain)+']');
+  await check('echoUi.editorDraft.mainStat.name==='+JSON.stringify(nextMain),'Main Stat changed through real combobox');
+  const sonataNext=await read('echoById.get(echoUi.previewId).sonataSetIds.find(id=>id!==echoUi.editorDraft.selectedSonataSetId)||null');
+  if(sonataNext){
+    await click('#echoPreviewSonataChoices button[data-sonata-id='+JSON.stringify(sonataNext)+']');
+    await check('!!activeConfirmation&&activeConfirmation.kind==="sonata"','Sonata confirmation preserved');
+    await click('#confirmSwitch');
+    await check('echoUi.editorDraft.selectedSonataSetId==='+JSON.stringify(sonataNext),'confirmed Sonata assignment');
+  }
+  const roll=await read('({name:echoStatContract.substats[0].name,value:echoStatContract.substats[0].values[0]})');
+  await click('#echoSubstat0Name-trigger');
+  await click('#echoSubstat0Name-listbox .bb-combobox-option[data-bb-value='+JSON.stringify(roll.name)+']');
+  await click('#echoSubstat0Value-trigger');
+  await click('#echoSubstat0Value-listbox .bb-combobox-option[data-bb-value='+JSON.stringify(String(roll.value))+']');
+  await check('echoUi.editorDraft.level===5&&echoUi.editorDraft.substats.length===1&&echoUi.editorDraft.substats[0].name==='+JSON.stringify(roll.name)+'&&echoExact(echoUi.editorDraft.substats[0].value,'+roll.value+')','one physically entered source-backed +5 roll, no generated value');
+  const preparedDetailed=await read('cloneEchoSlot(echoUi.editorDraft)');
+  await saveEditor();
+  const detailedSummary={echoId:preparedDetailed.echoId,name:await read('echoById.get('+JSON.stringify(preparedDetailed.echoId)+').name'),cost:preparedDetailed.cost,level:preparedDetailed.level,selectedSonataSetId:preparedDetailed.selectedSonataSetId,stats:[preparedDetailed.mainStat,preparedDetailed.secondaryMainStat,...preparedDetailed.substats].map(stat=>stat.name+echoStatValueText(stat.name,stat.value))};
+  await verifyPrepared(3,detailedSummary);
+  await click('#simulateEchoPreview');
+  await check('!echoUi.open','configured preview must remain non-interactive');
+  // Cancelling a changed draft must not update its prepared card.
+  await openEditor(3);
+  await click('#echoChoices .echo-choice[data-echo-id="'+identities[1]+'"]');
+  await click('#echoClose');
+  await waitForUi(send,'!document.getElementById("echoOverlay").classList.contains("mounted")','cancel did not close');
+  await check('document.getElementById("simulateEchoPreview").dataset.preparedEchoId==='+JSON.stringify(detailedSummary.echoId),'cancel does not write prepared card');
+  for(const [index,card] of cards.entries()){
+    await click('.simulate-echo-slot:nth-child('+(index+1)+')');
+    await verifyPrepared(index+1,index===2?detailedSummary:card);
+  }
+  await check('document.querySelector(".simulate-echo-slot:nth-child(3) .simulate-prepared-stats").children.length===3','complete +5 stats visible in bottom slot');
+  await click('.simulate-echo-slot:nth-child(3)');
+  await capture(send,'artifacts/ui-preview-simulate-prepared-cards-1440x900.png');
+  // Editing slot 3 must not overwrite 1, 2, 4 or 5.
+  await openEditor(3);await click('#echoChoices .echo-choice[data-echo-id="'+identities[3]+'"]');await saveEditor();
+  await check('document.querySelector(".simulate-echo-slot:nth-child(3)").dataset.preparedEchoId==='+JSON.stringify(identities[3])+'&&document.querySelector(".simulate-echo-slot:nth-child(1)").dataset.preparedEchoId==='+JSON.stringify(identities[1])+'&&document.querySelector(".simulate-echo-slot:nth-child(2)").dataset.preparedEchoId==='+JSON.stringify(identities[3])+'&&document.querySelector(".simulate-echo-slot:nth-child(4)").dataset.preparedEchoId==='+JSON.stringify(identities[1])+'&&document.querySelector(".simulate-echo-slot:nth-child(5)").dataset.preparedEchoId==='+JSON.stringify(identities[3]),'one slot edit did not alter other four');
+  await check(snapshot+'==='+JSON.stringify(preparedSnapshot),'complete Echo Workshop did not write real Character, resources, saved storage or simulator');
   await click('#improveCardPrevious');
   // Native keyboard activation and focus transfer work in both directions.
   for(const [id,key,code,virtual,index] of [['improveCardNext','Enter','Enter',13,1],['improveCardPrevious',' ','Space',32,0]]){
@@ -148,6 +207,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await read(`improvePicker.select(${JSON.stringify(name)})`);await sleep(800);await sameCharacter();
     await check(`document.getElementById('simulate-improveCharacterName').textContent===${JSON.stringify(name)}&&improveUi.characterName===${JSON.stringify(name)}`,'Character switches update both cards while Card 2 is visible');
     await check('document.documentElement.scrollWidth===1440','no overflow after Character switch');
+    await check('[...document.querySelectorAll(".simulate-echo-slot")].every(slot=>!slot.dataset.preparedEchoId)&&document.getElementById("simulateEchoPreview").textContent.includes("Empty Echo Slot")','Character isolation clears transient prepared Echo cards');
   }
   await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);
   await capture(send,'artifacts/ui-preview-simulate-character-1440x900.png');
@@ -180,5 +240,5 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await check('!improveUi.simulator&&document.querySelector(".simulate-result-echo").textContent.includes("Select a slot")&&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle','Character switch clears ephemeral Pending without equipment writes');
   await read("improvePicker.select('Augusta')");
   await check(`JSON.stringify(window.bellibingResourceInventory.getState())===${JSON.stringify(budgetBefore)}&&!improveUi.simulator`,'shared budget stays unchanged across Characters');
-  console.log('PASS: 1440×900 two-card navigation, five slots, 1 Slot active, zero-resource boundary, verified Shell Credit blocker, 1 Slot selection and Character isolation, mirrored Character/Stats, isolated state, reload and original Echo chooser.');
+  console.log('PASS: 1440×900 full existing Echo Workshop, five independent prepared cards, canonical stats and +5 substat, read-only preview, nonmutation and Character isolation, preserved single-slot blocker.');
 }

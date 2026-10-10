@@ -30,3 +30,28 @@
 .simulator-checkpoint-stats{display:grid;grid-template-columns:1fr auto;gap:6px 20px}.simulator-checkpoint-stats dd{margin:0;text-align:right}
 #simulatorRoll{font-size:16px;font-weight:700;padding:12px;border-color:#d8b152;background:#594527;color:#fff0c5}
 .simulator-controls details{font-size:11px;color:#b9b3a7}.simulator-controls summary{cursor:pointer}.simulator-controls details p{margin-top:6px}
+
+/* Preserve native cards/tree/sequence while composing the screenshot workspace. */
+#improveBuildCard[data-simulator="true"]{grid-template-columns:minmax(180px,1.12fr) 44px repeat(5,minmax(0,1fr));grid-template-rows:minmax(395px,auto) auto;gap:20px 12px;padding:64px 18px 18px;background:linear-gradient(135deg,#202125,#303031);border:1px solid #8e7749}
+#improveBuildCard[data-simulator="true"] .simulator-modes{top:10px;left:18px;right:18px;flex-wrap:wrap}
+#improveBuildCard[data-simulator="true"] .simulator-mode-title{position:absolute;left:50%;transform:translateX(-50%);font-size:32px;white-space:nowrap;background:transparent;border:0}
+#improveBuildCard[data-simulator="true"] .simulator-session-note{font:10px var(--font-ui);max-width:210px}
+#improveBuildCard[data-simulator="true"] #simulatorReset{margin-left:auto}
+#improveBuildCard[data-simulator="true"] .improve-truth,#improveBuildCard[data-simulator="true"] .improve-character-context{display:contents}
+#improveBuildCard[data-simulator="true"] .improve-character-identity{grid-column:1;grid-row:1;align-self:start}
+#improveBuildCard[data-simulator="true"] .improve-truth-art{height:270px}
+#improveBuildCard[data-simulator="true"] .improve-weapon-truth{grid-column:1;grid-row:1;align-self:end;margin-top:310px}
+#improveBuildCard[data-simulator="true"] .improve-weapon-art{height:65px}
+#improveBuildCard[data-simulator="true"] .improve-stats{grid-column:2/4;grid-row:1}
+#improveBuildCard[data-simulator="true"] .improve-stat-head,#improveBuildCard[data-simulator="true"] .improve-stat-row{grid-template-columns:minmax(0,1fr) 65px}
+#improveBuildCard[data-simulator="true"] .improve-stat-arrow,#improveBuildCard[data-simulator="true"] .improve-stat-new,#improveBuildCard[data-simulator="true"] .improve-stat-head span:nth-child(n+3){display:none}
+#improveBuildCard[data-simulator="true"] .improve-workspace{grid-column:4/8;grid-row:1;grid-template-columns:1fr 1.02fr 1fr;align-self:stretch}
+#improveBuildCard[data-simulator="true"] .improve-current-echo,#improveBuildCard[data-simulator="true"] .improve-new-echo{min-height:350px;background:linear-gradient(135deg,#242529,#353535);border-color:#8e7749}
+#improveBuildCard[data-simulator="true"] .improve-helper{padding:8px;border:0;background:transparent}
+#improveBuildCard[data-simulator="true"] .improve-helper-step{display:none}
+#improveBuildCard[data-simulator="true"] .improve-echoes-row{grid-column:3/8;grid-row:2;gap:12px;align-items:start}
+#improveBuildCard[data-simulator="true"] .improve-skills-truth{grid-column:1;grid-row:2;align-self:end;border-color:#8e7749;background:linear-gradient(135deg,#242529,#353535)}
+.simulator-sequence{grid-column:2;grid-row:2;align-self:stretch;border:1px solid #8e7749;border-radius:12px;padding:10px 4px;display:flex;justify-content:center;align-items:center}.simulator-sequence[hidden]{display:none}
+.simulator-slot>.improve-equipped-echo{min-height:265px;border-color:#8e7749;background:linear-gradient(135deg,#242529,#353535)}
+.simulator-slot .improve-equipped-name{font-size:14px}.simulator-slot .improve-echo-substat{font-size:11px}.simulator-slot .improve-echo-substat strong{font-size:11px}
+@media(max-width:1050px){#improveBuildCard[data-simulator="true"]{display:flex;flex-direction:column}#improveBuildCard[data-simulator="true"] .improve-truth{display:grid;width:100%;grid-template-columns:1fr 1fr}#improveBuildCard[data-simulator="true"] .improve-weapon-truth{margin-top:0;grid-column:2}#improveBuildCard[data-simulator="true"] .improve-echoes-row{width:100%}#improveBuildCard[data-simulator="true"] .improve-workspace{width:100%}.simulator-sequence{display:none}}

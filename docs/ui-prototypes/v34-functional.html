@@ -507,6 +507,7 @@
       </div>
       <article id="improveCandidateEcho" class="improve-workspace-card improve-new-echo"><div class="improve-echo-card-head"><span>New Echo</span><span>Candidate</span></div><div class="improve-new-empty"><button id="improveNewEcho" class="improve-new-button" type="button"><span class="improve-new-plus">+</span><strong>New Echo</strong><small>Select the Echo you are building</small></button></div></article>
     </section>
+    <div id="simulatorSequence" class="simulator-sequence" hidden></div>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
   </main>
 </div></div></section>
@@ -2043,6 +2044,8 @@ const improveUi={
   },
   renderSimulationMode(){
     document.getElementById('improveBuildCard').dataset.simulator=String(!!this.simulator);
+    const sequence=document.getElementById('improveSequenceList'),sequenceHost=document.getElementById('simulatorSequence');
+    sequenceHost.hidden=!this.simulator;(this.simulator?sequenceHost:document.querySelector('.improve-character-context')).append(sequence);
     // Settings and inventory are shared editable inputs; only Echo equipment/session is sandboxed.
     document.getElementById('simulatorCurrent').hidden=!this.simulator;document.getElementById('simulatorEnter').hidden=!!this.simulator;
     const enter=document.getElementById('simulatorEnter');enter.disabled=!this.characterId||!echoDataLoaded||!window.bellibingEchoSimulator||!window.bellibingResourceInventory||!window.bellibingImproveSettings||IMPROVE_LAYOUT_PREVIEW;

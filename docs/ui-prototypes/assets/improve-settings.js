@@ -131,7 +131,7 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['sonata', 'Sonata Sets'], ['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
+for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats'], ['target', 'Character Target']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -156,6 +156,7 @@ function renderTargets() {
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
+  renderTargetComparison(targets);
   if (settings.mode === 'MANUAL') {
     // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
@@ -172,8 +173,13 @@ function renderTargets() {
     if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
     return;
   }
+ }
+function renderTargetComparison(targets) {
   const rows = recommendedCharacterStatsPresentation(characterId);
-  if (!rows.length) targets.append(note('Pending'));
+  const headers = element('div', undefined, 'improve-target-comparison-head');
+  headers.append(element('span', 'Stat'), element('span', 'Recommended'), element('span', 'Expected'));
+  targets.append(headers);
+  if (!rows.length) targets.append(note('Recommended: Pending · Expected: Pending'));
   const table = element('dl', undefined, 'improve-recommended-stats');
   for (const row of rows) {
     const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
@@ -181,11 +187,14 @@ function renderTargets() {
     item.dataset.status = ready ? 'READY' : 'PENDING';
     const value = element('dd');
     value.append(element('span', ready ? row.displayValue : 'Pending'));
-    item.append(element('dt', row.label), value);
+    const expected = element('dd', 'Pending', 'improve-expected-stat');
+    expected.title = 'Mathematically supported expected Character stats are Pending.';
+    item.append(element('dt', row.label), value, expected);
     table.append(item);
   }
   targets.append(table);
 }
+
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
   const editor = element('form', undefined, 'improve-target-editor'); editor.noValidate = true; editor.dataset.editorMetric = metric;

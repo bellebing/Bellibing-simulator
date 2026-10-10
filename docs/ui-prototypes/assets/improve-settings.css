@@ -179,3 +179,20 @@
 /* The wheel uses transforms for navigation; its off-screen cards must not
    make browser focus scroll the Character workspace horizontally. */
 #improveShell.has-selection > .wheel{overflow-x:clip}
+
+/* Screenshot organization; gameplay values still come from their existing owners. */
+.improve-settings{background:linear-gradient(135deg,#202125,#303031);border-color:#8e7749;padding:22px 28px}
+.improve-settings-heading h2{font-size:32px}
+.improve-settings-controls{grid-template-columns:minmax(150px,.85fr) 68px repeat(2,minmax(0,1fr)) minmax(250px,1.08fr);gap:10px;align-items:stretch}
+.improve-setting{padding:10px;border:1px solid #8e7749;border-radius:12px;background:linear-gradient(135deg,#252629,#363635)}
+.improve-setting.is-expanded{min-height:300px}
+.improve-setting-trigger,.improve-setting-choice{background:linear-gradient(135deg,#343026,#28282a);border-color:#7f6b43}
+.improve-setting-choice[aria-pressed="true"]{background:linear-gradient(135deg,#665332,#39332a);border-color:#c6a057}
+.improve-settings .improve-echo-row,.improve-settings .improve-recommended-stats,.improve-settings .improve-target-fields{font-family:var(--font-ui)}
+.improve-target-comparison-head,.improve-recommended-stat{display:grid;grid-template-columns:minmax(0,1fr) 83px 70px;gap:5px;align-items:center}
+.improve-target-comparison-head{font:11px var(--font-ui);padding:8px 0;border-bottom:1px solid #8e7749;color:#c9c2b4}
+.improve-target-comparison-head span:nth-child(n+2){text-align:right}
+.improve-recommended-stat dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-size:11px}
+.improve-recommended-stat dt{font-size:11px}.improve-expected-stat{color:#a5a5a3}
+.improve-resources-separator{border-color:#8e7749}
+@media(max-width:1050px){.improve-settings-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.improve-setting[data-setting="target"]{grid-column:1/-1}}

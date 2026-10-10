@@ -119,7 +119,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await enter(resourceInput('echoes'),'12'); await read(`document.querySelector(${JSON.stringify(resourceInput('echoes'))}).blur()`);
   await read("improvePicker.select('Chixia');improvePicker.select('Augusta')");
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'Character switching retains account-like inventory');
-  await click('#improve-setting-gate');
+  // Character switching above already collapses the shared Settings shell.
   await check(`document.querySelector('[data-resource=shellCredits] .improve-resource-value').textContent==='0'&&document.querySelector('[data-resource=shellCredits] input').hidden`, 'collapsed finite zero visible');
   await click('#improve-setting-gate');
   await enter(resourceInput('shellCredits'),'∞'); await read(`document.querySelector(${JSON.stringify(resourceInput('shellCredits'))}).blur()`);

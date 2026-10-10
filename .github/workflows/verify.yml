@@ -386,6 +386,9 @@ jobs:
       - name: Improve policy focused regression
         run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/echoSingleSlotV1.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
 
+      - name: Resource Inventory and Character stat focused regression
+        run: node --experimental-strip-types --test test/resourceInventory.test.ts test/echoExactTubeSpending.test.ts test/characterTargetPresentation.test.ts
+
       - name: Strict web build / generated parity
         run: npm run build
 

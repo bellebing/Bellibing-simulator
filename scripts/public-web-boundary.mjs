@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import ts from 'typescript';
 
 export const PUBLIC_BROWSER_MODULES = Object.freeze([
-  'echoCore', 'echoCoreRules', 'echoMainStats', 'echoExactTubeSpending', 'echoCoreLab', 'echoCoreRuntime', 'seededRng',
+  'echoCore', 'echoCoreRules', 'echoMainStats', 'echoExactTubeSpending', 'echoCheckpointTubeSelection', 'echoResourceTransaction', 'echoCoreLab', 'echoCoreRuntime', 'seededRng',
   'data/echoTubeSource', 'resourceInventory', 'echoSimulatorSession', 'echoSimulatorBoundary', 'echoRequirements', 'improvePolicyState', 'improvePolicyPresentation', 'publicDecisionContract', 'publicSettingsView',
   'web/alpha-entry', 'web/main', 'web/roll-assistant',
 ]);

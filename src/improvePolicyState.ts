@@ -1,4 +1,4 @@
-import { readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
+import { emptyResourceInventory, readResourceInventory, type ResourceInventory } from './resourceInventory.ts';
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from './echoCoreRules.ts';
 import type { StatName } from './echoCoreDomain.ts';
 import type {
@@ -61,7 +61,13 @@ export interface ImprovePolicyCompatibility {
   readonly suspendedSections: readonly PolicyOverrideSection[];
   readonly reasons: readonly string[];
 }
+export interface ResourceTransactionHistory {
+  readonly revision: number;
+  readonly consumedIds: readonly string[];
+}
 export interface ImprovePolicyStorage {
+  /** Same envelope as inventory: replay guard must survive reload and settings saves. */
+  readonly resourceTransactions?: ResourceTransactionHistory;
   /** Shared user budget, independent of Character policy and simulator sessions. */
   readonly resourceInventory?: ResourceInventory;
   readonly version: 3;
@@ -306,6 +312,18 @@ function savedIntent(state: ImprovePolicyState): ImprovePolicyState {
     mode: state.mode, overrides: overrides as PolicyOverrideSections, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
     migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
 }
+function readResourceTransactions(value: unknown): ResourceTransactionHistory {
+  const row = record(value);
+  if (Object.keys(row).sort().join() !== 'consumedIds,revision'
+    || !Number.isSafeInteger(row.revision) || (row.revision as number) < 0
+    || !Array.isArray(row.consumedIds)
+    || !row.consumedIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id))
+    || new Set(row.consumedIds).size !== row.consumedIds.length
+    || row.consumedIds.length !== row.revision) {
+    throw new Error('Saved resource transaction history needs review.');
+  }
+  return { revision: row.revision as number, consumedIds: [...row.consumedIds] };
+}
 export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
   const raw = storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
   if (raw !== null) {
@@ -313,6 +331,7 @@ export function loadImprovePolicyStorage(storage: ImprovePolicyStorageAccess): I
     // Never replace an unknown/corrupt new envelope with v2 or fabricated defaults.
     if (saved.version !== 3) throw new Error('Unsupported Improve policy storage version.');
     return { version: 3,
+      ...(own(saved, 'resourceTransactions') ? { resourceTransactions: readResourceTransactions(saved.resourceTransactions) } : {}),
       ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
       characters: structuredClone(record(saved.characters)) as Record<string, ImprovePolicyState>,
       pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
@@ -366,9 +385,11 @@ export function readImprovePolicyState(store: ImprovePolicyStorage, characterId:
 }
 export function persistImprovePolicyState(store: ImprovePolicyStorage, state: ImprovePolicyState,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
-  const pendingV2Characters = { ...store.pendingV2Characters }; delete pendingV2Characters[state.characterId];
-  const next: ImprovePolicyStorage = { ...store, version: 3,
-    characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
+  // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
+  const live = loadImprovePolicyStorage(storage);
+  const pendingV2Characters = { ...live.pendingV2Characters }; delete pendingV2Characters[state.characterId];
+  const next: ImprovePolicyStorage = { ...live, version: 3,
+    characters: { ...live.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
   // Write before returning the new immutable store; failure cannot mark a save committed.
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return next;
@@ -377,7 +398,14 @@ export function persistImprovePolicyState(store: ImprovePolicyStorage, state: Im
 /** Same user-owned envelope and write-before-commit recovery discipline as settings. */
 export function persistResourceInventory(store: ImprovePolicyStorage, inventory: ResourceInventory,
   storage: ImprovePolicyStorageAccess): ImprovePolicyStorage {
-  const next = { ...store, resourceInventory: readResourceInventory(inventory) };
+  const live = loadImprovePolicyStorage(storage);
+  const previous = readResourceInventory(store.resourceInventory ?? { ...emptyResourceInventory() });
+  const current = readResourceInventory(live.resourceInventory ?? { ...emptyResourceInventory() });
+  if (JSON.stringify(previous) !== JSON.stringify(current)
+    || (store.resourceTransactions?.revision ?? 0) !== (live.resourceTransactions?.revision ?? 0)) {
+    throw new Error('Stale shared resource inventory; reload before editing.');
+  }
+  const next = { ...live, resourceInventory: readResourceInventory(inventory) };
   storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
   return next;
 }

@@ -1,32 +1,11 @@
 // ONE +5 candidate attempt. Deterministic Tube choice; canonical mechanics and
 // resource transaction are not Character evaluator or acquisition probabilities.
 import { rollNewSubstat, assertExactRank5SubstatRoll, CHECKPOINT_CUMULATIVE_COST } from '../../assets/echoCoreRules.js';
-import { readResourceInventory, updateResourceInventory, ECHO_TUBES } from '../../assets/resourceInventory.js';
+import { readResourceInventory, updateResourceInventory } from '../../assets/resourceInventory.js';
+import { selectExactOneCheckpointTubes } from '../../assets/echoCheckpointTubeSelection.js';
 import { spendExactTubes, tuneEligibleCheckpoint } from '../../assets/echoExactTubeSpending.js';
 
-const tubes = ['premium', 'advanced', 'medium', 'basic'];
-const values = Object.fromEntries(ECHO_TUBES.map(row => [row.id, row.echoExp]));
-const enough = (quantity, amount) => quantity.kind === 'UNLIMITED' || quantity.count >= amount;
-const available = (quantity, maximum) => quantity.kind === 'UNLIMITED' ? maximum : Math.min(maximum, quantity.count);
-export function selectExactOneCheckpointTubes(inventory) {
-  const budget = readResourceInventory(inventory);
-  const target = CHECKPOINT_CUMULATIVE_COST[5].exp;
-  const limit = target + Math.max(...Object.values(values)) - 1;
-  const bounds = tubes.map(id => available(budget.tubes[id], Math.ceil(limit / values[id])));
-  let best = null, score = null;
-  for (let a = 0; a <= bounds[0]; a++)
-  for (let b = 0; b <= bounds[1]; b++)
-  for (let c = 0; c <= bounds[2]; c++)
-  for (let d = 0; d <= bounds[3]; d++) {
-    const counts = [a,b,c,d], total = counts.reduce((sum,n,i) => sum + n * values[tubes[i]], 0);
-    if (total < target || total > limit) continue;
-    const current = [total - target, counts.reduce((sum,n) => sum+n, 0), ...counts];
-    if (!score || current.some((v,i) => v < score[i] && current.slice(0,i).every((x,j) => x === score[j]))) {
-      score = current; best = Object.fromEntries(tubes.map((id,i) => [id, counts[i]]));
-    }
-  }
-  return best;
-}
+export { selectExactOneCheckpointTubes } from '../../assets/echoCheckpointTubeSelection.js';
 export function generateSingleEchoCandidate(inventoryInput, cardAtZero, rank5AtFive, rng) {
   const inventory = readResourceInventory(inventoryInput);
   if (!enough(inventory.echoes, 1)) throw new Error('No Echoes available. Set an explicit resource budget.');

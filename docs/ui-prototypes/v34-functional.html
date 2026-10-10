@@ -178,6 +178,17 @@
 /* Improve owns one content-sized composition inside the existing finite AppShell. */
 .improve-build-card{position:absolute;left:50%;top:220px;width:min(calc(100% - 18px),var(--app-shell-max));transform:translateX(-50%);display:grid;grid-template-columns:216px 274px minmax(0,1fr);grid-template-rows:auto auto;align-items:start;gap:14px 16px;padding:14px;min-height:0}
 .improve-surface{min-width:0;min-height:0;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:linear-gradient(180deg,rgba(20,23,29,.76),rgba(10,12,16,.70));box-shadow:0 22px 62px rgba(0,0,0,.24);backdrop-filter:blur(5px) saturate(.9)}
+/* Navigation pages overlap in one slot; the original grid stays mounted and sized. */
+.improve-card-deck{display:grid;grid-template-columns:minmax(0,1fr);min-width:0}
+.improve-card-page{grid-area:1/1;display:flex;flex-direction:column;min-width:0}
+.improve-card-page[aria-hidden="true"],.improve-card-page[aria-hidden="true"] *{visibility:hidden!important}
+.improve-card-header{display:grid;grid-template-columns:28px auto 28px;align-items:center;gap:12px;align-self:center;max-width:100%;min-height:34px;padding:0 12px;border-radius:12px 12px 0 0;box-shadow:none;margin-bottom:-1px;z-index:1}
+.improve-card-header h2{margin:0;font-family:var(--font-display);font-size:18px;font-weight:400;line-height:1.22}
+.improve-card-arrow{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;background:transparent;color:#e4d2a8;font-size:25px;line-height:1;cursor:pointer}
+.improve-card-arrow:disabled{color:#747b85;cursor:default}
+.improve-card-arrow:focus-visible{outline:2px solid #c9a85f;outline-offset:1px;border-radius:5px}
+.improve-empty-card{flex:1;width:100%}
+
 .improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:10px;align-content:start}
 .improve-truth-art{position:relative;height:238px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
 .improve-truth-art::after{content:"";position:absolute;z-index:2;left:0;right:0;bottom:0;height:20%;background:linear-gradient(180deg,transparent,rgba(14,16,21,.90));pointer-events:none}
@@ -472,6 +483,13 @@
 <section id="build" class="page"><button class="menu" data-home type="button">☰</button><div id="buildShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="buildWheel" class="wheel" tabindex="0"></div><div class="build-stage"><div class="focus"><h1 id="buildName"></h1><div id="buildHeroArt" class="focus-art" data-hero-status="EMPTY"><img id="buildHeroImage" class="focus-art-image" alt="" draggable="false" hidden><div id="buildHeroPending" class="focus-art-pending" hidden><strong>HERO ART PENDING</strong><small id="buildHeroPendingDetail">Character visual identity is unresolved.</small></div></div></div><aside class="side-left"><section id="buildStatsBlock" class="block stats-block"><h2>Stats</h2><div id="buildStatsPanel" class="stats-box"><div id="buildStatsRows" class="build-stats-rows"></div><button id="buildStatsToggle" class="build-stats-toggle" type="button" aria-expanded="false">More stats ▾</button></div></section><section id="skillsBlock" class="block skills-block"><h2>Skills</h2><button id="skillsBtn" class="skills-card" type="button" aria-label="Open Skills menu" aria-haspopup="dialog" aria-controls="skillsOverlay" aria-expanded="false"><span id="skillsMiniTree" class="skills-mini-tree"></span></button></section><section class="block"><h2>Weapon</h2><button id="weaponBtn" class="weapon" type="button" aria-label="Open Weapon menu" aria-haspopup="dialog" aria-controls="weaponOverlay" aria-expanded="false"><span id="weaponSlotHost" class="weapon-slot-host"><span class="weapon-empty">+</span></span></button></section></aside><aside id="sequencePanel" class="seq" aria-label="Sequences"><h2>Sequences <span id="sequenceCurrent" class="seq-current">S0</span></h2><div id="sequenceLine" class="seq-line"><button type="button" class="node n6" data-sequence="6" aria-label="S6 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S6</span></button><button type="button" class="node n5" data-sequence="5" aria-label="S5 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S5</span></button><button type="button" class="node n4" data-sequence="4" aria-label="S4 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S4</span></button><button type="button" class="node n3" data-sequence="3" aria-label="S3 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S3</span></button><button type="button" class="node n2" data-sequence="2" aria-label="S2 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S2</span></button><button type="button" class="node n1" data-sequence="1" aria-label="S1 unavailable" aria-controls="sequenceFlyout" aria-expanded="false" disabled><img alt="" draggable="false"><span class="seq-tag">S1</span></button></div><section id="sequenceFlyout" class="seq-flyout" aria-hidden="true"><div class="seq-flyout-hero"><img id="sequenceFlyoutIcon" class="seq-flyout-icon" alt="" draggable="false"><span id="sequenceFlyoutLabel" class="seq-flyout-label">S1</span></div><div id="sequenceFlyoutContent" class="seq-flyout-content" aria-hidden="true"></div><button id="sequenceAction" class="seq-action" type="button">Set S1</button><div id="sequenceConsequence" class="seq-consequence" aria-live="polite"></div></section></aside><aside class="echoes"><h2>Echoes</h2><div class="echo-stack"><button type="button" class="echo" data-echo-slot="0" aria-label="Open Echo workspace for slot 1"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="1" aria-label="Open Echo workspace for slot 2"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="2" aria-label="Open Echo workspace for slot 3"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="3" aria-label="Open Echo workspace for slot 4"><span class="echo-slot-plus">+</span></button><button type="button" class="echo" data-echo-slot="4" aria-label="Open Echo workspace for slot 5"><span class="echo-slot-plus">+</span></button></div></aside><button id="viewBuildCard" class="view-build-card" type="button" aria-haspopup="dialog" aria-controls="buildCardOverlay" hidden>View Character Card</button><button id="accountBtn" class="account" type="button">Add to Account</button></div></div></section>
 <section id="improve" class="page"><button class="menu" data-home type="button">☰</button><div id="improveShell" class="picker-shell"><h1 class="question">What Character?</h1><div id="improveWheel" class="wheel" tabindex="0"></div><div id="improveFocus" class="improve-focus">
   <section id="improveSettings" class="improve-settings improve-surface" aria-labelledby="improveSettingsTitle"></section>
+  <div id="improveCardDeck" class="improve-card-deck">
+    <section id="improveCharacterPage" class="improve-card-page" aria-labelledby="improveCharacterPageTitle" aria-hidden="false">
+      <header class="improve-card-header improve-surface">
+        <button class="improve-card-arrow" type="button" aria-label="Previous card" disabled><span aria-hidden="true">‹</span></button>
+        <h2 id="improveCharacterPageTitle">Improve your character</h2>
+        <button id="improveCardNext" class="improve-card-arrow" type="button" aria-label="Open Simulate Echo Set" aria-controls="improveSimulationPage"><span aria-hidden="true">›</span></button>
+      </header>
   <main id="improveBuildCard" class="improve-build-card improve-surface" aria-label="Current Character build and Echo improvement workspace">
     <section class="improve-truth" aria-label="Character source of truth">
       <div class="improve-character-identity"><strong id="improveCharacterName" class="improve-truth-name"></strong><div class="improve-character-context"><div class="improve-truth-art"><img id="improveCharacterArt" alt="" draggable="false" hidden><div id="improveCharacterPending" class="improve-truth-pending" hidden>Character art pending source mapping.</div></div><div id="improveSequenceList" class="seq-line improve-sequence-list" role="group" aria-label="Current Sequence"></div></div></div>
@@ -502,6 +520,16 @@
     </section>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
   </main>
+    </section>
+    <section id="improveSimulationPage" class="improve-card-page" aria-labelledby="improveSimulationPageTitle" aria-hidden="true" inert>
+      <header class="improve-card-header improve-surface">
+        <button id="improveCardPrevious" class="improve-card-arrow" type="button" aria-label="Return to Improve your character" aria-controls="improveCharacterPage"><span aria-hidden="true">‹</span></button>
+        <h2 id="improveSimulationPageTitle">Simulate Echo Set</h2>
+        <button class="improve-card-arrow" type="button" aria-label="Next card" disabled><span aria-hidden="true">›</span></button>
+      </header>
+      <div id="improveEmptyCard" class="improve-empty-card improve-surface"></div>
+    </section>
+  </div>
 </div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
@@ -1979,6 +2007,16 @@ function projectImproveCurrentStats(name){
   const sequenceLevel=sequenceUi.normalizeLevel(build.sequenceLevel),activeSequenceStats=reviewedStaticSequenceStats(characterId,sequenceLevel);
   try{return project({character,weapon,echoSlots:improveWorkspaceSlots(name),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats})}
   catch(error){console.error(error);document.documentElement.dataset.improveStatsError=String(error.message||error);return null}
+}
+// Presentation navigation only: no workspace re-render, data writes or simulator transitions.
+{
+  const pages=[document.getElementById('improveCharacterPage'),document.getElementById('improveSimulationPage')];
+  const next=document.getElementById('improveCardNext'),previous=document.getElementById('improveCardPrevious');
+  function showImproveCard(index){
+    pages.forEach((page,position)=>{page.inert=position!==index;page.setAttribute('aria-hidden',String(position!==index))});
+    (index===0?next:previous).focus({preventScroll:true});
+  }
+  next.onclick=()=>showImproveCard(1);previous.onclick=()=>showImproveCard(0);
 }
 const improveUi={
   characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,simulator:null,

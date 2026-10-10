@@ -37,7 +37,7 @@ function renderResources() {
     owner.title = accessibleName;
     const caption = element('span', label, 'improve-resource-label');
     owner.append(caption);
-    if (id !== 'echoes') {
+    if (id === 'tuners' || ECHO_TUBES.some(tube => tube.id === id)) {
       const icon = element('img', undefined, 'improve-resource-icon');
       icon.src = new URL('./resource-icons/' + id + '.png', import.meta.url).href;
       icon.alt = ''; icon.setAttribute('aria-hidden', 'true'); icon.width = 52; icon.height = 52;
@@ -59,7 +59,7 @@ function renderResources() {
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     owner.append(summary, input); parent.append(owner);
   }
-  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
+  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner'], ['shellCredits', 'Shell Credits', 'Shell Credits']]) {
     const family = element('div', undefined, 'improve-resource-family');
     family.append(element('h4', label));
     field(family, id, label, accessibleName, inventory[id]);
@@ -71,7 +71,7 @@ function renderResources() {
   for (const tube of ECHO_TUBES) field(denominations, tube.id, tube.color, tube.name, inventory.tubes[tube.id]);
   tubes.append(denominations); resourceControls.append(tubes);
 }
-function quantityAt(id) { return id === 'echoes' || id === 'tuners' ? inventory[id] : inventory.tubes[id]; }
+function quantityAt(id) { return id === 'echoes' || id === 'tuners' || id === 'shellCredits' ? inventory[id] : inventory.tubes[id]; }
 const note = text => element('p', text, 'improve-setting-note');
 function button(label, callback, key, selected) {
   const node = element('button', label, 'improve-setting-choice'); node.type = 'button'; node.dataset.focusKey = key;
@@ -178,24 +178,29 @@ function renderTargets() {
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
+  // Keep source-owned Recommended values separate from user targets and
+  // neutral Expected placeholders until an actual calculation exists.
+  const rows = recommendedCharacterStatsPresentation(characterId);
+  if (!rows.length) targets.append(note('Pending'));
+  const table = element('dl', undefined, 'improve-recommended-stats');
+  const header = element('div', undefined, 'improve-recommended-header');
+  header.append(element('span', ''), element('span', 'Recommended'), element('span', 'Expected'));
+  table.append(header);
+  for (const row of rows) {
+    const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
+    const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
+    item.dataset.status = ready ? 'READY' : 'PENDING';
+    const recommended = element('dd', ready ? row.displayValue : 'Pending', 'improve-recommended-value');
+    const expected = element('dd', '—', 'improve-expected-value');
+    expected.setAttribute('aria-label', row.label + ' expected: not calculated');
+    item.append(element('dt', row.label), recommended, expected);
+    table.append(item);
+  }
+  targets.append(table);
   if (policy.status === 'USER_DEFINED' || policy.origin === 'USER') {
-    // Editors show saved intent only; opening one never seeds an override.
+    // Custom editors remain user-owned and never overwrite canonical values.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
     if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
-  } else {
-    const rows = recommendedCharacterStatsPresentation(characterId);
-    if (!rows.length) targets.append(note('Pending'));
-    const table = element('dl', undefined, 'improve-recommended-stats');
-    for (const row of rows) {
-      const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
-      const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
-      item.dataset.status = ready ? 'READY' : 'PENDING';
-      const value = element('dd');
-      value.append(element('span', ready ? row.displayValue : 'Pending'));
-      item.append(element('dt', row.label), value);
-      table.append(item);
-    }
-    targets.append(table);
   }
   if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
 }

@@ -26,23 +26,28 @@ export function formatInventoryQuantity(value) {
 /** Missing old inventory initializes an explicit zero budget, never inferred account holdings. */
 export function emptyResourceInventory() {
     const zero = () => ({ kind: 'FINITE', count: 0 });
-    return { version: 1, echoes: zero(), tuners: zero(), tubes: { premium: zero(), advanced: zero(), medium: zero(), basic: zero() } };
+    return { version: 2, echoes: zero(), tuners: zero(), shellCredits: zero(), tubes: { premium: zero(), advanced: zero(), medium: zero(), basic: zero() } };
 }
 export function readResourceInventory(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value))
         throw new RangeError('Saved Resources need review.');
     const row = value;
-    if (row.version !== 1 || Object.keys(row).sort().join() !== 'echoes,tubes,tuners,version' || !row.tubes || typeof row.tubes !== 'object' || Array.isArray(row.tubes))
+    // Strict old-v1 migration; do not repair corrupt v2 data or change recovery bytes.
+    const legacy = row.version === 1;
+    const keys = legacy ? 'echoes,tubes,tuners,version' : 'echoes,shellCredits,tubes,tuners,version';
+    if (!(legacy || row.version === 2) || Object.keys(row).sort().join() !== keys
+        || !row.tubes || typeof row.tubes !== 'object' || Array.isArray(row.tubes))
         throw new RangeError('Saved Resources need review.');
     const tubes = row.tubes;
     if (Object.keys(tubes).sort().join() !== 'advanced,basic,medium,premium')
         throw new RangeError('Saved Tubes need review.');
-    return { version: 1, echoes: inventoryQuantity(row.echoes), tuners: inventoryQuantity(row.tuners),
+    return { version: 2, echoes: inventoryQuantity(row.echoes), tuners: inventoryQuantity(row.tuners),
+        shellCredits: legacy ? { kind: 'FINITE', count: 0 } : inventoryQuantity(row.shellCredits),
         tubes: { premium: inventoryQuantity(tubes.premium), advanced: inventoryQuantity(tubes.advanced), medium: inventoryQuantity(tubes.medium), basic: inventoryQuantity(tubes.basic) } };
 }
 export function updateResourceInventory(current, resource, quantity) {
     const next = readResourceInventory(current), value = inventoryQuantity(quantity);
-    if (resource === 'echoes' || resource === 'tuners')
+    if (resource === 'echoes' || resource === 'tuners' || resource === 'shellCredits')
         return { ...next, [resource]: value };
     if (!ECHO_TUBES.some(row => row.id === resource))
         throw new RangeError('Unknown resource.');

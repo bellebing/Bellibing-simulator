@@ -2157,7 +2157,7 @@ function projectImproveCurrentStats(name){
       fail('Not enough Tuners for +5. Zero is not unlimited.');return;
     }
     // Rank-5 +5 source truth also requires Shell Credits. The shared user
-    // Resource Inventory has no Shell Credit quantity / verified transaction.
+    // Shell Credit inventory is user-owned; no verified spending/transaction is authorized.
     // Until that owner exists, no RNG generation, Tube spending or write occurs.
     const credits=window.bellibingSingleEchoShellCredits;
     fail(Number.isSafeInteger(credits)&&credits>0

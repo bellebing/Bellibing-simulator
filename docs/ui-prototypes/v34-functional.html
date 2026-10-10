@@ -1644,8 +1644,8 @@ const echoUi={
     this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
     const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
-    const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
-    const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
+    const buildSlot=template?document.getElementById('simulateTemplatePicker'):candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
+    const source=captureEchoMotion(template?buildSlot?.querySelector('.simulate-template-art, #simulateSelectedEchoLabel'):(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus')));
     this.overlay.classList.add('mounted');this.overlay.setAttribute('aria-hidden','false');this.open=true;
     requestAnimationFrame(()=>{this.overlay.classList.add('open');requestAnimationFrame(()=>{
       const detail=this.panel.classList.contains('has-preview')?document.getElementById('echoPreviewArt'):this.panel.querySelector('.echo-empty-mark');

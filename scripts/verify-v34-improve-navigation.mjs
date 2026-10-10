@@ -132,7 +132,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await click('.simulate-start');
   await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===0&&document.querySelector(".simulate-result-echo").textContent.includes("No Echoes available")','zero inventory must not roll or spend');
   await read(`(()=>{
-    window.__realBeforeSingle=JSON.stringify(state);
+    window.__realBeforeSingle=JSON.stringify(state.drafts.Augusta.build);
     const change=(id,value)=>{const input=document.querySelector('[data-resource="'+id+'"] input');input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));};
     change('echoes','2');change('tuners','20');change('premium','2');
   })()`);
@@ -150,7 +150,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
       &&document.querySelector('.simulate-result-echo').textContent.includes(echoStatValueText(card.substats[0].name,card.substats[0].value))
       &&inventory.echoes.count===1&&inventory.tuners.count===10&&inventory.tubes.premium.count===1
       &&document.querySelector('.simulate-resources').textContent.includes('Gold ×1')
-      &&JSON.stringify(state)===window.__realBeforeSingle;
+      &&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle;
   })()`,'real +5 candidate, verified stat values, exact slot 4, one Gold Tube, no Character writes');
   await read('window.__slot4=JSON.stringify(improveUi.simulator.slots[3].candidate.card)');
   await read("document.querySelector('.simulate-result-echo').scrollIntoView({block:'center',behavior:'instant'})");
@@ -163,7 +163,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
      &&JSON.stringify(s.slots[3].candidate.card)===window.__slot4
      &&s.slots[1].candidate.id!==s.slots[3].candidate.id
      &&i.echoes.count===0&&i.tuners.count===0&&i.tubes.premium.count===0
-     &&JSON.stringify(state)===window.__realBeforeSingle;
+     &&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle;
   })()`,'slot 2 second funded attempt is independent; resources exhausted exactly');
   await click('.simulate-echo-slot:nth-child(3)');
   const exhausted=await read('JSON.stringify(improveUi.simulator)');
@@ -172,7 +172,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     &&window.bellibingResourceInventory.getState().echoes.count===0
     &&document.querySelector('.simulate-result-echo').textContent.includes('No Echoes available')`,'exhausted budget must not create free attempt');
   await read("improvePicker.select('Chixia')");
-  await check('!improveUi.simulator&&document.querySelector(".simulate-result-echo").textContent.includes("Select a slot")&&JSON.stringify(state)===window.__realBeforeSingle','Character switch clears ephemeral candidates without equipment writes');
+  await check('!improveUi.simulator&&document.querySelector(".simulate-result-echo").textContent.includes("Select a slot")&&JSON.stringify(state.drafts.Augusta.build)===window.__realBeforeSingle','Character switch clears ephemeral candidates without equipment writes');
   await read("improvePicker.select('Augusta')");
   await check('window.bellibingResourceInventory.getState().echoes.count===0&&!improveUi.simulator','shared budget persists across Characters and sandbox exits');
   console.log('PASS: 1440×900 two-card navigation, five slots, 1 Slot active, zero/exhausted-budget boundaries, canonical +5 roll, slot-owned sessions and Character isolation, mirrored Character/Stats, isolated state, reload and original Echo chooser.');

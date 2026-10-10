@@ -115,7 +115,8 @@ try {
       const before = await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
       await click('[data-focus-key="mode:MANUAL"]');
       assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'Customize alone creates no overrides');
-      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat,.improve-target-editor').length"), 0, 'Customize is not seeded');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'Customize has no seeded editors');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Source Recommended comparison stays visible in Customize');
       await click('.improve-target-add summary'); await click('[data-focus-key="metric:TOTAL_ATK"]');
       await input('#improve-target-minimum-TOTAL_ATK', '2345'); await input('#improve-target-preferred-TOTAL_ATK', '2500');
       await click('[data-focus-key="save-target:TOTAL_ATK"]');

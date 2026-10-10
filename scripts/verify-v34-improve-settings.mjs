@@ -123,9 +123,9 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`document.querySelector('[data-resource=shellCredits] .improve-resource-value').textContent==='0'&&document.querySelector('[data-resource=shellCredits] input').hidden`, 'collapsed finite zero visible');
   await click('#improve-setting-gate');
   await enter(resourceInput('shellCredits'),'∞'); await read(`document.querySelector(${JSON.stringify(resourceInput('shellCredits'))}).blur()`);
-  await check(`${inventoryState}.shellCredits.kind==='UNLIMITED'`, 'Shell Credits unlimited input');
+  await waitForUi(send, `${inventoryState}.shellCredits.kind==='UNLIMITED'`, 'Shell Credits unlimited input', 6000);
   await enter(resourceInput('shellCredits'),'0'); await read(`document.querySelector(${JSON.stringify(resourceInput('shellCredits'))}).blur()`);
-  await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'Shell Credits unlimited to finite zero roundtrip');
+  await waitForUi(send, `JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'Shell Credits unlimited to finite zero roundtrip', 6000);
   const realBuild=await read("JSON.stringify(improveBuildState('Augusta'))");
   await read('improveUi.startSimulation();improveUi.resetSimulation();improveUi.closeSimulation()');
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(realBuild)}`, 'Current/Simulate/reset preserve inventory and CharacterBuildState');

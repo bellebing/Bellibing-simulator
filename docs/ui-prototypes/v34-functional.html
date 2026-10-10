@@ -2202,7 +2202,7 @@ function projectImproveCurrentStats(name){
   simulate.addEventListener('click',attempt);
   oneSlot.addEventListener('click',()=>oneSlot.setAttribute('aria-pressed','true'));
   window.bellibingRenderSingleSlot=renderResult;
-  renderResult();
+  queueMicrotask(renderResult);
 }
 const improveUi={
   characterName:null,characterId:null,selectedEchoIndex:0,candidate:null,contextVersion:0,simulator:null,

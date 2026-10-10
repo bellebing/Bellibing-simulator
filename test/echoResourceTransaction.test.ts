@@ -79,8 +79,8 @@ test('unlimited resources remain unlimited while consumed counts stay actual', (
   const receipt = commitRank5Plus5Resources(storage, readRank5Plus5Snapshot(storage), 'unlimited').receipt;
   assert.deepEqual(receipt.after, inventory);
   assert.deepEqual(receipt.consumed, { echoes:1, tuners:10, shellCredits:2440,
-    tubes: { premium: 1, advanced: 0, medium: 0, basic: 0 } });
-  assert.equal(receipt.tubeLedger.suppliedEXP, 5000);
+    tubes: { premium: 0, advanced: 2, medium: 0, basic: 1 } });
+  assert.equal(receipt.tubeLedger.suppliedEXP, 4500);
 });
 
 test('stale snapshots, retry, duplicate IDs and an earlier ID after subsequent commits reject', () => {

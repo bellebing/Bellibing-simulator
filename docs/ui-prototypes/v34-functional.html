@@ -2090,15 +2090,16 @@ function projectImproveCurrentStats(name){
   const result=document.querySelector('.simulate-result-echo');
   const simulate=document.querySelector('.simulate-start');
   const oneSlot=document.querySelector('.simulate-modes button:first-child');
-  let selectedIndex=0, usedSessionId=null, message='', messageIsError=false;
+  let selectedIndex=0, usedSessionId=null, observedCharacterId=null, message='', messageIsError=false;
   let usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
   const append=(host,tag,content,className)=>{
     const node=document.createElement(tag);node.textContent=content;if(className)node.className=className;host.appendChild(node);return node;
   };
   function syncSession(){
     const session=improveUi.simulator;
-    if(session?.id!==usedSessionId){
-      usedSessionId=session?.id||null;message='';messageIsError=false;
+    if(session?.id!==usedSessionId||improveUi.characterId!==observedCharacterId){
+      usedSessionId=session?.id||null;observedCharacterId=improveUi.characterId;
+      message='';messageIsError=false;
       usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
     }
   }

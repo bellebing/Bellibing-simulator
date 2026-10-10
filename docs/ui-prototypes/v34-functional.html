@@ -706,8 +706,8 @@
 <script src="./assets/character-build-card.js"></script>
 <script type="module">
 import * as forteModel from './assets/forte-ui.mjs';
-import { generateSingleEchoCandidate } from './assets/echo-single-attempt.mjs';
-window.bellibingGenerateSingleEchoCandidate=generateSingleEchoCandidate;
+import { CHECKPOINT_CUMULATIVE_COST } from '../assets/echoCoreRules.js';
+window.bellibingSingleEchoShellCredits=CHECKPOINT_CUMULATIVE_COST[5].shellCredits;
 window.bellibingForte=forteModel;
 window.dispatchEvent(new Event('bellibing-forte-ready'));
 import { projectStaticBuildStats } from './assets/build-stats/projection.mjs';
@@ -2146,48 +2146,23 @@ function projectImproveCurrentStats(name){
     const fail=reason=>{message=reason;messageIsError=true;renderResult();};
     if(IMPROVE_LAYOUT_PREVIEW||!improveUi.characterId||!improveUi.characterName){fail('Pending: select an owned Character with verified Echo data.');return;}
     const model=window.bellibingEchoSimulator, resources=window.bellibingResourceInventory;
-    if(!model||!window.bellibingGenerateSingleEchoCandidate||!resources?.commitSingleAttempt
-      ||!echoDataLoaded||!echoStatContract){fail('Pending: Echo Core, Resources or Echo catalog not ready.');return;}
-    const profile=echoLoadoutByCharacterId.get(improveUi.characterId);
-    const cost=profile?.slotCosts?.[selectedIndex];
-    if(![1,3,4].includes(cost)||!Array.isArray(profile?.sonataSetIds)||!profile.sonataSetIds.length){
-      fail('Pending: no reviewed Echo template for this Character and slot.');return;
+    if(!model||!resources?.getState||!echoDataLoaded||!echoStatContract){fail('Pending: Echo Core, Resources or Echo catalog not ready.');return;}
+    const inventory=resources.getState();
+    if(inventory.echoes.kind==='FINITE'&&inventory.echoes.count===0){
+      fail('No Echoes available. Zero is not unlimited.');return;
     }
-    const item=echoCatalog.find(e=>e.cost===cost&&e.sonataSetIds.some(id=>profile.sonataSetIds.includes(id)));
-    const sonata=item?.sonataSetIds.find(id=>profile.sonataSetIds.includes(id));
-    if(!item||!sonata){fail('Pending: no source-backed Echo identity for this slot.');return;}
-    try{
-      let session=improveUi.simulator;
-      if(session&&session.source.characterId!==improveUi.characterId)
-        throw new Error('Simulator Character context changed. Restart before spending.');
-      if(!session)session=model.startEchoSimulator(improveUi.characterId,improveBuildState(improveUi.characterName),crypto.randomUUID());
-      session=model.selectSimulatorSlot(session,selectedIndex+1);
-      if(session.slots[selectedIndex].candidate)throw new Error('This slot already has one candidate. Further attempts Pending.');
-      const initial=makeEchoStatCard(item,sonata);
-      const level5=echoMainOptions(cost,5).find(stat=>stat.name===initial.mainStat.name);
-      const secondary=echoSecondary(cost,5);
-      if(!level5||!secondary)throw new Error('Pending: exact +5 main-stat progression is unavailable.');
-      const inventory=resources.getState();
-      // Canonical RNG samples each stat type and tier; never use sample stats.
-      const rng={next(){return crypto.getRandomValues(new Uint32Array(1))[0]/4294967296;}};
-      const outcome=window.bellibingGenerateSingleEchoCandidate(inventory,initial,
-        {mainStat:level5,secondaryMainStat:secondary},rng);
-      const validated=validateEchoStatCard({...outcome.candidate,echoId:item.id,sonataSetIds:[...item.sonataSetIds],selectedSonataSetId:sonata},item);
-      if(validated)throw new Error('Generated Echo did not satisfy the verified card contract: '+validated);
-      const candidate={...outcome.candidate,echoId:item.id,sonataSetIds:[...item.sonataSetIds],selectedSonataSetId:sonata};
-      const staged=model.recordSimulatorCheckpoint(model.startSimulatorCandidate(session,initial),candidate);
-      // The only side effect is a CAS write to the shared user-owned budget.
-      resources.commitSingleAttempt(inventory,outcome.after);
-      improveUi.simulator=staged;
-      improveUi.selectedEchoIndex=selectedIndex;
-      improveUi.contextVersion++;
-      usedSessionId=staged.id;
-      usage.echoes+=outcome.spent.echoes;usage.tuners+=outcome.spent.tuners;
-      for(const id of Object.keys(usage.tubes))usage.tubes[id]+=outcome.spent.tubes[id];
-      message='';messageIsError=false;
-      improveUi.render();
-      renderResult();
-    }catch(error){fail(error?.message||'Pending: this candidate could not be funded.');}
+    if(inventory.tuners.kind==='FINITE'&&inventory.tuners.count<10){
+      fail('Not enough Tuners for +5. Zero is not unlimited.');return;
+    }
+    // Rank-5 +5 source truth also requires Shell Credits. The shared user
+    // Resource Inventory has no Shell Credit quantity / verified transaction.
+    // Until that owner exists, no RNG generation, Tube spending or write occurs.
+    const credits=window.bellibingSingleEchoShellCredits;
+    fail(Number.isSafeInteger(credits)&&credits>0
+      ?'Pending: +5 also requires '+credits.toLocaleString('en-US')+' Shell Credits. No verified balance/transaction exists. Nothing spent.'
+      :'Pending: exact Shell Credit spending is not source-verified. Nothing spent.');
+    return;
+
   }
   slots.forEach((slot,index)=>{
     slot.addEventListener('click',event=>{

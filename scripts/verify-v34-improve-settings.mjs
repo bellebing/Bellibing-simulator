@@ -42,6 +42,11 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await send('Input.dispatchMouseEvent',{type:'mouseReleased',...to,button:'left',clickCount:1}); await sleep(200);
   };
   const rowsUnique = async () => check(`(()=>{const rows=[...document.querySelectorAll('.improve-echo-row')],names=rows.map(n=>n.dataset.statName);return names.length===13&&new Set(names).size===13&&rows.every(n=>n.draggable&&n.querySelector('.improve-policy-handle').textContent==='≡')&&document.querySelectorAll('[data-echo-section=other] .improve-roll-slider').length===0&&JSON.stringify(rows.filter(n=>n.classList.contains('is-recommended')).map(n=>n.dataset.statName).sort())===JSON.stringify(['CRIT Rate','CRIT DMG','Energy Regen','ATK%','Heavy Attack DMG'].sort())})()`, '13 unique always-draggable rows, no other sliders, stable approved guidance');
+  const collapsedLayout = async width => {
+    await check(`JSON.stringify([...document.querySelectorAll('.improve-setting-label')].map(n=>n.textContent))===JSON.stringify(['Sonata Sets','Gate','Required Substats','Flex Substats','Stats'])`, 'exact collapsed column order and labels');
+    await check(`(()=>{const root=document.getElementById('improveSettings'),controls=root.querySelector('.improve-settings-controls'),columns=[...controls.children],rect=n=>n.getBoundingClientRect();return columns.every((n,i)=>rect(n).left>=rect(root).left&&rect(n).right<=rect(root).right&&(!i||rect(columns[i-1]).right<=rect(n).left))&&rect(root.querySelector('.improve-resources')).bottom<=rect(controls).top&&controls.scrollWidth<=controls.clientWidth&&document.documentElement.scrollWidth===${width}&&columns[0].children.length===1&&!columns[0].querySelector('button,input,select')})()`, 'Resources above five bounded columns; Sonata heading only; no horizontal overflow');
+    await check(`['gate','every','flex','target'].every(id=>{const trigger=document.getElementById('improve-setting-'+id);return trigger.getAttribute('aria-expanded')==='false'&&trigger.getAttribute('aria-label')===document.getElementById(trigger.id+'-label').textContent})`, 'existing collapsed controls and accessible names');
+  };
   const enter = async (selector, text) => {
     await click(selector);
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
@@ -105,6 +110,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await click(focus('mode:RECOMMENDED')); await click('#improve-setting-flex');
   for (const [width,height] of [[1440,900],[1920,1080],[2560,1440]]) {
     await setViewport(send,width,height); await settle();
+    await collapsedLayout(width);
     await check(`(()=>{const row=document.querySelector('.improve-resources');return row.getBoundingClientRect().height<=40&&row.scrollWidth<=row.clientWidth+1&&[...row.querySelectorAll('input')].every(n=>n.hidden)&&[...row.querySelectorAll('.improve-resource-value')].map(n=>n.textContent).join(',')==='12,∞,7,11,0,∞'})()`, 'compact icon summaries at '+width);
     await check(`JSON.stringify([...document.querySelectorAll('.improve-resource-tubes .improve-resource-label')].map(n=>n.innerText))===JSON.stringify(['Gold','Purple','Blue','Green'])`, 'collapsed visible Tube denomination names');
     await read("document.querySelector('.improve-resources').scrollIntoView({block:'center',behavior:'instant'})");

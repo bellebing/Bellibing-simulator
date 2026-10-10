@@ -22,6 +22,10 @@ const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitl
 const modes = element('div', undefined, 'improve-setting-chips'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Improve policy mode');
 heading.append(title, modes);
 const controls = element('div', undefined, 'improve-settings-controls');
+// Reserve only the collapsed Sonata position; selection is a separate feature.
+const sonataColumn = element('section', undefined, 'improve-setting');
+sonataColumn.dataset.setting = 'sonata';
+sonataColumn.append(element('h3', 'Sonata Sets', 'improve-setting-label'));
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
 const resources = element('div', undefined, 'improve-resources'); resources.setAttribute('role', 'group'); resources.setAttribute('aria-label', 'Resources');
@@ -105,14 +109,21 @@ function commit(change, focusKey, refresh = true) {
 }
 function setExpanded(next, restore = false) {
   expanded = !!next;
+  controls.classList.toggle('is-expanded', expanded);
+  const focused = controls.contains(document.activeElement) ? document.activeElement : null;
+  const order = expanded ? ['target', 'gate', 'every', 'flex'] : ['gate', 'every', 'flex', 'target'];
+  controls.replaceChildren(...(expanded ? [] : [sonataColumn]), ...order.map(id => groups.get(id).host));
   renderResources();
   for (const group of groups.values()) {
+    const label = expanded ? group.expandedLabel : group.collapsedLabel;
+    group.labelNode.textContent = label; group.trigger.setAttribute('aria-label', label);
     const open = expanded; group.host.classList.toggle('is-expanded', open);
     group.trigger.setAttribute('aria-expanded', String(open)); group.panel.inert = !open; group.panel.setAttribute('aria-hidden', String(!open));
   }
+  focused?.focus({ preventScroll: true });
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
+for (const [id, label, collapsedLabel] of [['target', 'Target', 'Stats'], ['gate', 'Gate', 'Gate'], ['every', 'Hard Requirements', 'Required Substats'], ['flex', 'Flex Stats', 'Flex Substats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
@@ -122,8 +133,9 @@ for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Ha
   trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
-  clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
+  clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content, labelNode, expandedLabel: label, collapsedLabel });
 }
+setExpanded(false);
 root.addEventListener('keydown', event => { if (event.key === 'Escape' && expanded) { event.preventDefault(); event.stopPropagation(); setExpanded(false, true); } });
 function origin(section, key) {
   if (resolved.compatibility.suspendedSections.includes(key)) return resolved.compatibility.status === 'REVIEW_REQUIRED' ? 'Needs review' : 'Pending';

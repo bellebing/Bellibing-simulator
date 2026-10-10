@@ -17,7 +17,13 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await read('document.fonts.ready');
   await check(`document.getElementById('improveCharacterPageTitle').textContent==='Improve your character'&&document.getElementById('improveSimulationPageTitle').textContent==='Simulate Echo Set'`,'exact titles');
   await check(`document.querySelector('#improveCharacterPage .improve-card-arrow').disabled&&!document.getElementById('improveCardNext').disabled&&!document.getElementById('improveCardPrevious').disabled&&document.querySelector('#improveSimulationPage .improve-card-arrow:last-child').disabled`,'native endpoint disabled states');
-  await check(`(()=>{const empty=document.getElementById('improveEmptyCard'),page=document.getElementById('improveSimulationPage');return empty.children.length===0&&empty.textContent===''&&page.children.length===2&&page.querySelectorAll('button').length===2})()`,'second card is only its header and empty surface');
+  await check(`(()=>{const empty=document.getElementById('improveEmptyCard'),page=document.getElementById('improveSimulationPage');return empty.children.length===2&&empty.children[0].classList.contains('improve-truth')&&empty.children[1].classList.contains('improve-stats')&&!empty.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings,button')&&page.children.length===2&&page.querySelectorAll('button').length===2})()`,'second card contains only its header and read-only Character/Stats; remaining area empty');
+  const sameCharacter=async()=>{
+    await check(`(()=>{const original=document.getElementById('improveBuildCard'),second=document.getElementById('improveEmptyCard');return ['.improve-truth','.improve-stats'].every(selector=>original.querySelector(selector).outerHTML===second.querySelector(selector).outerHTML.replaceAll('simulate-',''))})()`,'same rendered Character name/art, Sequence, Weapon, Forte and canonical stat values');
+    await check(`(()=>{const second=document.getElementById('improveEmptyCard');return [...second.querySelectorAll('[id]')].every(n=>document.querySelectorAll('[id="'+n.id+'"]').length===1)&&[...second.querySelectorAll('*')].every(n=>[...n.attributes].every(a=>[...a.value.matchAll(/url\\(#([^)]*)\\)/g)].every(match=>second.querySelector('[id="'+match[1]+'"]'))))})()`,'unique DOM/SVG IDs and valid local Forte gradient/filter references');
+    await check(`(()=>{const a=document.getElementById('improveBuildCard'),b=document.getElementById('improveEmptyCard'),ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();return ['.improve-truth','.improve-stats'].every(selector=>{const original=[a.querySelector(selector),...a.querySelector(selector).querySelectorAll('*')],copies=[b.querySelector(selector),...b.querySelector(selector).querySelectorAll('*')];return original.every((n,i)=>{const r=n.getBoundingClientRect(),s=copies[i].getBoundingClientRect();return Math.abs(r.width-s.width)<.1&&Math.abs(r.height-s.height)<.1&&(!(r.width||r.height)||(Math.abs(r.x-ar.x-s.x+br.x)<.1&&Math.abs(r.y-ar.y-s.y+br.y)<.1))&&['fontFamily','fontSize','color','background','border','borderRadius'].every(k=>getComputedStyle(n)[k]===getComputedStyle(copies[i])[k])})})})()`,'Character and Stats retain original relative layout, dimensions and styling');
+  };
+  await sameCharacter();
   // Include a real edited policy and selected Echo slot, not just default state.
   await click('#improve-setting-gate');await sleep(750);
   await click('[data-setting=gate] [data-setting-value="10"]');await sleep(750);
@@ -31,6 +37,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await check(`(()=>{const a=document.getElementById('improveCharacterPage'),b=document.getElementById('improveSimulationPage');return a.inert===${index===1}&&b.inert===${index===0}&&getComputedStyle(a).visibility==='${index===0?'visible':'hidden'}'&&getComputedStyle(b).visibility==='${index===1?'visible':'hidden'}'})()`,'only active card is visible and keyboard accessible');
     await check(`${snapshot}===${JSON.stringify(before)}`,'Character, Settings, equipment, resources, storage and session unchanged');
     await check(`window.__navigationCard===document.getElementById('improveBuildCard')&&window.__navigationSettings===document.getElementById('improveSettings')&&window.__navigationChild===document.getElementById('improveNewEcho')&&${geometry}===${JSON.stringify(originalGeometry)}`,'original workspace nodes, internal geometry and Settings survive navigation');
+    await sameCharacter();
     await check(`document.documentElement.scrollWidth===1440&&document.getElementById('improveCardDeck').scrollWidth<=document.getElementById('improveCardDeck').clientWidth`,'no horizontal overflow');
   };
   await active(0);
@@ -38,7 +45,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await capture(send,'artifacts/ui-preview-improve-navigation-first-1440x900.png');
   for(let cycle=0;cycle<3;cycle++){
     await click('#improveCardNext');await active(1);
-    await check(`(()=>{const a=document.getElementById('improveBuildCard'),b=document.getElementById('improveEmptyCard'),r=a.getBoundingClientRect(),s=b.getBoundingClientRect();return ['x','y','width','height'].every(k=>Math.abs(r[k]-s[k])<.1)&&['background','border','borderRadius','boxShadow'].every(k=>getComputedStyle(a)[k]===getComputedStyle(b)[k])})()`,'empty surface matches original dimensions, position and styling');
+    await check(`(()=>{const a=document.getElementById('improveBuildCard'),b=document.getElementById('improveEmptyCard'),r=a.getBoundingClientRect(),s=b.getBoundingClientRect();return ['x','y','width','height'].every(k=>Math.abs(r[k]-s[k])<.1)&&['background','border','borderRadius','boxShadow'].every(k=>getComputedStyle(a)[k]===getComputedStyle(b)[k])})()`,'second surface matches original dimensions, position and styling');
     await read(`document.querySelector('#improveSimulationPage .improve-card-arrow:last-child').click()`);await active(1);
     if(cycle===0){await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);await capture(send,'artifacts/ui-preview-improve-navigation-second-1440x900.png')}
     await click('#improveCardPrevious');await active(0);
@@ -65,5 +72,16 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   const saved=await read('JSON.stringify(Object.entries(localStorage).sort())');
   await navigate(send);await ready();await read("show('improve');improveUi.setCharacter('Augusta')");
   await check(`JSON.stringify(Object.entries(localStorage).sort())===${JSON.stringify(saved)}`,'saved choices survive reload');
-  console.log('PASS: 1440×900 two-card pointer/keyboard navigation, empty matching surface, mounted workspace, unchanged Settings/data/session, reload and original Echo chooser.');
+  await read("improvePicker.select('Augusta')");await sleep(800);await sameCharacter();
+  // Switch with Card 2 visible; it must follow the one existing Character owner.
+  await click('#improveCardNext');
+  for(const name of ['Chixia','Augusta']){
+    await read(`improvePicker.select(${JSON.stringify(name)})`);await sleep(800);await sameCharacter();
+    await check(`document.getElementById('simulate-improveCharacterName').textContent===${JSON.stringify(name)}&&improveUi.characterName===${JSON.stringify(name)}`,'Character switches update both cards while Card 2 is visible');
+    await check('document.documentElement.scrollWidth===1440','no overflow after Character switch');
+  }
+  await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);
+  await capture(send,'artifacts/ui-preview-simulate-character-1440x900.png');
+  await click('#improveCardPrevious');await sameCharacter();
+  console.log('PASS: 1440×900 two-card pointer/keyboard navigation, matching Character/Stats presentation and switching, empty remaining area, mounted workspace, unchanged Settings/data/session, reload and original Echo chooser.');
 }

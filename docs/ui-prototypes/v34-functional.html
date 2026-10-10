@@ -188,6 +188,7 @@
 .improve-card-arrow:disabled{color:#747b85;cursor:default}
 .improve-card-arrow:focus-visible{outline:2px solid #c9a85f;outline-offset:1px;border-radius:5px}
 .improve-empty-card{flex:1;width:100%}
+#improveEmptyCard{flex:1}
 
 .improve-truth{grid-column:1;grid-row:1/3;min-width:0;display:grid;gap:10px;align-content:start}
 .improve-truth-art{position:relative;height:238px;overflow:hidden;isolation:isolate;border-radius:12px;background:radial-gradient(ellipse at 50% 44%,rgba(255,165,70,.105),transparent 68%)}
@@ -198,7 +199,7 @@
 .improve-character-context{display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:2px;align-items:center}
 .improve-sequence-list.seq-line{height:230px;margin:0;align-items:center;width:28px}.improve-sequence-list .node{width:23px;height:23px;min-height:23px;flex:none;cursor:default;pointer-events:none}.improve-sequence-list .n6{width:28px;height:28px}.improve-sequence-list .n5{width:27px;height:27px}.improve-sequence-list .n4{width:25px;height:25px}.improve-sequence-list .seq-tag{font-size:7px}
 .improve-weapon-truth{padding:7px 9px;display:grid;justify-items:center;gap:3px;border:1px solid rgba(255,255,255,.085);border-radius:12px;background:rgba(255,255,255,.024)}.improve-weapon-truth>strong{width:100%;text-align:center;font-family:var(--font-display);font-size:15px;font-weight:400;line-height:1.22;overflow-wrap:anywhere}.improve-weapon-art{position:relative;width:100%;height:96px;display:grid;place-items:center}.improve-weapon-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px rgba(0,0,0,.40))}.improve-weapon-facts{width:100%;display:grid;gap:4px;font-size:10px;color:#a1a8b2}.improve-weapon-facts>div{display:flex;justify-content:space-between;gap:5px}.improve-weapon-facts>div:first-child{color:#d9c595;font-size:11px}.improve-weapon-facts strong{color:#d2d6dc;font-variant-numeric:tabular-nums;white-space:nowrap}
-.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree{height:142px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
+.improve-skills-truth{min-width:0}.improve-skills-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.improve-skills-head strong{font-family:var(--font-display);font-size:17px;font-weight:400;line-height:1.22}.improve-skills-head small{color:#8e96a1;font-size:9px}#improveSkillsTree,#simulate-improveSkillsTree{height:142px}.improve-candidate-edit{margin:0;padding:0;border:0;background:transparent;color:#e4d5b5;font:inherit;font-size:9px;cursor:pointer}.improve-candidate-edit:hover{color:#fff0bf;text-decoration:underline}.improve-candidate-edit:focus-visible{outline:2px solid #d8b568;outline-offset:2px}#echoOverlay[data-context="candidate"] .echo-workspace-slot:disabled{opacity:1;cursor:default}
 .improve-stats{grid-column:2;grid-row:1/3;min-width:0;padding:3px 0}.improve-panel-title{margin:0 0 10px;font-family:var(--font-display);font-size:24px;font-weight:400;line-height:1.22}.improve-preview-note{margin:0 0 8px;color:#b5a37e;font-size:9px;line-height:1.35}.improve-preview-note[hidden]{display:none}.improve-stat-head,.improve-stat-row{display:grid;grid-template-columns:minmax(0,1fr) 61px 10px 29px;align-items:center;column-gap:4px}.improve-stat-head{min-height:24px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.09);color:#939ba6;font-size:9px;font-weight:700}.improve-stat-head span:nth-child(n+2){text-align:right}.improve-stat-list{display:grid}.improve-stat-row{min-height:34px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.052);font-size:11px}.improve-stat-icon{width:15px;height:15px;object-fit:contain;opacity:.82;margin-right:5px;vertical-align:-3px}.improve-stat-label{min-width:0;color:#b0b6bf;line-height:1.35}.improve-stat-current,.improve-stat-new{text-align:right;color:#e8e6e1;font-size:11px;font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}.improve-stat-new{color:#939ba6}.improve-stat-arrow{text-align:center;color:#737c89}.improve-stat-row.is-positive .improve-stat-new{color:#79c89c}.improve-stat-row.is-negative .improve-stat-new{color:#e37b7b}
 .improve-workspace{grid-column:3;grid-row:1;min-width:0;display:grid;grid-template-columns:minmax(174px,1fr) minmax(214px,1.4fr) minmax(174px,1fr);gap:10px;align-items:start}
 .improve-workspace-card{min-width:0;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.018);overflow:hidden}.improve-current-echo,.improve-new-echo{display:flex;flex-direction:column;align-self:stretch}.improve-new-echo .improve-echo-large-art{flex:1;min-height:106px}
@@ -527,7 +528,7 @@
         <h2 id="improveSimulationPageTitle">Simulate Echo Set</h2>
         <button class="improve-card-arrow" type="button" aria-label="Next card" disabled><span aria-hidden="true">›</span></button>
       </header>
-      <div id="improveEmptyCard" class="improve-empty-card improve-surface"></div>
+      <div id="improveEmptyCard" class="improve-empty-card improve-build-card improve-surface" aria-label="Current Character information and stats"></div>
     </section>
   </div>
 </div></div></section>
@@ -2203,6 +2204,33 @@ const improveUi={
   },
   refresh(){if(this.characterName)this.render()}
 };
+// Card 2 reuses the existing read-only Character presentation, not a second
+// Character model or stats projection. Observe its owners so async source/art
+// updates and Character switches are reflected before the next browser paint.
+{
+  const source=document.getElementById('improveBuildCard');
+  const sections=[source.querySelector('.improve-truth'),source.querySelector('.improve-stats')];
+  const host=document.getElementById('improveEmptyCard');
+  function syncSimulateCharacterPresentation(){
+    const copies=sections.map(section=>section.cloneNode(true));
+    const ids=new Map(copies.flatMap(section=>[...section.querySelectorAll('[id]')].map(node=>[node.id,'simulate-'+node.id])));
+    for(const section of copies)for(const node of [section,...section.querySelectorAll('*')]){
+      // Remap DOM/SVG IDs and local references, including Forte gold gradients.
+      if(node.id)node.id=ids.get(node.id);
+      for(const attribute of [...node.attributes]){
+        let value=attribute.value;
+        if(['aria-labelledby','aria-describedby','aria-controls','for'].includes(attribute.name))value=value.split(' ').map(id=>ids.get(id)||id).join(' ');
+        if(['href','xlink:href'].includes(attribute.name)&&value.startsWith('#')&&ids.has(value.slice(1)))value='#'+ids.get(value.slice(1));
+        value=value.replace(/url\(#([^)]*)\)/g,(match,id)=>ids.has(id)?'url(#'+ids.get(id)+')':match);
+        if(value!==attribute.value)node.setAttribute(attribute.name,value);
+      }
+    }
+    host.replaceChildren(...copies);
+  }
+  const observer=new MutationObserver(syncSimulateCharacterPresentation);
+  sections.forEach(section=>observer.observe(section,{subtree:true,childList:true,characterData:true,attributes:true}));
+  syncSimulateCharacterPresentation();
+}
 window.addEventListener('bellibing-echo-simulator-ready',()=>improveUi.renderSimulationMode());
 window.addEventListener('bellibing-forte-ready',()=>improveUi.refresh());
 window.addEventListener('bellibing-improve-settings-ready',()=>window.bellibingImproveSettings.setCharacter(improveUi.characterId));

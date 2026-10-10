@@ -315,7 +315,7 @@ function savedIntent(state: ImprovePolicyState): ImprovePolicyState {
 function readResourceTransactions(value: unknown): ResourceTransactionHistory {
   const row = record(value);
   if (Object.keys(row).sort().join() !== 'consumedIds,revision'
-    || !Number.isSafeInteger(row.revision) || (row.revision as number) < 0
+    || typeof row.revision !== 'number' || !Number.isSafeInteger(row.revision) || (row.revision as number) < 0
     || !Array.isArray(row.consumedIds)
     || !row.consumedIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id))
     || new Set(row.consumedIds).size !== row.consumedIds.length

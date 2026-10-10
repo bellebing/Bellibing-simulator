@@ -85,7 +85,11 @@ test('unlimited resources remain unlimited while consumed counts stay actual', (
 
 test('stale snapshots, retry, duplicate IDs and an earlier ID after subsequent commits reject', () => {
   const storage = memory();
-  seed(storage, stock('premium', 4));
+  let supply = stock('premium', 4);
+  supply = updateResourceInventory(supply, 'echoes', finite(3));
+  supply = updateResourceInventory(supply, 'tuners', finite(30));
+  supply = updateResourceInventory(supply, 'shellCredits', finite(7320));
+  seed(storage, supply);
   const before = readRank5Plus5Snapshot(storage);
   commitRank5Plus5Resources(storage, before, 'same-id');
   const saved = raw(storage);

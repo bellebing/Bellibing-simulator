@@ -13,6 +13,9 @@ import { recommendedCharacterStatsPresentation } from './character-target-presen
 const root = document.getElementById('improveSettings');
 let store, storageError = null, retiredEchoRecovery = false;
 let writerQueue = Promise.resolve();
+// Only cross-tab writes invalidate already queued local edits. A burst of edits
+// from this same tab is serialized and rebased under the same exclusive lock.
+let externalWriteEpoch = 0;
 function coordinatedWrite(action) {
   const pending = writerQueue.then(() => withExclusiveImprovePolicyStorage(action));
   writerQueue = pending.then(() => {}, () => {});
@@ -58,9 +61,9 @@ function renderResources() {
     input.onchange = async () => {
       try {
         const value = parseInventoryQuantity(input.value);
-        const baseline = JSON.stringify(inventory), revision = store.resourceTransactions?.revision ?? 0;
+        const epoch = externalWriteEpoch;
         await coordinatedWrite(() => {
-          if (baseline !== JSON.stringify(inventory) || revision !== (store.resourceTransactions?.revision ?? 0))
+          if (epoch !== externalWriteEpoch)
             throw new Error('Stale shared resource inventory; reload before editing.');
           const next = updateResourceInventory(inventory, id, value);
           store = persistResourceInventory(store, next, localStorage);
@@ -95,11 +98,11 @@ function button(label, callback, key, selected) {
 async function save() {
   if (!store || storageError) { saveNote.textContent = storageError; saveNote.hidden = false; return false; }
   const candidate = settings, selected = characterId;
-  const baseline = JSON.stringify(store.characters[selected] ?? null);
+  const epoch = externalWriteEpoch;
   try {
     await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
-      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before editing.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
       store = persistImprovePolicyState(store, candidate, localStorage);
     });
     saveNote.hidden = true; return true;
@@ -107,11 +110,11 @@ async function save() {
 }
 // Recovery is explicit; rejected bytes remain untouched until the existing reset is used.
 async function resetRetiredEchoPolicy() {
-  const selected = characterId, baseline = JSON.stringify(store.characters[selected] ?? null);
+  const selected = characterId, epoch = externalWriteEpoch;
   try {
     await coordinatedWrite(() => {
       if (selected !== characterId) throw new Error('Character changed before recovery.');
-      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before recovery.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before recovery.');
       const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
       store = persistImprovePolicyState(store, next, localStorage);
       settings = next;
@@ -121,11 +124,11 @@ async function resetRetiredEchoPolicy() {
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
 }
 async function commit(change, focusKey, refresh = true) {
-  const selected = characterId, baseline = JSON.stringify(store.characters[selected] ?? null);
+  const selected = characterId, epoch = externalWriteEpoch;
   try {
     await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
-      if (baseline !== JSON.stringify(store.characters[selected] ?? null)) throw new Error('Stale Improve settings; reload before editing.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
       const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
       store = persistImprovePolicyState(store, next, localStorage);
       settings = next;
@@ -430,6 +433,7 @@ function setCharacter(id) {
 }
 window.addEventListener('storage', event => {
   if (event.key !== IMPROVE_POLICY_STORAGE_KEY || event.storageArea !== localStorage) return;
+  externalWriteEpoch++;
   try {
     const live = loadImprovePolicyStorage(localStorage);
     store = live; inventory = live.resourceInventory ?? emptyResourceInventory();

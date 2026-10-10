@@ -137,7 +137,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     const change=(id,value)=>{const input=document.querySelector('[data-resource="'+id+'"] input');input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));};
     change('echoes','2');change('tuners','20');change('premium','2');
   })()`);
-  await check('window.bellibingResourceInventory.getState().echoes.count===2&&window.bellibingResourceInventory.getState().tuners.count===20&&window.bellibingResourceInventory.getState().tubes.premium.count===2','persisted source budgets');
+  await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===2&&window.bellibingResourceInventory.getState().tuners.count===20&&window.bellibingResourceInventory.getState().tubes.premium.count===2','persisted source budgets',6000);
   const budgetBefore=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
   for(const index of [4,2]){
     await click('.simulate-echo-slot:nth-child('+index+')');

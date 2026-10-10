@@ -1,4 +1,4 @@
-import { readResourceInventory } from "./resourceInventory.js";
+import { emptyResourceInventory, readResourceInventory } from "./resourceInventory.js";
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
@@ -237,6 +237,18 @@ function savedIntent(state) {
         mode: state.mode, overrides: overrides, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
         migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
 }
+function readResourceTransactions(value) {
+    const row = record(value);
+    if (Object.keys(row).sort().join() !== 'consumedIds,revision'
+        || typeof row.revision !== 'number' || !Number.isSafeInteger(row.revision) || row.revision < 0
+        || !Array.isArray(row.consumedIds)
+        || !row.consumedIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id))
+        || new Set(row.consumedIds).size !== row.consumedIds.length
+        || row.consumedIds.length !== row.revision) {
+        throw new Error('Saved resource transaction history needs review.');
+    }
+    return { revision: row.revision, consumedIds: [...row.consumedIds] };
+}
 export function loadImprovePolicyStorage(storage) {
     const raw = storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
     if (raw !== null) {
@@ -245,6 +257,7 @@ export function loadImprovePolicyStorage(storage) {
         if (saved.version !== 3)
             throw new Error('Unsupported Improve policy storage version.');
         return { version: 3,
+            ...(own(saved, 'resourceTransactions') ? { resourceTransactions: readResourceTransactions(saved.resourceTransactions) } : {}),
             ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
             characters: structuredClone(record(saved.characters)),
             pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
@@ -304,17 +317,26 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         : createImprovePolicyState(characterId, recommended);
 }
 export function persistImprovePolicyState(store, state, storage) {
-    const pendingV2Characters = { ...store.pendingV2Characters };
+    // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
+    const live = loadImprovePolicyStorage(storage);
+    const pendingV2Characters = { ...live.pendingV2Characters };
     delete pendingV2Characters[state.characterId];
-    const next = { ...store, version: 3,
-        characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
+    const next = { ...live, version: 3,
+        characters: { ...live.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
     // Write before returning the new immutable store; failure cannot mark a save committed.
     storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
     return next;
 }
 /** Same user-owned envelope and write-before-commit recovery discipline as settings. */
 export function persistResourceInventory(store, inventory, storage) {
-    const next = { ...store, resourceInventory: readResourceInventory(inventory) };
+    const live = loadImprovePolicyStorage(storage);
+    const previous = readResourceInventory(store.resourceInventory ?? { ...emptyResourceInventory() });
+    const current = readResourceInventory(live.resourceInventory ?? { ...emptyResourceInventory() });
+    if (JSON.stringify(previous) !== JSON.stringify(current)
+        || (store.resourceTransactions?.revision ?? 0) !== (live.resourceTransactions?.revision ?? 0)) {
+        throw new Error('Stale shared resource inventory; reload before editing.');
+    }
+    const next = { ...live, resourceInventory: readResourceInventory(inventory) };
     storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
     return next;
 }

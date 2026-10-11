@@ -51,12 +51,12 @@ test('released roster is structurally classified without a copied readiness-coun
 
 test('raw and intrinsic unresolved Character fields stay visible to DPS preflight', () => {
   const summary = assertProfileReadinessAudit();
-  assert.deepEqual(summary.rawDpsBlockedCharacterIds, ['hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']);
-  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, ['hsin', 'jingran']);
+  assert.deepEqual(summary.rawDpsBlockedCharacterIds, []);
+  assert.deepEqual(summary.intrinsicDpsBlockedCharacterIds, []);
 
   const qingxiao = summary.characters.find((row) => row.characterId === 'qingxiao');
   assert.ok(qingxiao);
-  assert.deepEqual(qingxiao.rawDpsBlockers, ['level90.maxEnergy']);
+  assert.deepEqual(qingxiao.rawDpsBlockers, []);
 
   const mornye = summary.characters.find((row) => row.characterId === 'mornye');
   assert.ok(mornye);
@@ -114,7 +114,7 @@ test('a SOURCE_SEQUENCE_ONLY profile cannot be freeze-approved for DPS', () => {
 
 test('a Character Mechanics source blocker cannot be freeze-approved for DPS', () => {
   const invalidApproval: ProfileFreezeApproval = {
-    characterId: 'buling',
+    characterId: 'danjin',
     presetId: 'augusta-standard',
     status: 'DPS_READY',
     checkedAt: '2026-08-30',

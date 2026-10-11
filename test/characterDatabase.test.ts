@@ -130,6 +130,19 @@ test('batch export preserves canonical identities, source provenance and relatio
   assert.deepEqual(JSON.parse(serialized), JSON.parse(JSON.stringify(db)));
 });
 
+test('Mornye corrected intrinsic total is shared by Character catalog and detached database export', () => {
+  const source = CHARACTER_CATALOG.find((row) => row.id === 'mornye')!;
+  const exported = buildCharacterDatabase().characters.find((row) => row.id === 'mornye')!;
+  const expected = [{ stat: 'Healing Bonus', value: 0.12 }, { stat: 'DEF%', value: 0.152 }];
+  assert.deepEqual(source.intrinsicStats, expected);
+  assert.deepEqual(exported.intrinsicStats, expected);
+  assert.deepEqual(exported.intrinsic?.stats, expected);
+  assert.ok(exported.intrinsic?.provenance.sourceLabels.some((label) => label.includes('3.7.0')));
+  assert.equal(exported.verificationStatus, source.verificationStatus);
+  assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters
+    .find((row: { id: string }) => row.id === 'mornye')?.intrinsic.stats, expected);
+});
+
 test('source completeness never grants a new DPS engine or closes Reference Team pending', () => {
   const db = buildCharacterDatabase();
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),

@@ -104,7 +104,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await click('#simulateEditEcho');
     await waitForUi(send,'echoUi.open&&echoUi.context.kind==="simulate-setup"','Complete Echo Workshop did not open');
     await check('document.getElementById("echoTitle").textContent.includes("Echo Workshop")&&document.getElementById("echoWorkspaceSlots").hidden&&!document.querySelector(".echo-editor-stats").hidden&&!document.querySelector(".echo-preview-sonata-assignment").hidden&&getComputedStyle(document.querySelector(".echo-editor-stats")).display!=="none"','must reuse full Echo Workshop with main/substats/Sonata');
-    if(all){await click('#echoSonataToggle');await click('#echoSonataAll')}
+    if(all){await click('#echoSonataToggle');await click('#echoSonataAll');await click('#echoSonataToggle')}
   };
   const augustaPresets=[
     ['echo-60001215','sonata-20',4,'CRIT Rate'],
@@ -153,7 +153,9 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   const createPrepared=async(index,id)=>{
     await openEditor(index,true);
     await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
-    await check('echoUi.editorDraft.echoId==='+JSON.stringify(id)+'&&echoUi.editorDraft.substats.length===0&&echoUi.editorDraft.level===0&&echoUi.editorDraft.rank===echoStatContract.rank','new Echo must start with canonical Main/secondary only and zero rolls');
+    const newCard=await read('({preview:echoUi.previewId,draft:echoUi.editorDraft,filter:echoUi.filter,sonatas:[...echoUi.selectedSonataIds]})');
+    if(newCard.draft?.echoId!==id||newCard.draft?.substats.length!==0||newCard.draft?.level!==0||newCard.draft?.rank!==echoStatContract.rank)
+      throw new Error('New Echo identity should start with canonical Main/secondary, no rolls: '+JSON.stringify({id,newCard}));
     const card=await read('cloneEchoSlot(echoUi.editorDraft)');
     await saveEditor();
     await check('document.querySelector(".simulate-echo-slot:nth-child('+index+')").dataset.preparedEchoId==='+JSON.stringify(id),'prepared slot identity');

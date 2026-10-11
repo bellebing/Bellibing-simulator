@@ -25,6 +25,8 @@
 | **S6** | [Pity.gg Echo stats table](https://pity.gg/wuthering-waves/echoes), page version/timestamp not explicit | Rank-5 full-cost row: **142,600 EXP, 5 tunes, 50 Tuners, 24,260 Shell Credits**. | **VERIFIED current public cross-check** of totals; independent presentation, underlying data independence not demonstrated. No transaction/rounding evidence. |
 | **S7** | [Official Kuro Version 3.7 announcement](https://mc.kurogames.com/main/news/detail/5569), 2026-09-30 | Confirms Version **3.7 went live on 2026-09-30**. | **VERIFIED release context** for 2026-10-02 article; *not* an official endorsement of the article's numerical economy claims. |
 
+**CONFLICT status:** **None established for the scoped current charge rule.** Older Version 1.0 prices and historically fixed overcharge behavior are genuine **version drift**, not competing valid Version 3.7 rules. Apparent ambiguity in S4 is an unreliable video/rapid-input observation, not a contradictory exact post-cap charge fixture.
+
 **Source independence:** S3 is the strongest **observed game UI** on +25 credit-cap semantics; S2/S6 may share data lineage and are not counted as two independent experiments. S4/S5 provide historically distinct user reports. **No live client transaction was run by this worker.** Any inaccessible direct wiki page was checked through its indexed public text; a search-index extract is not a client replay.
 
 ## Existing verified checkpoint contract (thresholds, not bills for arbitrary Tubes)

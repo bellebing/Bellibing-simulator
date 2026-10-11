@@ -77,10 +77,19 @@ export const CHARACTER_INTRINSIC_PROFILES: readonly CharacterIntrinsicProfile[] 
   verified('lynae', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
   verified(
     'mornye',
-    [{ stat: 'Healing Bonus', value: 0.10 }, { stat: 'DEF%', value: 0.152 }],
-    ['Prydwen — current Minor Fortes', 'Wutheringlab — current Forte nodes'],
-    ['Node-level review resolves DEF% as 2.28% + 5.32% on each of Mornye’s two DEF strands, totaling 15.20%.'],
-    '2026-08-31',
+    [{ stat: 'Healing Bonus', value: 0.12 }, { stat: 'DEF%', value: 0.152 }],
+    [
+      'Arikatsu/WutheringWaves_Data skilltree.json — GameVer 3.6.0 @353f2eaed119bc9f680eab92807d20ac75a79b40',
+      'Arikatsu/WutheringWaves_Data skilltree.json — GameVer 3.7.0 @9218d612ad815e398e064e577e42aaf878899968',
+      'DommyMM/wuwabuild Characters.json — @2b57a127b26b062ab58d272cd6735338507de1cd',
+      'Game8 — itemized Mornye Forte stat nodes',
+    ],
+    [
+      'Healing Bonus: original tree nodes 697/701 and 700/704 grant 1.80% + 4.20% per strand = 12.00% fully unlocked; unchanged in GameVer 3.6.0 and 3.7.0.',
+      'DEF%: original tree nodes 698/702 and 699/703 grant 2.28% + 5.32% per strand = 15.20% fully unlocked.',
+      'Prydwen/Wutheringlab aggregate +10% Healing totals disagree with the original game nodes; no alternate unlock state was verified.',
+    ],
+    '2026-10-11',
   ),
   verified('mortefi', [{ stat: 'Fusion DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }]),
   verified('phoebe', [{ stat: 'CRIT DMG', value: 0.16 }, { stat: 'ATK%', value: 0.12 }]),

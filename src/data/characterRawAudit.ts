@@ -27,12 +27,18 @@ export interface CharacterRawPendingField {
  * stale pending exception is removed too. This prevents silent half-records.
  */
 export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [
-  ...['hsin', 'jingran'].map((characterId): CharacterRawPendingField => ({
-    characterId,
-    fields: ['hp', 'atk', 'def', 'maxEnergy'],
-    checkedAt: '2026-10-06',
-    reason: 'Released identity reviewed separately from progression. No level-90 convention or Max Energy semantic promotion in the catalog freshness review.',
-  })),
+  {
+    characterId: 'hsin',
+    fields: ['maxEnergy'],
+    checkedAt: '2026-10-11',
+    reason: 'Published Lv90 HP/ATK/DEF verified from current 3.7.12 game-facing display; no independently reviewed Max Energy cap. Liberation Resonance Cost 125 is not the cap and third-party 140 remains semantic-pending.',
+  },
+  {
+    characterId: 'jingran',
+    fields: ['def', 'maxEnergy'],
+    checkedAt: '2026-10-11',
+    reason: 'Lv90 HP/ATK verified with game-facing integer convention; displayed DEF 0 may be the permanent kit-fixed effect rather than unmodified raw base. Energy labels 125/140 disagree and Liberation Cost is not a cap.',
+  },
   {
     characterId: 'qingxiao',
     fields: ['maxEnergy'],

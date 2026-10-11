@@ -277,11 +277,17 @@ test('CLI writes usable JSON and an invalid invocation preserves the last succes
 
 test('released identity export preserves Pending progression, mechanics and DPS boundaries', () => {
   const db = buildCharacterDatabase();
-  for (const id of ['hsin', 'jingran']) {
+  for (const [id,level90] of [
+    ['hsin',{hp:10300,atk:463,def:1112,maxEnergy:null}],
+    ['jingran',{hp:15375,atk:313,def:null,maxEnergy:null}],
+  ] as const) {
     const character = db.characters.find(row => row.id === id)!;
     assert.equal(character.releaseStatus, 'RELEASED');
-    assert.deepEqual(character.level90, { hp: null, atk: null, def: null, maxEnergy: null });
+    assert.equal(character.verificationStatus,'PARTIALLY_VERIFIED');
+    assert.equal(character.integrationStatus,'DATA_ONLY');
+    assert.deepEqual(character.level90, level90);
     assert.equal(db.mechanicsFacts.some(fact => fact.characterId === id), false);
+    assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters.find((row: {id:string})=>row.id===id)?.level90,level90);
   }
   assert.equal(db.characters.find(row => row.id === 'suoming')!.releaseStatus, 'CONFIRMED_UPCOMING');
 });

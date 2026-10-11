@@ -55,6 +55,10 @@ Eight passive families are projected into the existing effect catalog: two uncon
 
 Current core/effect gates use bounded V37 snapshots (123 released weapons / 244 effect rows); V36 historical evidence is preserved. Separate V37 backward-impact reviews cover compatible current users and existing profiles. The source-backed browser snapshot has 62 static Build-stat effects; no new conditional execution adapter is added.
 
+## Weapon icon presentation boundary
+
+The released Blooming Jadehaven record and weapon effect facts are source-backed, but the local weapon-icon manifest does not yet contain a vetted Blooming Jadehaven image (122 icon entries versus 123 released weapons). The canonical browser projection therefore uses an explicit **ART PENDING** neutral placeholder only for this weapon; it never displays another weapon's art or invents source identity. All other missing canonical icons still fail the browser loader. Importing, provenance-checking and registering the real Blooming Jadehaven icon remains a separate pending visual-asset task, not a Character/Weapon data or DPS blocker.
+
 ## Verification and remaining work
 
 Focused regression tests cover the complete signature/guide identity joins, source order and missing columns, mode/stat prerequisites, artifact pins/generator parity, new passive curves and scope, detached export, existing profile isolation and historical/current weapon gates. The normal strict build and generated browser/database parity are checked. Automatic draft FAST verification is checked on publication. FULL CI, browser/end-to-end verification, independent guide performance comparisons and landing remain deferred.

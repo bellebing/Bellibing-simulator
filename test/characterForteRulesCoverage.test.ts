@@ -43,7 +43,7 @@ test('PR221 ACTIONS coverage stays exactly unchanged', () => {
   );
 });
 
-test('Forte completion does not promote the three partial full mechanics profiles', () => {
+test('Forte coverage stays unchanged while OUTRO completion does not promote the three partial full mechanics profiles', () => {
   const buling = CHARACTER_MECHANICS_PROFILE_BY_ID.get('buling');
   const danjin = CHARACTER_MECHANICS_PROFILE_BY_ID.get('danjin');
   const xiangli = CHARACTER_MECHANICS_PROFILE_BY_ID.get('xiangli-yao');
@@ -58,7 +58,7 @@ test('Forte completion does not promote the three partial full mechanics profile
 
   for (const profile of [buling, danjin, xiangli]) {
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'PENDING');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'PENDING');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'PENDING');
   }

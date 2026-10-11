@@ -158,6 +158,44 @@ test('fresh release identities preserve unresolved progression and bounded curre
   }
 });
 
+test('Batch 2 signs off exactly four reviewed Character raw records without inventing gameplay readiness', () => {
+  const reviewed = [
+    { id: 'baizhi', rarity: 4, element: 'Glacio', weaponType: 'Rectifier',
+      hp: 12813, atk: 213, def: 1002, maxEnergy: 175,
+      intrinsicStats: [{ stat: 'HP%', value: 0.12 }, { stat: 'Healing Bonus', value: 0.12 }] },
+    { id: 'sanhua', rarity: 4, element: 'Glacio', weaponType: 'Sword',
+      hp: 10063, atk: 275, def: 941, maxEnergy: 100,
+      intrinsicStats: [{ stat: 'Glacio DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+    { id: 'verina', rarity: 5, element: 'Spectro', weaponType: 'Rectifier',
+      hp: 14238, atk: 338, def: 1100, maxEnergy: 175,
+      intrinsicStats: [{ stat: 'ATK%', value: 0.12 }, { stat: 'Healing Bonus', value: 0.12 }] },
+    { id: 'yangyang', rarity: 4, element: 'Aero', weaponType: 'Sword',
+      hp: 10200, atk: 250, def: 1100, maxEnergy: 100,
+      intrinsicStats: [{ stat: 'Aero DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+  ];
+  const reviewedIds = new Set(reviewed.map(row => row.id));
+  assert.equal(CHARACTER_CATALOG.filter(row => reviewedIds.has(row.id)).length, 4);
+  for (const expected of reviewed) {
+    const character = getCharacterGameData(expected.id)!;
+    assert.equal(character.verificationStatus, 'VERIFIED', expected.id);
+    assert.equal(character.integrationStatus, 'DATA_ONLY', expected.id);
+    assert.equal(character.releaseStatus, 'RELEASED', expected.id);
+    assert.equal(character.rarity, expected.rarity, expected.id);
+    assert.equal(character.element, expected.element, expected.id);
+    assert.equal(character.weaponType, expected.weaponType, expected.id);
+    assert.deepEqual(character.level90,
+      {hp:expected.hp,atk:expected.atk,def:expected.def,maxEnergy:expected.maxEnergy});
+    assert.deepEqual(character.baseCombat, {critRate:0.05,critDamage:1.5,energyRegen:1});
+    assert.deepEqual(character.intrinsicStats, expected.intrinsicStats, expected.id);
+    assert.equal(character.provenance.checkedAt, '2026-10-11');
+    assert.ok(character.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(character.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  for (const id of ['denia','hsin','jingran','qingxiao','rover-electro','suisui']) {
+    assert.equal(getCharacterGameData(id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+  }
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

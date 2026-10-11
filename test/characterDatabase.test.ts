@@ -161,6 +161,36 @@ test('source completeness never grants a new DPS engine or closes Reference Team
     'SOURCE_SEQUENCE_ONLY');
 });
 
+test('Batch 3 source-approved raw records round-trip through detached and serialized Character Database without DPS approval', () => {
+  const database = buildCharacterDatabase();
+  const serialized = JSON.parse(serializeCharacterDatabase());
+  for (const id of ['encore', 'mortefi', 'taoqi', 'zhezhi']) {
+    const source = CHARACTER_CATALOG.find(row => row.id === id)!;
+    const exported = database.characters.find(row => row.id === id)!;
+    const output = serialized.characters.find((row: { id: string }) => row.id === id);
+    assert.ok(output, id);
+    assert.equal(source.verificationStatus, 'VERIFIED', id);
+    assert.equal(exported.verificationStatus, 'VERIFIED', id);
+    assert.equal(exported.releaseStatus, 'RELEASED', id);
+    assert.equal(exported.integrationStatus, 'DATA_ONLY', id);
+    assert.notEqual(exported.readiness?.disposition, 'DPS_READY', id);
+    assert.deepEqual(exported.level90, source.level90, id);
+    assert.deepEqual(exported.baseCombat, source.baseCombat, id);
+    assert.deepEqual(exported.intrinsicStats, source.intrinsicStats, id);
+    assert.deepEqual(exported.provenance, source.provenance, id);
+    assert.notStrictEqual(exported.provenance, source.provenance, id);
+    assert.deepEqual(output.level90, source.level90, id);
+    assert.deepEqual(output.baseCombat, source.baseCombat, id);
+    assert.deepEqual(output.intrinsicStats, source.intrinsicStats, id);
+    assert.deepEqual(output.provenance, source.provenance, id);
+    assert.equal(output.verificationStatus, 'VERIFIED', id);
+    assert.equal(output.integrationStatus, 'DATA_ONLY', id);
+  }
+  for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
+    assert.equal(database.characters.find(row => row.id === id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+  }
+});
+
 test('a client editing its database copy cannot mutate canonical data or the next export', () => {
   const before = serializeCharacterDatabase();
   const db = buildCharacterDatabase();

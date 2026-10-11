@@ -274,6 +274,32 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   assert.deepEqual(audit.unknownPendingCharacters, []);
 });
 
+test('Batch 6 verifies Changli, Jinhsi and Jiyan raw Level90 and static Forte facts', () => {
+  const reviewed = [
+    { id: 'changli', element: 'Fusion', weaponType: 'Sword', hp: 10388, atk: 463, def: 1100, maxEnergy: 125 },
+    { id: 'jinhsi', element: 'Spectro', weaponType: 'Broadblade', hp: 10825, atk: 413, def: 1259, maxEnergy: 125 },
+    { id: 'jiyan', element: 'Aero', weaponType: 'Broadblade', hp: 10488, atk: 438, def: 1185, maxEnergy: 125 },
+  ] as const;
+  for (const expected of reviewed) {
+    const c = getCharacterGameData(expected.id)!;
+    assert.equal(c.releaseStatus, 'RELEASED');
+    assert.equal(c.verificationStatus, 'VERIFIED');
+    assert.equal(c.integrationStatus, 'DATA_ONLY');
+    assert.equal(c.rarity, 5);
+    assert.equal(c.element, expected.element);
+    assert.equal(c.weaponType, expected.weaponType);
+    assert.deepEqual(c.level90, { hp: expected.hp, atk: expected.atk, def: expected.def, maxEnergy: expected.maxEnergy });
+    assert.deepEqual(c.baseCombat, { critRate: 0.05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(c.intrinsicStats, [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }]);
+    assert.equal(c.provenance.checkedAt, '2026-10-11');
+    assert.ok(c.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(c.provenance.sourceUrls?.some(url => url.includes('wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

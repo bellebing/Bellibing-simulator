@@ -274,6 +274,35 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   assert.deepEqual(audit.unknownPendingCharacters, []);
 });
 
+test('Batch 5 verifies Calcharo, Cantarella and Carlotta as isolated released raw records', () => {
+  const reviewed = [
+    { id: 'calcharo', element: 'Electro', weaponType: 'Broadblade', hp: 10500, atk: 438, def: 1185, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'cantarella', element: 'Havoc', weaponType: 'Rectifier', hp: 11600, atk: 400, def: 1100, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'carlotta', element: 'Glacio', weaponType: 'Pistols', hp: 12450, atk: 463, def: 1198, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  for (const row of reviewed) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED', row.id);
+    assert.equal(actual.verificationStatus, 'VERIFIED', row.id);
+    assert.equal(actual.integrationStatus, 'DATA_ONLY', row.id);
+    assert.equal(actual.rarity, 5, row.id);
+    assert.equal(actual.element, row.element, row.id);
+    assert.equal(actual.weaponType, row.weaponType, row.id);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy }, row.id);
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 }, row.id);
+    assert.deepEqual(actual.intrinsicStats, row.intrinsicStats, row.id);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11', row.id);
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(actual.provenance.sourceUrls?.includes(`https://www.prydwen.gg/wuthering-waves/characters/${row.id}`));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().unexpectedMissing, []);
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().stalePending, []);
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

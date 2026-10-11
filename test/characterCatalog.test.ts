@@ -47,8 +47,8 @@ test('released raw required fields can only be null through the explicit pending
   assert.deepEqual(
     RELEASED_CHARACTER_RAW_PENDING.map((entry) => [entry.characterId, [...entry.fields]]),
     [
-      ['hsin', ['hp', 'atk', 'def', 'maxEnergy']],
-      ['jingran', ['hp', 'atk', 'def', 'maxEnergy']],
+      ['hsin', ['maxEnergy']],
+      ['jingran', ['def', 'maxEnergy']],
       ['qingxiao', ['maxEnergy']],
       ['rover-electro', ['maxEnergy']],
       ['suisui', ['maxEnergy']],
@@ -136,26 +136,35 @@ test('Rover Electro and Suisui core Lv90 stats are resolved while only Max Energ
   assert.match(suisui.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
 });
 
-test('fresh release identities preserve unresolved progression and bounded current provenance', () => {
-  for (const [id, releaseStatus, element, weaponType] of [
-    ['hsin', 'RELEASED', 'Electro', 'Rectifier'],
-    ['jingran', 'RELEASED', 'Fusion', 'Broadblade'],
-    ['suoming', 'CONFIRMED_UPCOMING', 'Electro', 'Sword'],
-  ] as const) {
-    const character = getCharacterGameData(id)!;
-    assert.equal(character.releaseStatus, releaseStatus);
-    assert.equal(character.rarity, 5);
-    assert.equal(character.element, element);
-    assert.equal(character.weaponType, weaponType);
-    assert.equal(character.verificationStatus, 'PARTIALLY_VERIFIED');
-    assert.deepEqual(character.level90, { hp: null, atk: null, def: null, maxEnergy: null });
-    assert.equal(character.provenance.checkedAt, '2026-10-06');
-    assert.ok(character.provenance.sourceUrls?.some(url => url.startsWith('https://wutheringwaves.kurogames.com/')));
-    assert.deepEqual(character.baseCombat, releaseStatus === 'RELEASED'
-      ? { critRate: .05, critDamage: 1.5, energyRegen: 1 }
-      : { critRate: null, critDamage: null, energyRegen: null });
-    assert.equal(character.integrationStatus, 'DATA_ONLY');
+test('fresh released Hsin/Jingran preserve only source-unresolved Lv90 fields, released provenance and readiness', () => {
+  const reviewed = [
+    { id:'hsin', element:'Electro', weaponType:'Rectifier',
+      level90:{hp:10300,atk:463,def:1112,maxEnergy:null} },
+    { id:'jingran', element:'Fusion', weaponType:'Broadblade',
+      level90:{hp:15375,atk:313,def:null,maxEnergy:null} },
+  ] as const;
+  for (const {id,element,weaponType,level90} of reviewed) {
+    const c = getCharacterGameData(id)!;
+    assert.equal(c.releaseStatus,'RELEASED',id);
+    assert.equal(c.rarity,5,id);
+    assert.equal(c.element,element,id);
+    assert.equal(c.weaponType,weaponType,id);
+    assert.equal(c.verificationStatus,'PARTIALLY_VERIFIED',id);
+    assert.equal(c.integrationStatus,'DATA_ONLY',id);
+    assert.deepEqual(c.level90,level90,id);
+    assert.deepEqual(c.baseCombat,{critRate:.05,critDamage:1.5,energyRegen:1},id);
+    assert.equal(c.provenance.checkedAt,'2026-10-11',id);
+    assert.ok(c.provenance.sourceUrls?.includes(
+      id === 'hsin' ? 'https://wuwa.wiki/en/codex/resonators/1311'
+        : 'https://wuwa.wiki/en/codex/resonators/1212'),id);
+    assert.ok(c.provenance.notes?.some(note=>note.includes('Max Energy remains null')),id);
   }
+  const suoming=getCharacterGameData('suoming')!;
+  assert.equal(suoming.releaseStatus,'CONFIRMED_UPCOMING');
+  assert.deepEqual(suoming.level90,{hp:null,atk:null,def:null,maxEnergy:null});
+  assert.equal(suoming.verificationStatus,'PARTIALLY_VERIFIED');
+  assert.equal(suoming.provenance.checkedAt,'2026-10-06');
+  assert.deepEqual(suoming.baseCombat,{critRate:null,critDamage:null,energyRegen:null});
 });
 
 test('Batch 1 raw sign-off verifies four exact roster records and keeps other identities Pending', () => {

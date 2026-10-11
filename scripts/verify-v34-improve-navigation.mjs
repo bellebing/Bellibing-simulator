@@ -110,17 +110,26 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   const statsValues=()=>read('JSON.stringify([...document.querySelectorAll("#improveEmptyCard .improve-stat-new")].map(n=>n.textContent))');
   const originalCurrents=await read('JSON.stringify([...document.querySelectorAll("#improveBuildCard .improve-stat-current")].map(n=>n.textContent))');
   const initialSimulated=await statsValues();
-  const projected=async(active)=>check(`(()=>{
-    const slots=${JSON.stringify(expectedCards)}.map((card,index)=>${JSON.stringify(active)}[index]?card:null),
-      expected=projectImproveCurrentStats('Augusta',slots,improveBuildState('Augusta')),
-      specs=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS];
-    const rows=[...document.querySelectorAll('#improveEmptyCard .improve-stat-row')];
-    return rows.length===specs.length&&rows.every(row=>{
-      const spec=specs.find(s=>s.key===row.dataset.statKey);
-      return spec&&row.querySelector('.improve-stat-new').textContent===statsUi.format(expected?.[spec.key],spec.percent)
-        &&row.querySelector('.improve-stat-current').textContent===document.querySelector('#improveBuildCard [data-stat-key="'+spec.key+'"] .improve-stat-current').textContent;
-    })&&document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent==='Simulated';
-  })()`,'prepared-card projection differs from canonical static build stats');
+  const projected=async(active)=>{
+    const report=await read(`(()=>{
+      const slots=${JSON.stringify(expectedCards)}.map((card,index)=>${JSON.stringify(active)}[index]?card:null),
+        expected=projectImproveCurrentStats('Augusta',slots,improveBuildState('Augusta')),
+        specs=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS],
+        rows=[...document.querySelectorAll('#improveEmptyCard .improve-stat-row')];
+      const differences=rows.map(row=>{
+        const spec=specs.find(s=>s.key===row.dataset.statKey),
+          target=spec?statsUi.format(expected?.[spec.key],spec.percent):'(missing spec)',
+          actual=row.querySelector('.improve-stat-new')?.textContent,
+          real=row.querySelector('.improve-stat-current')?.textContent,
+          original=document.querySelector('#improveBuildCard [data-stat-key="'+row.dataset.statKey+'"] .improve-stat-current')?.textContent;
+        return {key:row.dataset.statKey,target,actual,real,original};
+      }).filter(row=>row.actual!==row.target||row.real!==row.original);
+      return {ok:rows.length===specs.length&&!differences.length&&document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent==='Simulated',
+        expected:expected?{atk:expected.atk,critRate:expected.critRate}:null,keys:rows.length,
+        wanted:specs.length,head:document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent,differences};
+    })()`);
+    if(!report.ok)throw new Error('Improve navigation: canonical prepared stat projection mismatch '+JSON.stringify(report));
+  };
   await projected([true,true,true,true,true]);
   const icon= (slot,action)=>'.simulate-echo-slot:nth-child('+slot+') [data-prepared-action="'+action+'"]';
   await click(icon(1,'deactivate'));

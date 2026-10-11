@@ -17,11 +17,18 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await read('document.fonts.ready');
   await check(`document.getElementById('improveCharacterPageTitle').textContent==='Improve your character'&&document.getElementById('improveSimulationPageTitle').textContent==='Simulate Echo Set'`,'exact titles');
   await check(`document.querySelector('#improveCharacterPage .improve-card-arrow').disabled&&!document.getElementById('improveCardNext').disabled&&!document.getElementById('improveCardPrevious').disabled&&document.querySelector('#improveSimulationPage .improve-card-arrow:last-child').disabled`,'native endpoint disabled states');
-  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&host.querySelector('#simulateEchoPreview').tagName==='DIV'&&host.querySelector('#simulateEditEcho').textContent==='Edit Echo'&&host.querySelector('#simulateEchoPreview').textContent.includes('The False Sovereign')&&host.querySelectorAll('.simulate-slot-identity').length===5&&!host.querySelector('#simulateTemplatePicker')&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings')})()`,'five selectable slots, active one-slot mode, Pending result and eleven disabled controls');
+  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&host.querySelector('#simulateEchoPreview').tagName==='DIV'&&host.querySelector('#simulateEditEcho').textContent==='Edit Echo'&&host.querySelector('#simulateEchoPreview').textContent.includes('The False Sovereign')&&host.querySelectorAll('.simulate-slot-identity').length===5&&!host.querySelector('#simulateTemplatePicker')&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>!n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings')})()`,'five active prepared presets, functional icons, one-slot Pending result and disabled Full Set');
   const sameCharacter=async()=>{
-    await check(`(()=>{const original=document.getElementById('improveBuildCard'),second=document.getElementById('improveEmptyCard');return ['.improve-truth','.improve-stats'].every(selector=>original.querySelector(selector).outerHTML===second.querySelector(selector).outerHTML.replaceAll('simulate-',''))})()`,'same rendered Character name/art, Sequence, Weapon, Forte and canonical stat values');
+    await check(`(()=>{const original=document.getElementById('improveBuildCard'),second=document.getElementById('improveEmptyCard');return ['.improve-truth','.improve-stats'].every(selector=>{
+      const a=original.querySelector(selector).cloneNode(true),b=second.querySelector(selector).cloneNode(true);
+      if(selector==='.improve-stats'){
+        b.querySelector('.improve-stat-head span:last-child').textContent='New';
+        b.querySelectorAll('.improve-stat-new').forEach(node=>node.textContent='—');
+      }
+      return a.outerHTML===b.outerHTML.replaceAll('simulate-','');
+    })})()`,'same rendered real Character/art/Sequence/Weapon/Forte and unmodified Current values');
     await check(`(()=>{const second=document.getElementById('improveEmptyCard');return [...second.querySelectorAll('[id]')].every(n=>document.querySelectorAll('[id="'+n.id+'"]').length===1)&&[...second.querySelectorAll('*')].every(n=>[...n.attributes].every(a=>[...a.value.matchAll(/url\\((['"]?)#([^)'"\\s]+)\\1\\)/g)].every(match=>second.querySelector('[id="'+match[2]+'"]'))))})()`,'unique DOM/SVG IDs and valid local Forte gradient/filter references');
-    await check(`(()=>{const a=document.getElementById('improveBuildCard'),b=document.getElementById('improveEmptyCard'),ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();if(document.getElementById('improveSimulationPage').getAttribute('aria-hidden')==='true')return true;return ['.improve-truth','.improve-stats'].every(selector=>{const original=[a.querySelector(selector),...a.querySelector(selector).querySelectorAll('*')],copies=[b.querySelector(selector),...b.querySelector(selector).querySelectorAll('*')];return original.every((n,i)=>{const r=n.getBoundingClientRect(),s=copies[i].getBoundingClientRect();return Math.abs(r.width-s.width)<.1&&Math.abs(r.height-s.height)<.1&&(!(r.width||r.height)||(Math.abs(r.x-ar.x-s.x+br.x)<.1&&Math.abs(r.y-ar.y-s.y+br.y)<.1))&&['fontFamily','fontSize','color','background','border','borderRadius'].every(k=>getComputedStyle(n)[k]===getComputedStyle(copies[i])[k])})})})()`,'Character and Stats retain original relative layout, dimensions and styling');
+    await check(`(()=>{const a=document.getElementById('improveBuildCard'),b=document.getElementById('improveEmptyCard'),ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();if(document.getElementById('improveSimulationPage').getAttribute('aria-hidden')==='true')return true;return ['.improve-truth'].every(selector=>{const original=[a.querySelector(selector),...a.querySelector(selector).querySelectorAll('*')],copies=[b.querySelector(selector),...b.querySelector(selector).querySelectorAll('*')];return original.every((n,i)=>{const r=n.getBoundingClientRect(),s=copies[i].getBoundingClientRect();return Math.abs(r.width-s.width)<.1&&Math.abs(r.height-s.height)<.1&&(!(r.width||r.height)||(Math.abs(r.x-ar.x-s.x+br.x)<.1&&Math.abs(r.y-ar.y-s.y+br.y)<.1))&&['fontFamily','fontSize','color','background','border','borderRadius'].every(k=>getComputedStyle(n)[k]===getComputedStyle(copies[i])[k])})})&&Math.abs(a.querySelector('.improve-stats').getBoundingClientRect().width-b.querySelector('.improve-stats').getBoundingClientRect().width)<.1})()`,'Character relative layout remains unchanged and simulated Stats panel keeps approved width');
   };
   await sameCharacter();
   // A hidden mirror must never alter original Forte rasterization. Its backdrop
@@ -82,11 +89,59 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await selectedCheck(index);
   }
   await check(`JSON.stringify([...document.querySelectorAll('.simulate-echo-slot,.simulate-empty-echo')].map(n=>{const r=n.getBoundingClientRect();return [r.width,r.height]}))===${JSON.stringify(JSON.stringify(slotDimensions))}`,'slot selection changed card dimensions');
-  for(const selector of ['.simulate-start','.simulate-modes button:first-child','.simulate-modes button:last-child',...Array.from({length:5},(_,i)=>`.simulate-echo-slot:nth-child(${i+1}) .simulate-slot-actions button:first-child`),...Array.from({length:5},(_,i)=>`.simulate-echo-slot:nth-child(${i+1}) .simulate-slot-actions button:last-child`)])await click(selector);
-  await check(`${snapshot}===${JSON.stringify(presentationSnapshot)}`,'no-budget Simulate and disabled controls do not mutate account, Settings, resources, equipment or session');
+  for(const selector of ['.simulate-start','.simulate-modes button:first-child','.simulate-modes button:last-child'])await click(selector);
+  await check(`${snapshot}===${JSON.stringify(presentationSnapshot)}`,'no-budget Simulate and mode controls do not mutate account, Settings, resources, equipment or session');
   await check(`(()=>{const host=document.getElementById('improveEmptyCard');return JSON.stringify([...host.querySelectorAll('.simulate-controls .simulate-summary:first-of-type dt')].map(n=>n.textContent))===JSON.stringify(['ATK','CRIT Rate','CRIT DMG','Energy Regen','Heavy Attack DMG'])&&JSON.stringify([...host.querySelectorAll('.simulate-resources dt')].map(n=>n.textContent))===JSON.stringify(['Echoes','Tuners','EXP Tubes'])&&[...host.querySelectorAll('.simulate-summary dd')].every(n=>n.textContent==='—')})()`,'Simulated/Used labels and neutral values; no fabricated numbers');
   await read(`document.querySelector('.simulate-echo-slots').scrollIntoView({block:'end',behavior:'instant'})`);await sleep(100);
-  await check(`(()=>{const host=document.getElementById('improveEmptyCard'),slots=[...host.querySelectorAll('.simulate-echo-slot')],rect=n=>n.getBoundingClientRect(),first=rect(slots[0]),stats=rect(host.querySelector('.improve-stats')),work=rect(host.querySelector('.simulate-workspace'));return first.width>=180&&first.height===280&&slots.every((n,i)=>{const r=rect(n);return Math.abs(r.width-first.width)<.1&&r.height===first.height&&r.top===first.top&&r.top>=0&&r.bottom<=900&&r.left>=0&&r.right<=1440&&(!i||rect(slots[i-1]).right<r.left)&&getComputedStyle(n.querySelector('.simulate-slot-actions')).borderTopWidth==='1px'&&getComputedStyle(n.querySelector('button+button')).borderLeftWidth==='1px'})&&first.top>=stats.bottom&&first.top>=work.bottom&&document.documentElement.scrollWidth===1440})()`,'five large equal visible slots, dividing lines, clear of Stats/workspace and no overflow');
+  await check(`(()=>{const host=document.getElementById('improveEmptyCard'),slots=[...host.querySelectorAll('.simulate-echo-slot')],rect=n=>n.getBoundingClientRect(),first=rect(slots[0]),stats=rect(host.querySelector('.improve-stats')),work=rect(host.querySelector('.simulate-workspace'));return first.width>=180&&first.height===280&&slots.every((n,i)=>{const r=rect(n);return Math.abs(r.width-first.width)<.1&&r.height===first.height&&r.top===first.top&&r.top>=0&&r.bottom<=900&&r.left>=0&&r.right<=1440&&(!i||rect(slots[i-1]).right<r.left)&&rect(n.querySelector('.simulate-slot-actions')).top>=r.top&&rect(n.querySelector('.simulate-slot-actions')).bottom<r.top+40&&n.querySelectorAll('[data-prepared-action]').length===2})&&first.top>=stats.bottom&&first.top>=work.bottom&&document.documentElement.scrollWidth===1440})()`,'five unchanged 280px cards, top-left icons, clear of Stats/workspace and no overflow');
+  // Canonical static build projection from the five detached Augusta +0 presets.
+  // The original Character/Current column, resources and all real equipment stay byte-identical.
+  const expectedRecipes=[
+    ['echo-60001215','sonata-20','CRIT Rate'],['echo-60001615','sonata-20','Electro DMG'],
+    ['echo-60000975','sonata-20','Electro DMG'],['echo-60000175','sonata-3','ATK%'],
+    ['echo-60000165','sonata-3','ATK%']
+  ];
+  const expectedCards=await read(`(()=>${JSON.stringify(expectedRecipes)}.map(([id,sonata,main])=>{const item=echoById.get(id);return makeEchoStatCard(item,sonata,{echoId:id,mainStat:echoMainOptions(item.cost,0).find(x=>x.name===main)})}))()`);
+  const statsValues=()=>read('JSON.stringify([...document.querySelectorAll("#improveEmptyCard .improve-stat-new")].map(n=>n.textContent))');
+  const originalCurrents=await read('JSON.stringify([...document.querySelectorAll("#improveBuildCard .improve-stat-current")].map(n=>n.textContent))');
+  const initialSimulated=await statsValues();
+  const projected=async(active)=>check(`(()=>{
+    const slots=${JSON.stringify(expectedCards)}.map((card,index)=>${JSON.stringify(active)}[index]?card:null),
+      expected=projectImproveCurrentStats('Augusta',slots,improveBuildState('Augusta')),
+      specs=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS];
+    const rows=[...document.querySelectorAll('#improveEmptyCard .improve-stat-row')];
+    return rows.length===specs.length&&rows.every(row=>{
+      const spec=specs.find(s=>s.key===row.dataset.statKey);
+      return spec&&row.querySelector('.improve-stat-new').textContent===statsUi.format(expected?.[spec.key],spec.percent)
+        &&row.querySelector('.improve-stat-current').textContent===document.querySelector('#improveBuildCard [data-stat-key="'+spec.key+'"] .improve-stat-current').textContent;
+    })&&document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent==='Simulated';
+  })()`,'prepared-card projection differs from canonical static build stats');
+  await projected([true,true,true,true,true]);
+  const icon= (slot,action)=>'.simulate-echo-slot:nth-child('+slot+') [data-prepared-action="'+action+'"]';
+  await click(icon(1,'deactivate'));
+  await check(`(()=>{
+    const cards=[...document.querySelectorAll('.simulate-echo-slot')];
+    return cards[0].dataset.preparedActive==='false'&&cards[0].querySelector('.simulate-slot-status').textContent==='INACTIVE'
+      &&cards[0].querySelector('[data-prepared-action="deactivate"]').getAttribute('aria-pressed')==='true'
+      &&cards.slice(1).every(card=>card.dataset.preparedActive==='true')
+      &&document.querySelector('.simulate-echo-slot.is-selected')===cards[3];
+  })()`,'deactivate icon must affect only its card without selecting the slot');
+  await projected([false,true,true,true,true]);
+  if(await statsValues()===initialSimulated)throw new Error('Deactivate did not remove any canonical Echo contribution');
+  await click(icon(1,'activate'));await projected([true,true,true,true,true]);
+  if(await statsValues()!==initialSimulated)throw new Error('Activate did not restore exact original stats');
+  // Native keyboard Enter and Space on the actual small buttons, not a JS click.
+  await read(`document.querySelector(${JSON.stringify('.simulate-echo-slot:nth-child(3) [data-prepared-action="deactivate"]')}).focus()`);
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\\r'});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+  await projected([true,true,false,true,true]);
+  await read(`document.querySelector(${JSON.stringify('.simulate-echo-slot:nth-child(3) [data-prepared-action="activate"]')}).focus()`);
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:' ',code:'Space',windowsVirtualKeyCode:32,text:' '});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key:' ',code:'Space',windowsVirtualKeyCode:32});
+  await projected([true,true,true,true,true]);
+  if(await statsValues()!==initialSimulated)throw new Error('Keyboard activation failed exact restore');
+  await check(`JSON.stringify([...document.querySelectorAll('#improveBuildCard .improve-stat-current')].map(n=>n.textContent))===${JSON.stringify(originalCurrents)}`,'real Current stats changed after activation toggles');
+  await check(`${snapshot}===${JSON.stringify(presentationSnapshot)}`,'icon toggles must never alter real account, Settings, resources or simulator history');
   await click('.simulate-echo-slot:nth-child(3)');await selectedCheck(3);
   await capture(send,'artifacts/ui-preview-simulate-layout-slots-1440x900.png');
   await read(`document.querySelector('.simulate-workspace').scrollIntoView({block:'center',behavior:'instant'})`);await sleep(100);
@@ -192,8 +247,37 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await check('echoUi.editorDraft.level===5&&echoUi.editorDraft.substats.length===1&&echoUi.editorDraft.substats[0].name==='+JSON.stringify(roll.name)+'&&echoExact(echoUi.editorDraft.substats[0].value,'+roll.value+')','one physically entered source-backed +5 roll, no generated value');
   const preparedDetailed=await read('cloneEchoSlot(echoUi.editorDraft)');
   await saveEditor();
-  const detailedSummary={echoId:preparedDetailed.echoId,name:await read('echoById.get('+JSON.stringify(preparedDetailed.echoId)+').name'),cost:preparedDetailed.cost,level:preparedDetailed.level,selectedSonataSetId:preparedDetailed.selectedSonataSetId,stats:[preparedDetailed.mainStat,preparedDetailed.secondaryMainStat,...preparedDetailed.substats].map(statText)};
+  let detailedSummary={echoId:preparedDetailed.echoId,name:await read('echoById.get('+JSON.stringify(preparedDetailed.echoId)+').name'),cost:preparedDetailed.cost,level:preparedDetailed.level,selectedSonataSetId:preparedDetailed.selectedSonataSetId,stats:[preparedDetailed.mainStat,preparedDetailed.secondaryMainStat,...preparedDetailed.substats].map(statText)};
   await verifyPrepared(3,detailedSummary);
+  // Actual Workshop interaction to +25: five distinct, source-valid substats.
+  // Verify all seven stat lines fit on every fixed-size bottom card.
+  await openEditor(3);
+  for(let index=1;index<5;index++){
+    const stat=await read('({name:echoStatContract.substats['+index+'].name,value:echoStatContract.substats['+index+'].values[0]})');
+    await click('#echoSubstat'+index+'Name-trigger');
+    await click('#echoSubstat'+index+'Name-listbox .bb-combobox-option[data-bb-value='+JSON.stringify(stat.name)+']');
+    await click('#echoSubstat'+index+'Value-trigger');
+    await click('#echoSubstat'+index+'Value-listbox .bb-combobox-option[data-bb-value='+JSON.stringify(String(stat.value))+']');
+    await check('echoUi.editorDraft.substats.length==='+String(index+1),'all +25 substats must be entered physically');
+  }
+  await check('echoUi.editorDraft.level===25&&validateEchoStatCard(echoUi.editorDraft,echoById.get(echoUi.previewId))===""','all five substats must form a canonical +25 card');
+  const fullCard=await read('cloneEchoSlot(echoUi.editorDraft)');
+  await saveEditor();
+  detailedSummary={...detailedSummary,level:25,stats:[fullCard.mainStat,fullCard.secondaryMainStat,...fullCard.substats].map(statText)};
+  await verifyPrepared(3,detailedSummary);
+  await read('document.querySelector(".simulate-echo-slots").scrollIntoView({block:"end",behavior:"instant"})');await sleep(120);
+  await check(`(()=>{
+    const slots=[...document.querySelectorAll('.simulate-echo-slot')];
+    return slots.length===5&&slots.every(slot=>{
+      const r=slot.getBoundingClientRect(),rows=[...slot.querySelectorAll('.simulate-prepared-stats>div')];
+      return r.height===280&&rows.length>=2&&rows.length<=7&&rows.every(node=>{
+        const b=node.getBoundingClientRect();return b.top>=r.top&&b.bottom<=r.bottom-3&&b.left>=r.left&&b.right<=r.right;
+      })&&slot.querySelector('.simulate-prepared-stats').scrollHeight<=slot.querySelector('.simulate-prepared-stats').clientHeight+1;
+    })&&slots[2].querySelectorAll('.simulate-prepared-stats>div').length===7
+      &&[...slots[2].querySelectorAll('.simulate-prepared-stats>div')].every(row=>row.textContent.trim().length>4)
+      &&document.documentElement.scrollWidth===1440;
+  })()`,'full +25 / five substat slot clipped or overflowed at 1440x900');
+  await capture(send,'artifacts/ui-preview-simulate-full-plus25-1440x900.png');
   await click('#simulateEchoPreview');
   await check('!echoUi.open','configured preview must remain non-interactive');
   // Cancelling a changed draft must not update its prepared card.
@@ -206,7 +290,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await click('.simulate-echo-slot:nth-child('+(index+1)+')');
     await verifyPrepared(index+1,index===2?detailedSummary:card);
   }
-  await check('document.querySelector(".simulate-echo-slot:nth-child(3) .simulate-prepared-stats").children.length===3','complete +5 stats visible in bottom slot');
+  await check('document.querySelector(".simulate-echo-slot:nth-child(3) .simulate-prepared-stats").children.length===7','complete +25 stats visible in bottom slot');
   await click('.simulate-echo-slot:nth-child(3)');
   await capture(send,'artifacts/ui-preview-simulate-prepared-cards-1440x900.png');
   // Editing slot 3 must not overwrite 1, 2, 4 or 5.

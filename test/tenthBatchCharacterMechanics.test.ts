@@ -197,12 +197,7 @@ test('tenth Character Mechanics batch remains valid as current coverage reaches 
     const dps = getCharacterPreflight(characterId, 'DPS_MODEL');
     assert.ok(raw && dps, characterId);
     assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS', characterId);
-    if (characterId === 'qingxiao') {
-      assert.equal(raw.ready, false, characterId);
-      assert.ok(raw.blockers.some((check) => check.area === 'IDENTITY_LEVEL90' && check.status === 'PENDING'), characterId);
-    } else {
-      assert.equal(raw.ready, true, characterId);
-    }
+    assert.equal(raw.ready, true, characterId);
     assert.equal(dps.ready, false, characterId);
     assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'), characterId);
     assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'), characterId);

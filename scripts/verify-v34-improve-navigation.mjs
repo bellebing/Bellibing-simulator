@@ -17,7 +17,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await read('document.fonts.ready');
   await check(`document.getElementById('improveCharacterPageTitle').textContent==='Improve your character'&&document.getElementById('improveSimulationPageTitle').textContent==='Simulate Echo Set'`,'exact titles');
   await check(`document.querySelector('#improveCharacterPage .improve-card-arrow').disabled&&!document.getElementById('improveCardNext').disabled&&!document.getElementById('improveCardPrevious').disabled&&document.querySelector('#improveSimulationPage .improve-card-arrow:last-child').disabled`,'native endpoint disabled states');
-  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&host.querySelector('#simulateEchoPreview').tagName==='DIV'&&host.querySelector('#simulateEditEcho').textContent==='Edit Echo'&&host.querySelector('#simulateEchoPreview').textContent.includes('Empty Echo Slot')&&!host.querySelector('#simulateTemplatePicker')&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings,img:not(.improve-truth img,.improve-stats img)')})()`,'five selectable slots, active one-slot mode, Pending result and eleven disabled controls');
+  await check(`(()=>{const host=document.getElementById('improveEmptyCard');return host.children.length===4&&host.children[0].classList.contains('improve-truth')&&host.children[1].classList.contains('improve-stats')&&host.querySelectorAll('.simulate-echo-slot').length===5&&host.querySelectorAll('.simulate-empty-echo').length===2&&host.querySelector('#simulateSelectedEchoLabel').textContent.trim()==='Echo 1'&&host.querySelector('.simulate-result-echo').textContent.includes('Select a slot')&&host.querySelectorAll('button').length===14&&host.querySelector('#simulateEchoPreview').tagName==='DIV'&&host.querySelector('#simulateEditEcho').textContent==='Edit Echo'&&host.querySelector('#simulateEchoPreview').textContent.includes('The False Sovereign')&&host.querySelectorAll('.simulate-slot-identity').length===5&&!host.querySelector('#simulateTemplatePicker')&&[...host.querySelectorAll('.simulate-slot-actions button')].every(n=>n.disabled)&&host.querySelector('.simulate-modes button:last-child').disabled&&!host.querySelector('.simulate-start').disabled&&!host.querySelector('.simulate-modes button:first-child').disabled&&!host.querySelector('.improve-workspace,.improve-echoes-row,.improve-settings')})()`,'five selectable slots, active one-slot mode, Pending result and eleven disabled controls');
   const sameCharacter=async()=>{
     await check(`(()=>{const original=document.getElementById('improveBuildCard'),second=document.getElementById('improveEmptyCard');return ['.improve-truth','.improve-stats'].every(selector=>original.querySelector(selector).outerHTML===second.querySelector(selector).outerHTML.replaceAll('simulate-',''))})()`,'same rendered Character name/art, Sequence, Weapon, Forte and canonical stat values');
     await check(`(()=>{const second=document.getElementById('improveEmptyCard');return [...second.querySelectorAll('[id]')].every(n=>document.querySelectorAll('[id="'+n.id+'"]').length===1)&&[...second.querySelectorAll('*')].every(n=>[...n.attributes].every(a=>[...a.value.matchAll(/url\\((['"]?)#([^)'"\\s]+)\\1\\)/g)].every(match=>second.querySelector('[id="'+match[2]+'"]'))))})()`,'unique DOM/SVG IDs and valid local Forte gradient/filter references');
@@ -96,15 +96,48 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   const preparedSnapshot=await read(snapshot);
   const identities=await read('(()=>{const found={};for(const item of echoCatalog)if(!found[item.cost])found[item.cost]=item.id;return found})()');
   for(const cost of [1,3,4])if(!identities[cost])throw new Error('Missing released canonical Echo Cost '+cost);
-  await check('!document.getElementById("simulateEchoPreview").matches("button,[role=button]")&&document.getElementById("simulateEchoPreview").querySelector(".simulate-preview-empty").textContent==="Empty Echo Slot"','neutral read-only preview');
+  await check('!document.getElementById("simulateEchoPreview").matches("button,[role=button]")&&document.getElementById("simulateEchoPreview").textContent.includes("The False Sovereign")','prepared read-only preview');
   await click('#simulateEchoPreview');
   await check('!echoUi.open','clicking read-only preview must never launch a picker');
-  const openEditor=async(index)=>{
+  const openEditor=async(index,all=false)=>{
     await click('.simulate-echo-slot:nth-child('+index+')');await selectedCheck(index);
     await click('#simulateEditEcho');
     await waitForUi(send,'echoUi.open&&echoUi.context.kind==="simulate-setup"','Complete Echo Workshop did not open');
     await check('document.getElementById("echoTitle").textContent.includes("Echo Workshop")&&document.getElementById("echoWorkspaceSlots").hidden&&!document.querySelector(".echo-editor-stats").hidden&&!document.querySelector(".echo-preview-sonata-assignment").hidden&&getComputedStyle(document.querySelector(".echo-editor-stats")).display!=="none"','must reuse full Echo Workshop with main/substats/Sonata');
+    if(all){await click('#echoSonataToggle');await click('#echoSonataAll')}
   };
+  const augustaPresets=[
+    ['echo-60001215','sonata-20',4,'CRIT Rate'],
+    ['echo-60001615','sonata-20',3,'Electro DMG'],
+    ['echo-60000975','sonata-20',3,'Electro DMG'],
+    ['echo-60000175','sonata-3',1,'ATK%'],
+    ['echo-60000165','sonata-3',1,'ATK%']
+  ];
+  await check(`(()=>{
+    const recipes=${JSON.stringify(augustaPresets)},slots=[...document.querySelectorAll('.simulate-echo-slot')];
+    return !document.documentElement.dataset.simulatePresetError&&slots.length===5&&recipes.every(([id,set,cost,main],index)=>{
+      const item=echoById.get(id),slot=slots[index],correct=echoMainOptions(cost,0).find(row=>row.name===main),secondary=echoSecondary(cost,0),stats=[...slot.querySelectorAll('.simulate-prepared-stats>div')].map(row=>row.textContent);
+      return item?.cost===cost&&item.sonataSetIds.includes(set)&&!!correct&&!!secondary&&slot.dataset.preparedEchoId===id
+        &&slot.querySelector('.simulate-template-name')?.textContent===item.name
+        &&slot.querySelector('.simulate-prepared-meta')?.textContent===echoSonataById.get(set).name+' · +0'
+        &&JSON.stringify(stats)===JSON.stringify([main+echoStatValueText(main,correct.value),secondary.name+echoStatValueText(secondary.name,secondary.value)]);
+    });
+  })()`, 'five Augusta presets have canonical names, COST, Sonata, +0 Main/secondary and zero substats');
+  for(let index=0;index<augustaPresets.length;index++){
+    const [id,set,cost,main]=augustaPresets[index];
+    await openEditor(index+1);
+    await check(`(()=>{
+      const card=echoUi.editorDraft,item=echoById.get(${JSON.stringify(id)}),option=echoMainOptions(${cost},0).find(row=>row.name===${JSON.stringify(main)});
+      return echoUi.previewId===item.id&&card.echoId===item.id&&card.selectedSonataSetId===${JSON.stringify(set)}
+        &&card.rank===5&&card.level===0&&card.substats.length===0&&card.mainStat.name===option.name
+        &&echoExact(card.mainStat.value,option.value)&&validateEchoStatCard(card,item)===''
+        &&JSON.stringify([...echoUi.selectedSonataIds])===JSON.stringify(['sonata-20','sonata-3'])
+        &&document.getElementById('echoEquip').textContent==='Saved'&&document.getElementById('echoEquip').disabled;
+    })()`, 'Workshop must preselect full unchanged Augusta card and inherited Settings filter for slot '+(index+1));
+    await click('#echoClose');
+    await waitForUi(send,'!echoUi.open&&!document.getElementById("echoOverlay").classList.contains("mounted")','Augusta preset editor did not close');
+  }
+  await check(snapshot+'==='+JSON.stringify(preparedSnapshot),'automatic presets and editor inspection must not mutate real Character state');
   const saveEditor=async()=>{
     await check('validateEchoStatCard(echoUi.editorDraft,echoById.get(echoUi.previewId))===""','prepared card must pass canonical validation');
     await check('!document.getElementById("echoEquip").disabled&&document.getElementById("echoEquip").textContent==="Save Echo"','prepared card save is enabled');
@@ -118,7 +151,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   };
   const statText=stat=>stat.name+(stat.name.startsWith('Flat ')?String(stat.value):Number((stat.value*100).toFixed(2))+'%');
   const createPrepared=async(index,id)=>{
-    await openEditor(index);
+    await openEditor(index,true);
     await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
     await check('echoUi.editorDraft.echoId==='+JSON.stringify(id)+'&&echoUi.editorDraft.substats.length===0&&echoUi.editorDraft.level===0&&echoUi.editorDraft.rank===echoStatContract.rank','new Echo must start with canonical Main/secondary only and zero rolls');
     const card=await read('cloneEchoSlot(echoUi.editorDraft)');
@@ -162,7 +195,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await click('#simulateEchoPreview');
   await check('!echoUi.open','configured preview must remain non-interactive');
   // Cancelling a changed draft must not update its prepared card.
-  await openEditor(3);
+  await openEditor(3,true);
   await click('#echoChoices .echo-choice[data-echo-id="'+identities[1]+'"]');
   await click('#echoClose');
   await waitForUi(send,'!document.getElementById("echoOverlay").classList.contains("mounted")','cancel did not close');
@@ -175,7 +208,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   await click('.simulate-echo-slot:nth-child(3)');
   await capture(send,'artifacts/ui-preview-simulate-prepared-cards-1440x900.png');
   // Editing slot 3 must not overwrite 1, 2, 4 or 5.
-  await openEditor(3);await click('#echoChoices .echo-choice[data-echo-id="'+identities[3]+'"]');await saveEditor();
+  await openEditor(3,true);await click('#echoChoices .echo-choice[data-echo-id="'+identities[3]+'"]');await saveEditor();
   await check('document.querySelector(".simulate-echo-slot:nth-child(3)").dataset.preparedEchoId==='+JSON.stringify(identities[3])+'&&document.querySelector(".simulate-echo-slot:nth-child(1)").dataset.preparedEchoId==='+JSON.stringify(identities[1])+'&&document.querySelector(".simulate-echo-slot:nth-child(2)").dataset.preparedEchoId==='+JSON.stringify(identities[3])+'&&document.querySelector(".simulate-echo-slot:nth-child(4)").dataset.preparedEchoId==='+JSON.stringify(identities[1])+'&&document.querySelector(".simulate-echo-slot:nth-child(5)").dataset.preparedEchoId==='+JSON.stringify(identities[3]),'one slot edit did not alter other four');
   await check(snapshot+'==='+JSON.stringify(preparedSnapshot),'complete Echo Workshop did not write real Character, resources, saved storage or simulator');
   await click('#improveCardPrevious');
@@ -186,6 +219,35 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,windowsVirtualKeyCode:virtual});await sleep(100);await active(index);
     await check(`document.activeElement.id==='${index===1?'improveCardPrevious':'improveCardNext'}'`,'focus follows the active navigation button');
   }
+  // Change Settings, then reopen Workshop: explicit picks (including []) win
+  // over recommendations, while already edited Echo cards stay byte-identical.
+  const manualCards=await read('JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(n=>n.innerHTML))');
+  const settingIds=()=>read('window.bellibingImproveSettings.getState().selectedSonataSetIds');
+  const expandSonatas=async()=>{if(await read('document.getElementById("improve-setting-sonata").getAttribute("aria-expanded")==="false"'))await click('#improve-setting-sonata')};
+  const changeSonata=async(id,expected)=>{
+    await expandSonatas();
+    await click('.improve-sonata-row[data-sonata-id="'+id+'"]');
+    await waitForUi(send,'JSON.stringify(window.bellibingImproveSettings.getState().selectedSonataSetIds)==='+JSON.stringify(JSON.stringify(expected)),'Settings Sonata selection did not persist');
+  };
+  const inspectFilter=async(index,ids)=>{
+    await click('#improveCardNext');
+    await click('.simulate-echo-slot:nth-child('+index+')');
+    const previous=await read('document.querySelector(".simulate-echo-slot:nth-child('+index+')").dataset.preparedEchoId');
+    await click('#simulateEditEcho');
+    await waitForUi(send,'echoUi.open&&echoUi.context.kind==="simulate-setup"','Settings-sync Workshop did not open');
+    await check('JSON.stringify([...echoUi.selectedSonataIds])==='+JSON.stringify(JSON.stringify(ids)),'Workshop filter not synced from effective Settings');
+    await check('echoUi.editorDraft.echoId==='+JSON.stringify(previous)+'&&validateEchoStatCard(echoUi.editorDraft,echoById.get(echoUi.previewId))===""','Settings selection silently replaced a manual card');
+    await click('#echoClose');
+    await waitForUi(send,'!echoUi.open&&!document.getElementById("echoOverlay").classList.contains("mounted")','Settings-sync Workshop did not close');
+    await click('#improveCardPrevious');
+  };
+  await changeSonata('sonata-20',['sonata-3']);
+  await inspectFilter(1,['sonata-3']);
+  await changeSonata('sonata-3',[]);
+  await inspectFilter(2,[]);
+  await changeSonata('sonata-20',['sonata-20']);
+  await inspectFilter(4,['sonata-20']);
+  await check('JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(n=>n.innerHTML))==='+JSON.stringify(manualCards),'Settings Sonata edits silently rebuilt prepared cards');
   // The existing candidate workflow is usable after returning, without rebuilding it.
   await click('#improveNewEcho');await check('echoUi.open','original Echo chooser still opens');
   await click('#echoClose');await check('!echoUi.open','original Echo chooser still closes');
@@ -208,7 +270,9 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await read(`improvePicker.select(${JSON.stringify(name)})`);await sleep(800);await sameCharacter();
     await check(`document.getElementById('simulate-improveCharacterName').textContent===${JSON.stringify(name)}&&improveUi.characterName===${JSON.stringify(name)}`,'Character switches update both cards while Card 2 is visible');
     await check('document.documentElement.scrollWidth===1440','no overflow after Character switch');
-    await check('[...document.querySelectorAll(".simulate-echo-slot")].every(slot=>!slot.dataset.preparedEchoId)&&document.getElementById("simulateEchoPreview").textContent.includes("Empty Echo Slot")','Character isolation clears transient prepared Echo cards');
+    await check(${name==='Augusta'?
+      `JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(slot=>slot.dataset.preparedEchoId))===JSON.stringify(['echo-60001215','echo-60001615','echo-60000975','echo-60000175','echo-60000165'])`:
+      `[...document.querySelectorAll(".simulate-echo-slot")].every(slot=>!slot.dataset.preparedEchoId)&&document.getElementById("simulateEchoPreview").textContent.includes("Empty Echo Slot")`},'Character isolation and fresh Augusta defaults after switching');
   }
   await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);
   await capture(send,'artifacts/ui-preview-simulate-character-1440x900.png');

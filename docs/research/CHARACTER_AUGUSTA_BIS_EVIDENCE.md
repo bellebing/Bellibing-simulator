@@ -2,13 +2,13 @@
 
 **Snapshot:** 2026-10-11. **Repository base:** [main at 102b66ed](https://github.com/bellebing/Bellibing-simulator/commit/102b66edec165f3d2a313a562de4049a26424924). **Scope:** Augusta build recommendations, NOT a gameplay/data/profile/UI change.
 
-**Decision:** Augusta S0 Electro Broadblade main DPS has a strong, already-reviewed standard baseline: **3-piece Crown of Valor + 2-piece Void Thunder**, **The False Sovereign**, **4/3/3/1/1**, **Thunderflare Dominion R1**, with **Energy Regen conditioned on team and rotation**. "BiS" here is a *published recommendation for a stated context*, not an unconditional simulator-scored optimum. The 2026-10-05 Prydwen guide differs from some older embedded percentages; this document records, rather than silently migrates, that drift.
+**Research outcome (not a universal winner):** For **Augusta S0 / Electro / Broadblade / on-field Heavy Attack Main DPS**, the existing, source-backed standard recommendation is **3-piece Crown of Valor + 2-piece Void Thunder**, **The False Sovereign**, **4/3/3/1/1**, and **Thunderflare Dominion R1** in a named Iuno/Shorekeeper-type setup. Other equipment, team, rotation, availability, CRIT balance and player-owned Echoes can make a different option preferable. **No absolute BiS has been established by Bellibing.** The 2026-10-05 Prydwen page has different numeric weapon comparisons from older stored profiles; the discrepancy is recorded, not silently applied.
 
 ## Status and promotion contract
 
 | Status | Meaning here |
 | --- | --- |
-| **VERIFIED — CANONICAL** | Existing, independently reviewed Bellibing source/model fact on current main; reuse unchanged. Verification is scoped to the precise fact/domain, not DPS uptime or universal ranking. |
+| **VERIFIED — CANONICAL** | Already reviewed and stored on Bellibing main. **For a build recommendation, VERIFIED proves the provenance/context of that recommendation, not that it is objectively optimal.** A verified *mechanic/raw fact* is separately identified as such. Neither label guarantees executable rotation/DPS or global ranking. |
 | **VERIFIED — SOURCE EVIDENCE** | Exact, identifiable fact directly read from a named current guide/approved native DPR sheet during this investigation. Useful for review and future source candidates, **not** a new canonical approval. |
 | **PENDING** | Missing identity, conditions, benchmark parity, specialized adapter, manual review, or evidence; cannot be represented as executable or global recommendation. |
 | **CONFLICT** | Different source snapshots, contexts, orderings or incompatible presentations requiring explicit reconciliation. Not a license to average values. |
@@ -31,7 +31,36 @@ The standing review gates in [data verification policy](../DATA_VERIFICATION_POL
 | **H** | [Bellibing Echo Tool — AI Handoff](https://docs.google.com/spreadsheets/d/12xvC-hItxLBBJNgO_xoBcm-K1bAarzz4Udfc5_uFj4k/edit), Mål & Handoff / Buggar | Read current connected native workbook 2026-10-11. Supports source ownership, reuse-first, BUG-042 as KNOWN GAP; not an alternative numerical build oracle. |
 | **LEGACY** | Old V9.15 spreadsheet named in the canonical profiles | Historical parity/reference only; this investigation does not re-promote its layout as today's architecture. |
 
-## 1. Existing VERIFIED canonical Augusta baseline
+## Strict separation: facts, recommendations, player-specific decisions
+
+**1. VERIFIED GAME DATA / MECHANICS — facts.** Augusta is Electro / Broadblade. The False Sovereign is a COST 4 Echo with Crown of Valor membership. Crown of Valor activates at 3 pieces and has a shield-gated, stack-limited effect. Void Thunder has a 2-piece Electro DMG bonus. Canonical IDs/types/costs/memberships and individually reviewed effect descriptions belong to Character, Echo, Sonata and Weapon raw/effect layers (C-RAW; Echo/Sonata coverage). Source-reviewed mechanics **do not** imply permanent uptime, correct rotation triggering or a universal best build.
+
+**2. SOURCE-BACKED RECOMMENDATIONS — conditional links.** The associations **Augusta ↔ Thunderflare Dominion (signature)**, **Augusta ↔ Crown of Valor (shield-synergy)** and **Augusta ↔ The False Sovereign (main Echo)** are supported by the existing reviewed Bellibing profiles plus current Prydwen/Game8. They are verified *recommendation relationships*, not immutable game-mechanics facts and not universal BiS. Older canonical profiles retain their own source date/context until explicitly reviewed.
+
+**3. FUTURE BELLIBING EVALUATION — PENDING.** The actual best choice for a player requires owned options, ranks/refinements, Echo rolls, Character sequence, team, other equipped gear, rotation/energy sufficiency, target and executable model coverage. Compare coherent, equal-context candidates and prefer the modeled result **only when** the relevant preflight and execution gates pass. No published percentage or guide tier automatically overrides the player's situation.
+
+### Context ledger — per-recommendation evidence
+
+**Character/role for every row:** Augusta, on-field Electro / Heavy Attack Main DPS (default **S0** unless otherwise stated). These are **Layer 2 source-based candidate associations**. VERIFIED below means the association was reviewed or the stated source evidence was directly checked; it never means a universal winner.
+
+| Recommended option | Known team, equipment and rotation assumptions | Source | Limits / status |
+| --- | --- | --- | --- |
+| **Thunderflare Dominion R1**, signature | Prydwen weapon comparison includes Iuno with Moongazer's Sigil + Crown of Valor/Sierra Gale + Lady of the Sea and Shorekeeper with Stellar Symphony + Rejuvenating Glow + Fallacy. Shield procs and Heavy Attack execution matter. | C-WEAPON; P-NEW / Best Weapons | **VERIFIED — CANONICAL recommendation**; source 100% baseline in that specific comparison; no universal result. |
+| **Verdant Summit R1; Ages of Harvest R1**, limited alternatives | Same Prydwen weapon-benchmark party; limited weapon ownership assumed, passive compatibility varies. | C-WEAPON; P-NEW / Best Weapons | **SOURCE EVIDENCE** for Oct ratios; **CONFLICT** versus older stored percentages. |
+| **Wildfire Mark R1; Radiance Cleaver R1; Kumokiri R1; Lustrous Razor R1**, alternative Broadblades | Same Prydwen comparison; select for inventory, CRIT/ATK balance, energy utility. Wildfire's passive does not buff Augusta directly in standard comparison. | C-WEAPON; P-NEW / Best Weapons | **SOURCE EVIDENCE**; percentages are benchmark-local, not a fixed player ranking. |
+| **Aureate Zenith R5; Autumntrace R5**, Battle Pass | Requires player to own Battle Pass weapon at **R5**. | C-WEAPON; P-NEW / Best Weapons; G8 | **SOURCE EVIDENCE**; do not transfer R5 percentages to lower refinements; Aureate's relative order changed vs older Lustrous comparison. |
+| **Waning Redshift R5; Helios Cleaver R5; Meditations on Mercy R5; Guardian Broadblade**, budget | Prydwen compares R5 four-stars in stated team; Game8 presents Guardian as 3-star F2P without matched rank or benchmark. Waning's energy utility depends on the rotation. | C-WEAPON; P-NEW; G8 / F2P | **SOURCE EVIDENCE**; Guardian numeric/rank parity **PENDING**; no general ER waiver. |
+| **3P Crown of Valor + 2P Void Thunder**, The False Sovereign | Augusta S0 shield refresh, valid three/two set membership, 43311 ELE/ELE, Iuno + Shorekeeper in DPR set comparison. | C-ECHO; P-NEW / Echo Sets; G8; C-DPR A25:C34 | **VERIFIED — CANONICAL recommendation**, NOT mechanically guaranteed 100% uptime or a universal winner. |
+| **3P Crown of Valor + 2P Lingering Tunes**, The False Sovereign | Same shield-synergy role; competing 2P ATK in the specific DPR Iuno/SK setup. | G8 / Echo Sets; C-DPR A25:C34 | **SOURCE EVIDENCE**; DPR 99.26% applies only to its benchmark. |
+| **3P Crown of Valor + other 2P alternatives** | Prydwen lists Endless Resonance, Reel of Spliced Memories, Moonlit Clouds, Empyrean Anthem, Tidebreaking Courage; exact species/membership/roll inventory and consistent comparison unknown. | P-NEW / Best Echo Sets | **SOURCE EVIDENCE** of listed candidates; individual player choice and rank **PENDING**. |
+| **5P Void Thunder + ordinary Tempest Mephis** | Early-game / limited CoV ownership; Tempest claw hit and cast time required; differs from Nightmare Tempest. | G8 / Echo Sets / Main Echo; C-DPR A25:C34 | **SOURCE EVIDENCE** as fallback, not overall default. |
+| **The False Sovereign** main Echo | Passive Electro/Heavy bonus, Intro summon and optional transform are separate. Intro vs quickswap changes value and cast opportunity. | C-ECHO; P-NEW / Main Echo; G8 | **VERIFIED recommendation association**; active-cast/uptime execution remains conditional. |
+| **4-cost CRIT Rate or CRIT DMG; 3-cost Electro/Electro or Electro/ATK%; 1-cost ATK%/ATK%** | Actual CRIT balance, weapon secondary, sequence, teammate buffs and available rolls determine the choice; canonical five-slot shell is Rate/ELE/ELE/ATK/ATK. | C-ECHO; P-NEW / Best Echo Stats; G8 | **VERIFIED canonical default** and **SOURCE EVIDENCE** for alternatives; comparison **PENDING**. |
+| **ER-until-satisfied substat priority** | Prydwen level-90 S0 total ER endpoints 116% Mortefi + Shorekeeper / 125% Iuno + Shorekeeper; weapon energy and rotations vary. | C-STAT; C-TARGET; P-NEW / Endgame Stats | **VERIFIED conditional recommendation**, never an unconditional fixed roll rule. |
+
+**Use rule:** A signature association or shared named Sonata set is never sufficient to force an equipment choice. This document stores alternatives and source constraints; only later Bellibing evaluation decides among what the player can actually build.
+
+## 1. Existing VERIFIED canonical Augusta recommendation baseline
 
 | Dimension | Exact retained canonical fact | Meaning / caveat |
 | --- | --- | --- |
@@ -169,4 +198,4 @@ Game8 independently lists **Guardian Broadblade (3-star)** as an accessible low-
 | DPR published set/weapon/team comparison rows | **VERIFIED — SOURCE EVIDENCE**, **PENDING** review for quantified simulator-consumable context | Do not ingest damage percentages without denominators, team, ranks, source versions and execution assumptions. |
 | Real build-dependent BiS, ER, DPS / candidate ranking | **PENDING** exact supported inputs, snapshot, relevant effect semantics, effect/attack/rotation execution, parity and backward-impact gates | Do not declare Character DPS ready, set mandatory substats or compute proprietary evaluator decisions from a public guide. |
 
-**Changes in this PR:** this research document only. The existing canonical Character/Weapon/Echo/Sonata/Profile data, private evaluator, other branches/PRs and Handoff are deliberately unchanged. Per [Development Process v2](../DEVELOPMENT_PROCESS.md), **FAST docs-only** verification is file/diff/link/whitespace/content-provenance review, not the full MERGE Verify/Export/browser suite. A later actual source-data promotion would require source-semantic review, deterministic audits, relevant consumers and backward-impact checks.
+**Changes in this PR:** this research document only, including the three-layer recommendation boundary and per-option context ledger. No universal Augusta BiS is asserted. The existing canonical Character/Weapon/Echo/Sonata/Profile data, private evaluator, other branches/PRs and Handoff are deliberately unchanged. Per [Development Process v2](../DEVELOPMENT_PROCESS.md), **FAST docs-only** verification is file/diff/link/whitespace/content-provenance review, not the full MERGE Verify/Export/browser suite. A later actual source-data promotion would require source-semantic review, deterministic audits, relevant consumers and backward-impact checks.

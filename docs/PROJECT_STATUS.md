@@ -39,18 +39,14 @@ Customize target metrics, minimum/preferred semantics, source/context recovery a
 
 The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions.
 
-The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their Lv90 HP/ATK/DEF/Max Energy and separate Build/Skills/Sequence/Hero Art presentation remain Pending. Visible Calc references do not establish mechanics or DPS readiness.
+The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 58/59 complete mechanics source profiles; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
 
 Active product scope remains:
 - Sequences: S0, S1, S2 for current product work; S3-S6 stay canonical raw/source data unless separately authorized.
 - Skills: maxed Character skills, using Lv10 where the source owns the exact Lv1-Lv10 curve.
 - Missing or disputed gameplay semantics remain PENDING/UNKNOWN and fail closed.
 
-Character Mechanics current blockers remain source-validity blockers, not implementation guesses:
-- Buling Five Thunders Spell Array damage class;
-- Xiangli Yao Pivot - Impale damage class;
-- Buling FORTE damage-class dependency;
-- Danjin full-power Ruby Blossom threshold contradiction.
+The release facts candidate resolves Buling Five Thunders Spell Array as Liberation DMG and Xiangli Yao Pivot — Impale as Basic DMG from original damage fields. Danjin's full-power Ruby Blossom threshold contradiction remains source-blocked.
 
 The six Reference Team 01 dependencies remain pending. See [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the downstream team/product contract.
 
@@ -83,8 +79,8 @@ Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, 
 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
-- Buling / Xiangli Yao ACTIONS damage-class blockers.
-- Buling / Danjin FORTE semantics blockers.
+- Danjin FORTE/resource threshold contradiction.
+- Character–Weapon signature/NO_SIGNATURE review and final combined Character facts verification remain Pending.
 - Six Reference Team 01 dependencies remain pending.
 - Roster-wide Character recommendation completion is **not** claimed.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.

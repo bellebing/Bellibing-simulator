@@ -23,28 +23,6 @@ export interface CharacterMechanicsSourceReviewAudit {
 }
 
 export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSourceBlocker[] = [
-  ...['hsin', 'jingran'].map((characterId): CharacterMechanicsSourceBlocker => ({
-    characterId,
-    kind: 'MISSING_REVIEWED_MECHANICS',
-    checkedAt: '2026-10-06',
-    upstreamCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-    sourceEvidence: [
-      'Canonical Character Mechanics source snapshot/review has no promoted facts for this identity.',
-      'docs/CHARACTER_TRUTH_CAPTURE.md: provider evidence remains noncanonical and requires separate manual source-validity review.',
-    ],
-    reason: 'Released catalog identity only. Reviewed mechanics are unavailable; provider kit/progression/Sequence capture does not establish canonical mechanics or DPS readiness.',
-  })),
-  {
-    characterId: 'buling',
-    kind: 'MISSING_DAMAGE_CLASSIFICATION',
-    checkedAt: '2026-08-29',
-    upstreamCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-    sourceEvidence: [
-      'DommyMM/wuwabuild public/Data/Characters.json character 1307 move 1004303 value 1307031',
-      'Five Thunders Spell Array Continuous DMG has an exact Lv1-Lv10 coefficient row, but the move text only states Electro DMG; the same source explicitly labels the separate team state as Resonance Skill DMG Bonus when that classification is intended.',
-    ],
-    reason: 'Five Thunders Spell Array Continuous DMG has no explicit current-source damage-bonus classification. Action ownership or the separate team Resonance Skill DMG Bonus must not be used to infer one.',
-  },
   {
     characterId: 'danjin',
     kind: 'CONTRADICTORY_RESOURCE_THRESHOLD',
@@ -55,17 +33,6 @@ export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSou
       'The same current move text says full-power behavior occurs when Ruby Blossom reaches over 120 while also stating the resource can hold up to 120.',
     ],
     reason: 'Ruby Blossom full-power semantics are internally impossible as written: current source requires over 120 while the same source caps the resource at 120. No threshold normalization is source-justified.',
-  },
-  {
-    characterId: 'xiangli-yao',
-    kind: 'MISSING_DAMAGE_CLASSIFICATION',
-    checkedAt: '2026-08-29',
-    upstreamCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-    sourceEvidence: [
-      'DommyMM/wuwabuild public/Data/Characters.json character 1305 move 1002303 values 1305015-1305017',
-      'Pivot - Impale is explicitly a replacement Basic Attack that deals Electro DMG. In the same move text, Unfathomed is explicitly considered Resonance Liberation DMG; Pivot - Impale receives no corresponding damage-bonus classification.',
-    ],
-    reason: 'Pivot - Impale has exact coefficient rows but no explicit current-source damage-bonus classification. Intuition/Resonance Liberation state ownership must not be used to infer Resonance Liberation DMG.',
   },
 ] as const;
 

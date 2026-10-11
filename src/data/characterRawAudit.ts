@@ -26,32 +26,7 @@ export interface CharacterRawPendingField {
  * As soon as the field is resolved, the audit intentionally fails until the
  * stale pending exception is removed too. This prevents silent half-records.
  */
-export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [
-  ...['hsin', 'jingran'].map((characterId): CharacterRawPendingField => ({
-    characterId,
-    fields: ['hp', 'atk', 'def', 'maxEnergy'],
-    checkedAt: '2026-10-06',
-    reason: 'Released identity reviewed separately from progression. No level-90 convention or Max Energy semantic promotion in the catalog freshness review.',
-  })),
-  {
-    characterId: 'qingxiao',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current sources conflict on Max Energy / energy-field semantics. Resonance Liberation cost is not substituted for Max Energy.',
-  },
-  {
-    characterId: 'rover-electro',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current sources disagree between 125 and 140. One source separately reports 125 Liberation cost, which does not prove the Max Energy cap.',
-  },
-  {
-    characterId: 'suisui',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current databases expose incompatible 125/140/175 energy-labelled values; semantic ownership remains unresolved.',
-  },
-] as const;
+export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [] as const;
 
 export interface CharacterRawAuditIssue {
   characterId: string;

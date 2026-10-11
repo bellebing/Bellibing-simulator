@@ -1,5 +1,7 @@
 # Character Raw Source Review — Batch 4 (Aalto / Chixia / Jianxin)
 
+> Historical batch snapshot retained for provenance. The combined [release 3.7 review](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md) supersedes its pending roster scope and any Max Energy decisions that conflict with the original dedicated capacity field.
+
 **Reviewed:** 2026-10-11. **Baseline:** main `a299e3878fb6ef2835f3ab966426ecdef15bded6`. **Scope:** three existing RELEASED characters only; preserve all numeric catalog values, intrinsic owner, skill curves and combat semantics. Decision: independently source-reviewed `VERIFIED / DATA_ONLY` raw records.
 
 ## Source semantics

@@ -183,13 +183,13 @@ test('ninth-batch Tune Break facts remain at the shared-system boundary', () => 
   }
 });
 
-test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1943 facts', () => {
+test('ninth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1946 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['chisa', 'lupa', 'iuno', 'rover-havoc', 'rover-spectro']) {

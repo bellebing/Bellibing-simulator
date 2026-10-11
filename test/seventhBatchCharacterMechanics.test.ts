@@ -137,14 +137,14 @@ test('seventh-batch Tune Break facts stay at the shared-system boundary', () => 
   }
 });
 
-test('seventh Character Mechanics batch remains valid after later coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1943 facts', () => {
+test('seventh Character Mechanics batch remains valid after later coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1946 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 57);
   assert.equal(audit.verifiedCharacterIds.length, 54);
   assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
   assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1943);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['camellya', 'carlotta']) {

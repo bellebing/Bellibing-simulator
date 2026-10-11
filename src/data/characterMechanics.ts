@@ -14,8 +14,12 @@ import { ROSTER_ACTION_COMPLETION_FACTS } from './characterMechanics/rosterActio
 import { ROSTER_FORTE_COMPLETION_FACTS } from './characterMechanics/rosterForteCompletion.ts';
 import {
   ROSTER_INHERENT_PASSIVE_COMPLETION_FACTS,
-  ROSTER_INHERENT_PASSIVE_COMPLETION_PROFILES,
 } from './characterMechanics/rosterInherentPassiveCompletion.ts';
+import {
+  ROSTER_OUTRO_COMPLETION_FACTS,
+  ROSTER_OUTRO_COMPLETION_PROFILES,
+} from './characterMechanics/rosterOutroCompletion.ts';
+import { RELEASE_CHARACTER_KIT_FACTS, RELEASE_CHARACTER_KIT_PROFILES, RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS } from './characterMechanics/releaseCharacterKitFacts.ts';
 
 export * from './characterMechanicsBase.ts';
 export {
@@ -42,6 +46,7 @@ export {
 export * from './characterMechanics/rosterActionCompletion.ts';
 export * from './characterMechanics/rosterForteCompletion.ts';
 export * from './characterMechanics/rosterInherentPassiveCompletion.ts';
+export * from './characterMechanics/rosterOutroCompletion.ts';
 export {
   FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES,
   ROVER_ELECTRO_CHARACTER_MECHANICS_PROFILE,
@@ -56,6 +61,9 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...ROSTER_ACTION_COMPLETION_FACTS,
   ...ROSTER_FORTE_COMPLETION_FACTS,
   ...ROSTER_INHERENT_PASSIVE_COMPLETION_FACTS,
+  ...ROSTER_OUTRO_COMPLETION_FACTS,
+  ...RELEASE_CHARACTER_KIT_FACTS,
+  ...RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -79,7 +87,8 @@ export function getCharacterActionFact(factId: string) {
 export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] = [
   ...BASE_CHARACTER_MECHANICS_PROFILES,
   ...FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES,
-  ...ROSTER_INHERENT_PASSIVE_COMPLETION_PROFILES,
+  ...ROSTER_OUTRO_COMPLETION_PROFILES,
+  ...RELEASE_CHARACTER_KIT_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

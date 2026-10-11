@@ -22,7 +22,7 @@ export const XIANGLI_YAO_ACTION_PROVENANCE = {
   sourceLabels: ['Bellibing Skills/Forte source — pinned wuwabuild Character payload', 'Wuthering Waves Wiki/Fandom — current Xiangli Yao combat/scaling cross-check', 'Prydwen — current Xiangli Yao kit cross-check'],
   sourceUrls: [FORTE_SOURCE, 'https://wutheringwaves.fandom.com/wiki/Xiangli_Yao/Combat', 'https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao'],
   checkedAt: CHECKED_AT,
-  notes: ['Canonical ACTIONS reuse the existing Skills/Forte source identities and exact Lv1-Lv10 values. Pivot - Impale damage classification remains fail-closed because current source explicitly classifies neighboring Unfathomed/Forever Seeking actions but not Pivot - Impale.'],
+  notes: ['Canonical ACTIONS reuse the existing Skills/Forte source identities and exact Lv1-Lv10 values. The original 3.7.0 damage rows explicitly classify Pivot - Impale as Basic DMG; execution and trigger modeling remain separate.'],
 } as const;
 
 function action(input: CharacterActionFact): CharacterActionFact {
@@ -288,16 +288,16 @@ export const BULING_ACTION_FACTS: readonly CharacterActionFact[] = [
     section: 'FORTE_CIRCUIT',
     actionKind: 'FORTE',
     actionRole: 'DAMAGE',
-    damageClass: null,
+    damageClass: 'LIBERATION',
     scalingStat: 'ATK',
     motionValue: null,
     motionValueContext: "Current source Lv1-Lv10 multiplier representation from Bellibing Skills/Forte source; source move 1004307 (Thunder Begets Life) / value row 1307031. No skill level is implicitly selected.",
     motionValueCurve: [0.1,0.1082,0.1164,0.1279,0.1361,0.1456,0.1587,0.1718,0.1849,0.1989], hitCount: 1,
-    verificationStatus: 'PARTIALLY_VERIFIED',
+    verificationStatus: 'VERIFIED',
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
-    provenance: BULING_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1004307 (Thunder Begets Life); value row 1307031.","ACTIONS blocker ACTIONS-BULING-1307031-DAMAGE-CLASS: current source exposes exact ATK-scaling Lv1-Lv10 damage but does not state the Character damage-bonus classification. The nearby team Resonance Skill DMG Bonus state is not evidence for the array's own classification."],
+    provenance: { sourceLabels: ['Original 3.7.0 client damage Type reviewed with Basic/Heavy/Skill/Liberation control records'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/damage/damage.json'], checkedAt: '2026-10-11', notes: ['Source damage IDs [1307019002]; Type 2 directly classifies the damage independently of panel ownership. Exact coefficient family cross-checked against the source description row.'] },
+    notes: ['Original released damage rows [1307019002] resolve the formerly unstated damage class. Existing exact level curves and raw-only event semantics retained.'],
   })
 ,
   tuneBreak('buling', 'buling-tune-break-rectifier', 'Tune Break — Rectifier', 1004310, BULING_ACTION_PROVENANCE),
@@ -849,16 +849,16 @@ export const XIANGLI_YAO_ACTION_FACTS: readonly CharacterActionFact[] = [
     section: 'RESONANCE_LIBERATION',
     actionKind: 'BASIC',
     actionRole: 'DAMAGE',
-    damageClass: null,
+    damageClass: 'BASIC',
     scalingStat: 'ATK',
     motionValue: null,
     motionValueContext: "Current source Lv1-Lv10 multiplier representation from Bellibing Skills/Forte source; source move 1002303 (Cogitation Model) / value row 1305015. No skill level is implicitly selected.",
     motionValueCurve: [0.6019,0.6513,0.7006,0.7697,0.8191,0.8759,0.9548,1.0338,1.1128,1.1967], hitCount: 1,
-    verificationStatus: 'PARTIALLY_VERIFIED',
+    verificationStatus: 'VERIFIED',
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
-    provenance: XIANGLI_YAO_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1002303 (Cogitation Model); value row 1305015.","ACTIONS blocker ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS: source calls Pivot - Impale a replacement Basic Attack but does not explicitly state the damage-bonus classification, while Unfathomed in the same move explicitly states Resonance Liberation DMG. No Basic/Liberation class is inferred."],
+    provenance: { sourceLabels: ['Original 3.7.0 client damage Type reviewed with Basic/Heavy/Skill/Liberation control records'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/damage/damage.json'], checkedAt: '2026-10-11', notes: ['Source damage IDs [1305011001]; Type 0 directly classifies the damage independently of panel ownership. Exact coefficient family cross-checked against the source description row.'] },
+    notes: ['Original released damage rows [1305011001] resolve the formerly unstated damage class. Existing exact level curves and raw-only event semantics retained.'],
   }),
   action({
     factId: "xiangli-yao-pivot-impale-stage-2",
@@ -868,16 +868,16 @@ export const XIANGLI_YAO_ACTION_FACTS: readonly CharacterActionFact[] = [
     section: 'RESONANCE_LIBERATION',
     actionKind: 'BASIC',
     actionRole: 'DAMAGE',
-    damageClass: null,
+    damageClass: 'BASIC',
     scalingStat: 'ATK',
     motionValue: null,
     motionValueContext: "Current source Lv1-Lv10 multiplier representation from Bellibing Skills/Forte source; source move 1002303 (Cogitation Model) / value row 1305016. No skill level is implicitly selected.",
     motionValueCurve: [0.3065,0.3316,0.3567,0.3919,0.417,0.4459,0.4861,0.5263,0.5665,0.6092], hitCount: 4,
-    verificationStatus: 'PARTIALLY_VERIFIED',
+    verificationStatus: 'VERIFIED',
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
-    provenance: XIANGLI_YAO_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1002303 (Cogitation Model); value row 1305016.","ACTIONS blocker ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS: exact curve/hit count are retained, but source-explicit damage classification is missing."],
+    provenance: { sourceLabels: ['Original 3.7.0 client damage Type reviewed with Basic/Heavy/Skill/Liberation control records'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/damage/damage.json'], checkedAt: '2026-10-11', notes: ['Source damage IDs [1305012001, 1305012002, 1305012003, 1305012004]; Type 0 directly classifies the damage independently of panel ownership. Exact coefficient family cross-checked against the source description row.'] },
+    notes: ['Original released damage rows [1305012001, 1305012002, 1305012003, 1305012004] resolve the formerly unstated damage class. Existing exact level curves and raw-only event semantics retained.'],
   }),
   action({
     factId: "xiangli-yao-pivot-impale-stage-3",
@@ -887,16 +887,16 @@ export const XIANGLI_YAO_ACTION_FACTS: readonly CharacterActionFact[] = [
     section: 'RESONANCE_LIBERATION',
     actionKind: 'BASIC',
     actionRole: 'DAMAGE',
-    damageClass: null,
+    damageClass: 'BASIC',
     scalingStat: 'ATK',
     motionValue: null,
     motionValueContext: "Current source Lv1-Lv10 multiplier representation from Bellibing Skills/Forte source; source move 1002303 (Cogitation Model) / value row 1305017. No skill level is implicitly selected.",
     motionValueCurve: [0.6703,0.7252,0.7802,0.8571,0.9121,0.9753,1.0632,1.1512,1.2391,1.3325], hitCount: 2,
-    verificationStatus: 'PARTIALLY_VERIFIED',
+    verificationStatus: 'VERIFIED',
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
-    provenance: XIANGLI_YAO_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1002303 (Cogitation Model); value row 1305017.","ACTIONS blocker ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS: exact curve/hit count are retained, but source-explicit damage classification is missing."],
+    provenance: { sourceLabels: ['Original 3.7.0 client damage Type reviewed with Basic/Heavy/Skill/Liberation control records'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/damage/damage.json'], checkedAt: '2026-10-11', notes: ['Source damage IDs [1305013001, 1305013002]; Type 0 directly classifies the damage independently of panel ownership. Exact coefficient family cross-checked against the source description row.'] },
+    notes: ['Original released damage rows [1305013001, 1305013002] resolve the formerly unstated damage class. Existing exact level curves and raw-only event semantics retained.'],
   }),
   action({
     factId: "xiangli-yao-skill-divergence",
@@ -1045,24 +1045,7 @@ export interface CharacterActionSourceBlocker {
   reason: string;
 }
 
-export const CHARACTER_ACTION_SOURCE_BLOCKERS: readonly CharacterActionSourceBlocker[] = [
-  {
-    blockerId: 'ACTIONS-BULING-1307031-DAMAGE-CLASS',
-    characterId: 'buling',
-    factIds: ['buling-forte-five-thunders-spell-array'],
-    sourceMoveId: 1004307,
-    sourceValueIds: [1307031],
-    reason: 'Five Thunders Spell Array Continuous DMG has an exact ATK-scaling Lv1-Lv10 curve, but current source never states its Character damage-bonus classification. The separate team Resonance Skill DMG Bonus state must not be used to infer the array\'s own class.',
-  },
-  {
-    blockerId: 'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
-    characterId: 'xiangli-yao',
-    factIds: ['xiangli-yao-pivot-impale-stage-1', 'xiangli-yao-pivot-impale-stage-2', 'xiangli-yao-pivot-impale-stage-3'],
-    sourceMoveId: 1002303,
-    sourceValueIds: [1305015, 1305016, 1305017],
-    reason: 'Pivot - Impale has exact ATK-scaling Lv1-Lv10 curves and hit shapes, but current source does not explicitly assign its damage-bonus classification. The Intuition/Liberation state and Basic Attack replacement label are not promoted into a guessed class.',
-  },
-] as const;
+export const CHARACTER_ACTION_SOURCE_BLOCKERS: readonly CharacterActionSourceBlocker[] = [] as const;
 
 const pendingCoverage = (actions: CharacterMechanicsProfile['coverage'][number]): CharacterMechanicsProfile['coverage'] => [
   actions,
@@ -1076,7 +1059,7 @@ const pendingCoverage = (actions: CharacterMechanicsProfile['coverage'][number])
 export const BULING_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'buling',
   verificationStatus: 'PARTIALLY_VERIFIED',
-  coverage: pendingCoverage({ area: 'ACTIONS', status: 'PARTIAL', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Five Thunders Spell Array Continuous DMG remains source-blocked on damage classification.' }),
+  coverage: pendingCoverage({ area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Original 3.7.0 damage row 1307019002 resolves the array as Liberation DMG.' }),
   factIds: BULING_ACTION_FACTS.map((fact) => fact.factId),
   provenance: BULING_ACTION_PROVENANCE,
 };
@@ -1092,7 +1075,7 @@ export const DANJIN_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
 export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'xiangli-yao',
   verificationStatus: 'PARTIALLY_VERIFIED',
-  coverage: pendingCoverage({ area: 'ACTIONS', status: 'PARTIAL', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Pivot - Impale stages 1-3 remain source-blocked on damage classification.' }),
+  coverage: pendingCoverage({ area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Original 3.7.0 damage rows 1305011001/1305012001–4/1305013001–2 resolve Pivot as Basic DMG.' }),
   factIds: XIANGLI_YAO_ACTION_FACTS.map((fact) => fact.factId),
   provenance: XIANGLI_YAO_ACTION_PROVENANCE,
 };

@@ -186,6 +186,6 @@ ${issues}
 
 ## Scope boundary
 
-This report does not change ACTIONS coverage from PR #221 and does not promote full Character Mechanics profiles. Inherent passives, Outro effects, generic resource rules, Sequence mechanics, profiles/recommendations, Team, DPS rotations and UI remain outside this slice. Buling and Danjin stay fail-closed on the exact Forte blockers above; Xiangli Yao's FORTE_RULES can be source-VERIFIED while Pivot — Impale remains an independent ACTIONS damage-class blocker.
+This report audits Forte source facts independently from runtime execution, recommendations, Team and DPS readiness. Original released damage rows resolve Buling's array and Xiangli Yao's Pivot classifications. Danjin remains fail-closed because the source's over-120 full-power clause contradicts its maximum of 120 Ruby Blossom.
 `;
 }

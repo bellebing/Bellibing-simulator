@@ -147,15 +147,15 @@ test('source completeness never grants a new DPS engine or closes Reference Team
   const db = buildCharacterDatabase();
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),
     []);
-  for (const id of ['buling', 'danjin', 'xiangli-yao']) {
+  for (const id of ['danjin']) {
     const character = db.characters.find((row) => row.id === id)!;
     assert.ok(character.mechanics);
     assert.equal(character.mechanics.verificationStatus, 'PARTIALLY_VERIFIED');
     assert.ok(character.sourceBlocker?.reason);
     assert.equal(character.readiness?.disposition, 'CHARACTER_MECHANICS_SOURCE_BLOCKED');
   }
-  for (const id of ['qingxiao', 'rover-electro', 'suisui']) {
-    assert.equal(db.characters.find((row) => row.id === id)?.level90.maxEnergy, null);
+  for (const [id, cap] of [['qingxiao', 125], ['rover-electro', 125], ['suisui', 175]] as const) {
+    assert.equal(db.characters.find(row => row.id === id)?.level90.maxEnergy, cap);
   }
   for (const character of db.characters.filter((row) => row.releaseStatus !== 'RELEASED')) {
     assert.equal(character.readiness, null);
@@ -187,7 +187,7 @@ test('Batch 1 source-VERIFIED raw records export without new DPS readiness', () 
     assert.deepEqual(exported.intrinsicStats, source.intrinsicStats);
     assert.deepEqual(exported.provenance, source.provenance);
   }
-  assert.equal(db.characters.find(row => row.id === 'denia')?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(db.characters.find(row => row.id === 'denia')?.verificationStatus, 'VERIFIED');
   assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters
     .filter((row: { id:string }) => ['cartethyia','chisa','ciaccona','iuno'].includes(row.id))
     .map((row: { id:string, verificationStatus:string }) => [row.id,row.verificationStatus])
@@ -212,7 +212,7 @@ test('Batch 2 verified raw provenance and exact values round-trip through the de
     assert.deepEqual(output.provenance, source.provenance);
     assert.equal(output.verificationStatus, 'VERIFIED');
   }
-  assert.equal(database.characters.find(row => row.id === 'denia')?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(database.characters.find(row => row.id === 'denia')?.verificationStatus, 'VERIFIED');
 });
 
 test('Batch 3 source-approved raw records round-trip through detached and serialized Character Database without DPS approval', () => {
@@ -241,7 +241,7 @@ test('Batch 3 source-approved raw records round-trip through detached and serial
     assert.equal(output.integrationStatus, 'DATA_ONLY', id);
   }
   for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
-    assert.equal(database.characters.find(row => row.id === id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+    assert.equal(database.characters.find(row => row.id === id)?.verificationStatus, 'VERIFIED', id);
   }
 });
 
@@ -275,13 +275,19 @@ test('CLI writes usable JSON and an invalid invocation preserves the last succes
   }
 });
 
-test('released identity export preserves Pending progression, mechanics and DPS boundaries', () => {
+test('released Hsin/Jingran export includes source facts without DPS approval', () => {
   const db = buildCharacterDatabase();
-  for (const id of ['hsin', 'jingran']) {
+  for (const [id,level90] of [
+    ['hsin',{hp:10300,atk:463,def:1112,maxEnergy:125}],
+    ['jingran',{hp:15375,atk:313,def:0,maxEnergy:125}],
+  ] as const) {
     const character = db.characters.find(row => row.id === id)!;
     assert.equal(character.releaseStatus, 'RELEASED');
-    assert.deepEqual(character.level90, { hp: null, atk: null, def: null, maxEnergy: null });
-    assert.equal(db.mechanicsFacts.some(fact => fact.characterId === id), false);
+    assert.equal(character.verificationStatus,'VERIFIED');
+    assert.equal(character.integrationStatus,'DATA_ONLY');
+    assert.deepEqual(character.level90, level90);
+    assert.equal(db.mechanicsFacts.some(fact => fact.characterId === id), true);
+    assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters.find((row: {id:string})=>row.id===id)?.level90,level90);
   }
   assert.equal(db.characters.find(row => row.id === 'suoming')!.releaseStatus, 'CONFIRMED_UPCOMING');
 });

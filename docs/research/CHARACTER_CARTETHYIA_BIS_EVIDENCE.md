@@ -1,8 +1,8 @@
 # Cartethyia — context-dependent Character build evidence (Worker 5)
 
-**Review date:** 2026-10-11  
-**Scope:** source-backed, context-dependent build-option map only; NO implementation, final universal BiS ruling, recommendation-row promotion, private-engine change, or merge.  
-**Repository baseline:** `main` commit `102b66edec165f3d2a313a562de4049a26424924`.  
+**Review date:** 2026-10-11
+**Scope:** source-backed, context-dependent build-option map only; NO implementation, final universal BiS ruling, recommendation-row promotion, private-engine change, or merge.
+**Repository baseline:** `main` commit `102b66edec165f3d2a313a562de4049a26424924`.
 **Canonical identity:** `cartethyia`, existing default preset `cartethyia-aero-erosion`, S0. S1/S2 are explicitly separate contexts.
 
 

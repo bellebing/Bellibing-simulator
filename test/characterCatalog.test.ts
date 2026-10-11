@@ -274,6 +274,33 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   assert.deepEqual(audit.unknownPendingCharacters, []);
 });
 
+test('Batch 7 source-verifies Lingyang, Lumi and Lupa without changing existing raw values or mechanics', () => {
+  const expected = [
+    { id: 'lingyang', rarity: 5, element: 'Glacio', weaponType: 'Gauntlets', hp: 10388, atk: 438, def: 1210, maxEnergy: 125, intrinsic: [{ stat: 'Glacio DMG', value: .12 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'lumi', rarity: 4, element: 'Electro', weaponType: 'Broadblade', hp: 8500, atk: 338, def: 880, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'lupa', rarity: 5, element: 'Fusion', weaponType: 'Broadblade', hp: 11913, atk: 388, def: 1185, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  assert.equal(new Set(expected.map(row => row.id)).size, 3);
+  for (const row of expected) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED');
+    assert.equal(actual.verificationStatus, 'VERIFIED');
+    assert.equal(actual.integrationStatus, 'DATA_ONLY');
+    assert.equal(actual.rarity, row.rarity);
+    assert.equal(actual.element, row.element);
+    assert.equal(actual.weaponType, row.weaponType);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy });
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(actual.intrinsicStats, row.intrinsic);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11');
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/characters-stats/'));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

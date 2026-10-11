@@ -274,6 +274,36 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   assert.deepEqual(audit.unknownPendingCharacters, []);
 });
 
+test('Batch 4 independently source-verifies Aalto, Chixia, Jianxin raw facts without promoting mechanics', () => {
+  const reviewed = [
+    { id: 'aalto', rarity: 4, element: 'Aero', weaponType: 'Pistols', hp: 9850, atk: 263, def: 1075, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'Aero DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+    { id: 'chixia', rarity: 4, element: 'Fusion', weaponType: 'Pistols', hp: 9088, atk: 300, def: 953, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'Fusion DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+    { id: 'jianxin', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 14113, atk: 338, def: 1124, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }] },
+  ] as const;
+  assert.equal(new Set(reviewed.map(row => row.id)).size, reviewed.length);
+  for (const expected of reviewed) {
+    const character = getCharacterGameData(expected.id)!;
+    assert.equal(character.releaseStatus, 'RELEASED', expected.id);
+    assert.equal(character.verificationStatus, 'VERIFIED', expected.id);
+    assert.equal(character.integrationStatus, 'DATA_ONLY', expected.id);
+    assert.equal(character.rarity, expected.rarity, expected.id);
+    assert.equal(character.element, expected.element, expected.id);
+    assert.equal(character.weaponType, expected.weaponType, expected.id);
+    assert.deepEqual(character.level90, { hp: expected.hp, atk: expected.atk, def: expected.def, maxEnergy: expected.maxEnergy }, expected.id);
+    assert.deepEqual(character.baseCombat, { critRate: 0.05, critDamage: 1.5, energyRegen: 1 }, expected.id);
+    assert.deepEqual(character.intrinsicStats, expected.intrinsicStats, expected.id);
+    assert.equal(character.provenance.checkedAt, '2026-10-11');
+    assert.ok(character.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(character.provenance.sourceUrls?.includes('https://wutheringwaves.fandom.com/wiki/Resonance_Energy'));
+    assert.ok(character.provenance.notes?.some(note => note.includes('Max Energy')));
+  }
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().unexpectedMissing, []);
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().stalePending, []);
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

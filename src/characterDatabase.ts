@@ -33,6 +33,7 @@ import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdap
 import { listWeaponTargetWindowSupport } from './combat/weaponTargetWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
+import { TEAM_AWARE_ROTATION_REFERENCES, CHARACTER_ROTATION_REFERENCE_COVERAGE, ROTATION_REFERENCES_BY_CHARACTER_ID } from './data/teamAwareRotationReferences.ts';
 import { CHARACTER_SIGNATURE_BY_ID, CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID } from './data/characterEquipmentAssociations.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
@@ -79,6 +80,7 @@ export function buildCharacterDatabase() {
     } as const,
     characters: byId(CHARACTER_CATALOG).map((character) => ({
       ...character,
+      rotationReferenceIds: (ROTATION_REFERENCES_BY_CHARACTER_ID.get(character.id) ?? []).map(reference => reference.id),
       signatureWeapon: CHARACTER_SIGNATURE_BY_ID.get(character.id) ?? null,
       guideRecommendations: CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID.get(character.id) ?? null,
       intrinsic: CHARACTER_INTRINSIC_BY_ID.get(character.id) ?? null,
@@ -169,6 +171,10 @@ export function buildCharacterDatabase() {
       statTargets: byId(PROFILE_CATALOGS.statTargets),
       teams: byId(PROFILE_CATALOGS.teams),
       rotations: byId(PROFILE_CATALOGS.rotations),
+    },
+    rotationReferences: {
+      references: byId(TEAM_AWARE_ROTATION_REFERENCES),
+      coverage: [...CHARACTER_ROTATION_REFERENCE_COVERAGE],
     },
     executionReviews: [...PROFILE_BACKWARD_IMPACT_REVIEWS_V36].sort((a, b) =>
       a.reviewId < b.reviewId ? -1 : a.reviewId > b.reviewId ? 1 : 0),

@@ -1,0 +1,2313 @@
+{
+  "schemaVersion": 1,
+  "role": "prydwen-rotation.manual-source-review",
+  "reviewedAt": "2026-10-11",
+  "provider": "PRYDWEN",
+  "scope": "Basic source reference sequences with explicit necessary setup/team/mode/input differences; no performance or executable rotation promotion. No other guide provider is used.",
+  "sectionHashes": {
+    "aalto": "5a05c4e482f4f58ee367088b1dd73357ebda6d82eb284a3fba45d71eafca1cb5",
+    "aemeath": "a73d570d1f9c6d70fe62fff4a2c828d8a2b3e94ae4e9b7071c2998886fe6267f",
+    "augusta": "4c8c92dbe7812ec726f02f605a795c9e329b4147a0df1d721d64c14bf70c44a6",
+    "baizhi": "14b4ee1210341b072c1285b0feff9bf8ffd7300db3b8da5421f85e89b2192717",
+    "brant": "7c8aad43e27831e7e67d122cd35d20a389da4e7c4c00de8972281e7e7927e664",
+    "buling": "3cff993028d0876dc83e7aedfcece4dcaf9a1e5d89ddf42f24e1c8d7cdedc4bb",
+    "calcharo": "351313259eaf5174ca8e5b71fdf51f27fd5977c246e3c60cbe4a1fce2b9e0fca",
+    "camellya": "e15a298ba9b9c8b78d411057dcfdd6d59f25aca75eb27b0a8b887f712bf136fa",
+    "cantarella": "5582a544cb2e1af6d9a74f82eb3741ea20acb3f7f09eb5ac80ec77a3e70d14d2",
+    "carlotta": "aa45c73cde68e7ee4fa14a100d13c224c77a20a340e98c34278655e4eb7280a7",
+    "cartethyia": "4cb2868481175ea82bfd39d5538c303adefdd39bd42195b1f5fde8733ec1e40c",
+    "changli": "a82ed40ff4981d271be50e8822289c69b62fa76adc3e3f36e9f0ce1d6ec877ae",
+    "chisa": "adae10c383c4cd8dbe8319151cba77ab578478ea000a894dc26e53225db98048",
+    "chixia": "ad096efc081f57b5d737a3675834594992ff15bc0a8da8c91e987763c76655fa",
+    "ciaccona": "b9f5effe7ac2897043fe5f444849ac6fe99a9bb181208d2f3a0caaa6aa33c4f3",
+    "danjin": "f289a4516636cb52a70bf893a9c4db6bb9ed25e33714745b7a9b0137e740f121",
+    "denia": "aa25aa388d3d70933a3b5f5cdc6acced1c9e78cfc8301762e693e0526593340d",
+    "encore": "2efe587a5c5671113a56c0508a0f6b0d8e4b0bc17ab12adb26bde625e666d2f4",
+    "galbrena": "8181cb8c3d9242ea1a7bb11edeaf2f41a54ff3d1cd7b01e110f98581e16582bf",
+    "hiyuki": "adce3a86a3e6b11308ebfa45b04012df889b75dcab1642701eca5f9542593777",
+    "hsin": "b39291fa8a69ced5a31aa753ee59bdb54651e3f8011505cc882f8ab62f1facb5",
+    "iuno": "4127b92a3de1b3d062553f53804269785d1ddce884407b7dec205bd121a441b0",
+    "jianxin": "e5c3c4600b31fd25b5d84bcaf62edccfe7d067bcc981f5864704ad0339c761cc",
+    "jingran": "c984f953b93c098b2f8ed21a5ed942133ee7378b34ff50751a708fb644bfa62a",
+    "jinhsi": "2199d8e6d20aa0149289ecb37dde453ea94a3b8085dd1884f6dda197cc375b65",
+    "jiyan": "72c0b3bd5a0868b49401e12b3e50652742628d91e33a63223608bb787b61cda6",
+    "lingyang": "076af4a67566854dccec1cc4a000e3adf9572d0ee50ca8e1a8224ee7b13360b0",
+    "lucilla": "ad2e7ffe50597cf96af190f7b327e1a2ea7b0930affab3c24ab52717d464974a",
+    "lucy": "ac1ea9e4f7140ba3b785a09c9554f608a6c3f52c5fc3b1c4bce2e61c6fd32d02",
+    "lumi": "0b914488f468dc802b281370b294916033c1975c97c1585da02ba7ea454dc04d",
+    "lupa": "35ba6f5be176fab61ad1f1b8507f44315c9c2102141018ba2f12a2fc11668a99",
+    "luuk-herssen": "b15bf7c0f11c626f9bf6408b8410bb12273dbd10f169ebd205a9e9790015c845",
+    "lynae": "9dde0f6bc8623307c3d1a956ed701ef59e44f3786067d94ca416c68980bf88e0",
+    "mornye": "30d14b84dd783089c76fb147db7145f4b300f6bc51662f6c4f81e32d84c92f24",
+    "mortefi": "a10c304d48f992fa942241d6552bf70926e03d1799a61b8362ececd59bc681af",
+    "phoebe": "9d46cf9adf48af9fb8b972d8d3ec9a4d23471a2a1bd35bb3e877e0cae1d1eb72",
+    "phrolova": "15842f5dbef7e33b424d3b3b80c01778ecca0050d17cc5740d980c7beb0b3904",
+    "qingxiao": "9899a3003e62b6a09b7e73a1cfd0a094cea1116688d08c58eae2a9bb3202eb7d",
+    "qiuyuan": "b1c21280489a11924d93bdf9748faa3d565b994dcf19f9c4f54b0f6c9d72b60e",
+    "rebecca": "6ac17d6d33678014d9cfc7b3ef60f0b49ee56234ef048387ab471e625c6ee276",
+    "roccia": "07659680d858cef388d074a6cb92c1a5e00814b0f1cc82c204051292cc998413",
+    "rover-aero": "f4072b3aef1566651c4c3306d418aa8404289ee85b3aaffc92471f3d5e400e92",
+    "rover-electro": "a13596849e4856a2d6ac1ff51d6d95181fd183ed3a76cafc871a6f6527439f12",
+    "rover-havoc": "859417211be4c1a36de3c37c0197955f1d0f13d18259fa6eef4f5cfa1cf78cad",
+    "rover-spectro": "9ed2377198cf4a75f00a2bc109e6a0c13c1c174f84363d7dbc5e8ecdc22408bf",
+    "sanhua": "0f4c468296f92cc5545b27b112102b7737805d827b5d4bd8662669f9a836c3d9",
+    "sigrika": "2ae0609b6950491fff4e734ae83aa52d2f73fd311684f0c06323ce0dea1ffed9",
+    "suisui": "b7c3f835b30525c2e3ed84e994ec1c10daeb8325e5cbeb999921947a0fbb3bb6",
+    "taoqi": "c588b2feb411e9e5cbc2ed6a991773a206644f9d425cbfed58ead2016dcd814d",
+    "the-shorekeeper": "d5ce9d0bcea520bab6d2dbf33d1a5fb54bba31dd6fa6737ba9bb693bd14ca97c",
+    "verina": "2d167ef26e688096c0f1dc6608861a92e5f5a9f7be4f16dfb058007608c0d0d1",
+    "xiangli-yao": "46e496d85b4a2c975156f3f3c41cbfc36ca7011392d6d353152fe6731a57b2ca",
+    "yangyang": "8b298c973279f77f7991f1766ca02f835386bc7f50d9e1d06f7dbb5e66a96713",
+    "yangyang-xuanling": "0f8ba6d123477d984dd3ecbe4c0a670e722d139dc321b0aaaec8e0848d747d02",
+    "yinlin": "4d72bc47b1b9ed36e15af793377110e8ae4ac99a4224b708ef2c10d60abe5d56",
+    "youhu": "b98a69095b0f41368e39dac177b542ed351d0c524df5bebb9bba03604f4547c4",
+    "yuanwu": "4097f4f5bf635780220256692407427203096f33095d97c638e24607f8cb6158",
+    "zani": "b8cf90b0b5228472815062ee527d17a57f27e9df9ed0e006708c349edfc51a5f",
+    "zhezhi": "afd57669e6d77344ece79d51c2f24f75095a4ff74ec2c12437ce032ace83cf92"
+  },
+  "selections": [
+    {
+      "characterId": "aalto",
+      "variantKey": "standard",
+      "sourceRange": [
+        557,
+        580
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Cast the first Mist Avatar during a teammate turn; allow its cooldown before the main entry. The second cast can follow Basics if necessary."
+      ],
+      "echoTiming": "Echo is in the printed sequence before Outro."
+    },
+    {
+      "characterId": "aemeath",
+      "variantKey": "mech-preparation",
+      "sourceRange": [
+        895,
+        903
+      ],
+      "phase": "PREPARATION",
+      "scope": "SETUP",
+      "modeKeys": [
+        "tune-rupture",
+        "fusion-burst"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Start the fight in Mech form and build extra Forte before teammate buff turns.",
+        "Prepare Mech form before entry. The standard path needs little switching and is explicitly useful with Lynae/Mornye; the Changli case has a separate reference. Both Tune Rupture and Fusion Burst use this action path."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "aemeath",
+      "variantKey": "standard",
+      "sourceRange": [
+        903,
+        939
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "tune-rupture",
+        "fusion-burst"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "aemeath",
+          "lynae",
+          "mornye"
+        ]
+      ],
+      "conditions": [
+        "Use the source Mech-form opening preparation before the main entry."
+      ],
+      "notes": [
+        "Prepare Mech form before entry. The standard path needs little switching and is explicitly useful with Lynae/Mornye; the Changli case has a separate reference. Both Tune Rupture and Fusion Burst use this action path."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "aemeath",
+      "variantKey": "changli-quickswap",
+      "sourceRange": [
+        939,
+        974
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "tune-rupture",
+        "fusion-burst"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "aemeath",
+          "changli"
+        ]
+      ],
+      "conditions": [
+        "Quickswap team; this is one source example, not a universal optimized quickswap loop."
+      ],
+      "notes": [
+        "Prydwen explicitly requires this pre-Intro buildup approach to retain Changli’s short Outro buff on the important attacks.",
+        "Prepare Mech form before entry. The standard path needs little switching and is explicitly useful with Lynae/Mornye; the Changli case has a separate reference. Both Tune Rupture and Fusion Burst use this action path."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "augusta",
+      "variantKey": "standard",
+      "sourceRange": [
+        784,
+        820
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "augusta",
+          "iuno",
+          "the-shorekeeper"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "The three-Forte path is used in most teams, including Iuno/Shorekeeper. Longer and fastest variants are outside this baseline."
+      ],
+      "echoTiming": "Echo is not forced into the three-Forte recipe; use only a suitable free or switch window."
+    },
+    {
+      "characterId": "baizhi",
+      "variantKey": "standard",
+      "sourceRange": [
+        505,
+        530
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Source S0R0 baseline; R0 means no Concerto weapon."
+      ],
+      "notes": [
+        "This is the S0/no-Concerto-weapon baseline, not an R0 equipped weapon. A Concerto weapon reduces finishing Basics; without Intro, add one Basic. Remaining Forte can change the next loop."
+      ],
+      "echoTiming": "Echo is in the printed sequence before Outro."
+    },
+    {
+      "characterId": "brant",
+      "variantKey": "standard",
+      "sourceRange": [
+        601,
+        618
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard hybrid/support use; the main-DPS double-Forte path is separately recorded."
+      ],
+      "echoTiming": "Dragon of Dirge after Anchor, or pre-entry in quickswap; skipping is source-permitted."
+    },
+    {
+      "characterId": "brant",
+      "variantKey": "main-dps-double-forte",
+      "sourceRange": [
+        618,
+        660
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "dps"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "brant",
+          "lupa",
+          "mornye"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "Initial Skill is fight-start-only; generate the secondary character’s Outro between Brant’s entries.",
+        "Standard hybrid/support use; the main-DPS double-Forte path is separately recorded."
+      ],
+      "echoTiming": "Dragon of Dirge after Anchor, or pre-entry in quickswap; skipping is source-permitted."
+    },
+    {
+      "characterId": "buling",
+      "variantKey": "no-intro",
+      "sourceRange": [
+        540,
+        564
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "hsin",
+          "rover-electro",
+          "buling"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "No-Intro can repeat when a teammate needs a second Intro, explicitly Electro Rover. The Intro alternative is separate."
+      ],
+      "echoTiming": "Echo immediately before Outro."
+    },
+    {
+      "characterId": "buling",
+      "variantKey": "intro",
+      "sourceRange": [
+        564,
+        590
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Use when Intro is allocated to Buling rather than to a second teammate entry.",
+        "No-Intro can repeat when a teammate needs a second Intro, explicitly Electro Rover. The Intro alternative is separate."
+      ],
+      "echoTiming": "Echo immediately before Outro."
+    },
+    {
+      "characterId": "calcharo",
+      "variantKey": "standard",
+      "sourceRange": [
+        593,
+        628
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Basic burst is selected for this baseline; optimized Dash chains and the four-Death-Messenger challenge are omitted. Prepare energy/Forte and Skill use before burst as needed."
+      ],
+      "echoTiming": "Echo before the burst; interruption depends on the chosen Echo."
+    },
+    {
+      "characterId": "camellya",
+      "variantKey": "standard",
+      "sourceRange": [
+        628,
+        673
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "red-hair"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The red-hair standard is retained separately from the white-hair tracking alternative. Stop before the source S6 recipe."
+      ],
+      "echoTiming": "Printed timings assume Nightmare: Crownless; other Echoes change placement."
+    },
+    {
+      "characterId": "camellya",
+      "variantKey": "white-hair",
+      "sourceRange": [
+        735,
+        760
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "white-hair"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Use case: mobile enemy requiring improved tracking."
+      ],
+      "notes": [
+        "Tracking-oriented alternative; this is not the high-sequence recipe.",
+        "The red-hair standard is retained separately from the white-hair tracking alternative. Stop before the source S6 recipe."
+      ],
+      "echoTiming": "Printed timings assume Nightmare: Crownless; other Echoes change placement."
+    },
+    {
+      "characterId": "cantarella",
+      "variantKey": "phrolova",
+      "sourceRange": [
+        660,
+        686
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [
+        [
+          "phrolova"
+        ]
+      ],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The Phrolova instruction changes the outgoing Perception Drain switch: stay until it lands. Echo is interrupted through Dash/Liberation.",
+        "Stay on field until Perception Drain lands. Phrolova changes Echo interruption and has a separate reference."
+      ],
+      "echoTiming": "Transform Echo follows Intro; timing is written in each sequence.",
+      "instructionOverrides": {
+        "683": "Skill: Perception Drain (remain active until the attack hits; then switch)"
+      },
+      "adaptationEvidenceLines": [
+        659
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "variantKey": "standard",
+      "sourceRange": [
+        686,
+        710
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [
+        [
+          "phrolova"
+        ]
+      ],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Stay on field until Perception Drain lands. Phrolova changes Echo interruption and has a separate reference."
+      ],
+      "echoTiming": "Transform Echo follows Intro; timing is written in each sequence."
+    },
+    {
+      "characterId": "carlotta",
+      "variantKey": "skill-preparation",
+      "sourceRange": [
+        621,
+        629
+      ],
+      "phase": "PREPARATION",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Use the opening Skills once before teammate buffs, preserving the starting Substance for the loop.",
+        "Complete the fight-start Skill preparation first; it starts the cooldown before teammate buffs. The last Skill need not be switched out in optimized Zhezhi/Shorekeeper teams."
+      ],
+      "echoTiming": "Enhanced Echo at rotation end; initial base Echo is optional."
+    },
+    {
+      "characterId": "carlotta",
+      "variantKey": "standard",
+      "sourceRange": [
+        629,
+        655
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Complete the fight-start Skill preparation first; it starts the cooldown before teammate buffs. The last Skill need not be switched out in optimized Zhezhi/Shorekeeper teams."
+      ],
+      "echoTiming": "Enhanced Echo at rotation end; initial base Echo is optional."
+    },
+    {
+      "characterId": "cartethyia",
+      "variantKey": "standard",
+      "sourceRange": [
+        668,
+        708
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [
+        [
+          "ciaccona"
+        ],
+        [
+          "chisa",
+          "rover-aero"
+        ]
+      ],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard is the higher-Aero-Erosion path. Teams without Ciaccona or the Chisa/Aero-Rover pair have a separate low-Erosion reference."
+      ],
+      "echoTiming": "Reminiscence: Fleurdelys can be summoned at any point."
+    },
+    {
+      "characterId": "cartethyia",
+      "variantKey": "low-aero-erosion",
+      "sourceRange": [
+        708,
+        770
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [
+        [
+          "ciaccona"
+        ],
+        [
+          "chisa",
+          "rover-aero"
+        ]
+      ],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Source alternative for teams lacking the named higher-Aero-Erosion partners; prepare the final base-form chain before the first Intro.",
+        "Standard is the higher-Aero-Erosion path. Teams without Ciaccona or the Chisa/Aero-Rover pair have a separate low-Erosion reference."
+      ],
+      "echoTiming": "Reminiscence: Fleurdelys can be summoned at any point."
+    },
+    {
+      "characterId": "changli",
+      "variantKey": "opening-liberation",
+      "sourceRange": [
+        565,
+        573
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Liberation available at fight start."
+      ],
+      "notes": [
+        "Opening Liberation/Forte Heavy precedes teammate setup when energy is available.",
+        "One-Intro reference, explicitly suitable for Changli/Brant/Lupa. The double-Intro reference is only for teams able to allocate the extra handoff."
+      ],
+      "echoTiming": "Transform Echo before the non-opener combo; Summons can be cast when ready."
+    },
+    {
+      "characterId": "changli",
+      "variantKey": "standard",
+      "sourceRange": [
+        573,
+        607
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "One-Intro reference, explicitly suitable for Changli/Brant/Lupa. The double-Intro reference is only for teams able to allocate the extra handoff."
+      ],
+      "echoTiming": "Transform Echo before the non-opener combo; Summons can be cast when ready."
+    },
+    {
+      "characterId": "changli",
+      "variantKey": "double-intro",
+      "sourceRange": [
+        607,
+        641
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Team can allocate two Intros to Changli; another member gives up an Intro."
+      ],
+      "notes": [
+        "The middle handoff builds the secondary character’s Outro to re-enter Changli. Brant teams may need the ordinary one-Intro recipe instead.",
+        "One-Intro reference, explicitly suitable for Changli/Brant/Lupa. The double-Intro reference is only for teams able to allocate the extra handoff."
+      ],
+      "echoTiming": "Transform Echo before the non-opener combo; Summons can be cast when ready."
+    },
+    {
+      "characterId": "chisa",
+      "variantKey": "opener",
+      "sourceRange": [
+        843,
+        871
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Loop follows the no-Intro opener. The partially interrupted Death Snip preserves only its first two source-described hits."
+      ],
+      "echoTiming": "Thread/Moonlit Echo before Liberation; Rejuvenating Echo immediately before Outro."
+    },
+    {
+      "characterId": "chisa",
+      "variantKey": "standard",
+      "sourceRange": [
+        871,
+        894
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Loop follows the no-Intro opener. The partially interrupted Death Snip preserves only its first two source-described hits."
+      ],
+      "echoTiming": "Thread/Moonlit Echo before Liberation; Rejuvenating Echo immediately before Outro."
+    },
+    {
+      "characterId": "chixia",
+      "variantKey": "standard",
+      "sourceRange": [
+        502,
+        526
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Prepare Forte through two Skill uses while retaining one charge for burst. Channel only the source-described bullet amount; interruption can break the combo."
+      ],
+      "echoTiming": "Buff Echo before burst; exact interruption depends on Echo choice."
+    },
+    {
+      "characterId": "ciaccona",
+      "variantKey": "standard",
+      "sourceRange": [
+        627,
+        653
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
+      "notes": [
+        "Standard hybrid reference with a separate no-Intro opener. Do not substitute high-sequence DPS recipes."
+      ],
+      "echoTiming": "Nightmare: Kelpie active cast is omitted; rely on its Outro Summon. Reminiscence: Fleurdelys can be summoned during the rotation."
+    },
+    {
+      "characterId": "ciaccona",
+      "variantKey": "opener",
+      "sourceRange": [
+        653,
+        689
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Standard hybrid reference with a separate no-Intro opener. Do not substitute high-sequence DPS recipes."
+      ],
+      "echoTiming": "Nightmare: Kelpie active cast is omitted; rely on its Outro Summon. Reminiscence: Fleurdelys can be summoned during the rotation."
+    },
+    {
+      "characterId": "danjin",
+      "variantKey": "damage-dealer",
+      "sourceRange": [
+        565,
+        607
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "dps"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Damage-dealer and hybrid paths are separate. These are guide references and do not resolve the existing raw Forte threshold contradiction."
+      ],
+      "echoTiming": "Echo placement is retained from the printed combo."
+    },
+    {
+      "characterId": "danjin",
+      "variantKey": "hybrid",
+      "sourceRange": [
+        607,
+        637
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "hybrid"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Shorter Concerto/Outro-focused reference instead of the damage-dealer path.",
+        "Damage-dealer and hybrid paths are separate. These are guide references and do not resolve the existing raw Forte threshold contradiction."
+      ],
+      "echoTiming": "Echo placement is retained from the printed combo."
+    },
+    {
+      "characterId": "denia",
+      "variantKey": "standard",
+      "sourceRange": [
+        787,
+        814
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "tune-strain",
+        "fusion-burst"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard entry has Intro. Fusion Burst and Tune Strain share the action path but use different Echo timing. The first-character/no-Intro recipe is separate."
+      ],
+      "echoTiming": "Fusion Burst Summon anytime; Tune Strain Voidwing Moth after Breakdown Liberation before Outro."
+    },
+    {
+      "characterId": "denia",
+      "variantKey": "opener",
+      "sourceRange": [
+        816,
+        852
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Standard entry has Intro. Fusion Burst and Tune Strain share the action path but use different Echo timing. The first-character/no-Intro recipe is separate."
+      ],
+      "echoTiming": "Fusion Burst Summon anytime; Tune Strain Voidwing Moth after Breakdown Liberation before Outro."
+    },
+    {
+      "characterId": "encore",
+      "variantKey": "standard",
+      "sourceRange": [
+        584,
+        619
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The easy/basic burst is selected; advanced animation-cancel and no-Forte recipes are omitted. Quickswap can end burst earlier when teammate cooldowns matter."
+      ],
+      "echoTiming": "Echo before burst; placement depends on the chosen Echo."
+    },
+    {
+      "characterId": "galbrena",
+      "variantKey": "standard",
+      "sourceRange": [
+        689,
+        735
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Echo must restore Afterflame before Demon Hypostasis. Standard on-field path; extended and advanced pre-Intro chains are omitted."
+      ],
+      "echoTiming": "Active Echo before Demon Hypostasis to restore Afterflame."
+    },
+    {
+      "characterId": "hiyuki",
+      "variantKey": "standard",
+      "sourceRange": [
+        693,
+        725
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The explicitly easy path is chosen as baseline. Four-Iai extensions and S2 openers are omitted."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "hsin",
+      "variantKey": "electro-flare",
+      "sourceRange": [
+        838,
+        870
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "electro-flare"
+      ],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "hsin",
+          "rover-electro",
+          "suisui"
+        ],
+        [
+          "hsin",
+          "rover-electro",
+          "buling"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "Electro Flare uses the ordinary three-character cycle. Unison requires a second partner handoff and has a separate reference."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "hsin",
+      "variantKey": "unison",
+      "sourceRange": [
+        870,
+        906
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "unison"
+      ],
+      "introAvailability": true,
+      "requiredTeamCombinations": [
+        [
+          "jinhsi"
+        ]
+      ],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "hsin",
+          "jinhsi",
+          "the-shorekeeper"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "The source names Jinhsi as the current Unison partner. Build a second partner Outro between Hsin entries; preserve the support/partner/Hsin/partner/Hsin cycle.",
+        "Electro Flare uses the ordinary three-character cycle. Unison requires a second partner handoff and has a separate reference."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "iuno",
+      "variantKey": "hybrid",
+      "sourceRange": [
+        803,
+        837
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "hybrid"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Hybrid, semi-DPS for Augusta/Shorekeeper, and main-DPS paths are separate. Without Intro the hybrid path may replace its first Intro with Skill."
+      ],
+      "echoTiming": "Crown of Valor Summon anytime; Moonlit Transform cancelled by Liberation after Intro/Closing Refrain."
+    },
+    {
+      "characterId": "iuno",
+      "variantKey": "augusta-semi-dps",
+      "sourceRange": [
+        837,
+        865
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "semi-dps"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "iuno",
+          "augusta",
+          "the-shorekeeper"
+        ]
+      ],
+      "conditions": [],
+      "notes": [
+        "Source case: Augusta performs the three-Forte reference without quickswap.",
+        "Hybrid, semi-DPS for Augusta/Shorekeeper, and main-DPS paths are separate. Without Intro the hybrid path may replace its first Intro with Skill."
+      ],
+      "echoTiming": "Crown of Valor Summon anytime; Moonlit Transform cancelled by Liberation after Intro/Closing Refrain."
+    },
+    {
+      "characterId": "iuno",
+      "variantKey": "main-dps",
+      "sourceRange": [
+        865,
+        895
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "dps"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Main damage-dealer reference; high-sequence infinite extensions are omitted.",
+        "Hybrid, semi-DPS for Augusta/Shorekeeper, and main-DPS paths are separate. Without Intro the hybrid path may replace its first Intro with Skill."
+      ],
+      "echoTiming": "Crown of Valor Summon anytime; Moonlit Transform cancelled by Liberation after Intro/Closing Refrain."
+    },
+    {
+      "characterId": "jianxin",
+      "variantKey": "support-priorities",
+      "sourceRange": [
+        550,
+        563
+      ],
+      "phase": "PRIORITY",
+      "scope": "PRIORITY_GUIDANCE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The source supplies gameplay priorities rather than a fixed rotation. No ordered action loop is inferred."
+      ],
+      "echoTiming": null,
+      "priorityOverrides": {
+        "553": "Use Skill when ready without interrupting a higher-priority teammate window.",
+        "555": "Use Basics to maintain the selected healing set/weapon triggers and build Concerto.",
+        "556": "Use Echo when useful, reserving it for a carry burst if needed.",
+        "558": "Use Liberation for Concerto and grouping; defer it when grouping is needed later.",
+        "560": "Time Outro for a recipient who benefits from Liberation damage amplification.",
+        "561": "Forte shielding is optional; weigh field time against shielding and Concerto."
+      }
+    },
+    {
+      "characterId": "jingran",
+      "variantKey": "standard",
+      "sourceRange": [
+        703,
+        732
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Base-sequence standard; extra Basics are conditional on spare team time. Do not replace it with the S2 opener."
+      ],
+      "echoTiming": "Myriad Snare Summon at any point."
+    },
+    {
+      "characterId": "jinhsi",
+      "variantKey": "opener",
+      "sourceRange": [
+        599,
+        626
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "The loop includes a second hybrid/buffer turn between Jinhsi entries. This is an interleaved reference, not consecutive Jinhsi-only actions."
+      ],
+      "echoTiming": "Jué may be summoned freely, preferably near the Forte nukes."
+    },
+    {
+      "characterId": "jinhsi",
+      "variantKey": "standard",
+      "sourceRange": [
+        626,
+        666
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The loop includes a second hybrid/buffer turn between Jinhsi entries. This is an interleaved reference, not consecutive Jinhsi-only actions."
+      ],
+      "echoTiming": "Jué may be summoned freely, preferably near the Forte nukes."
+    },
+    {
+      "characterId": "jiyan",
+      "variantKey": "standard",
+      "sourceRange": [
+        584,
+        611
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Use Echo before the burst window and build energy with Skill outside burst. Retain the printed Lance stages and interruption notes without inventing repetitions or per-action timing."
+      ],
+      "echoTiming": "Echo before burst to preserve Liberation field time.",
+      "instructionOverrides": {
+        "587": "Echo before burst (interruption depends on the chosen Echo)"
+      }
+    },
+    {
+      "characterId": "lingyang",
+      "variantKey": "standard",
+      "sourceRange": [
+        563,
+        599
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Begin with enough Resonance Energy and Intro. Alternate airborne Basic/Skill actions; dodging or interruption can change the available attacks."
+      ],
+      "echoTiming": "Buff Echo before burst; direct-damage Echo when ready."
+    },
+    {
+      "characterId": "lucilla",
+      "variantKey": "phrolova",
+      "sourceRange": [
+        782,
+        801
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "echo-skill"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [
+        [
+          "phrolova"
+        ]
+      ],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Source footnote moves Hold Skill to preparation and after Letting It Go so Hecate can finish its enhanced attacks.",
+        "Glacio Chafe and ordinary Echo teams share this path; Phrolova requires moving Hold Skill and has a separate reference. Hold Basic through the Forms/Letting It Go sequence."
+      ],
+      "echoTiming": "Glacio Chafe Summon anytime; Echo-team Transform after Letting It Go before Outro.",
+      "explicitSteps": [
+        {
+          "sourceLine": 803,
+          "instruction": "Before entry: Hold Skill: Spotlight"
+        },
+        {
+          "sourceLine": 784,
+          "instruction": "Intro"
+        },
+        {
+          "sourceLine": 788,
+          "instruction": "Ultimate"
+        },
+        {
+          "sourceLine": 790,
+          "instruction": "Hold Basic to execute the Heavy sequence"
+        },
+        {
+          "sourceLine": 792,
+          "instruction": "Heavy: Basic - Forms 1"
+        },
+        {
+          "sourceLine": 794,
+          "instruction": "Heavy: Basic - Forms 2"
+        },
+        {
+          "sourceLine": 796,
+          "instruction": "Heavy: Basic - Forms 3"
+        },
+        {
+          "sourceLine": 798,
+          "instruction": "Heavy: Letting It Go"
+        },
+        {
+          "sourceLine": 803,
+          "instruction": "Hold Skill: Spotlight (after Letting It Go)"
+        },
+        {
+          "sourceLine": 800,
+          "instruction": "Outro"
+        }
+      ],
+      "adaptationEvidenceLines": [
+        803
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "variantKey": "standard",
+      "sourceRange": [
+        782,
+        801
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "glacio-chafe",
+        "echo-skill"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [
+        [
+          "phrolova"
+        ]
+      ],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Glacio Chafe and ordinary Echo teams share this path; Phrolova requires moving Hold Skill and has a separate reference. Hold Basic through the Forms/Letting It Go sequence."
+      ],
+      "echoTiming": "Glacio Chafe Summon anytime; Echo-team Transform after Letting It Go before Outro."
+    },
+    {
+      "characterId": "lucy",
+      "variantKey": "opener",
+      "sourceRange": [
+        755,
+        761
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Use the opening Ultimate before teammate turns, then follow the Intro loop. The guide chooses the first five Programs; additional high-sequence utility Programs are omitted."
+      ],
+      "echoTiming": "Adam Smasher Summon at any point."
+    },
+    {
+      "characterId": "lucy",
+      "variantKey": "standard",
+      "sourceRange": [
+        761,
+        793
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Use the opening Ultimate before teammate turns, then follow the Intro loop. The guide chooses the first five Programs; additional high-sequence utility Programs are omitted."
+      ],
+      "echoTiming": "Adam Smasher Summon at any point."
+    },
+    {
+      "characterId": "lumi",
+      "variantKey": "standard",
+      "sourceRange": [
+        574,
+        599
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Support/hybrid reference. Preserve the gauge-building holds rather than assuming a fixed count of individual hits."
+      ],
+      "echoTiming": "Echo at rotation end before the outgoing switch."
+    },
+    {
+      "characterId": "lupa",
+      "variantKey": "opener",
+      "sourceRange": [
+        686,
+        707
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Loop works with either Intro type. With Mornye the unenhanced Intro is slower; it does not require a different printed recipe."
+      ],
+      "echoTiming": "Lioness of Glory after the final Mid-air Attack."
+    },
+    {
+      "characterId": "lupa",
+      "variantKey": "standard",
+      "sourceRange": [
+        707,
+        731
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Loop works with either Intro type. With Mornye the unenhanced Intro is slower; it does not require a different printed recipe."
+      ],
+      "echoTiming": "Lioness of Glory after the final Mid-air Attack."
+    },
+    {
+      "characterId": "luuk-herssen",
+      "variantKey": "standard",
+      "sourceRange": [
+        668,
+        712
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Keep the source Dash cancellation so the final Liberation retains buffs. High-level pre-Intro optimizations are omitted."
+      ],
+      "echoTiming": "Usually omit active Echo; optional before entry if a free switch window exists."
+    },
+    {
+      "characterId": "lynae",
+      "variantKey": "standard",
+      "sourceRange": [
+        696,
+        711
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Desktop/controller baseline. The mobile-specific recipe is a separate reference."
+      ],
+      "echoTiming": "Echo around Liberation, normally after it, for energy."
+    },
+    {
+      "characterId": "lynae",
+      "variantKey": "mobile",
+      "sourceRange": [
+        711,
+        731
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Mobile controls; the printed alternate recipe."
+      ],
+      "notes": [
+        "Input-specific standard alternative, separate from high-sequence recipes.",
+        "Desktop/controller baseline. The mobile-specific recipe is a separate reference."
+      ],
+      "echoTiming": "Echo around Liberation, normally after it, for energy."
+    },
+    {
+      "characterId": "mornye",
+      "variantKey": "opener",
+      "sourceRange": [
+        675,
+        698
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Opener lacks Intro; loop enters Wide Field through Intro. The R4/S0/no-Tune-applier Forte-skip edge case is outside basic coverage."
+      ],
+      "echoTiming": "Reactor Husk after Liberation; Fallacy before Liberation."
+    },
+    {
+      "characterId": "mornye",
+      "variantKey": "standard",
+      "sourceRange": [
+        698,
+        715
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Opener lacks Intro; loop enters Wide Field through Intro. The R4/S0/no-Tune-applier Forte-skip edge case is outside basic coverage."
+      ],
+      "echoTiming": "Reactor Husk after Liberation; Fallacy before Liberation."
+    },
+    {
+      "characterId": "mortefi",
+      "variantKey": "standard",
+      "sourceRange": [
+        507,
+        529
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Liberation belongs near the outgoing handoff, not early in teammate buff setup. The source printed list ends at Echo; do not silently append an unprinted Outro step."
+      ],
+      "echoTiming": "Impermanence Heron at the printed rotation end."
+    },
+    {
+      "characterId": "phoebe",
+      "variantKey": "absolution",
+      "sourceRange": [
+        685,
+        739
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "absolution"
+      ],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Absolution is the main-DPS path; Confession is a separate Zani-oriented path."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "phoebe",
+      "variantKey": "confession",
+      "sourceRange": [
+        739,
+        773
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "confession"
+      ],
+      "introAvailability": true,
+      "requiredTeamCombinations": [
+        [
+          "zani"
+        ]
+      ],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Zani hybrid reference. In the opener, use Hold Skill: Utter Confession before Liberation; subsequent loops retain Confession without repeating that setup.",
+        "Absolution is the main-DPS path; Confession is a separate Zani-oriented path."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "phrolova",
+      "variantKey": "opener",
+      "sourceRange": [
+        722,
+        758
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Loop begins with Intro; use the opener when entering without it. The four-Forte extension is omitted."
+      ],
+      "echoTiming": "Nightmare: Hecate after the second Enhanced Attack, as printed."
+    },
+    {
+      "characterId": "phrolova",
+      "variantKey": "standard",
+      "sourceRange": [
+        758,
+        792
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Loop begins with Intro; use the opener when entering without it. The four-Forte extension is omitted."
+      ],
+      "echoTiming": "Nightmare: Hecate after the second Enhanced Attack, as printed."
+    },
+    {
+      "characterId": "qingxiao",
+      "variantKey": "standard",
+      "sourceRange": [
+        671,
+        703
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Most of this chain uses held Basic input. The printed last-Liberation timing is for weapon stacking; moving it is situational, not another guaranteed recipe."
+      ],
+      "echoTiming": "Echo after Liberation immediately before Outro."
+    },
+    {
+      "characterId": "qiuyuan",
+      "variantKey": "standard",
+      "sourceRange": [
+        641,
+        662
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Printed standard is S0–S2; at S3+ avoid the Concerto-consuming enhanced Skill when serving as a buffer."
+      ],
+      "notes": [
+        "Standard hybrid reference. The optional Skill can supply energy; S3+ DPS changes and no-Intro optimization are outside baseline scope."
+      ],
+      "echoTiming": "Fenrico immediately; Heron before entry or Outro; Phrolova/Bell before Liberation."
+    },
+    {
+      "characterId": "rebecca",
+      "variantKey": "opener",
+      "sourceRange": [
+        761,
+        786
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "The opener prepares carried Concerto/Fervor for the loop. The last loop Heavy is for the next rotation and can be omitted on a final turn."
+      ],
+      "echoTiming": "Heron/Bell after the last Heavy, interrupted by Liberation."
+    },
+    {
+      "characterId": "rebecca",
+      "variantKey": "standard",
+      "sourceRange": [
+        786,
+        809
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The opener prepares carried Concerto/Fervor for the loop. The last loop Heavy is for the next rotation and can be omitted on a final turn."
+      ],
+      "echoTiming": "Heron/Bell after the last Heavy, interrupted by Liberation."
+    },
+    {
+      "characterId": "roccia",
+      "variantKey": "standard",
+      "sourceRange": [
+        596,
+        618
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Base-sequence rotation. Higher-sequence hybrid and infinite-bounce DPS paths are omitted."
+      ],
+      "echoTiming": "Transform timing is in the printed sequence."
+    },
+    {
+      "characterId": "rover-aero",
+      "variantKey": "standard",
+      "sourceRange": [
+        509,
+        535
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The ailment-conversion Skill is optional when the team does not use that mechanic. Unbound Flow part 2 is an off-field continuation after the handoff."
+      ],
+      "echoTiming": "Echo after Unbound Flow part 1, immediately before switching out."
+    },
+    {
+      "characterId": "rover-aero",
+      "variantKey": "opener",
+      "sourceRange": [
+        535,
+        566
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "The ailment-conversion Skill is optional when the team does not use that mechanic. Unbound Flow part 2 is an off-field continuation after the handoff."
+      ],
+      "echoTiming": "Echo after Unbound Flow part 1, immediately before switching out."
+    },
+    {
+      "characterId": "rover-electro",
+      "variantKey": "standard",
+      "sourceRange": [
+        542,
+        563
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Ordinary and double-Intro paths are separate. The extra Heavy in the double-Intro path is required for its Concerto."
+      ],
+      "echoTiming": "Soulfrayer Summon at any point."
+    },
+    {
+      "characterId": "rover-electro",
+      "variantKey": "double-intro",
+      "sourceRange": [
+        563,
+        584
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [
+        [
+          "rover-electro",
+          "hsin",
+          "buling"
+        ]
+      ],
+      "conditions": [
+        "Team allocates two Intros to Electro Rover; its support forgoes the extra Intro."
+      ],
+      "notes": [
+        "The explicit Hsin/Buling example allocates both Intros to Electro Rover. Preserve the partner handoff between entries and the required Heavy.",
+        "Ordinary and double-Intro paths are separate. The extra Heavy in the double-Intro path is required for its Concerto."
+      ],
+      "echoTiming": "Soulfrayer Summon at any point.",
+      "insertBeforeSourceLine": {
+        "571": [
+          {
+            "sourceLine": 565,
+            "instruction": "Partner handoff: enable Electro Rover’s second Intro"
+          }
+        ]
+      }
+    },
+    {
+      "characterId": "rover-havoc",
+      "variantKey": "short-burst",
+      "sourceRange": [
+        533,
+        549
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [
+        "shared-dps"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "A second damage dealer also needs field time."
+      ],
+      "notes": [
+        "Short quickswap-friendly reference instead of the single-carry medium burst.",
+        "Medium burst is the single-carry path; short burst shares field time with another damage dealer. Both require the source warm-up/Forte preparation."
+      ],
+      "echoTiming": "Dreamless after Liberation with an outgoing switch."
+    },
+    {
+      "characterId": "rover-havoc",
+      "variantKey": "medium-burst",
+      "sourceRange": [
+        549,
+        585
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [
+        "single-carry"
+      ],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Single damage dealer with two supporting teammates; prepare Forte before entry."
+      ],
+      "notes": [
+        "Medium burst is the single-carry path; short burst shares field time with another damage dealer. Both require the source warm-up/Forte preparation."
+      ],
+      "echoTiming": "Dreamless after Liberation with an outgoing switch."
+    },
+    {
+      "characterId": "rover-spectro",
+      "variantKey": "standard",
+      "sourceRange": [
+        529,
+        564
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "This recipe switches away while Skill recovers, then resumes through Intro. Preserve that teammate window."
+      ],
+      "echoTiming": "Time Echo for the team carry damage window."
+    },
+    {
+      "characterId": "sanhua",
+      "variantKey": "standard",
+      "sourceRange": [
+        508,
+        521
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The commonly used base Heavy-attack Concerto path is selected; S5 shortcuts are omitted."
+      ],
+      "echoTiming": "Heron immediately before Outro, switch out."
+    },
+    {
+      "characterId": "sigrika",
+      "variantKey": "standard",
+      "sourceRange": [
+        631,
+        660
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard single-path baseline; double-Outburst team extensions are omitted."
+      ],
+      "echoTiming": "Summon at any point."
+    },
+    {
+      "characterId": "suisui",
+      "variantKey": "opener",
+      "sourceRange": [
+        587,
+        612
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Fight-start/no-Intro preparation from the source, before the regular loop.",
+        "Basic-chain baseline; opener lacks Intro and loop has Intro. The more fragile Heavy alternatives and S3 shortcut are omitted."
+      ],
+      "echoTiming": "Forbidden Bastion Summon at any point."
+    },
+    {
+      "characterId": "suisui",
+      "variantKey": "standard",
+      "sourceRange": [
+        612,
+        633
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Basic-chain baseline; opener lacks Intro and loop has Intro. The more fragile Heavy alternatives and S3 shortcut are omitted."
+      ],
+      "echoTiming": "Forbidden Bastion Summon at any point."
+    },
+    {
+      "characterId": "taoqi",
+      "variantKey": "standard",
+      "sourceRange": [
+        505,
+        538
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "This is an explicitly prepared sample, not a guaranteed fixed loop. Concerto weapons can reduce the pre-rotation Basics."
+      ],
+      "echoTiming": "Moonlit Heron before Outro; Rejuvenating Echo active for the carry damage window."
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "variantKey": "concerto-r1-opener",
+      "sourceRange": [
+        554,
+        592
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Concerto weapon R1; correctly timed Forte carry-over."
+      ],
+      "notes": [
+        "The source R1 opener, paired with the R1 loop.",
+        "R denotes Concerto-weapon refinement, not a generic equipped-weapon rank. R0 means no Concerto weapon. At R0 the two loop references alternate because off-field Skill contributes carried Concerto."
+      ],
+      "echoTiming": "Echo at rotation end immediately before Outro."
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "variantKey": "concerto-r1-loop",
+      "sourceRange": [
+        592,
+        613
+      ],
+      "phase": "LOOP",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Concerto weapon R1, or the alternating R0 turn with carried Concerto."
+      ],
+      "notes": [
+        "R denotes Concerto-weapon refinement, not a generic equipped-weapon rank. R0 means no Concerto weapon. At R0 the two loop references alternate because off-field Skill contributes carried Concerto."
+      ],
+      "echoTiming": "Echo at rotation end immediately before Outro."
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "variantKey": "no-concerto-opener",
+      "sourceRange": [
+        667,
+        721
+      ],
+      "phase": "OPENER",
+      "scope": "SETUP",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "No Concerto-generating weapon."
+      ],
+      "notes": [
+        "Skill hits after switching out carry Concerto into the next turn.",
+        "R denotes Concerto-weapon refinement, not a generic equipped-weapon rank. R0 means no Concerto weapon. At R0 the two loop references alternate because off-field Skill contributes carried Concerto."
+      ],
+      "echoTiming": "Echo at rotation end immediately before Outro."
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "variantKey": "no-concerto-alternating-loop",
+      "sourceRange": [
+        721,
+        757
+      ],
+      "phase": "LOOP",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "No Concerto-generating weapon; alternates with the R1 loop via carried Concerto."
+      ],
+      "notes": [
+        "This is one half of the R0 alternating cycle; do not repeat it as an isolated fixed loop.",
+        "R denotes Concerto-weapon refinement, not a generic equipped-weapon rank. R0 means no Concerto weapon. At R0 the two loop references alternate because off-field Skill contributes carried Concerto."
+      ],
+      "echoTiming": "Echo at rotation end immediately before Outro."
+    },
+    {
+      "characterId": "verina",
+      "variantKey": "no-intro-concerto-r1",
+      "sourceRange": [
+        476,
+        498
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Concerto-generating weapon R1 or higher."
+      ],
+      "notes": [
+        "No-Intro and Intro paths depend on available handoffs and Concerto weapon access. Augusta is an explicit example needing Intro; teams that benefit from double Intro can leave it to another member."
+      ],
+      "echoTiming": "Fallacy immediately before Outro."
+    },
+    {
+      "characterId": "verina",
+      "variantKey": "no-intro-no-concerto",
+      "sourceRange": [
+        514,
+        538
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "No Concerto-generating weapon."
+      ],
+      "notes": [
+        "Base-sequence reference; choose based on allocated Intro and Concerto weapon access.",
+        "No-Intro and Intro paths depend on available handoffs and Concerto weapon access. Augusta is an explicit example needing Intro; teams that benefit from double Intro can leave it to another member."
+      ],
+      "echoTiming": "Fallacy immediately before Outro."
+    },
+    {
+      "characterId": "verina",
+      "variantKey": "intro-concerto-r1",
+      "sourceRange": [
+        538,
+        555
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Concerto-generating weapon R1 or higher."
+      ],
+      "notes": [
+        "Base-sequence reference; choose based on allocated Intro and Concerto weapon access.",
+        "No-Intro and Intro paths depend on available handoffs and Concerto weapon access. Augusta is an explicit example needing Intro; teams that benefit from double Intro can leave it to another member."
+      ],
+      "echoTiming": "Fallacy immediately before Outro."
+    },
+    {
+      "characterId": "verina",
+      "variantKey": "intro-no-concerto",
+      "sourceRange": [
+        555,
+        576
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "No Concerto-generating weapon."
+      ],
+      "notes": [
+        "Base-sequence reference; choose based on allocated Intro and Concerto weapon access.",
+        "No-Intro and Intro paths depend on available handoffs and Concerto weapon access. Augusta is an explicit example needing Intro; teams that benefit from double Intro can leave it to another member."
+      ],
+      "echoTiming": "Fallacy immediately before Outro."
+    },
+    {
+      "characterId": "xiangli-yao",
+      "variantKey": "standard",
+      "sourceRange": [
+        635,
+        664
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The easy standard path is retained. Avoid switches that discard a teammate Outro buff; Yinlin is the source example."
+      ],
+      "echoTiming": "Echo anytime; easiest outgoing window follows the last enhanced Skill."
+    },
+    {
+      "characterId": "yangyang",
+      "variantKey": "standard",
+      "sourceRange": [
+        508,
+        532
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": false,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The recommended support reference deliberately omits Intro to free the handoff for teammates."
+      ],
+      "echoTiming": "Support Heron before Outro; damage Echo timings depend on the selected Echo."
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "variantKey": "standard",
+      "sourceRange": [
+        614,
+        645
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard single-stance-cycle reference; advanced double-Feather and three-cycle quickswap are omitted."
+      ],
+      "echoTiming": "Summon as the rotation begins."
+    },
+    {
+      "characterId": "yinlin",
+      "variantKey": "standard",
+      "sourceRange": [
+        574,
+        596
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Maintain Punishment Mark and time Outro for its intended recipient. Source Echo timing belongs after Chameleon Cipher."
+      ],
+      "echoTiming": "Heron after Chameleon Cipher before Outro; Nightmare Tempest Mephis may be cast elsewhere."
+    },
+    {
+      "characterId": "youhu",
+      "variantKey": "standard",
+      "sourceRange": [
+        578,
+        603
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [
+        "Marcato equipped at R1; start from 0–1 Auspice."
+      ],
+      "notes": [
+        "Rotation 1 is the simple indefinitely repeatable reference and explicitly requires Marcato. Choose an appropriate Antique; without Intro the opener needs a Dodge Counter to cover Concerto."
+      ],
+      "echoTiming": "The selected printed recipe does not specify an Echo insertion."
+    },
+    {
+      "characterId": "yuanwu",
+      "variantKey": "support-priorities",
+      "sourceRange": [
+        555,
+        573
+      ],
+      "phase": "PRIORITY",
+      "scope": "PRIORITY_GUIDANCE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The source supplies gameplay priorities rather than a fixed rotation. No ordered action loop is inferred."
+      ],
+      "echoTiming": null,
+      "priorityOverrides": {}
+    },
+    {
+      "characterId": "zani",
+      "variantKey": "standard",
+      "sourceRange": [
+        644,
+        672
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "The basic two-Nightfall path needs teammate Spectro Frazzle; Phoebe is the guide example. Add the source Skill/Basic 3 preparation during the opener."
+      ],
+      "echoTiming": "Capitaneus Summon at any point."
+    },
+    {
+      "characterId": "zhezhi",
+      "variantKey": "jinhsi-no-liberation",
+      "sourceRange": [
+        603,
+        626
+      ],
+      "phase": "STANDARD",
+      "scope": "TEAM_OR_MODE_VARIANT",
+      "modeKeys": [],
+      "introAvailability": null,
+      "requiredTeamCombinations": [
+        [
+          "jinhsi"
+        ]
+      ],
+      "excludedTeamCombinations": [
+        [
+          "carlotta"
+        ]
+      ],
+      "exampleTeams": [],
+      "conditions": [
+        "Later turn with Liberation unavailable; extra attacks may be necessary for Outro."
+      ],
+      "notes": [
+        "Source-described conditional adaptation, not a claimed unconditional loop. Remove the unavailable Liberation and its cancel, then insert the extra Basic chain/Skill before Outro.",
+        "Standard reference. A later Jinhsi turn without Liberation needs extra Basics/Skill; that source-described adaptation is separately retained."
+      ],
+      "echoTiming": "Moonlit Heron before Outro; Empyrean Summon anytime.",
+      "omitSourceLines": [
+        621
+      ],
+      "instructionOverrides": {
+        "619": "Skill: Stroke of Genius",
+        "623": "Skill: Creation’s Zenith"
+      },
+      "insertBeforeSourceLine": {
+        "625": [
+          {
+            "sourceLine": 628,
+            "instruction": "If Concerto is insufficient: Basic 1 → Basic 2 → Basic 3 → Skill (switch out)"
+          }
+        ]
+      },
+      "adaptationEvidenceLines": [
+        628
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "variantKey": "standard",
+      "sourceRange": [
+        603,
+        626
+      ],
+      "phase": "STANDARD",
+      "scope": "BASELINE",
+      "modeKeys": [],
+      "introAvailability": true,
+      "requiredTeamCombinations": [],
+      "excludedTeamCombinations": [],
+      "exampleTeams": [],
+      "conditions": [],
+      "notes": [
+        "Standard reference. A later Jinhsi turn without Liberation needs extra Basics/Skill; that source-described adaptation is separately retained."
+      ],
+      "echoTiming": "Moonlit Heron before Outro; Empyrean Summon anytime."
+    }
+  ]
+}

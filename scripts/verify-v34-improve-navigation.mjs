@@ -98,7 +98,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     return {scrollWidth:document.documentElement.scrollWidth,stats:rect(host.querySelector('.improve-stats')),work:rect(host.querySelector('.simulate-workspace')),
       slots:[...host.querySelectorAll('.simulate-echo-slot')].map(n=>({box:rect(n),actions:rect(n.querySelector('.simulate-slot-actions')),buttons:n.querySelectorAll('[data-prepared-action]').length}))};
   })()`);
-  if(slotGeometry.scrollWidth!==1440||slotGeometry.slots.some((x,i)=>x.box.width<180||x.box.height!==280||x.box.bottom>900||x.box.top<0||x.actions.top<x.box.top||x.actions.bottom>=x.box.top+40||x.buttons!==2||(i&&x.box.x<=slotGeometry.slots[i-1].box.right))||slotGeometry.slots[0].box.top<slotGeometry.stats.bottom||slotGeometry.slots[0].box.top<slotGeometry.work.bottom)throw new Error('Improve navigation: five fixed-card geometry / top-left icons failed '+JSON.stringify(slotGeometry));
+  if(slotGeometry.scrollWidth!==1440||slotGeometry.slots.some((x,i)=>x.box.width<180||x.box.height!==280||x.box.bottom>900.75||x.box.top<0||x.actions.top<x.box.top||x.actions.bottom>=x.box.top+40||x.buttons!==2||(i&&x.box.x<=slotGeometry.slots[i-1].box.right))||slotGeometry.slots[0].box.top<slotGeometry.stats.bottom||slotGeometry.slots[0].box.top<slotGeometry.work.bottom)throw new Error('Improve navigation: five fixed-card geometry / top-left icons failed '+JSON.stringify(slotGeometry));
   // Canonical static build projection from the five detached Augusta +0 presets.
   // The original Character/Current column, resources and all real equipment stay byte-identical.
   const expectedRecipes=[

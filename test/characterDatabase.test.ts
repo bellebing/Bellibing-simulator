@@ -97,9 +97,9 @@ test('gear export preserves raw pending/conflict facts and never treats missing 
   assert.deepEqual(gear.sonataSourceReviews, SONATA_EFFECT_SOURCE_REVIEWS);
   assert.ok(gear.sonataSourceReviews.some((row) => row.status === 'SOURCE_CONFLICT'));
   assert.equal(gear.weaponEffectCoverage.find((row) => row.weaponId === 'thousandfold-deliverance')?.status,
-    'NOT_RELEASED');
+    'AUDITED_EFFECTS');
   assert.equal(gear.weapons.find((row) => row.id === 'thousandfold-deliverance')?.verificationStatus,
-    'PARTIALLY_VERIFIED');
+    'VERIFIED');
   assert.ok(gear.echoes.some((echo) => !gear.echoAttacks.some((row) => row.echoId === echo.id)));
 });
 

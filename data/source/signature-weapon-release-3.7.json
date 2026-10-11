@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "role": "signature-weapon.release-source-evidence",
+  "canonicalAuthority": false,
+  "commit": "9218d612ad815e398e064e577e42aaf878899968",
+  "reviewedAt": "2026-10-11",
+  "sources": [
+    {
+      "path": "BinData/weapon/weaponconf.json",
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/weapon/weaponconf.json",
+      "sha256": "7c6acf5fb8274b390148a4071740aa78bb29f0ec735138f1ffb5f2d4978482aa"
+    },
+    {
+      "path": "BinData/property/weaponpropertygrowth.json",
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/property/weaponpropertygrowth.json",
+      "sha256": "1de6d4d9d941bcab3010651652d761ab4d370bb1eb81780494d4de36839840a3"
+    },
+    {
+      "path": "Textmaps/en/multi_text/MultiText.json",
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/Textmaps/en/multi_text/MultiText.json",
+      "sha256": "b8871035a7a3c9c8e0ca2d6884447b363e2c68e6e41cc6f1274ba655dd62fcf2"
+    }
+  ],
+  "weapons": [
+    {
+      "weaponId": "thousandfold-deliverance",
+      "source": {
+        "ItemId": 21010076,
+        "WeaponName": "WeaponConf_21010076_WeaponName",
+        "QualityId": 5,
+        "WeaponType": 1,
+        "FirstPropId": {
+          "Id": 7,
+          "Value": 33,
+          "IsRatio": false
+        },
+        "FirstCurve": 1,
+        "SecondPropId": {
+          "Id": 10002,
+          "Value": 0.16050000488758087,
+          "IsRatio": true
+        },
+        "SecondCurve": 2,
+        "Desc": "WeaponConf_21010076_Desc",
+        "DescParams": [
+          {
+            "ArrayString": [
+              "12%",
+              "15%",
+              "18%",
+              "21%",
+              "24%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "6",
+              "6",
+              "6",
+              "6",
+              "6"
+            ]
+          },
+          {
+            "ArrayString": [
+              "7",
+              "7",
+              "7",
+              "7",
+              "7"
+            ]
+          },
+          {
+            "ArrayString": [
+              "4%",
+              "5%",
+              "6%",
+              "7%",
+              "8%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "24%",
+              "30%",
+              "36%",
+              "42%",
+              "48%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "2",
+              "2",
+              "2",
+              "2",
+              "2"
+            ]
+          },
+          {
+            "ArrayString": [
+              "1",
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          },
+          {
+            "ArrayString": [
+              "15%",
+              "17.5%",
+              "20%",
+              "22.5%",
+              "25%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "30%",
+              "35%",
+              "40%",
+              "45%",
+              "50%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "2",
+              "2",
+              "2",
+              "2",
+              "2"
+            ]
+          },
+          {
+            "ArrayString": [
+              "6",
+              "6",
+              "6",
+              "6",
+              "6"
+            ]
+          },
+          {
+            "ArrayString": [
+              "12%",
+              "15%",
+              "18%",
+              "21%",
+              "24%"
+            ]
+          }
+        ],
+        "ResonId": 21010076
+      },
+      "name": "Thousandfold Deliverance",
+      "descriptionTemplate": "Grants {0} All-Attribute DMG Bonus. Casting Intro Skill or gaining a Shield as the active Resonator grants 1 stack of Nature's Order and 1 stack of Cradle of Life. This effect can be triggered via gaining a Shield once every 0.5s, stacking up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1}, lasting for {2}s. Switching to another Resonator ends both Nature's Order and Cradle of Life immediately.\nNature's Order: Crit. DMG is increased by {3}, up to {4}. When Nature's Order reaches <SapTag=A>{10}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=A}, the Crit. Rate of Heavy Attack DMG is increased by {11}.\nCradle of Life: Casting Heavy Attack consumes up to {5} stacks of Cradle of Life. For every <SapTag=6>{6}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=6} of Cradle of Life consumed, Heavy Attack DMG ignores {7} of the target's DEF, up to {8}. The effect lasts for {9}s.",
+      "growth": [
+        {
+          "Id": 96,
+          "CurveId": 1,
+          "Level": 90,
+          "BreachLevel": 6,
+          "CurveValue": 125000
+        },
+        {
+          "Id": 203,
+          "CurveId": 2,
+          "Level": 90,
+          "BreachLevel": 6,
+          "CurveValue": 45000
+        }
+      ],
+      "reviewedPublishedLevel90": {
+        "atk": 413,
+        "secondary": 0.722
+      },
+      "publishedCoreSourceUrls": [
+        "https://wuwa.wiki/en/codex/weapons/21010076",
+        "https://www.prydwen.gg/wuthering-waves/weapons/"
+      ]
+    },
+    {
+      "weaponId": "blooming-jadehaven",
+      "source": {
+        "ItemId": 21050116,
+        "WeaponName": "WeaponConf_21050116_WeaponName",
+        "QualityId": 5,
+        "WeaponType": 5,
+        "FirstPropId": {
+          "Id": 7,
+          "Value": 47,
+          "IsRatio": false
+        },
+        "FirstCurve": 1,
+        "SecondPropId": {
+          "Id": 8,
+          "Value": 540,
+          "IsRatio": false
+        },
+        "SecondCurve": 2,
+        "Desc": "WeaponConf_21050116_Desc",
+        "DescParams": [
+          {
+            "ArrayString": [
+              "12%",
+              "15%",
+              "18%",
+              "21%",
+              "24%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "36%",
+              "45%",
+              "54%",
+              "63%",
+              "72%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "10%",
+              "13.5%",
+              "17%",
+              "20.5%",
+              "24%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "30%",
+              "37.5%",
+              "45%",
+              "52.5%",
+              "60%"
+            ]
+          },
+          {
+            "ArrayString": [
+              "30",
+              "30",
+              "30",
+              "30",
+              "30"
+            ]
+          },
+          {
+            "ArrayString": [
+              "0.1",
+              "0.1",
+              "0.1",
+              "0.1",
+              "0.1"
+            ]
+          },
+          {
+            "ArrayString": [
+              "1",
+              "1",
+              "1",
+              "1",
+              "1"
+            ]
+          }
+        ],
+        "ResonId": 21050116
+      },
+      "name": "Blooming Jadehaven",
+      "descriptionTemplate": "Grants {0} All-Attribute DMG Bonus. After the wielder inflicts Electro Flare or triggers Unison Response, Resonance Skill DMG is Amplified by {1} and ignores {2} of the target's Electro RES. While the wielder is the active Resonator, Electro Flare DMG taken by targets within a certain range is Amplified by {3} for {4}s, triggered <SapTag=6>{6}</SapTag> {Cus:Sap,S=time P=times SapTag=6} every {5}s. Only the strongest effect of the same name applies.",
+      "growth": [
+        {
+          "Id": 96,
+          "CurveId": 1,
+          "Level": 90,
+          "BreachLevel": 6,
+          "CurveValue": 125000
+        },
+        {
+          "Id": 203,
+          "CurveId": 2,
+          "Level": 90,
+          "BreachLevel": 6,
+          "CurveValue": 45000
+        }
+      ],
+      "reviewedPublishedLevel90": {
+        "atk": 587,
+        "secondary": 0.243
+      },
+      "publishedCoreSourceUrls": [
+        "https://wuwa.wiki/en/codex/weapons/21050116",
+        "https://www.prydwen.gg/wuthering-waves/weapons/"
+      ]
+    }
+  ]
+}

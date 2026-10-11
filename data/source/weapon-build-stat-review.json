@@ -17,10 +17,10 @@
     "buildStateRank": "The current Character Builder Weapon state stores weaponId only, so this UI projection is explicitly R1 until Weapon rank becomes a first-class Build-state field."
   },
   "summary": {
-    "releasedWeapons": 121,
-    "reviewedEffects": 236,
-    "staticBuildStatEffects": 60,
-    "nonStaticMechanicEffects": 176,
+    "releasedWeapons": 123,
+    "reviewedEffects": 244,
+    "staticBuildStatEffects": 62,
+    "nonStaticMechanicEffects": 182,
     "pendingEffects": 0
   },
   "effects": [
@@ -1263,6 +1263,48 @@
       "effectId": "TRAIN-S-ATK",
       "classification": "STATIC_BUILD_STAT",
       "buildStat": "ATK%"
+    },
+    {
+      "weaponId": "blooming-jadehaven",
+      "effectId": "blooming-jadehaven-all-attribute",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "blooming-jadehaven",
+      "effectId": "blooming-jadehaven-skill-amplification",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "blooming-jadehaven",
+      "effectId": "blooming-jadehaven-electro-res-ignore",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "blooming-jadehaven",
+      "effectId": "blooming-jadehaven-flare-amplification",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thousandfold-deliverance",
+      "effectId": "thousandfold-deliverance-all-attribute",
+      "classification": "STATIC_BUILD_STAT",
+      "buildStat": "All Attribute DMG"
+    },
+    {
+      "weaponId": "thousandfold-deliverance",
+      "effectId": "thousandfold-deliverance-nature-crit-damage",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thousandfold-deliverance",
+      "effectId": "thousandfold-deliverance-nature-heavy-crit-rate",
+      "classification": "NON_STATIC_MECHANIC"
+    },
+    {
+      "weaponId": "thousandfold-deliverance",
+      "effectId": "thousandfold-deliverance-cradle-heavy-def-ignore",
+      "classification": "NON_STATIC_MECHANIC"
     }
   ]
 }

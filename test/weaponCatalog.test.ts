@@ -8,13 +8,13 @@ import {
   getWeaponGameData,
 } from '../src/data/weapons.ts';
 
-test('weapon catalog contains V9.15 audited roster plus the two Version 3.6 weapons', () => {
-  assert.equal(WEAPON_CATALOG.length, 122);
-  assert.equal(WEAPON_BY_ID.size, 122);
-  assert.equal(new Set(WEAPON_CATALOG.map((weapon) => weapon.id)).size, 122);
+test('weapon catalog retains audited baseline and the two released 3.7 signatures', () => {
+  assert.equal(WEAPON_CATALOG.length, 123);
+  assert.equal(WEAPON_BY_ID.size, 123);
+  assert.equal(new Set(WEAPON_CATALOG.map((weapon) => weapon.id)).size, 123);
 
   const registry = createContentRegistry(WEAPON_CATALOG);
-  assert.equal(registry.weapons.size, 122);
+  assert.equal(registry.weapons.size, 123);
   assert.equal(registry.characters.size, 0);
   assert.equal(registry.echoSets.size, 0);
 });
@@ -30,7 +30,7 @@ test('rarity coverage preserves the full game catalog instead of UI selectabilit
     2: 5,
     3: 21,
     4: 43,
-    5: 48,
+    5: 49,
   });
 });
 
@@ -70,16 +70,16 @@ test('Glint of Clouds is a released 3.6 core-stat record independent of Qingxiao
   assert.equal(Object.hasOwn(weapon, 'characterId'), false);
 });
 
-test('Thousandfold Deliverance stays confirmed-upcoming and partially verified before phase 2', () => {
+test('Thousandfold Deliverance has reviewed released 3.7 core data', () => {
   const weapon = getWeaponGameData('thousandfold-deliverance');
   assert.ok(weapon);
-  assert.equal(weapon.releaseStatus, 'CONFIRMED_UPCOMING');
-  assert.equal(weapon.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(weapon.releaseStatus, 'RELEASED');
+  assert.equal(weapon.verificationStatus, 'VERIFIED');
   assert.equal(weapon.weaponType, 'Broadblade');
   assert.equal(weapon.rarity, 5);
   assert.equal(weapon.level90BaseAtk, 413);
   assert.deepEqual(weapon.secondary, { stat: 'HP%', value: 0.722 });
-  assert.match(weapon.provenance.notes?.join(' ') ?? '', /until the weapon is live/i);
+  assert.match(weapon.provenance.notes?.join(' ') ?? '', /Original base 33 ATK/i);
 });
 
 test('known V9.15 stale-profile corrections survive migration', () => {

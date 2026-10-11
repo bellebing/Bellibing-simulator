@@ -957,6 +957,7 @@ async function loadEchoBrowserData(){
   echoUi.refreshForCharacter();
   statsUi.refresh();
   improveUi.refresh();
+  window.bellibingRenderSingleSlot?.();
 }
 function makeWeaponCard(item,{active=false,rarityFrame=false}={}){
   const frameSrc=rarityFrame?WEAPON_RARITY_FRAMES[item.rarity]:null;
@@ -1330,7 +1331,16 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
-  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.context.kind==='simulate-setup'?null:this.loadoutProfile},
+  workspaceProfile(){return ['candidate','simulate-setup'].includes(this.context.kind)?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
+  effectiveSonataFilter(){
+    const recommended=this.workspaceProfile()?.sonataSetIds||[];
+    if(this.context.kind!=='simulate-setup')return recommended;
+    const settings=window.bellibingImproveSettings?.getState?.();
+    // Absent means inherit reviewed Character recommendations; explicit [] means All.
+    if(settings?.characterId===this.context.characterId&&Array.isArray(settings.selectedSonataSetIds))
+      return settings.selectedSonataSetIds.filter(id=>echoSonataById.has(id));
+    return recommended;
+  },
   contextValid(){return this.context.kind==='equipped'||(['candidate','simulate-setup'].includes(this.context.kind)&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
   previewCommitted(){return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.context.kind==='simulate-setup'?this.context.card:this.currentSlot()},
   activeSet(){
@@ -1628,7 +1638,7 @@ const echoUi={
     if(!name||this.open||this.closing||!Number.isInteger(index)||index<0||index>4||typeof onSave!=='function')return;
     await echoDataReady;
     if(name!==improveUi.characterName||version!==improveUi.contextVersion||this.open||this.closing||!echoCatalog.length||!echoStatContract)return;
-    this.context={kind:'simulate-setup',characterName:name,version,card:cloneEchoSlot(card),onSave};
+    this.context={kind:'simulate-setup',characterName:name,characterId:improveUi.characterId,version,card:cloneEchoSlot(card),onSave};
     this.openWorkspace(index);
   },
   async showCandidate(){
@@ -1650,7 +1660,7 @@ const echoUi={
     document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
     this.panel.querySelector('.echo-preview-sonata-assignment').hidden=false;
     this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
-    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
+    this.selectedSonataIds=new Set(this.effectiveSonataFilter());
     const recommendedCost=candidate||setup?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=setup?document.getElementById('simulateEchoPreview'):candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
@@ -2131,8 +2141,37 @@ function projectImproveCurrentStats(name){
   const result=document.querySelector('.simulate-result-echo');
   const simulate=document.querySelector('.simulate-start');
   const oneSlot=document.querySelector('.simulate-modes button:first-child');
-  let selectedIndex=0, usedSessionId=null, observedCharacterId=null, message='', messageIsError=false;
+  let selectedIndex=0, usedSessionId=null, observedCharacterId=null, augustaDefaultsApplied=false, message='', messageIsError=false;
   let usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
+  // Detached, presentation-only Rank-5 +0 cards. Canonical identities and
+  // level-zero stat pools are validated before any slot is initialized.
+  function initializeAugustaPreparedCards(){
+    if(augustaDefaultsApplied||improveUi.characterId!=='augusta'||!echoDataLoaded||!echoStatContract)return;
+    const recipes=[
+      ['echo-60001215',4,'sonata-20','CRIT Rate'],
+      ['echo-60001615',3,'sonata-20','Electro DMG'],
+      ['echo-60000975',3,'sonata-20','Electro DMG'],
+      ['echo-60000175',1,'sonata-3','ATK%'],
+      ['echo-60000165',1,'sonata-3','ATK%']
+    ];
+    try{
+      const defaults=recipes.map(([id,cost,sonataId,mainName])=>{
+        const item=echoById.get(id);
+        const main=item&&echoMainOptions(cost,0).find(option=>option.name===mainName);
+        if(!item||item.cost!==cost||!item.sonataSetIds.includes(sonataId)||!main)
+          throw new Error('Augusta Echo preset missing canonical identity/Sonata/Main Stat: '+id);
+        const card=makeEchoStatCard(item,sonataId,{echoId:id,mainStat:main});
+        const invalid=validateEchoStatCard(card,item);
+        if(invalid)throw new Error('Augusta Echo preset invalid: '+id+' — '+invalid);
+        return card;
+      });
+      defaults.forEach((card,index)=>{if(!preparedCards[index])preparedCards[index]=card});
+      augustaDefaultsApplied=true;
+      delete document.documentElement.dataset.simulatePresetError;
+    }catch(error){
+      document.documentElement.dataset.simulatePresetError=String(error.message||error);
+    }
+  }
   const append=(host,tag,content,className)=>{
     const node=document.createElement(tag);node.textContent=content;if(className)node.className=className;host.appendChild(node);return node;
   };
@@ -2140,11 +2179,12 @@ function projectImproveCurrentStats(name){
     const session=improveUi.simulator;
     const sessionId=session?.id??null;
     if(sessionId!==usedSessionId||improveUi.characterId!==observedCharacterId){
-      if(improveUi.characterId!==observedCharacterId)preparedCards.fill(null);
+      if(improveUi.characterId!==observedCharacterId){preparedCards.fill(null);augustaDefaultsApplied=false;}
       usedSessionId=sessionId;observedCharacterId=improveUi.characterId;
       message='';messageIsError=false;
       usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
     }
+    initializeAugustaPreparedCards();
   }
 
   function appendPreparedCard(host,card,item,className){

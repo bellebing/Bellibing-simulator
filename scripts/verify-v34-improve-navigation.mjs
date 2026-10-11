@@ -154,7 +154,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await openEditor(index,true);
     await click('#echoChoices .echo-choice[data-echo-id="'+id+'"]');
     const newCard=await read('({preview:echoUi.previewId,draft:echoUi.editorDraft,filter:echoUi.filter,sonatas:[...echoUi.selectedSonataIds]})');
-    if(newCard.draft?.echoId!==id||newCard.draft?.substats.length!==0||newCard.draft?.level!==0||newCard.draft?.rank!==echoStatContract.rank)
+    if(newCard.draft?.echoId!==id||newCard.draft?.substats.length!==0||newCard.draft?.level!==0||newCard.draft?.rank!==5)
       throw new Error('New Echo identity should start with canonical Main/secondary, no rolls: '+JSON.stringify({id,newCard}));
     const card=await read('cloneEchoSlot(echoUi.editorDraft)');
     await saveEditor();

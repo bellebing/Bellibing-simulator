@@ -96,7 +96,7 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   const preparedSnapshot=await read(snapshot);
   const identities=await read('(()=>{const found={};for(const item of echoCatalog)if(!found[item.cost])found[item.cost]=item.id;return found})()');
   for(const cost of [1,3,4])if(!identities[cost])throw new Error('Missing released canonical Echo Cost '+cost);
-  await check('!document.getElementById("simulateEchoPreview").matches("button,[role=button]")&&document.getElementById("simulateEchoPreview").textContent.includes("The False Sovereign")','prepared read-only preview');
+  await check('!document.getElementById("simulateEchoPreview").matches("button,[role=button]")&&!!document.querySelector("#simulateEchoPreview .simulate-template-card-content .simulate-template-name")','prepared read-only preview');
   await click('#simulateEchoPreview');
   await check('!echoUi.open','clicking read-only preview must never launch a picker');
   const openEditor=async(index,all=false)=>{

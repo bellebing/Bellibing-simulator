@@ -106,13 +106,12 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     ['echo-60000975','sonata-20','Electro DMG'],['echo-60000175','sonata-3','ATK%'],
     ['echo-60000165','sonata-3','ATK%']
   ];
-  const expectedCards=await read(`(()=>${JSON.stringify(expectedRecipes)}.map(([id,sonata,main])=>{const item=echoById.get(id);return makeEchoStatCard(item,sonata,{echoId:id,mainStat:echoMainOptions(item.cost,0).find(x=>x.name===main)})}))()`);
   const statsValues=()=>read('JSON.stringify([...document.querySelectorAll("#improveEmptyCard .improve-stat-new")].map(n=>n.textContent))');
   const originalCurrents=await read('JSON.stringify([...document.querySelectorAll("#improveBuildCard .improve-stat-current")].map(n=>n.textContent))');
   const initialSimulated=await statsValues();
   const projected=async(active)=>{
     const report=await read(`(()=>{
-      const slots=${JSON.stringify(expectedCards)}.map((card,index)=>${JSON.stringify(active)}[index]?card:null),
+      const slots=${JSON.stringify(expectedRecipes)}.map(([id,sonata,main],index)=>{if(!${JSON.stringify(active)}[index])return null;const item=echoById.get(id);return makeEchoStatCard(item,sonata,{echoId:id,mainStat:echoMainOptions(item.cost,0).find(x=>x.name===main)})}),
         expected=projectImproveCurrentStats('Augusta',slots,improveBuildState('Augusta')),
         specs=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS],
         rows=[...document.querySelectorAll('#improveEmptyCard .improve-stat-row')];

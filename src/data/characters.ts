@@ -100,8 +100,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'camellya', name: 'Camellya', rarity: 5, element: 'Havoc', weaponType: 'Sword', hp: 10325, atk: 450, def: 1161, maxEnergy: 125 }),
   row({ id: 'cantarella', name: 'Cantarella', rarity: 5, element: 'Havoc', weaponType: 'Rectifier', hp: 11600, atk: 400, def: 1100, maxEnergy: 125 }),
   row({ id: 'carlotta', name: 'Carlotta', rarity: 5, element: 'Glacio', weaponType: 'Pistols', hp: 12450, atk: 463, def: 1198, maxEnergy: 125 }),
-  row({
-    id: 'cartethyia', name: 'Cartethyia', rarity: 5, element: 'Aero', weaponType: 'Sword',
+  row({ id: 'cartethyia', name: 'Cartethyia', rarity: 5, element: 'Aero', weaponType: 'Sword',
     hp: 14800, atk: 313, def: 611, maxEnergy: 125,
     verificationStatus: 'VERIFIED',
     sourceLabels: [
@@ -123,8 +122,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
     ],
   }),
   row({ id: 'changli', name: 'Changli', rarity: 5, element: 'Fusion', weaponType: 'Sword', hp: 10388, atk: 463, def: 1100, maxEnergy: 125 }),
-  row({
-    id: 'chisa', name: 'Chisa', rarity: 5, element: 'Havoc', weaponType: 'Broadblade',
+  row({ id: 'chisa', name: 'Chisa', rarity: 5, element: 'Havoc', weaponType: 'Broadblade',
     hp: 10775, atk: 438, def: 1136, maxEnergy: 125,
     verificationStatus: 'VERIFIED',
     sourceLabels: [
@@ -146,8 +144,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
     ],
   }),
   row({ id: 'chixia', name: 'Chixia', rarity: 4, element: 'Fusion', weaponType: 'Pistols', hp: 9088, atk: 300, def: 953, maxEnergy: 150 }),
-  row({
-    id: 'ciaccona', name: 'Ciaccona', rarity: 5, element: 'Aero', weaponType: 'Pistols',
+  row({ id: 'ciaccona', name: 'Ciaccona', rarity: 5, element: 'Aero', weaponType: 'Pistols',
     hp: 12238, atk: 375, def: 1198, maxEnergy: 125,
     verificationStatus: 'VERIFIED',
     sourceLabels: [
@@ -174,8 +171,7 @@ export const CHARACTER_CATALOG: readonly CharacterGameData[] = [
   row({ id: 'galbrena', name: 'Galbrena', rarity: 5, element: 'Fusion', weaponType: 'Pistols', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
   row({ id: 'hiyuki', name: 'Hiyuki', rarity: 5, element: 'Glacio', weaponType: 'Sword', hp: 10300, atk: 463, def: 1112, maxEnergy: 125 }),
   row({ id: 'hsin', name: 'Hsin', rarity: 5, element: 'Electro', weaponType: 'Rectifier', hp: null, atk: null, def: null, maxEnergy: null, releaseStatus: 'RELEASED', verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Kuro Version 3.7 patch notes', 'Kuro Version 3.7 phase-I Convene'], sourceUrls: ['https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5562', 'https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5528'], checkedAt: '2026-10-06', notes: ['Released in Version 3.7 on 2026-09-30; phase-I Convene confirms live availability. Identity/release review only; HP, ATK, DEF and Max Energy remain null pending a separate level-90 convention review. Mechanics and progression are not promoted.'] }),
-  row({
-    id: 'iuno', name: 'Iuno', rarity: 5, element: 'Aero', weaponType: 'Gauntlets',
+  row({ id: 'iuno', name: 'Iuno', rarity: 5, element: 'Aero', weaponType: 'Gauntlets',
     hp: 10525, atk: 450, def: 1124, maxEnergy: 125,
     verificationStatus: 'VERIFIED',
     sourceLabels: [

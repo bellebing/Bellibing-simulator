@@ -184,7 +184,7 @@ try{
   await waitFor(send,"releasedCharacters.length===59&&document.documentElement.dataset.weaponCatalogReady==='true'&&document.documentElement.dataset.echoCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&typeof window.bellibingProjectStaticBuildStats==='function'&&typeof window.bellibingForte?.forteStats==='function'",'Build Stats / Character / Weapon / Echo / Forte runtime did not become ready',15000);
 
   const runtime=await evaluate(send,"(() => ({count:buildStatsCharacterById.size,iconCount:buildStatsIconByLabel.size,scopeSource:typeof window.bellibingProjectStaticBuildStats==='function',weaponRank:weaponBuildStatRank,weaponStaticFacts:weaponCatalog.reduce((sum,weapon)=>sum+(weapon.staticBuildStats?.length??0),0),error:document.documentElement.dataset.buildStatsError||null}))()");
-  assert(runtime.count===57&&runtime.iconCount===17&&runtime.scopeSource&&runtime.weaponRank===1&&runtime.weaponStaticFacts===60&&!runtime.error,'Build Stats runtime coverage failed',runtime);
+  assert(runtime.count===57&&runtime.iconCount===17&&runtime.scopeSource&&runtime.weaponRank===1&&runtime.weaponStaticFacts===62&&!runtime.error,'Build Stats runtime coverage failed',runtime);
 
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"statsUi.characterId==='augusta'&&document.getElementById('buildStatsBlock').dataset.ready==='true'&&document.querySelectorAll('#buildStatsRows .build-stat-value[data-raw]').length===12",'Augusta Stats rows did not render');

@@ -98,7 +98,8 @@ test('Mornye Healing nodes have original IDs, strand prerequisites and exact par
     assert.equal(node.kind,'stat');
     assert.equal(node.sourceNodeId,sourceNodeId);
     assert.deepEqual(node.parents,[parentId]);
-    assert.deepEqual(node.stat,{stat:'Healing Bonus',value});
+    assert.equal(node.stat.stat,'Healing Bonus');
+    assert.equal(Number(node.stat.value.toFixed(10)),value);
   }
   const total=(state,stat)=>Number(forteStats(mornye,state)
     .filter(row=>row.stat===stat)

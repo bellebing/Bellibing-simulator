@@ -121,7 +121,7 @@ Buling's Five Thunders Spell Array is **Liberation DMG**, original damage row `1
 
 Focused regression checks cover the original joins/caps, permanent nodes, all legacy cells, the two new kits, component/flat/shared-system boundaries, disputed original damage types and rejection of missing raw fields. Deterministic coverage reports and capture/generator parity are checked; the normal build/export is checked. FULL CI, browser/end-to-end verification, automated review and landing are intentionally deferred for this draft, as requested. Source `VERIFIED` does not mean runtime execution, recommendations, UI presentation or DPS readiness.
 
-Remaining roadmap work includes Danjin's actual activation-condition evidence, Character–Weapon signature/verified-NO_SIGNATURE relationships, the separate version-3.7 Weapon facts pass, and final review of the combined draft. No weapon recommendation is introduced by this Character facts change.
+The subsequent [signature and recommendation publication](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md) adds all 59 signature decisions and Prydwen guide references to this draft, including a bounded two-signature-weapon source update. Remaining roadmap work includes Danjin's actual activation-condition evidence, any broader version-3.7 Weapon facts audit, image-only example-team member capture and final combined verification.
 
 ## Reproduce the evidence and derived facts
 

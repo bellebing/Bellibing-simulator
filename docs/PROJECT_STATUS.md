@@ -29,6 +29,10 @@ Augusta's visible DEFAULT Calc target is:
 
 Exact unrounded Calc references remain source data underneath the formatted UI values. This presentation policy does not promote DPR to universal recommendation authority and does not add evaluator semantics.
 
+### Character signature and guide data (draft candidate)
+
+Draft #277 adds 59 reviewed signature/no-signature relationships and source-ordered Prydwen reference recommendations for all 59 released identities, including percentages, contexts, Echo sets/main Echoes, stats, skill priority and teammate guidance. See the [source review and coverage](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md). Two missing released signature weapon records/passives are integrated with bounded V37 gates. Existing Calc target selection, profile defaults, UI Echo requirements and DPS readiness are unchanged. Image-only example-team member capture and independent ranking checks remain pending.
+
 ### Improve policy and Echo guidance
 
 Customize target metrics, minimum/preferred semantics, source/context recovery and existing migration behavior remain intact. The accepted current UI contract is [Improve Simple Settings](UI_IMPROVE_SIMPLE_SETTINGS.md).
@@ -80,9 +84,9 @@ Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
 - Danjin FORTE/resource threshold contradiction.
-- Character–Weapon signature/NO_SIGNATURE review and final combined Character facts verification remain Pending.
+- Draft #277 now contains 59/59 reviewed signature decisions (39 signature / 20 NO_SIGNATURE); final combined verification remains Pending.
 - Six Reference Team 01 dependencies remain pending.
-- Roster-wide Character recommendation completion is **not** claimed.
+- Draft #277 captures Prydwen weapon/Echo/stat/skill/teammate guidance for all 59 released identities. Independent performance comparisons, image-only example-team rosters and product integration remain Pending; this is not executable Improve policy.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.
 
 Do not infer missing values, timing, ownership, stacking, scope, rotations or damage classifications. Missing is not zero.

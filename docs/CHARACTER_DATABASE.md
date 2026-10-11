@@ -14,6 +14,10 @@ The UI and backend can use one generated Character catalog instead of assembling
 
 Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**, followed by merged #190. The earlier main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). PR #191 is merged and post-merge verified (819 tests; Verify1110/Export1009/Deploy148): canonical Outro bindings and additional Echo facts project through existing exports. Its current eight attack profiles/ten attack facts and pending profile boundaries are documented in the [closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md).
 
+## Draft signature and guide reference fields
+
+Draft #277 adds detached `characters[].signatureWeapon` and `characters[].guideRecommendations` from `src/data/characterEquipmentAssociations.ts`. Released identities have explicit signature/NO_SIGNATURE decisions; upcoming identities have null. Guide references preserve Prydwen source order, refinement, relative percentage columns, set/main-Echo associations, stat text/conditions, skill priorities and teammate guidance. They do not select existing profile gear, fill Calc targets, grant execution readiness or configure Improve requirements. Example-team image members remain explicitly unavailable. See the [source/coverage review](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md).
+
 ## Use from a separate UI
 
 ```sh

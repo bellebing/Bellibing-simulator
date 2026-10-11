@@ -425,7 +425,18 @@ async function verifyWeaponOverlay(send, width, height, capturePath) {
     await pointerClick(send,`#buildWheel .choice[aria-label="${label.replace(/"/g,'\\"')}"]`,{touch});
     await sleep(760);
   }
-  await waitForUi(send,`document.documentElement.dataset.weaponCatalogReady==='true'&&weaponUi.characterId&&weaponUi.items.length>0`,'Canonical Weapon catalog did not bind to selected Character',10000);
+  try {
+    await waitForUi(send,`document.documentElement.dataset.weaponCatalogReady==='true'&&weaponUi.characterId&&weaponUi.items.length>0`,'Canonical Weapon catalog did not bind to selected Character',10000);
+  } catch (error) {
+    const diagnosis=await evaluate(send,`(() => {
+      const selected=typeof buildPicker==='undefined'?null:buildPicker.selected;
+      const ui=typeof weaponUi==='undefined'?null:weaponUi;
+      const portrait=typeof characterByName==='undefined'?null:characterByName.get(selected);
+      const canonical=typeof canonicalCharacterById==='undefined'?null:canonicalCharacterById.get(portrait?.id);
+      return {ready:document.documentElement.dataset.weaponCatalogReady,selected,buildName:document.getElementById('buildName')?.textContent.trim(),portraitId:portrait?.id,canonicalType:canonical?.weaponType,characterId:ui?.characterId,weaponType:ui?.characterWeaponType,itemCount:ui?.items?.length,hasSelection:document.getElementById('buildShell')?.classList.contains('has-selection')};
+    })()`);
+    throw new Error(`Canonical Weapon catalog did not bind to selected Character: ${JSON.stringify(diagnosis)}`,{cause:error});
+  }
   await waitForUi(send,`!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')`,'Build entrance animation did not settle before Weapon geometry verification',1800);
   await sleep(40);
   await evaluate(send,`(()=>{const name=buildPicker.selected;if(!name)throw new Error('Build Character missing');delete draft(name).build.weaponId;save();weaponUi.setCharacter(name);return true})()`);

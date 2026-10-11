@@ -203,7 +203,7 @@ try{
   await evaluate(send,"buildPicker.select('Mornye')");
   await waitFor(send,"statsUi.characterId==='mornye'&&document.getElementById('buildStatsBlock').dataset.ready==='true'",'Mornye Stats did not bind');
   const mornye=await statsSnapshot(send),mornyeSource=await evaluate(send,"(() => {const c=buildStatsCharacterById.get('mornye');return{def:c.level90.def,intrinsicHealing:c.intrinsicStats.find(r=>r.stat==='Healing Bonus')?.value??null}})()");
-  assert(near(raw(mornye,'healingBonus'),.12)&&near(mornyeSource.intrinsicHealing,.10),'Mornye Healing Bonus conflict was not kept explicit',{projection:raw(mornye,'healingBonus'),intrinsic:mornyeSource.intrinsicHealing});
+  assert(near(raw(mornye,'healingBonus'),.12)&&near(mornyeSource.intrinsicHealing,.12),'Mornye original Forte and canonical intrinsic Healing Bonus must both be 12% without double-counting',{projection:raw(mornye,'healingBonus'),intrinsic:mornyeSource.intrinsicHealing});
   assert(near(raw(mornye,'def'),mornyeSource.def*1.152,1e-8),'Mornye active Forte DEF total mismatch',{projection:raw(mornye,'def'),base:mornyeSource.def});
 
   await evaluate(send,"buildPicker.select('Baizhi')");

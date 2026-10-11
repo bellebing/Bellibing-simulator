@@ -741,7 +741,7 @@ async function loadWeaponBrowserData(){
   const browserData=await browserDataResponse.json();
   const manifest=await manifestResponse.json();
   if(browserData.schemaVersion!==2||browserData.role!=='character-builder.weapon-browser'||browserData.buildStatWeaponRank!==1)throw new Error('Unsupported Weapon browser data schema');
-  if(browserData.weaponBuildStatReview?.releasedWeapons!==121||browserData.weaponBuildStatReview?.reviewedEffects!==236||browserData.weaponBuildStatReview?.staticBuildStatEffects!==60||browserData.weaponBuildStatReview?.nonStaticMechanicEffects!==176||browserData.weaponBuildStatReview?.pendingEffects!==0)throw new Error('Unexpected Weapon Build Stats review coverage');
+  if(browserData.weaponBuildStatReview?.releasedWeapons!==123||browserData.weaponBuildStatReview?.reviewedEffects!==244||browserData.weaponBuildStatReview?.staticBuildStatEffects!==62||browserData.weaponBuildStatReview?.nonStaticMechanicEffects!==182||browserData.weaponBuildStatReview?.pendingEffects!==0)throw new Error('Unexpected Weapon Build Stats review coverage');
   weaponBuildStatRank=browserData.buildStatWeaponRank;
   const iconById=new Map(manifest.icons.map(icon=>[icon.weaponId,icon]));
   canonicalCharacterById=new Map(browserData.characters.map(character=>[character.id,character]));

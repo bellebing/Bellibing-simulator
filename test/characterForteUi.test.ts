@@ -67,7 +67,7 @@ test('different stat families are source-specific, including Mornye nonstandard 
   assert.ok(stats('aalto').some(n=>n.stat.stat==='Aero DMG'));
 });
 
-test('all-active Minor Forte stats reconcile to intrinsic totals except the explicit Mornye Healing Bonus conflict',()=>{
+test('all 57 source-backed Minor Forte totals reconcile with canonical Character intrinsic totals',()=>{
   const sum=rows=>{
     const out={};
     for(const row of rows)out[row.stat]=Number(((out[row.stat]??0)+row.value).toFixed(10));
@@ -80,13 +80,37 @@ test('all-active Minor Forte stats reconcile to intrinsic totals except the expl
     const active=forteStats(t,normalizeForteState(t,null));
     assert.equal(active.length,8,t.characterId);
     const forteTotal=sum(active),intrinsicTotal=sum(character.intrinsicStats);
-    if(t.characterId==='mornye'){
-      assert.deepEqual(forteTotal,{ 'Healing Bonus':0.12,'DEF%':0.152 });
-      assert.deepEqual(intrinsicTotal,{ 'Healing Bonus':0.1,'DEF%':0.152 });
-    }else{
-      assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
-      exact++;
-    }
+    assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
+    exact++;
   }
-  assert.equal(exact,56);
+  assert.equal(exact,57);
+});
+
+test('Mornye Healing nodes have original IDs, strand prerequisites and exact partial-unlock totals',()=>{
+  const mornye=trees.find(t=>t.characterId==='mornye');
+  assert.ok(mornye);
+  for(const [sourceNodeId,nodeId,parentId,value] of [
+    [697,'9','1',0.018], [701,'13','9',0.042],
+    [700,'12','6',0.018], [704,'16','12',0.042],
+  ]){
+    const node=mornye.nodes.find(n=>n.id===nodeId);
+    assert.ok(node,sourceNodeId);
+    assert.equal(node.kind,'stat');
+    assert.equal(node.sourceNodeId,sourceNodeId);
+    assert.deepEqual(node.parents,[parentId]);
+    assert.deepEqual(node.stat,{stat:'Healing Bonus',value});
+  }
+  const total=(state,stat)=>Number(forteStats(mornye,state)
+    .filter(row=>row.stat===stat)
+    .reduce((sum,row)=>sum+row.value,0).toFixed(10));
+  const full=normalizeForteState(mornye,null);
+  assert.equal(total(full,'Healing Bonus'),0.12);
+  const oneNodeOff=updateForteNode(mornye,full,'13',false);
+  assert.equal(total(oneNodeOff,'Healing Bonus'),0.078);
+  const oneStrandOff=updateForteNode(mornye,oneNodeOff,'9',false);
+  assert.equal(total(oneStrandOff,'Healing Bonus'),0.06);
+  assert.equal(total(oneStrandOff,'DEF%'),0.152);
+  const bothStrandsOff=updateForteNode(mornye,oneStrandOff,'12',false);
+  assert.equal(total(bothStrandsOff,'Healing Bonus'),0);
+  assert.equal(total(updateForteNode(mornye,bothStrandsOff,'13',true),'Healing Bonus'),0.06);
 });

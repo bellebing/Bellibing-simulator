@@ -16,65 +16,65 @@ Data ownership stays separate: raw data → Character/Weapon/Echo/Sonata effects
 
 | Character | Raw | Sonata | 5 Echo / Main | Sub | Weapon | Stats | Effects | Profile | Blocker / condition |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | --- |
-| `aalto` | P | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `aemeath` | P | C | C | C1 | Vt+G | F/I | C | DPR Fusion Burst/Rupture are distinct; default Calc missing. |
-| `augusta` | V | C | C | C12 | D+G+A7 | F/I | C | Worker 4; 12 conditional weapon options, no universal BiS. |
-| `baizhi` | P | — | — | — | — | F/I | — | No source-reviewed Build profile. |
-| `brant` | P | — | — | — | L | F/I | — | 12 legacy DPR scenarios, only ER/CR/CD, no approved default. |
-| `buling` | P | — | — | — | — | X | — | Five Thunders Spell Array damage class source-blocked. |
-| `calcharo` | P | C | C | C1 | G | F/I | C | Void Thunder stack/refresh semantics pending. |
-| `camellya` | P | C | C | C1 | G | F/I | C | Havoc Eclipse 5pc source contradiction. |
-| `cantarella` | P | C | C | C1 | — | F/I | C | Midnight Veil 5pc Outro damage adapter pending. |
-| `carlotta` | P | C | C | C1 | G | F/I | C | Frosty Resolve stacking state/timing pending. |
-| `cartethyia` | P | C | C | C1 | D+G | F/I | C | Worker 5; Erosion/state/rotation timing not proven. |
-| `changli` | P | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `chisa` | P | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `chixia` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `ciaccona` | P | C | C | C1 | G | F/I | C | Only Cartethyia Aero-support preset, not generic Main DPS. |
-| `danjin` | P | — | — | — | — | X | — | Ruby Blossom full-power threshold >120 versus cap 120. |
-| `denia` | P | C | C | C1 | D | F/I | C | Two modes, teams and Sonata/main Echo alternatives. |
-| `encore` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `galbrena` | P | C | C | C1 | D+G | F/I | C | Flamewing's joint buff windows conditional. |
-| `hiyuki` | P | C | C | C1 | D+G | F/I | C | Wishes of Quiet Snowfall state adapter pending. |
-| `hsin` | Ø | — | — | — | D | Ø | — | Released; HP/ATK/DEF/Max Energy and mechanics pending. |
-| `iuno` | P | C | C | C1 | Vt+G | F/I | C | Reviewed Augusta Hybrid only; MDPS DPR variant ≠ default; Heron trigger disputed. |
-| `jianxin` | P | — | — | — | — | F/I | — | No source-reviewed Build profile. |
-| `jingran` | Ø | — | — | — | D | Ø | — | Released; HP/ATK/DEF/Max Energy and mechanics pending. |
-| `jinhsi` | P | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `jiyan` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `lingyang` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `lucilla` | P | C | C | C1 | D | F/I | C | Wishes of Quiet Snowfall state adapter pending. |
-| `lucy` | P | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `lumi` | P | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `lupa` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `luuk-herssen` | P | C | C | C1 | D+G | F/I | C | Spectro stack/window timing pending. |
-| `lynae` | P | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `mornye` | P | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `mortefi` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `phoebe` | P | — | — | — | — | F/I | — | Teammate in source contexts, no own approved build. |
-| `phrolova` | P | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `qingxiao` | X | — | — | — | D | F/I | — | Max Energy semantic conflict; no reviewed Build profile. |
-| `qiuyuan` | P | C | C | C1 | Vt | F/I | C | TWO_FORTE DPR variant only; no default Calc reference. |
-| `rebecca` | P | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `roccia` | P | C | C | C1 | — | F/I | C | Midnight Veil 5pc Outro damage adapter pending. |
-| `rover-aero` | P | C | C | C1 | G | F/I | C | Only Cartethyia/Ciaccona team; Windstrings/timing incomplete. |
-| `rover-electro` | X | — | — | — | — | F/I | — | Max Energy 125/140 conflict; no reviewed Build profile. |
-| `rover-havoc` | P | C | C | C1 | — | F/I | C | Havoc Eclipse 5pc source contradiction. |
-| `rover-spectro` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `sanhua` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `sigrika` | P | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `suisui` | X | — | — | — | D | F/I | — | Max Energy 125/140/175 semantic conflict; no reviewed Build profile. |
-| `taoqi` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `the-shorekeeper` | P | C | C | C1 | G | F/I | C | 230% ER gate excludes Fallacy/passive; source-only team rotation. |
-| `verina` | P | — | — | — | — | F/I | — | Teammate in source contexts, no own approved build. |
-| `xiangli-yao` | P | — | — | — | — | X | — | Pivot - Impale stages 1–3 damage class source-blocked. |
-| `yangyang` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `yangyang-xuanling` | P | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `yinlin` | P | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `youhu` | P | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
-| `yuanwu` | P | — | — | — | — | F/I | — | No source-reviewed Build profile. |
-| `zani` | P | C | C | C1 | G | F/I | C | Target stack/Frazzle state pending. |
-| `zhezhi` | P | C | C | C1 | G | F/I | C | Empyrean conditioned on 9–10 CRIT substats AND 5-star weapon. |
+| `aalto` | P | C | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `aemeath` | P | C | C | C | C1 | Vt+G | F/I | C | DPR Fusion Burst/Rupture are distinct; default Calc missing. |
+| `augusta` | V | C | C | C | C12 | D+G+A7 | F/I | C | Worker 4; 12 conditional weapon options, no universal BiS. |
+| `baizhi` | P | — | — | — | — | — | F/I | — | No source-reviewed Build profile. |
+| `brant` | P | — | — | — | — | L | F/I | — | 12 legacy DPR scenarios, only ER/CR/CD, no approved default. |
+| `buling` | P | — | — | — | — | — | X | — | Five Thunders Spell Array damage class source-blocked. |
+| `calcharo` | P | C | C | C | C1 | G | F/I | C | Void Thunder stack/refresh semantics pending. |
+| `camellya` | P | C | C | C | C1 | G | F/I | C | Havoc Eclipse 5pc source contradiction. |
+| `cantarella` | P | C | C | C | C1 | — | F/I | C | Midnight Veil 5pc Outro damage adapter pending. |
+| `carlotta` | P | C | C | C | C1 | G | F/I | C | Frosty Resolve stacking state/timing pending. |
+| `cartethyia` | P | C | C | C | C1 | D+G | F/I | C | Worker 5; Erosion/state/rotation timing not proven. |
+| `changli` | P | C | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `chisa` | P | C | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `chixia` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `ciaccona` | P | C | C | C | C1 | G | F/I | C | Only Cartethyia Aero-support preset, not generic Main DPS. |
+| `danjin` | P | — | — | — | — | — | X | — | Ruby Blossom full-power threshold >120 versus cap 120. |
+| `denia` | P | C | C | C | C1 | D | F/I | C | Two modes, teams and Sonata/main Echo alternatives. |
+| `encore` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `galbrena` | P | C | C | C | C1 | D+G | F/I | C | Flamewing's joint buff windows conditional. |
+| `hiyuki` | P | C | C | C | C1 | D+G | F/I | C | Wishes of Quiet Snowfall state adapter pending. |
+| `hsin` | Ø | — | — | — | — | D | Ø | — | Released; HP/ATK/DEF/Max Energy and mechanics pending. |
+| `iuno` | P | C | C | C | C1 | Vt+G | F/I | C | Reviewed Augusta Hybrid only; MDPS DPR variant ≠ default; Heron trigger disputed. |
+| `jianxin` | P | — | — | — | — | — | F/I | — | No source-reviewed Build profile. |
+| `jingran` | Ø | — | — | — | — | D | Ø | — | Released; HP/ATK/DEF/Max Energy and mechanics pending. |
+| `jinhsi` | P | C | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `jiyan` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `lingyang` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `lucilla` | P | C | C | C | C1 | D | F/I | C | Wishes of Quiet Snowfall state adapter pending. |
+| `lucy` | P | C | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `lumi` | P | C | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `lupa` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `luuk-herssen` | P | C | C | C | C1 | D+G | F/I | C | Spectro stack/window timing pending. |
+| `lynae` | P | C | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `mornye` | P | C | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `mortefi` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `phoebe` | P | — | — | — | — | — | F/I | — | Teammate in source contexts, no own approved build. |
+| `phrolova` | P | C | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `qingxiao` | X | — | — | — | — | D | F/I | — | Max Energy semantic conflict; no reviewed Build profile. |
+| `qiuyuan` | P | C | C | C | C1 | Vt | F/I | C | TWO_FORTE DPR variant only; no default Calc reference. |
+| `rebecca` | P | C | C | C | C1 | D | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `roccia` | P | C | C | C | C1 | — | F/I | C | Midnight Veil 5pc Outro damage adapter pending. |
+| `rover-aero` | P | C | C | C | C1 | G | F/I | C | Only Cartethyia/Ciaccona team; Windstrings/timing incomplete. |
+| `rover-electro` | X | — | — | — | — | — | F/I | — | Max Energy 125/140 conflict; no reviewed Build profile. |
+| `rover-havoc` | P | C | C | C | C1 | — | F/I | C | Havoc Eclipse 5pc source contradiction. |
+| `rover-spectro` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `sanhua` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `sigrika` | P | C | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `suisui` | X | — | — | — | — | D | F/I | — | Max Energy 125/140/175 semantic conflict; no reviewed Build profile. |
+| `taoqi` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `the-shorekeeper` | P | C | C | C | C1 | G | F/I | C | 230% ER gate excludes Fallacy/passive; source-only team rotation. |
+| `verina` | P | — | — | — | — | — | F/I | — | Teammate in source contexts, no own approved build. |
+| `xiangli-yao` | P | — | — | — | — | — | X | — | Pivot - Impale stages 1–3 damage class source-blocked. |
+| `yangyang` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `yangyang-xuanling` | P | C | C | C | C1 | D+G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `yinlin` | P | C | C | C | C1 | G | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `youhu` | P | C | C | C | C1 | — | F/I | C | Contextual build only; evaluator/rotation remains Pending. |
+| `yuanwu` | P | — | — | — | — | — | F/I | — | No source-reviewed Build profile. |
+| `zani` | P | C | C | C | C1 | G | F/I | C | Target stack/Frazzle state pending. |
+| `zhezhi` | P | C | C | C | C1 | G | F/I | C | Empyrean conditioned on 9–10 CRIT substats AND 5-star weapon. |
 
 **Counts (59 released):** **1** fully VERIFIED raw Character (Augusta), **53** other populated raw rows still PARTIALLY_VERIFIED, **5** with pending raw fields (Hsin/Jingran HP/ATK/DEF/Max Energy; Qingxiao/Rover Electro/Suisui Max Energy). **45** released identities have an existing source-reviewed six-part composable default profile; **14** do not. **19** have modern safe DEFAULT DPR Calc benchmarks, **3** have modern variant-only benchmarks (Aemeath, Iuno, Qiuyuan); Brant only has legacy ER/CR/CD scenario references. These are different completeness criteria.
 

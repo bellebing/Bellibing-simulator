@@ -15,18 +15,20 @@ test('57 reviewed intrinsic profiles remain unchanged while two released identit
   assert.deepEqual(audit.issues, ['hsin', 'jingran'].map(characterId => ({ characterId, issue: 'missing intrinsic profile' })));
 });
 
-test('Mornye DEF node-level review closes the last released intrinsic blocker', () => {
+test('Mornye original game nodes reconcile Healing and DEF with the verified intrinsic catalog', () => {
   assert.deepEqual(RELEASED_CHARACTER_INTRINSIC_PENDING, []);
 
   const mornye = CHARACTER_INTRINSIC_BY_ID.get('mornye');
   assert.ok(mornye);
   assert.equal(mornye.verificationStatus, 'VERIFIED');
   assert.deepEqual(mornye.stats, [
-    { stat: 'Healing Bonus', value: 0.10 },
+    { stat: 'Healing Bonus', value: 0.12 },
     { stat: 'DEF%', value: 0.152 },
   ]);
-  assert.ok(mornye.provenance.sourceLabels.some((label) => label.includes('Wutheringlab')));
-  assert.equal(mornye.provenance.checkedAt, '2026-08-31');
+  assert.ok(mornye.provenance.sourceLabels.some((label) => label.includes('Arikatsu') && label.includes('3.7.0')));
+  assert.ok(mornye.provenance.notes?.some((note) => note.includes('697/701') && note.includes('700/704')));
+  assert.equal(mornye.provenance.checkedAt, '2026-10-11');
+  assert.deepEqual(getCharacterGameData('mornye')?.intrinsicStats, mornye.stats);
 });
 
 test('representative non-ATK intrinsic families are preserved exactly', () => {

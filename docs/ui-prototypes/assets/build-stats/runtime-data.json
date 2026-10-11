@@ -851,7 +851,7 @@
       "intrinsicStats": [
         {
           "stat": "Healing Bonus",
-          "value": 0.1
+          "value": 0.12
         },
         {
           "stat": "DEF%",

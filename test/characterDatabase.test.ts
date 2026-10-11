@@ -130,6 +130,19 @@ test('batch export preserves canonical identities, source provenance and relatio
   assert.deepEqual(JSON.parse(serialized), JSON.parse(JSON.stringify(db)));
 });
 
+test('Mornye corrected intrinsic total is shared by Character catalog and detached database export', () => {
+  const source = CHARACTER_CATALOG.find((row) => row.id === 'mornye')!;
+  const exported = buildCharacterDatabase().characters.find((row) => row.id === 'mornye')!;
+  const expected = [{ stat: 'Healing Bonus', value: 0.12 }, { stat: 'DEF%', value: 0.152 }];
+  assert.deepEqual(source.intrinsicStats, expected);
+  assert.deepEqual(exported.intrinsicStats, expected);
+  assert.deepEqual(exported.intrinsic?.stats, expected);
+  assert.ok(exported.intrinsic?.provenance.sourceLabels.some((label) => label.includes('3.7.0')));
+  assert.equal(exported.verificationStatus, source.verificationStatus);
+  assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters
+    .find((row: { id: string }) => row.id === 'mornye')?.intrinsic.stats, expected);
+});
+
 test('source completeness never grants a new DPS engine or closes Reference Team pending', () => {
   const db = buildCharacterDatabase();
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),
@@ -159,6 +172,77 @@ test('source completeness never grants a new DPS engine or closes Reference Team
   ]);
   assert.equal(db.profiles.rotations.find((row) => row.id === 'changli-standard-rotation')?.executionStatus,
     'SOURCE_SEQUENCE_ONLY');
+});
+
+test('Batch 1 source-VERIFIED raw records export without new DPS readiness', () => {
+  const db = buildCharacterDatabase();
+  for (const id of ['cartethyia','chisa','ciaccona','iuno']) {
+    const source = CHARACTER_CATALOG.find(row => row.id === id)!;
+    const exported = db.characters.find(row => row.id === id)!;
+    assert.equal(exported.verificationStatus, 'VERIFIED');
+    assert.equal(exported.integrationStatus, 'DATA_ONLY');
+    assert.notEqual(exported.readiness?.disposition, 'DPS_READY');
+    assert.deepEqual(exported.level90, source.level90);
+    assert.deepEqual(exported.baseCombat, source.baseCombat);
+    assert.deepEqual(exported.intrinsicStats, source.intrinsicStats);
+    assert.deepEqual(exported.provenance, source.provenance);
+  }
+  assert.equal(db.characters.find(row => row.id === 'denia')?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters
+    .filter((row: { id:string }) => ['cartethyia','chisa','ciaccona','iuno'].includes(row.id))
+    .map((row: { id:string, verificationStatus:string }) => [row.id,row.verificationStatus])
+    .sort(), [['cartethyia','VERIFIED'],['chisa','VERIFIED'],['ciaccona','VERIFIED'],['iuno','VERIFIED']]);
+});
+
+test('Batch 2 verified raw provenance and exact values round-trip through the detached Character database', () => {
+  const database = buildCharacterDatabase();
+  const serialized = JSON.parse(serializeCharacterDatabase());
+  for (const id of ['baizhi','sanhua','verina','yangyang']) {
+    const source = CHARACTER_CATALOG.find(row => row.id === id)!;
+    const exported = database.characters.find(row => row.id === id)!;
+    const output = serialized.characters.find((row: {id: string}) => row.id === id);
+    assert.equal(exported.verificationStatus, 'VERIFIED');
+    assert.equal(exported.integrationStatus, 'DATA_ONLY');
+    assert.notEqual(exported.readiness?.disposition, 'DPS_READY');
+    assert.deepEqual(exported.level90, source.level90);
+    assert.deepEqual(exported.baseCombat, source.baseCombat);
+    assert.deepEqual(exported.intrinsicStats, source.intrinsicStats);
+    assert.deepEqual(exported.provenance, source.provenance);
+    assert.deepEqual(output.level90, source.level90);
+    assert.deepEqual(output.provenance, source.provenance);
+    assert.equal(output.verificationStatus, 'VERIFIED');
+  }
+  assert.equal(database.characters.find(row => row.id === 'denia')?.verificationStatus, 'PARTIALLY_VERIFIED');
+});
+
+test('Batch 3 source-approved raw records round-trip through detached and serialized Character Database without DPS approval', () => {
+  const database = buildCharacterDatabase();
+  const serialized = JSON.parse(serializeCharacterDatabase());
+  for (const id of ['encore', 'mortefi', 'taoqi', 'zhezhi']) {
+    const source = CHARACTER_CATALOG.find(row => row.id === id)!;
+    const exported = database.characters.find(row => row.id === id)!;
+    const output = serialized.characters.find((row: { id: string }) => row.id === id);
+    assert.ok(output, id);
+    assert.equal(source.verificationStatus, 'VERIFIED', id);
+    assert.equal(exported.verificationStatus, 'VERIFIED', id);
+    assert.equal(exported.releaseStatus, 'RELEASED', id);
+    assert.equal(exported.integrationStatus, 'DATA_ONLY', id);
+    assert.notEqual(exported.readiness?.disposition, 'DPS_READY', id);
+    assert.deepEqual(exported.level90, source.level90, id);
+    assert.deepEqual(exported.baseCombat, source.baseCombat, id);
+    assert.deepEqual(exported.intrinsicStats, source.intrinsicStats, id);
+    assert.deepEqual(exported.provenance, source.provenance, id);
+    assert.notStrictEqual(exported.provenance, source.provenance, id);
+    assert.deepEqual(output.level90, source.level90, id);
+    assert.deepEqual(output.baseCombat, source.baseCombat, id);
+    assert.deepEqual(output.intrinsicStats, source.intrinsicStats, id);
+    assert.deepEqual(output.provenance, source.provenance, id);
+    assert.equal(output.verificationStatus, 'VERIFIED', id);
+    assert.equal(output.integrationStatus, 'DATA_ONLY', id);
+  }
+  for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
+    assert.equal(database.characters.find(row => row.id === id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+  }
 });
 
 test('a client editing its database copy cannot mutate canonical data or the next export', () => {

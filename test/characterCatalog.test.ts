@@ -274,6 +274,32 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   assert.deepEqual(audit.unknownPendingCharacters, []);
 });
 
+test('Batch 8 source-verifies Phoebe, Roccia and Phrolova raw stats without changing gameplay', () => {
+  const rows = [
+    { id: 'phoebe', element: 'Spectro', weaponType: 'Rectifier', hp: 10825, atk: 413, def: 1259, maxEnergy: 125, minor: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'roccia', element: 'Havoc', weaponType: 'Gauntlets', hp: 12250, atk: 375, def: 1198, maxEnergy: 125, minor: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'phrolova', element: 'Havoc', weaponType: 'Rectifier', hp: 10775, atk: 438, def: 1136, maxEnergy: 125, minor: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  for (const row of rows) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED');
+    assert.equal(actual.verificationStatus, 'VERIFIED');
+    assert.equal(actual.integrationStatus, 'DATA_ONLY');
+    assert.equal(actual.rarity, 5);
+    assert.equal(actual.element, row.element);
+    assert.equal(actual.weaponType, row.weaponType);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy });
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(actual.intrinsicStats, row.minor);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11');
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/characters-stats/'));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

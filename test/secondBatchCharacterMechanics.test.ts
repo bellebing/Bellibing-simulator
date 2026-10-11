@@ -170,11 +170,11 @@ test('second-batch Tune Break facts stay at the shared-system boundary', () => {
 test('second Character Mechanics batch remains valid inside the current roster registry', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.equal(audit.verifiedCharacterIds.length, 54);
-  assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
+  assert.equal(audit.profileCount, 59);
+  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.unstartedCharacterIds.length, 0);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['changli', 'jiyan']) {

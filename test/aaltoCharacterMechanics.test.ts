@@ -97,10 +97,10 @@ test('Aalto raw facts preserve Mist Drop, Gate, Outro and S1-S6 semantics withou
 test('fact-backed coverage audit reports fifty-four source-complete characters with three partial profiles and two unstarted catalog identities', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.equal(audit.verifiedCharacterIds.length, 54);
-  assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(audit.unstartedCharacterIds.length, 2);
+  assert.equal(audit.profileCount, 59);
+  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.deepEqual(audit.unstartedCharacterIds, []);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

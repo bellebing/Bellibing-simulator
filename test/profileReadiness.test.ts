@@ -44,7 +44,7 @@ test('released roster is structurally classified without a copied readiness-coun
 
   assert.equal(dispositionTotal, summary.releasedCharacterCount);
   assert.equal(summary.characters.length, summary.releasedCharacterCount);
-  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['buling', 'danjin', 'hsin', 'jingran', 'xiangli-yao']);
+  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['danjin']);
   assert.equal(summary.preDpsFreezeReady, false);
   assert.equal(summary.issues.length, 0);
 });

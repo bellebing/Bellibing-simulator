@@ -677,7 +677,9 @@
       "requiredTeamCombinations": [],
       "excludedTeamCombinations": [],
       "exampleTeams": [],
-      "conditions": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
       "notes": [
         "Standard hybrid reference with a separate no-Intro opener. Do not substitute high-sequence DPS recipes."
       ],
@@ -697,7 +699,9 @@
       "requiredTeamCombinations": [],
       "excludedTeamCombinations": [],
       "exampleTeams": [],
-      "conditions": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
       "notes": [
         "Fight-start/no-Intro preparation from the source, before the regular loop.",
         "Standard hybrid reference with a separate no-Intro opener. Do not substitute high-sequence DPS recipes."

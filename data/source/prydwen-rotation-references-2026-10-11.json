@@ -5,7 +5,7 @@
   "provider": "PRYDWEN",
   "capturedAt": "2026-10-11",
   "reviewArtifact": "data/source/prydwen-rotation-review-2026-10-11.json",
-  "reviewSha256": "a14e2d1da3f782b5f45a67f93e57a9d8a6bb6720246bffbfa62ca1ec16e72308",
+  "reviewSha256": "ae0f6b5f6e420b9ccc55a5233f413c0d40e42bfb62e1b0dba5b6579895055a9f",
   "promotionPolicy": "EXPLICIT_REVIEWED_SOURCE_REFERENCE_ONLY",
   "references": [
     {
@@ -2731,7 +2731,9 @@
         "requiredTeamCombinations": [],
         "excludedTeamCombinations": [],
         "exampleTeams": [],
-        "conditions": [],
+        "conditions": [
+          "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+        ],
         "teamSemantics": "EXPLICIT_SOURCE_CONTEXT_NOT_UNIVERSAL_TEAM_ELIGIBILITY"
       },
       "steps": [
@@ -2827,7 +2829,9 @@
         "requiredTeamCombinations": [],
         "excludedTeamCombinations": [],
         "exampleTeams": [],
-        "conditions": [],
+        "conditions": [
+          "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+        ],
         "teamSemantics": "EXPLICIT_SOURCE_CONTEXT_NOT_UNIVERSAL_TEAM_ELIGIBILITY"
       },
       "steps": [

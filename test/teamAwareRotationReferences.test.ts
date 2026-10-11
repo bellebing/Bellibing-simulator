@@ -126,6 +126,16 @@ test('opener, Intro and gear-dependent loops remain conditional source reference
   assert.equal(find('zhezhi', { teamCharacterIds: ['zhezhi', 'carlotta', 'the-shorekeeper'] }).some(row => row.reference.variantKey === 'jinhsi-no-liberation'), false);
 });
 
+test('Ciaccona Frazzle use retains the source mode-switch prerequisite in both basic references', () => {
+  for (const variant of ['standard', 'opener']) {
+    const row = reference('ciaccona', variant);
+    assert.ok(row.context.conditions.some(condition => /Spectro Frazzle.*after Ultimate and before Outro/.test(condition)));
+    const match = find('ciaccona').find(candidate => candidate.reference.id === row.id)!;
+    assert.equal(match.contextStatus, 'NEEDS_CONTEXT_REVIEW');
+    assert.ok(match.needsReview.includes('GUIDE_CONDITIONS'));
+  }
+});
+
 test('source/review pins and deterministic generation reject an edited capture before promotion', () => {
   const packet = readFileSync(review.sourceArtifact);
   assert.equal(createHash('sha256').update(packet).digest('hex'), review.sourceArtifactSha256);

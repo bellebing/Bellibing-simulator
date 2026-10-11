@@ -37,6 +37,7 @@ Examples of preserved source distinctions:
 | Shorekeeper | Concerto-weapon R1 versus no-Concerto opener/alternating loop. R0 means no Concerto weapon, not an equipped weapon at rank zero. |
 | Verina / Buling | Intro and no-Intro references preserve handoff allocation and, for Verina, Concerto-weapon access. |
 | Youhu | The simple Rotation 1 requires Marcato; a generic weapon does not inherit that assumption. |
+| Ciaccona | Frazzle use requires switching mode after Liberation and before Outro; both basic references retain this guide condition. |
 
 Echo timing outside a printed sequence stays an annotation, rather than an invented insertion point. Examples include free Summons, mode-dependent Denia/Lucilla timing and omitting Nightmare: Kelpie's active cast for Ciaccona. Optional attacks stay optional. The printed Mortefi list ends at Echo; an additional Outro command is not manufactured from surrounding discussion.
 

@@ -3,9 +3,9 @@
   "role": "rotation-reference.publication-review",
   "reviewedAt": "2026-10-11",
   "sourceArtifact": "data/source/prydwen-rotation-references-2026-10-11.json",
-  "sourceArtifactSha256": "8f432cdbe5dca0555cbbf6c42def3394d4d2ddceb4082eabd9be31b6f584b340",
+  "sourceArtifactSha256": "9c3aeea54dbd4c27b16929556916b3323eaec0cad9971962a55b5e95736fcd8d",
   "reviewArtifact": "data/source/prydwen-rotation-review-2026-10-11.json",
-  "reviewSha256": "a14e2d1da3f782b5f45a67f93e57a9d8a6bb6720246bffbfa62ca1ec16e72308",
+  "reviewSha256": "ae0f6b5f6e420b9ccc55a5233f413c0d40e42bfb62e1b0dba5b6579895055a9f",
   "approvedReferenceIds": [
     "prydwen-aalto-standard",
     "prydwen-aemeath-mech-preparation",
@@ -104,5 +104,5 @@
     "prydwen-zhezhi-jinhsi-no-liberation",
     "prydwen-zhezhi-standard"
   ],
-  "reviewScope": "Selected baseline commands and necessary team/mode/setup contexts, original order, non-bullet teammate turns, explicit source-described adaptations and priority-only exclusions. No duration, engine, team DPS or default preset promotion."
+  "reviewScope": "Selected baseline commands and necessary team/mode/setup contexts, original order, non-bullet teammate turns, explicit source-described adaptations and priority-only exclusions. No duration, engine, team DPS or default preset promotion. Independently rechecked all 59 published source sections; Ciaccona Frazzle-mode switch condition explicitly reviewed against Gameplay line 626."
 }

@@ -4,10 +4,10 @@ export const TEAM_AWARE_ROTATION_SOURCE_REVIEW = {
   "provider": "PRYDWEN",
   "reviewedAt": "2026-10-11",
   "reviewArtifact": "data/source/prydwen-rotation-review-2026-10-11.json",
-  "reviewSha256": "a14e2d1da3f782b5f45a67f93e57a9d8a6bb6720246bffbfa62ca1ec16e72308",
+  "reviewSha256": "ae0f6b5f6e420b9ccc55a5233f413c0d40e42bfb62e1b0dba5b6579895055a9f",
   "publicationReviewArtifact": "data/source/prydwen-rotation-publication-review-2026-10-11.json",
   "sourceArtifact": "data/source/prydwen-rotation-references-2026-10-11.json",
-  "sourceArtifactSha256": "8f432cdbe5dca0555cbbf6c42def3394d4d2ddceb4082eabd9be31b6f584b340"
+  "sourceArtifactSha256": "9c3aeea54dbd4c27b16929556916b3323eaec0cad9971962a55b5e95736fcd8d"
 } as const;
 export const TEAM_AWARE_ROTATION_REFERENCES: readonly TeamAwareRotationReference[] = [
   {
@@ -2733,7 +2733,9 @@ export const TEAM_AWARE_ROTATION_REFERENCES: readonly TeamAwareRotationReference
       "requiredTeamCombinations": [],
       "excludedTeamCombinations": [],
       "exampleTeams": [],
-      "conditions": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
       "teamSemantics": "EXPLICIT_SOURCE_CONTEXT_NOT_UNIVERSAL_TEAM_ELIGIBILITY"
     },
     "steps": [
@@ -2829,7 +2831,9 @@ export const TEAM_AWARE_ROTATION_REFERENCES: readonly TeamAwareRotationReference
       "requiredTeamCombinations": [],
       "excludedTeamCombinations": [],
       "exampleTeams": [],
-      "conditions": [],
+      "conditions": [
+        "If using Spectro Frazzle mode, switch to it after Ultimate and before Outro (Prydwen Gameplay line 626)."
+      ],
       "teamSemantics": "EXPLICIT_SOURCE_CONTEXT_NOT_UNIVERSAL_TEAM_ELIGIBILITY"
     },
     "steps": [

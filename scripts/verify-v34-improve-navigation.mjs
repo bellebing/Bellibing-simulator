@@ -222,7 +222,6 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
   // Change Settings, then reopen Workshop: explicit picks (including []) win
   // over recommendations, while already edited Echo cards stay byte-identical.
   const manualCards=await read('JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(n=>n.innerHTML))');
-  const settingIds=()=>read('window.bellibingImproveSettings.getState().selectedSonataSetIds');
   const expandSonatas=async()=>{if(await read('document.getElementById("improve-setting-sonata").getAttribute("aria-expanded")==="false"'))await click('#improve-setting-sonata')};
   const changeSonata=async(id,expected)=>{
     await expandSonatas();
@@ -270,9 +269,10 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
     await read(`improvePicker.select(${JSON.stringify(name)})`);await sleep(800);await sameCharacter();
     await check(`document.getElementById('simulate-improveCharacterName').textContent===${JSON.stringify(name)}&&improveUi.characterName===${JSON.stringify(name)}`,'Character switches update both cards while Card 2 is visible');
     await check('document.documentElement.scrollWidth===1440','no overflow after Character switch');
-    await check(${name==='Augusta'?
-      `JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(slot=>slot.dataset.preparedEchoId))===JSON.stringify(['echo-60001215','echo-60001615','echo-60000975','echo-60000175','echo-60000165'])`:
-      `[...document.querySelectorAll(".simulate-echo-slot")].every(slot=>!slot.dataset.preparedEchoId)&&document.getElementById("simulateEchoPreview").textContent.includes("Empty Echo Slot")`},'Character isolation and fresh Augusta defaults after switching');
+    await check(name==='Augusta'
+      ? `JSON.stringify([...document.querySelectorAll(".simulate-echo-slot")].map(slot=>slot.dataset.preparedEchoId))===JSON.stringify(['echo-60001215','echo-60001615','echo-60000975','echo-60000175','echo-60000165'])`
+      : `[...document.querySelectorAll(".simulate-echo-slot")].every(slot=>!slot.dataset.preparedEchoId)&&document.getElementById("simulateEchoPreview").textContent.includes("Empty Echo Slot")`,
+      'Character isolation and fresh Augusta defaults after switching');
   }
   await read(`document.getElementById('improveCardDeck').scrollIntoView({block:'start',behavior:'instant'})`);
   await capture(send,'artifacts/ui-preview-simulate-character-1440x900.png');

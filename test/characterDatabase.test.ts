@@ -130,6 +130,27 @@ test('batch export preserves canonical identities, source provenance and relatio
   assert.deepEqual(JSON.parse(serialized), JSON.parse(JSON.stringify(db)));
 });
 
+test('Mornye intrinsic exports once through the existing Character database with source provenance', () => {
+  const db = buildCharacterDatabase();
+  const mornye = db.characters.find(row => row.id === 'mornye')!;
+  assert.deepEqual(mornye.intrinsicStats, [
+    { stat: 'Healing Bonus', value: 0.12 },
+    { stat: 'DEF%', value: 0.152 },
+  ]);
+  assert.deepEqual(mornye.intrinsic?.stats, mornye.intrinsicStats);
+  assert.ok(mornye.intrinsic?.provenance.sourceLabels.some(label => label.includes('9218d612')));
+  const exported = JSON.parse(serializeCharacterDatabase());
+  const exportedMornye = exported.characters.find((row: { id: string }) => row.id === 'mornye');
+  assert.deepEqual(exportedMornye.intrinsicStats, mornye.intrinsicStats);
+  assert.deepEqual(exportedMornye.intrinsic, mornye.intrinsic);
+  assert.equal(exported.characters.length, CHARACTER_CATALOG.length);
+  for (const character of db.characters) {
+    if (character.id !== 'mornye') {
+      assert.deepEqual(character.intrinsicStats, CHARACTER_CATALOG.find(row => row.id === character.id)?.intrinsicStats);
+    }
+  }
+});
+
 test('source completeness never grants a new DPS engine or closes Reference Team pending', () => {
   const db = buildCharacterDatabase();
   assert.deepEqual(db.characters.filter((row) => row.readiness?.disposition === 'DPS_READY').map((row) => row.id),

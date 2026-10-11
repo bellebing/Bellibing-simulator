@@ -30,6 +30,12 @@ Fetch `./data/character-database.json` relative to the deployed Bellibing site r
 
 TypeScript consumers can import `buildCharacterDatabase` and `CharacterDatabase` from `src/characterDatabase.ts`. Each call returns a detached copy; client-side edits cannot mutate canonical catalogs or subsequent exports.
 
+### Mornye Minor Forte source reconciliation (candidate pending integration)
+
+Mornye's intrinsic source record now derives fully unlocked **Healing Bonus +12%** from original permanent game-tree nodes **697/701/700/704** (two 1.80% + 4.20% strands). Original release tree pins are Arikatsu v3.6 `353f2eaed119bc9f680eab92807d20ac75a79b40` and v3.7 `9218d612ad815e398e064e577e42aaf878899968`; see [Worker 9 source review in PR #258](https://github.com/bellebing/Bellibing-simulator/pull/258). The source's four DEF nodes still total **15.20%**. Published guide summaries reporting Healing +10% remain contradicted by the original node data; no alternate mechanic is promoted.
+
+The Character roster and generated database import this same intrinsic owner (including its provenance); there is no duplicate numeric export table. Interactive Build Stats independently uses the already-pinned active Forte nodes, replacing the static intrinsic contribution rather than adding it. No user build, weapon, Echo, recommendation, profile, combat adapter or DPS readiness value is promoted by this correction. The source discrepancy is not marked closed while this change awaits exact-head verification and separately authorized integration.
+
 | Field | Meaning |
 | --- | --- |
 | `characters` | All canonical identities, level-90 stats, intrinsic stats, mechanics profile/fact references, source blockers and released-Character readiness. Upcoming/WIP identities retain their release status and `readiness: null`. |

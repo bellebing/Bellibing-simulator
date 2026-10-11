@@ -67,7 +67,7 @@ test('different stat families are source-specific, including Mornye nonstandard 
   assert.ok(stats('aalto').some(n=>n.stat.stat==='Aero DMG'));
 });
 
-test('all-active Minor Forte stats reconcile to intrinsic totals except the explicit Mornye Healing Bonus conflict',()=>{
+test('all-active Minor Forte stats reconcile to canonical intrinsic totals for all sourced Characters',()=>{
   const sum=rows=>{
     const out={};
     for(const row of rows)out[row.stat]=Number(((out[row.stat]??0)+row.value).toFixed(10));
@@ -80,13 +80,49 @@ test('all-active Minor Forte stats reconcile to intrinsic totals except the expl
     const active=forteStats(t,normalizeForteState(t,null));
     assert.equal(active.length,8,t.characterId);
     const forteTotal=sum(active),intrinsicTotal=sum(character.intrinsicStats);
-    if(t.characterId==='mornye'){
-      assert.deepEqual(forteTotal,{ 'Healing Bonus':0.12,'DEF%':0.152 });
-      assert.deepEqual(intrinsicTotal,{ 'Healing Bonus':0.1,'DEF%':0.152 });
-    }else{
-      assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
-      exact++;
-    }
+    assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
+    exact++;
   }
-  assert.equal(exact,56);
+  assert.equal(exact,57);
+});
+
+test('Mornye healing node IDs, branch ancestry, partial investment and persistence stay source-exact',()=>{
+  const mornye=trees.find(t=>t.characterId==='mornye');
+  const expected=[
+    {id:'9',sourceNodeId:697,parent:'1',value:0.018},
+    {id:'13',sourceNodeId:701,parent:'9',value:0.042},
+    {id:'12',sourceNodeId:700,parent:'6',value:0.018},
+    {id:'16',sourceNodeId:704,parent:'12',value:0.042},
+  ];
+  const healing=mornye.nodes.filter(n=>n.kind==='stat'&&n.stat.stat==='Healing Bonus');
+  assert.equal(healing.length,4);
+  for(const row of expected){
+    const node=healing.find(n=>n.id===row.id);
+    assert.ok(node,row.id);
+    assert.equal(node.sourceNodeId,row.sourceNodeId);
+    assert.deepEqual(node.parents,[row.parent]);
+    assert.equal(node.stat.value,row.value);
+  }
+  const total=state=>{
+    const result={};
+    for(const stat of forteStats(mornye,state))
+      result[stat.stat]=Number(((result[stat.stat]??0)+stat.value).toFixed(10));
+    return result;
+  };
+  let state=normalizeForteState(mornye,null);
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.12,'DEF%':0.152 });
+  state=updateForteNode(mornye,state,'13',false);
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.078,'DEF%':0.152 });
+  state=updateForteNode(mornye,state,'9',false);
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.06,'DEF%':0.152 });
+  assert.equal(state.enabled['13'],false);
+  state=normalizeForteState(mornye,JSON.parse(JSON.stringify(state)));
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.06,'DEF%':0.152 });
+  state=updateForteNode(mornye,state,'13',true);
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.12,'DEF%':0.152 });
+  state=updateForteNode(mornye,state,'1',0);
+  assert.deepEqual(total(state),{ 'Healing Bonus':0.06,'DEF%':0.152 });
+  assert.equal(state.enabled['13'],false);
+  assert.deepEqual(total(normalizeForteState(mornye,JSON.parse(JSON.stringify(state)))),
+    { 'Healing Bonus':0.06,'DEF%':0.152 });
 });

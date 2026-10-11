@@ -126,7 +126,9 @@ export async function verifyImproveNavigation({send,evaluate,navigate,setViewpor
       }).filter(row=>row.actual!==row.target||row.real!==row.original);
       return {ok:rows.length===specs.length&&!differences.length&&document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent==='Simulated',
         expected:expected?{atk:expected.atk,critRate:expected.critRate}:null,keys:rows.length,
-        wanted:specs.length,head:document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent,differences};
+        wanted:specs.length,head:document.querySelector('#improveEmptyCard .improve-stat-head span:last-child').textContent,
+        cardProjection:expected?.echoCardCount,cardDetails:slots.map(card=>card?{id:card.echoId,cost:card.cost,main:card.mainStat,secondary:card.secondaryMainStat}:null),
+        visibleCards:[...document.querySelectorAll('.simulate-echo-slot')].map(slot=>({id:slot.dataset.preparedEchoId,rows:[...slot.querySelectorAll('.simulate-prepared-stats>div')].map(row=>row.textContent)})),differences};
     })()`);
     if(!report.ok)throw new Error('Improve navigation: canonical prepared stat projection mismatch '+JSON.stringify(report));
   };

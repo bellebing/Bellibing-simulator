@@ -37,6 +37,12 @@ export const WEAPON_EFFECT_ROSTER_AUDIT_V36 = {
   ],
 } as const;
 
+/** Bounded current release update; historical V36 source audit remains intact. */
+export const WEAPON_EFFECT_ROSTER_AUDIT_V37 = {
+  patch: '3.7', checkedAt: '2026-10-11', expectedReleasedCount: 123,
+  notes: ['Adds eight original R1–R5 passive rows for the two newly integrated released signature weapons. Conditional event/stack/target behavior remains VERIFIED_RAW_PENDING_MODEL; only the unconditional All-Attribute rows use the existing static contract.'],
+} as const;
+
 export interface WeaponEffectBackwardImpactReview {
   reviewId: string;
   checkedAt: string;
@@ -52,6 +58,70 @@ export interface WeaponEffectBackwardImpactReview {
  * Mandatory backward-impact evidence for effects added after the project-wide
  * Content Preflight + Backward Impact contract was locked.
  */
+/** Bounded review for newly released signatures; does not rewrite V36 evidence. */
+export const WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V37: readonly WeaponEffectBackwardImpactReview[] = [
+  {
+    "reviewId": "WEAPON-EFFECT-RELEASE-3.7-THOUSANDFOLD-DELIVERANCE-2026-10-11",
+    "checkedAt": "2026-10-11",
+    "weaponIds": [
+      "thousandfold-deliverance"
+    ],
+    "weaponType": "Broadblade",
+    "reviewedReleasedCharacterIds": [
+      "augusta",
+      "calcharo",
+      "chisa",
+      "jingran",
+      "jinhsi",
+      "jiyan",
+      "lumi",
+      "lupa",
+      "mornye",
+      "taoqi"
+    ],
+    "existingWeaponRecommendationProfileIds": [
+      "augusta-standard-weapons"
+    ],
+    "result": "REVIEWED_NO_EXISTING_PROFILE_CHANGE",
+    "notes": [
+      "No existing profile weapon selection, ranking, numeric target, team or rotation is edited. The new guide recommendation relationships are a separate source-ordered reference layer.",
+      "Only unconditional All-Attribute DMG uses the existing static contract when explicitly equipped. Three conditional effect families are source facts with VERIFIED_RAW_PENDING_MODEL status and MANUAL mode; none receives an execution adapter."
+    ]
+  },
+  {
+    "reviewId": "WEAPON-EFFECT-RELEASE-3.7-BLOOMING-JADEHAVEN-2026-10-11",
+    "checkedAt": "2026-10-11",
+    "weaponIds": [
+      "blooming-jadehaven"
+    ],
+    "weaponType": "Rectifier",
+    "reviewedReleasedCharacterIds": [
+      "baizhi",
+      "buling",
+      "cantarella",
+      "denia",
+      "encore",
+      "hsin",
+      "lucilla",
+      "phoebe",
+      "phrolova",
+      "suisui",
+      "the-shorekeeper",
+      "verina",
+      "yinlin",
+      "zhezhi"
+    ],
+    "existingWeaponRecommendationProfileIds": [
+      "shorekeeper-augusta-iuno-weapons"
+    ],
+    "result": "REVIEWED_NO_EXISTING_PROFILE_CHANGE",
+    "notes": [
+      "No existing profile weapon selection, ranking, numeric target, team or rotation is edited. The new guide recommendation relationships are a separate source-ordered reference layer.",
+      "Only unconditional All-Attribute DMG uses the existing static contract when explicitly equipped. Three conditional effect families are source facts with VERIFIED_RAW_PENDING_MODEL status and MANUAL mode; none receives an execution adapter."
+    ]
+  }
+] as const;
+
 export const WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36 = [
   {
     reviewId: 'WEAPON-EFFECT-PISTOLS-2026-08-25-01',
@@ -382,10 +452,10 @@ export function auditWeaponEffectCoverage(
   const noEffectIds = new Set<string>(WEAPON_EFFECT_VERIFIED_NO_COMBAT_EFFECT_IDS_V36);
   const issues: WeaponEffectCoverageIssue[] = [];
 
-  if (released.length !== WEAPON_EFFECT_ROSTER_AUDIT_V36.expectedReleasedCount) {
+  if (released.length !== WEAPON_EFFECT_ROSTER_AUDIT_V37.expectedReleasedCount) {
     issues.push({
       code: 'RELEASED_COUNT_MISMATCH',
-      detail: `Expected ${WEAPON_EFFECT_ROSTER_AUDIT_V36.expectedReleasedCount} released weapons for patch ${WEAPON_EFFECT_ROSTER_AUDIT_V36.patch}, found ${released.length}.`,
+      detail: `Expected ${WEAPON_EFFECT_ROSTER_AUDIT_V37.expectedReleasedCount} released weapons for patch ${WEAPON_EFFECT_ROSTER_AUDIT_V37.patch}, found ${released.length}.`,
     });
   }
 

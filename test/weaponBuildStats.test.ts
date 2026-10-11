@@ -10,12 +10,12 @@ const releasedWeaponIds=WEAPON_CATALOG.filter(weapon=>weapon.releaseStatus==='RE
 const projected=projectWeaponBuildStatReview(WEAPON_EFFECT_CATALOG,releasedWeaponIds,review);
 
 test('every released Weapon effect has one explicit source-backed Build Stats classification',()=>{
-  assert.equal(releasedWeaponIds.length,121);assert.equal(projected.length,236);assert.equal(review.effects.length,236);
-  assert.equal(projected.filter(row=>row.classification==='STATIC_BUILD_STAT').length,60);
-  assert.equal(projected.filter(row=>row.classification==='NON_STATIC_MECHANIC').length,176);
+  assert.equal(releasedWeaponIds.length,123);assert.equal(projected.length,244);assert.equal(review.effects.length,244);
+  assert.equal(projected.filter(row=>row.classification==='STATIC_BUILD_STAT').length,62);
+  assert.equal(projected.filter(row=>row.classification==='NON_STATIC_MECHANIC').length,182);
   assert.equal(projected.filter(row=>row.classification==='PENDING').length,0);
-  assert.equal(new Set(projected.map(row=>row.weaponId)).size,121);
-  assert.deepEqual(review.summary,{releasedWeapons:121,reviewedEffects:236,staticBuildStatEffects:60,nonStaticMechanicEffects:176,pendingEffects:0});
+  assert.equal(new Set(projected.map(row=>row.weaponId)).size,123);
+  assert.deepEqual(review.summary,{releasedWeapons:123,reviewedEffects:244,staticBuildStatEffects:62,nonStaticMechanicEffects:182,pendingEffects:0});
 });
 test('R1 static projection is identity-backed and keeps rank values source-owned',()=>{
   assert.deepEqual(activeWeaponBuildStats(projected,'ages-of-harvest',1).map(row=>({stat:row.stat,value:row.value,identity:row.sourceWeaponEffect})),[{stat:'All Attribute DMG',value:.12,identity:{weaponId:'ages-of-harvest',effectId:'AH-ATTR',rank:1}}]);

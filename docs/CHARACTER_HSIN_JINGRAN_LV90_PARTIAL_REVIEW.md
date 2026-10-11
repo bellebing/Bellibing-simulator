@@ -1,5 +1,7 @@
 # Hsin / Jingran — partial Lv90 game-facing raw-stat reconciliation
 
+> Historical partial review. The [release 3.7 facts review](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md) resolves original raw DEF/Max Energy, permanent nodes and full source kits in the combined draft; UI/runtime scope remains separate.
+
 **Review:** 2026-10-11 · **Bellibing base:** `a299e3878fb6ef2835f3ab966426ecdef15bded6` · **Scope:** 5 individually reviewed Lv90 numeric values, not complete Character raw/facts signoff.
 
 ## Source authority

@@ -1,0 +1,12 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const review=JSON.parse(readFileSync('data/source/character-equipment-source-review.json','utf8'));
+const bytes=readFileSync(review.recommendationArtifact);
+if(createHash('sha256').update(bytes).digest('hex')!==review.recommendationArtifactSha256)throw Error('Recommendation capture changed; explicit source review required.');
+const snapshot=JSON.parse(bytes);
+const approved=new Set(review.approvedRecommendationCharacterIds);
+if(approved.size!==59||snapshot.characters.length!==59||snapshot.characters.some(r=>!approved.has(r.characterId)||r.unresolvedIdentities.length))throw Error('Reviewed recommendation identity scope drift.');
+const output=`// Generated projection of explicit source review; no remote/runtime provider refresh.\nimport type { CharacterSignatureAssociation, CharacterGuideRecommendation } from '../characterEquipmentDomain.ts';\nexport const CHARACTER_EQUIPMENT_SOURCE_REVIEW = ${JSON.stringify({reviewedAt:review.reviewedAt,recommendationArtifact:review.recommendationArtifact,recommendationArtifactSha256:review.recommendationArtifactSha256,comparisonStatus:'NOT_INDEPENDENTLY_VALIDATED',signatureMeaning:review.signaturePolicy},null,2)} as const;\nexport const CHARACTER_SIGNATURE_ASSOCIATIONS: readonly CharacterSignatureAssociation[] = ${JSON.stringify(review.signatures,null,2)} as const;\nexport const CHARACTER_GUIDE_RECOMMENDATIONS: readonly CharacterGuideRecommendation[] = ${JSON.stringify(snapshot.characters,null,2)} as const;\nexport const CHARACTER_SIGNATURE_BY_ID = new Map(CHARACTER_SIGNATURE_ASSOCIATIONS.map(row=>[row.characterId,row]));\nexport const CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID = new Map(CHARACTER_GUIDE_RECOMMENDATIONS.map(row=>[row.characterId,row]));\n`;
+const path='src/data/characterEquipmentAssociations.ts';
+if(process.argv.includes('--check')){if(readFileSync(path,'utf8')!==output)throw Error('Character equipment projection drift');}else writeFileSync(path,output);
+console.log(`Generated ${review.signatures.length} reviewed signature/no-signature relationships and ${snapshot.characters.length} source-ordered guide profiles.`);

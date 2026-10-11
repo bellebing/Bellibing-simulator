@@ -21,36 +21,22 @@ test('released-roster ACTIONS coverage is fail-closed with only exact current-so
   const audit = auditCharacterActionsCoverage();
 
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 55);
-  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
-  assert.deepEqual(audit.blockedCharacterIds, ['buling', 'xiangli-yao']);
-  assert.deepEqual(audit.blockers.map((blocker) => blocker.blockerId), [
-    'ACTIONS-BULING-1307031-DAMAGE-CLASS',
-    'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
-  ]);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.blockedCharacterIds, []);
+  assert.deepEqual(audit.blockers.map((blocker) => blocker.blockerId), []);
   assert.deepEqual(audit.issues, []);
 });
 
-test('ACTIONS coverage stays unchanged while OUTRO completion does not promote the three full Character Mechanics profiles', () => {
-  const buling = CHARACTER_MECHANICS_PROFILE_BY_ID.get('buling');
-  const danjin = CHARACTER_MECHANICS_PROFILE_BY_ID.get('danjin');
-  const xiangli = CHARACTER_MECHANICS_PROFILE_BY_ID.get('xiangli-yao');
-
-  for (const profile of [buling, danjin, xiangli]) {
+test('release source coverage completes all ACTIONS while preserving Danjin resource conflict', () => {
+  for (const characterId of ['buling', 'danjin', 'xiangli-yao']) {
+    const profile = CHARACTER_MECHANICS_PROFILE_BY_ID.get(characterId);
     assert.ok(profile);
-    assert.equal(profile.verificationStatus, 'PARTIALLY_VERIFIED');
-    const expectedVerifiedAreas = profile.characterId === 'buling' ? 2 : 3;
-    assert.equal(profile.coverage.filter((entry) => entry.status === 'VERIFIED').length, expectedVerifiedAreas);
-    assert.equal(profile.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
-    assert.equal(profile.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
-    assert.ok(profile.coverage
-      .filter((entry) => !['ACTIONS', 'FORTE_RULES', 'INHERENT_PASSIVES', 'OUTRO_EFFECT'].includes(entry.area))
-      .every((entry) => entry.status === 'PENDING'));
+    assert.equal(profile.verificationStatus, characterId === 'danjin' ? 'PARTIALLY_VERIFIED' : 'VERIFIED');
+    assert.equal(profile.coverage.find(entry => entry.area === 'ACTIONS')?.status, 'VERIFIED');
+    assert.equal(profile.coverage.find(entry => entry.area === 'RESOURCE_RULES')?.status, characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile.coverage.find(entry => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
-
-  assert.equal(buling.coverage.find((entry) => entry.area === 'ACTIONS')?.status, 'PARTIAL');
-  assert.equal(danjin.coverage.find((entry) => entry.area === 'ACTIONS')?.status, 'VERIFIED');
-  assert.equal(xiangli.coverage.find((entry) => entry.area === 'ACTIONS')?.status, 'PARTIAL');
 
   for (const [characterId, facts] of [
     ['buling', BULING_ACTION_FACTS],
@@ -91,7 +77,7 @@ test('new canonical ACTION curves/components are byte-derived from the existing 
       continue;
     }
 
-    const identity = fact.notes?.[0]?.match(/move (\d+) .*value rows? ([\d, ]+)/);
+    const identity = `${fact.motionValueContext} ${fact.notes?.join(' ')}`.match(/move (\d+) [^;]*?value rows? ([\d, ]+)/);
     assert.ok(identity, fact.factId);
     const moveId = Number(identity[1]);
     const valueIds = identity[2].split(',').map((value) => Number(value.trim())).filter(Number.isFinite);
@@ -129,13 +115,13 @@ test('new canonical ACTION curves/components are byte-derived from the existing 
   }
 
   const bulingBlocked = CHARACTER_MECHANIC_FACT_BY_ID.get('buling-forte-five-thunders-spell-array');
-  assert.equal(bulingBlocked?.verificationStatus, 'PARTIALLY_VERIFIED');
-  assert.equal(bulingBlocked?.kind === 'ACTION' ? bulingBlocked.damageClass : 'wrong-kind', null);
+  assert.equal(bulingBlocked?.verificationStatus, 'VERIFIED');
+  assert.equal(bulingBlocked?.kind === 'ACTION' ? bulingBlocked.damageClass : 'wrong-kind', 'LIBERATION');
 
   for (const factId of ['xiangli-yao-pivot-impale-stage-1', 'xiangli-yao-pivot-impale-stage-2', 'xiangli-yao-pivot-impale-stage-3']) {
     const fact = CHARACTER_MECHANIC_FACT_BY_ID.get(factId);
-    assert.equal(fact?.verificationStatus, 'PARTIALLY_VERIFIED');
-    assert.equal(fact?.kind === 'ACTION' ? fact.damageClass : 'wrong-kind', null);
+    assert.equal(fact?.verificationStatus, 'VERIFIED');
+    assert.equal(fact?.kind === 'ACTION' ? fact.damageClass : 'wrong-kind', 'BASIC');
   }
 });
 

@@ -10,16 +10,16 @@ import {
 } from '../src/effectRegistry.ts';
 
 test('Weapon Effect released-roster source coverage is complete while pending-model mechanics remain explicit', () => {
-  assert.equal(WEAPON_EFFECT_CATALOG.length, 236);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 236);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 122);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 121);
-  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 121);
+  assert.equal(WEAPON_EFFECT_CATALOG.length, 244);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.migratedEffectCount, 244);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.coveredWeaponCount, 123);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.totalWeaponCount, 123);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedWeaponCount, 123);
+  assert.equal(WEAPON_EFFECT_CATALOG_META.releasedExplicitCoverageCount, 123);
   assert.equal(WEAPON_EFFECT_CATALOG_META.pendingSourceAuditCount, 0);
   assert.equal(WEAPON_EFFECT_CATALOG_META.fullReleasedRosterComplete, true);
   assert.equal(WEAPON_EFFECT_CATALOG_META.completeness, 'COMPLETE');
-  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 236);
+  assert.equal(new Set(WEAPON_EFFECT_CATALOG.map((row) => row.effectId)).size, 244);
 });
 
 test('each effect carries source-backed rank values and explicit mechanics metadata', () => {
@@ -419,10 +419,10 @@ test('completed released source coverage returns Sword effects instead of an emp
   assert.equal(getWeaponEffect('DOES-NOT-EXIST'), null);
 });
 
-test('upcoming weapon effect coverage stays outside the released gate instead of reading as zero', () => {
-  assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
-  assert.throws(
-    () => getWeaponEffects('thousandfold-deliverance'),
-    /NOT_RELEASED.*must not be interpreted as zero effect/,
-  );
+test('released signature weapons have explicit original-source effect coverage', () => {
+  for (const id of ['thousandfold-deliverance', 'blooming-jadehaven']) {
+    assert.equal(getWeaponEffectCoverageStatus(id), 'AUDITED_EFFECTS');
+    assert.equal(getWeaponEffects(id).length, 4);
+    assert.equal(getWeaponEffects(id).filter(row => row.mechanicsStatus === 'VERIFIED_RAW_PENDING_MODEL').length, 3);
+  }
 });

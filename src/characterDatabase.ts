@@ -33,6 +33,7 @@ import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdap
 import { listWeaponTargetWindowSupport } from './combat/weaponTargetWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
+import { CHARACTER_SIGNATURE_BY_ID, CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID } from './data/characterEquipmentAssociations.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
 import { CHARACTER_INTRINSIC_BY_ID } from './data/characterIntrinsicStats.ts';
 import { CHARACTER_MECHANIC_FACTS, CHARACTER_MECHANICS_PROFILE_BY_ID } from './data/characterMechanics.ts';
@@ -78,6 +79,8 @@ export function buildCharacterDatabase() {
     } as const,
     characters: byId(CHARACTER_CATALOG).map((character) => ({
       ...character,
+      signatureWeapon: CHARACTER_SIGNATURE_BY_ID.get(character.id) ?? null,
+      guideRecommendations: CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID.get(character.id) ?? null,
       intrinsic: CHARACTER_INTRINSIC_BY_ID.get(character.id) ?? null,
       mechanics: CHARACTER_MECHANICS_PROFILE_BY_ID.get(character.id) ?? null,
       sourceBlocker: blockersById.get(character.id) ?? null,

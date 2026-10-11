@@ -35,6 +35,15 @@ export const WEAPON_CORE_ROSTER_AUDIT_V36 = {
   ],
 } as const;
 
+/** Explicit bounded release update required by the Hsin/Jingran signature links. */
+export const WEAPON_CORE_ROSTER_AUDIT_V37 = {
+  patch: '3.7', checkedAt: '2026-10-11', expectedCatalogCount: 123,
+  expectedReleasedCount: 123, expectedUpcomingIds: [], expectedWipIds: [],
+  currentPatchReleasedIds: ['blooming-jadehaven', 'thousandfold-deliverance'],
+  sourceLabels: ['Original released 3.7 weapon identities/properties', 'Published Lv90 integer cross-checks'],
+  notes: ['Adds Hsin weapon 21050116 and resolves the stale upcoming status of Jingran weapon 21010076. Other weapon core values are preserved; no broader new-weapon completeness or runtime execution is inferred.'],
+} as const;
+
 export type WeaponCoreAuditIssueCode =
   | 'CATALOG_COUNT_MISMATCH'
   | 'RELEASED_COUNT_MISMATCH'
@@ -77,21 +86,21 @@ export function auditWeaponCoreRoster(
   const wip = catalog.filter((weapon) => weapon.releaseStatus === 'UNRELEASED_WIP');
   const upcomingIds = sortedIds(upcoming);
   const wipIds = sortedIds(wip);
-  const expectedUpcomingIds = [...WEAPON_CORE_ROSTER_AUDIT_V36.expectedUpcomingIds].sort();
-  const expectedWipIds = [...WEAPON_CORE_ROSTER_AUDIT_V36.expectedWipIds].sort();
+  const expectedUpcomingIds = [...WEAPON_CORE_ROSTER_AUDIT_V37.expectedUpcomingIds].sort();
+  const expectedWipIds = [...WEAPON_CORE_ROSTER_AUDIT_V37.expectedWipIds].sort();
   const issues: WeaponCoreAuditIssue[] = [];
 
-  if (catalog.length !== WEAPON_CORE_ROSTER_AUDIT_V36.expectedCatalogCount) {
+  if (catalog.length !== WEAPON_CORE_ROSTER_AUDIT_V37.expectedCatalogCount) {
     issues.push({
       code: 'CATALOG_COUNT_MISMATCH',
-      detail: `Expected ${WEAPON_CORE_ROSTER_AUDIT_V36.expectedCatalogCount} catalog records for patch ${WEAPON_CORE_ROSTER_AUDIT_V36.patch}, found ${catalog.length}.`,
+      detail: `Expected ${WEAPON_CORE_ROSTER_AUDIT_V37.expectedCatalogCount} catalog records for patch ${WEAPON_CORE_ROSTER_AUDIT_V37.patch}, found ${catalog.length}.`,
     });
   }
 
-  if (released.length !== WEAPON_CORE_ROSTER_AUDIT_V36.expectedReleasedCount) {
+  if (released.length !== WEAPON_CORE_ROSTER_AUDIT_V37.expectedReleasedCount) {
     issues.push({
       code: 'RELEASED_COUNT_MISMATCH',
-      detail: `Expected ${WEAPON_CORE_ROSTER_AUDIT_V36.expectedReleasedCount} released weapons, found ${released.length}.`,
+      detail: `Expected ${WEAPON_CORE_ROSTER_AUDIT_V37.expectedReleasedCount} released weapons, found ${released.length}.`,
     });
   }
 

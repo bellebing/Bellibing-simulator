@@ -44,16 +44,7 @@ test('released raw required fields can only be null through the explicit pending
   assert.deepEqual(audit.unexpectedMissing, []);
   assert.deepEqual(audit.stalePending, []);
   assert.deepEqual(audit.unknownPendingCharacters, []);
-  assert.deepEqual(
-    RELEASED_CHARACTER_RAW_PENDING.map((entry) => [entry.characterId, [...entry.fields]]),
-    [
-      ['hsin', ['maxEnergy']],
-      ['jingran', ['def', 'maxEnergy']],
-      ['qingxiao', ['maxEnergy']],
-      ['rover-electro', ['maxEnergy']],
-      ['suisui', ['maxEnergy']],
-    ],
-  );
+  assert.deepEqual(RELEASED_CHARACTER_RAW_PENDING, []);
 });
 
 test('raw character data never embeds product defaults or recommendation relationships', () => {
@@ -98,7 +89,7 @@ test('Augusta remains the verified golden raw-data reference', () => {
   ]);
 });
 
-test('Qingxiao is current released Aero Sword data while disputed Max Energy stays unresolved', () => {
+test('Qingxiao raw Max Energy is resolved from the dedicated original cap field', () => {
   const qingxiao = getCharacterGameData('qingxiao');
   assert.ok(qingxiao);
   assert.equal(qingxiao.releaseStatus, 'RELEASED');
@@ -108,13 +99,13 @@ test('Qingxiao is current released Aero Sword data while disputed Max Energy sta
     hp: 10300,
     atk: 462,
     def: 1112,
-    maxEnergy: null,
+    maxEnergy: 125,
   });
-  assert.equal(qingxiao.verificationStatus, 'PARTIALLY_VERIFIED');
-  assert.match(qingxiao.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
+  assert.equal(qingxiao.verificationStatus, 'VERIFIED');
+  assert.match(qingxiao.provenance.notes?.join(' ') ?? '', /dedicated raw capacity property/);
 });
 
-test('Rover Electro and Suisui core Lv90 stats are resolved while only Max Energy remains pending', () => {
+test('Rover Electro and Suisui raw energy caps use original properties independently of cost', () => {
   const electroRover = getCharacterGameData('rover-electro');
   const suisui = getCharacterGameData('suisui');
   assert.ok(electroRover);
@@ -124,24 +115,24 @@ test('Rover Electro and Suisui core Lv90 stats are resolved while only Max Energ
     hp: 10775,
     atk: 438,
     def: 1136,
-    maxEnergy: null,
+    maxEnergy: 125,
   });
   assert.deepEqual(suisui.level90, {
     hp: 16713,
     atk: 288,
     def: 1100,
-    maxEnergy: null,
+    maxEnergy: 175,
   });
-  assert.match(electroRover.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
-  assert.match(suisui.provenance.notes?.join(' ') ?? '', /Max Energy remains null/);
+  assert.match(electroRover.provenance.notes?.join(' ') ?? '', /dedicated raw capacity property/);
+  assert.match(suisui.provenance.notes?.join(' ') ?? '', /dedicated raw capacity property/);
 });
 
-test('fresh released Hsin/Jingran preserve only source-unresolved Lv90 fields, released provenance and readiness', () => {
+test('released Hsin/Jingran have source-reviewed raw values without gameplay readiness', () => {
   const reviewed = [
     { id:'hsin', element:'Electro', weaponType:'Rectifier',
-      level90:{hp:10300,atk:463,def:1112,maxEnergy:null} },
+      level90:{hp:10300,atk:463,def:1112,maxEnergy:125} },
     { id:'jingran', element:'Fusion', weaponType:'Broadblade',
-      level90:{hp:15375,atk:313,def:null,maxEnergy:null} },
+      level90:{hp:15375,atk:313,def:0,maxEnergy:125} },
   ] as const;
   for (const {id,element,weaponType,level90} of reviewed) {
     const c = getCharacterGameData(id)!;
@@ -149,7 +140,7 @@ test('fresh released Hsin/Jingran preserve only source-unresolved Lv90 fields, r
     assert.equal(c.rarity,5,id);
     assert.equal(c.element,element,id);
     assert.equal(c.weaponType,weaponType,id);
-    assert.equal(c.verificationStatus,'PARTIALLY_VERIFIED',id);
+    assert.equal(c.verificationStatus,'VERIFIED',id);
     assert.equal(c.integrationStatus,'DATA_ONLY',id);
     assert.deepEqual(c.level90,level90,id);
     assert.deepEqual(c.baseCombat,{critRate:.05,critDamage:1.5,energyRegen:1},id);
@@ -157,7 +148,7 @@ test('fresh released Hsin/Jingran preserve only source-unresolved Lv90 fields, r
     assert.ok(c.provenance.sourceUrls?.includes(
       id === 'hsin' ? 'https://wuwa.wiki/en/codex/resonators/1311'
         : 'https://wuwa.wiki/en/codex/resonators/1212'),id);
-    assert.ok(c.provenance.notes?.some(note=>note.includes('Max Energy remains null')),id);
+    assert.ok(c.provenance.notes?.some(note=>note.includes('dedicated raw capacity property')),id);
   }
   const suoming=getCharacterGameData('suoming')!;
   assert.equal(suoming.releaseStatus,'CONFIRMED_UPCOMING');
@@ -167,7 +158,7 @@ test('fresh released Hsin/Jingran preserve only source-unresolved Lv90 fields, r
   assert.deepEqual(suoming.baseCombat,{critRate:null,critDamage:null,energyRegen:null});
 });
 
-test('Batch 1 raw sign-off verifies four exact roster records and keeps other identities Pending', () => {
+test('Batch 1 raw sign-off verifies four exact roster records without granting gameplay readiness', () => {
   const reviewed = [
     { id:'cartethyia', element:'Aero', weaponType:'Sword', hp:14800, atk:313, def:611,
       intrinsics:[{stat:'CRIT Rate',value:.08},{stat:'HP%',value:.12}] },
@@ -196,7 +187,7 @@ test('Batch 1 raw sign-off verifies four exact roster records and keeps other id
     assert.ok(c.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
   }
   for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
-    assert.equal(getCharacterGameData(id)?.verificationStatus, 'PARTIALLY_VERIFIED');
+    assert.equal(getCharacterGameData(id)?.verificationStatus, 'VERIFIED');
   }
 });
 
@@ -234,7 +225,7 @@ test('Batch 2 signs off exactly four reviewed Character raw records without inve
     assert.ok(character.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
   }
   for (const id of ['denia','hsin','jingran','qingxiao','rover-electro','suisui']) {
-    assert.equal(getCharacterGameData(id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+    assert.equal(getCharacterGameData(id)?.verificationStatus, 'VERIFIED', id);
   }
 });
 
@@ -275,12 +266,150 @@ test('Batch 3 signs off only four individually reviewed Character raw records wi
   }
   // Do not lock a global VERIFIED count: Batch 1 and Batch 2 are independent PRs.
   for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
-    assert.equal(getCharacterGameData(id)?.verificationStatus, 'PARTIALLY_VERIFIED', id);
+    assert.equal(getCharacterGameData(id)?.verificationStatus, 'VERIFIED', id);
   }
   const audit = auditReleasedCharacterRawCompleteness();
   assert.deepEqual(audit.unexpectedMissing, []);
   assert.deepEqual(audit.stalePending, []);
   assert.deepEqual(audit.unknownPendingCharacters, []);
+});
+
+test('Batch 4 independently source-verifies Aalto, Chixia, Jianxin raw facts without promoting mechanics', () => {
+  const reviewed = [
+    { id: 'aalto', rarity: 4, element: 'Aero', weaponType: 'Pistols', hp: 9850, atk: 263, def: 1075, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'Aero DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+    { id: 'chixia', rarity: 4, element: 'Fusion', weaponType: 'Pistols', hp: 9088, atk: 300, def: 953, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'Fusion DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }] },
+    { id: 'jianxin', rarity: 5, element: 'Aero', weaponType: 'Gauntlets', hp: 14113, atk: 338, def: 1124, maxEnergy: 150,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }] },
+  ] as const;
+  assert.equal(new Set(reviewed.map(row => row.id)).size, reviewed.length);
+  for (const expected of reviewed) {
+    const character = getCharacterGameData(expected.id)!;
+    assert.equal(character.releaseStatus, 'RELEASED', expected.id);
+    assert.equal(character.verificationStatus, 'VERIFIED', expected.id);
+    assert.equal(character.integrationStatus, 'DATA_ONLY', expected.id);
+    assert.equal(character.rarity, expected.rarity, expected.id);
+    assert.equal(character.element, expected.element, expected.id);
+    assert.equal(character.weaponType, expected.weaponType, expected.id);
+    assert.deepEqual(character.level90, { hp: expected.hp, atk: expected.atk, def: expected.def, maxEnergy: expected.maxEnergy }, expected.id);
+    assert.deepEqual(character.baseCombat, { critRate: 0.05, critDamage: 1.5, energyRegen: 1 }, expected.id);
+    assert.deepEqual(character.intrinsicStats, expected.intrinsicStats, expected.id);
+    assert.equal(character.provenance.checkedAt, '2026-10-11');
+    assert.ok(character.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(character.provenance.sourceUrls?.includes('https://wutheringwaves.fandom.com/wiki/Resonance_Energy'));
+    assert.ok(character.provenance.notes?.some(note => note.includes('Max Energy')));
+  }
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().unexpectedMissing, []);
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().stalePending, []);
+});
+
+test('Batch 5 verifies Calcharo, Cantarella and Carlotta as isolated released raw records', () => {
+  const reviewed = [
+    { id: 'calcharo', element: 'Electro', weaponType: 'Broadblade', hp: 10500, atk: 438, def: 1185, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'cantarella', element: 'Havoc', weaponType: 'Rectifier', hp: 11600, atk: 400, def: 1100, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'carlotta', element: 'Glacio', weaponType: 'Pistols', hp: 12450, atk: 463, def: 1198, maxEnergy: 125,
+      intrinsicStats: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  for (const row of reviewed) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED', row.id);
+    assert.equal(actual.verificationStatus, 'VERIFIED', row.id);
+    assert.equal(actual.integrationStatus, 'DATA_ONLY', row.id);
+    assert.equal(actual.rarity, 5, row.id);
+    assert.equal(actual.element, row.element, row.id);
+    assert.equal(actual.weaponType, row.weaponType, row.id);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy }, row.id);
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 }, row.id);
+    assert.deepEqual(actual.intrinsicStats, row.intrinsicStats, row.id);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11', row.id);
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(actual.provenance.sourceUrls?.includes(`https://www.prydwen.gg/wuthering-waves/characters/${row.id}`));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().unexpectedMissing, []);
+  assert.deepEqual(auditReleasedCharacterRawCompleteness().stalePending, []);
+});
+
+test('Batch 6 verifies Changli, Jinhsi and Jiyan raw Level90 and static Forte facts', () => {
+  const reviewed = [
+    { id: 'changli', element: 'Fusion', weaponType: 'Sword', hp: 10388, atk: 463, def: 1100, maxEnergy: 125 },
+    { id: 'jinhsi', element: 'Spectro', weaponType: 'Broadblade', hp: 10825, atk: 413, def: 1259, maxEnergy: 150 },
+    { id: 'jiyan', element: 'Aero', weaponType: 'Broadblade', hp: 10488, atk: 438, def: 1185, maxEnergy: 125 },
+  ] as const;
+  for (const expected of reviewed) {
+    const c = getCharacterGameData(expected.id)!;
+    assert.equal(c.releaseStatus, 'RELEASED');
+    assert.equal(c.verificationStatus, 'VERIFIED');
+    assert.equal(c.integrationStatus, 'DATA_ONLY');
+    assert.equal(c.rarity, 5);
+    assert.equal(c.element, expected.element);
+    assert.equal(c.weaponType, expected.weaponType);
+    assert.deepEqual(c.level90, { hp: expected.hp, atk: expected.atk, def: expected.def, maxEnergy: expected.maxEnergy });
+    assert.deepEqual(c.baseCombat, { critRate: 0.05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(c.intrinsicStats, [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }]);
+    assert.equal(c.provenance.checkedAt, '2026-10-11');
+    assert.ok(c.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(c.provenance.sourceUrls?.some(url => url.includes('wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+});
+
+test('Batch 7 source-verifies Lingyang, Lumi and Lupa without changing existing raw values or mechanics', () => {
+  const expected = [
+    { id: 'lingyang', rarity: 5, element: 'Glacio', weaponType: 'Gauntlets', hp: 10388, atk: 438, def: 1210, maxEnergy: 125, intrinsic: [{ stat: 'Glacio DMG', value: .12 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'lumi', rarity: 4, element: 'Electro', weaponType: 'Broadblade', hp: 8500, atk: 338, def: 880, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'lupa', rarity: 5, element: 'Fusion', weaponType: 'Broadblade', hp: 11913, atk: 388, def: 1185, maxEnergy: 125, intrinsic: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  assert.equal(new Set(expected.map(row => row.id)).size, 3);
+  for (const row of expected) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED');
+    assert.equal(actual.verificationStatus, 'VERIFIED');
+    assert.equal(actual.integrationStatus, 'DATA_ONLY');
+    assert.equal(actual.rarity, row.rarity);
+    assert.equal(actual.element, row.element);
+    assert.equal(actual.weaponType, row.weaponType);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy });
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(actual.intrinsicStats, row.intrinsic);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11');
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/characters-stats/'));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
+});
+
+test('Batch 8 source-verifies Phoebe, Roccia and Phrolova raw stats without changing gameplay', () => {
+  const rows = [
+    { id: 'phoebe', element: 'Spectro', weaponType: 'Rectifier', hp: 10825, atk: 413, def: 1259, maxEnergy: 125, minor: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'roccia', element: 'Havoc', weaponType: 'Gauntlets', hp: 12250, atk: 375, def: 1198, maxEnergy: 125, minor: [{ stat: 'CRIT DMG', value: .16 }, { stat: 'ATK%', value: .12 }] },
+    { id: 'phrolova', element: 'Havoc', weaponType: 'Rectifier', hp: 10775, atk: 438, def: 1136, maxEnergy: 0, minor: [{ stat: 'CRIT Rate', value: .08 }, { stat: 'ATK%', value: .12 }] },
+  ] as const;
+  for (const row of rows) {
+    const actual = getCharacterGameData(row.id)!;
+    assert.equal(actual.releaseStatus, 'RELEASED');
+    assert.equal(actual.verificationStatus, 'VERIFIED');
+    assert.equal(actual.integrationStatus, 'DATA_ONLY');
+    assert.equal(actual.rarity, 5);
+    assert.equal(actual.element, row.element);
+    assert.equal(actual.weaponType, row.weaponType);
+    assert.deepEqual(actual.level90, { hp: row.hp, atk: row.atk, def: row.def, maxEnergy: row.maxEnergy });
+    assert.deepEqual(actual.baseCombat, { critRate: .05, critDamage: 1.5, energyRegen: 1 });
+    assert.deepEqual(actual.intrinsicStats, row.minor);
+    assert.equal(actual.provenance.checkedAt, '2026-10-11');
+    assert.ok(actual.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/characters-stats/'));
+    assert.ok(actual.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  const audit = auditReleasedCharacterRawCompleteness();
+  assert.deepEqual(audit.unexpectedMissing, []);
+  assert.deepEqual(audit.stalePending, []);
 });
 
 test('lookup misses cleanly instead of fabricating unknown characters', () => {

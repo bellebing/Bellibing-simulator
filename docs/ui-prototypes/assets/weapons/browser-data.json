@@ -3,10 +3,10 @@
   "role": "character-builder.weapon-browser",
   "buildStatWeaponRank": 1,
   "weaponBuildStatReview": {
-    "releasedWeapons": 121,
-    "reviewedEffects": 236,
-    "staticBuildStatEffects": 60,
-    "nonStaticMechanicEffects": 176,
+    "releasedWeapons": 123,
+    "reviewedEffects": 244,
+    "staticBuildStatEffects": 62,
+    "nonStaticMechanicEffects": 182,
     "pendingEffects": 0
   },
   "generatedFrom": [
@@ -176,6 +176,29 @@
           "sourceWeaponEffect": {
             "weaponId": "wildfire-mark",
             "effectId": "WM-ATK",
+            "rank": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "thousandfold-deliverance",
+      "name": "Thousandfold Deliverance",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Broadblade",
+      "rarity": 5,
+      "level90BaseAtk": 413,
+      "secondary": {
+        "stat": "HP%",
+        "value": 0.722
+      },
+      "staticBuildStats": [
+        {
+          "stat": "All Attribute DMG",
+          "value": 0.12,
+          "sourceWeaponEffect": {
+            "weaponId": "thousandfold-deliverance",
+            "effectId": "thousandfold-deliverance-all-attribute",
             "rank": 1
           }
         }
@@ -534,6 +557,29 @@
           "sourceWeaponEffect": {
             "weaponId": "woodland-aria",
             "effectId": "WA-ATK",
+            "rank": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "blooming-jadehaven",
+      "name": "Blooming Jadehaven",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Rectifier",
+      "rarity": 5,
+      "level90BaseAtk": 587,
+      "secondary": {
+        "stat": "CRIT Rate",
+        "value": 0.243
+      },
+      "staticBuildStats": [
+        {
+          "stat": "All Attribute DMG",
+          "value": 0.12,
+          "sourceWeaponEffect": {
+            "weaponId": "blooming-jadehaven",
+            "effectId": "blooming-jadehaven-all-attribute",
             "rank": 1
           }
         }

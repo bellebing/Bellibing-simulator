@@ -167,10 +167,10 @@ test('Aemeath state, inherent, Outro and S1-S6 facts remain source-verified with
 test('fact-backed roster audit reports fifty-four source-complete characters with three partial profiles and two unstarted catalog identities', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.equal(audit.verifiedCharacterIds.length, 54);
-  assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(audit.unstartedCharacterIds.length, 2);
+  assert.equal(audit.profileCount, 59);
+  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.unstartedCharacterIds.length, 0);
   assert.deepEqual(audit.structuralIssues, []);
 });
 

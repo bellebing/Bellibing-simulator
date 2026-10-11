@@ -15,52 +15,48 @@ import {
 test('released roster FORTE_RULES coverage is deterministic and fail-closed', () => {
   const audit = auditCharacterForteRulesCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 55);
-  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
-  assert.deepEqual(audit.blockedCharacterIds, ['buling', 'danjin']);
+  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.blockedCharacterIds, ['danjin']);
   assert.deepEqual(
     audit.blockers.map((blocker) => blocker.blockerId),
     [
-      'FORTE-BULING-1307031-DAMAGE-CLASS',
       'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
     ],
   );
   assert.deepEqual(audit.issues, []);
 });
 
-test('PR221 ACTIONS coverage stays exactly unchanged', () => {
+test('released ACTIONS coverage includes all original-source classifications', () => {
   const audit = auditCharacterActionsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 55);
-  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
-  assert.deepEqual(audit.blockedCharacterIds, ['buling', 'xiangli-yao']);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(
     audit.blockers.map((blocker) => blocker.blockerId),
-    [
-      'ACTIONS-BULING-1307031-DAMAGE-CLASS',
-      'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
-    ],
+    [],
   );
 });
 
-test('Forte coverage stays unchanged while OUTRO completion does not promote the three partial full mechanics profiles', () => {
+test('release completion promotes only profiles with all six verified source areas', () => {
   const buling = CHARACTER_MECHANICS_PROFILE_BY_ID.get('buling');
   const danjin = CHARACTER_MECHANICS_PROFILE_BY_ID.get('danjin');
   const xiangli = CHARACTER_MECHANICS_PROFILE_BY_ID.get('xiangli-yao');
 
-  assert.equal(buling?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(buling?.verificationStatus, 'VERIFIED');
   assert.equal(danjin?.verificationStatus, 'PARTIALLY_VERIFIED');
-  assert.equal(xiangli?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(xiangli?.verificationStatus, 'VERIFIED');
 
-  assert.equal(buling?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'PARTIAL');
+  assert.equal(buling?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
   assert.equal(danjin?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'PARTIAL');
   assert.equal(xiangli?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
 
   for (const profile of [buling, danjin, xiangli]) {
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'PENDING');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'PENDING');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, profile?.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
 });
 
@@ -93,7 +89,7 @@ test('unsupported Forte semantics remain explicitly pending instead of guessed',
   const danjinThreshold = CHARACTER_MECHANIC_FACT_BY_ID.get('danjin-forte-full-power-threshold-conflict');
   const xiangliRevamp = CHARACTER_MECHANIC_FACT_BY_ID.get('xiangli-yao-forte-revamp-follow-up');
 
-  assert.equal(bulingArray?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(bulingArray?.verificationStatus, 'VERIFIED');
   assert.equal(bulingArray?.modelingStatus, 'PENDING_INTERPRETATION');
   assert.equal(danjinThreshold?.verificationStatus, 'PENDING');
   assert.equal(danjinThreshold?.modelingStatus, 'PENDING_INTERPRETATION');

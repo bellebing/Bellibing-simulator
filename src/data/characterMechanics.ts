@@ -19,6 +19,7 @@ import {
   ROSTER_OUTRO_COMPLETION_FACTS,
   ROSTER_OUTRO_COMPLETION_PROFILES,
 } from './characterMechanics/rosterOutroCompletion.ts';
+import { RELEASE_CHARACTER_KIT_FACTS, RELEASE_CHARACTER_KIT_PROFILES, RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS } from './characterMechanics/releaseCharacterKitFacts.ts';
 
 export * from './characterMechanicsBase.ts';
 export {
@@ -61,6 +62,8 @@ export const CHARACTER_MECHANIC_FACTS: readonly CharacterMechanicFact[] = [
   ...ROSTER_FORTE_COMPLETION_FACTS,
   ...ROSTER_INHERENT_PASSIVE_COMPLETION_FACTS,
   ...ROSTER_OUTRO_COMPLETION_FACTS,
+  ...RELEASE_CHARACTER_KIT_FACTS,
+  ...RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS,
 ] as const;
 
 export const CHARACTER_MECHANIC_FACT_BY_ID: ReadonlyMap<string, CharacterMechanicFact> = (() => {
@@ -85,6 +88,7 @@ export const CHARACTER_MECHANICS_PROFILES: readonly CharacterMechanicsProfile[] 
   ...BASE_CHARACTER_MECHANICS_PROFILES,
   ...FINAL_BLOCKER_RESOLVED_CHARACTER_MECHANICS_PROFILES,
   ...ROSTER_OUTRO_COMPLETION_PROFILES,
+  ...RELEASE_CHARACTER_KIT_PROFILES,
 ] as const;
 
 export const CHARACTER_MECHANICS_PROFILE_BY_ID: ReadonlyMap<string, CharacterMechanicsProfile> = (() => {

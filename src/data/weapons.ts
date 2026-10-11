@@ -20,6 +20,7 @@ interface WeaponRow {
   sourceLabels?: readonly string[];
   sourceUrls?: readonly string[];
   notes?: readonly string[];
+  checkedAt?: string;
 }
 
 const CHECKED_AT = '2026-08-23';
@@ -39,7 +40,7 @@ function w(input: WeaponRow): WeaponGameData {
     provenance: {
       sourceLabels: input.sourceLabels ?? ['V9.15 Weapons', 'Prydwen', 'Wutheringlab'],
       sourceUrls: input.sourceUrls,
-      checkedAt: CHECKED_AT,
+      checkedAt: input.checkedAt ?? CHECKED_AT,
       notes: input.notes,
     },
     weaponType: input.type,
@@ -60,7 +61,8 @@ function w(input: WeaponRow): WeaponGameData {
  * weapon-effect catalog and will populate effectIds as they are ported.
  *
  * The 120 V9.15 rows already carried a dedicated core-stat audit. Version 3.6
- * adds Glint of Clouds and Thousandfold Deliverance on top of that baseline.
+ * adds Glint of Clouds and the initially upcoming Thousandfold Deliverance.
+ * The bounded 3.7 update releases Thousandfold and adds Blooming Jadehaven.
  */
 export const WEAPON_CATALOG: readonly WeaponGameData[] = [
   // 5★ Broadblades
@@ -72,7 +74,7 @@ export const WEAPON_CATALOG: readonly WeaponGameData[] = [
   w({ id: 'thunderflare-dominion', name: 'Thunderflare Dominion', type: 'Broadblade', rarity: 5, atk: 675, secondaryStat: 'CRIT Rate', secondaryValue: 0.1215 }),
   w({ id: 'verdant-summit', name: 'Verdant Summit', type: 'Broadblade', rarity: 5, atk: 587, secondaryStat: 'CRIT DMG', secondaryValue: 0.486 }),
   w({ id: 'wildfire-mark', name: 'Wildfire Mark', type: 'Broadblade', rarity: 5, atk: 587, secondaryStat: 'CRIT DMG', secondaryValue: 0.486 }),
-  w({ id: 'thousandfold-deliverance', name: 'Thousandfold Deliverance', type: 'Broadblade', rarity: 5, atk: 413, secondaryStat: 'HP%', secondaryValue: 0.722, releaseStatus: 'CONFIRMED_UPCOMING', verificationStatus: 'PARTIALLY_VERIFIED', sourceLabels: ['Kuro Games Version 3.6 announcement', 'LDShop', 'current 3.6 weapon sources'], sourceUrls: ['https://www.ldshop.gg/blog/wuthering-waves/jingran-build.html'], notes: ['Official 3.6 weapon identity/name is confirmed; level-90 core stats are current pre-release/phase-2 source data and remain PARTIALLY_VERIFIED until the weapon is live.'] }),
+  w({ id: 'thousandfold-deliverance', name: 'Thousandfold Deliverance', type: 'Broadblade', rarity: 5, atk: 413, secondaryStat: 'HP%', secondaryValue: 0.722, checkedAt: '2026-10-11', sourceLabels: ['Original released 3.7 client weapon 21010076', 'Wuwa Wiki published Lv90 core'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/weapon/weaponconf.json', 'https://wuwa.wiki/en/codex/weapons/21010076'], notes: ['Released Jingran signature identity and Lv90 core independently reviewed. Original base 33 ATK / 16.05% HP and level-90/breach-6 curves retained in signature-weapon-release-3.7.json. Published integer presentation 413 ATK / 72.2% HP is preserved. Conditional passive execution remains separate.'] }),
 
   // 5★ Gauntlets
   w({ id: 'abyss-surges', name: 'Abyss Surges', type: 'Gauntlets', rarity: 5, atk: 587, secondaryStat: 'ATK%', secondaryValue: 0.3645 }),
@@ -95,6 +97,7 @@ export const WEAPON_CATALOG: readonly WeaponGameData[] = [
   w({ id: 'woodland-aria', name: 'Woodland Aria', type: 'Pistols', rarity: 5, atk: 500, secondaryStat: 'CRIT Rate', secondaryValue: 0.36 }),
 
   // 5★ Rectifiers
+  w({ id: 'blooming-jadehaven', name: 'Blooming Jadehaven', type: 'Rectifier', rarity: 5, atk: 587, secondaryStat: 'CRIT Rate', secondaryValue: 0.243, checkedAt: '2026-10-11', sourceLabels: ['Original released 3.7 client weapon 21050116', 'Prydwen Hsin / WutheringPity current published core'], sourceUrls: ['https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/9218d612ad815e398e064e577e42aaf878899968/BinData/weapon/weaponconf.json', 'https://www.prydwen.gg/wuthering-waves/characters/hsin', 'https://wutheringpity.com/wuthering-waves/hsin-guide/'], notes: ['Original released Rectifier identity, base 47 ATK / 5.4% CRIT Rate and exact level-90/breach-6 curves are retained in signature-weapon-release-3.7.json. Published weapon-facing integer convention is 587 ATK / 24.3% CRIT Rate. Signature association is owned by the separate Character relationship record, not this raw catalog.'] }),
   w({ id: 'boson-astrolabe', name: 'Boson Astrolabe', type: 'Rectifier', rarity: 5, atk: 525, secondaryStat: 'Energy Regen', secondaryValue: 0.388 }),
   w({ id: 'cosmic-ripples', name: 'Cosmic Ripples', type: 'Rectifier', rarity: 5, atk: 500, secondaryStat: 'ATK%', secondaryValue: 0.54 }),
   w({ id: 'firstlights-herald', name: "Firstlight's Herald", type: 'Rectifier', rarity: 5, atk: 413, secondaryStat: 'Energy Regen', secondaryValue: 0.77, notes: ['V9.15 audit corrected release status to live for Version 3.5.'] }),

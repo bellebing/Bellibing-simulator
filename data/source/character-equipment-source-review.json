@@ -1,0 +1,1016 @@
+{
+  "schemaVersion": 1,
+  "role": "character-equipment.relationship-source-review",
+  "reviewedAt": "2026-10-11",
+  "recommendationArtifact": "data/source/prydwen-character-recommendations-2026-10-11.json",
+  "recommendationArtifactSha256": "e616abe67973c6c0068ccacfe2f2fe5ff61f20f7b0855451c655156082e63876",
+  "recommendationReviewScope": "Published source identities, order, refinements, percentages/blank columns, five main-stat slots, lossless stat wording and linked synergy groups. Performance claims are not independently validated and do not become executable defaults. Skill leveling order and its source context headings are retained.",
+  "approvedRecommendationCharacterIds": [
+    "aalto",
+    "aemeath",
+    "augusta",
+    "baizhi",
+    "brant",
+    "buling",
+    "calcharo",
+    "camellya",
+    "cantarella",
+    "carlotta",
+    "cartethyia",
+    "changli",
+    "chisa",
+    "chixia",
+    "ciaccona",
+    "danjin",
+    "denia",
+    "encore",
+    "galbrena",
+    "hiyuki",
+    "hsin",
+    "iuno",
+    "jianxin",
+    "jingran",
+    "jinhsi",
+    "jiyan",
+    "lingyang",
+    "lucilla",
+    "lucy",
+    "lumi",
+    "lupa",
+    "luuk-herssen",
+    "lynae",
+    "mornye",
+    "mortefi",
+    "phoebe",
+    "phrolova",
+    "qingxiao",
+    "qiuyuan",
+    "rebecca",
+    "roccia",
+    "rover-aero",
+    "rover-electro",
+    "rover-havoc",
+    "rover-spectro",
+    "sanhua",
+    "sigrika",
+    "suisui",
+    "taoqi",
+    "the-shorekeeper",
+    "verina",
+    "xiangli-yao",
+    "yangyang",
+    "yangyang-xuanling",
+    "yinlin",
+    "youhu",
+    "yuanwu",
+    "zani",
+    "zhezhi"
+  ],
+  "signatures": [
+    {
+      "characterId": "aalto",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aalto",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "aemeath",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "everbright-polestar",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Aemeath's Signature weapon is obviously her best. It gives her Fusion RES and DEF Ignore on her Liberation damage as well as extra DMG Bonus, CRIT Rate and high Base…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "augusta",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "thunderflare-dominion",
+      "evidence": [
+        {
+          "sourceUrl": "https://game8.co/games/Wuthering-Waves/archives/544473",
+          "evidenceKind": "SEARCH_RESULT_EXPLICIT_SIGNATURE",
+          "sourceClaim": "Thunderflare Dominion is a 5-Star Broadblade Weapon and is Augusta's signature weapon in Wuthering Waves (WuWa).",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "baizhi",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/baizhi",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "brant",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "unflickering-valor",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/brant",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Brant's signature and by far best weapon. The massive Energy Regen, Basic ATK DMG and small CRIT Rate boosts the weapon offers are all Brant's top stats, allowing him to…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "buling",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/buling",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "calcharo",
+      "releaseFamily": "STANDARD_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/calcharo",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed standard five-star identity (Calcharo, Encore, Jianxin, Lingyang, Verina); no dedicated signature is assigned. A limited weapon recommended by the guide belongs to its own signature owner.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "camellya",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "red-spring",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Camellya's Signature is strong on a lot of Sword users, but is in particular designed for her since a lot of extra Basic Attack DMG Bonus is only exploitable if…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "cantarella",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "whispers-of-sirens",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cantarella",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Cantarella's signature weapon is expectedly perfect for her, as it gives her a huge boost to many stats including CRIT DMG, ATK, Basic ATK DMG Bonus and can even ignore…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "carlotta",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "the-last-dance",
+      "evidence": [
+        {
+          "sourceUrl": "https://game8.co/games/Wuthering-Waves/archives/491970",
+          "evidenceKind": "SEARCH_RESULT_EXPLICIT_SIGNATURE",
+          "sourceClaim": "The Last Dance is a 5-Star Pistol Weapon and the signature weapon for Carlotta in Wuthering Waves (WuWa).",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "cartethyia",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "defiers-thorn",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Cartethyia's Signature and her best by a large amount, as it provides her with a massive amount of HP% for her to utilize her kit to the fullest potential. On…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "changli",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "blazing-brilliance",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Changli's Signature is her best by a small amount, granting her high CRIT DMG and scaling Skill DMG Bonus over time. Overall it's quite a negligible upgrade from Emerald of…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "kumokiri",
+      "evidence": [
+        {
+          "sourceUrl": "https://game8.co/games/Wuthering-Waves/archives/565517",
+          "evidenceKind": "SEARCH_RESULT_EXPLICIT_SIGNATURE",
+          "sourceClaim": "Kumokiri is a 5-Star Broadblade and is Chisa's signature weapon in Wuthering Waves (WuWa).",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "chixia",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chixia",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "ciaccona",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "woodland-aria",
+      "evidence": [
+        {
+          "sourceUrl": "https://game8.co/games/Wuthering-Waves/archives/514610",
+          "evidenceKind": "SEARCH_RESULT_EXPLICIT_SIGNATURE",
+          "sourceClaim": "Woodland Aria is the 5-Star Pistol and is the signature weapon of Ciaccona in Wuthering Waves (WuWa).",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/danjin",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "denia",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "forged-dwarf-star",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/denia",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Denia's Signature and best weapon, giving her a strong mix of personal damage and team-wide ATK buffing. Has close alternatives in the Fusion Burst team but definitely a worthwhile pickup…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "encore",
+      "releaseFamily": "STANDARD_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/encore",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed standard five-star identity (Calcharo, Encore, Jianxin, Lingyang, Verina); no dedicated signature is assigned. A limited weapon recommended by the guide belongs to its own signature owner.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "galbrena",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "lux-and-umbra",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Galbrena's Signature Weapon has great base stats and a passive focusing around giving Damage Amplify to Heavy Attacks and Echo Skills in tandem with one another. When both effects are…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "hiyuki",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "frostburn",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Hiyuki's Signature is largely superior to other options thanks to its big stat boosts related to Glacio Chafe and Liberation DMG that only she can utilize to their fullest potential.…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "hsin",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "blooming-jadehaven",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Hsin's Signature and best weapon, has the standard Base ATK, DMG Bonus and CRIT Rate stats, but also Skill DMG Amplification, Electro RES Ignore and Electro Flare DMG Amplification. Overall…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "moongazers-sigil",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "On all fronts, Iuno's Signature is her best weapon. Gives a massive 36% DEF Ignore on Resonance Liberation DMG stacked instantly after an Intro and easily maintained by Iuno's ability…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "jianxin",
+      "releaseFamily": "STANDARD_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jianxin",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed standard five-star identity (Calcharo, Encore, Jianxin, Lingyang, Verina); no dedicated signature is assigned. A limited weapon recommended by the guide belongs to its own signature owner.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "jingran",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "thousandfold-deliverance",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Jingran's best weapon by a very large amount, his Signature is the only weapon in the game to grant him such a massive 72% HP stat. This allows him to…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "jinhsi",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "ages-of-harvest",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jinhsi",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Jinhsi's Signature and best weapon, providing her with high ATK, CRIT Rate and Skill DMG%. A simple blend of stats for a simple yet very clear damage increase.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "jiyan",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "verdant-summit",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Jiyan's Signature is naturally his best weapon, as it grants him high Base ATK, alongside a lot of DMG Bonus to his main damage type being Heavy Attacks, and a…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lingyang",
+      "releaseFamily": "STANDARD_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed standard five-star identity (Calcharo, Encore, Jianxin, Lingyang, Verina); no dedicated signature is assigned. A limited weapon recommended by the guide belongs to its own signature owner.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lucilla",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "freeze-frame",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucilla",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Lucilla's Signature and team-buffing weapon, capable of granting her the most personal damage of any weapon choice she has alongside a 24% team-wide ATK buff, standard for modern Rectifier supports.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lucy",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "spectral-trigger",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Lucy's Signature is a huge stat-stick for her that grants her big Spectro DMG Bonus, Heavy DMG Amplification and Heavy DMG DEF Ignore bonuses, making it far stronger than any…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lumi",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lupa",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "wildfire-mark",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lupa",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "High Base ATK and CRIT DMG, and a Resonance Liberation DMG Bonus buff as well as a team-wide 24% DMG buff make Lupa's Signature expectedly her best weapon bar none.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "luuk-herssen",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "daybreakers-spine",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Luuk's Signature enables him to gain lots of extra Spectro DMG Bonus, Basic DMG Bonus and DEF Ignore on top of the high ATK and CRIT Rate the weapon gives…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "lynae",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "spectrum-blaster",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lynae",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Lynae's Signature weapon provides her with a significant boost to her ATK, CRIT Rate and Basic Attack DMG Bonus, while increasing all damage dealt by the team when applying Tune…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "mornye",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "starfield-calibrator",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mornye",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Mornye's Signature Broadblade gives her a ton of Energy Regen, increased DEF and higher Base ATK than the options below, which overall gives her the most personal damage while still…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mortefi",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "phoebe",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "luminous-hymn",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Phoebe's signature weapon gives her a ton of CRIT Rate, ATK%, Heavy and Basic DMG bonus under the condition that the enemy is affected by Spectro Frazzle - it even…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "phrolova",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "lethean-elegy",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Phrolova's Signature is her best weapon by an alarming percentage, to a point where she's dependent on it to perform at the highest level due to the sheer amount of…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "qingxiao",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "glint-of-clouds",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qingxiao",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Qingxiao's best weapon by a lot, her Signature grants her with a ton of CRIT Rate, lower-end base ATK but a ton of Aero DMG Bonus and some extra DEF…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "qiuyuan",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "emerald-sentence",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qiuyuan",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Qiuyuan's Signature weapon is naturally his best choice, since it provides him with high ATK, CRIT Rate and Heavy Attack DMG stats, it perfectly suits his needs to maximize his…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "rebecca",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "skull-thrasher",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rebecca",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Rebecca's Signature is of course her best in slot, as it can boost party-wide ATK more significantly than its permanent counterpart Static Mist, while giving Rebecca higher damaging stats with…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "roccia",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "tragicomedy",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Roccia's Signature gives her the best personal damage increases she can get thanks to a 48% Heavy DMG and 24.3% CRIT Rate bonus, making it her best in slot weapon.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-aero",
+      "releaseFamily": "ROVER",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "bloodpacts-pledge",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-aero",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Aero Rover's Signature weapon, with a unique passive that allows them to Amplify the Aero DMG of all members in the team for 30s after using their Forte enhanced Skill,…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-electro",
+      "releaseFamily": "ROVER",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-electro",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "This Rover element has no identified dedicated signature. A weapon recommended for it is not reassigned from another Character.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-havoc",
+      "releaseFamily": "ROVER",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "This Rover element has no identified dedicated signature. A weapon recommended for it is not reassigned from another Character.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "rover-spectro",
+      "releaseFamily": "ROVER",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "This Rover element has no identified dedicated signature. A weapon recommended for it is not reassigned from another Character.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "sanhua",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sanhua",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "sigrika",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "solsworn-ciphers",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Sigrika's Signature weapon is the only one to give her the stats she desires, being a mix of high Base ATK, CRIT DMG, Echo Skill DMG Amplification and providing extra…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "firstlights-herald",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suisui",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Suisui's best in slot Signature weapon grants the whole team a 20% ATK buff, decent increase to the party's overall damage output, as well as a lot of Energy Regen…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "taoqi",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "stellar-symphony",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Shorekeeper's Signature is her best weapon but not by a big difference compared to Variation. It does provide a 14% team-wide ATK boost when casting Shorekeeper's skill and provides an…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "verina",
+      "releaseFamily": "STANDARD_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/verina",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed standard five-star identity (Calcharo, Encore, Jianxin, Lingyang, Verina); no dedicated signature is assigned. A limited weapon recommended by the guide belongs to its own signature owner.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "xiangli-yao",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "veritys-handle",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Xiangli Yao's Signature is his second best choice, granting him with solid ATK, CRIT Rate and DMG Bonus, making for an excellent stat-stick for him.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "azure-oath",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Yangyang's Signature weapon provides CRIT Rate and Heavy DMG Amplification/DEF Ignore - since she scales excessively on most other stats, this blend of personal damage increases makes it her best…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "yinlin",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "stringmaster",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yinlin",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Yinlin's signature Rectifier is easily one of the best generalist options in the game and her best in slot. It gives massive ATK, CRIT Rate and DMG Bonus buffs, with…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "youhu",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "yuanwu",
+      "releaseFamily": "FOUR_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_NO_SIGNATURE",
+      "weaponId": null,
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yuanwu",
+          "evidenceKind": "REVIEWED_NON_SIGNATURE_RELEASE_FAMILY",
+          "sourceClaim": "Reviewed four-star release identity; no dedicated signature is assigned. Ranked guide weapons are recommendations only.",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "zani",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "blazing-justice",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Zani's Signature weapon is by far her best option, thanks to its massive boosts in her best stats: 48.6% CRIT DMG with high ATK, 50% Spectro Frazzle Amplification, and even…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "characterId": "zhezhi",
+      "releaseFamily": "LIMITED_FIVE_STAR",
+      "reviewedAt": "2026-10-11",
+      "meaning": "IDENTIFIED_DEDICATED_SIGNATURE_NOT_EXCLUSIVE_OR_BIS",
+      "status": "VERIFIED_SIGNATURE",
+      "weaponId": "rime-draped-sprouts",
+      "evidence": [
+        {
+          "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zhezhi",
+          "evidenceKind": "EXPLICIT_GUIDE_SIGNATURE",
+          "sourceClaim": "Zhezhi's Signature and best weapon gives her significant ATK and CRIT DMG stat boosts as well as a scaling Basic DMG Bonus buff that particularly affects her off-field Coordinated Attacks,…",
+          "checkedAt": "2026-10-11"
+        }
+      ]
+    }
+  ],
+  "signaturePolicy": "Established dedicated-signature association as explicitly identified by reviewed guide sources. This is not a claim of an official declaration, Character exclusivity or best performance. The five standard five-stars and twelve four-stars are explicitly reviewed no-signature; other Rover variants are separate identities. Aero Rover has an explicitly evidenced free-signature exception."
+}

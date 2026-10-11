@@ -8,11 +8,11 @@ import {
 } from '../src/data/characterIntrinsicStats.ts';
 import { getCharacterGameData } from '../src/data/characters.ts';
 
-test('57 reviewed intrinsic profiles remain unchanged while two released identities stay Pending', () => {
+test('59 released identities have reviewed permanent intrinsic profiles', () => {
   const audit = auditReleasedCharacterIntrinsics();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.deepEqual(audit.issues, ['hsin', 'jingran'].map(characterId => ({ characterId, issue: 'missing intrinsic profile' })));
+  assert.equal(audit.profileCount, 59);
+  assert.deepEqual(audit.issues, []);
 });
 
 test('Mornye original game nodes reconcile Healing and DEF with the verified intrinsic catalog', () => {

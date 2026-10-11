@@ -4,6 +4,7 @@ import type {
   CharacterPassiveFact,
 } from '../../characterMechanicsDomain.ts';
 import type { ContentProvenance } from '../../contentRegistry.ts';
+import { RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS } from './releaseCharacterKitFacts.ts';
 import {
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
@@ -139,7 +140,7 @@ export const BULING_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEf
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   BULING_OUTRO_EFFECT_FACTS,
   BULING_OUTRO_PROVENANCE,
-  'Exorcism Spell healing and team DMG Amplification are source-mapped with their explicit 16s/30s windows. Existing ACTIONS/FORTE blockers remain unchanged.',
+  'Exorcism Spell healing and team DMG Amplification are source-mapped with their explicit 16s/30s windows. Original release damage rows resolve the prior ACTIONS/FORTE classification blocker.',
 );
 
 export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
@@ -153,7 +154,7 @@ export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOu
   XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   XIANGLI_YAO_OUTRO_EFFECT_FACTS,
   XIANGLI_YAO_OUTRO_PROVENANCE,
-  'Chain Rule already exists as the source-VERIFIED Character-owned OUTRO ACTION from the completed ACTIONS area: exact 237.63% ATK per-trigger coefficient plus source-explicit 8s / once-per-2s / up-to-3 trigger semantics. OUTRO_EFFECT reuses that fact unchanged. The independent Pivot — Impale ACTIONS blocker remains unchanged.',
+  'Chain Rule already exists as the source-VERIFIED Character-owned OUTRO ACTION from the completed ACTIONS area: exact 237.63% ATK per-trigger coefficient plus source-explicit 8s / once-per-2s / up-to-3 trigger semantics. OUTRO_EFFECT reuses that fact unchanged. Original release damage rows independently resolve Pivot — Impale as Basic DMG.',
 );
 
 export const ROSTER_OUTRO_COMPLETION_FACTS: readonly CharacterMechanicFact[] = [
@@ -162,8 +163,29 @@ export const ROSTER_OUTRO_COMPLETION_FACTS: readonly CharacterMechanicFact[] = [
   ...XIANGLI_YAO_OUTRO_EFFECT_FACTS,
 ] as const;
 
+function withReleaseResourcesAndSequences(base: CharacterMechanicsProfile): CharacterMechanicsProfile {
+  const facts = RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS.filter(fact => fact.characterId === base.characterId);
+  const coverage: CharacterMechanicsProfile['coverage'] = base.coverage.map(entry => {
+    if (entry.area === 'SEQUENCES') return { area: entry.area, status: 'VERIFIED', notes: 'All six original released chain rows, parameter substitution and conditions reviewed; RAW_ONLY.' };
+    if (entry.area === 'RESOURCE_RULES') return { area: entry.area, status: base.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED', notes: base.characterId === 'danjin' ? 'Ruby Blossom cap and acquisition are source-explicit; the over-120 full-power clause remains contradictory and source-blocked.' : 'Original released caps, gain/spend conditions and source descriptions reviewed; runtime accounting remains separate.' };
+    return entry;
+  });
+  return {
+    ...base,
+    verificationStatus: coverage.every(entry => entry.status === 'VERIFIED') ? 'VERIFIED' : 'PARTIALLY_VERIFIED',
+    coverage,
+    factIds: [...base.factIds, ...facts.map(fact => fact.factId)],
+    provenance: {
+      ...base.provenance,
+      sourceLabels: [...base.provenance.sourceLabels, ...facts[0].provenance.sourceLabels],
+      sourceUrls: [...new Set([...(base.provenance.sourceUrls ?? []), ...(facts[0].provenance.sourceUrls ?? [])])],
+      checkedAt: '2026-10-11',
+    },
+  };
+}
+
 export const ROSTER_OUTRO_COMPLETION_PROFILES: readonly CharacterMechanicsProfile[] = [
   BULING_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO,
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO,
   XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO,
-] as const;
+].map(withReleaseResourcesAndSequences);

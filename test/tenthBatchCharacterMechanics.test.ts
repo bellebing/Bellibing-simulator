@@ -182,13 +182,13 @@ test('tenth-batch Tune Break facts remain at the shared-system boundary', () => 
   }
 });
 
-test('tenth Character Mechanics batch remains valid as current coverage reaches 54 verified / 3 partial / 2 unstarted catalog identities / 1946 facts', () => {
+test('tenth Character Mechanics batch remains valid as current coverage reaches 58 verified / 1 partial / 0 unstarted catalog identities / 2073 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.equal(audit.unstartedCharacterIds.length, 2);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
+  assert.equal(audit.profileCount, 59);
+  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.unstartedCharacterIds.length, 0);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 
   for (const characterId of ['denia', 'hiyuki', 'qingxiao', 'rover-aero', 'yangyang-xuanling']) {
@@ -197,12 +197,7 @@ test('tenth Character Mechanics batch remains valid as current coverage reaches 
     const dps = getCharacterPreflight(characterId, 'DPS_MODEL');
     assert.ok(raw && dps, characterId);
     assert.equal(raw.checks.find((check) => check.area === 'CHARACTER_MECHANICS')?.status, 'PASS', characterId);
-    if (characterId === 'qingxiao') {
-      assert.equal(raw.ready, false, characterId);
-      assert.ok(raw.blockers.some((check) => check.area === 'IDENTITY_LEVEL90' && check.status === 'PENDING'), characterId);
-    } else {
-      assert.equal(raw.ready, true, characterId);
-    }
+    assert.equal(raw.ready, true, characterId);
     assert.equal(dps.ready, false, characterId);
     assert.ok(dps.blockers.some((check) => check.area === 'ROTATION_PROFILE'), characterId);
     assert.ok(dps.blockers.some((check) => check.area === 'COMBAT_MODEL'), characterId);

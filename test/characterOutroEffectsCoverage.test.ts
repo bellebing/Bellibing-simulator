@@ -35,12 +35,12 @@ function renderSourceText(template: string, params: readonly string[]): string {
     .replace(/<[^>]*>/g, '');
 }
 
-test('OUTRO_EFFECT verifies 57 pinned source rows; Hsin/Jingran stay explicitly PARTIAL among 59 released', () => {
+test('OUTRO_EFFECT verifies all 59 released source rows', () => {
   const audit = auditCharacterOutroEffectsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.sourceOutroSkillCount, 57);
-  assert.equal(audit.verifiedCharacterIds.length, 57);
-  assert.deepEqual(audit.partialCharacterIds, ['hsin', 'jingran']);
+  assert.equal(audit.sourceOutroSkillCount, 59);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(audit.blockers, []);
   assert.deepEqual(audit.issues, []);
@@ -148,69 +148,61 @@ test('VERIFIED OUTRO_EFFECT coverage is backed by linked VERIFIED Outro facts wi
   }
 });
 
-test('OUTRO_EFFECT completion leaves ACTIONS, FORTE_RULES and INHERENT_PASSIVES coverage exactly unchanged', () => {
+test('released-source completion retains exact coverage in the other source areas', () => {
   const actions = auditCharacterActionsCoverage();
   assert.equal(actions.releasedCount, 59);
-  assert.equal(actions.verifiedCharacterIds.length, 55);
-  assert.deepEqual(actions.partialCharacterIds, ['hsin', 'jingran']);
-  assert.deepEqual(actions.blockedCharacterIds, ['buling', 'xiangli-yao']);
-  assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), [
-    'ACTIONS-BULING-1307031-DAMAGE-CLASS',
-    'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
-  ]);
+  assert.equal(actions.verifiedCharacterIds.length, 59);
+  assert.deepEqual(actions.partialCharacterIds, []);
+  assert.deepEqual(actions.blockedCharacterIds, []);
+  assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), []);
 
   const forte = auditCharacterForteRulesCoverage();
   assert.equal(forte.releasedCount, 59);
-  assert.equal(forte.verifiedCharacterIds.length, 55);
-  assert.deepEqual(forte.partialCharacterIds, ['hsin', 'jingran']);
-  assert.deepEqual(forte.blockedCharacterIds, ['buling', 'danjin']);
+  assert.equal(forte.verifiedCharacterIds.length, 58);
+  assert.deepEqual(forte.partialCharacterIds, []);
+  assert.deepEqual(forte.blockedCharacterIds, ['danjin']);
   assert.deepEqual(forte.blockers.map((blocker) => blocker.blockerId), [
-    'FORTE-BULING-1307031-DAMAGE-CLASS',
     'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
   ]);
 
   const inherent = auditCharacterInherentPassivesCoverage();
-  assert.equal(inherent.verifiedCharacterIds.length, 57);
-  assert.deepEqual(inherent.partialCharacterIds, ['hsin', 'jingran']);
+  assert.equal(inherent.verifiedCharacterIds.length, 59);
+  assert.deepEqual(inherent.partialCharacterIds, []);
   assert.deepEqual(inherent.blockedCharacterIds, []);
 });
 
-test('current ACTIONS/FORTE source blockers remain unchanged and OUTRO adds none', () => {
-  assert.deepEqual(CHARACTER_ACTION_SOURCE_BLOCKERS.map((blocker) => blocker.blockerId), [
-    'ACTIONS-BULING-1307031-DAMAGE-CLASS',
-    'ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS',
-  ]);
+test('original damage fields resolve ACTIONS blockers while Danjin retains its Forte conflict', () => {
+  assert.deepEqual(CHARACTER_ACTION_SOURCE_BLOCKERS.map((blocker) => blocker.blockerId), []);
   assert.deepEqual(CHARACTER_FORTE_RULE_SOURCE_BLOCKERS.map((blocker) => blocker.blockerId), [
-    'FORTE-BULING-1307031-DAMAGE-CLASS',
     'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
   ]);
   assert.deepEqual(CHARACTER_INHERENT_PASSIVE_SOURCE_BLOCKERS, []);
   assert.deepEqual(CHARACTER_OUTRO_EFFECT_SOURCE_BLOCKERS, []);
 });
 
-test('the three partial profiles advance only OUTRO_EFFECT; RESOURCE_RULES and SEQUENCES remain untouched', () => {
+test('release resources and all six sequences complete Buling and Xiangli while Danjin remains partial', () => {
   const expected = {
-    buling: { actions: 'PARTIAL', forte: 'PARTIAL' },
+    buling: { actions: 'VERIFIED', forte: 'VERIFIED' },
     danjin: { actions: 'VERIFIED', forte: 'PARTIAL' },
-    'xiangli-yao': { actions: 'PARTIAL', forte: 'VERIFIED' },
+    'xiangli-yao': { actions: 'VERIFIED', forte: 'VERIFIED' },
   } as const;
 
   assert.deepEqual(ROSTER_OUTRO_COMPLETION_PROFILES.map((profile) => profile.characterId).sort(), ['buling', 'danjin', 'xiangli-yao']);
   for (const [characterId, states] of Object.entries(expected)) {
     const profile = CHARACTER_MECHANICS_PROFILE_BY_ID.get(characterId);
-    assert.equal(profile?.verificationStatus, 'PARTIALLY_VERIFIED');
+    assert.equal(profile?.verificationStatus, characterId === 'danjin' ? 'PARTIALLY_VERIFIED' : 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'ACTIONS')?.status, states.actions);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, states.forte);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'PENDING');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'PENDING');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, profile?.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
 
   const mechanics = auditCharacterMechanicsCoverage();
-  assert.equal(mechanics.verifiedCharacterIds.length, 54);
-  assert.deepEqual([...mechanics.partialCharacterIds].sort(), ['buling', 'danjin', 'xiangli-yao']);
-  assert.deepEqual(mechanics.unstartedCharacterIds, ['hsin', 'jingran']);
+  assert.equal(mechanics.verifiedCharacterIds.length, 58);
+  assert.deepEqual([...mechanics.partialCharacterIds].sort(), ['danjin']);
+  assert.deepEqual(mechanics.unstartedCharacterIds, []);
 });
 
 test('the existing 54 fully verified Character profiles are unchanged by the isolated completion layer', () => {

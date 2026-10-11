@@ -14,6 +14,10 @@ The UI and backend can use one generated Character catalog instead of assembling
 
 Delivery state: **#182/#184–#188 are integrated and deployed through PR #189**, followed by merged #190. The earlier main checkpoint `b16552da92a35a717c179a3801b262d728cbba97` passed Verify #1085, Export #984 and Deploy #146, including live database byte parity. See [integration evidence](CHARACTER_BACKEND_INTEGRATION_REVIEW.md). PR #191 is merged and post-merge verified (819 tests; Verify1110/Export1009/Deploy148): canonical Outro bindings and additional Echo facts project through existing exports. Its current eight attack profiles/ten attack facts and pending profile boundaries are documented in the [closure review](PR191_EXECUTION_CLOSURE_REVIEW_20260910.md).
 
+## Draft signature and guide reference fields
+
+Draft #277 adds detached `characters[].signatureWeapon` and `characters[].guideRecommendations` from `src/data/characterEquipmentAssociations.ts`. Released identities have explicit signature/NO_SIGNATURE decisions; upcoming identities have null. Guide references preserve Prydwen source order, refinement, relative percentage columns, set/main-Echo associations, stat text/conditions, skill priorities and teammate guidance. They do not select existing profile gear, fill Calc targets, grant execution readiness or configure Improve requirements. Example-team image members remain explicitly unavailable. See the [source/coverage review](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md).
+
 ## Use from a separate UI
 
 ```sh
@@ -111,7 +115,7 @@ Current measured coverage and the next-lane ranking are in the [integration and 
 3. Reuse the shared action reader and existing combat primitives. Add Character-specific code only for actual execution semantics those primitives cannot express.
 4. Run targeted tests during iteration and full Verify before integration. The normal build validates and exports the entire database batch.
 
-Provider candidates remain evidence only. This export does not authorize new copying from unreviewed providers or automatic canonical promotion. Buling, Danjin and Xiangli Yao retain their mechanics source blockers; unresolved Max Energy fields stay null. BUG-008/010/028/029 and the six Reference Team dependencies remain open. No UI work is part of this backend slice.
+Provider candidates remain evidence only. This export does not authorize automatic canonical promotion. The [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md) records 59/59 reviewed released raw identities, complete Hsin/Jingran source kits and original energy-cap decisions. Buling/Xiangli damage classes are source-resolved; Danjin retains its Forte/resource threshold contradiction. Original source capture is evidence only, and canonical facts continue to use the existing owners. BUG-008/010/028/029 and the six Reference Team dependencies remain open. No UI work is part of this backend slice.
 
 ## Batch 1: explicit ATK Basic Attack hits
 

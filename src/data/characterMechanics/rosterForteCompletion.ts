@@ -71,7 +71,7 @@ export const BULING_FORTE_RULE_FACTS: readonly CharacterPassiveFact[] = [
     effectSummary: 'Harmony generates Five Thunders Spell Array at the target area. The array lasts 24s, inflicts 2 Electro Flare stacks on targets within it every 2s, and while it is active all Resonators in the team enter Thunder Spell — Primordial Qi.',
     durationSeconds: 24,
     maxStacks: null,
-    notes: ['The array continuous-damage coefficient remains a separate ACTION fact. Its unresolved damage-bonus classification is not inferred by this Forte state fact.'],
+    notes: ['The array continuous-damage coefficient remains a separate ACTION fact. Its Liberation damage class is proven separately by original damage row 1307019002.'],
   }),
   passive({
     factId: 'buling-forte-thunder-spell-yin-and-yang',
@@ -162,7 +162,7 @@ export const XIANGLI_YAO_FORTE_RULE_FACTS: readonly CharacterPassiveFact[] = [
     effectSummary: 'Intuition lasts up to 24s. It provides 3 Hypercubes; casting Law of Reigns consumes 1 Hypercube and Intuition ends once all Hypercubes are consumed. During Intuition, Basic Attack and Heavy Attack are replaced by Pivot — Impale, Resonance Skill — Deduction is replaced by Divergence, and Dodge Counter is replaced by Unfathomed.',
     durationSeconds: 24,
     maxStacks: null,
-    notes: ['The source-explicit mode and replacements are canonical here. Pivot — Impale damage classification remains an ACTIONS blocker and is not inferred from the Intuition state.'],
+    notes: ['The source-explicit mode and replacements are canonical here. Pivot — Impale Basic DMG is proven by its original damage rows, independently of the Intuition state.'],
   }),
   passive({
     factId: 'xiangli-yao-forte-decipher-replacement',
@@ -227,13 +227,6 @@ export interface CharacterForteRuleSourceBlocker {
 
 export const CHARACTER_FORTE_RULE_SOURCE_BLOCKERS: readonly CharacterForteRuleSourceBlocker[] = [
   {
-    blockerId: 'FORTE-BULING-1307031-DAMAGE-CLASS',
-    characterId: 'buling',
-    factIds: ['buling-forte-five-thunders-spell-array'],
-    sourceMoveIds: [1004307],
-    reason: 'Five Thunders Spell Array is an explicit Forte result with source-fixed cadence/state semantics and an exact ATK-scaling Lv1-Lv10 damage curve, but current source does not state the Character damage-bonus classification of its continuous damage. The separate 10%/25% team Resonance Skill DMG Bonus states are not evidence for the array damage class.',
-  },
-  {
     blockerId: 'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
     characterId: 'danjin',
     factIds: ['danjin-forte-full-power-threshold-conflict'],
@@ -260,8 +253,8 @@ export const BULING_CHARACTER_MECHANICS_PROFILE_WITH_FORTE: CharacterMechanicsPr
   characterId: 'buling',
   verificationStatus: 'PARTIALLY_VERIFIED',
   coverage: coverage(
-    { area: 'ACTIONS', status: 'PARTIAL', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Five Thunders Spell Array Continuous DMG remains source-blocked on damage classification.' },
-    { area: 'FORTE_RULES', status: 'PARTIAL', notes: 'Yin-Yang Balance, Harmony replacement, Five Thunders Spell Array cadence/Flare/team-state chain and both Thunder Spell team buffs are source-mapped. The array continuous-damage classification remains blocked as FORTE-BULING-1307031-DAMAGE-CLASS.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Original released damage data resolves the array as Liberation DMG.' },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Yin-Yang Balance, Harmony replacement, Five Thunders Spell Array cadence/Flare/team-state chain and both Thunder Spell team buffs are source-mapped. Original released damage row 1307019002 has Liberation damage Type=2.' },
   ),
   factIds: [...BULING_ACTION_FACTS.map((fact) => fact.factId), ...BULING_FORTE_RULE_FACTS.map((fact) => fact.factId)],
   provenance: BULING_ACTION_PROVENANCE,
@@ -282,7 +275,7 @@ export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_FORTE: CharacterMechan
   characterId: 'xiangli-yao',
   verificationStatus: 'PARTIALLY_VERIFIED',
   coverage: coverage(
-    { area: 'ACTIONS', status: 'PARTIAL', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Pivot - Impale stages 1-3 remain source-blocked on damage classification.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed damage actions and Tune Break are mapped with exact source representations. Original released damage data resolves all three Pivot stages as Basic DMG.' },
     { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'Intuition mode/replacements, the source-fixed 24s state limit, Decipher and Law of Reigns thresholds/replacements/consumption, and the Revamp follow-up relationship are source-mapped. Exact runtime timing for “shortly after” remains PENDING_INTERPRETATION without blocking source verification.' },
   ),
   factIds: [...XIANGLI_YAO_ACTION_FACTS.map((fact) => fact.factId), ...XIANGLI_YAO_FORTE_RULE_FACTS.map((fact) => fact.factId)],

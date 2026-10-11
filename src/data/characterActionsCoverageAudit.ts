@@ -149,6 +149,6 @@ ${issues}
 
 ## Scope boundary
 
-Danjin's ACTIONS are source-verified even though her full Character Mechanics profile remains source-blocked by the contradictory Ruby Blossom resource threshold. Buling and Xiangli Yao remain ACTIONS-blocked only on the exact damage-classification omissions listed above. Full-profile verification remains governed by the existing six-area Character Mechanics audit and is not implied by this report.
+Danjin's ACTIONS are source-verified even though her full Character Mechanics profile remains source-blocked by the contradictory Ruby Blossom resource threshold. Buling and Xiangli Yao damage classes are now resolved from original released client damage rows, independently of skill panel ownership. Full-profile verification remains governed by the existing six-area Character Mechanics audit and is not implied by this report.
 `;
 }

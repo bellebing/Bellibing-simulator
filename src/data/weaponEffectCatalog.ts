@@ -1,3 +1,4 @@
+import { SIGNATURE_RELEASE_WEAPON_EFFECTS } from './weaponEffectsRelease37.ts';
 import type { WeaponEffectData } from '../effectDomain.ts';
 import { WEAPON_EFFECT_CATALOG as BASE_WEAPON_EFFECT_CATALOG } from './weaponEffects.ts';
 import { BROADBLADE_WEAPON_EFFECT_CATALOG } from './weaponEffectsBroadblade.ts';
@@ -17,4 +18,5 @@ export const WEAPON_EFFECT_CATALOG: readonly WeaponEffectData[] = Object.freeze(
   ...BROADBLADE_WEAPON_EFFECT_CATALOG,
   ...GAUNTLET_WEAPON_EFFECT_CATALOG,
   ...SWORD_WEAPON_EFFECT_CATALOG,
+  ...SIGNATURE_RELEASE_WEAPON_EFFECTS,
 ]);

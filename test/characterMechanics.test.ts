@@ -42,7 +42,7 @@ function assertNear(actual: number | null, expected: number, epsilon = 1e-10): v
 test('Augusta current Character-owned source action facts are exact Lv1-Lv10 representations', () => {
   assert.equal(AUGUSTA_CHARACTER_ACTION_FACTS.length, 24);
   assert.equal(new Set(AUGUSTA_CHARACTER_ACTION_FACTS.map((fact) => fact.factId)).size, 24);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
 
   for (const fact of AUGUSTA_CHARACTER_ACTION_FACTS) {
     if (fact.actionRole === 'NON_DAMAGE') {
@@ -110,14 +110,14 @@ test('Augusta verified non-action raw facts cover resources, passives and all si
   assert.match(s6.effectSummary, /Heavy Attack DMG/);
 });
 
-test('mechanics coverage reports fifty-four released characters fully source-complete with three partial ACTION profiles', () => {
+test('mechanics coverage reports 58 released kits complete with the Danjin threshold conflict', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 57);
-  assert.equal(audit.verifiedCharacterIds.length, 54);
-  assert.deepEqual(audit.partialCharacterIds, ['buling', 'danjin', 'xiangli-yao']);
-  assert.deepEqual(audit.unstartedCharacterIds, ['hsin', 'jingran']);
-  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 1946);
+  assert.equal(audit.profileCount, 59);
+  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.deepEqual(audit.unstartedCharacterIds, []);
+  assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 });
 
@@ -172,13 +172,13 @@ test('executable preflight recognizes Augusta raw mechanics as source-complete w
   assert.equal(dps.checks.find((check) => check.area === 'COMBAT_MODEL')?.status, 'PENDING');
 });
 
-test('preflight preserves named raw pending fields for current released characters', () => {
+test('preflight resolves Qingxiao raw capacity without promoting its DPS model', () => {
   const qingxiao = getCharacterPreflight('qingxiao', 'RAW_FACTS');
   assert.ok(qingxiao);
   const raw = qingxiao.checks.find((check) => check.area === 'IDENTITY_LEVEL90');
-  assert.equal(raw?.status, 'PENDING');
-  assert.match(raw?.details.join(' ') ?? '', /maxEnergy/);
-  assert.equal(qingxiao.ready, false);
+  assert.equal(raw?.status, 'PASS');
+  assert.equal(qingxiao.ready, true);
+  assert.equal(getCharacterPreflight('qingxiao', 'DPS_MODEL')?.ready, false);
 });
 
 test('preflight target levels add relationship/profile requirements only when needed', () => {

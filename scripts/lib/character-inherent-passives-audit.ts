@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readReviewedCharacterKitSources } from './character-kit-source.ts';
 
 import { CHARACTER_CATALOG } from '../../src/data/characters.ts';
 import {
@@ -45,8 +45,7 @@ interface SourcePayload {
   characters: readonly SourceCharacter[];
 }
 
-const SOURCE_PATH = new URL('../../data/source/character-forte-ui.json', import.meta.url);
-const sourcePayload = JSON.parse(readFileSync(SOURCE_PATH, 'utf8')) as SourcePayload;
+const sourcePayload: SourcePayload = readReviewedCharacterKitSources();
 
 function canonicalInherentName(name: string): string {
   return name.replace(/^Inherent Skill\s*[—-]\s*/, '');
@@ -189,7 +188,7 @@ export function renderCharacterInherentPassivesCoverageReport(
 
   return `# Character Mechanics INHERENT_PASSIVES Coverage
 
-This report is deterministic output from the pinned Skills/Forte source payload plus the canonical Character Mechanics registry. It reports **INHERENT_PASSIVES only** and requires each RELEASED Character to link the exact two source Inherent Skill names as source-VERIFIED canonical passive facts. Runtime modeling remains a separate concern and is not inferred from source verification.
+This report is deterministic output from the pinned legacy Skills/Forte source and original released Hsin/Jingran supplement plus the canonical Character Mechanics registry. It reports **INHERENT_PASSIVES only** and requires each RELEASED Character to link the exact two source Inherent Skill names as source-VERIFIED canonical passive facts. Runtime modeling remains a separate concern and is not inferred from source verification.
 
 ## Roster-wide status
 

@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readReviewedCharacterKitSources } from './character-kit-source.ts';
 
 import { CHARACTER_CATALOG } from '../../src/data/characters.ts';
 import {
@@ -45,8 +45,7 @@ interface SourcePayload {
   characters: readonly SourceCharacter[];
 }
 
-const SOURCE_PATH = new URL('../../data/source/character-forte-ui.json', import.meta.url);
-const sourcePayload = JSON.parse(readFileSync(SOURCE_PATH, 'utf8')) as SourcePayload;
+const sourcePayload: SourcePayload = readReviewedCharacterKitSources();
 
 function outroStructuralIssue(issue: string): boolean {
   return /OUTRO_EFFECT|OUTRO_SKILL|Outro Skill|outro/i.test(issue);
@@ -181,7 +180,7 @@ export function renderCharacterOutroEffectsCoverageReport(
 
   return `# Character Mechanics OUTRO_EFFECT Coverage
 
-This report is deterministic output from the pinned Skills/Forte source payload plus the canonical Character Mechanics registry. It reports **OUTRO_EFFECT only**. A RELEASED Character must have exactly one pinned source Outro row and VERIFIED canonical Outro evidence. Source-declared Outro damage remains an ACTION with its exact source representation; non-damage transfer/buff/heal logic remains PASSIVE data. Runtime application, uptime and event scheduling are separate concerns.
+This report is deterministic output from the pinned legacy Skills/Forte source and original released Hsin/Jingran supplement plus the canonical Character Mechanics registry. It reports **OUTRO_EFFECT only**. A RELEASED Character must have exactly one pinned source Outro row and VERIFIED canonical Outro evidence. Source-declared Outro damage remains an ACTION with its exact source representation; non-damage transfer/buff/heal logic remains PASSIVE data. Runtime application, uptime and event scheduling are separate concerns.
 
 ## Roster-wide status
 
@@ -209,6 +208,6 @@ ${issues}
 
 ## Scope boundary
 
-This report does not change ACTIONS, FORTE_RULES or INHERENT_PASSIVES coverage and does not promote full Character Mechanics profiles. Buling, Danjin and Xiangli Yao remain PARTIALLY_VERIFIED overall because their existing independent ACTIONS/FORTE blockers remain fail-closed and RESOURCE_RULES plus SEQUENCES remain PENDING. Hsin and Jingran remain PARTIAL: their released identities exist but the pinned Skills/Forte payload and canonical Mechanics profiles are not yet source-complete; missing is not a verified zero. No profile/recommendation, Team, DPS, rotation, execution or UI behavior is added by this source-coverage slice.
+This report does not change ACTIONS, FORTE_RULES or INHERENT_PASSIVES coverage and does not promote full Character Mechanics profiles. Danjin remains PARTIALLY_VERIFIED overall because the full-power Ruby Blossom threshold remains source-contradictory. Source completeness for the other characters is independent of executable mechanics and DPS. No profile/recommendation, Team, DPS, rotation, execution or UI behavior is added by this source-coverage slice.
 `;
 }

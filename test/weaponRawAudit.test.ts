@@ -4,21 +4,24 @@ import test from 'node:test';
 import {
   auditWeaponCoreRoster,
   WEAPON_CORE_ROSTER_AUDIT_V36,
+  WEAPON_CORE_ROSTER_AUDIT_V37,
 } from '../src/data/weaponRawAudit.ts';
 import {
   WEAPON_CATALOG,
   getWeaponGameData,
 } from '../src/data/weapons.ts';
 
-test('Version 3.6 weapon core roster passes the frozen released/upcoming completeness gate', () => {
+test('Version 3.7 weapon core roster passes the frozen released/upcoming completeness gate', () => {
   const audit = auditWeaponCoreRoster();
 
-  assert.equal(audit.catalogCount, 122);
-  assert.equal(audit.releasedCount, 121);
-  assert.deepEqual(audit.upcomingIds, ['thousandfold-deliverance']);
+  assert.equal(audit.catalogCount, 123);
+  assert.equal(audit.releasedCount, 123);
+  assert.deepEqual(audit.upcomingIds, []);
   assert.deepEqual(audit.wipIds, []);
   assert.deepEqual(audit.issues, []);
 
+  assert.equal(WEAPON_CORE_ROSTER_AUDIT_V37.patch, '3.7');
+  assert.equal(WEAPON_CORE_ROSTER_AUDIT_V37.checkedAt, '2026-10-11');
   assert.equal(WEAPON_CORE_ROSTER_AUDIT_V36.patch, '3.6');
   assert.equal(WEAPON_CORE_ROSTER_AUDIT_V36.checkedAt, '2026-08-25');
 });
@@ -35,8 +38,8 @@ test('adding an unaudited released row cannot silently pass the current-patch sn
   const audit = auditWeaponCoreRoster([...WEAPON_CATALOG, synthetic]);
   const codes = new Set(audit.issues.map((issue) => issue.code));
 
-  assert.equal(audit.catalogCount, 123);
-  assert.equal(audit.releasedCount, 122);
+  assert.equal(audit.catalogCount, 124);
+  assert.equal(audit.releasedCount, 124);
   assert.ok(codes.has('CATALOG_COUNT_MISMATCH'));
   assert.ok(codes.has('RELEASED_COUNT_MISMATCH'));
 
@@ -47,7 +50,7 @@ test('adding an unaudited released row cannot silently pass the current-patch sn
   assert.equal(synthetic.verificationStatus, 'VERIFIED');
 });
 
-test('3.6 lifecycle anchors protect live Glint from phase-2 Thousandfold data', () => {
+test('3.7 lifecycle anchors retain Glint and released Thousandfold data', () => {
   const glint = getWeaponGameData('glint-of-clouds');
   const thousandfold = getWeaponGameData('thousandfold-deliverance');
   assert.ok(glint);
@@ -59,8 +62,8 @@ test('3.6 lifecycle anchors protect live Glint from phase-2 Thousandfold data', 
   assert.equal(glint.level90BaseAtk, 500);
   assert.deepEqual(glint.secondary, { stat: 'CRIT Rate', value: 0.36 });
 
-  assert.equal(thousandfold.releaseStatus, 'CONFIRMED_UPCOMING');
-  assert.equal(thousandfold.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(thousandfold.releaseStatus, 'RELEASED');
+  assert.equal(thousandfold.verificationStatus, 'VERIFIED');
   assert.equal(thousandfold.weaponType, 'Broadblade');
   assert.equal(thousandfold.level90BaseAtk, 413);
   assert.deepEqual(thousandfold.secondary, { stat: 'HP%', value: 0.722 });

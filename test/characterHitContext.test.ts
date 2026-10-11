@@ -190,7 +190,7 @@ test('real Ciaccona equipment identity supplies base/intrinsic/core secondary; u
 
 test('permanent weapon stats consume canonical R1-R5 values across compatible real Character consumers', () => {
   const support = listStaticWeaponContextSupport();
-  assert.equal(support.length, 60);
+  assert.equal(support.length, 62);
   for (const s of support) {
     const w = WEAPON_CATALOG.find(w => w.id === s.weaponId)!;
     if (w.id === 'abyss-surges') continue; // independent core conflict remains parked

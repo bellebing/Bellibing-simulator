@@ -26,38 +26,7 @@ export interface CharacterRawPendingField {
  * As soon as the field is resolved, the audit intentionally fails until the
  * stale pending exception is removed too. This prevents silent half-records.
  */
-export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [
-  {
-    characterId: 'hsin',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-10-11',
-    reason: 'Published Lv90 HP/ATK/DEF verified from current 3.7.12 game-facing display; no independently reviewed Max Energy cap. Liberation Resonance Cost 125 is not the cap and third-party 140 remains semantic-pending.',
-  },
-  {
-    characterId: 'jingran',
-    fields: ['def', 'maxEnergy'],
-    checkedAt: '2026-10-11',
-    reason: 'Lv90 HP/ATK verified with game-facing integer convention; displayed DEF 0 may be the permanent kit-fixed effect rather than unmodified raw base. Energy labels 125/140 disagree and Liberation Cost is not a cap.',
-  },
-  {
-    characterId: 'qingxiao',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current sources conflict on Max Energy / energy-field semantics. Resonance Liberation cost is not substituted for Max Energy.',
-  },
-  {
-    characterId: 'rover-electro',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current sources disagree between 125 and 140. One source separately reports 125 Liberation cost, which does not prove the Max Energy cap.',
-  },
-  {
-    characterId: 'suisui',
-    fields: ['maxEnergy'],
-    checkedAt: '2026-08-25',
-    reason: 'Current databases expose incompatible 125/140/175 energy-labelled values; semantic ownership remains unresolved.',
-  },
-] as const;
+export const RELEASED_CHARACTER_RAW_PENDING: readonly CharacterRawPendingField[] = [] as const;
 
 export interface CharacterRawAuditIssue {
   characterId: string;

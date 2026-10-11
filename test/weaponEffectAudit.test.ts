@@ -6,6 +6,7 @@ import {
   WEAPON_EFFECT_BACKWARD_IMPACT_REVIEWS_V36,
   WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36,
   WEAPON_EFFECT_ROSTER_AUDIT_V36,
+  WEAPON_EFFECT_ROSTER_AUDIT_V37,
   auditWeaponEffectCoverage,
   getWeaponEffectCoverageStatus,
 } from '../src/data/weaponEffectAudit.ts';
@@ -13,16 +14,18 @@ import { WEAPON_EFFECT_CATALOG } from '../src/data/weaponEffectCatalog.ts';
 import { WEAPON_RECOMMENDATION_PROFILES } from '../src/data/weaponRecommendations.ts';
 import { WEAPON_CATALOG, getWeaponGameData } from '../src/data/weapons.ts';
 
-test('Version 3.6 released roster has complete explicit Weapon Effect source coverage for all 121 weapons', () => {
+test('Version 3.7 released roster has explicit source coverage for all 123 weapons', () => {
   const audit = auditWeaponEffectCoverage();
 
+  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V37.patch, '3.7');
+  assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V37.checkedAt, '2026-10-11');
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.patch, '3.6');
   assert.equal(WEAPON_EFFECT_ROSTER_AUDIT_V36.checkedAt, '2026-08-26');
-  assert.equal(audit.releasedCount, 121);
-  assert.equal(audit.auditedEffectWeaponCount, 121);
+  assert.equal(audit.releasedCount, 123);
+  assert.equal(audit.auditedEffectWeaponCount, 123);
   assert.equal(audit.verifiedNoCombatEffectCount, 0);
   assert.equal(audit.pendingSourceAuditCount, 0);
-  assert.equal(audit.explicitCoverageCount, 121);
+  assert.equal(audit.explicitCoverageCount, 123);
   assert.equal(audit.fullReleasedRosterComplete, true);
   assert.deepEqual(audit.issues, []);
   assert.equal(WEAPON_EFFECT_PENDING_SOURCE_AUDIT_IDS_V36.length, 0);
@@ -42,8 +45,8 @@ test('future released weapon fails the effect coverage gate until its status is 
   const codes = new Set(audit.issues.map((issue) => issue.code));
 
   assert.equal(getWeaponEffectCoverageStatus(synthetic.id, catalog, WEAPON_EFFECT_CATALOG), 'MISSING_COVERAGE_STATUS');
-  assert.equal(audit.releasedCount, 122);
-  assert.equal(audit.explicitCoverageCount, 121);
+  assert.equal(audit.releasedCount, 124);
+  assert.equal(audit.explicitCoverageCount, 123);
   assert.ok(codes.has('RELEASED_COUNT_MISMATCH'));
   assert.ok(codes.has('MISSING_COVERAGE_STATUS'));
 });
@@ -83,7 +86,9 @@ function currentProfileIds(weaponType: string): string[] {
 
 function releasedWeaponIds(weaponType: string): string[] {
   return WEAPON_CATALOG
+    // Reconstruct the historical 3.6 audit; the two reviewed 3.7 additions have a separate review.
     .filter((weapon) => weapon.releaseStatus === 'RELEASED' && weapon.weaponType === weaponType)
+    .filter((weapon) => !['blooming-jadehaven', 'thousandfold-deliverance'].includes(weapon.id))
     .map((weapon) => weapon.id)
     .sort();
 }
@@ -529,6 +534,6 @@ test('coverage lookup distinguishes audited, upcoming and unknown weapons after 
   assert.equal(getWeaponEffectCoverageStatus('training-gauntlets'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('glint-of-clouds'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('training-sword'), 'AUDITED_EFFECTS');
-  assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'NOT_RELEASED');
+  assert.equal(getWeaponEffectCoverageStatus('thousandfold-deliverance'), 'AUDITED_EFFECTS');
   assert.equal(getWeaponEffectCoverageStatus('not-a-weapon'), 'UNKNOWN_WEAPON');
 });

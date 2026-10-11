@@ -158,6 +158,39 @@ test('fresh release identities preserve unresolved progression and bounded curre
   }
 });
 
+test('Batch 1 raw sign-off verifies four exact roster records and keeps other identities Pending', () => {
+  const reviewed = [
+    { id:'cartethyia', element:'Aero', weaponType:'Sword', hp:14800, atk:313, def:611,
+      intrinsics:[{stat:'CRIT Rate',value:.08},{stat:'HP%',value:.12}] },
+    { id:'chisa', element:'Havoc', weaponType:'Broadblade', hp:10775, atk:438, def:1136,
+      intrinsics:[{stat:'CRIT Rate',value:.08},{stat:'ATK%',value:.12}] },
+    { id:'ciaccona', element:'Aero', weaponType:'Pistols', hp:12238, atk:375, def:1198,
+      intrinsics:[{stat:'CRIT DMG',value:.16},{stat:'ATK%',value:.12}] },
+    { id:'iuno', element:'Aero', weaponType:'Gauntlets', hp:10525, atk:450, def:1124,
+      intrinsics:[{stat:'CRIT Rate',value:.08},{stat:'ATK%',value:.12}] },
+  ];
+  assert.deepEqual(CHARACTER_CATALOG.filter(c => c.verificationStatus === 'VERIFIED')
+    .map(c => c.id).sort(), ['augusta', ...reviewed.map(c => c.id)].sort());
+  for (const item of reviewed) {
+    const c = getCharacterGameData(item.id)!;
+    assert.equal(c.verificationStatus, 'VERIFIED');
+    assert.equal(c.integrationStatus, 'DATA_ONLY');
+    assert.equal(c.releaseStatus, 'RELEASED');
+    assert.equal(c.rarity, 5);
+    assert.equal(c.element, item.element);
+    assert.equal(c.weaponType, item.weaponType);
+    assert.deepEqual(c.level90, {hp:item.hp,atk:item.atk,def:item.def,maxEnergy:125});
+    assert.deepEqual(c.baseCombat, {critRate:.05,critDamage:1.5,energyRegen:1});
+    assert.deepEqual(c.intrinsicStats, item.intrinsics);
+    assert.equal(c.provenance.checkedAt, '2026-10-11');
+    assert.ok(c.provenance.sourceUrls?.includes('https://www.prydwen.gg/wuthering-waves/stats'));
+    assert.ok(c.provenance.sourceUrls?.some(url => url.startsWith('https://wuwa.wiki/en/codex/resonators/')));
+  }
+  for (const id of ['denia', 'hsin', 'jingran', 'qingxiao', 'rover-electro', 'suisui']) {
+    assert.equal(getCharacterGameData(id)?.verificationStatus, 'PARTIALLY_VERIFIED');
+  }
+});
+
 test('lookup misses cleanly instead of fabricating unknown characters', () => {
   assert.equal(getCharacterGameData('does-not-exist'), null);
 });

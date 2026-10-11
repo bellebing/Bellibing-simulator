@@ -161,6 +161,26 @@ test('source completeness never grants a new DPS engine or closes Reference Team
     'SOURCE_SEQUENCE_ONLY');
 });
 
+test('Batch 1 source-VERIFIED raw records export without new DPS readiness', () => {
+  const db = buildCharacterDatabase();
+  for (const id of ['cartethyia','chisa','ciaccona','iuno']) {
+    const source = CHARACTER_CATALOG.find(row => row.id === id)!;
+    const exported = db.characters.find(row => row.id === id)!;
+    assert.equal(exported.verificationStatus, 'VERIFIED');
+    assert.equal(exported.integrationStatus, 'DATA_ONLY');
+    assert.notEqual(exported.readiness?.disposition, 'DPS_READY');
+    assert.deepEqual(exported.level90, source.level90);
+    assert.deepEqual(exported.baseCombat, source.baseCombat);
+    assert.deepEqual(exported.intrinsicStats, source.intrinsicStats);
+    assert.deepEqual(exported.provenance, source.provenance);
+  }
+  assert.equal(db.characters.find(row => row.id === 'denia')?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters
+    .filter((row: { id:string }) => ['cartethyia','chisa','ciaccona','iuno'].includes(row.id))
+    .map((row: { id:string, verificationStatus:string }) => [row.id,row.verificationStatus])
+    .sort(), [['cartethyia','VERIFIED'],['chisa','VERIFIED'],['ciaccona','VERIFIED'],['iuno','VERIFIED']]);
+});
+
 test('a client editing its database copy cannot mutate canonical data or the next export', () => {
   const before = serializeCharacterDatabase();
   const db = buildCharacterDatabase();

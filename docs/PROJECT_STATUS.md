@@ -29,9 +29,13 @@ Augusta's visible DEFAULT Calc target is:
 
 Exact unrounded Calc references remain source data underneath the formatted UI values. This presentation policy does not promote DPR to universal recommendation authority and does not add evaluator semantics.
 
-### Character signature and guide data (draft candidate)
+### Character signature and guide data
 
-Draft #277 adds 59 reviewed signature/no-signature relationships and source-ordered Prydwen reference recommendations for all 59 released identities, including percentages, contexts, Echo sets/main Echoes, stats, skill priority and teammate guidance. See the [source review and coverage](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md). Two missing released signature weapon records/passives are integrated with bounded V37 gates. Existing Calc target selection, profile defaults, UI Echo requirements and DPS readiness are unchanged. Image-only example-team member capture and independent ranking checks remain pending.
+The merged Character data includes 59 reviewed signature/no-signature relationships and source-ordered Prydwen reference recommendations for all 59 released identities, including percentages, contexts, Echo sets/main Echoes, stats, skill priority and teammate guidance. See the [source review and coverage](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md). Two missing released signature weapon records/passives are integrated with bounded V37 gates. Existing Calc target selection, profile defaults, UI Echo requirements and DPS readiness are unchanged. Image-only example-team member capture and independent ranking checks remain pending.
+
+### Team-aware rotation references (candidate)
+
+The candidate maps Prydwen-only baseline rotations for 59 released identities: 96 references, with ordered sequences for 57 Characters and explicit priority-only guidance for Jianxin/Yuanwu. Team/mode/Intro differences, preparation and partner handoffs are preserved. Contextual lookup and detached database joins are reference data; existing executable presets and DPS readiness are unchanged. See [scope and consumer contract](TEAM_AWARE_ROTATION_REFERENCES.md).
 
 ### Improve policy and Echo guidance
 
@@ -84,9 +88,8 @@ Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
 - Danjin FORTE/resource threshold contradiction.
-- Draft #277 now contains 59/59 reviewed signature decisions (39 signature / 20 NO_SIGNATURE); final combined verification remains Pending.
 - Six Reference Team 01 dependencies remain pending.
-- Draft #277 captures Prydwen weapon/Echo/stat/skill/teammate guidance for all 59 released identities. Independent performance comparisons, image-only example-team rosters and product integration remain Pending; this is not executable Improve policy.
+- Independent recommendation comparisons, image-only example-team rosters and product integration remain Pending; source references are not executable Improve policy.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.
 
 Do not infer missing values, timing, ownership, stacking, scope, rotations or damage classifications. Missing is not zero.

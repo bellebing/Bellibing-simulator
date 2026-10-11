@@ -1,9 +1,39 @@
-# Cartethyia — Character BiS build evidence (Worker 5)
+# Cartethyia — context-dependent Character build evidence (Worker 5)
 
 **Review date:** 2026-10-11  
-**Scope:** source-backed research only; NO implementation, recommendation-row promotion, private-engine change, or merge.  
+**Scope:** source-backed, context-dependent build-option map only; NO implementation, final universal BiS ruling, recommendation-row promotion, private-engine change, or merge.  
 **Repository baseline:** `main` commit `102b66edec165f3d2a313a562de4049a26424924`.  
 **Canonical identity:** `cartethyia`, existing default preset `cartethyia-aero-erosion`, S0. S1/S2 are explicitly separate contexts.
+
+
+## Policy: game fact ≠ recommendation ≠ Bellibing decision
+
+**This document does not designate one objectively best weapon, Sonata, Echo, team or rotation for all users.** “BiS” below means a **published, source-specific comparison under its stated assumptions**. An associated signature weapon or themed Sonata proves a supported **Character association**, not optimality for every player's inventory or playstyle.
+
+1. **Verified game facts/mechanics**: source-owned Character HP scaling/damage classes, weapon raw stats/effect clauses, Sonata pieces/triggers, Echo main-slot eligibility and active attack. These have independently reviewed canonical IDs in B2 and remain separate from ranking.
+2. **Source-backed recommendations**: Prydwen, Wutheringlab and DPR propose equipment/priority choices for a specific Character **role/build**, source date, team, equipped gear, sequence/refinement, rotation and comparison baseline. VERIFIED means **the source says it in that context**, not that its numerical DPS result is universally applicable. Alternative build options can be sensible despite lower modeled values or absent like-for-like comparisons.
+3. **Future Bellibing personalization**: a decision requires the player's **owned Characters, owned/refined weapons, actual five Echoes and substats, target game mode/enemies, available support gear, rotation execution ability and team constraints**. Current public source facts do not prove a personalized recommendation or an executable DPS result. **PENDING** until the appropriate evaluator/context exists.
+
+### Recommendation map — Cartethyia as Aero Erosion on-field DPS
+
+Every row is a **conditional recommendation/candidate**, *never a blanket global BiS*. S0 means the *source scenario* unless noted. B1, B2, DPR, P1 and W1 are linked in the evidence index below.
+
+| Character / role / build | Source-backed recommended option | Applicable team, gear or player situation | Source | Status, constraints |
+| --- | --- | --- | --- | --- |
+| Cartethyia / S0 Aero Erosion Main DPS / standard | **Windward Pilgrimage 5pc**, **Reminiscence: Fleurdelys main**, **4 CR / 4 CD / 1 HP% ×3** | Target can already have Aero Erosion when hit; B1 specific team Ciaccona + Rover (Aero). P1's current example instead pairs Ciaccona + Chisa with named signatures; 4/4/1/1/1 shell can be used in either but is not guaranteed optimal on every owned roll. | B1, B2, P1; DPR §Cartethiya!A24:E34§ | **VERIFIED sourced association/preferred scenario**; target-state uptime and relative actual-build strength **PENDING**. |
+| Cartethyia / same role / secondary four-cost Echo | **Nightmare: Kelpie** in the *non-main* 4-cost slot, **Fleurdelys remains main** | Two 4-cost Echoes in Windward 4/4/1/1/1; do not confuse with **Ciaccona's** own Nightmare: Kelpie main in B1/P1. | W1 | **VERIFIED as a published suggestion**, **PENDING** Bellibing canonical secondary-specific loadout/slot membership and actual marginal value. |
+| Cartethyia / alternative existing-Echo setup | **Windward 4/1/1/1/1 CR/HP** | Same DPR S0R1 Ciaccona S0R1 + Aerover S6R5 comparison; may be relevant if player's owned 4-cost CD piece is poor or unavailable. | DPR §Cartethiya!A24:E34§ | **VERIFIED tested shell in source** (94.31% of its 44111 reference); **PENDING** user-owned gear comparison. |
+| Cartethyia / alternative Echo-cost shell | **Windward 4/3/3/1/1** with HP/ELE, ELE/ELE or HP/HP main stats as individually labeled | DPR's **same fixed** S0R1, Ciaccona S0R1 + Aerover S6R5 case. These can be interim inventory options, not confirmed winners; see exact comparisons below. | DPR §Cartethiya!A24:E34§; W1 warns about a 43311 damage penalty | **VERIFIED source comparisons**, **PENDING** any general superiority/actual gear economics. |
+| Cartethyia / alternate Aero-set candidates | **Gusts of Welkin** or **Sierra Gale** for a future same-context evaluation | If Erosion cannot be maintained, Windward conditional CRIT/Aero uptime declines; P1 mentions these other Aero sets but does **not** supply a reviewed matched Cartethyia numerical ranking. | P1; B2 Sonata facts only | **PENDING recommendation**, not a promoted alternative or an invented “low-Erosion winner”. |
+| Cartethyia / S0 DPS with signature accessible | **Defier's Thorn R1** | Cartethyia HP-scaling kit, target with relevant Erosion for one weapon clause; P1 weapon-calculation **Ciaccona + Chisa signature** context, B1 older **Ciaccona + Rover** context separately. | B1, B2, P1 | **VERIFIED signature association and source-preferred choice**, not universal acquisition advice; §DT-DEF§ timing **PENDING**. |
+| Cartethyia / DPS without signature, limited-time sword owned | **Red Spring R1** | CRIT Rate/Basic DMG alternative; active windows require matching action/Concerto. | P1; B2 | **VERIFIED P1 source alternative** (81.40% in P1 context), player-specific efficacy **PENDING**. |
+| Cartethyia / DPS without signature, other premium swords owned | **Blazing Brilliance R1** / **Emerald Sentence R1** | Primarily CRIT stat alternatives; their Skill/Echo passive value differs for Cartethyia; source-specific priorities only. | P1; DPR offers Blazing comparison in different team context | **VERIFIED P1 candidates**, same-context actual loadout **PENDING**. |
+| Cartethyia / lower-access alternatives | **Feather Edge R5**, **Emerald of Genesis R1**, **Guardian Sword R5** | Battle Pass player / permanently available 5-star sword / last-resort HP% sword respectively; need ownership, refinements and playable rotation considered. | P1; DPR compares Emerald and Guardian in its own team | **VERIFIED P1 alternatives**, **PENDING** absolute “best budget” for user's inventory. |
+| Cartethyia / S0 team with Ciaccona | **Ciaccona + Rover (Aero)** or **Ciaccona + Chisa (with Kumokiri)** | Rover is existing B1 default; Chisa's relative advantage is **signature-dependent** in P1; DPR studies additional exact weapon/refinement assumptions. | B1; P1; DPR §Cartethiya!A38:F48§ | **VERIFIED distinct source scenarios**; cross-team universal rank **PENDING**, source-context mismatch **CONFLICT** for naive comparison. |
+| Cartethyia / alternative support availability | **Ciaccona + Shorekeeper** or **Sanhua support pairing** | Shorekeeper for multi-wave/Whimpering Wastes conditions in P1; Sanhua is a fast, accessible Basic-DMG-oriented pairing when stronger Erosion partners are not owned. | P1 team discussion | **VERIFIED P1 use-case suggestions**, **PENDING** direct matched DPS and user-owned alternatives. |
+| Cartethyia / standard vs low-Erosion playstyle | **P1 standard/basic** when Erosion is supplied; **P1 low-Erosion** when it is not | Different action ordering, Erosion preservation and team setup; fast quickswap/plunge showcase cases are separate documented rotations. | P1; B1 §SOURCE_SEQUENCE_ONLY§; DPR §Carte Rotation Guide§ | **VERIFIED source rotation choices**, **PENDING** executable event/energy/uptime parity. |
+
+**Not an exhaustive list of all playable combinations.** A recommended *weapon* never implicitly changes the Sonata, team or rotation; a teammate's weapon/Echo does not become Cartethyia gear. **No existing Bellibing profile or ranking is altered by this map.**
 
 ## Evidence status and trust boundary
 
@@ -20,7 +50,7 @@
 | **B2 (canonical effects)** | [`sonataEffects.ts`](../../src/data/sonataEffects.ts), [`echoMainSlotEffects.ts`](../../src/data/echoMainSlotEffects.ts), [`echoCharacterRestrictedEffects.ts`](../../src/data/echoCharacterRestrictedEffects.ts), [`echoAttacks.ts`](../../src/data/echoAttacks.ts), [`weaponEffectsSword.ts`](../../src/data/weaponEffectsSword.ts), [`weapons.ts`](../../src/data/weapons.ts), [`cartethyiaRawFacts.ts`](../../src/data/characterMechanics/cartethyiaRawFacts.ts). Original structured Echo/Character review pins are recorded in those files. |
 | **DPR (approved native project source)** | [DPR Calc Results](https://docs.google.com/spreadsheets/d/1eoCTrwYIsRpacvL3KrcQpR5rwY3pbJ6gEljZdBj_DHs/edit), tabs **`Cartethiya`** (native `A1:O75` reviewed live 2026-10-11) and **`Carte Rotation Guide`** (`A1:J55` reviewed live 2026-10-11). The first tab's spelling is a source alias, not a second Character. Approved `USER_APPROVED_PROJECT_SOURCE`, pinned modern semantic V1 digest `d3ca38885f16cadf82aa86ea5e48318e205dd9f3a42e4e1037a8c341fdcb0a8d`. See [DPR source review](../CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md). |
 | **P1 (current published guide)** | [Prydwen — Cartethyia](https://www.prydwen.gg/wuthering-waves/characters/cartethyia), viewed 2026-10-11; page states **last updated 2026-10-05**, patch 3.6. The current weapon calculation example uses **Ciaccona + Chisa**, unlike B1's older Ciaccona + Rover (Aero) context. Published guide evidence is not a canonical source update by itself. |
-| **P2 (historical corroboration)** | [Game8 — Cartethyia builds](https://game8.co/games/Wuthering-Waves/archives/526299) and Bellibing's reviewed 2026-08-29 Prydwen profile source notes. Treat publication-time and team differences explicitly. |
+| **W1 (independent published build suggestion)** | [Wutheringlab — Cartethyia build](https://wutheringlab.com/character/cartethyia-build/), reviewed 2026-10-11. Discusses Windward 4/4/1/1/1, **Fleurdelys main + Nightmare: Kelpie second 4-cost**, main stats and alternate shells; not a reviewed Bellibing numeric comparison and no universal superiority claimed. |
 | **Contracts** | [Development Process](../DEVELOPMENT_PROCESS.md), [Data Verification Policy](../DATA_VERIFICATION_POLICY.md), [Echo/Sonata effect coverage](../ECHO_SONATA_EFFECT_COVERAGE.md), [Project Status](../PROJECT_STATUS.md); connected **Bellibing Echo Tool — AI Handoff**, `Mål & Handoff` and `Buggar` inspected 2026-10-11. |
 
 ## Existing VERIFIED build — reuse, do not reimplement
@@ -41,7 +71,7 @@
 
 ## Sonata sets, active Echoes and main-stat configurations
 
-### Windward Pilgrimage, 5pc — VERIFIED preferred source build
+### Windward Pilgrimage, 5pc — VERIFIED source-associated option under Aero Erosion conditions
 
 - **2pc:** `S17_2PC_AERO`: +10% Aero DMG permanently while correctly equipped.
 - **5pc:** `S17_5PC_CR`: +10 percentage points CRIT Rate, 10 seconds; `S17_5PC_AERO`: +30 percentage points Aero DMG, 10 seconds. **Trigger:** hit a target *already affected by Aero Erosion*. These are conditional event effects, **not** passive 100% uptime. The source-backed target-state attack-window primitive exists, but individual rotations still must prove target state/hit/time.
@@ -68,7 +98,7 @@ The DPR parallel "DMG with Aerosion" column yields different relative ratios (e.
 
 ## Substat priority, Energy Regen and total-stat context
 
-**VERIFIED P1 and B1 published priority:** **Energy Regen until sufficient > CRIT Rate = CRIT DMG > HP% > Basic Attack DMG% = Liberation DMG% > Flat HP**. Character facts in `cartethyiaRawFacts.ts` explain the HP-centered kit and why skill ownership does not imply Skill DMG classification: e.g. `Sword to Bear Their Names` is source-classified **Basic Attack DMG** although cast as Resonance Skill; much of her normal/Forte/Liberation damage uses HP scaling, while her main Echo active attack scales with ATK. Therefore **ATK% is not a recommended substitute for HP% on Cartethyia** just because the active Echo summon uses ATK.
+**VERIFIED P1 and B1 published priority for Cartethyia S0 Aero Erosion DPS:** **Energy Regen until sufficient > CRIT Rate = CRIT DMG > HP% > Basic Attack DMG% = Liberation DMG% > Flat HP**. Character facts in `cartethyiaRawFacts.ts` explain the HP-centered kit and why skill ownership does not imply Skill DMG classification: e.g. `Sword to Bear Their Names` is source-classified **Basic Attack DMG** although cast as Resonance Skill; much of her normal/Forte/Liberation damage uses HP scaling, while her main Echo active attack scales with ATK. Therefore **ATK% is not a recommended substitute for HP% on Cartethyia** just because the active Echo summon uses ATK.
 
 **VERIFIED P1 endgame guide suggestions:** total **ER 110%+**, **HP 35,000–50,000+**, **CRIT Rate 65–80%+**, **CRIT DMG 240–270%+**, **Aero DMG Bonus 30%+**. These are approximate **S0 good-quality in-party/out-of-combat guide goals**, explicitly *not* universal hard gates or per-Echo minimum rolls. ER depends on energy generation/rotation/team; adding ER beyond a satisfied need has different marginal value.
 
@@ -88,7 +118,7 @@ The DPR parallel "DMG with Aerosion" column yields different relative ratios (e.
 
 ### Alternatives: two incompatible comparison baselines — keep separate
 
-**P1 fresh published *weapon calculation* snapshot** (viewed 2026-10-11, patch 3.6; **Ciaccona + Woodland Aria + Gusts of Welkin + Nightmare: Kelpie, AND Chisa + Kumokiri + Thread of Severed Fate + Reminiscence: Threnodian - Leviathan**; these are relative modeled results, NOT source-independent damage multipliers):
+**P1 current published *weapon calculation* snapshot** (viewed 2026-10-11, patch 3.6; **Ciaccona + Woodland Aria + Gusts of Welkin + Nightmare: Kelpie, AND Chisa + Kumokiri + Thread of Severed Fate + Reminiscence: Threnodian - Leviathan**; these are relative modeled results, NOT source-independent damage multipliers):
 
 | Weapon in P1 | Relative source result | Source context warning |
 | --- | ---: | --- |
@@ -139,4 +169,4 @@ The DPR parallel "DMG with Aerosion" column yields different relative ratios (e.
 4. Keep **BUG-042** and per-Echo hard requirements pending; explicit source priorities are not the same as reviewed Roll Assistant hard constraints. Validate any later promotion with extraction/source pins, impact/preflight, focused deterministic checks and relevant build/CI. This research document does **not** perform a promotion.
 5. The research-only change itself requires **FAST docs validation** (path, links, headings, whitespace, diff). **No simulator test, browser, full Verify/Export or merge** is claimed or requested; no public or private runtime was modified.
 
-**Bottom line:** **VERIFIED preferred source build = Windward Pilgrimage 5pc, Reminiscence: Fleurdelys main, 4 CR / 4 CD / 1 HP% ×3, Defier's Thorn R1; ER until sufficient (P1: 110%+), CR/CD then HP.** Distinct team and rotation conditions are essential. **PENDING** exact equal-context alternative rankings, combat execution/timing, and hard Echo roll policy. **CONFLICT** identifies stale source/applicability notes only; no invented mechanic or dataset reconciliation.
+**Outcome:** For **Cartethyia S0 Aero Erosion on-field DPS** with Erosion-supporting teammates, B1/P1 source guidance associates **Windward Pilgrimage 5pc**, **Reminiscence: Fleurdelys main**, **4 CR / 4 CD / 1 HP% ×3**, and **Defier's Thorn R1**; P1's approximate ER goal is **110%+**. This is **one context-dependent reference**, not an objective universal BiS. The matrix above also records alternative weapon, Sonata-candidate, Echo-cost, teammate and rotation use cases. **PENDING** personalized Bellibing choice from actual owned inventory and matched execution, exact ER/buff uptime, and hard Echo policy. **CONFLICT** refers to context drift/stale notes; no mechanic is fabricated.

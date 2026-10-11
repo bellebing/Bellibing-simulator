@@ -207,7 +207,7 @@
 .simulate-result{min-width:0}.simulate-modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;height:34px}
 .simulate-modes .improve-helper-action{min-width:0;margin:0;padding:5px;font-size:11px}
 .simulate-echo-slots{grid-column:2/4;grid-row:2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:10px;min-width:0}
-.simulate-echo-slot{height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:0 10px 6px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);cursor:pointer}
+.simulate-echo-slot{position:relative;box-sizing:border-box;height:280px;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;padding:39px 9px 9px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:rgba(255,255,255,.022);cursor:pointer;overflow:hidden}
 .simulate-echo-slot.is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.065);box-shadow:0 0 0 1px rgba(216,177,82,.10),0 8px 18px rgba(0,0,0,.20)}
 .simulate-modes .is-selected{border-color:rgba(216,177,82,.78);background:rgba(216,177,82,.12);color:#f0d796}
 .simulate-result-echo{box-sizing:border-box;overflow:auto;padding:10px;display:grid;align-content:start;gap:6px}
@@ -233,24 +233,38 @@
 .simulate-preview-empty{flex:1;display:grid;place-items:center;color:#89919b;font-size:13px}
 .simulate-template-card,.simulate-slot-identity{display:flex;flex-direction:column;align-items:center;min-width:0;min-height:0;width:100%;gap:5px;text-align:center}
 .simulate-template-card{flex:1;justify-content:center;overflow:hidden}
-.simulate-slot-identity{flex:1;justify-content:center;padding:9px 0 5px;pointer-events:none;overflow:hidden}
+.simulate-slot-identity{flex:1;justify-content:flex-start;padding:0;pointer-events:none;overflow:visible}
 .simulate-template-card-content,.simulate-slot-identity-content{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:0;width:100%;height:100%}
+.simulate-slot-identity-content{gap:2px}
 .simulate-template-art{width:100%;flex:1;min-height:0;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(0,0,0,.38))}
+.simulate-slot-identity .simulate-template-art{flex:1 1 45px;max-height:80px}
 .simulate-template-name{width:100%;max-height:3em;overflow:hidden;font-family:var(--font-display);font-size:15px;line-height:1.25;color:#e6e5e0;overflow-wrap:anywhere}
-.simulate-slot-identity .simulate-template-name{font-size:12px}
+.simulate-slot-identity .simulate-template-name{font-size:12px;line-height:1.12;max-height:none}
 .simulate-template-cost{flex:none;color:#c6a35f;font-size:11px;font-weight:800}
 .simulate-prepared-meta{flex:none;max-width:100%;color:#adb5c0;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.simulate-prepared-stats{flex:none;display:grid;gap:2px;width:100%;max-height:94px;margin:0;overflow-y:auto;scrollbar-width:thin;font-size:9px;text-align:left}
+.simulate-prepared-stats{flex:none;display:grid;gap:2px;width:100%;margin:0;font-size:9px;text-align:left}
 .simulate-prepared-stats>div{display:flex;justify-content:space-between;gap:6px;line-height:1.2}
-.simulate-prepared-stats dt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#aab2bd}
+.simulate-prepared-stats dt{min-width:0;overflow-wrap:anywhere;color:#aab2bd}
 .simulate-prepared-stats dd{margin:0;flex:none;white-space:nowrap;color:#e0c78f;font-variant-numeric:tabular-nums}
-.simulate-slot-identity .simulate-prepared-stats{max-height:62px;font-size:8px}
+.simulate-slot-identity .simulate-prepared-stats{gap:1px;font-size:9px}
+.simulate-slot-identity .simulate-prepared-stats>div{gap:4px;line-height:1.1;min-height:11px}
 #echoOverlay[data-context="simulate-setup"] .echo-workspace-slots{display:none}
 .echo-preview-sonata-assignment[hidden]{display:none}
 
-.simulate-slot-actions{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.13);padding-top:5px}
-.simulate-slot-actions button{border:0;background:transparent;padding:3px 2px;font-size:10px;color:#79c89c}
-.simulate-slot-actions button+button{border-left:1px solid rgba(255,255,255,.13);color:#e37b7b}
+.simulate-slot-actions{position:absolute;top:7px;left:8px;right:6px;display:flex;align-items:center;gap:5px;z-index:1}
+.simulate-slot-actions button{display:grid;place-items:center;flex:none;width:25px;height:25px;padding:0;border:1px solid rgba(255,255,255,.20);border-radius:6px;background:rgba(0,0,0,.30);font-size:16px;line-height:1;cursor:pointer}
+.simulate-slot-actions .simulate-icon-activate{color:#79c89c}
+.simulate-slot-actions .simulate-icon-deactivate{color:#e37b7b}
+.simulate-slot-actions button[aria-pressed="true"]{border-color:currentColor;background:rgba(255,255,255,.11);box-shadow:0 0 0 1px currentColor}
+.simulate-slot-actions button[aria-pressed="false"]{opacity:.58}
+.simulate-slot-actions button:disabled{opacity:.35;cursor:default}
+.simulate-slot-actions button:focus-visible{outline:2px solid #d8b568;outline-offset:2px}
+.simulate-slot-status{margin-left:2px;color:#79c89c;font-size:9px;font-weight:800;letter-spacing:.035em}
+.simulate-echo-slot[data-prepared-active="false"] .simulate-slot-status{color:#e37b7b}
+.simulate-echo-slot[data-prepared-active="false"] .simulate-slot-identity{filter:saturate(.68)}
+#improveEmptyCard .improve-stat-head,#improveEmptyCard .improve-stat-row{grid-template-columns:minmax(0,1fr) 57px 10px 63px}
+#improveEmptyCard .improve-stat-head span:last-child{color:#d8bc7d}
+#improveEmptyCard .improve-stat-new{color:#d8bc7d;font-size:10px}
 #improveEmptyCard button:disabled{cursor:default}
 
 
@@ -609,11 +623,11 @@
             <div class="simulate-empty-echo simulate-result-echo" aria-label="Result Echo" role="status" aria-live="polite"></div>
           </section>
         </section>
-        <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot is-selected" role="button" tabindex="0" aria-label="Select Echo slot 1" aria-pressed="true"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 2" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 3" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 4" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article>
-<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 5" aria-pressed="false"><div class="simulate-slot-actions"><button type="button" disabled>Activate</button><button type="button" disabled>Deactivate</button></div></article></section>
+        <section class="simulate-echo-slots" aria-label="Five Echo slots"><article class="simulate-echo-slot is-selected" role="button" tabindex="0" aria-label="Select Echo slot 1" aria-pressed="true"><div class="simulate-slot-actions" role="group" aria-label="Echo activation"><button type="button" class="simulate-icon-activate" data-prepared-action="activate" disabled><span aria-hidden="true">✓</span></button><button type="button" class="simulate-icon-deactivate" data-prepared-action="deactivate" disabled><span aria-hidden="true">⏻</span></button><span class="simulate-slot-status"></span></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 2" aria-pressed="false"><div class="simulate-slot-actions" role="group" aria-label="Echo activation"><button type="button" class="simulate-icon-activate" data-prepared-action="activate" disabled><span aria-hidden="true">✓</span></button><button type="button" class="simulate-icon-deactivate" data-prepared-action="deactivate" disabled><span aria-hidden="true">⏻</span></button><span class="simulate-slot-status"></span></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 3" aria-pressed="false"><div class="simulate-slot-actions" role="group" aria-label="Echo activation"><button type="button" class="simulate-icon-activate" data-prepared-action="activate" disabled><span aria-hidden="true">✓</span></button><button type="button" class="simulate-icon-deactivate" data-prepared-action="deactivate" disabled><span aria-hidden="true">⏻</span></button><span class="simulate-slot-status"></span></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 4" aria-pressed="false"><div class="simulate-slot-actions" role="group" aria-label="Echo activation"><button type="button" class="simulate-icon-activate" data-prepared-action="activate" disabled><span aria-hidden="true">✓</span></button><button type="button" class="simulate-icon-deactivate" data-prepared-action="deactivate" disabled><span aria-hidden="true">⏻</span></button><span class="simulate-slot-status"></span></div></article>
+<article class="simulate-echo-slot" role="button" tabindex="0" aria-label="Select Echo slot 5" aria-pressed="false"><div class="simulate-slot-actions" role="group" aria-label="Echo activation"><button type="button" class="simulate-icon-activate" data-prepared-action="activate" disabled><span aria-hidden="true">✓</span></button><button type="button" class="simulate-icon-deactivate" data-prepared-action="deactivate" disabled><span aria-hidden="true">⏻</span></button><span class="simulate-slot-status"></span></div></article></section>
       </div>
     </section>
   </div>
@@ -2105,17 +2119,17 @@ function improveEchoSlots(name){
 }
 function improveWorkspaceBuild(name){return improveUi.simulator&&improveUi.simulator.source.characterId===characterByName.get(name)?.id?improveUi.simulator.simulatedBuild:improveBuildState(name)}
 function improveWorkspaceSlots(name){return improveUi.simulator&&improveUi.simulator.source.characterId===characterByName.get(name)?.id?window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator):improveEchoSlots(name)}
-function projectImproveCurrentStats(name){
+function projectImproveCurrentStats(name,echoSlotsOverride=null,buildOverride=null){
   if(IMPROVE_LAYOUT_PREVIEW&&name===IMPROVE_PREVIEW_CHARACTER)return null;
   const characterId=characterByName.get(name)?.id||null;
   const project=window.bellibingProjectStaticBuildStats,forte=window.bellibingForte,tree=skillsPreviewByCharacterId.get(characterId);
   if(!characterId||!buildStatsRuntimeLoaded||!weaponDataLoaded||!echoDataLoaded||!characterMechanicsDataLoaded||!sequenceRuntimeDataLoaded||!tree||typeof project!=='function'||typeof forte?.normalizeForteState!=='function'||typeof forte?.forteStats!=='function')return null;
   const character=buildStatsCharacterById.get(characterId);if(!character)return null;
-  const build=improveWorkspaceBuild(name),weapon=build.weaponId?weaponItemById(build.weaponId):null;
+  const build=buildOverride??improveWorkspaceBuild(name),weapon=build.weaponId?weaponItemById(build.weaponId):null;
   const activeWeaponStats=weapon?.staticBuildStats??[];
   const forteState=forte.normalizeForteState(tree,build.forte),activeForteStats=forte.forteStats(tree,forteState);
   const sequenceLevel=sequenceUi.normalizeLevel(build.sequenceLevel),activeSequenceStats=reviewedStaticSequenceStats(characterId,sequenceLevel);
-  try{return project({character,weapon,echoSlots:improveWorkspaceSlots(name),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats})}
+  try{return project({character,weapon,echoSlots:echoSlotsOverride??improveWorkspaceSlots(name),echoStatContract,activeForteStats,activeSequenceStats,activeWeaponStats})}
   catch(error){console.error(error);document.documentElement.dataset.improveStatsError=String(error.message||error);return null}
 }
 // Presentation navigation only: no workspace re-render, data writes or simulator transitions.
@@ -2138,6 +2152,8 @@ function projectImproveCurrentStats(name){
   const preview=document.getElementById('simulateTemplatePreview');
   // Prepared cards never become candidates, accepted history or Character equipment.
   const preparedCards=Array(5).fill(null);
+  // Activation is detached from real equipment and accepted/candidate simulator history.
+  const preparedActive=Array(5).fill(true);
   const result=document.querySelector('.simulate-result-echo');
   const simulate=document.querySelector('.simulate-start');
   const oneSlot=document.querySelector('.simulate-modes button:first-child');
@@ -2179,7 +2195,7 @@ function projectImproveCurrentStats(name){
     const session=improveUi.simulator;
     const sessionId=session?.id??null;
     if(sessionId!==usedSessionId||improveUi.characterId!==observedCharacterId){
-      if(improveUi.characterId!==observedCharacterId){preparedCards.fill(null);augustaDefaultsApplied=false;}
+      if(improveUi.characterId!==observedCharacterId){preparedCards.fill(null);preparedActive.fill(true);augustaDefaultsApplied=false;}
       usedSessionId=sessionId;observedCharacterId=improveUi.characterId;
       message='';messageIsError=false;
       usage={echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}};
@@ -2220,10 +2236,36 @@ function projectImproveCurrentStats(name){
         appendPreparedCard(identity,ownCard,own,'simulate-slot-identity-content');
         slot.insertBefore(identity,slot.querySelector('.simulate-slot-actions'));
       }
+      const active=!!own&&preparedActive[index];
+      slot.dataset.preparedActive=String(active);
+      slot.querySelector('.simulate-slot-status').textContent=own?(active?'ACTIVE':'INACTIVE'):'EMPTY';
+      slot.querySelectorAll('[data-prepared-action]').forEach(button=>{
+        const action=button.dataset.preparedAction;
+        button.disabled=!own;
+        button.setAttribute('aria-label',(action==='activate'?'Activate':'Deactivate')+' Echo slot '+(index+1));
+        button.setAttribute('aria-pressed',String(!!own&&(action==='activate'?active:!active)));
+        button.title=(action==='activate'?'Activate':'Deactivate')+' Echo '+(index+1)+(own?(active?' (currently active)':' (currently inactive)'):' (empty slot)');
+      });
     });
   }
+  function renderPreparedStats(){
+    const host=document.querySelector('#improveEmptyCard > .improve-stats');
+    if(!host)return;
+    const head=host.querySelector('.improve-stat-head span:last-child');
+    if(head)head.textContent='Simulated';
+    const cards=preparedCards.map((card,index)=>card&&preparedActive[index]?cloneEchoSlot(card):null);
+    // Canonical static build projection: same Character/Weapon/Forte/Sequence,
+    // only active prepared Echoes. The real Current values are never rewritten.
+    const projection=projectImproveCurrentStats(improveUi.characterName,cards,improveBuildState(improveUi.characterName));
+    for(const row of host.querySelectorAll('.improve-stat-row')){
+      const spec=[...BUILD_STAT_PRIMARY_ROWS,...BUILD_STAT_EXTRA_ROWS].find(s=>s.key===row.dataset.statKey);
+      const value=row.querySelector('.improve-stat-new');
+      if(value&&spec)value.textContent=statsUi.format(projection?.[spec.key],spec.percent);
+    }
+  }
+  window.bellibingRefreshPreparedStats=renderPreparedStats;
   function renderResult(){
-    syncSession();renderPreparedCards();result.replaceChildren();
+    syncSession();renderPreparedCards();renderPreparedStats();result.replaceChildren();
     const slot=improveUi.simulator?.slots[selectedIndex]?.candidate?.card;
     const item=slot&&echoById.get(slot.echoId);
     if(item&&slot?.rank===5&&slot.level===5&&slot.substats?.length===1){
@@ -2285,6 +2327,12 @@ function projectImproveCurrentStats(name){
 
   }
   slots.forEach((slot,index)=>{
+    slot.querySelectorAll('[data-prepared-action]').forEach(button=>button.addEventListener('click',event=>{
+      event.stopPropagation();
+      if(!preparedCards[index])return;
+      preparedActive[index]=button.dataset.preparedAction==='activate';
+      renderResult();
+    }));
     slot.addEventListener('click',event=>{
       if(!event.target.closest('.simulate-slot-actions'))selectPresentationSlot(index);
     });
@@ -2515,6 +2563,7 @@ const improveUi={
     }
     host.querySelectorAll(':scope > .improve-truth,:scope > .improve-stats').forEach(section=>section.remove());
     host.prepend(...copies);
+    window.bellibingRefreshPreparedStats?.();
   }
   const observer=new MutationObserver(syncSimulateCharacterPresentation);
   sections.forEach(section=>observer.observe(section,{subtree:true,childList:true,characterData:true,attributes:true}));

@@ -122,7 +122,7 @@ Source text cross-check: [G1 Resonance Chain](https://www.prydwen.gg/wuthering-w
 | --- | --- | --- |
 | Released, rarity, element, weapon | **1/1 identity set VERIFIED**, 3.6 official release source O1/O2 | Already integrated on main. |
 | Lv90 HP/ATK/DEF/Max Energy | **HP 15375 corroborated; ATK raw decimal 312.5 vs displays 312/313; DEF0 displayed + fixed rule; Max Energy 125/140 label conflict** | **0/4 canonical Level90 fields reviewed/promoted; all remain null** pending Level90 convention, raw-vs-effective and energy cap review. |
-| Active Skills Lv1/Lv10 | **23 distinct numeric curve rows (including conditional HP components), plus fixed Shadow Step and constants**, values listed above | Both endpoints externally observable; **all Lv2–Lv9 PENDING**, no immutable data pin/ID mapping; **0** Jingran canonical ACTIONS facts. |
+| Active Skills Lv1/Lv10 | **22 distinct percentage-based numeric curve rows (including two conditional HP rows), plus flat Shadow Step and fixed Outro**, values listed above | Both endpoints externally observable; **all Lv2–Lv9 PENDING**, no immutable data pin/ID mapping; **0** Jingran canonical ACTIONS facts. |
 | Forte + resource state | Two stances, Qi/Fire/Mark/Shroud, Yinghuo, HP scaling, shield/ATK effects, conditions | Narrative/source-text cross-check only; **canonical FORTE_RULES and modeled timings PENDING**. |
 | Intro/Outro | Intro Lv1/Lv10 and Outro 795% with named buffs/resources | **Canonical Intro/OUTRO_EFFECT and execution PENDING**. |
 | Inherent Skills | **2/2 combat Inherent Skill descriptions externally corroborated** | Source pin/tree nodes/conditions and mechanics rows PENDING. |

@@ -35,6 +35,8 @@ The merged Character data includes 59 reviewed signature/no-signature relationsh
 
 ### Team-aware rotation references
 
+The [alternative team context candidate](ALTERNATIVE_TEAM_CONTEXTS.md) adds 390 guide composition contexts (380 unique trios), including 267 alternatives, source-recommended core variants and one explicitly named source BiS reference. All 59 released identities occur as members. Budget/standard/protagonist partners, premium alternatives, scoped healer substitutions and mode/dependency warnings are separate from a 543-context unranked model discovery pool. Alternative timing/DPS remains a later workstream; existing defaults are unchanged.
+
 The merged reference catalog maps Prydwen-only baseline rotations for 59 released identities: 96 references, with ordered sequences for 57 Characters and explicit priority-only guidance for Jianxin/Yuanwu. Team/mode/Intro differences, preparation and partner handoffs are preserved. Contextual lookup and detached database joins are reference data; existing executable presets and DPS readiness are unchanged. See [scope and consumer contract](TEAM_AWARE_ROTATION_REFERENCES.md). The coordination candidate sorts all 96 references and explains 19 reviewed team/partner cases with short difference notes. A bounded Aalto hit/Echo bridge reuses existing combat math; the public rotation registry has no active engines, so full player-build team DPS remains Pending. See [coordination and integration contract](TEAM_ROTATION_COORDINATION.md).
 
 ### Improve policy and Echo guidance

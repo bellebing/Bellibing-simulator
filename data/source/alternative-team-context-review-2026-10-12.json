@@ -1,0 +1,2495 @@
+{
+  "schemaVersion": 1,
+  "role": "alternative-team.reviewed-slot-compositions",
+  "reviewedAt": "2026-10-12",
+  "guideArtifact": "data/source/prydwen-character-recommendations-2026-10-11.json",
+  "guideSha256": "e616abe67973c6c0068ccacfe2f2fe5ff61f20f7b0855451c655156082e63876",
+  "modelArtifact": "data/source/alternative-team-model-roster-2026-10-12.json",
+  "modelSha256": "e01be3de0b5aef88ceb0137d66df4707edb76acf3e8797a5343e138592ca5c7f",
+  "rules": [
+    {
+      "id": "aalto-slots-1",
+      "anchorCharacterId": "aalto",
+      "guideOwnerId": "aalto",
+      "partnerOptions": [
+        "ciaccona"
+      ],
+      "supportOptions": [
+        "rover-aero",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "ciaccona"
+      ],
+      "modeRequirements": {},
+      "whySv": "Ciaccona stödjer ett Aero-DPS-Aalto; tredje medlemmen ger stöd och sustain.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "aalto",
+          "sourceLine": 582
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "aalto",
+          "sourceLine": 585
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "aalto",
+          "sourceLine": 587
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "aalto",
+          "sourceLine": 586
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "aemeath-slots-2",
+      "anchorCharacterId": "aemeath",
+      "guideOwnerId": "aemeath",
+      "partnerOptions": [
+        "lynae"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lynae"
+      ],
+      "modeRequirements": {
+        "aemeath": "tune-rupture",
+        "lynae": "tune-rupture"
+      },
+      "whySv": "Lynae ger Tune Rupture-synergi; generaliststöd är möjliga alternativ.",
+      "conditionsSv": [
+        "Utan Mornye förloras delar av den specialiserade Tune-synergin."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1025
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1029
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1029
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1029
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "aemeath-slots-3",
+      "anchorCharacterId": "aemeath",
+      "guideOwnerId": "aemeath",
+      "partnerOptions": [
+        "denia"
+      ],
+      "supportOptions": [
+        "chisa",
+        "lupa"
+      ],
+      "topCorePartners": [
+        "denia"
+      ],
+      "modeRequirements": {
+        "aemeath": "fusion-burst",
+        "denia": "fusion-burst"
+      },
+      "whySv": "Denia bygger Fusion Burst medan Chisa eller Lupa fyller tredje rollen.",
+      "conditionsSv": [
+        "Med Lupa behöver Denias/Lupas Echo-set och Outro-kedja anpassas.",
+        "Chisa kräver separat sustain-bedömning; detta är inte automatiskt ett healer-lag."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "denia",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1025
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1029
+        },
+        {
+          "characterId": "lupa",
+          "guideOwnerId": "aemeath",
+          "sourceLine": 1027
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "augusta-slots-4",
+      "anchorCharacterId": "augusta",
+      "guideOwnerId": "augusta",
+      "partnerOptions": [
+        "iuno",
+        "lynae",
+        "rebecca",
+        "mortefi"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "iuno"
+      ],
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "whySv": "Heavy-orienterade partners och generaliststöd ger alternativa buffkedjor.",
+      "conditionsSv": [
+        "Mortefi eller generalistpartners ersätter inte Iunos hela shield/Heavy-synergi."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "augusta",
+          "sourceLine": 878
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "augusta",
+          "sourceLine": 878
+        },
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "augusta",
+          "sourceLine": 878
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "augusta",
+          "sourceLine": 878
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "augusta",
+          "sourceLine": 879
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "augusta",
+          "sourceLine": 879
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "augusta",
+          "sourceLine": 879
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "calcharo-slots-5",
+      "anchorCharacterId": "calcharo",
+      "guideOwnerId": "calcharo",
+      "partnerOptions": [
+        "lynae",
+        "yinlin"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lynae"
+      ],
+      "modeRequirements": {},
+      "whySv": "Lynae är generalistbuffer; Yinlin ger Electro/Liberation och off-field-bidrag.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "calcharo",
+          "sourceLine": 677
+        },
+        {
+          "characterId": "yinlin",
+          "guideOwnerId": "calcharo",
+          "sourceLine": 678
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "calcharo",
+          "sourceLine": 679
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "calcharo",
+          "sourceLine": 679
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "calcharo",
+          "sourceLine": 679
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "camellya-slots-6",
+      "anchorCharacterId": "camellya",
+      "guideOwnerId": "camellya",
+      "partnerOptions": [
+        "roccia",
+        "lynae",
+        "sanhua",
+        "danjin"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lynae"
+      ],
+      "modeRequirements": {},
+      "whySv": "Alternativa hybridbuffare för Havoc/Basic-carry med generaliststöd.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "roccia",
+          "guideOwnerId": "camellya",
+          "sourceLine": 766
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "camellya",
+          "sourceLine": 766
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "camellya",
+          "sourceLine": 766
+        },
+        {
+          "characterId": "danjin",
+          "guideOwnerId": "camellya",
+          "sourceLine": 766
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "camellya",
+          "sourceLine": 768
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "camellya",
+          "sourceLine": 768
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "camellya",
+          "sourceLine": 768
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "carlotta-slots-7",
+      "anchorCharacterId": "carlotta",
+      "guideOwnerId": "carlotta",
+      "partnerOptions": [
+        "zhezhi",
+        "brant",
+        "cantarella",
+        "lynae",
+        "yangyang",
+        "taoqi"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "zhezhi"
+      ],
+      "modeRequirements": {},
+      "whySv": "Skill-buffare, energi eller egen skada kan ersätta den dedikerade hybridpartnern.",
+      "conditionsSv": [
+        "Taoqi/Yangyang är tillgängligare val med annan fälttid och buffprofil."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "zhezhi",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 664
+        },
+        {
+          "characterId": "brant",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 664
+        },
+        {
+          "characterId": "cantarella",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 664
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 664
+        },
+        {
+          "characterId": "yangyang",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 666
+        },
+        {
+          "characterId": "taoqi",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 666
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 668
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 668
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "carlotta",
+          "sourceLine": 668
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "cartethyia-slots-8",
+      "anchorCharacterId": "cartethyia",
+      "guideOwnerId": "cartethyia",
+      "partnerOptions": [
+        "ciaccona"
+      ],
+      "supportOptions": [
+        "rover-aero",
+        "chisa",
+        "the-shorekeeper"
+      ],
+      "topCorePartners": [
+        "ciaccona"
+      ],
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "whySv": "Ciaccona applicerar Erosion; tredje-slotten väljs för cap/stöd/sustain.",
+      "conditionsSv": [
+        "Chisa med skade-build är inte automatiskt healer.",
+        "Shorekeeper ersätter inte Aero Rovers/Chisas stack-cap-funktion."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 784
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 785
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 785
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 785
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "cartethyia-slots-9",
+      "anchorCharacterId": "cartethyia",
+      "guideOwnerId": "cartethyia",
+      "partnerOptions": [
+        "sanhua"
+      ],
+      "supportOptions": [
+        "rover-aero",
+        "the-shorekeeper"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "whySv": "Sanhua är guidens budgetpartner för Basic-delen.",
+      "conditionsSv": [
+        "Utan Ciaccona måste Erosion-kontexten och förbrukningen granskas separat."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 788
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 785
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "cartethyia",
+          "sourceLine": 785
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "changli-slots-10",
+      "anchorCharacterId": "changli",
+      "guideOwnerId": "changli",
+      "partnerOptions": [
+        "aemeath",
+        "brant",
+        "zhezhi",
+        "chixia",
+        "encore",
+        "yangyang"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "aemeath",
+        "brant"
+      ],
+      "modeRequirements": {},
+      "whySv": "Fusion/Skill-buffing eller delade skadebidrag ger alternativa lag.",
+      "conditionsSv": [
+        "Vissa dual-DPS-par gynnas av quickswap; detta är lagunderlag, inte en enkel rotationsgaranti."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "aemeath",
+          "guideOwnerId": "changli",
+          "sourceLine": 692
+        },
+        {
+          "characterId": "brant",
+          "guideOwnerId": "changli",
+          "sourceLine": 692
+        },
+        {
+          "characterId": "zhezhi",
+          "guideOwnerId": "changli",
+          "sourceLine": 695
+        },
+        {
+          "characterId": "chixia",
+          "guideOwnerId": "changli",
+          "sourceLine": 696
+        },
+        {
+          "characterId": "encore",
+          "guideOwnerId": "changli",
+          "sourceLine": 697
+        },
+        {
+          "characterId": "yangyang",
+          "guideOwnerId": "changli",
+          "sourceLine": 702
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "changli",
+          "sourceLine": 704
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "changli",
+          "sourceLine": 703
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "chixia-slots-11",
+      "anchorCharacterId": "chixia",
+      "guideOwnerId": "chixia",
+      "partnerOptions": [
+        "brant",
+        "changli",
+        "lupa"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "brant"
+      ],
+      "modeRequirements": {},
+      "whySv": "Fusion-buffing och partnerskada kan kombineras med en generalisthealer.",
+      "conditionsSv": [
+        "Lupa utan full Mono Fusion tappar den specialiserade lagbonusen."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "brant",
+          "guideOwnerId": "chixia",
+          "sourceLine": 527
+        },
+        {
+          "characterId": "changli",
+          "guideOwnerId": "chixia",
+          "sourceLine": 528
+        },
+        {
+          "characterId": "lupa",
+          "guideOwnerId": "chixia",
+          "sourceLine": 529
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "chixia",
+          "sourceLine": 531
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "chixia",
+          "sourceLine": 530
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "ciaccona-slots-12",
+      "anchorCharacterId": "ciaccona",
+      "guideOwnerId": "ciaccona",
+      "partnerOptions": [
+        "sanhua"
+      ],
+      "supportOptions": [
+        "chisa",
+        "rover-aero",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "sanhua"
+      ],
+      "modeRequirements": {
+        "ciaccona": "main-dps"
+      },
+      "whySv": "Guiden beskriver Sanhua som partner för Ciaccona i egen DPS-roll.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "ciaccona",
+          "sourceLine": 833
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "ciaccona",
+          "sourceLine": 834
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "ciaccona",
+          "sourceLine": 834
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "ciaccona",
+          "sourceLine": 834
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "ciaccona",
+          "sourceLine": 834
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "danjin-slots-13",
+      "anchorCharacterId": "danjin",
+      "guideOwnerId": "danjin",
+      "partnerOptions": [
+        "cantarella",
+        "roccia",
+        "mortefi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "cantarella"
+      ],
+      "modeRequirements": {
+        "danjin": "dps"
+      },
+      "whySv": "Danjin kan använda Havoc/Heavy-stöd och generalisthealing.",
+      "conditionsSv": [
+        "Detta är Danjin som carry; hennes korta hybridroll är en annan kontext."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "cantarella",
+          "guideOwnerId": "danjin",
+          "sourceLine": 667
+        },
+        {
+          "characterId": "roccia",
+          "guideOwnerId": "danjin",
+          "sourceLine": 669
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "danjin",
+          "sourceLine": 670
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "danjin",
+          "sourceLine": 672
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "danjin",
+          "sourceLine": 671
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "encore-slots-14",
+      "anchorCharacterId": "encore",
+      "guideOwnerId": "encore",
+      "partnerOptions": [
+        "lupa",
+        "sanhua",
+        "changli",
+        "brant"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lupa"
+      ],
+      "modeRequirements": {},
+      "whySv": "Sanhua ger ett tillgängligare Basic-stöd; Fusion-partners ger andra buffkedjor.",
+      "conditionsSv": [
+        "Changli/Brant-varianten är dual-DPS och kan behöva fler byten."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lupa",
+          "guideOwnerId": "encore",
+          "sourceLine": 719
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "encore",
+          "sourceLine": 721
+        },
+        {
+          "characterId": "changli",
+          "guideOwnerId": "encore",
+          "sourceLine": 722
+        },
+        {
+          "characterId": "brant",
+          "guideOwnerId": "encore",
+          "sourceLine": 723
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "encore",
+          "sourceLine": 724
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "encore",
+          "sourceLine": 724
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "encore",
+          "sourceLine": 724
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "galbrena-slots-15",
+      "anchorCharacterId": "galbrena",
+      "guideOwnerId": "galbrena",
+      "partnerOptions": [
+        "qiuyuan",
+        "lucilla",
+        "brant",
+        "mortefi",
+        "phrolova",
+        "iuno",
+        "rebecca"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "qiuyuan",
+        "lucilla"
+      ],
+      "modeRequirements": {
+        "lucilla": "echo-skill"
+      },
+      "whySv": "Echo-buffare är kärnval; Heavy/Fusion-buffare och egen partnerskada är fungerande ersättare.",
+      "conditionsSv": [
+        "Mortefi täcker Heavy-delen men ersätter inte Echo-buffing och alla extra Afterflame-källor.",
+        "Variera partnernas Echo-namn för Galbrenas Afterflame.",
+        "Lucilla använder Echo-mode; Qiuyuan använder sin buffarroll, inte sin separata DPS-kontext."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "qiuyuan",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 795
+        },
+        {
+          "characterId": "lucilla",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 795
+        },
+        {
+          "characterId": "brant",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 796
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 796
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 798
+        },
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 798
+        },
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 798
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 800
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 800
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "galbrena",
+          "sourceLine": 800
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "hiyuki-slots-16",
+      "anchorCharacterId": "hiyuki",
+      "guideOwnerId": "hiyuki",
+      "partnerOptions": [
+        "lucilla",
+        "lynae",
+        "yinlin",
+        "zhezhi",
+        "changli",
+        "jianxin"
+      ],
+      "supportOptions": [
+        "suisui",
+        "chisa",
+        "mornye",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lucilla",
+        "lynae"
+      ],
+      "modeRequirements": {
+        "lucilla": "glacio-chafe"
+      },
+      "whySv": "Lucilla/Lynae är kärnval; övriga hybrids är guidens sista-utväg-alternativ.",
+      "conditionsSv": [
+        "Yinlin/Zhezhi/Changli/Jianxin har tydligt svagare kitpassning."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lucilla",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 934
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 934
+        },
+        {
+          "characterId": "yinlin",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 938
+        },
+        {
+          "characterId": "zhezhi",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 938
+        },
+        {
+          "characterId": "changli",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 938
+        },
+        {
+          "characterId": "jianxin",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 938
+        },
+        {
+          "characterId": "suisui",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 936
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 936
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 936
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "hiyuki",
+          "sourceLine": 936
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "hsin-slots-17",
+      "anchorCharacterId": "hsin",
+      "guideOwnerId": "hsin",
+      "partnerOptions": [
+        "rover-electro"
+      ],
+      "supportOptions": [
+        "suisui",
+        "chisa",
+        "buling"
+      ],
+      "topCorePartners": [
+        "rover-electro"
+      ],
+      "modeRequirements": {
+        "hsin": "electro-flare"
+      },
+      "whySv": "Electro Rover är Flare-kärnan; Buling är guidens tillgängligare supportfallback.",
+      "conditionsSv": [
+        "Chisa kan gynna quickswap och kräver separat sustain-setup."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "rover-electro",
+          "guideOwnerId": "hsin",
+          "sourceLine": 912
+        },
+        {
+          "characterId": "suisui",
+          "guideOwnerId": "hsin",
+          "sourceLine": 913
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "hsin",
+          "sourceLine": 913
+        },
+        {
+          "characterId": "buling",
+          "guideOwnerId": "hsin",
+          "sourceLine": 913
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "hsin-slots-18",
+      "anchorCharacterId": "hsin",
+      "guideOwnerId": "hsin",
+      "partnerOptions": [
+        "jinhsi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "hsin": "unison"
+      },
+      "whySv": "Jinhsi möjliggör den nuvarande releasade Unison-varianten.",
+      "conditionsSv": [
+        "Detta är ett preferensalternativ till Flare, inte guidens universellt bästa Hsin-lag."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "jinhsi",
+          "guideOwnerId": "hsin",
+          "sourceLine": 912
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "hsin",
+          "sourceLine": 913
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "iuno-slots-19",
+      "anchorCharacterId": "iuno",
+      "guideOwnerId": "iuno",
+      "partnerOptions": [
+        "lynae",
+        "ciaccona",
+        "yinlin",
+        "jianxin"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina",
+        "rover-aero"
+      ],
+      "topCorePartners": [
+        "lynae",
+        "ciaccona"
+      ],
+      "modeRequirements": {
+        "iuno": "dps",
+        "lynae": "tune-rupture"
+      },
+      "whySv": "Iuno i DPS-roll kan använda flera Aero/Liberation-buffare.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "iuno",
+          "sourceLine": 942
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "iuno",
+          "sourceLine": 942
+        },
+        {
+          "characterId": "yinlin",
+          "guideOwnerId": "iuno",
+          "sourceLine": 942
+        },
+        {
+          "characterId": "jianxin",
+          "guideOwnerId": "iuno",
+          "sourceLine": 942
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "iuno",
+          "sourceLine": 946
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "iuno",
+          "sourceLine": 946
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "iuno",
+          "sourceLine": 946
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "iuno",
+          "sourceLine": 946
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jianxin-slots-20",
+      "anchorCharacterId": "jianxin",
+      "guideOwnerId": "jianxin",
+      "partnerOptions": [
+        "mortefi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {},
+      "whySv": "Mortefi har guidestödd särskild synergi med Jianxins kanaliserade arbete.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "jianxin",
+          "sourceLine": 565
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "jianxin",
+          "sourceLine": 568
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "jianxin",
+          "sourceLine": 567
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jingran-slots-21",
+      "anchorCharacterId": "jingran",
+      "guideOwnerId": "jingran",
+      "partnerOptions": [
+        "iuno",
+        "lupa",
+        "mortefi",
+        "rebecca"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "iuno",
+        "lupa"
+      ],
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "whySv": "Shield/Heavy-kärna eller Fusion-kärna; Mortefi/Rebecca är enklare buffalternativ.",
+      "conditionsSv": [
+        "Jingran är HP-skalande: ATK-buffar ersätter inte relevant Heavy/shield-buffing."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "jingran",
+          "sourceLine": 770
+        },
+        {
+          "characterId": "lupa",
+          "guideOwnerId": "jingran",
+          "sourceLine": 770
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "jingran",
+          "sourceLine": 771
+        },
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "jingran",
+          "sourceLine": 771
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "jingran",
+          "sourceLine": 772
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "jingran",
+          "sourceLine": 772
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "jingran",
+          "sourceLine": 772
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jinhsi-slots-22",
+      "anchorCharacterId": "jinhsi",
+      "guideOwnerId": "jinhsi",
+      "partnerOptions": [
+        "zhezhi",
+        "yinlin",
+        "cantarella",
+        "brant",
+        "changli",
+        "yuanwu",
+        "mortefi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "zhezhi"
+      ],
+      "modeRequirements": {},
+      "whySv": "Coordinated attackers laddar Forte; Yuanwu/Mortefi är tillgängliga alternativa kärnbidrag.",
+      "conditionsSv": [
+        "Byt inte till generisk healer utan att ta hänsyn till coordinated-attacks och Jinhsi-Intros."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "zhezhi",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 858
+        },
+        {
+          "characterId": "yinlin",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 858
+        },
+        {
+          "characterId": "cantarella",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 858
+        },
+        {
+          "characterId": "brant",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 860
+        },
+        {
+          "characterId": "changli",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 860
+        },
+        {
+          "characterId": "yuanwu",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 861
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 861
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 862
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "jinhsi",
+          "sourceLine": 862
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jiyan-slots-23",
+      "anchorCharacterId": "jiyan",
+      "guideOwnerId": "jiyan",
+      "partnerOptions": [
+        "iuno",
+        "phrolova",
+        "rebecca",
+        "mortefi",
+        "ciaccona",
+        "lynae"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina",
+        "rover-aero"
+      ],
+      "topCorePartners": [
+        "iuno"
+      ],
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "whySv": "Heavy-buffare eller Aero/generalistpartners fungerar i olika alternativ.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 644
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 644
+        },
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 644
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 644
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 645
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 645
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 647
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 647
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 647
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "jiyan",
+          "sourceLine": 647
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "lingyang-slots-24",
+      "anchorCharacterId": "lingyang",
+      "guideOwnerId": "lingyang",
+      "partnerOptions": [
+        "lynae",
+        "zhezhi",
+        "sanhua"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lynae",
+        "zhezhi"
+      ],
+      "modeRequirements": {},
+      "whySv": "Sanhua är tillgängligare Basic-buffare bredvid guidens premiumalternativ.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "lingyang",
+          "sourceLine": 600
+        },
+        {
+          "characterId": "zhezhi",
+          "guideOwnerId": "lingyang",
+          "sourceLine": 600
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "lingyang",
+          "sourceLine": 601
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "lingyang",
+          "sourceLine": 603
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "lingyang",
+          "sourceLine": 602
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "lucy-slots-25",
+      "anchorCharacterId": "lucy",
+      "guideOwnerId": "lucy",
+      "partnerOptions": [
+        "rebecca"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "rebecca"
+      ],
+      "modeRequirements": {},
+      "whySv": "Rebecca är specialiserad partner; olika generalisthealers kan frigöra samma healer för andra lag.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "lucy",
+          "sourceLine": 799
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "lucy",
+          "sourceLine": 800
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "lucy",
+          "sourceLine": 800
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "lucy",
+          "sourceLine": 800
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "luuk-herssen-slots-26",
+      "anchorCharacterId": "luuk-herssen",
+      "guideOwnerId": "luuk-herssen",
+      "partnerOptions": [
+        "denia"
+      ],
+      "supportOptions": [
+        "mornye"
+      ],
+      "topCorePartners": [
+        "denia"
+      ],
+      "modeRequirements": {
+        "denia": "tune-strain"
+      },
+      "whySv": "Denias Tune Strain-kontext är starkt knuten till Mornye.",
+      "conditionsSv": [
+        "Mornye ersätts inte som likvärdig healer i denna kärna."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "denia",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 713
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 715
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "luuk-herssen-slots-27",
+      "anchorCharacterId": "luuk-herssen",
+      "guideOwnerId": "luuk-herssen",
+      "partnerOptions": [
+        "lynae",
+        "sanhua"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "lynae": "tune-strain"
+      },
+      "whySv": "Lynae eller Sanhua är alternativa second-slot-partners.",
+      "conditionsSv": [
+        "Lynae använder Tune Strain när hon ingår; kravfält för frånvarande medlemmar ignoreras."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 713
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 713
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 715
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 715
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "luuk-herssen",
+          "sourceLine": 715
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "phoebe-slots-28",
+      "anchorCharacterId": "phoebe",
+      "guideOwnerId": "phoebe",
+      "partnerOptions": [
+        "rover-spectro",
+        "ciaccona",
+        "chisa"
+      ],
+      "supportOptions": [
+        "lynae",
+        "rebecca",
+        "phrolova",
+        "mortefi",
+        "sanhua",
+        "iuno"
+      ],
+      "topCorePartners": [
+        "rover-spectro"
+      ],
+      "modeRequirements": {
+        "phoebe": "absolution",
+        "ciaccona": "spectro-frazzle"
+      },
+      "whySv": "DPS-Phoebe behöver Frazzle-applikation tillsammans med en buffpartner.",
+      "conditionsSv": [
+        "Ciaccona ska applicera Spectro Frazzle.",
+        "Här är applier och buffpartner särskilda roller; tredje slotten är inte automatiskt healer."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "rover-spectro",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 780
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 780
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 780
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 781
+        },
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 781
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 781
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 783
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 783
+        },
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "phoebe",
+          "sourceLine": 783
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "phrolova-slots-29",
+      "anchorCharacterId": "phrolova",
+      "guideOwnerId": "phrolova",
+      "partnerOptions": [
+        "lucilla",
+        "cantarella",
+        "sigrika",
+        "lynae"
+      ],
+      "supportOptions": [
+        "qiuyuan",
+        "roccia",
+        "danjin",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lucilla",
+        "cantarella"
+      ],
+      "modeRequirements": {
+        "lucilla": "echo-skill"
+      },
+      "whySv": "Echo/Skill-stöd eller delade damage-bidrag kan fylla partnerrollerna.",
+      "conditionsSv": [
+        "Qiuyuan/Roccia/Danjin som tredje medlem ger inte samma sustain som Verina/Shorekeeper."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lucilla",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 837
+        },
+        {
+          "characterId": "cantarella",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 837
+        },
+        {
+          "characterId": "sigrika",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 837
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 837
+        },
+        {
+          "characterId": "qiuyuan",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 839
+        },
+        {
+          "characterId": "roccia",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 839
+        },
+        {
+          "characterId": "danjin",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 839
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 843
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "phrolova",
+          "sourceLine": 843
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "qingxiao-slots-30",
+      "anchorCharacterId": "qingxiao",
+      "guideOwnerId": "qingxiao",
+      "partnerOptions": [
+        "denia"
+      ],
+      "supportOptions": [
+        "mornye"
+      ],
+      "topCorePartners": [
+        "denia"
+      ],
+      "modeRequirements": {
+        "denia": "tune-strain"
+      },
+      "whySv": "Guidens uttryckliga bästa Tune Strain-trio.",
+      "conditionsSv": [
+        "Denia utan Mornye rekommenderas inte som standardfallback."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "denia",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 707
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 708
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "qingxiao-slots-31",
+      "anchorCharacterId": "qingxiao",
+      "guideOwnerId": "qingxiao",
+      "partnerOptions": [
+        "lynae"
+      ],
+      "supportOptions": [
+        "mornye",
+        "ciaccona",
+        "the-shorekeeper"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "lynae": "tune-strain"
+      },
+      "whySv": "Lynae är alternativ till Denia och tillåter fler tredje-slot-val.",
+      "conditionsSv": [
+        "Ciaccona är inte healer; lagets sustain måste bedömas separat.",
+        "Ciacconas Signature kan påverka lagbuffingen; rollen är ett supportalternativ, inte likvärdig Mornye-healing."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 707
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 708
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 708
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "qingxiao",
+          "sourceLine": 708
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "qiuyuan-slots-32",
+      "anchorCharacterId": "qiuyuan",
+      "guideOwnerId": "qiuyuan",
+      "partnerOptions": [
+        "sigrika",
+        "galbrena",
+        "phrolova"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "qiuyuan": "dps"
+      },
+      "whySv": "Alternativa delade Echo-damage-kontexter från guidepartnerna.",
+      "conditionsSv": [
+        "Qiuyuan-carry är en egen kontext; detta får inte blandas med hans vanliga buffarroll."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "sigrika",
+          "guideOwnerId": "qiuyuan",
+          "sourceLine": 734
+        },
+        {
+          "characterId": "galbrena",
+          "guideOwnerId": "qiuyuan",
+          "sourceLine": 734
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "qiuyuan",
+          "sourceLine": 734
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "qiuyuan",
+          "sourceLine": 736
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "qiuyuan",
+          "sourceLine": 736
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "rover-havoc-slots-33",
+      "anchorCharacterId": "rover-havoc",
+      "guideOwnerId": "rover-havoc",
+      "partnerOptions": [
+        "roccia",
+        "phrolova",
+        "danjin",
+        "sanhua",
+        "cantarella"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "roccia"
+      ],
+      "modeRequirements": {
+        "rover-havoc": "single-carry"
+      },
+      "whySv": "Havoc/Basic-stöd eller extra partnerskada ger flera ersättningsvägar.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "roccia",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 633
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 634
+        },
+        {
+          "characterId": "danjin",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 635
+        },
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 636
+        },
+        {
+          "characterId": "cantarella",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 637
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 640
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "rover-havoc",
+          "sourceLine": 639
+        }
+      ],
+      "allowBaizhiFallback": true,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "sigrika-slots-34",
+      "anchorCharacterId": "sigrika",
+      "guideOwnerId": "sigrika",
+      "partnerOptions": [
+        "qiuyuan",
+        "lucilla",
+        "ciaccona",
+        "lynae",
+        "phrolova"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "mornye",
+        "verina",
+        "rover-aero"
+      ],
+      "topCorePartners": [
+        "qiuyuan"
+      ],
+      "modeRequirements": {
+        "lucilla": "echo-skill"
+      },
+      "whySv": "Echo-buffare eller en alternativ damage-partner tillsammans med stöd.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "qiuyuan",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 753
+        },
+        {
+          "characterId": "lucilla",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 753
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 753
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 753
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 755
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 757
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 757
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 757
+        },
+        {
+          "characterId": "rover-aero",
+          "guideOwnerId": "sigrika",
+          "sourceLine": 757
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "xiangli-yao-slots-35",
+      "anchorCharacterId": "xiangli-yao",
+      "guideOwnerId": "xiangli-yao",
+      "partnerOptions": [
+        "lynae",
+        "yinlin",
+        "jianxin",
+        "yangyang",
+        "changli"
+      ],
+      "supportOptions": [
+        "mornye",
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "lynae",
+        "yinlin"
+      ],
+      "modeRequirements": {},
+      "whySv": "Jianxin/Yangyang är alternativ till premierade Liberation/Electro-buffare.",
+      "conditionsSv": [
+        "Changli rekommenderas inte till casual-spelare; Yangyang kan kräva quickswap för sin fulla nytta.",
+        "Liberation/Concerto-energi måste byggas; ett healerbyte bevisar inte att samma korta loop fungerar."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 676
+        },
+        {
+          "characterId": "yinlin",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 676
+        },
+        {
+          "characterId": "jianxin",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 678
+        },
+        {
+          "characterId": "yangyang",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 679
+        },
+        {
+          "characterId": "changli",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 677
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 680
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 680
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "xiangli-yao",
+          "sourceLine": 680
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "yangyang-xuanling-slots-36",
+      "anchorCharacterId": "yangyang-xuanling",
+      "guideOwnerId": "yangyang-xuanling",
+      "partnerOptions": [
+        "rebecca",
+        "lynae",
+        "phrolova",
+        "iuno",
+        "mortefi"
+      ],
+      "supportOptions": [
+        "chisa",
+        "suisui",
+        "mornye",
+        "verina"
+      ],
+      "topCorePartners": [
+        "rebecca"
+      ],
+      "modeRequirements": {},
+      "whySv": "Heavy-buffare och Havoc Bane/generaliststöd ger premium- och budgetalternativ.",
+      "conditionsSv": [
+        "Chisa/Suisui är den specialiserade stödvägen; Mornye/Verina är generalistfallbacks."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "rebecca",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 653
+        },
+        {
+          "characterId": "lynae",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 653
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 653
+        },
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 653
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 653
+        },
+        {
+          "characterId": "chisa",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 651
+        },
+        {
+          "characterId": "suisui",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 651
+        },
+        {
+          "characterId": "mornye",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 655
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "yangyang-xuanling",
+          "sourceLine": 655
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "zani-slots-37",
+      "anchorCharacterId": "zani",
+      "guideOwnerId": "zani",
+      "partnerOptions": [
+        "phoebe",
+        "rover-spectro",
+        "ciaccona"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "phoebe"
+      ],
+      "modeRequirements": {
+        "phoebe": "confession",
+        "ciaccona": "spectro-frazzle"
+      },
+      "whySv": "Zani behöver Frazzle-applikation; Phoebe är kärnval, Rover/Ciaccona är alternativ.",
+      "conditionsSv": [
+        "Ciaccona använder Spectro Frazzle; mindre Frazzle kan begränsa Blaze-resursen."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "phoebe",
+          "guideOwnerId": "zani",
+          "sourceLine": 717
+        },
+        {
+          "characterId": "rover-spectro",
+          "guideOwnerId": "zani",
+          "sourceLine": 718
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "zani",
+          "sourceLine": 718
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "zani",
+          "sourceLine": 720
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "zani",
+          "sourceLine": 720
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "zani-slots-38",
+      "anchorCharacterId": "zani",
+      "guideOwnerId": "zani",
+      "partnerOptions": [
+        "iuno",
+        "phrolova",
+        "mortefi"
+      ],
+      "supportOptions": [
+        "rover-spectro",
+        "ciaccona"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {
+        "ciaccona": "spectro-frazzle"
+      },
+      "whySv": "Heavy-buffaren kombineras med en separat Frazzle-applier.",
+      "conditionsSv": [
+        "Mortefi applicerar inte Frazzle: ta inte bort applier-slotten.",
+        "Detta är inte automatiskt ett fullständigt healer-lag."
+      ],
+      "pairingProofs": [
+        {
+          "characterId": "iuno",
+          "guideOwnerId": "zani",
+          "sourceLine": 719
+        },
+        {
+          "characterId": "phrolova",
+          "guideOwnerId": "zani",
+          "sourceLine": 719
+        },
+        {
+          "characterId": "mortefi",
+          "guideOwnerId": "zani",
+          "sourceLine": 719
+        },
+        {
+          "characterId": "rover-spectro",
+          "guideOwnerId": "zani",
+          "sourceLine": 718
+        },
+        {
+          "characterId": "ciaccona",
+          "guideOwnerId": "zani",
+          "sourceLine": 718
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "carlotta-slots-39",
+      "anchorCharacterId": "carlotta",
+      "guideOwnerId": "lumi",
+      "partnerOptions": [
+        "lumi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {},
+      "whySv": "Lumiguide beskriver Skill-buffing för Carlotta som ett tillgängligare alternativ.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "lumi",
+          "guideOwnerId": "lumi",
+          "sourceLine": 603
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "lumi",
+          "sourceLine": 605
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "lumi",
+          "sourceLine": 604
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jinhsi-slots-40",
+      "anchorCharacterId": "jinhsi",
+      "guideOwnerId": "taoqi",
+      "partnerOptions": [
+        "taoqi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {},
+      "whySv": "Taoqiguide beskriver Jinhsi Skill-nukes, särskilt med Verina som support.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "taoqi",
+          "guideOwnerId": "taoqi",
+          "sourceLine": 540
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "taoqi",
+          "sourceLine": 542
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "taoqi",
+          "sourceLine": 541
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "jinhsi-slots-41",
+      "anchorCharacterId": "jinhsi",
+      "guideOwnerId": "lumi",
+      "partnerOptions": [
+        "lumi"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [],
+      "modeRequirements": {},
+      "whySv": "Lumiguide beskriver Jinhsi Skill-buffing som ett alternativ.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "lumi",
+          "guideOwnerId": "lumi",
+          "sourceLine": 602
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "lumi",
+          "sourceLine": 605
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "lumi",
+          "sourceLine": 604
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    },
+    {
+      "id": "brant-slots-42",
+      "anchorCharacterId": "brant",
+      "guideOwnerId": "sanhua",
+      "partnerOptions": [
+        "sanhua"
+      ],
+      "supportOptions": [
+        "the-shorekeeper",
+        "verina"
+      ],
+      "topCorePartners": [
+        "sanhua"
+      ],
+      "modeRequirements": {
+        "brant": "dps"
+      },
+      "whySv": "Sanhua stödjer Basic-orienterad hypercarry-Brant.",
+      "conditionsSv": [],
+      "pairingProofs": [
+        {
+          "characterId": "sanhua",
+          "guideOwnerId": "sanhua",
+          "sourceLine": 558
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "guideOwnerId": "sanhua",
+          "sourceLine": 562
+        },
+        {
+          "characterId": "verina",
+          "guideOwnerId": "sanhua",
+          "sourceLine": 561
+        }
+      ],
+      "allowBaizhiFallback": false,
+      "basis": "MANUALLY_REVIEWED_GUIDE_SLOT_COMPOSITION_NOT_EXACT_PUBLISHED_TRIO"
+    }
+  ],
+  "fullyNamedBisReferences": [
+    {
+      "characterIds": [
+        "qingxiao",
+        "denia",
+        "mornye"
+      ],
+      "sourceOwnerId": "qingxiao",
+      "sourceLines": [
+        707,
+        708,
+        714
+      ],
+      "context": "Tune Strain, Mornye available; source recommendation, not universal game fact."
+    }
+  ],
+  "specialParties": [
+    {
+      "anchor": "galbrena",
+      "party": [
+        "galbrena",
+        "lupa",
+        "mortefi"
+      ],
+      "owner": "galbrena",
+      "lines": [
+        796,
+        797,
+        809
+      ],
+      "whySv": "Mono Fusion med Mortefi som alternativ till Brant.",
+      "conditionsSv": [
+        "Brant/Mortefi-jämförelsen beror på investering."
+      ]
+    },
+    {
+      "anchor": "galbrena",
+      "party": [
+        "galbrena",
+        "lupa",
+        "brant"
+      ],
+      "owner": "galbrena",
+      "lines": [
+        796,
+        797,
+        809
+      ],
+      "whySv": "Mono Fusion-alternativ med Brants damage och sustain.",
+      "conditionsSv": [
+        "Brant är inte alltid starkare än Mortefi vid låg investering."
+      ]
+    },
+    {
+      "anchor": "galbrena",
+      "party": [
+        "galbrena",
+        "lupa",
+        "mornye"
+      ],
+      "owner": "galbrena",
+      "lines": [
+        800
+      ],
+      "whySv": "Mornye möjliggör Lupa-baserad Fusion-hypercarry enligt guiden.",
+      "conditionsSv": [
+        "Specialiserad Fusion-supportkontext, inte ett fritt healerbyte."
+      ]
+    },
+    {
+      "anchor": "calcharo",
+      "party": [
+        "calcharo",
+        "yinlin",
+        "youhu"
+      ],
+      "owner": "youhu",
+      "lines": [
+        628,
+        635
+      ],
+      "relationship": "ALTERNATIVE",
+      "partner": "yinlin",
+      "support": "youhu",
+      "whySv": "Youhu ger specialiserat stöd till lagets coordinated attacker enligt guideexemplet.",
+      "conditionsSv": [
+        "Youhus Outro ska gå till yinlin, inte behandlas som en generell carry-buff.",
+        "Hennes guidekontext kräver Marcato för den angivna enkla rotationen; ingen timing importeras här."
+      ]
+    },
+    {
+      "anchor": "lingyang",
+      "party": [
+        "lingyang",
+        "zhezhi",
+        "youhu"
+      ],
+      "owner": "youhu",
+      "lines": [
+        629,
+        639
+      ],
+      "relationship": "ALTERNATIVE",
+      "partner": "zhezhi",
+      "support": "youhu",
+      "whySv": "Youhu ger specialiserat stöd till lagets coordinated attacker enligt guideexemplet.",
+      "conditionsSv": [
+        "Youhus Outro ska gå till zhezhi, inte behandlas som en generell carry-buff.",
+        "Hennes guidekontext kräver Marcato för den angivna enkla rotationen; ingen timing importeras här."
+      ]
+    }
+  ],
+  "supportFallbacks": {
+    "baizhi": {
+      "sourceOwnerId": "baizhi",
+      "sourceLines": [
+        332,
+        341,
+        343,
+        345,
+        552
+      ],
+      "excludedPartners": [
+        "yinlin",
+        "zhezhi",
+        "mortefi"
+      ],
+      "whySv": "Tillgänglig generalisthealing och buffing för en aktiv carry.",
+      "conditionsSv": [
+        "Buffarna når inte coordinated attackers på samma sätt.",
+        "Euphonia måste plockas upp och hennes del kan vara längre; ingen tid antas här."
+      ]
+    }
+  },
+  "aliases": {
+    "Shorekeeper": "the-shorekeeper",
+    "Aero Rover": "rover-aero",
+    "Spectro Rover": "rover-spectro",
+    "Electro Rover": "rover-electro",
+    "Havoc Rover": "rover-havoc",
+    "Xuanling": "yangyang-xuanling",
+    "Luuk Herssen": "luuk-herssen",
+    "Xiangli Yao": "xiangli-yao"
+  },
+  "sourcePolicy": "NO_CROSS_PRODUCT_OF_ARBITRARY_SYNERGY_NAMES; explicit slot rules only. Model roster stays an unranked discovery pool, not independently reviewed functioning trios."
+}

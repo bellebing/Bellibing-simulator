@@ -45,7 +45,7 @@ Every Prydwen link is `RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING`. Matching a
 
 ## Remaining research and combat use
 
-The coverage inventory accounts for all 19 coordination cases, including nine without a matching timing source in this bounded search. Hsin Unison/Flare cases, Aero Rover/Chisa without Ciaccona, low-Erosion variants, Phrolova/Lucilla/Qiuyuan, Havoc Rover/Danjin and advanced Aemeath/Changli need separate evidence or a declared modeled scenario. No source absence is treated as zero time or proof that a rotation does not exist.
+This initial table-source inventory accounts for all 19 coordination cases, including nine without a matching timing table. The [declared model scenarios](TEAM_TIMING_MODEL_SCENARIOS.md) now provide timing references or explicit standard alternatives for those nine cases, plus complete-visit alternatives for three other cases. The original absence of a matching table remains historical search evidence, not zero time or proof that a rotation does not exist. Source-table and model choices have separate provenance and clocks.
 
 The search ledger records other leads: Gwisted publishes complete-cycle totals but no actor boundaries; Maygi publishes an explicitly simplified no-quickswap Cartethyia guide, but the available reader did not expose measurable video handoffs; the community calculator sheet and dynamic WuwaLAB/Tethys timing content were not readable. None supplies guessed values. Gwisted's 26.5s/27.5s scenarios must not be combined with Arab Wuwa's recipes.
 

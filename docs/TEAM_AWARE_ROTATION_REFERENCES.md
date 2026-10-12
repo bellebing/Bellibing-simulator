@@ -41,6 +41,8 @@ Examples of preserved source distinctions:
 
 Echo timing outside a printed sequence stays an annotation, rather than an invented insertion point. Examples include free Summons, mode-dependent Denia/Lucilla timing and omitting Nightmare: Kelpie's active cast for Ciaccona. Optional attacks stay optional. The printed Mortefi list ends at Echo; an additional Outro command is not manufactured from surrounding discussion.
 
+For the next layer that explains which references belong in broad team windows and why, see [Team rotation coordination](TEAM_ROTATION_COORDINATION.md).
+
 ## Lookup and export
 
 ```ts

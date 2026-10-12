@@ -33,6 +33,7 @@ import { listWeaponHealingWindowSupport } from './combat/weaponHealingWindowAdap
 import { listWeaponTargetWindowSupport } from './combat/weaponTargetWindowAdapter.ts';
 import { listSonataTargetWindowSupport } from './combat/sonataTargetWindowAdapter.ts';
 import { listSonataOutroTransferSupport } from './combat/sonataOutroTransferAdapter.ts';
+import { TEAM_ROTATION_PATTERNS, ROTATION_PARTICIPATION, ROTATION_PARTICIPATION_DESCRIPTIONS, TEAM_ROTATION_CASES, TEAM_ROTATION_PROOFS, ROTATION_HIT_BINDINGS } from './data/teamRotationCoordination.ts';
 import { TEAM_AWARE_ROTATION_REFERENCES, CHARACTER_ROTATION_REFERENCE_COVERAGE, ROTATION_REFERENCES_BY_CHARACTER_ID } from './data/teamAwareRotationReferences.ts';
 import { CHARACTER_SIGNATURE_BY_ID, CHARACTER_GUIDE_RECOMMENDATIONS_BY_ID } from './data/characterEquipmentAssociations.ts';
 import { CHARACTER_CATALOG } from './data/characters.ts';
@@ -171,6 +172,11 @@ export function buildCharacterDatabase() {
       statTargets: byId(PROFILE_CATALOGS.statTargets),
       teams: byId(PROFILE_CATALOGS.teams),
       rotations: byId(PROFILE_CATALOGS.rotations),
+    },
+    teamRotationCoordination: {
+      patterns: [...TEAM_ROTATION_PATTERNS], participation: [...ROTATION_PARTICIPATION],
+      participationDescriptions: ROTATION_PARTICIPATION_DESCRIPTIONS,
+      cases: [...TEAM_ROTATION_CASES], proofs: [...TEAM_ROTATION_PROOFS], hitBindings: [...ROTATION_HIT_BINDINGS],
     },
     rotationReferences: {
       references: byId(TEAM_AWARE_ROTATION_REFERENCES),

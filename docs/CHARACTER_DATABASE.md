@@ -22,6 +22,10 @@ The merged catalog exposes detached `characters[].signatureWeapon` and `characte
 
 The candidate adds `rotationReferences.references` and `rotationReferences.coverage`, joined by `characters[].rotationReferenceIds`. These are Prydwen-only command references with source-reviewed team/mode/Intro conditions, setup and partner handoffs. Upcoming identities have an empty ID list. Jianxin/Yuanwu have priority-only references and empty ordered steps. `profiles.rotations` continues to expose the existing selected-team preset rotations independently. Source references add no engine binding, timing or DPS readiness. See [scope, lookup and source review](TEAM_AWARE_ROTATION_REFERENCES.md).
 
+## Team rotation coordination fields
+
+The candidate adds `teamRotationCoordination` with broad patterns, all-reference participation descriptions, reviewed team/partner cases, source proofs and explicit hit bindings. `coordinateTeamRotation()` returns source-case or clearly labeled player-role descriptions, keeping player selections and source hints separate. The bounded combat bridge delegates exact supported hits/Echo comparisons to existing adapters; it adds no registered rotation engine, team DPS or upgrade verdict. See [coordination and integration](TEAM_ROTATION_COORDINATION.md).
+
 ## Use from a separate UI
 
 ```sh

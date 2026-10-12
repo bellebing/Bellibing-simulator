@@ -1,0 +1,1735 @@
+{
+  "schemaVersion": 1,
+  "role": "team-rotation.coordination-review",
+  "reviewedAt": "2026-10-12",
+  "referenceArtifact": "data/source/prydwen-rotation-references-2026-10-11.json",
+  "referenceArtifactSha256": "9c3aeea54dbd4c27b16929556916b3323eaec0cad9971962a55b5e95736fcd8d",
+  "patterns": [
+    {
+      "id": "SINGLE_CARRY",
+      "labelSv": "Stöd och partner före en huvudsaklig skadefas",
+      "summarySv": "Partnernas buffs eller statusbyggande förbereds innan huvudkaraktären genomför sin skadefas."
+    },
+    {
+      "id": "CARRY_REENTRY",
+      "labelSv": "Huvudkaraktären återkommer efter en partnerfas",
+      "summarySv": "Huvudkaraktärens arbete delas mellan flera inträden med en teammate-handoff emellan."
+    },
+    {
+      "id": "SHARED_FIELD_TIME",
+      "labelSv": "Delad fälttid mellan flera skadebidrag",
+      "summarySv": "Fälttiden delas mellan flera skadebidrag. Vävning och kortare fönster används där referenserna stöder det."
+    },
+    {
+      "id": "OFF_FIELD_ANCHOR",
+      "labelSv": "Skada fortsätter medan partnerna roterar",
+      "summarySv": "En off-field skadefas startas; partnernas handlingar och Echo-timing samordnas medan den fortsätter."
+    },
+    {
+      "id": "BUFF_CHAIN",
+      "labelSv": "Buffkedja mellan flera skadebidrag",
+      "summarySv": "Handoffs fördelar buffs mellan flera skadebidrag i stället för att behandla alla som en enda carry."
+    },
+    {
+      "id": "MEMBER_GUIDANCE_ONLY",
+      "labelSv": "Karaktärsreferenser utan bekräftad teamordning",
+      "summarySv": "Referenserna beskriver medlemmarnas arbete, men underlaget väljer inte en sammanhängande teamcykel."
+    }
+  ],
+  "participation": [
+    {
+      "referenceId": "prydwen-aalto-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-aemeath-mech-preparation",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-aemeath-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-aemeath-changli-quickswap",
+      "participation": "SHARED_WINDOW",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-augusta-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-baizhi-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-brant-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-brant-main-dps-double-forte",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-buling-no-intro",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-buling-intro",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-calcharo-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-camellya-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-camellya-white-hair",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-cantarella-phrolova",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-cantarella-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-carlotta-skill-preparation",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-carlotta-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-cartethyia-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-cartethyia-low-aero-erosion",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-changli-opening-liberation",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-changli-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-changli-double-intro",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-chisa-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-chisa-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-chixia-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-ciaccona-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-ciaccona-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-danjin-damage-dealer",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-danjin-hybrid",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-denia-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-denia-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-encore-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-galbrena-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-hiyuki-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-hsin-electro-flare",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-hsin-unison",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-iuno-hybrid",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-iuno-augusta-semi-dps",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-iuno-main-dps",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-jianxin-support-priorities",
+      "participation": "PRIORITIES",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-jingran-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-jinhsi-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-jinhsi-standard",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-jiyan-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lingyang-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lucilla-phrolova",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lucilla-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lucy-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-lucy-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lumi-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lupa-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-lupa-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-luuk-herssen-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lynae-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-lynae-mobile",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-mornye-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-mornye-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-mortefi-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-phoebe-absolution",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-phoebe-confession",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-phrolova-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-phrolova-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-qingxiao-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-qiuyuan-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-rebecca-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-rebecca-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-roccia-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-rover-aero-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-rover-aero-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-rover-electro-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-rover-electro-double-intro",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-rover-havoc-short-burst",
+      "participation": "SHARED_WINDOW",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-rover-havoc-medium-burst",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-rover-spectro-standard",
+      "participation": "REENTRY",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-sanhua-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-sigrika-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-suisui-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-suisui-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-taoqi-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-the-shorekeeper-concerto-r1-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-the-shorekeeper-concerto-r1-loop",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-the-shorekeeper-no-concerto-opener",
+      "participation": "SETUP",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-the-shorekeeper-no-concerto-alternating-loop",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-verina-no-intro-concerto-r1",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-verina-no-intro-no-concerto",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-verina-intro-concerto-r1",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-verina-intro-no-concerto",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-xiangli-yao-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-yangyang-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-yangyang-xuanling-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-yinlin-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-youhu-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-yuanwu-support-priorities",
+      "participation": "PRIORITIES",
+      "basis": "EXPLICIT_PHASE_OR_HANDOFF"
+    },
+    {
+      "referenceId": "prydwen-zani-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-zhezhi-jinhsi-no-liberation",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    },
+    {
+      "referenceId": "prydwen-zhezhi-standard",
+      "participation": "FIELD_WINDOW",
+      "basis": "BROAD_DESCRIPTION_OF_ORDERED_MEMBER_REFERENCE"
+    }
+  ],
+  "proofs": [
+    {
+      "id": "augusta-iuno",
+      "characterId": "augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "sourceLines": [
+        786
+      ],
+      "sectionSha256": "4c8c92dbe7812ec726f02f605a795c9e329b4147a0df1d721d64c14bf70c44a6",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Tre-Forte-rotationen används bland annat med Iuno och Shorekeeper."
+    },
+    {
+      "id": "iuno-augusta",
+      "characterId": "iuno",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno",
+      "sourceLines": [
+        839
+      ],
+      "sectionSha256": "4127b92a3de1b3d062553f53804269785d1ddce884407b7dec205bd121a441b0",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Semi-DPS-rotationen anges för Augusta/Shorekeeper när Augusta gör tre Forte utan quickswap."
+    },
+    {
+      "id": "hsin-flare",
+      "characterId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLines": [
+        840,
+        912,
+        913
+      ],
+      "sectionSha256": "b39291fa8a69ced5a31aa753ee59bdb54651e3f8011505cc882f8ab62f1facb5",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Flare har en vanlig trekaraktärscykel; Electro Rover är partner och Suisui/Buling stödval."
+    },
+    {
+      "id": "hsin-unison",
+      "characterId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLines": [
+        872,
+        912,
+        913
+      ],
+      "sectionSha256": "b39291fa8a69ced5a31aa753ee59bdb54651e3f8011505cc882f8ab62f1facb5",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Unison använder support–partner–Hsin–partner–Hsin; Jinhsi är nuvarande partner och Shorekeeper ett stödval."
+    },
+    {
+      "id": "aemeath-standard",
+      "characterId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLines": [
+        855,
+        938
+      ],
+      "sectionSha256": "a73d570d1f9c6d70fe62fff4a2c828d8a2b3e94ae4e9b7071c2998886fe6267f",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Standardrotationen kräver få swap cancels och anges som användbar med Lynae/Mornye."
+    },
+    {
+      "id": "aemeath-changli",
+      "characterId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLines": [
+        970,
+        973
+      ],
+      "sectionSha256": "a73d570d1f9c6d70fe62fff4a2c828d8a2b3e94ae4e9b7071c2998886fe6267f",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Quickswap och buildup före Intro används med Changli för att behålla hennes kortare Outro-fönster; exakt variant beror på teamet."
+    },
+    {
+      "id": "cart-erosion",
+      "characterId": "cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+      "sourceLines": [
+        710,
+        712,
+        784,
+        785,
+        787
+      ],
+      "sectionSha256": "4cb2868481175ea82bfd39d5538c303adefdd39bd42195b1f5fde8733ec1e40c",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Low Erosion-varianten är avsedd för team utan Ciaccona eller kombinationen Chisa/Aero Rover."
+    },
+    {
+      "id": "brant-dps",
+      "characterId": "brant",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/brant",
+      "sourceLines": [
+        620,
+        638
+      ],
+      "sectionSha256": "7c8aad43e27831e7e67d122cd35d20a389da4e7c4c00de8972281e7e7927e664",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Brant/Lupa/Mornye anges för main-DPS och två Forte; partnern bygger en handoff mellan Brants inträden."
+    },
+    {
+      "id": "changli-chain",
+      "characterId": "changli",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli",
+      "sourceLines": [
+        574,
+        575,
+        608
+      ],
+      "sectionSha256": "a82ed40ff4981d271be50e8822289c69b62fa76adc3e3f36e9f0ce1d6ec877ae",
+      "checkedAt": "2026-10-12",
+      "claimSv": "En-Intro-rotationen nämns för Changli/Brant/Lupa; två Intro kan störa en teammate som behöver sin egen Intro."
+    },
+    {
+      "id": "phoebe-zani",
+      "characterId": "phoebe",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe",
+      "sourceLines": [
+        741,
+        743
+      ],
+      "sectionSha256": "9d46cf9adf48af9fb8b972d8d3ec9a4d23471a2a1bd35bb3e877e0cae1d1eb72",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Confession är hybridrotationen för Zani och har särskild setup i opener."
+    },
+    {
+      "id": "zani-status",
+      "characterId": "zani",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani",
+      "sourceLines": [
+        637,
+        646,
+        673
+      ],
+      "sectionSha256": "b8cf90b0b5228472815062ee527d17a57f27e9df9ed0e006708c349edfc51a5f",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Partnerna måste applicera Spectro Frazzle; basic två-Nightfall och en annan variant med Spectro Rover skiljs åt."
+    },
+    {
+      "id": "phrolova-anchor",
+      "characterId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "sourceLines": [
+        724,
+        760,
+        842
+      ],
+      "sectionSha256": "15842f5dbef7e33b424d3b3b80c01778ecca0050d17cc5740d980c7beb0b3904",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Phrolova startar ofta först utan generalist-support och fortsätter skada off-field medan andra karaktärer bidrar."
+    },
+    {
+      "id": "lucilla-phrolova",
+      "characterId": "lucilla",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucilla",
+      "sourceLines": [
+        803,
+        812
+      ],
+      "sectionSha256": "ad2e7ffe50597cf96af190f7b327e1a2ea7b0930affab3c24ab52717d464974a",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Lucilla ändrar Skill-ordning för Phrolova; Lucilla/Qiuyuan/Phrolova nämns som ett komplett team."
+    },
+    {
+      "id": "cantarella-phrolova",
+      "characterId": "cantarella",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cantarella",
+      "sourceLines": [
+        659
+      ],
+      "sectionSha256": "5582a544cb2e1af6d9a74f82eb3741ea20acb3f7f09eb5ac80ec77a3e70d14d2",
+      "checkedAt": "2026-10-12",
+      "claimSv": "I Phrolova-team ändras Echo-interruption och Cantarella stannar tills Perception Drain träffar."
+    },
+    {
+      "id": "zhezhi-jinhsi",
+      "characterId": "zhezhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zhezhi",
+      "sourceLines": [
+        628,
+        629
+      ],
+      "sectionSha256": "afd57669e6d77344ece79d51c2f24f75095a4ff74ec2c12437ce032ace83cf92",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Senare Jinhsi-turns utan Liberation kan behöva extra Basics/Skill; den ändringen anges inte för Carlotta."
+    },
+    {
+      "id": "rover-havoc",
+      "characterId": "rover-havoc",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc",
+      "sourceLines": [
+        535,
+        550
+      ],
+      "sectionSha256": "859417211be4c1a36de3c37c0197955f1d0f13d18259fa6eef4f5cfa1cf78cad",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Short burst delar fälttid med en annan skadegivare; medium burst är för en enda carry och två stöd."
+    },
+    {
+      "id": "danjin-havoc-roles",
+      "characterId": "danjin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/danjin",
+      "sourceLines": [
+        564,
+        609,
+        666
+      ],
+      "sectionSha256": "f289a4516636cb52a70bf893a9c4db6bb9ed25e33714745b7a9b0137e740f121",
+      "checkedAt": "2026-10-12",
+      "claimSv": "Danjin och Havoc Rover anges både för hypercarry och dual-DPS; Danjins hybridreferens prioriterar Concerto."
+    }
+  ],
+  "cases": [
+    {
+      "id": "augusta-iuno-shorekeeper",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "augusta",
+        "iuno",
+        "the-shorekeeper"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Iuno förbereder sin buff före Augustas tre-Forte-fas. Guiden kopplar uttryckligen ihop dessa två varianter.",
+      "broadFlowSv": [
+        "Shorekeeper förbereder stödet",
+        "Iuno bygger buff och handoff",
+        "Augusta genomför sin tre-Forte-fas"
+      ],
+      "members": [
+        {
+          "characterId": "the-shorekeeper",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-the-shorekeeper-concerto-r1-loop",
+            "prydwen-the-shorekeeper-no-concerto-alternating-loop"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "iuno",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-iuno-augusta-semi-dps"
+          ],
+          "modeHint": "semi-dps"
+        },
+        {
+          "characterId": "augusta",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-augusta-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "augusta-iuno",
+        "iuno-augusta"
+      ],
+      "infoSv": [
+        "Iunos vanliga hybridvariant är kortare men är en annan referens än guidefallets semi-DPS.",
+        "Shorekeepers loop beror på Concerto-vapen och carry-over."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "hsin-jinhsi-shorekeeper-unison",
+      "patternId": "CARRY_REENTRY",
+      "requiredCharacters": [
+        "hsin",
+        "jinhsi",
+        "the-shorekeeper"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "hsin": [
+          "unison"
+        ]
+      },
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Hsin använder två inträden och hoppar över den vanliga mellandelen genom en andra Unison-handoff.",
+      "broadFlowSv": [
+        "Shorekeeper förbereder stödet",
+        "Jinhsi ger första handoff",
+        "Hsin gör första delen",
+        "Jinhsi bygger nästa handoff",
+        "Hsin avslutar"
+      ],
+      "members": [
+        {
+          "characterId": "the-shorekeeper",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-the-shorekeeper-concerto-r1-loop",
+            "prydwen-the-shorekeeper-no-concerto-alternating-loop"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "jinhsi",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-jinhsi-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "hsin",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-hsin-unison"
+          ],
+          "modeHint": "unison"
+        }
+      ],
+      "proofIds": [
+        "hsin-unison"
+      ],
+      "infoSv": [
+        "Jinhsis egen guide-loop har också flera inträden; hela hennes personliga referens ska inte spelas en gång i varje kort partnerfas."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "hsin-rover-electro-buling-flare",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "hsin",
+        "rover-electro",
+        "buling"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "hsin": [
+          "electro-flare"
+        ]
+      },
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Electro Rover bygger Flare och buffar innan Hsins vanliga skadefas.",
+      "broadFlowSv": [
+        "Stödet förbereder buffarna",
+        "Electro Rover bygger Flare och handoff",
+        "Hsin genomför Flare-fasen"
+      ],
+      "members": [
+        {
+          "characterId": "buling",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-buling-no-intro"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "rover-electro",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-rover-electro-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "hsin",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-hsin-electro-flare"
+          ],
+          "modeHint": "electro-flare"
+        }
+      ],
+      "proofIds": [
+        "hsin-flare"
+      ],
+      "infoSv": [
+        "Electro Rovers dubbel-Intro är ett alternativ när stödet avstår extra Intro; den variantens partnerturns är inte en färdig fullteam-tidslinje."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "hsin-rover-electro-suisui-flare",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "hsin",
+        "rover-electro",
+        "suisui"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "hsin": [
+          "electro-flare"
+        ]
+      },
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Electro Rover bygger Flare och buffar innan Hsins vanliga skadefas.",
+      "broadFlowSv": [
+        "Stödet förbereder buffarna",
+        "Electro Rover bygger Flare och handoff",
+        "Hsin genomför Flare-fasen"
+      ],
+      "members": [
+        {
+          "characterId": "suisui",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-suisui-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "rover-electro",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-rover-electro-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "hsin",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-hsin-electro-flare"
+          ],
+          "modeHint": "electro-flare"
+        }
+      ],
+      "proofIds": [
+        "hsin-flare"
+      ],
+      "infoSv": [
+        "Electro Rovers dubbel-Intro är ett alternativ när stödet avstår extra Intro; den variantens partnerturns är inte en färdig fullteam-tidslinje."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "aemeath-lynae-mornye",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "aemeath",
+        "lynae",
+        "mornye"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Teamet använder Aemeaths samlade standardfönster efter partnernas förberedelser.",
+      "broadFlowSv": [
+        "Mornye och Lynae förbereder stödet",
+        "Aemeath genomför standardfönstret"
+      ],
+      "members": [
+        {
+          "characterId": "mornye",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-mornye-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "lynae",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-lynae-standard",
+            "prydwen-lynae-mobile"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "aemeath",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-aemeath-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "aemeath-standard"
+      ],
+      "infoSv": [
+        "Aemeaths formsetup och Lynae på mobil är separata referenser."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "aemeath-changli-quickswap",
+      "patternId": "SHARED_FIELD_TIME",
+      "requiredCharacters": [
+        "aemeath",
+        "changli"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Aemeath bygger delar av rotationen före Intro för att få sina viktigaste attacker inom Changlis Outro.",
+      "broadFlowSv": [
+        "Förberedelser vävs mellan partnernas fältfönster",
+        "Changlis handoff förbereder det kortare buff-fönstret",
+        "Aemeath avslutar sina viktigaste attacker"
+      ],
+      "members": [
+        {
+          "characterId": "changli",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-changli-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "aemeath",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-aemeath-changli-quickswap"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "aemeath-changli"
+      ],
+      "infoSv": [
+        "Tredje medlemmen och exakt vävning är inte fastställda av denna partnerreferens."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "cartethyia-ciaccona-rover-aero",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "cartethyia",
+        "ciaccona",
+        "rover-aero"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "De namngivna partnerna stöder standardfallet med mer Aero Erosion.",
+      "broadFlowSv": [
+        "Partnerna förbereder Aero Erosion och buffs",
+        "Cartethyia går genom sin Fleurdelys-fas"
+      ],
+      "members": [
+        {
+          "characterId": "rover-aero",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-rover-aero-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "ciaccona",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-ciaccona-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "cartethyia",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-cartethyia-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "cart-erosion"
+      ],
+      "infoSv": [
+        "Ordningen mellan partnernas förberedelser är en bred sammanställning; ingen exakt fullteam-tidslinje påstås."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "cartethyia-chisa-rover-aero",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "cartethyia",
+        "chisa",
+        "rover-aero"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Chisa och Aero Rover tillsammans är den andra namngivna kombinationen för högre Aero Erosion.",
+      "broadFlowSv": [
+        "Chisa och Aero Rover förbereder partnerfaserna",
+        "Cartethyia använder standardfönstret"
+      ],
+      "members": [
+        {
+          "characterId": "chisa",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-chisa-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "rover-aero",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-rover-aero-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "cartethyia",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-cartethyia-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "cart-erosion"
+      ],
+      "infoSv": [
+        "Standard-Chisa följer sin opener; ingen buffuptime härleds från detta."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "cartethyia-low-erosion",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "cartethyia"
+      ],
+      "excludedCombinations": [
+        [
+          "ciaccona"
+        ],
+        [
+          "chisa",
+          "rover-aero"
+        ]
+      ],
+      "modeRequirements": {},
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "När de namngivna Erosion-partnerna saknas använder Cartethyia sin Low Erosion-variant.",
+      "broadFlowSv": [
+        "Partnerkontexten granskas separat",
+        "Cartethyia använder Low Erosion-fönstret"
+      ],
+      "members": [
+        {
+          "characterId": "cartethyia",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-cartethyia-low-aero-erosion"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "cart-erosion"
+      ],
+      "infoSv": [
+        "Den här regeln väljer Cartethyias variant; den bekräftar inte hur alla andra möjliga teammates ska rotera."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "brant-lupa-mornye-dps",
+      "patternId": "CARRY_REENTRY",
+      "requiredCharacters": [
+        "brant",
+        "lupa",
+        "mornye"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "brant": [
+          "dps"
+        ]
+      },
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Brant bygger två Forte-faser och får en partner-handoff emellan.",
+      "broadFlowSv": [
+        "Mornye förbereder stödet",
+        "Brant gör första delen",
+        "Lupa bygger nästa handoff",
+        "Brant återkommer och avslutar"
+      ],
+      "members": [
+        {
+          "characterId": "mornye",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-mornye-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "lupa",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-lupa-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "brant",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-brant-main-dps-double-forte"
+          ],
+          "modeHint": "dps"
+        }
+      ],
+      "proofIds": [
+        "brant-dps"
+      ],
+      "infoSv": [
+        "Brants inledande Skill är fight-start-only; den ska inte upprepas som en obligatorisk del av varje loop."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "changli-brant-lupa",
+      "patternId": "BUFF_CHAIN",
+      "requiredCharacters": [
+        "changli",
+        "brant",
+        "lupa"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Guiden nämner en-Intro-varianten när flera medlemmar ska behålla Outro-buffs.",
+      "broadFlowSv": [
+        "Förbered Lupa och partnernas buffkedja",
+        "Placera Changlis och Brants skadefönster vid rätt handoff"
+      ],
+      "members": [
+        {
+          "characterId": "lupa",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-lupa-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "brant",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-brant-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "changli",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-changli-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "changli-chain"
+      ],
+      "infoSv": [
+        "Guiden anger varför en-Intro passar; den låser inte en komplett universell ordning för alla tre."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "zani-phoebe-confession",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "zani",
+        "phoebe"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "phoebe": [
+          "confession"
+        ]
+      },
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Phoebe förbereder Spectro Frazzle i Confession inför Zanis grundfönster.",
+      "broadFlowSv": [
+        "Stödet och Phoebe förbereder buffs och Frazzle",
+        "Zani använder två-Nightfall-fönstret"
+      ],
+      "members": [
+        {
+          "characterId": "phoebe",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-phoebe-confession"
+          ],
+          "modeHint": "confession"
+        },
+        {
+          "characterId": "zani",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-zani-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "phoebe-zani",
+        "zani-status"
+      ],
+      "infoSv": [
+        "Spectro Rover eller högre investering kan möjliggöra en annan Nightfall-variant; denna grundkartläggning byter inte automatiskt till den."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "phrolova-lucilla-qiuyuan",
+      "patternId": "OFF_FIELD_ANCHOR",
+      "requiredCharacters": [
+        "phrolova",
+        "lucilla",
+        "qiuyuan"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Hecates off-field arbete fortsätter medan partnerna bidrar med Echo-relaterade handlingar.",
+      "broadFlowSv": [
+        "Phrolova startar sin off-field fas",
+        "Qiuyuan och Lucilla bidrar i partnerfaserna",
+        "Phrolova återkommer för nästa fas"
+      ],
+      "members": [
+        {
+          "characterId": "phrolova",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-phrolova-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "qiuyuan",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-qiuyuan-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "lucilla",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-lucilla-phrolova"
+          ],
+          "modeHint": "echo-skill"
+        }
+      ],
+      "proofIds": [
+        "phrolova-anchor",
+        "lucilla-phrolova"
+      ],
+      "infoSv": [
+        "Lucilla flyttar sin Hold Skill för att inte avbryta Hecates attacker för tidigt. Partnerordning och segmentlängd är inte exakt simulerade."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "phrolova-cantarella",
+      "patternId": "OFF_FIELD_ANCHOR",
+      "requiredCharacters": [
+        "phrolova",
+        "cantarella"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Cantarella anpassar sitt Echo-fönster till Hecate och stannar tills Perception Drain träffar.",
+      "broadFlowSv": [
+        "Phrolova förbereder off-field arbetet",
+        "Cantarella genomför sitt anpassade fönster",
+        "Partnerna återför handoff till Phrolova"
+      ],
+      "members": [
+        {
+          "characterId": "phrolova",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-phrolova-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "cantarella",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-cantarella-phrolova"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "phrolova-anchor",
+        "cantarella-phrolova"
+      ],
+      "infoSv": [],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "jinhsi-zhezhi",
+      "patternId": "CARRY_REENTRY",
+      "requiredCharacters": [
+        "jinhsi",
+        "zhezhi"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Jinhsis flera inträden kräver partnerarbete emellan; Zhezhi kan behöva en variant senare när Liberation saknas.",
+      "broadFlowSv": [
+        "Stödet förbereder",
+        "Jinhsi och Zhezhi turas om med handoffs",
+        "Jinhsi avslutar andra delen"
+      ],
+      "members": [
+        {
+          "characterId": "zhezhi",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-zhezhi-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "jinhsi",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-jinhsi-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "zhezhi-jinhsi"
+      ],
+      "infoSv": [
+        "No-Liberation-varianten för Zhezhi gäller bara när den handlingen saknas och extra Concerto behövs."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "cartethyia-ciaccona-chisa",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "cartethyia",
+        "ciaccona",
+        "chisa"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Ciaccona bygger Aero Erosion medan stödet förbereder buffar inför Cartethyias standardfönster.",
+      "broadFlowSv": [
+        "Partnerna förbereder Aero Erosion och buffs",
+        "Cartethyia går genom sin Fleurdelys-fas"
+      ],
+      "members": [
+        {
+          "characterId": "chisa",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-chisa-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "ciaccona",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-ciaccona-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "cartethyia",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-cartethyia-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "cart-erosion"
+      ],
+      "infoSv": [
+        "Ordningen mellan partnernas förberedelser är en bred sammanställning; ingen exakt fullteam-tidslinje påstås.",
+        "Chisas rekommenderade buffstyrka i guiden beror på signaturvapnet; ingen sådan styrka läggs automatiskt in här."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "cartethyia-ciaccona-the-shorekeeper",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "cartethyia",
+        "ciaccona",
+        "the-shorekeeper"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {},
+      "partyEvidence": "NAMED_TRIO",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Ciaccona bygger Aero Erosion medan stödet förbereder buffar inför Cartethyias standardfönster.",
+      "broadFlowSv": [
+        "Partnerna förbereder Aero Erosion och buffs",
+        "Cartethyia går genom sin Fleurdelys-fas"
+      ],
+      "members": [
+        {
+          "characterId": "the-shorekeeper",
+          "roleHint": "SUPPORT",
+          "referenceHints": [
+            "prydwen-the-shorekeeper-concerto-r1-loop",
+            "prydwen-the-shorekeeper-no-concerto-alternating-loop"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "ciaccona",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-ciaccona-standard"
+          ],
+          "modeHint": null
+        },
+        {
+          "characterId": "cartethyia",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-cartethyia-standard"
+          ],
+          "modeHint": null
+        }
+      ],
+      "proofIds": [
+        "cart-erosion"
+      ],
+      "infoSv": [
+        "Ordningen mellan partnernas förberedelser är en bred sammanställning; ingen exakt fullteam-tidslinje påstås.",
+        "Shorekeeper nämns särskilt för multi-wave-innehåll; referensen jämför inte supportsiffror."
+      ],
+      "requiresExplicitModes": []
+    },
+    {
+      "id": "rover-havoc-danjin-hypercarry",
+      "patternId": "SINGLE_CARRY",
+      "requiredCharacters": [
+        "rover-havoc",
+        "danjin"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "rover-havoc": [
+          "single-carry"
+        ],
+        "danjin": [
+          "hybrid"
+        ]
+      },
+      "requiresExplicitModes": [],
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Danjin bygger en kortare handoff inför Havoc Rovers medium burst.",
+      "broadFlowSv": [
+        "Stödet och Danjin förbereder",
+        "Havoc Rover använder medium burst"
+      ],
+      "members": [
+        {
+          "characterId": "danjin",
+          "roleHint": "SUB_DPS",
+          "referenceHints": [
+            "prydwen-danjin-hybrid"
+          ],
+          "modeHint": "hybrid"
+        },
+        {
+          "characterId": "rover-havoc",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-rover-havoc-medium-burst"
+          ],
+          "modeHint": "single-carry"
+        }
+      ],
+      "proofIds": [
+        "rover-havoc",
+        "danjin-havoc-roles"
+      ],
+      "infoSv": [
+        "Det här är ett partnerfall; tredje medlemmen är inte låst. Danjins råa Forte-tröskel är fortfarande oklar och ingen damage-tidslinje utförs här."
+      ]
+    },
+    {
+      "id": "rover-havoc-danjin-shared-dps",
+      "patternId": "SHARED_FIELD_TIME",
+      "requiredCharacters": [
+        "rover-havoc",
+        "danjin"
+      ],
+      "excludedCombinations": [],
+      "modeRequirements": {
+        "rover-havoc": [
+          "shared-dps"
+        ],
+        "danjin": [
+          "dps"
+        ]
+      },
+      "requiresExplicitModes": [
+        "rover-havoc"
+      ],
+      "partyEvidence": "PARTNER_CONTEXT",
+      "flowBasis": "REVIEWED_MEMBER_GUIDANCE_SYNTHESIS",
+      "summarySv": "Havoc Rovers korta burst frigör fälttid för Danjins eget skadebidrag.",
+      "broadFlowSv": [
+        "Stödet förbereder",
+        "Havoc Rover och Danjin delar skadefönstren"
+      ],
+      "members": [
+        {
+          "characterId": "danjin",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-danjin-damage-dealer"
+          ],
+          "modeHint": "dps"
+        },
+        {
+          "characterId": "rover-havoc",
+          "roleHint": "DPS",
+          "referenceHints": [
+            "prydwen-rover-havoc-short-burst"
+          ],
+          "modeHint": "shared-dps"
+        }
+      ],
+      "proofIds": [
+        "rover-havoc",
+        "danjin-havoc-roles"
+      ],
+      "infoSv": [
+        "Det här är ett partnerfall; tredje medlemmen är inte låst. Danjins råa Forte-tröskel är fortfarande oklar och ingen damage-tidslinje utförs här."
+      ]
+    }
+  ],
+  "hitBindings": [
+    {
+      "id": "aalto-basic-stage-1-reference",
+      "characterId": "aalto",
+      "referenceId": "prydwen-aalto-standard",
+      "stepOrder": 5,
+      "sourceLine": 567,
+      "sourceInstruction": "Basic P1",
+      "factId": "aalto-basic-half-truths-1",
+      "factName": "Basic Attack — Half Truths Stage 1",
+      "reviewedAt": "2026-10-12",
+      "scope": "EXPLICIT_HIT_ONLY_NOT_ROTATION_DPS"
+    }
+  ],
+  "participationDescriptions": {
+    "FIELD_WINDOW": {
+      "labelSv": "Eget fältfönster",
+      "summarySv": "Karaktärens ordnade grundreferens används inom dess egen fas. Det bestämmer inte på egen hand ordningen för hela teamet."
+    },
+    "REENTRY": {
+      "labelSv": "Återinträde efter partnerarbete",
+      "summarySv": "Referensen lämnar utrymme åt en partner och fortsätter när karaktären kommer tillbaka."
+    },
+    "SHARED_WINDOW": {
+      "labelSv": "Delat fältfönster",
+      "summarySv": "Den här varianten frigör fälttid eller bygger handlingar mellan partnernas faser."
+    },
+    "SETUP": {
+      "labelSv": "Förberedelse eller opener",
+      "summarySv": "Den här referensen förbereder första fasen eller saknar Intro; den ersätter inte automatiskt en normal loop."
+    },
+    "PRIORITIES": {
+      "labelSv": "Spelprioriteringar",
+      "summarySv": "Källan anger prioriteringar snarare än en fast ordnad rotation."
+    }
+  }
+}

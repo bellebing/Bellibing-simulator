@@ -33,9 +33,9 @@ Exact unrounded Calc references remain source data underneath the formatted UI v
 
 The merged Character data includes 59 reviewed signature/no-signature relationships and source-ordered Prydwen reference recommendations for all 59 released identities, including percentages, contexts, Echo sets/main Echoes, stats, skill priority and teammate guidance. See the [source review and coverage](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md). Two missing released signature weapon records/passives are integrated with bounded V37 gates. Existing Calc target selection, profile defaults, UI Echo requirements and DPS readiness are unchanged. Image-only example-team member capture and independent ranking checks remain pending.
 
-### Team-aware rotation references (candidate)
+### Team-aware rotation references
 
-The candidate maps Prydwen-only baseline rotations for 59 released identities: 96 references, with ordered sequences for 57 Characters and explicit priority-only guidance for Jianxin/Yuanwu. Team/mode/Intro differences, preparation and partner handoffs are preserved. Contextual lookup and detached database joins are reference data; existing executable presets and DPS readiness are unchanged. See [scope and consumer contract](TEAM_AWARE_ROTATION_REFERENCES.md).
+The merged reference catalog maps Prydwen-only baseline rotations for 59 released identities: 96 references, with ordered sequences for 57 Characters and explicit priority-only guidance for Jianxin/Yuanwu. Team/mode/Intro differences, preparation and partner handoffs are preserved. Contextual lookup and detached database joins are reference data; existing executable presets and DPS readiness are unchanged. See [scope and consumer contract](TEAM_AWARE_ROTATION_REFERENCES.md). The coordination candidate sorts all 96 references and explains 19 reviewed team/partner cases with short difference notes. A bounded Aalto hit/Echo bridge reuses existing combat math; the public rotation registry has no active engines, so full player-build team DPS remains Pending. See [coordination and integration contract](TEAM_ROTATION_COORDINATION.md).
 
 ### Improve policy and Echo guidance
 

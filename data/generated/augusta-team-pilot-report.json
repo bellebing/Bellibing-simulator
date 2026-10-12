@@ -1,0 +1,2532 @@
+{
+  "scope": "EXPERIMENTAL_FIXED_GEAR_REFERENCE_STATE_SCHEDULE",
+  "enemy": {
+    "defense": 1520,
+    "resistanceByElement": {
+      "Electro": 0.1,
+      "Aero": 0.1,
+      "Fusion": 0.1,
+      "Spectro": 0.1,
+      "Havoc": 0.1
+    },
+    "damageReduction": 0
+  },
+  "exampleBuilds": [
+    {
+      "characterId": "augusta",
+      "sequence": 0,
+      "weapon": {
+        "id": "thunderflare-dominion",
+        "rank": 1
+      },
+      "equipmentPresetId": "augusta-cov3-void2-false-sovereign",
+      "echoes": [
+        {
+          "id": "augusta-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "augusta-1",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "augusta-2",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "augusta-3",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "augusta-4",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterId": "iuno",
+      "sequence": 0,
+      "weapon": {
+        "id": "moongazers-sigil",
+        "rank": 1
+      },
+      "equipmentPresetId": "iuno-cov3-sierra2-lady",
+      "echoes": [
+        {
+          "id": "iuno-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "iuno-1",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "iuno-2",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "iuno-3",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "iuno-4",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterId": "mortefi",
+      "sequence": 6,
+      "weapon": {
+        "id": "static-mist",
+        "rank": 1
+      },
+      "equipmentPresetId": "mortefi-moonlit5-heron",
+      "echoes": [
+        {
+          "id": "mortefi-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "mortefi-1",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "mortefi-2",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.3
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "mortefi-3",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        {
+          "id": "mortefi-4",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "ATK%",
+            "value": 0.18
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "sequence": 0,
+      "weapon": {
+        "id": "stellar-symphony",
+        "rank": 1
+      },
+      "equipmentPresetId": "shorekeeper-rejuvenating5-fallacy",
+      "echoes": [
+        {
+          "id": "shorekeeper-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "HP%",
+            "value": 0.33
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "HP%",
+              "value": 0.079
+            },
+            {
+              "name": "Flat HP",
+              "value": 390
+            }
+          ]
+        },
+        {
+          "id": "shorekeeper-1",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "Energy Regen",
+            "value": 0.32
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "HP%",
+              "value": 0.079
+            },
+            {
+              "name": "Flat HP",
+              "value": 390
+            }
+          ]
+        },
+        {
+          "id": "shorekeeper-2",
+          "cost": 3,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "Energy Regen",
+            "value": 0.32
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 100
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "HP%",
+              "value": 0.079
+            },
+            {
+              "name": "Flat HP",
+              "value": 390
+            }
+          ]
+        },
+        {
+          "id": "shorekeeper-3",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "HP%",
+            "value": 0.228
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "HP%",
+              "value": 0.079
+            },
+            {
+              "name": "Flat HP",
+              "value": 390
+            }
+          ]
+        },
+        {
+          "id": "shorekeeper-4",
+          "cost": 1,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "HP%",
+            "value": 0.228
+          },
+          "secondaryMainStat": {
+            "name": "Flat HP",
+            "value": 2280
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "HP%",
+              "value": 0.079
+            },
+            {
+              "name": "Flat HP",
+              "value": 390
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "iuno": {
+      "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+      "cycleSeconds": 27.766666666666666,
+      "scenarioDamage": 2060754.3298750466,
+      "scenarioDps": 74216.8426125467,
+      "members": [
+        {
+          "characterId": "augusta",
+          "damage": 1572020.4964127594,
+          "dps": 56615.38402446913,
+          "share": 0.7628374103710259
+        },
+        {
+          "characterId": "iuno",
+          "damage": 438357.89329650527,
+          "dps": 15787.199038289506,
+          "share": 0.21271720114405146
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "damage": 50375.94016578216,
+          "dps": 1814.259549788073,
+          "share": 0.024445388484922746
+        }
+      ],
+      "builds": [
+        {
+          "characterId": "augusta",
+          "baseAtk": 1138,
+          "baseHp": 10300,
+          "stats": {
+            "CRIT Rate": 0.7965,
+            "Flat ATK": 350,
+            "ATK%": 1.5949999999999998,
+            "CRIT DMG": 0.75,
+            "Energy Regen": 0.42000000000000004,
+            "Heavy Attack DMG": 0.515,
+            "Flat HP": 4560,
+            "Electro DMG": 0.22
+          },
+          "atk": 3303.1099999999997,
+          "hp": 14860,
+          "critRate": 0.8465,
+          "critDamage": 2.25,
+          "energyRegen": 1.42,
+          "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+        },
+        {
+          "characterId": "iuno",
+          "baseAtk": 950,
+          "baseHp": 10525,
+          "stats": {
+            "CRIT Rate": 1.035,
+            "Flat ATK": 350,
+            "ATK%": 1.5949999999999998,
+            "CRIT DMG": 0.75,
+            "Energy Regen": 0.42000000000000004,
+            "Heavy Attack DMG": 0.395,
+            "Flat HP": 4560,
+            "Aero DMG": 0.22,
+            "Liberation DMG": 0.12
+          },
+          "atk": 2815.2499999999995,
+          "hp": 15085,
+          "critRate": 1.085,
+          "critDamage": 2.25,
+          "energyRegen": 1.42,
+          "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "baseAtk": 700,
+          "baseHp": 16713,
+          "stats": {
+            "HP%": 1.4210000000000003,
+            "Flat ATK": 350,
+            "CRIT DMG": 0.75,
+            "CRIT Rate": 0.375,
+            "Energy Regen": 1.9300000000000002,
+            "Flat HP": 6510,
+            "Healing Bonus": 0.12
+          },
+          "atk": 1050,
+          "hp": 46972.173,
+          "critRate": 0.425,
+          "critDamage": 2.25,
+          "energyRegen": 2.93,
+          "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+        }
+      ],
+      "requirements": [
+        {
+          "characterId": "the-shorekeeper",
+          "required": 2.1008321273516644,
+          "actual": 2.93
+        },
+        {
+          "characterId": "iuno",
+          "required": 1.231830500123183,
+          "actual": 1.42
+        },
+        {
+          "characterId": "augusta",
+          "required": 1.1629529701818861,
+          "actual": 1.42
+        }
+      ],
+      "pending": [
+        "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+        "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+        "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+        "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+        "Shared Tune Break excluded explicitly from both teams."
+      ],
+      "teamDpsReady": false
+    },
+    "mortefi": {
+      "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+      "cycleSeconds": 27.65,
+      "scenarioDamage": 1719822.9573053147,
+      "scenarioDps": 62199.745291331456,
+      "members": [
+        {
+          "characterId": "augusta",
+          "damage": 1482872.799709428,
+          "dps": 53630.1193384965,
+          "share": 0.862224098946121
+        },
+        {
+          "characterId": "mortefi",
+          "damage": 185695.53413597928,
+          "dps": 6715.932518480264,
+          "share": 0.10797363376689322
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "damage": 51254.62345990716,
+          "dps": 1853.6934343546895,
+          "share": 0.029802267286985686
+        }
+      ],
+      "builds": [
+        {
+          "characterId": "augusta",
+          "baseAtk": 1138,
+          "baseHp": 10300,
+          "stats": {
+            "CRIT Rate": 0.7965,
+            "Flat ATK": 350,
+            "ATK%": 1.5949999999999998,
+            "CRIT DMG": 0.75,
+            "Energy Regen": 0.42000000000000004,
+            "Heavy Attack DMG": 0.515,
+            "Flat HP": 4560,
+            "Electro DMG": 0.22
+          },
+          "atk": 3303.1099999999997,
+          "hp": 14860,
+          "critRate": 0.8465,
+          "critDamage": 2.25,
+          "energyRegen": 1.42,
+          "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+        },
+        {
+          "characterId": "mortefi",
+          "baseAtk": 837,
+          "baseHp": 10025,
+          "stats": {
+            "CRIT Rate": 0.838,
+            "Flat ATK": 350,
+            "ATK%": 1.4749999999999996,
+            "CRIT DMG": 0.75,
+            "Energy Regen": 0.648,
+            "Heavy Attack DMG": 0.395,
+            "Flat HP": 4560,
+            "Fusion DMG": 0.12
+          },
+          "atk": 2421.575,
+          "hp": 14585,
+          "critRate": 0.888,
+          "critDamage": 2.25,
+          "energyRegen": 1.6480000000000001,
+          "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+        },
+        {
+          "characterId": "the-shorekeeper",
+          "baseAtk": 700,
+          "baseHp": 16713,
+          "stats": {
+            "HP%": 1.4210000000000003,
+            "Flat ATK": 350,
+            "CRIT DMG": 0.75,
+            "CRIT Rate": 0.375,
+            "Energy Regen": 1.9300000000000002,
+            "Flat HP": 6510,
+            "Healing Bonus": 0.12
+          },
+          "atk": 1050,
+          "hp": 46972.173,
+          "critRate": 0.425,
+          "critDamage": 2.25,
+          "energyRegen": 2.93,
+          "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+        }
+      ],
+      "requirements": [
+        {
+          "characterId": "the-shorekeeper",
+          "required": 1.8762561258010664,
+          "actual": 2.93
+        },
+        {
+          "characterId": "mortefi",
+          "required": 1.030290541932825,
+          "actual": 1.6480000000000001
+        },
+        {
+          "characterId": "augusta",
+          "required": 1.0646452601993013,
+          "actual": 1.42
+        }
+      ],
+      "pending": [
+        "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+        "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+        "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+        "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+        "Shared Tune Break excluded explicitly from both teams."
+      ],
+      "teamDpsReady": false
+    },
+    "scenarioDpsDelta": -12017.097321215238,
+    "percentChange": -16.191873566962677,
+    "comparisonBasis": "SAME_AUGUSTA_SHOREKEEPER_BUILDS_AND_ENEMY_SEPARATE_COMPLETE_TEAM_CYCLES"
+  },
+  "upgrades": [
+    {
+      "partnerId": "iuno",
+      "changedEcho": {
+        "current": {
+          "id": "augusta-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        "candidate": {
+          "id": "augusta-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.21
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.116
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        }
+      },
+      "scenarioDpsDelta": 1858.2130529204442,
+      "percentChange": 2.5037619326132576,
+      "current": {
+        "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+        "cycleSeconds": 27.766666666666666,
+        "scenarioDamage": 2060754.3298750466,
+        "scenarioDps": 74216.8426125467,
+        "members": [
+          {
+            "characterId": "augusta",
+            "damage": 1572020.4964127594,
+            "dps": 56615.38402446913,
+            "share": 0.7628374103710259
+          },
+          {
+            "characterId": "iuno",
+            "damage": 438357.89329650527,
+            "dps": 15787.199038289506,
+            "share": 0.21271720114405146
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "damage": 50375.94016578216,
+            "dps": 1814.259549788073,
+            "share": 0.024445388484922746
+          }
+        ],
+        "builds": [
+          {
+            "characterId": "augusta",
+            "baseAtk": 1138,
+            "baseHp": 10300,
+            "stats": {
+              "CRIT Rate": 0.7965,
+              "Flat ATK": 350,
+              "ATK%": 1.5949999999999998,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.515,
+              "Flat HP": 4560,
+              "Electro DMG": 0.22
+            },
+            "atk": 3303.1099999999997,
+            "hp": 14860,
+            "critRate": 0.8465,
+            "critDamage": 2.25,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "iuno",
+            "baseAtk": 950,
+            "baseHp": 10525,
+            "stats": {
+              "CRIT Rate": 1.035,
+              "Flat ATK": 350,
+              "ATK%": 1.5949999999999998,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.395,
+              "Flat HP": 4560,
+              "Aero DMG": 0.22,
+              "Liberation DMG": 0.12
+            },
+            "atk": 2815.2499999999995,
+            "hp": 15085,
+            "critRate": 1.085,
+            "critDamage": 2.25,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "baseAtk": 700,
+            "baseHp": 16713,
+            "stats": {
+              "HP%": 1.4210000000000003,
+              "Flat ATK": 350,
+              "CRIT DMG": 0.75,
+              "CRIT Rate": 0.375,
+              "Energy Regen": 1.9300000000000002,
+              "Flat HP": 6510,
+              "Healing Bonus": 0.12
+            },
+            "atk": 1050,
+            "hp": 46972.173,
+            "critRate": 0.425,
+            "critDamage": 2.25,
+            "energyRegen": 2.93,
+            "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+          }
+        ],
+        "requirements": [
+          {
+            "characterId": "the-shorekeeper",
+            "required": 2.1008321273516644,
+            "actual": 2.93
+          },
+          {
+            "characterId": "iuno",
+            "required": 1.231830500123183,
+            "actual": 1.42
+          },
+          {
+            "characterId": "augusta",
+            "required": 1.1629529701818861,
+            "actual": 1.42
+          }
+        ],
+        "pending": [
+          "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+          "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+          "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+          "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+          "Shared Tune Break excluded explicitly from both teams."
+        ],
+        "teamDpsReady": false
+      },
+      "candidate": {
+        "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+        "cycleSeconds": 27.766666666666666,
+        "scenarioDamage": 2112350.7123111375,
+        "scenarioDps": 76075.05566546714,
+        "members": [
+          {
+            "characterId": "augusta",
+            "damage": 1623616.8788488496,
+            "dps": 58473.59707738954,
+            "share": 0.7686303554547715
+          },
+          {
+            "characterId": "iuno",
+            "damage": 438357.89329650527,
+            "dps": 15787.199038289506,
+            "share": 0.20752136032226148
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "damage": 50375.94016578216,
+            "dps": 1814.259549788073,
+            "share": 0.023848284222966695
+          }
+        ],
+        "builds": [
+          {
+            "characterId": "augusta",
+            "baseAtk": 1138,
+            "baseHp": 10300,
+            "stats": {
+              "CRIT Rate": 0.7965,
+              "Flat ATK": 350,
+              "ATK%": 1.6319999999999997,
+              "CRIT DMG": 0.81,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.515,
+              "Flat HP": 4560,
+              "Electro DMG": 0.22
+            },
+            "atk": 3345.2159999999994,
+            "hp": 14860,
+            "critRate": 0.8465,
+            "critDamage": 2.31,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.116},{\"name\":\"CRIT DMG\",\"value\":0.21},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "iuno",
+            "baseAtk": 950,
+            "baseHp": 10525,
+            "stats": {
+              "CRIT Rate": 1.035,
+              "Flat ATK": 350,
+              "ATK%": 1.5949999999999998,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.395,
+              "Flat HP": 4560,
+              "Aero DMG": 0.22,
+              "Liberation DMG": 0.12
+            },
+            "atk": 2815.2499999999995,
+            "hp": 15085,
+            "critRate": 1.085,
+            "critDamage": 2.25,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "baseAtk": 700,
+            "baseHp": 16713,
+            "stats": {
+              "HP%": 1.4210000000000003,
+              "Flat ATK": 350,
+              "CRIT DMG": 0.75,
+              "CRIT Rate": 0.375,
+              "Energy Regen": 1.9300000000000002,
+              "Flat HP": 6510,
+              "Healing Bonus": 0.12
+            },
+            "atk": 1050,
+            "hp": 46972.173,
+            "critRate": 0.425,
+            "critDamage": 2.25,
+            "energyRegen": 2.93,
+            "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+          }
+        ],
+        "requirements": [
+          {
+            "characterId": "the-shorekeeper",
+            "required": 2.1008321273516644,
+            "actual": 2.93
+          },
+          {
+            "characterId": "iuno",
+            "required": 1.231830500123183,
+            "actual": 1.42
+          },
+          {
+            "characterId": "augusta",
+            "required": 1.1629529701818861,
+            "actual": 1.42
+          }
+        ],
+        "pending": [
+          "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+          "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+          "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+          "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+          "Shared Tune Break excluded explicitly from both teams."
+        ],
+        "teamDpsReady": false
+      },
+      "nextRollTierValues": [
+        {
+          "stat": "CRIT Rate",
+          "from": 0.075,
+          "to": 0.081,
+          "scenarioDpsDelta": 217.23148589344055,
+          "gainPerUnit": 36205.24764890673
+        },
+        {
+          "stat": "CRIT DMG",
+          "from": 0.15,
+          "to": 0.162,
+          "scenarioDpsDelta": 249.97067201325262,
+          "gainPerUnit": 20830.8893344377
+        },
+        {
+          "stat": "Energy Regen",
+          "from": 0.084,
+          "to": 0.092,
+          "scenarioDpsDelta": 0,
+          "gainPerUnit": 0
+        },
+        {
+          "stat": "ATK%",
+          "from": 0.079,
+          "to": 0.086,
+          "scenarioDpsDelta": 112.60874020142364,
+          "gainPerUnit": 16086.962885917681
+        },
+        {
+          "stat": "Heavy Attack DMG",
+          "from": 0.079,
+          "to": 0.086,
+          "scenarioDpsDelta": 169.86663739429787,
+          "gainPerUnit": 24266.662484899723
+        }
+      ]
+    },
+    {
+      "partnerId": "mortefi",
+      "changedEcho": {
+        "current": {
+          "id": "augusta-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.15
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.079
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        },
+        "candidate": {
+          "id": "augusta-0",
+          "cost": 4,
+          "rank": 5,
+          "level": 25,
+          "mainStat": {
+            "name": "CRIT Rate",
+            "value": 0.22
+          },
+          "secondaryMainStat": {
+            "name": "Flat ATK",
+            "value": 150
+          },
+          "substats": [
+            {
+              "name": "CRIT Rate",
+              "value": 0.075
+            },
+            {
+              "name": "CRIT DMG",
+              "value": 0.21
+            },
+            {
+              "name": "Energy Regen",
+              "value": 0.084
+            },
+            {
+              "name": "ATK%",
+              "value": 0.116
+            },
+            {
+              "name": "Heavy Attack DMG",
+              "value": 0.079
+            }
+          ]
+        }
+      },
+      "scenarioDpsDelta": 1686.6875825624302,
+      "percentChange": 2.7117274751887077,
+      "current": {
+        "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+        "cycleSeconds": 27.65,
+        "scenarioDamage": 1719822.9573053147,
+        "scenarioDps": 62199.745291331456,
+        "members": [
+          {
+            "characterId": "augusta",
+            "damage": 1482872.799709428,
+            "dps": 53630.1193384965,
+            "share": 0.862224098946121
+          },
+          {
+            "characterId": "mortefi",
+            "damage": 185695.53413597928,
+            "dps": 6715.932518480264,
+            "share": 0.10797363376689322
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "damage": 51254.62345990716,
+            "dps": 1853.6934343546895,
+            "share": 0.029802267286985686
+          }
+        ],
+        "builds": [
+          {
+            "characterId": "augusta",
+            "baseAtk": 1138,
+            "baseHp": 10300,
+            "stats": {
+              "CRIT Rate": 0.7965,
+              "Flat ATK": 350,
+              "ATK%": 1.5949999999999998,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.515,
+              "Flat HP": 4560,
+              "Electro DMG": 0.22
+            },
+            "atk": 3303.1099999999997,
+            "hp": 14860,
+            "critRate": 0.8465,
+            "critDamage": 2.25,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "mortefi",
+            "baseAtk": 837,
+            "baseHp": 10025,
+            "stats": {
+              "CRIT Rate": 0.838,
+              "Flat ATK": 350,
+              "ATK%": 1.4749999999999996,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.648,
+              "Heavy Attack DMG": 0.395,
+              "Flat HP": 4560,
+              "Fusion DMG": 0.12
+            },
+            "atk": 2421.575,
+            "hp": 14585,
+            "critRate": 0.888,
+            "critDamage": 2.25,
+            "energyRegen": 1.6480000000000001,
+            "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "baseAtk": 700,
+            "baseHp": 16713,
+            "stats": {
+              "HP%": 1.4210000000000003,
+              "Flat ATK": 350,
+              "CRIT DMG": 0.75,
+              "CRIT Rate": 0.375,
+              "Energy Regen": 1.9300000000000002,
+              "Flat HP": 6510,
+              "Healing Bonus": 0.12
+            },
+            "atk": 1050,
+            "hp": 46972.173,
+            "critRate": 0.425,
+            "critDamage": 2.25,
+            "energyRegen": 2.93,
+            "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+          }
+        ],
+        "requirements": [
+          {
+            "characterId": "the-shorekeeper",
+            "required": 1.8762561258010664,
+            "actual": 2.93
+          },
+          {
+            "characterId": "mortefi",
+            "required": 1.030290541932825,
+            "actual": 1.6480000000000001
+          },
+          {
+            "characterId": "augusta",
+            "required": 1.0646452601993013,
+            "actual": 1.42
+          }
+        ],
+        "pending": [
+          "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+          "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+          "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+          "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+          "Shared Tune Break excluded explicitly from both teams."
+        ],
+        "teamDpsReady": false
+      },
+      "candidate": {
+        "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+        "cycleSeconds": 27.65,
+        "scenarioDamage": 1766459.868963166,
+        "scenarioDps": 63886.432873893886,
+        "members": [
+          {
+            "characterId": "augusta",
+            "damage": 1529509.7113672812,
+            "dps": 55316.806921059,
+            "share": 0.8658615676703915
+          },
+          {
+            "characterId": "mortefi",
+            "damage": 185695.53413597928,
+            "dps": 6715.932518480264,
+            "share": 0.10512298490255223
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "damage": 51254.62345990716,
+            "dps": 1853.6934343546895,
+            "share": 0.02901544742705724
+          }
+        ],
+        "builds": [
+          {
+            "characterId": "augusta",
+            "baseAtk": 1138,
+            "baseHp": 10300,
+            "stats": {
+              "CRIT Rate": 0.7965,
+              "Flat ATK": 350,
+              "ATK%": 1.6319999999999997,
+              "CRIT DMG": 0.81,
+              "Energy Regen": 0.42000000000000004,
+              "Heavy Attack DMG": 0.515,
+              "Flat HP": 4560,
+              "Electro DMG": 0.22
+            },
+            "atk": 3345.2159999999994,
+            "hp": 14860,
+            "critRate": 0.8465,
+            "critDamage": 2.31,
+            "energyRegen": 1.42,
+            "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.116},{\"name\":\"CRIT DMG\",\"value\":0.21},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "mortefi",
+            "baseAtk": 837,
+            "baseHp": 10025,
+            "stats": {
+              "CRIT Rate": 0.838,
+              "Flat ATK": 350,
+              "ATK%": 1.4749999999999996,
+              "CRIT DMG": 0.75,
+              "Energy Regen": 0.648,
+              "Heavy Attack DMG": 0.395,
+              "Flat HP": 4560,
+              "Fusion DMG": 0.12
+            },
+            "atk": 2421.575,
+            "hp": 14585,
+            "critRate": 0.888,
+            "critDamage": 2.25,
+            "energyRegen": 1.6480000000000001,
+            "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+          },
+          {
+            "characterId": "the-shorekeeper",
+            "baseAtk": 700,
+            "baseHp": 16713,
+            "stats": {
+              "HP%": 1.4210000000000003,
+              "Flat ATK": 350,
+              "CRIT DMG": 0.75,
+              "CRIT Rate": 0.375,
+              "Energy Regen": 1.9300000000000002,
+              "Flat HP": 6510,
+              "Healing Bonus": 0.12
+            },
+            "atk": 1050,
+            "hp": 46972.173,
+            "critRate": 0.425,
+            "critDamage": 2.25,
+            "energyRegen": 2.93,
+            "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+          }
+        ],
+        "requirements": [
+          {
+            "characterId": "the-shorekeeper",
+            "required": 1.8762561258010664,
+            "actual": 2.93
+          },
+          {
+            "characterId": "mortefi",
+            "required": 1.030290541932825,
+            "actual": 1.6480000000000001
+          },
+          {
+            "characterId": "augusta",
+            "required": 1.0646452601993013,
+            "actual": 1.42
+          }
+        ],
+        "pending": [
+          "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+          "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+          "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+          "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+          "Shared Tune Break excluded explicitly from both teams."
+        ],
+        "teamDpsReady": false
+      },
+      "nextRollTierValues": [
+        {
+          "stat": "CRIT Rate",
+          "from": 0.075,
+          "to": 0.081,
+          "scenarioDpsDelta": 205.66342721493857,
+          "gainPerUnit": 34277.23786915639
+        },
+        {
+          "stat": "CRIT DMG",
+          "from": 0.15,
+          "to": 0.162,
+          "scenarioDpsDelta": 237.0046072833211,
+          "gainPerUnit": 19750.38394027674
+        },
+        {
+          "stat": "Energy Regen",
+          "from": 0.084,
+          "to": 0.092,
+          "scenarioDpsDelta": 0,
+          "gainPerUnit": 0
+        },
+        {
+          "stat": "ATK%",
+          "from": 0.079,
+          "to": 0.086,
+          "scenarioDpsDelta": 92.85738316801144,
+          "gainPerUnit": 13265.340452573077
+        },
+        {
+          "stat": "Heavy Attack DMG",
+          "from": 0.079,
+          "to": 0.086,
+          "scenarioDpsDelta": 149.84775904077105,
+          "gainPerUnit": 21406.822720110173
+        }
+      ]
+    }
+  ],
+  "laterCycles": [
+    {
+      "partnerId": "iuno",
+      "cycles": [
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.766666666666666,
+          "scenarioDamage": 2060754.3298750466,
+          "scenarioDps": 74216.8426125467,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1572020.4964127594,
+              "dps": 56615.38402446913,
+              "share": 0.7628374103710259
+            },
+            {
+              "characterId": "iuno",
+              "damage": 438357.89329650527,
+              "dps": 15787.199038289506,
+              "share": 0.21271720114405146
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 50375.94016578216,
+              "dps": 1814.259549788073,
+              "share": 0.024445388484922746
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "iuno",
+              "baseAtk": 950,
+              "baseHp": 10525,
+              "stats": {
+                "CRIT Rate": 1.035,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Aero DMG": 0.22,
+                "Liberation DMG": 0.12
+              },
+              "atk": 2815.2499999999995,
+              "hp": 15085,
+              "critRate": 1.085,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 2.1008321273516644,
+              "actual": 2.93
+            },
+            {
+              "characterId": "iuno",
+              "required": 1.231830500123183,
+              "actual": 1.42
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.1629529701818861,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        },
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.766666666666666,
+          "scenarioDamage": 2060902.4960352338,
+          "scenarioDps": 74222.17872875993,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1572020.4964127594,
+              "dps": 56615.38402446913,
+              "share": 0.7627825670729275
+            },
+            {
+              "characterId": "iuno",
+              "damage": 438357.89329650527,
+              "dps": 15787.199038289506,
+              "share": 0.2127019080911487
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 50524.10632596966,
+              "dps": 1819.5956660013082,
+              "share": 0.02451552483592406
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "iuno",
+              "baseAtk": 950,
+              "baseHp": 10525,
+              "stats": {
+                "CRIT Rate": 1.035,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Aero DMG": 0.22,
+                "Liberation DMG": 0.12
+              },
+              "atk": 2815.2499999999995,
+              "hp": 15085,
+              "critRate": 1.085,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 2.1008321273516644,
+              "actual": 2.93
+            },
+            {
+              "characterId": "iuno",
+              "required": 1.231830500123183,
+              "actual": 1.42
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.1629529701818861,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        },
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.766666666666666,
+          "scenarioDamage": 2060902.4960352338,
+          "scenarioDps": 74222.17872875993,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1572020.4964127594,
+              "dps": 56615.38402446913,
+              "share": 0.7627825670729275
+            },
+            {
+              "characterId": "iuno",
+              "damage": 438357.89329650527,
+              "dps": 15787.199038289506,
+              "share": 0.2127019080911487
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 50524.10632596966,
+              "dps": 1819.5956660013082,
+              "share": 0.02451552483592406
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "iuno",
+              "baseAtk": 950,
+              "baseHp": 10525,
+              "stats": {
+                "CRIT Rate": 1.035,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Aero DMG": 0.22,
+                "Liberation DMG": 0.12
+              },
+              "atk": 2815.2499999999995,
+              "hp": 15085,
+              "critRate": 1.085,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"iuno-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"iuno-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 2.1008321273516644,
+              "actual": 2.93
+            },
+            {
+              "characterId": "iuno",
+              "required": 1.231830500123183,
+              "actual": 1.42
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.1629529701818861,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Description verifies Rank5 decomposition; ATK is the pinned publisher declaration. Exact eleven impact times remain unavailable: source model groups the cast into one impact.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        }
+      ]
+    },
+    {
+      "partnerId": "mortefi",
+      "cycles": [
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.65,
+          "scenarioDamage": 1719822.9573053147,
+          "scenarioDps": 62199.745291331456,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1482872.799709428,
+              "dps": 53630.1193384965,
+              "share": 0.862224098946121
+            },
+            {
+              "characterId": "mortefi",
+              "damage": 185695.53413597928,
+              "dps": 6715.932518480264,
+              "share": 0.10797363376689322
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 51254.62345990716,
+              "dps": 1853.6934343546895,
+              "share": 0.029802267286985686
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "mortefi",
+              "baseAtk": 837,
+              "baseHp": 10025,
+              "stats": {
+                "CRIT Rate": 0.838,
+                "Flat ATK": 350,
+                "ATK%": 1.4749999999999996,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.648,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Fusion DMG": 0.12
+              },
+              "atk": 2421.575,
+              "hp": 14585,
+              "critRate": 0.888,
+              "critDamage": 2.25,
+              "energyRegen": 1.6480000000000001,
+              "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 1.8762561258010664,
+              "actual": 2.93
+            },
+            {
+              "characterId": "mortefi",
+              "required": 1.030290541932825,
+              "actual": 1.6480000000000001
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.0646452601993013,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        },
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.65,
+          "scenarioDamage": 1719921.7347454398,
+          "scenarioDps": 62203.31771231248,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1482872.799709428,
+              "dps": 53630.1193384965,
+              "share": 0.8621745802455967
+            },
+            {
+              "characterId": "mortefi",
+              "damage": 185695.53413597928,
+              "dps": 6715.932518480264,
+              "share": 0.10796743269452519
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 51353.40090003216,
+              "dps": 1857.265855335702,
+              "share": 0.02985798705987794
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "mortefi",
+              "baseAtk": 837,
+              "baseHp": 10025,
+              "stats": {
+                "CRIT Rate": 0.838,
+                "Flat ATK": 350,
+                "ATK%": 1.4749999999999996,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.648,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Fusion DMG": 0.12
+              },
+              "atk": 2421.575,
+              "hp": 14585,
+              "critRate": 0.888,
+              "critDamage": 2.25,
+              "energyRegen": 1.6480000000000001,
+              "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 1.8762561258010664,
+              "actual": 2.93
+            },
+            {
+              "characterId": "mortefi",
+              "required": 1.030290541932825,
+              "actual": 1.6480000000000001
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.0646452601993013,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        },
+        {
+          "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+          "cycleSeconds": 27.65,
+          "scenarioDamage": 1719921.7347454398,
+          "scenarioDps": 62203.31771231248,
+          "members": [
+            {
+              "characterId": "augusta",
+              "damage": 1482872.799709428,
+              "dps": 53630.1193384965,
+              "share": 0.8621745802455967
+            },
+            {
+              "characterId": "mortefi",
+              "damage": 185695.53413597928,
+              "dps": 6715.932518480264,
+              "share": 0.10796743269452519
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "damage": 51353.40090003216,
+              "dps": 1857.265855335702,
+              "share": 0.02985798705987794
+            }
+          ],
+          "builds": [
+            {
+              "characterId": "augusta",
+              "baseAtk": 1138,
+              "baseHp": 10300,
+              "stats": {
+                "CRIT Rate": 0.7965,
+                "Flat ATK": 350,
+                "ATK%": 1.5949999999999998,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.42000000000000004,
+                "Heavy Attack DMG": 0.515,
+                "Flat HP": 4560,
+                "Electro DMG": 0.22
+              },
+              "atk": 3303.1099999999997,
+              "hp": 14860,
+              "critRate": 0.8465,
+              "critDamage": 2.25,
+              "energyRegen": 1.42,
+              "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "mortefi",
+              "baseAtk": 837,
+              "baseHp": 10025,
+              "stats": {
+                "CRIT Rate": 0.838,
+                "Flat ATK": 350,
+                "ATK%": 1.4749999999999996,
+                "CRIT DMG": 0.75,
+                "Energy Regen": 0.648,
+                "Heavy Attack DMG": 0.395,
+                "Flat HP": 4560,
+                "Fusion DMG": 0.12
+              },
+              "atk": 2421.575,
+              "hp": 14585,
+              "critRate": 0.888,
+              "critDamage": 2.25,
+              "energyRegen": 1.6480000000000001,
+              "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+            },
+            {
+              "characterId": "the-shorekeeper",
+              "baseAtk": 700,
+              "baseHp": 16713,
+              "stats": {
+                "HP%": 1.4210000000000003,
+                "Flat ATK": 350,
+                "CRIT DMG": 0.75,
+                "CRIT Rate": 0.375,
+                "Energy Regen": 1.9300000000000002,
+                "Flat HP": 6510,
+                "Healing Bonus": 0.12
+              },
+              "atk": 1050,
+              "hp": 46972.173,
+              "critRate": 0.425,
+              "critDamage": 2.25,
+              "energyRegen": 2.93,
+              "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+            }
+          ],
+          "requirements": [
+            {
+              "characterId": "the-shorekeeper",
+              "required": 1.8762561258010664,
+              "actual": 2.93
+            },
+            {
+              "characterId": "mortefi",
+              "required": 1.030290541932825,
+              "actual": 1.6480000000000001
+            },
+            {
+              "characterId": "augusta",
+              "required": 1.0646452601993013,
+              "actual": 1.42
+            }
+          ],
+          "pending": [
+            "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+            "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+            "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+            "Heron uses the publisher damage-bonus interpretation; compare DISABLED_SENSITIVITY. Generic Heron transfer remains source-blocked.",
+            "Shared Tune Break excluded explicitly from both teams."
+          ],
+          "teamDpsReady": false
+        }
+      ]
+    }
+  ],
+  "heronSensitivity": {
+    "status": "EXPERIMENTAL_REFERENCE_SCENARIO",
+    "cycleSeconds": 27.65,
+    "scenarioDamage": 1633872.9519764138,
+    "scenarioDps": 59091.24600276361,
+    "members": [
+      {
+        "characterId": "augusta",
+        "damage": 1396922.794380528,
+        "dps": 50521.62004992868,
+        "share": 0.8549763876626642
+      },
+      {
+        "characterId": "mortefi",
+        "damage": 185695.53413597928,
+        "dps": 6715.932518480264,
+        "share": 0.1136535946147788
+      },
+      {
+        "characterId": "the-shorekeeper",
+        "damage": 51254.62345990716,
+        "dps": 1853.6934343546895,
+        "share": 0.031370017722557327
+      }
+    ],
+    "builds": [
+      {
+        "characterId": "augusta",
+        "baseAtk": 1138,
+        "baseHp": 10300,
+        "stats": {
+          "CRIT Rate": 0.7965,
+          "Flat ATK": 350,
+          "ATK%": 1.5949999999999998,
+          "CRIT DMG": 0.75,
+          "Energy Regen": 0.42000000000000004,
+          "Heavy Attack DMG": 0.515,
+          "Flat HP": 4560,
+          "Electro DMG": 0.22
+        },
+        "atk": 3303.1099999999997,
+        "hp": 14860,
+        "critRate": 0.8465,
+        "critDamage": 2.25,
+        "energyRegen": 1.42,
+        "echoStatKey": "[{\"id\":\"augusta-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"augusta-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+      },
+      {
+        "characterId": "mortefi",
+        "baseAtk": 837,
+        "baseHp": 10025,
+        "stats": {
+          "CRIT Rate": 0.838,
+          "Flat ATK": 350,
+          "ATK%": 1.4749999999999996,
+          "CRIT DMG": 0.75,
+          "Energy Regen": 0.648,
+          "Heavy Attack DMG": 0.395,
+          "Flat HP": 4560,
+          "Fusion DMG": 0.12
+        },
+        "atk": 2421.575,
+        "hp": 14585,
+        "critRate": 0.888,
+        "critDamage": 2.25,
+        "energyRegen": 1.6480000000000001,
+        "echoStatKey": "[{\"id\":\"mortefi-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"CRIT Rate\",\"value\":0.22},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.3},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]},{\"id\":\"mortefi-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"ATK%\",\"value\":0.18},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"ATK%\",\"value\":0.079},{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Heavy Attack DMG\",\"value\":0.079}]}]"
+      },
+      {
+        "characterId": "the-shorekeeper",
+        "baseAtk": 700,
+        "baseHp": 16713,
+        "stats": {
+          "HP%": 1.4210000000000003,
+          "Flat ATK": 350,
+          "CRIT DMG": 0.75,
+          "CRIT Rate": 0.375,
+          "Energy Regen": 1.9300000000000002,
+          "Flat HP": 6510,
+          "Healing Bonus": 0.12
+        },
+        "atk": 1050,
+        "hp": 46972.173,
+        "critRate": 0.425,
+        "critDamage": 2.25,
+        "energyRegen": 2.93,
+        "echoStatKey": "[{\"id\":\"shorekeeper-0\",\"cost\":4,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.33},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":150},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-1\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-2\",\"cost\":3,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"Energy Regen\",\"value\":0.32},\"secondaryMainStat\":{\"name\":\"Flat ATK\",\"value\":100},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-3\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]},{\"id\":\"shorekeeper-4\",\"cost\":1,\"rank\":5,\"level\":25,\"mainStat\":{\"name\":\"HP%\",\"value\":0.228},\"secondaryMainStat\":{\"name\":\"Flat HP\",\"value\":2280},\"substats\":[{\"name\":\"CRIT DMG\",\"value\":0.15},{\"name\":\"CRIT Rate\",\"value\":0.075},{\"name\":\"Energy Regen\",\"value\":0.084},{\"name\":\"Flat HP\",\"value\":390},{\"name\":\"HP%\",\"value\":0.079}]}]"
+      }
+    ],
+    "requirements": [
+      {
+        "characterId": "the-shorekeeper",
+        "required": 1.8762561258010664,
+        "actual": 2.93
+      },
+      {
+        "characterId": "mortefi",
+        "required": 1.030290541932825,
+        "actual": 1.6480000000000001
+      },
+      {
+        "characterId": "augusta",
+        "required": 1.0646452601993013,
+        "actual": 1.42
+      }
+    ],
+    "pending": [
+      "State schedule is a pinned reference model, not a native Bellibing resource/proc simulator.",
+      "All scheduled hits land; team stays in range; shields are not broken; no enemy motion, incoming damage or Tune Break damage is simulated.",
+      "Wan Light cap refresh, coordinated-attack cadence and resource validity still require native event-model verification.",
+      "Shared Tune Break excluded explicitly from both teams."
+    ],
+    "teamDpsReady": false
+  },
+  "authorizesUpgradeVerdict": false
+}

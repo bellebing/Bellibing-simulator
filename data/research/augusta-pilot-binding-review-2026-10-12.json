@@ -1,0 +1,212 @@
+{
+  "reviewedAt": "2026-10-12",
+  "mapping": {
+    "Shorekeeper|Basic - Origin Calculus 1": [
+      "the-shorekeeper-basic-attack-origin-calculus-stage-1-dmg"
+    ],
+    "Shorekeeper|Basic - Origin Calculus 2": [
+      "the-shorekeeper-basic-attack-origin-calculus-stage-2-dmg"
+    ],
+    "Shorekeeper|Basic - Origin Calculus 3": [
+      "the-shorekeeper-basic-attack-origin-calculus-stage-3-dmg"
+    ],
+    "Shorekeeper|Mid-air - Origin Calculus Plunge": [
+      "the-shorekeeper-basic-attack-origin-calculus-plunging-attack-dmg"
+    ],
+    "Shorekeeper|Forte Heavy - Illation": [
+      "the-shorekeeper-forte-circuit-astral-chord-illation-dmg",
+      "the-shorekeeper-forte-circuit-astral-chord-flare-star-butterfly-dmg"
+    ],
+    "Shorekeeper|Skill - Chaos Theory": [
+      "the-shorekeeper-resonance-skill-chaos-theory-dim-star-butterfly-dmg"
+    ],
+    "Shorekeeper|Intro - Discernment": [
+      "the-shorekeeper-intro-skill-proof-of-existence-discernment-dmg"
+    ],
+    "Iuno|Intro - Illuminated Manifestation": [
+      "iuno-intro-skill-illuminated-manifestation-skill-dmg"
+    ],
+    "Iuno|Liberation - Beneath Lunar Tides": [
+      "iuno-resonance-liberation-beneath-lunar-tides-skill-dmg"
+    ],
+    "Iuno|Heavy - Flux: Moonbow": [
+      "iuno-forte-circuit-ebb-and-flow-flux-moonbow-dmg"
+    ],
+    "Iuno|Forte Basic - Enhanced Moonbow 1": [
+      "iuno-forte-circuit-ebb-and-flow-enhanced-moonbow-basic-attack-1-dmg"
+    ],
+    "Iuno|Forte Basic - Enhanced Moonbow 2": [
+      "iuno-forte-circuit-ebb-and-flow-enhanced-moonbow-basic-attack-2-dmg"
+    ],
+    "Iuno|Forte Basic - Enhanced Moonbow 3": [
+      "iuno-forte-circuit-ebb-and-flow-enhanced-moonbow-basic-attack-3-dmg"
+    ],
+    "Iuno|Forte Skill - Enhanced Arc Beyond the Edge": [
+      "iuno-forte-circuit-ebb-and-flow-enhanced-arc-beyond-the-edge-dmg"
+    ],
+    "Iuno|Outro - From Gloom to Gleam": [
+      "iuno-outro-from-gloom-to-gleam"
+    ],
+    "Iuno|Heavy - Absolute Fullness": [
+      "iuno-forte-circuit-ebb-and-flow-absolute-fullness-dmg"
+    ],
+    "Augusta|Intro - Stride of Goldenflare": [
+      "augusta-intro-stride-of-goldenflare"
+    ],
+    "Augusta|Heavy - Thunderoar: Backstep": [
+      "augusta-heavy-thunderoar-backstep"
+    ],
+    "Augusta|Heavy - Thunderoar: Spinslash": [
+      "augusta-heavy-thunderoar-spinslash"
+    ],
+    "Augusta|Skill - Warrior's Blade": [
+      "augusta-skill-warriors-blade"
+    ],
+    "Augusta|Heavy - Hunter's Path": [
+      "augusta-heavy-steelclash"
+    ],
+    "Augusta|Liberation - Sword of Eternal Oath": [
+      "augusta-liberation-sword-of-eternal-oath"
+    ],
+    "Augusta|Forte Skill - Undying Sunlight: Strike": [
+      "augusta-forte-undying-sunlight-strike"
+    ],
+    "Augusta|Forte Skill - Undying Sunlight: Leap": [
+      "augusta-forte-undying-sunlight-leap"
+    ],
+    "Augusta|Forte Skill - Undying Sunlight: Plunge": [
+      "augusta-forte-undying-sunlight-plunge"
+    ],
+    "Augusta|Liberation - Sublime is the Sun": [
+      "augusta-liberation-sunborne",
+      "augusta-liberation-everbright-protector"
+    ],
+    "Augusta|Heavy - Thunderoar: Uppercut": [
+      "augusta-heavy-thunderoar-uppercut"
+    ],
+    "Mortefi|Intro - Dissonance": [
+      "mortefi-intro-dissonance"
+    ],
+    "Mortefi|Skill - Passionate Variation": [
+      "mortefi-skill-passionate-variation"
+    ],
+    "Mortefi|Forte Skill - Fury Fugue": [
+      "mortefi-forte-fury-fugue"
+    ],
+    "Mortefi|Basic - Impromptu Show 1": [
+      "mortefi-basic-impromptu-show-1"
+    ],
+    "Mortefi|Basic - Impromptu Show 2": [
+      "mortefi-basic-impromptu-show-2"
+    ],
+    "Mortefi|Basic - Impromptu Show 3": [
+      "mortefi-basic-impromptu-show-3"
+    ],
+    "Mortefi|Basic - Impromptu Show 4": [
+      "mortefi-basic-impromptu-show-4"
+    ],
+    "Mortefi|Liberation - Violent Finale": [
+      "mortefi-liberation-violent-finale"
+    ],
+    "Mortefi|Liberation - Marcato": [
+      "mortefi-liberation-marcato"
+    ],
+    "Mortefi|Liberation - Marcato (S5 Funerary Quartet)": [
+      "mortefi-liberation-marcato"
+    ]
+  },
+  "specialBindings": {
+    "Shorekeeper|Forte Heavy - Illation": "MODEL_COMPOSITE_ILLATION_AND_FLARE_BUTTERFLY: each provider 0.5626 = canonical 0.1897 heavy + 0.3729 basic. Co-located damage-event grouping is a scenario assumption; use separate canonical classes.",
+    "Mortefi|Liberation - Marcato (S5 Funerary Quartet)": "Bind ordinary Marcato coefficient, apply canonical S5 final damage reduction separately. Do not import provider additive -50% damage bonus.",
+    "Shorekeeper|Intro - Discernment": "Canonical HP scaling, Liberation class, guaranteed crit; current realm removed by cast before hit."
+  },
+  "sources": [
+    {
+      "url": "https://wuthering.wiki/character_1505.html",
+      "locator": "lines 326-327, damage data 359-360",
+      "checkedAt": "2026-10-12"
+    }
+  ],
+  "scope": "BOUNDED_REFERENCE_STATE_SCHEDULE_NOT_PUBLIC_ENGINE_PROMOTION",
+  "reviewedStatSources": [
+    "43311 CR ATK ATK atk atk",
+    "43311 HP ER ER hp hp",
+    "Augusta",
+    "Augusta: Crown of Wills",
+    "Augusta: Outro",
+    "Augusta: Talents",
+    "Base Resistance",
+    "ChemX32 - ATK Basic",
+    "ChemX32 - ER Liberation HP",
+    "ChemX32 - Heavy ATK",
+    "ChemX32 - Liberation ATK",
+    "Crown of Valor",
+    "Fallacy of No Return",
+    "False Sovereign",
+    "Impermanence Heron: Outro",
+    "Inherent: Harmonic Control",
+    "Inherent: Rhythmic Vibrato",
+    "Inherent: Self Gravitation",
+    "Intro - Discernment",
+    "Iuno",
+    "Iuno: Blessing of the Wan Light",
+    "Iuno: Outro",
+    "Iuno: Talents",
+    "Lady of the Sea",
+    "Liberation - Marcato (S5 Funerary Quartet)",
+    "Moongazer's Sigil R1",
+    "Moongazer's Sigil: Plenilune Radiance R1 (intro/lib)",
+    "Moongazer's Sigil: Plenilune Radiance R1 (shield)",
+    "Moonlit Clouds 2pc",
+    "Moonlit Clouds 5pc (outro)",
+    "Mortefi",
+    "Mortefi S3: Flaming Recitativo",
+    "Mortefi S6: Apoplectic Instrumental",
+    "Mortefi: Outro",
+    "Mortefi: Passionate Variation",
+    "Mortefi: Talents",
+    "Rejuvenating Glow 2pc",
+    "Rejuvenating Glow 5pc",
+    "Shorekeeper",
+    "Shorekeeper: Inner Stellarealm",
+    "Shorekeeper: Outro",
+    "Shorekeeper: Supernal Stellarealm",
+    "Shorekeeper: Talents",
+    "Sierra Gale 2pc",
+    "Static Mist R1",
+    "Static Mist: Stormy Resolution R1",
+    "Stellar Symphony R1",
+    "Stellar Symphony: Astral Evolvement R1 (team)",
+    "Thunderflare Dominion R1",
+    "Thunderflare Dominion: Thunderblaze Eminence R1 (intro/skill)",
+    "Thunderflare Dominion: Thunderblaze Eminence R1 (shield)",
+    "Tune Break Cooldown",
+    "Void Thunder 2pc"
+  ],
+  "stateBasis": "Explicitly accepted publisher state schedule. Runtime obtains quantities from canonical catalogs. No generic passive/engine readiness promotion.",
+  "runtimeStateSources": [
+    "Augusta: Crown of Wills",
+    "Augusta: Outro",
+    "Crown of Valor",
+    "Fallacy of No Return",
+    "Impermanence Heron: Outro",
+    "Inherent: Harmonic Control",
+    "Inherent: Rhythmic Vibrato",
+    "Iuno: Blessing of the Wan Light",
+    "Iuno: Outro",
+    "Moongazer's Sigil: Plenilune Radiance R1 (intro/lib)",
+    "Moongazer's Sigil: Plenilune Radiance R1 (shield)",
+    "Moonlit Clouds 5pc (outro)",
+    "Mortefi S3: Flaming Recitativo",
+    "Mortefi S6: Apoplectic Instrumental",
+    "Mortefi: Outro",
+    "Rejuvenating Glow 5pc",
+    "Shorekeeper: Inner Stellarealm",
+    "Shorekeeper: Outro",
+    "Shorekeeper: Supernal Stellarealm",
+    "Static Mist: Stormy Resolution R1",
+    "Stellar Symphony: Astral Evolvement R1 (team)",
+    "Thunderflare Dominion: Thunderblaze Eminence R1 (intro/skill)",
+    "Thunderflare Dominion: Thunderblaze Eminence R1 (shield)"
+  ]
+}

@@ -2,7 +2,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyEchoSimulator, verifyEchoSimulatorReview } from './verify-v34-echo-simulator.mjs';
+import { verifyEchoSimulator, verifyEchoSimulatorReview, verifyPlayableEchoSimulator } from './verify-v34-echo-simulator.mjs';
+import { verifyUnifiedSimulator } from './verify-v34-unified-simulator.mjs';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { verifyAccountReview } from './verify-v34-account-review.mjs';
@@ -51,7 +52,7 @@ function cdp(wsUrl) {
   async function send(method, params = {}) {
     await opened;
     const id = ++serial;
-    const answer = new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+    const answer = new Promise((resolve, reject) => { const timer=setTimeout(()=>{pending.delete(id);reject(new Error('CDP timeout: '+method+(params.expression?' '+params.expression.slice(0,180):'')))},45000);pending.set(id,{resolve:value=>{clearTimeout(timer);resolve(value)},reject:error=>{clearTimeout(timer);reject(error)}}); });
     socket.send(JSON.stringify({ id, method, params }));
     return answer;
   }
@@ -878,6 +879,7 @@ async function verifySonataComposition(send){
 }
 
 const chrome = spawn(CHROME, [
+  ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []),
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
   // Headless Linux has no physical pointing device. Declare the desktop mouse
   // capabilities (as Playwright's Chromium launcher does), then send real CDP
@@ -897,8 +899,12 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
+    if (process.env.BELLIBING_UNIFIED_SIMULATOR_ONLY === '1') {
+      await verifyUnifiedSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+    } else if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
       await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
+    } else if (process.env.BELLIBING_PLAYABLE_SIMULATOR_ONLY === '1') {
+      await verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else {

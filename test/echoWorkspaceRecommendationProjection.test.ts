@@ -14,6 +14,8 @@ test('Echo Workspace recommendations are projected only from VERIFIED source-bac
       profileId: profile.id,
       characterId: profile.characterId,
       slotCosts: profile.slots.map((slot) => slot.cost),
+      mainEchoId: profile.mainEchoId,
+      slotMainStats: profile.slots.map(slot => [...slot.primaryMainStats].sort((a,b) => a.priority - b.priority)[0].stat),
       sonataSetIds: [...profile.sonataSetIds],
     }));
 

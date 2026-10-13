@@ -94,7 +94,7 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
+        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts test/echoSimulatorRolling.test.ts test/echoSimulatorRun.test.ts test/echoSimulatorSet.test.ts test/unifiedEchoSimulator.test.ts test/resourceInventory.test.ts test/improveCrossTabLock.test.ts test/improveSelectedValues.test.ts test/echoResourceTransaction.test.ts test/echoSingleSlotV1.test.ts
 
       - name: Tests
         run: npm test
@@ -166,6 +166,11 @@ jobs:
           BELLIBING_V34_URL=http://127.0.0.1:4173/ui-preview/ \
             BELLIBING_V34_ECHO_DEBUG_PORT=9692 \
             node scripts/verify-improve-roll-minimum.mjs
+          for preview in http://127.0.0.1:4173/ui-preview/ http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html; do
+            BELLIBING_UNIFIED_SIMULATOR_ONLY=1 BELLIBING_V34_URL="$preview" \
+              BELLIBING_V34_ECHO_DEBUG_PORT=9783 node scripts/verify-v34-echo-workspace.mjs
+          done
+          node scripts/verify-improve-cross-tab.mjs
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             # Verify the exact PR head's built runtime, the same tree uploaded for review.
             node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('dist/review-build.json')); if(r.headSha!=='${{ github.event.pull_request.head.sha }}'||r.workingTreeDirty) throw new Error('Review build revision mismatch')"
@@ -299,6 +304,14 @@ jobs:
       - name: Diff whitespace check
         run: git diff --check HEAD^
 
+      - name: Upload unified UI visual evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-unified-ui
+          path: artifacts/unified-*.png
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Exact-head artifact identity
         env:
           EXPECTED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -396,10 +409,31 @@ jobs:
         run: node --experimental-strip-types --test test/roverWindstringsGain.test.ts test/roverWindstringsLedger.test.ts test/roverWindstringsSpend.test.ts
 
       - name: Improve policy focused regression
-        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
+        run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts test/echoSimulatorRolling.test.ts test/echoSimulatorRun.test.ts test/echoSimulatorSet.test.ts test/unifiedEchoSimulator.test.ts test/resourceInventory.test.ts test/improveCrossTabLock.test.ts test/improveSelectedValues.test.ts test/echoResourceTransaction.test.ts test/echoSingleSlotV1.test.ts
 
       - name: Strict web build / generated parity
         run: npm run build
+
+      - name: Unified UI browser and native cross-tab regression
+        env:
+          BELLIBING_VERIFY_MOBILE: "0"
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/bellibing-http.log 2>&1 &
+          server_pid=$!
+          python3 -m http.server 4174 --directory . >/tmp/bellibing-source-http.log 2>&1 &
+          source_server_pid=$!
+          trap 'kill $server_pid $source_server_pid' EXIT
+          for port in 4173 4174; do
+            for attempt in {1..20}; do
+              if curl --fail --silent "http://127.0.0.1:$port/" >/dev/null; then break; fi
+              sleep 0.25
+            done
+          done
+          for preview in http://127.0.0.1:4173/ui-preview/ http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html; do
+            BELLIBING_UNIFIED_SIMULATOR_ONLY=1 BELLIBING_V34_URL="$preview" \
+              BELLIBING_V34_ECHO_DEBUG_PORT=9783 node scripts/verify-v34-echo-workspace.mjs
+          done
+          node scripts/verify-improve-cross-tab.mjs
 
       - name: Exact-head artifact identity
         env:
@@ -417,6 +451,14 @@ jobs:
 
       - name: Diff whitespace check
         run: git diff --check HEAD^
+
+      - name: Upload unified UI visual evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: bellibing-unified-ui
+          path: artifacts/unified-*.png
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Upload exact-head web artifact
         uses: actions/upload-artifact@v4

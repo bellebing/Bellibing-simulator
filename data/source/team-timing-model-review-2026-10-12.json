@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "role": "team-timing.model-scenario-manual-review",
+  "reviewedAt": "2026-10-12",
+  "evidenceArtifact": "data/source/team-timing-model-evidence-2026-10-12.json",
+  "evidenceSha256": "c2f0883cbfb09982fedfb746e73391d3313930173abec85b22c869de6edc0329",
+  "coordinationArtifact": "data/source/team-rotation-coordination-review-2026-10-12.json",
+  "coordinationSha256": "5a87912ce0ec6ac11294fdf26b0100c93b8c6e7c2331f8b37032003a50b4a170",
+  "captureScript": "scripts/capture-team-timing-model-scenarios.mjs",
+  "captureScriptSha256": "1c9a81f9b78d0194cf49d9c2144b843f1c81694ed43ad2db5f893d9255de0280",
+  "actorIds": {
+    "Shorekeeper": "the-shorekeeper",
+    "Aero Rover": "rover-aero",
+    "Electro Rover": "rover-electro",
+    "Havoc Rover": "rover-havoc"
+  },
+  "models": [
+    {
+      "id": "standard-model-hsin-jinhsi-shorekeeper-unison",
+      "coordinationCaseId": "hsin-jinhsi-shorekeeper-unison",
+      "characterIds": [
+        "jinhsi",
+        "hsin",
+        "the-shorekeeper"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-the-shorekeeper-concerto-r1-loop",
+        "prydwen-the-shorekeeper-no-concerto-alternating-loop",
+        "prydwen-jinhsi-standard",
+        "prydwen-hsin-unison"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/jinhsi.ts",
+        "src/resonators/electro/hsin.ts",
+        "src/resonators/spectro/shorekeeper.ts"
+      ],
+      "infoSv": [
+        "Två Jinhsi- och två Hsin-besök. Cykeln stängs med nästa Jinhsi-Intro, som särredovisas och inte blir ännu en full skadefas. Källmodellen är ett publicerat beräkningsscenario, inte live-uppmätta frames."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-hsin-rover-electro-buling-flare",
+      "coordinationCaseId": "hsin-rover-electro-buling-flare",
+      "characterIds": [
+        "buling",
+        "rover-electro",
+        "hsin"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-buling-no-intro",
+        "prydwen-rover-electro-standard",
+        "prydwen-hsin-electro-flare"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/electro/buling.ts",
+        "src/resonators/electro/rover_electro.ts",
+        "src/resonators/electro/hsin.ts"
+      ],
+      "infoSv": [
+        "Buling → Electro Rover → Hsin. Buling och Rover är S6; Hsin S0. Modellens Heart/form-villkor passerar för denna variant."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-hsin-rover-electro-suisui-flare",
+      "coordinationCaseId": "hsin-rover-electro-suisui-flare",
+      "characterIds": [
+        "suisui",
+        "rover-electro",
+        "hsin"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-suisui-standard",
+        "prydwen-rover-electro-standard",
+        "prydwen-hsin-electro-flare"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/glacio/suisui.ts",
+        "src/resonators/electro/rover_electro.ts",
+        "src/resonators/electro/hsin.ts"
+      ],
+      "infoSv": [
+        "Suisui → Electro Rover → Hsin. Suisui och Rover är S6; Hsin S0. Suisuis öppning är längre än loopen."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-aemeath-changli-quickswap",
+      "coordinationCaseId": "aemeath-changli-quickswap",
+      "characterIds": [
+        "the-shorekeeper",
+        "changli",
+        "aemeath"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "simple-sequential-tune-rupture",
+      "contextChangeRequired": true,
+      "relatedReferenceIds": [
+        "prydwen-changli-standard",
+        "prydwen-aemeath-changli-quickswap"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/fusion/changli.ts",
+        "src/resonators/fusion/aemeath.ts"
+      ],
+      "infoSv": [
+        "Ny standardkontext: Shorekeeper → Changli → Aemeath i Tune Rupture, utan avancerad intern quickswap. Detta ersätter inte timing för den gamla quickswap-guiden."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-cartethyia-chisa-rover-aero",
+      "coordinationCaseId": "cartethyia-chisa-rover-aero",
+      "characterIds": [
+        "chisa",
+        "rover-aero",
+        "cartethyia"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-chisa-standard",
+        "prydwen-rover-aero-standard",
+        "prydwen-cartethyia-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/havoc/chisa.ts",
+        "src/resonators/aero/rover_aero.ts",
+        "src/resonators/aero/cartethyia.ts"
+      ],
+      "infoSv": [
+        "Chisa → Aero Rover → Cartethyia. Rover är S6. Källmodellen använder en sammanhängande Cartethyia-fas; guidekommandon och setval får inte antas identiska."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-cartethyia-low-erosion",
+      "coordinationCaseId": "cartethyia-low-erosion",
+      "characterIds": [
+        "the-shorekeeper",
+        "sanhua",
+        "cartethyia"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "concrete-sanhua-low-erosion",
+      "contextChangeRequired": true,
+      "relatedReferenceIds": [
+        "prydwen-cartethyia-low-aero-erosion"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/glacio/sanhua.ts",
+        "src/resonators/aero/cartethyia.ts"
+      ],
+      "infoSv": [
+        "Konkret alternativ utan Ciaccona: Shorekeeper/Sanhua/Cartethyia. En enklare sammanhängande source-model combo används i stället för guidens upprepade formbyten. Lägre Erosion-stackar ger annan skadeverkan; här beräknas bara tid."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-phrolova-lucilla-qiuyuan",
+      "coordinationCaseId": "phrolova-lucilla-qiuyuan",
+      "characterIds": [
+        "phrolova",
+        "qiuyuan",
+        "lucilla"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-phrolova-standard",
+        "prydwen-qiuyuan-standard",
+        "prydwen-lucilla-phrolova"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/havoc/phrolova.ts",
+        "src/resonators/aero/qiuyuan.ts",
+        "src/resonators/glacio/lucilla.ts"
+      ],
+      "infoSv": [
+        "Phrolova → Qiuyuan → Lucilla. En sammanhängande Echo-mode Lucilla-fas används. Hecates off-field-arbete är inte en extra aktiv fas."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-brant-lupa-mornye-dps",
+      "coordinationCaseId": "brant-lupa-mornye-dps",
+      "characterIds": [
+        "mornye",
+        "lupa",
+        "brant"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-mornye-standard",
+        "prydwen-lupa-standard",
+        "prydwen-brant-main-dps-double-forte"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/fusion/mornye.ts",
+        "src/resonators/fusion/lupa.ts",
+        "src/resonators/fusion/brant.ts"
+      ],
+      "infoSv": [
+        "Dubbel Forte med Brant före och efter Lupa, inte en-Anchor-tabellens 7,87 s. Det avsiktliga mellanbytet behålls; snäva avbrott återställs till fulla source-animationer."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-jinhsi-zhezhi",
+      "coordinationCaseId": "jinhsi-zhezhi",
+      "characterIds": [
+        "the-shorekeeper",
+        "zhezhi",
+        "jinhsi"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": false,
+      "relatedReferenceIds": [
+        "prydwen-zhezhi-standard",
+        "prydwen-jinhsi-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/glacio/zhezhi.ts",
+        "src/resonators/spectro/jinhsi.ts"
+      ],
+      "infoSv": [
+        "Ny explicit dubbel-Intro-modell: Shorekeeper → Jinhsi → Zhezhi → Jinhsi. Den ersätter inte Arab WuWas besökstider, som inte publicerades individuellt."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-zani-phoebe-confession",
+      "coordinationCaseId": "zani-phoebe-confession",
+      "characterIds": [
+        "the-shorekeeper",
+        "phoebe",
+        "zani"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "contiguous-phoebe-confession",
+      "contextChangeRequired": true,
+      "relatedReferenceIds": [
+        "prydwen-phoebe-confession",
+        "prydwen-zani-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "PUBLISHED_TEAM_MODEL_ADAPTED_TO_COMPLETE_ACTIONS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/spectro/phoebe.ts",
+        "src/resonators/spectro/zani.ts"
+      ],
+      "infoSv": [
+        "Alternativ sammanhängande Phoebe Confession-fas mellan Shorekeeper och Zani, utan Phoebes två besök i den tidigare tabellen."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-rover-havoc-danjin-hypercarry",
+      "coordinationCaseId": "rover-havoc-danjin-hypercarry",
+      "characterIds": [
+        "the-shorekeeper",
+        "danjin",
+        "rover-havoc"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "full-animation-reference",
+      "contextChangeRequired": true,
+      "relatedReferenceIds": [
+        "prydwen-danjin-hybrid",
+        "prydwen-rover-havoc-medium-burst"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "BELLIBING_COMPOSITION_OF_PUBLISHED_MEMBER_MODELS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/havoc/danjin.ts",
+        "src/resonators/havoc/rover_havoc.ts"
+      ],
+      "infoSv": [
+        "Bellibing-komposition av publicerade source-loadouts. Rover S2 undviker källans S4 stat-hook-fel; Danjin S6 använder 60-Ruby-varianten. Sista Wingblade utelämnas för att undvika dess långa cooldown-väntan; två Umbra-kedjor behålls. Skillnad mot den tidigare medium-guiden redovisas."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    },
+    {
+      "id": "standard-model-rover-havoc-danjin-shared-dps",
+      "coordinationCaseId": "rover-havoc-danjin-shared-dps",
+      "characterIds": [
+        "the-shorekeeper",
+        "danjin",
+        "rover-havoc"
+      ],
+      "reviewStatus": "REVIEWED_DECLARED_MODEL_SCENARIO",
+      "contextVariant": "simple-sequential-one-umbra",
+      "contextChangeRequired": true,
+      "relatedReferenceIds": [
+        "prydwen-danjin-damage-dealer",
+        "prydwen-rover-havoc-short-burst"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "recipeBasis": "BELLIBING_COMPOSITION_OF_PUBLISHED_MEMBER_MODELS",
+      "sourcePaths": [
+        "src/teams.ts",
+        "src/engine/rotation.ts",
+        "src/engine/state.ts",
+        "src/teamrun.ts",
+        "src/resonators/spectro/shorekeeper.ts",
+        "src/resonators/havoc/danjin.ts",
+        "src/resonators/havoc/rover_havoc.ts"
+      ],
+      "infoSv": [
+        "Bellibing-komposition med en Umbra-kedja i Rover-fasen och samma fulla Danjin-del. Sista Wingblade utelämnas. Färre attacker frigör mer väntetid före Shorekeeper, inte en snabbare 25-sekunderscykel. Detta är en enkel sekventiell två-skadebidrag-variant, inte guidens avancerade short-quickswap."
+      ],
+      "timingUse": "CONSEQUENCE_SCENARIO_ONLY_NOT_LIVE_MECHANIC_VERIFICATION"
+    }
+  ],
+  "researchNotes": [
+    "Published calculator source at Oct 3 is a model pin, including Hsin. No live gameplay animation validation is claimed.",
+    "Havoc Rover S4 runtime stat-hook mutation failed in the provider. Use S2 for this declared scenario rather than fixing or concealing the external mechanic.",
+    "Normal action completion replaces explicit cancel wrappers/forms; Echo exit placeholders and kit-native timing remain source-owned. No player-speed average or exact no-cancel gameplay measurement is claimed.",
+    "Game frames omit modeled timestop; do not sum these times with the earlier unknown-clock Arab WuWa timing tables."
+  ]
+}

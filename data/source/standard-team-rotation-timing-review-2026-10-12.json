@@ -1,0 +1,580 @@
+{
+  "schemaVersion": 1,
+  "role": "standard-team-rotation-timing.manual-review",
+  "reviewedAt": "2026-10-12",
+  "evidenceArtifact": "data/source/standard-team-rotation-timing-evidence-2026-10-12.json",
+  "evidenceSha256": "9ee5fca856eec0bc9304cb90371ee5623a889c5b1c4c73798416a8bf68860aca",
+  "coordinationArtifact": "data/source/team-rotation-coordination-review-2026-10-12.json",
+  "coordinationSha256": "5a87912ce0ec6ac11294fdf26b0100c93b8c6e7c2331f8b37032003a50b4a170",
+  "referenceArtifact": "data/source/prydwen-rotation-references-2026-10-11.json",
+  "referenceSha256": "9c3aeea54dbd4c27b16929556916b3323eaec0cad9971962a55b5e95736fcd8d",
+  "reviews": [
+    {
+      "sourceId": "arabwuwa-augusta-iuno-shorekeeper-35",
+      "coordinationCaseId": "augusta-iuno-shorekeeper",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-augusta-standard",
+        "prydwen-iuno-augusta-semi-dps",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "the-shorekeeper",
+        "iuno",
+        "augusta"
+      ],
+      "orderEvidenceLines": [
+        73,
+        79,
+        85
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Iuno använder sin Skill för energi i loopen: 9,73 s mot 8,21 s i öppningen. Augusta använder ett Echo; guiden och den tidssatta källan har olika detaljer."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-cartethyia-ciaccona-rover-aero-40",
+      "coordinationCaseId": "cartethyia-ciaccona-rover-aero",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-cartethyia-standard",
+        "prydwen-ciaccona-standard",
+        "prydwen-rover-aero-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "rover-aero",
+        "ciaccona",
+        "cartethyia"
+      ],
+      "orderEvidenceLines": [
+        70,
+        76,
+        82
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Loopen använder Ciacconas vanliga Basic-kedjor. Öppningens instruktion visar jump cancels medan tabellen anger Basic och 6,86 s; den öppningen väljs inte som standard. Rover är S6 med R5 Bloodpact i källan. Unbound Flow fortsätter off-field och räknas inte som extra aktiv fälttid."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-aemeath-lynae-mornye-86",
+      "coordinationCaseId": "aemeath-lynae-mornye",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-aemeath-standard",
+        "prydwen-mornye-standard",
+        "prydwen-lynae-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {
+        "aemeath": "tune-rupture"
+      },
+      "actorOrder": [
+        "mornye",
+        "lynae",
+        "aemeath"
+      ],
+      "orderEvidenceLines": [
+        71,
+        77,
+        83
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Tune Rupture-varianten inkluderar Tune Break. Källans Mornye-ordning och Aemeaths förberedelse skiljer sig från Prydwen; tiderna hör till denna teamvariant."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-galbrena-lucilla-shorekeeper-140",
+      "coordinationCaseId": null,
+      "caseRelationship": "ADDITIONAL_RESEARCH_TRIO",
+      "relatedReferenceIds": [
+        "prydwen-lucilla-standard",
+        "prydwen-galbrena-standard",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {
+        "lucilla": "echo-skill"
+      },
+      "actorOrder": [
+        "the-shorekeeper",
+        "lucilla",
+        "galbrena"
+      ],
+      "orderEvidenceLines": [
+        72,
+        78,
+        84
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Lucilla använder normal hastighet och Heron med Moonlit Clouds. Galbrena har tre Wings och uttryckliga Hellstride/dodge-avbrott; ingen avancerad quickswap visas. Prydwen listar andra avbrott och Perfect Release."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-cartethyia-ciaccona-chisa-50",
+      "coordinationCaseId": "cartethyia-ciaccona-chisa",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-chisa-standard",
+        "prydwen-ciaccona-standard",
+        "prydwen-cartethyia-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "chisa",
+        "ciaccona",
+        "cartethyia"
+      ],
+      "orderEvidenceLines": [
+        73,
+        79,
+        85
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Ciaccona använder normal rotation utan jump cancels. Cartethyia-källan använder dodge-/Liberation-avbrott och en annan Skill-ordning än Prydwen. Chisa använder ett skade-set, inte healer-setup."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-zani-phoebe-shorekeeper-33",
+      "coordinationCaseId": "zani-phoebe-confession",
+      "caseRelationship": "BROAD_PARTNER_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-zani-standard",
+        "prydwen-phoebe-confession",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {
+        "phoebe": "confession"
+      },
+      "actorOrder": null,
+      "orderEvidenceLines": [
+        74,
+        80,
+        86,
+        92
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "AGGREGATE_ONLY_SPLIT_VISITS",
+      "executionStyle": "REENTRY_REQUIRES_VISIT_TIMING",
+      "infoSv": [
+        "Två Nightfall. Phoebes 8,24 s delas på två besök runt Shorekeeper. Källan ger totaltid per karaktär men inga tider för besöken; dessa får inte ersättas med en enda sammanhängande Phoebe-fas."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-brant-lupa-mornye-84",
+      "coordinationCaseId": "brant-lupa-mornye-dps",
+      "caseRelationship": "ALTERNATIVE_ONE_ANCHOR_NOT_DOUBLE_FORTE",
+      "relatedReferenceIds": [
+        "prydwen-brant-standard",
+        "prydwen-lupa-standard",
+        "prydwen-mornye-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "mornye",
+        "lupa",
+        "brant"
+      ],
+      "orderEvidenceLines": [
+        72,
+        78,
+        84
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Detta är en enkel en-Anchor-alternativrotation. Befintligt Prydwen-teamfall är dubbel Forte med återinträde; 7,87 s får inte kopieras dit. Loopen har 1,26 respektive 1,98 s väntan på Mornye; exakt placering av väntan publiceras inte."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-cantarella-qiuyuan-phrolova-43",
+      "coordinationCaseId": "phrolova-cantarella",
+      "caseRelationship": "BROAD_PARTNER_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-phrolova-standard",
+        "prydwen-qiuyuan-standard",
+        "prydwen-cantarella-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "phrolova",
+        "qiuyuan",
+        "cantarella"
+      ],
+      "orderEvidenceLines": [
+        72,
+        78,
+        84
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Phrolova startar sin off-field-fas före Qiuyuan och Cantarella. Qiuyuans Skill tillåts generera energi; den snabbare vävda varianten väljs inte. Källan stödjer denna trio, inte att byta Cantarella till Lucilla med samma tider."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-changli-brant-lupa-24",
+      "coordinationCaseId": "changli-brant-lupa",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-lupa-standard",
+        "prydwen-brant-standard",
+        "prydwen-changli-standard"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "lupa",
+        "brant",
+        "changli"
+      ],
+      "orderEvidenceLines": [
+        70,
+        76,
+        82
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        1,
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Ingen intern Changli-quickswap. Buffkedjan är Lupa till Brant till Changli, med förbättrad Lupa-Intro i loopen. Tiderna gäller en-Anchor Brant och denna ordning, inte andra dubbel-Intro-varianter."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-cartethyia-ciaccona-shorekeeper-38",
+      "coordinationCaseId": "cartethyia-ciaccona-the-shorekeeper",
+      "caseRelationship": "BROAD_TRIO_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-cartethyia-standard",
+        "prydwen-ciaccona-standard",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": [
+        "the-shorekeeper",
+        "ciaccona",
+        "cartethyia"
+      ],
+      "orderEvidenceLines": [
+        73,
+        79,
+        85
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [
+        2,
+        3
+      ],
+      "timelinePolicy": "CUMULATIVE_CONTIGUOUS_FIELD_BUDGETS_WITH_ZERO_WAIT_ONLY",
+      "executionStyle": "SINGLE_VISITS_WITH_BASIC_INTRA_CHARACTER_CANCELS",
+      "infoSv": [
+        "Öppningen använder snabb Ciaccona med jump cancels och väljs inte som standard. Loopen är normal hastighet, 6,86 s. Den tidssatta källan använder vanlig Cartethyia-combo; Prydwen-fallet har egen multi-wave-kontext."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-jinhsi-zhezhi-shorekeeper-58",
+      "coordinationCaseId": "jinhsi-zhezhi",
+      "caseRelationship": "BROAD_PARTNER_MATCH",
+      "relatedReferenceIds": [
+        "prydwen-jinhsi-standard",
+        "prydwen-zhezhi-jinhsi-no-liberation",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": null,
+      "orderEvidenceLines": [
+        72,
+        78,
+        84,
+        90,
+        96,
+        101,
+        107,
+        113
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [],
+      "timelinePolicy": "AGGREGATE_ONLY_SPLIT_VISITS",
+      "executionStyle": "REENTRY_REQUIRES_VISIT_TIMING",
+      "infoSv": [
+        "Jinhsi återkommer flera gånger; 12,04 s är hennes sammanlagda looparbete. Källan visar 0,63 s väntan. Besökstider saknas och opening/loop-boundary måste granskas före buffplacering; ingen jämn fördelning antas."
+      ]
+    },
+    {
+      "sourceId": "arabwuwa-xiangli-yao-yinlin-shorekeeper-7",
+      "coordinationCaseId": null,
+      "caseRelationship": "ADDITIONAL_RESEARCH_TRIO",
+      "relatedReferenceIds": [
+        "prydwen-xiangli-yao-standard",
+        "prydwen-yinlin-standard",
+        "prydwen-the-shorekeeper-concerto-r1-loop"
+      ],
+      "referenceRelationship": "RELATED_VARIANT_ONLY_NOT_EXACT_ACTION_TIMING",
+      "modeRequirements": {},
+      "actorOrder": null,
+      "orderEvidenceLines": [
+        73,
+        79,
+        85,
+        91
+      ],
+      "orderBasis": "WRITTEN_TEAM_RECIPE_REVIEW",
+      "eligibleStandardRotationNumbers": [],
+      "timelinePolicy": "AGGREGATE_ONLY_SPLIT_VISITS",
+      "executionStyle": "REENTRY_REQUIRES_VISIT_TIMING",
+      "infoSv": [
+        "Yinlin/Shorekeeper har återinträden. Källan varnar själv för att andra varvet, 22,41 s, är för kort för Shorekeepers Liberation; tredje varvet behöver 2,59 s väntan. Detta är ett motexempel och väljs inte som hållbar standardloop."
+      ]
+    }
+  ],
+  "caseCoverage": [
+    {
+      "coordinationCaseId": "augusta-iuno-shorekeeper",
+      "sourceIds": [
+        "arabwuwa-augusta-iuno-shorekeeper-35"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "hsin-jinhsi-shorekeeper-unison",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "hsin-rover-electro-buling-flare",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "hsin-rover-electro-suisui-flare",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "aemeath-lynae-mornye",
+      "sourceIds": [
+        "arabwuwa-aemeath-lynae-mornye-86"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "aemeath-changli-quickswap",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Avancerad quickswap ligger utanför denna standardtiming-batch."
+    },
+    {
+      "coordinationCaseId": "cartethyia-ciaccona-rover-aero",
+      "sourceIds": [
+        "arabwuwa-cartethyia-ciaccona-rover-aero-40"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "cartethyia-chisa-rover-aero",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "cartethyia-low-erosion",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "brant-lupa-mornye-dps",
+      "sourceIds": [
+        "arabwuwa-brant-lupa-mornye-84"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "changli-brant-lupa",
+      "sourceIds": [
+        "arabwuwa-changli-brant-lupa-24"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "zani-phoebe-confession",
+      "sourceIds": [
+        "arabwuwa-zani-phoebe-shorekeeper-33"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "phrolova-lucilla-qiuyuan",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Publicerad Phrolova/Qiuyuan/Cantarella-trio hittad, men Lucilla kan inte ersätta Cantarella med kopierad fälttid."
+    },
+    {
+      "coordinationCaseId": "phrolova-cantarella",
+      "sourceIds": [
+        "arabwuwa-cantarella-qiuyuan-phrolova-43"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "jinhsi-zhezhi",
+      "sourceIds": [
+        "arabwuwa-jinhsi-zhezhi-shorekeeper-58"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "cartethyia-ciaccona-chisa",
+      "sourceIds": [
+        "arabwuwa-cartethyia-ciaccona-chisa-50"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "cartethyia-ciaccona-the-shorekeeper",
+      "sourceIds": [
+        "arabwuwa-cartethyia-ciaccona-shorekeeper-38"
+      ],
+      "status": "RELATED_PUBLISHED_TIMING",
+      "infoSv": "Publicerad timing hittad för relaterad variant; skill-order och gear får inte antas identiska."
+    },
+    {
+      "coordinationCaseId": "rover-havoc-danjin-hypercarry",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    },
+    {
+      "coordinationCaseId": "rover-havoc-danjin-shared-dps",
+      "sourceIds": [],
+      "status": "NO_MATCH_IDENTIFIED_IN_BOUNDED_SEARCH",
+      "infoSv": "Ingen passande publicerad standardtiming identifierad i denna avgränsade sökning; personlig rotationstid kopieras inte mellan team."
+    }
+  ],
+  "searchLedger": [
+    {
+      "provider": "ARAB_WUWA",
+      "result": "12 numeric team tables with opening/later rotation distinction; usable contiguous budgets and explicit split/wait gaps."
+    },
+    {
+      "provider": "GWISTED",
+      "urls": [
+        "https://gwisted.com/games/wuthering-waves/calculations/0f9e2b13-8997-4021-aee3-b905e87cce12",
+        "https://gwisted.com/games/wuthering-waves/calculations/1d4b9fec-b153-42b6-9982-d50c2ae46e45"
+      ],
+      "result": "Published totals 26.5s Cartethyia/Ciaccona/Aero Rover and 27.5s Zani/Phoebe/Shorekeeper, but no actor visits. Different timing scenarios; do not mix denominators."
+    },
+    {
+      "provider": "MAYGI",
+      "urls": [
+        "https://www.reddit.com/r/WutheringWaves/comments/1ldhp4f/easy_cartethyia_rotation_guide_no_quickswap/",
+        "https://www.youtube.com/watch?v=2pdtXSpduaQ",
+        "https://maygi.cc"
+      ],
+      "result": "Author explicitly publishes a no-quickswap Cartethyia guide. Text gives no complete actor timeline; video frames were not measurable through available reader. Calculator shortlink inaccessible."
+    },
+    {
+      "provider": "MAYGI_COMMUNITY_SHEET",
+      "urls": [
+        "https://docs.google.com/spreadsheets/d/1nlNq8hDbDXEaxuxIBRUGhlaEYrIzvCeYT-J2JZTaAog/edit"
+      ],
+      "result": "Community links maintained calculator; public read failed, no values imported."
+    },
+    {
+      "provider": "WUWA_LAB",
+      "urls": [
+        "https://wuwalab.com/calcs/2min/augusta"
+      ],
+      "result": "Dynamic page yielded no inspectable timeline in available reader."
+    },
+    {
+      "provider": "TETHYS",
+      "urls": [
+        "https://tethys.gg/resonators/1410?content=Calculations"
+      ],
+      "result": "Calculations content not exposed by available reader; no times imported."
+    },
+    {
+      "provider": "PRYDWEN",
+      "result": "Existing pinned 96 source references compared for modes, order and preparation. They remain personal action references; historical 4.5s Ciaccona fast/cancel duration is not used for a normal Basic recipe."
+    }
+  ]
+}

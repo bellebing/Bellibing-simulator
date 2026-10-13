@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "195a22f1b7a1b55b953224e26742b896a719e1c3",
+  "role": "INDEPENDENT_PROVIDER_KERNEL_BENCHMARK_NOT_PRODUCTION_DAMAGE",
+  "records": [
+    {
+      "partner": "Iuno",
+      "scalingStat": 3598,
+      "motionValue": 0.9941,
+      "damageBonus": 0.37,
+      "amplification": 0.19,
+      "critRate": 0.9715,
+      "critDamage": 2.54,
+      "enemyDefense": 1592,
+      "enemyResistance": 0.2,
+      "providerExpectedDamage": 5687
+    },
+    {
+      "partner": "Mortefi",
+      "scalingStat": 4235,
+      "motionValue": 0.9941,
+      "damageBonus": 0.49,
+      "amplification": 0.15,
+      "critRate": 0.9715,
+      "critDamage": 2.54,
+      "enemyDefense": 1592,
+      "enemyResistance": 0.2,
+      "providerExpectedDamage": 7035
+    }
+  ]
+}

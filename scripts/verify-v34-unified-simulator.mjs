@@ -17,6 +17,7 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await check('improveUi.simulator.rolling.attempts===0','no free rolls');
   await click('[data-edit-echo="0"]');
   await waitForUi(send,"echoUi.open&&echoUi.context.kind==='simulate-setup'&&!!echoUi.editorDraft",'shared workshop');
+  await check("[...document.querySelectorAll('[data-echo-filter]')].every(b=>b.disabled===(b.dataset.echoFilter!=='4'))",'setup communicates fixed slot cost');
   // Prepare a canonical +25 card inside the real editor, then use its physical Save.
   await read("echoUi.editorSubstatRows=echoStatContract.substats.slice(0,5).map(s=>({name:s.name,value:s.values[0]}));echoUi.syncDraftFromSubstatRows();echoUi.renderEditor();echoUi.syncEquipAction()");
   await capture(send,'artifacts/unified-echo-editor-1440x900.png');

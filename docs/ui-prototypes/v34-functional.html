@@ -1383,7 +1383,7 @@ const echoUi={
       this.choices.appendChild(choice);
     }
     for(const item of echoCatalog){if(visibleIds.has(item.id))continue;const choice=this.choiceById.get(item.id);if(choice){choice.hidden=true;this.choices.appendChild(choice)}}
-    document.querySelectorAll('[data-echo-filter]').forEach(button=>button.classList.toggle('active',button.dataset.echoFilter===this.filter));
+    document.querySelectorAll('[data-echo-filter]').forEach(button=>{button.classList.toggle('active',button.dataset.echoFilter===this.filter);button.disabled=this.context.kind==='simulate-setup'&&button.dataset.echoFilter!==String(this.context.expectedCost);button.title=button.disabled?'This slot uses Cost '+this.context.expectedCost:''});
   },
   setFilter(filter){
     if(this.context.kind==='simulate-setup'&&String(filter)!==String(this.context.expectedCost))return;if(!['all','4','3','1'].includes(String(filter)))return;this.filter=String(filter);this.applyFilter();if(this.browser)this.browser.scrollTop=0;

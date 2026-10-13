@@ -135,10 +135,10 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
     await expand('flex');await click(focus('flex-count'));
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Home',code:'Home',windowsVirtualKeyCode:36});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Home',code:'Home',windowsVirtualKeyCode:36});
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});
-    await check(policyState+'.overrides.echoRequirements.groups.find(g=>g.id==="selected-flex").minimumCount===2','Simulate explicit Flex count');
+    await waitForUi(send,policyState+'.overrides.echoRequirements.groups.find(g=>g.id==="selected-flex").minimumCount===2','Simulate serialized explicit Flex count');
     await click('[data-setting=flex] .improve-echo-row[data-stat-name="ATK%"] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});
-    await check(policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
+    await waitForUi(send,policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
     await activeUnchanged('Simulate settings/resources at '+width);
     await check(`(()=>{const row=document.querySelector('.improve-resources');return row.scrollWidth<=row.clientWidth+1&&row.querySelectorAll('input').length===7&&[...row.querySelectorAll('img')].every(n=>n.complete&&n.naturalWidth===256)&&row.getBoundingClientRect().bottom<=document.querySelector('.improve-resources-separator').getBoundingClientRect().top})()`,'Simulate unchanged resources layout/icons');
     await read('document.querySelector(".improve-resources").scrollIntoView({block:"center",behavior:"instant"})');
@@ -172,7 +172,7 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
   await click('#simulatorEnter');await check('improveUi.simulator.evaluator.status==="PENDING"','Cartethyia falsely evaluatable');
   const navigationState=await read('JSON.stringify(state)'),navigationStorage=await read('localStorage.getItem(KEY)');
   await click('.page.active [data-home]');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(navigationState)+'&&localStorage.getItem(KEY)==='+JSON.stringify(navigationStorage),'physical Home exit retained sandbox or wrote real navigation metadata');
-  console.log('Shared Current/Simulate editable settings: physical finite/∞, Recommended/Customize, Target/Gate/Every Echo/Flex edits, populated session byte isolation, canonical storage, reset/exit/re-entry/reload, Character ownership and desktop/narrow widths passed.');
+  console.log('Shared Current/Simulate editable settings: physical finite/∞, saved target/Gate/Required/Flex edits, populated session byte isolation, canonical storage, reset/exit/re-entry/reload, Character ownership and desktop/narrow widths passed.');
   console.log('Echo Simulator Foundation: browser isolation, five piles, free slot selection, fixture histories/dispositions, inspection, stack growth, reset/exit/reload and Pending passed at 1440/1920/2560.');
 }
 
